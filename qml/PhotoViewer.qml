@@ -102,27 +102,16 @@ Rectangle {
 
     NavToolbar {
       z: 10
-      anchors.top: topbar.bottom
+      anchors.bottom: parent.bottom
       
+      translucent: true
+
       ReturnButton {
         x: 48
         
-        title: "Photos Overview"
+        show_title: false
 
         onPressed: photo_viewer.exit_viewer()
-      }
-    }
-
-    NavToolbar {
-      z: 10
-      anchors.bottom: parent.bottom
-      
-      Row {
-        id: button_wrapper;
-      
-        spacing: 40
-        y: 3
-        anchors.horizontalCenter: parent.horizontalCenter
       }
     }
   }
