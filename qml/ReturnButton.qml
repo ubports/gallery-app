@@ -25,10 +25,11 @@ Rectangle {
   objectName: "return_button"
   
   property string title: "Return"
+  property bool show_title: true
   
   signal pressed()
   
-  width: 192
+  width: (show_title) ? 192 : 72
   height: 48
   
   color: "transparent"
@@ -64,6 +65,8 @@ Rectangle {
     color: "white"
     
     z: 10
+    
+    visible: return_button.show_title
   }
   
   MouseArea {

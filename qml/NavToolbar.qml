@@ -21,6 +21,10 @@
 import QtQuick 1.0
 
 Rectangle {
+    property bool translucent: false
+    
+    opacity: (translucent) ? 0.8 : 1.0
+    
     color: "#CCD8F1"
     height: 48
     width: parent.width
