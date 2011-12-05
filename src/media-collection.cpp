@@ -22,7 +22,7 @@
 #include <QStringList>
 #include <QString>
 
-#include "media-object.h"
+#include "data-object.h"
 #include "photo.h"
 
 MediaCollection::MediaCollection(const QDir& directory)
@@ -31,13 +31,13 @@ MediaCollection::MediaCollection(const QDir& directory)
   directory_.setSorting(QDir::Name);
   
   // TODO: Assuming all files are photos in specified directory
-  QList<DataObject*> photos;
+  QSet<DataObject*> photos;
   QStringList filenames = directory_.entryList();
   QString filename;
   foreach (filename, filenames) {
     Photo* photo = new Photo(QFileInfo(directory_, filename));
     photo->Init();
-    photos.append(photo);
+    photos.insert(photo);
   }
   
   AddMany(photos);

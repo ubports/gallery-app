@@ -22,13 +22,22 @@
 SelectableViewCollection::SelectableViewCollection() {
 }
 
-void SelectableViewCollection::notify_selection_altered(QList<DataObject*>* selected,
-  QList<DataObject*>* unselected) {
+void SelectableViewCollection::notify_selection_altered(QSet<DataObject*>* selected,
+  QSet<DataObject*>* unselected) {
   emit selection_altered(selected, unselected);
 }
 
 bool SelectableViewCollection::IsSelected(DataObject* object) const {
   return selected_.contains(object);
+}
+
+const QSet<DataObject*> SelectableViewCollection::GetSelected() const {
+  // Return a copy so original cannot be modified by caller
+  return QSet<DataObject*>(selected_);
+}
+
+int SelectableViewCollection::GetSelectedCount() const {
+  return selected_.count();
 }
 
 bool SelectableViewCollection::Select(DataObject* object) {
@@ -37,8 +46,8 @@ bool SelectableViewCollection::Select(DataObject* object) {
   
   selected_.insert(object);
   
-  QList<DataObject*> singleton;
-  singleton.append(object);
+  QSet<DataObject*> singleton;
+  singleton.insert(object);
   
   notify_selection_altered(&singleton, NULL);
   
@@ -52,8 +61,8 @@ bool SelectableViewCollection::Unselect(DataObject* object) {
   bool removed = selected_.remove(object);
   Q_ASSERT(removed);
   
-  QList<DataObject*> singleton;
-  singleton.append(object);
+  QSet<DataObject*> singleton;
+  singleton.insert(object);
   
   notify_selection_altered(NULL, &singleton);
   
@@ -66,12 +75,12 @@ bool SelectableViewCollection::ToggleSelect(DataObject* object) {
 
 int SelectableViewCollection::SelectAll() {
   // Only select objects not already selected
-  QList<DataObject*> selected;
+  QSet<DataObject*> selected;
   DataObject* object;
   foreach (object, GetAll()) {
     if (!IsSelected(object)) {
       selected_.insert(object);
-      selected.append(object);
+      selected.insert(object);
     }
   }
   
@@ -86,8 +95,8 @@ int SelectableViewCollection::UnselectAll() {
     return 0;
   
   // save all that were selected to a list for the signal
-  QList<DataObject*> unselected;
-  unselected.append(QList<DataObject*>::fromSet(selected_));
+  QSet<DataObject*> unselected;
+  unselected.unite(selected_);
   
   selected_.clear();
   

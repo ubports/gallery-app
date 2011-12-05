@@ -27,6 +27,8 @@
 #include <QVariant>
 #include <QHash>
 
+#include "media-source.h"
+
 QmlMediaModel::QmlMediaModel(QObject* parent = NULL)
   : QAbstractListModel(parent) {
   QHash<int, QByteArray> roles;
@@ -47,8 +49,10 @@ void QmlMediaModel::Init(SelectableViewCollection* view) {
   
   view_ = view;
   
-  QObject::connect(view_, SIGNAL(selection_altered(QList<DataObject*>*, QList<DataObject*>*)), this,
-    SLOT(on_selection_altered(QList<DataObject*>*, QList<DataObject*>*)));
+  QObject::connect(view_,
+    SIGNAL(selection_altered(QSet<DataObject*>*, QSet<DataObject*>*)),
+    this,
+    SLOT(on_selection_altered(QSet<DataObject*>*, QSet<DataObject*>*)));
 }
 
 bool QmlMediaModel::IsInited() const {
@@ -67,22 +71,22 @@ QVariant QmlMediaModel::data(const QModelIndex& index, int role) const {
   if (index.row() >= view_->Count())
     return QVariant();
 
-  MediaObject* media_object = qobject_cast<MediaObject*>(view_->GetAt(index.row()));
-  if (media_object == NULL)
+  MediaSource* media_source = qobject_cast<MediaSource*>(view_->GetAt(index.row()));
+  if (media_source == NULL)
     return QVariant();
 
   switch (role) {
     case MediaNumberRole:
-      return QVariant(media_object->number());
+      return QVariant(media_source->number());
     
     case PreviewPathRole:
-      return QVariant(media_object->preview_file().absoluteFilePath());
+      return QVariant(media_source->preview_file().absoluteFilePath());
     
     case PathRole:
-      return QVariant(media_object->file().absoluteFilePath());
+      return QVariant(media_source->file().absoluteFilePath());
     
     case SelectionRole:
-      return QVariant(view_->IsSelected(media_object));
+      return QVariant(view_->IsSelected(media_source));
     
     default:
       return QVariant();
@@ -95,8 +99,8 @@ SelectableViewCollection* QmlMediaModel::BackingViewCollection() const {
   return view_;
 }
 
-void QmlMediaModel::on_selection_altered(QList<DataObject*>* selected,
-  QList<DataObject*>* unselected) {
+void QmlMediaModel::on_selection_altered(QSet<DataObject*>* selected,
+  QSet<DataObject*>* unselected) {
   if (selected != NULL)
     ReportDataChanged(selected);
   
@@ -104,9 +108,10 @@ void QmlMediaModel::on_selection_altered(QList<DataObject*>* selected,
     ReportDataChanged(unselected);
 }
 
-void QmlMediaModel::ReportDataChanged(QList<DataObject*>* list) {
-  for (int ctr = 0; ctr < list->count(); ctr++) {
-    int index = view_->IndexOf(*list->at(ctr));
+void QmlMediaModel::ReportDataChanged(QSet<DataObject*>* list) {
+  DataObject* object;
+  foreach (object, *list) {
+    int index = view_->IndexOf(*object);
     if (index >= 0) {
       QModelIndex model_index = createIndex(index, SelectionRole);
       emit dataChanged(model_index, model_index);

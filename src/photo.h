@@ -24,9 +24,9 @@
 #include <QObject>
 #include <QFileInfo>
 
-#include "media-object.h"
+#include "media-source.h"
 
-class Photo : public MediaObject {
+class Photo : public MediaSource {
   Q_OBJECT
   
 public:
@@ -34,6 +34,7 @@ public:
   
 protected:
   virtual bool MakePreview(const QFileInfo& original, const QFileInfo& dest);
+  virtual void DestroySource(bool destroy_backing);
 };
 
 #endif  // GALLERY_PHOTO_H_

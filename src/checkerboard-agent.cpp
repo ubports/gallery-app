@@ -46,6 +46,9 @@ CheckerboardAgent::CheckerboardAgent(QDeclarativeView* view) {
   QObject::connect(checkerboard, SIGNAL(unselect_all()), this,
     SIGNAL(unselect_all()));
   
+  QObject::connect(checkerboard, SIGNAL(create_album_from_selected()), this,
+    SIGNAL(create_album_from_selected()));
+  
   grid_ = checkerboard->findChild<QObject*>("grid");
   Q_ASSERT(grid_ != NULL);
 }

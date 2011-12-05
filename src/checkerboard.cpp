@@ -23,6 +23,9 @@
 #include <QDeclarativeContext>
 #include <QDeclarativeView>
 
+#include "album.h"
+#include "album-collection.h"
+
 Checkerboard::Checkerboard(MediaCollection* media, SourceFilter filter)
   : agent_(NULL) {
   view_.MonitorSourceCollection(media, filter);
@@ -60,6 +63,9 @@ void Checkerboard::SwitchingTo(QDeclarativeView* view) {
   
   QObject::connect(agent_, SIGNAL(unselect_all()), this,
     SLOT(on_unselect_all()));
+  
+  QObject::connect(agent_, SIGNAL(create_album_from_selected()), this,
+    SLOT(on_create_album_from_selected()));
 }
 
 void Checkerboard::SwitchingFrom(QDeclarativeView* view) {
@@ -68,7 +74,7 @@ void Checkerboard::SwitchingFrom(QDeclarativeView* view) {
 }
 
 void Checkerboard::on_activated(int media_number) {
-  MediaObject* media_object = qobject_cast<MediaObject*>(
+  MediaSource* media_object = qobject_cast<MediaSource*>(
     view_.FindByNumber((MediaNumber) media_number));
   if (media_object != NULL)
     emit activated(media_object);
@@ -77,7 +83,7 @@ void Checkerboard::on_activated(int media_number) {
 }
 
 void Checkerboard::on_selection_toggled(int media_number) {
-  MediaObject* media_object = qobject_cast<MediaObject*>(
+  MediaSource* media_object = qobject_cast<MediaSource*>(
     view_.FindByNumber((MediaNumber) media_number));
   if (media_object != NULL)
     view_.ToggleSelect(media_object);
@@ -87,4 +93,14 @@ void Checkerboard::on_selection_toggled(int media_number) {
 
 void Checkerboard::on_unselect_all() {
   view_.UnselectAll();
+}
+
+void Checkerboard::on_create_album_from_selected() {
+  if (view_.GetSelectedCount() == 0)
+    return;
+  
+  Album *album = new Album();
+  album->AttachMany(view_.GetSelected());
+  
+  AlbumCollection::instance()->Add(album);
 }

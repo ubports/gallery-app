@@ -34,7 +34,7 @@ Rectangle {
     id: topbar
     objectName: "topbar"
   }
-
+  
   NavToolbar {
     id: navbar
     objectName: "navbar"
@@ -57,43 +57,36 @@ Rectangle {
       onTab1_activated: switch_to_photo_view()
     }
     
-    Rectangle {
+    NavButton {
+      id: deselect
+      objectName: "deselect"
+      
+      anchors.right:  cancel_selecting.left
+      
+      title: "deselect"
+      visible: false
+      
+      onPressed: {
+        checkerboard.unselect_all();
+      }
+    }
+    
+    NavButton {
       id: cancel_selecting
       objectName: "cancel_selecting"
       
+      anchors.right:  parent.right
+      
+      title: "done"
       visible: false
       
-      anchors.top: parent.top
-      anchors.bottom: parent.bottom
-      anchors.right:  parent.right
-      anchors.margins: 4
-      
-      width: 80
-      height: parent.height - 4
-      
-      color: "white"
-      radius: 10
-      
-      Text {
-        text: "Cancel"
-        
-        anchors.fill: parent
-        
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-      }
-      
-      MouseArea {
-        anchors.fill: parent
-        
-        onClicked: {
-          checkerboard.state = "normal";
-          checkerboard.unselect_all();
-        }
+      onPressed: {
+        checkerboard.state = "normal";
+        checkerboard.unselect_all();
       }
     }
   }
-
+  
   Rectangle {
     id: checkerboard
     objectName: "checkerboard"
@@ -101,6 +94,7 @@ Rectangle {
     signal activated(int number)
     signal selection_toggled(int number)
     signal unselect_all()
+    signal create_album_from_selected()
     
     color: "white"
     clip: true
@@ -114,15 +108,21 @@ Rectangle {
     states: [
       State { 
         name: "normal"
-        PropertyChanges { target: cancel_selecting; visible: false } 
+        PropertyChanges { target: cancel_selecting; visible: false }
+        PropertyChanges { target: deselect; visible: false }
+        PropertyChanges { target: toolbar; opacity: 0 }
       },
       State { 
         name: "to-selecting" 
         PropertyChanges { target: cancel_selecting; visible: true }
+        PropertyChanges { target: deselect; visible: true }
+        PropertyChanges { target: toolbar; opacity: 1 }
       },
       State { 
         name: "selecting"
         PropertyChanges { target: cancel_selecting; visible: true }
+        PropertyChanges { target: deselect; visible: true }
+        PropertyChanges { target: toolbar; opacity: 1 }
       }
     ]
     
@@ -202,6 +202,21 @@ Rectangle {
       }
     }
   }
+  
+  NavToolbar {
+    id: toolbar
+    objectName: "toolbar"
+    
+    z: 10
+    anchors.bottom: parent.bottom
+    
+    NavButton {
+      id: create_album
+      objectName: "create_album"
+      
+      anchors.right: parent.right
+      
+      title: "album"
+    }
+  }
 }
-
-

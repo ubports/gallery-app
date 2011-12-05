@@ -17,37 +17,27 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#ifndef GALLERY_MEDIA_OBJECT_H_
-#define GALLERY_MEDIA_OBJECT_H_
+/**
+  * ContainerSourceCollection is a SourceCollection that holds ContainerSources.
+  * That is, it represents all active ContainerSources of a particular finalized
+  * type.  It (will have) a more complicated set of signals than other
+  * DataCollection classes because of the layering issues involved;
+  * ContainerSources hold DataSources, and ContainerSourceCollections hold
+  * ContainerSources that hold DataSources.
+  */
+
+#ifndef GALLERY_CONTAINER_SOURCE_COLLECTION_H_
+#define GALLERY_CONTAINER_SOURCE_COLLECTION_H_
 
 #include <QObject>
-#include <QFileInfo>
 
-#include "data-object.h"
+#include "source-collection.h"
 
-typedef DataObjectNumber MediaNumber;
-
-class MediaObject : public DataObject {
+class ContainerSourceCollection : public SourceCollection {
   Q_OBJECT
   
 public:
-  explicit MediaObject(const QFileInfo& file);
-  virtual ~MediaObject();
-  
-  // TODO: Currently Init() is used to create (or verify existance of)
-  // thumbnails ... when we have a thumbnail manager, this use will probably
-  // go away
-  void Init();
-  
-  const QFileInfo& file() const;
-  const QFileInfo& preview_file() const;
-  
-protected:
-  virtual bool MakePreview(const QFileInfo& original, const QFileInfo& dest) = 0;
-  
-private:
-  QFileInfo file_;
-  QFileInfo* preview_file_;
+  ContainerSourceCollection();
 };
 
-#endif  // GALLERY_MEDIA_OBJECT_H_
+#endif  // GALLERY_CONTAINER_SOURCE_COLLECTION_H_

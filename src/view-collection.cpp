@@ -33,26 +33,31 @@ void ViewCollection::MonitorSourceCollection(SourceCollection* sources,
   
   // monitor SourceCollection for added/removed DataObjects and add them to this
   // ViewCollection according to the filter
-  QObject::connect(monitoring_, SIGNAL(added(const QList<DataObject*>&)),
-    this, SLOT(on_monitored_sources_added(const QList<DataObject*>&)));
+  QObject::connect(monitoring_,
+    SIGNAL(contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
+    this,
+    SLOT(on_monitored_contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
   
   // prime the ViewCollection with what's already in the SourceCollection
-  on_monitored_sources_added(sources->GetAll());
+  QSet<DataObject*> all = sources->GetAll();
+  on_monitored_contents_altered(&all, NULL);
 }
 
-void ViewCollection::on_monitored_sources_added(const QList<DataObject*>& added) {
-  if (monitor_filter_ == NULL) {
-    AddMany(added);
-    
-    return;
+void ViewCollection::on_monitored_contents_altered(const QSet<DataObject*>* added,
+  const QSet<DataObject*>* removed) {
+  if (added != NULL) {
+    // if no filter, add everything, otherwise run everything through the filter
+    if (monitor_filter_ == NULL) {
+      AddMany(*added);
+    } else {
+      QSet<DataObject*> to_add;
+      DataObject* object;
+      foreach (object, *added) {
+        if (monitor_filter_(object))
+          to_add.insert(object);
+      }
+      
+      AddMany(to_add);
+    }
   }
-  
-  QList<DataObject*> to_add;
-  DataObject* object;
-  foreach (object, added) {
-    if (monitor_filter_(object))
-      to_add.append(object);
-  }
-  
-  AddMany(to_add);
 }

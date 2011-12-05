@@ -17,28 +17,39 @@
  * Jim Nelson <jim@yorba.org>
  * Lucas Beeler <lucas@yorba.org>
  */
+ 
+import QtQuick 1.0
 
-#ifndef GALLERY_CHECKERBOARD_AGENT_H_
-#define GALLERY_CHECKERBOARD_AGENT_H_
-
-#include <QObject>
-#include <QPointer>
-#include <QDeclarativeView>
-
-class CheckerboardAgent : public QObject {
-  Q_OBJECT
+Rectangle {
+  id: nav_button
+  objectName: "nav_button"
   
-signals:
-  void activated(int media_number);
-  void selection_toggled(int media_number);
-  void unselect_all();
-  void create_album_from_selected();
+  signal pressed()
   
-public:
-  explicit CheckerboardAgent(QDeclarativeView* view);
+  property string title: "button"
   
-private:
-  QPointer<QObject> grid_;
-};
-
-#endif  // GALLERY_CHECKERBOARD_AGENT_H_
+  anchors.top: parent.top
+  anchors.bottom: parent.bottom
+  anchors.margins: 4
+  
+  width: 80
+  height: parent.height - 8
+  
+  color: "white"
+  radius: 10
+  
+  Text {
+    text: parent.title
+    
+    anchors.fill: parent
+    
+    horizontalAlignment: Text.AlignHCenter
+    verticalAlignment: Text.AlignVCenter
+  }
+  
+  MouseArea {
+    anchors.fill: parent
+    
+    onClicked: parent.pressed()
+  }
+}

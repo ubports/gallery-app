@@ -17,30 +17,30 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "media-object.h"
+#include "media-source.h"
 
 #include <QFileInfo>
 #include <QDir>
 
-MediaObject::MediaObject(const QFileInfo& file)
+MediaSource::MediaSource(const QFileInfo& file)
   : file_(file) {
   preview_file_ = new QFileInfo(file.dir(), "thumbs/" +
     file.completeBaseName() + "_th." + file.completeSuffix());
 }
 
-void MediaObject::Init() {
+void MediaSource::Init() {
   if (!preview_file_->exists())
     MakePreview(file_, *preview_file_);
 }
 
-MediaObject::~MediaObject() {
+MediaSource::~MediaSource() {
   delete preview_file_;
 }
 
-const QFileInfo& MediaObject::file() const {
+const QFileInfo& MediaSource::file() const {
   return file_;
 }
 
-const QFileInfo& MediaObject::preview_file() const {
+const QFileInfo& MediaSource::preview_file() const {
   return *preview_file_;
 }

@@ -22,8 +22,8 @@
 DataCollection::DataCollection() {
 }
 
-void DataCollection::notify_added(const QList<DataObject*>& added_objects) {
-  emit added(added_objects);
+void DataCollection::notify_contents_altered(const QSet<DataObject*>* added, const QSet<DataObject*>* removed) {
+  emit contents_altered(added, removed);
 }
 
 int DataCollection::Count() const {
@@ -37,25 +37,24 @@ void DataCollection::Add(DataObject* object) {
   list_.append(object);
   
   // The "added" signal requires a list as a parameter
-  QList<DataObject*> added_list;
-  added_list.append(object);
+  QSet<DataObject*> added_list;
+  added_list.insert(object);
   
-  notify_added(added_list);
+  notify_contents_altered(&added_list, NULL);
 }
 
-void DataCollection::AddMany(const QList<DataObject*>& objects) {
+void DataCollection::AddMany(const QSet<DataObject*>& objects) {
   if (objects.count() == 0)
     return;
   
-  // TODO: Need to check for double-adds and silently exit
-  list_.append(objects);
+  // TODO: Need to check for double-adds and silently drop
+  list_.append(QList<DataObject*>::fromSet(objects));
   
-  notify_added(objects);
+  notify_contents_altered(&objects, NULL);
 }
 
-const QList<DataObject*>& DataCollection::GetAll() const {
-  // TODO: Return a read-only view of the list
-  return list_;
+const QSet<DataObject*> DataCollection::GetAll() const {
+  return QSet<DataObject*>::fromList(list_);
 }
 
 bool DataCollection::Contains(DataObject* object) const {

@@ -24,7 +24,7 @@
 #include <QImage>
 
 Photo::Photo(const QFileInfo& file)
-  : MediaObject(file) {
+  : MediaSource(file) {
 }
 
 bool Photo::MakePreview(const QFileInfo& original, const QFileInfo &dest) {
@@ -45,4 +45,8 @@ bool Photo::MakePreview(const QFileInfo& original, const QFileInfo &dest) {
     qFatal("Unable to save %s", qPrintable(dest.filePath()));
   
   return true;
+}
+
+void Photo::DestroySource(bool destroy_backing) {
+  // TODO: destroy the backing photo file and database entry
 }

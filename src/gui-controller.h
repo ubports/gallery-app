@@ -25,7 +25,7 @@
 #include <QDeclarativeView>
 #include <QPointer>
 
-#include "media-object.h"
+#include "media-source.h"
 #include "media-collection.h"
 #include "checkerboard.h"
 #include "photo-viewer.h"
@@ -38,7 +38,7 @@ public:
   virtual ~GuiController();
     
 private slots:
-  void on_checkerboard_media_object_activated(MediaObject* media_object);
+  void on_checkerboard_media_object_activated(MediaSource* media_source);
   void on_photo_viewer_exited();
   void on_power_off();
     

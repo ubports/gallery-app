@@ -19,5 +19,31 @@
 
 #include "source-collection.h"
 
+#include "data-source.h"
+
 SourceCollection::SourceCollection() {
+}
+
+void SourceCollection::notify_contents_altered(const QSet<DataObject*>* added,
+  const QSet<DataObject*>* removed) {
+  if (added != NULL) {
+    // set membership of DataSource to this collection
+    DataObject* object;
+    foreach (object, *added) {
+      DataSource *source = qobject_cast<DataSource*>(object);
+      source->set_membership(this);
+    }
+  }
+  
+  if (removed != NULL) {
+    // remove membership of DataSource from this collection
+    DataObject* object;
+    foreach (object, *removed) {
+      DataSource *source = qobject_cast<DataSource*>(object);
+      Q_ASSERT(source->member_of() == this);
+      source->set_membership(NULL);
+    }
+  }
+  
+  DataCollection::notify_contents_altered(added, removed);
 }

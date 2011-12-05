@@ -17,6 +17,12 @@
  * Jim Nelson <jim@yorba.org>
  */
 
+/**
+  * SelectableViewCollection adds the notion of selection to a ViewCollection.
+  * It's primarily of use in grid or checkerboard views when the user may want
+  * to perform an operation on a number of DataSources all at once.
+  */
+
 #ifndef GALLERY_SELECTABLE_VIEW_COLLECTION_H_
 #define GALLERY_SELECTABLE_VIEW_COLLECTION_H_
 
@@ -29,12 +35,15 @@ class SelectableViewCollection : public ViewCollection {
   Q_OBJECT
   
 signals:
-  void selection_altered(QList<DataObject*>* selected, QList<DataObject*>* unselected);
+  void selection_altered(QSet<DataObject*>* selected, QSet<DataObject*>* unselected);
   
 public:
   SelectableViewCollection();
   
   bool IsSelected(DataObject* object) const;
+  
+  const QSet<DataObject*> GetSelected() const;
+  int GetSelectedCount() const;
   
   // Returns true if the selection state of the DataObject changed, false if
   // already selected or not in collection.
@@ -54,8 +63,8 @@ public:
   int UnselectAll();
   
 protected:
-  virtual void notify_selection_altered(QList<DataObject*>* selected,
-    QList<DataObject*>* unselected);
+  virtual void notify_selection_altered(QSet<DataObject*>* selected,
+    QSet<DataObject*>* unselected);
   
 private:
   QSet<DataObject*> selected_;

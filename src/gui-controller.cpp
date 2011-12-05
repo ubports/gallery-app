@@ -46,8 +46,8 @@ GuiController::GuiController(const QDir &path) {
   checkerboard_ = new Checkerboard(library_, NULL);
   photo_viewer_ = new PhotoViewer();
   
-  QObject::connect(checkerboard_, SIGNAL(activated(MediaObject*)), this,
-    SLOT(on_checkerboard_media_object_activated(MediaObject*)));
+  QObject::connect(checkerboard_, SIGNAL(activated(MediaSource*)), this,
+    SLOT(on_checkerboard_media_object_activated(MediaSource*)));
   
   QObject::connect(photo_viewer_, SIGNAL(exit_viewer()), this,
     SLOT(on_photo_viewer_exited()));
@@ -66,8 +66,8 @@ GuiController::~GuiController() {
   delete library_;
 }
 
-void GuiController::on_checkerboard_media_object_activated(MediaObject* media_object) {
-  Photo* photo = qobject_cast<Photo*>(media_object);
+void GuiController::on_checkerboard_media_object_activated(MediaSource* media_source) {
+  Photo* photo = qobject_cast<Photo*>(media_source);
   if (photo == NULL) {
     qDebug("Non-photo object activated");
     

@@ -15,30 +15,22 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
- * Lucas Beeler <lucas@yorba.org>
  */
 
-#ifndef GALLERY_CHECKERBOARD_AGENT_H_
-#define GALLERY_CHECKERBOARD_AGENT_H_
+#include "album.h"
 
-#include <QObject>
-#include <QPointer>
-#include <QDeclarativeView>
+Album::Album() :
+  name_(NULL) {
+}
 
-class CheckerboardAgent : public QObject {
-  Q_OBJECT
-  
-signals:
-  void activated(int media_number);
-  void selection_toggled(int media_number);
-  void unselect_all();
-  void create_album_from_selected();
-  
-public:
-  explicit CheckerboardAgent(QDeclarativeView* view);
-  
-private:
-  QPointer<QObject> grid_;
-};
+Album::Album(const QString& name) {
+  name_ = new QString(name);
+}
 
-#endif  // GALLERY_CHECKERBOARD_AGENT_H_
+Album::~Album() {
+  delete name_;
+}
+
+void Album::DestroySource(bool destroy_backing) {
+  // TODO: Remove album entry in database
+}

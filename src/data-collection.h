@@ -17,11 +17,20 @@
  * Jim Nelson <jim@yorba.org>
  */
 
+/**
+  * A DataCollection is a heavyweight, fully signalled collection class.  It is
+  * not intended for general use but rather to hold core data structures that
+  * are monitored and widely used throughout the system.  Those data structures
+  * must inherit from DataObject, which is the only kind of object DataCollection
+  * will hold.
+  */
+
 #ifndef GALLERY_DATA_COLLECTION_H_
 #define GALLERY_DATA_COLLECTION_H_
 
 #include <QObject>
 #include <QList>
+#include <QSet>
 
 #include "data-object.h"
 
@@ -30,7 +39,7 @@ class DataCollection : public QObject {
   
 signals:
   // "added" is fired *after* the DataObjects have been added to the collection
-  void added(const QList<DataObject*>& added_objects);
+  void contents_altered(const QSet<DataObject*>* added, const QSet<DataObject*>* removed);
   
 public:
   DataCollection();
@@ -38,16 +47,17 @@ public:
   int Count() const;
   
   void Add(DataObject* object);
-  void AddMany(const QList<DataObject*>& objects);
+  void AddMany(const QSet<DataObject*>& objects);
   
   bool Contains(DataObject* object) const;
-  const QList<DataObject*>& GetAll() const;
+  const QSet<DataObject*> GetAll() const;
   DataObject* GetAt(int index) const;
   DataObject* FindByNumber(DataObjectNumber number) const;
   int IndexOf(const DataObject& media) const;
   
 protected:
-  virtual void notify_added(const QList<DataObject*>& added_objects);
+  virtual void notify_contents_altered(const QSet<DataObject*>* added,
+    const QSet<DataObject*>* removed);
   
 private:
   QList<DataObject*> list_;

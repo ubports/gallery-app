@@ -15,30 +15,18 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
- * Lucas Beeler <lucas@yorba.org>
  */
 
-#ifndef GALLERY_CHECKERBOARD_AGENT_H_
-#define GALLERY_CHECKERBOARD_AGENT_H_
+#include "album-collection.h"
 
-#include <QObject>
-#include <QPointer>
-#include <QDeclarativeView>
+AlbumCollection *AlbumCollection::instance_ = NULL;
 
-class CheckerboardAgent : public QObject {
-  Q_OBJECT
-  
-signals:
-  void activated(int media_number);
-  void selection_toggled(int media_number);
-  void unselect_all();
-  void create_album_from_selected();
-  
-public:
-  explicit CheckerboardAgent(QDeclarativeView* view);
-  
-private:
-  QPointer<QObject> grid_;
-};
+AlbumCollection::AlbumCollection() {
+}
 
-#endif  // GALLERY_CHECKERBOARD_AGENT_H_
+AlbumCollection* AlbumCollection::instance() {
+  if (instance_ == NULL)
+    instance_ = new AlbumCollection();
+  
+  return instance_;
+}

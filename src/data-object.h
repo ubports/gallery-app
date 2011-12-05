@@ -17,6 +17,23 @@
  * Jim Nelson <jim@yorba.org>
  */
 
+/**
+  * A DataObject is the base class for the primary and core data structures in
+  * the system.  DataObjects are held and maintained by DataCollections.
+  * Like DataCollection, DataObject is fully signalled so all subsystems may
+  * monitor it, thus, it's not appropriate as a subclass for secondary and
+  * tertiary classes.
+  *
+  * DataObjects by contract should not be copied.  Thus, when determining
+  * equality of two DataObjects, identity should be sufficient.
+  *
+  * Each DataObject is assigned a DataObjectNumber which may be used to
+  * identify the DataObject in memory if, for whatever reason, the number may
+  * be used to index it out of the DataCollection it belongs to.  However,
+  * the DataObjectNumber should not be persisted outside the application as it
+  * may change from session to session.
+  */
+
 #ifndef GALLERY_DATA_OBJECT_H_
 #define GALLERY_DATA_OBJECT_H_
 

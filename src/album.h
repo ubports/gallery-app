@@ -15,30 +15,29 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
- * Lucas Beeler <lucas@yorba.org>
  */
 
-#ifndef GALLERY_CHECKERBOARD_AGENT_H_
-#define GALLERY_CHECKERBOARD_AGENT_H_
+#ifndef GALLERY_ALBUM_H_
+#define GALLERY_ALBUM_H_
 
 #include <QObject>
-#include <QPointer>
-#include <QDeclarativeView>
+#include <QString>
 
-class CheckerboardAgent : public QObject {
+#include "container-source.h"
+
+class Album : public ContainerSource {
   Q_OBJECT
   
-signals:
-  void activated(int media_number);
-  void selection_toggled(int media_number);
-  void unselect_all();
-  void create_album_from_selected();
-  
 public:
-  explicit CheckerboardAgent(QDeclarativeView* view);
+  Album();
+  explicit Album(const QString &name);
+  virtual ~Album();
+  
+protected:
+  virtual void DestroySource(bool destroy_backing);
   
 private:
-  QPointer<QObject> grid_;
+  QString *name_;
 };
 
-#endif  // GALLERY_CHECKERBOARD_AGENT_H_
+#endif  // GALLERY_ALBUM_H_

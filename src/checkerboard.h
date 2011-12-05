@@ -25,7 +25,7 @@
 #include <QDeclarativeView>
 #include <QString>
 
-#include "media-object.h"
+#include "media-source.h"
 #include "media-collection.h"
 #include "checkerboard-agent.h"
 #include "qml-media-model.h"
@@ -33,10 +33,10 @@
 
 class Checkerboard : public QObject {
   Q_OBJECT
-
+  
 signals:
-  void activated(MediaObject* media_object);
-
+  void activated(MediaSource* media_source);
+  
 public:
   Checkerboard(MediaCollection* media, SourceFilter filter);
   virtual ~Checkerboard();
@@ -54,6 +54,7 @@ private slots:
   void on_activated(int);
   void on_selection_toggled(int);
   void on_unselect_all();
+  void on_create_album_from_selected();
   
 private:
   SelectableViewCollection view_;

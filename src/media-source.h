@@ -15,30 +15,39 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
- * Lucas Beeler <lucas@yorba.org>
  */
 
-#ifndef GALLERY_CHECKERBOARD_AGENT_H_
-#define GALLERY_CHECKERBOARD_AGENT_H_
+#ifndef GALLERY_MEDIA_SOURCE_H_
+#define GALLERY_MEDIA_SOURCE_H_
 
 #include <QObject>
-#include <QPointer>
-#include <QDeclarativeView>
+#include <QFileInfo>
 
-class CheckerboardAgent : public QObject {
+#include "data-source.h"
+
+typedef DataObjectNumber MediaNumber;
+
+class MediaSource : public DataSource {
   Q_OBJECT
   
-signals:
-  void activated(int media_number);
-  void selection_toggled(int media_number);
-  void unselect_all();
-  void create_album_from_selected();
-  
 public:
-  explicit CheckerboardAgent(QDeclarativeView* view);
+  explicit MediaSource(const QFileInfo& file);
+  virtual ~MediaSource();
+  
+  // TODO: Currently Init() is used to create (or verify existance of)
+  // thumbnails ... when we have a thumbnail manager, this use will probably
+  // go away
+  void Init();
+  
+  const QFileInfo& file() const;
+  const QFileInfo& preview_file() const;
+  
+protected:
+  virtual bool MakePreview(const QFileInfo& original, const QFileInfo& dest) = 0;
   
 private:
-  QPointer<QObject> grid_;
+  QFileInfo file_;
+  QFileInfo* preview_file_;
 };
 
-#endif  // GALLERY_CHECKERBOARD_AGENT_H_
+#endif  // GALLERY_MEDIA_SOURCE_H_

@@ -26,7 +26,6 @@
 #include <QPointer>
 
 #include "selectable-view-collection.h"
-#include "media-object.h"
 #include "data-object.h"
 
 class QmlMediaModel : public QAbstractListModel {
@@ -55,12 +54,12 @@ public:
   SelectableViewCollection* BackingViewCollection() const;
   
 private slots:
-  void on_selection_altered(QList<DataObject*>* selected, QList<DataObject*>* unselected);
+  void on_selection_altered(QSet<DataObject*>* selected, QSet<DataObject*>* unselected);
   
 private:
   QPointer<SelectableViewCollection> view_;
   
-  void ReportDataChanged(QList<DataObject*> *list);
+  void ReportDataChanged(QSet<DataObject*> *list);
 };
 
 #endif  // GALLERY_QML_MEDIA_MODEL_H_

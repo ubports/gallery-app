@@ -14,15 +14,21 @@ OBJECTS_DIR = build
 # Input
 
 SOURCES += \
+	src/album.cpp \
+	src/album-collection.cpp \
 	src/checkerboard.cpp \
 	src/checkerboard-agent.cpp \
+	src/container-source.cpp \
+	src/container-source-collection.cpp \
 	src/data-collection.cpp \
 	src/data-object.cpp \
+	src/data-source.cpp \
 	src/gui-controller.cpp \
 	src/main.cpp \
 	src/media-collection.cpp \
-	src/media-object.cpp \
+	src/media-source.cpp \
 	src/photo.cpp \
+	src/photo-collection.cpp \
 	src/photo-viewer.cpp \
 	src/photo-viewer-agent.cpp \
 	src/qml-media-model.cpp \
@@ -31,14 +37,20 @@ SOURCES += \
 	src/view-collection.cpp
 
 HEADERS += \
+	src/album.h \
+	src/album-collection.h \
 	src/checkerboard.h \
 	src/checkerboard-agent.h \
+	src/container-source.h \
+	src/container-source-collection.h \
 	src/data-collection.h \
 	src/data-object.h \
+	src/data-source.h \
 	src/gui-controller.h \
 	src/media-collection.h \
-	src/media-object.h \
+	src/media-source.h \
 	src/photo.h \
+	src/photo-collection.h \
 	src/photo-viewer.h \
 	src/photo-viewer-agent.h \
 	src/qml-media-model.h \
@@ -49,6 +61,7 @@ HEADERS += \
 OTHER_FILES += \
 	qml/BinaryTabGroup.qml \
 	qml/Checkerboard.qml \
+	qml/NavButton.qml \
 	qml/NavToolbar.qml \
 	qml/PhotoViewer.qml \
 	qml/TabletSurface.qml \

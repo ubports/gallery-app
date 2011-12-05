@@ -17,6 +17,16 @@
  * Jim Nelson <jim@yorba.org>
  */
 
+/**
+  * A SourceCollection is a collection of DataSources of a particularly finalized
+  * type.  In general (but with notable exceptions) a SourceCollection holds
+  * every instance of a particular type; thus, there's usually only one instance
+  * of a SourceCollection for that type.  For examine, if Photo is a DataSource,
+  * there is one PhotoCollection that knows about every Photo instantiated in
+  * the system.  This is similar in intent (but not implementation or design) to
+  * Smalltalk's allInstances keyword.
+  */
+
 #ifndef GALLERY_SOURCE_COLLECTION_H_
 #define GALLERY_SOURCE_COLLECTION_H_
 
@@ -27,6 +37,10 @@ class SourceCollection : public DataCollection {
   
 public:
   SourceCollection();
+  
+protected:
+  virtual void notify_contents_altered(const QSet<DataObject*>* added,
+    const QSet<DataObject*>* removed);
 };
 
 #endif  // GALLERY_SOURCE_COLLECTION_H_

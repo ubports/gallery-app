@@ -17,6 +17,25 @@
  * Jim Nelson <jim@yorba.org>
  */
 
+/**
+  * A ViewCollection is the logical complement to a SourceCollection.  Where
+  * there is only one SourceCollection for each finalized DataSource type,
+  * there may be many ViewCollections that hold collections of DataSources
+  * for some organizational reason, be it to present to the user or internally
+  * by a ContainerSource to represent all the DataSources it organizes.
+  *
+  * ViewCollections may monitor source collections, meaning that as DataSources
+  * are added, removed, or altered in a SourceCollection they are represented
+  * in the ViewCollection as well.  This allows for a ViewCollection to always
+  * maintain a coherent representation of DataSources filtered by a predicate
+  * function.
+  *
+  * The "view" in ViewCollection should not be thought of in the sense of
+  * model-view-controller, although there are some similarities.  Rather, it
+  * should be thought of a table view in database parlance -- a slice of a
+  * larger table that maintains coherence as the larger table mutates.
+  */
+
 #ifndef GALLERY_VIEW_COLLECTION_H_
 #define GALLERY_VIEW_COLLECTION_H_
 
@@ -31,10 +50,14 @@ class ViewCollection : public DataCollection {
 public:
   ViewCollection();
   
+  // TODO: Allow multiple SourceCollections to be monitored.  Without a
+  // DataView as a mediator, this means ViewCollection (and, hence,
+  // DataCollection) will hold DataSources of varied finalized types.
   void MonitorSourceCollection(SourceCollection* sources, SourceFilter filter);
   
 private slots:
-  void on_monitored_sources_added(const QList<DataObject*>& added);
+  void on_monitored_contents_altered(const QSet<DataObject*>*added,
+    const QSet<DataObject*>* removed);
   
 private:
   SourceCollection* monitoring_;
