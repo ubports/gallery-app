@@ -80,10 +80,10 @@ QVariant QmlMediaModel::data(const QModelIndex& index, int role) const {
       return QVariant(media_source->number());
     
     case PreviewPathRole:
-      return QVariant(media_source->preview_file().absoluteFilePath());
+      return QVariant("file:" + media_source->preview_file().absoluteFilePath());
     
     case PathRole:
-      return QVariant(media_source->file().absoluteFilePath());
+      return QVariant("file:" + media_source->file().absoluteFilePath());
     
     case SelectionRole:
       return QVariant(view_->IsSelected(media_source));

@@ -44,7 +44,7 @@ QmlMediaModel* Checkerboard::model() const {
 }
 
 const char* Checkerboard::qml_file_path() const {
-  return "qml/Checkerboard.qml";
+  return "qrc:/qml/Checkerboard.qml";
 }
 
 void Checkerboard::Prepare(QDeclarativeView* view) {

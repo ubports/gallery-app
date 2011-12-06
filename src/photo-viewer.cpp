@@ -38,7 +38,7 @@ PhotoViewer::~PhotoViewer() {
 }
 
 const char* PhotoViewer::qml_file_path() const {
-  return "qml/PhotoViewer.qml";
+  return "qrc:/qml/PhotoViewer.qml";
 }
 
 void PhotoViewer::Prepare(QDeclarativeView *view, QmlMediaModel *model,
