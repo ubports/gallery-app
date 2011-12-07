@@ -15,5 +15,8 @@
     <file>qml/Tab.qml</file>
     <file>qml/TabletSurface.qml</file>
     <file>qml/TopBar.qml</file>
+    <file>qml/viewer-back.png</file>
+    <file>qml/viewer-forward.png</file>
+    <file>qml/ViewerNavigationButton.qml</file>
 </qresource>
 </RCC>
