@@ -11,6 +11,7 @@ TARGET = gallery
 DEPENDPATH += . src
 INCLUDEPATH += .
 CONFIG += qt debug
+QMAKE_CXXFLAGS += -Werror -Wno-unused-parameter
 QT += gui declarative
 MOC_DIR = build
 OBJECTS_DIR = build

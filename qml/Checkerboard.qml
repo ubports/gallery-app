@@ -49,9 +49,11 @@ Rectangle {
       
       x: parent.width / 2 - width / 2
       y: 4
+
+      tab0_title: "Albums"      
+      tab1_title: "Photos"
       
-      tab0_title: "Photos"
-      tab1_title: "Albums"
+      state: "tab1_active"
       
       onTab0_activated: switch_to_album_view()
       onTab1_activated: switch_to_photo_view()
