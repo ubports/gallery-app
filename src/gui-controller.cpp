@@ -41,29 +41,27 @@ GuiController::GuiController(const QDir &path) {
   loader_ = tablet_surface_->findChild<QObject*>("loader");
   Q_ASSERT(loader_ != NULL);
   
-  library_ = new MediaCollection(path);
+  MediaCollection::InitInstance(path);
   
-  checkerboard_ = new Checkerboard(library_, NULL);
+  overview_ = new Overview();
   photo_viewer_ = new PhotoViewer();
   
-  QObject::connect(checkerboard_, SIGNAL(activated(MediaSource*)), this,
+  QObject::connect(overview_, SIGNAL(photo_activated(MediaSource*)), this,
     SLOT(on_checkerboard_media_object_activated(MediaSource*)));
   
   QObject::connect(photo_viewer_, SIGNAL(exit_viewer()), this,
     SLOT(on_photo_viewer_exited()));
   
-  checkerboard_->Prepare(view_);
-  SetSource(checkerboard_->qml_file_path());
-  checkerboard_->SwitchingTo(view_);
+  overview_->Prepare(view_);
+  SetSource(overview_->qml_file_path());
+  overview_->SwitchingTo(view_);
   
   view_->show();
 }
 
 GuiController::~GuiController() {
-  delete checkerboard_;
+  delete overview_;
   delete photo_viewer_;
-  
-  delete library_;
 }
 
 void GuiController::on_checkerboard_media_object_activated(MediaSource* media_source) {
@@ -74,9 +72,9 @@ void GuiController::on_checkerboard_media_object_activated(MediaSource* media_so
     return;
   }
   
-  checkerboard_->SwitchingFrom(view_);
+  overview_->SwitchingFrom(view_);
   
-  photo_viewer_->Prepare(view_, checkerboard_->model(), photo);
+  photo_viewer_->Prepare(view_, overview_->photos_model(), photo);
   SetSource(photo_viewer_->qml_file_path());
   photo_viewer_->SwitchingTo(view_);
 
@@ -90,9 +88,9 @@ void GuiController::on_power_off() {
 void GuiController::on_photo_viewer_exited() {
   photo_viewer_->SwitchingFrom(view_);
 
-  checkerboard_->Prepare(view_);
-  SetSource(checkerboard_->qml_file_path());
-  checkerboard_->SwitchingTo(view_);
+  overview_->Prepare(view_);
+  SetSource(overview_->qml_file_path());
+  overview_->SwitchingTo(view_);
 
   view_->show();
 }

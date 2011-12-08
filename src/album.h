@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QFileInfo>
 
 #include "container-source.h"
 
@@ -32,6 +33,8 @@ public:
   Album();
   explicit Album(const QString &name);
   virtual ~Album();
+  
+  const QFileInfo& preview_file() const;
   
 protected:
   virtual void DestroySource(bool destroy_backing);

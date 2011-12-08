@@ -25,6 +25,7 @@
 
 #include "gui-controller.h"
 #include "qml-media-model.h"
+#include "qml-album-model.h"
 
 int main(int argc, char *argv[]) {
   // This is a significant performance win ... "opengl" doesn't appear to be
@@ -39,6 +40,7 @@ int main(int argc, char *argv[]) {
   // QML Declarative types must be registered before use; if we use a lot of
   // these, we may want a more formal registration system
   QmlMediaModel::RegisterType();
+  QmlAlbumModel::RegisterType();
   
   QDir path(argc > 1 ? QString(argv[1]) : QDir::homePath() + "/Pictures");
   qDebug("Opening %s...", qPrintable(path.path()));

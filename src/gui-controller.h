@@ -27,7 +27,7 @@
 
 #include "media-source.h"
 #include "media-collection.h"
-#include "checkerboard.h"
+#include "overview.h"
 #include "photo-viewer.h"
 
 class GuiController : public QObject {
@@ -47,8 +47,7 @@ private:
   QPointer<QObject> loader_;
   QPointer<QObject> tablet_surface_;
   
-  MediaCollection* library_;
-  Checkerboard* checkerboard_;
+  Overview* overview_;
   PhotoViewer* photo_viewer_;
   
   void SetSource(const char* path);

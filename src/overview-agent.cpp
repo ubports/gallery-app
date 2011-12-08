@@ -18,14 +18,14 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-#include "checkerboard-agent.h"
+#include "overview-agent.h"
 
 #include <QDeclarativeView>
 #include <QDeclarativeItem>
 
 #include "qml-media-model.h"
 
-CheckerboardAgent::CheckerboardAgent(QDeclarativeView* view) {
+OverviewAgent::OverviewAgent(QDeclarativeView* view) {
   // TODO: Clean this up
   QDeclarativeItem* item =
     qobject_cast<QDeclarativeItem*>(view->rootObject());
@@ -34,21 +34,21 @@ CheckerboardAgent::CheckerboardAgent(QDeclarativeView* view) {
   QObject* loader = item->findChild<QObject*>("loader");
   Q_ASSERT(loader != NULL);
   
-  QObject* checkerboard = loader->findChild<QObject*>("checkerboard");
-  Q_ASSERT(checkerboard != NULL);
+  QObject* overview = item->findChild<QObject*>("overview");
+  Q_ASSERT(overview != NULL);
   
-  QObject::connect(checkerboard, SIGNAL(activated(int)), this,
-    SIGNAL(activated(int)));
+  QObject::connect(overview, SIGNAL(create_album_from_selected()), this,
+    SIGNAL(create_album_from_selected_photos()));
   
-  QObject::connect(checkerboard, SIGNAL(selection_toggled(int)), this,
-    SIGNAL(selection_toggled(int)));
+  QObject* photos_checkerboard = loader->findChild<QObject*>("photos_checkerboard");
+  Q_ASSERT(photos_checkerboard != NULL);
   
-  QObject::connect(checkerboard, SIGNAL(unselect_all()), this,
-    SIGNAL(unselect_all()));
+  QObject::connect(photos_checkerboard, SIGNAL(activated(int)), this,
+    SIGNAL(photo_activated(int)));
   
-  QObject::connect(checkerboard, SIGNAL(create_album_from_selected()), this,
-    SIGNAL(create_album_from_selected()));
+  QObject::connect(photos_checkerboard, SIGNAL(selection_toggled(int)), this,
+    SIGNAL(photo_selection_toggled(int)));
   
-  grid_ = checkerboard->findChild<QObject*>("grid");
-  Q_ASSERT(grid_ != NULL);
+  QObject::connect(photos_checkerboard, SIGNAL(unselect_all()), this,
+    SIGNAL(photos_unselect_all()));
 }

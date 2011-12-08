@@ -22,7 +22,8 @@
 DataCollection::DataCollection() {
 }
 
-void DataCollection::notify_contents_altered(const QSet<DataObject*>* added, const QSet<DataObject*>* removed) {
+void DataCollection::notify_contents_altered(const QSet<DataObject*>* added,
+  const QSet<DataObject*>* removed) {
   emit contents_altered(added, removed);
 }
 

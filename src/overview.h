@@ -18,8 +18,8 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-#ifndef GALLERY_CHECKERBOARD_H_
-#define GALLERY_CHECKERBOARD_H_
+#ifndef GALLERY_OVERVIEW_H_
+#define GALLERY_OVERVIEW_H_
 
 #include <QObject>
 #include <QDeclarativeView>
@@ -27,21 +27,23 @@
 
 #include "media-source.h"
 #include "media-collection.h"
-#include "checkerboard-agent.h"
+#include "overview-agent.h"
 #include "qml-media-model.h"
+#include "qml-album-model.h"
 #include "selectable-view-collection.h"
 
-class Checkerboard : public QObject {
+class Overview : public QObject {
   Q_OBJECT
   
 signals:
-  void activated(MediaSource* media_source);
+  void photo_activated(MediaSource* media_source);
   
 public:
-  Checkerboard(MediaCollection* media, SourceFilter filter);
-  virtual ~Checkerboard();
+  Overview();
+  virtual ~Overview();
   
-  QmlMediaModel* model() const;
+  QmlMediaModel* photos_model() const;
+  QmlAlbumModel* albums_model() const;
   
   // returned path is a relative path, not an absolute one
   const char* qml_file_path() const;
@@ -51,15 +53,17 @@ public:
   void SwitchingFrom(QDeclarativeView* view);
   
 private slots:
-  void on_activated(int);
-  void on_selection_toggled(int);
-  void on_unselect_all();
-  void on_create_album_from_selected();
+  void on_photo_activated(int album_number);
+  void on_photo_selection_toggled(int album_number);
+  void on_photos_unselect_all();
+  void on_create_album_from_selected_photos();
   
 private:
-  SelectableViewCollection view_;
-  CheckerboardAgent* agent_;
-  QmlMediaModel* model_;
+  SelectableViewCollection photos_view_;
+  SelectableViewCollection albums_view_;
+  OverviewAgent* agent_;
+  QmlMediaModel* photos_model_;
+  QmlAlbumModel* albums_model_;
 };
 
-#endif  // GALLERY_CHECKERBOARD_H_
+#endif  // GALLERY_OVERVIEW_H_

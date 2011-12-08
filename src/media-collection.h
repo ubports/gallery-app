@@ -29,12 +29,17 @@ class MediaCollection : public SourceCollection {
   Q_OBJECT
   
 public:
-  MediaCollection(const QDir& directory);
+  static void InitInstance(const QDir& directory);
+  static MediaCollection* instance();
   
   const QDir& directory() const;
   
 private:
+  static MediaCollection* instance_;
+  
   QDir directory_;
+  
+  MediaCollection(const QDir& directory);
 };
 
 #endif  // GALLERY_MEDIA_COLLECTION_H_

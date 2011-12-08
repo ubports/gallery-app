@@ -15,46 +15,41 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
- * Lucas Beeler <lucas@yorba.org>
  */
 
-#include "qml-media-model.h"
+#include "qml-album-model.h"
 
 #include <QHash>
 #include <QtDeclarative>
 
-#include "media-source.h"
+#include "album.h"
 
-QmlMediaModel::QmlMediaModel(QObject* parent = NULL)
+QmlAlbumModel::QmlAlbumModel(QObject* parent = NULL)
   : QmlViewCollectionModel(parent) {
 }
 
-void QmlMediaModel::RegisterType() {
-  qmlRegisterType<QmlMediaModel>("org.yorba.qt.qmlmediamodel", 1, 0,
-    "QmlMediaModel");
+void QmlAlbumModel::RegisterType() {
+  qmlRegisterType<QmlAlbumModel>("org.yorba.qt.qmlalbummodel", 1, 0,
+    "QmlAlbumModel");
 }
 
-void QmlMediaModel::Init(SelectableViewCollection* view) {
+void QmlAlbumModel::Init(SelectableViewCollection* view) {
   QHash<int, QByteArray> roles;
-  roles[ObjectNumberRole] = "object_number";
+  roles[QmlViewCollectionModel::ObjectNumberRole] = "object_number";
   roles[PreviewPathRole] = "preview_path";
-  roles[PathRole] = "path";
-  roles[SelectionRole] = "is_selected";
+  roles[QmlViewCollectionModel::SelectionRole] = "is_selected";
   
   QmlViewCollectionModel::Init(view, roles);
 }
 
-QVariant QmlMediaModel::DataForRole(DataObject *object, int role) const {
-  MediaSource* media_source = qobject_cast<MediaSource*>(object);
-  if (media_source == NULL)
+QVariant QmlAlbumModel::DataForRole(DataObject *object, int role) const {
+  Album* album = qobject_cast<Album*>(object);
+  if (album == NULL)
     return QVariant();
   
   switch (role) {
     case PreviewPathRole:
-      return QVariant(media_source->preview_file().absoluteFilePath());
-    
-    case PathRole:
-      return QVariant(media_source->file().absoluteFilePath());
+      return QVariant(album->preview_file().absoluteFilePath());
     
     default:
       return QVariant();

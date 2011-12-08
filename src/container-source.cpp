@@ -21,9 +21,9 @@
 
 ContainerSource::ContainerSource() {
   QObject::connect(&contained_,
-    SIGNAL(contents_altered(QList<DataObject*>*, QList<DataObject*>*)),
+    SIGNAL(contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
     this,
-    SLOT(on_contents_altered(QList<DataObject*>*, QList<DataObject*>*)));
+    SLOT(on_contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
 }
 
 void ContainerSource::Attach(DataObject* object) {
@@ -34,12 +34,16 @@ void ContainerSource::AttachMany(const QSet<DataObject*>& objects) {
   contained_.AddMany(objects);
 }
 
-void ContainerSource::notify_container_contents_altered(QSet<DataObject*>* added,
-  QSet<DataObject*>* removed) {
+const ViewCollection* ContainerSource::ContainedObjects() const {
+  return &contained_;
+}
+
+void ContainerSource::notify_container_contents_altered(const QSet<DataObject*>* added,
+  const QSet<DataObject*>* removed) {
   emit container_contents_altered(added, removed);
 }
 
-void ContainerSource::on_contents_altered(QSet<DataObject*>* added,
-  QSet<DataObject*>* removed) {
+void ContainerSource::on_contents_altered(const QSet<DataObject*>* added,
+  const QSet<DataObject*>* removed) {
   notify_container_contents_altered(added, removed);
 }

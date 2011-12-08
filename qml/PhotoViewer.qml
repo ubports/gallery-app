@@ -33,7 +33,7 @@ Rectangle {
   ListView {
     id: image_pager
     objectName: "image_pager"
-   
+    
     z: 0
     anchors.fill: parent
     

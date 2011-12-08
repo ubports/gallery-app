@@ -36,8 +36,8 @@ class ContainerSource : public DataSource {
   Q_OBJECT
   
 signals:
-  void container_contents_altered(QSet<DataObject*>* added,
-    QSet<DataObject*>* removed);
+  void container_contents_altered(const QSet<DataObject*>* added,
+    const QSet<DataObject*>* removed);
   
 public:
   ContainerSource();
@@ -45,12 +45,15 @@ public:
   void Attach(DataObject* object);
   void AttachMany(const QSet<DataObject*>& objects);
   
+  const ViewCollection* ContainedObjects() const;
+  
 protected:
-  virtual void notify_container_contents_altered(QSet<DataObject*>* added,
-    QSet<DataObject*>* removed);
+  virtual void notify_container_contents_altered(const QSet<DataObject*>* added,
+    const QSet<DataObject*>* removed);
   
 private slots:
-  void on_contents_altered(QSet<DataObject*>* added, QSet<DataObject*>* removed);
+  void on_contents_altered(const QSet<DataObject*>* added,
+    const QSet<DataObject*>* removed);
   
 private:
   ViewCollection contained_;

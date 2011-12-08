@@ -22,44 +22,31 @@
 #define GALLERY_QML_MEDIA_MODEL_H_
 
 #include <QObject>
-#include <QAbstractListModel>
-#include <QPointer>
+#include <QVariant>
 
+#include "qml-view-collection-model.h"
 #include "selectable-view-collection.h"
 #include "data-object.h"
 
-class QmlMediaModel : public QAbstractListModel {
+class QmlMediaModel : public QmlViewCollectionModel {
   Q_OBJECT
   
 public:
   enum Role {
-    MediaNumberRole = Qt::UserRole + 1,
-    PreviewPathRole,
+    PreviewPathRole = QmlViewCollectionModel::LastCommonRole,
     PathRole,
-    SelectionRole
   };
   
   explicit QmlMediaModel(QObject* parent);
   
   static void RegisterType();
   
-  // Init() required because CheckerboardModel is a QML Declarative Type which
+  // Init() required because QmlMediaModel is a QML Declarative Type which
   // has restrictions on its ctor signature
   void Init(SelectableViewCollection* view);
-  bool IsInited() const;
   
-  virtual int rowCount(const QModelIndex& parent) const;
-  virtual QVariant data(const QModelIndex& index, int role) const;
-  
-  SelectableViewCollection* BackingViewCollection() const;
-  
-private slots:
-  void on_selection_altered(QSet<DataObject*>* selected, QSet<DataObject*>* unselected);
-  
-private:
-  QPointer<SelectableViewCollection> view_;
-  
-  void ReportDataChanged(QSet<DataObject*> *list);
+protected:
+  virtual QVariant DataForRole(DataObject* object, int role) const;
 };
 
 #endif  // GALLERY_QML_MEDIA_MODEL_H_

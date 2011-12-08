@@ -15,20 +15,27 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
+ * Lucas Beeler <lucas@yorba.org>
  */
 
-#ifndef GALLERY_PHOTO_COLLECTION_H_
-#define GALLERY_PHOTO_COLLECTION_H_
+#ifndef GALLERY_OVERVIEW_AGENT_H_
+#define GALLERY_OVERVIEW_AGENT_H_
 
 #include <QObject>
+#include <QPointer>
+#include <QDeclarativeView>
 
-#include "source-collection.h"
-
-class PhotoCollection : public SourceCollection {
+class OverviewAgent : public QObject {
   Q_OBJECT
   
+signals:
+  void photo_activated(int media_number);
+  void photo_selection_toggled(int media_number);
+  void photos_unselect_all();
+  void create_album_from_selected_photos();
+  
 public:
-  PhotoCollection();
+  explicit OverviewAgent(QDeclarativeView* view);
 };
 
-#endif  // GALLERY_PHOTO_COLLECTION_H_
+#endif  // GALLERY_OVERVIEW_AGENT_H_

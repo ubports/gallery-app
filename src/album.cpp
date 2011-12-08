@@ -19,6 +19,8 @@
 
 #include "album.h"
 
+#include "media-source.h"
+
 Album::Album() :
   name_(NULL) {
 }
@@ -29,6 +31,11 @@ Album::Album(const QString& name) {
 
 Album::~Album() {
   delete name_;
+}
+
+const QFileInfo& Album::preview_file() const {
+  // TODO: Deal with empty albums
+  return qobject_cast<MediaSource*>(ContainedObjects()->GetAt(0))->preview_file();
 }
 
 void Album::DestroySource(bool destroy_backing) {

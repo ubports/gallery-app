@@ -25,6 +25,8 @@
 #include "data-object.h"
 #include "photo.h"
 
+MediaCollection* MediaCollection::instance_ = NULL;
+
 MediaCollection::MediaCollection(const QDir& directory)
   : directory_(directory) {
   directory_.setFilter(QDir::Files);
@@ -41,6 +43,16 @@ MediaCollection::MediaCollection(const QDir& directory)
   }
   
   AddMany(photos);
+}
+
+void MediaCollection::InitInstance(const QDir& directory) {
+  instance_ = new MediaCollection(directory);
+}
+
+MediaCollection* MediaCollection::instance() {
+  Q_ASSERT(instance_ != NULL);
+  
+  return instance_;
 }
 
 const QDir& MediaCollection::directory() const {

@@ -15,30 +15,37 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
- * Lucas Beeler <lucas@yorba.org>
  */
 
-#ifndef GALLERY_CHECKERBOARD_AGENT_H_
-#define GALLERY_CHECKERBOARD_AGENT_H_
+#ifndef GALLERY_ALBUM_MODEL_H_
+#define GALLERY_ALBUM_MODEL_H_
 
 #include <QObject>
-#include <QPointer>
-#include <QDeclarativeView>
+#include <QVariant>
 
-class CheckerboardAgent : public QObject {
+#include "qml-view-collection-model.h"
+#include "selectable-view-collection.h"
+#include "data-object.h"
+
+class QmlAlbumModel : public QmlViewCollectionModel {
   Q_OBJECT
   
-signals:
-  void activated(int media_number);
-  void selection_toggled(int media_number);
-  void unselect_all();
-  void create_album_from_selected();
-  
 public:
-  explicit CheckerboardAgent(QDeclarativeView* view);
+  enum Role {
+    PreviewPathRole = QmlViewCollectionModel::LastCommonRole,
+  };
   
-private:
-  QPointer<QObject> grid_;
+  explicit QmlAlbumModel(QObject* parent);
+  
+  static void RegisterType();
+  
+  // Init() required because QmlAlbumModel is a QML Declarative Type which
+  // has restrictions on its ctor signature
+  void Init(SelectableViewCollection* view);
+  
+protected:
+  virtual QVariant DataForRole(DataObject* object, int role) const;
 };
 
-#endif  // GALLERY_CHECKERBOARD_AGENT_H_
+
+#endif  // GALLERY_ALBUM_MODEL_H_

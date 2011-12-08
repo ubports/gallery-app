@@ -35,7 +35,8 @@ class SelectableViewCollection : public ViewCollection {
   Q_OBJECT
   
 signals:
-  void selection_altered(QSet<DataObject*>* selected, QSet<DataObject*>* unselected);
+  void selection_altered(const QSet<DataObject*>* selected,
+    const QSet<DataObject*>* unselected);
   
 public:
   SelectableViewCollection();

@@ -25,7 +25,7 @@ Rectangle {
   objectName: "tablet_surface"
   
   signal power_off()
-
+  
   width: 1280
   height: 800
   color: "white"
