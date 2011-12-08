@@ -29,7 +29,7 @@
 
 GuiController::GuiController(const QDir &path) {
   view_ = new QDeclarativeView();
-  view_->setSource(QUrl("qrc:/qml/TabletSurface.qml"));
+  view_->setSource(QUrl("qrc:/rc/qml/TabletSurface.qml"));
   
   tablet_surface_ = qobject_cast<QObject*>(view_->rootObject());
   Q_ASSERT(!tablet_surface_.isNull() &&

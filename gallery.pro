@@ -15,7 +15,9 @@ QMAKE_CXXFLAGS += -Werror -Wno-unused-parameter
 QT += gui declarative
 MOC_DIR = build
 OBJECTS_DIR = build
-RESOURCES = gallery.qrc
+RESOURCES = rc/gallery.qrc
+RCC_DIR = build
+QMAKE_RESOURCE_FLAGS += -root /rc
 
 install.path = $$PREFIX/bin/
 install.files = gallery
@@ -71,13 +73,13 @@ HEADERS += \
 	src/view-collection.h
 
 OTHER_FILES += \
-	qml/BinaryTabGroup.qml \
-	qml/Checkerboard.qml \
-	qml/NavButton.qml \
-	qml/NavToolbar.qml \
-	qml/Overview.qml \
-	qml/PhotoViewer.qml \
-	qml/TabletSurface.qml \
-	qml/Tab.qml \
-	qml/TopBar.qml \
-	LICENSE
+	rc/gallery.qrc \
+	rc/qml/BinaryTabGroup.qml \
+	rc/qml/Checkerboard.qml \
+	rc/qml/NavButton.qml \
+	rc/qml/NavToolbar.qml \
+	rc/qml/Overview.qml \
+	rc/qml/PhotoViewer.qml \
+	rc/qml/TabletSurface.qml \
+	rc/qml/Tab.qml \
+	rc/qml/TopBar.qml

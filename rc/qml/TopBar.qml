@@ -31,7 +31,7 @@ Rectangle {
     id: power_icon
     objectName: "power_icon"
 
-    source: "power.png"
+    source: "../img/power.png"
     x: parent.width - width - 2
     y: 2
   }

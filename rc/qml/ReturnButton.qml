@@ -44,7 +44,7 @@ Rectangle {
     y: 0
     z: 0
     
-    source: "return-cap.png"
+    source: "../img/return-cap.png"
   }
   
   Image {
@@ -54,7 +54,7 @@ Rectangle {
     y: 0
     z: 0
     
-    source: "element-body.png"
+    source: "../img/element-body.png"
     
     fillMode: Image.Tile
   }

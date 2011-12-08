@@ -50,7 +50,7 @@ Rectangle {
     id: selected_tab_image
     objectName: "selected_tab_image"
     
-    source: "selected-tab.png"
+    source: "../img/selected-tab.png"
     
     Text {
       text: tab_wrapper.title
@@ -69,7 +69,7 @@ Rectangle {
     id: deselected_tab_image
     objectName: "deselected_tab_image"
     
-    source: "deselected-tab.png"
+    source: "../img/deselected-tab.png"
 
     Text {
       text: tab_wrapper.title

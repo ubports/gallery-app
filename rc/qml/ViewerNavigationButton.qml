@@ -32,7 +32,7 @@ Image {
   
   property bool is_forward: true
   
-  source: (is_forward) ? "viewer-forward.png" : "viewer-back.png"
+  source: (is_forward) ? "../img/viewer-forward.png" : "../img/viewer-back.png"
   
   MouseArea {
     anchors.fill: parent

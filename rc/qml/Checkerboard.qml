@@ -118,7 +118,7 @@ Rectangle {
             }
             
             Image {
-              source: "selected-media.png"
+              source: "../img/selected-media.png"
               
               anchors.top: parent.top
               anchors.right: parent.right

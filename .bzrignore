@@ -2,4 +2,3 @@
 build/
 /gallery
 gallery.pro.user
-qrc_gallery.cpp
