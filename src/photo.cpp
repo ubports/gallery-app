@@ -32,15 +32,18 @@ bool Photo::MakePreview(const QFileInfo& original, const QFileInfo &dest) {
   if (fullsized.isNull())
     qFatal("Unable to load %s", qPrintable(original.filePath()));
   
+  // scale the preview so it will fill the viewport specified by PREVIEW_*_MAX
+  // these values are replicated in the QML so that the preview will fill each
+  // grid cell, cropping down to the center of the image if necessary
   QImage scaled;
   if (fullsized.height() > fullsized.width())
-    scaled = fullsized.scaledToHeight(156, Qt::SmoothTransformation);
+    scaled = fullsized.scaledToWidth(PREVIEW_WIDTH_MAX, Qt::SmoothTransformation);
   else
-    scaled = fullsized.scaledToWidth(156, Qt::SmoothTransformation);
-
+    scaled = fullsized.scaledToHeight(PREVIEW_HEIGHT_MAX, Qt::SmoothTransformation);
+  
   if (scaled.isNull())
     qFatal("Unable to scale %s", qPrintable(original.filePath()));
-
+  
   if (!scaled.save(dest.filePath()))
     qFatal("Unable to save %s", qPrintable(dest.filePath()));
   

@@ -104,7 +104,10 @@ Rectangle {
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom
-    anchors.margins: 24
+    anchors.topMargin: 24
+    anchors.bottomMargin: 0
+    anchors.leftMargin: 22
+    anchors.rightMargin: 22
     
     visible: true
     allow_selection: true
@@ -120,7 +123,10 @@ Rectangle {
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom
-    anchors.margins: 24
+    anchors.topMargin: 24
+    anchors.bottomMargin: 0
+    anchors.leftMargin: 22
+    anchors.rightMargin: 22
     
     visible: false
     allow_selection: false

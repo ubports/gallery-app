@@ -29,10 +29,13 @@
 class Photo : public MediaSource {
   Q_OBJECT
   
-public:
+ public:
+  static const int PREVIEW_WIDTH_MAX = 198;
+  static const int PREVIEW_HEIGHT_MAX = 148;
+  
   explicit Photo(const QFileInfo& file);
   
-protected:
+ protected:
   virtual bool MakePreview(const QFileInfo& original, const QFileInfo& dest);
   virtual void DestroySource(bool destroy_backing);
 };

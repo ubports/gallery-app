@@ -57,12 +57,9 @@ Rectangle {
     width: parent.width
     height: parent.height
     
-    // spec calls for 206x156, 198x148 without stroke -- split the difference
-    // here to not double up space in the middle gutters
-    //
-    // TODO: Verify that the edge gutters are properly spaced
-    cellWidth: 202
-    cellHeight: 152
+    // Dimensions without stroke
+    cellWidth: 206
+    cellHeight: 156
     
     model: parent.checkerboardModel
     
@@ -74,10 +71,12 @@ Rectangle {
     // is_selected
     delegate: Row {
       Rectangle {
-        width: 202
-        height: 152
+        // Dimensions without stroke
+        width: 206
+        height: 156
         
         Rectangle {
+          // Dimensions with stroke
           width: 198
           height: 148
           
@@ -88,9 +87,15 @@ Rectangle {
             
             anchors.centerIn: parent
             
+            // Dimensions with stroke
+            width: parent.width
+            height: parent.height
+            
             asynchronous: true
             cache: true
             smooth: true
+            fillMode: Image.PreserveAspectCrop
+            clip: true
             
             MouseArea {
               anchors.fill: parent
