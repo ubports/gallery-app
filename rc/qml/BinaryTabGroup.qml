@@ -55,11 +55,7 @@ Rectangle {
     x: 0
     
     onActivated: {
-      if (binary_tab_group.state == "tab0_active")
-        binary_tab_group.state = "tab1_active"
-      else
-        binary_tab_group.state = "tab0_active"
-                   
+      binary_tab_group.state = "tab0_active"
       tab0_activated()
     }
   }
@@ -73,11 +69,7 @@ Rectangle {
     x: 140
     
     onActivated: {
-      if (binary_tab_group.state == "tab0_active")
-        binary_tab_group.state = "tab1_active"
-      else
-        binary_tab_group.state = "tab0_active"
-                     
+      binary_tab_group.state = "tab1_active"
       tab1_activated()
     }
   }
