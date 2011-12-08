@@ -80,6 +80,8 @@ OTHER_FILES += \
 	rc/qml/NavToolbar.qml \
 	rc/qml/Overview.qml \
 	rc/qml/PhotoViewer.qml \
-	rc/qml/TabletSurface.qml \
+	rc/qml/ReturnButton.qml \
 	rc/qml/Tab.qml \
-	rc/qml/TopBar.qml
+	rc/qml/TabletSurface.qml \
+	rc/qml/TopBar.qml \
+	rc/qml/ViewerNavigationButton.qml
