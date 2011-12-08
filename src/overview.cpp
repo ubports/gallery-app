@@ -53,7 +53,7 @@ QmlAlbumModel* Overview::albums_model() const {
 }
 
 const char* Overview::qml_file_path() const {
-  return "qml/Overview.qml";
+  return "qrc:/qml/Overview.qml";
 }
 
 void Overview::Prepare(QDeclarativeView* view) {

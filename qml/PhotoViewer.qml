@@ -114,6 +114,30 @@ Rectangle {
         onPressed: photo_viewer.exit_viewer()
       }
     }
+    
+    ViewerNavigationButton {
+      is_forward: false
+      
+      x: 12
+      y: 2 * parent.height / 3
+      z: 20
+      
+      visible: !image_pager.atXBeginning
+      
+      onPressed: image_pager.decrementCurrentIndex()
+    }
+    
+    ViewerNavigationButton {
+      is_forward: true
+      
+      x: parent.width - width - 12
+      y: 2 * parent.height / 3
+      z: 20
+      
+      visible: !image_pager.atXEnd
+      
+      onPressed: image_pager.incrementCurrentIndex()
+    }
   }
 }
 

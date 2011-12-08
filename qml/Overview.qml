@@ -50,17 +50,19 @@ Rectangle {
       x: parent.width / 2 - width / 2
       y: 4
       
-      tab0_title: "Photos"
-      tab1_title: "Albums"
+      tab0_title: "Albums"
+      tab1_title: "Photos"
+      
+      state: "tab1_active"
       
       onTab0_activated: {
-        albums_checkerboard.visible = false;
-        photos_checkerboard.visible = true;
+        albums_checkerboard.visible = true;
+        photos_checkerboard.visible = false;
       }
       
       onTab1_activated: {
-        photos_checkerboard.visible = false;
-        albums_checkerboard.visible = true;
+        albums_checkerboard.visible = false;
+        photos_checkerboard.visible = true;
       }
     }
     

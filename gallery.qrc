@@ -1,0 +1,23 @@
+<RCC>
+<qresource>
+    <file>qml/BinaryTabGroup.qml</file>
+    <file>qml/Checkerboard.qml</file>
+    <file>qml/deselected-tab.png</file>
+    <file>qml/element-body.png</file>
+    <file>qml/NavButton.qml</file>
+    <file>qml/NavToolbar.qml</file>
+    <file>qml/Overview.qml</file>
+    <file>qml/PhotoViewer.qml</file>
+    <file>qml/power.png</file>
+    <file>qml/ReturnButton.qml</file>
+    <file>qml/return-cap.png</file>
+    <file>qml/selected-media.png</file>
+    <file>qml/selected-tab.png</file>
+    <file>qml/Tab.qml</file>
+    <file>qml/TabletSurface.qml</file>
+    <file>qml/TopBar.qml</file>
+    <file>qml/viewer-back.png</file>
+    <file>qml/viewer-forward.png</file>
+    <file>qml/ViewerNavigationButton.qml</file>
+</qresource>
+</RCC>

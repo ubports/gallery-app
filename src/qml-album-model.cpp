@@ -49,7 +49,7 @@ QVariant QmlAlbumModel::DataForRole(DataObject *object, int role) const {
   
   switch (role) {
     case PreviewPathRole:
-      return QVariant(album->preview_file().absoluteFilePath());
+      return QVariant("file:" + album->preview_file().absoluteFilePath());
     
     default:
       return QVariant();

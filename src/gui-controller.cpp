@@ -29,7 +29,7 @@
 
 GuiController::GuiController(const QDir &path) {
   view_ = new QDeclarativeView();
-  view_->setSource(QUrl::fromLocalFile("qml/TabletSurface.qml"));
+  view_->setSource(QUrl("qrc:/qml/TabletSurface.qml"));
   
   tablet_surface_ = qobject_cast<QObject*>(view_->rootObject());
   Q_ASSERT(!tablet_surface_.isNull() &&
@@ -97,5 +97,5 @@ void GuiController::on_photo_viewer_exited() {
 
 void GuiController::SetSource(const char *path) {
   if (loader_ != NULL)
-    loader_->setProperty("source", QUrl::fromLocalFile(path));
+    loader_->setProperty("source", QUrl(path));
 }
