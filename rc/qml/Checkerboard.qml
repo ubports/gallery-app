@@ -27,9 +27,21 @@ Rectangle {
   signal selection_toggled(int object_number)
   signal unselect_all()
   
+  // The Checkerboard delegate requires these properties be set by the
+  // model:
+  // 
+  // object_number
+  // is_selected
+  property variant checkerboardModel
+  property Component checkerboardDelegate
+  
+  property int widthSansStroke: 206
+  property int heightSansStroke: 156
+  property int widthWithStroke: 198
+  property int heightWithStroke: 148
+  
   property bool in_selection_mode: false
   property bool allow_selection: true
-  property variant checkerboardModel
   
   color: "white"
   clip: true
@@ -58,83 +70,65 @@ Rectangle {
     height: parent.height
     
     // Dimensions without stroke
-    cellWidth: 206
-    cellHeight: 156
+    cellWidth: widthSansStroke
+    cellHeight: heightSansStroke
     
     model: parent.checkerboardModel
     
-    // The Checkerboard delegate requires these three properties be set by the
-    // model:
-    // 
-    // object_number
-    // preview_path (i.e. filesystem path to thumbnail)
-    // is_selected
     delegate: Row {
       Rectangle {
-        // Dimensions without stroke
-        width: 206
-        height: 156
+        width: widthSansStroke
+        height: heightSansStroke
         
-        Rectangle {
-          // Dimensions with stroke
-          width: 198
-          height: 148
+        Loader {
+          id: loader
+          
+          property variant modelData: model
           
           anchors.centerIn: parent
           
-          Image {
-            source: preview_path
-            
-            anchors.centerIn: parent
-            
-            // Dimensions with stroke
-            width: parent.width
-            height: parent.height
-            
-            asynchronous: true
-            cache: true
-            smooth: true
-            fillMode: Image.PreserveAspectCrop
-            clip: true
-            
-            MouseArea {
-              anchors.fill: parent
-              
-              onPressAndHold: {
-                // Press-and-hold activates selection mode,
-                // but need to differentiate in onReleased whether it's a mode
-                // change or a selection/activation
-                if (allow_selection && checkerboard.state == "normal")
-                  checkerboard.state = "to-selecting";
-              }
-              
-              onReleased: {
-                // See onPressAndHold for note on logic behind state changes
-                if (!allow_selection)
-                  return;
-                
-                if (checkerboard.state == "normal")
-                  checkerboard.activated(object_number)
-                else if (checkerboard.state == "to-selecting")
-                  checkerboard.state = "selecting";
-                else if (checkerboard.state == "selecting")
-                  checkerboard.selection_toggled(object_number);
-              }
-            }
-            
-            Image {
-              source: "../img/selected-media.png"
-              
-              anchors.top: parent.top
-              anchors.right: parent.right
-              
-              visible: is_selected
-              
-              asynchronous: true
-              cache: true
-              smooth: true
-            }
+          width: widthWithStroke
+          height: heightWithStroke
+          
+          sourceComponent: checkerboard.checkerboardDelegate
+        }
+        
+        MouseArea {
+          anchors.fill: loader
+          
+          onPressAndHold: {
+            // Press-and-hold activates selection mode,
+            // but need to differentiate in onReleased whether it's a mode
+            // change or a selection/activation
+            if (allow_selection && checkerboard.state == "normal")
+              checkerboard.state = "to-selecting";
           }
+          
+          onReleased: {
+            // See onPressAndHold for note on logic behind state changes
+            if (!allow_selection)
+              return;
+            
+            if (checkerboard.state == "normal")
+              checkerboard.activated(object_number)
+            else if (checkerboard.state == "to-selecting")
+              checkerboard.state = "selecting";
+            else if (checkerboard.state == "selecting")
+              checkerboard.selection_toggled(object_number);
+          }
+        }
+        
+        Image {
+          source: "../img/selected-media.png"
+          
+          anchors.top: loader.top
+          anchors.right: loader.right
+          
+          visible: is_selected
+          
+          asynchronous: true
+          cache: true
+          smooth: true
         }
       }
     }

@@ -77,6 +77,17 @@ SelectableViewCollection* QmlViewCollectionModel::BackingViewCollection() const 
   return view_;
 }
 
+QVariant QmlViewCollectionModel::FilenameVariant(const QFileInfo& file_info) {
+  return QVariant("file:" + file_info.absoluteFilePath());
+}
+
+void QmlViewCollectionModel::NotifyElementAltered(int index) {
+  if (index >= 0) {
+    beginInsertRows(QModelIndex(), index, index);
+    endInsertRows();
+  }
+}
+
 void QmlViewCollectionModel::on_selection_altered(const QSet<DataObject*>* selected,
   const QSet<DataObject*>* unselected) {
   if (selected != NULL)
@@ -102,13 +113,8 @@ void QmlViewCollectionModel::on_contents_altered(const QSet<DataObject*>* added,
   // Report inserted items
   if (added != NULL) {
     DataObject* object;
-    foreach (object, *added) {
-      int index = view_->IndexOf(*object);
-      if (index >= 0) {
-        beginInsertRows(QModelIndex(), index, index);
-        endInsertRows();
-      }
-    }
+    foreach (object, *added)
+      NotifyElementAltered(view_->IndexOf(*object));
   }
   
   // TODO: Removed content

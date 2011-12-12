@@ -23,16 +23,19 @@
 #include <QObject>
 #include <QVariant>
 
+#include "album.h"
+#include "data-object.h"
 #include "qml-view-collection-model.h"
 #include "selectable-view-collection.h"
-#include "data-object.h"
 
 class QmlAlbumModel : public QmlViewCollectionModel {
   Q_OBJECT
   
-public:
+ public:
   enum Role {
-    PreviewPathRole = QmlViewCollectionModel::LastCommonRole,
+    PreviewAPathRole = QmlViewCollectionModel::LastCommonRole,
+    PreviewBPathRole,
+    NameRole,
   };
   
   explicit QmlAlbumModel(QObject* parent);
@@ -43,8 +46,11 @@ public:
   // has restrictions on its ctor signature
   void Init(SelectableViewCollection* view);
   
-protected:
+ protected:
   virtual QVariant DataForRole(DataObject* object, int role) const;
+  
+ private slots:
+  void on_album_current_page_contents_altered(Album* album);
 };
 
 

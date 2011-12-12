@@ -17,32 +17,36 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#ifndef GALLERY_ALBUM_COLLECTION_H_
-#define GALLERY_ALBUM_COLLECTION_H_
+import QtQuick 1.1
 
-#include <QObject>
-
-#include "album.h"
-#include "container-source-collection.h"
-
-class AlbumCollection : public ContainerSourceCollection {
-  Q_OBJECT
+Rectangle {
+  id: frame_portrait
+  objectName: "frame_portrait"
   
- signals:
-  void album_current_page_contents_altered(Album* album);
+  property string image_source
+  property int frame_gutter
+  property int image_gutter
   
- public:
-  friend class Album;
+  anchors.margins: frame_gutter
   
-  static AlbumCollection* instance();
+  border.width: 3
+  border.color: "#657CA9"
   
- protected:
-  virtual void notify_album_current_page_contents_altered(Album* album);
-  
- private:
-  static AlbumCollection* instance_;
-  
-  AlbumCollection();
-};
-
-#endif  // GALLERY_ALBUM_COLLECTION_H_
+  Image {
+    id: image
+    objectName: "image"
+    
+    anchors.centerIn: parent
+    
+    width: parent.width - (image_gutter * 2)
+    height: parent.height - (image_gutter * 2)
+    
+    source: image_source
+    
+    asynchronous: true
+    cache: true
+    smooth: true
+    fillMode: Image.PreserveAspectCrop
+    clip: true
+  }
+}

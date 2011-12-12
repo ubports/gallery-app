@@ -19,25 +19,59 @@
 
 #include "album.h"
 
+#include "album-collection.h"
 #include "media-source.h"
 
+const char *Album::DEFAULT_NAME = "New Photo Album";
+
 Album::Album() :
-  name_(NULL) {
+  name_(DEFAULT_NAME), current_page_(1) {
 }
 
-Album::Album(const QString& name) {
-  name_ = new QString(name);
+Album::Album(const QString& name) :
+  name_(name) {
 }
 
-Album::~Album() {
-  delete name_;
+const QString& Album::name() const {
+  return name_;
 }
 
-const QFileInfo& Album::preview_file() const {
-  // TODO: Deal with empty albums
-  return qobject_cast<MediaSource*>(ContainedObjects()->GetAt(0))->preview_file();
+int Album::current_page() const {
+  return current_page_;
+}
+
+const QList<MediaSource*>& Album::current_page_contents() const {
+  return current_page_contents_;
+}
+
+void Album::notify_current_page_contents_altered() {
+  emit current_page_contents_altered();
+  
+  // Don't call AlbumCollection::instance directly -- it's possible the
+  // object is orphaned
+  AlbumCollection* membership = qobject_cast<AlbumCollection*>(member_of());
+  if (membership != NULL)
+    membership->notify_album_current_page_contents_altered(this);
 }
 
 void Album::DestroySource(bool destroy_backing) {
   // TODO: Remove album entry in database
+}
+
+void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
+  const QSet<DataObject*>* removed) {
+  ContainerSource::notify_container_contents_altered(added, removed);
+  
+  // TODO: Can be smarter than this, but since we don't know how position(s)
+  // in the contained sources list have now changed, need to reset and start
+  // afresh ... in the future, this could simply be optimized to see if the
+  // elements on the current page have changed
+  current_page_contents_.clear();
+  for (int ctr = 0; ctr < 2; ctr++) {
+    MediaSource* media = qobject_cast<MediaSource*>(contained()->GetAt(ctr));
+    if (media != NULL)
+      current_page_contents_.append(media);
+  }
+  
+  notify_current_page_contents_altered();
 }

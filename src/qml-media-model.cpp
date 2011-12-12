@@ -51,10 +51,10 @@ QVariant QmlMediaModel::DataForRole(DataObject *object, int role) const {
   
   switch (role) {
     case PreviewPathRole:
-      return QVariant("file:" + media_source->preview_file().absoluteFilePath());
+      return FilenameVariant(media_source->preview_file());
     
     case PathRole:
-      return QVariant("file:" + media_source->file().absoluteFilePath());
+      return FilenameVariant(media_source->file());
     
     default:
       return QVariant();

@@ -113,6 +113,20 @@ Rectangle {
     allow_selection: true
     
     checkerboardModel: photosGridModel
+    checkerboardDelegate: Image {
+      source: modelData.preview_path
+      
+      anchors.centerIn: parent
+      
+      width: parent.width
+      height: parent.height
+      
+      asynchronous: true
+      cache: true
+      smooth: true
+      fillMode: Image.PreserveAspectCrop
+      clip: true
+    }
   }
   
   Checkerboard {
@@ -128,10 +142,43 @@ Rectangle {
     anchors.leftMargin: 22
     anchors.rightMargin: 22
     
+    widthSansStroke: 412
+    heightSansStroke: 312
+    widthWithStroke: 388
+    heightWithStroke: 288
+    
     visible: false
     allow_selection: false
     
     checkerboardModel: albumsGridModel
+    checkerboardDelegate: Rectangle {
+      AlbumPreviewA {
+        id: preview
+        
+        width: 388
+        height: 252
+        
+        left_source: modelData.preview_a
+        right_source: modelData.preview_b
+        
+        image_gutter: 8
+        frame_gutter: 0
+      }
+      
+      Text {
+        height: 24
+        
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: preview.bottom
+        anchors.topMargin: 12
+        anchors.bottomMargin: 12
+        
+        color: "#657CA9"
+        
+        text: modelData.album_name
+        smooth: true
+      }
+    }
   }
   
   NavToolbar {

@@ -74,8 +74,10 @@ HEADERS += \
 
 OTHER_FILES += \
 	rc/gallery.qrc \
+	rc/qml/AlbumPreviewA.qml \
 	rc/qml/BinaryTabGroup.qml \
 	rc/qml/Checkerboard.qml \
+	rc/qml/FramePortrait.qml \
 	rc/qml/NavButton.qml \
 	rc/qml/NavToolbar.qml \
 	rc/qml/Overview.qml \

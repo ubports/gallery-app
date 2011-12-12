@@ -30,3 +30,7 @@ AlbumCollection* AlbumCollection::instance() {
   
   return instance_;
 }
+
+void AlbumCollection::notify_album_current_page_contents_altered(Album* album) {
+  emit album_current_page_contents_altered(album);
+}

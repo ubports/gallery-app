@@ -22,25 +22,42 @@
 
 #include <QObject>
 #include <QString>
-#include <QFileInfo>
+#include <QList>
 
 #include "container-source.h"
+#include "media-source.h"
 
 class Album : public ContainerSource {
   Q_OBJECT
   
-public:
+ signals:
+  void current_page_contents_altered();
+  
+ public:
+  static const char *DEFAULT_NAME;
+  
   Album();
   explicit Album(const QString &name);
-  virtual ~Album();
   
-  const QFileInfo& preview_file() const;
+  const QString& name() const;
   
-protected:
+  // Returns zero if album is closed
+  int current_page() const;
+  
+  // TODO: Make a const method
+  const QList<MediaSource*> &current_page_contents() const;
+  
+ protected:
+  virtual void notify_current_page_contents_altered();
+  
   virtual void DestroySource(bool destroy_backing);
+  virtual void notify_container_contents_altered(const QSet<DataObject*>* added,
+    const QSet<DataObject*>* removed);
   
-private:
-  QString *name_;
+ private:
+  QString name_;
+  int current_page_;
+  QList<MediaSource*> current_page_contents_;
 };
 
 #endif  // GALLERY_ALBUM_H_

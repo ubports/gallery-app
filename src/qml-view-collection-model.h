@@ -28,6 +28,7 @@
 #include <QHash>
 #include <QByteArray>
 #include <QVariant>
+#include <QFileInfo>
 
 #include "selectable-view-collection.h"
 #include "data-object.h"
@@ -63,10 +64,19 @@ public:
   SelectableViewCollection* BackingViewCollection() const;
   
 protected:
+  // Utility method for creating file paths packed inside a QVariant (don't
+  // prepend URI specifier)
+  static QVariant FilenameVariant(const QFileInfo& file_info);
+  
   // Subclasses should return data packed in a QVariant for the specified role
   // of the DataObject, otherwise return an empty QVariant if the role number is
   // unknown
   virtual QVariant DataForRole(DataObject* object, int role) const = 0;
+  
+  // This notifies model subscribers that the element at the particular index
+  // has been altered in some way ... note that QmlViewCollectionModel monitors
+  // the SelectableViewCollections "contents-altered" signal already.
+  void NotifyElementAltered(int index);
   
 private slots:
   void on_selection_altered(const QSet<DataObject*>* selected,
