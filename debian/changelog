@@ -1,3 +1,9 @@
+goodhope (0.0.0ubuntu2) oneiric; urgency=low
+
+  * New PPA build.
+
+ -- Adam Dingle <adam@yorba.org>  Mon, 12 Dec 2011 16:09:31 -0800
+
 goodhope (0.0.0ubuntu1) oneiric; urgency=low
 
   * First PPA build.
