@@ -10,7 +10,7 @@ TEMPLATE = app
 TARGET = gallery
 DEPENDPATH += . src
 INCLUDEPATH += .
-CONFIG += qt debug
+CONFIG += qt debug link_pkgconfig
 QMAKE_CXXFLAGS += -Werror -Wno-unused-parameter
 QT += gui declarative
 MOC_DIR = build
@@ -18,6 +18,7 @@ OBJECTS_DIR = build
 RESOURCES = rc/gallery.qrc
 RCC_DIR = build
 QMAKE_RESOURCE_FLAGS += -root /rc
+PKGCONFIG += exiv2
 
 install.path = $$PREFIX/bin/
 install.files = gallery
@@ -40,6 +41,7 @@ SOURCES += \
 	src/overview.cpp \
 	src/overview-agent.cpp \
 	src/photo.cpp \
+	src/photo-metadata.cpp \
 	src/photo-viewer.cpp \
 	src/photo-viewer-agent.cpp \
 	src/qml-album-model.cpp \
@@ -63,6 +65,7 @@ HEADERS += \
 	src/overview.h \
 	src/overview-agent.h \
 	src/photo.h \
+	src/photo-metadata.h \
 	src/photo-viewer.h \
 	src/photo-viewer-agent.h \
 	src/qml-album-model.h \
@@ -71,6 +74,7 @@ HEADERS += \
 	src/selectable-view-collection.h \
 	src/source-collection.h \
 	src/view-collection.h
+
 
 OTHER_FILES += \
 	rc/gallery.qrc \
