@@ -26,10 +26,16 @@
 #include <QString>
 #include <QDir>
 #include <QDeclarativeItem>
+#include <QGLWidget>
 
 GuiController::GuiController(const QDir &path) {
+  QGLFormat format = QGLFormat::defaultFormat();
+  format.setSampleBuffers(false);
+  QGLWidget *glWidget = new QGLWidget(format);
+  
   view_ = new QDeclarativeView();
   view_->setSource(QUrl("qrc:/rc/qml/TabletSurface.qml"));
+  view_->setViewport(glWidget);
   
   tablet_surface_ = qobject_cast<QObject*>(view_->rootObject());
   Q_ASSERT(!tablet_surface_.isNull() &&

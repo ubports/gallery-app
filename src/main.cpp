@@ -28,12 +28,8 @@
 #include "qml-album-model.h"
 
 int main(int argc, char *argv[]) {
-  // This is a significant performance win ... "opengl" doesn't appear to be
-  // available in 4.7 without a special build of Qt, but if available on final
-  // device, probably should be configured to use that.
-  //
   // NOTE: This *must* be called prior to QApplication's ctor.
-  QApplication::setGraphicsSystem("raster");
+  QApplication::setGraphicsSystem("opengl");
   
   QApplication app(argc, argv);
   

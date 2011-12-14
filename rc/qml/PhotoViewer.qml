@@ -50,6 +50,7 @@ Rectangle {
     delegate: Image {
       width: image_pager.width
       height: image_pager.height
+      sourceSize.width: 512
       
       asynchronous: true
       cache: true
