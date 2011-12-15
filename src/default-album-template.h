@@ -15,23 +15,25 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
- * Lucas Beeler <lucas@yorba.org>
  */
 
-#ifndef GALLERY_PHOTO_VIEWER_AGENT_H_
-#define GALLERY_PHOTO_VIEWER_AGENT_H_
+#ifndef GALLERY_DEFAULT_ALBUM_TEMPLATE_H_
+#define GALLERY_DEFAULT_ALBUM_TEMPLATE_H_
 
 #include <QObject>
-#include <QDeclarativeView>
 
-class PhotoViewerAgent : public QObject {
+#include "album-template.h"
+
+class DefaultAlbumTemplate : public AlbumTemplate {
   Q_OBJECT
   
- signals:
-  void exit_pressed();
-  
  public:
-  explicit PhotoViewerAgent(QDeclarativeView* view);
+  static DefaultAlbumTemplate* instance();
+  
+ private:
+  static DefaultAlbumTemplate* instance_;
+  
+  DefaultAlbumTemplate();
 };
 
-#endif  // GALLERY_PHOTO_VIEWER_AGENT_H_
+#endif  // GALLERY_DEFAULT_ALBUM_TEMPLATE_H_

@@ -37,7 +37,7 @@ PhotoViewer::~PhotoViewer() {
   delete agent_;
 }
 
-const char* PhotoViewer::qml_file_path() const {
+const char* PhotoViewer::qml_rc() const {
   return "qrc:/rc/qml/PhotoViewer.qml";
 }
 
@@ -45,7 +45,7 @@ void PhotoViewer::Prepare(QDeclarativeView *view, QmlMediaModel *model,
   Photo* start) {
   view->rootContext()->setContextProperty("viewer_model", model);
   view->rootContext()->setContextProperty("viewer_current_index",
-    model->BackingViewCollection()->IndexOf(*start));
+    model->BackingViewCollection()->IndexOf(start));
 }
 
 void PhotoViewer::SwitchingTo(QDeclarativeView* view) {

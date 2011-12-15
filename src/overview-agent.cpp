@@ -26,7 +26,6 @@
 #include "qml-media-model.h"
 
 OverviewAgent::OverviewAgent(QDeclarativeView* view) {
-  // TODO: Clean this up
   QDeclarativeItem* item =
     qobject_cast<QDeclarativeItem*>(view->rootObject());
   Q_ASSERT(item != NULL);
@@ -51,4 +50,10 @@ OverviewAgent::OverviewAgent(QDeclarativeView* view) {
   
   QObject::connect(photos_checkerboard, SIGNAL(unselect_all()), this,
     SIGNAL(photos_unselect_all()));
+  
+  QObject* albums_checkerboard = loader->findChild<QObject*>("albums_checkerboard");
+  Q_ASSERT(albums_checkerboard != NULL);
+  
+  QObject::connect(albums_checkerboard, SIGNAL(activated(int)), this,
+    SIGNAL(album_activated(int)));
 }

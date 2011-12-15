@@ -24,6 +24,32 @@
 SourceCollection::SourceCollection() {
 }
 
+void SourceCollection::DestroyAll(bool destroy_backing, bool delete_objects) {
+  // obtain a copy of all objects
+  QSet<DataObject*> all = AsSet();
+  
+  // must be done before destruction and removal
+  notify_destroying(&all);
+  
+  // remove before destroying
+  Clear();
+  
+  // destroy and optionally delete all objects
+  DataObject* object;
+  foreach (object, all) {
+    DataSource* source = qobject_cast<DataSource*>(object);
+    Q_ASSERT(source != NULL);
+    
+    source->Destroy(destroy_backing);
+    if (delete_objects)
+      delete source;
+  }
+}
+
+void SourceCollection::notify_destroying(const QSet<DataObject*>* objects) {
+  emit destroying(objects);
+}
+
 void SourceCollection::notify_contents_altered(const QSet<DataObject*>* added,
   const QSet<DataObject*>* removed) {
   if (added != NULL) {

@@ -106,14 +106,11 @@ Rectangle {
           
           onReleased: {
             // See onPressAndHold for note on logic behind state changes
-            if (!allow_selection)
-              return;
-            
             if (checkerboard.state == "normal")
               checkerboard.activated(object_number)
-            else if (checkerboard.state == "to-selecting")
+            else if (allow_selection && checkerboard.state == "to-selecting")
               checkerboard.state = "selecting";
-            else if (checkerboard.state == "selecting")
+            else if (allow_selection && checkerboard.state == "selecting")
               checkerboard.selection_toggled(object_number);
           }
         }

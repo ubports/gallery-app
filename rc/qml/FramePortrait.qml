@@ -26,10 +26,11 @@ Rectangle {
   property string image_source
   property int frame_gutter
   property int image_gutter
+  property int border_width: 3
   
   anchors.margins: frame_gutter
   
-  border.width: 3
+  border.width: border_width
   border.color: "#657CA9"
   
   Image {
@@ -40,6 +41,7 @@ Rectangle {
     
     width: parent.width - (image_gutter * 2)
     height: parent.height - (image_gutter * 2)
+    sourceSize.width: 512
     
     source: image_source
     

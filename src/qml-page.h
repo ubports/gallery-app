@@ -15,23 +15,24 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
- * Lucas Beeler <lucas@yorba.org>
  */
 
-#ifndef GALLERY_PHOTO_VIEWER_AGENT_H_
-#define GALLERY_PHOTO_VIEWER_AGENT_H_
+#ifndef GALLERY_QML_PAGE_H_
+#define GALLERY_QML_PAGE_H_
 
 #include <QObject>
 #include <QDeclarativeView>
 
-class PhotoViewerAgent : public QObject {
+class QmlPage : public QObject {
   Q_OBJECT
   
- signals:
-  void exit_pressed();
-  
  public:
-  explicit PhotoViewerAgent(QDeclarativeView* view);
+  QmlPage();
+  
+  virtual const char *qml_rc() const = 0;
+  
+  virtual void SwitchingTo(QDeclarativeView* view) = 0;
+  virtual void SwitchingFrom(QDeclarativeView* view) = 0;
 };
 
-#endif  // GALLERY_PHOTO_VIEWER_AGENT_H_
+#endif  // GALLERY_QML_PAGE_H_

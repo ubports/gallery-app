@@ -34,6 +34,10 @@ void ContainerSource::AttachMany(const QSet<DataObject*>& objects) {
   contained_.AddMany(objects);
 }
 
+int ContainerSource::ContainedCount() const {
+  return contained_.Count();
+}
+
 const ViewCollection* ContainerSource::contained() const {
   return &contained_;
 }

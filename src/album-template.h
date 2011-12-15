@@ -15,23 +15,34 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
- * Lucas Beeler <lucas@yorba.org>
  */
 
-#ifndef GALLERY_PHOTO_VIEWER_AGENT_H_
-#define GALLERY_PHOTO_VIEWER_AGENT_H_
+#ifndef GALLERY_ALBUM_TEMPLATE_H_
+#define GALLERY_ALBUM_TEMPLATE_H_
 
 #include <QObject>
-#include <QDeclarativeView>
+#include <QList>
+#include <QString>
 
-class PhotoViewerAgent : public QObject {
+#include "album-template-page.h"
+
+class AlbumTemplate : public QObject {
   Q_OBJECT
   
- signals:
-  void exit_pressed();
-  
  public:
-  explicit PhotoViewerAgent(QDeclarativeView* view);
+  int page_count() const;
+  const QList<AlbumTemplatePage*>& pages() const;
+  
+ protected:
+  explicit AlbumTemplate(const char* name);
+  
+  // AlbumTemplate assumes ownership of the AlbumTemplatePage at this point
+  // and will delete it when destroyed
+  void AddPage(AlbumTemplatePage* page);
+  
+ private:
+  QString name_;
+  QList<AlbumTemplatePage*> pages_;
 };
 
-#endif  // GALLERY_PHOTO_VIEWER_AGENT_H_
+#endif  // GALLERY_ALBUM_TEMPLATE_H_

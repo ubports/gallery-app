@@ -34,14 +34,25 @@
 
 #include "data-object.h"
 
+// Defined as a LessThan comparator (return true if a is less than b)
+typedef bool (*DataObjectComparator)(DataObject* a, DataObject* b);
+
 class DataCollection : public QObject {
   Q_OBJECT
   
-signals:
-  // "added" is fired *after* the DataObjects have been added to the collection
+ signals:
+  // fired *after* the DataObjects have been added to the collection
   void contents_altered(const QSet<DataObject*>* added, const QSet<DataObject*>* removed);
   
-public:
+  // fired after the the DataCollection has been reordered due to a new
+  // DataObjectComparator being installed; if the new comparator doesn't
+  // actually affect the ordering, this signal will still be called
+  void ordering_altered();
+  
+ public:
+  // Default comparator uses DataObjectNumber
+  static bool DefaultDataObjectComparator(DataObject* a, DataObject* b);
+  
   DataCollection();
   
   int Count() const;
@@ -49,18 +60,33 @@ public:
   void Add(DataObject* object);
   void AddMany(const QSet<DataObject*>& objects);
   
+  void Remove(DataObject* object);
+  void RemoveMany(const QSet<DataObject*>& objects);
+  void Clear();
+  
   bool Contains(DataObject* object) const;
-  const QSet<DataObject*> GetAll() const;
+  const QList<DataObject*>& GetAll() const;
   DataObject* GetAt(int index) const;
   DataObject* FindByNumber(DataObjectNumber number) const;
-  int IndexOf(const DataObject& media) const;
+  int IndexOf(DataObject* media) const;
   
-protected:
+  // Returns a QSet that is a copy of all objects in the DataCollection
+  const QSet<DataObject*> AsSet() const;
+  
+  void SetComparator(DataObjectComparator comparator);
+  DataObjectComparator GetComparator() const;
+  
+ protected:
   virtual void notify_contents_altered(const QSet<DataObject*>* added,
     const QSet<DataObject*>* removed);
   
-private:
+  virtual void notify_ordering_altered();
+  
+ private:
   QList<DataObject*> list_;
+  DataObjectComparator comparator_;
+  
+  void resort(bool fire_signal);
 };
 
 #endif  // GALLERY_DATA_COLLECTION_H_

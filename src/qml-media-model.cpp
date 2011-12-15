@@ -26,7 +26,7 @@
 #include "media-source.h"
 #include "photo-metadata.h"
 
-QmlMediaModel::QmlMediaModel(QObject* parent = NULL)
+QmlMediaModel::QmlMediaModel(QObject* parent)
   : QmlViewCollectionModel(parent) {
 }
 

@@ -28,13 +28,14 @@
 class OverviewAgent : public QObject {
   Q_OBJECT
   
-signals:
+ signals:
   void photo_activated(int media_number);
   void photo_selection_toggled(int media_number);
   void photos_unselect_all();
   void create_album_from_selected_photos();
+  void album_activated(int album_number);
   
-public:
+ public:
   explicit OverviewAgent(QDeclarativeView* view);
 };
 

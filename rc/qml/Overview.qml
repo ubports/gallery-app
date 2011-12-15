@@ -152,24 +152,26 @@ Rectangle {
     
     checkerboardModel: albumsGridModel
     checkerboardDelegate: Rectangle {
-      AlbumPreviewA {
-        id: preview
+      Loader {
+        id: loader
         
         width: 388
         height: 252
         
-        left_source: modelData.preview_a
-        right_source: modelData.preview_b
+        source: modelData.qml_rc
         
-        image_gutter: 8
-        frame_gutter: 0
+        onLoaded: {
+          item.preview_list = modelData.preview_list
+          item.image_gutter = 8;
+          item.frame_gutter = 0;
+        }
       }
       
       Text {
         height: 24
         
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: preview.bottom
+        anchors.top: loader.bottom
         anchors.topMargin: 12
         anchors.bottomMargin: 12
         

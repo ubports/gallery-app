@@ -22,10 +22,12 @@
 
 #include <QObject>
 #include <QString>
-#include <QList>
 
+#include "album-page.h"
+#include "album-template.h"
 #include "container-source.h"
 #include "media-source.h"
+#include "source-collection.h"
 
 class Album : public ContainerSource {
   Q_OBJECT
@@ -36,16 +38,24 @@ class Album : public ContainerSource {
  public:
   static const char *DEFAULT_NAME;
   
-  Album();
-  explicit Album(const QString &name);
+  explicit Album(const AlbumTemplate& album_template);
+  Album(const AlbumTemplate& album_template, const QString &name);
   
   const QString& name() const;
+  const AlbumTemplate& album_template() const;
   
-  // Returns zero if album is closed
+  // Returns a SourceCollection representing all AlbumPages held by this Album
+  SourceCollection* pages();
+  
+  // Returns -1 if album is closed
   int current_page() const;
   
-  // TODO: Make a const method
-  const QList<MediaSource*> &current_page_contents() const;
+  bool IsClosed() const;
+  
+  int PageCount() const;
+  
+  // Returns NULL if page number is beyond bounds
+  AlbumPage* GetPage(int page) const;
   
  protected:
   virtual void notify_current_page_contents_altered();
@@ -55,9 +65,10 @@ class Album : public ContainerSource {
     const QSet<DataObject*>* removed);
   
  private:
+  const AlbumTemplate& album_template_;
   QString name_;
   int current_page_;
-  QList<MediaSource*> current_page_contents_;
+  SourceCollection pages_;
 };
 
 #endif  // GALLERY_ALBUM_H_

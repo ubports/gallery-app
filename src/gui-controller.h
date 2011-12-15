@@ -25,6 +25,8 @@
 #include <QDeclarativeView>
 #include <QPointer>
 
+#include "album.h"
+#include "album-viewer.h"
 #include "media-source.h"
 #include "media-collection.h"
 #include "overview.h"
@@ -33,22 +35,25 @@
 class GuiController : public QObject {
   Q_OBJECT
   
-public:
+ public:
   explicit GuiController(const QDir& path);
   virtual ~GuiController();
     
-private slots:
-  void on_checkerboard_media_object_activated(MediaSource* media_source);
+ private slots:
+  void on_media_object_activated(MediaSource* media_source);
   void on_photo_viewer_exited();
   void on_power_off();
-    
-private:
+  void on_album_activated(Album* album);
+  void on_exit_album_viewer();
+  
+ private:
   QDeclarativeView* view_;
   QPointer<QObject> loader_;
   QPointer<QObject> tablet_surface_;
   
   Overview* overview_;
   PhotoViewer* photo_viewer_;
+  AlbumViewer* album_viewer_;
   
   void SetSource(const char* path);
 };

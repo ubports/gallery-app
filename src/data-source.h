@@ -66,14 +66,15 @@ public:
   
   friend class SourceCollection;
   
-  virtual void Destroy(bool destroy_backing);
-  
   // Returns NULL if not a member of any SourceCollection (i.e. is orphaned).
   SourceCollection* member_of() const;
   
 protected:
   virtual void notify_destroying(bool destroying_backing);
   virtual void notify_destroyed(bool destroyed_backing);
+  
+  // This is only called by SourceCollection.
+  virtual void Destroy(bool destroy_backing);
   
   // DataSource subclasses need to implement this by performing clean-up
   // work prior to being removed from the system ... if destroy_backing is

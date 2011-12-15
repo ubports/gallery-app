@@ -26,6 +26,7 @@
 #include "gui-controller.h"
 #include "qml-media-model.h"
 #include "qml-album-model.h"
+#include "qml-album-collection-model.h"
 
 int main(int argc, char *argv[]) {
   // NOTE: This *must* be called prior to QApplication's ctor.
@@ -35,8 +36,9 @@ int main(int argc, char *argv[]) {
   
   // QML Declarative types must be registered before use; if we use a lot of
   // these, we may want a more formal registration system
-  QmlMediaModel::RegisterType();
   QmlAlbumModel::RegisterType();
+  QmlAlbumCollectionModel::RegisterType();
+  QmlMediaModel::RegisterType();
   
   QDir path(argc > 1 ? QString(argv[1]) : QDir::homePath() + "/Pictures");
   qDebug("Opening %s...", qPrintable(path.path()));

@@ -19,7 +19,7 @@
 
 #include "qml-view-collection-model.h"
 
-QmlViewCollectionModel::QmlViewCollectionModel(QObject* parent = NULL)
+QmlViewCollectionModel::QmlViewCollectionModel(QObject* parent)
   : QAbstractListModel(parent) {
 }
 
@@ -100,7 +100,7 @@ void QmlViewCollectionModel::on_selection_altered(const QSet<DataObject*>* selec
 void QmlViewCollectionModel::ReportDataChanged(const QSet<DataObject*>* list) {
   DataObject* object;
   foreach (object, *list) {
-    int index = view_->IndexOf(*object);
+    int index = view_->IndexOf(object);
     if (index >= 0) {
       QModelIndex model_index = createIndex(index, SelectionRole);
       emit dataChanged(model_index, model_index);
@@ -114,7 +114,7 @@ void QmlViewCollectionModel::on_contents_altered(const QSet<DataObject*>* added,
   if (added != NULL) {
     DataObject* object;
     foreach (object, *added)
-      NotifyElementAltered(view_->IndexOf(*object));
+      NotifyElementAltered(view_->IndexOf(object));
   }
   
   // TODO: Removed content

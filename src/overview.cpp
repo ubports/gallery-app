@@ -25,6 +25,7 @@
 
 #include "album.h"
 #include "album-collection.h"
+#include "default-album-template.h"
 
 Overview::Overview()
   : agent_(NULL) {
@@ -34,7 +35,7 @@ Overview::Overview()
   photos_model_ = new QmlMediaModel(NULL);
   photos_model_->Init(&photos_view_);
   
-  albums_model_ = new QmlAlbumModel(NULL);
+  albums_model_ = new QmlAlbumCollectionModel(NULL);
   albums_model_->Init(&albums_view_);
 }
 
@@ -48,11 +49,11 @@ QmlMediaModel* Overview::photos_model() const {
   return photos_model_;
 }
 
-QmlAlbumModel* Overview::albums_model() const {
+QmlAlbumCollectionModel* Overview::albums_model() const {
   return albums_model_;
 }
 
-const char* Overview::qml_file_path() const {
+const char* Overview::qml_rc() const {
   return "qrc:/rc/qml/Overview.qml";
 }
 
@@ -76,6 +77,9 @@ void Overview::SwitchingTo(QDeclarativeView* view) {
   
   QObject::connect(agent_, SIGNAL(create_album_from_selected_photos()), this,
     SLOT(on_create_album_from_selected_photos()));
+  
+  QObject::connect(agent_, SIGNAL(album_activated(int)), this,
+    SLOT(on_album_activated(int)));
 }
 
 void Overview::SwitchingFrom(QDeclarativeView* view) {
@@ -109,8 +113,16 @@ void Overview::on_create_album_from_selected_photos() {
   if (photos_view_.GetSelectedCount() == 0)
     return;
   
-  Album *album = new Album();
+  Album *album = new Album(*DefaultAlbumTemplate::instance());
   album->AttachMany(photos_view_.GetSelected());
   
   AlbumCollection::instance()->Add(album);
+}
+
+void Overview::on_album_activated(int album_number) {
+  Album* album = qobject_cast<Album*>(albums_view_.FindByNumber(album_number));
+  if (album != NULL)
+    emit album_activated(album);
+  else
+    qDebug("Unable to located activated album #%d", album_number);
 }
