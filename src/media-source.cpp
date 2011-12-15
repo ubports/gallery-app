@@ -44,3 +44,7 @@ const QFileInfo& MediaSource::file() const {
 const QFileInfo& MediaSource::preview_file() const {
   return *preview_file_;
 }
+
+OrientationCorrection MediaSource::orientation_correction() const {
+  return OrientationCorrection::Identity();
+}

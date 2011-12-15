@@ -27,6 +27,8 @@
 
 typedef DataObjectNumber MediaNumber;
 
+#include "photo-metadata.h"
+
 class MediaSource : public DataSource {
   Q_OBJECT
   
@@ -41,6 +43,7 @@ public:
   
   const QFileInfo& file() const;
   const QFileInfo& preview_file() const;
+  virtual OrientationCorrection orientation_correction() const;
   
 protected:
   virtual bool MakePreview(const QFileInfo& original, const QFileInfo& dest) = 0;

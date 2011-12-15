@@ -51,6 +51,10 @@ Rectangle {
       width: image_pager.width
       height: image_pager.height
       sourceSize.width: 512
+
+      transform: Scale { origin.x: width / 2; origin.y: height / 2;
+        xScale: correct_scale }
+      rotation: correct_rotation
       
       asynchronous: true
       cache: true

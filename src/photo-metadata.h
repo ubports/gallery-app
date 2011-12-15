@@ -25,6 +25,7 @@
 #include <QFileInfo>
 #include <QString>
 #include <QSet>
+#include <QTransform>
 
 #include <exiv2/exiv2.hpp>
 
@@ -39,16 +40,33 @@ enum Orientation {
   RIGHT_BOTTOM_ORIGIN = 7,
   LEFT_BOTTOM_ORIGIN = 8,
   MAX_ORIENTATION = 8
-}; 
+};
+
+struct OrientationCorrection {
+ public:
+  static OrientationCorrection FromOrientation(Orientation o);
+  static OrientationCorrection Identity();
+
+  const double rotation_angle_;
+  const double horizontal_scale_factor_;
+
+ private:
+  OrientationCorrection(double rotation_angle, double horizontal_scale_factor)
+    : rotation_angle_(rotation_angle),
+      horizontal_scale_factor_(horizontal_scale_factor) { }
+};
 
 class PhotoMetadata : public QObject {
   Q_OBJECT
   
  public:
   static PhotoMetadata* FromFile(const char* filepath);
+  static PhotoMetadata* FromFile(const QFileInfo& file);
     
   QDateTime exposure_time() const;
   Orientation orientation() const;
+  QTransform orientation_transform() const;
+  OrientationCorrection orientation_correction() const;
   
  private:
   PhotoMetadata(const char* filepath);

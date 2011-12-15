@@ -24,13 +24,18 @@
 #include <QImage>
 
 Photo::Photo(const QFileInfo& file)
-  : MediaSource(file) {
+  : MediaSource(file), metadata_(PhotoMetadata::FromFile(file)) {
 }
 
 bool Photo::MakePreview(const QFileInfo& original, const QFileInfo &dest) {
   QImage fullsized = QImage(original.filePath());
   if (fullsized.isNull())
     qFatal("Unable to load %s", qPrintable(original.filePath()));
+
+  // respect EXIF orientation in metadata, if any
+  if (metadata_ != NULL) {
+    fullsized = fullsized.transformed(metadata_->orientation_transform());
+  }
   
   // scale the preview so it will fill the viewport specified by PREVIEW_*_MAX
   // these values are replicated in the QML so that the preview will fill each
@@ -52,4 +57,8 @@ bool Photo::MakePreview(const QFileInfo& original, const QFileInfo &dest) {
 
 void Photo::DestroySource(bool destroy_backing) {
   // TODO: destroy the backing photo file and database entry
+}
+
+OrientationCorrection Photo::orientation_correction() const {
+  return metadata_->orientation_correction();
 }

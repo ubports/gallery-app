@@ -35,6 +35,8 @@ public:
   enum Role {
     PreviewPathRole = QmlViewCollectionModel::LastCommonRole,
     PathRole,
+    OrientationCorrectionRotateRole,
+    OrientationCorrectionScaleRole
   };
   
   explicit QmlMediaModel(QObject* parent);

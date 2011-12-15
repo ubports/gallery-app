@@ -17,7 +17,6 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-#include <cstring>
 #include <cstdio>
 
 #include <QDate>
@@ -99,6 +98,12 @@ namespace {
   }
 } // namespace
 
+PhotoMetadata::PhotoMetadata(const char* filepath)
+  : file_source_info_(filepath) {
+  image_ = Exiv2::ImageFactory::open(filepath);
+  image_->readMetadata();
+}
+
 PhotoMetadata* PhotoMetadata::FromFile(const char* filepath) {
   PhotoMetadata* result = NULL;
   try {
@@ -126,10 +131,8 @@ PhotoMetadata* PhotoMetadata::FromFile(const char* filepath) {
   }
 }
 
-PhotoMetadata::PhotoMetadata(const char* filepath)
-  : file_source_info_(filepath) {
-  image_ = Exiv2::ImageFactory::open(filepath);
-  image_->readMetadata();
+PhotoMetadata* PhotoMetadata::FromFile(const QFileInfo &file) {
+  return PhotoMetadata::FromFile(file.absoluteFilePath().toStdString().c_str());
 }
 
 Orientation PhotoMetadata::orientation() const { 
@@ -162,4 +165,66 @@ QDateTime PhotoMetadata::exposure_time() const {
   }
   
   return parsed;
+}
+
+OrientationCorrection PhotoMetadata::orientation_correction() const {
+  return OrientationCorrection::FromOrientation(orientation());
+}
+
+QTransform PhotoMetadata::orientation_transform() const {
+  OrientationCorrection correction = orientation_correction();
+
+  QTransform result;
+  result.scale(correction.horizontal_scale_factor_, 1.0);
+  result.rotate(correction.rotation_angle_);
+
+  return result;
+}
+
+OrientationCorrection OrientationCorrection::FromOrientation(Orientation o) {
+  double rotation_angle = 0.0;
+  double horizontal_scale_factor = 1.0;
+
+  switch (o) {
+    case TOP_RIGHT_ORIGIN:
+      horizontal_scale_factor = -1.0;
+    break;
+
+    case BOTTOM_RIGHT_ORIGIN:
+      rotation_angle = 180.0;
+    break;
+
+    case BOTTOM_LEFT_ORIGIN:
+      horizontal_scale_factor = -1.0;
+      rotation_angle = 180.0;
+    break;
+
+    case LEFT_TOP_ORIGIN:
+      horizontal_scale_factor = -1.0;
+      rotation_angle = -90.0;
+    break;
+
+    case RIGHT_TOP_ORIGIN:
+      rotation_angle = 90.0;
+    break;
+
+    case RIGHT_BOTTOM_ORIGIN:
+      horizontal_scale_factor = -1.0;
+      rotation_angle = 90.0;
+    break;
+
+    case LEFT_BOTTOM_ORIGIN:
+      rotation_angle = -90.0;
+    break;
+
+    default:
+      ; // do nothing
+    break;
+  }
+
+  return OrientationCorrection(rotation_angle, horizontal_scale_factor);
+}
+
+OrientationCorrection OrientationCorrection::Identity() {
+  return OrientationCorrection(0.0, 1.0);
 }

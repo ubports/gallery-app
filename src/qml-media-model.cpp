@@ -24,6 +24,7 @@
 #include <QtDeclarative>
 
 #include "media-source.h"
+#include "photo-metadata.h"
 
 QmlMediaModel::QmlMediaModel(QObject* parent = NULL)
   : QmlViewCollectionModel(parent) {
@@ -40,6 +41,8 @@ void QmlMediaModel::Init(SelectableViewCollection* view) {
   roles[PreviewPathRole] = "preview_path";
   roles[PathRole] = "path";
   roles[SelectionRole] = "is_selected";
+  roles[OrientationCorrectionRotateRole] = "correct_rotation";
+  roles[OrientationCorrectionScaleRole] = "correct_scale";
   
   QmlViewCollectionModel::Init(view, roles);
 }
@@ -55,6 +58,15 @@ QVariant QmlMediaModel::DataForRole(DataObject *object, int role) const {
     
     case PathRole:
       return FilenameVariant(media_source->file());
+
+    case OrientationCorrectionRotateRole:
+      return QVariant(media_source->orientation_correction().rotation_angle_);
+    break;
+
+    case OrientationCorrectionScaleRole:
+      return QVariant(
+        media_source->orientation_correction().horizontal_scale_factor_);
+    break;
     
     default:
       return QVariant();

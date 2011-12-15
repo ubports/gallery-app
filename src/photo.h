@@ -25,6 +25,7 @@
 #include <QFileInfo>
 
 #include "media-source.h"
+#include "photo-metadata.h"
 
 class Photo : public MediaSource {
   Q_OBJECT
@@ -34,10 +35,19 @@ class Photo : public MediaSource {
   static const int PREVIEW_HEIGHT_MAX = 148;
   
   explicit Photo(const QFileInfo& file);
+
+  virtual OrientationCorrection orientation_correction() const;
   
  protected:
   virtual bool MakePreview(const QFileInfo& original, const QFileInfo& dest);
   virtual void DestroySource(bool destroy_backing);
+
+ private:
+  // Go ahead and cache the photo's metadata object inside the photo. Insofar
+  // as we know, Gallery will be the only application on the device mutating
+  // photo files, so we won't have to worry about the cache going stale.
+  PhotoMetadata* metadata_;
+
 };
 
 #endif  // GALLERY_PHOTO_H_
