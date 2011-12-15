@@ -17,67 +17,69 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "qml-album-model.h"
+#include "qml-album-collection-model.h"
 
 #include <QHash>
 #include <QtDeclarative>
 
-QmlAlbumModel::QmlAlbumModel(QObject* parent)
-  : QmlViewCollectionModel(parent), album_(NULL) {
+#include "album.h"
+#include "album-collection.h"
+
+QmlAlbumCollectionModel::QmlAlbumCollectionModel(QObject* parent)
+  : QmlViewCollectionModel(parent) {
 }
 
-void QmlAlbumModel::Init(Album* album) {
-  album_ = album;
-  
-  view_.MonitorSourceCollection(album_->pages(), NULL);
-  
-  QHash<int, QByteArray> roles;
-  roles[QmlViewCollectionModel::ObjectNumberRole] = "object_number";
-  roles[QmlViewCollectionModel::SelectionRole] = "is_selected";
-  roles[MediaPathListRole] = "media_path_list";
-  roles[PageNumberRole] = "page_number";
-  roles[QmlRcRole] = "qml_rc";
-  
-  QmlViewCollectionModel::Init(&view_, roles);
-}
-
-void QmlAlbumModel::RegisterType() {
-  qmlRegisterType<QmlAlbumModel>("org.yorba.qt.qmlalbummodel", 1, 0,
+void QmlAlbumCollectionModel::RegisterType() {
+  qmlRegisterType<QmlAlbumCollectionModel>("org.yorba.qt.qmlalbummodel", 1, 0,
     "QmlAlbumModel");
 }
 
-QVariant QmlAlbumModel::DataForRole(DataObject* object, int role) const {
-  AlbumPage* page = qobject_cast<AlbumPage*>(object);
-  if (page == NULL)
+void QmlAlbumCollectionModel::Init(SelectableViewCollection* view) {
+  QHash<int, QByteArray> roles;
+  roles[QmlViewCollectionModel::ObjectNumberRole] = "object_number";
+  roles[QmlViewCollectionModel::SelectionRole] = "is_selected";
+  roles[NameRole] = "album_name";
+  roles[PreviewListRole] = "preview_list";
+  roles[QmlRcRole] = "qml_rc";
+  
+  QmlViewCollectionModel::Init(view, roles);
+  
+  QObject::connect(
+    AlbumCollection::instance(), SIGNAL(album_current_page_contents_altered(Album*)),
+    this, SLOT(on_album_current_page_contents_altered(Album*)));
+}
+
+QVariant QmlAlbumCollectionModel::DataForRole(DataObject *object, int role) const {
+  Album* album = qobject_cast<Album*>(object);
+  if (album == NULL)
     return QVariant();
   
   switch (role) {
-    case MediaPathListRole: {
+    case NameRole:
+      return QVariant(album->name());
+    
+    case PreviewListRole: {
       QList<QVariant> varlist;
       
       DataObject* object;
-      foreach (object, page->contained()->GetAll()) {
+      foreach (object, album->GetPage(album->current_page())->contained()->GetAll()) {
         MediaSource* media = qobject_cast<MediaSource*>(object);
         Q_ASSERT(media != NULL);
         
         varlist.append(FilenameVariant(media->file()));
       }
       
-      // The QML page is expecting a full list of preview paths, so pack any
-      // empty slots with empty strings to prevent a runtime error being logged
-      for (int ctr = varlist.count(); ctr < page->template_page()->FrameCount(); ctr++)
-        varlist.append(QVariant(""));
-      
       return QVariant(varlist);
     }
     
-    case PageNumberRole:
-      return QVariant(page->page_number());
-    
     case QmlRcRole:
-      return QVariant(page->template_page()->qml_rc());
+      return QVariant(album->GetPage(album->current_page())->template_page()->qml_rc());
     
     default:
       return QVariant();
   }
+}
+
+void QmlAlbumCollectionModel::on_album_current_page_contents_altered(Album* album) {
+  NotifyElementAltered(BackingViewCollection()->IndexOf(album));
 }

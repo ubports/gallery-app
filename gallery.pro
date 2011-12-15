@@ -28,12 +28,18 @@ INSTALLS = install
 
 SOURCES += \
 	src/album.cpp \
+	src/album-page.cpp \
 	src/album-collection.cpp \
+	src/album-template.cpp \
+	src/album-template-page.cpp \
+	src/album-viewer.cpp \
+	src/album-viewer-agent.cpp \
 	src/container-source.cpp \
 	src/container-source-collection.cpp \
 	src/data-collection.cpp \
 	src/data-object.cpp \
 	src/data-source.cpp \
+	src/default-album-template.cpp \
 	src/gui-controller.cpp \
 	src/main.cpp \
 	src/media-collection.cpp \
@@ -44,8 +50,11 @@ SOURCES += \
 	src/photo-metadata.cpp \
 	src/photo-viewer.cpp \
 	src/photo-viewer-agent.cpp \
+	src/qml-agent.cpp \
 	src/qml-album-model.cpp \
+	src/qml-album-collection-model.cpp \
 	src/qml-media-model.cpp \
+	src/qml-page.cpp \
 	src/qml-view-collection-model.cpp \
 	src/selectable-view-collection.cpp \
 	src/source-collection.cpp \
@@ -53,12 +62,18 @@ SOURCES += \
 
 HEADERS += \
 	src/album.h \
+	src/album-page.h \
 	src/album-collection.h \
+	src/album-template.h \
+	src/album-template-page.h \
+	src/album-viewer.h \
+	src/album-viewer-agent.h \
 	src/container-source.h \
 	src/container-source-collection.h \
 	src/data-collection.h \
 	src/data-object.h \
 	src/data-source.h \
+	src/default-album-template.h \
 	src/gui-controller.h \
 	src/media-collection.h \
 	src/media-source.h \
@@ -68,8 +83,11 @@ HEADERS += \
 	src/photo-metadata.h \
 	src/photo-viewer.h \
 	src/photo-viewer-agent.h \
+	src/qml-agent.h \
 	src/qml-album-model.h \
+	src/qml-album-collection-model.h \
 	src/qml-media-model.h \
+	src/qml-page.h \
 	src/qml-view-collection-model.h \
 	src/selectable-view-collection.h \
 	src/source-collection.h \
@@ -79,6 +97,8 @@ HEADERS += \
 OTHER_FILES += \
 	rc/gallery.qrc \
 	rc/qml/AlbumPreviewA.qml \
+	rc/qml/AlbumPreviewB.qml \
+	rc/qml/AlbumViewer.qml \
 	rc/qml/BinaryTabGroup.qml \
 	rc/qml/Checkerboard.qml \
 	rc/qml/FramePortrait.qml \

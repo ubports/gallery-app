@@ -31,21 +31,21 @@
 class PhotoViewer : public QObject {
   Q_OBJECT
   
-signals:
+ signals:
   void exit_viewer();
   
-public:
+ public:
   PhotoViewer();
   virtual ~PhotoViewer();
   
   // returned path is a relative path, not an absolute one
-  const char* qml_file_path() const;
+  const char* qml_rc() const;
   
   void Prepare(QDeclarativeView* view, QmlMediaModel* model, Photo* start);
   void SwitchingTo(QDeclarativeView* view);
   void SwitchingFrom(QDeclarativeView* view);
   
-private:
+ private:
   PhotoViewerAgent* agent_;
   QmlMediaModel* model_;
 };

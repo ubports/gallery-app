@@ -25,45 +25,47 @@
 #include <QDeclarativeView>
 #include <QString>
 
+#include "album.h"
 #include "media-source.h"
 #include "media-collection.h"
 #include "overview-agent.h"
 #include "qml-media-model.h"
-#include "qml-album-model.h"
+#include "qml-album-collection-model.h"
 #include "selectable-view-collection.h"
 
 class Overview : public QObject {
   Q_OBJECT
   
-signals:
+ signals:
   void photo_activated(MediaSource* media_source);
+  void album_activated(Album* album);
   
-public:
+ public:
   Overview();
   virtual ~Overview();
   
   QmlMediaModel* photos_model() const;
-  QmlAlbumModel* albums_model() const;
+  QmlAlbumCollectionModel* albums_model() const;
   
-  // returned path is a relative path, not an absolute one
-  const char* qml_file_path() const;
+  const char* qml_rc() const;
   
   void Prepare(QDeclarativeView* view);
   void SwitchingTo(QDeclarativeView* view);
   void SwitchingFrom(QDeclarativeView* view);
   
-private slots:
-  void on_photo_activated(int album_number);
-  void on_photo_selection_toggled(int album_number);
+ private slots:
+  void on_photo_activated(int photo_number);
+  void on_photo_selection_toggled(int photo_number);
   void on_photos_unselect_all();
   void on_create_album_from_selected_photos();
+  void on_album_activated(int album_number);
   
-private:
+ private:
   SelectableViewCollection photos_view_;
   SelectableViewCollection albums_view_;
   OverviewAgent* agent_;
   QmlMediaModel* photos_model_;
-  QmlAlbumModel* albums_model_;
+  QmlAlbumCollectionModel* albums_model_;
 };
 
 #endif  // GALLERY_OVERVIEW_H_

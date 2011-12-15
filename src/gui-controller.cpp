@@ -26,9 +26,17 @@
 #include <QString>
 #include <QDir>
 #include <QDeclarativeItem>
+#include <QUrl>
 #include <QGLWidget>
 
 GuiController::GuiController(const QDir &path) {
+  MediaCollection::InitInstance(path);
+  
+  //
+  // TableSurface (master container holding other pages)
+  //
+  
+  // Enable OpenGL backing
   QGLFormat format = QGLFormat::defaultFormat();
   format.setSampleBuffers(false);
   QGLWidget *glWidget = new QGLWidget(format);
@@ -47,19 +55,38 @@ GuiController::GuiController(const QDir &path) {
   loader_ = tablet_surface_->findChild<QObject*>("loader");
   Q_ASSERT(loader_ != NULL);
   
-  MediaCollection::InitInstance(path);
+  //
+  // Overview (Photos / Albums)
   
   overview_ = new Overview();
-  photo_viewer_ = new PhotoViewer();
   
   QObject::connect(overview_, SIGNAL(photo_activated(MediaSource*)), this,
-    SLOT(on_checkerboard_media_object_activated(MediaSource*)));
+    SLOT(on_media_object_activated(MediaSource*)));
+  
+  QObject::connect(overview_, SIGNAL(album_activated(Album*)), this,
+    SLOT(on_album_activated(Album*)));
+  
+  //
+  // PhotoViewer
+  //
+  
+  photo_viewer_ = new PhotoViewer();
   
   QObject::connect(photo_viewer_, SIGNAL(exit_viewer()), this,
     SLOT(on_photo_viewer_exited()));
   
+  //
+  // AlbumViewer
+  //
+  
+  album_viewer_ = new AlbumViewer();
+  
+  QObject::connect(album_viewer_, SIGNAL(exit_viewer()), this,
+    SLOT(on_exit_album_viewer()));
+  
+  // start with Overview
   overview_->Prepare(view_);
-  SetSource(overview_->qml_file_path());
+  SetSource(overview_->qml_rc());
   overview_->SwitchingTo(view_);
   
   view_->show();
@@ -68,9 +95,10 @@ GuiController::GuiController(const QDir &path) {
 GuiController::~GuiController() {
   delete overview_;
   delete photo_viewer_;
+  delete album_viewer_;
 }
 
-void GuiController::on_checkerboard_media_object_activated(MediaSource* media_source) {
+void GuiController::on_media_object_activated(MediaSource* media_source) {
   Photo* photo = qobject_cast<Photo*>(media_source);
   if (photo == NULL) {
     qDebug("Non-photo object activated");
@@ -81,7 +109,7 @@ void GuiController::on_checkerboard_media_object_activated(MediaSource* media_so
   overview_->SwitchingFrom(view_);
   
   photo_viewer_->Prepare(view_, overview_->photos_model(), photo);
-  SetSource(photo_viewer_->qml_file_path());
+  SetSource(photo_viewer_->qml_rc());
   photo_viewer_->SwitchingTo(view_);
 
   view_->show();
@@ -91,13 +119,33 @@ void GuiController::on_power_off() {
   std::exit(0);
 }
 
+void GuiController::on_album_activated(Album* album) {
+  overview_->SwitchingFrom(view_);
+  
+  album_viewer_->Prepare(view_, album);
+  SetSource(album_viewer_->qml_rc());
+  album_viewer_->SwitchingTo(view_);
+  
+  view_->show();
+}
+
 void GuiController::on_photo_viewer_exited() {
   photo_viewer_->SwitchingFrom(view_);
-
+  
   overview_->Prepare(view_);
-  SetSource(overview_->qml_file_path());
+  SetSource(overview_->qml_rc());
   overview_->SwitchingTo(view_);
+  
+  view_->show();
+}
 
+void GuiController::on_exit_album_viewer() {
+  album_viewer_->SwitchingFrom(view_);
+  
+  overview_->Prepare(view_);
+  SetSource(overview_->qml_rc());
+  overview_->SwitchingTo(view_);
+  
   view_->show();
 }
 

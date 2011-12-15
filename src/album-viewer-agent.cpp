@@ -15,23 +15,22 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
- * Lucas Beeler <lucas@yorba.org>
  */
 
-#ifndef GALLERY_PHOTO_VIEWER_AGENT_H_
-#define GALLERY_PHOTO_VIEWER_AGENT_H_
+#include "album-viewer-agent.h"
 
-#include <QObject>
-#include <QDeclarativeView>
+#include <QDeclarativeItem>
 
-class PhotoViewerAgent : public QObject {
-  Q_OBJECT
+AlbumViewerAgent::AlbumViewerAgent(QDeclarativeView* view)
+  : QmlAgent(view) {
   
- signals:
-  void exit_pressed();
+  QDeclarativeItem* viewer = FindChild("album_viewer");
   
- public:
-  explicit PhotoViewerAgent(QDeclarativeView* view);
-};
+  QObject::connect(viewer, SIGNAL(exit_viewer()), this, SIGNAL(exit_viewer()));
+}
 
-#endif  // GALLERY_PHOTO_VIEWER_AGENT_H_
+void AlbumViewerAgent::Prepare(QDeclarativeView* view, QmlAlbumModel* model,
+  int start_index) {
+  SetContextProperty(view, "context_album_model", model);
+  SetContextProperty(view, "context_start_index", start_index);
+}

@@ -35,10 +35,18 @@
 class SourceCollection : public DataCollection {
   Q_OBJECT
   
-public:
+ signals:
+  // Fired before the objects are destroyed and removed from the SourceCollection
+  void destroying(const QSet<DataObject*>* objects);
+  
+ public:
   SourceCollection();
   
-protected:
+  void DestroyAll(bool destroy_backing, bool delete_objects);
+  
+ protected:
+  virtual void notify_destroying(const QSet<DataObject*>* objects);
+  
   virtual void notify_contents_altered(const QSet<DataObject*>* added,
     const QSet<DataObject*>* removed);
 };

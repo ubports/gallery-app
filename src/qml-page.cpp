@@ -15,23 +15,9 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
- * Lucas Beeler <lucas@yorba.org>
  */
 
-#ifndef GALLERY_PHOTO_VIEWER_AGENT_H_
-#define GALLERY_PHOTO_VIEWER_AGENT_H_
+#include "qml-page.h"
 
-#include <QObject>
-#include <QDeclarativeView>
-
-class PhotoViewerAgent : public QObject {
-  Q_OBJECT
-  
- signals:
-  void exit_pressed();
-  
- public:
-  explicit PhotoViewerAgent(QDeclarativeView* view);
-};
-
-#endif  // GALLERY_PHOTO_VIEWER_AGENT_H_
+QmlPage::QmlPage() {
+}

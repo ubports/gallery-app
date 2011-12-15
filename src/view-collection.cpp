@@ -39,7 +39,7 @@ void ViewCollection::MonitorSourceCollection(SourceCollection* sources,
     SLOT(on_monitored_contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
   
   // prime the ViewCollection with what's already in the SourceCollection
-  QSet<DataObject*> all = sources->GetAll();
+  QSet<DataObject*> all = sources->AsSet();
   on_monitored_contents_altered(&all, NULL);
 }
 

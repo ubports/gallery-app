@@ -17,14 +17,12 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#ifndef GALLERY_ALBUM_MODEL_H_
-#define GALLERY_ALBUM_MODEL_H_
+#ifndef GALLERY_QML_ALBUM_MODEL_H_
+#define GALLERY_QML_ALBUM_MODEL_H_
 
 #include <QObject>
-#include <QVariant>
 
 #include "album.h"
-#include "data-object.h"
 #include "qml-view-collection-model.h"
 #include "selectable-view-collection.h"
 
@@ -33,25 +31,25 @@ class QmlAlbumModel : public QmlViewCollectionModel {
   
  public:
   enum Role {
-    PreviewAPathRole = QmlViewCollectionModel::LastCommonRole,
-    PreviewBPathRole,
-    NameRole,
+    MediaPathListRole = QmlViewCollectionModel::LastCommonRole,
+    PageNumberRole,
+    QmlRcRole
   };
   
-  explicit QmlAlbumModel(QObject* parent);
+  QmlAlbumModel(QObject* parent = NULL);
   
   static void RegisterType();
   
-  // Init() required because QmlAlbumModel is a QML Declarative Type which
+  // Init() required because subclasses are a QML Declarative Type which
   // has restrictions on its ctor signature
-  void Init(SelectableViewCollection* view);
+  void Init(Album* album);
   
  protected:
   virtual QVariant DataForRole(DataObject* object, int role) const;
   
- private slots:
-  void on_album_current_page_contents_altered(Album* album);
+ private:
+  Album* album_;
+  SelectableViewCollection view_;
 };
 
-
-#endif  // GALLERY_ALBUM_MODEL_H_
+#endif  // GALLERY_QML_ALBUM_MODEL_H_

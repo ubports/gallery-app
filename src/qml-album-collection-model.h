@@ -15,38 +15,43 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
- * Lucas Beeler <lucas@yorba.org>
  */
 
-#ifndef GALLERY_QML_MEDIA_MODEL_H_
-#define GALLERY_QML_MEDIA_MODEL_H_
+#ifndef GALLERY_ALBUM_COLLECTION_MODEL_H_
+#define GALLERY_ALBUM_COLLECTION_MODEL_H_
 
 #include <QObject>
 #include <QVariant>
 
+#include "album.h"
+#include "data-object.h"
 #include "qml-view-collection-model.h"
 #include "selectable-view-collection.h"
-#include "data-object.h"
 
-class QmlMediaModel : public QmlViewCollectionModel {
+class QmlAlbumCollectionModel : public QmlViewCollectionModel {
   Q_OBJECT
   
-public:
+ public:
   enum Role {
-    PreviewPathRole = QmlViewCollectionModel::LastCommonRole,
-    PathRole,
+    PreviewListRole = QmlViewCollectionModel::LastCommonRole,
+    NameRole,
+    QmlRcRole
   };
   
-  QmlMediaModel(QObject* parent = NULL);
+  QmlAlbumCollectionModel(QObject* parent = NULL);
   
   static void RegisterType();
   
-  // Init() required because QmlMediaModel is a QML Declarative Type which
+  // Init() required because QmlAlbumModel is a QML Declarative Type which
   // has restrictions on its ctor signature
   void Init(SelectableViewCollection* view);
   
-protected:
+ protected:
   virtual QVariant DataForRole(DataObject* object, int role) const;
+  
+ private slots:
+  void on_album_current_page_contents_altered(Album* album);
 };
 
-#endif  // GALLERY_QML_MEDIA_MODEL_H_
+
+#endif  // GALLERY_ALBUM_COLLECTION_MODEL_H_

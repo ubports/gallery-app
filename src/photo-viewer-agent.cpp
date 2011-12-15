@@ -20,21 +20,15 @@
 
 #include "photo-viewer-agent.h"
 
-#include <assert.h>
-
-#include <QObject>
-#include <QString>
-#include <QFile>
-#include <QDeclarativeView>
 #include <QDeclarativeItem>
 
 PhotoViewerAgent::PhotoViewerAgent(QDeclarativeView* view) {
   QDeclarativeItem* root =
     qobject_cast<QDeclarativeItem*>(view->rootObject());
-  assert(root != NULL);
+  Q_ASSERT(root != NULL);
   
   QObject* viewer = root->findChild<QObject*>("photo_viewer");
-  assert(viewer != NULL);
+  Q_ASSERT(viewer != NULL);
   
   QObject::connect(viewer, SIGNAL(exit_viewer()), this,
     SIGNAL(exit_pressed()));

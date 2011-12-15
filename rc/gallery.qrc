@@ -10,6 +10,8 @@
     <file>img/viewer-forward.png</file>
     
     <file>qml/AlbumPreviewA.qml</file>
+    <file>qml/AlbumPreviewB.qml</file>
+    <file>qml/AlbumViewer.qml</file>
     <file>qml/BinaryTabGroup.qml</file>
     <file>qml/Checkerboard.qml</file>
     <file>qml/FramePortrait.qml</file>

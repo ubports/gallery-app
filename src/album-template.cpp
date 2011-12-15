@@ -15,23 +15,22 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
- * Lucas Beeler <lucas@yorba.org>
  */
 
-#ifndef GALLERY_PHOTO_VIEWER_AGENT_H_
-#define GALLERY_PHOTO_VIEWER_AGENT_H_
+#include "album-template.h"
 
-#include <QObject>
-#include <QDeclarativeView>
+AlbumTemplate::AlbumTemplate(const char* name)
+  : name_(name) {
+}
 
-class PhotoViewerAgent : public QObject {
-  Q_OBJECT
-  
- signals:
-  void exit_pressed();
-  
- public:
-  explicit PhotoViewerAgent(QDeclarativeView* view);
-};
+int AlbumTemplate::page_count() const {
+  return pages_.count();
+}
 
-#endif  // GALLERY_PHOTO_VIEWER_AGENT_H_
+const QList<AlbumTemplatePage*>& AlbumTemplate::pages() const {
+  return pages_;
+}
+
+void AlbumTemplate::AddPage(AlbumTemplatePage* page) {
+  pages_.append(page);
+}

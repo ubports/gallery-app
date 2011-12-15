@@ -15,23 +15,35 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
- * Lucas Beeler <lucas@yorba.org>
  */
 
-#ifndef GALLERY_PHOTO_VIEWER_AGENT_H_
-#define GALLERY_PHOTO_VIEWER_AGENT_H_
+#ifndef GALLERY_QML_AGENT_H_
+#define GALLERY_QML_AGENT_H_
 
 #include <QObject>
 #include <QDeclarativeView>
+#include <QDeclarativeItem>
 
-class PhotoViewerAgent : public QObject {
+class QmlAgent : public QObject {
   Q_OBJECT
   
- signals:
-  void exit_pressed();
-  
  public:
-  explicit PhotoViewerAgent(QDeclarativeView* view);
+  static void SetContextProperty(QDeclarativeView* view, const char* name,
+    QObject* object);
+  static void SetContextProperty(QDeclarativeView* view, const char* name,
+    const QVariant& variant);
+  
+  bool HasChild(const char* name, QDeclarativeItem* parent = NULL) const;
+  
+  // Asserts (fails) if the child is not found.  Use HasChild() to determine
+  // if the child is available.
+  QDeclarativeItem* FindChild(const char *name, QDeclarativeItem* parent = NULL) const;
+  
+ protected:
+  explicit QmlAgent(QDeclarativeView* view);
+  
+ private:
+  QDeclarativeItem* root_;
 };
 
-#endif  // GALLERY_PHOTO_VIEWER_AGENT_H_
+#endif  // GALLERY_QML_AGENT_H_

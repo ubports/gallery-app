@@ -15,23 +15,38 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
- * Lucas Beeler <lucas@yorba.org>
  */
 
-#ifndef GALLERY_PHOTO_VIEWER_AGENT_H_
-#define GALLERY_PHOTO_VIEWER_AGENT_H_
+#ifndef GALLERY_ALBUM_VIEWER_H_
+#define GALLERY_ALBUM_VIEWER_H_
 
 #include <QObject>
 #include <QDeclarativeView>
 
-class PhotoViewerAgent : public QObject {
+#include "album.h"
+#include "album-viewer-agent.h"
+#include "qml-album-model.h"
+#include "qml-page.h"
+
+class AlbumViewer : public QmlPage {
   Q_OBJECT
   
  signals:
-  void exit_pressed();
+  void exit_viewer();
   
  public:
-  explicit PhotoViewerAgent(QDeclarativeView* view);
+  AlbumViewer();
+  virtual ~AlbumViewer();
+  
+  virtual const char *qml_rc() const;
+  
+  void Prepare(QDeclarativeView* view, Album* album);
+  virtual void SwitchingTo(QDeclarativeView* view);
+  virtual void SwitchingFrom(QDeclarativeView* view);
+  
+ private:
+  AlbumViewerAgent* agent_;
+  QmlAlbumModel* model_;
 };
 
-#endif  // GALLERY_PHOTO_VIEWER_AGENT_H_
+#endif  // GALLERY_ALBUM_VIEWER_H_

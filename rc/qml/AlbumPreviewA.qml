@@ -19,41 +19,34 @@
 
 import QtQuick 1.1
 
-Rectangle {
+Row {
   id: album_preview_a
   objectName: "album_preview_a"
   
-  property string left_source
-  property string right_source
-  
+  property variant preview_list
   property int frame_gutter: 24
   property int image_gutter: 24
+  property int border_width: 3
   
   FramePortrait {
     id: left
     objectName: "left"
     
-    anchors.top: parent.top
-    anchors.bottom: parent.bottom
-    anchors.left: parent.left
+    width: (parent.width / 2) - (frame_gutter * 2) - border_width
+    height: parent.height - border_width
     
-    width: (parent.width / 2) - (frame_gutter * 2) - 1
-    
-    image_source: left_source
+    image_source: preview_list[0]
     frame_gutter: parent.frame_gutter
     image_gutter: parent.image_gutter
+    border_width: parent.border_width
   }
   
   Rectangle {
     id: divider
     objectName: "divider"
     
-    anchors.top: parent.top
-    anchors.bottom: parent.bottom
-    anchors.left: left.right
-    anchors.right: right.left
-    
-    width: 1
+    width: left.border_width
+    height: parent.height
     color: "#657CA9"
   }
   
@@ -61,14 +54,12 @@ Rectangle {
     id: right
     objectName: "right"
     
-    anchors.top: parent.top
-    anchors.bottom: parent.bottom
-    anchors.right: parent.right
+    width: (parent.width / 2) - (frame_gutter * 2) - border_width
+    height: parent.height - border_width
     
-    width: (parent.width / 2) - (frame_gutter * 2) - 1
-    
-    image_source: right_source
+    image_source: preview_list[1]
     frame_gutter: parent.frame_gutter
     image_gutter: parent.image_gutter
+    border_width: parent.border_width
   }
 }
