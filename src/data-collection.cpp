@@ -144,7 +144,7 @@ void DataCollection::SetComparator(DataObjectComparator comparator) {
   resort(true);
 }
 
-DataObjectComparator DataCollection::GetComparator() const {
+DataObjectComparator DataCollection::comparator() const {
   return comparator_;
 }
 

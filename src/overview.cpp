@@ -20,17 +20,15 @@
 
 #include "overview.h"
 
-#include <QDeclarativeContext>
-#include <QDeclarativeView>
-
 #include "album.h"
 #include "album-collection.h"
 #include "default-album-template.h"
+#include "media-collection.h"
 
-Overview::Overview()
-  : agent_(NULL) {
-  photos_view_.MonitorSourceCollection(MediaCollection::instance(), NULL);
-  albums_view_.MonitorSourceCollection(AlbumCollection::instance(), NULL);
+Overview::Overview(QDeclarativeView* view)
+  : QmlPage(view) {
+  photos_view_.MonitorDataCollection(MediaCollection::instance(), NULL, false);
+  albums_view_.MonitorDataCollection(AlbumCollection::instance(), NULL, false);
   
   photos_model_ = new QmlMediaModel(NULL);
   photos_model_->Init(&photos_view_);
@@ -40,7 +38,6 @@ Overview::Overview()
 }
 
 Overview::~Overview() {
-  delete agent_;
   delete photos_model_;
   delete albums_model_;
 }
@@ -57,34 +54,41 @@ const char* Overview::qml_rc() const {
   return "qrc:/rc/qml/Overview.qml";
 }
 
-void Overview::Prepare(QDeclarativeView* view) {
-  view->rootContext()->setContextProperty("photosGridModel", photos_model_);
-  view->rootContext()->setContextProperty("albumsGridModel", albums_model_);
+void Overview::Prepare() {
+  SetContextProperty("photosGridModel", photos_model_);
+  SetContextProperty("albumsGridModel", albums_model_);
 }
 
-void Overview::SwitchingTo(QDeclarativeView* view) {
-  Q_ASSERT(agent_ == NULL);
-  agent_ = new OverviewAgent(view);
+void Overview::SwitchingTo() {
+  //
+  // Overview containing pane
+  //
   
-  QObject::connect(agent_, SIGNAL(photo_activated(int)), this,
-    SLOT(on_photo_activated(int)));
-  
-  QObject::connect(agent_, SIGNAL(photo_selection_toggled(int)), this,
-    SLOT(on_photo_selection_toggled(int)));
-  
-  QObject::connect(agent_, SIGNAL(photos_unselect_all()), this,
-    SLOT(on_photos_unselect_all()));
-  
-  QObject::connect(agent_, SIGNAL(create_album_from_selected_photos()), this,
+  Connect("overview", SIGNAL(create_album_from_selected()), this,
     SLOT(on_create_album_from_selected_photos()));
   
-  QObject::connect(agent_, SIGNAL(album_activated(int)), this,
+  //
+  // Photos checkerboard
+  //
+  
+  Connect("photos_checkerboard", SIGNAL(activated(int)), this,
+    SLOT(on_photo_activated(int)));
+  
+  Connect("photos_checkerboard", SIGNAL(selection_toggled(int)), this,
+    SLOT(on_photo_selection_toggled(int)));
+  
+  Connect("photos_checkerboard", SIGNAL(unselect_all()), this,
+    SLOT(on_photos_unselect_all()));
+  
+  //
+  // Albums checkerboard
+  //
+  
+  Connect("albums_checkerboard", SIGNAL(activated(int)), this,
     SLOT(on_album_activated(int)));
 }
 
-void Overview::SwitchingFrom(QDeclarativeView* view) {
-  delete agent_;
-  agent_ = NULL;
+void Overview::SwitchingFrom() {
 }
 
 void Overview::on_photo_activated(int media_number) {

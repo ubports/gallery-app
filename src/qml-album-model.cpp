@@ -29,7 +29,7 @@ QmlAlbumModel::QmlAlbumModel(QObject* parent)
 void QmlAlbumModel::Init(Album* album) {
   album_ = album;
   
-  view_.MonitorSourceCollection(album_->pages(), NULL);
+  view_.MonitorDataCollection(album_->pages(), NULL, false);
   
   QHash<int, QByteArray> roles;
   roles[QmlViewCollectionModel::ObjectNumberRole] = "object_number";

@@ -23,17 +23,15 @@
 
 #include <QObject>
 #include <QDeclarativeView>
-#include <QString>
 
 #include "album.h"
 #include "media-source.h"
-#include "media-collection.h"
-#include "overview-agent.h"
-#include "qml-media-model.h"
 #include "qml-album-collection-model.h"
+#include "qml-media-model.h"
+#include "qml-page.h"
 #include "selectable-view-collection.h"
 
-class Overview : public QObject {
+class Overview : public QmlPage {
   Q_OBJECT
   
  signals:
@@ -41,17 +39,17 @@ class Overview : public QObject {
   void album_activated(Album* album);
   
  public:
-  Overview();
+  Overview(QDeclarativeView* view);
   virtual ~Overview();
   
   QmlMediaModel* photos_model() const;
   QmlAlbumCollectionModel* albums_model() const;
   
-  const char* qml_rc() const;
+  virtual const char* qml_rc() const;
   
-  void Prepare(QDeclarativeView* view);
-  void SwitchingTo(QDeclarativeView* view);
-  void SwitchingFrom(QDeclarativeView* view);
+  void Prepare();
+  virtual void SwitchingTo();
+  virtual void SwitchingFrom();
   
  private slots:
   void on_photo_activated(int photo_number);
@@ -63,7 +61,6 @@ class Overview : public QObject {
  private:
   SelectableViewCollection photos_view_;
   SelectableViewCollection albums_view_;
-  OverviewAgent* agent_;
   QmlMediaModel* photos_model_;
   QmlAlbumCollectionModel* albums_model_;
 };

@@ -24,11 +24,11 @@
   * for some organizational reason, be it to present to the user or internally
   * by a ContainerSource to represent all the DataSources it organizes.
   *
-  * ViewCollections may monitor source collections, meaning that as DataSources
-  * are added, removed, or altered in a SourceCollection they are represented
-  * in the ViewCollection as well.  This allows for a ViewCollection to always
-  * maintain a coherent representation of DataSources filtered by a predicate
-  * function.
+  * ViewCollections may monitor other DataCollections, meaning that as
+  * DataObjects are added, removed, or altered in a DataCollection these
+  * changes are represented in the ViewCollection as well.  This allows for a
+  * ViewCollection to maintain a coherent representation of DataObject filtered
+  * by a predicate function, and even maintaining the same sort ordering.
   *
   * The "view" in ViewCollection should not be thought of in the sense of
   * model-view-controller, although there are some similarities.  Rather, it
@@ -53,15 +53,21 @@ public:
   // TODO: Allow multiple SourceCollections to be monitored.  Without a
   // DataView as a mediator, this means ViewCollection (and, hence,
   // DataCollection) will hold DataSources of varied finalized types.
-  void MonitorSourceCollection(SourceCollection* sources, SourceFilter filter);
+  void MonitorDataCollection(const DataCollection* collection, SourceFilter filter,
+    bool monitor_ordering);
+  
+ protected:
+  virtual void notify_ordering_altered();
   
 private slots:
   void on_monitored_contents_altered(const QSet<DataObject*>*added,
     const QSet<DataObject*>* removed);
+  void on_monitored_ordering_altered();
   
 private:
-  SourceCollection* monitoring_;
+  const DataCollection* monitoring_;
   SourceFilter monitor_filter_;
+  bool monitor_ordering_;
 };
 
 #endif  // GALLERY_VIEW_COLLECTION_H_

@@ -19,5 +19,45 @@
 
 #include "qml-page.h"
 
-QmlPage::QmlPage() {
+#include <QDeclarativeContext>
+
+QmlPage::QmlPage(QDeclarativeView* view)
+  : view_(view) {
+  root_ = qobject_cast<QDeclarativeItem*>(view_->rootObject());
+  Q_ASSERT(root_ != NULL);
+}
+
+QDeclarativeView* QmlPage::view() const {
+  return view_;
+}
+
+void QmlPage::Connect(const char* item_name, const char* signal,
+  const QObject* receiver, const char* method, Qt::ConnectionType type,
+  QDeclarativeItem* parent) const {
+  QObject::connect(FindChild(item_name, parent), signal, receiver, method, type);
+}
+
+void QmlPage::SetContextProperty(const char *name, QObject* object) const {
+  view_->rootContext()->setContextProperty(name, object);
+}
+
+void QmlPage::SetContextProperty(const char *name, const QVariant &variant) const {
+  view_->rootContext()->setContextProperty(name, variant);
+}
+
+bool QmlPage::HasChild(const char* name, QDeclarativeItem* parent) const {
+  if (parent == NULL)
+    parent = root_;
+  
+  return parent->findChild<QDeclarativeItem*>(name) != NULL;
+}
+
+QDeclarativeItem* QmlPage::FindChild(const char *name, QDeclarativeItem* parent) const {
+  if (parent == NULL)
+    parent = root_;
+  
+  QDeclarativeItem* child = parent->findChild<QDeclarativeItem*>(name);
+  Q_ASSERT(child != NULL);
+  
+  return child;
 }

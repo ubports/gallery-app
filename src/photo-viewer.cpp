@@ -20,43 +20,26 @@
 
 #include "photo-viewer.h"
 
-#include <QObject>
-#include <QDeclarativeView>
-#include <QDeclarativeContext>
-#include <QFile>
-#include <QString>
-
-#include "qml-media-model.h"
-#include "photo.h"
-
-PhotoViewer::PhotoViewer()
-  : agent_(NULL), model_(NULL) {
+PhotoViewer::PhotoViewer(QDeclarativeView* view)
+  : QmlPage(view) {
 }
 
 PhotoViewer::~PhotoViewer() {
-  delete agent_;
 }
 
 const char* PhotoViewer::qml_rc() const {
   return "qrc:/rc/qml/PhotoViewer.qml";
 }
 
-void PhotoViewer::Prepare(QDeclarativeView *view, QmlMediaModel *model,
-  Photo* start) {
-  view->rootContext()->setContextProperty("viewer_model", model);
-  view->rootContext()->setContextProperty("viewer_current_index",
+void PhotoViewer::Prepare(QmlMediaModel *model, Photo* start) {
+  SetContextProperty("viewer_model", model);
+  SetContextProperty("viewer_current_index",
     model->BackingViewCollection()->IndexOf(start));
 }
 
-void PhotoViewer::SwitchingTo(QDeclarativeView* view) {
-  Q_ASSERT(agent_ == NULL);
-  agent_ = new PhotoViewerAgent(view);
-  
-  QObject::connect(agent_, SIGNAL(exit_pressed()), this,
-    SIGNAL(exit_viewer()));
+void PhotoViewer::SwitchingTo() {
+  Connect("photo_viewer", SIGNAL(exit_viewer()), this, SIGNAL(exit_viewer()));
 }
 
-void PhotoViewer::SwitchingFrom(QDeclarativeView* view) {
-  delete agent_;
-  agent_ = NULL;
+void PhotoViewer::SwitchingFrom() {
 }

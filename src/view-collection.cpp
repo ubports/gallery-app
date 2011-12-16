@@ -20,27 +20,48 @@
 #include "view-collection.h"
 
 ViewCollection::ViewCollection()
-  : monitoring_(NULL), monitor_filter_(NULL) {
+  : monitoring_(NULL), monitor_filter_(NULL), monitor_ordering_(false) {
 }
 
-void ViewCollection::MonitorSourceCollection(SourceCollection* sources,
-  SourceFilter filter) {
-  Q_ASSERT(sources != NULL);
+void ViewCollection::MonitorDataCollection(const DataCollection* collection,
+  SourceFilter filter, bool monitor_ordering) {
+  Q_ASSERT(collection != NULL);
+  
+  // TODO: Allow for monitoring to be halted
   Q_ASSERT(monitoring_ == NULL);
   
-  monitoring_ = sources;
+  monitoring_ = collection;
   monitor_filter_ = filter;
+  monitor_ordering_ = monitor_ordering;
   
-  // monitor SourceCollection for added/removed DataObjects and add them to this
+  // monitor DataCollection for added/removed DataObjects and add them to this
   // ViewCollection according to the filter
   QObject::connect(monitoring_,
     SIGNAL(contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
     this,
     SLOT(on_monitored_contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
   
-  // prime the ViewCollection with what's already in the SourceCollection
-  QSet<DataObject*> all = sources->AsSet();
+  // If monitoring the ordering, prime the local comparator with the monitored
+  // and make sure it's continually reflected
+  if (monitor_ordering_) {
+    SetComparator(monitoring_->comparator());
+    
+    QObject::connect(monitoring_, SIGNAL(ordering_altered()), this,
+      SLOT(on_monitored_ordering_altered()));
+  }
+  
+  // prime the local ViewCollection with what's already in the monitored
+  // DataCollection
+  QSet<DataObject*> all = collection->AsSet();
   on_monitored_contents_altered(&all, NULL);
+}
+
+void ViewCollection::notify_ordering_altered() {
+  if (monitor_ordering_)
+    qWarning("ViewCollection monitoring a DataCollection's ordering changed "
+      "its own comparator: this is unstable");
+  
+  DataCollection::notify_ordering_altered();
 }
 
 void ViewCollection::on_monitored_contents_altered(const QSet<DataObject*>* added,
@@ -60,4 +81,10 @@ void ViewCollection::on_monitored_contents_altered(const QSet<DataObject*>* adde
       AddMany(to_add);
     }
   }
+}
+
+void ViewCollection::on_monitored_ordering_altered() {
+  // simply re-sort the local collection with the monitored collection's new
+  // comparator
+  SetComparator(monitoring_->comparator());
 }

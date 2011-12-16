@@ -18,8 +18,8 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-#ifndef GALLERY_GUI_CONTROLLER_H_
-#define GALLERY_GUI_CONTROLLER_H_
+#ifndef GALLERY_UI_CONTROLLER_H_
+#define GALLERY_UI_CONTROLLER_H_
 
 #include <QObject>
 #include <QDeclarativeView>
@@ -31,13 +31,14 @@
 #include "media-collection.h"
 #include "overview.h"
 #include "photo-viewer.h"
+#include "qml-page.h"
 
-class GuiController : public QObject {
+class UIController : public QObject {
   Q_OBJECT
   
  public:
-  explicit GuiController(const QDir& path);
-  virtual ~GuiController();
+  explicit UIController(const QDir& path);
+  virtual ~UIController();
     
  private slots:
   void on_media_object_activated(MediaSource* media_source);
@@ -55,7 +56,7 @@ class GuiController : public QObject {
   PhotoViewer* photo_viewer_;
   AlbumViewer* album_viewer_;
   
-  void SetSource(const char* path);
+  void SetSource(QmlPage* page);
 };
 
-#endif  // GALLERY_GUI_CONTROLLER_H_
+#endif  // GALLERY_UI_CONTROLLER_H_

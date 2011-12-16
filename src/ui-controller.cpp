@@ -18,7 +18,7 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-#include "gui-controller.h"
+#include "ui-controller.h"
 
 #include <cstdlib>
 
@@ -29,7 +29,7 @@
 #include <QUrl>
 #include <QGLWidget>
 
-GuiController::GuiController(const QDir &path) {
+UIController::UIController(const QDir &path) {
   MediaCollection::InitInstance(path);
   
   //
@@ -39,11 +39,11 @@ GuiController::GuiController(const QDir &path) {
   // Enable OpenGL backing
   QGLFormat format = QGLFormat::defaultFormat();
   format.setSampleBuffers(false);
-  QGLWidget *glWidget = new QGLWidget(format);
+  QGLWidget *gl_widget = new QGLWidget(format);
   
   view_ = new QDeclarativeView();
   view_->setSource(QUrl("qrc:/rc/qml/TabletSurface.qml"));
-  view_->setViewport(glWidget);
+  view_->setViewport(gl_widget);
   
   tablet_surface_ = qobject_cast<QObject*>(view_->rootObject());
   Q_ASSERT(!tablet_surface_.isNull() &&
@@ -58,7 +58,7 @@ GuiController::GuiController(const QDir &path) {
   //
   // Overview (Photos / Albums)
   
-  overview_ = new Overview();
+  overview_ = new Overview(view_);
   
   QObject::connect(overview_, SIGNAL(photo_activated(MediaSource*)), this,
     SLOT(on_media_object_activated(MediaSource*)));
@@ -70,7 +70,7 @@ GuiController::GuiController(const QDir &path) {
   // PhotoViewer
   //
   
-  photo_viewer_ = new PhotoViewer();
+  photo_viewer_ = new PhotoViewer(view_);
   
   QObject::connect(photo_viewer_, SIGNAL(exit_viewer()), this,
     SLOT(on_photo_viewer_exited()));
@@ -79,26 +79,26 @@ GuiController::GuiController(const QDir &path) {
   // AlbumViewer
   //
   
-  album_viewer_ = new AlbumViewer();
+  album_viewer_ = new AlbumViewer(view_);
   
   QObject::connect(album_viewer_, SIGNAL(exit_viewer()), this,
     SLOT(on_exit_album_viewer()));
   
   // start with Overview
-  overview_->Prepare(view_);
-  SetSource(overview_->qml_rc());
-  overview_->SwitchingTo(view_);
+  overview_->Prepare();
+  SetSource(overview_);
+  overview_->SwitchingTo();
   
   view_->show();
 }
 
-GuiController::~GuiController() {
+UIController::~UIController() {
   delete overview_;
   delete photo_viewer_;
   delete album_viewer_;
 }
 
-void GuiController::on_media_object_activated(MediaSource* media_source) {
+void UIController::on_media_object_activated(MediaSource* media_source) {
   Photo* photo = qobject_cast<Photo*>(media_source);
   if (photo == NULL) {
     qDebug("Non-photo object activated");
@@ -106,50 +106,50 @@ void GuiController::on_media_object_activated(MediaSource* media_source) {
     return;
   }
   
-  overview_->SwitchingFrom(view_);
+  overview_->SwitchingFrom();
   
-  photo_viewer_->Prepare(view_, overview_->photos_model(), photo);
-  SetSource(photo_viewer_->qml_rc());
-  photo_viewer_->SwitchingTo(view_);
+  photo_viewer_->Prepare(overview_->photos_model(), photo);
+  SetSource(photo_viewer_);
+  photo_viewer_->SwitchingTo();
 
   view_->show();
 }
 
-void GuiController::on_power_off() {
+void UIController::on_power_off() {
   std::exit(0);
 }
 
-void GuiController::on_album_activated(Album* album) {
-  overview_->SwitchingFrom(view_);
+void UIController::on_album_activated(Album* album) {
+  overview_->SwitchingFrom();
   
-  album_viewer_->Prepare(view_, album);
-  SetSource(album_viewer_->qml_rc());
-  album_viewer_->SwitchingTo(view_);
-  
-  view_->show();
-}
-
-void GuiController::on_photo_viewer_exited() {
-  photo_viewer_->SwitchingFrom(view_);
-  
-  overview_->Prepare(view_);
-  SetSource(overview_->qml_rc());
-  overview_->SwitchingTo(view_);
+  album_viewer_->Prepare(album);
+  SetSource(album_viewer_);
+  album_viewer_->SwitchingTo();
   
   view_->show();
 }
 
-void GuiController::on_exit_album_viewer() {
-  album_viewer_->SwitchingFrom(view_);
+void UIController::on_photo_viewer_exited() {
+  photo_viewer_->SwitchingFrom();
   
-  overview_->Prepare(view_);
-  SetSource(overview_->qml_rc());
-  overview_->SwitchingTo(view_);
+  overview_->Prepare();
+  SetSource(overview_);
+  overview_->SwitchingTo();
   
   view_->show();
 }
 
-void GuiController::SetSource(const char *path) {
+void UIController::on_exit_album_viewer() {
+  album_viewer_->SwitchingFrom();
+  
+  overview_->Prepare();
+  SetSource(overview_);
+  overview_->SwitchingTo();
+  
+  view_->show();
+}
+
+void UIController::SetSource(QmlPage* qml_page) {
   if (loader_ != NULL)
-    loader_->setProperty("source", QUrl(path));
+    loader_->setProperty("source", QUrl(qml_page->qml_rc()));
 }

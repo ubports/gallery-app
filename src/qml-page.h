@@ -22,17 +22,39 @@
 
 #include <QObject>
 #include <QDeclarativeView>
+#include <QDeclarativeItem>
+#include <QVariant>
 
 class QmlPage : public QObject {
   Q_OBJECT
   
  public:
-  QmlPage();
-  
   virtual const char *qml_rc() const = 0;
   
-  virtual void SwitchingTo(QDeclarativeView* view) = 0;
-  virtual void SwitchingFrom(QDeclarativeView* view) = 0;
+  virtual void SwitchingTo() = 0;
+  virtual void SwitchingFrom() = 0;
+  
+  QDeclarativeView* view() const;
+  
+  void Connect(const char* item_name, const char* signal, const QObject* receiver,
+    const char* method, Qt::ConnectionType type = Qt::AutoConnection,
+    QDeclarativeItem* parent = NULL) const;
+  
+  void SetContextProperty(const char* name, QObject* object) const;
+  void SetContextProperty(const char* name, const QVariant& variant) const;
+  
+  bool HasChild(const char* name, QDeclarativeItem* parent = NULL) const;
+  
+  // Asserts (fails) if the child is not found.  Use HasChild() to determine
+  // if the child is available.
+  QDeclarativeItem* FindChild(const char *name, QDeclarativeItem* parent = NULL) const;
+  
+ protected:
+  QmlPage(QDeclarativeView* view);
+  
+ private:
+  QDeclarativeView* view_;
+  QDeclarativeItem* root_;
 };
 
 #endif  // GALLERY_QML_PAGE_H_

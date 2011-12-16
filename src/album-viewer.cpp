@@ -19,38 +19,49 @@
 
 #include "album-viewer.h"
 
-AlbumViewer::AlbumViewer()
-  : agent_(NULL), model_(NULL) {
+AlbumViewer::AlbumViewer(QDeclarativeView* view)
+  : QmlPage(view), album_model_(NULL), media_model_(NULL), view_(NULL) {
 }
 
 AlbumViewer::~AlbumViewer() {
-  delete agent_;
-  delete model_;
+  delete media_model_;
+  delete album_model_;
+  delete view_;
 }
 
 const char* AlbumViewer::qml_rc() const {
   return "qrc:/rc/qml/AlbumViewer.qml";
 }
 
-void AlbumViewer::Prepare(QDeclarativeView* view, Album* album) {
-  Q_ASSERT(model_ == NULL);
-  model_ = new QmlAlbumModel(NULL);
-  model_->Init(album);
+void AlbumViewer::Prepare(Album* album) {
+  Q_ASSERT(view_ == NULL);
+  view_ = new SelectableViewCollection();
+  view_->MonitorDataCollection(album->contained(), NULL, false);
   
-  AlbumViewerAgent::Prepare(view, model_, album->current_page());
+  Q_ASSERT(album_model_ == NULL);
+  album_model_ = new QmlAlbumModel(NULL);
+  album_model_->Init(album);
+  
+  Q_ASSERT(media_model_ == NULL);
+  media_model_ = new QmlMediaModel(NULL);
+  media_model_->Init(view_);
+  
+  SetContextProperty("context_album_model", album_model_);
+  SetContextProperty("context_media_model", media_model_);
+  SetContextProperty("context_start_index", album->current_page());
 }
 
-void AlbumViewer::SwitchingTo(QDeclarativeView* view) {
-  Q_ASSERT(agent_ == NULL);
-  agent_ = new AlbumViewerAgent(view);
-  
-  QObject::connect(agent_, SIGNAL(exit_viewer()), this, SIGNAL(exit_viewer()));
+void AlbumViewer::SwitchingTo() {
+  Connect("album_viewer", SIGNAL(exit_viewer()), this, SIGNAL(exit_viewer()));
 }
 
-void AlbumViewer::SwitchingFrom(QDeclarativeView* view) {
-  delete agent_;
-  agent_ = NULL;
+void AlbumViewer::SwitchingFrom() {
+  delete media_model_;
+  media_model_ = NULL;
   
-  delete model_;
-  model_ = NULL;
+  delete album_model_;
+  album_model_ = NULL;
+  
+  delete view_;
+  view_ = NULL;
 }

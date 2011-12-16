@@ -23,7 +23,7 @@
 #include <QDir>
 #include <QDeclarativeView>
 
-#include "gui-controller.h"
+#include "ui-controller.h"
 #include "qml-media-model.h"
 #include "qml-album-model.h"
 #include "qml-album-collection-model.h"
@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
   QDir path(argc > 1 ? QString(argv[1]) : QDir::homePath() + "/Pictures");
   qDebug("Opening %s...", qPrintable(path.path()));
   
-  GuiController gui(path);
+  UIController ui(path);
   
   return app.exec();
 }

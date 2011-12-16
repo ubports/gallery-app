@@ -24,9 +24,10 @@
 #include <QDeclarativeView>
 
 #include "album.h"
-#include "album-viewer-agent.h"
 #include "qml-album-model.h"
+#include "qml-media-model.h"
 #include "qml-page.h"
+#include "selectable-view-collection.h"
 
 class AlbumViewer : public QmlPage {
   Q_OBJECT
@@ -35,18 +36,19 @@ class AlbumViewer : public QmlPage {
   void exit_viewer();
   
  public:
-  AlbumViewer();
+  AlbumViewer(QDeclarativeView* view);
   virtual ~AlbumViewer();
   
   virtual const char *qml_rc() const;
   
-  void Prepare(QDeclarativeView* view, Album* album);
-  virtual void SwitchingTo(QDeclarativeView* view);
-  virtual void SwitchingFrom(QDeclarativeView* view);
+  void Prepare(Album* album);
+  virtual void SwitchingTo();
+  virtual void SwitchingFrom();
   
  private:
-  AlbumViewerAgent* agent_;
-  QmlAlbumModel* model_;
+  QmlAlbumModel* album_model_;
+  QmlMediaModel* media_model_;
+  SelectableViewCollection* view_;
 };
 
 #endif  // GALLERY_ALBUM_VIEWER_H_

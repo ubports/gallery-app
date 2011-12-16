@@ -74,7 +74,7 @@ class DataCollection : public QObject {
   const QSet<DataObject*> AsSet() const;
   
   void SetComparator(DataObjectComparator comparator);
-  DataObjectComparator GetComparator() const;
+  DataObjectComparator comparator() const;
   
  protected:
   virtual void notify_contents_altered(const QSet<DataObject*>* added,

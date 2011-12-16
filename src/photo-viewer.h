@@ -24,30 +24,26 @@
 #include <QObject>
 #include <QDeclarativeView>
 
-#include "photo-viewer-agent.h"
 #include "photo.h"
 #include "qml-media-model.h"
+#include "qml-page.h"
 
-class PhotoViewer : public QObject {
+class PhotoViewer : public QmlPage {
   Q_OBJECT
   
  signals:
   void exit_viewer();
   
  public:
-  PhotoViewer();
+  PhotoViewer(QDeclarativeView* view);
   virtual ~PhotoViewer();
   
   // returned path is a relative path, not an absolute one
-  const char* qml_rc() const;
+  virtual const char* qml_rc() const;
   
-  void Prepare(QDeclarativeView* view, QmlMediaModel* model, Photo* start);
-  void SwitchingTo(QDeclarativeView* view);
-  void SwitchingFrom(QDeclarativeView* view);
-  
- private:
-  PhotoViewerAgent* agent_;
-  QmlMediaModel* model_;
+  void Prepare(QmlMediaModel* model, Photo* start);
+  virtual void SwitchingTo();
+  virtual void SwitchingFrom();
 };
 
 #endif  // GALLERY_PHOTO_VIEWER_H_
