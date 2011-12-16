@@ -25,12 +25,15 @@
 #include "data-object.h"
 #include "photo.h"
 
+const QString MediaCollection::THUMBNAIL_DIR = "thumbs";
+
 MediaCollection* MediaCollection::instance_ = NULL;
 
 MediaCollection::MediaCollection(const QDir& directory)
   : directory_(directory) {
   directory_.setFilter(QDir::Files);
   directory_.setSorting(QDir::Name);
+  directory_.mkdir(THUMBNAIL_DIR);
   
   // TODO: Assuming all files are photos in specified directory
   QSet<DataObject*> photos;

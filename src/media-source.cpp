@@ -17,6 +17,7 @@
  * Jim Nelson <jim@yorba.org>
  */
 
+#include "media-collection.h"
 #include "media-source.h"
 
 #include <QFileInfo>
@@ -24,7 +25,8 @@
 
 MediaSource::MediaSource(const QFileInfo& file)
   : file_(file) {
-  preview_file_ = new QFileInfo(file.dir(), "thumbs/" +
+  preview_file_ = new QFileInfo(file.dir(),
+    MediaCollection::THUMBNAIL_DIR + "/" +
     file.completeBaseName() + "_th." + file.completeSuffix());
 }
 

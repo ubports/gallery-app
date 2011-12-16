@@ -29,6 +29,8 @@ class MediaCollection : public SourceCollection {
   Q_OBJECT
   
 public:
+  static const QString THUMBNAIL_DIR;
+
   static void InitInstance(const QDir& directory);
   static MediaCollection* instance();
   
