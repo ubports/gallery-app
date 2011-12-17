@@ -62,7 +62,7 @@ QVariant QmlViewCollectionModel::data(const QModelIndex& index, int role) const 
   switch (role) {
     case ObjectNumberRole:
       return QVariant(object->number());
-    
+  
     case SelectionRole:
       return QVariant(view_->IsSelected(object));
     

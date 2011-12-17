@@ -30,14 +30,48 @@ Rectangle {
   height: 800
   color: "white"
   
-  Loader {
-    id: loader
-    objectName: "loader"
+  /*
+   * There's a strong desire for each page to maintain its state while it's
+   * in the background (not presented to the user), so when the user returns
+   * they see the same content in the place they left it.  This precludes
+   * using Loader, which destroys the current Component to load the new one.
+   * A more robust solution may be to use a Repeater (or another list Component)
+   * that dynamically adds pages from a model supplied by UIController.
+   */
+  
+  Overview {
+    id: overview
+    objectName: "overview"
     
     x: 0
     y: 0
-    width: tablet_surface.width
-    height: tablet_surface.height
+    width: parent.width
+    height: parent.height
+    
+    visible: true
+  }
+  
+  PhotoViewer {
+    id: photo_viewer
+    objectName: "photo_viewer"
+    
+    x: 0
+    y: 0
+    width: parent.width
+    height: parent.height
+    
+    visible: false
+  }
+  
+  AlbumViewer {
+    id: album_viewer
+    objectName: "album_viewer"
+    
+    x: 0
+    y: 0
+    width: parent.width
+    height: parent.height
+    
+    visible: false
   }
 }
-

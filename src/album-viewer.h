@@ -24,6 +24,7 @@
 #include <QDeclarativeView>
 
 #include "album.h"
+#include "media-source.h"
 #include "qml-album-model.h"
 #include "qml-media-model.h"
 #include "qml-page.h"
@@ -34,6 +35,7 @@ class AlbumViewer : public QmlPage {
   
  signals:
   void exit_viewer();
+  void media_activated(MediaSource* media);
   
  public:
   AlbumViewer(QDeclarativeView* view);
@@ -41,9 +43,14 @@ class AlbumViewer : public QmlPage {
   
   virtual const char *qml_rc() const;
   
-  void Prepare(Album* album);
-  virtual void SwitchingTo();
-  virtual void SwitchingFrom();
+  virtual void PrepareContext();
+  virtual void PageLoaded();
+  void PrepareToEnter(Album* album);
+  
+  QmlMediaModel* media_model() const;
+  
+ private slots:
+  void on_media_activated(int media_number);
   
  private:
   QmlAlbumModel* album_model_;

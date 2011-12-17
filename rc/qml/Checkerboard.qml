@@ -32,7 +32,7 @@ Rectangle {
   // 
   // object_number
   // is_selected
-  property variant checkerboardModel
+  property alias checkerboardModel: grid.model
   property Component checkerboardDelegate
   
   property int widthSansStroke: 206
@@ -72,8 +72,6 @@ Rectangle {
     // Dimensions without stroke
     cellWidth: widthSansStroke
     cellHeight: heightSansStroke
-    
-    model: parent.checkerboardModel
     
     delegate: Row {
       Rectangle {

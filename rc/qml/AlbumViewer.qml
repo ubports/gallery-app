@@ -41,8 +41,7 @@ Rectangle {
     anchors.right: parent.right
     anchors.bottom: parent.bottom
     
-    model: context_album_model
-    currentIndex: context_start_index
+    model: ctx_album_viewer_album_model
     
     visible: true
     
@@ -72,8 +71,8 @@ Rectangle {
   }
   
   Checkerboard {
-    id: photos_checkerboard
-    objectName: "photos_checkerboard"
+    id: grid_checkerboard
+    objectName: "grid_checkerboard"
     
     anchors.top: topbar.bottom
     anchors.left: parent.left
@@ -88,7 +87,7 @@ Rectangle {
     
     allow_selection: false
     
-    checkerboardModel: context_media_model
+    checkerboardModel: ctx_album_viewer_media_model
     checkerboardDelegate: Image {
       source: modelData.preview_path
       
@@ -119,7 +118,7 @@ Rectangle {
       
       show_title: false
       
-      onPressed: album_viewer.exit_viewer()
+      onPressed: album_viewer.exit_viewer();
     }
     
     NavButton {
@@ -134,7 +133,7 @@ Rectangle {
       
       onPressed: {
         template_pager.visible = false;
-        photos_checkerboard.visible = true;
+        grid_checkerboard.visible = true;
         
         grid_button.visible = false;
         pages_button.visible = true;
@@ -153,7 +152,7 @@ Rectangle {
       
       onPressed: {
         template_pager.visible = true;
-        photos_checkerboard.visible = false;
+        grid_checkerboard.visible = false;
         
         grid_button.visible = true;
         pages_button.visible = false;

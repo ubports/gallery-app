@@ -21,8 +21,9 @@
 #define GALLERY_QML_PAGE_H_
 
 #include <QObject>
-#include <QDeclarativeView>
 #include <QDeclarativeItem>
+#include <QDeclarativeView>
+#include <QString>
 #include <QVariant>
 
 class QmlPage : public QObject {
@@ -31,15 +32,31 @@ class QmlPage : public QObject {
  public:
   virtual const char *qml_rc() const = 0;
   
-  virtual void SwitchingTo() = 0;
-  virtual void SwitchingFrom() = 0;
+  // Initialization methods (called once at application start)
+  virtual void PrepareContext() = 0;
+  virtual void PageLoaded() = 0;
+  
+  // Navigation methods
+  virtual void Entered();
+  virtual void ReturnedTo();
+  virtual void Leaving();
   
   QDeclarativeView* view() const;
+  QDeclarativeItem* root_object() const;
+  const QString& page_root_name() const;
   
   void Connect(const char* item_name, const char* signal, const QObject* receiver,
     const char* method, Qt::ConnectionType type = Qt::AutoConnection,
     QDeclarativeItem* parent = NULL) const;
   
+  void SetProperty(const char* item_name, const char* name,
+    const QVariant& variant, QDeclarativeItem* parent = NULL) const;
+  void ClearProperty(const char* item_name, const char* name,
+    QDeclarativeItem* parent = NULL) const;
+  
+  // If setting a context property that's bound to an item's property, be sure
+  // to clear that item's property first to ensure that the change in the
+  // context property is noticed
   void SetContextProperty(const char* name, QObject* object) const;
   void SetContextProperty(const char* name, const QVariant& variant) const;
   
@@ -50,11 +67,11 @@ class QmlPage : public QObject {
   QDeclarativeItem* FindChild(const char *name, QDeclarativeItem* parent = NULL) const;
   
  protected:
-  QmlPage(QDeclarativeView* view);
+  QmlPage(QDeclarativeView* view, const char* page_root_name_);
   
  private:
   QDeclarativeView* view_;
-  QDeclarativeItem* root_;
+  QString page_root_name_;
 };
 
 #endif  // GALLERY_QML_PAGE_H_

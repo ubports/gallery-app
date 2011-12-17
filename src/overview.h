@@ -42,14 +42,14 @@ class Overview : public QmlPage {
   Overview(QDeclarativeView* view);
   virtual ~Overview();
   
-  QmlMediaModel* photos_model() const;
+  QmlMediaModel* media_model() const;
   QmlAlbumCollectionModel* albums_model() const;
   
   virtual const char* qml_rc() const;
   
-  void Prepare();
-  virtual void SwitchingTo();
-  virtual void SwitchingFrom();
+  virtual void PrepareContext();
+  virtual void PageLoaded();
+  void PrepareToEnter();
   
  private slots:
   void on_photo_activated(int photo_number);
@@ -59,9 +59,9 @@ class Overview : public QmlPage {
   void on_album_activated(int album_number);
   
  private:
-  SelectableViewCollection photos_view_;
+  SelectableViewCollection media_view_;
   SelectableViewCollection albums_view_;
-  QmlMediaModel* photos_model_;
+  QmlMediaModel* media_model_;
   QmlAlbumCollectionModel* albums_model_;
 };
 

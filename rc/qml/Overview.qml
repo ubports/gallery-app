@@ -112,7 +112,7 @@ Rectangle {
     visible: true
     allow_selection: true
     
-    checkerboardModel: photosGridModel
+    checkerboardModel: ctx_overview_media_model
     checkerboardDelegate: Image {
       source: modelData.preview_path
       
@@ -150,7 +150,7 @@ Rectangle {
     visible: false
     allow_selection: false
     
-    checkerboardModel: albumsGridModel
+    checkerboardModel: ctx_overview_albums_model
     checkerboardDelegate: Rectangle {
       Loader {
         id: loader

@@ -19,8 +19,14 @@
 
 #include "album-viewer.h"
 
+#include <QVariant>
+
+static const char* CONTEXT_ALBUM_MODEL = "ctx_album_viewer_album_model";
+static const char* CONTEXT_MEDIA_MODEL = "ctx_album_viewer_media_model";
+
 AlbumViewer::AlbumViewer(QDeclarativeView* view)
-  : QmlPage(view), album_model_(NULL), media_model_(NULL), view_(NULL) {
+  : QmlPage(view, "album_viewer"), album_model_(NULL), media_model_(NULL),
+  view_(NULL) {
 }
 
 AlbumViewer::~AlbumViewer() {
@@ -33,35 +39,58 @@ const char* AlbumViewer::qml_rc() const {
   return "qrc:/rc/qml/AlbumViewer.qml";
 }
 
-void AlbumViewer::Prepare(Album* album) {
-  Q_ASSERT(view_ == NULL);
+void AlbumViewer::PrepareContext() {
+  SetContextProperty(CONTEXT_ALBUM_MODEL, NULL);
+  SetContextProperty(CONTEXT_MEDIA_MODEL, NULL);
+}
+
+void AlbumViewer::PageLoaded() {
+  Connect("album_viewer", SIGNAL(exit_viewer()), this, SIGNAL(exit_viewer()));
+  Connect("grid_checkerboard", SIGNAL(activated(int)), this,
+    SLOT(on_media_activated(int)));
+}
+
+void AlbumViewer::PrepareToEnter(Album* album) {
+  delete view_;
   view_ = new SelectableViewCollection();
   view_->MonitorDataCollection(album->contained(), NULL, false);
   
-  Q_ASSERT(album_model_ == NULL);
+  delete album_model_;
   album_model_ = new QmlAlbumModel(NULL);
   album_model_->Init(album);
   
-  Q_ASSERT(media_model_ == NULL);
+  delete media_model_;
   media_model_ = new QmlMediaModel(NULL);
   media_model_->Init(view_);
   
-  SetContextProperty("context_album_model", album_model_);
-  SetContextProperty("context_media_model", media_model_);
-  SetContextProperty("context_start_index", album->current_page());
+  // Clear item properties before setting context properties ... apparently
+  // changes to context properties do not properly propagate to their bound
+  // item properties
+  ClearProperty("grid_checkerboard", "checkerboardModel");
+  ClearProperty("template_pager", "model");
+  
+  SetContextProperty(CONTEXT_ALBUM_MODEL, album_model_);
+  SetContextProperty(CONTEXT_MEDIA_MODEL, media_model_);
+  
+  // don't use ListView's currentIndex property, as that will animate the
+  // ListView as it magically scrolls through the list to the photo; rather,
+  // call positionViewAtIndex() for an immediate jump
+  QDeclarativeItem* list_view = FindChild("template_pager");
+  QMetaObject::invokeMethod(list_view, "positionViewAtIndex",
+    Q_ARG(int, album->current_page()), Q_ARG(int, 0));
 }
 
-void AlbumViewer::SwitchingTo() {
-  Connect("album_viewer", SIGNAL(exit_viewer()), this, SIGNAL(exit_viewer()));
+QmlMediaModel* AlbumViewer::media_model() const {
+  return media_model_;
 }
 
-void AlbumViewer::SwitchingFrom() {
-  delete media_model_;
-  media_model_ = NULL;
+void AlbumViewer::on_media_activated(int media_number) {
+  MediaSource* media = qobject_cast<MediaSource*>(view_->FindByNumber(media_number));
+  if (media == NULL) {
+    qDebug("Unable to find media source for #%d", media_number);
+    
+    return;
+  }
   
-  delete album_model_;
-  album_model_ = NULL;
-  
-  delete view_;
-  view_ = NULL;
+  emit media_activated(media);
 }

@@ -37,8 +37,7 @@ Rectangle {
     z: 0
     anchors.fill: parent
     
-    model: viewer_model
-    currentIndex: viewer_current_index
+    model: ctx_photo_viewer_photo_model
     
     orientation: ListView.Horizontal
     snapMode: ListView.SnapOneItem
@@ -116,7 +115,10 @@ Rectangle {
         
         show_title: false
 
-        onPressed: photo_viewer.exit_viewer()
+        onPressed: {
+          chrome_wrapper.state = "hidden";
+          photo_viewer.exit_viewer();
+        }
       }
     }
     

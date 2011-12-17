@@ -25,25 +25,28 @@
 #include "default-album-template.h"
 #include "media-collection.h"
 
+static const char* CTX_MEDIA_MODEL = "ctx_overview_media_model";
+static const char* CTX_ALBUMS_MODEL = "ctx_overview_albums_model";
+
 Overview::Overview(QDeclarativeView* view)
-  : QmlPage(view) {
-  photos_view_.MonitorDataCollection(MediaCollection::instance(), NULL, false);
+  : QmlPage(view, "overview") {
+  media_view_.MonitorDataCollection(MediaCollection::instance(), NULL, false);
   albums_view_.MonitorDataCollection(AlbumCollection::instance(), NULL, false);
   
-  photos_model_ = new QmlMediaModel(NULL);
-  photos_model_->Init(&photos_view_);
+  media_model_ = new QmlMediaModel(NULL);
+  media_model_->Init(&media_view_);
   
   albums_model_ = new QmlAlbumCollectionModel(NULL);
   albums_model_->Init(&albums_view_);
 }
 
 Overview::~Overview() {
-  delete photos_model_;
+  delete media_model_;
   delete albums_model_;
 }
 
-QmlMediaModel* Overview::photos_model() const {
-  return photos_model_;
+QmlMediaModel* Overview::media_model() const {
+  return media_model_;
 }
 
 QmlAlbumCollectionModel* Overview::albums_model() const {
@@ -54,12 +57,17 @@ const char* Overview::qml_rc() const {
   return "qrc:/rc/qml/Overview.qml";
 }
 
-void Overview::Prepare() {
-  SetContextProperty("photosGridModel", photos_model_);
-  SetContextProperty("albumsGridModel", albums_model_);
+void Overview::PrepareContext() {
+  SetContextProperty(CTX_MEDIA_MODEL, NULL);
+  SetContextProperty(CTX_ALBUMS_MODEL, NULL);
 }
 
-void Overview::SwitchingTo() {
+void Overview::PageLoaded() {
+  // Set these context properties now, as they won't change during the
+  // lifetime of the app
+  SetContextProperty(CTX_MEDIA_MODEL, media_model_);
+  SetContextProperty(CTX_ALBUMS_MODEL, albums_model_);
+  
   //
   // Overview containing pane
   //
@@ -88,12 +96,12 @@ void Overview::SwitchingTo() {
     SLOT(on_album_activated(int)));
 }
 
-void Overview::SwitchingFrom() {
+void Overview::PrepareToEnter() {
 }
 
 void Overview::on_photo_activated(int media_number) {
   MediaSource* media_object = qobject_cast<MediaSource*>(
-    photos_view_.FindByNumber((MediaNumber) media_number));
+    media_view_.FindByNumber((MediaNumber) media_number));
   if (media_object != NULL)
     emit photo_activated(media_object);
   else
@@ -102,23 +110,23 @@ void Overview::on_photo_activated(int media_number) {
 
 void Overview::on_photo_selection_toggled(int media_number) {
   MediaSource* media_object = qobject_cast<MediaSource*>(
-    photos_view_.FindByNumber((MediaNumber) media_number));
+    media_view_.FindByNumber((MediaNumber) media_number));
   if (media_object != NULL)
-    photos_view_.ToggleSelect(media_object);
+    media_view_.ToggleSelect(media_object);
   else
     qDebug("Unable to located toggled photo #%d", media_number);
 }
 
 void Overview::on_photos_unselect_all() {
-  photos_view_.UnselectAll();
+  media_view_.UnselectAll();
 }
 
 void Overview::on_create_album_from_selected_photos() {
-  if (photos_view_.GetSelectedCount() == 0)
+  if (media_view_.GetSelectedCount() == 0)
     return;
   
   Album *album = new Album(*DefaultAlbumTemplate::instance());
-  album->AttachMany(photos_view_.GetSelected());
+  album->AttachMany(media_view_.GetSelected());
   
   AlbumCollection::instance()->Add(album);
 }

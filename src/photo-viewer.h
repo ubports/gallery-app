@@ -36,14 +36,13 @@ class PhotoViewer : public QmlPage {
   
  public:
   PhotoViewer(QDeclarativeView* view);
-  virtual ~PhotoViewer();
   
   // returned path is a relative path, not an absolute one
   virtual const char* qml_rc() const;
   
-  void Prepare(QmlMediaModel* model, Photo* start);
-  virtual void SwitchingTo();
-  virtual void SwitchingFrom();
+  virtual void PrepareContext();
+  virtual void PageLoaded();
+  void PrepareToEnter(QmlMediaModel* model, Photo* start);
 };
 
 #endif  // GALLERY_PHOTO_VIEWER_H_

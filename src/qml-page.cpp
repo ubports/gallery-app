@@ -21,20 +21,48 @@
 
 #include <QDeclarativeContext>
 
-QmlPage::QmlPage(QDeclarativeView* view)
-  : view_(view) {
-  root_ = qobject_cast<QDeclarativeItem*>(view_->rootObject());
-  Q_ASSERT(root_ != NULL);
+QmlPage::QmlPage(QDeclarativeView* view, const char* root_name)
+  : view_(view), page_root_name_(root_name) {
 }
 
 QDeclarativeView* QmlPage::view() const {
   return view_;
 }
 
+const QString& QmlPage::page_root_name() const {
+  return page_root_name_;
+}
+
+QDeclarativeItem* QmlPage::root_object() const {
+  QDeclarativeItem* root = qobject_cast<QDeclarativeItem*>(view_->rootObject());
+  Q_ASSERT(root != NULL);
+  
+  return root;
+}
+
+void QmlPage::Entered() {
+}
+
+void QmlPage::ReturnedTo() {
+}
+
+void QmlPage::Leaving() {
+}
+
 void QmlPage::Connect(const char* item_name, const char* signal,
   const QObject* receiver, const char* method, Qt::ConnectionType type,
   QDeclarativeItem* parent) const {
   QObject::connect(FindChild(item_name, parent), signal, receiver, method, type);
+}
+
+void QmlPage::SetProperty(const char* item_name, const char* name,
+  const QVariant& variant, QDeclarativeItem* parent) const {
+  FindChild(item_name, parent)->setProperty(name, variant);
+}
+
+void QmlPage::ClearProperty(const char* item_name, const char* name,
+  QDeclarativeItem* parent) const {
+  SetProperty(item_name, name, QVariant(), parent);
 }
 
 void QmlPage::SetContextProperty(const char *name, QObject* object) const {
@@ -47,14 +75,14 @@ void QmlPage::SetContextProperty(const char *name, const QVariant &variant) cons
 
 bool QmlPage::HasChild(const char* name, QDeclarativeItem* parent) const {
   if (parent == NULL)
-    parent = root_;
+    parent = root_object();
   
   return parent->findChild<QDeclarativeItem*>(name) != NULL;
 }
 
 QDeclarativeItem* QmlPage::FindChild(const char *name, QDeclarativeItem* parent) const {
   if (parent == NULL)
-    parent = root_;
+    parent = root_object();
   
   QDeclarativeItem* child = parent->findChild<QDeclarativeItem*>(name);
   Q_ASSERT(child != NULL);
