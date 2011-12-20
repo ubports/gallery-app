@@ -49,7 +49,7 @@ Rectangle {
     delegate: Image {
       width: image_pager.width
       height: image_pager.height
-      sourceSize.width: 512
+      sourceSize.width: 1280
 
       transform: Scale { origin.x: width / 2; origin.y: height / 2;
         xScale: correct_scale }
