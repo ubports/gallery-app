@@ -149,7 +149,9 @@ Rectangle {
     
     checkerboardModel: ctx_overview_albums_model
     checkerboardDelegate: AlbumPreviewDelegate {
-      modelElement: modelData
+      qmlRC: modelData.qml_rc
+      albumName: modelData.album_name
+      previewList: modelData.preview_list
     }
   }
   

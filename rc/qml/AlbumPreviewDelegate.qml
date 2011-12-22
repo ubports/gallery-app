@@ -20,17 +20,18 @@
 import QtQuick 1.1
 
 Rectangle {
-  property variant modelElement
-  property variant preview_list: modelElement.preview_list
+  property string qmlRC
+  property string albumName
+  property variant previewList
   
   width: 388
   height: 252
   
-  onPreview_listChanged: {
+  onPreviewListChanged: {
     // if the preview_list changed, force the loader to reload the same
     // qml_rc (which is then populated with the new previews)
     loader.source = "";
-    loader.source = modelElement.qml_rc;
+    loader.source = qmlRC;
   }
   
   Loader {
@@ -40,11 +41,11 @@ Rectangle {
     height: parent.height
     clip: true
     
-    source: modelElement.qml_rc
+    source: qmlRC
     
     onItemChanged: {
       if (item != null) {
-        item.preview_list = parent.preview_list;
+        item.preview_list = previewList;
         item.image_gutter = 8;
         item.frame_gutter = 0;
       }
@@ -61,7 +62,7 @@ Rectangle {
     
     color: "#657CA9"
     
-    text: modelElement.album_name
+    text: albumName
     smooth: true
   }
 }

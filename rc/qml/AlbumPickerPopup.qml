@@ -97,7 +97,9 @@ Rectangle {
     model: album_popup_wrapper.designated_model
 
     delegate: AlbumPreviewDelegate {
-      modelElement: model
+      qmlRC: model.qml_rc
+      albumName: model.album_name
+      previewList: model.preview_list
       
       x: 22
       clip: true
