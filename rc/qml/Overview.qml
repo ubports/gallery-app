@@ -30,16 +30,11 @@ Rectangle {
   
   anchors.fill: parent
   
-  TopBar {
-    id: topbar
-    objectName: "topbar"
-  }
-  
   NavToolbar {
     id: navbar
     objectName: "navbar"
     
-    anchors.top: topbar.bottom
+    anchors.top: parent.top
     anchors.left: parent.left
     anchors.right: parent.right
     

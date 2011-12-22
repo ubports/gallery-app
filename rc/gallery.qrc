@@ -3,7 +3,6 @@
     <file>img/deselected-tab.png</file>
     <file>img/element-body.png</file>
     <file>img/popup-arrow.png</file>
-    <file>img/power.png</file>
     <file>img/return-cap.png</file>
     <file>img/selected-media.png</file>
     <file>img/selected-tab.png</file>
@@ -26,7 +25,6 @@
     <file>qml/SquareButton.qml</file>
     <file>qml/Tab.qml</file>
     <file>qml/TabletSurface.qml</file>
-    <file>qml/TopBar.qml</file>
     <file>qml/ViewerNavigationButton.qml</file>
 </qresource>
 </RCC>

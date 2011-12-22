@@ -27,7 +27,7 @@ Rectangle {
   signal power_off()
   
   width: 1280
-  height: 800
+  height: 776
   color: "white"
   
   /*

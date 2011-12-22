@@ -104,5 +104,4 @@ OTHER_FILES += \
 	rc/qml/SquareButton.qml \
 	rc/qml/Tab.qml \
 	rc/qml/TabletSurface.qml \
-	rc/qml/TopBar.qml \
 	rc/qml/ViewerNavigationButton.qml

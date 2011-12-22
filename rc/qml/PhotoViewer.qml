@@ -75,10 +75,13 @@ Rectangle {
       source: path
     }
     
+    // don't allow flicking while album_picker is visible
+    interactive: !album_picker.visible
+    
     MouseArea {
       anchors.fill: parent
       
-      onPressed: {
+      onClicked: {
         // dismiss album picker if up without changing chrome state
         if (album_picker.visible) {
           album_picker.visible = false;
@@ -139,11 +142,6 @@ Rectangle {
     
     color: "transparent"
     
-    TopBar {
-      id: topbar
-      objectName: "topbar"
-    }
-
     NavToolbar {
       id: toolbar
       objectName: "toolbar"

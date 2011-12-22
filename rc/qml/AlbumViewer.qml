@@ -27,19 +27,11 @@ Rectangle {
   
   anchors.fill: parent
   
-  TopBar {
-    id: topbar
-    objectName: "topbar"
-  }
-  
   ListView {
     id: template_pager
     objectName: "template_pager"
     
-    anchors.top: topbar.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.bottom: parent.bottom
+    anchors.fill: parent
     
     model: ctx_album_viewer_album_model
     
@@ -74,10 +66,7 @@ Rectangle {
     id: grid_checkerboard
     objectName: "grid_checkerboard"
     
-    anchors.top: topbar.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.bottom: parent.bottom
+    anchors.fill: parent
     anchors.topMargin: 24
     anchors.bottomMargin: 0
     anchors.leftMargin: 22
