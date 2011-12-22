@@ -19,7 +19,8 @@
 
 #include "selectable-view-collection.h"
 
-SelectableViewCollection::SelectableViewCollection() {
+SelectableViewCollection::SelectableViewCollection(const QString& name)
+  : ViewCollection(name) {
 }
 
 void SelectableViewCollection::notify_selection_altered(QSet<DataObject*>* selected,

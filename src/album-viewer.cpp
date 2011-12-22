@@ -52,7 +52,8 @@ void AlbumViewer::PageLoaded() {
 
 void AlbumViewer::PrepareToEnter(Album* album) {
   delete view_;
-  view_ = new SelectableViewCollection();
+  view_ = new SelectableViewCollection(
+    QString("SelectableViewCollection for ") + QString(album->ToString()));
   view_->MonitorDataCollection(album->contained(), NULL, false);
   
   delete album_model_;

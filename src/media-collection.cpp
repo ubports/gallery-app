@@ -30,7 +30,7 @@ const QString MediaCollection::THUMBNAIL_DIR = "thumbs";
 MediaCollection* MediaCollection::instance_ = NULL;
 
 MediaCollection::MediaCollection(const QDir& directory)
-  : directory_(directory) {
+  : SourceCollection("MediaCollection"), directory_(directory) {
   directory_.setFilter(QDir::Files);
   directory_.setSorting(QDir::Name);
   directory_.mkdir(THUMBNAIL_DIR);

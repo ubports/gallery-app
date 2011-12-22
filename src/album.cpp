@@ -26,12 +26,14 @@
 
 const char *Album::DEFAULT_NAME = "New Photo Album";
 
-Album::Album(const AlbumTemplate& album_template) :
-  album_template_(album_template), name_(DEFAULT_NAME), current_page_(0) {
+Album::Album(const AlbumTemplate& album_template)
+  : ContainerSource(DEFAULT_NAME), album_template_(album_template), name_(DEFAULT_NAME),
+  current_page_(0), pages_(QString("Pages for ") + QString(DEFAULT_NAME)) {
 }
 
-Album::Album(const AlbumTemplate& album_template, const QString& name) :
-  album_template_(album_template), name_(name) {
+Album::Album(const AlbumTemplate& album_template, const QString& name)
+  : ContainerSource(name), album_template_(album_template), name_(name),
+  current_page_(0), pages_(QString("Pages for ") + name) {
 }
 
 const QString& Album::name() const {

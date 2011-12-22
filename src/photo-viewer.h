@@ -24,7 +24,10 @@
 #include <QObject>
 #include <QDeclarativeView>
 
+#include "album.h"
 #include "photo.h"
+#include "selectable-view-collection.h"
+#include "qml-album-collection-model.h"
 #include "qml-media-model.h"
 #include "qml-page.h"
 
@@ -43,6 +46,14 @@ class PhotoViewer : public QmlPage {
   virtual void PrepareContext();
   virtual void PageLoaded();
   void PrepareToEnter(QmlMediaModel* model, Photo* start);
+  
+ private slots:
+  void on_album_selected(int album_number);
+  
+ private:
+  SelectableViewCollection album_view_collection;
+  QmlAlbumCollectionModel album_picker_model_;
+  QmlMediaModel* media_model_;
 };
 
 #endif  // GALLERY_PHOTO_VIEWER_H_

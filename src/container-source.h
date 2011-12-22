@@ -40,7 +40,7 @@ class ContainerSource : public DataSource {
     const QSet<DataObject*>* removed);
   
  public:
-  ContainerSource();
+  ContainerSource(const QString& name);
   
   void Attach(DataObject* object);
   void AttachMany(const QSet<DataObject*>& objects);

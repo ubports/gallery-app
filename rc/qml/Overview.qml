@@ -151,35 +151,8 @@ Rectangle {
     allow_selection: false
     
     checkerboardModel: ctx_overview_albums_model
-    checkerboardDelegate: Rectangle {
-      Loader {
-        id: loader
-        
-        width: 388
-        height: 252
-        
-        source: modelData.qml_rc
-        
-        onLoaded: {
-          item.preview_list = modelData.preview_list
-          item.image_gutter = 8;
-          item.frame_gutter = 0;
-        }
-      }
-      
-      Text {
-        height: 24
-        
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: loader.bottom
-        anchors.topMargin: 12
-        anchors.bottomMargin: 12
-        
-        color: "#657CA9"
-        
-        text: modelData.album_name
-        smooth: true
-      }
+    checkerboardDelegate: AlbumPreviewDelegate {
+      modelElement: modelData
     }
   }
   

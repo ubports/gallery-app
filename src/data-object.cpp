@@ -21,10 +21,18 @@
 
 DataObjectNumber DataObject::next_number_ = 0;
 
-DataObject::DataObject()
-  : number_(next_number_++) {
+DataObject::DataObject(const QString& name)
+  : name_(name.toUtf8()), number_(next_number_++) {
 }
 
 DataObjectNumber DataObject::number() const {
   return number_;
+}
+
+void DataObject::SetInternalName(const QString& name) {
+  name_ = name.toUtf8();
+}
+
+const char* DataObject::ToString() const {
+  return name_.data();
 }

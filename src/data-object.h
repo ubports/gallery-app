@@ -38,6 +38,8 @@
 #define GALLERY_DATA_OBJECT_H_
 
 #include <QObject>
+#include <QByteArray>
+#include <QString>
 
 typedef int DataObjectNumber;
 
@@ -45,13 +47,17 @@ class DataObject : public QObject {
   Q_OBJECT
   
 public:
-  DataObject();
+  DataObject(const QString& name);
   
   DataObjectNumber number() const;
+  void SetInternalName(const QString& name);
+  
+  virtual const char* ToString() const;
   
 private:
   static DataObjectNumber next_number_;
   
+  QByteArray name_;
   DataObjectNumber number_;
 };
 

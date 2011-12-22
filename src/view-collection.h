@@ -48,7 +48,7 @@ class ViewCollection : public DataCollection {
   Q_OBJECT
   
 public:
-  ViewCollection();
+  ViewCollection(const QString& name);
   
   // TODO: Allow multiple SourceCollections to be monitored.  Without a
   // DataView as a mediator, this means ViewCollection (and, hence,

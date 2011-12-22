@@ -21,7 +21,8 @@
 
 #include "data-source.h"
 
-SourceCollection::SourceCollection() {
+SourceCollection::SourceCollection(const QString& name)
+  : DataCollection(name) {
 }
 
 void SourceCollection::DestroyAll(bool destroy_backing, bool delete_objects) {

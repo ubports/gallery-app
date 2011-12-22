@@ -28,8 +28,20 @@ Rectangle {
   
   signal exit_viewer()
   
-  anchors.fill: parent
+  property int visible_index
+  
+  AlbumPickerPopup {
+    id: album_picker
+    objectName: "album_picker"
 
+    y: parent.height - height - toolbar.height
+    x: add_to_album_button.x + add_to_album_button.width / 2 - width + 16
+
+    visible: false
+
+    designated_model: ctx_album_picker_model
+  }
+  
   ListView {
     id: image_pager
     objectName: "image_pager"
@@ -66,11 +78,39 @@ Rectangle {
     MouseArea {
       anchors.fill: parent
       
-      onClicked: { if (chrome_wrapper.state == "shown")
-                     chrome_wrapper.state = "hidden"
-                   else
-                     chrome_wrapper.state = "shown"
-                 }
+      onPressed: {
+        // dismiss album picker if up without changing chrome state
+        if (album_picker.visible) {
+          album_picker.visible = false;
+          
+          return;
+        }
+        
+        // reverse album chrome's visible
+        chrome_wrapper.state = (chrome_wrapper.state == "shown")
+          ? "hidden" : "shown";
+      }
+    }
+    
+    function updateVisibleIndex() {
+      // Add one to ensure the hittest is in side the delegate's boundaries
+      parent.visible_index = indexAt(contentX + 1, contentY + 1);
+    }
+    
+    onModelChanged: {
+      updateVisibleIndex();
+    }
+    
+    onVisibleChanged: {
+      updateVisibleIndex();
+    }
+    
+    onCountChanged: {
+      updateVisibleIndex();
+    }
+    
+    onMovementEnded: {
+      updateVisibleIndex();
     }
   }
   
@@ -105,6 +145,9 @@ Rectangle {
     }
 
     NavToolbar {
+      id: toolbar
+      objectName: "toolbar"
+
       z: 10
       anchors.bottom: parent.bottom
       
@@ -118,6 +161,21 @@ Rectangle {
         onPressed: {
           chrome_wrapper.state = "hidden";
           photo_viewer.exit_viewer();
+        }
+      }
+
+      NavButton {
+        id: add_to_album_button
+        objectName: "add_to_album_button"
+
+        title: "add to album"
+
+        width: 98
+        x: parent.width - 3 * width
+        y: parent.height / 2 - height / 2
+
+        onPressed: {
+          album_picker.visible = !album_picker.visible;
         }
       }
     }

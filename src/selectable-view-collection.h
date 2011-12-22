@@ -39,7 +39,7 @@ signals:
     const QSet<DataObject*>* unselected);
   
 public:
-  SelectableViewCollection();
+  SelectableViewCollection(const QString& name);
   
   bool IsSelected(DataObject* object) const;
   

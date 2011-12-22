@@ -24,7 +24,7 @@
 #include <QDir>
 
 MediaSource::MediaSource(const QFileInfo& file)
-  : file_(file) {
+  : DataSource(file.completeBaseName()), file_(file) {
   preview_file_ = new QFileInfo(file.dir(),
     MediaCollection::THUMBNAIL_DIR + "/" +
     file.completeBaseName() + "_th." + file.completeSuffix());

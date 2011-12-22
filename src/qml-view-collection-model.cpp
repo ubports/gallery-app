@@ -81,31 +81,33 @@ QVariant QmlViewCollectionModel::FilenameVariant(const QFileInfo& file_info) {
   return QVariant("file:" + file_info.absoluteFilePath());
 }
 
-void QmlViewCollectionModel::NotifyElementAltered(int index) {
+void QmlViewCollectionModel::NotifyElementAdded(int index) {
   if (index >= 0) {
     beginInsertRows(QModelIndex(), index, index);
     endInsertRows();
   }
 }
 
+void QmlViewCollectionModel::NotifyElementAltered(int index, int role) {
+  if (index >= 0) {
+    QModelIndex model_index = createIndex(index, role);
+    emit dataChanged(model_index, model_index);
+  }
+}
+
+void QmlViewCollectionModel::NotifySetAltered(const QSet<DataObject*>* list, int role) {
+  DataObject* object;
+  foreach (object, *list)
+    NotifyElementAltered(view_->IndexOf(object), role);
+}
+
 void QmlViewCollectionModel::on_selection_altered(const QSet<DataObject*>* selected,
   const QSet<DataObject*>* unselected) {
   if (selected != NULL)
-    ReportDataChanged(selected);
+    NotifySetAltered(selected, SelectionRole);
   
   if (unselected != NULL)
-    ReportDataChanged(unselected);
-}
-
-void QmlViewCollectionModel::ReportDataChanged(const QSet<DataObject*>* list) {
-  DataObject* object;
-  foreach (object, *list) {
-    int index = view_->IndexOf(object);
-    if (index >= 0) {
-      QModelIndex model_index = createIndex(index, SelectionRole);
-      emit dataChanged(model_index, model_index);
-    }
-  }
+    NotifySetAltered(unselected, SelectionRole);
 }
 
 void QmlViewCollectionModel::on_contents_altered(const QSet<DataObject*>* added,
@@ -114,7 +116,7 @@ void QmlViewCollectionModel::on_contents_altered(const QSet<DataObject*>* added,
   if (added != NULL) {
     DataObject* object;
     foreach (object, *added)
-      NotifyElementAltered(view_->IndexOf(object));
+      NotifyElementAdded(view_->IndexOf(object));
   }
   
   // TODO: Removed content

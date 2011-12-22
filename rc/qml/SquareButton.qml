@@ -14,22 +14,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Authors:
- * Jim Nelson <jim@yorba.org>
+ * Lucas Beeler <lucas@yorba.org>
  */
 
-#include "album-page.h"
+import QtQuick 1.1
 
-AlbumPage::AlbumPage(int page_number, AlbumTemplatePage* template_page)
-  : ContainerSource("Album"), page_number_(page_number), template_page_(template_page) {
-}
+Rectangle {
+  property string title: "button"
+  property bool is_primary: false
 
-int AlbumPage::page_number() const {
-  return page_number_;
-}
+  signal pressed()
 
-AlbumTemplatePage* AlbumPage::template_page() const {
-  return template_page_;
-}
+  height: 32
+  width: 60
 
-void AlbumPage::DestroySource(bool destroy_backing) {
+  color: (is_primary) ? "#008ecb" : "#9d9d9d"
+
+  Text {
+    anchors.fill: parent
+
+    text: parent.title
+
+    color: "white"
+
+    verticalAlignment: Text.AlignVCenter
+    horizontalAlignment: Text.AlignHCenter
+  }
+
+  MouseArea {
+    anchors.fill: parent
+
+    onClicked: parent.pressed()
+  }
 }

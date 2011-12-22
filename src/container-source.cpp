@@ -19,7 +19,8 @@
 
 #include "container-source.h"
 
-ContainerSource::ContainerSource() {
+ContainerSource::ContainerSource(const QString& name)
+  : DataSource(name), contained_(QString("Container for ") + QString(name)) {
   QObject::connect(&contained_,
     SIGNAL(contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
     this,

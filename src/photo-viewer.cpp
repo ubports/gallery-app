@@ -22,10 +22,16 @@
 
 #include <QMetaObject>
 
+#include "album-collection.h"
+
 static const char* CTX_PHOTO_MODEL = "ctx_photo_viewer_photo_model";
 
 PhotoViewer::PhotoViewer(QDeclarativeView* view)
-  : QmlPage(view, "photo_viewer") {
+  : QmlPage(view, "photo_viewer"), album_view_collection("PhotoViewer Album ViewCollection"),
+  media_model_(NULL) {
+  album_view_collection.MonitorDataCollection(AlbumCollection::instance(),
+    NULL, false);
+  album_picker_model_.Init(&album_view_collection);
 }
 
 const char* PhotoViewer::qml_rc() const {
@@ -34,13 +40,20 @@ const char* PhotoViewer::qml_rc() const {
 
 void PhotoViewer::PrepareContext() {
   SetContextProperty(CTX_PHOTO_MODEL, NULL);
+  SetContextProperty("ctx_album_picker_model", &album_picker_model_);
 }
 
 void PhotoViewer::PageLoaded() {
   Connect("photo_viewer", SIGNAL(exit_viewer()), this, SIGNAL(exit_viewer()));
+  Connect("album_picker", SIGNAL(selected(int)), this, SLOT(on_album_selected(int)));
+  
+  ClearProperty("album_picker", "designated_model");
+  SetContextProperty("ctx_album_picker_model", &album_picker_model_);
 }
 
 void PhotoViewer::PrepareToEnter(QmlMediaModel *model, Photo* start) {
+  media_model_ = model;
+  
   // Clear item properties before setting context properties ... apparently
   // changes to context properties do not properly propagate to their bound
   // item properties
@@ -54,4 +67,13 @@ void PhotoViewer::PrepareToEnter(QmlMediaModel *model, Photo* start) {
   QMetaObject::invokeMethod(list_view, "positionViewAtIndex",
     Q_ARG(int, model->BackingViewCollection()->IndexOf(start)),
     Q_ARG(int, 0));
+}
+
+void PhotoViewer::on_album_selected(int album_number) {
+  int visible_index = GetProperty("photo_viewer", "visible_index").toInt();
+  
+  Photo* photo = qobject_cast<Photo*>(media_model_->BackingViewCollection()->GetAt(visible_index));
+  Album* album = qobject_cast<Album*>(album_view_collection.FindByNumber(album_number));
+  
+  album->Attach(photo);
 }

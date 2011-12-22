@@ -73,10 +73,14 @@ protected:
   // unknown
   virtual QVariant DataForRole(DataObject* object, int role) const = 0;
   
+  // This notifies model subscribers that elements have been added at the
+  // particular index ... note that QmlViewCollectionModel monitors
+  // the SelectableViewCollections "contents-altered" signal already
+  void NotifyElementAdded(int index);
+  
   // This notifies model subscribers that the element at the particular index
-  // has been altered in some way ... note that QmlViewCollectionModel monitors
-  // the SelectableViewCollections "contents-altered" signal already.
-  void NotifyElementAltered(int index);
+  // has been altered in some way.
+  void NotifyElementAltered(int index, int role);
   
 private slots:
   void on_selection_altered(const QSet<DataObject*>* selected,
@@ -87,7 +91,7 @@ private slots:
 private:
   QPointer<SelectableViewCollection> view_;
   
-  void ReportDataChanged(const QSet<DataObject*> *list);
+  void NotifySetAltered(const QSet<DataObject*> *list, int role);
 };
 
 #endif  // GALLERY_QML_VIEW_COLLECTION_MODEL_H_

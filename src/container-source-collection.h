@@ -30,6 +30,7 @@
 #define GALLERY_CONTAINER_SOURCE_COLLECTION_H_
 
 #include <QObject>
+#include <QString>
 
 #include "source-collection.h"
 
@@ -37,7 +38,7 @@ class ContainerSourceCollection : public SourceCollection {
   Q_OBJECT
   
 public:
-  ContainerSourceCollection();
+  ContainerSourceCollection(const QString& name);
 };
 
 #endif  // GALLERY_CONTAINER_SOURCE_COLLECTION_H_

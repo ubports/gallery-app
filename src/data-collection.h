@@ -29,8 +29,10 @@
 #define GALLERY_DATA_COLLECTION_H_
 
 #include <QObject>
+#include <QByteArray>
 #include <QList>
 #include <QSet>
+#include <QString>
 
 #include "data-object.h"
 
@@ -53,7 +55,7 @@ class DataCollection : public QObject {
   // Default comparator uses DataObjectNumber
   static bool DefaultDataObjectComparator(DataObject* a, DataObject* b);
   
-  DataCollection();
+  DataCollection(const QString& name);
   
   int Count() const;
   
@@ -76,6 +78,10 @@ class DataCollection : public QObject {
   void SetComparator(DataObjectComparator comparator);
   DataObjectComparator comparator() const;
   
+  void SetInternalName(const QString& name);
+  
+  virtual const char* ToString() const;
+  
  protected:
   virtual void notify_contents_altered(const QSet<DataObject*>* added,
     const QSet<DataObject*>* removed);
@@ -83,6 +89,7 @@ class DataCollection : public QObject {
   virtual void notify_ordering_altered();
   
  private:
+  QByteArray name_;
   QList<DataObject*> list_;
   DataObjectComparator comparator_;
   

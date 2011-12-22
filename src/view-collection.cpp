@@ -19,8 +19,8 @@
 
 #include "view-collection.h"
 
-ViewCollection::ViewCollection()
-  : monitoring_(NULL), monitor_filter_(NULL), monitor_ordering_(false) {
+ViewCollection::ViewCollection(const QString& name)
+  : DataCollection(name), monitoring_(NULL), monitor_filter_(NULL), monitor_ordering_(false) {
 }
 
 void ViewCollection::MonitorDataCollection(const DataCollection* collection,

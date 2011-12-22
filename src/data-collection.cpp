@@ -19,8 +19,8 @@
 
 #include "data-collection.h"
 
-DataCollection::DataCollection()
-  : comparator_(DefaultDataObjectComparator) {
+DataCollection::DataCollection(const QString& name)
+  : name_(name.toUtf8()), comparator_(DefaultDataObjectComparator) {
 }
 
 void DataCollection::notify_contents_altered(const QSet<DataObject*>* added,
@@ -159,4 +159,12 @@ void DataCollection::resort(bool fire_signal) {
   
   if (fire_signal)
     notify_ordering_altered();
+}
+
+void DataCollection::SetInternalName(const QString& name) {
+  name_ = name.toUtf8();
+}
+
+const char* DataCollection::ToString() const {
+  return name_.data();
 }

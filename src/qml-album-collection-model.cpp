@@ -81,5 +81,5 @@ QVariant QmlAlbumCollectionModel::DataForRole(DataObject *object, int role) cons
 }
 
 void QmlAlbumCollectionModel::on_album_current_page_contents_altered(Album* album) {
-  NotifyElementAltered(BackingViewCollection()->IndexOf(album));
+  NotifyElementAltered(BackingViewCollection()->IndexOf(album), PreviewListRole);
 }

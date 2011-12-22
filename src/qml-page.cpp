@@ -55,6 +55,11 @@ void QmlPage::Connect(const char* item_name, const char* signal,
   QObject::connect(FindChild(item_name, parent), signal, receiver, method, type);
 }
 
+QVariant QmlPage::GetProperty(const char* item_name, const char* name,
+  QDeclarativeItem* parent) const {
+  return FindChild(item_name, parent)->property(name);
+}
+
 void QmlPage::SetProperty(const char* item_name, const char* name,
   const QVariant& variant, QDeclarativeItem* parent) const {
   FindChild(item_name, parent)->setProperty(name, variant);

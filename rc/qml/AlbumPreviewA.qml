@@ -35,7 +35,7 @@ Row {
     width: (parent.width / 2) - (frame_gutter * 2) - border_width
     height: parent.height - border_width
     
-    image_source: preview_list[0]
+    image_source: { (preview_list != null) ? preview_list[0] : ""; }
     frame_gutter: parent.frame_gutter
     image_gutter: parent.image_gutter
     border_width: parent.border_width
@@ -57,7 +57,7 @@ Row {
     width: (parent.width / 2) - (frame_gutter * 2) - border_width
     height: parent.height - border_width
     
-    image_source: preview_list[1]
+    image_source: { (preview_list != null) ? preview_list[1] : ""; }
     frame_gutter: parent.frame_gutter
     image_gutter: parent.image_gutter
     border_width: parent.border_width

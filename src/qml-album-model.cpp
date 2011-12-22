@@ -23,7 +23,7 @@
 #include <QtDeclarative>
 
 QmlAlbumModel::QmlAlbumModel(QObject* parent)
-  : QmlViewCollectionModel(parent), album_(NULL) {
+  : QmlViewCollectionModel(parent), album_(NULL), view_("QmlAlbumModel ViewCollection") {
 }
 
 void QmlAlbumModel::Init(Album* album) {

@@ -62,7 +62,7 @@ signals:
   void destroyed(bool destroyed_backing);
   
 public:
-  DataSource();
+  DataSource(const QString& name);
   
   friend class SourceCollection;
   

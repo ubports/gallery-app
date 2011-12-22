@@ -49,6 +49,8 @@ class QmlPage : public QObject {
     const char* method, Qt::ConnectionType type = Qt::AutoConnection,
     QDeclarativeItem* parent = NULL) const;
   
+  QVariant GetProperty(const char* item_name, const char* name,
+    QDeclarativeItem* parent = NULL) const;
   void SetProperty(const char* item_name, const char* name,
     const QVariant& variant, QDeclarativeItem* parent = NULL) const;
   void ClearProperty(const char* item_name, const char* name,

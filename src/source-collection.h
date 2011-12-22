@@ -40,7 +40,7 @@ class SourceCollection : public DataCollection {
   void destroying(const QSet<DataObject*>* objects);
   
  public:
-  SourceCollection();
+  SourceCollection(const QString& name);
   
   void DestroyAll(bool destroy_backing, bool delete_objects);
   

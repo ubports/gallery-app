@@ -29,7 +29,8 @@ static const char* CTX_MEDIA_MODEL = "ctx_overview_media_model";
 static const char* CTX_ALBUMS_MODEL = "ctx_overview_albums_model";
 
 Overview::Overview(QDeclarativeView* view)
-  : QmlPage(view, "overview") {
+  : QmlPage(view, "overview"), media_view_("Media ViewCollection"),
+  albums_view_("Albums ViewCollection") {
   media_view_.MonitorDataCollection(MediaCollection::instance(), NULL, false);
   albums_view_.MonitorDataCollection(AlbumCollection::instance(), NULL, false);
   

@@ -88,8 +88,10 @@ HEADERS += \
 
 OTHER_FILES += \
 	rc/gallery.qrc \
+	rc/qml/AlbumPickerPopup.qml \
 	rc/qml/AlbumPreviewA.qml \
 	rc/qml/AlbumPreviewB.qml \
+	rc/qml/AlbumPreviewDelegate.qml \
 	rc/qml/AlbumViewer.qml \
 	rc/qml/BinaryTabGroup.qml \
 	rc/qml/Checkerboard.qml \
@@ -99,6 +101,7 @@ OTHER_FILES += \
 	rc/qml/Overview.qml \
 	rc/qml/PhotoViewer.qml \
 	rc/qml/ReturnButton.qml \
+	rc/qml/SquareButton.qml \
 	rc/qml/Tab.qml \
 	rc/qml/TabletSurface.qml \
 	rc/qml/TopBar.qml \

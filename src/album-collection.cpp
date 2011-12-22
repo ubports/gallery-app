@@ -21,7 +21,8 @@
 
 AlbumCollection *AlbumCollection::instance_ = NULL;
 
-AlbumCollection::AlbumCollection() {
+AlbumCollection::AlbumCollection()
+  : ContainerSourceCollection("AlbumCollection") {
 }
 
 AlbumCollection* AlbumCollection::instance() {

@@ -19,5 +19,6 @@
 
 #include "container-source-collection.h"
 
-ContainerSourceCollection::ContainerSourceCollection() {
+ContainerSourceCollection::ContainerSourceCollection(const QString& name)
+  : SourceCollection(name) {
 }
