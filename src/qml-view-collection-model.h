@@ -35,8 +35,13 @@
 
 class QmlViewCollectionModel : public QAbstractListModel {
   Q_OBJECT
+  Q_PROPERTY(int selectedCount READ selectedCount NOTIFY selectedCountChanged)
   
-public:
+  
+ signals:
+  void selectedCountChanged();
+  
+ public:
   // These roles are available for all subclasses of QmlViewCollectionModel.
   // However, they must be manually added (and named) in the QHash that's
   // passed to Init(); they will not be added automatically.  However, if they
@@ -61,9 +66,11 @@ public:
   virtual int rowCount(const QModelIndex& parent) const;
   virtual QVariant data(const QModelIndex& index, int role) const;
   
+  int selectedCount() const;
+  
   SelectableViewCollection* BackingViewCollection() const;
   
-protected:
+ protected:
   // Utility method for creating file paths packed inside a QVariant (don't
   // prepend URI specifier)
   static QVariant FilenameVariant(const QFileInfo& file_info);
@@ -88,7 +95,7 @@ private slots:
   void on_contents_altered(const QSet<DataObject*>* selected,
     const QSet<DataObject*>* unselected);
   
-private:
+ private:
   QPointer<SelectableViewCollection> view_;
   
   void NotifySetAltered(const QSet<DataObject*> *list, int role);

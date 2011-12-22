@@ -42,6 +42,8 @@ Rectangle {
   
   property bool in_selection_mode: false
   property bool allow_selection: true
+  property int selected_count:
+    (checkerboardModel != null) ? checkerboardModel.selectedCount : 0
   
   color: "white"
   clip: true

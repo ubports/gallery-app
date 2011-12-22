@@ -70,7 +70,7 @@ Rectangle {
       anchors.right:  cancel_selecting.left
       
       title: "deselect"
-      visible: photos_checkerboard.in_selection_mode
+      visible: photos_checkerboard.selected_count > 0
       
       onPressed: {
         photos_checkerboard.unselect_all();
@@ -161,6 +161,13 @@ Rectangle {
     visible: photos_checkerboard.in_selection_mode
     anchors.bottom: parent.bottom
     
+    Text {
+      anchors.centerIn: parent
+      
+      text: "Select photos or movieclip(s) to edit"
+      visible: photos_checkerboard.selected_count == 0
+    }
+    
     NavButton {
       id: create_album
       objectName: "create_album"
@@ -168,6 +175,7 @@ Rectangle {
       anchors.right: parent.right
       
       title: "album"
+      visible: photos_checkerboard.selected_count > 0
       
       onPressed: {
         overview.create_album_from_selected();

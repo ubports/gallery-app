@@ -71,6 +71,10 @@ QVariant QmlViewCollectionModel::data(const QModelIndex& index, int role) const 
   }
 }
 
+int QmlViewCollectionModel::selectedCount() const {
+  return view_->GetSelectedCount();
+}
+
 SelectableViewCollection* QmlViewCollectionModel::BackingViewCollection() const {
   Q_ASSERT(IsInited());
   
@@ -108,6 +112,8 @@ void QmlViewCollectionModel::on_selection_altered(const QSet<DataObject*>* selec
   
   if (unselected != NULL)
     NotifySetAltered(unselected, SelectionRole);
+  
+  emit selectedCountChanged();
 }
 
 void QmlViewCollectionModel::on_contents_altered(const QSet<DataObject*>* added,
