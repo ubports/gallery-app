@@ -50,6 +50,8 @@ Rectangle {
       
       state: "tab1_active"
       
+      visible: !photos_checkerboard.in_selection_mode
+      
       onTab0_activated: {
         albums_checkerboard.visible = true;
         photos_checkerboard.visible = false;
