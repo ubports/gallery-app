@@ -31,7 +31,7 @@ class QmlAlbumModel : public QmlViewCollectionModel {
   
  public:
   enum Role {
-    MediaPathListRole = QmlViewCollectionModel::LastCommonRole,
+    MediaSourceListRole = QmlViewCollectionModel::LastCommonRole,
     PageNumberRole,
     QmlRcRole
   };

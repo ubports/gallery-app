@@ -33,7 +33,7 @@ class QmlAlbumCollectionModel : public QmlViewCollectionModel {
   
  public:
   enum Role {
-    PreviewListRole = QmlViewCollectionModel::LastCommonRole,
+    MediaSourceListRole = QmlViewCollectionModel::LastCommonRole,
     NameRole,
     QmlRcRole
   };

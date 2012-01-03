@@ -23,32 +23,24 @@ Rectangle {
   id: frame_portrait
   objectName: "frame_portrait"
   
-  property string image_source
-  property int frame_gutter
-  property int image_gutter
+  property variant mediaSource
+  property int gutter: 0
   property int border_width: 3
-  
-  anchors.margins: frame_gutter
   
   border.width: border_width
   border.color: "#657CA9"
   
-  Image {
-    id: image
-    objectName: "image"
+  PhotoComponent {
+    id: photo
+    objectName: "photo"
     
     anchors.centerIn: parent
     
-    width: parent.width - (image_gutter * 2)
-    height: parent.height - (image_gutter * 2)
-    sourceSize.width: 512
+    width: parent.width - (gutter * 2)
+    height: parent.height - (gutter * 2)
     
-    source: image_source
+    mediaSource: parent.mediaSource
     
-    asynchronous: true
-    cache: true
-    smooth: true
-    fillMode: Image.PreserveAspectCrop
-    clip: true
+    isCropped: true
   }
 }

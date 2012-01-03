@@ -23,13 +23,12 @@ Row {
   id: album_preview_b
   objectName: "album_preview_b"
   
-  property variant preview_list
-  property int frame_gutter: 24
-  property int image_gutter: 24
+  property variant mediaSourceList
+  property int gutter: 24
   property int border_width: 3
   
   Column {
-    width: ((parent.width / 2) - (album_preview_b.frame_gutter * 2)) - album_preview_b.border_width
+    width: (parent.width / 2) - album_preview_b.border_width
     height: parent.height
     
     FramePortrait {
@@ -37,11 +36,10 @@ Row {
       objectName: "top"
       
       width: parent.width
-      height: ((parent.height / 2) - (album_preview_b.frame_gutter * 2)) - border_width
+      height: (parent.height / 2) - border_width
       
-      image_source: { (preview_list != null) ? preview_list[0] : ""; }
-      frame_gutter: album_preview_b.frame_gutter
-      image_gutter: album_preview_b.image_gutter
+      mediaSource: (mediaSourceList != null) ? mediaSourceList[0] : null
+      gutter: album_preview_b.gutter
       border.width: album_preview_b.border_width
     }
     
@@ -59,11 +57,10 @@ Row {
       objectName: "bottom"
       
       width: parent.width
-      height: ((parent.height / 2) - (album_preview_b.frame_gutter * 2)) - border_width
+      height: (parent.height / 2) - border_width
       
-      image_source: { (preview_list != null) ? preview_list[1] : ""; }
-      frame_gutter: album_preview_b.frame_gutter
-      image_gutter: album_preview_b.image_gutter
+      mediaSource: (mediaSourceList != null) ? mediaSourceList[1] : null
+      gutter: album_preview_b.gutter
       border_width: album_preview_b.border_width
     }
   }
@@ -81,12 +78,11 @@ Row {
     id: right
     objectName: "right"
     
-    width: ((parent.width / 2) - (album_preview_b.frame_gutter * 2)) - border_width
+    width: (parent.width / 2) - border_width
     height: parent.height - border_width
     
-    image_source: { (preview_list != null) ? preview_list[2] : ""; }
-    frame_gutter: album_preview_b.frame_gutter
-    image_gutter: album_preview_b.image_gutter
+    mediaSource: (mediaSourceList != null) ? mediaSourceList[2] : null
+    gutter: album_preview_b.gutter
     border_width: album_preview_b.border_width
   }
 }

@@ -12,7 +12,7 @@
     <file>qml/AlbumPickerPopup.qml</file>
     <file>qml/AlbumPreviewA.qml</file>
     <file>qml/AlbumPreviewB.qml</file>
-    <file>qml/AlbumPreviewDelegate.qml</file>
+    <file>qml/AlbumPreviewComponent.qml</file>
     <file>qml/AlbumViewer.qml</file>
     <file>qml/BinaryTabGroup.qml</file>
     <file>qml/Checkerboard.qml</file>
@@ -20,6 +20,7 @@
     <file>qml/NavButton.qml</file>
     <file>qml/NavToolbar.qml</file>
     <file>qml/Overview.qml</file>
+    <file>qml/PhotoComponent.qml</file>
     <file>qml/PhotoViewer.qml</file>
     <file>qml/ReturnButton.qml</file>
     <file>qml/SquareButton.qml</file>

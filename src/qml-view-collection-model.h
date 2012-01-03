@@ -37,7 +37,6 @@ class QmlViewCollectionModel : public QAbstractListModel {
   Q_OBJECT
   Q_PROPERTY(int selectedCount READ selectedCount NOTIFY selectedCountChanged)
   
-  
  signals:
   void selectedCountChanged();
   

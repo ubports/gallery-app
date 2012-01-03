@@ -17,11 +17,9 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "media-collection.h"
 #include "media-source.h"
 
-#include <QFileInfo>
-#include <QDir>
+#include "media-collection.h"
 
 MediaSource::MediaSource(const QFileInfo& file)
   : DataSource(file.completeBaseName()), file_(file) {
@@ -30,13 +28,13 @@ MediaSource::MediaSource(const QFileInfo& file)
     file.completeBaseName() + "_th." + file.completeSuffix());
 }
 
+MediaSource::~MediaSource() {
+  delete preview_file_;
+}
+
 void MediaSource::Init() {
   if (!preview_file_->exists())
     MakePreview(file_, *preview_file_);
-}
-
-MediaSource::~MediaSource() {
-  delete preview_file_;
 }
 
 const QFileInfo& MediaSource::file() const {
@@ -47,6 +45,6 @@ const QFileInfo& MediaSource::preview_file() const {
   return *preview_file_;
 }
 
-OrientationCorrection MediaSource::orientation_correction() const {
-  return OrientationCorrection::Identity();
+Orientation MediaSource::orientation() const {
+  return TOP_LEFT_ORIGIN;
 }

@@ -22,16 +22,20 @@ import QtQuick 1.1
 Rectangle {
   property string qmlRC
   property string albumName
-  property variant previewList
+  property variant mediaSourceList
   
   width: 388
   height: 252
   
-  onPreviewListChanged: {
+  onMediaSourceListChanged: {
+    if (!loader.item)
+      return;
+    
     // if the preview_list changed, force the loader to reload the same
     // qml_rc (which is then populated with the new previews)
+    var src = loader.source;
     loader.source = "";
-    loader.source = qmlRC;
+    loader.source = src;
   }
   
   Loader {
@@ -43,11 +47,12 @@ Rectangle {
     
     source: qmlRC
     
-    onItemChanged: {
-      if (item != null) {
-        item.preview_list = previewList;
-        item.image_gutter = 8;
-        item.frame_gutter = 0;
+    onLoaded: {
+      if (item) {
+        item.mediaSourceList = mediaSourceList;
+        item.width = parent.width;
+        item.height = parent.height;
+        item.gutter = 8;
       }
     }
   }

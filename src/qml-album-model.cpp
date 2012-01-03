@@ -20,7 +20,10 @@
 #include "qml-album-model.h"
 
 #include <QHash>
+#include <QList>
 #include <QtDeclarative>
+
+#include "qml-media-source.h"
 
 QmlAlbumModel::QmlAlbumModel(QObject* parent)
   : QmlViewCollectionModel(parent), album_(NULL), view_("QmlAlbumModel ViewCollection") {
@@ -34,7 +37,7 @@ void QmlAlbumModel::Init(Album* album) {
   QHash<int, QByteArray> roles;
   roles[QmlViewCollectionModel::ObjectNumberRole] = "object_number";
   roles[QmlViewCollectionModel::SelectionRole] = "is_selected";
-  roles[MediaPathListRole] = "media_path_list";
+  roles[MediaSourceListRole] = "mediaSourceList";
   roles[PageNumberRole] = "page_number";
   roles[QmlRcRole] = "qml_rc";
   
@@ -52,16 +55,12 @@ QVariant QmlAlbumModel::DataForRole(DataObject* object, int role) const {
     return QVariant();
   
   switch (role) {
-    case MediaPathListRole: {
+    case MediaSourceListRole: {
       QList<QVariant> varlist;
       
       DataObject* object;
-      foreach (object, page->contained()->GetAll()) {
-        MediaSource* media = qobject_cast<MediaSource*>(object);
-        Q_ASSERT(media != NULL);
-        
-        varlist.append(FilenameVariant(media->file()));
-      }
+      foreach (object, page->contained()->GetAll())
+        varlist.append(QmlMediaSource::AsVariant(qobject_cast<MediaSource*>(object)));
       
       // The QML page is expecting a full list of preview paths, so pack any
       // empty slots with empty strings to prevent a runtime error being logged

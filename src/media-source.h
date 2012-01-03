@@ -24,15 +24,14 @@
 #include <QFileInfo>
 
 #include "data-source.h"
+#include "photo-metadata.h"
 
 typedef DataObjectNumber MediaNumber;
-
-#include "photo-metadata.h"
 
 class MediaSource : public DataSource {
   Q_OBJECT
   
-public:
+ public:
   explicit MediaSource(const QFileInfo& file);
   virtual ~MediaSource();
   
@@ -43,12 +42,13 @@ public:
   
   const QFileInfo& file() const;
   const QFileInfo& preview_file() const;
-  virtual OrientationCorrection orientation_correction() const;
   
-protected:
+  virtual Orientation orientation() const;
+  
+ protected:
   virtual bool MakePreview(const QFileInfo& original, const QFileInfo& dest) = 0;
   
-private:
+ private:
   QFileInfo file_;
   QFileInfo* preview_file_;
 };

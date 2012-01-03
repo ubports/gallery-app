@@ -35,8 +35,8 @@ class Photo : public MediaSource {
   static const int PREVIEW_HEIGHT_MAX = 148;
   
   explicit Photo(const QFileInfo& file);
-
-  virtual OrientationCorrection orientation_correction() const;
+  
+  virtual Orientation orientation() const;
   
  protected:
   virtual bool MakePreview(const QFileInfo& original, const QFileInfo& dest);

@@ -24,6 +24,8 @@
 
 #include "album.h"
 #include "album-collection.h"
+#include "media-source.h"
+#include "qml-media-source.h"
 
 QmlAlbumCollectionModel::QmlAlbumCollectionModel(QObject* parent)
   : QmlViewCollectionModel(parent) {
@@ -39,7 +41,7 @@ void QmlAlbumCollectionModel::Init(SelectableViewCollection* view) {
   roles[QmlViewCollectionModel::ObjectNumberRole] = "object_number";
   roles[QmlViewCollectionModel::SelectionRole] = "is_selected";
   roles[NameRole] = "album_name";
-  roles[PreviewListRole] = "preview_list";
+  roles[MediaSourceListRole] = "mediaSourceList";
   roles[QmlRcRole] = "qml_rc";
   
   QmlViewCollectionModel::Init(view, roles);
@@ -58,16 +60,12 @@ QVariant QmlAlbumCollectionModel::DataForRole(DataObject *object, int role) cons
     case NameRole:
       return QVariant(album->name());
     
-    case PreviewListRole: {
+    case MediaSourceListRole: {
       QList<QVariant> varlist;
       
       DataObject* object;
-      foreach (object, album->GetPage(album->current_page())->contained()->GetAll()) {
-        MediaSource* media = qobject_cast<MediaSource*>(object);
-        Q_ASSERT(media != NULL);
-        
-        varlist.append(FilenameVariant(media->file()));
-      }
+      foreach (object, album->GetPage(album->current_page())->contained()->GetAll())
+        varlist.append(QmlMediaSource::AsVariant(qobject_cast<MediaSource*>(object)));
       
       return QVariant(varlist);
     }
@@ -81,5 +79,5 @@ QVariant QmlAlbumCollectionModel::DataForRole(DataObject *object, int role) cons
 }
 
 void QmlAlbumCollectionModel::on_album_current_page_contents_altered(Album* album) {
-  NotifyElementAltered(BackingViewCollection()->IndexOf(album), PreviewListRole);
+  NotifyElementAltered(BackingViewCollection()->IndexOf(album), MediaSourceListRole);
 }

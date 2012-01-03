@@ -59,6 +59,6 @@ void Photo::DestroySource(bool destroy_backing) {
   // TODO: destroy the backing photo file and database entry
 }
 
-OrientationCorrection Photo::orientation_correction() const {
-  return metadata_->orientation_correction();
+Orientation Photo::orientation() const {
+  return metadata_->orientation();
 }

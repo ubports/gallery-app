@@ -58,21 +58,13 @@ Rectangle {
     keyNavigationWraps: true
     highlightMoveSpeed: 2000.0
     
-    delegate: Image {
+    delegate: PhotoComponent {
       width: image_pager.width
       height: image_pager.height
-      sourceSize.width: 1280
-
-      transform: Scale { origin.x: width / 2; origin.y: height / 2;
-        xScale: correct_scale }
-      rotation: correct_rotation
       
-      asynchronous: true
-      cache: true
-      fillMode: Image.PreserveAspectFit
-      smooth: true
+      color: "#444444"
       
-      source: path
+      mediaSource: media_source
     }
     
     // don't allow flicking while album_picker is visible

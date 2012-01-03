@@ -53,11 +53,10 @@ Rectangle {
       source: qml_rc
       
       onLoaded: {
-        item.preview_list = media_path_list;
+        item.mediaSourceList = mediaSourceList;
         item.width = template_pager.width;
         item.height = template_pager.height;
-        item.image_gutter = 24;
-        item.frame_gutter = 0;
+        item.gutter = 24;
       }
     }
   }
@@ -77,19 +76,15 @@ Rectangle {
     allow_selection: false
     
     checkerboardModel: ctx_album_viewer_media_model
-    checkerboardDelegate: Image {
-      source: modelData.preview_path
-      
+    checkerboardDelegate: PhotoComponent {
       anchors.centerIn: parent
       
       width: parent.width
       height: parent.height
       
-      asynchronous: true
-      cache: true
-      smooth: true
-      fillMode: Image.PreserveAspectCrop
-      clip: true
+      mediaSource: modelData.media_source
+      isCropped: true
+      isPreview: true
     }
   }
   

@@ -19,8 +19,6 @@
  */
 
 import QtQuick 1.1
-import org.yorba.qt.qmlmediamodel 1.0
-import org.yorba.qt.qmlalbummodel 1.0
 
 Rectangle {
   id: overview
@@ -110,19 +108,10 @@ Rectangle {
     allow_selection: true
     
     checkerboardModel: ctx_overview_media_model
-    checkerboardDelegate: Image {
-      source: modelData.preview_path
-      
-      anchors.centerIn: parent
-      
-      width: parent.width
-      height: parent.height
-      
-      asynchronous: true
-      cache: true
-      smooth: true
-      fillMode: Image.PreserveAspectCrop
-      clip: true
+    checkerboardDelegate: PhotoComponent {
+      mediaSource: modelData.media_source
+      isCropped: true
+      isPreview: true
     }
   }
   
@@ -148,10 +137,10 @@ Rectangle {
     allow_selection: false
     
     checkerboardModel: ctx_overview_albums_model
-    checkerboardDelegate: AlbumPreviewDelegate {
+    checkerboardDelegate: AlbumPreviewComponent {
       qmlRC: modelData.qml_rc
       albumName: modelData.album_name
-      previewList: modelData.preview_list
+      mediaSourceList: modelData.mediaSourceList
     }
   }
   

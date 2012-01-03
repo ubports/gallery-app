@@ -23,21 +23,19 @@ Row {
   id: album_preview_a
   objectName: "album_preview_a"
   
-  property variant preview_list
-  property int frame_gutter: 24
-  property int image_gutter: 24
+  property variant mediaSourceList
+  property int gutter: 24
   property int border_width: 3
   
   FramePortrait {
     id: left
     objectName: "left"
     
-    width: (parent.width / 2) - (frame_gutter * 2) - border_width
+    width: (parent.width / 2) - border_width
     height: parent.height - border_width
     
-    image_source: { (preview_list != null) ? preview_list[0] : ""; }
-    frame_gutter: parent.frame_gutter
-    image_gutter: parent.image_gutter
+    mediaSource: (mediaSourceList != null) ? mediaSourceList[0] : null
+    gutter: parent.gutter
     border_width: parent.border_width
   }
   
@@ -54,12 +52,11 @@ Row {
     id: right
     objectName: "right"
     
-    width: (parent.width / 2) - (frame_gutter * 2) - border_width
+    width: (parent.width / 2) - border_width
     height: parent.height - border_width
     
-    image_source: { (preview_list != null) ? preview_list[1] : ""; }
-    frame_gutter: parent.frame_gutter
-    image_gutter: parent.image_gutter
+    mediaSource: (mediaSourceList != null) ? mediaSourceList[1] : null
+    gutter: parent.gutter
     border_width: parent.border_width
   }
 }

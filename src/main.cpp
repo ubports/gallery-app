@@ -19,14 +19,14 @@
  */
 
 #include <QApplication>
-#include <QString>
 #include <QDir>
-#include <QDeclarativeView>
+#include <QString>
 
-#include "ui-controller.h"
-#include "qml-media-model.h"
 #include "qml-album-model.h"
 #include "qml-album-collection-model.h"
+#include "qml-media-model.h"
+#include "qml-media-source.h"
+#include "ui-controller.h"
 
 int main(int argc, char *argv[]) {
   // NOTE: This *must* be called prior to QApplication's ctor.
@@ -39,6 +39,7 @@ int main(int argc, char *argv[]) {
   QmlAlbumModel::RegisterType();
   QmlAlbumCollectionModel::RegisterType();
   QmlMediaModel::RegisterType();
+  QmlMediaSource::RegisterType();
   
   QDir path(argc > 1 ? QString(argv[1]) : QDir::homePath() + "/Pictures");
   qDebug("Opening %s...", qPrintable(path.path()));

@@ -49,6 +49,7 @@ SOURCES += \
 	src/qml-album-model.cpp \
 	src/qml-album-collection-model.cpp \
 	src/qml-media-model.cpp \
+	src/qml-media-source.cpp \
 	src/qml-page.cpp \
 	src/qml-view-collection-model.cpp \
 	src/selectable-view-collection.cpp \
@@ -78,6 +79,7 @@ HEADERS += \
 	src/qml-album-model.h \
 	src/qml-album-collection-model.h \
 	src/qml-media-model.h \
+	src/qml-media-source.h \
 	src/qml-page.h \
 	src/qml-view-collection-model.h \
 	src/selectable-view-collection.h \
@@ -91,7 +93,7 @@ OTHER_FILES += \
 	rc/qml/AlbumPickerPopup.qml \
 	rc/qml/AlbumPreviewA.qml \
 	rc/qml/AlbumPreviewB.qml \
-	rc/qml/AlbumPreviewDelegate.qml \
+	rc/qml/AlbumPreviewComponent.qml \
 	rc/qml/AlbumViewer.qml \
 	rc/qml/BinaryTabGroup.qml \
 	rc/qml/Checkerboard.qml \
@@ -99,6 +101,7 @@ OTHER_FILES += \
 	rc/qml/NavButton.qml \
 	rc/qml/NavToolbar.qml \
 	rc/qml/Overview.qml \
+	rc/qml/PhotoComponent.qml \
 	rc/qml/PhotoViewer.qml \
 	rc/qml/ReturnButton.qml \
 	rc/qml/SquareButton.qml \

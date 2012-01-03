@@ -33,10 +33,7 @@ class QmlMediaModel : public QmlViewCollectionModel {
   
 public:
   enum Role {
-    PreviewPathRole = QmlViewCollectionModel::LastCommonRole,
-    PathRole,
-    OrientationCorrectionRotateRole,
-    OrientationCorrectionScaleRole
+    MediaSourceRole = QmlViewCollectionModel::LastCommonRole,
   };
   
   QmlMediaModel(QObject* parent = NULL);
