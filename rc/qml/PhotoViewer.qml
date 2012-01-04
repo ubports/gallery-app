@@ -27,6 +27,7 @@ Rectangle {
   color: "#444444"
   
   signal exit_viewer()
+  signal popupAlbumPicked(int album_number)
   
   property int visible_index
   
@@ -40,6 +41,8 @@ Rectangle {
     visible: false
 
     designated_model: ctx_album_picker_model
+
+    onSelected: photo_viewer.popupAlbumPicked(album_number)
   }
   
   ListView {
@@ -154,19 +157,11 @@ Rectangle {
         }
       }
 
-      NavButton {
+      AddToAlbumButton {
         id: add_to_album_button
         objectName: "add_to_album_button"
 
-        title: "add to album"
-
-        width: 98
-        x: parent.width - 3 * width
-        y: parent.height / 2 - height / 2
-
-        onPressed: {
-          album_picker.visible = !album_picker.visible;
-        }
+        onPressed: album_picker.visible = !album_picker.visible;
       }
     }
     

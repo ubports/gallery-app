@@ -25,6 +25,7 @@ Rectangle {
   objectName: "overview"
   
   signal create_album_from_selected()
+  signal popupAlbumPicked(int album_number)
   
   anchors.fill: parent
   
@@ -71,6 +72,11 @@ Rectangle {
       visible: photos_checkerboard.selected_count > 0
       
       onPressed: {
+        if (album_picker.visible) {
+          album_picker.visible = false;
+          return;
+        }
+
         photos_checkerboard.unselect_all();
       }
     }
@@ -85,6 +91,11 @@ Rectangle {
       visible: photos_checkerboard.in_selection_mode
       
       onPressed: {
+        if (album_picker.visible) {
+          album_picker.visible = false;
+          return;
+        }
+
         photos_checkerboard.state = "normal";
         photos_checkerboard.unselect_all();
       }
@@ -112,6 +123,22 @@ Rectangle {
       mediaSource: modelData.media_source
       isCropped: true
       isPreview: true
+    }
+
+    MouseArea {
+      id: mouse_blocker
+      objectName: "mouse_blocker"
+
+      anchors.fill: parent
+
+      onClicked: {
+        if (album_picker.visible) {
+          album_picker.visible = false;
+          return;
+        }
+      }
+
+      visible: false
     }
   }
   
@@ -143,6 +170,36 @@ Rectangle {
       mediaSourceList: modelData.mediaSourceList
     }
   }
+
+  AlbumPickerPopup {
+    id: album_picker
+    objectName: "album_picker"
+
+    y: parent.height - height - toolbar.height
+    x: add_to_album_button.x + add_to_album_button.width / 2 - width + 16
+
+    visible: false
+
+    designated_model: ctx_album_picker_model
+
+    onNewAlbumRequested: {
+      overview.create_album_from_selected();
+      photos_checkerboard.state = "normal";
+      photos_checkerboard.unselect_all();
+      visible = false
+    }
+
+    onSelected: {
+      overview.popupAlbumPicked(album_number);
+      photos_checkerboard.state = "normal";
+      photos_checkerboard.unselect_all();
+      visible = false;
+    }
+
+    onVisibleChanged: {
+      mouse_blocker.visible = visible
+    }
+  }
   
   NavToolbar {
     id: toolbar
@@ -158,21 +215,14 @@ Rectangle {
       text: "Select photos or movieclip(s) to edit"
       visible: photos_checkerboard.selected_count == 0
     }
-    
-    NavButton {
-      id: create_album
-      objectName: "create_album"
-      
-      anchors.right: parent.right
-      
-      title: "album"
+
+    AddToAlbumButton {
+      id: add_to_album_button
+      objectName: "add_to_album_button"
+
       visible: photos_checkerboard.selected_count > 0
-      
-      onPressed: {
-        overview.create_album_from_selected();
-        photos_checkerboard.state = "normal";
-        photos_checkerboard.unselect_all();
-      }
+
+      onPressed: album_picker.visible = !album_picker.visible;
     }
   }
 }

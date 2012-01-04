@@ -9,6 +9,7 @@
     <file>img/viewer-back.png</file>
     <file>img/viewer-forward.png</file>
     
+    <file>qml/AddToAlbumButton.qml</file>
     <file>qml/AlbumPickerPopup.qml</file>
     <file>qml/AlbumPreviewA.qml</file>
     <file>qml/AlbumPreviewB.qml</file>

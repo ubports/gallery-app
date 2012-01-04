@@ -57,6 +57,7 @@ class Overview : public QmlPage {
   void on_photos_unselect_all();
   void on_create_album_from_selected_photos();
   void on_album_activated(int album_number);
+  void on_popup_album_picked(int album_number);
   
  private:
   SelectableViewCollection media_view_;

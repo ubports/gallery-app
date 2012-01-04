@@ -45,7 +45,7 @@ void PhotoViewer::PrepareContext() {
 
 void PhotoViewer::PageLoaded() {
   Connect("photo_viewer", SIGNAL(exit_viewer()), this, SIGNAL(exit_viewer()));
-  Connect("album_picker", SIGNAL(selected(int)), this, SLOT(on_album_selected(int)));
+  Connect("photo_viewer", SIGNAL(popupAlbumPicked(int)), this, SLOT(on_album_selected(int)));
   
   ClearProperty("album_picker", "designated_model");
   SetContextProperty("ctx_album_picker_model", &album_picker_model_);

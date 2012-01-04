@@ -90,6 +90,7 @@ HEADERS += \
 
 OTHER_FILES += \
 	rc/gallery.qrc \
+	rc/qml/AddToAlbumButton.qml \
 	rc/qml/AlbumPickerPopup.qml \
 	rc/qml/AlbumPreviewA.qml \
 	rc/qml/AlbumPreviewB.qml \

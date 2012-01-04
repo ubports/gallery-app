@@ -27,6 +27,7 @@
 
 static const char* CTX_MEDIA_MODEL = "ctx_overview_media_model";
 static const char* CTX_ALBUMS_MODEL = "ctx_overview_albums_model";
+static const char* CTX_ALBUM_PICKER_MODEL = "ctx_album_picker_model";
 
 Overview::Overview(QDeclarativeView* view)
   : QmlPage(view, "overview"), media_view_("Media ViewCollection"),
@@ -68,13 +69,17 @@ void Overview::PageLoaded() {
   // lifetime of the app
   SetContextProperty(CTX_MEDIA_MODEL, media_model_);
   SetContextProperty(CTX_ALBUMS_MODEL, albums_model_);
-  
+  SetContextProperty(CTX_ALBUM_PICKER_MODEL, albums_model_);
+
   //
   // Overview containing pane
   //
   
   Connect("overview", SIGNAL(create_album_from_selected()), this,
     SLOT(on_create_album_from_selected_photos()));
+
+  Connect("overview", SIGNAL(popupAlbumPicked(int)), this,
+    SLOT(on_popup_album_picked(int)));
   
   //
   // Photos checkerboard
@@ -98,6 +103,12 @@ void Overview::PageLoaded() {
 }
 
 void Overview::PrepareToEnter() {
+}
+
+void Overview::on_popup_album_picked(int album_number) {
+  Album* album = qobject_cast<Album*>(albums_view_.FindByNumber(album_number));
+
+  album->AttachMany(media_view_.GetSelected());
 }
 
 void Overview::on_photo_activated(int media_number) {

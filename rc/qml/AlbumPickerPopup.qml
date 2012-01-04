@@ -24,6 +24,7 @@ Rectangle {
   objectName: "album_popup_wrapper"
 
   signal selected(int album_number);
+  signal newAlbumRequested();
 
   property variant designated_model
 
@@ -79,6 +80,8 @@ Rectangle {
 
         x: parent.width - width - 4
         y: parent.height / 2 - height / 2
+
+        onPressed: album_popup_wrapper.newAlbumRequested();
       }
     }
   }
