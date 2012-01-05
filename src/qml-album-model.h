@@ -33,7 +33,8 @@ class QmlAlbumModel : public QmlViewCollectionModel {
   enum Role {
     MediaSourceListRole = QmlViewCollectionModel::LastCommonRole,
     PageNumberRole,
-    QmlRcRole
+    QmlRcRole,
+    AlbumNameRole
   };
   
   QmlAlbumModel(QObject* parent = NULL);

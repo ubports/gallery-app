@@ -2,10 +2,12 @@
 <qresource>
     <file>img/deselected-tab.png</file>
     <file>img/element-body.png</file>
+    <file>img/grid-view.png</file>
     <file>img/popup-arrow.png</file>
     <file>img/return-cap.png</file>
     <file>img/selected-media.png</file>
     <file>img/selected-tab.png</file>
+    <file>img/template-view.png</file>
     <file>img/viewer-back.png</file>
     <file>img/viewer-forward.png</file>
     
@@ -15,6 +17,7 @@
     <file>qml/AlbumPreviewB.qml</file>
     <file>qml/AlbumPreviewComponent.qml</file>
     <file>qml/AlbumViewer.qml</file>
+    <file>qml/AlbumViewMasthead.qml</file>
     <file>qml/BinaryTabGroup.qml</file>
     <file>qml/Checkerboard.qml</file>
     <file>qml/FramePortrait.qml</file>

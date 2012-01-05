@@ -40,6 +40,7 @@ void QmlAlbumModel::Init(Album* album) {
   roles[MediaSourceListRole] = "mediaSourceList";
   roles[PageNumberRole] = "page_number";
   roles[QmlRcRole] = "qml_rc";
+  roles[AlbumNameRole] = "album_name";
   
   QmlViewCollectionModel::Init(&view_, roles);
 }
@@ -75,6 +76,9 @@ QVariant QmlAlbumModel::DataForRole(DataObject* object, int role) const {
     
     case QmlRcRole:
       return QVariant(page->template_page()->qml_rc());
+
+    case AlbumNameRole:
+      return QVariant(album_->name());
     
     default:
       return QVariant();

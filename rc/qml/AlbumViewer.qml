@@ -15,6 +15,7 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
+ * Lucas Beeler <lucas@yorba.org>
  */
 
 import QtQuick 1.1
@@ -26,12 +27,38 @@ Rectangle {
   signal exit_viewer()
   
   anchors.fill: parent
+
+  AlbumViewMasthead {
+    id: masthead
+    objectName: "masthead"
+
+    albumName: template_pager.albumName
+
+    x: 0
+    y: 0
+    width: parent.width
+
+    onViewModeChanged: {
+      if (isTemplateView) {
+        template_pager.visible = true;
+        grid_checkerboard.visible = false;
+      } else {
+        template_pager.visible = false;
+        grid_checkerboard.visible = true;
+      }
+    }
+  }
   
   ListView {
     id: template_pager
     objectName: "template_pager"
     
-    anchors.fill: parent
+    property string albumName
+
+    anchors.top: masthead.bottom
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
     
     model: ctx_album_viewer_album_model
     
@@ -57,6 +84,7 @@ Rectangle {
         item.width = template_pager.width;
         item.height = template_pager.height;
         item.gutter = 24;
+        template_pager.albumName = album_name;
       }
     }
   }
@@ -65,7 +93,10 @@ Rectangle {
     id: grid_checkerboard
     objectName: "grid_checkerboard"
     
-    anchors.fill: parent
+    anchors.top: masthead.bottom
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
     anchors.topMargin: 24
     anchors.bottomMargin: 0
     anchors.leftMargin: 22
@@ -103,44 +134,6 @@ Rectangle {
       show_title: false
       
       onPressed: album_viewer.exit_viewer();
-    }
-    
-    NavButton {
-      id: grid_button
-      objectName: "grid_button"
-      
-      anchors.left: return_button.right
-      
-      visible: true
-      
-      title: "grid"
-      
-      onPressed: {
-        template_pager.visible = false;
-        grid_checkerboard.visible = true;
-        
-        grid_button.visible = false;
-        pages_button.visible = true;
-      }
-    }
-    
-    NavButton {
-      id: pages_button
-      objectName: "pages_button"
-      
-      anchors.left: return_button.right
-      
-      visible: false
-      
-      title: "pages"
-      
-      onPressed: {
-        template_pager.visible = true;
-        grid_checkerboard.visible = false;
-        
-        grid_button.visible = true;
-        pages_button.visible = false;
-      }
-    }
+    }    
   }
 }
