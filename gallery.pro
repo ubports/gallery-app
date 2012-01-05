@@ -49,6 +49,7 @@ SOURCES += \
 	src/qml-album-model.cpp \
 	src/qml-album-collection-model.cpp \
 	src/qml-media-model.cpp \
+	src/qml-media-selector-page.cpp \
 	src/qml-media-source.cpp \
 	src/qml-page.cpp \
 	src/qml-view-collection-model.cpp \
@@ -79,6 +80,7 @@ HEADERS += \
 	src/qml-album-model.h \
 	src/qml-album-collection-model.h \
 	src/qml-media-model.h \
+	src/qml-media-selector-page.h \
 	src/qml-media-source.h \
 	src/qml-page.h \
 	src/qml-view-collection-model.h \
@@ -99,6 +101,7 @@ OTHER_FILES += \
 	rc/qml/BinaryTabGroup.qml \
 	rc/qml/Checkerboard.qml \
 	rc/qml/FramePortrait.qml \
+	rc/qml/MediaSelector.qml \
 	rc/qml/NavButton.qml \
 	rc/qml/NavToolbar.qml \
 	rc/qml/Overview.qml \

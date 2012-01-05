@@ -23,6 +23,7 @@
 
 #include <QObject>
 #include <QVariant>
+#include <QtDeclarative>
 
 #include "qml-view-collection-model.h"
 #include "selectable-view-collection.h"
@@ -47,5 +48,7 @@ public:
 protected:
   virtual QVariant DataForRole(DataObject* object, int role) const;
 };
+
+QML_DECLARE_TYPE(QmlMediaModel);
 
 #endif  // GALLERY_QML_MEDIA_MODEL_H_

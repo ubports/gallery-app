@@ -18,6 +18,7 @@
     <file>qml/BinaryTabGroup.qml</file>
     <file>qml/Checkerboard.qml</file>
     <file>qml/FramePortrait.qml</file>
+    <file>qml/MediaSelector.qml</file>
     <file>qml/NavButton.qml</file>
     <file>qml/NavToolbar.qml</file>
     <file>qml/Overview.qml</file>

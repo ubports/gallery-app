@@ -57,6 +57,9 @@ UIController::UIController(const QDir &path)
   album_viewer_ = new AlbumViewer(view_);
   album_viewer_->PrepareContext();
   
+  media_selector_ = new QmlMediaSelectorPage(view_);
+  media_selector_->PrepareContext();
+  
   //
   // Load the root container with context prepped and allow pages to now
   // access page properties
@@ -68,6 +71,7 @@ UIController::UIController(const QDir &path)
   overview_->PageLoaded();
   photo_viewer_->PageLoaded();
   album_viewer_->PageLoaded();
+  media_selector_->PageLoaded();
   
   //
   // Tablet Surface (root container)
@@ -89,6 +93,9 @@ UIController::UIController(const QDir &path)
   QObject::connect(overview_, SIGNAL(album_activated(Album*)), this,
     SLOT(on_album_activated(Album*)));
   
+  QObject::connect(overview_, SIGNAL(create_album()), this,
+    SLOT(on_create_album()));
+  
   //
   // PhotoViewer
   //
@@ -105,6 +112,13 @@ UIController::UIController(const QDir &path)
   
   QObject::connect(album_viewer_, SIGNAL(media_activated(MediaSource*)), this,
     SLOT(on_album_media_activated(MediaSource*)));
+  
+  //
+  // QmlMediaSelectorPage
+  //
+  
+  QObject::connect(media_selector_, SIGNAL(finished()), this,
+    SLOT(on_media_selector_finished()));
   
   // start with Overview
   overview_->PrepareToEnter();
@@ -125,6 +139,12 @@ void UIController::on_album_media_activated(MediaSource* media_source) {
   ActivateMedia(album_viewer_->media_model(), media_source);
 }
 
+void UIController::on_create_album() {
+  media_selector_->PrepareToEnter(overview_->media_model()->BackingViewCollection(),
+    NULL);
+  SwitchTo(media_selector_);
+}
+
 void UIController::on_power_off() {
   std::exit(0);
 }
@@ -135,6 +155,10 @@ void UIController::on_album_activated(Album* album) {
 }
 
 void UIController::on_photo_viewer_exited() {
+  GoBack();
+}
+
+void UIController::on_media_selector_finished() {
   GoBack();
 }
 

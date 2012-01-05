@@ -15,56 +15,50 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
- * Lucas Beeler <lucas@yorba.org>
  */
 
-#ifndef GALLERY_OVERVIEW_H_
-#define GALLERY_OVERVIEW_H_
+#ifndef GALLERY_QML_MEDIA_SELECTOR_PAGE_H_
+#define GALLERY_QML_MEDIA_SELECTOR_PAGE_H_
 
 #include <QObject>
 #include <QDeclarativeView>
 
 #include "album.h"
-#include "media-source.h"
-#include "qml-album-collection-model.h"
 #include "qml-media-model.h"
 #include "qml-page.h"
 #include "selectable-view-collection.h"
+#include "view-collection.h"
 
-class Overview : public QmlPage {
+class QmlMediaSelectorPage : public QmlPage {
   Q_OBJECT
   
  signals:
-  void photo_activated(MediaSource* media_source);
-  void album_activated(Album* album);
-  void create_album();
+  void finished();
   
  public:
-  Overview(QDeclarativeView* view);
-  virtual ~Overview();
-  
-  QmlMediaModel* media_model() const;
-  QmlAlbumCollectionModel* albums_model() const;
+  QmlMediaSelectorPage(QDeclarativeView* view);
+  ~QmlMediaSelectorPage();
   
   virtual const char* qml_rc() const;
   
   virtual void PrepareContext();
   virtual void PageLoaded();
-  void PrepareToEnter();
+  
+  // Use to select media from the view to add to the album; if album is NULL,
+  // a new Album will be created when the user clicks the "done" button
+  void PrepareToEnter(ViewCollection* view, Album* album);
   
  private slots:
-  void on_photo_activated(int photo_number);
-  void on_photo_selection_toggled(int photo_number);
-  void on_photos_unselect_all();
-  void on_create_album_from_selected_photos();
-  void on_album_activated(int album_number);
-  void on_popup_album_picked(int album_number);
+  void OnAddSelected();
+  void OnFinished();
+  void OnSelectionToggled(int media_number);
+  void OnUnselectAll();
   
  private:
-  SelectableViewCollection media_view_;
-  SelectableViewCollection albums_view_;
-  QmlMediaModel* media_model_;
-  QmlAlbumCollectionModel* albums_model_;
+  ViewCollection selected_;
+  Album* album_;
+  SelectableViewCollection* view_;
+  QmlMediaModel* qml_media_model_;
 };
 
-#endif  // GALLERY_OVERVIEW_H_
+#endif  // GALLERY_QML_MEDIA_SELECTOR_PAGE_H_

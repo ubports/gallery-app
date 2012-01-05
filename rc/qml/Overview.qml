@@ -24,6 +24,7 @@ Rectangle {
   id: overview
   objectName: "overview"
   
+  signal create_album()
   signal create_album_from_selected()
   signal popupAlbumPicked(int album_number)
   
@@ -36,6 +37,18 @@ Rectangle {
     anchors.top: parent.top
     anchors.left: parent.left
     anchors.right: parent.right
+    
+    NavButton {
+      id: createAlbum
+      objectName: "createAlbum"
+      
+      anchors.left: parent.left
+      
+      title: "create"
+      visible: albums_checkerboard.visible
+      
+      onPressed: create_album()
+    }
     
     BinaryTabGroup {
       id: album_view_switcher
@@ -66,7 +79,7 @@ Rectangle {
       id: deselect
       objectName: "deselect"
       
-      anchors.right:  cancel_selecting.left
+      anchors.right: cancel_selecting.left
       
       title: "deselect"
       visible: photos_checkerboard.selected_count > 0
@@ -76,7 +89,7 @@ Rectangle {
           album_picker.visible = false;
           return;
         }
-
+        
         photos_checkerboard.unselect_all();
       }
     }
@@ -85,7 +98,7 @@ Rectangle {
       id: cancel_selecting
       objectName: "cancel_selecting"
       
-      anchors.right:  parent.right
+      anchors.right: parent.right
       
       title: "done"
       visible: photos_checkerboard.in_selection_mode
@@ -95,7 +108,7 @@ Rectangle {
           album_picker.visible = false;
           return;
         }
-
+        
         photos_checkerboard.state = "normal";
         photos_checkerboard.unselect_all();
       }

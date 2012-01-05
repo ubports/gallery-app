@@ -74,4 +74,16 @@ Rectangle {
     
     visible: false
   }
+  
+  MediaSelector {
+    id: mediaSelector
+    objectName: "mediaSelector"
+    
+    x: 0
+    y: 0
+    width: parent.width
+    height: parent.height
+    
+    visible: false
+  }
 }

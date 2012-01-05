@@ -63,15 +63,22 @@ QVariant QmlAlbumCollectionModel::DataForRole(DataObject *object, int role) cons
     case MediaSourceListRole: {
       QList<QVariant> varlist;
       
+      AlbumPage* page = album->GetPage(album->current_page());
+      if (page == NULL)
+        return QVariant(varlist);
+      
       DataObject* object;
-      foreach (object, album->GetPage(album->current_page())->contained()->GetAll())
+      foreach (object, page->contained()->GetAll())
         varlist.append(QmlMediaSource::AsVariant(qobject_cast<MediaSource*>(object)));
       
       return QVariant(varlist);
     }
     
-    case QmlRcRole:
-      return QVariant(album->GetPage(album->current_page())->template_page()->qml_rc());
+    case QmlRcRole: {
+      AlbumPage* page = album->GetPage(album->current_page());
+      
+      return (page != NULL) ? QVariant(page->template_page()->qml_rc()) : QVariant();
+    }
     
     default:
       return QVariant();

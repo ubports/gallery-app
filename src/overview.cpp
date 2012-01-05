@@ -75,6 +75,8 @@ void Overview::PageLoaded() {
   // Overview containing pane
   //
   
+  Connect("overview", SIGNAL(create_album()), this, SIGNAL(create_album()));
+
   Connect("overview", SIGNAL(create_album_from_selected()), this,
     SLOT(on_create_album_from_selected_photos()));
 

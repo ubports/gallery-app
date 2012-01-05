@@ -33,6 +33,7 @@
 #include "overview.h"
 #include "photo-viewer.h"
 #include "qml-media-model.h"
+#include "qml-media-selector-page.h"
 #include "qml-page.h"
 
 class UIController : public QObject {
@@ -45,7 +46,9 @@ class UIController : public QObject {
  private slots:
   void on_overview_media_activated(MediaSource* media_source);
   void on_album_media_activated(MediaSource* media_source);
+  void on_create_album();
   void on_photo_viewer_exited();
+  void on_media_selector_finished();
   void on_power_off();
   void on_album_activated(Album* album);
   void on_exit_album_viewer();
@@ -59,6 +62,7 @@ class UIController : public QObject {
   Overview* overview_;
   PhotoViewer* photo_viewer_;
   AlbumViewer* album_viewer_;
+  QmlMediaSelectorPage* media_selector_;
   
   void SwitchTo(QmlPage* page);
   void GoBack();
