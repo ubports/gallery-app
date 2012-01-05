@@ -23,12 +23,13 @@
 
 #include <QObject>
 #include <QAbstractListModel>
+#include <QByteArray>
+#include <QFileInfo>
+#include <QHash>
+#include <QList>
 #include <QModelIndex>
 #include <QPointer>
-#include <QHash>
-#include <QByteArray>
 #include <QVariant>
-#include <QFileInfo>
 
 #include "selectable-view-collection.h"
 #include "data-object.h"
@@ -79,10 +80,15 @@ class QmlViewCollectionModel : public QAbstractListModel {
   // unknown
   virtual QVariant DataForRole(DataObject* object, int role) const = 0;
   
-  // This notifies model subscribers that elements have been added at the
+  // This notifies model subscribers that the element has been added at the
   // particular index ... note that QmlViewCollectionModel monitors
   // the SelectableViewCollections "contents-altered" signal already
   void NotifyElementAdded(int index);
+  
+  // This notifies model subscribers that the element at this index was
+  // removed ... note that QmlViewCollectionModel monitors the
+  // SelectableViewCollections' "contents-altered" signal already
+  void NotifyElementRemoved(int index);
   
   // This notifies model subscribers that the element at the particular index
   // has been altered in some way.
@@ -91,11 +97,16 @@ class QmlViewCollectionModel : public QAbstractListModel {
 private slots:
   void on_selection_altered(const QSet<DataObject*>* selected,
     const QSet<DataObject*>* unselected);
-  void on_contents_altered(const QSet<DataObject*>* selected,
-    const QSet<DataObject*>* unselected);
+  void on_contents_to_be_altered(const QSet<DataObject*>* added,
+    const QSet<DataObject*>* removed);
+  void on_contents_altered(const QSet<DataObject*>* add,
+    const QSet<DataObject*>* removed);
   
  private:
   QPointer<SelectableViewCollection> view_;
+  QList<int> to_be_removed_;
+  
+  static bool IntReverseLessThan(int a, int b);
   
   void NotifySetAltered(const QSet<DataObject*> *list, int role);
 };

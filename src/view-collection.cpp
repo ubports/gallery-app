@@ -52,7 +52,7 @@ void ViewCollection::MonitorDataCollection(const DataCollection* collection,
   
   // prime the local ViewCollection with what's already in the monitored
   // DataCollection
-  QSet<DataObject*> all = collection->AsSet();
+  QSet<DataObject*> all(collection->GetAsSet());
   on_monitored_contents_altered(&all, NULL);
 }
 
@@ -81,6 +81,9 @@ void ViewCollection::on_monitored_contents_altered(const QSet<DataObject*>* adde
       AddMany(to_add);
     }
   }
+  
+  if (removed != NULL)
+    RemoveMany(*removed);
 }
 
 void ViewCollection::on_monitored_ordering_altered() {

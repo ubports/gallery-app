@@ -23,6 +23,11 @@ DataCollection::DataCollection(const QString& name)
   : name_(name.toUtf8()), comparator_(DefaultDataObjectComparator) {
 }
 
+void DataCollection::notify_contents_to_be_altered(const QSet<DataObject*>* added,
+  const QSet<DataObject*>* removed) {
+  emit contents_to_be_altered(added, removed);
+}
+
 void DataCollection::notify_contents_altered(const QSet<DataObject*>* added,
   const QSet<DataObject*>* removed) {
   emit contents_altered(added, removed);
@@ -39,37 +44,78 @@ int DataCollection::Count() const {
 void DataCollection::Add(DataObject* object) {
   Q_ASSERT(object != NULL);
   
-  // TODO: Need to check for double-adds and silently exit
+  // Silently prevent double-adds
+  if (set_.contains(object))
+    return;
+  
+  // The "contents" signals require a QSet as a parameter
+  QSet<DataObject*> to_add;
+  to_add.insert(object);
+  
+  notify_contents_to_be_altered(&to_add, NULL);
+  
   list_.append(object);
-  resort(false);
+  set_.insert(object);
+  Resort(false);
   
-  // The "added" signal requires a list as a parameter
-  QSet<DataObject*> added_list;
-  added_list.insert(object);
+  notify_contents_altered(&to_add, NULL);
   
-  notify_contents_altered(&added_list, NULL);
+  Sanity();
 }
 
 void DataCollection::AddMany(const QSet<DataObject*>& objects) {
   if (objects.count() == 0)
     return;
   
-  // TODO: Need to check for double-adds and silently drop
-  list_.append(QList<DataObject*>::fromSet(objects));
-  resort(false);
+  // Silently prevent double-adds (as well as create a QList for a single
+  // append operation on the internal list)
+  QList<DataObject*> to_add_list;
+  DataObject* object;
+  foreach (object, objects) {
+    if (!set_.contains(object))
+      to_add_list.append(object);
+  }
   
-  notify_contents_altered(&objects, NULL);
+  if (to_add_list.count() == 0)
+    return;
+  
+  // The "contents" signals require a QSet as a parameter; also,
+  // can use this QSet for the unite() method; but avoid creating it if no
+  // objects were removed in above loop (which is quite likely in most use
+  // cases)
+  QSet<DataObject*> to_add(
+    (objects.count() == to_add_list.count()) ? objects : to_add_list.toSet());
+  
+  notify_contents_to_be_altered(&to_add, NULL);
+  
+  list_.append(to_add_list);
+  set_.unite(to_add);
+  Resort(false);
+  
+  notify_contents_altered(&to_add, NULL);
+  
+  Sanity();
 }
 
 void DataCollection::Remove(DataObject* object) {
-  bool removed = list_.removeOne(object);
-  if (!removed)
+  // Silently exit on bad removes
+  if (!set_.contains(object))
     return;
   
-  QSet<DataObject*> singleton;
-  singleton.insert(object);
+  // "contents" signals require a QSet as a parameter
+  QSet<DataObject*> to_remove;
+  to_remove.insert(object);
   
-  notify_contents_altered(NULL, &singleton);
+  notify_contents_to_be_altered(NULL, &to_remove);
+  
+  bool removed = set_.remove(object);
+  Q_ASSERT(removed);
+  removed = list_.removeOne(object);
+  Q_ASSERT(removed);
+  
+  notify_contents_altered(NULL, &to_remove);
+  
+  Sanity();
 }
 
 void DataCollection::RemoveMany(const QSet<DataObject *> &objects) {
@@ -77,40 +123,60 @@ void DataCollection::RemoveMany(const QSet<DataObject *> &objects) {
     return;
   
   // Want to only report DataObjects that are actually removed
-  QSet<DataObject*> removed;
-  
+  QSet<DataObject*> to_remove;
   DataObject* object;
   foreach (object, objects) {
-    if (list_.removeOne(object))
-      removed.insert(object);
+    if (set_.contains(object))
+      to_remove.insert(object);
   }
   
-  if (removed.count() > 0)
-    notify_contents_altered(NULL, &removed);
+  if (to_remove.count() == 0)
+    return;
+  
+  notify_contents_to_be_altered(NULL, &to_remove);
+  
+  foreach (object, to_remove) {
+    bool removed = list_.removeOne(object);
+    Q_ASSERT(removed);
+  }
+  
+  set_.subtract(to_remove);
+  
+  notify_contents_altered(NULL, &to_remove);
+  
+  Sanity();
 }
 
 void DataCollection::Clear() {
-  if (list_.count() == 0)
+  if (list_.count() == 0) {
+    Q_ASSERT(set_.count() == 0);
+    
     return;
+  }
   
-  // save copy for signal
-  QSet<DataObject*> all = AsSet();
+  // save copy for signals
+  QSet<DataObject*> all(set_);
+  
+  notify_contents_to_be_altered(NULL, &all);
   
   list_.clear();
+  set_.clear();
   
   notify_contents_altered(NULL, &all);
+  
+  Sanity();
 }
 
 const QList<DataObject*>& DataCollection::GetAll() const {
   return list_;
 }
 
-const QSet<DataObject*> DataCollection::AsSet() const {
-  return QSet<DataObject*>::fromList(list_);
+const QSet<DataObject*>& DataCollection::GetAsSet() const {
+  return set_;
 }
 
 bool DataCollection::Contains(DataObject* object) const {
-  return list_.contains(object);
+  return set_.contains(object);
 }
 
 DataObject* DataCollection::GetAt(int index) const {
@@ -118,13 +184,15 @@ DataObject* DataCollection::GetAt(int index) const {
 }
 
 int DataCollection::IndexOf(DataObject* object) const {
-  int size = list_.size();
-  for (int index = 0; index < size; index++) {
-    if (list_[index] == object)
-      return index;
-  }
+  if (!set_.contains(object))
+    return -1;
   
-  return -1;
+  int index = list_.indexOf(object);
+  
+  // Testing with set_ should prevent this possibility
+  Q_ASSERT(index >= 0);
+  
+  return index;
 }
 
 DataObject* DataCollection::FindByNumber(DataObjectNumber number) const {
@@ -141,7 +209,7 @@ DataObject* DataCollection::FindByNumber(DataObjectNumber number) const {
 void DataCollection::SetComparator(DataObjectComparator comparator) {
   comparator_ = comparator;
   
-  resort(true);
+  Resort(true);
 }
 
 DataObjectComparator DataCollection::comparator() const {
@@ -152,9 +220,14 @@ bool DataCollection::DefaultDataObjectComparator(DataObject* a, DataObject* b) {
   return a->number() < b->number();
 }
 
-// Big honkin' TODO: Much more efficient if items were inserted using
-// binary insertion, but this will have to do for now
-void DataCollection::resort(bool fire_signal) {
+void DataCollection::Sanity() const {
+  Q_ASSERT(list_.count() == set_.count());
+}
+
+// Big honkin' TODO: Much more efficient if small insertions were performed
+// via binary insertion and only quicksorting after large insertions, but this
+// will have to do for now
+void DataCollection::Resort(bool fire_signal) {
   qSort(list_.begin(), list_.end(), comparator_);
   
   if (fire_signal)

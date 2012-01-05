@@ -26,8 +26,11 @@ SourceCollection::SourceCollection(const QString& name)
 }
 
 void SourceCollection::DestroyAll(bool destroy_backing, bool delete_objects) {
+  if (Count() == 0)
+    return;
+  
   // obtain a copy of all objects
-  QSet<DataObject*> all = AsSet();
+  QSet<DataObject*> all(GetAsSet());
   
   // must be done before destruction and removal
   notify_destroying(&all);

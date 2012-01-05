@@ -32,9 +32,8 @@ bool SelectableViewCollection::IsSelected(DataObject* object) const {
   return selected_.contains(object);
 }
 
-const QSet<DataObject*> SelectableViewCollection::GetSelected() const {
-  // Return a copy so original cannot be modified by caller
-  return QSet<DataObject*>(selected_);
+const QSet<DataObject*>& SelectableViewCollection::GetSelected() const {
+  return selected_;
 }
 
 int SelectableViewCollection::GetSelectedCount() const {

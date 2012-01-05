@@ -91,7 +91,7 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
   // afresh
   pages_.DestroyAll(false, true);
   
-  // Convert contained DataObjects into a list of MediaSources
+  // Convert contained DataObjects into a queue to process in order
   QQueue<DataObject*> queue;
   queue.append(contained()->GetAll());
   

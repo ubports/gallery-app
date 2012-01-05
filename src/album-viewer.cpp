@@ -48,9 +48,12 @@ void AlbumViewer::PageLoaded() {
   Connect("album_viewer", SIGNAL(exit_viewer()), this, SIGNAL(exit_viewer()));
   Connect("grid_checkerboard", SIGNAL(activated(int)), this,
     SLOT(on_media_activated(int)));
+  Connect("album_viewer", SIGNAL(addToAlbum()), this, SLOT(on_add_to_album()));
 }
 
 void AlbumViewer::PrepareToEnter(Album* album) {
+  album_ = album;
+  
   delete view_;
   view_ = new SelectableViewCollection(
     QString("SelectableViewCollection for ") + QString(album->ToString()));
@@ -94,4 +97,8 @@ void AlbumViewer::on_media_activated(int media_number) {
   }
   
   emit media_activated(media);
+}
+
+void AlbumViewer::on_add_to_album() {
+  emit add_media_to_album(album_);
 }

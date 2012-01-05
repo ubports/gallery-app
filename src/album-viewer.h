@@ -36,6 +36,7 @@ class AlbumViewer : public QmlPage {
  signals:
   void exit_viewer();
   void media_activated(MediaSource* media);
+  void add_media_to_album(Album* album);
   
  public:
   AlbumViewer(QDeclarativeView* view);
@@ -51,8 +52,10 @@ class AlbumViewer : public QmlPage {
   
  private slots:
   void on_media_activated(int media_number);
+  void on_add_to_album();
   
  private:
+  Album* album_;
   QmlAlbumModel* album_model_;
   QmlMediaModel* media_model_;
   SelectableViewCollection* view_;

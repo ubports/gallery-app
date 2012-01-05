@@ -43,7 +43,7 @@ public:
   
   bool IsSelected(DataObject* object) const;
   
-  const QSet<DataObject*> GetSelected() const;
+  const QSet<DataObject*>& GetSelected() const;
   int GetSelectedCount() const;
   
   // Returns true if the selection state of the DataObject changed, false if

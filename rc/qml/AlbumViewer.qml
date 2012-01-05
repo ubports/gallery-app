@@ -25,6 +25,7 @@ Rectangle {
   objectName: "album_viewer"
   
   signal exit_viewer()
+  signal addToAlbum()
   
   anchors.fill: parent
 
@@ -134,6 +135,17 @@ Rectangle {
       show_title: false
       
       onPressed: album_viewer.exit_viewer();
-    }    
+    }
+    
+    NavButton {
+      id: addToAlbumButton
+      objectName: "addToAlbumButton"
+      
+      anchors.right: parent.right
+      
+      title: "add"
+      
+      onPressed: addToAlbum()
+    }
   }
 }

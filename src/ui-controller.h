@@ -47,6 +47,7 @@ class UIController : public QObject {
   void on_overview_media_activated(MediaSource* media_source);
   void on_album_media_activated(MediaSource* media_source);
   void on_create_album();
+  void on_add_media_to_album(Album* album);
   void on_photo_viewer_exited();
   void on_media_selector_finished();
   void on_power_off();

@@ -36,6 +36,11 @@ void QmlViewCollectionModel::Init(SelectableViewCollection* view,
     this,
     SLOT(on_selection_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
   
+  QObject::connect(view_,
+    SIGNAL(contents_to_be_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
+    this,
+    SLOT(on_contents_to_be_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
+  
   QObject::connect(static_cast<DataCollection*>(view_.data()),
     SIGNAL(contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
     this,
@@ -92,6 +97,13 @@ void QmlViewCollectionModel::NotifyElementAdded(int index) {
   }
 }
 
+void QmlViewCollectionModel::NotifyElementRemoved(int index) {
+  if (index >= 0) {
+    beginRemoveRows(QModelIndex(), index, index);
+    endRemoveRows();
+  }
+}
+
 void QmlViewCollectionModel::NotifyElementAltered(int index, int role) {
   if (index >= 0) {
     QModelIndex model_index = createIndex(index, role);
@@ -116,14 +128,48 @@ void QmlViewCollectionModel::on_selection_altered(const QSet<DataObject*>* selec
   emit selectedCountChanged();
 }
 
+void QmlViewCollectionModel::on_contents_to_be_altered(const QSet<DataObject*>* added,
+  const QSet<DataObject*>* removed) {
+  // Gather the indexes of all the elements to be removed before removal,
+  // then report their removal when they've actually been removed
+  if (removed != NULL) {
+    // should already be cleared; either first use or cleared in on_contents_altered()
+    Q_ASSERT(to_be_removed_.count() == 0);
+    DataObject* object;
+    foreach (object, *removed) {
+      int index = view_->IndexOf(object);
+      Q_ASSERT(index >= 0);
+      to_be_removed_.append(index);
+    }
+  }
+}
+
 void QmlViewCollectionModel::on_contents_altered(const QSet<DataObject*>* added,
   const QSet<DataObject*>* removed) {
-  // Report inserted items
+  // TODO: Could be more efficient in both loop by spotting runs and reporting
+  // the spans rather than one element at a time
+  
+  // Report inserted items after they've been inserted
   if (added != NULL) {
     DataObject* object;
     foreach (object, *added)
       NotifyElementAdded(view_->IndexOf(object));
   }
   
-  // TODO: Removed content
+  // Report removed items using indices gathered from on_contents_to_be_altered()
+  if (to_be_removed_.count() > 0) {
+    // sort indices in reverse order and walk in descending order so they're
+    // always accurate as items are "removed"
+    qSort(to_be_removed_.begin(), to_be_removed_.end(), IntReverseLessThan);
+    
+    int index;
+    foreach (index, to_be_removed_)
+      NotifyElementRemoved(index);
+    
+    to_be_removed_.clear();
+  }
+}
+
+bool QmlViewCollectionModel::IntReverseLessThan(int a, int b) {
+  return b < a;
 }

@@ -76,7 +76,7 @@ void QmlMediaSelectorPage::OnFinished() {
     if (to_populate == NULL)
       to_populate = new Album(*DefaultAlbumTemplate::instance());
     
-    to_populate->AttachMany(selected_.AsSet());
+    to_populate->AttachMany(selected_.GetAsSet());
     selected_.Clear();
     
       // only add to AlbumCollection if a new instance

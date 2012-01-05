@@ -43,8 +43,13 @@ class DataCollection : public QObject {
   Q_OBJECT
   
  signals:
-  // fired *after* the DataObjects have been added to the collection
-  void contents_altered(const QSet<DataObject*>* added, const QSet<DataObject*>* removed);
+  // fired *before* the DataObjects have been added or removed from the collection
+  void contents_to_be_altered(const QSet<DataObject*>* added,
+    const QSet<DataObject*>* removed);
+  
+  // fired *after* the DataObjects have been added or removed from the collection
+  void contents_altered(const QSet<DataObject*>* added,
+    const QSet<DataObject*>* removed);
   
   // fired after the the DataCollection has been reordered due to a new
   // DataObjectComparator being installed; if the new comparator doesn't
@@ -68,12 +73,10 @@ class DataCollection : public QObject {
   
   bool Contains(DataObject* object) const;
   const QList<DataObject*>& GetAll() const;
+  const QSet<DataObject*>& GetAsSet() const;
   DataObject* GetAt(int index) const;
   DataObject* FindByNumber(DataObjectNumber number) const;
   int IndexOf(DataObject* media) const;
-  
-  // Returns a QSet that is a copy of all objects in the DataCollection
-  const QSet<DataObject*> AsSet() const;
   
   void SetComparator(DataObjectComparator comparator);
   DataObjectComparator comparator() const;
@@ -83,6 +86,9 @@ class DataCollection : public QObject {
   virtual const char* ToString() const;
   
  protected:
+  virtual void notify_contents_to_be_altered(const QSet<DataObject*>* added,
+    const QSet<DataObject*>* removed);
+  
   virtual void notify_contents_altered(const QSet<DataObject*>* added,
     const QSet<DataObject*>* removed);
   
@@ -91,9 +97,11 @@ class DataCollection : public QObject {
  private:
   QByteArray name_;
   QList<DataObject*> list_;
+  QSet<DataObject*> set_;
   DataObjectComparator comparator_;
   
-  void resort(bool fire_signal);
+  void Sanity() const;
+  void Resort(bool fire_signal);
 };
 
 #endif  // GALLERY_DATA_COLLECTION_H_

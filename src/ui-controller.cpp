@@ -113,6 +113,9 @@ UIController::UIController(const QDir &path)
   QObject::connect(album_viewer_, SIGNAL(media_activated(MediaSource*)), this,
     SLOT(on_album_media_activated(MediaSource*)));
   
+  QObject::connect(album_viewer_, SIGNAL(add_media_to_album(Album*)), this,
+    SLOT(on_add_media_to_album(Album*)));
+  
   //
   // QmlMediaSelectorPage
   //
@@ -142,6 +145,12 @@ void UIController::on_album_media_activated(MediaSource* media_source) {
 void UIController::on_create_album() {
   media_selector_->PrepareToEnter(overview_->media_model()->BackingViewCollection(),
     NULL);
+  SwitchTo(media_selector_);
+}
+
+void UIController::on_add_media_to_album(Album* album) {
+  media_selector_->PrepareToEnter(overview_->media_model()->BackingViewCollection(),
+    album);
   SwitchTo(media_selector_);
 }
 
