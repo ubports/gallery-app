@@ -1,3 +1,9 @@
+goodhope (0.0.1) precise; urgency=low
+
+  * Desktop prototype release.
+
+ -- Adam Dingle <adam@yorba.org>  Thu, 05 Jan 2012 18:02:41 -0800
+
 goodhope (0.0.0ubuntu6~oneiric1) oneiric; urgency=low
 
   * PPA build for Oneiric.
