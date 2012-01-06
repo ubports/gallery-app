@@ -28,6 +28,7 @@ Rectangle {
   
   signal exit_viewer()
   signal popupAlbumPicked(int album_number)
+  signal newAlbumRequested()
   
   AlbumPickerPopup {
     id: album_picker
@@ -41,6 +42,10 @@ Rectangle {
     designated_model: ctx_album_picker_model
 
     onSelected: photo_viewer.popupAlbumPicked(album_number)
+    onNewAlbumRequested: {
+      photo_viewer.newAlbumRequested()
+      visible = false
+    }
   }
   
   ListView {

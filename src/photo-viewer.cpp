@@ -24,6 +24,7 @@
 
 #include "album-collection.h"
 #include "album-picker.h"
+#include "default-album-template.h"
 
 static const char* CTX_PHOTO_MODEL = "ctx_photo_viewer_photo_model";
 
@@ -50,6 +51,8 @@ void PhotoViewer::PageLoaded() {
     SIGNAL(exit_viewer()));
   Connect("photo_viewer", SIGNAL(popupAlbumPicked(int)), this,
     SLOT(on_popup_album_picked(int)));
+  Connect("photo_viewer", SIGNAL(newAlbumRequested()), this,
+          SLOT(on_new_album_requested()));
   
   ClearProperty("album_picker", "designated_model");
   SetContextProperty("ctx_album_picker_model", &album_picker_model_);
@@ -81,4 +84,15 @@ void PhotoViewer::on_popup_album_picked(int album_number) {
   Album* album = AlbumPicker::instance()->GetAlbumForIndex(album_number);
   
   album->Attach(photo);
+}
+
+void PhotoViewer::on_new_album_requested() {
+  Photo* photo =
+    qobject_cast<Photo*>(media_model_->BackingViewCollection()->GetAt(
+    GetProperty("image_pager", "currentIndex").toInt()));
+
+  Album* album = new Album(*DefaultAlbumTemplate::instance());
+  album->Attach(photo);
+
+  AlbumCollection::instance()->Add(album);
 }
