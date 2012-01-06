@@ -48,7 +48,7 @@ class PhotoViewer : public QmlPage {
   void PrepareToEnter(QmlMediaModel* model, Photo* start);
   
  private slots:
-  void on_album_selected(int album_number);
+  void on_popup_album_picked(int album_number);
   
  private:
   SelectableViewCollection album_view_collection;

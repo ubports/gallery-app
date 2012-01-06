@@ -18,11 +18,15 @@
  */
 
 #include "album-viewer.h"
+#include "album-picker.h"
+#include "album-collection.h"
+#include "default-album-template.h"
 
 #include <QVariant>
 
 static const char* CONTEXT_ALBUM_MODEL = "ctx_album_viewer_album_model";
 static const char* CONTEXT_MEDIA_MODEL = "ctx_album_viewer_media_model";
+static const char* CONTEXT_ALBUM_PICKER_MODEL = "ctx_album_picker_model";
 
 AlbumViewer::AlbumViewer(QDeclarativeView* view)
   : QmlPage(view, "album_viewer"), album_model_(NULL), media_model_(NULL),
@@ -42,6 +46,7 @@ const char* AlbumViewer::qml_rc() const {
 void AlbumViewer::PrepareContext() {
   SetContextProperty(CONTEXT_ALBUM_MODEL, NULL);
   SetContextProperty(CONTEXT_MEDIA_MODEL, NULL);
+  SetContextProperty(CONTEXT_ALBUM_PICKER_MODEL, NULL);
 }
 
 void AlbumViewer::PageLoaded() {
@@ -49,6 +54,14 @@ void AlbumViewer::PageLoaded() {
   Connect("grid_checkerboard", SIGNAL(activated(int)), this,
     SLOT(on_media_activated(int)));
   Connect("album_viewer", SIGNAL(addToAlbum()), this, SLOT(on_add_to_album()));
+  Connect("grid_checkerboard", SIGNAL(selection_toggled(int)), this,
+    SLOT(on_media_selection_toggled(int)));
+  Connect("grid_checkerboard", SIGNAL(unselect_all()), this,
+    SLOT(on_media_unselect_all()));
+  Connect("album_viewer", SIGNAL(popupAlbumPicked(int)), this,
+    SLOT(on_popup_album_picked(int)));
+  Connect("album_viewer", SIGNAL(createAlbumFromSelected()), this,
+    SLOT(on_create_album_from_selected_media()));
 }
 
 void AlbumViewer::PrepareToEnter(Album* album) {
@@ -72,9 +85,13 @@ void AlbumViewer::PrepareToEnter(Album* album) {
   // item properties
   ClearProperty("grid_checkerboard", "checkerboardModel");
   ClearProperty("template_pager", "model");
+  ClearProperty("album_picker", "designated_model");
   
   SetContextProperty(CONTEXT_ALBUM_MODEL, album_model_);
   SetContextProperty(CONTEXT_MEDIA_MODEL, media_model_);
+  SetContextProperty(CONTEXT_ALBUM_PICKER_MODEL,
+    AlbumPicker::instance()->universal_albums_model());
+
   
   // don't use ListView's currentIndex property, as that will animate the
   // ListView as it magically scrolls through the list to the photo; rather,
@@ -97,6 +114,34 @@ void AlbumViewer::on_media_activated(int media_number) {
   }
   
   emit media_activated(media);
+}
+
+void AlbumViewer::on_media_selection_toggled(int media_number) {
+  MediaSource* media_object = qobject_cast<MediaSource*>(
+    view_->FindByNumber((MediaNumber) media_number));
+  if (media_object != NULL)
+    view_->ToggleSelect(media_object);
+  else
+    qDebug("Unable to located toggled photo #%d", media_number);
+}
+
+void AlbumViewer::on_media_unselect_all() {
+  view_->UnselectAll();
+}
+
+void AlbumViewer::on_popup_album_picked(int album_number) {
+  AlbumPicker::instance()->GetAlbumForIndex(album_number)->AttachMany(
+    view_->GetSelected());
+}
+
+void AlbumViewer::on_create_album_from_selected_media() {
+  if (view_->GetSelectedCount() == 0)
+    return;
+
+  Album *album = new Album(*DefaultAlbumTemplate::instance());
+  album->AttachMany(view_->GetSelected());
+
+  AlbumCollection::instance()->Add(album);
 }
 
 void AlbumViewer::on_add_to_album() {

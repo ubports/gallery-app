@@ -24,8 +24,12 @@ NavToolbar {
   objectName: "mastheadBar"
 
   signal viewModeChanged()
+  signal deselectAllRequested()
+  signal selectionInteractionCompleted()
 
   property bool isTemplateView: true
+  property bool isSelectionInProgress: false
+  property bool areItemsSelected: false
   property string albumName: ""
 
 
@@ -45,6 +49,8 @@ NavToolbar {
     x: parent.width - width - 22
     y: (parent.height / 2) - (height / 2) + 1
 
+    visible: !mastheadBar.isSelectionInProgress
+
     MouseArea {
       anchors.fill: parent
 
@@ -54,4 +60,33 @@ NavToolbar {
       }
     }
   }
+
+  NavButton {
+    id: doneButton
+    objectName: "doneButton"
+
+    title: "done"
+
+    anchors.right: parent.right
+
+    visible: mastheadBar.isSelectionInProgress
+
+    onPressed: {
+      mastheadBar.isSelectionInProgress = false;
+      selectionInteractionCompleted();
+    }
+  }
+
+  NavButton {
+    title: "deselect"
+
+    anchors.right: doneButton.left
+
+    visible: mastheadBar.isSelectionInProgress && mastheadBar.areItemsSelected
+
+    onPressed: {
+      mastheadBar.deselectAllRequested();
+    }
+  }
+
 }

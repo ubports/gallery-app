@@ -52,6 +52,10 @@ class AlbumViewer : public QmlPage {
   
  private slots:
   void on_media_activated(int media_number);
+  void on_media_selection_toggled(int media_number);
+  void on_media_unselect_all();
+  void on_popup_album_picked(int album_number);
+  void on_create_album_from_selected_media();
   void on_add_to_album();
   
  private:

@@ -26,6 +26,8 @@ Rectangle {
   
   signal exit_viewer()
   signal addToAlbum()
+  signal popupAlbumPicked(int album_number)
+  signal createAlbumFromSelected()
   
   anchors.fill: parent
 
@@ -34,6 +36,8 @@ Rectangle {
     objectName: "masthead"
 
     albumName: template_pager.albumName
+
+    areItemsSelected: grid_checkerboard.selected_count > 0
 
     x: 0
     y: 0
@@ -47,6 +51,15 @@ Rectangle {
         template_pager.visible = false;
         grid_checkerboard.visible = true;
       }
+    }
+
+    onSelectionInteractionCompleted: {
+      grid_checkerboard.state = "normal";
+      grid_checkerboard.unselect_all();
+    }
+
+    onDeselectAllRequested: {
+      grid_checkerboard.unselect_all();
     }
   }
   
@@ -105,7 +118,7 @@ Rectangle {
     
     visible: false
     
-    allow_selection: false
+    allow_selection: true
     
     checkerboardModel: ctx_album_viewer_media_model
     checkerboardDelegate: PhotoComponent {
@@ -118,9 +131,63 @@ Rectangle {
       isCropped: true
       isPreview: true
     }
+
+    MouseArea {
+      id: mouse_blocker
+      objectName: "mouse_blocker"
+
+      anchors.fill: parent
+
+      onClicked: {
+        if (album_picker.visible) {
+          album_picker.visible = false;
+          return;
+        }
+      }
+
+      visible: false
+    }
+
+    onIn_selection_modeChanged: {
+      masthead.isSelectionInProgress = in_selection_mode
+    }
   }
-  
+
+  AlbumPickerPopup {
+    id: album_picker
+    objectName: "album_picker"
+
+    y: parent.height - height - toolbar.height
+    x: add_to_album_button.x + add_to_album_button.width / 2 - width + 16
+
+    designated_model: ctx_album_picker_model
+
+    visible: false
+
+    onNewAlbumRequested: {
+      album_viewer.createAlbumFromSelected();
+      grid_checkerboard.state = "normal";
+      grid_checkerboard.unselect_all();
+      visible = false
+    }
+
+    onSelected: {
+      album_viewer.popupAlbumPicked(album_number);
+      grid_checkerboard.state = "normal";
+      grid_checkerboard.unselect_all();
+      visible = false;
+    }
+
+    onVisibleChanged: {
+      mouse_blocker.visible = visible
+    }
+  }
+
+
   NavToolbar {
+    id: toolbar
+    objectName: "toolbar"
+
     z: 10
     anchors.bottom: parent.bottom
     
@@ -134,16 +201,34 @@ Rectangle {
       
       show_title: false
       
-      onPressed: album_viewer.exit_viewer();
+      onPressed: {
+        album_viewer.exit_viewer();
+        album_picker.visible = false
+        masthead.isSelectionInProgress = false
+        masthead.areItemsSelected = false
+        grid_checkerboard.state = "normal";
+        grid_checkerboard.unselect_all();
+      }
     }
-    
+
+    AddToAlbumButton {
+      id: add_to_album_button
+      objectName: "add_to_album_button"
+
+      visible: grid_checkerboard.selected_count > 0
+
+      onPressed: {
+        album_picker.visible = !album_picker.visible
+	  }
+    }
+
     NavButton {
       id: addToAlbumButton
       objectName: "addToAlbumButton"
       
       anchors.right: parent.right
       
-      title: "add"
+      title: "add photos"
       
       onPressed: addToAlbum()
     }

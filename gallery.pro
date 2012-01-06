@@ -28,8 +28,9 @@ INSTALLS = install
 
 SOURCES += \
 	src/album.cpp \
-	src/album-page.cpp \
 	src/album-collection.cpp \
+	src/album-page.cpp \
+	src/album-picker.cpp \
 	src/album-template.cpp \
 	src/album-template-page.cpp \
 	src/album-viewer.cpp \
@@ -60,8 +61,9 @@ SOURCES += \
 
 HEADERS += \
 	src/album.h \
-	src/album-page.h \
 	src/album-collection.h \
+	src/album-page.h \
+	src/album-picker.h \
 	src/album-template.h \
 	src/album-template-page.h \
 	src/album-viewer.h \
