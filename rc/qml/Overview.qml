@@ -225,7 +225,7 @@ Rectangle {
     Text {
       anchors.centerIn: parent
       
-      text: "Select photos or movieclip(s) to edit"
+      text: "Select photos or movieclip(s)"
       visible: photos_checkerboard.selected_count == 0
     }
 
