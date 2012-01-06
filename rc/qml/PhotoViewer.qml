@@ -29,8 +29,6 @@ Rectangle {
   signal exit_viewer()
   signal popupAlbumPicked(int album_number)
   
-  property int visible_index
-  
   AlbumPickerPopup {
     id: album_picker
     objectName: "album_picker"
@@ -52,14 +50,14 @@ Rectangle {
     z: 0
     anchors.fill: parent
     
-    model: ctx_photo_viewer_photo_model
-    
     orientation: ListView.Horizontal
     snapMode: ListView.SnapOneItem
     cacheBuffer: width * 2
     flickDeceleration: 50
     keyNavigationWraps: true
     highlightMoveSpeed: 2000.0
+    
+    model: ctx_photo_viewer_photo_model
     
     delegate: PhotoComponent {
       width: image_pager.width
@@ -90,25 +88,28 @@ Rectangle {
       }
     }
     
-    function updateVisibleIndex() {
-      // Add one to ensure the hittest is in side the delegate's boundaries
-      parent.visible_index = indexAt(contentX + 1, contentY + 1);
+    // Not sure why this is required, but suspected that it's due to using
+    // context properties to pass the model in; this might be fixed once we
+    // move to QML types for passing in data
+    function updateCurrentIndex() {
+      // Add one to ensure the hit-test is inside the delegate's boundaries
+      currentIndex = indexAt(contentX + 1, contentY + 1);
     }
     
     onModelChanged: {
-      updateVisibleIndex();
+      updateCurrentIndex();
     }
     
     onVisibleChanged: {
-      updateVisibleIndex();
+      updateCurrentIndex();
     }
     
     onCountChanged: {
-      updateVisibleIndex();
+      updateCurrentIndex();
     }
     
     onMovementEnded: {
-      updateVisibleIndex();
+      updateCurrentIndex();
     }
   }
   

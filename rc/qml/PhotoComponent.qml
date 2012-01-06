@@ -24,6 +24,8 @@ Rectangle {
   property bool isCropped: false
   property bool isPreview: false
   
+  signal loaded()
+  
   clip: true
   
   Image {
@@ -57,5 +59,10 @@ Rectangle {
     cache: true
     smooth: true
     fillMode: isCropped ? Image.PreserveAspectCrop : Image.PreserveAspectFit
+    
+    onStatusChanged: {
+      if(image.status == Image.Ready)
+        loaded();
+    }
   }
 }

@@ -70,9 +70,8 @@ void PhotoViewer::PrepareToEnter(QmlMediaModel *model, Photo* start) {
 }
 
 void PhotoViewer::on_album_selected(int album_number) {
-  int visible_index = GetProperty("photo_viewer", "visible_index").toInt();
-  
-  Photo* photo = qobject_cast<Photo*>(media_model_->BackingViewCollection()->GetAt(visible_index));
+  Photo* photo = qobject_cast<Photo*>(media_model_->BackingViewCollection()->GetAt(
+    GetProperty("image_pager", "currentIndex").toInt()));
   Album* album = qobject_cast<Album*>(album_view_collection.FindByNumber(album_number));
   
   album->Attach(photo);
