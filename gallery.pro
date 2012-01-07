@@ -33,7 +33,6 @@ SOURCES += \
 	src/album-picker.cpp \
 	src/album-template.cpp \
 	src/album-template-page.cpp \
-	src/album-viewer.cpp \
 	src/container-source.cpp \
 	src/container-source-collection.cpp \
 	src/data-collection.cpp \
@@ -43,15 +42,16 @@ SOURCES += \
 	src/main.cpp \
 	src/media-collection.cpp \
 	src/media-source.cpp \
-	src/overview.cpp \
 	src/photo.cpp \
 	src/photo-metadata.cpp \
-	src/photo-viewer.cpp \
-	src/qml-album-model.cpp \
+	src/qml-photo-viewer-page.cpp \
 	src/qml-album-collection-model.cpp \
+	src/qml-album-model.cpp \
+	src/qml-album-viewer-page.cpp \
 	src/qml-media-model.cpp \
 	src/qml-media-selector-page.cpp \
 	src/qml-media-source.cpp \
+	src/qml-overview-page.cpp \
 	src/qml-page.cpp \
 	src/qml-view-collection-model.cpp \
 	src/selectable-view-collection.cpp \
@@ -66,7 +66,6 @@ HEADERS += \
 	src/album-picker.h \
 	src/album-template.h \
 	src/album-template-page.h \
-	src/album-viewer.h \
 	src/container-source.h \
 	src/container-source-collection.h \
 	src/data-collection.h \
@@ -75,15 +74,16 @@ HEADERS += \
 	src/default-album-template.h \
 	src/media-collection.h \
 	src/media-source.h \
-	src/overview.h \
 	src/photo.h \
 	src/photo-metadata.h \
-	src/photo-viewer.h \
-	src/qml-album-model.h \
+	src/qml-photo-viewer-page.h \
 	src/qml-album-collection-model.h \
+	src/qml-album-model.h \
+	src/qml-album-viewer-page.h \
 	src/qml-media-model.h \
 	src/qml-media-selector-page.h \
 	src/qml-media-source.h \
+	src/qml-overview-page.h \
 	src/qml-page.h \
 	src/qml-view-collection-model.h \
 	src/selectable-view-collection.h \

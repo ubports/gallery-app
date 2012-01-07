@@ -18,8 +18,8 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-#ifndef GALLERY_PHOTO_VIEWER_H_
-#define GALLERY_PHOTO_VIEWER_H_
+#ifndef GALLERY_QML_PHOTO_VIEWER_PAGE_H_
+#define GALLERY_QML_PHOTO_VIEWER_PAGE_H_
 
 #include <QObject>
 #include <QDeclarativeView>
@@ -31,14 +31,14 @@
 #include "qml-media-model.h"
 #include "qml-page.h"
 
-class PhotoViewer : public QmlPage {
+class QmlPhotoViewerPage : public QmlPage {
   Q_OBJECT
   
  signals:
   void exit_viewer();
   
  public:
-  PhotoViewer(QDeclarativeView* view);
+  QmlPhotoViewerPage(QDeclarativeView* view);
   
   // returned path is a relative path, not an absolute one
   virtual const char* qml_rc() const;
@@ -57,4 +57,4 @@ class PhotoViewer : public QmlPage {
   QmlMediaModel* media_model_;
 };
 
-#endif  // GALLERY_PHOTO_VIEWER_H_
+#endif  // GALLERY_QML_PHOTO_VIEWER_PAGE_H_

@@ -17,8 +17,8 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#ifndef GALLERY_ALBUM_VIEWER_H_
-#define GALLERY_ALBUM_VIEWER_H_
+#ifndef GALLERY_QML_ALBUM_VIEWER_PAGE_H_
+#define GALLERY_QML_ALBUM_VIEWER_PAGE_H_
 
 #include <QObject>
 #include <QDeclarativeView>
@@ -30,7 +30,7 @@
 #include "qml-page.h"
 #include "selectable-view-collection.h"
 
-class AlbumViewer : public QmlPage {
+class QmlAlbumViewerPage : public QmlPage {
   Q_OBJECT
   
  signals:
@@ -39,8 +39,8 @@ class AlbumViewer : public QmlPage {
   void add_media_to_album(Album* album);
   
  public:
-  AlbumViewer(QDeclarativeView* view);
-  virtual ~AlbumViewer();
+  QmlAlbumViewerPage(QDeclarativeView* view);
+  virtual ~QmlAlbumViewerPage();
   
   virtual const char *qml_rc() const;
   
@@ -65,4 +65,4 @@ class AlbumViewer : public QmlPage {
   SelectableViewCollection* view_;
 };
 
-#endif  // GALLERY_ALBUM_VIEWER_H_
+#endif  // GALLERY_QML_ALBUM_VIEWER_PAGE_H_

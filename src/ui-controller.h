@@ -27,14 +27,14 @@
 #include <QStack>
 
 #include "album.h"
-#include "album-viewer.h"
 #include "media-source.h"
 #include "media-collection.h"
-#include "overview.h"
-#include "photo-viewer.h"
+#include "qml-album-viewer-page.h"
 #include "qml-media-model.h"
 #include "qml-media-selector-page.h"
+#include "qml-overview-page.h"
 #include "qml-page.h"
+#include "qml-photo-viewer-page.h"
 
 class UIController : public QObject {
   Q_OBJECT
@@ -60,9 +60,9 @@ class UIController : public QObject {
   QmlPage* current_page_;
   QStack<QmlPage*> navigation_stack_;
   
-  Overview* overview_;
-  PhotoViewer* photo_viewer_;
-  AlbumViewer* album_viewer_;
+  QmlOverviewPage* overview_;
+  QmlPhotoViewerPage* photo_viewer_;
+  QmlAlbumViewerPage* album_viewer_;
   QmlMediaSelectorPage* media_selector_;
   
   void SwitchTo(QmlPage* page);

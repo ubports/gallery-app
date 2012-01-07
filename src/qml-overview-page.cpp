@@ -18,7 +18,7 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-#include "overview.h"
+#include "qml-overview-page.h"
 
 #include "album.h"
 #include "album-collection.h"
@@ -30,7 +30,7 @@ static const char* CTX_MEDIA_MODEL = "ctx_overview_media_model";
 static const char* CTX_ALBUMS_MODEL = "ctx_overview_albums_model";
 static const char* CTX_ALBUM_PICKER_MODEL = "ctx_album_picker_model";
 
-Overview::Overview(QDeclarativeView* view)
+QmlOverviewPage::QmlOverviewPage(QDeclarativeView* view)
   : QmlPage(view, "overview"), media_view_("Media ViewCollection"),
   albums_view_("Albums ViewCollection") {
   media_view_.MonitorDataCollection(MediaCollection::instance(), NULL, false);
@@ -43,30 +43,30 @@ Overview::Overview(QDeclarativeView* view)
   albums_model_->Init(&albums_view_);
 }
 
-Overview::~Overview() {
+QmlOverviewPage::~QmlOverviewPage() {
   delete media_model_;
   delete albums_model_;
 }
 
-QmlMediaModel* Overview::media_model() const {
+QmlMediaModel* QmlOverviewPage::media_model() const {
   return media_model_;
 }
 
-QmlAlbumCollectionModel* Overview::albums_model() const {
+QmlAlbumCollectionModel* QmlOverviewPage::albums_model() const {
   return albums_model_;
 }
 
-const char* Overview::qml_rc() const {
+const char* QmlOverviewPage::qml_rc() const {
   return "qrc:/rc/qml/Overview.qml";
 }
 
-void Overview::PrepareContext() {
+void QmlOverviewPage::PrepareContext() {
   SetContextProperty(CTX_MEDIA_MODEL, NULL);
   SetContextProperty(CTX_ALBUMS_MODEL, NULL);
   SetContextProperty(CTX_ALBUM_PICKER_MODEL, NULL);
 }
 
-void Overview::PageLoaded() {
+void QmlOverviewPage::PageLoaded() {
   // Set these context properties now, as they won't change during the
   // lifetime of the app
   SetContextProperty(CTX_MEDIA_MODEL, media_model_);
@@ -107,15 +107,15 @@ void Overview::PageLoaded() {
     SLOT(on_album_activated(int)));
 }
 
-void Overview::PrepareToEnter() {
+void QmlOverviewPage::PrepareToEnter() {
 }
 
-void Overview::on_popup_album_picked(int album_number) {
+void QmlOverviewPage::on_popup_album_picked(int album_number) {
   AlbumPicker::instance()->GetAlbumForIndex(album_number)->AttachMany(
     media_view_.GetSelected());
 }
 
-void Overview::on_photo_activated(int media_number) {
+void QmlOverviewPage::on_photo_activated(int media_number) {
   MediaSource* media_object = qobject_cast<MediaSource*>(
     media_view_.FindByNumber((MediaNumber) media_number));
   if (media_object != NULL)
@@ -124,7 +124,7 @@ void Overview::on_photo_activated(int media_number) {
     qDebug("Unable to locate activated photo #%d", media_number);
 }
 
-void Overview::on_photo_selection_toggled(int media_number) {
+void QmlOverviewPage::on_photo_selection_toggled(int media_number) {
   MediaSource* media_object = qobject_cast<MediaSource*>(
     media_view_.FindByNumber((MediaNumber) media_number));
   if (media_object != NULL)
@@ -133,11 +133,11 @@ void Overview::on_photo_selection_toggled(int media_number) {
     qDebug("Unable to located toggled photo #%d", media_number);
 }
 
-void Overview::on_photos_unselect_all() {
+void QmlOverviewPage::on_photos_unselect_all() {
   media_view_.UnselectAll();
 }
 
-void Overview::on_create_album_from_selected_photos() {
+void QmlOverviewPage::on_create_album_from_selected_photos() {
   if (media_view_.GetSelectedCount() == 0)
     return;
   
@@ -147,7 +147,7 @@ void Overview::on_create_album_from_selected_photos() {
   AlbumCollection::instance()->Add(album);
 }
 
-void Overview::on_album_activated(int album_number) {
+void QmlOverviewPage::on_album_activated(int album_number) {
   Album* album = qobject_cast<Album*>(albums_view_.FindByNumber(album_number));
   if (album != NULL)
     emit album_activated(album);

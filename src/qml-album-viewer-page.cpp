@@ -17,10 +17,12 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "album-viewer.h"
+#include "qml-album-viewer-page.h"
+
 #include "album-picker.h"
 #include "album-collection.h"
 #include "default-album-template.h"
+#include "qml-album-viewer-page.h"
 
 #include <QVariant>
 
@@ -28,28 +30,28 @@ static const char* CONTEXT_ALBUM_MODEL = "ctx_album_viewer_album_model";
 static const char* CONTEXT_MEDIA_MODEL = "ctx_album_viewer_media_model";
 static const char* CONTEXT_ALBUM_PICKER_MODEL = "ctx_album_picker_model";
 
-AlbumViewer::AlbumViewer(QDeclarativeView* view)
+QmlAlbumViewerPage::QmlAlbumViewerPage(QDeclarativeView* view)
   : QmlPage(view, "album_viewer"), album_model_(NULL), media_model_(NULL),
   view_(NULL) {
 }
 
-AlbumViewer::~AlbumViewer() {
+QmlAlbumViewerPage::~QmlAlbumViewerPage() {
   delete media_model_;
   delete album_model_;
   delete view_;
 }
 
-const char* AlbumViewer::qml_rc() const {
+const char* QmlAlbumViewerPage::qml_rc() const {
   return "qrc:/rc/qml/AlbumViewer.qml";
 }
 
-void AlbumViewer::PrepareContext() {
+void QmlAlbumViewerPage::PrepareContext() {
   SetContextProperty(CONTEXT_ALBUM_MODEL, NULL);
   SetContextProperty(CONTEXT_MEDIA_MODEL, NULL);
   SetContextProperty(CONTEXT_ALBUM_PICKER_MODEL, NULL);
 }
 
-void AlbumViewer::PageLoaded() {
+void QmlAlbumViewerPage::PageLoaded() {
   Connect("album_viewer", SIGNAL(exit_viewer()), this, SIGNAL(exit_viewer()));
   Connect("grid_checkerboard", SIGNAL(activated(int)), this,
     SLOT(on_media_activated(int)));
@@ -64,7 +66,7 @@ void AlbumViewer::PageLoaded() {
     SLOT(on_create_album_from_selected_media()));
 }
 
-void AlbumViewer::PrepareToEnter(Album* album) {
+void QmlAlbumViewerPage::PrepareToEnter(Album* album) {
   album_ = album;
   
   delete view_;
@@ -101,11 +103,11 @@ void AlbumViewer::PrepareToEnter(Album* album) {
     Q_ARG(int, album->current_page()), Q_ARG(int, 0));
 }
 
-QmlMediaModel* AlbumViewer::media_model() const {
+QmlMediaModel* QmlAlbumViewerPage::media_model() const {
   return media_model_;
 }
 
-void AlbumViewer::on_media_activated(int media_number) {
+void QmlAlbumViewerPage::on_media_activated(int media_number) {
   MediaSource* media = qobject_cast<MediaSource*>(view_->FindByNumber(media_number));
   if (media == NULL) {
     qDebug("Unable to find media source for #%d", media_number);
@@ -116,7 +118,7 @@ void AlbumViewer::on_media_activated(int media_number) {
   emit media_activated(media);
 }
 
-void AlbumViewer::on_media_selection_toggled(int media_number) {
+void QmlAlbumViewerPage::on_media_selection_toggled(int media_number) {
   MediaSource* media_object = qobject_cast<MediaSource*>(
     view_->FindByNumber((MediaNumber) media_number));
   if (media_object != NULL)
@@ -125,16 +127,16 @@ void AlbumViewer::on_media_selection_toggled(int media_number) {
     qDebug("Unable to located toggled photo #%d", media_number);
 }
 
-void AlbumViewer::on_media_unselect_all() {
+void QmlAlbumViewerPage::on_media_unselect_all() {
   view_->UnselectAll();
 }
 
-void AlbumViewer::on_popup_album_picked(int album_number) {
+void QmlAlbumViewerPage::on_popup_album_picked(int album_number) {
   AlbumPicker::instance()->GetAlbumForIndex(album_number)->AttachMany(
     view_->GetSelected());
 }
 
-void AlbumViewer::on_create_album_from_selected_media() {
+void QmlAlbumViewerPage::on_create_album_from_selected_media() {
   if (view_->GetSelectedCount() == 0)
     return;
 
@@ -144,6 +146,6 @@ void AlbumViewer::on_create_album_from_selected_media() {
   AlbumCollection::instance()->Add(album);
 }
 
-void AlbumViewer::on_add_to_album() {
+void QmlAlbumViewerPage::on_add_to_album() {
   emit add_media_to_album(album_);
 }

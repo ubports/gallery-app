@@ -48,13 +48,13 @@ UIController::UIController(const QDir &path)
   // Initialize all the pages
   //
   
-  overview_ = new Overview(view_);
+  overview_ = new QmlOverviewPage(view_);
   overview_->PrepareContext();
   
-  photo_viewer_ = new PhotoViewer(view_);
+  photo_viewer_ = new QmlPhotoViewerPage(view_);
   photo_viewer_->PrepareContext();
   
-  album_viewer_ = new AlbumViewer(view_);
+  album_viewer_ = new QmlAlbumViewerPage(view_);
   album_viewer_->PrepareContext();
   
   media_selector_ = new QmlMediaSelectorPage(view_);

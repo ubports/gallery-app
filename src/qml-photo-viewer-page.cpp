@@ -18,7 +18,7 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-#include "photo-viewer.h"
+#include "qml-photo-viewer-page.h"
 
 #include <QMetaObject>
 
@@ -28,7 +28,7 @@
 
 static const char* CTX_PHOTO_MODEL = "ctx_photo_viewer_photo_model";
 
-PhotoViewer::PhotoViewer(QDeclarativeView* view)
+QmlPhotoViewerPage::QmlPhotoViewerPage(QDeclarativeView* view)
   : QmlPage(view, "photo_viewer"), album_view_collection("PhotoViewer Album ViewCollection"),
   media_model_(NULL) {
   album_view_collection.MonitorDataCollection(AlbumCollection::instance(),
@@ -36,29 +36,29 @@ PhotoViewer::PhotoViewer(QDeclarativeView* view)
   album_picker_model_.Init(&album_view_collection);
 }
 
-const char* PhotoViewer::qml_rc() const {
+const char* QmlPhotoViewerPage::qml_rc() const {
   return "qrc:/rc/qml/PhotoViewer.qml";
 }
 
-void PhotoViewer::PrepareContext() {
+void QmlPhotoViewerPage::PrepareContext() {
   SetContextProperty(CTX_PHOTO_MODEL, NULL);
   SetContextProperty("ctx_album_picker_model",
     AlbumPicker::instance()->universal_albums_model());
 }
 
-void PhotoViewer::PageLoaded() {
+void QmlPhotoViewerPage::PageLoaded() {
   Connect("photo_viewer", SIGNAL(exit_viewer()), this,
     SIGNAL(exit_viewer()));
   Connect("photo_viewer", SIGNAL(popupAlbumPicked(int)), this,
     SLOT(on_popup_album_picked(int)));
   Connect("photo_viewer", SIGNAL(newAlbumRequested()), this,
-          SLOT(on_new_album_requested()));
+    SLOT(on_new_album_requested()));
   
   ClearProperty("album_picker", "designated_model");
   SetContextProperty("ctx_album_picker_model", &album_picker_model_);
 }
 
-void PhotoViewer::PrepareToEnter(QmlMediaModel *model, Photo* start) {
+void QmlPhotoViewerPage::PrepareToEnter(QmlMediaModel *model, Photo* start) {
   media_model_ = model;
   
   // Clear item properties before setting context properties ... apparently
@@ -76,7 +76,7 @@ void PhotoViewer::PrepareToEnter(QmlMediaModel *model, Photo* start) {
     Q_ARG(int, 0));
 }
 
-void PhotoViewer::on_popup_album_picked(int album_number) {
+void QmlPhotoViewerPage::on_popup_album_picked(int album_number) {
   int visible_index = GetProperty("image_pager", "currentIndex").toInt();
   
   Photo* photo = qobject_cast<Photo*>(
@@ -86,7 +86,7 @@ void PhotoViewer::on_popup_album_picked(int album_number) {
   album->Attach(photo);
 }
 
-void PhotoViewer::on_new_album_requested() {
+void QmlPhotoViewerPage::on_new_album_requested() {
   Photo* photo =
     qobject_cast<Photo*>(media_model_->BackingViewCollection()->GetAt(
     GetProperty("image_pager", "currentIndex").toInt()));

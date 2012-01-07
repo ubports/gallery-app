@@ -18,8 +18,8 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-#ifndef GALLERY_OVERVIEW_H_
-#define GALLERY_OVERVIEW_H_
+#ifndef GALLERY_QML_OVERVIEW_PAGE_H_
+#define GALLERY_QML_OVERVIEW_PAGE_H_
 
 #include <QObject>
 #include <QDeclarativeView>
@@ -31,7 +31,7 @@
 #include "qml-page.h"
 #include "selectable-view-collection.h"
 
-class Overview : public QmlPage {
+class QmlOverviewPage : public QmlPage {
   Q_OBJECT
   
  signals:
@@ -40,8 +40,8 @@ class Overview : public QmlPage {
   void create_album();
   
  public:
-  Overview(QDeclarativeView* view);
-  virtual ~Overview();
+  QmlOverviewPage(QDeclarativeView* view);
+  virtual ~QmlOverviewPage();
   
   QmlMediaModel* media_model() const;
   QmlAlbumCollectionModel* albums_model() const;
@@ -67,4 +67,4 @@ class Overview : public QmlPage {
   QmlAlbumCollectionModel* albums_model_;
 };
 
-#endif  // GALLERY_OVERVIEW_H_
+#endif  // GALLERY_QML_OVERVIEW_PAGE_H_
