@@ -9,7 +9,7 @@ isEmpty(PREFIX) {
 TEMPLATE = app
 TARGET = gallery
 DEPENDPATH += . src
-INCLUDEPATH += .
+INCLUDEPATH += src
 CONFIG += qt debug link_pkgconfig
 QMAKE_CXXFLAGS += -Werror -Wno-unused-parameter
 QT += gui declarative opengl
@@ -27,70 +27,69 @@ INSTALLS = install
 # Input
 
 SOURCES += \
-	src/album.cpp \
-	src/album-collection.cpp \
-	src/album-page.cpp \
-	src/album-picker.cpp \
-	src/album-template.cpp \
-	src/album-template-page.cpp \
-	src/container-source.cpp \
-	src/container-source-collection.cpp \
-	src/data-collection.cpp \
-	src/data-object.cpp \
-	src/data-source.cpp \
-	src/default-album-template.cpp \
 	src/main.cpp \
-	src/media-collection.cpp \
-	src/media-source.cpp \
-	src/photo.cpp \
-	src/photo-metadata.cpp \
-	src/qml-photo-viewer-page.cpp \
-	src/qml-album-collection-model.cpp \
-	src/qml-album-model.cpp \
-	src/qml-album-viewer-page.cpp \
-	src/qml-media-model.cpp \
-	src/qml-media-selector-page.cpp \
-	src/qml-media-source.cpp \
-	src/qml-overview-page.cpp \
-	src/qml-page.cpp \
-	src/qml-view-collection-model.cpp \
-	src/selectable-view-collection.cpp \
-	src/source-collection.cpp \
 	src/ui-controller.cpp \
-	src/view-collection.cpp
+	src/album/album.cpp \
+	src/album/album-default-template.cpp \
+	src/album/album-collection.cpp \
+	src/album/album-page.cpp \
+	src/album/album-picker.cpp \
+	src/album/album-template.cpp \
+	src/album/album-template-page.cpp \
+	src/core/container-source.cpp \
+	src/core/container-source-collection.cpp \
+	src/core/data-collection.cpp \
+	src/core/data-object.cpp \
+	src/core/data-source.cpp \
+	src/core/selectable-view-collection.cpp \
+	src/core/source-collection.cpp \
+	src/core/view-collection.cpp \
+	src/media/media-collection.cpp \
+	src/media/media-source.cpp \
+	src/photo/photo.cpp \
+	src/photo/photo-metadata.cpp \
+	src/qml/qml-photo-viewer-page.cpp \
+	src/qml/qml-album-collection-model.cpp \
+	src/qml/qml-album-model.cpp \
+	src/qml/qml-album-viewer-page.cpp \
+	src/qml/qml-media-model.cpp \
+	src/qml/qml-media-selector-page.cpp \
+	src/qml/qml-media-source.cpp \
+	src/qml/qml-overview-page.cpp \
+	src/qml/qml-page.cpp \
+	src/qml/qml-view-collection-model.cpp
 
 HEADERS += \
-	src/album.h \
-	src/album-collection.h \
-	src/album-page.h \
-	src/album-picker.h \
-	src/album-template.h \
-	src/album-template-page.h \
-	src/container-source.h \
-	src/container-source-collection.h \
-	src/data-collection.h \
-	src/data-object.h \
-	src/data-source.h \
-	src/default-album-template.h \
-	src/media-collection.h \
-	src/media-source.h \
-	src/photo.h \
-	src/photo-metadata.h \
-	src/qml-photo-viewer-page.h \
-	src/qml-album-collection-model.h \
-	src/qml-album-model.h \
-	src/qml-album-viewer-page.h \
-	src/qml-media-model.h \
-	src/qml-media-selector-page.h \
-	src/qml-media-source.h \
-	src/qml-overview-page.h \
-	src/qml-page.h \
-	src/qml-view-collection-model.h \
-	src/selectable-view-collection.h \
-	src/source-collection.h \
 	src/ui-controller.h \
-	src/view-collection.h
-
+	src/album/album.h \
+	src/album/album-collection.h \
+	src/album/album-default-template.h \
+	src/album/album-page.h \
+	src/album/album-picker.h \
+	src/album/album-template.h \
+	src/album/album-template-page.h \
+	src/core/container-source.h \
+	src/core/container-source-collection.h \
+	src/core/data-collection.h \
+	src/core/data-object.h \
+	src/core/data-source.h \
+	src/core/selectable-view-collection.h \
+	src/core/source-collection.h \
+	src/core/view-collection.h \
+	src/media/media-collection.h \
+	src/media/media-source.h \
+	src/photo/photo.h \
+	src/photo/photo-metadata.h \
+	src/qml/qml-photo-viewer-page.h \
+	src/qml/qml-album-collection-model.h \
+	src/qml/qml-album-model.h \
+	src/qml/qml-album-viewer-page.h \
+	src/qml/qml-media-model.h \
+	src/qml/qml-media-selector-page.h \
+	src/qml/qml-media-source.h \
+	src/qml/qml-overview-page.h \
+	src/qml/qml-page.h \
+	src/qml/qml-view-collection-model.h
 
 OTHER_FILES += \
 	rc/gallery.qrc \

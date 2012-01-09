@@ -26,15 +26,15 @@
 #include <QPointer>
 #include <QStack>
 
-#include "album.h"
-#include "media-source.h"
-#include "media-collection.h"
-#include "qml-album-viewer-page.h"
-#include "qml-media-model.h"
-#include "qml-media-selector-page.h"
-#include "qml-overview-page.h"
-#include "qml-page.h"
-#include "qml-photo-viewer-page.h"
+#include "album/album.h"
+#include "media/media-source.h"
+#include "media/media-collection.h"
+#include "qml/qml-album-viewer-page.h"
+#include "qml/qml-media-model.h"
+#include "qml/qml-media-selector-page.h"
+#include "qml/qml-overview-page.h"
+#include "qml/qml-page.h"
+#include "qml/qml-photo-viewer-page.h"
 
 class UIController : public QObject {
   Q_OBJECT

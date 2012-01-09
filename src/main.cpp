@@ -22,10 +22,10 @@
 #include <QDir>
 #include <QString>
 
-#include "qml-album-model.h"
-#include "qml-album-collection-model.h"
-#include "qml-media-model.h"
-#include "qml-media-source.h"
+#include "qml/qml-album-model.h"
+#include "qml/qml-album-collection-model.h"
+#include "qml/qml-media-model.h"
+#include "qml/qml-media-source.h"
 #include "ui-controller.h"
 
 int main(int argc, char *argv[]) {
