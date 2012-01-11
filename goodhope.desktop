@@ -1,0 +1,15 @@
+[Desktop Entry]
+Version=1.0
+Name=Goodhope
+GenericName=Photo Viewer
+X-GNOME-Fullname=Goodhope Photo Viewer
+Comment=Browse your photographs
+TryExec=gallery
+Exec=gallery
+Icon=goodhope
+StartupNotify=true
+Terminal=false
+Type=Application
+MimeType=image/jpg;image/jpeg
+Categories=Graphics;Photography;RasterGraphics;Viewer;GNOME;GTK;
+X-Ayatana-Appmenu-Show-Stubs=false
