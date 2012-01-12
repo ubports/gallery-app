@@ -26,7 +26,7 @@
 #include "album/album.h"
 #include "core/selectable-view-collection.h"
 #include "core/view-collection.h"
-#include "qml/qml-media-model.h"
+#include "qml/qml-media-collection-model.h"
 #include "qml/qml-page.h"
 
 class QmlMediaSelectorPage : public QmlPage {
@@ -58,7 +58,7 @@ class QmlMediaSelectorPage : public QmlPage {
   ViewCollection selected_;
   Album* album_;
   SelectableViewCollection* view_;
-  QmlMediaModel* qml_media_model_;
+  QmlMediaCollectionModel* qml_media_collection_model_;
 };
 
 #endif  // GALLERY_QML_MEDIA_SELECTOR_PAGE_H_

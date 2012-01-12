@@ -26,11 +26,11 @@ static const char* CTX_MEDIA_SELECTOR_MODEL = "ctx_media_selector_model";
 
 QmlMediaSelectorPage::QmlMediaSelectorPage(QDeclarativeView* view)
   : QmlPage(view, "mediaSelector"), selected_("QmlMediaSelectorPage"),
-  album_(NULL), view_(NULL), qml_media_model_(NULL) {
+  album_(NULL), view_(NULL), qml_media_collection_model_(NULL) {
 }
 
 QmlMediaSelectorPage::~QmlMediaSelectorPage() {
-  delete qml_media_model_;
+  delete qml_media_collection_model_;
   delete view_;
 }
 
@@ -57,12 +57,12 @@ void QmlMediaSelectorPage::PrepareToEnter(ViewCollection* view, Album* album) {
   view_ = new SelectableViewCollection("View for MediaSelectorPage");
   view_->MonitorDataCollection(view, NULL, false);
   
-  delete qml_media_model_;
-  qml_media_model_ = new QmlMediaModel();
-  qml_media_model_->Init(view_);
+  delete qml_media_collection_model_;
+  qml_media_collection_model_ = new QmlMediaCollectionModel();
+  qml_media_collection_model_->Init(view_);
   
   ClearProperty("mediaCheckerboard", "checkerboardModel");
-  SetContextProperty(CTX_MEDIA_SELECTOR_MODEL, qml_media_model_);
+  SetContextProperty(CTX_MEDIA_SELECTOR_MODEL, qml_media_collection_model_);
 }
 
 void QmlMediaSelectorPage::OnAddSelected() {

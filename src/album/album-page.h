@@ -21,25 +21,50 @@
 #define GALLERY_ALBUM_PAGE_H_
 
 #include <QObject>
+#include <QDeclarativeListProperty>
+#include <QUrl>
+#include <QtDeclarative>
 
 #include "album/album-template-page.h"
 #include "core/container-source.h"
+#include "media/media-source.h"
 
 class AlbumPage : public ContainerSource {
   Q_OBJECT
+  Q_PROPERTY(int pageNumber READ page_number NOTIFY page_number_changed);
+  Q_PROPERTY(QUrl qmlRC READ qml_rc NOTIFY qml_rc_changed);
+  Q_PROPERTY(QDeclarativeListProperty<MediaSource> mediaSourceList
+    READ qml_media_source_list NOTIFY media_source_list_changed);
+  
+ signals:
+  void page_number_changed();
+  void qml_rc_changed();
+  void media_source_list_changed();
   
  public:
+  AlbumPage();
   AlbumPage(int page_number, AlbumTemplatePage* template_page);
+  
+  static void RegisterType();
   
   int page_number() const;
   AlbumTemplatePage* template_page() const;
+  QUrl qml_rc() const;
+  
+  QDeclarativeListProperty<MediaSource> qml_media_source_list();
   
  protected:
   virtual void DestroySource(bool destroy_backing);
   
+  virtual void notify_container_contents_altered(const QSet<DataObject *> *added,
+    const QSet<DataObject *> *removed);
+  
  private:
   int page_number_;
   AlbumTemplatePage* template_page_;
+  QList<MediaSource*> source_list_;
 };
+
+QML_DECLARE_TYPE(AlbumPage);
 
 #endif  // GALLERY_ALBUM_PAGE_H_

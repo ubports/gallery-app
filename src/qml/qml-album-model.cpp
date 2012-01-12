@@ -23,7 +23,7 @@
 #include <QList>
 #include <QtDeclarative>
 
-#include "qml/qml-media-source.h"
+#include "media/media-source.h"
 
 QmlAlbumModel::QmlAlbumModel(QObject* parent)
   : QmlViewCollectionModel(parent), album_(NULL), view_("QmlAlbumModel ViewCollection") {
@@ -37,10 +37,8 @@ void QmlAlbumModel::Init(Album* album) {
   QHash<int, QByteArray> roles;
   roles[QmlViewCollectionModel::ObjectNumberRole] = "object_number";
   roles[QmlViewCollectionModel::SelectionRole] = "is_selected";
-  roles[MediaSourceListRole] = "mediaSourceList";
-  roles[PageNumberRole] = "page_number";
-  roles[QmlRcRole] = "qml_rc";
-  roles[AlbumNameRole] = "album_name";
+  roles[AlbumPageRole] = "page";
+  roles[AlbumNameRole] = "albumName";
   
   QmlViewCollectionModel::Init(&view_, roles);
 }
@@ -56,27 +54,9 @@ QVariant QmlAlbumModel::DataForRole(DataObject* object, int role) const {
     return QVariant();
   
   switch (role) {
-    case MediaSourceListRole: {
-      QList<QVariant> varlist;
-      
-      DataObject* object;
-      foreach (object, page->contained()->GetAll())
-        varlist.append(QmlMediaSource::AsVariant(qobject_cast<MediaSource*>(object)));
-      
-      // The QML page is expecting a full list of preview paths, so pack any
-      // empty slots with empty strings to prevent a runtime error being logged
-      for (int ctr = varlist.count(); ctr < page->template_page()->FrameCount(); ctr++)
-        varlist.append(QVariant(""));
-      
-      return QVariant(varlist);
-    }
+    case AlbumPageRole:
+      return QVariant::fromValue(page);
     
-    case PageNumberRole:
-      return QVariant(page->page_number());
-    
-    case QmlRcRole:
-      return QVariant(page->template_page()->qml_rc());
-
     case AlbumNameRole:
       return QVariant(album_->name());
     

@@ -33,17 +33,16 @@ class QmlAlbumCollectionModel : public QmlViewCollectionModel {
   
  public:
   enum Role {
-    MediaSourceListRole = QmlViewCollectionModel::LastCommonRole,
-    NameRole,
-    QmlRcRole
+    AlbumRole = QmlViewCollectionModel::LastCommonRole,
+    CurrentPageMediaSourceListRole
   };
   
   QmlAlbumCollectionModel(QObject* parent = NULL);
   
   static void RegisterType();
   
-  // Init() required because QmlAlbumModel is a QML Declarative Type which
-  // has restrictions on its ctor signature
+  // Init() required because QmlAlbumCollectionModel is a QML Declarative Type
+  // which has restrictions on its ctor signature
   void Init(SelectableViewCollection* view);
   
  protected:
@@ -52,6 +51,5 @@ class QmlAlbumCollectionModel : public QmlViewCollectionModel {
  private slots:
   void on_album_current_page_contents_altered(Album* album);
 };
-
 
 #endif  // GALLERY_QML_ALBUM_COLLECTION_MODEL_H_

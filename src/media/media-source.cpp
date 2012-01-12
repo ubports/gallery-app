@@ -21,30 +21,67 @@
 
 #include "media/media-collection.h"
 
-MediaSource::MediaSource(const QFileInfo& file)
-  : DataSource(file.completeBaseName()), file_(file) {
-  preview_file_ = new QFileInfo(file.dir(),
-    MediaCollection::THUMBNAIL_DIR + "/" +
-    file.completeBaseName() + "_th." + file.completeSuffix());
+MediaSource::MediaSource() {
 }
 
 MediaSource::~MediaSource() {
   delete preview_file_;
 }
 
-void MediaSource::Init() {
+void MediaSource::Init(const QFileInfo& file) {
+  file_ = file;
+  preview_file_ = new QFileInfo(file.dir(),
+    MediaCollection::THUMBNAIL_DIR + "/" +
+    file.completeBaseName() + "_th." + file.completeSuffix());
+  
+  SetInternalName(file_.completeBaseName());
+  
   if (!preview_file_->exists())
     MakePreview(file_, *preview_file_);
+}
+
+void MediaSource::RegisterType() {
+  qmlRegisterType<MediaSource>("org.yorba.qt.mediasource", 1, 0, "MediaSource");
 }
 
 const QFileInfo& MediaSource::file() const {
   return file_;
 }
 
+QUrl MediaSource::path() const {
+  return QUrl::fromLocalFile(file_.absoluteFilePath());
+}
+
 const QFileInfo& MediaSource::preview_file() const {
   return *preview_file_;
 }
 
+QUrl MediaSource::preview_path() const {
+  return QUrl::fromLocalFile(preview_file_->absoluteFilePath());
+}
+
 Orientation MediaSource::orientation() const {
   return TOP_LEFT_ORIGIN;
+}
+
+float MediaSource::orientation_rotation() const {
+  return OrientationCorrection::FromOrientation(orientation()).rotation_angle_;
+}
+
+bool MediaSource::orientation_mirrored() const {
+  return OrientationCorrection::FromOrientation(orientation()).horizontal_scale_factor_ < 0.0;
+}
+
+bool MediaSource::is_rotated() const {
+  return (orientation_rotation() == 90.0) || (orientation_rotation() == -90.0);
+}
+
+void MediaSource::DestroySource(bool delete_backing) {
+  // required stub (QML types may not be abstract)
+}
+
+bool MediaSource::MakePreview(const QFileInfo& original, const QFileInfo& dest) {
+  // required stub (QML types may not be abstract)
+  
+  return false;
 }

@@ -19,8 +19,18 @@
 
 #include "album/album-page.h"
 
+#include "core/utils.h"
+
+AlbumPage::AlbumPage()
+  : ContainerSource("AlbumPage"), page_number_(-1), template_page_(NULL) {
+}
+
 AlbumPage::AlbumPage(int page_number, AlbumTemplatePage* template_page)
-  : ContainerSource("Album"), page_number_(page_number), template_page_(template_page) {
+  : ContainerSource("AlbumPage"), page_number_(page_number), template_page_(template_page) {
+}
+
+void AlbumPage::RegisterType() {
+  qmlRegisterType<AlbumPage>("org.yorba.qt.albumpage", 1, 0, "AlbumPage");
 }
 
 int AlbumPage::page_number() const {
@@ -31,5 +41,22 @@ AlbumTemplatePage* AlbumPage::template_page() const {
   return template_page_;
 }
 
+QUrl AlbumPage::qml_rc() const {
+  return template_page_->qml_rc();
+}
+
+QDeclarativeListProperty<MediaSource> AlbumPage::qml_media_source_list() {
+  return QDeclarativeListProperty<MediaSource>(this, source_list_);
+}
+
 void AlbumPage::DestroySource(bool destroy_backing) {
+}
+
+void AlbumPage::notify_container_contents_altered(const QSet<DataObject *> *added,
+  const QSet<DataObject *> *removed) {
+  ContainerSource::notify_container_contents_altered(added, removed);
+  
+  // TODO: Can be done smarter using the added and removed; this will do for now
+  source_list_ = CastDataCollectionToList<MediaSource*>(contained());
+  emit media_source_list_changed();
 }

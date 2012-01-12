@@ -30,7 +30,7 @@
 #include "media/media-source.h"
 #include "media/media-collection.h"
 #include "qml/qml-album-viewer-page.h"
-#include "qml/qml-media-model.h"
+#include "qml/qml-media-collection-model.h"
 #include "qml/qml-media-selector-page.h"
 #include "qml/qml-overview-page.h"
 #include "qml/qml-page.h"
@@ -69,7 +69,7 @@ class UIController : public QObject {
   void GoBack();
   
   void ShowHide(QmlPage* page, bool show);
-  void ActivateMedia(QmlMediaModel* model, MediaSource* media);
+  void ActivateMedia(QmlMediaCollectionModel* model, MediaSource* media);
 };
 
 #endif  // GALLERY_UI_CONTROLLER_H_

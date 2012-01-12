@@ -28,7 +28,7 @@
 #include "core/selectable-view-collection.h"
 #include "media/media-source.h"
 #include "qml/qml-album-collection-model.h"
-#include "qml/qml-media-model.h"
+#include "qml/qml-media-collection-model.h"
 #include "qml/qml-page.h"
 
 class QmlOverviewPage : public QmlPage {
@@ -43,7 +43,7 @@ class QmlOverviewPage : public QmlPage {
   QmlOverviewPage(QDeclarativeView* view);
   virtual ~QmlOverviewPage();
   
-  QmlMediaModel* media_model() const;
+  QmlMediaCollectionModel* media_collection_model() const;
   QmlAlbumCollectionModel* albums_model() const;
   
   virtual const char* qml_rc() const;
@@ -63,8 +63,8 @@ class QmlOverviewPage : public QmlPage {
  private:
   SelectableViewCollection media_view_;
   SelectableViewCollection albums_view_;
-  QmlMediaModel* media_model_;
-  QmlAlbumCollectionModel* albums_model_;
+  QmlMediaCollectionModel* media_collection_model_;
+  QmlAlbumCollectionModel* album_collection_model_;
 };
 
 #endif  // GALLERY_QML_OVERVIEW_PAGE_H_

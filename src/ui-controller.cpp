@@ -135,21 +135,21 @@ UIController::~UIController() {
 }
 
 void UIController::on_overview_media_activated(MediaSource* media_source) {
-  ActivateMedia(overview_->media_model(), media_source);
+  ActivateMedia(overview_->media_collection_model(), media_source);
 }
 
 void UIController::on_album_media_activated(MediaSource* media_source) {
-  ActivateMedia(album_viewer_->media_model(), media_source);
+  ActivateMedia(album_viewer_->media_collection_model(), media_source);
 }
 
 void UIController::on_create_album() {
-  media_selector_->PrepareToEnter(overview_->media_model()->BackingViewCollection(),
+  media_selector_->PrepareToEnter(overview_->media_collection_model()->BackingViewCollection(),
     NULL);
   SwitchTo(media_selector_);
 }
 
 void UIController::on_add_media_to_album(Album* album) {
-  media_selector_->PrepareToEnter(overview_->media_model()->BackingViewCollection(),
+  media_selector_->PrepareToEnter(overview_->media_collection_model()->BackingViewCollection(),
     album);
   SwitchTo(media_selector_);
 }
@@ -230,7 +230,7 @@ void UIController::GoBack() {
 
 // Currently this only handles Photo objects; when Video objects are added,
 // it should launch the video player
-void UIController::ActivateMedia(QmlMediaModel* model, MediaSource* media_source) {
+void UIController::ActivateMedia(QmlMediaCollectionModel* model, MediaSource* media_source) {
   Photo* photo = qobject_cast<Photo*>(media_source);
   if (photo == NULL) {
     qDebug("Non-photo object activated");

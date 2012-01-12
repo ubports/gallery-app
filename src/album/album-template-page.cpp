@@ -37,7 +37,7 @@ const QString& AlbumTemplatePage::name() const {
   return name_;
 }
 
-const QString& AlbumTemplatePage::qml_rc() const {
+const QUrl& AlbumTemplatePage::qml_rc() const {
   return qml_rc_;
 }
 

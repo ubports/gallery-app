@@ -56,19 +56,19 @@
 class DataSource : public DataObject {
   Q_OBJECT
   
-signals:
+ signals:
   void destroying(bool destroying_backing);
   void destroyed(bool destroyed_backing);
   
-public:
-  DataSource(const QString& name);
+ public:
+  DataSource(const QString& name = "");
   
   friend class SourceCollection;
   
   // Returns NULL if not a member of any SourceCollection (i.e. is orphaned).
   SourceCollection* member_of() const;
   
-protected:
+ protected:
   virtual void notify_destroying(bool destroying_backing);
   virtual void notify_destroyed(bool destroyed_backing);
   
@@ -80,7 +80,7 @@ protected:
   // true, the backing (file, database row, etc.) should be erased as well.
   virtual void DestroySource(bool destroy_backing) = 0;
   
-private:
+ private:
   SourceCollection *membership_;
   
   // Set to NULL if no longer a member of a DataCollection.  Will assert if

@@ -100,9 +100,9 @@ Rectangle {
     model: album_popup_wrapper.designated_model
 
     delegate: AlbumPreviewComponent {
-      qmlRC: model.qml_rc
-      albumName: model.album_name
-      mediaSourceList: model.mediaSourceList
+      qmlRC: model.album.pages[model.album.currentPage].qmlRC
+      albumName: model.album.name
+      mediaSourceList: model.album.pages[model.album.currentPage].mediaSourceList
       
       x: 22
       clip: true

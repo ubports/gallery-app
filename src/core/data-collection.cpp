@@ -72,6 +72,8 @@ void DataCollection::AddMany(const QSet<DataObject*>& objects) {
   QList<DataObject*> to_add_list;
   DataObject* object;
   foreach (object, objects) {
+    Q_ASSERT(object != NULL);
+    
     if (!set_.contains(object))
       to_add_list.append(object);
   }
@@ -99,7 +101,7 @@ void DataCollection::AddMany(const QSet<DataObject*>& objects) {
 
 void DataCollection::Remove(DataObject* object) {
   // Silently exit on bad removes
-  if (!set_.contains(object))
+  if (object == NULL || !set_.contains(object))
     return;
   
   // "contents" signals require a QSet as a parameter
@@ -126,7 +128,7 @@ void DataCollection::RemoveMany(const QSet<DataObject *> &objects) {
   QSet<DataObject*> to_remove;
   DataObject* object;
   foreach (object, objects) {
-    if (set_.contains(object))
+    if (object != NULL && set_.contains(object))
       to_remove.insert(object);
   }
   

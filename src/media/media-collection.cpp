@@ -39,11 +39,8 @@ MediaCollection::MediaCollection(const QDir& directory)
   QSet<DataObject*> photos;
   QStringList filenames = directory_.entryList();
   QString filename;
-  foreach (filename, filenames) {
-    Photo* photo = new Photo(QFileInfo(directory_, filename));
-    photo->Init();
-    photos.insert(photo);
-  }
+  foreach (filename, filenames)
+    photos.insert(new Photo(QFileInfo(directory_, filename)));
   
   AddMany(photos);
 }

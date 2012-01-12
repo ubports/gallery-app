@@ -31,12 +31,12 @@ static const char* CONTEXT_MEDIA_MODEL = "ctx_album_viewer_media_model";
 static const char* CONTEXT_ALBUM_PICKER_MODEL = "ctx_album_picker_model";
 
 QmlAlbumViewerPage::QmlAlbumViewerPage(QDeclarativeView* view)
-  : QmlPage(view, "album_viewer"), album_model_(NULL), media_model_(NULL),
+  : QmlPage(view, "album_viewer"), album_model_(NULL), media_collection_model_(NULL),
   view_(NULL) {
 }
 
 QmlAlbumViewerPage::~QmlAlbumViewerPage() {
-  delete media_model_;
+  delete media_collection_model_;
   delete album_model_;
   delete view_;
 }
@@ -78,9 +78,9 @@ void QmlAlbumViewerPage::PrepareToEnter(Album* album) {
   album_model_ = new QmlAlbumModel(NULL);
   album_model_->Init(album);
   
-  delete media_model_;
-  media_model_ = new QmlMediaModel(NULL);
-  media_model_->Init(view_);
+  delete media_collection_model_;
+  media_collection_model_ = new QmlMediaCollectionModel(NULL);
+  media_collection_model_->Init(view_);
   
   // Clear item properties before setting context properties ... apparently
   // changes to context properties do not properly propagate to their bound
@@ -90,10 +90,9 @@ void QmlAlbumViewerPage::PrepareToEnter(Album* album) {
   ClearProperty("album_picker", "designated_model");
   
   SetContextProperty(CONTEXT_ALBUM_MODEL, album_model_);
-  SetContextProperty(CONTEXT_MEDIA_MODEL, media_model_);
+  SetContextProperty(CONTEXT_MEDIA_MODEL, media_collection_model_);
   SetContextProperty(CONTEXT_ALBUM_PICKER_MODEL,
     AlbumPicker::instance()->universal_albums_model());
-
   
   // don't use ListView's currentIndex property, as that will animate the
   // ListView as it magically scrolls through the list to the photo; rather,
@@ -103,8 +102,8 @@ void QmlAlbumViewerPage::PrepareToEnter(Album* album) {
     Q_ARG(int, album->current_page()), Q_ARG(int, 0));
 }
 
-QmlMediaModel* QmlAlbumViewerPage::media_model() const {
-  return media_model_;
+QmlMediaCollectionModel* QmlAlbumViewerPage::media_collection_model() const {
+  return media_collection_model_;
 }
 
 void QmlAlbumViewerPage::on_media_activated(int media_number) {

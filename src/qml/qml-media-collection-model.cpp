@@ -18,24 +18,23 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-#include "qml/qml-media-model.h"
+#include "qml/qml-media-collection-model.h"
 
 #include <QHash>
 #include <QtDeclarative>
 
 #include "media/media-source.h"
-#include "qml/qml-media-source.h"
 
-QmlMediaModel::QmlMediaModel(QObject* parent)
+QmlMediaCollectionModel::QmlMediaCollectionModel(QObject* parent)
   : QmlViewCollectionModel(parent) {
 }
 
-void QmlMediaModel::RegisterType() {
-  qmlRegisterType<QmlMediaModel>("org.yorba.qt.qmlmediamodel", 1, 0,
-    "QmlMediaModel");
+void QmlMediaCollectionModel::RegisterType() {
+  qmlRegisterType<QmlMediaCollectionModel>("org.yorba.qt.qmlmediacollectionmodel",
+    1, 0, "QmlMediaCollectionModel");
 }
 
-void QmlMediaModel::Init(SelectableViewCollection* view) {
+void QmlMediaCollectionModel::Init(SelectableViewCollection* view) {
   QHash<int, QByteArray> roles;
   roles[ObjectNumberRole] = "object_number";
   roles[SelectionRole] = "is_selected";
@@ -44,14 +43,14 @@ void QmlMediaModel::Init(SelectableViewCollection* view) {
   QmlViewCollectionModel::Init(view, roles);
 }
 
-QVariant QmlMediaModel::DataForRole(DataObject *object, int role) const {
+QVariant QmlMediaCollectionModel::DataForRole(DataObject *object, int role) const {
   MediaSource* media_source = qobject_cast<MediaSource*>(object);
   if (media_source == NULL)
     return QVariant();
   
   switch (role) {
     case MediaSourceRole:
-      return QmlMediaSource::AsVariant(media_source);
+      return QVariant::fromValue(media_source);
   
     default:
       return QVariant();

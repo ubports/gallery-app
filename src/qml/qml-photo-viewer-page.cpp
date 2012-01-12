@@ -30,7 +30,7 @@ static const char* CTX_PHOTO_MODEL = "ctx_photo_viewer_photo_model";
 
 QmlPhotoViewerPage::QmlPhotoViewerPage(QDeclarativeView* view)
   : QmlPage(view, "photo_viewer"), album_view_collection("PhotoViewer Album ViewCollection"),
-  media_model_(NULL) {
+  media_collection_model_(NULL) {
   album_view_collection.MonitorDataCollection(AlbumCollection::instance(),
     NULL, false);
   album_picker_model_.Init(&album_view_collection);
@@ -58,8 +58,8 @@ void QmlPhotoViewerPage::PageLoaded() {
   SetContextProperty("ctx_album_picker_model", &album_picker_model_);
 }
 
-void QmlPhotoViewerPage::PrepareToEnter(QmlMediaModel *model, Photo* start) {
-  media_model_ = model;
+void QmlPhotoViewerPage::PrepareToEnter(QmlMediaCollectionModel *model, Photo* start) {
+  media_collection_model_ = model;
   
   // Clear item properties before setting context properties ... apparently
   // changes to context properties do not properly propagate to their bound
@@ -80,7 +80,7 @@ void QmlPhotoViewerPage::on_popup_album_picked(int album_number) {
   int visible_index = GetProperty("image_pager", "currentIndex").toInt();
   
   Photo* photo = qobject_cast<Photo*>(
-    media_model_->BackingViewCollection()->GetAt(visible_index));
+    media_collection_model_->BackingViewCollection()->GetAt(visible_index));
   Album* album = AlbumPicker::instance()->GetAlbumForIndex(album_number);
   
   album->Attach(photo);
@@ -88,7 +88,7 @@ void QmlPhotoViewerPage::on_popup_album_picked(int album_number) {
 
 void QmlPhotoViewerPage::on_new_album_requested() {
   Photo* photo =
-    qobject_cast<Photo*>(media_model_->BackingViewCollection()->GetAt(
+    qobject_cast<Photo*>(media_collection_model_->BackingViewCollection()->GetAt(
     GetProperty("image_pager", "currentIndex").toInt()));
 
   Album* album = new Album(*AlbumDefaultTemplate::instance());

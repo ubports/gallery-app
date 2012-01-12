@@ -28,7 +28,7 @@
 #include "photo/photo.h"
 #include "core/selectable-view-collection.h"
 #include "qml/qml-album-collection-model.h"
-#include "qml/qml-media-model.h"
+#include "qml/qml-media-collection-model.h"
 #include "qml/qml-page.h"
 
 class QmlPhotoViewerPage : public QmlPage {
@@ -45,7 +45,7 @@ class QmlPhotoViewerPage : public QmlPage {
   
   virtual void PrepareContext();
   virtual void PageLoaded();
-  void PrepareToEnter(QmlMediaModel* model, Photo* start);
+  void PrepareToEnter(QmlMediaCollectionModel* model, Photo* start);
   
  private slots:
   void on_popup_album_picked(int album_number);
@@ -54,7 +54,7 @@ class QmlPhotoViewerPage : public QmlPage {
  private:
   SelectableViewCollection album_view_collection;
   QmlAlbumCollectionModel album_picker_model_;
-  QmlMediaModel* media_model_;
+  QmlMediaCollectionModel* media_collection_model_;
 };
 
 #endif  // GALLERY_QML_PHOTO_VIEWER_PAGE_H_

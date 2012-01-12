@@ -46,15 +46,15 @@ typedef int DataObjectNumber;
 class DataObject : public QObject {
   Q_OBJECT
   
-public:
-  DataObject(const QString& name);
+ public:
+  DataObject(const QString& name = "");
   
   DataObjectNumber number() const;
   void SetInternalName(const QString& name);
   
   virtual const char* ToString() const;
   
-private:
+ private:
   static DataObjectNumber next_number_;
   
   QByteArray name_;

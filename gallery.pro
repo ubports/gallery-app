@@ -48,15 +48,14 @@ SOURCES += \
 	src/media/media-source.cpp \
 	src/photo/photo.cpp \
 	src/photo/photo-metadata.cpp \
-	src/qml/qml-photo-viewer-page.cpp \
 	src/qml/qml-album-collection-model.cpp \
 	src/qml/qml-album-model.cpp \
 	src/qml/qml-album-viewer-page.cpp \
-	src/qml/qml-media-model.cpp \
+	src/qml/qml-media-collection-model.cpp \
 	src/qml/qml-media-selector-page.cpp \
-	src/qml/qml-media-source.cpp \
 	src/qml/qml-overview-page.cpp \
 	src/qml/qml-page.cpp \
+	src/qml/qml-photo-viewer-page.cpp \
 	src/qml/qml-view-collection-model.cpp
 
 HEADERS += \
@@ -75,20 +74,20 @@ HEADERS += \
 	src/core/data-source.h \
 	src/core/selectable-view-collection.h \
 	src/core/source-collection.h \
+	src/core/utils.h \
 	src/core/view-collection.h \
 	src/media/media-collection.h \
 	src/media/media-source.h \
 	src/photo/photo.h \
 	src/photo/photo-metadata.h \
-	src/qml/qml-photo-viewer-page.h \
 	src/qml/qml-album-collection-model.h \
 	src/qml/qml-album-model.h \
 	src/qml/qml-album-viewer-page.h \
-	src/qml/qml-media-model.h \
+	src/qml/qml-media-collection-model.h \
 	src/qml/qml-media-selector-page.h \
-	src/qml/qml-media-source.h \
 	src/qml/qml-overview-page.h \
 	src/qml/qml-page.h \
+	src/qml/qml-photo-viewer-page.h \
 	src/qml/qml-view-collection-model.h
 
 OTHER_FILES += \

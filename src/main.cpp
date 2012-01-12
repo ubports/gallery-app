@@ -22,10 +22,12 @@
 #include <QDir>
 #include <QString>
 
-#include "qml/qml-album-model.h"
+#include "album/album.h"
+#include "album/album-page.h"
+#include "media/media-source.h"
 #include "qml/qml-album-collection-model.h"
-#include "qml/qml-media-model.h"
-#include "qml/qml-media-source.h"
+#include "qml/qml-album-model.h"
+#include "qml/qml-media-collection-model.h"
 #include "ui-controller.h"
 
 int main(int argc, char *argv[]) {
@@ -36,10 +38,12 @@ int main(int argc, char *argv[]) {
   
   // QML Declarative types must be registered before use; if we use a lot of
   // these, we may want a more formal registration system
-  QmlAlbumModel::RegisterType();
+  Album::RegisterType();
+  AlbumPage::RegisterType();
+  MediaSource::RegisterType();
   QmlAlbumCollectionModel::RegisterType();
-  QmlMediaModel::RegisterType();
-  QmlMediaSource::RegisterType();
+  QmlAlbumModel::RegisterType();
+  QmlMediaCollectionModel::RegisterType();
   
   QDir path(argc > 1 ? QString(argv[1]) : QDir::homePath() + "/Pictures");
   qDebug("Opening %s...", qPrintable(path.path()));

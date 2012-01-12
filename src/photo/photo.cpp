@@ -24,7 +24,8 @@
 #include <QImage>
 
 Photo::Photo(const QFileInfo& file)
-  : MediaSource(file), metadata_(PhotoMetadata::FromFile(file)) {
+  : metadata_(PhotoMetadata::FromFile(file)) {
+  MediaSource::Init(file);
 }
 
 bool Photo::MakePreview(const QFileInfo& original, const QFileInfo &dest) {

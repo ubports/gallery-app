@@ -178,9 +178,9 @@ Rectangle {
     
     checkerboardModel: ctx_overview_albums_model
     checkerboardDelegate: AlbumPreviewComponent {
-      qmlRC: modelData.qml_rc
-      albumName: modelData.album_name
-      mediaSourceList: modelData.mediaSourceList
+      qmlRC: modelData.album.pages[modelData.album.currentPage].qmlRC
+      albumName: modelData.album.name
+      mediaSourceList: modelData.album.pages[modelData.album.currentPage].mediaSourceList
     }
   }
 

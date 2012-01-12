@@ -18,8 +18,8 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-#ifndef GALLERY_QML_MEDIA_MODEL_H_
-#define GALLERY_QML_MEDIA_MODEL_H_
+#ifndef GALLERY_QML_MEDIA_COLLECTION_MODEL_H_
+#define GALLERY_QML_MEDIA_COLLECTION_MODEL_H_
 
 #include <QObject>
 #include <QVariant>
@@ -29,7 +29,7 @@
 #include "core/selectable-view-collection.h"
 #include "qml/qml-view-collection-model.h"
 
-class QmlMediaModel : public QmlViewCollectionModel {
+class QmlMediaCollectionModel : public QmlViewCollectionModel {
   Q_OBJECT
   
 public:
@@ -37,7 +37,7 @@ public:
     MediaSourceRole = QmlViewCollectionModel::LastCommonRole,
   };
   
-  QmlMediaModel(QObject* parent = NULL);
+  QmlMediaCollectionModel(QObject* parent = NULL);
   
   static void RegisterType();
   
@@ -49,6 +49,6 @@ protected:
   virtual QVariant DataForRole(DataObject* object, int role) const;
 };
 
-QML_DECLARE_TYPE(QmlMediaModel);
+QML_DECLARE_TYPE(QmlMediaCollectionModel);
 
-#endif  // GALLERY_QML_MEDIA_MODEL_H_
+#endif  // GALLERY_QML_MEDIA_COLLECTION_MODEL_H_

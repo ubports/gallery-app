@@ -91,14 +91,14 @@ Rectangle {
       width: template_pager.width
       height: template_pager.height
       
-      source: qml_rc
+      source: page.qmlRC
       
       onLoaded: {
-        item.mediaSourceList = mediaSourceList;
+        item.mediaSourceList = page.mediaSourceList;
         item.width = template_pager.width;
         item.height = template_pager.height;
         item.gutter = 24;
-        template_pager.albumName = album_name;
+        template_pager.albumName = albumName;
       }
     }
   }

@@ -27,7 +27,7 @@
 #include "core/selectable-view-collection.h"
 #include "media/media-source.h"
 #include "qml/qml-album-model.h"
-#include "qml/qml-media-model.h"
+#include "qml/qml-media-collection-model.h"
 #include "qml/qml-page.h"
 
 class QmlAlbumViewerPage : public QmlPage {
@@ -48,7 +48,7 @@ class QmlAlbumViewerPage : public QmlPage {
   virtual void PageLoaded();
   void PrepareToEnter(Album* album);
   
-  QmlMediaModel* media_model() const;
+  QmlMediaCollectionModel* media_collection_model() const;
   
  private slots:
   void on_media_activated(int media_number);
@@ -61,7 +61,7 @@ class QmlAlbumViewerPage : public QmlPage {
  private:
   Album* album_;
   QmlAlbumModel* album_model_;
-  QmlMediaModel* media_model_;
+  QmlMediaCollectionModel* media_collection_model_;
   SelectableViewCollection* view_;
 };
 

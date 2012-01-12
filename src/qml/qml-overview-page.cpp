@@ -36,24 +36,24 @@ QmlOverviewPage::QmlOverviewPage(QDeclarativeView* view)
   media_view_.MonitorDataCollection(MediaCollection::instance(), NULL, false);
   albums_view_.MonitorDataCollection(AlbumCollection::instance(), NULL, false);
   
-  media_model_ = new QmlMediaModel(NULL);
-  media_model_->Init(&media_view_);
+  media_collection_model_ = new QmlMediaCollectionModel(NULL);
+  media_collection_model_->Init(&media_view_);
   
-  albums_model_ = new QmlAlbumCollectionModel(NULL);
-  albums_model_->Init(&albums_view_);
+  album_collection_model_ = new QmlAlbumCollectionModel(NULL);
+  album_collection_model_->Init(&albums_view_);
 }
 
 QmlOverviewPage::~QmlOverviewPage() {
-  delete media_model_;
-  delete albums_model_;
+  delete media_collection_model_;
+  delete album_collection_model_;
 }
 
-QmlMediaModel* QmlOverviewPage::media_model() const {
-  return media_model_;
+QmlMediaCollectionModel* QmlOverviewPage::media_collection_model() const {
+  return media_collection_model_;
 }
 
 QmlAlbumCollectionModel* QmlOverviewPage::albums_model() const {
-  return albums_model_;
+  return album_collection_model_;
 }
 
 const char* QmlOverviewPage::qml_rc() const {
@@ -69,8 +69,8 @@ void QmlOverviewPage::PrepareContext() {
 void QmlOverviewPage::PageLoaded() {
   // Set these context properties now, as they won't change during the
   // lifetime of the app
-  SetContextProperty(CTX_MEDIA_MODEL, media_model_);
-  SetContextProperty(CTX_ALBUMS_MODEL, albums_model_);
+  SetContextProperty(CTX_MEDIA_MODEL, media_collection_model_);
+  SetContextProperty(CTX_ALBUMS_MODEL, album_collection_model_);
   SetContextProperty(CTX_ALBUM_PICKER_MODEL,
     AlbumPicker::instance()->universal_albums_model());
 
