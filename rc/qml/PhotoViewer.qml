@@ -183,7 +183,7 @@ Rectangle {
 
         onPressed: {
           chrome_wrapper.state = "hidden";
-          goBack();
+          navStack.goBack();
         }
       }
 

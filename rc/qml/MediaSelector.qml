@@ -55,7 +55,7 @@ Rectangle {
       
       title: "done"
       
-      onPressed: goBack()
+      onPressed: navStack.goBack()
     }
   }
   

@@ -90,6 +90,7 @@ OTHER_FILES += \
 	rc/qml/FramePortrait.qml \
 	rc/qml/MediaSelector.qml \
 	rc/qml/NavButton.qml \
+	rc/qml/NavStack.qml \
 	rc/qml/NavToolbar.qml \
 	rc/qml/Overview.qml \
 	rc/qml/PhotoComponent.qml \

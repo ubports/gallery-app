@@ -44,7 +44,7 @@ Rectangle {
       title: "create"
       visible: albums_checkerboard.visible
       
-      onPressed: switchToMediaSelector();
+      onPressed: navStack.switchToMediaSelector();
     }
     
     BinaryTabGroup {
@@ -154,7 +154,7 @@ Rectangle {
     }
     
     onActivated: {
-      switchToPhotoViewer(mediaSource, model);
+      navStack.switchToPhotoViewer(mediaSource, model);
     }
   }
   
@@ -187,7 +187,7 @@ Rectangle {
     }
     
     onActivated: {
-      switchToAlbumViewer(mediaSource);
+      navStack.switchToAlbumViewer(mediaSource);
     }
   }
 

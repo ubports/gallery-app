@@ -153,7 +153,7 @@ Rectangle {
       masthead.isSelectionInProgress = inSelectionMode
     }
     
-    onActivated: switchToPhotoViewer(mediaSource, model);
+    onActivated: navStack.switchToPhotoViewer(mediaSource, model);
   }
 
   AlbumPickerPopup {
@@ -212,7 +212,7 @@ Rectangle {
         gridCheckerboard.state = "normal";
         gridCheckerboard.unselectAll();
         
-        goBack();
+        navStack.goBack();
       }
     }
 
@@ -235,7 +235,7 @@ Rectangle {
       
       title: "add photos"
       
-      onPressed: switchToMediaSelector(album)
+      onPressed: navStack.switchToMediaSelector(album)
     }
   }
 }

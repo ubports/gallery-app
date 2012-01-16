@@ -38,12 +38,12 @@ Rectangle {
     width: parent.width
     height: parent.height
     
-    visible: true
+    visible: false
   }
   
   PhotoViewer {
-    id: photo_viewer
-    objectName: "photo_viewer"
+    id: photoViewer
+    objectName: "photoViewer"
     
     x: 0
     y: 0
@@ -54,8 +54,8 @@ Rectangle {
   }
   
   AlbumViewer {
-    id: album_viewer
-    objectName: "album_viewer"
+    id: albumViewer
+    objectName: "albumViewer"
     
     x: 0
     y: 0
@@ -77,51 +77,28 @@ Rectangle {
     visible: false
   }
   
-  Stack {
+  NavStack {
     id: navStack
     objectName: "navStack"
-    
-    function switchToPage(page) {
-      if (!isEmpty)
-        top.visible = false;
+  
+    function switchToPhotoViewer(photo, model) {
+      photoViewer.photo = photo;
+      photoViewer.model = model;
       
-      page.visible = true;
-      push(page);
+      navStack.switchToPage(photoViewer);
     }
     
-    function goBack() {
-      if (isEmpty)
-        return;
+    function switchToAlbumViewer(album) {
+      albumViewer.album = album;
       
-      top.visible = false;
-      pop();
-      
-      if (!isEmpty)
-        top.visible = true;
+      navStack.switchToPage(albumViewer);
     }
-  }
-  
-  function goBack() {
-    navStack.goBack();
-  }
-  
-  function switchToPhotoViewer(photo, model) {
-    photo_viewer.photo = photo;
-    photo_viewer.model = model;
     
-    navStack.switchToPage(photo_viewer);
-  }
-  
-  function switchToAlbumViewer(album) {
-    album_viewer.album = album;
-    
-    navStack.switchToPage(album_viewer);
-  }
-  
-  function switchToMediaSelector(album) {
-    mediaSelector.album = album;
-    
-    navStack.switchToPage(mediaSelector);
+    function switchToMediaSelector(album) {
+      mediaSelector.album = album;
+      
+      navStack.switchToPage(mediaSelector);
+    }
   }
   
   Component.onCompleted: {
