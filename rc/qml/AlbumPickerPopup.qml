@@ -18,12 +18,13 @@
  */
 
 import QtQuick 1.1
+import Gallery 1.0
 
 Rectangle {
   id: album_popup_wrapper
   objectName: "album_popup_wrapper"
 
-  signal selected(int album_number);
+  signal selected(variant album);
   signal newAlbumRequested();
 
   property variant designated_model
@@ -96,13 +97,12 @@ Rectangle {
     spacing: 22
     width: parent.width
     height: parent.height - button_bar.height - popup_arrow.height - 12
-
-    model: album_popup_wrapper.designated_model
-
+    
+    model: AlbumCollectionModel {
+    }
+    
     delegate: AlbumPreviewComponent {
-      qmlRC: model.album.pages[model.album.currentPage].qmlRC
-      albumName: model.album.name
-      mediaSourceList: model.album.pages[model.album.currentPage].mediaSourceList
+      albumPage: (album.currentPage >= 0) ? album.pages[album.currentPage] : null
       
       x: 22
       clip: true
@@ -112,7 +112,7 @@ Rectangle {
         
         onClicked: {
           album_popup_wrapper.visible = false;
-          album_popup_wrapper.selected(object_number);
+          album_popup_wrapper.selected(album);
         }
       }
     }

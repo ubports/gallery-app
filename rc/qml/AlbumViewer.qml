@@ -19,15 +19,13 @@
  */
 
 import QtQuick 1.1
+import Gallery 1.0
 
 Rectangle {
   id: album_viewer
   objectName: "album_viewer"
   
-  signal exit_viewer()
-  signal addToAlbum()
-  signal popupAlbumPicked(int album_number)
-  signal createAlbumFromSelected()
+  property variant album
   
   anchors.fill: parent
 
@@ -37,7 +35,7 @@ Rectangle {
 
     albumName: template_pager.albumName
 
-    areItemsSelected: grid_checkerboard.selected_count > 0
+    areItemsSelected: gridCheckerboard.selectedCount > 0
 
     x: 0
     y: 0
@@ -46,20 +44,20 @@ Rectangle {
     onViewModeChanged: {
       if (isTemplateView) {
         template_pager.visible = true;
-        grid_checkerboard.visible = false;
+        gridCheckerboard.visible = false;
       } else {
         template_pager.visible = false;
-        grid_checkerboard.visible = true;
+        gridCheckerboard.visible = true;
       }
     }
 
     onSelectionInteractionCompleted: {
-      grid_checkerboard.state = "normal";
-      grid_checkerboard.unselect_all();
+      gridCheckerboard.state = "normal";
+      gridCheckerboard.unselectAll();
     }
 
     onDeselectAllRequested: {
-      grid_checkerboard.unselect_all();
+      gridCheckerboard.unselectAll();
     }
   }
   
@@ -74,8 +72,6 @@ Rectangle {
     anchors.left: parent.left
     anchors.right: parent.right
     
-    model: ctx_album_viewer_album_model
-    
     visible: true
     
     orientation: ListView.Horizontal
@@ -85,27 +81,29 @@ Rectangle {
     keyNavigationWraps: true
     highlightMoveSpeed: 2000.0
     
+    model: (album) ? album.pages : null
+    
     delegate: Loader {
       id: loader
       
       width: template_pager.width
       height: template_pager.height
       
-      source: page.qmlRC
+      source: qmlRC
       
       onLoaded: {
-        item.mediaSourceList = page.mediaSourceList;
+        item.mediaSourceList = mediaSourceList;
         item.width = template_pager.width;
         item.height = template_pager.height;
         item.gutter = 24;
-        template_pager.albumName = albumName;
+        template_pager.albumName = owner.name;
       }
     }
   }
   
   Checkerboard {
-    id: grid_checkerboard
-    objectName: "grid_checkerboard"
+    id: gridCheckerboard
+    objectName: "gridCheckerboard"
     
     anchors.top: masthead.bottom
     anchors.bottom: parent.bottom
@@ -118,16 +116,19 @@ Rectangle {
     
     visible: false
     
-    allow_selection: true
+    allowSelection: true
     
-    checkerboardModel: ctx_album_viewer_media_model
+    checkerboardModel: MediaCollectionModel {
+      forCollection: album
+    }
+    
     checkerboardDelegate: PhotoComponent {
       anchors.centerIn: parent
       
       width: parent.width
       height: parent.height
       
-      mediaSource: modelData.media_source
+      mediaSource: modelData.mediaSource
       isCropped: true
       isPreview: true
     }
@@ -148,9 +149,11 @@ Rectangle {
       visible: false
     }
 
-    onIn_selection_modeChanged: {
-      masthead.isSelectionInProgress = in_selection_mode
+    onInSelectionModeChanged: {
+      masthead.isSelectionInProgress = inSelectionMode
     }
+    
+    onActivated: switchToPhotoViewer(mediaSource, model);
   }
 
   AlbumPickerPopup {
@@ -160,21 +163,22 @@ Rectangle {
     y: parent.height - height - toolbar.height
     x: add_to_album_button.x + add_to_album_button.width / 2 - width + 16
 
-    designated_model: ctx_album_picker_model
+    designated_model: AlbumCollectionModel {
+    }
 
     visible: false
 
     onNewAlbumRequested: {
-      album_viewer.createAlbumFromSelected();
-      grid_checkerboard.state = "normal";
-      grid_checkerboard.unselect_all();
+      gridCheckerboard.checkerboardModel.createAlbumFromSelected();
+      gridCheckerboard.state = "normal";
+      gridCheckerboard.unselectAll();
       visible = false
     }
 
     onSelected: {
-      album_viewer.popupAlbumPicked(album_number);
-      grid_checkerboard.state = "normal";
-      grid_checkerboard.unselect_all();
+      album.addSelectedMediaSources(gridCheckerboard.checkerboardModel);
+      gridCheckerboard.state = "normal";
+      gridCheckerboard.unselectAll();
       visible = false;
     }
 
@@ -202,12 +206,13 @@ Rectangle {
       show_title: false
       
       onPressed: {
-        album_viewer.exit_viewer();
         album_picker.visible = false
         masthead.isSelectionInProgress = false
         masthead.areItemsSelected = false
-        grid_checkerboard.state = "normal";
-        grid_checkerboard.unselect_all();
+        gridCheckerboard.state = "normal";
+        gridCheckerboard.unselectAll();
+        
+        goBack();
       }
     }
 
@@ -215,11 +220,11 @@ Rectangle {
       id: add_to_album_button
       objectName: "add_to_album_button"
 
-      visible: grid_checkerboard.selected_count > 0
+      visible: gridCheckerboard.selectedCount > 0
 
       onPressed: {
         album_picker.visible = !album_picker.visible
-	  }
+      }
     }
 
     NavButton {
@@ -230,7 +235,7 @@ Rectangle {
       
       title: "add photos"
       
-      onPressed: addToAlbum()
+      onPressed: switchToMediaSelector(album)
     }
   }
 }

@@ -19,16 +19,31 @@
  */
 
 import QtQuick 1.1
+import Gallery 1.0
 
 Rectangle {
   id: photo_viewer
   objectName: "photo_viewer"
   
+  property variant photo
+  property variant model
+  
   color: "#444444"
   
-  signal exit_viewer()
-  signal popupAlbumPicked(int album_number)
-  signal newAlbumRequested()
+  onPhotoChanged: {
+    updatePagerIndex();
+  }
+  
+  onModelChanged: {
+    updatePagerIndex();
+  }
+  
+  function updatePagerIndex() {
+    if (photo && model) {
+      image_pager.positionViewAtIndex(model.indexOf(photo), 0);
+      image_pager.currentIndex = model.indexOf(photo);
+    }
+  }
   
   AlbumPickerPopup {
     id: album_picker
@@ -39,12 +54,16 @@ Rectangle {
 
     visible: false
 
-    designated_model: ctx_album_picker_model
+    designated_model: AlbumCollectionModel {
+    }
 
-    onSelected: photo_viewer.popupAlbumPicked(album_number)
+    onSelected: {
+      album.addMediaSource(photo);
+    }
+    
     onNewAlbumRequested: {
-      photo_viewer.newAlbumRequested()
-      visible = false
+      designated_model.createAlbum(photo);
+      visible = false;
     }
   }
   
@@ -62,7 +81,7 @@ Rectangle {
     keyNavigationWraps: true
     highlightMoveSpeed: 2000.0
     
-    model: ctx_photo_viewer_photo_model
+    model: parent.model
     
     delegate: PhotoComponent {
       width: image_pager.width
@@ -70,7 +89,7 @@ Rectangle {
       
       color: "#444444"
       
-      mediaSource: media_source
+      mediaSource: model.mediaSource
     }
     
     // don't allow flicking while album_picker is visible
@@ -91,6 +110,11 @@ Rectangle {
         chrome_wrapper.state = (chrome_wrapper.state == "shown")
           ? "hidden" : "shown";
       }
+    }
+    
+    onCurrentIndexChanged: {
+      if (model)
+        photo = model.getAt(currentIndex);
     }
     
     // Not sure why this is required, but suspected that it's due to using
@@ -159,7 +183,7 @@ Rectangle {
 
         onPressed: {
           chrome_wrapper.state = "hidden";
-          photo_viewer.exit_viewer();
+          goBack();
         }
       }
 

@@ -20,11 +20,17 @@
 #ifndef GALLERY_CORE_UTILS_H_
 #define GALLERY_CORE_UTILS_H_
 
+#include <QObject>
+#include <QList>
+
 #include "core/data-collection.h"
 #include "core/data-object.h"
 
 // For casting the contents of a DataCollection into a QList of subclass of
-// DataObject
+// DataObject.
+//
+// NOTE: This uses Q_ASSERT to verify that all elements in the DataCollection
+// properly cast.
 template <class T>
 QList<T> CastDataCollectionToList(const DataCollection *collection) {
   QList<T> to;
@@ -38,6 +44,29 @@ QList<T> CastDataCollectionToList(const DataCollection *collection) {
   }
   
   return to;
+}
+
+// For casting a QVariant to a QObject-based object.
+//
+// NOTE: This uses Q_ASSERT to verify that the QVariant properly casts.
+template <class T>
+T VariantToObject(QVariant var) {
+  QObject* obj = qvariant_cast<QObject*>(var);
+  Q_ASSERT(obj != NULL);
+  
+  T to = qobject_cast<T>(obj);
+  Q_ASSERT(to != NULL);
+  
+  return to;
+}
+
+// Like VariantToObject, but no assertions (returns NULL if not a proper
+// cast)
+template <class T>
+T UncheckedVariantToObject(QVariant var) {
+  QObject* obj = qvariant_cast<QObject*>(var);
+  
+  return (obj != NULL) ? qobject_cast<T>(obj) : NULL;
 }
 
 #endif  // GALLERY_CORE_UTILS_H_

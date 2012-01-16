@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical Ltd
+ * Copyright (C) 2012 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -17,34 +17,40 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#ifndef GALLERY_QML_ALBUM_COLLECTION_MODEL_H_
-#define GALLERY_QML_ALBUM_COLLECTION_MODEL_H_
+#ifndef GALLERY_QML_STACK_H_
+#define GALLERY_QML_STACK_H_
 
 #include <QObject>
+#include <QStack>
 #include <QVariant>
 #include <QtDeclarative>
 
-#include "album/album.h"
-#include "core/data-object.h"
-#include "qml/qml-view-collection-model.h"
-
-class QmlAlbumCollectionModel : public QmlViewCollectionModel {
+class QmlStack : public QObject {
   Q_OBJECT
+  Q_PROPERTY(int count READ count NOTIFY count_changed)
+  Q_PROPERTY(bool isEmpty READ is_empty NOTIFY emptiness_changed)
+  Q_PROPERTY(QVariant top READ top NOTIFY count_changed)
+  
+ signals:
+  void count_changed();
+  void emptiness_changed();
   
  public:
-  QmlAlbumCollectionModel(QObject* parent = NULL);
+  QmlStack(QObject* parent = NULL);
   
   static void RegisterType();
   
-  Q_INVOKABLE void createAlbum(QVariant vmedia);
+  Q_INVOKABLE void push(QVariant var);
+  Q_INVOKABLE QVariant pop();
   
- protected:
-  virtual QVariant VariantFor(DataObject* object) const;
+  bool is_empty() const;
+  int count() const;
+  QVariant top() const;
   
- private slots:
-  void on_album_current_page_contents_altered(Album* album);
+ private:
+  QStack<QVariant> stack_;
 };
 
-QML_DECLARE_TYPE(QmlAlbumCollectionModel)
+QML_DECLARE_TYPE(QmlStack);
 
-#endif  // GALLERY_QML_ALBUM_COLLECTION_MODEL_H_
+#endif  // GALLERY_QML_STACK_H_

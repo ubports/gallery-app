@@ -20,39 +20,36 @@
 
 #include "qml/qml-media-collection-model.h"
 
-#include <QHash>
-#include <QtDeclarative>
-
+#include "album/album.h"
+#include "album/album-collection.h"
+#include "album/album-default-template.h"
 #include "media/media-source.h"
+#include "media/media-collection.h"
 
 QmlMediaCollectionModel::QmlMediaCollectionModel(QObject* parent)
-  : QmlViewCollectionModel(parent) {
+  : QmlViewCollectionModel(parent, "mediaSource") {
+  MonitorSourceCollection(MediaCollection::instance());
 }
 
 void QmlMediaCollectionModel::RegisterType() {
-  qmlRegisterType<QmlMediaCollectionModel>("org.yorba.qt.qmlmediacollectionmodel",
-    1, 0, "QmlMediaCollectionModel");
+  qmlRegisterType<QmlMediaCollectionModel>("Gallery", 1, 0, "MediaCollectionModel");
 }
 
-void QmlMediaCollectionModel::Init(SelectableViewCollection* view) {
-  QHash<int, QByteArray> roles;
-  roles[ObjectNumberRole] = "object_number";
-  roles[SelectionRole] = "is_selected";
-  roles[MediaSourceRole] = "media_source";
-  
-  QmlViewCollectionModel::Init(view, roles);
-}
-
-QVariant QmlMediaCollectionModel::DataForRole(DataObject *object, int role) const {
-  MediaSource* media_source = qobject_cast<MediaSource*>(object);
-  if (media_source == NULL)
+QVariant QmlMediaCollectionModel::createAlbumFromSelected() {
+  SelectableViewCollection* view = BackingViewCollection();
+  if (view->GetSelectedCount() == 0)
     return QVariant();
   
-  switch (role) {
-    case MediaSourceRole:
-      return QVariant::fromValue(media_source);
+  Album* album = new Album(*AlbumDefaultTemplate::instance());
+  album->AttachMany(view->GetSelected());
   
-    default:
-      return QVariant();
-  }
+  AlbumCollection::instance()->Add(album);
+  
+  return QVariant::fromValue(album);
+}
+
+QVariant QmlMediaCollectionModel::VariantFor(DataObject* object) const {
+  MediaSource* media_source = qobject_cast<MediaSource*>(object);
+  
+  return (media_source != NULL) ? QVariant::fromValue(media_source) : QVariant();
 }

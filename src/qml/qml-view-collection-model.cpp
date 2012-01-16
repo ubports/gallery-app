@@ -19,17 +19,112 @@
 
 #include "qml/qml-view-collection-model.h"
 
-QmlViewCollectionModel::QmlViewCollectionModel(QObject* parent)
-  : QAbstractListModel(parent) {
-}
+#include "core/utils.h"
 
-void QmlViewCollectionModel::Init(SelectableViewCollection* view,
-  const QHash<int, QByteArray>& roles) {
-  Q_ASSERT(!IsInited());
+QmlViewCollectionModel::QmlViewCollectionModel(QObject* parent, const QString& objectTypeName)
+  : QAbstractListModel(parent), view_(NULL) {
+  QHash<int, QByteArray> roles;
+  roles.insert(ObjectRole, "object");
+  roles.insert(SelectionRole, "isSelected");
   
-  view_ = view;
+  // allow for subclasses to give object a semantically-significant name
+  if (!objectTypeName.isEmpty())
+    roles.insert(SubclassRole, objectTypeName.toAscii());
   
   setRoleNames(roles);
+}
+
+QmlViewCollectionModel::~QmlViewCollectionModel() {
+  delete view_;
+}
+
+QVariant QmlViewCollectionModel::for_collection() const {
+  return collection_;
+}
+
+void QmlViewCollectionModel::set_for_collection(QVariant var) {
+  QObject* obj = qvariant_cast<QObject*>(var);
+  if (obj == NULL) {
+    qDebug("Unable to set collection of type %s", var.typeName());
+    
+    return;
+  }
+  
+  ContainerSource* container = qobject_cast<ContainerSource*>(obj);
+  if (container != NULL) {
+    collection_ = var;
+    MonitorContainerSource(container);
+    
+    return;
+  }
+  
+  SourceCollection* source = qobject_cast<SourceCollection*>(obj);
+  if (source != NULL) {
+    collection_ = var;
+    MonitorSourceCollection(source);
+    
+    return;
+  }
+  
+  qDebug("Unable to set collection that is not ContainerSource or SourceCollection");
+}
+
+int QmlViewCollectionModel::indexOf(QVariant var) {
+  return (view_ != NULL) ? view_->IndexOf(VariantToObject<DataObject*>(var)) : -1;
+}
+
+QVariant QmlViewCollectionModel::getAt(int index) {
+  if (view_ == NULL || index < 0)
+    return QVariant();
+  
+  DataObject* object = view_->GetAt(index);
+  
+  return (object != NULL) ? VariantFor(object) : QVariant();
+}
+
+void QmlViewCollectionModel::unselectAll() {
+  if (view_ != NULL)
+    view_->UnselectAll();
+}
+
+void QmlViewCollectionModel::toggleSelection(QVariant var) {
+  if (view_ != NULL)
+    view_->ToggleSelect(VariantToObject<DataObject*>(var));
+}
+
+int QmlViewCollectionModel::rowCount(const QModelIndex& parent) const {
+  return (view_ != NULL) ? view_->Count() : 0;
+}
+
+QVariant QmlViewCollectionModel::data(const QModelIndex& index, int role) const {
+  if (view_ == NULL)
+    return QVariant();
+  
+  DataObject* object = view_->GetAt(index.row());
+  if (object == NULL)
+    return QVariant();
+  
+  switch (role) {
+    case ObjectRole:
+    case SubclassRole:
+      return VariantFor(object);
+    
+    case SelectionRole:
+      return QVariant(view_->IsSelected(object));
+    
+    default:
+      return QVariant();
+  }
+}
+
+int QmlViewCollectionModel::selected_count() const {
+  return (view_ != NULL) ? view_->GetSelectedCount() : 0;
+}
+
+void QmlViewCollectionModel::SetBackingViewCollection(SelectableViewCollection* view) {
+  DisconnectBackingViewCollection();
+  
+  view_ = view;
   
   QObject::connect(view_,
     SIGNAL(selection_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
@@ -41,53 +136,62 @@ void QmlViewCollectionModel::Init(SelectableViewCollection* view,
     this,
     SLOT(on_contents_to_be_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
   
-  QObject::connect(static_cast<DataCollection*>(view_.data()),
+  QObject::connect(view_,
     SIGNAL(contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
     this,
     SLOT(on_contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
+  
+  emit backing_collection_changed();
 }
 
-bool QmlViewCollectionModel::IsInited() const {
-  return (view_ != NULL);
-}
-
-int QmlViewCollectionModel::rowCount(const QModelIndex& parent) const {
-  Q_ASSERT(IsInited());
+void QmlViewCollectionModel::DisconnectBackingViewCollection() {
+  if (view_ == NULL)
+    return;
   
-  return view_->Count();
-}
-
-QVariant QmlViewCollectionModel::data(const QModelIndex& index, int role) const {
-  Q_ASSERT(IsInited());
+  QObject::disconnect(view_,
+    SIGNAL(selection_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
+    this,
+    SLOT(on_selection_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
   
-  DataObject* object = view_->GetAt(index.row());
-  if (object == NULL)
-    return QVariant();
+  QObject::disconnect(view_,
+    SIGNAL(contents_to_be_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
+    this,
+    SLOT(on_contents_to_be_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
   
-  switch (role) {
-    case ObjectNumberRole:
-      return QVariant(object->number());
+  QObject::disconnect(view_,
+    SIGNAL(contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
+    this,
+    SLOT(on_contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
   
-    case SelectionRole:
-      return QVariant(view_->IsSelected(object));
-    
-    default:
-      return DataForRole(object, role);
-  }
-}
-
-int QmlViewCollectionModel::selectedCount() const {
-  return view_->GetSelectedCount();
+  int last = view_->Count();
+  
+  delete view_;
+  view_ = NULL;
+  
+  beginRemoveRows(QModelIndex(), 0, last);
+  endRemoveRows();
 }
 
 SelectableViewCollection* QmlViewCollectionModel::BackingViewCollection() const {
-  Q_ASSERT(IsInited());
-  
   return view_;
 }
 
-QVariant QmlViewCollectionModel::FilenameVariant(const QFileInfo& file_info) {
-  return QVariant("file:" + file_info.absoluteFilePath());
+void QmlViewCollectionModel::MonitorSourceCollection(SourceCollection* sources) {
+  SelectableViewCollection* view = new SelectableViewCollection("MonitorSourceCollection");
+  view->MonitorDataCollection(sources, NULL, false);
+  
+  SetBackingViewCollection(view);
+}
+
+void QmlViewCollectionModel::MonitorContainerSource(ContainerSource* container) {
+  SelectableViewCollection* view = new SelectableViewCollection("MonitorContainerSource");
+  view->MonitorDataCollection(container->contained(), NULL, false);
+  
+  SetBackingViewCollection(view);
+}
+
+void QmlViewCollectionModel::notify_backing_collection_changed() {
+  emit backing_collection_changed();
 }
 
 void QmlViewCollectionModel::NotifyElementAdded(int index) {
@@ -125,7 +229,7 @@ void QmlViewCollectionModel::on_selection_altered(const QSet<DataObject*>* selec
   if (unselected != NULL)
     NotifySetAltered(unselected, SelectionRole);
   
-  emit selectedCountChanged();
+  emit selected_count_changed();
 }
 
 void QmlViewCollectionModel::on_contents_to_be_altered(const QSet<DataObject*>* added,

@@ -32,21 +32,15 @@
 class QmlMediaCollectionModel : public QmlViewCollectionModel {
   Q_OBJECT
   
-public:
-  enum Role {
-    MediaSourceRole = QmlViewCollectionModel::LastCommonRole,
-  };
-  
+ public:
   QmlMediaCollectionModel(QObject* parent = NULL);
   
   static void RegisterType();
   
-  // Init() required because QmlMediaModel is a QML Declarative Type which
-  // has restrictions on its ctor signature
-  void Init(SelectableViewCollection* view);
+  Q_INVOKABLE QVariant createAlbumFromSelected();
   
-protected:
-  virtual QVariant DataForRole(DataObject* object, int role) const;
+ protected:
+  virtual QVariant VariantFor(DataObject* object) const;
 };
 
 QML_DECLARE_TYPE(QmlMediaCollectionModel);

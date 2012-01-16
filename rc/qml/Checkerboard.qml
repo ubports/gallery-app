@@ -23,15 +23,8 @@ Rectangle {
   id: checkerboard
   objectName: "checkerboard"
   
-  signal activated(int object_number)
-  signal selection_toggled(int object_number)
-  signal unselect_all()
+  signal activated(variant model, variant mediaSource)
   
-  // The Checkerboard delegate requires these properties be set by the
-  // model:
-  // 
-  // object_number
-  // is_selected
   property alias checkerboardModel: grid.model
   property Component checkerboardDelegate
   
@@ -40,10 +33,15 @@ Rectangle {
   property int widthWithStroke: 198
   property int heightWithStroke: 148
   
-  property bool in_selection_mode: false
-  property bool allow_selection: true
-  property int selected_count:
+  property bool inSelectionMode: false
+  property bool allowSelection: true
+  property int selectedCount:
     (checkerboardModel != null) ? checkerboardModel.selectedCount : 0
+  
+  function unselectAll() {
+    if (checkerboardModel != null)
+      checkerboardModel.unselectAll();
+  }
   
   color: "white"
   clip: true
@@ -52,15 +50,15 @@ Rectangle {
   states: [
     State { 
       name: "normal"
-      PropertyChanges { target: checkerboard; in_selection_mode: false }
+      PropertyChanges { target: checkerboard; inSelectionMode: false }
     },
     State { 
       name: "to-selecting" 
-      PropertyChanges { target: checkerboard; in_selection_mode: true }
+      PropertyChanges { target: checkerboard; inSelectionMode: true }
     },
     State { 
       name: "selecting"
-      PropertyChanges { target: checkerboard; in_selection_mode: true }
+      PropertyChanges { target: checkerboard; inSelectionMode: true }
     }
   ]
   
@@ -100,18 +98,18 @@ Rectangle {
             // Press-and-hold activates selection mode,
             // but need to differentiate in onReleased whether it's a mode
             // change or a selection/activation
-            if (allow_selection && checkerboard.state == "normal")
+            if (allowSelection && checkerboard.state == "normal")
               checkerboard.state = "to-selecting";
           }
           
           onReleased: {
             // See onPressAndHold for note on logic behind state changes
             if (checkerboard.state == "normal")
-              checkerboard.activated(object_number)
-            else if (allow_selection && checkerboard.state == "to-selecting")
+              checkerboard.activated(checkerboardModel, object)
+            else if (allowSelection && checkerboard.state == "to-selecting")
               checkerboard.state = "selecting";
-            else if (allow_selection && checkerboard.state == "selecting")
-              checkerboard.selection_toggled(object_number);
+            else if (allowSelection && checkerboard.state == "selecting")
+              checkerboardModel.toggleSelection(object);
           }
         }
         
@@ -121,7 +119,7 @@ Rectangle {
           anchors.top: loader.top
           anchors.right: loader.right
           
-          visible: is_selected
+          visible: isSelected
           
           asynchronous: true
           cache: true

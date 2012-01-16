@@ -19,25 +19,15 @@
  */
 
 import QtQuick 1.0
+import Gallery 1.0
 
 Rectangle {
   id: tablet_surface
   objectName: "tablet_surface"
   
-  signal power_off()
-  
   width: 1280
   height: 776
   color: "white"
-  
-  /*
-   * There's a strong desire for each page to maintain its state while it's
-   * in the background (not presented to the user), so when the user returns
-   * they see the same content in the place they left it.  This precludes
-   * using Loader, which destroys the current Component to load the new one.
-   * A more robust solution may be to use a Repeater (or another list Component)
-   * that dynamically adds pages from a model supplied by UIController.
-   */
   
   Overview {
     id: overview
@@ -85,5 +75,56 @@ Rectangle {
     height: parent.height
     
     visible: false
+  }
+  
+  Stack {
+    id: navStack
+    objectName: "navStack"
+    
+    function switchToPage(page) {
+      if (!isEmpty)
+        top.visible = false;
+      
+      page.visible = true;
+      push(page);
+    }
+    
+    function goBack() {
+      if (isEmpty)
+        return;
+      
+      top.visible = false;
+      pop();
+      
+      if (!isEmpty)
+        top.visible = true;
+    }
+  }
+  
+  function goBack() {
+    navStack.goBack();
+  }
+  
+  function switchToPhotoViewer(photo, model) {
+    photo_viewer.photo = photo;
+    photo_viewer.model = model;
+    
+    navStack.switchToPage(photo_viewer);
+  }
+  
+  function switchToAlbumViewer(album) {
+    album_viewer.album = album;
+    
+    navStack.switchToPage(album_viewer);
+  }
+  
+  function switchToMediaSelector(album) {
+    mediaSelector.album = album;
+    
+    navStack.switchToPage(mediaSelector);
+  }
+  
+  Component.onCompleted: {
+    navStack.switchToPage(overview);
   }
 }

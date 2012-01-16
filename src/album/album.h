@@ -59,6 +59,9 @@ class Album : public ContainerSource {
   
   static void RegisterType();
   
+  Q_INVOKABLE void addMediaSource(QVariant vmedia);
+  Q_INVOKABLE void addSelectedMediaSources(QVariant vmodel);
+  
   const QString& name() const;
   const AlbumTemplate& album_template() const;
   bool is_closed() const;

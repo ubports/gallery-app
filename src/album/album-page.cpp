@@ -19,14 +19,20 @@
 
 #include "album/album-page.h"
 
+#include "album/album.h"
 #include "core/utils.h"
 
 AlbumPage::AlbumPage()
-  : ContainerSource("AlbumPage"), page_number_(-1), template_page_(NULL) {
+  : ContainerSource("AlbumPage"), owner_(NULL), page_number_(-1), template_page_(NULL) {
 }
 
-AlbumPage::AlbumPage(int page_number, AlbumTemplatePage* template_page)
-  : ContainerSource("AlbumPage"), page_number_(page_number), template_page_(template_page) {
+AlbumPage::AlbumPage(Album* owner)
+  : ContainerSource("AlbumPage"), owner_(owner), page_number_(-1), template_page_(NULL) {
+}
+
+AlbumPage::AlbumPage(Album* owner, int page_number, AlbumTemplatePage* template_page)
+  : ContainerSource("AlbumPage"), owner_(owner), page_number_(page_number),
+  template_page_(template_page) {
 }
 
 void AlbumPage::RegisterType() {
@@ -47,6 +53,10 @@ QUrl AlbumPage::qml_rc() const {
 
 QDeclarativeListProperty<MediaSource> AlbumPage::qml_media_source_list() {
   return QDeclarativeListProperty<MediaSource>(this, source_list_);
+}
+
+QVariant AlbumPage::qml_owner() const {
+  return QVariant::fromValue(owner_);
 }
 
 void AlbumPage::DestroySource(bool destroy_backing) {

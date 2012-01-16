@@ -23,23 +23,24 @@
 
 #include <QObject>
 #include <QAbstractListModel>
-#include <QByteArray>
-#include <QFileInfo>
-#include <QHash>
 #include <QList>
 #include <QModelIndex>
-#include <QPointer>
 #include <QVariant>
 
+#include "core/container-source.h"
 #include "core/data-object.h"
 #include "core/selectable-view-collection.h"
+#include "core/source-collection.h"
 
 class QmlViewCollectionModel : public QAbstractListModel {
   Q_OBJECT
-  Q_PROPERTY(int selectedCount READ selectedCount NOTIFY selectedCountChanged)
+  Q_PROPERTY(int selectedCount READ selected_count NOTIFY selected_count_changed)
+  Q_PROPERTY(QVariant forCollection READ for_collection WRITE set_for_collection
+    NOTIFY backing_collection_changed)
   
  signals:
-  void selectedCountChanged();
+  void selected_count_changed();
+  void backing_collection_changed();
   
  public:
   // These roles are available for all subclasses of QmlViewCollectionModel.
@@ -51,34 +52,38 @@ class QmlViewCollectionModel : public QAbstractListModel {
   // Subclasses should start their numbering with LastCommonRole to avoid
   // conflict.
   enum CommonRole {
-    ObjectNumberRole = Qt::UserRole + 1,
-    SelectionRole,
+    SelectionRole = Qt::UserRole + 1,
+    ObjectRole,
+    SubclassRole,
     LastCommonRole
   };
   
-  explicit QmlViewCollectionModel(QObject* parent);
+  explicit QmlViewCollectionModel(QObject* parent, const QString& objectTypeName);
+  virtual ~QmlViewCollectionModel();
   
-  // Init() required because subclasses are a QML Declarative Type which
-  // has restrictions on its ctor signature
-  void Init(SelectableViewCollection* view, const QHash<int, QByteArray>& roles);
-  bool IsInited() const;
+  QVariant for_collection() const;
+  void set_for_collection(QVariant var);
+  
+  Q_INVOKABLE int indexOf(QVariant var);
+  Q_INVOKABLE QVariant getAt(int index);
+  Q_INVOKABLE void unselectAll();
+  Q_INVOKABLE void toggleSelection(QVariant var);
   
   virtual int rowCount(const QModelIndex& parent) const;
   virtual QVariant data(const QModelIndex& index, int role) const;
   
-  int selectedCount() const;
+  int selected_count() const;
   
   SelectableViewCollection* BackingViewCollection() const;
   
  protected:
-  // Utility method for creating file paths packed inside a QVariant (don't
-  // prepend URI specifier)
-  static QVariant FilenameVariant(const QFileInfo& file_info);
+  virtual void notify_backing_collection_changed();
   
-  // Subclasses should return data packed in a QVariant for the specified role
-  // of the DataObject, otherwise return an empty QVariant if the role number is
-  // unknown
-  virtual QVariant DataForRole(DataObject* object, int role) const = 0;
+  void MonitorSourceCollection(SourceCollection* sources);
+  void MonitorContainerSource(ContainerSource* container);
+  
+  // Subclasses should return the DataObject cast and packed in a QVariant
+  virtual QVariant VariantFor(DataObject* object) const = 0;
   
   // This notifies model subscribers that the element has been added at the
   // particular index ... note that QmlViewCollectionModel monitors
@@ -103,11 +108,14 @@ private slots:
     const QSet<DataObject*>* removed);
   
  private:
-  QPointer<SelectableViewCollection> view_;
+  QVariant collection_;
+  SelectableViewCollection* view_;
   QList<int> to_be_removed_;
   
   static bool IntReverseLessThan(int a, int b);
   
+  void SetBackingViewCollection(SelectableViewCollection* view);
+  void DisconnectBackingViewCollection();
   void NotifySetAltered(const QSet<DataObject*> *list, int role);
 };
 

@@ -18,13 +18,13 @@
  */
 
 import QtQuick 1.1
+import Gallery 1.0
 
 Rectangle {
   id: mediaSelector
   objectName: "mediaSelector"
   
-  signal addSelected()
-  signal finished()
+  property variant album
   
   anchors.fill: parent
   
@@ -44,7 +44,7 @@ Rectangle {
       
       title: "deselect"
       
-      onPressed: mediaCheckerboard.unselect_all()
+      onPressed: mediaCheckerboard.checkerboardModel.unselectAll()
     }
     
     NavButton {
@@ -55,7 +55,7 @@ Rectangle {
       
       title: "done"
       
-      onPressed: finished()
+      onPressed: goBack()
     }
   }
   
@@ -72,12 +72,14 @@ Rectangle {
     anchors.leftMargin: 22
     anchors.rightMargin: 22
     
-    allow_selection: true
+    allowSelection: true
     state: "selecting"
     
-    checkerboardModel: ctx_media_selector_model
+    checkerboardModel: MediaCollectionModel {
+    }
+    
     checkerboardDelegate: PhotoComponent {
-      mediaSource: modelData.media_source
+      mediaSource: modelData.mediaSource
       isCropped: true
       isPreview: true
     }
@@ -93,16 +95,23 @@ Rectangle {
       anchors.centerIn: parent
       
       text: "Select photos or movieclip(s) to add"
-      visible: mediaCheckerboard.selected_count == 0
+      visible: mediaCheckerboard.selectedCount == 0
     }
     
     NavButton {
       anchors.right: parent.right
       
       title: "add"
-      visible: mediaCheckerboard.selected_count > 0
+      visible: mediaCheckerboard.selectedCount > 0
       
-      onPressed: addSelected()
+      onPressed: {
+        if (album)
+          album.addSelectedMediaSources(mediaCheckerboard.checkerboardModel);
+        else
+          album = mediaCheckerboard.checkerboardModel.createAlbumFromSelected();
+        
+        mediaCheckerboard.unselectAll();
+      }
     }
   }
 }

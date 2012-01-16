@@ -26,6 +26,7 @@
 #include "core/data-collection.h"
 #include "core/utils.h"
 #include "media/media-source.h"
+#include "qml/qml-media-collection-model.h"
 
 const char *Album::DEFAULT_NAME = "New Photo Album";
 
@@ -61,6 +62,15 @@ void Album::Init() {
     SIGNAL(contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
     this,
     SLOT(on_album_page_content_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
+}
+
+void Album::addMediaSource(QVariant vmedia) {
+  Attach(VariantToObject<MediaSource*>(vmedia));
+}
+
+void Album::addSelectedMediaSources(QVariant vmodel) {
+  QmlMediaCollectionModel* model = VariantToObject<QmlMediaCollectionModel*>(vmodel);
+  AttachMany(model->BackingViewCollection()->GetSelected());
 }
 
 const QString& Album::name() const {
@@ -149,7 +159,7 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
       if (page != NULL)
         pages_->Add(page);
        
-      page = new AlbumPage(current_page++,
+      page = new AlbumPage(this, current_page++,
         album_template_.pages()[current_page_template++]);
       if (current_page_template >= album_template_.page_count())
         current_page_template = 0;
@@ -177,5 +187,15 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
 void Album::on_album_page_content_altered(const QSet<DataObject*>* added,
   const QSet<DataObject*>* removed) {
   all_album_pages_ = CastDataCollectionToList<AlbumPage*>(pages_);
+  
+  bool changed = false;
+  if (current_page_ >= all_album_pages_.count()) {
+    // this deals with the closed case too
+    current_page_ = all_album_pages_.count() - 1;
+    changed = true;
+  }
+  
   emit pages_altered();
+  if (changed)
+    emit current_page_altered();
 }

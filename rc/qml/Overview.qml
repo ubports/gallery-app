@@ -19,14 +19,11 @@
  */
 
 import QtQuick 1.1
+import Gallery 1.0
 
 Rectangle {
   id: overview
   objectName: "overview"
-  
-  signal create_album()
-  signal create_album_from_selected()
-  signal popupAlbumPicked(int album_number)
   
   anchors.fill: parent
   
@@ -47,7 +44,7 @@ Rectangle {
       title: "create"
       visible: albums_checkerboard.visible
       
-      onPressed: create_album()
+      onPressed: switchToMediaSelector();
     }
     
     BinaryTabGroup {
@@ -62,7 +59,7 @@ Rectangle {
       
       state: "tab1_active"
       
-      visible: !photos_checkerboard.in_selection_mode
+      visible: !photos_checkerboard.inSelectionMode
       
       onTab0_activated: {
         albums_checkerboard.visible = true;
@@ -82,7 +79,7 @@ Rectangle {
       anchors.right: cancel_selecting.left
       
       title: "deselect"
-      visible: photos_checkerboard.selected_count > 0
+      visible: photos_checkerboard.selectedCount > 0
       
       onPressed: {
         if (album_picker.visible) {
@@ -90,7 +87,7 @@ Rectangle {
           return;
         }
         
-        photos_checkerboard.unselect_all();
+        photos_checkerboard.unselectAll();
       }
     }
     
@@ -101,7 +98,7 @@ Rectangle {
       anchors.right: parent.right
       
       title: "done"
-      visible: photos_checkerboard.in_selection_mode
+      visible: photos_checkerboard.inSelectionMode
       
       onPressed: {
         if (album_picker.visible) {
@@ -110,7 +107,7 @@ Rectangle {
         }
         
         photos_checkerboard.state = "normal";
-        photos_checkerboard.unselect_all();
+        photos_checkerboard.unselectAll();
       }
     }
   }
@@ -129,15 +126,17 @@ Rectangle {
     anchors.rightMargin: 22
     
     visible: true
-    allow_selection: true
+    allowSelection: true
     
-    checkerboardModel: ctx_overview_media_model
+    checkerboardModel: MediaCollectionModel {
+    }
+    
     checkerboardDelegate: PhotoComponent {
-      mediaSource: modelData.media_source
+      mediaSource: modelData.mediaSource
       isCropped: true
       isPreview: true
     }
-
+    
     MouseArea {
       id: mouse_blocker
       objectName: "mouse_blocker"
@@ -152,6 +151,10 @@ Rectangle {
       }
 
       visible: false
+    }
+    
+    onActivated: {
+      switchToPhotoViewer(mediaSource, model);
     }
   }
   
@@ -174,13 +177,17 @@ Rectangle {
     heightWithStroke: 288
     
     visible: false
-    allow_selection: false
+    allowSelection: false
     
-    checkerboardModel: ctx_overview_albums_model
+    checkerboardModel: AlbumCollectionModel {
+    }
+    
     checkerboardDelegate: AlbumPreviewComponent {
-      qmlRC: modelData.album.pages[modelData.album.currentPage].qmlRC
-      albumName: modelData.album.name
-      mediaSourceList: modelData.album.pages[modelData.album.currentPage].mediaSourceList
+      albumPage: (modelData.album.currentPage >= 0) ? modelData.album.pages[modelData.album.currentPage] : null
+    }
+    
+    onActivated: {
+      switchToAlbumViewer(mediaSource);
     }
   }
 
@@ -193,19 +200,20 @@ Rectangle {
 
     visible: false
 
-    designated_model: ctx_album_picker_model
+    designated_model: AlbumCollectionModel {
+    }
 
     onNewAlbumRequested: {
-      overview.create_album_from_selected();
+      photos_checkerboard.checkerboardModel.createAlbumFromSelected();
       photos_checkerboard.state = "normal";
-      photos_checkerboard.unselect_all();
+      photos_checkerboard.unselectAll();
       visible = false
     }
 
     onSelected: {
       overview.popupAlbumPicked(album_number);
       photos_checkerboard.state = "normal";
-      photos_checkerboard.unselect_all();
+      photos_checkerboard.unselectAll();
       visible = false;
     }
 
@@ -219,21 +227,21 @@ Rectangle {
     objectName: "toolbar"
     
     z: 10
-    visible: photos_checkerboard.in_selection_mode
+    visible: photos_checkerboard.inSelectionMode
     anchors.bottom: parent.bottom
     
     Text {
       anchors.centerIn: parent
       
       text: "Select photos or movieclip(s)"
-      visible: photos_checkerboard.selected_count == 0
+      visible: photos_checkerboard.selectedCount == 0
     }
 
     AddToAlbumButton {
       id: add_to_album_button
       objectName: "add_to_album_button"
 
-      visible: photos_checkerboard.selected_count > 0
+      visible: photos_checkerboard.selectedCount > 0
 
       onPressed: album_picker.visible = !album_picker.visible;
     }

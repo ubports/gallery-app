@@ -19,64 +19,35 @@
 
 #include "qml/qml-album-collection-model.h"
 
-#include <QHash>
-#include <QtDeclarative>
-
 #include "album/album.h"
 #include "album/album-collection.h"
+#include "album/album-default-template.h"
+#include "core/utils.h"
 #include "media/media-source.h"
+#include "qml/qml-media-collection-model.h"
 
 QmlAlbumCollectionModel::QmlAlbumCollectionModel(QObject* parent)
-  : QmlViewCollectionModel(parent) {
+  : QmlViewCollectionModel(parent, "album") {
+  MonitorSourceCollection(AlbumCollection::instance());
 }
 
 void QmlAlbumCollectionModel::RegisterType() {
-  qmlRegisterType<QmlAlbumCollectionModel>("org.yorba.qt.qmlalbumcollectionmodel",
-    1, 0, "QmlAlbumCollectionModel");
+  qmlRegisterType<QmlAlbumCollectionModel>("Gallery", 1, 0, "AlbumCollectionModel");
 }
 
-void QmlAlbumCollectionModel::Init(SelectableViewCollection* view) {
-  QHash<int, QByteArray> roles;
-  roles[QmlViewCollectionModel::ObjectNumberRole] = "object_number";
-  roles[QmlViewCollectionModel::SelectionRole] = "is_selected";
-  roles[AlbumRole] = "album";
-  roles[CurrentPageMediaSourceListRole] = "currentPageMediaSourceList";
+void QmlAlbumCollectionModel::createAlbum(QVariant vmedia) {
+  Album* album = new Album(*AlbumDefaultTemplate::instance());
+  album->Attach(VariantToObject<MediaSource*>(vmedia));
   
-  QmlViewCollectionModel::Init(view, roles);
-  
-  QObject::connect(
-    AlbumCollection::instance(), SIGNAL(album_current_page_contents_altered(Album*)),
-    this, SLOT(on_album_current_page_contents_altered(Album*)));
+  AlbumCollection::instance()->Add(album);
 }
 
-QVariant QmlAlbumCollectionModel::DataForRole(DataObject *object, int role) const {
+QVariant QmlAlbumCollectionModel::VariantFor(DataObject* object) const {
   Album* album = qobject_cast<Album*>(object);
-  if (album == NULL)
-    return QVariant();
   
-  switch (role) {
-    case AlbumRole:
-      return QVariant::fromValue(album);
-    
-    case CurrentPageMediaSourceListRole: {
-      QList<QVariant> varlist;
-      
-      AlbumPage* page = album->GetPage(album->current_page());
-      if (page == NULL)
-        return QVariant(varlist);
-      
-      DataObject* object;
-      foreach (object, page->contained()->GetAll())
-        varlist.append(QVariant::fromValue(qobject_cast<MediaSource*>(object)));
-      
-      return QVariant(varlist);
-    }
-    
-    default:
-      return QVariant();
-  }
+  return (album != NULL) ? QVariant::fromValue(album) : QVariant();
 }
 
 void QmlAlbumCollectionModel::on_album_current_page_contents_altered(Album* album) {
-  NotifyElementAltered(BackingViewCollection()->IndexOf(album), CurrentPageMediaSourceListRole);
+  NotifyElementAltered(BackingViewCollection()->IndexOf(album), SubclassRole);
 }

@@ -20,14 +20,12 @@
 import QtQuick 1.1
 
 Rectangle {
-  property string qmlRC
-  property string albumName
-  property variant mediaSourceList
+  property variant albumPage
   
   width: 388
   height: 252
   
-  onMediaSourceListChanged: {
+  onAlbumPageChanged: {
     if (!loader.item)
       return;
     
@@ -45,11 +43,11 @@ Rectangle {
     height: parent.height
     clip: true
     
-    source: qmlRC
+    source: (albumPage) ? albumPage.qmlRC : ""
     
     onLoaded: {
       if (item) {
-        item.mediaSourceList = mediaSourceList;
+        item.mediaSourceList = (albumPage) ? albumPage.mediaSourceList : null;
         item.width = parent.width;
         item.height = parent.height;
         item.gutter = 8;
@@ -67,7 +65,7 @@ Rectangle {
     
     color: "#657CA9"
     
-    text: albumName
+    text: (albumPage) ? albumPage.owner.name : "";
     smooth: true
   }
 }

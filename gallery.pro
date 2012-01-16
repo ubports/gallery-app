@@ -28,12 +28,10 @@ INSTALLS = install
 
 SOURCES += \
 	src/main.cpp \
-	src/ui-controller.cpp \
 	src/album/album.cpp \
 	src/album/album-default-template.cpp \
 	src/album/album-collection.cpp \
 	src/album/album-page.cpp \
-	src/album/album-picker.cpp \
 	src/album/album-template.cpp \
 	src/album/album-template-page.cpp \
 	src/core/container-source.cpp \
@@ -49,22 +47,15 @@ SOURCES += \
 	src/photo/photo.cpp \
 	src/photo/photo-metadata.cpp \
 	src/qml/qml-album-collection-model.cpp \
-	src/qml/qml-album-model.cpp \
-	src/qml/qml-album-viewer-page.cpp \
 	src/qml/qml-media-collection-model.cpp \
-	src/qml/qml-media-selector-page.cpp \
-	src/qml/qml-overview-page.cpp \
-	src/qml/qml-page.cpp \
-	src/qml/qml-photo-viewer-page.cpp \
+	src/qml/qml-stack.cpp \
 	src/qml/qml-view-collection-model.cpp
 
 HEADERS += \
-	src/ui-controller.h \
 	src/album/album.h \
 	src/album/album-collection.h \
 	src/album/album-default-template.h \
 	src/album/album-page.h \
-	src/album/album-picker.h \
 	src/album/album-template.h \
 	src/album/album-template-page.h \
 	src/core/container-source.h \
@@ -81,13 +72,8 @@ HEADERS += \
 	src/photo/photo.h \
 	src/photo/photo-metadata.h \
 	src/qml/qml-album-collection-model.h \
-	src/qml/qml-album-model.h \
-	src/qml/qml-album-viewer-page.h \
 	src/qml/qml-media-collection-model.h \
-	src/qml/qml-media-selector-page.h \
-	src/qml/qml-overview-page.h \
-	src/qml/qml-page.h \
-	src/qml/qml-photo-viewer-page.h \
+	src/qml/qml-stack.h \
 	src/qml/qml-view-collection-model.h
 
 OTHER_FILES += \

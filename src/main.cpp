@@ -20,15 +20,17 @@
 
 #include <QApplication>
 #include <QDir>
+#include <QGLWidget>
 #include <QString>
+#include <QUrl>
 
 #include "album/album.h"
 #include "album/album-page.h"
+#include "media/media-collection.h"
 #include "media/media-source.h"
 #include "qml/qml-album-collection-model.h"
-#include "qml/qml-album-model.h"
 #include "qml/qml-media-collection-model.h"
-#include "ui-controller.h"
+#include "qml/qml-stack.h"
 
 int main(int argc, char *argv[]) {
   // NOTE: This *must* be called prior to QApplication's ctor.
@@ -36,19 +38,43 @@ int main(int argc, char *argv[]) {
   
   QApplication app(argc, argv);
   
-  // QML Declarative types must be registered before use; if we use a lot of
-  // these, we may want a more formal registration system
+  //
+  // QML Declarative types must be registered before use
+  //
+  // TODO: Use QML Plugins to automate this
+  //
+  
   Album::RegisterType();
   AlbumPage::RegisterType();
   MediaSource::RegisterType();
   QmlAlbumCollectionModel::RegisterType();
-  QmlAlbumModel::RegisterType();
   QmlMediaCollectionModel::RegisterType();
+  QmlStack::RegisterType();
+  
+  //
+  // Library is currently only loaded from ~/Pictures (no subdirectory
+  // traversal)
+  //
   
   QDir path(argc > 1 ? QString(argv[1]) : QDir::homePath() + "/Pictures");
   qDebug("Opening %s...", qPrintable(path.path()));
   
-  UIController ui(path);
+  MediaCollection::InitInstance(path);
+  
+  //
+  // Create the master QDeclarativeView that all the pages will operate within
+  // using the OpenGL backing and load the root container
+  //
+  
+  QGLFormat format = QGLFormat::defaultFormat();
+  format.setSampleBuffers(false);
+  QGLWidget *gl_widget = new QGLWidget(format);
+  
+  QDeclarativeView view;
+  view.setSource(QUrl("qrc:/rc/qml/TabletSurface.qml"));
+  view.setViewport(gl_widget);
+  
+  view.show();
   
   return app.exec();
 }
