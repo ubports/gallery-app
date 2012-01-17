@@ -40,7 +40,8 @@ class Photo : public MediaSource {
   
  protected:
   virtual bool MakePreview(const QFileInfo& original, const QFileInfo& dest);
-  virtual void DestroySource(bool destroy_backing);
+  
+  virtual void DestroySource(bool destroy_backing, bool as_orphan);
 
  private:
   // Go ahead and cache the photo's metadata object inside the photo. Insofar

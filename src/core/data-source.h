@@ -57,8 +57,8 @@ class DataSource : public DataObject {
   Q_OBJECT
   
  signals:
-  void destroying(bool destroying_backing);
-  void destroyed(bool destroyed_backing);
+  void destroying(bool destroying_backing, bool as_orphan);
+  void destroyed(bool destroyed_backing, bool as_orphan);
   
  public:
   DataSource(const QString& name = "");
@@ -68,9 +68,14 @@ class DataSource : public DataObject {
   // Returns NULL if not a member of any SourceCollection (i.e. is orphaned).
   SourceCollection* member_of() const;
   
+  // Used to destroy a DataSource that is not a member of a SourceCollection;
+  // use SourceCollection.Destroy() / DestroyAll() for DataSources attached
+  // to one.
+  virtual void DestroyOrphan(bool destroy_backing);
+  
  protected:
-  virtual void notify_destroying(bool destroying_backing);
-  virtual void notify_destroyed(bool destroyed_backing);
+  virtual void notify_destroying(bool destroying_backing, bool as_orphan);
+  virtual void notify_destroyed(bool destroyed_backing, bool as_orphan);
   
   // This is only called by SourceCollection.
   virtual void Destroy(bool destroy_backing);
@@ -78,7 +83,7 @@ class DataSource : public DataObject {
   // DataSource subclasses need to implement this by performing clean-up
   // work prior to being removed from the system ... if destroy_backing is
   // true, the backing (file, database row, etc.) should be erased as well.
-  virtual void DestroySource(bool destroy_backing) = 0;
+  virtual void DestroySource(bool destroy_backing, bool as_orphan) = 0;
   
  private:
   SourceCollection *membership_;

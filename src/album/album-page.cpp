@@ -59,7 +59,7 @@ QVariant AlbumPage::qml_owner() const {
   return QVariant::fromValue(owner_);
 }
 
-void AlbumPage::DestroySource(bool destroy_backing) {
+void AlbumPage::DestroySource(bool destroy_backing, bool as_orphan) {
 }
 
 void AlbumPage::notify_container_contents_altered(const QSet<DataObject *> *added,

@@ -64,7 +64,7 @@ class MediaSource : public DataSource {
   bool is_rotated() const;
   
  protected:
-  virtual void DestroySource(bool delete_backing);
+  virtual void DestroySource(bool delete_backing, bool as_orphan);
   
   virtual bool MakePreview(const QFileInfo& original, const QFileInfo& dest);
   

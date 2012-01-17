@@ -56,8 +56,10 @@ bool Photo::MakePreview(const QFileInfo& original, const QFileInfo &dest) {
   return true;
 }
 
-void Photo::DestroySource(bool destroy_backing) {
+void Photo::DestroySource(bool destroy_backing, bool as_orphan) {
   // TODO: destroy the backing photo file and database entry
+  
+  MediaSource::DestroySource(destroy_backing, as_orphan);
 }
 
 Orientation Photo::orientation() const {

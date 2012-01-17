@@ -211,7 +211,7 @@ Rectangle {
     }
 
     onSelected: {
-      overview.popupAlbumPicked(album_number);
+      album.addSelectedMediaSources(photos_checkerboard.checkerboardModel);
       photos_checkerboard.state = "normal";
       photos_checkerboard.unselectAll();
       visible = false;

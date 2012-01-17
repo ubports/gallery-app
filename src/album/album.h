@@ -84,7 +84,7 @@ class Album : public ContainerSource {
   QDeclarativeListProperty<MediaSource> qml_all_media_sources();
   
  protected:
-  virtual void DestroySource(bool destroy_backing);
+  virtual void DestroySource(bool destroy_backing, bool as_orphan);
   
   virtual void notify_current_page_altered();
   

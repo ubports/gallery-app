@@ -47,7 +47,10 @@ Album::Album(const AlbumTemplate& album_template, const QString& name)
 }
 
 Album::~Album() {
-  delete pages_;
+  if (pages_ != NULL) {
+    pages_->DestroyAll(false, true);
+    delete pages_;
+  }
 }
 
 void Album::RegisterType() {
@@ -133,8 +136,11 @@ void Album::notify_current_page_contents_altered() {
     membership->notify_album_current_page_contents_altered(this);
 }
 
-void Album::DestroySource(bool destroy_backing) {
+void Album::DestroySource(bool destroy_backing, bool as_orphan) {
   // TODO: Remove album entry in database
+  
+  if (pages_ != NULL)
+    pages_->DestroyAll(true, true);
 }
 
 void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
@@ -144,40 +150,56 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
   // TODO: Can be smarter than this, but since we don't know how position(s)
   // in the contained sources list have now changed, need to reset and start
   // afresh
-  pages_->DestroyAll(false, true);
+  int stashed_current_page = current_page_;
+  pages_->DestroyAll(true, true);
   
   // Convert contained DataObjects into a queue to process in order
   QQueue<DataObject*> queue;
   queue.append(contained()->GetAll());
   
-  int current_page = 0;
-  int current_page_template = 1;
+  int building_page = 0;
+  int building_page_template = 1;
   AlbumPage* page = NULL;
   while (queue.count() > 0) {
     if ((page == NULL)
       || (page->ContainedCount() >= page->template_page()->FrameCount())) {
       if (page != NULL)
         pages_->Add(page);
-       
-      page = new AlbumPage(this, current_page++,
-        album_template_.pages()[current_page_template++]);
-      if (current_page_template >= album_template_.page_count())
-        current_page_template = 0;
+      
+      // create the AlbumPage using the current template page
+      page = new AlbumPage(this, building_page++,
+        album_template_.pages()[building_page_template++]);
+      
+      // simple algorithm: simply move on to next page in template, returning
+      // to first on overflow
+      if (building_page_template >= album_template_.page_count())
+        building_page_template = 0;
     }
     
     page->Attach(queue.dequeue());
   }
   
+  // Deal with last page (destroy if empty)
   if (page != NULL) {
-    if (page->ContainedCount() > 0)
+    if (page->ContainedCount() > 0) {
       pages_->Add(page);
-    else
+    } else {
+      page->DestroyOrphan(true);
       delete page;
+    }
   }
   
   // update QML lists and notify QML watchers
   all_media_sources_ = CastDataCollectionToList<MediaSource*>(contained());
   emit album_contents_altered();
+  
+  // return to stashed current page, unless pages have been removed ... note
+  // that this will close the album if empty
+  current_page_ = stashed_current_page;
+  if (current_page_ >= pages_->Count())
+    current_page_ = pages_->Count() - 1;
+  
+  emit current_page_altered();
   
   // TODO: Again, could be smart and verify the current page has actually
   // changed

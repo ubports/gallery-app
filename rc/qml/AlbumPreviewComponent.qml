@@ -26,14 +26,8 @@ Rectangle {
   height: 252
   
   onAlbumPageChanged: {
-    if (!loader.item)
-      return;
-    
-    // if the preview_list changed, force the loader to reload the same
-    // qml_rc (which is then populated with the new previews)
-    var src = loader.source;
-    loader.source = "";
-    loader.source = src;
+    // force reload of the entire page's QML
+    loader.source = (albumPage) ? albumPage.qmlRC : "";
   }
   
   Loader {
@@ -45,7 +39,20 @@ Rectangle {
     
     source: (albumPage) ? albumPage.qmlRC : ""
     
+    property variant mediaSourceList: (albumPage) ? albumPage.mediaSourceList : null
+    
+    onMediaSourceListChanged: {
+      if (!mediaSourceList)
+        return;
+      
+      // MediaSources within page have changed, force reload of same QML file
+      var src = source;
+      source = "";
+      source = src;
+    }
+    
     onLoaded: {
+      // set properties on the template page once loaded
       if (item) {
         item.mediaSourceList = (albumPage) ? albumPage.mediaSourceList : null;
         item.width = parent.width;

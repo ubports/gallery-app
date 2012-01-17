@@ -76,7 +76,7 @@ bool MediaSource::is_rotated() const {
   return (orientation_rotation() == 90.0) || (orientation_rotation() == -90.0);
 }
 
-void MediaSource::DestroySource(bool delete_backing) {
+void MediaSource::DestroySource(bool delete_backing, bool as_orphan) {
   // required stub (QML types may not be abstract)
 }
 
