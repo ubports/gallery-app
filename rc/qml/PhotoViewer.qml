@@ -25,25 +25,21 @@ Rectangle {
   id: photo_viewer
   objectName: "photo_viewer"
   
-  property variant photo
-  property variant model
+  // NOTE: These properties should be treated as read-only, as setting them
+  // individually can lead to bogus results.  Use setCurrentPhoto() to
+  // initialize the view.
+  property variant photo: null
+  property variant model: null
+  
+  function setCurrentPhoto(photo, model) {
+    photo_viewer.photo = photo;
+    photo_viewer.model = model;
+    
+    image_pager.positionViewAtIndex(model.indexOf(photo), 0);
+    image_pager.currentIndex = model.indexOf(photo);
+  }
   
   color: "#444444"
-  
-  onPhotoChanged: {
-    updatePagerIndex();
-  }
-  
-  onModelChanged: {
-    updatePagerIndex();
-  }
-  
-  function updatePagerIndex() {
-    if (photo && model) {
-      image_pager.positionViewAtIndex(model.indexOf(photo), 0);
-      image_pager.currentIndex = model.indexOf(photo);
-    }
-  }
   
   AlbumPickerPopup {
     id: album_picker
@@ -112,17 +108,11 @@ Rectangle {
       }
     }
     
-    onCurrentIndexChanged: {
-      if (model)
-        photo = model.getAt(currentIndex);
-    }
-    
-    // Not sure why this is required, but suspected that it's due to using
-    // context properties to pass the model in; this might be fixed once we
-    // move to QML types for passing in data
     function updateCurrentIndex() {
       // Add one to ensure the hit-test is inside the delegate's boundaries
       currentIndex = indexAt(contentX + 1, contentY + 1);
+      if (model)
+        photo = model.getAt(currentIndex);
     }
     
     onModelChanged: {

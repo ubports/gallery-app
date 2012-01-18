@@ -153,9 +153,7 @@ Rectangle {
       visible: false
     }
     
-    onActivated: {
-      navStack.switchToPhotoViewer(mediaSource, model);
-    }
+    onActivated: navStack.switchToPhotoViewer(object, checkerboardModel)
   }
   
   Checkerboard {
@@ -186,9 +184,7 @@ Rectangle {
       albumPage: (modelData.album.currentPage >= 0) ? modelData.album.pages[modelData.album.currentPage] : null
     }
     
-    onActivated: {
-      navStack.switchToAlbumViewer(mediaSource);
-    }
+    onActivated: navStack.switchToAlbumViewer(object)
   }
 
   AlbumPickerPopup {

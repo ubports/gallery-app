@@ -45,7 +45,8 @@ QVariant QmlViewCollectionModel::for_collection() const {
 void QmlViewCollectionModel::set_for_collection(QVariant var) {
   QObject* obj = qvariant_cast<QObject*>(var);
   if (obj == NULL) {
-    qDebug("Unable to set collection of type %s", var.typeName());
+    if (var.isValid())
+      qDebug("Unable to set collection of type %s", var.typeName());
     
     return;
   }
@@ -66,7 +67,7 @@ void QmlViewCollectionModel::set_for_collection(QVariant var) {
     return;
   }
   
-  qDebug("Unable to set collection that is not ContainerSource or SourceCollection");
+  qDebug("Unable to set collection that is neither ContainerSource nor SourceCollection");
 }
 
 int QmlViewCollectionModel::indexOf(QVariant var) {

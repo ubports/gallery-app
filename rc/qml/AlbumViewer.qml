@@ -153,7 +153,7 @@ Rectangle {
       masthead.isSelectionInProgress = inSelectionMode
     }
     
-    onActivated: navStack.switchToPhotoViewer(mediaSource, checkerboardModel)
+    onActivated: navStack.switchToPhotoViewer(object, checkerboardModel)
   }
 
   AlbumPickerPopup {

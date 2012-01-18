@@ -82,8 +82,7 @@ Rectangle {
     objectName: "navStack"
   
     function switchToPhotoViewer(photo, model) {
-      photoViewer.photo = photo;
-      photoViewer.model = model;
+      photoViewer.setCurrentPhoto(photo, model);
       
       navStack.switchToPage(photoViewer);
     }

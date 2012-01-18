@@ -23,7 +23,7 @@ Rectangle {
   id: checkerboard
   objectName: "checkerboard"
   
-  signal activated(variant model, variant mediaSource)
+  signal activated(variant object)
   
   property alias checkerboardModel: grid.model
   property Component checkerboardDelegate
@@ -105,7 +105,7 @@ Rectangle {
           onReleased: {
             // See onPressAndHold for note on logic behind state changes
             if (checkerboard.state == "normal")
-              checkerboard.activated(checkerboardModel, object)
+              checkerboard.activated(object)
             else if (allowSelection && checkerboard.state == "to-selecting")
               checkerboard.state = "selecting";
             else if (allowSelection && checkerboard.state == "selecting")
