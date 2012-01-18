@@ -46,20 +46,21 @@ Rectangle {
     objectName: "album_picker"
 
     y: parent.height - height - toolbar.height
-    x: add_to_album_button.x + add_to_album_button.width / 2 - width + 16
+    x: toolbar.albumOperationsPopupX - width
 
-    visible: false
+    state: "hidden";
 
     designated_model: AlbumCollectionModel {
     }
 
     onSelected: {
       album.addMediaSource(photo);
+      state = "hidden"
     }
     
     onNewAlbumRequested: {
       designated_model.createAlbum(photo);
-      visible = false;
+      state = "hidden"
     }
   }
   
@@ -89,15 +90,15 @@ Rectangle {
     }
     
     // don't allow flicking while album_picker is visible
-    interactive: !album_picker.visible
+    interactive: album_picker.state == "hidden"
     
     MouseArea {
       anchors.fill: parent
       
       onClicked: {
         // dismiss album picker if up without changing chrome state
-        if (album_picker.visible) {
-          album_picker.visible = false;
+        if (album_picker.state == "shown") {
+          album_picker.state = "hidden";
           
           return;
         }
@@ -157,31 +158,23 @@ Rectangle {
     
     color: "transparent"
     
-    NavToolbar {
+    GalleryStandardToolbar {
       id: toolbar
       objectName: "toolbar"
 
+      isTranslucent: true
+      opacity: 0.8 /* override default opacity when translucent == true of 0.9
+                      for better compliance with the spec */
+
       z: 10
       anchors.bottom: parent.bottom
-      
-      translucent: true
 
-      ReturnButton {
-        x: 48
-        
-        show_title: false
+      onAlbumOperationsButtonPressed: album_picker.flipVisibility();
 
-        onPressed: {
-          chrome_wrapper.state = "hidden";
-          navStack.goBack();
-        }
-      }
-
-      AddToAlbumButton {
-        id: add_to_album_button
-        objectName: "add_to_album_button"
-
-        onPressed: album_picker.visible = !album_picker.visible;
+      onReturnButtonPressed: {
+        chrome_wrapper.state = "hidden";
+        album_picker.state = "hidden";
+        navStack.goBack();
       }
     }
     

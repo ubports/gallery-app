@@ -35,14 +35,43 @@ Rectangle {
 
   color: "transparent"
 
+  states: [
+    State { name: "shown";
+      PropertyChanges { target: album_popup_wrapper; opacity: 1; } },
+
+    State { name: "hidden";
+      PropertyChanges { target: album_popup_wrapper; opacity: 0; } }
+  ]
+
+  transitions: [
+    Transition { from: "*"; to: "*";
+      NumberAnimation { properties: "opacity"; easing.type:
+                        Easing.InQuad; duration: 200; } }
+  ]
+
+  state: "hidden"
+
+  function flipVisibility() {
+    if (this.state == "shown")
+      this.state = "hidden";
+    else
+      this.state = "shown";
+  }
+
   Rectangle {
     id: album_popup_body
     objectName: "album_popup_body"
 
-    color: "#9d9d9d"
+    gradient: Gradient {
+      GradientStop { position: 0.0; color: "#6b6c6e" }
+      GradientStop { position: 0.1; color: "#bcbdc0" }
+      GradientStop { position: 0.95; color: "#bcbdc0" }
+      GradientStop { position: 1.0; color: "#6b6c6e" }
+    }
 
     x: 0
     y: 0
+    z: 1
     width: parent.width
     height: parent.height - popup_arrow.height
     clip: true
@@ -65,57 +94,86 @@ Rectangle {
         color: "#008ecb"
       }
 
-      SquareButton {
+      GallerySecondaryPushButton {
         title: "cancel"
+        isCompact: true
 
-        x: 4
-        y: parent.height / 2 - height / 2
+        anchors.left: parent.left
+        anchors.leftMargin: 4
+        anchors.verticalCenter: parent.verticalCenter
 
-        onPressed: album_popup_wrapper.visible = false
+        onPressed: { album_popup_wrapper.state = "hidden"; }
       }
 
-      SquareButton {
+      GalleryPrimaryPushButton {
         title: "+ new"
+        isCompact: true
 
-        is_primary: true
+        anchors.right: parent.right
+        anchors.rightMargin: 4
+        anchors.verticalCenter: parent.verticalCenter
 
-        x: parent.width - width - 4
-        y: parent.height / 2 - height / 2
-
-        onPressed: album_popup_wrapper.newAlbumRequested();
+        onPressed: { album_popup_wrapper.newAlbumRequested(); }
       }
     }
-  }
 
-  ListView {
-    id: album_preview_scoller
-    objectName: "album_preview_scroller"
+    ListView {
+      id: album_preview_scoller
+      objectName: "album_preview_scroller"
 
-    x: 0
-    y: button_bar.height + 6
-    clip: true
-    spacing: 22
-    width: parent.width
-    height: parent.height - button_bar.height - popup_arrow.height - 12
-    
-    model: AlbumCollectionModel {
-    }
-    
-    delegate: AlbumPreviewComponent {
-      albumPage: (album.currentPage >= 0) ? album.pages[album.currentPage] : null
-      
-      x: 22
+      z: 1
       clip: true
-      
-      MouseArea {
-        anchors.fill: parent
-        
-        onClicked: {
-          album_popup_wrapper.visible = false;
-          album_popup_wrapper.selected(album);
+      anchors.top: button_bar.bottom
+      anchors.bottom: parent.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      spacing: 22
+
+      header: Rectangle {
+        color: "transparent"
+
+        height: 22;
+        anchors.left: parent.left
+        anchors.right: parent.right
+      }
+
+      footer: Rectangle {
+        color: "transparent"
+
+        height: 22;
+        anchors.left: parent.left
+        anchors.right: parent.right
+      }
+
+      model: AlbumCollectionModel {
+      }
+
+      delegate: AlbumPreviewComponent {
+          albumPage: (album.currentPage >= 0) ? album.pages[album.currentPage] : null
+
+          x: 22
+          clip: true
+
+          MouseArea {
+            anchors.fill: parent
+
+            onClicked: {
+              album_popup_wrapper.selected(album);
+              album_popup_wrapper.state = "hidden";
+            }
+          }
         }
       }
     }
+
+  Rectangle {
+    color: "transparent"
+    border.color: "#a7a9ac"
+    border.width: 2
+
+    width: parent.width
+    height: parent.height - popup_arrow.height
+    z: 0
   }
 
   Image {
@@ -124,8 +182,9 @@ Rectangle {
 
     source: "../img/popup-arrow.png"
 
-    width: 33
-    height: 24
+    width: 39
+    height: 25
+
     x: parent.width - width
     y: parent.height - height
   }

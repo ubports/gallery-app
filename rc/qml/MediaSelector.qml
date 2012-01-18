@@ -28,7 +28,7 @@ Rectangle {
   
   anchors.fill: parent
   
-  NavToolbar {
+  GalleryOverviewNavigationBar {
     id: navbar
     objectName: "navbar"
     
@@ -36,26 +36,41 @@ Rectangle {
     anchors.left: parent.left
     anchors.right: parent.right
     
-    NavButton {
+    GallerySecondaryPushButton {
       id: deselectButton
       objectName: "deselectButton"
       
       anchors.right: doneButton.left
+      anchors.rightMargin: 16
+      anchors.verticalCenter: parent.verticalCenter
+
+      visible: mediaCheckerboard.selectedCount > 0
       
       title: "deselect"
       
       onPressed: mediaCheckerboard.checkerboardModel.unselectAll()
     }
     
-    NavButton {
+    GalleryPrimaryPushButton {
       id: doneButton
       objectName: "doneButton"
       
       anchors.right: parent.right
+      anchors.rightMargin: 16
+      anchors.verticalCenter: parent.verticalCenter
       
       title: "done"
       
-      onPressed: navStack.goBack()
+      onPressed: {
+        if (album)
+          album.addSelectedMediaSources(mediaCheckerboard.checkerboardModel);
+        else
+          album = mediaCheckerboard.checkerboardModel.createAlbumFromSelected();
+
+        mediaCheckerboard.unselectAll();
+
+        navStack.goBack()
+      }
     }
   }
   
@@ -85,33 +100,10 @@ Rectangle {
     }
   }
   
-  NavToolbar {
-    id: toolbar
-    objectName: "toolbar"
-    
+  GalleryStatusBar {
     anchors.bottom: parent.bottom
-    
-    Text {
-      anchors.centerIn: parent
-      
-      text: "Select photos or movieclip(s) to add"
-      visible: mediaCheckerboard.selectedCount == 0
-    }
-    
-    NavButton {
-      anchors.right: parent.right
-      
-      title: "add"
-      visible: mediaCheckerboard.selectedCount > 0
-      
-      onPressed: {
-        if (album)
-          album.addSelectedMediaSources(mediaCheckerboard.checkerboardModel);
-        else
-          album = mediaCheckerboard.checkerboardModel.createAlbumFromSelected();
-        
-        mediaCheckerboard.unselectAll();
-      }
-    }
+
+    statusText: (mediaCheckerboard.selectedCount == 0) ?
+      "Select photos or movieclip(s) to add" : ""
   }
 }

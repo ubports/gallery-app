@@ -14,42 +14,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Authors:
- * Jim Nelson <jim@yorba.org>
  * Lucas Beeler <lucas@yorba.org>
  */
- 
-import QtQuick 1.0
+
+import QtQuick 1.1
 
 Rectangle {
-  id: nav_button
-  objectName: "nav_button"
-  
+  property bool isCompact: false
+  property string title: ""
+  property string textStyle: "light"
+
   signal pressed()
-  
-  property string title: "button"
-  
-  anchors.top: parent.top
-  anchors.bottom: parent.bottom
-  anchors.margins: 4
-  
-  width: 80
-  height: parent.height - 8
-  
-  color: "white"
-  radius: 10
-  
+
+  width: (isCompact) ? 72 : 122
+  height: (isCompact) ? 32 : 36
+
+  color: "#a7a9ac"
+
   Text {
+    anchors.centerIn: parent
+
     text: parent.title
-    
-    anchors.fill: parent
-    
-    horizontalAlignment: Text.AlignHCenter
-    verticalAlignment: Text.AlignVCenter
+
+    color: (parent.textStyle == "dark") ? "black" : "white"
   }
-  
+
   MouseArea {
     anchors.fill: parent
-    
+
     onClicked: parent.pressed()
   }
 }

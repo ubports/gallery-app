@@ -19,31 +19,6 @@
 
 import QtQuick 1.1
 
-Rectangle {
-  property string title: "button"
-  property bool is_primary: false
-
-  signal pressed()
-
-  height: 32
-  width: 60
-
-  color: (is_primary) ? "#008ecb" : "#9d9d9d"
-
-  Text {
-    anchors.fill: parent
-
-    text: parent.title
-
-    color: "white"
-
-    verticalAlignment: Text.AlignVCenter
-    horizontalAlignment: Text.AlignHCenter
-  }
-
-  MouseArea {
-    anchors.fill: parent
-
-    onClicked: parent.pressed()
-  }
+ToolbarIconButton {
+  iconFilename: "../img/share-operations-icon.png"
 }

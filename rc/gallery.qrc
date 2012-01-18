@@ -1,17 +1,24 @@
 <RCC>
 <qresource>
+    <file>img/add-create-operation-icon.png</file>
+    <file>img/album-operations-icon.png</file>
+    <file>img/album-operations-icon-contrast.png</file>
+    <file>img/camera-icon.png</file>
     <file>img/deselected-tab.png</file>
-    <file>img/element-body.png</file>
     <file>img/grid-view.png</file>
+    <file>img/more-operations-icon.png</file>
     <file>img/popup-arrow.png</file>
-    <file>img/return-cap.png</file>
+    <file>img/return-arrow.png</file>
     <file>img/selected-media.png</file>
     <file>img/selected-tab.png</file>
+    <file>img/share-operations-icon.png</file>
     <file>img/template-view.png</file>
+    <file>img/trash-operation-icon.png</file>
     <file>img/viewer-back.png</file>
     <file>img/viewer-forward.png</file>
     
-    <file>qml/AddToAlbumButton.qml</file>
+    <file>qml/AddCreateOperationNavbarButton.qml</file>
+    <file>qml/AlbumOperationsToolbarButton.qml</file>
     <file>qml/AlbumPickerPopup.qml</file>
     <file>qml/AlbumPreviewA.qml</file>
     <file>qml/AlbumPreviewB.qml</file>
@@ -21,17 +28,26 @@
     <file>qml/BinaryTabGroup.qml</file>
     <file>qml/Checkerboard.qml</file>
     <file>qml/FramePortrait.qml</file>
+    <file>qml/GalleryOverviewNavigationBar.qml</file>
+    <file>qml/GalleryPrimaryPushButton.qml</file>
+    <file>qml/GallerySecondaryPushButton.qml</file>
+    <file>qml/GalleryStandardToolbar.qml</file>
+    <file>qml/GalleryStatusBar.qml</file>
     <file>qml/MediaSelector.qml</file>
-    <file>qml/NavButton.qml</file>
+    <file>qml/MoreOperationsToolbarButton.qml</file>
     <file>qml/NavStack.qml</file>
-    <file>qml/NavToolbar.qml</file>
     <file>qml/Overview.qml</file>
     <file>qml/PhotoComponent.qml</file>
     <file>qml/PhotoViewer.qml</file>
+    <file>qml/PlaceholderPopupMenu.qml</file>
+    <file>qml/PushButton.qml</file>
     <file>qml/ReturnButton.qml</file>
-    <file>qml/SquareButton.qml</file>
+    <file>qml/ShareOperationsToolbarButton.qml</file>
     <file>qml/Tab.qml</file>
     <file>qml/TabletSurface.qml</file>
+    <file>qml/Toolbar.qml</file>
+    <file>qml/ToolbarIconButton.qml</file>
+    <file>qml/TrashOperationToolbarButton.qml</file>
     <file>qml/ViewerNavigationButton.qml</file>
 </qresource>
 </RCC>

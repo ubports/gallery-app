@@ -27,7 +27,7 @@ Rectangle {
   
   anchors.fill: parent
   
-  NavToolbar {
+  GalleryOverviewNavigationBar {
     id: navbar
     objectName: "navbar"
     
@@ -35,16 +35,9 @@ Rectangle {
     anchors.left: parent.left
     anchors.right: parent.right
     
-    NavButton {
-      id: createAlbum
-      objectName: "createAlbum"
-      
-      anchors.left: parent.left
-      
-      title: "create"
-      visible: albums_checkerboard.visible
-      
-      onPressed: navStack.switchToMediaSelector();
+    onAddCreateOperationButtonPressed: {
+      if (album_view_switcher.state == "tab0_active")
+        navStack.switchToMediaSelector();
     }
     
     BinaryTabGroup {
@@ -72,18 +65,21 @@ Rectangle {
       }
     }
     
-    NavButton {
+    GallerySecondaryPushButton {
       id: deselect
       objectName: "deselect"
       
       anchors.right: cancel_selecting.left
-      
+      anchors.rightMargin: 16
+      anchors.verticalCenter: parent.verticalCenter
+
       title: "deselect"
+
       visible: photos_checkerboard.selectedCount > 0
       
       onPressed: {
-        if (album_picker.visible) {
-          album_picker.visible = false;
+        if (album_picker.state == "shown") {
+          album_picker.state = "hidden";
           return;
         }
         
@@ -91,21 +87,24 @@ Rectangle {
       }
     }
     
-    NavButton {
+    GalleryPrimaryPushButton {
       id: cancel_selecting
       objectName: "cancel_selecting"
       
       anchors.right: parent.right
-      
+      anchors.rightMargin: 16
+      anchors.verticalCenter: parent.verticalCenter
+
       title: "done"
+
       visible: photos_checkerboard.inSelectionMode
       
       onPressed: {
-        if (album_picker.visible) {
-          album_picker.visible = false;
+        if (album_picker.state == "shown") {
+          album_picker.state = "hidden";
           return;
         }
-        
+
         photos_checkerboard.state = "normal";
         photos_checkerboard.unselectAll();
       }
@@ -144,13 +143,13 @@ Rectangle {
       anchors.fill: parent
 
       onClicked: {
-        if (album_picker.visible) {
-          album_picker.visible = false;
+        if (album_picker.state == "shown") {
+          album_picker.state = "hidden";
           return;
         }
       }
 
-      visible: false
+      visible: album_picker.state == "shown"
     }
     
     onActivated: navStack.switchToPhotoViewer(object, checkerboardModel)
@@ -192,9 +191,9 @@ Rectangle {
     objectName: "album_picker"
 
     y: parent.height - height - toolbar.height
-    x: add_to_album_button.x + add_to_album_button.width / 2 - width + 16
+    x: toolbar.albumOperationsPopupX - width
 
-    visible: false
+    state: "hidden"
 
     designated_model: AlbumCollectionModel {
     }
@@ -203,43 +202,45 @@ Rectangle {
       photos_checkerboard.checkerboardModel.createAlbumFromSelected();
       photos_checkerboard.state = "normal";
       photos_checkerboard.unselectAll();
-      visible = false
+      state = "hidden"
     }
 
     onSelected: {
       album.addSelectedMediaSources(photos_checkerboard.checkerboardModel);
       photos_checkerboard.state = "normal";
       photos_checkerboard.unselectAll();
-      visible = false;
-    }
-
-    onVisibleChanged: {
-      mouse_blocker.visible = visible
+      state = "hidden"
     }
   }
   
-  NavToolbar {
-    id: toolbar
-    objectName: "toolbar"
+  GalleryStatusBar {
+    id: statusBar
+    objectName: "statusBar"
     
     z: 10
-    visible: photos_checkerboard.inSelectionMode
     anchors.bottom: parent.bottom
+
+    visible: (photos_checkerboard.inSelectionMode &&
+      photos_checkerboard.selectedCount == 0)
     
-    Text {
-      anchors.centerIn: parent
-      
-      text: "Select photos or movieclip(s)"
-      visible: photos_checkerboard.selectedCount == 0
-    }
+    statusText: "Select photos or movieclip(s)"
+  }
 
-    AddToAlbumButton {
-      id: add_to_album_button
-      objectName: "add_to_album_button"
+  GalleryStandardToolbar {
+    id: toolbar
+    objectName: "toolbar"
 
-      visible: photos_checkerboard.selectedCount > 0
+    hasReturnButton: false
+    isTranslucent: true
+    background: "lightBlue"
 
-      onPressed: album_picker.visible = !album_picker.visible;
-    }
+    z: 10
+    anchors.bottom: parent.bottom
+
+    visible: (photos_checkerboard.inSelectionMode &&
+      photos_checkerboard.selectedCount > 0)
+
+    onAlbumOperationsButtonPressed: { album_picker.flipVisibility(); }
+
   }
 }

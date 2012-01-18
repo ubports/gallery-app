@@ -19,10 +19,19 @@
 
 import QtQuick 1.1
 
-NavButton {
-  title: "add to album"
+Toolbar {
+  property string statusText: ""
 
-  width: 98
-  x: parent.width - (3 * width)
-  y: (parent.height / 2) - (height / 2)
+  height: 48
+  width: parent.width
+
+  background: "lightBlue"
+  isTranslucent: true
+
+  Text {
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.horizontalCenter: parent.horizontalCenter
+
+    text: parent.statusText
+  }
 }

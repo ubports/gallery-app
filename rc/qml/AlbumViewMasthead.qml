@@ -19,7 +19,7 @@
 
 import QtQuick 1.1
 
-NavToolbar {
+Toolbar {
   id: mastheadBar
   objectName: "mastheadBar"
 
@@ -61,13 +61,15 @@ NavToolbar {
     }
   }
 
-  NavButton {
+  GalleryPrimaryPushButton {
     id: doneButton
     objectName: "doneButton"
 
     title: "done"
 
     anchors.right: parent.right
+    anchors.rightMargin: 16
+    anchors.verticalCenter: parent.verticalCenter
 
     visible: mastheadBar.isSelectionInProgress
 
@@ -77,10 +79,12 @@ NavToolbar {
     }
   }
 
-  NavButton {
+  GallerySecondaryPushButton {
     title: "deselect"
 
     anchors.right: doneButton.left
+    anchors.rightMargin: 16
+    anchors.verticalCenter: parent.verticalCenter
 
     visible: mastheadBar.isSelectionInProgress && mastheadBar.areItemsSelected
 
@@ -88,5 +92,4 @@ NavToolbar {
       mastheadBar.deselectAllRequested();
     }
   }
-
 }

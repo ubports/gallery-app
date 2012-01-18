@@ -78,7 +78,8 @@ HEADERS += \
 
 OTHER_FILES += \
 	rc/gallery.qrc \
-	rc/qml/AddToAlbumButton.qml \
+	rc/qml/AddCreateOperationNavbarButton.qml \
+	rc/qml/AlbumOperationsToolbarButton.qml \
 	rc/qml/AlbumPickerPopup.qml \
 	rc/qml/AlbumPreviewA.qml \
 	rc/qml/AlbumPreviewB.qml \
@@ -87,16 +88,25 @@ OTHER_FILES += \
 	rc/qml/AlbumViewMasthead.qml \
 	rc/qml/BinaryTabGroup.qml \
 	rc/qml/Checkerboard.qml \
+	rc/qml/GalleryOverviewNavigationBar.qml \
+	rc/qml/GalleryPrimaryPushButton.qml \
+	rc/qml/GallerySecondaryPushButton.qml \
+	rc/qml/GalleryStandardToolbar.qml \
+	rc/qml/GalleryStatusBar.qml \
 	rc/qml/FramePortrait.qml \
 	rc/qml/MediaSelector.qml \
-	rc/qml/NavButton.qml \
+	rc/qml/MoreOperationsToolbarButton.qml \
 	rc/qml/NavStack.qml \
-	rc/qml/NavToolbar.qml \
 	rc/qml/Overview.qml \
 	rc/qml/PhotoComponent.qml \
 	rc/qml/PhotoViewer.qml \
+	rc/qml/PlaceholderPopupMenu.qml \
+	rc/qml/PushButton.qml \
 	rc/qml/ReturnButton.qml \
-	rc/qml/SquareButton.qml \
+	rc/qml/ShareOperationsToolbarButton.qml \
 	rc/qml/Tab.qml \
 	rc/qml/TabletSurface.qml \
+	rc/qml/Toolbar.qml \
+	rc/qml/ToolbarIconButton.qml \
+	rc/qml/TrashOperationToolbarButton.qml \
 	rc/qml/ViewerNavigationButton.qml

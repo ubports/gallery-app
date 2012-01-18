@@ -29,6 +29,23 @@ Rectangle {
   
   anchors.fill: parent
 
+  PlaceholderPopupMenu {
+    id: addPhotosMenu
+
+    z: 20
+    anchors.bottom: toolbar.top
+    x: toolbar.moreOperationsPopupX - width;
+
+    itemTitle: "Add photos"
+
+    state: "hidden"
+
+    onItemChosen: {
+      navStack.switchToMediaSelector(album)
+    }
+  }
+
+
   AlbumViewMasthead {
     id: masthead
     objectName: "masthead"
@@ -140,13 +157,14 @@ Rectangle {
       anchors.fill: parent
 
       onClicked: {
-        if (album_picker.visible) {
-          album_picker.visible = false;
+        if (addPhotosMenu.state == "shown" || album_picker.state == "shown") {
+          addPhotosMenu.state = "hidden"
+          album_picker.state = "hidden"
           return;
         }
       }
 
-      visible: false
+      visible: (addPhotosMenu.state == "shown" || album_picker.state == "shown")
     }
 
     onInSelectionModeChanged: {
@@ -161,81 +179,50 @@ Rectangle {
     objectName: "album_picker"
 
     y: parent.height - height - toolbar.height
-    x: add_to_album_button.x + add_to_album_button.width / 2 - width + 16
+    x: toolbar.albumOperationsPopupX - width
 
     designated_model: AlbumCollectionModel {
     }
 
-    visible: false
+    state: "hidden"
 
     onNewAlbumRequested: {
       gridCheckerboard.checkerboardModel.createAlbumFromSelected();
       gridCheckerboard.state = "normal";
       gridCheckerboard.unselectAll();
-      visible = false
+      state = "hidden"
     }
 
     onSelected: {
       album.addSelectedMediaSources(gridCheckerboard.checkerboardModel);
       gridCheckerboard.state = "normal";
       gridCheckerboard.unselectAll();
-      visible = false;
-    }
-
-    onVisibleChanged: {
-      mouse_blocker.visible = visible
     }
   }
 
-
-  NavToolbar {
+  GalleryStandardToolbar {
     id: toolbar
     objectName: "toolbar"
 
+    hasFullIconSet: (gridCheckerboard.visible && gridCheckerboard.selectedCount > 0)
+    useContrastOnWhiteColorScheme: gridCheckerboard.visible
+    isTranslucent: true
+
     z: 10
     anchors.bottom: parent.bottom
-    
-    translucent: true
-    
-    ReturnButton {
-      id: return_button
-      objectName: "return_button"
-      
-      x: 48
-      
-      show_title: false
-      
-      onPressed: {
-        album_picker.visible = false
-        masthead.isSelectionInProgress = false
-        masthead.areItemsSelected = false
-        gridCheckerboard.state = "normal";
-        gridCheckerboard.unselectAll();
-        
-        navStack.goBack();
-      }
+
+    onReturnButtonPressed: {
+      album_picker.visible = false
+      masthead.isSelectionInProgress = false
+      masthead.areItemsSelected = false
+      gridCheckerboard.state = "normal";
+      gridCheckerboard.unselectAll();
+
+      navStack.goBack();
     }
 
-    AddToAlbumButton {
-      id: add_to_album_button
-      objectName: "add_to_album_button"
+    onMoreOperationsButtonPressed: addPhotosMenu.flipVisibility();
 
-      visible: gridCheckerboard.selectedCount > 0
-
-      onPressed: {
-        album_picker.visible = !album_picker.visible
-      }
-    }
-
-    NavButton {
-      id: addToAlbumButton
-      objectName: "addToAlbumButton"
-      
-      anchors.right: parent.right
-      
-      title: "add photos"
-      
-      onPressed: navStack.switchToMediaSelector(album)
-    }
+    onAlbumOperationsButtonPressed: album_picker.flipVisibility();
   }
 }
