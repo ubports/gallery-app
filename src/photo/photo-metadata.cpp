@@ -58,11 +58,11 @@ namespace {
   }
   
   bool is_xmp_key(const char* key) {
-    return (std::strncmp("Xmp.", key, 4) == 0);
+    return (key != NULL) ? (std::strncmp("Xmp.", key, 4) == 0) : false;
   }
   
   bool is_exif_key(const char* key) {
-    return (std::strncmp("Exif.", key, 5) == 0);
+    return (key != NULL) ? (std::strncmp("Exif.", key, 5) == 0) : false;
   }
   
   // caller should test if 's' could be successfully parsed by invoking the
@@ -154,6 +154,8 @@ Orientation PhotoMetadata::orientation() const {
 QDateTime PhotoMetadata::exposure_time() const { 
   const char* matched = get_first_matched(EXPOSURE_TIME_KEYS,
     NUM_EXPOSURE_TIME_KEYS, keys_present_);
+  if (matched == NULL)
+    return QDateTime();
   
   QDateTime parsed;
   if (is_exif_key(matched)) {

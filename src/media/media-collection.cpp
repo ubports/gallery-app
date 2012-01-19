@@ -38,8 +38,19 @@ MediaCollection::MediaCollection(const QDir& directory)
   QSet<DataObject*> photos;
   QStringList filenames = directory_.entryList();
   QString filename;
-  foreach (filename, filenames)
-    photos.insert(new Photo(QFileInfo(directory_, filename)));
+  foreach (filename, filenames) {
+    Photo* photo = new Photo(QFileInfo(directory_, filename));
+    // TODO: Need to address how to deal with photos that have no exposure
+    // date/time.  See also:
+    // https://bugs.launchpad.net/goodhope/+bug/918844
+    if (!photo->exposure_date().isValid()) {
+      delete photo;
+      
+      continue;
+    }
+    
+    photos.insert(photo);
+  }
   
   // By default, sort all media by its exposure date time, ascending
   SetComparator(ExposureDateTimeAscendingComparator);
