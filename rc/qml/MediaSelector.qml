@@ -48,7 +48,7 @@ Rectangle {
       
       title: "deselect"
       
-      onPressed: mediaCheckerboard.checkerboardModel.unselectAll()
+      onPressed: mediaCheckerboard.model.unselectAll()
     }
     
     GalleryPrimaryPushButton {
@@ -63,9 +63,9 @@ Rectangle {
       
       onPressed: {
         if (album)
-          album.addSelectedMediaSources(mediaCheckerboard.checkerboardModel);
+          album.addSelectedMediaSources(mediaCheckerboard.model);
         else
-          album = mediaCheckerboard.checkerboardModel.createAlbumFromSelected();
+          album = mediaCheckerboard.model.createAlbumFromSelected();
 
         mediaCheckerboard.unselectAll();
 
@@ -74,7 +74,7 @@ Rectangle {
     }
   }
   
-  Checkerboard {
+  EventCheckerboard {
     id: mediaCheckerboard
     objectName: "mediaCheckerboard"
     
@@ -89,20 +89,11 @@ Rectangle {
     
     allowSelection: true
     state: "selecting"
-    
-    checkerboardModel: MediaCollectionModel {
-    }
-    
-    checkerboardDelegate: PhotoComponent {
-      mediaSource: modelData.mediaSource
-      isCropped: true
-      isPreview: true
-    }
   }
   
   GalleryStatusBar {
     anchors.bottom: parent.bottom
-
+    
     statusText: (mediaCheckerboard.selectedCount == 0) ?
       "Select photos or movieclip(s) to add" : ""
   }

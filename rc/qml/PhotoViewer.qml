@@ -22,8 +22,8 @@ import QtQuick 1.1
 import Gallery 1.0
 
 Rectangle {
-  id: photo_viewer
-  objectName: "photo_viewer"
+  id: photoViewer
+  objectName: "photoViewer"
   
   // NOTE: These properties should be treated as read-only, as setting them
   // individually can lead to bogus results.  Use setCurrentPhoto() to
@@ -32,18 +32,18 @@ Rectangle {
   property variant model: null
   
   function setCurrentPhoto(photo, model) {
-    photo_viewer.photo = photo;
-    photo_viewer.model = model;
+    photoViewer.photo = photo;
+    photoViewer.model = model;
     
-    image_pager.positionViewAtIndex(model.indexOf(photo), 0);
-    image_pager.currentIndex = model.indexOf(photo);
+    imagePager.positionViewAtIndex(model.indexOf(photo), 0);
+    imagePager.currentIndex = model.indexOf(photo);
   }
   
   color: "#444444"
   
   AlbumPickerPopup {
-    id: album_picker
-    objectName: "album_picker"
+    id: albumPicker
+    objectName: "albumPicker"
 
     y: parent.height - height - toolbar.height
     x: toolbar.albumOperationsPopupX - width
@@ -65,8 +65,8 @@ Rectangle {
   }
   
   ListView {
-    id: image_pager
-    objectName: "image_pager"
+    id: imagePager
+    objectName: "imagePager"
     
     z: 0
     anchors.fill: parent
@@ -81,30 +81,30 @@ Rectangle {
     model: parent.model
     
     delegate: PhotoComponent {
-      width: image_pager.width
-      height: image_pager.height
+      width: imagePager.width
+      height: imagePager.height
       
       color: "#444444"
       
       mediaSource: model.mediaSource
     }
     
-    // don't allow flicking while album_picker is visible
-    interactive: album_picker.state == "hidden"
+    // don't allow flicking while albumPicker is visible
+    interactive: albumPicker.state == "hidden"
     
     MouseArea {
       anchors.fill: parent
       
       onClicked: {
         // dismiss album picker if up without changing chrome state
-        if (album_picker.state == "shown") {
-          album_picker.state = "hidden";
+        if (albumPicker.state == "shown") {
+          albumPicker.state = "hidden";
           
           return;
         }
         
         // reverse album chrome's visible
-        chrome_wrapper.state = (chrome_wrapper.state == "shown")
+        chromeWrapper.state = (chromeWrapper.state == "shown")
           ? "hidden" : "shown";
       }
     }
@@ -134,15 +134,15 @@ Rectangle {
   }
   
   Rectangle {
-    id: chrome_wrapper
-    objectName: "chrome_wrapper"
+    id: chromeWrapper
+    objectName: "chromeWrapper"
     
     states: [
       State { name: "shown";
-        PropertyChanges { target: chrome_wrapper; opacity: 1; } },
+        PropertyChanges { target: chromeWrapper; opacity: 1; } },
 
       State { name: "hidden";
-        PropertyChanges { target: chrome_wrapper; opacity: 0; } }
+        PropertyChanges { target: chromeWrapper; opacity: 0; } }
     ]
     
     transitions: [
@@ -169,11 +169,11 @@ Rectangle {
       z: 10
       anchors.bottom: parent.bottom
 
-      onAlbumOperationsButtonPressed: album_picker.flipVisibility();
+      onAlbumOperationsButtonPressed: albumPicker.flipVisibility();
 
       onReturnButtonPressed: {
-        chrome_wrapper.state = "hidden";
-        album_picker.state = "hidden";
+        chromeWrapper.state = "hidden";
+        albumPicker.state = "hidden";
         navStack.goBack();
       }
     }
@@ -185,9 +185,9 @@ Rectangle {
       y: 2 * parent.height / 3
       z: 20
       
-      visible: !image_pager.atXBeginning
+      visible: !imagePager.atXBeginning
       
-      onPressed: image_pager.decrementCurrentIndex()
+      onPressed: imagePager.decrementCurrentIndex()
     }
     
     ViewerNavigationButton {
@@ -197,9 +197,9 @@ Rectangle {
       y: 2 * parent.height / 3
       z: 20
       
-      visible: !image_pager.atXEnd
+      visible: !imagePager.atXEnd
       
-      onPressed: image_pager.incrementCurrentIndex()
+      onPressed: imagePager.incrementCurrentIndex()
     }
   }
 }

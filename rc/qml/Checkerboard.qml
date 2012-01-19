@@ -25,8 +25,8 @@ Rectangle {
   
   signal activated(variant object, variant objectModel)
   
-  property alias checkerboardModel: grid.model
-  property Component checkerboardDelegate
+  property alias model: grid.model
+  property Component delegate
   
   property int widthSansStroke: 206
   property int heightSansStroke: 156
@@ -36,11 +36,11 @@ Rectangle {
   property bool inSelectionMode: false
   property bool allowSelection: true
   property int selectedCount:
-    (checkerboardModel != null) ? checkerboardModel.selectedCount : 0
+    (model != null) ? model.selectedCount : 0
   
   function unselectAll() {
-    if (checkerboardModel != null)
-      checkerboardModel.unselectAll();
+    if (model != null)
+      model.unselectAll();
   }
   
   color: "white"
@@ -88,7 +88,7 @@ Rectangle {
           width: widthWithStroke
           height: heightWithStroke
           
-          sourceComponent: checkerboard.checkerboardDelegate
+          sourceComponent: checkerboard.delegate
         }
         
         MouseArea {
@@ -109,7 +109,7 @@ Rectangle {
             else if (allowSelection && checkerboard.state == "to-selecting")
               checkerboard.state = "selecting";
             else if (allowSelection && checkerboard.state == "selecting")
-              checkerboardModel.toggleSelection(object);
+              checkerboard.model.toggleSelection(object);
           }
         }
         

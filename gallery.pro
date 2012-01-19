@@ -92,6 +92,7 @@ OTHER_FILES += \
 	rc/qml/AlbumViewMasthead.qml \
 	rc/qml/BinaryTabGroup.qml \
 	rc/qml/Checkerboard.qml \
+	rc/qml/EventCheckerboard.qml \
 	rc/qml/GalleryOverviewNavigationBar.qml \
 	rc/qml/GalleryPrimaryPushButton.qml \
 	rc/qml/GallerySecondaryPushButton.qml \

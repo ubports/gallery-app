@@ -158,11 +158,11 @@ Rectangle {
     
     allowSelection: true
     
-    checkerboardModel: MediaCollectionModel {
+    model: MediaCollectionModel {
       forCollection: album
     }
     
-    checkerboardDelegate: PhotoComponent {
+    delegate: PhotoComponent {
       anchors.centerIn: parent
       
       width: parent.width
@@ -194,7 +194,7 @@ Rectangle {
       masthead.isSelectionInProgress = inSelectionMode
     }
     
-    onActivated: navStack.switchToPhotoViewer(object, checkerboardModel)
+    onActivated: navStack.switchToPhotoViewer(object, model)
   }
 
   AlbumPickerPopup {
@@ -210,14 +210,14 @@ Rectangle {
     state: "hidden"
 
     onNewAlbumRequested: {
-      gridCheckerboard.checkerboardModel.createAlbumFromSelected();
+      gridCheckerboard.model.createAlbumFromSelected();
       gridCheckerboard.state = "normal";
       gridCheckerboard.unselectAll();
       state = "hidden"
     }
 
     onSelected: {
-      album.addSelectedMediaSources(gridCheckerboard.checkerboardModel);
+      album.addSelectedMediaSources(gridCheckerboard.model);
       gridCheckerboard.state = "normal";
       gridCheckerboard.unselectAll();
     }
