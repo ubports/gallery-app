@@ -116,6 +116,29 @@ Rectangle {
         template_pager.albumName = owner.name;
       }
     }
+
+    onCurrentIndexChanged: album.currentPage = currentIndex
+
+    function updateCurrentIndex() {
+      // Add one to ensure the hit-test is inside the delegate's boundaries
+      currentIndex = indexAt(contentX + 1, contentY + 1);
+    }
+
+    onModelChanged: {
+      updateCurrentIndex();
+    }
+
+    onVisibleChanged: {
+      updateCurrentIndex();
+    }
+
+    onCountChanged: {
+      updateCurrentIndex();
+    }
+
+    onMovementEnded: {
+      updateCurrentIndex();
+    }
   }
   
   Checkerboard {
