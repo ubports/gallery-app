@@ -48,7 +48,7 @@ Rectangle {
       y: 4
       
       tab0_title: "Albums"
-      tab1_title: "Photos"
+      tab1_title: "Events"
       
       state: "tab1_active"
       
@@ -127,13 +127,34 @@ Rectangle {
     visible: true
     allowSelection: true
     
-    checkerboardModel: MediaCollectionModel {
+    checkerboardModel: EventCollectionModel {
     }
     
-    checkerboardDelegate: PhotoComponent {
-      mediaSource: modelData.mediaSource
-      isCropped: true
-      isPreview: true
+    property variant photoViewerModel: MediaCollectionModel {
+    }
+    
+    checkerboardDelegate: Item {
+      PhotoComponent {
+        anchors.fill: parent
+        
+        visible: modelData.typeName == "MediaSource"
+        
+        mediaSource: (visible) ? modelData.mediaSource : null
+        isCropped: true
+        isPreview: true
+      }
+      
+      Text {
+        anchors.fill: parent
+        
+        color: "mediumBlue"
+        visible: modelData.typeName == "QmlEventMarker"
+        
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignHCenter
+        
+        text: (visible) ? modelData.object.prettyDate : ""
+      }
     }
     
     MouseArea {
@@ -152,7 +173,10 @@ Rectangle {
       visible: album_picker.state == "shown"
     }
     
-    onActivated: navStack.switchToPhotoViewer(object, checkerboardModel)
+    onActivated: {
+      if (objectModel.typeName == "MediaSource")
+        navStack.switchToPhotoViewer(object, photoViewerModel);
+    }
   }
   
   Checkerboard {

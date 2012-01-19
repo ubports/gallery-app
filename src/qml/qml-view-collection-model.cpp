@@ -22,10 +22,11 @@
 #include "core/utils.h"
 
 QmlViewCollectionModel::QmlViewCollectionModel(QObject* parent, const QString& objectTypeName)
-  : QAbstractListModel(parent), view_(NULL) {
+  : QAbstractListModel(parent), view_(NULL), default_comparator_(NULL) {
   QHash<int, QByteArray> roles;
   roles.insert(ObjectRole, "object");
   roles.insert(SelectionRole, "isSelected");
+  roles.insert(TypeNameRole, "typeName");
   
   // allow for subclasses to give object a semantically-significant name
   if (!objectTypeName.isEmpty())
@@ -113,9 +114,17 @@ QVariant QmlViewCollectionModel::data(const QModelIndex& index, int role) const 
     case SelectionRole:
       return QVariant(view_->IsSelected(object));
     
+    case TypeNameRole:
+      // Return type name with the pointer ("*") removed
+      return QVariant(QString(VariantFor(object).typeName()).remove('*'));
+    
     default:
       return QVariant();
   }
+}
+
+int QmlViewCollectionModel::count() const {
+  return (view_ != NULL) ? view_->Count() : 0;
 }
 
 int QmlViewCollectionModel::selected_count() const {
@@ -142,7 +151,9 @@ void QmlViewCollectionModel::SetBackingViewCollection(SelectableViewCollection* 
     this,
     SLOT(on_contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
   
-  emit backing_collection_changed();
+  notify_backing_collection_changed();
+  emit count_changed();
+  emit selected_count_changed();
 }
 
 void QmlViewCollectionModel::DisconnectBackingViewCollection() {
@@ -177,8 +188,16 @@ SelectableViewCollection* QmlViewCollectionModel::BackingViewCollection() const 
   return view_;
 }
 
+void QmlViewCollectionModel::SetDefaultComparator(DataObjectComparator comparator) {
+  default_comparator_ = comparator;
+  if (view_ != NULL)
+    view_->SetComparator(default_comparator_);
+}
+
 void QmlViewCollectionModel::MonitorSourceCollection(SourceCollection* sources) {
   SelectableViewCollection* view = new SelectableViewCollection("MonitorSourceCollection");
+  if (default_comparator_ != NULL)
+    view->SetComparator(default_comparator_);
   view->MonitorDataCollection(sources, NULL, false);
   
   SetBackingViewCollection(view);
@@ -186,6 +205,8 @@ void QmlViewCollectionModel::MonitorSourceCollection(SourceCollection* sources) 
 
 void QmlViewCollectionModel::MonitorContainerSource(ContainerSource* container) {
   SelectableViewCollection* view = new SelectableViewCollection("MonitorContainerSource");
+  if (default_comparator_ != NULL)
+    view->SetComparator(default_comparator_);
   view->MonitorDataCollection(container->contained(), NULL, false);
   
   SetBackingViewCollection(view);
@@ -273,6 +294,8 @@ void QmlViewCollectionModel::on_contents_altered(const QSet<DataObject*>* added,
     
     to_be_removed_.clear();
   }
+  
+  emit count_changed();
 }
 
 bool QmlViewCollectionModel::IntReverseLessThan(int a, int b) {

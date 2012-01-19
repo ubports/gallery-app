@@ -22,7 +22,6 @@
 #include <QStringList>
 #include <QString>
 
-#include "core/data-object.h"
 #include "photo/photo.h"
 
 const QString MediaCollection::THUMBNAIL_DIR = "thumbs";
@@ -42,6 +41,9 @@ MediaCollection::MediaCollection(const QDir& directory)
   foreach (filename, filenames)
     photos.insert(new Photo(QFileInfo(directory_, filename)));
   
+  // By default, sort all media by its exposure date time, ascending
+  SetComparator(ExposureDateTimeAscendingComparator);
+  
   AddMany(photos);
 }
 
@@ -57,4 +59,10 @@ MediaCollection* MediaCollection::instance() {
 
 const QDir& MediaCollection::directory() const {
   return directory_;
+}
+
+bool MediaCollection::ExposureDateTimeAscendingComparator(DataObject* a,
+  DataObject* b) {
+  return
+    qobject_cast<MediaSource*>(a)->exposure_date_time() < qobject_cast<MediaSource*>(b)->exposure_date_time();
 }

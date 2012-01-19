@@ -54,7 +54,7 @@ Album::~Album() {
 }
 
 void Album::RegisterType() {
-  qmlRegisterType<Album>("org.yorba.qt.album", 1, 0, "Album");
+  qmlRegisterType<Album>("Gallery", 1, 0, "Album");
 }
 
 void Album::Init() {

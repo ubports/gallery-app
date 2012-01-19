@@ -23,6 +23,7 @@
 #include <QObject>
 #include <QDir>
 
+#include "core/data-object.h"
 #include "core/source-collection.h"
 
 class MediaCollection : public SourceCollection {
@@ -33,6 +34,8 @@ public:
 
   static void InitInstance(const QDir& directory);
   static MediaCollection* instance();
+  
+  static bool ExposureDateTimeAscendingComparator(DataObject* a, DataObject* b);
   
   const QDir& directory() const;
   

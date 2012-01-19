@@ -36,7 +36,7 @@ AlbumPage::AlbumPage(Album* owner, int page_number, AlbumTemplatePage* template_
 }
 
 void AlbumPage::RegisterType() {
-  qmlRegisterType<AlbumPage>("org.yorba.qt.albumpage", 1, 0, "AlbumPage");
+  qmlRegisterType<AlbumPage>("Gallery", 1, 0, "AlbumPage");
 }
 
 int AlbumPage::page_number() const {

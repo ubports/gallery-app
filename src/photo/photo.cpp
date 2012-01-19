@@ -65,3 +65,7 @@ void Photo::DestroySource(bool destroy_backing, bool as_orphan) {
 Orientation Photo::orientation() const {
   return metadata_->orientation();
 }
+
+QDateTime Photo::exposure_date_time() const {
+  return metadata_->exposure_time();
+}

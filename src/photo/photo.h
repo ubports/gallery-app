@@ -37,18 +37,18 @@ class Photo : public MediaSource {
   explicit Photo(const QFileInfo& file);
   
   virtual Orientation orientation() const;
+  virtual QDateTime exposure_date_time() const;
   
  protected:
   virtual bool MakePreview(const QFileInfo& original, const QFileInfo& dest);
   
   virtual void DestroySource(bool destroy_backing, bool as_orphan);
-
+  
  private:
   // Go ahead and cache the photo's metadata object inside the photo. Insofar
   // as we know, Gallery will be the only application on the device mutating
   // photo files, so we won't have to worry about the cache going stale.
   PhotoMetadata* metadata_;
-
 };
 
 #endif  // GALLERY_PHOTO_H_

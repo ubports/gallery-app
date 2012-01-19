@@ -75,7 +75,6 @@ class DataCollection : public QObject {
   const QList<DataObject*>& GetAll() const;
   const QSet<DataObject*>& GetAsSet() const;
   DataObject* GetAt(int index) const;
-  DataObject* FindByNumber(DataObjectNumber number) const;
   int IndexOf(DataObject* media) const;
   
   void SetComparator(DataObjectComparator comparator);

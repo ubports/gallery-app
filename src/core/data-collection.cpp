@@ -197,19 +197,11 @@ int DataCollection::IndexOf(DataObject* object) const {
   return index;
 }
 
-DataObject* DataCollection::FindByNumber(DataObjectNumber number) const {
-  // TODO: This should be replaced by a hash lookup table
-  DataObject* object;
-  foreach (object, list_) {
-    if (object->number() == number)
-      return object;
-  }
-  
-  return NULL;
-}
-
 void DataCollection::SetComparator(DataObjectComparator comparator) {
-  comparator_ = comparator;
+  if (comparator_ == comparator)
+    return;
+  
+  comparator_ = (comparator != NULL) ? comparator : DefaultDataObjectComparator;
   
   Resort(true);
 }
@@ -230,6 +222,9 @@ void DataCollection::Sanity() const {
 // via binary insertion and only quicksorting after large insertions, but this
 // will have to do for now
 void DataCollection::Resort(bool fire_signal) {
+  if (Count() <= 1)
+    return;
+  
   qSort(list_.begin(), list_.end(), comparator_);
   
   if (fire_signal)

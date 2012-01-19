@@ -41,7 +41,7 @@ void MediaSource::Init(const QFileInfo& file) {
 }
 
 void MediaSource::RegisterType() {
-  qmlRegisterType<MediaSource>("org.yorba.qt.mediasource", 1, 0, "MediaSource");
+  qmlRegisterType<MediaSource>("Gallery", 1, 0, "MediaSource");
 }
 
 const QFileInfo& MediaSource::file() const {
@@ -74,6 +74,22 @@ bool MediaSource::orientation_mirrored() const {
 
 bool MediaSource::is_rotated() const {
   return (orientation_rotation() == 90.0) || (orientation_rotation() == -90.0);
+}
+
+QDateTime MediaSource::exposure_date_time() const {
+  return QDateTime();
+}
+
+QDate MediaSource::exposure_date() const {
+  return exposure_date_time().date();
+}
+
+QTime MediaSource::exposure_time_of_day() const {
+  return exposure_date_time().time();
+}
+
+int MediaSource::exposure_time_t() const {
+  return (int) exposure_date_time().toTime_t();
 }
 
 void MediaSource::DestroySource(bool delete_backing, bool as_orphan) {

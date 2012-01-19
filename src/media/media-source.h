@@ -21,7 +21,10 @@
 #define GALLERY_MEDIA_SOURCE_H_
 
 #include <QObject>
+#include <QDate>
+#include <QDateTime>
 #include <QFileInfo>
+#include <QTime>
 #include <QUrl>
 #include <QVariant>
 #include <QtDeclarative>
@@ -39,11 +42,15 @@ class MediaSource : public DataSource {
   Q_PROPERTY(float orientationRotation READ orientation_rotation NOTIFY orientation_altered)
   Q_PROPERTY(bool orientationMirrored READ orientation_mirrored NOTIFY orientation_altered)
   Q_PROPERTY(bool isRotated READ is_rotated NOTIFY orientation_altered)
+  Q_PROPERTY(QDate exposureDate READ exposure_date NOTIFY exposure_date_time_altered)
+  Q_PROPERTY(QTime exposureTimeOfDay READ exposure_time_of_day NOTIFY exposure_date_time_altered)
+  Q_PROPERTY(int exposure_time_t READ exposure_time_t NOTIFY exposure_date_time_altered)
   
  signals:
   void path_altered();
   void preview_path_altered();
   void orientation_altered();
+  void exposure_date_time_altered();
   
  public:
   MediaSource();
@@ -62,6 +69,11 @@ class MediaSource : public DataSource {
   float orientation_rotation() const;
   bool orientation_mirrored() const;
   bool is_rotated() const;
+  
+  virtual QDateTime exposure_date_time() const;
+  QDate exposure_date() const;
+  QTime exposure_time_of_day() const;
+  int exposure_time_t() const;
   
  protected:
   virtual void DestroySource(bool delete_backing, bool as_orphan);

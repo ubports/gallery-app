@@ -29,6 +29,8 @@
 #include "media/media-collection.h"
 #include "media/media-source.h"
 #include "qml/qml-album-collection-model.h"
+#include "qml/qml-event-collection-model.h"
+#include "qml/qml-event-marker.h"
 #include "qml/qml-media-collection-model.h"
 #include "qml/qml-stack.h"
 
@@ -48,6 +50,8 @@ int main(int argc, char *argv[]) {
   AlbumPage::RegisterType();
   MediaSource::RegisterType();
   QmlAlbumCollectionModel::RegisterType();
+  QmlEventCollectionModel::RegisterType();
+  QmlEventMarker::RegisterType();
   QmlMediaCollectionModel::RegisterType();
   QmlStack::RegisterType();
   

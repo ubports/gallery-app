@@ -47,6 +47,8 @@ SOURCES += \
 	src/photo/photo.cpp \
 	src/photo/photo-metadata.cpp \
 	src/qml/qml-album-collection-model.cpp \
+	src/qml/qml-event-collection-model.cpp \
+	src/qml/qml-event-marker.cpp \
 	src/qml/qml-media-collection-model.cpp \
 	src/qml/qml-stack.cpp \
 	src/qml/qml-view-collection-model.cpp
@@ -72,6 +74,8 @@ HEADERS += \
 	src/photo/photo.h \
 	src/photo/photo-metadata.h \
 	src/qml/qml-album-collection-model.h \
+	src/qml/qml-event-collection-model.h \
+	src/qml/qml-event-marker.h \
 	src/qml/qml-media-collection-model.h \
 	src/qml/qml-stack.h \
 	src/qml/qml-view-collection-model.h
