@@ -190,7 +190,7 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
   }
   
   // update QML lists and notify QML watchers
-  all_media_sources_ = CastDataCollectionToList<MediaSource*>(contained());
+  all_media_sources_ = CastListToType<DataObject*, MediaSource*>(contained()->GetAll());
   emit album_contents_altered();
   
   // return to stashed current page, unless pages have been removed ... note
@@ -208,7 +208,7 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
 
 void Album::on_album_page_content_altered(const QSet<DataObject*>* added,
   const QSet<DataObject*>* removed) {
-  all_album_pages_ = CastDataCollectionToList<AlbumPage*>(pages_);
+  all_album_pages_ = CastListToType<DataObject*, AlbumPage*>(pages_->GetAll());
   
   bool changed = false;
   if (current_page_ >= all_album_pages_.count()) {

@@ -67,6 +67,6 @@ void AlbumPage::notify_container_contents_altered(const QSet<DataObject *> *adde
   ContainerSource::notify_container_contents_altered(added, removed);
   
   // TODO: Can be done smarter using the added and removed; this will do for now
-  source_list_ = CastDataCollectionToList<MediaSource*>(contained());
+  source_list_ = CastListToType<DataObject*, MediaSource*>(contained()->GetAll());
   emit media_source_list_changed();
 }

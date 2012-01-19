@@ -22,25 +22,64 @@
 
 #include <QObject>
 #include <QList>
+#include <QSet>
 
 #include "core/data-collection.h"
 #include "core/data-object.h"
 
-// For casting the contents of a DataCollection into a QList of subclass of
-// DataObject.
-//
-// NOTE: This uses Q_ASSERT to verify that all elements in the DataCollection
-// properly cast.
-template <class T>
-QList<T> CastDataCollectionToList(const DataCollection *collection) {
+template <class F, class T>
+QList<T> CastListToType(const QList<F>& from) {
   QList<T> to;
   
-  DataObject* from_element;
-  foreach (from_element, collection->GetAll()) {
+  F from_element;
+  foreach (from_element, from) {
     T to_element = qobject_cast<T>(from_element);
     Q_ASSERT(to_element != NULL);
     
     to.append(to_element);
+  }
+  
+  return to;
+}
+
+template <class F, class T>
+QSet<T> CastSetToType(const QSet<F>& from) {
+  QSet<T> to;
+  
+  F from_element;
+  foreach (from_element, from) {
+    T to_element = qobject_cast<T>(from_element);
+    Q_ASSERT(to_element != NULL);
+    
+    to.insert(to_element);
+  }
+  
+  return to;
+}
+
+template <class T, class A>
+QSet<T> FilterSetOnlyType(const QSet<T>& from) {
+  QSet<T> to;
+  
+  T element;
+  foreach (element, from) {
+    A casted_element = qobject_cast<A>(element);
+    if (casted_element != NULL)
+      to.insert(element);
+  }
+  
+  return to;
+}
+
+template <class T, class A>
+QList<T> FilterListOnlyType(const QList<T>& from) {
+  QList<T> to;
+  
+  T element;
+  foreach (element, from) {
+    A casted_element = qobject_cast<A>(element);
+    if (casted_element != NULL)
+      to.append(element);
   }
   
   return to;

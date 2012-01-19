@@ -23,6 +23,7 @@
 #include "album/album.h"
 #include "album/album-collection.h"
 #include "album/album-default-template.h"
+#include "core/utils.h"
 #include "media/media-source.h"
 #include "media/media-collection.h"
 
@@ -41,7 +42,9 @@ QVariant QmlMediaCollectionModel::createAlbumFromSelected() {
     return QVariant();
   
   Album* album = new Album(*AlbumDefaultTemplate::instance());
-  album->AttachMany(view->GetSelected());
+  
+  // Attach only the MediaSources in the backing collection
+  album->AttachMany(FilterSetOnlyType<DataObject*, MediaSource*>(view->GetSelected()));
   
   AlbumCollection::instance()->Add(album);
   
