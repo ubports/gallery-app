@@ -25,11 +25,15 @@
 #include <QUrl>
 
 #include "album/album.h"
+#include "album/album-collection.h"
 #include "album/album-page.h"
+#include "event/event.h"
+#include "event/event-collection.h"
 #include "media/media-collection.h"
 #include "media/media-source.h"
 #include "qml/qml-album-collection-model.h"
 #include "qml/qml-event-collection-model.h"
+#include "qml/qml-event-overview-model.h"
 #include "qml/qml-event-marker.h"
 #include "qml/qml-media-collection-model.h"
 #include "qml/qml-stack.h"
@@ -48,9 +52,11 @@ int main(int argc, char *argv[]) {
   
   Album::RegisterType();
   AlbumPage::RegisterType();
+  Event::RegisterType();
   MediaSource::RegisterType();
   QmlAlbumCollectionModel::RegisterType();
   QmlEventCollectionModel::RegisterType();
+  QmlEventOverviewModel::RegisterType();
   QmlEventMarker::RegisterType();
   QmlMediaCollectionModel::RegisterType();
   QmlStack::RegisterType();
@@ -64,6 +70,8 @@ int main(int argc, char *argv[]) {
   qDebug("Opening %s...", qPrintable(path.path()));
   
   MediaCollection::InitInstance(path);
+  AlbumCollection::InitInstance();
+  EventCollection::InitInstance();
   
   //
   // Create the master QDeclarativeView that all the pages will operate within

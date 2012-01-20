@@ -25,9 +25,14 @@ AlbumCollection::AlbumCollection()
   : ContainerSourceCollection("AlbumCollection") {
 }
 
+void AlbumCollection::InitInstance() {
+  Q_ASSERT(instance_ == NULL);
+  
+  instance_ = new AlbumCollection();
+}
+
 AlbumCollection* AlbumCollection::instance() {
-  if (instance_ == NULL)
-    instance_ = new AlbumCollection();
+  Q_ASSERT(instance_ != NULL);
   
   return instance_;
 }

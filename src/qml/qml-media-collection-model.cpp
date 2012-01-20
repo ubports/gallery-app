@@ -23,9 +23,9 @@
 #include "album/album.h"
 #include "album/album-collection.h"
 #include "album/album-default-template.h"
-#include "core/utils.h"
 #include "media/media-source.h"
 #include "media/media-collection.h"
+#include "util/collections.h"
 
 QmlMediaCollectionModel::QmlMediaCollectionModel(QObject* parent)
   : QmlViewCollectionModel(parent, "mediaSource") {

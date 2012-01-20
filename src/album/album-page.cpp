@@ -20,7 +20,7 @@
 #include "album/album-page.h"
 
 #include "album/album.h"
-#include "core/utils.h"
+#include "util/collections.h"
 
 AlbumPage::AlbumPage()
   : ContainerSource("AlbumPage"), owner_(NULL), page_number_(-1), template_page_(NULL) {

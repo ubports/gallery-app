@@ -17,28 +17,13 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#ifndef GALLERY_QML_EVENT_COLLECTION_MODEL_H_
-#define GALLERY_QML_EVENT_COLLECTION_MODEL_H_
+#ifndef GALLERY_UTIL_TIME_H_
+#define GALLERY_UTIL_TIME_H_
 
-#include <QObject>
-#include <QVariant>
-#include <QtDeclarative>
+#include <QDate>
 
-#include "core/data-object.h"
-#include "qml/qml-view-collection-model.h"
+// Hopefully will be supplanted in future version of Qt.  See:
+// https://bugreports.qt.nokia.com/browse/QTBUG-23079
+uint qHash(const QDate& date);
 
-class QmlEventCollectionModel : public QmlViewCollectionModel {
-  Q_OBJECT
-  
- public:
-  QmlEventCollectionModel(QObject* parent = NULL);
-  
-  static void RegisterType();
-  
- protected:
-  virtual QVariant VariantFor(DataObject *object) const;
-};
-
-QML_DECLARE_TYPE(QmlEventCollectionModel);
-
-#endif  // GALLERY_QML_EVENT_COLLECTION_MODEL_H_
+#endif  // GALLERY_UTIL_TIME_H_

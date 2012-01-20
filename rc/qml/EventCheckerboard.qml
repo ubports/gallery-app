@@ -21,7 +21,7 @@ import QtQuick 1.1
 import Gallery 1.0
 
 Checkerboard {
-  model: EventCollectionModel {
+  model: EventOverviewModel {
   }
   
   delegate: Item {
@@ -44,7 +44,7 @@ Checkerboard {
       verticalAlignment: Text.AlignVCenter
       horizontalAlignment: Text.AlignHCenter
       
-      text: (visible) ? modelData.object.prettyDate : ""
+      text: (visible) ? Qt.formatDate(modelData.object.date, "d-M-yyyy") : ""
     }
   }
 }

@@ -32,6 +32,7 @@
 
 #include "core/data-object.h"
 #include "core/view-collection.h"
+#include "util/collections.h"
 
 class SelectableViewCollection : public ViewCollection {
   Q_OBJECT
@@ -45,8 +46,13 @@ public:
   
   bool IsSelected(DataObject* object) const;
   
-  const QSet<DataObject*>& GetSelected() const;
   int GetSelectedCount() const;
+  const QSet<DataObject*>& GetSelected() const;
+  
+  template <class T>
+  QSet<T> GetSelectedAsType() const {
+    return CastSetToType<DataObject*, T>(GetSelected());
+  }
   
   // Returns true if the selection state of the DataObject changed, false if
   // already selected or not in collection.

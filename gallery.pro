@@ -42,16 +42,20 @@ SOURCES += \
 	src/core/selectable-view-collection.cpp \
 	src/core/source-collection.cpp \
 	src/core/view-collection.cpp \
+	src/event/event.cpp \
+	src/event/event-collection.cpp \
 	src/media/media-collection.cpp \
 	src/media/media-source.cpp \
 	src/photo/photo.cpp \
 	src/photo/photo-metadata.cpp \
 	src/qml/qml-album-collection-model.cpp \
 	src/qml/qml-event-collection-model.cpp \
+	src/qml/qml-event-overview-model.cpp \
 	src/qml/qml-event-marker.cpp \
 	src/qml/qml-media-collection-model.cpp \
 	src/qml/qml-stack.cpp \
-	src/qml/qml-view-collection-model.cpp
+	src/qml/qml-view-collection-model.cpp \
+	src/util/time.cpp
 
 HEADERS += \
 	src/album/album.h \
@@ -67,18 +71,23 @@ HEADERS += \
 	src/core/data-source.h \
 	src/core/selectable-view-collection.h \
 	src/core/source-collection.h \
-	src/core/utils.h \
 	src/core/view-collection.h \
+	src/event/event.h \
+	src/event/event-collection.h \
 	src/media/media-collection.h \
 	src/media/media-source.h \
 	src/photo/photo.h \
 	src/photo/photo-metadata.h \
 	src/qml/qml-album-collection-model.h \
 	src/qml/qml-event-collection-model.h \
+	src/qml/qml-event-overview-model.h \
 	src/qml/qml-event-marker.h \
 	src/qml/qml-media-collection-model.h \
 	src/qml/qml-stack.h \
-	src/qml/qml-view-collection-model.h
+	src/qml/qml-view-collection-model.h \
+	src/util/collections.h \
+	src/util/time.h \
+	src/util/variants.h
 
 OTHER_FILES += \
 	rc/gallery.qrc \

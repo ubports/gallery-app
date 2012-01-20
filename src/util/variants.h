@@ -17,28 +17,30 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#ifndef GALLERY_QML_EVENT_COLLECTION_MODEL_H_
-#define GALLERY_QML_EVENT_COLLECTION_MODEL_H_
+#ifndef GALLERY_UTIL_VARIANTS_H_
+#define GALLERY_UTIL_VARIANTS_H_
 
-#include <QObject>
-#include <QVariant>
-#include <QtDeclarative>
-
-#include "core/data-object.h"
-#include "qml/qml-view-collection-model.h"
-
-class QmlEventCollectionModel : public QmlViewCollectionModel {
-  Q_OBJECT
+// For casting a QVariant to a QObject-based object.
+//
+// NOTE: This uses Q_ASSERT to verify that the QVariant properly casts.
+template <class T>
+T VariantToObject(QVariant var) {
+  QObject* obj = qvariant_cast<QObject*>(var);
+  Q_ASSERT(obj != NULL);
   
- public:
-  QmlEventCollectionModel(QObject* parent = NULL);
+  T to = qobject_cast<T>(obj);
+  Q_ASSERT(to != NULL);
   
-  static void RegisterType();
+  return to;
+}
+
+// Like VariantToObject, but no assertions (returns NULL if not a proper
+// cast)
+template <class T>
+T UncheckedVariantToObject(QVariant var) {
+  QObject* obj = qvariant_cast<QObject*>(var);
   
- protected:
-  virtual QVariant VariantFor(DataObject *object) const;
-};
+  return (obj != NULL) ? qobject_cast<T>(obj) : NULL;
+}
 
-QML_DECLARE_TYPE(QmlEventCollectionModel);
-
-#endif  // GALLERY_QML_EVENT_COLLECTION_MODEL_H_
+#endif  // GALLERY_UTIL_VARIANTS_H_

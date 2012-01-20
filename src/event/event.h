@@ -17,41 +17,49 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#ifndef GALLERY_QML_EVENT_MARKER_H_
-#define GALLERY_QML_EVENT_MARKER_H_
+#ifndef GALLERY_EVENT_H_
+#define GALLERY_EVENT_H_
 
 #include <QObject>
 #include <QDate>
-#include <QDateTime>
-#include <QVariant>
+#include <QDeclarativeListProperty>
+#include <QList>
 #include <QtDeclarative>
 
-#include "core/data-source.h"
+#include "core/container-source.h"
+#include "media/media-source.h"
 
-class QmlEventMarker : public DataSource {
+class Event : public ContainerSource {
   Q_OBJECT
-  Q_PROPERTY(QDate date READ date NOTIFY date_changed)
-  Q_PROPERTY(QDateTime dateTime READ date_time NOTIFY date_changed)
+  Q_PROPERTY(QDate date READ date NOTIFY date_altered)
+  Q_PROPERTY(QDeclarativeListProperty<MediaSource> mediaSources READ qml_media_sources
+    NOTIFY media_content_altered);
   
  signals:
-  void date_changed();
+  void date_altered();
+  void media_content_altered();
   
  public:
-  QmlEventMarker();
-  explicit QmlEventMarker(const QDate& date);
+  Event();
+  explicit Event(const QDate &date);
   
   static void RegisterType();
   
-  QDate date() const;
-  QDateTime date_time() const;
+  const QDate& date() const;
+  
+  QDeclarativeListProperty<MediaSource> qml_media_sources();
   
  protected:
+  virtual void notify_container_contents_altered(const QSet<DataObject *> *added,
+    const QSet<DataObject *> *removed);
+  
   virtual void DestroySource(bool destroy_backing, bool as_orphan);
   
  private:
   QDate date_;
+  QList<MediaSource*> all_media_;
 };
 
-QML_DECLARE_TYPE(QmlEventMarker);
+QML_DECLARE_TYPE(Event);
 
-#endif  // GALLERY_QML_EVENT_MARKER_H_
+#endif  // GALLERY_EVENT_H_

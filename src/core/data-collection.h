@@ -35,6 +35,7 @@
 #include <QString>
 
 #include "core/data-object.h"
+#include "util/collections.h"
 
 // Defined as a LessThan comparator (return true if a is less than b)
 typedef bool (*DataObjectComparator)(DataObject* a, DataObject* b);
@@ -76,6 +77,21 @@ class DataCollection : public QObject {
   const QSet<DataObject*>& GetAsSet() const;
   DataObject* GetAt(int index) const;
   int IndexOf(DataObject* media) const;
+  
+  template<class T>
+  QList<T> GetAllAsType() const {
+    return CastListToType<DataObject*, T>(GetAll());
+  }
+  
+  template<class T>
+  QSet<T> GetAsSetAsType() const {
+    return CastSetToType<DataObject*, T>(GetAsSet());
+  }
+  
+  template <class T>
+  T GetAtAsType(int index) const {
+    return qobject_cast<T>(GetAt(index));
+  }
   
   void SetComparator(DataObjectComparator comparator);
   DataObjectComparator comparator() const;

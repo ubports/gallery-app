@@ -17,8 +17,8 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#ifndef GALLERY_CORE_UTILS_H_
-#define GALLERY_CORE_UTILS_H_
+#ifndef GALLERY_UTIL_COLLECTIONS_H_
+#define GALLERY_UTIL_COLLECTIONS_H_
 
 #include <QObject>
 #include <QList>
@@ -85,27 +85,4 @@ QList<T> FilterListOnlyType(const QList<T>& from) {
   return to;
 }
 
-// For casting a QVariant to a QObject-based object.
-//
-// NOTE: This uses Q_ASSERT to verify that the QVariant properly casts.
-template <class T>
-T VariantToObject(QVariant var) {
-  QObject* obj = qvariant_cast<QObject*>(var);
-  Q_ASSERT(obj != NULL);
-  
-  T to = qobject_cast<T>(obj);
-  Q_ASSERT(to != NULL);
-  
-  return to;
-}
-
-// Like VariantToObject, but no assertions (returns NULL if not a proper
-// cast)
-template <class T>
-T UncheckedVariantToObject(QVariant var) {
-  QObject* obj = qvariant_cast<QObject*>(var);
-  
-  return (obj != NULL) ? qobject_cast<T>(obj) : NULL;
-}
-
-#endif  // GALLERY_CORE_UTILS_H_
+#endif  // GALLERY_UTIL_COLLECTIONS_H_

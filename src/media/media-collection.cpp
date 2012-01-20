@@ -59,6 +59,8 @@ MediaCollection::MediaCollection(const QDir& directory)
 }
 
 void MediaCollection::InitInstance(const QDir& directory) {
+  Q_ASSERT(instance_ == NULL);
+  
   instance_ = new MediaCollection(directory);
 }
 

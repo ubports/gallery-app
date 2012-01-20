@@ -19,7 +19,7 @@
 
 #include "qml/qml-view-collection-model.h"
 
-#include "core/utils.h"
+#include "util/variants.h"
 
 QmlViewCollectionModel::QmlViewCollectionModel(QObject* parent, const QString& objectTypeName)
   : QAbstractListModel(parent), view_(NULL), default_comparator_(NULL) {

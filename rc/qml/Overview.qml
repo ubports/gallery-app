@@ -52,16 +52,16 @@ Rectangle {
       
       state: "tab1_active"
       
-      visible: !photosCheckerboard.inSelectionMode
+      visible: !eventsCheckerboard.inSelectionMode
       
       onTab0_activated: {
         albumsCheckerboard.visible = true;
-        photosCheckerboard.visible = false;
+        eventsCheckerboard.visible = false;
       }
       
       onTab1_activated: {
         albumsCheckerboard.visible = false;
-        photosCheckerboard.visible = true;
+        eventsCheckerboard.visible = true;
       }
     }
     
@@ -75,7 +75,7 @@ Rectangle {
 
       title: "deselect"
 
-      visible: photosCheckerboard.selectedCount > 0
+      visible: eventsCheckerboard.selectedCount > 0
       
       onPressed: {
         if (albumPicker.state == "shown") {
@@ -83,7 +83,7 @@ Rectangle {
           return;
         }
         
-        photosCheckerboard.unselectAll();
+        eventsCheckerboard.unselectAll();
       }
     }
     
@@ -97,7 +97,7 @@ Rectangle {
 
       title: "done"
 
-      visible: photosCheckerboard.inSelectionMode
+      visible: eventsCheckerboard.inSelectionMode
       
       onPressed: {
         if (albumPicker.state == "shown") {
@@ -105,15 +105,15 @@ Rectangle {
           return;
         }
 
-        photosCheckerboard.state = "normal";
-        photosCheckerboard.unselectAll();
+        eventsCheckerboard.state = "normal";
+        eventsCheckerboard.unselectAll();
       }
     }
   }
   
   EventCheckerboard {
-    id: photosCheckerboard
-    objectName: "photosCheckerboard"
+    id: eventsCheckerboard
+    objectName: "eventsCheckerboard"
     
     anchors.top: navbar.bottom
     anchors.left: parent.left
@@ -193,16 +193,16 @@ Rectangle {
     }
 
     onNewAlbumRequested: {
-      photosCheckerboard.model.createAlbumFromSelected();
-      photosCheckerboard.state = "normal";
-      photosCheckerboard.unselectAll();
+      eventsCheckerboard.model.createAlbumFromSelected();
+      eventsCheckerboard.state = "normal";
+      eventsCheckerboard.unselectAll();
       state = "hidden"
     }
 
     onSelected: {
-      album.addSelectedMediaSources(photosCheckerboard.model);
-      photosCheckerboard.state = "normal";
-      photosCheckerboard.unselectAll();
+      album.addSelectedMediaSources(eventsCheckerboard.model);
+      eventsCheckerboard.state = "normal";
+      eventsCheckerboard.unselectAll();
       state = "hidden"
     }
   }
@@ -214,8 +214,8 @@ Rectangle {
     z: 10
     anchors.bottom: parent.bottom
 
-    visible: (photosCheckerboard.inSelectionMode &&
-      photosCheckerboard.selectedCount == 0)
+    visible: (eventsCheckerboard.inSelectionMode &&
+      eventsCheckerboard.selectedCount == 0)
     
     statusText: "Select photos or movieclip(s)"
   }
@@ -231,8 +231,8 @@ Rectangle {
     z: 10
     anchors.bottom: parent.bottom
 
-    visible: (photosCheckerboard.inSelectionMode &&
-      photosCheckerboard.selectedCount > 0)
+    visible: (eventsCheckerboard.inSelectionMode &&
+      eventsCheckerboard.selectedCount > 0)
 
     onAlbumOperationsButtonPressed: { albumPicker.flipVisibility(); }
 

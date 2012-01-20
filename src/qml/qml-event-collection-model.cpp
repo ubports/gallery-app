@@ -19,163 +19,20 @@
 
 #include "qml/qml-event-collection-model.h"
 
-#include "media/media-source.h"
-#include "qml/qml-event-marker.h"
+#include "event/event.h"
+#include "event/event-collection.h"
 
 QmlEventCollectionModel::QmlEventCollectionModel(QObject* parent)
-  : QmlMediaCollectionModel(parent), markers_("QmlEventMarkers") {
-  // Use internal comparator to ensure EventMarkers are in the right place
-  SetDefaultComparator(Comparator);
-  
-  // initialize ViewCollection as it stands now with EventMarkers
-  MonitorNewViewCollection();
-}
-
-QmlEventCollectionModel::~QmlEventCollectionModel() {
-  markers_.DestroyAll(false, true);
+  : QmlViewCollectionModel(parent, "event") {
+  MonitorSourceCollection(EventCollection::instance());
 }
 
 void QmlEventCollectionModel::RegisterType() {
   qmlRegisterType<QmlEventCollectionModel>("Gallery", 1, 0, "EventCollectionModel");
 }
 
-QVariant QmlEventCollectionModel::VariantFor(DataObject* object) const {
-  QmlEventMarker* marker = qobject_cast<QmlEventMarker*>(object);
-  if (marker != NULL)
-    return QVariant::fromValue(marker);
+QVariant QmlEventCollectionModel::VariantFor(DataObject *object) const {
+  Event* event = qobject_cast<Event*>(object);
   
-  return QmlMediaCollectionModel::VariantFor(object);
-}
-
-void QmlEventCollectionModel::notify_backing_collection_changed() {
-  MonitorNewViewCollection();
-  
-  QmlViewCollectionModel::notify_backing_collection_changed();
-}
-
-void QmlEventCollectionModel::MonitorNewViewCollection() {
-  if (BackingViewCollection() == NULL)
-    return;
-  
-  // destroy existing markers
-  markers_.DestroyAll(true, true);
-  
-  QObject::connect(
-    BackingViewCollection(),
-    SIGNAL(contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
-    this,
-    SLOT(on_contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)));
-  
-  QObject::connect(
-    BackingViewCollection(),
-    SIGNAL(selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
-    this,
-    SLOT(on_selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)));
-  
-  // seed existing contents with EventMarkers
-  on_contents_altered(&BackingViewCollection()->GetAsSet(), NULL);
-}
-
-void QmlEventCollectionModel::on_contents_altered(const QSet<DataObject*>* added,
-  const QSet<DataObject*>* removed) {
-  SelectableViewCollection* view = BackingViewCollection();
-  
-  if (added != NULL) {
-    DataObject* object;
-    foreach (object, *added) {
-      MediaSource* source = qobject_cast<MediaSource*>(object);
-      if (source == NULL)
-        continue;
-      
-      QDate source_date = source->exposure_date_time().date();
-      
-      int index = view->IndexOf(source);
-      if (index == 0) {
-        // place EventMarker for first photo
-        QmlEventMarker* marker = new QmlEventMarker(source_date);
-        markers_.Add(marker);
-        
-        view->Add(marker);
-        
-        continue;
-      }
-      
-      MediaSource* earlier = qobject_cast<MediaSource*>(view->GetAt(index - 1));
-      if (earlier == NULL)
-        continue;
-      
-      // if immediately prior photo is of a different day, place an EventMarker
-      if (earlier->exposure_date_time().date() != source_date) {
-        QmlEventMarker* marker = new QmlEventMarker(source_date);
-        markers_.Add(marker);
-        
-        view->Add(marker);
-      }
-    }
-  }
-  
-  // TODO: Remove EventMarkers as all photos for them are removed
-  if (removed != NULL) {
-  }
-}
-
-void QmlEventCollectionModel::on_selection_altered(const QSet<DataObject*>* selected,
-  const QSet<DataObject*>* unselected) {
-  // if an EventMarker is selected, select all photos in that date
-  SelectUnselectEvent(selected, true);
-  
-  // if an EventMarker is unselected, unselect all photos in that date
-  SelectUnselectEvent(unselected, false);
-}
-
-void QmlEventCollectionModel::SelectUnselectEvent(const QSet<DataObject*>* toggled,
-  bool doSelect) {
-  if (toggled == NULL)
-    return;
-  
-  SelectableViewCollection* view = BackingViewCollection();
-  int count = view->Count();
-  
-  // Walk the toggle group looking for EventMarker's; when found, walk all the
-  // MediaSources that follow and select or unselect them; when another
-  // EventMarker is found (or end of list), exit
-  //
-  // Note that this signal is non-reentrant because the list is searched only
-  // for EventMarkers and only toggles MediaSources
-  //
-  // TODO: Select/Unselect in bulk operations for efficiency
-  DataObject* object;
-  foreach (object, *toggled) {
-    QmlEventMarker* marker = qobject_cast<QmlEventMarker*>(object);
-    if (marker == NULL)
-      continue;
-    
-    int index = view->IndexOf(marker);
-    for (int ctr = index + 1; ctr < count; ctr++) {
-      MediaSource* media = qobject_cast<MediaSource*>(view->GetAt(ctr));
-      if (media == NULL)
-        break;
-      
-      if (doSelect)
-        view->Select(media);
-      else
-        view->Unselect(media);
-    }
-  }
-}
-
-bool QmlEventCollectionModel::Comparator(DataObject* a, DataObject* b) {
-  return ObjectDateTime(a) < ObjectDateTime(b);
-}
-
-QDateTime QmlEventCollectionModel::ObjectDateTime(DataObject* object) {
-  MediaSource* media = qobject_cast<MediaSource*>(object);
-  if (media != NULL)
-    return media->exposure_date_time();
-  
-  QmlEventMarker* marker = qobject_cast<QmlEventMarker*>(object);
-  if (marker != NULL)
-    return marker->date_time();
-  
-  return QDateTime();
+  return (event != NULL) ? QVariant::fromValue(event) : QVariant();
 }

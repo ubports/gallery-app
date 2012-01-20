@@ -35,10 +35,6 @@ QDate QmlEventMarker::date() const {
   return date_;
 }
 
-QString QmlEventMarker::pretty_date() const {
-  return date_.toString("d-M-yyyy");
-}
-
 QDateTime QmlEventMarker::date_time() const {
   return QDateTime(date_);
 }

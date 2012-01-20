@@ -22,9 +22,9 @@
 #include "album/album.h"
 #include "album/album-collection.h"
 #include "album/album-default-template.h"
-#include "core/utils.h"
 #include "media/media-source.h"
 #include "qml/qml-media-collection-model.h"
+#include "util/variants.h"
 
 QmlAlbumCollectionModel::QmlAlbumCollectionModel(QObject* parent)
   : QmlViewCollectionModel(parent, "album") {

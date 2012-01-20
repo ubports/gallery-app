@@ -17,28 +17,14 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#ifndef GALLERY_QML_EVENT_COLLECTION_MODEL_H_
-#define GALLERY_QML_EVENT_COLLECTION_MODEL_H_
+#include "util/time.h"
 
-#include <QObject>
-#include <QVariant>
-#include <QtDeclarative>
-
-#include "core/data-object.h"
-#include "qml/qml-view-collection-model.h"
-
-class QmlEventCollectionModel : public QmlViewCollectionModel {
-  Q_OBJECT
-  
- public:
-  QmlEventCollectionModel(QObject* parent = NULL);
-  
-  static void RegisterType();
-  
- protected:
-  virtual QVariant VariantFor(DataObject *object) const;
-};
-
-QML_DECLARE_TYPE(QmlEventCollectionModel);
-
-#endif  // GALLERY_QML_EVENT_COLLECTION_MODEL_H_
+uint qHash(const QDate& date) {
+  // although all years don't have 366 days, this function isn't truly trying
+  // to determine the exact day since epoch, but rather calculate a unique day
+  // for each possible QDate ... using 366 because that's the max
+  // value dayOfYear() would ever return for any year, so this avoids collisions
+  // (for example, Year 1 Day 366 == Year 2 Day 1 if 365 is used as the
+  // multiplier)
+  return (date.year() * 366) + date.dayOfYear();
+}
