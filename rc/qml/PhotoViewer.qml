@@ -35,8 +35,7 @@ Rectangle {
     photoViewer.photo = photo;
     photoViewer.model = model;
     
-    imagePager.positionViewAtIndex(model.indexOf(photo), 0);
-    imagePager.currentIndex = model.indexOf(photo);
+    imagePager.pageTo(model.indexOf(photo));
   }
   
   color: "#444444"
@@ -64,19 +63,11 @@ Rectangle {
     }
   }
   
-  ListView {
+  Pager {
     id: imagePager
     objectName: "imagePager"
     
     z: 0
-    anchors.fill: parent
-    
-    orientation: ListView.Horizontal
-    snapMode: ListView.SnapOneItem
-    cacheBuffer: width * 2
-    flickDeceleration: 50
-    keyNavigationWraps: true
-    highlightMoveSpeed: 2000.0
     
     model: parent.model
     
@@ -92,47 +83,29 @@ Rectangle {
     // don't allow flicking while albumPicker is visible
     interactive: albumPicker.state == "hidden"
     
+    onCurrentIndexChanged: {
+      if (model)
+        photo = model.getAt(currentIndex);
+    }
+
     MouseArea {
       anchors.fill: parent
-      
+
       onClicked: {
         // dismiss album picker if up without changing chrome state
         if (albumPicker.state == "shown") {
           albumPicker.state = "hidden";
-          
+
           return;
         }
-        
+
         // reverse album chrome's visible
         chromeWrapper.state = (chromeWrapper.state == "shown")
           ? "hidden" : "shown";
       }
     }
-    
-    function updateCurrentIndex() {
-      // Add one to ensure the hit-test is inside the delegate's boundaries
-      currentIndex = indexAt(contentX + 1, contentY + 1);
-      if (model)
-        photo = model.getAt(currentIndex);
-    }
-    
-    onModelChanged: {
-      updateCurrentIndex();
-    }
-    
-    onVisibleChanged: {
-      updateCurrentIndex();
-    }
-    
-    onCountChanged: {
-      updateCurrentIndex();
-    }
-    
-    onMovementEnded: {
-      updateCurrentIndex();
-    }
   }
-  
+
   Rectangle {
     id: chromeWrapper
     objectName: "chromeWrapper"
@@ -187,7 +160,7 @@ Rectangle {
       
       visible: !imagePager.atXBeginning
       
-      onPressed: imagePager.decrementCurrentIndex()
+      onPressed: imagePager.pageBack()
     }
     
     ViewerNavigationButton {
@@ -199,7 +172,7 @@ Rectangle {
       
       visible: !imagePager.atXEnd
       
-      onPressed: imagePager.incrementCurrentIndex()
+      onPressed: imagePager.pageForward()
     }
   }
 }
