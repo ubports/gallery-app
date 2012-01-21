@@ -36,8 +36,12 @@ Rectangle {
     anchors.right: parent.right
     
     onAddCreateOperationButtonPressed: {
-      if (albumViewSwitcher.state == "tab0_active")
+      if (albumViewSwitcher.state == "tab0_active") {
         navStack.switchToMediaSelector();
+      } else if (albumViewSwitcher.state == "tab1_active") {
+        eventsCheckerboard.visible = !eventsCheckerboard.visible;
+        eventTimeline.visible = !eventTimeline.visible;
+      }
     }
     
     BinaryTabGroup {
@@ -147,6 +151,22 @@ Rectangle {
       if (objectModel.typeName == "MediaSource")
         navStack.switchToPhotoViewer(object, photoViewerModel);
     }
+  }
+  
+  EventTimeline {
+    id: eventTimeline
+    
+    anchors.top: navbar.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    anchors.topMargin: 24
+    anchors.bottomMargin: 0
+    anchors.leftMargin: 22
+    anchors.rightMargin: 22
+    
+    visible: false
+    clip: true
   }
   
   Checkerboard {

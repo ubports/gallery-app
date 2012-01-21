@@ -17,40 +17,26 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#ifndef GALLERY_EVENT_H_
-#define GALLERY_EVENT_H_
+import QtQuick 1.1
+import Gallery 1.0
 
-#include <QObject>
-#include <QDate>
-#include <QDeclarativeListProperty>
-#include <QList>
-#include <QtDeclarative>
-
-#include "core/container-source.h"
-#include "media/media-source.h"
-
-class Event : public ContainerSource {
-  Q_OBJECT
-  Q_PROPERTY(QDate date READ date NOTIFY date_altered)
+Rectangle {
+  id: eventCard
   
- signals:
-  void date_altered();
+  property variant event
+  property string textColor: "mediumBlue"
+  property string backgroundColor: "white"
   
- public:
-  Event();
-  explicit Event(const QDate &date);
+  color: backgroundColor
   
-  static void RegisterType();
-  
-  const QDate& date() const;
-  
- protected:
-  virtual void DestroySource(bool destroy_backing, bool as_orphan);
-  
- private:
-  QDate date_;
-};
-
-QML_DECLARE_TYPE(Event);
-
-#endif  // GALLERY_EVENT_H_
+  Text {
+    color: textColor
+    
+    anchors.fill: parent
+    
+    verticalAlignment: Text.AlignVCenter
+    horizontalAlignment: Text.AlignHCenter
+    
+    text: (event) ? Qt.formatDate(event.date, "d-M-yyyy") : ""
+  }
+}

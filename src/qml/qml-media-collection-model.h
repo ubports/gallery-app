@@ -34,6 +34,7 @@ class QmlMediaCollectionModel : public QmlViewCollectionModel {
   
  public:
   QmlMediaCollectionModel(QObject* parent = NULL);
+  QmlMediaCollectionModel(QObject* parent, DataObjectComparator default_comparator);
   
   static void RegisterType();
   

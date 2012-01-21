@@ -101,7 +101,9 @@ OTHER_FILES += \
 	rc/qml/AlbumViewMasthead.qml \
 	rc/qml/BinaryTabGroup.qml \
 	rc/qml/Checkerboard.qml \
+	rc/qml/EventCard.qml \
 	rc/qml/EventCheckerboard.qml \
+	rc/qml/EventTimeline.qml \
 	rc/qml/GalleryOverviewNavigationBar.qml \
 	rc/qml/GalleryPrimaryPushButton.qml \
 	rc/qml/GallerySecondaryPushButton.qml \

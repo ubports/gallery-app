@@ -39,19 +39,7 @@ const QDate& Event::date() const {
   return date_;
 }
 
-QDeclarativeListProperty<MediaSource> Event::qml_media_sources() {
-  all_media_ = CastListToType<DataObject*, MediaSource*>(contained()->GetAll());
-  return QDeclarativeListProperty<MediaSource>(this, all_media_);
-}
-
 void Event::DestroySource(bool destroy_backing, bool as_orphan) {
   // Event is a virtual DataSource generated as a result of MediaSources added
   // and removed from the system, so nothing to destroy
-}
-
-void Event::notify_container_contents_altered(const QSet<DataObject *> *added,
-  const QSet<DataObject *> *removed) {
-  ContainerSource::notify_container_contents_altered(added, removed);
-  
-  emit media_content_altered();
 }

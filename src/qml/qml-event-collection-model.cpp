@@ -23,7 +23,7 @@
 #include "event/event-collection.h"
 
 QmlEventCollectionModel::QmlEventCollectionModel(QObject* parent)
-  : QmlViewCollectionModel(parent, "event") {
+  : QmlViewCollectionModel(parent, "event", NULL) {
   MonitorSourceCollection(EventCollection::instance());
 }
 

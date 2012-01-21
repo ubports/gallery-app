@@ -70,6 +70,7 @@ Event* EventCollection::EventForMediaSource(MediaSource* media) const {
   return NULL;
 }
 
+// Sorts Events in reverse chronological order
 bool EventCollection::Comparator(DataObject* a, DataObject* b) {
   Event* eventa = qobject_cast<Event*>(a);
   Q_ASSERT(eventa != NULL);
@@ -77,7 +78,7 @@ bool EventCollection::Comparator(DataObject* a, DataObject* b) {
   Event* eventb = qobject_cast<Event*>(b);
   Q_ASSERT(eventb != NULL);
   
-  return eventa->date() < eventb->date();
+  return eventa->date() > eventb->date();
 }
 
 void EventCollection::on_media_added_removed(const QSet<DataObject *> *added,

@@ -21,8 +21,9 @@
 
 #include "util/variants.h"
 
-QmlViewCollectionModel::QmlViewCollectionModel(QObject* parent, const QString& objectTypeName)
-  : QAbstractListModel(parent), view_(NULL), default_comparator_(NULL) {
+QmlViewCollectionModel::QmlViewCollectionModel(QObject* parent, const QString& objectTypeName,
+  DataObjectComparator default_comparator)
+  : QAbstractListModel(parent), view_(NULL), default_comparator_(default_comparator) {
   QHash<int, QByteArray> roles;
   roles.insert(ObjectRole, "object");
   roles.insert(SelectionRole, "isSelected");
@@ -188,17 +189,11 @@ SelectableViewCollection* QmlViewCollectionModel::BackingViewCollection() const 
   return view_;
 }
 
-void QmlViewCollectionModel::SetDefaultComparator(DataObjectComparator comparator) {
-  default_comparator_ = comparator;
-  if (view_ != NULL)
-    view_->SetComparator(default_comparator_);
-}
-
 void QmlViewCollectionModel::MonitorSourceCollection(SourceCollection* sources) {
   SelectableViewCollection* view = new SelectableViewCollection("MonitorSourceCollection");
   if (default_comparator_ != NULL)
     view->SetComparator(default_comparator_);
-  view->MonitorDataCollection(sources, NULL, false);
+  view->MonitorDataCollection(sources, NULL, (default_comparator_ == NULL));
   
   SetBackingViewCollection(view);
 }
@@ -207,7 +202,8 @@ void QmlViewCollectionModel::MonitorContainerSource(ContainerSource* container) 
   SelectableViewCollection* view = new SelectableViewCollection("MonitorContainerSource");
   if (default_comparator_ != NULL)
     view->SetComparator(default_comparator_);
-  view->MonitorDataCollection(container->contained(), NULL, false);
+  view->MonitorDataCollection(container->contained(), NULL,
+    (default_comparator_ == NULL));
   
   SetBackingViewCollection(view);
 }

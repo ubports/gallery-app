@@ -28,7 +28,13 @@
 #include "util/collections.h"
 
 QmlMediaCollectionModel::QmlMediaCollectionModel(QObject* parent)
-  : QmlViewCollectionModel(parent, "mediaSource") {
+  : QmlViewCollectionModel(parent, "mediaSource", NULL) {
+  MonitorSourceCollection(MediaCollection::instance());
+}
+
+QmlMediaCollectionModel::QmlMediaCollectionModel(QObject* parent,
+  DataObjectComparator default_comparator)
+  : QmlViewCollectionModel(parent, "mediaSource", default_comparator) {
   MonitorSourceCollection(MediaCollection::instance());
 }
 

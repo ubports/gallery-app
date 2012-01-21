@@ -61,7 +61,8 @@ class QmlViewCollectionModel : public QAbstractListModel {
     LastCommonRole
   };
   
-  explicit QmlViewCollectionModel(QObject* parent, const QString& objectTypeName);
+  QmlViewCollectionModel(QObject* parent, const QString& objectTypeName,
+    DataObjectComparator default_comparator);
   virtual ~QmlViewCollectionModel();
   
   QVariant for_collection() const;
@@ -79,7 +80,6 @@ class QmlViewCollectionModel : public QAbstractListModel {
   int selected_count() const;
   
   SelectableViewCollection* BackingViewCollection() const;
-  void SetDefaultComparator(DataObjectComparator comparator);
   
  protected:
   virtual void notify_backing_collection_changed();

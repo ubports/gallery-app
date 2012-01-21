@@ -35,16 +35,12 @@ Checkerboard {
       isPreview: true
     }
     
-    Text {
+    EventCard {
       anchors.fill: parent
       
-      color: "mediumBlue"
-      visible: modelData.typeName == "QmlEventMarker"
+      visible: (event) ? true : false
       
-      verticalAlignment: Text.AlignVCenter
-      horizontalAlignment: Text.AlignHCenter
-      
-      text: (visible) ? Qt.formatDate(modelData.object.date, "d-M-yyyy") : ""
+      event: (modelData.typeName == "QmlEventMarker") ? modelData.object : null
     }
   }
 }

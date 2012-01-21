@@ -23,10 +23,7 @@
 #include "qml/qml-event-marker.h"
 
 QmlEventOverviewModel::QmlEventOverviewModel(QObject* parent)
-  : QmlMediaCollectionModel(parent), markers_("QmlEventMarkers") {
-  // Use internal comparator to ensure EventMarkers are in the right place
-  SetDefaultComparator(Comparator);
-  
+  : QmlMediaCollectionModel(parent, Comparator), markers_("QmlEventMarkers") {
   // initialize ViewCollection as it stands now with EventMarkers
   MonitorNewViewCollection();
 }

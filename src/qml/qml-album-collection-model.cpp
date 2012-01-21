@@ -27,7 +27,7 @@
 #include "util/variants.h"
 
 QmlAlbumCollectionModel::QmlAlbumCollectionModel(QObject* parent)
-  : QmlViewCollectionModel(parent, "album") {
+  : QmlViewCollectionModel(parent, "album", NULL) {
   MonitorSourceCollection(AlbumCollection::instance());
 }
 
