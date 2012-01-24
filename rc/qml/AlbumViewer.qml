@@ -84,6 +84,7 @@ Rectangle {
     
     property string albumName
 
+    anchors.fill: undefined
     anchors.top: masthead.bottom
     anchors.bottom: parent.bottom
     anchors.left: parent.left
