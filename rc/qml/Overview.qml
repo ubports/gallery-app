@@ -26,7 +26,39 @@ Rectangle {
   objectName: "overview"
   
   anchors.fill: parent
-  
+
+  state: "eventView"
+
+  states: [
+    State { name: "eventView"; },
+    State { name: "albumView"; }
+  ]
+
+  transitions: [
+    Transition { from: "eventView"; to: "albumView";
+      SequentialAnimation {
+        PropertyAction { target: albumsCheckerboard; property: "opacity"; value: 0; }
+        PropertyAction { target: albumsCheckerboard; property: "visible"; value: true; }
+        ParallelAnimation {
+          NumberAnimation { target: albumsCheckerboard; property: "opacity"; to: 1; duration: 200; easing.type: Easing.InQuad; }
+          NumberAnimation { target: photosCheckerboard; property: "opacity"; to: 0; duration: 200; easing.type: Easing.InQuad; }
+        }
+        PropertyAction { target: photosCheckerboard; property: "visible"; value: false; }
+      }
+    },
+    Transition { from: "albumView"; to: "eventView";
+      SequentialAnimation {
+        PropertyAction { target: photosCheckerboard; property: "opacity"; value: 0; }
+        PropertyAction { target: photosCheckerboard; property: "visible"; value: true; }
+        ParallelAnimation {
+          NumberAnimation { target: photosCheckerboard; property: "opacity"; to: 1; duration: 200; easing.type: Easing.InQuad; }
+          NumberAnimation { target: albumsCheckerboard; property: "opacity"; to: 0; duration: 200; easing.type: Easing.InQuad; }
+        }
+        PropertyAction { target: albumsCheckerboard; property: "visible"; value: false; }
+      }
+    }
+  ]
+
   GalleryOverviewNavigationBar {
     id: navbar
     objectName: "navbar"
@@ -55,13 +87,11 @@ Rectangle {
       visible: !photosCheckerboard.inSelectionMode
       
       onTab0_activated: {
-        albumsCheckerboard.visible = true;
-        photosCheckerboard.visible = false;
+        overview.state = "albumView";
       }
       
       onTab1_activated: {
-        albumsCheckerboard.visible = false;
-        photosCheckerboard.visible = true;
+        overview.state = "eventView"
       }
     }
     
