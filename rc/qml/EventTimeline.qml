@@ -23,13 +23,21 @@ import Gallery 1.0
 ListView {
   id: eventTimeline
   
-  property int elementWidth: 100
-  property int elementHeight: 100
-  property int eventCardWidth: 200
+  signal activated(variant event)
+  
+  property int elementWidth: 174
+  property int elementHeight: 124
+  property int elementSpacing: 4
+  
+  property int eventCardWidth: 198
   property int eventCardHeight: elementHeight
+  
+  property int headTailCount: ((width - eventCardWidth) / elementWidth) / 2
   
   orientation: ListView.Vertical
   spacing: 4
+  
+  cacheBuffer: height * 2
   
   model: EventCollectionModel {
   }
@@ -40,6 +48,32 @@ ListView {
     width: eventTimeline.width
     height: elementHeight
     
+    Row {
+      id: leftList
+      
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      anchors.right: eventCard.left
+      
+      spacing: elementSpacing
+      
+      Repeater {
+        model: MediaCollectionModel {
+          forCollection: event
+          limit: headTailCount
+        }
+        
+        PhotoComponent {
+          width: elementWidth
+          height: elementHeight
+          
+          mediaSource: model.mediaSource
+          isCropped: true
+          isPreview: true
+        }
+      }
+    }
+    
     EventCard {
       id: eventCard
       
@@ -47,40 +81,40 @@ ListView {
       
       width: eventCardWidth
       height: eventCardHeight
-        
-      z: 10
       
       event: model.event
+      
+      MouseArea {
+        anchors.fill: parent
+        
+        onClicked: activated(event)
+      }
     }
     
-    ListView {
-      anchors.fill: parent
+    Row {
+      id: rightList
       
-      orientation: ListView.Horizontal
-      spacing: 4
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      anchors.left: eventCard.right
       
-      interactive: false
+      spacing: elementSpacing
       
-      preferredHighlightBegin: (eventTimelineElement.width / 2) - 1
-      preferredHighlightEnd: (eventTimelineElement.width / 2)
-      highlightRangeMode: ListView.StrictlyEnforceRange
-      
-      model: MediaCollectionModel {
-        forCollection: event
-      }
-      
-      delegate: PhotoComponent {
-        width: elementWidth
-        height: elementHeight
+      Repeater {
+        model: MediaCollectionModel {
+          forCollection: event
+          limit: headTailCount
+          head: 0 - headTailCount
+        }
         
-        mediaSource: model.mediaSource
-        isCropped: true
-        isPreview: true
-      }
-      
-      Component.onCompleted: {
-        // when ready, move the index to the center item
-        positionViewAtIndex(count / 2, ListView.Center);
+        PhotoComponent {
+          width: elementWidth
+          height: elementHeight
+          
+          mediaSource: model.mediaSource
+          isCropped: true
+          isPreview: true
+        }
       }
     }
   }

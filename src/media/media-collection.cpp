@@ -52,8 +52,8 @@ MediaCollection::MediaCollection(const QDir& directory)
     photos.insert(photo);
   }
   
-  // By default, sort all media by its exposure date time, ascending
-  SetComparator(ExposureDateTimeAscendingComparator);
+  // By default, sort all media by its exposure date time, descending
+  SetComparator(ExposureDateTimeDescendingComparator);
   
   AddMany(photos);
 }
@@ -78,4 +78,10 @@ bool MediaCollection::ExposureDateTimeAscendingComparator(DataObject* a,
   DataObject* b) {
   return
     qobject_cast<MediaSource*>(a)->exposure_date_time() < qobject_cast<MediaSource*>(b)->exposure_date_time();
+}
+
+bool MediaCollection::ExposureDateTimeDescendingComparator(DataObject* a,
+  DataObject* b) {
+  return
+    qobject_cast<MediaSource*>(a)->exposure_date_time() > qobject_cast<MediaSource*>(b)->exposure_date_time();
 }

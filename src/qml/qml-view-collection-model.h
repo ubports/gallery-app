@@ -35,14 +35,19 @@
 class QmlViewCollectionModel : public QAbstractListModel {
   Q_OBJECT
   Q_PROPERTY(int count READ count NOTIFY count_changed)
+  Q_PROPERTY(int rawCount READ raw_count NOTIFY count_changed)
   Q_PROPERTY(int selectedCount READ selected_count NOTIFY selected_count_changed)
   Q_PROPERTY(QVariant forCollection READ for_collection WRITE set_for_collection
     NOTIFY backing_collection_changed)
+  Q_PROPERTY(int head READ head WRITE set_head NOTIFY head_changed)
+  Q_PROPERTY(int limit READ limit WRITE set_limit NOTIFY limit_changed)
   
  signals:
   void count_changed();
   void selected_count_changed();
   void backing_collection_changed();
+  void head_changed();
+  void limit_changed();
   
  public:
   // These roles are available for all subclasses of QmlViewCollectionModel.
@@ -77,7 +82,13 @@ class QmlViewCollectionModel : public QAbstractListModel {
   virtual QVariant data(const QModelIndex& index, int role) const;
   
   int count() const;
+  int raw_count() const;
   int selected_count() const;
+  int head() const;
+  void set_head(int head);
+  int limit() const;
+  void set_limit(int limit);
+  void clear_limit();
   
   SelectableViewCollection* BackingViewCollection() const;
   
@@ -117,6 +128,8 @@ private slots:
   SelectableViewCollection* view_;
   QList<int> to_be_removed_;
   DataObjectComparator default_comparator_;
+  int head_;
+  int limit_;
   
   static bool IntReverseLessThan(int a, int b);
   

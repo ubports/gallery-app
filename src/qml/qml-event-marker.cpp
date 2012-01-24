@@ -35,8 +35,12 @@ QDate QmlEventMarker::date() const {
   return date_;
 }
 
-QDateTime QmlEventMarker::date_time() const {
+QDateTime QmlEventMarker::start_date_time() const {
   return QDateTime(date_);
+}
+
+QDateTime QmlEventMarker::end_date_time() const {
+  return QDateTime(date_, QTime(23, 59, 59, 999));
 }
 
 void QmlEventMarker::DestroySource(bool destroy_backing, bool as_orphan) {

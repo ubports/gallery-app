@@ -23,7 +23,8 @@
 
 QmlViewCollectionModel::QmlViewCollectionModel(QObject* parent, const QString& objectTypeName,
   DataObjectComparator default_comparator)
-  : QAbstractListModel(parent), view_(NULL), default_comparator_(default_comparator) {
+  : QAbstractListModel(parent), view_(NULL), default_comparator_(default_comparator),
+  head_(0), limit_(-1) {
   QHash<int, QByteArray> roles;
   roles.insert(ObjectRole, "object");
   roles.insert(SelectionRole, "isSelected");
@@ -96,14 +97,31 @@ void QmlViewCollectionModel::toggleSelection(QVariant var) {
 }
 
 int QmlViewCollectionModel::rowCount(const QModelIndex& parent) const {
-  return (view_ != NULL) ? view_->Count() : 0;
+  return count();
 }
 
 QVariant QmlViewCollectionModel::data(const QModelIndex& index, int role) const {
   if (view_ == NULL)
     return QVariant();
   
-  DataObject* object = view_->GetAt(index.row());
+  if (limit_ == 0)
+    return QVariant();
+  
+  // calculate actual starting index from the head (a negative head means to
+  // start from n elements from the tail of the list; relying on negative value
+  // for addition in latter part of ternary operator her)
+  int real_start = (head_ >= 0) ? head_ : view_->Count() + head_;
+  int real_index = index.row() + real_start;
+  
+  // bounds checking
+  if (real_index < 0 || real_index >= view_->Count())
+    return QVariant();
+  
+  // watch for indexing beyond upper limit
+  if (limit_ > 0 && real_index >= (real_start + limit_))
+    return QVariant();
+  
+  DataObject* object = view_->GetAt(real_index);
   if (object == NULL)
     return QVariant();
   
@@ -125,11 +143,61 @@ QVariant QmlViewCollectionModel::data(const QModelIndex& index, int role) const 
 }
 
 int QmlViewCollectionModel::count() const {
+  int count = (view_ != NULL) ? view_->Count() : 0;
+  
+  // account for head (if negative, means head of list starts at tail)
+  count -= (head_ > 0) ? head_ : (-head_);
+  
+  // watch for underflow
+  if (count < 0)
+    count = 0;
+  
+  // apply limit, if set
+  if (limit_ >= 0 && count > limit_)
+    count = limit_;
+  
+  return count;
+}
+
+int QmlViewCollectionModel::raw_count() const {
   return (view_ != NULL) ? view_->Count() : 0;
 }
 
 int QmlViewCollectionModel::selected_count() const {
+  // TODO: Selected count should honor limit and head as well
   return (view_ != NULL) ? view_->GetSelectedCount() : 0;
+}
+
+int QmlViewCollectionModel::head() const {
+  return head_;
+}
+
+void QmlViewCollectionModel::set_head(int head) {
+  if (head_ == head)
+    return;
+  
+  head_ = head;
+  
+  head_changed();
+}
+
+int QmlViewCollectionModel::limit() const {
+  return limit_;
+}
+
+void QmlViewCollectionModel::set_limit(int limit) {
+  int normalized = (limit >= 0) ? limit : -1;
+  
+  if (limit_ == normalized)
+    return;
+  
+  limit_ = normalized;
+  
+  limit_changed();
+}
+
+void QmlViewCollectionModel::clear_limit() {
+  set_limit(-1);
 }
 
 void QmlViewCollectionModel::SetBackingViewCollection(SelectableViewCollection* view) {

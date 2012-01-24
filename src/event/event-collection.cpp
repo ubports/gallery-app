@@ -91,7 +91,6 @@ void EventCollection::on_media_added_removed(const QSet<DataObject *> *added,
       
       Event* existing = date_map_.value(media->exposure_date());
       if (existing == NULL) {
-        qDebug("Creating new event for %s", qPrintable(media->exposure_date().toString()));
         existing = new Event(media->exposure_date());
         
         Add(existing);

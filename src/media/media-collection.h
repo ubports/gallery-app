@@ -36,6 +36,7 @@ public:
   static MediaCollection* instance();
   
   static bool ExposureDateTimeAscendingComparator(DataObject* a, DataObject* b);
+  static bool ExposureDateTimeDescendingComparator(DataObject* a, DataObject* b);
   
   const QDir& directory() const;
   

@@ -31,7 +31,8 @@
 class QmlEventMarker : public DataSource {
   Q_OBJECT
   Q_PROPERTY(QDate date READ date NOTIFY date_changed)
-  Q_PROPERTY(QDateTime dateTime READ date_time NOTIFY date_changed)
+  Q_PROPERTY(QDateTime startDateTime READ start_date_time NOTIFY date_changed)
+  Q_PROPERTY(QDateTime endDateTime READ end_date_time NOTIFY date_changed)
   
  signals:
   void date_changed();
@@ -43,7 +44,8 @@ class QmlEventMarker : public DataSource {
   static void RegisterType();
   
   QDate date() const;
-  QDateTime date_time() const;
+  QDateTime start_date_time() const;
+  QDateTime end_date_time() const;
   
  protected:
   virtual void DestroySource(bool destroy_backing, bool as_orphan);

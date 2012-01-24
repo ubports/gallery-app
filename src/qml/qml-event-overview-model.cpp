@@ -19,6 +19,7 @@
 
 #include "qml/qml-event-overview-model.h"
 
+#include "core/data-collection.h"
 #include "media/media-source.h"
 #include "qml/qml-event-marker.h"
 
@@ -137,7 +138,7 @@ void QmlEventOverviewModel::SelectUnselectEvent(const QSet<DataObject*>* toggled
   // MediaSources that follow and select or unselect them; when another
   // EventMarker is found (or end of list), exit
   //
-  // Note that this signal is non-reentrant because the list is searched only
+  // Note that this signal is not reentrant because the list is searched only
   // for EventMarkers and only toggles MediaSources
   //
   // TODO: Select/Unselect in bulk operations for efficiency
@@ -162,9 +163,18 @@ void QmlEventOverviewModel::SelectUnselectEvent(const QSet<DataObject*>* toggled
 }
 
 bool QmlEventOverviewModel::Comparator(DataObject* a, DataObject* b) {
-  return ObjectDateTime(a) < ObjectDateTime(b);
+  QDateTime atime = ObjectDateTime(a);
+  QDateTime btime = ObjectDateTime(b);
+  
+  // Sort in reverse chronological order (hence reversed comparison); also,
+  // use default comparator to stabilize sort
+  return (atime != btime) ? btime < atime : DataCollection::DefaultDataObjectComparator(a, b);
 }
 
+// Since items in the list can be either a MediaSource or an EventMarker,
+// determine dynamically and compare.  Since going in reverse chronological order,
+// use the event's end date/time for comparison (to place it before everything
+// else inside of it)
 QDateTime QmlEventOverviewModel::ObjectDateTime(DataObject* object) {
   MediaSource* media = qobject_cast<MediaSource*>(object);
   if (media != NULL)
@@ -172,7 +182,7 @@ QDateTime QmlEventOverviewModel::ObjectDateTime(DataObject* object) {
   
   QmlEventMarker* marker = qobject_cast<QmlEventMarker*>(object);
   if (marker != NULL)
-    return marker->date_time();
+    return marker->end_date_time();
   
   return QDateTime();
 }
