@@ -78,7 +78,7 @@ Rectangle {
     }
   }
   
-  ListView {
+  Pager {
     id: template_pager
     objectName: "template_pager"
     
@@ -90,13 +90,6 @@ Rectangle {
     anchors.right: parent.right
     
     visible: true
-    
-    orientation: ListView.Horizontal
-    snapMode: ListView.SnapOneItem
-    cacheBuffer: width * 2
-    flickDeceleration: 50
-    keyNavigationWraps: true
-    highlightMoveSpeed: 2000.0
     
     model: (album) ? album.pages : null
     
@@ -118,27 +111,6 @@ Rectangle {
     }
 
     onCurrentIndexChanged: album.currentPage = currentIndex
-
-    function updateCurrentIndex() {
-      // Add one to ensure the hit-test is inside the delegate's boundaries
-      currentIndex = indexAt(contentX + 1, contentY + 1);
-    }
-
-    onModelChanged: {
-      updateCurrentIndex();
-    }
-
-    onVisibleChanged: {
-      updateCurrentIndex();
-    }
-
-    onCountChanged: {
-      updateCurrentIndex();
-    }
-
-    onMovementEnded: {
-      updateCurrentIndex();
-    }
   }
   
   Checkerboard {
