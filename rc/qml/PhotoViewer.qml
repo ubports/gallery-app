@@ -76,12 +76,16 @@ Rectangle {
       height: imagePager.height
       
       color: "#444444"
+
+      isZoomable: true;
       
       mediaSource: model.mediaSource
     }
     
-    // don't allow flicking while albumPicker is visible
-    interactive: albumPicker.state == "hidden"
+    // Don't allow flicking while albumPicker is visible or the image is zoomed.
+    // When images are zoomed, mouse drags should pan, not flick.
+    interactive: (albumPicker.state == "hidden") && (currentItem != null) &&
+      (currentItem.state != "zoomed")
     
     onCurrentIndexChanged: {
       if (model)
@@ -91,17 +95,64 @@ Rectangle {
     MouseArea {
       anchors.fill: parent
 
-      onClicked: {
-        // dismiss album picker if up without changing chrome state
-        if (albumPicker.state == "shown") {
-          albumPicker.state = "hidden";
+      property bool isDragInProgress: false;
+      property int dragStartX: -1;
+      property int dragStartY: -1;
 
-          return;
+      Timer {
+        id: chromeFadeWaitClock
+
+        interval: 150
+        running: false
+
+        onTriggered: {
+          chromeWrapper.state = (chromeWrapper.state == "shown") ?
+            "hidden" : "shown";
         }
+      }
+      
+      onClicked: {
+        if (parent.currentItem.state != "zoomed")
+          chromeFadeWaitClock.restart();
+      }
 
-        // reverse album chrome's visible
-        chromeWrapper.state = (chromeWrapper.state == "shown")
-          ? "hidden" : "shown";
+      onPressed: {
+        if (parent.currentItem.state != "zoomed")
+          return;
+
+        isDragInProgress = true;
+
+        dragStartX = mouse.x;
+        dragStartY = mouse.y;
+
+        parent.currentItem.setZoomFocus(
+              parent.currentItem.getImageTranslation());
+      }
+
+      onPositionChanged: {
+        if (isDragInProgress) {
+          var deltaX = mouse.x - dragStartX;
+          var deltaY = mouse.y - dragStartY;
+
+          parent.currentItem.pan(parent.currentItem.zoomFocusX + deltaX,
+            parent.currentItem.zoomFocusY + deltaY);
+        }
+      }
+
+      onReleased: {
+        isDragInProgress = false;
+      }
+
+      onDoubleClicked: {
+        chromeFadeWaitClock.stop();
+
+        // we don't permit zooming when the album picker popup is open
+        if (albumPicker.state == "shown")
+          return;
+
+        chromeWrapper.state = "hidden";
+
+        imagePager.currentItem.zoom(mouse.x, mouse.y);
       }
     }
   }
