@@ -36,10 +36,10 @@ Rectangle {
 
   transitions: [
     DissolveTransition { from: "eventView"; to: "albumView";
-      fadeOutTarget: eventsCheckerboard; fadeInTarget: albumsCheckerboard;
+      fadeOutTarget: eventsSheet; fadeInTarget: albumsCheckerboard;
     },
     DissolveTransition { from: "albumView"; to: "eventView";
-      fadeOutTarget: albumsCheckerboard; fadeInTarget: eventsCheckerboard;
+      fadeOutTarget: albumsCheckerboard; fadeInTarget: eventsSheet;
     }
   ]
 
@@ -125,9 +125,8 @@ Rectangle {
     }
   }
   
-  EventCheckerboard {
-    id: eventsCheckerboard
-    objectName: "eventsCheckerboard"
+  Rectangle {
+    id: eventsSheet
     
     anchors.top: navbar.bottom
     anchors.left: parent.left
@@ -138,55 +137,61 @@ Rectangle {
     anchors.leftMargin: 22
     anchors.rightMargin: 22
     
-    visible: true
-    allowSelection: true
-    
-    property variant photoViewerModel: MediaCollectionModel {
+    // if switched away from or to, always move back to checkerboard
+    onVisibleChanged: {
+      eventsCheckerboard.visible = true;
+      eventTimeline.visible = false;
     }
     
-    MouseArea {
+    EventCheckerboard {
+      id: eventsCheckerboard
+      objectName: "eventsCheckerboard"
+      
       anchors.fill: parent
       
-      onClicked: {
-        if (albumPicker.state == "shown") {
-          albumPicker.state = "hidden";
-          return;
-        }
+      visible: true
+      allowSelection: true
+      
+      property variant photoViewerModel: MediaCollectionModel {
       }
       
-      visible: albumPicker.state == "shown"
-    }
-    
-    onActivated: {
-      if (objectModel.typeName == "MediaSource") {
-        navStack.switchToPhotoViewer(object, photoViewerModel);
-      } else {
-        // Event marker
-        visible = false;
-        eventTimeline.visible = true;
+      MouseArea {
+        anchors.fill: parent
+        
+        onClicked: {
+          if (albumPicker.state == "shown") {
+            albumPicker.state = "hidden";
+            return;
+          }
+        }
+        
+        visible: albumPicker.state == "shown"
+      }
+      
+      onActivated: {
+        if (objectModel.typeName == "MediaSource") {
+          navStack.switchToPhotoViewer(object, photoViewerModel);
+        } else {
+          // Event marker
+          visible = false;
+          eventTimeline.visible = true;
+        }
       }
     }
-  }
-  
-  EventTimeline {
-    id: eventTimeline
     
-    anchors.top: navbar.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.bottom: parent.bottom
-    anchors.topMargin: 24
-    anchors.bottomMargin: 0
-    anchors.leftMargin: 22
-    anchors.rightMargin: 22
-    
-    visible: false
-    clip: true
-    
-    onActivated: {
-      // Event marker
-      visible = false;
-      eventsCheckerboard.visible = true;
+    EventTimeline {
+      id: eventTimeline
+      
+      anchors.fill: parent
+      
+      visible: false
+      clip: true
+      
+      onActivated: {
+        // Event marker
+        visible = false;
+        eventsCheckerboard.visible = true;
+      }
     }
   }
   
