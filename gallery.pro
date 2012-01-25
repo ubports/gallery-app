@@ -101,6 +101,7 @@ OTHER_FILES += \
 	rc/qml/AlbumViewMasthead.qml \
 	rc/qml/BinaryTabGroup.qml \
 	rc/qml/Checkerboard.qml \
+	rc/qml/DissolveTransition.qml \
 	rc/qml/EventCard.qml \
 	rc/qml/EventCheckerboard.qml \
 	rc/qml/EventTimeline.qml \

@@ -27,6 +27,7 @@
     <file>qml/AlbumViewMasthead.qml</file>
     <file>qml/BinaryTabGroup.qml</file>
     <file>qml/Checkerboard.qml</file>
+    <file>qml/DissolveTransition.qml</file>
     <file>qml/EventCard.qml</file>
     <file>qml/EventCheckerboard.qml</file>
     <file>qml/EventTimeline.qml</file>

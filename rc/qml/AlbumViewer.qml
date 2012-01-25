@@ -29,6 +29,22 @@ Rectangle {
   
   anchors.fill: parent
 
+  state: "pageView"
+
+  states: [
+    State { name: "pageView"; },
+    State { name: "gridView"; }
+  ]
+
+  transitions: [
+    DissolveTransition { from: "pageView"; to: "gridView";
+      fadeOutTarget: template_pager; fadeInTarget: gridCheckerboard;
+    },
+    DissolveTransition { from: "gridView"; to: "pageView";
+      fadeOutTarget: gridCheckerboard; fadeInTarget: template_pager;
+    }
+  ]
+
   PlaceholderPopupMenu {
     id: addPhotosMenu
 
@@ -60,11 +76,9 @@ Rectangle {
 
     onViewModeChanged: {
       if (isTemplateView) {
-        template_pager.visible = true;
-        gridCheckerboard.visible = false;
+        album_viewer.state = "pageView";
       } else {
-        template_pager.visible = false;
-        gridCheckerboard.visible = true;
+        album_viewer.state = "gridView";
       }
     }
 
@@ -84,6 +98,7 @@ Rectangle {
     
     property string albumName
 
+    anchors.fill: undefined
     anchors.top: masthead.bottom
     anchors.bottom: parent.bottom
     anchors.left: parent.left

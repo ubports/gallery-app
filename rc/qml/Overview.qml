@@ -26,7 +26,23 @@ Rectangle {
   objectName: "overview"
   
   anchors.fill: parent
-  
+
+  state: "eventView"
+
+  states: [
+    State { name: "eventView"; },
+    State { name: "albumView"; }
+  ]
+
+  transitions: [
+    DissolveTransition { from: "eventView"; to: "albumView";
+      fadeOutTarget: eventsCheckerboard; fadeInTarget: albumsCheckerboard;
+    },
+    DissolveTransition { from: "albumView"; to: "eventView";
+      fadeOutTarget: albumsCheckerboard; fadeInTarget: eventsCheckerboard;
+    }
+  ]
+
   GalleryOverviewNavigationBar {
     id: navbar
     objectName: "navbar"
@@ -55,13 +71,11 @@ Rectangle {
       visible: !eventsCheckerboard.inSelectionMode
       
       onTab0_activated: {
-        albumsCheckerboard.visible = true;
-        eventsCheckerboard.visible = false;
+        overview.state = "albumView";
       }
       
       onTab1_activated: {
-        albumsCheckerboard.visible = false;
-        eventsCheckerboard.visible = true;
+        overview.state = "eventView"
       }
     }
     
