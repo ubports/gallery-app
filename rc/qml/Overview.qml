@@ -35,27 +35,11 @@ Rectangle {
   ]
 
   transitions: [
-    Transition { from: "eventView"; to: "albumView";
-      SequentialAnimation {
-        PropertyAction { target: albumsCheckerboard; property: "opacity"; value: 0; }
-        PropertyAction { target: albumsCheckerboard; property: "visible"; value: true; }
-        ParallelAnimation {
-          NumberAnimation { target: albumsCheckerboard; property: "opacity"; to: 1; duration: 200; easing.type: Easing.InQuad; }
-          NumberAnimation { target: photosCheckerboard; property: "opacity"; to: 0; duration: 200; easing.type: Easing.InQuad; }
-        }
-        PropertyAction { target: photosCheckerboard; property: "visible"; value: false; }
-      }
+    DissolveTransition { from: "eventView"; to: "albumView";
+      fadeOutTarget: photosCheckerboard; fadeInTarget: albumsCheckerboard;
     },
-    Transition { from: "albumView"; to: "eventView";
-      SequentialAnimation {
-        PropertyAction { target: photosCheckerboard; property: "opacity"; value: 0; }
-        PropertyAction { target: photosCheckerboard; property: "visible"; value: true; }
-        ParallelAnimation {
-          NumberAnimation { target: photosCheckerboard; property: "opacity"; to: 1; duration: 200; easing.type: Easing.InQuad; }
-          NumberAnimation { target: albumsCheckerboard; property: "opacity"; to: 0; duration: 200; easing.type: Easing.InQuad; }
-        }
-        PropertyAction { target: albumsCheckerboard; property: "visible"; value: false; }
-      }
+    DissolveTransition { from: "albumView"; to: "eventView";
+      fadeOutTarget: albumsCheckerboard; fadeInTarget: photosCheckerboard;
     }
   ]
 
