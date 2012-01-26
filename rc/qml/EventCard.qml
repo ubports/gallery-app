@@ -37,6 +37,10 @@ Rectangle {
     verticalAlignment: Text.AlignVCenter
     horizontalAlignment: Text.AlignHCenter
     
-    text: (event) ? Qt.formatDate(event.date, "d-M-yyyy") : ""
+    font.family: "Ubuntu"
+    font.weight: Font.Bold
+    font.pixelSize: 24
+    
+    text: (event) ? Qt.formatDate(event.date, "d - M - yyyy") : ""
   }
 }
