@@ -67,11 +67,14 @@ int main(int argc, char *argv[]) {
   //
   
   QDir path(argc > 1 ? QString(argv[1]) : QDir::homePath() + "/Pictures");
+  
   qDebug("Opening %s...", qPrintable(path.path()));
   
   MediaCollection::InitInstance(path);
   AlbumCollection::InitInstance();
   EventCollection::InitInstance();
+  
+  qDebug("Opened %s", qPrintable(path.path()));
   
   //
   // Create the master QDeclarativeView that all the pages will operate within

@@ -24,7 +24,7 @@
 #include <QImage>
 
 Photo::Photo(const QFileInfo& file)
-  : metadata_(PhotoMetadata::FromFile(file)) {
+  : metadata_(PhotoMetadata::FromFile(file)), exposure_date_time_(NULL) {
   MediaSource::Init(file);
 }
 
@@ -67,5 +67,8 @@ Orientation Photo::orientation() const {
 }
 
 QDateTime Photo::exposure_date_time() const {
-  return metadata_->exposure_time();
+  if (exposure_date_time_ == NULL)
+    exposure_date_time_ = new QDateTime(metadata_->exposure_time());
+  
+  return *exposure_date_time_;
 }

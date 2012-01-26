@@ -22,6 +22,7 @@
 #define GALLERY_PHOTO_H_
 
 #include <QObject>
+#include <QDateTime>
 #include <QFileInfo>
 
 #include "media/media-source.h"
@@ -49,6 +50,7 @@ class Photo : public MediaSource {
   // as we know, Gallery will be the only application on the device mutating
   // photo files, so we won't have to worry about the cache going stale.
   PhotoMetadata* metadata_;
+  mutable QDateTime *exposure_date_time_;
 };
 
 #endif  // GALLERY_PHOTO_H_

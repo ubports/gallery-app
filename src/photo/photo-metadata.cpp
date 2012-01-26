@@ -50,9 +50,10 @@ namespace {
   
   const char* get_first_matched(const char* keys[], size_t n_keys,
     const QSet<QString>& in) {
-    for (size_t i = 0; i < n_keys; i++)
-      if (in.find(keys[i]) != in.end())
+    for (size_t i = 0; i < n_keys; i++) {
+      if (in.contains(keys[i]))
         return keys[i];
+    }
     
     return NULL;
   }
@@ -76,25 +77,20 @@ namespace {
   // isValid() method on the returned QDateTime instance; if isValid() == false,
   // 's' couldn't be parsed
   QDateTime parse_exif_date_string(const char* s) {
-    int year, month, day, hour, minute, second;
-    bool found = false;
     for (size_t i = 0; i < NUM_EXIF_DATE_FORMATS; i++) {
-      if (std::scanf(s, EXIF_DATE_FORMATS[i], &year, &month, &day, &hour,
+      int year, month, day, hour, minute, second;
+      if (std::sscanf(s, EXIF_DATE_FORMATS[i], &year, &month, &day, &hour,
         &minute, &second) == 6) {
-        found = true;
-        break;
+        // no need to check year, month, day, hour, minute and second variables
+        // for bogus values before using them -- if the values are bogus, the
+        // resulting QDateTime will be invalid, which is exactly what we want
+        return QDateTime(QDate(year, month, day), QTime(hour, minute, second));
       }
     }
     
     // the no argument QDateTime constructor produces an invalid QDateTime,
     // which is what we want
-    if (!found)
-      return QDateTime();
-
-    // no need to check year, month, day, hour, minute and second variables
-    // for bogus values before using them -- if the values are bogus, the
-    // resulting QDateTime will be invalid, which is exactly what we want
-    return QDateTime(QDate(year, month, day), QTime(hour, minute, second));
+    return QDateTime();
   }
 } // namespace
 
@@ -157,16 +153,14 @@ QDateTime PhotoMetadata::exposure_time() const {
   if (matched == NULL)
     return QDateTime();
   
-  QDateTime parsed;
-  if (is_exif_key(matched)) {
-    parsed = parse_xmp_date_string(
-      image_->exifData()[matched].toString().c_str());
-  } else if (is_xmp_key(matched)) {
-    parsed = parse_exif_date_string(
-      image_->exifData()[matched].toString().c_str());
-  }
+  if (is_exif_key(matched))
+    return parse_exif_date_string(image_->exifData()[matched].toString().c_str());
   
-  return parsed;
+  if (is_xmp_key(matched))
+    return parse_xmp_date_string(image_->xmpData()[matched].toString().c_str());
+  
+  // No valid/known tag for exposure date/time
+  return QDateTime();
 }
 
 OrientationCorrection PhotoMetadata::orientation_correction() const {
