@@ -124,7 +124,7 @@ Rectangle {
         template_pager.albumName = owner.name;
       }
     }
-
+    
     onCurrentIndexChanged: album.currentPage = currentIndex
   }
   

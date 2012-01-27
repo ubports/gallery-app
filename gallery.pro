@@ -117,6 +117,7 @@ OTHER_FILES += \
 	rc/qml/MoreOperationsToolbarButton.qml \
 	rc/qml/NavStack.qml \
 	rc/qml/Overview.qml \
+	rc/qml/PageFlipAnimation.qml \
 	rc/qml/Pager.qml \
 	rc/qml/PhotoComponent.qml \
 	rc/qml/PhotoViewer.qml \

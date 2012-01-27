@@ -91,7 +91,7 @@ Rectangle {
       if (model)
         photo = model.getAt(currentIndex);
     }
-
+    
     MouseArea {
       anchors.fill: parent
 
@@ -156,7 +156,7 @@ Rectangle {
       }
     }
   }
-
+  
   Rectangle {
     id: chromeWrapper
     objectName: "chromeWrapper"

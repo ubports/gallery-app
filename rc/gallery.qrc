@@ -43,6 +43,7 @@
     <file>qml/MoreOperationsToolbarButton.qml</file>
     <file>qml/NavStack.qml</file>
     <file>qml/Overview.qml</file>
+    <file>qml/PageFlipAnimation.qml</file>
     <file>qml/Pager.qml</file>
     <file>qml/PhotoComponent.qml</file>
     <file>qml/PhotoViewer.qml</file>

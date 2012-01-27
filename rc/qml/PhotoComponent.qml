@@ -32,9 +32,10 @@ Rectangle {
   // read-only
   property real paintedWidth: image.paintedWidth
   property real paintedHeight: image.paintedHeight
+  property bool isLoaded: false
 
   // treat these properties as constants
-  property real kMaxZoomFactor: 2.5;
+  property real kMaxZoomFactor: 2.5
   
   signal loaded()
   
@@ -175,8 +176,10 @@ Rectangle {
     fillMode: isCropped ? Image.PreserveAspectCrop : Image.PreserveAspectFit
     
     onStatusChanged: {
-      if(image.status == Image.Ready)
+      if(image.status == Image.Ready) {
+        isLoaded = true;
         loaded();
+      }
     }
   }
 }
