@@ -35,11 +35,11 @@ Rectangle {
   ]
 
   transitions: [
-    DissolveTransition { from: "eventView"; to: "albumView";
-      fadeOutTarget: eventsSheet; fadeInTarget: albumsCheckerboard;
+    Transition { from: "eventView"; to: "albumView";
+      DissolveAnimation { fadeOutTarget: eventsSheet; fadeInTarget: albumsCheckerboard; }
     },
-    DissolveTransition { from: "albumView"; to: "eventView";
-      fadeOutTarget: albumsCheckerboard; fadeInTarget: eventsSheet;
+    Transition { from: "albumView"; to: "eventView";
+      DissolveAnimation { fadeOutTarget: albumsCheckerboard; fadeInTarget: eventsSheet; }
     }
   ]
 
@@ -170,7 +170,7 @@ Rectangle {
       
       onActivated: {
         if (objectModel.typeName == "MediaSource") {
-          navStack.switchToPhotoViewer(object, photoViewerModel);
+          navStack.switchToPhotoViewer(object, photoViewerModel, activatedRect);
         } else {
           // Event marker
           visible = false;

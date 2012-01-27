@@ -101,16 +101,18 @@ OTHER_FILES += \
 	rc/qml/AlbumViewMasthead.qml \
 	rc/qml/BinaryTabGroup.qml \
 	rc/qml/Checkerboard.qml \
-	rc/qml/DissolveTransition.qml \
+	rc/qml/DissolveAnimation.qml \
 	rc/qml/EventCard.qml \
 	rc/qml/EventCheckerboard.qml \
 	rc/qml/EventTimeline.qml \
+	rc/qml/ExpandAnimation.qml \
+	rc/qml/FadeInAnimation.qml \
+	rc/qml/FramePortrait.qml \
 	rc/qml/GalleryOverviewNavigationBar.qml \
 	rc/qml/GalleryPrimaryPushButton.qml \
 	rc/qml/GallerySecondaryPushButton.qml \
 	rc/qml/GalleryStandardToolbar.qml \
 	rc/qml/GalleryStatusBar.qml \
-	rc/qml/FramePortrait.qml \
 	rc/qml/MediaSelector.qml \
 	rc/qml/MoreOperationsToolbarButton.qml \
 	rc/qml/NavStack.qml \
@@ -118,6 +120,7 @@ OTHER_FILES += \
 	rc/qml/Pager.qml \
 	rc/qml/PhotoComponent.qml \
 	rc/qml/PhotoViewer.qml \
+	rc/qml/PhotoViewerTransition.qml \
 	rc/qml/PlaceholderPopupMenu.qml \
 	rc/qml/PushButton.qml \
 	rc/qml/ReturnButton.qml \

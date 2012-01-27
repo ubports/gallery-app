@@ -77,14 +77,22 @@ Rectangle {
     visible: false
   }
   
+  PhotoViewerTransition {
+    id: photoViewerTransition
+
+    onTransitionCompleted: {
+      navStack.switchToPage(photoViewer);
+    }
+  }
+
   NavStack {
     id: navStack
     objectName: "navStack"
   
-    function switchToPhotoViewer(photo, model) {
+    function switchToPhotoViewer(photo, model, activatedRect) {
       photoViewer.setCurrentPhoto(photo, model);
-      
-      navStack.switchToPage(photoViewer);
+
+      photoViewerTransition.transitionToPhotoViewer(photo, activatedRect);
     }
     
     function switchToAlbumViewer(album) {
@@ -99,7 +107,7 @@ Rectangle {
       navStack.switchToPage(mediaSelector);
     }
   }
-  
+
   Component.onCompleted: {
     navStack.switchToPage(overview);
   }

@@ -19,45 +19,33 @@
 
 import QtQuick 1.1
 
-Transition {
-  property variant fadeInTarget;
-  property variant fadeOutTarget;
+// Fades in the fadeInTarget while fading out the fadeOutTarget.
+SequentialAnimation {
+  id: dissolveAnimation
+  objectName: "dissolveAnimation"
 
-  SequentialAnimation {
-    PropertyAction {
+  property variant fadeInTarget
+  property variant fadeOutTarget
+  property int duration: 200
+
+  ParallelAnimation {
+    FadeInAnimation {
       target: fadeInTarget
-      property: "opacity"
-      value: 0
+      duration: dissolveAnimation.duration
     }
 
-    PropertyAction {
-      target: fadeInTarget
-      property: "visible"
-      value: true
-    }
-
-    ParallelAnimation {
-      NumberAnimation {
-        target: fadeInTarget
-        property: "opacity"
-        to: 1
-        duration: 200
-        easing.type: Easing.InQuad
-      }
-
-      NumberAnimation {
-        target: fadeOutTarget
-        property: "opacity"
-        to: 0
-        duration: 200
-        easing.type: Easing.InQuad
-      }
-    }
-
-    PropertyAction {
+    NumberAnimation {
       target: fadeOutTarget
-      property: "visible"
-      value: false
+      property: "opacity"
+      to: 0
+      duration: dissolveAnimation.duration
+      easing.type: Easing.OutQuad
     }
+  }
+
+  PropertyAction {
+    target: fadeOutTarget
+    property: "visible"
+    value: false
   }
 }

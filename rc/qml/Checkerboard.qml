@@ -23,7 +23,7 @@ Rectangle {
   id: checkerboard
   objectName: "checkerboard"
   
-  signal activated(variant object, variant objectModel)
+  signal activated(variant object, variant objectModel, variant activatedRect)
   
   property alias model: grid.model
   property Component delegate
@@ -104,12 +104,16 @@ Rectangle {
           
           onReleased: {
             // See onPressAndHold for note on logic behind state changes
-            if (checkerboard.state == "normal")
-              checkerboard.activated(object, model)
-            else if (allowSelection && checkerboard.state == "to-selecting")
+            if (checkerboard.state == "normal") {
+              var rect = mapToItem(tablet_surface, parent.x, parent.y);
+              rect.width = width;
+              rect.height = height;
+              checkerboard.activated(object, model, rect);
+            } else if (allowSelection && checkerboard.state == "to-selecting") {
               checkerboard.state = "selecting";
-            else if (allowSelection && checkerboard.state == "selecting")
+            } else if (allowSelection && checkerboard.state == "selecting") {
               checkerboard.model.toggleSelection(object);
+            }
           }
         }
         

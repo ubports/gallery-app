@@ -27,10 +27,12 @@
     <file>qml/AlbumViewMasthead.qml</file>
     <file>qml/BinaryTabGroup.qml</file>
     <file>qml/Checkerboard.qml</file>
-    <file>qml/DissolveTransition.qml</file>
+    <file>qml/DissolveAnimation.qml</file>
     <file>qml/EventCard.qml</file>
     <file>qml/EventCheckerboard.qml</file>
     <file>qml/EventTimeline.qml</file>
+    <file>qml/ExpandAnimation.qml</file>
+    <file>qml/FadeInAnimation.qml</file>
     <file>qml/FramePortrait.qml</file>
     <file>qml/GalleryOverviewNavigationBar.qml</file>
     <file>qml/GalleryPrimaryPushButton.qml</file>
@@ -44,6 +46,7 @@
     <file>qml/Pager.qml</file>
     <file>qml/PhotoComponent.qml</file>
     <file>qml/PhotoViewer.qml</file>
+    <file>qml/PhotoViewerTransition.qml</file>
     <file>qml/PlaceholderPopupMenu.qml</file>
     <file>qml/PushButton.qml</file>
     <file>qml/ReturnButton.qml</file>

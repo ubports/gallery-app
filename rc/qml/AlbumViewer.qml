@@ -37,11 +37,11 @@ Rectangle {
   ]
 
   transitions: [
-    DissolveTransition { from: "pageView"; to: "gridView";
-      fadeOutTarget: template_pager; fadeInTarget: gridCheckerboard;
+    Transition { from: "pageView"; to: "gridView";
+      DissolveAnimation { fadeOutTarget: template_pager; fadeInTarget: gridCheckerboard; }
     },
-    DissolveTransition { from: "gridView"; to: "pageView";
-      fadeOutTarget: gridCheckerboard; fadeInTarget: template_pager;
+    Transition { from: "gridView"; to: "pageView";
+      DissolveAnimation { fadeOutTarget: gridCheckerboard; fadeInTarget: template_pager; }
     }
   ]
 
@@ -181,7 +181,7 @@ Rectangle {
       masthead.isSelectionInProgress = inSelectionMode
     }
     
-    onActivated: navStack.switchToPhotoViewer(object, model)
+    onActivated: navStack.switchToPhotoViewer(object, model, activatedRect)
   }
 
   AlbumPickerPopup {

@@ -25,8 +25,13 @@ Rectangle {
   property bool isCropped: false
   property bool isPreview: false
   property bool isZoomable: false
+  property bool isAnimate: false
   property int zoomFocusX: 0
   property int zoomFocusY: 0
+
+  // read-only
+  property real paintedWidth: image.paintedWidth
+  property real paintedHeight: image.paintedHeight
 
   // treat these properties as constants
   property real kMaxZoomFactor: 2.5;
@@ -164,9 +169,9 @@ Rectangle {
     
     sourceSize.width: (width <= 1024) ? (width * 2) : width
     
-    asynchronous: true
-    cache: true
-    smooth: true
+    asynchronous: !isAnimate
+    cache: !isAnimate
+    smooth: !isAnimate
     fillMode: isCropped ? Image.PreserveAspectCrop : Image.PreserveAspectFit
     
     onStatusChanged: {
