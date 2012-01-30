@@ -38,10 +38,10 @@ Rectangle {
 
   transitions: [
     Transition { from: "pageView"; to: "gridView";
-      DissolveAnimation { fadeOutTarget: template_pager; fadeInTarget: gridCheckerboard; }
+      DissolveAnimation { fadeOutTarget: templatePager; fadeInTarget: gridCheckerboard; }
     },
     Transition { from: "gridView"; to: "pageView";
-      DissolveAnimation { fadeOutTarget: gridCheckerboard; fadeInTarget: template_pager; }
+      DissolveAnimation { fadeOutTarget: gridCheckerboard; fadeInTarget: templatePager; }
     }
   ]
 
@@ -66,7 +66,7 @@ Rectangle {
     id: masthead
     objectName: "masthead"
 
-    albumName: template_pager.albumName
+    albumName: templatePager.albumName
 
     areItemsSelected: gridCheckerboard.selectedCount > 0
 
@@ -93,8 +93,8 @@ Rectangle {
   }
   
   Pager {
-    id: template_pager
-    objectName: "template_pager"
+    id: templatePager
+    objectName: "templatePager"
     
     property string albumName
 
@@ -111,21 +111,104 @@ Rectangle {
     delegate: Loader {
       id: loader
       
-      width: template_pager.width
-      height: template_pager.height
+      width: templatePager.width
+      height: templatePager.height
       
       source: qmlRC
       
       onLoaded: {
         item.mediaSourceList = mediaSourceList;
-        item.width = template_pager.width;
-        item.height = template_pager.height;
+        item.width = templatePager.width;
+        item.height = templatePager.height;
         item.gutter = 24;
-        template_pager.albumName = owner.name;
+        templatePager.albumName = owner.name;
       }
     }
     
+    interactive: false
+    
     onCurrentIndexChanged: album.currentPage = currentIndex
+    
+    // Because not using the Pager's natural swiping motion (would need to
+    // trap all mouse events and prevent the animation from occurring) to do
+    // our own animation, emulate them here
+    MouseArea {
+      anchors.fill: parent
+      
+      // read-only
+      property int requiredHorizMovement: 20
+      
+      property int startX: -1
+      
+      onPositionChanged: {
+        // look for initial swipe
+        if (startX == -1) {
+          startX = mouse.x;
+          
+          return;
+        }
+        
+        var diff = 0;
+        var leftToRight = true;
+        if (mouse.x < startX) {
+          diff = startX - mouse.x;
+          leftToRight = true;
+        } else if (mouse.x > startX) {
+          diff = mouse.x - startX;
+          leftToRight = false;
+        }
+        
+        if (diff < requiredHorizMovement)
+          return;
+        
+        var ofs = (leftToRight) ? 1 : -1;
+        if (parent.currentIndex + ofs < 0) {
+          startX = -1;
+          
+          return;
+        } 
+        
+        var curr = parent.model[parent.currentIndex];
+        var next = parent.model[parent.currentIndex + ofs];
+        
+        if (!curr || !next) {
+          startX = -1;
+          
+          return;
+        }
+        
+        pageFlipAnimation.leftToRight = leftToRight;
+        pageFlipAnimation.leftPage = (leftToRight) ? curr : next;
+        pageFlipAnimation.rightPage = (leftToRight) ? next : curr;
+        
+        templatePager.visible = false;
+        startX = -1;
+        
+        pageFlipAnimation.visible = true;
+        pageFlipAnimation.start();
+      }
+    }
+  }
+  
+  PageFlipAnimation {
+    id: pageFlipAnimation
+    
+    anchors.fill: templatePager
+    
+    visible: false
+    z: 1000
+    
+    onPageFlippedChanged: {
+      if (pageFlipped) {
+        if (leftToRight)
+          templatePager.pageForward();
+        else
+          templatePager.pageBack();
+        
+        templatePager.visible = true;
+        visible = false;
+      }
+    }
   }
   
   Checkerboard {

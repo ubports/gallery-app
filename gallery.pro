@@ -93,6 +93,7 @@ OTHER_FILES += \
 	rc/gallery.qrc \
 	rc/qml/AddCreateOperationNavbarButton.qml \
 	rc/qml/AlbumOperationsToolbarButton.qml \
+	rc/qml/AlbumPageComponent.qml \
 	rc/qml/AlbumPickerPopup.qml \
 	rc/qml/AlbumPreviewA.qml \
 	rc/qml/AlbumPreviewB.qml \

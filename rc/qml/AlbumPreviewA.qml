@@ -20,30 +20,30 @@
 import QtQuick 1.1
 
 Row {
-  id: album_preview_a
-  objectName: "album_preview_a"
+  id: albumPreviewA
+  objectName: "albumPreviewA"
   
   property variant mediaSourceList
   property int gutter: 24
-  property int border_width: 3
+  property int borderWidth: 3
   
   FramePortrait {
     id: left
     objectName: "left"
     
-    width: (parent.width / 2) - border_width
-    height: parent.height - border_width
+    width: (parent.width / 2) - borderWidth
+    height: parent.height - borderWidth
     
     mediaSource: (mediaSourceList != null) ? mediaSourceList[0] : null
     gutter: parent.gutter
-    border_width: parent.border_width
+    borderWidth: parent.borderWidth
   }
   
   Rectangle {
     id: divider
     objectName: "divider"
     
-    width: left.border_width
+    width: left.borderWidth
     height: parent.height
     color: "#657CA9"
   }
@@ -52,11 +52,11 @@ Row {
     id: right
     objectName: "right"
     
-    width: (parent.width / 2) - border_width
-    height: parent.height - border_width
+    width: (parent.width / 2) - borderWidth
+    height: parent.height - borderWidth
     
     mediaSource: (mediaSourceList != null) ? mediaSourceList[1] : null
     gutter: parent.gutter
-    border_width: parent.border_width
+    borderWidth: parent.borderWidth
   }
 }

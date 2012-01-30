@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical Ltd
+ * Copyright (C) 2012 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -18,26 +18,20 @@
  */
 
 import QtQuick 1.1
+import Gallery 1.0
 
-Rectangle {
-  property variant mediaSource
-  property int gutter: 0
-  property int borderWidth: 3
+Loader {
+  id: loader
   
-  border.width: borderWidth
-  border.color: "#657CA9"
+  property AlbumPage albumPage
+  property int gutter: 24
   
-  PhotoComponent {
-    id: photo
-    objectName: "photo"
-    
-    anchors.centerIn: parent
-    
-    width: parent.width - (gutter * 2)
-    height: parent.height - (gutter * 2)
-    
-    mediaSource: parent.mediaSource
-    
-    isCropped: true
+  source: (albumPage) ? albumPage.qmlRC : ""
+  
+  onLoaded: {
+    item.mediaSourceList = albumPage.mediaSourceList;
+    item.width = loader.width;
+    item.height = loader.height;
+    item.gutter = loader.gutter
   }
 }

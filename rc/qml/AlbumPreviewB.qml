@@ -20,15 +20,15 @@
 import QtQuick 1.1
 
 Row {
-  id: album_preview_b
-  objectName: "album_preview_b"
+  id: albumPreviewB
+  objectName: "albumPreviewB"
   
   property variant mediaSourceList
   property int gutter: 24
-  property int border_width: 3
+  property int borderWidth: 3
   
   Column {
-    width: (parent.width / 2) - album_preview_b.border_width
+    width: (parent.width / 2) - albumPreviewB.borderWidth
     height: parent.height
     
     FramePortrait {
@@ -36,11 +36,11 @@ Row {
       objectName: "top"
       
       width: parent.width
-      height: (parent.height / 2) - border_width
+      height: (parent.height / 2) - borderWidth
       
       mediaSource: (mediaSourceList != null) ? mediaSourceList[0] : null
-      gutter: album_preview_b.gutter
-      border.width: album_preview_b.border_width
+      gutter: albumPreviewB.gutter
+      border.width: albumPreviewB.borderWidth
     }
     
     Rectangle {
@@ -48,7 +48,7 @@ Row {
       objectName: "hdivider"
       
       width: parent.width
-      height: album_preview_b.border_width
+      height: albumPreviewB.borderWidth
       color: "#657CA9"
     }
     
@@ -57,11 +57,11 @@ Row {
       objectName: "bottom"
       
       width: parent.width
-      height: (parent.height / 2) - border_width
+      height: (parent.height / 2) - borderWidth
       
       mediaSource: (mediaSourceList != null) ? mediaSourceList[1] : null
-      gutter: album_preview_b.gutter
-      border_width: album_preview_b.border_width
+      gutter: albumPreviewB.gutter
+      borderWidth: albumPreviewB.borderWidth
     }
   }
   
@@ -69,8 +69,8 @@ Row {
     id: vdivider
     objectName: "vdivider"
     
-    width: top.border_width
-    height: parent.height - album_preview_b.border_width
+    width: top.borderWidth
+    height: parent.height - albumPreviewB.borderWidth
     color: "#657CA9"
   }
   
@@ -78,11 +78,11 @@ Row {
     id: right
     objectName: "right"
     
-    width: (parent.width / 2) - border_width
-    height: parent.height - border_width
+    width: (parent.width / 2) - borderWidth
+    height: parent.height - borderWidth
     
     mediaSource: (mediaSourceList != null) ? mediaSourceList[2] : null
-    gutter: album_preview_b.gutter
-    border_width: album_preview_b.border_width
+    gutter: albumPreviewB.gutter
+    borderWidth: albumPreviewB.borderWidth
   }
 }

@@ -18,9 +18,10 @@
  */
 
 import QtQuick 1.1
+import Gallery 1.0
 
 Rectangle {
-  property variant albumPage
+  property AlbumPage albumPage
   
   width: 388
   height: 252

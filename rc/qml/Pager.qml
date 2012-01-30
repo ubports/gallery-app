@@ -46,7 +46,7 @@ ListView {
 
   orientation: ListView.Horizontal
   snapMode: ListView.SnapOneItem
-  cacheBuffer: width * 2
+  cacheBuffer: width * 4
   flickDeceleration: 50
   keyNavigationWraps: true
   highlightMoveSpeed: 2000.0

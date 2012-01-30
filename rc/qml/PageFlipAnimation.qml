@@ -26,8 +26,8 @@ import Gallery 1.0
 Rectangle {
   id: pageFlipAnimation
   
-  property MediaSource leftPage
-  property MediaSource rightPage
+  property AlbumPage leftPage
+  property AlbumPage rightPage
   
   property bool pageFlipped: false
   
@@ -43,6 +43,10 @@ Rectangle {
     
     // reset
     pageFlipped = false;
+    clipper.trigger = false;
+    clipper.x = leftToRight ? pageFlipAnimation.width / 2 : 0
+    flippable.x = leftToRight ? -(pageFlipAnimation.width / 2) : 0
+    flippable.rotation.angle = leftToRight ? 0.0 : -180.0;
     
     // start animation
     clipper.trigger = true;
@@ -55,20 +59,18 @@ Rectangle {
     clip: true
     
     Rectangle {
-      width: parent.width
-      height: parent.height
       x: 0
       y: 0
+      width: parent.width
+      height: parent.height
       
-      PhotoComponent {
-        id: bgLeftComponent
+      AlbumPageComponent {
+        id: leftPageBackground
         
-        mediaSource: leftPage
+        albumPage: leftPage
         
         width: pageFlipAnimation.width
         height: pageFlipAnimation.height
-        
-        color: pageFlipAnimation.color
       }
     }
   }
@@ -81,24 +83,20 @@ Rectangle {
     clip: true
     
     Rectangle {
-      width: parent.width
       x: -(parent.width / 2)
-      height: parent.height
       y: 0
+      width: parent.width
+      height: parent.height
       
-      color: pageFlipAnimation.color
-      
-      PhotoComponent {
-        id: bgRightComponent
+      AlbumPageComponent {
+        id: rightPageBackground
         
-        mediaSource: rightPage
+        albumPage: rightPage
         
         x: parent.x
         y: parent.y
         width: pageFlipAnimation.width
         height: pageFlipAnimation.height
-        
-        color: pageFlipAnimation.color
       }
     }
   }
@@ -122,40 +120,34 @@ Rectangle {
       height: pageFlipAnimation.height
       
       front: Rectangle {
-        width: parent.width
-        height: parent.height
         x: 0
         y: 0
+        width: parent.width
+        height: parent.height
         
-        PhotoComponent {
-          id: frontComponent
+        AlbumPageComponent {
+          id: leftPageAnimated
           
-          mediaSource: leftPage
-          isAnimate: true
+          albumPage: leftPage
           
           width: pageFlipAnimation.width
           height: pageFlipAnimation.height
-          
-          color: pageFlipAnimation.color
         }
       }
       
       back: Rectangle {
-        width: parent.width
-        height: parent.height
         x: 0
         y: 0
+        width: parent.width
+        height: parent.height
         
-        PhotoComponent {
-          id: backComponent
+        AlbumPageComponent {
+          id: rightPageAnimated
           
-          mediaSource: rightPage
-          isAnimate: true
+          albumPage: rightPage
           
           width: pageFlipAnimation.width
           height: pageFlipAnimation.height
-          
-          color: pageFlipAnimation.color
         }
       }
         
@@ -177,7 +169,7 @@ Rectangle {
       states: State {
         name: "running"
         PropertyChanges { target: rotation; angle: leftToRight ? -180.0 : 0.0; }
-        when: clipper.trigger && frontComponent.isLoaded && backComponent.isLoaded && bgLeftComponent.isLoaded && bgRightComponent.isLoaded
+        when: clipper.trigger
       }
       
       transitions: Transition {
@@ -210,7 +202,7 @@ Rectangle {
             }
           }
           
-          // Signal that the age flip is complete
+          // Signal that the page flip is complete
           PropertyAction {
             target: pageFlipAnimation
             property: "pageFlipped"
