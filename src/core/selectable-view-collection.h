@@ -46,7 +46,7 @@ public:
   
   bool IsSelected(DataObject* object) const;
   
-  int GetSelectedCount() const;
+  int SelectedCount() const;
   const QSet<DataObject*>& GetSelected() const;
   
   template <class T>

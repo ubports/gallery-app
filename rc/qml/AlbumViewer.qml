@@ -22,10 +22,10 @@ import QtQuick 1.1
 import Gallery 1.0
 
 Rectangle {
-  id: album_viewer
-  objectName: "album_viewer"
+  id: albumViewer
+  objectName: "albumViewer"
   
-  property variant album
+  property Album album
   
   anchors.fill: parent
 
@@ -76,9 +76,9 @@ Rectangle {
 
     onViewModeChanged: {
       if (isTemplateView) {
-        album_viewer.state = "pageView";
+        albumViewer.state = "pageView";
       } else {
-        album_viewer.state = "gridView";
+        albumViewer.state = "gridView";
       }
     }
 
@@ -106,23 +106,15 @@ Rectangle {
     
     visible: true
     
-    model: (album) ? album.pages : null
+    model: AlbumPageModel {
+      forAlbum: album
+    }
     
-    delegate: Loader {
-      id: loader
+    delegate: AlbumPageComponent {
+      albumPage: object
       
       width: templatePager.width
       height: templatePager.height
-      
-      source: qmlRC
-      
-      onLoaded: {
-        item.mediaSourceList = mediaSourceList;
-        item.width = templatePager.width;
-        item.height = templatePager.height;
-        item.gutter = 24;
-        templatePager.albumName = owner.name;
-      }
     }
     
     interactive: false
@@ -162,20 +154,14 @@ Rectangle {
           return;
         
         var ofs = (leftToRight) ? 1 : -1;
-        if (parent.currentIndex + ofs < 0) {
-          startX = -1;
-          
+        if ((parent.currentIndex + ofs) < 0)
           return;
-        } 
         
-        var curr = parent.model[parent.currentIndex];
-        var next = parent.model[parent.currentIndex + ofs];
+        var curr = parent.model.getAt(parent.currentIndex);
+        var next = parent.model.getAt(parent.currentIndex + ofs);
         
-        if (!curr || !next) {
-          startX = -1;
-          
+        if (!curr || !next)
           return;
-        }
         
         pageFlipAnimation.leftToRight = leftToRight;
         pageFlipAnimation.leftPage = (leftToRight) ? curr : next;
@@ -187,6 +173,10 @@ Rectangle {
         pageFlipAnimation.visible = true;
         pageFlipAnimation.start();
       }
+      
+      onReleased: {
+        startX = -1;
+      }
     }
   }
   
@@ -196,7 +186,6 @@ Rectangle {
     anchors.fill: templatePager
     
     visible: false
-    z: 1000
     
     onPageFlippedChanged: {
       if (pageFlipped) {

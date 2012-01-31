@@ -44,7 +44,7 @@ void QmlMediaCollectionModel::RegisterType() {
 
 QVariant QmlMediaCollectionModel::createAlbumFromSelected() {
   SelectableViewCollection* view = BackingViewCollection();
-  if (view->GetSelectedCount() == 0)
+  if (view->SelectedCount() == 0)
     return QVariant();
   
   Album* album = new Album(*AlbumDefaultTemplate::instance());

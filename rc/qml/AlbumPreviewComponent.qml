@@ -26,48 +26,21 @@ Rectangle {
   width: 388
   height: 252
   
-  onAlbumPageChanged: {
-    // force reload of the entire page's QML
-    loader.source = (albumPage) ? albumPage.qmlRC : "";
-  }
-  
-  Loader {
-    id: loader
+  AlbumPageComponent {
+    id: albumPageComponent
+    
+    albumPage: parent.albumPage
+    gutter: 8
     
     width: parent.width
-    height: parent.height
-    clip: true
-    
-    source: (albumPage) ? albumPage.qmlRC : ""
-    
-    property variant mediaSourceList: (albumPage) ? albumPage.mediaSourceList : null
-    
-    onMediaSourceListChanged: {
-      if (!mediaSourceList)
-        return;
-      
-      // MediaSources within page have changed, force reload of same QML file
-      var src = source;
-      source = "";
-      source = src;
-    }
-    
-    onLoaded: {
-      // set properties on the template page once loaded
-      if (item) {
-        item.mediaSourceList = (albumPage) ? albumPage.mediaSourceList : null;
-        item.width = parent.width;
-        item.height = parent.height;
-        item.gutter = 8;
-      }
-    }
+    height: parent.height - 24
   }
   
   Text {
     height: 24
     
     anchors.horizontalCenter: parent.horizontalCenter
-    anchors.top: loader.bottom
+    anchors.top: albumPageComponent.bottom
     anchors.topMargin: 12
     anchors.bottomMargin: 12
     

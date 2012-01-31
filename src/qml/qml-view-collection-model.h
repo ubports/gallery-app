@@ -97,6 +97,7 @@ class QmlViewCollectionModel : public QAbstractListModel {
   
   void MonitorSourceCollection(SourceCollection* sources);
   void MonitorContainerSource(ContainerSource* container);
+  void StopMonitoring();
   
   // Subclasses should return the DataObject cast and packed in a QVariant
   virtual QVariant VariantFor(DataObject* object) const = 0;

@@ -36,7 +36,7 @@ const QSet<DataObject*>& SelectableViewCollection::GetSelected() const {
   return selected_;
 }
 
-int SelectableViewCollection::GetSelectedCount() const {
+int SelectableViewCollection::SelectedCount() const {
   return selected_.count();
 }
 

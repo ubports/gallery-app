@@ -51,6 +51,8 @@ void QmlViewCollectionModel::set_for_collection(QVariant var) {
     if (var.isValid())
       qDebug("Unable to set collection of type %s", var.typeName());
     
+    StopMonitoring();
+    
     return;
   }
   
@@ -69,6 +71,8 @@ void QmlViewCollectionModel::set_for_collection(QVariant var) {
     
     return;
   }
+  
+  StopMonitoring();
   
   qDebug("Unable to set collection that is neither ContainerSource nor SourceCollection");
 }
@@ -165,7 +169,7 @@ int QmlViewCollectionModel::raw_count() const {
 
 int QmlViewCollectionModel::selected_count() const {
   // TODO: Selected count should honor limit and head as well
-  return (view_ != NULL) ? view_->GetSelectedCount() : 0;
+  return (view_ != NULL) ? view_->SelectedCount() : 0;
 }
 
 int QmlViewCollectionModel::head() const {
@@ -201,6 +205,9 @@ void QmlViewCollectionModel::clear_limit() {
 }
 
 void QmlViewCollectionModel::SetBackingViewCollection(SelectableViewCollection* view) {
+  int old_count = (view_ != NULL) ? view_->Count() : 0;
+  int old_selected_count = (view_ != NULL) ? view_->SelectedCount() : 0;
+  
   DisconnectBackingViewCollection();
   
   view_ = view;
@@ -221,8 +228,17 @@ void QmlViewCollectionModel::SetBackingViewCollection(SelectableViewCollection* 
     SLOT(on_contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
   
   notify_backing_collection_changed();
-  emit count_changed();
-  emit selected_count_changed();
+  
+  if (view_->Count() > 0) {
+    beginInsertRows(QModelIndex(), 0, view_->Count());
+    endInsertRows();
+  }
+  
+  if (old_count != view_->Count())
+    emit count_changed();
+  
+  if (old_selected_count != view_->SelectedCount())
+    emit selected_count_changed();
 }
 
 void QmlViewCollectionModel::DisconnectBackingViewCollection() {
@@ -274,6 +290,24 @@ void QmlViewCollectionModel::MonitorContainerSource(ContainerSource* container) 
     (default_comparator_ == NULL));
   
   SetBackingViewCollection(view);
+}
+
+void QmlViewCollectionModel::StopMonitoring() {
+  if (view_ == NULL)
+    return;
+  
+  int old_count = view_->Count();
+  int old_selected_count = view_->SelectedCount();
+  
+  DisconnectBackingViewCollection();
+  
+  notify_backing_collection_changed();
+  
+  if (old_count != 0)
+    emit count_changed();
+  
+  if (old_selected_count != 0)
+    emit selected_count_changed();
 }
 
 void QmlViewCollectionModel::notify_backing_collection_changed() {

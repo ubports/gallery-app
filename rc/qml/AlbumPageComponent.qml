@@ -26,6 +26,24 @@ Loader {
   property AlbumPage albumPage
   property int gutter: 24
   
+  // read-only
+  property variant mediaSourceList: (albumPage) ? albumPage.mediaSourceList : null
+  
+  onAlbumPageChanged: {
+    // force reload of the entire page's QML
+    source = (albumPage) ? albumPage.qmlRC : "";
+  }
+  
+  onMediaSourceListChanged: {
+    if (!mediaSourceList)
+      return;
+    
+    // MediaSources within page have changed, force reload of same QML file
+    var src = source;
+    source = "";
+    source = src;
+  }
+  
   source: (albumPage) ? albumPage.qmlRC : ""
   
   onLoaded: {
