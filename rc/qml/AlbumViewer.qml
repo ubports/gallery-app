@@ -180,7 +180,7 @@ Rectangle {
     }
   }
   
-  PageFlipAnimation {
+  AlbumPageFlipAnimation {
     id: pageFlipAnimation
     
     anchors.fill: templatePager

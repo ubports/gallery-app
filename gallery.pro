@@ -96,6 +96,7 @@ OTHER_FILES += \
 	rc/qml/AddCreateOperationNavbarButton.qml \
 	rc/qml/AlbumOperationsToolbarButton.qml \
 	rc/qml/AlbumPageComponent.qml \
+	rc/qml/AlbumPageFlipAnimation.qml \
 	rc/qml/AlbumPickerPopup.qml \
 	rc/qml/AlbumPreviewA.qml \
 	rc/qml/AlbumPreviewB.qml \
@@ -120,7 +121,6 @@ OTHER_FILES += \
 	rc/qml/MoreOperationsToolbarButton.qml \
 	rc/qml/NavStack.qml \
 	rc/qml/Overview.qml \
-	rc/qml/PageFlipAnimation.qml \
 	rc/qml/Pager.qml \
 	rc/qml/PhotoComponent.qml \
 	rc/qml/PhotoViewer.qml \

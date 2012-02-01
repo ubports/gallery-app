@@ -173,6 +173,8 @@ Rectangle {
       }
       
       transitions: Transition {
+        to: "running"
+        
         SequentialAnimation {
           ParallelAnimation {
             NumberAnimation {
