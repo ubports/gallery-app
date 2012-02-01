@@ -39,7 +39,7 @@ Rectangle {
     },
     
     State { name: "tab1_active";
-      PropertyChanges { target: tab0; state: "deselected" }
+      PropertyChanges { target: tab0; state: "deselected"; }
       PropertyChanges { target: tab1; state: "selected"; }
     }
   ]

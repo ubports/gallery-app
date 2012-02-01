@@ -48,6 +48,7 @@ SOURCES += \
 	src/media/media-source.cpp \
 	src/photo/photo.cpp \
 	src/photo/photo-metadata.cpp \
+	src/qml/gallery-standard-image-provider.cpp \
 	src/qml/qml-album-collection-model.cpp \
 	src/qml/qml-album-page-model.cpp \
 	src/qml/qml-event-collection-model.cpp \
@@ -79,6 +80,7 @@ HEADERS += \
 	src/media/media-source.h \
 	src/photo/photo.h \
 	src/photo/photo-metadata.h \
+	src/qml/gallery-standard-image-provider.h \
 	src/qml/qml-album-collection-model.h \
 	src/qml/qml-album-page-model.h \
 	src/qml/qml-event-collection-model.h \

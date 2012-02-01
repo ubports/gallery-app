@@ -148,28 +148,12 @@ Rectangle {
       
       return isPreview ? mediaSource.previewPath : mediaSource.path
     }
-    
+
+    width: parent.width
+    height: parent.height
     x: 0
     y: 0
-    
-    transform: Scale {
-      origin.x: width / 2
-      origin.y: height / 2
-      xScale: (mediaSource && !isPreview && mediaSource.orientationMirrored) ?
-        -1.0 : 1.0
-    }
-    rotation: (mediaSource && !isPreview) ? mediaSource.orientationRotation :
-      0.0
-    
-    // If image is rotated by transform/rotation properties, also rotate its
-    // dimensions so the loader scales it properly
-    width: (!isPreview && mediaSource && mediaSource.isRotated) ?
-      parent.height : parent.width
-    height: (!isPreview && mediaSource && mediaSource.isRotated) ?
-      parent.width : parent.height
-    
-    sourceSize.width: (width <= 1024) ? (width * 2) : width
-    
+        
     asynchronous: !isAnimate
     cache: !isAnimate
     smooth: !isAnimate

@@ -49,7 +49,8 @@ const QFileInfo& MediaSource::file() const {
 }
 
 QUrl MediaSource::path() const {
-  return QUrl::fromLocalFile(file_.absoluteFilePath());
+  return QUrl::fromUserInput("image://gallery-standard/" +
+    file_.absoluteFilePath());
 }
 
 const QFileInfo& MediaSource::preview_file() const {

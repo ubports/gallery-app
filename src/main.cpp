@@ -31,6 +31,7 @@
 #include "event/event-collection.h"
 #include "media/media-collection.h"
 #include "media/media-source.h"
+#include "qml/gallery-standard-image-provider.h"
 #include "qml/qml-album-collection-model.h"
 #include "qml/qml-album-page-model.h"
 #include "qml/qml-event-collection-model.h"
@@ -88,6 +89,8 @@ int main(int argc, char *argv[]) {
   QGLWidget *gl_widget = new QGLWidget(format);
   
   QDeclarativeView view;
+  view.engine()->addImageProvider("gallery-standard",
+    GalleryStandardImageProvider::instance());
   view.setSource(QUrl("qrc:/rc/qml/TabletSurface.qml"));
   view.setViewport(gl_widget);
   
