@@ -230,7 +230,7 @@ void QmlViewCollectionModel::SetBackingViewCollection(SelectableViewCollection* 
   notify_backing_collection_changed();
   
   if (view_->Count() > 0) {
-    beginInsertRows(QModelIndex(), 0, view_->Count());
+    beginInsertRows(QModelIndex(), 0, view_->Count() - 1);
     endInsertRows();
   }
   
