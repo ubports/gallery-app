@@ -26,19 +26,25 @@ Rectangle {
   id: photoViewer
   objectName: "photoViewer"
   
-  // NOTE: These properties should be treated as read-only, as setting them
-  // individually can lead to bogus results.  Use setCurrentPhoto() to
-  // initialize the view.
-  property variant photo: null
+  // When the user clicks the back button.
+  signal closeRequested()
+
   property variant model: null
+
+  // NOTE: These properties should be treated as read-only, as setting them
+  // individually can lead to bogus results.  Use setCurrentPhoto() or
+  // setCurrentIndex() to initialize the view.
+  property variant photo: null
+  property alias index: imagePager.currentIndex
   
-  function setCurrentPhoto(photo, model) {
-    photoViewer.photo = photo;
-    photoViewer.model = model;
-    
+  function setCurrentPhoto(photo) {
     imagePager.pageTo(model.indexOf(photo));
   }
-  
+
+  function setCurrentIndex(index) {
+    imagePager.pageTo(index);
+  }
+
   color: "#444444"
   
   AlbumPickerPopup {
@@ -67,8 +73,6 @@ Rectangle {
   Pager {
     id: imagePager
     objectName: "imagePager"
-    
-    z: 0
     
     model: parent.model
     
@@ -220,7 +224,7 @@ Rectangle {
       onReturnButtonPressed: {
         chromeWrapper.state = "hidden";
         albumPicker.state = "hidden";
-        navStack.goBack();
+        closeRequested();
       }
     }
     
@@ -249,4 +253,3 @@ Rectangle {
     }
   }
 }
-

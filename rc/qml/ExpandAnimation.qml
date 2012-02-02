@@ -30,6 +30,7 @@ ParallelAnimation {
   property real endY: 0
   property real endWidth: target.parent.width
   property real endHeight: target.parent.height
+  property int easingType: Easing.InQuad
 
   property int duration: 200
 
@@ -38,7 +39,7 @@ ParallelAnimation {
     property: "x"
     to: endX
     duration: expandAnimation.duration
-    easing.type: Easing.InQuad
+    easing.type: easingType
   }
 
   NumberAnimation {
@@ -46,7 +47,7 @@ ParallelAnimation {
     property: "y"
     to: endY
     duration: expandAnimation.duration
-    easing.type: Easing.InQuad
+    easing.type: easingType
   }
 
   NumberAnimation {
@@ -54,7 +55,7 @@ ParallelAnimation {
     property: "width"
     to: endWidth
     duration: expandAnimation.duration
-    easing.type: Easing.InQuad
+    easing.type: easingType
   }
 
   NumberAnimation {
@@ -62,6 +63,6 @@ ParallelAnimation {
     property: "height"
     to: endHeight
     duration: expandAnimation.duration
-    easing.type: Easing.InQuad
+    easing.type: easingType
   }
 }

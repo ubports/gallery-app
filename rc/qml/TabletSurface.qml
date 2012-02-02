@@ -41,18 +41,6 @@ Rectangle {
     visible: false
   }
   
-  PhotoViewer {
-    id: photoViewer
-    objectName: "photoViewer"
-    
-    x: 0
-    y: 0
-    width: parent.width
-    height: parent.height
-    
-    visible: false
-  }
-  
   AlbumViewer {
     id: albumViewer
     objectName: "albumViewer"
@@ -77,24 +65,10 @@ Rectangle {
     visible: false
   }
   
-  PhotoViewerTransition {
-    id: photoViewerTransition
-
-    onTransitionCompleted: {
-      navStack.switchToPage(photoViewer);
-    }
-  }
-
   NavStack {
     id: navStack
     objectName: "navStack"
   
-    function switchToPhotoViewer(photo, model, activatedRect) {
-      photoViewer.setCurrentPhoto(photo, model);
-
-      photoViewerTransition.transitionToPhotoViewer(photo, activatedRect);
-    }
-    
     function switchToAlbumViewer(album) {
       albumViewer.album = album;
       

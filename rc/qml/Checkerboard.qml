@@ -42,6 +42,46 @@ Rectangle {
     if (model != null)
       model.unselectAll();
   }
+
+  function ensureIndexVisible(index) {
+    grid.positionViewAtIndex(index, GridView.Visible);
+  }
+
+  // Uses black magic to hunt for the delegate instance with the given index.
+  // Returns undefined if there's no currently-instantiated delegate with that
+  // index.
+  function getDelegateInstanceAt(index) {
+    for(var i = 0; i < grid.contentItem.children.length; ++i) {
+      var item = grid.contentItem.children[i];
+      // We have to check for the specific objectName we gave our delegates
+      // below, since we also get some items that were not our delegates here.
+      if (item.objectName == "delegateItem" && item.index == index)
+        return item;
+    }
+    return undefined;
+  }
+
+  // Uses getDelegateInstanceAt() to get the delegate instance with the given
+  // index, then returns a rect with its coords relative to the given object.
+  function getRectOfItemAt(index, relativeTo) {
+    var item = getDelegateInstanceAt(index);
+    if (!item)
+      return undefined;
+
+    var rect = mapToItem(relativeTo, item.x, item.y - grid.contentY);
+    rect.width = item.width;
+    rect.height = item.height;
+
+    // Now we have to adjust for the border inside the delegate.
+    var borderWidth = widthSansStroke - widthWithStroke;
+    var borderHeight = heightSansStroke - heightWithStroke;
+    rect.x += borderWidth / 2;
+    rect.y += borderHeight / 2;
+    rect.width -= borderWidth;
+    rect.height -= borderHeight;
+
+    return rect;
+  }
   
   color: "white"
   clip: true
@@ -74,6 +114,13 @@ Rectangle {
     cellHeight: heightSansStroke
     
     delegate: Row {
+      // This name is checked for in getDelegateInstanceAt() above.
+      objectName: "delegateItem"
+
+      // This is necessary to expose the index property externally, like for
+      // getDelegateInstanceAt() above.
+      property int index: model.index
+
       Rectangle {
         width: widthSansStroke
         height: heightSansStroke

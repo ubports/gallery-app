@@ -50,6 +50,7 @@
     <file>qml/PhotoViewer.qml</file>
     <file>qml/PhotoViewerTransition.qml</file>
     <file>qml/PlaceholderPopupMenu.qml</file>
+    <file>qml/PopupPhotoViewer.qml</file>
     <file>qml/PushButton.qml</file>
     <file>qml/ReturnButton.qml</file>
     <file>qml/ShareOperationsToolbarButton.qml</file>
