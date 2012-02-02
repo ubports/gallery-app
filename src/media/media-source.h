@@ -39,9 +39,6 @@ class MediaSource : public DataSource {
   Q_PROPERTY(QUrl path READ path NOTIFY path_altered)
   Q_PROPERTY(QUrl previewPath READ preview_path NOTIFY preview_path_altered)
   Q_PROPERTY(int orientation READ orientation NOTIFY orientation_altered)
-  Q_PROPERTY(float orientationRotation READ orientation_rotation NOTIFY orientation_altered)
-  Q_PROPERTY(bool orientationMirrored READ orientation_mirrored NOTIFY orientation_altered)
-  Q_PROPERTY(bool isRotated READ is_rotated NOTIFY orientation_altered)
   Q_PROPERTY(QDate exposureDate READ exposure_date NOTIFY exposure_date_time_altered)
   Q_PROPERTY(QTime exposureTimeOfDay READ exposure_time_of_day NOTIFY exposure_date_time_altered)
   Q_PROPERTY(int exposure_time_t READ exposure_time_t NOTIFY exposure_date_time_altered)
@@ -66,9 +63,6 @@ class MediaSource : public DataSource {
   QUrl preview_path() const;
   
   virtual Orientation orientation() const;
-  float orientation_rotation() const;
-  bool orientation_mirrored() const;
-  bool is_rotated() const;
   
   virtual QDateTime exposure_date_time() const;
   QDate exposure_date() const;

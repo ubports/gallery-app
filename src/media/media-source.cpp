@@ -62,19 +62,9 @@ QUrl MediaSource::preview_path() const {
 }
 
 Orientation MediaSource::orientation() const {
+  // Default is identity orientation; subclasses should parse source's metadata
+  // and return proper value
   return TOP_LEFT_ORIGIN;
-}
-
-float MediaSource::orientation_rotation() const {
-  return OrientationCorrection::FromOrientation(orientation()).rotation_angle_;
-}
-
-bool MediaSource::orientation_mirrored() const {
-  return OrientationCorrection::FromOrientation(orientation()).horizontal_scale_factor_ < 0.0;
-}
-
-bool MediaSource::is_rotated() const {
-  return (orientation_rotation() == 90.0) || (orientation_rotation() == -90.0);
 }
 
 QDateTime MediaSource::exposure_date_time() const {

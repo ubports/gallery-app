@@ -15,27 +15,31 @@
  *
  * Authors:
  * Lucas Beeler <lucas@yorba.org>
- */
+ * Jim Nelson <jim@yorba.org>
+*/
 
 #ifndef GALLERY_GALLERY_STANDARD_IMAGE_PROVIDER_H_
 #define GALLERY_GALLERY_STANDARD_IMAGE_PROVIDER_H_
 
 #include <QObject>
 #include <QDeclarativeImageProvider>
+#include <QImage>
+#include <QSize>
+#include <QString>
 
 class GalleryStandardImageProvider
   : public QObject, public QDeclarativeImageProvider {
   Q_OBJECT
-
+  
  public:
   GalleryStandardImageProvider();
   virtual ~GalleryStandardImageProvider();
-
+  
   static GalleryStandardImageProvider* instance();
-
+  
   virtual QImage requestImage(const QString& id, QSize* size,
     const QSize& requestedSize);
-
+  
  private:
   static GalleryStandardImageProvider* instance_;
 };

@@ -194,7 +194,9 @@ Rectangle {
     height: parent.height
     x: 0
     y: 0
-        
+    
+    sourceSize.width: (width <= 1024) ? (width * 2) : width
+    
     asynchronous: !isAnimate
     cache: !isAnimate
     smooth: !isAnimate

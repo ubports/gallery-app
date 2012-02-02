@@ -15,14 +15,13 @@
  *
  * Authors:
  * Lucas Beeler <lucas@yorba.org>
+ * Jim Nelson <jim@yorba.org>
  */
 
 #include "qml/gallery-standard-image-provider.h"
 
-#include <QFileInfo>
-
-#include <climits>
-#include <memory>
+#include <QImageReader>
+#include <QSize>
 
 #include "photo/photo-metadata.h"
 
@@ -45,40 +44,39 @@ GalleryStandardImageProvider* GalleryStandardImageProvider::instance() {
 
 QImage GalleryStandardImageProvider::requestImage(const QString& id,
   QSize* size, const QSize& requestedSize) {
-  std::auto_ptr<PhotoMetadata> metadata(PhotoMetadata::FromFile(id));
-  QImage loaded = QImage(id);
-
-  // respect EXIF orientation in photo metadata, if any
-  if (metadata.get() != NULL && metadata->orientation() != TOP_LEFT_ORIGIN)
-    loaded = loaded.transformed(metadata->orientation_transform());
-
-  double aspect_ratio = ((double) loaded.width()) / ((double) loaded.height());
-
-  if (requestedSize.width() > 0 && requestedSize.height() > 0) {
-    // if both width and height were explicitly specified, constrain on height
-    // if portrait and constrain on width if landscape
-    if (aspect_ratio < 1.0)
-      loaded = loaded.scaledToHeight(requestedSize.height(),
-        Qt::SmoothTransformation);
-    else
-      loaded = loaded.scaledToWidth(requestedSize.width(),
-        Qt::SmoothTransformation);
-  } else if (requestedSize.width() > 0) {
-    // if only width was specified, constrain on width
-      loaded = loaded.scaledToWidth(requestedSize.width(),
-        Qt::SmoothTransformation);
-  } else if (requestedSize.height() > 0) {
-    // if only height was specified, constrain on height
-      loaded = loaded.scaledToHeight(requestedSize.height(),
-        Qt::SmoothTransformation);
-  } else {
-      // if neither width nor height specified, do nothing -- the QML layer is
-      // getting back a full-sized image
-      ;
+  QImageReader reader(id);
+  
+  // use scaled load-and-decode if size has been requested
+  if (requestedSize.width() > 0 || requestedSize.height() > 0) {
+    // load file's original size
+    QSize originalSize = reader.size();
+    if (originalSize.isValid()) {
+      // scale by aspect ratio, expanding if necessary ... note that the scale()
+      // method will deal with one zero or negative dimension (but obviously not
+      // with two)
+      originalSize.scale(requestedSize, Qt::KeepAspectRatioByExpanding);
+      
+      // configure reader for scaled load-and-decode
+      reader.setScaledSize(originalSize);
+    }
   }
-
-  size->setWidth(loaded.width());
-  size->setHeight(loaded.height());
-
-  return loaded;
+  
+  QImage image = reader.read();
+  if (image.isNull()) {
+    qDebug("Unable to load %s: %s", qPrintable(id), qPrintable(reader.errorString()));
+    
+    return image;
+  }
+  
+  // apply orientation if necessary
+  std::auto_ptr<PhotoMetadata> metadata(PhotoMetadata::FromFile(id));
+  if (metadata.get() != NULL && metadata->orientation() != TOP_LEFT_ORIGIN)
+    image = image.transformed(metadata->orientation_transform());
+  
+  if (size != NULL) {
+    size->setWidth(image.width());
+    size->setHeight(image.height());
+  }
+  
+  return image;
 }
