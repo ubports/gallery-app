@@ -145,8 +145,10 @@ Rectangle {
             // Press-and-hold activates selection mode,
             // but need to differentiate in onReleased whether it's a mode
             // change or a selection/activation
-            if (allowSelection && checkerboard.state == "normal")
+            if (allowSelection && checkerboard.state == "normal") {
               checkerboard.state = "to-selecting";
+              checkerboard.model.toggleSelection(object);
+            }
           }
           
           onReleased: {
