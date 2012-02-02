@@ -170,7 +170,7 @@ Rectangle {
       
       onActivated: {
         if (objectModel.typeName == "MediaSource") {
-          navStack.switchToPhotoViewer(object, photoViewerModel, activatedRect);
+          photoViewer.animateOpen(object, activatedRect);
         } else {
           // Event marker
           visible = false;
@@ -281,6 +281,31 @@ Rectangle {
       eventsCheckerboard.selectedCount > 0)
 
     onAlbumOperationsButtonPressed: { albumPicker.flipVisibility(); }
+  }
 
+  PopupPhotoViewer {
+    id: photoViewer
+
+    anchors.fill: parent
+    z: 100
+
+    model: eventsCheckerboard.photoViewerModel
+
+    onPhotoChanged: {
+      if (photo && eventsCheckerboard.model) {
+        eventsCheckerboard.ensureIndexVisible(
+          eventsCheckerboard.model.indexOf(photo)
+        );
+      }
+    }
+
+    onCloseRequested: {
+      var thumbnailRect =
+        eventsCheckerboard.getRectOfItemAt(eventsCheckerboard.model.indexOf(photo), photoViewer);
+      if (thumbnailRect)
+        animateClosed(thumbnailRect);
+      else
+        close();
+    }
   }
 }

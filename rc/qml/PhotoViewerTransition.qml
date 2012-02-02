@@ -25,45 +25,50 @@ Item {
   id: photoViewerTransition
   objectName: "photoViewerTransition"
 
-  x: 0
-  y: 0
-  width: parent.width
-  height: parent.height
-
-  function transitionToPhotoViewer(photo, activatedRect) {
-    expandAnimationPhoto.prepareForAnimation(photo, activatedRect);
-    switchToPhotoViewAnimation.start();
+  function transitionToPhotoViewer(photo, thumbnailRect) {
+    expandPhoto.setOverThumbnail(photo, thumbnailRect);
+    showPhotoViewerAnimation.start();
   }
 
-  signal transitionCompleted()
+  function transitionFromPhotoViewer(photo, thumbnailRect) {
+    expandPhoto.setOverThumbnail(photo, thumbnailRect);
+    hidePhotoViewerAnimation.thumbnailRect =
+      Qt.rect(expandPhoto.x, expandPhoto.y, expandPhoto.width, expandPhoto.height);
+
+    expandPhoto.x /= 10;
+    expandPhoto.y /= 10;
+    expandPhoto.width = parent.width - expandPhoto.x * 2;
+    expandPhoto.height = parent.height - expandPhoto.y * 2;
+    hidePhotoViewerAnimation.start();
+  }
+
+  signal transitionToPhotoViewerCompleted()
+  signal transitionFromPhotoViewerCompleted()
 
   Rectangle {
     id: fadeInRectangle
+
     visible: false
     color: "#444444"
-    x: 0
-    y: 0
-    width: parent.width
-    height: parent.height
-    z: 1
+    anchors.fill: parent
   }
 
   PhotoComponent {
-    id: expandAnimationPhoto
+    id: expandPhoto
+
     visible: false
     isCropped: false
     isPreview: true
     isAnimate: true
     color: "#00000000"
-    z: 1
 
-    function prepareForAnimation(photo, activatedRect) {
+    function setOverThumbnail(photo, thumbnailRect) {
       mediaSource = photo;
 
-      x = activatedRect.x;
-      y = activatedRect.y;
-      width = activatedRect.width;
-      height = activatedRect.height;
+      x = thumbnailRect.x;
+      y = thumbnailRect.y;
+      width = thumbnailRect.width;
+      height = thumbnailRect.height;
 
       // Expand the photo based on its real aspect ratio.
       if (width == paintedWidth) {
@@ -79,21 +84,51 @@ Item {
   }
 
   SequentialAnimation {
-    id: switchToPhotoViewAnimation
+    id: showPhotoViewerAnimation
 
     ParallelAnimation {
       SequentialAnimation {
-        FadeInAnimation { target: expandAnimationPhoto; duration: 40; }
-        ExpandAnimation { target: expandAnimationPhoto; duration: 160; }
+        FadeInAnimation { target: expandPhoto; duration: 40; }
+        ExpandAnimation { target: expandPhoto; duration: 160; }
       }
       FadeInAnimation { target: fadeInRectangle; duration: 200; }
     }
 
-    PropertyAction { target: expandAnimationPhoto; property: "visible"; value: false; }
+    PropertyAction { target: expandPhoto; property: "visible"; value: false; }
     PropertyAction { target: fadeInRectangle; property: "visible"; value: false; }
 
     onCompleted: {
-      transitionCompleted();
+      transitionToPhotoViewerCompleted();
+    }
+  }
+
+  SequentialAnimation {
+    id: hidePhotoViewerAnimation
+
+    property variant thumbnailRect: {"x": 0, "y": 0, "width": 0, "height": 0}
+
+    ParallelAnimation {
+      FadeInAnimation { target: fadeInRectangle; startOpacity: 1; endOpacity: 0; duration: 200; }
+      SequentialAnimation {
+        PropertyAction { target: expandPhoto; property: "visible"; value: true; }
+        ExpandAnimation {
+          target: expandPhoto
+          endX: hidePhotoViewerAnimation.thumbnailRect.x
+          endY: hidePhotoViewerAnimation.thumbnailRect.y
+          endWidth: hidePhotoViewerAnimation.thumbnailRect.width
+          endHeight: hidePhotoViewerAnimation.thumbnailRect.height
+          duration: 160
+          easingType: Easing.OutQuad
+        }
+        FadeInAnimation { target: expandPhoto; startOpacity: 1; endOpacity: 0; duration: 40; }
+      }
+    }
+
+    PropertyAction { target: expandPhoto; property: "visible"; value: false; }
+    PropertyAction { target: fadeInRectangle; property: "visible"; value: false; }
+
+    onCompleted: {
+      transitionFromPhotoViewerCompleted();
     }
   }
 }

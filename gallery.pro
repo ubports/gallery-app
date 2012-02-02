@@ -128,6 +128,7 @@ OTHER_FILES += \
 	rc/qml/PhotoViewer.qml \
 	rc/qml/PhotoViewerTransition.qml \
 	rc/qml/PlaceholderPopupMenu.qml \
+	rc/qml/PopupPhotoViewer.qml \
 	rc/qml/PushButton.qml \
 	rc/qml/ReturnButton.qml \
 	rc/qml/ShareOperationsToolbarButton.qml \

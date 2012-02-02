@@ -61,7 +61,6 @@ Rectangle {
     }
   }
 
-
   AlbumViewMasthead {
     id: masthead
     objectName: "masthead"
@@ -253,7 +252,7 @@ Rectangle {
       masthead.isSelectionInProgress = inSelectionMode
     }
     
-    onActivated: navStack.switchToPhotoViewer(object, model, activatedRect)
+    onActivated: photoViewer.animateOpen(object, activatedRect)
   }
 
   AlbumPickerPopup {
@@ -306,5 +305,26 @@ Rectangle {
     onMoreOperationsButtonPressed: addPhotosMenu.flipVisibility();
 
     onAlbumOperationsButtonPressed: album_picker.flipVisibility();
+  }
+
+  PopupPhotoViewer {
+    id: photoViewer
+
+    anchors.fill: parent
+    z: 100
+
+    model: gridCheckerboard.model
+
+    onIndexChanged: {
+      gridCheckerboard.ensureIndexVisible(index);
+    }
+
+    onCloseRequested: {
+      var thumbnailRect = gridCheckerboard.getRectOfItemAt(index, photoViewer);
+      if (thumbnailRect)
+        animateClosed(thumbnailRect);
+      else
+        close();
+    }
   }
 }
