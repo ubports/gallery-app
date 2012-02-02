@@ -20,6 +20,7 @@
 #include "media/media-source.h"
 
 #include "media/media-collection.h"
+#include "qml/gallery-standard-image-provider.h"
 
 MediaSource::MediaSource() {
 }
@@ -49,8 +50,11 @@ const QFileInfo& MediaSource::file() const {
 }
 
 QUrl MediaSource::path() const {
-  return QUrl::fromUserInput("image://gallery-standard/" +
-    file_.absoluteFilePath());
+  return QUrl::fromLocalFile(file_.absoluteFilePath());
+}
+
+QUrl MediaSource::gallery_path() const {
+  return GalleryStandardImageProvider::ToURL(file_);
 }
 
 const QFileInfo& MediaSource::preview_file() const {
@@ -59,6 +63,10 @@ const QFileInfo& MediaSource::preview_file() const {
 
 QUrl MediaSource::preview_path() const {
   return QUrl::fromLocalFile(preview_file_->absoluteFilePath());
+}
+
+QUrl MediaSource::gallery_preview_path() const {
+  return GalleryStandardImageProvider::ToURL(*preview_file_);
 }
 
 Orientation MediaSource::orientation() const {

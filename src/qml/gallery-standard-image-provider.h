@@ -23,19 +23,26 @@
 
 #include <QObject>
 #include <QDeclarativeImageProvider>
+#include <QFileInfo>
 #include <QImage>
 #include <QSize>
 #include <QString>
+#include <QUrl>
 
 class GalleryStandardImageProvider
   : public QObject, public QDeclarativeImageProvider {
   Q_OBJECT
   
  public:
+  static const char* PROVIDER_ID;
+  static const char* PROVIDER_ID_SCHEME;
+  
   GalleryStandardImageProvider();
   virtual ~GalleryStandardImageProvider();
   
   static GalleryStandardImageProvider* instance();
+  
+  static QUrl ToURL(const QFileInfo& file);
   
   virtual QImage requestImage(const QString& id, QSize* size,
     const QSize& requestedSize);

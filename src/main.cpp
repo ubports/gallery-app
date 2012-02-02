@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
   QGLWidget *gl_widget = new QGLWidget(format);
   
   QDeclarativeView view;
-  view.engine()->addImageProvider("gallery-standard",
+  view.engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
     GalleryStandardImageProvider::instance());
   view.setSource(QUrl("qrc:/rc/qml/TabletSurface.qml"));
   view.setViewport(gl_widget);

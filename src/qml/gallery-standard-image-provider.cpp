@@ -27,6 +27,9 @@
 
 GalleryStandardImageProvider* GalleryStandardImageProvider::instance_ = NULL;
 
+const char* GalleryStandardImageProvider::PROVIDER_ID = "gallery-standard";
+const char* GalleryStandardImageProvider::PROVIDER_ID_SCHEME = "image://gallery-standard/";
+
 GalleryStandardImageProvider::GalleryStandardImageProvider()
   : QDeclarativeImageProvider(QDeclarativeImageProvider::Image) {
 }
@@ -40,6 +43,10 @@ GalleryStandardImageProvider* GalleryStandardImageProvider::instance() {
   }
 
   return instance_;
+}
+
+QUrl GalleryStandardImageProvider::ToURL(const QFileInfo& file) {
+  return QUrl::fromUserInput(PROVIDER_ID_SCHEME + file.absoluteFilePath());
 }
 
 QImage GalleryStandardImageProvider::requestImage(const QString& id,

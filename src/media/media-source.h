@@ -38,6 +38,8 @@ class MediaSource : public DataSource {
   Q_OBJECT
   Q_PROPERTY(QUrl path READ path NOTIFY path_altered)
   Q_PROPERTY(QUrl previewPath READ preview_path NOTIFY preview_path_altered)
+  Q_PROPERTY(QUrl galleryPath READ gallery_path NOTIFY path_altered)
+  Q_PROPERTY(QUrl galleryPreviewPath READ gallery_preview_path NOTIFY preview_path_altered)
   Q_PROPERTY(int orientation READ orientation NOTIFY orientation_altered)
   Q_PROPERTY(QDate exposureDate READ exposure_date NOTIFY exposure_date_time_altered)
   Q_PROPERTY(QTime exposureTimeOfDay READ exposure_time_of_day NOTIFY exposure_date_time_altered)
@@ -59,8 +61,11 @@ class MediaSource : public DataSource {
   
   const QFileInfo& file() const;
   QUrl path() const;
+  QUrl gallery_path() const;
+  
   const QFileInfo& preview_file() const;
   QUrl preview_path() const;
+  QUrl gallery_preview_path() const;
   
   virtual Orientation orientation() const;
   

@@ -187,7 +187,8 @@ Rectangle {
       if (!parent.mediaSource)
         return "";
       
-      return isPreview ? mediaSource.previewPath : mediaSource.path
+      // Load image using the Gallery image provider to ensure EXIF orientation
+      return isPreview ? mediaSource.galleryPreviewPath : mediaSource.galleryPath
     }
 
     width: parent.width
