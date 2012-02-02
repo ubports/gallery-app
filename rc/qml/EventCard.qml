@@ -24,15 +24,19 @@ Rectangle {
   id: eventCard
   
   property variant event
-  property string textColor: "mediumBlue"
+  property string textColor: "#95b5de"
   property string backgroundColor: "white"
+  property bool hasBottomSeparator: false
   
   color: backgroundColor
   
   Text {
+    id: text
+    
     color: textColor
     
     anchors.fill: parent
+    anchors.bottomMargin: 1.0
     
     verticalAlignment: Text.AlignVCenter
     horizontalAlignment: Text.AlignHCenter
@@ -42,5 +46,15 @@ Rectangle {
     font.pixelSize: 24
     
     text: (event) ? Qt.formatDate(event.date, "d - M - yyyy") : ""
+  }
+  
+  Rectangle {
+    anchors.top: text.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    
+    width: text.width - (parent.anchors.leftMargin + parent.anchors.rightMargin)
+    height: hasBottomSeparator ? 1 : 0
+    
+    color: textColor
   }
 }

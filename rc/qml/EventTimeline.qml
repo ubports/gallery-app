@@ -29,7 +29,7 @@ ListView {
   property int elementHeight: 48
   property int elementSpacing: 8
   
-  property int eventCardWidth: 198 + (elementSpacing * 2)
+  property int eventCardWidth: 198
   property int eventCardHeight: elementHeight
   
   property int headTailCount: 7
@@ -78,11 +78,14 @@ ListView {
       id: eventCard
       
       anchors.centerIn: parent
+      anchors.leftMargin: elementSpacing
+      anchors.rightMargin: elementSpacing
       
       width: eventCardWidth
       height: eventCardHeight
       
       event: model.event
+      hasBottomSeparator: index != (eventTimeline.model.count - 1)
       
       MouseArea {
         anchors.fill: parent
