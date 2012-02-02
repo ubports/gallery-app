@@ -28,6 +28,7 @@ Rectangle {
   property bool isAnimate: false
   property int zoomFocusX: 0
   property int zoomFocusY: 0
+  property real pinchInteractionStartZoom: 1.0
 
   // read-only
   property real paintedWidth: image.paintedWidth
@@ -50,8 +51,8 @@ Rectangle {
     }
 
     if (state == "unzoomed") {
-      setZoomFocus(constrainToPanRegion(getZoomFocusFromMouse(x, y)));
-      state = "zoomed";
+      setZoomFocus(constrainToPanRegion(getZoomFocusFromMouse(x, y), kMaxZoomFactor));
+      state = "full_zoom";
     } else {
       state = "unzoomed";
       this.clearZoomFocus();
@@ -59,7 +60,7 @@ Rectangle {
   }
 
   function pan(x, y) {
-    if (state != "zoomed")
+    if (state == "unzoomed")
       return;
 
     setImageTranslation(constrainToPanRegion(makePoint(x, y)));
@@ -82,11 +83,20 @@ Rectangle {
     return makePoint(zoomFocusX, zoomFocusY);
   }
 
-  function constrainToPanRegion(p) {
-    var panRegion = { "xMax": (image.paintedWidth * kMaxZoomFactor - width) / 2,
-                      "yMax": (image.paintedHeight * kMaxZoomFactor - height) / 2,
-                      "xMin": (width - (image.paintedWidth * kMaxZoomFactor)) / 2,
-                      "yMin": (height - (image.paintedHeight * kMaxZoomFactor)) / 2 };
+  function constrainToPanRegion(p, regionScaleFactor) {
+    if (!regionScaleFactor)
+      regionScaleFactor = image.scale;
+
+    var panRegion = { "xMax": (image.paintedWidth * regionScaleFactor - width) / 2,
+                      "yMax": (image.paintedHeight * regionScaleFactor - height) / 2,
+                      "xMin": (width - (image.paintedWidth * regionScaleFactor)) / 2,
+                      "yMin": (height - (image.paintedHeight * regionScaleFactor)) / 2 };
+
+    if (panRegion.xMax < 0)
+      panRegion.xMax = 0;
+
+    if (panRegion.yMax < 0)
+      panRegion.yMax = 0;
 
     var pLocal = { "x": p.x, "y": p.y };
 
@@ -116,16 +126,47 @@ Rectangle {
     zoomFocusY = 0;
   }
 
+  function beginPinchZoom() {
+    pinchInteractionStartZoom = image.scale;
+
+    state = "intermediate_zoom";
+  }
+
+  function updatePinchZoom(factor) {
+    if (state != "intermediate_zoom")
+      return;
+
+    var newScale = factor * pinchInteractionStartZoom;
+    if (newScale < 1.0)
+      newScale = 1.0;
+    else if (newScale > kMaxZoomFactor)
+      newScale = kMaxZoomFactor;
+
+    image.scale = newScale;
+  }
+
+  function endPinchZoom() {
+    if (image.scale == 1.0)
+      state = "unzoomed";
+    else if (image.scale == kMaxZoomFactor)
+      state = "full_zoom";
+  }
+
   states: [
     State { name: "unzoomed";
       PropertyChanges { target: image; scale: 1.0; x: 0; y: 0 } },
 
-    State { name: "zoomed";
-      PropertyChanges { target: image; scale: kMaxZoomFactor; x: zoomFocusX; y: zoomFocusY; } }
+    State { name: "full_zoom";
+      PropertyChanges { target: image; scale: kMaxZoomFactor; x: zoomFocusX; y: zoomFocusY; } },
+
+    State { name: "intermediate_zoom"; }
   ]
 
   transitions: [
-    Transition { from: "*"; to: "*";
+    Transition { from: "*"; to: "unzoomed";
+      NumberAnimation { properties: "x, y, scale"; easing.type: Easing.InQuad;
+                        duration: 350; } },
+    Transition { from: "unzoomed"; to: "full_zoom";
       NumberAnimation { properties: "x, y, scale"; easing.type: Easing.InQuad;
                         duration: 350; } }
   ]

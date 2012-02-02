@@ -20,6 +20,7 @@
 
 import QtQuick 1.1
 import Gallery 1.0
+import uTouch 1.0
 
 Rectangle {
   id: photoViewer
@@ -85,11 +86,32 @@ Rectangle {
     // Don't allow flicking while albumPicker is visible or the image is zoomed.
     // When images are zoomed, mouse drags should pan, not flick.
     interactive: (albumPicker.state == "hidden") && (currentItem != null) &&
-      (currentItem.state != "zoomed")
+      (currentItem.state == "unzoomed")
     
     onCurrentIndexChanged: {
       if (model)
         photo = model.getAt(currentIndex);
+    }
+
+    UTouchPinchArea {
+      anchors.fill: parent;
+
+      onGestureStart: {
+        if (albumPicker.state != "hidden")
+          return;
+
+        chromeWrapper.visible = false;
+        imagePager.currentItem.beginPinchZoom();
+      }
+
+      onGestureEnd: {
+        chromeWrapper.visible = true;
+        imagePager.currentItem.endPinchZoom();
+      }
+
+      onGestureUpdate: {
+        imagePager.currentItem.updatePinchZoom(radius.current / radius.initial);
+      }
     }
     
     MouseArea {
@@ -112,12 +134,12 @@ Rectangle {
       }
       
       onClicked: {
-        if (parent.currentItem.state != "zoomed")
+        if (parent.currentItem.state == "unzoomed")
           chromeFadeWaitClock.restart();
       }
 
       onPressed: {
-        if (parent.currentItem.state != "zoomed")
+        if (parent.currentItem.state == "unzoomed")
           return;
 
         isDragInProgress = true;
@@ -156,7 +178,7 @@ Rectangle {
       }
     }
   }
-  
+
   Rectangle {
     id: chromeWrapper
     objectName: "chromeWrapper"
