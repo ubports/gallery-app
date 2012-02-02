@@ -23,6 +23,18 @@
 #include <QFileInfo>
 #include <QImage>
 
+bool Photo::IsValid(const QFileInfo& file) {
+  QString extension = file.suffix().toLower();
+  // TODO: be extension-agnostic.  This check is here because
+  // QImageReader.canRead() will return true for raw files named *.srw, but
+  // then QImage will fail to load them.
+  if (extension != "jpg" && extension != "jpeg" && extension != "jpe")
+    return false;
+
+  QImageReader reader(file.filePath());
+  return reader.canRead();
+}
+
 Photo::Photo(const QFileInfo& file)
   : metadata_(PhotoMetadata::FromFile(file)), exposure_date_time_(NULL) {
   MediaSource::Init(file);
