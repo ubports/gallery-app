@@ -25,6 +25,7 @@ Loader {
   
   property AlbumPage albumPage
   property int gutter: 24
+  property int borderWidth: 1
   
   // read-only
   property variant mediaSourceList: (albumPage) ? albumPage.mediaSourceList : null
@@ -51,5 +52,6 @@ Loader {
     item.width = loader.width;
     item.height = loader.height;
     item.gutter = loader.gutter
+    item.borderWidth = loader.borderWidth
   }
 }

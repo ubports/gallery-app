@@ -22,10 +22,10 @@ import QtQuick 1.1
 Rectangle {
   property variant mediaSource
   property int gutter: 0
-  property int borderWidth: 3
+  property int borderWidth: 1
   
   border.width: borderWidth
-  border.color: "#657CA9"
+  border.color: "#95b5de"
   
   PhotoComponent {
     id: photo

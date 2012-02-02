@@ -21,43 +21,33 @@ import QtQuick 1.1
 
 Row {
   id: albumPreviewB
-  objectName: "albumPreviewB"
   
   property variant mediaSourceList
   property int gutter: 24
-  property int borderWidth: 3
+  property int borderWidth: 1
   
   Column {
-    width: (parent.width / 2) - albumPreviewB.borderWidth
+    id: left
+    
+    width: parent.width / 2
     height: parent.height
     
     FramePortrait {
       id: top
-      objectName: "top"
       
       width: parent.width
-      height: (parent.height / 2) - borderWidth
+      height: parent.height / 2
       
       mediaSource: (mediaSourceList != null) ? mediaSourceList[0] : null
       gutter: albumPreviewB.gutter
-      border.width: albumPreviewB.borderWidth
-    }
-    
-    Rectangle {
-      id: hdivider
-      objectName: "hdivider"
-      
-      width: parent.width
-      height: albumPreviewB.borderWidth
-      color: "#657CA9"
+      borderWidth: albumPreviewB.borderWidth
     }
     
     FramePortrait {
       id: bottom
-      objectName: "bottom"
       
       width: parent.width
-      height: (parent.height / 2) - borderWidth
+      height: parent.height / 2
       
       mediaSource: (mediaSourceList != null) ? mediaSourceList[1] : null
       gutter: albumPreviewB.gutter
@@ -65,21 +55,11 @@ Row {
     }
   }
   
-  Rectangle {
-    id: vdivider
-    objectName: "vdivider"
-    
-    width: top.borderWidth
-    height: parent.height - albumPreviewB.borderWidth
-    color: "#657CA9"
-  }
-  
   FramePortrait {
     id: right
-    objectName: "right"
     
-    width: (parent.width / 2) - borderWidth
-    height: parent.height - borderWidth
+    width: parent.width / 2
+    height: parent.height
     
     mediaSource: (mediaSourceList != null) ? mediaSourceList[2] : null
     gutter: albumPreviewB.gutter

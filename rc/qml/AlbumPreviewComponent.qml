@@ -31,12 +31,15 @@ Rectangle {
     
     albumPage: parent.albumPage
     gutter: 8
+    borderWidth: 1
     
     width: parent.width
-    height: parent.height - 24
+    height: parent.height - text.height
   }
   
   Text {
+    id: text
+    
     height: 24
     
     anchors.horizontalCenter: parent.horizontalCenter
@@ -48,5 +51,13 @@ Rectangle {
     
     text: (albumPage) ? albumPage.owner.name : "";
     smooth: true
+  }
+  
+  Image {
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.top: albumPageComponent.top
+    
+    source: "../img/bookmark-ribbon.png"
+    cache: true
   }
 }
