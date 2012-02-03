@@ -288,9 +288,11 @@ Rectangle {
 
     anchors.fill: parent
     z: 100
-
-    model: eventsCheckerboard.photoViewerModel
-
+    
+    onOpening: {
+      model = eventsCheckerboard.photoViewerModel;
+    }
+    
     onPhotoChanged: {
       if (photo && eventsCheckerboard.model) {
         eventsCheckerboard.ensureIndexVisible(

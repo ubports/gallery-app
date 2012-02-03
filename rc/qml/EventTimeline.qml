@@ -70,6 +70,7 @@ ListView {
           mediaSource: model.mediaSource
           isCropped: true
           isPreview: true
+          ownerName: "EventTimeline"
         }
       }
     }
@@ -117,6 +118,7 @@ ListView {
           mediaSource: model.mediaSource
           isCropped: true
           isPreview: true
+          ownerName: "EventTimeline"
         }
       }
     }

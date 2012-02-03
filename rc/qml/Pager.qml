@@ -26,7 +26,9 @@ import QtQuick 1.1
 ListView {
   id: pager
   objectName: "pager"
-
+  
+  property int pageCacheSize: 4
+  
   function pageForward() {
     incrementCurrentIndex();
     positionViewAtIndex(currentIndex, ListView.Beginning);
@@ -46,7 +48,7 @@ ListView {
 
   orientation: ListView.Horizontal
   snapMode: ListView.SnapOneItem
-  cacheBuffer: width * 4
+  cacheBuffer: width * pageCacheSize
   flickDeceleration: 50
   keyNavigationWraps: true
   highlightMoveSpeed: 2000.0

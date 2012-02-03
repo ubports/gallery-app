@@ -60,6 +60,8 @@ Item {
     isCropped: false
     isPreview: true
     isAnimate: true
+    ownerName: "PhotoViewerTransition"
+    
     color: "#00000000"
 
     function setOverThumbnail(photo, thumbnailRect) {

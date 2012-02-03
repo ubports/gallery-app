@@ -37,6 +37,7 @@ Rectangle {
     height: parent.height - (gutter * 2)
     
     mediaSource: parent.mediaSource
+    ownerName: "FramePortrait"
     
     isCropped: true
   }

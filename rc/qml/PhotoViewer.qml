@@ -85,6 +85,7 @@ Rectangle {
       isZoomable: true;
       
       mediaSource: model.mediaSource
+      ownerName: "PhotoViewer"
     }
     
     // Don't allow flicking while albumPicker is visible or the image is zoomed.

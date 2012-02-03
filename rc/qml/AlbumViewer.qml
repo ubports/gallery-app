@@ -103,6 +103,8 @@ Rectangle {
     anchors.left: parent.left
     anchors.right: parent.right
     
+    pageCacheSize: 1
+    
     visible: true
     
     model: AlbumPageModel {
@@ -229,6 +231,7 @@ Rectangle {
       mediaSource: modelData.mediaSource
       isCropped: true
       isPreview: true
+      ownerName: "AlbumViewer grid"
     }
 
     MouseArea {
@@ -313,8 +316,10 @@ Rectangle {
     anchors.fill: parent
     z: 100
 
-    model: gridCheckerboard.model
-
+    onOpening: {
+      model = gridCheckerboard.model
+    }
+    
     onIndexChanged: {
       gridCheckerboard.ensureIndexVisible(index);
     }

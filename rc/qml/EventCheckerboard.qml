@@ -33,6 +33,7 @@ Checkerboard {
       mediaSource: (visible) ? modelData.mediaSource : null
       isCropped: true
       isPreview: true
+      ownerName: "EventCheckerboard"
     }
     
     EventCard {

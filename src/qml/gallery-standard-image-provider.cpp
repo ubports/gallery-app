@@ -57,7 +57,10 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
   if (requestedSize.width() > 0 || requestedSize.height() > 0) {
     // load file's original size
     QSize originalSize = reader.size();
-    if (originalSize.isValid()) {
+    
+    // only scale if scaling down, not up
+    if (originalSize.isValid() && originalSize.width() >= requestedSize.width()
+      && originalSize.height() >= requestedSize.height()) {
       // scale by aspect ratio, expanding if necessary ... note that the scale()
       // method will deal with one zero or negative dimension (but obviously not
       // with two)
@@ -84,6 +87,11 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
     size->setWidth(image.width());
     size->setHeight(image.height());
   }
+  
+#ifdef GALLERY_LOG_IMAGE
+  qDebug("Loaded %s req:%dx%d ret:%dx%d", qPrintable(id), requestedSize.width(),
+    requestedSize.height(), image.width(), image.height());
+#endif
   
   return image;
 }

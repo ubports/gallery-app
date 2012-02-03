@@ -29,7 +29,8 @@ Rectangle {
   property int zoomFocusX: 0
   property int zoomFocusY: 0
   property real pinchInteractionStartZoom: 1.0
-
+  property string ownerName: "(not set)"
+  
   // read-only
   property real paintedWidth: image.paintedWidth
   property real paintedHeight: image.paintedHeight
@@ -151,7 +152,7 @@ Rectangle {
     else if (image.scale == kMaxZoomFactor)
       state = "full_zoom";
   }
-
+  
   states: [
     State { name: "unzoomed";
       PropertyChanges { target: image; scale: 1.0; x: 0; y: 0 } },
@@ -187,6 +188,11 @@ Rectangle {
       if (!parent.mediaSource)
         return "";
       
+      // TODO: If MediaSource could return dimensions of both original image
+      // and its preview, could dynamically determine if the display dimensions
+      // are smaller than preview's and automatically use that instead of a
+      // full image load
+      
       // Load image using the Gallery image provider to ensure EXIF orientation
       return isPreview ? mediaSource.galleryPreviewPath : mediaSource.galleryPath
     }
@@ -196,7 +202,9 @@ Rectangle {
     x: 0
     y: 0
     
-    sourceSize.width: (width <= 1024) ? (width * 2) : width
+    // By using a minimum sourceSize width, can reduce the amount of I/O
+    // fetching the same image
+    sourceSize.width: (width <= 1024) ? 1024 : width
     
     asynchronous: !isAnimate
     cache: !isAnimate

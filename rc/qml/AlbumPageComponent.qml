@@ -36,7 +36,7 @@ Loader {
   }
   
   onMediaSourceListChanged: {
-    if (!mediaSourceList)
+    if (!mediaSourceList || source == "")
       return;
     
     // MediaSources within page have changed, force reload of same QML file

@@ -35,12 +35,14 @@ Item {
   function setCurrentIndex(index) {
     viewer.setCurrentIndex(index);
   }
-
+  
+  signal opening()
   signal opened() // The photo viewer's opening animation is finished.
   signal closeRequested() // The user pressed the back button.  Call animateClosed() or close().
   signal closed() // The photo viewer's closing animation is finished.
 
   function animateOpen(photo, thumbnailRect) {
+    opening();
     viewer.setCurrentPhoto(photo);
     transition.transitionToPhotoViewer(photo, thumbnailRect);
   }
