@@ -34,12 +34,16 @@ MediaCollection::MediaCollection(const QDir& directory)
   directory_.setSorting(QDir::Name);
   directory_.mkdir(THUMBNAIL_DIR);
   
-  // TODO: Assuming all files are photos in specified directory
   QSet<DataObject*> photos;
   QStringList filenames = directory_.entryList();
   QString filename;
   foreach (filename, filenames) {
-    Photo* photo = new Photo(QFileInfo(directory_, filename));
+    QFileInfo file(directory_, filename);
+
+    if (!Photo::IsValid(file))
+      continue;
+
+    Photo* photo = new Photo(file);
     // TODO: Need to address how to deal with photos that have no exposure
     // date/time.  See also:
     // https://bugs.launchpad.net/goodhope/+bug/918844

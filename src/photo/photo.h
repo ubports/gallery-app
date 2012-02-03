@@ -34,6 +34,8 @@ class Photo : public MediaSource {
  public:
   static const int PREVIEW_WIDTH_MAX = 198;
   static const int PREVIEW_HEIGHT_MAX = 148;
+
+  static bool IsValid(const QFileInfo& file);
   
   explicit Photo(const QFileInfo& file);
   
