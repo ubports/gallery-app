@@ -45,6 +45,10 @@ Rectangle {
     }
   ]
 
+  onAlbumChanged: {
+    templatePager.pageTo(album.currentPage);
+  }
+
   PlaceholderPopupMenu {
     id: addPhotosMenu
 
