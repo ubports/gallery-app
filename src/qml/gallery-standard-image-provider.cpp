@@ -37,11 +37,15 @@ GalleryStandardImageProvider::GalleryStandardImageProvider()
 GalleryStandardImageProvider::~GalleryStandardImageProvider() {
 }
 
-GalleryStandardImageProvider* GalleryStandardImageProvider::instance() {
-  if (!instance_) {
-    instance_ = new GalleryStandardImageProvider();
-  }
+void GalleryStandardImageProvider::Init() {
+  Q_ASSERT(instance_ == NULL);
+  
+  instance_ = new GalleryStandardImageProvider();
+}
 
+GalleryStandardImageProvider* GalleryStandardImageProvider::instance() {
+  Q_ASSERT(instance_ != NULL);
+  
   return instance_;
 }
 

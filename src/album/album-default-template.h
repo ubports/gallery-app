@@ -28,6 +28,8 @@ class AlbumDefaultTemplate : public AlbumTemplate {
   Q_OBJECT
   
  public:
+  static void Init();
+  
   static AlbumDefaultTemplate* instance();
   
  private:

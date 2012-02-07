@@ -37,8 +37,9 @@ class GalleryStandardImageProvider
   static const char* PROVIDER_ID;
   static const char* PROVIDER_ID_SCHEME;
   
-  GalleryStandardImageProvider();
   virtual ~GalleryStandardImageProvider();
+  
+  static void Init();
   
   static GalleryStandardImageProvider* instance();
   
@@ -49,6 +50,8 @@ class GalleryStandardImageProvider
   
  private:
   static GalleryStandardImageProvider* instance_;
+  
+  GalleryStandardImageProvider();
 };
 
 #endif // GALLERY_GALLERY_STANDARD_IMAGE_PROVIDER_H_

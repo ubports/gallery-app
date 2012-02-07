@@ -25,6 +25,7 @@ Row {
   property variant mediaSourceList
   property int gutter: 24
   property int borderWidth: 1
+  property bool isPreview: false
   
   Column {
     id: left
@@ -41,6 +42,7 @@ Row {
       mediaSource: (mediaSourceList != null) ? mediaSourceList[0] : null
       gutter: albumPreviewB.gutter
       borderWidth: albumPreviewB.borderWidth
+      isPreview: albumPreviewB.isPreview
     }
     
     FramePortrait {
@@ -52,6 +54,7 @@ Row {
       mediaSource: (mediaSourceList != null) ? mediaSourceList[1] : null
       gutter: albumPreviewB.gutter
       borderWidth: albumPreviewB.borderWidth
+      isPreview: albumPreviewB.isPreview
     }
   }
   
@@ -64,5 +67,6 @@ Row {
     mediaSource: (mediaSourceList != null) ? mediaSourceList[2] : null
     gutter: albumPreviewB.gutter
     borderWidth: albumPreviewB.borderWidth
+    isPreview: albumPreviewB.isPreview
   }
 }

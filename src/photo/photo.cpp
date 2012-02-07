@@ -36,40 +36,19 @@ bool Photo::IsValid(const QFileInfo& file) {
 }
 
 Photo::Photo(const QFileInfo& file)
-  : metadata_(PhotoMetadata::FromFile(file)), exposure_date_time_(NULL) {
-  MediaSource::Init(file);
+  : MediaSource(file), metadata_(PhotoMetadata::FromFile(file)), exposure_date_time_(NULL) {
 }
 
-bool Photo::MakePreview(const QFileInfo& original, const QFileInfo &dest) {
-  QImage fullsized = QImage(original.filePath());
-  if (fullsized.isNull())
-    qFatal("Unable to load %s", qPrintable(original.filePath()));
-
-  // respect EXIF orientation in metadata, if any
-  if (metadata_ != NULL) {
-    fullsized = fullsized.transformed(metadata_->orientation_transform());
-  }
+QImage Photo::Image(bool respect_orientation) const {
+  QImage master(file().filePath());
+  if (!master.isNull() && respect_orientation)
+    master = master.transformed(metadata_->orientation_transform());
   
-  // scale the preview so it will fill the viewport specified by PREVIEW_*_MAX
-  // these values are replicated in the QML so that the preview will fill each
-  // grid cell, cropping down to the center of the image if necessary
-  QImage scaled;
-  if (fullsized.height() > fullsized.width())
-    scaled = fullsized.scaledToWidth(PREVIEW_WIDTH_MAX, Qt::SmoothTransformation);
-  else
-    scaled = fullsized.scaledToHeight(PREVIEW_HEIGHT_MAX, Qt::SmoothTransformation);
-  
-  if (scaled.isNull())
-    qFatal("Unable to scale %s", qPrintable(original.filePath()));
-  
-  if (!scaled.save(dest.filePath()))
-    qFatal("Unable to save %s", qPrintable(dest.filePath()));
-  
-  return true;
+  return master;
 }
 
 void Photo::DestroySource(bool destroy_backing, bool as_orphan) {
-  // TODO: destroy the backing photo file and database entry
+  // TODO: destroy the database entry
   
   MediaSource::DestroySource(destroy_backing, as_orphan);
 }

@@ -17,49 +17,43 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#ifndef GALLERY_EVENT_COLLECTION_H_
-#define GALLERY_EVENT_COLLECTION_H_
+#ifndef GALLERY_PREVIEW_MANAGER_H_
+#define GALLERY_PREVIEW_MANAGER_H_
 
 #include <QObject>
-#include <QDate>
-#include <QHash>
+#include <QFileInfo>
 #include <QSet>
+#include <QString>
 
 #include "core/data-object.h"
-#include "core/source-collection.h"
 #include "media/media-source.h"
-#include "event/event.h"
 
-class EventCollection : public SourceCollection {
+class PreviewManager : public QObject {
   Q_OBJECT
   
- signals:
-  void all_changed();
-  
  public:
-  EventCollection();
+  static const int PREVIEW_WIDTH_MAX = 360;
+  static const int PREVIEW_HEIGHT_MAX = 360;
+  
+  static const QString PREVIEW_DIR;
   
   static void Init();
+  static void Terminate();
   
-  static EventCollection* instance();
+  static PreviewManager* instance();
   
-  Event* EventForDate(const QDate& date) const;
-  Event* EventForMediaSource(MediaSource* media) const;
-  
- protected:
-  virtual void notify_contents_altered(const QSet<DataObject *> *added,
-    const QSet<DataObject *> *removed);
+  QFileInfo PreviewFileFor(const MediaSource* media) const;
   
  private slots:
   void on_media_added_removed(const QSet<DataObject*>* added,
     const QSet<DataObject*>* removed);
   
  private:
-  static EventCollection* instance_;
+  static PreviewManager* instance_;
   
-  QHash<QDate, Event*> date_map_;
+  PreviewManager();
   
-  static bool Comparator(DataObject* a, DataObject* b);
+  bool VerifyPreview(MediaSource* media);
 };
 
-#endif  // GALLERY_EVENT_COLLECTION_H_
+#endif  // GALLERY_PREVIEW_MANAGER_H_

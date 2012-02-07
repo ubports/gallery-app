@@ -46,6 +46,7 @@ SOURCES += \
 	src/event/event-collection.cpp \
 	src/media/media-collection.cpp \
 	src/media/media-source.cpp \
+	src/media/preview-manager.cpp \
 	src/photo/photo.cpp \
 	src/photo/photo-metadata.cpp \
 	src/qml/gallery-standard-image-provider.cpp \
@@ -78,6 +79,7 @@ HEADERS += \
 	src/event/event-collection.h \
 	src/media/media-collection.h \
 	src/media/media-source.h \
+	src/media/preview-manager.h \
 	src/photo/photo.h \
 	src/photo/photo-metadata.h \
 	src/qml/gallery-standard-image-provider.h \

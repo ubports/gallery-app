@@ -23,8 +23,7 @@
 #include <QString>
 
 #include "photo/photo.h"
-
-const QString MediaCollection::THUMBNAIL_DIR = "thumbs";
+#include "util/collections.h"
 
 MediaCollection* MediaCollection::instance_ = NULL;
 
@@ -32,7 +31,6 @@ MediaCollection::MediaCollection(const QDir& directory)
   : SourceCollection("MediaCollection"), directory_(directory) {
   directory_.setFilter(QDir::Files);
   directory_.setSorting(QDir::Name);
-  directory_.mkdir(THUMBNAIL_DIR);
   
   QSet<DataObject*> photos;
   QStringList filenames = directory_.entryList();
@@ -62,7 +60,7 @@ MediaCollection::MediaCollection(const QDir& directory)
   AddMany(photos);
 }
 
-void MediaCollection::InitInstance(const QDir& directory) {
+void MediaCollection::Init(const QDir& directory) {
   Q_ASSERT(instance_ == NULL);
   
   instance_ = new MediaCollection(directory);

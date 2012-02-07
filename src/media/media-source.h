@@ -24,6 +24,7 @@
 #include <QDate>
 #include <QDateTime>
 #include <QFileInfo>
+#include <QImage>
 #include <QTime>
 #include <QUrl>
 #include <QVariant>
@@ -53,19 +54,19 @@ class MediaSource : public DataSource {
   
  public:
   MediaSource();
-  virtual ~MediaSource();
+  explicit MediaSource(const QFileInfo& file);
   
   static void RegisterType();
   
-  void Init(const QFileInfo& file);
-  
-  const QFileInfo& file() const;
+  QFileInfo file() const;
   QUrl path() const;
   QUrl gallery_path() const;
   
-  const QFileInfo& preview_file() const;
+  QFileInfo preview_file() const;
   QUrl preview_path() const;
   QUrl gallery_preview_path() const;
+  
+  virtual QImage Image(bool respect_orientation = true) const;
   
   virtual Orientation orientation() const;
   
@@ -77,13 +78,10 @@ class MediaSource : public DataSource {
  protected:
   virtual void DestroySource(bool delete_backing, bool as_orphan);
   
-  virtual bool MakePreview(const QFileInfo& original, const QFileInfo& dest);
-  
  private:
   QFileInfo file_;
-  QFileInfo* preview_file_;
 };
 
-QML_DECLARE_TYPE(MediaSource);
+QML_DECLARE_TYPE(MediaSource)
 
 #endif  // GALLERY_MEDIA_SOURCE_H_

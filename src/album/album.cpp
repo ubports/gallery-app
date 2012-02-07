@@ -34,17 +34,17 @@ const char *Album::DEFAULT_NAME = "New Photo Album";
 Album::Album()
   : ContainerSource(DEFAULT_NAME), album_template_(*AlbumDefaultTemplate::instance()),
   name_(DEFAULT_NAME) {
-  Init();
+  InitInstance();
 }
 
 Album::Album(const AlbumTemplate& album_template)
   : ContainerSource(DEFAULT_NAME), album_template_(album_template), name_(DEFAULT_NAME) {
-  Init();
+  InitInstance();
 }
 
 Album::Album(const AlbumTemplate& album_template, const QString& name)
   : ContainerSource(name), album_template_(album_template), name_(name) {
-  Init();
+  InitInstance();
 }
 
 Album::~Album() {
@@ -58,7 +58,7 @@ void Album::RegisterType() {
   qmlRegisterType<Album>("Gallery", 1, 0, "Album");
 }
 
-void Album::Init() {
+void Album::InitInstance() {
   current_page_ = 0;
   pages_ = new SourceCollection(QString("Pages for ") + name_);
   

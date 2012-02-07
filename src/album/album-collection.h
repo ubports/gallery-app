@@ -34,7 +34,8 @@ class AlbumCollection : public ContainerSourceCollection {
  public:
   friend class Album;
   
-  static void InitInstance();
+  static void Init();
+  
   static AlbumCollection* instance();
   
  protected:

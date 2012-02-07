@@ -105,7 +105,7 @@ class Album : public ContainerSource {
   QList<MediaSource*> all_media_sources_;
   QList<AlbumPage*> all_album_pages_;
   
-  void Init();
+  void InitInstance();
 };
 
 QML_DECLARE_TYPE(Album);

@@ -20,32 +20,23 @@
 #include "media/media-source.h"
 
 #include "media/media-collection.h"
+#include "media/preview-manager.h"
 #include "qml/gallery-standard-image-provider.h"
 
 MediaSource::MediaSource() {
 }
 
-MediaSource::~MediaSource() {
-  delete preview_file_;
-}
-
-void MediaSource::Init(const QFileInfo& file) {
+MediaSource::MediaSource(const QFileInfo& file) {
   file_ = file;
-  preview_file_ = new QFileInfo(file.dir(),
-    MediaCollection::THUMBNAIL_DIR + "/" +
-    file.completeBaseName() + "_th." + file.completeSuffix());
   
   SetInternalName(file_.completeBaseName());
-  
-  if (!preview_file_->exists())
-    MakePreview(file_, *preview_file_);
 }
 
 void MediaSource::RegisterType() {
   qmlRegisterType<MediaSource>("Gallery", 1, 0, "MediaSource");
 }
 
-const QFileInfo& MediaSource::file() const {
+QFileInfo MediaSource::file() const {
   return file_;
 }
 
@@ -57,16 +48,21 @@ QUrl MediaSource::gallery_path() const {
   return GalleryStandardImageProvider::ToURL(file_);
 }
 
-const QFileInfo& MediaSource::preview_file() const {
-  return *preview_file_;
+QFileInfo MediaSource::preview_file() const {
+  return PreviewManager::instance()->PreviewFileFor(this);
 }
 
 QUrl MediaSource::preview_path() const {
-  return QUrl::fromLocalFile(preview_file_->absoluteFilePath());
+  return QUrl::fromLocalFile(preview_file().absoluteFilePath());
 }
 
 QUrl MediaSource::gallery_preview_path() const {
-  return GalleryStandardImageProvider::ToURL(*preview_file_);
+  return GalleryStandardImageProvider::ToURL(preview_file());
+}
+
+QImage MediaSource::Image(bool respect_orientation) const {
+  // QML data types cannot be abstract, so return a null image
+  return QImage();
 }
 
 Orientation MediaSource::orientation() const {
@@ -92,11 +88,5 @@ int MediaSource::exposure_time_t() const {
 }
 
 void MediaSource::DestroySource(bool delete_backing, bool as_orphan) {
-  // required stub (QML types may not be abstract)
-}
-
-bool MediaSource::MakePreview(const QFileInfo& original, const QFileInfo& dest) {
-  // required stub (QML types may not be abstract)
-  
-  return false;
+  // TODO: Delete backing file
 }

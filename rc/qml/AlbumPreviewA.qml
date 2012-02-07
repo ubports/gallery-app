@@ -25,6 +25,7 @@ Row {
   property variant mediaSourceList
   property int gutter: 24
   property int borderWidth: 1
+  property bool isPreview: false
   
   FramePortrait {
     id: left
@@ -35,6 +36,7 @@ Row {
     mediaSource: (mediaSourceList != null) ? mediaSourceList[0] : null
     gutter: parent.gutter
     borderWidth: parent.borderWidth
+    isPreview: parent.isPreview
   }
   
   FramePortrait {
@@ -46,5 +48,6 @@ Row {
     mediaSource: (mediaSourceList != null) ? mediaSourceList[1] : null
     gutter: parent.gutter
     borderWidth: parent.borderWidth
+    isPreview: parent.isPreview
   }
 }

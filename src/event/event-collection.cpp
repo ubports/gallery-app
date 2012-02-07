@@ -43,7 +43,7 @@ EventCollection::EventCollection()
   on_media_added_removed(&MediaCollection::instance()->GetAsSet(), NULL);
 }
 
-void EventCollection::InitInstance() {
+void EventCollection::Init() {
   Q_ASSERT(instance_ == NULL);
   
   instance_ = new EventCollection();

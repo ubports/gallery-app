@@ -32,19 +32,15 @@ class Photo : public MediaSource {
   Q_OBJECT
   
  public:
-  static const int PREVIEW_WIDTH_MAX = 198;
-  static const int PREVIEW_HEIGHT_MAX = 148;
-
   static bool IsValid(const QFileInfo& file);
   
   explicit Photo(const QFileInfo& file);
   
+  virtual QImage Image(bool respect_orientation) const;
   virtual Orientation orientation() const;
   virtual QDateTime exposure_date_time() const;
   
  protected:
-  virtual bool MakePreview(const QFileInfo& original, const QFileInfo& dest);
-  
   virtual void DestroySource(bool destroy_backing, bool as_orphan);
   
  private:

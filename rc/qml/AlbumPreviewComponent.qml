@@ -32,6 +32,7 @@ Rectangle {
     albumPage: parent.albumPage
     gutter: 8
     borderWidth: 1
+    isPreview: true
     
     width: parent.width
     height: parent.height - text.height

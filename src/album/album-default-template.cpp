@@ -35,9 +35,14 @@ AlbumDefaultTemplate::AlbumDefaultTemplate()
     LANDSCAPE, LANDSCAPE, PORTRAIT));
 }
 
+void AlbumDefaultTemplate::Init() {
+  Q_ASSERT(instance_ == NULL);
+  
+  instance_ = new AlbumDefaultTemplate();
+}
+
 AlbumDefaultTemplate* AlbumDefaultTemplate::instance() {
-  if (instance_ == NULL)
-    instance_ = new AlbumDefaultTemplate();
+  Q_ASSERT(instance_ != NULL);
   
   return instance_;
 }

@@ -23,6 +23,7 @@ Rectangle {
   property variant mediaSource
   property int gutter: 0
   property int borderWidth: 1
+  property bool isPreview: false
   
   border.width: borderWidth
   border.color: "#95b5de"
@@ -40,5 +41,6 @@ Rectangle {
     ownerName: "FramePortrait"
     
     isCropped: true
+    isPreview: parent.isPreview
   }
 }

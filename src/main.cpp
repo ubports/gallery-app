@@ -26,11 +26,13 @@
 
 #include "album/album.h"
 #include "album/album-collection.h"
+#include "album/album-default-template.h"
 #include "album/album-page.h"
 #include "event/event.h"
 #include "event/event-collection.h"
 #include "media/media-collection.h"
 #include "media/media-source.h"
+#include "media/preview-manager.h"
 #include "qml/gallery-standard-image-provider.h"
 #include "qml/qml-album-collection-model.h"
 #include "qml/qml-album-page-model.h"
@@ -73,9 +75,15 @@ int main(int argc, char *argv[]) {
   
   qDebug("Opening %s...", qPrintable(path.path()));
   
-  MediaCollection::InitInstance(path);
-  AlbumCollection::InitInstance();
-  EventCollection::InitInstance();
+  // Not in alpha-order because initialization order is important here
+  // TODO: Need to use an initialization system that deals with init order
+  // issues
+  MediaCollection::Init(path);
+  AlbumCollection::Init();
+  EventCollection::Init();
+  PreviewManager::Init();
+  AlbumDefaultTemplate::Init();
+  GalleryStandardImageProvider::Init();
   
   qDebug("Opened %s", qPrintable(path.path()));
   
