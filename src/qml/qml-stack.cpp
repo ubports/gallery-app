@@ -50,6 +50,10 @@ QVariant QmlStack::pop() {
   return var;
 }
 
+QVariant QmlStack::peek(int index) const {
+  return (index < stack_.count()) ? stack_.at(stack_.count() - 1 - index) : QVariant();
+}
+
 QVariant QmlStack::top() const {
   return (!stack_.isEmpty()) ? stack_.top() : QVariant();
 }

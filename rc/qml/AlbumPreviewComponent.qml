@@ -22,8 +22,14 @@ import Gallery 1.0
 
 Rectangle {
   property AlbumPage albumPage
+  property alias pageGutter: albumPageComponent.gutter
+  property alias bookmarkOpacity: bookmark.opacity
+  property alias nameHeight: text.height
+
+  // Read-only, please.
+  property real canonicalWidth: 388
   
-  width: 388
+  width: canonicalWidth
   height: 252
   
   AlbumPageComponent {
@@ -55,9 +61,14 @@ Rectangle {
   }
   
   Image {
+    id: bookmark
+
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.top: albumPageComponent.top
     
+    transformOrigin: Item.Top
+    scale: parent.width / canonicalWidth // Scale the bookmark accordingly if the preview has been resized.
+
     source: "../img/bookmark-ribbon.png"
     cache: true
   }

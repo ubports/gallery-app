@@ -26,7 +26,11 @@ Rectangle {
   objectName: "albumViewer"
   
   property Album album
+  property alias mastheadHeight: masthead.height
   
+  // When the user clicks the back button.
+  signal closeRequested()
+
   anchors.fill: parent
 
   state: "pageView"
@@ -44,6 +48,14 @@ Rectangle {
       DissolveAnimation { fadeOutTarget: gridCheckerboard; fadeInTarget: templatePager; }
     }
   ]
+
+  function resetView() {
+    state = ""; // Prevents the animation on gridView -> pageView from happening.
+    state = "pageView";
+    templatePager.visible = true;
+    gridCheckerboard.visible = false;
+    masthead.isTemplateView = true;
+  }
 
   onAlbumChanged: {
     templatePager.pageTo(album.currentPage);
@@ -306,7 +318,7 @@ Rectangle {
       gridCheckerboard.state = "normal";
       gridCheckerboard.unselectAll();
 
-      navStack.goBack();
+      closeRequested();
     }
 
     onMoreOperationsButtonPressed: addPhotosMenu.flipVisibility();

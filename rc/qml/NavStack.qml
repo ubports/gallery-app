@@ -42,4 +42,8 @@ Stack {
     if (!isEmpty)
       top.visible = true;
   }
+  
+  function previous() {
+    return (count > 1) ? peek(1) : undefined;
+  }
 }

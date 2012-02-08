@@ -27,6 +27,7 @@
     <file>qml/AlbumPreviewB.qml</file>
     <file>qml/AlbumPreviewComponent.qml</file>
     <file>qml/AlbumViewer.qml</file>
+    <file>qml/AlbumViewerTransition.qml</file>
     <file>qml/AlbumViewMasthead.qml</file>
     <file>qml/BinaryTabGroup.qml</file>
     <file>qml/Checkerboard.qml</file>

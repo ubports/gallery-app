@@ -35,6 +35,7 @@ Item {
     hidePhotoViewerAnimation.thumbnailRect =
       Qt.rect(expandPhoto.x, expandPhoto.y, expandPhoto.width, expandPhoto.height);
 
+    // Start part of the way in so the jump to the scaled thumbnail isn't so noticeable.
     expandPhoto.x /= 10;
     expandPhoto.y /= 10;
     expandPhoto.width = parent.width - expandPhoto.x * 2;

@@ -23,7 +23,7 @@ Row {
   id: albumPreviewA
   
   property variant mediaSourceList
-  property int gutter: 24
+  property int gutter: (parent ? parent.gutter : 24)
   property int borderWidth: 1
   property bool isPreview: false
   

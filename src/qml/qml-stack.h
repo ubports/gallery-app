@@ -42,6 +42,10 @@ class QmlStack : public QObject {
   
   Q_INVOKABLE void push(QVariant var);
   Q_INVOKABLE QVariant pop();
+  // Returns the item on the stack at the offset index, where the most recently
+  // pushed item is index 0 and the item at the bottom of the stack is at
+  // count - 1.  Thus, peek(0) will return the same item as top().
+  Q_INVOKABLE QVariant peek(int index) const;
   
   bool is_empty() const;
   int count() const;
@@ -51,6 +55,6 @@ class QmlStack : public QObject {
   QStack<QVariant> stack_;
 };
 
-QML_DECLARE_TYPE(QmlStack);
+QML_DECLARE_TYPE(QmlStack)
 
 #endif  // GALLERY_QML_STACK_H_

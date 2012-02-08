@@ -52,7 +52,6 @@ Loader {
     item.mediaSourceList = albumPage.mediaSourceList;
     item.width = loader.width;
     item.height = loader.height;
-    item.gutter = loader.gutter
     item.borderWidth = loader.borderWidth
     item.isPreview = loader.isPreview
   }

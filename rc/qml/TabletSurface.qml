@@ -51,6 +51,37 @@ Rectangle {
     height: parent.height
     
     visible: false
+
+    onCloseRequested: {
+      if (state == "gridView") {
+        albumViewerTransition.dissolveFromAlbumViewer(albumViewer, navStack.previous());
+      } else {
+        navStack.goBack();
+        var thumbnailRect = overview.getRectOfAlbumPreview(album, albumViewer);
+        if (thumbnailRect)
+          albumViewerTransition.transitionFromAlbumViewer(album.pages[album.currentPage], thumbnailRect);
+      }
+    }
+  }
+
+  AlbumViewerTransition {
+    id: albumViewerTransition
+
+    x: 0
+    y: 0
+    width: parent.width
+    height: parent.height
+
+    toolbarHeight: albumViewer.mastheadHeight
+
+    onTransitionToAlbumViewerCompleted: {
+      albumViewer.resetView();
+      navStack.switchToPage(albumViewer);
+    }
+
+    onDissolveFromAlbumViewerCompleted: {
+      navStack.goBack();
+    }
   }
   
   MediaSelector {
@@ -69,10 +100,10 @@ Rectangle {
     id: navStack
     objectName: "navStack"
   
-    function switchToAlbumViewer(album) {
+    function switchToAlbumViewer(album, thumbnailRect) {
       albumViewer.album = album;
       
-      navStack.switchToPage(albumViewer);
+      albumViewerTransition.transitionToAlbumViewer(album.pages[album.currentPage], thumbnailRect);
     }
     
     function switchToMediaSelector(album) {

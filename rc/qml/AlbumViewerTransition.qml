@@ -1,0 +1,149 @@
+/*
+ * Copyright (C) 2011 Canonical Ltd
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 3 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors:
+ * Charles Lindsay <chaz@yorba.org>
+ */
+
+import QtQuick 1.1
+
+// Some custom components and animations that we want to invoke whenever we
+// bring up the album viewer.
+Item {
+  id: albumViewerTransition
+
+  property real toolbarHeight: 48
+  property int thumbnailGutter: 8
+  property int pageGutter: 24
+
+  function transitionToAlbumViewer(albumPage, thumbnailRect) {
+    expandAlbum.albumPage = albumPage;
+    expandAlbum.x = thumbnailRect.x;
+    expandAlbum.y = thumbnailRect.y;
+    expandAlbum.width = thumbnailRect.width;
+    expandAlbum.height = thumbnailRect.height;
+
+    showAlbumViewerAnimation.start();
+  }
+
+  function transitionFromAlbumViewer(albumPage, thumbnailRect) {
+    expandAlbum.albumPage = albumPage;
+    hideAlbumViewerAnimation.thumbnailRect = thumbnailRect;
+    hideAlbumViewerAnimation.start();
+  }
+
+  function dissolveFromAlbumViewer(fadeOutTarget, fadeInTarget) {
+    dissolveAlbumViewerTransition.fadeOutTarget = fadeOutTarget;
+    dissolveAlbumViewerTransition.fadeInTarget = fadeInTarget;
+    dissolveAlbumViewerTransition.start();
+  }
+
+  signal transitionToAlbumViewerCompleted()
+  signal transitionFromAlbumViewerCompleted()
+  signal dissolveFromAlbumViewerCompleted()
+
+  AlbumPreviewComponent {
+    id: expandAlbum
+
+    visible: false
+  }
+
+  SequentialAnimation {
+    id: showAlbumViewerAnimation
+
+    PropertyAction { target: expandAlbum; property: "visible"; value: true; }
+    ParallelAnimation {
+      ExpandAnimation {
+        target: expandAlbum
+        endY: toolbarHeight
+        endHeight: albumViewerTransition.height - toolbarHeight + expandAlbum.nameHeight
+        duration: 200
+      }
+
+      NumberAnimation {
+        target: expandAlbum
+        property: "pageGutter"
+        from: thumbnailGutter
+        to: pageGutter
+        duration: 200
+      }
+
+      NumberAnimation {
+        target: expandAlbum
+        property: "bookmarkOpacity"
+        to: 0
+        duration: 200
+      }
+
+    }
+    PropertyAction { target: expandAlbum; property: "visible"; value: false; }
+    PropertyAction { target: expandAlbum; property: "bookmarkOpacity"; value: 1; }
+
+    onCompleted: {
+      transitionToAlbumViewerCompleted();
+    }
+  }
+
+  SequentialAnimation {
+    id: hideAlbumViewerAnimation
+
+    property variant thumbnailRect: {"x": 0, "y": 0, "width": 0, "height": 0}
+
+    PropertyAction { target: expandAlbum; property: "bookmarkOpacity"; value: 0; }
+    PropertyAction { target: expandAlbum; property: "visible"; value: true; }
+    ParallelAnimation {
+      ExpandAnimation {
+        target: expandAlbum
+        endX: hideAlbumViewerAnimation.thumbnailRect.x
+        endY: hideAlbumViewerAnimation.thumbnailRect.y
+        endWidth: hideAlbumViewerAnimation.thumbnailRect.width
+        endHeight: hideAlbumViewerAnimation.thumbnailRect.height
+        duration: 200
+        easingType: Easing.OutQuad
+      }
+
+      NumberAnimation {
+        target: expandAlbum
+        property: "pageGutter"
+        from: pageGutter
+        to: thumbnailGutter
+        duration: 200
+      }
+
+      NumberAnimation {
+        target: expandAlbum
+        property: "bookmarkOpacity"
+        to: 1
+        duration: 200
+      }
+    }
+    PropertyAction { target: expandAlbum; property: "visible"; value: false; }
+
+    onCompleted: {
+      transitionFromAlbumViewerCompleted();
+    }
+  }
+
+  DissolveAnimation {
+    id: dissolveAlbumViewerTransition
+
+    fadeOutTarget: Rectangle { } // Dummy Rectangle to avoid compilation errors.
+    fadeInTarget: Rectangle { } // Dummy Rectangle to avoid compilation errors.
+
+    onCompleted: {
+      dissolveFromAlbumViewerCompleted();
+    }
+  }
+}

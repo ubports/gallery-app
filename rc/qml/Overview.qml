@@ -27,6 +27,10 @@ Rectangle {
   
   anchors.fill: parent
 
+  function getRectOfAlbumPreview(album, relativeTo) {
+    return albumsCheckerboard.getRectOfItemAt(albumsCheckerboard.model.indexOf(album), relativeTo);
+  }
+
   state: "eventView"
 
   states: [
@@ -223,7 +227,7 @@ Rectangle {
       albumPage: (modelData.album.currentPage >= 0) ? modelData.album.pages[modelData.album.currentPage] : null
     }
     
-    onActivated: navStack.switchToAlbumViewer(object)
+    onActivated: navStack.switchToAlbumViewer(object, activatedRect)
   }
 
   AlbumPickerPopup {

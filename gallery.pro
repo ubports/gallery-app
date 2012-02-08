@@ -106,6 +106,7 @@ OTHER_FILES += \
 	rc/qml/AlbumPreviewB.qml \
 	rc/qml/AlbumPreviewComponent.qml \
 	rc/qml/AlbumViewer.qml \
+	rc/qml/AlbumViewerTransition.qml \
 	rc/qml/AlbumViewMasthead.qml \
 	rc/qml/BinaryTabGroup.qml \
 	rc/qml/Checkerboard.qml \

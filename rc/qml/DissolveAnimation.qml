@@ -48,4 +48,10 @@ SequentialAnimation {
     property: "visible"
     value: false
   }
+
+  PropertyAction {
+    target: fadeOutTarget
+    property: "opacity"
+    value: 1
+  }
 }
