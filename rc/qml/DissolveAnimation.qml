@@ -34,24 +34,9 @@ SequentialAnimation {
       duration: dissolveAnimation.duration
     }
 
-    NumberAnimation {
+    FadeOutAnimation {
       target: fadeOutTarget
-      property: "opacity"
-      to: 0
       duration: dissolveAnimation.duration
-      easing.type: Easing.OutQuad
     }
-  }
-
-  PropertyAction {
-    target: fadeOutTarget
-    property: "visible"
-    value: false
-  }
-
-  PropertyAction {
-    target: fadeOutTarget
-    property: "opacity"
-    value: 1
   }
 }

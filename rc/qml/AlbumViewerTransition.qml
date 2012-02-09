@@ -25,24 +25,30 @@ import Gallery 1.0
 Item {
   id: albumViewerTransition
   
-  property real toolbarHeight: 48
   property int thumbnailGutter: 8
   property int pageGutter: 24
   
   function transitionToAlbumViewer(album, thumbnailRect) {
+    var translatedRect = mapFromItem(tablet_surface, thumbnailRect.x, thumbnailRect.y);
+    translatedRect.width = thumbnailRect.width;
+    translatedRect.height = thumbnailRect.height;
+
     expandAlbum.album = album;
-    expandAlbum.x = thumbnailRect.x;
-    expandAlbum.y = thumbnailRect.y;
-    expandAlbum.width = thumbnailRect.width;
-    expandAlbum.height = thumbnailRect.height;
+    expandAlbum.x = translatedRect.x;
+    expandAlbum.y = translatedRect.y;
+    expandAlbum.width = translatedRect.width;
+    expandAlbum.height = translatedRect.height;
 
     showAlbumViewerAnimation.start();
   }
 
   function transitionFromAlbumViewer(album, thumbnailRect) {
+    var translatedRect = mapFromItem(tablet_surface, thumbnailRect.x, thumbnailRect.y);
+    translatedRect.width = thumbnailRect.width;
+    translatedRect.height = thumbnailRect.height;
+
     expandAlbum.album = album;
-    
-    hideAlbumViewerAnimation.thumbnailRect = thumbnailRect;
+    hideAlbumViewerAnimation.thumbnailRect = translatedRect;
     hideAlbumViewerAnimation.start();
   }
 
@@ -69,8 +75,7 @@ Item {
     ParallelAnimation {
       ExpandAnimation {
         target: expandAlbum
-        endY: toolbarHeight
-        endHeight: albumViewerTransition.height - toolbarHeight + expandAlbum.nameHeight
+        endHeight: albumViewerTransition.height + expandAlbum.nameHeight
         duration: 200
       }
 
@@ -88,8 +93,8 @@ Item {
         to: 0
         duration: 200
       }
-
     }
+
     PropertyAction { target: expandAlbum; property: "visible"; value: false; }
     PropertyAction { target: expandAlbum; property: "bookmarkOpacity"; value: 1; }
 

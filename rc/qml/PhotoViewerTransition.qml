@@ -47,7 +47,7 @@ Item {
   signal transitionFromPhotoViewerCompleted()
 
   Rectangle {
-    id: fadeInRectangle
+    id: fadeRectangle
 
     visible: false
     color: "#444444"
@@ -94,11 +94,11 @@ Item {
         FadeInAnimation { target: expandPhoto; duration: 40; }
         ExpandAnimation { target: expandPhoto; duration: 160; }
       }
-      FadeInAnimation { target: fadeInRectangle; duration: 200; }
+      FadeInAnimation { target: fadeRectangle; duration: 200; }
     }
 
     PropertyAction { target: expandPhoto; property: "visible"; value: false; }
-    PropertyAction { target: fadeInRectangle; property: "visible"; value: false; }
+    PropertyAction { target: fadeRectangle; property: "visible"; value: false; }
 
     onCompleted: {
       transitionToPhotoViewerCompleted();
@@ -111,7 +111,7 @@ Item {
     property variant thumbnailRect: {"x": 0, "y": 0, "width": 0, "height": 0}
 
     ParallelAnimation {
-      FadeInAnimation { target: fadeInRectangle; startOpacity: 1; endOpacity: 0; duration: 200; }
+      FadeOutAnimation { target: fadeRectangle; duration: 200; }
       SequentialAnimation {
         PropertyAction { target: expandPhoto; property: "visible"; value: true; }
         ExpandAnimation {
@@ -123,12 +123,9 @@ Item {
           duration: 160
           easingType: Easing.OutQuad
         }
-        FadeInAnimation { target: expandPhoto; startOpacity: 1; endOpacity: 0; duration: 40; }
+        FadeOutAnimation { target: expandPhoto; duration: 40; }
       }
     }
-
-    PropertyAction { target: expandPhoto; property: "visible"; value: false; }
-    PropertyAction { target: fadeInRectangle; property: "visible"; value: false; }
 
     onCompleted: {
       transitionFromPhotoViewerCompleted();

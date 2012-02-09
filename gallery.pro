@@ -117,6 +117,7 @@ OTHER_FILES += \
 	rc/qml/EventTimeline.qml \
 	rc/qml/ExpandAnimation.qml \
 	rc/qml/FadeInAnimation.qml \
+	rc/qml/FadeOutAnimation.qml \
 	rc/qml/FramePortrait.qml \
 	rc/qml/GalleryOverviewNavigationBar.qml \
 	rc/qml/GalleryPrimaryPushButton.qml \

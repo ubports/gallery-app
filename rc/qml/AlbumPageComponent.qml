@@ -25,7 +25,6 @@ Rectangle {
   
   property AlbumPage albumPage: null
   property int gutter: 24
-  property int borderWidth: 1
   property bool isPreview: false
   
   onAlbumPageChanged: {
@@ -75,7 +74,6 @@ Rectangle {
       item.mediaSourceList = albumPage.mediaSourceList;
       item.width = albumPageComponent.width;
       item.height = albumPageComponent.height;
-      item.borderWidth = albumPageComponent.borderWidth;
       item.isPreview = albumPageComponent.isPreview
     }
   }

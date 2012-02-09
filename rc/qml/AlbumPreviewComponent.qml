@@ -27,6 +27,7 @@ Rectangle {
   property alias pageGutter: albumPageComponent.gutter
   property alias bookmarkOpacity: bookmark.opacity
   property alias nameHeight: text.height
+  property int borderWidth: 3
 
   // Read-only, please.
   property real canonicalWidth: 388
@@ -56,13 +57,31 @@ Rectangle {
       
       albumPage: (album && !album.isClosed) ? album.currentPage : null
       gutter: 8
-      borderWidth: 1
       isPreview: true
       
       width: parent.width
       height: parent.height - text.height
     }
     
+    Row {
+      anchors.fill: albumPageComponent
+
+      Rectangle {
+        width: albumPageComponent.width / 2
+        height: albumPageComponent.height
+        color: "#00000000"
+        border.width: borderWidth
+        border.color: "#95b5de"
+      }
+      Rectangle {
+        width: albumPageComponent.width / 2
+        height: albumPageComponent.height
+        color: "#00000000"
+        border.width: borderWidth
+        border.color: "#95b5de"
+      }
+    }
+
     Text {
       id: text
       

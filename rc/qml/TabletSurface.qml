@@ -68,11 +68,9 @@ Rectangle {
     id: albumViewerTransition
 
     x: 0
-    y: 0
+    y: albumViewer.pageTop
     width: parent.width
-    height: parent.height
-
-    toolbarHeight: albumViewer.mastheadHeight
+    height: albumViewer.pageHeight
 
     onTransitionToAlbumViewerCompleted: {
       albumViewer.resetView();

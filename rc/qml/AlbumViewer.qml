@@ -26,7 +26,9 @@ Rectangle {
   objectName: "albumViewer"
   
   property Album album
-  property alias mastheadHeight: masthead.height
+  property int borderWidth: 2
+  property alias pageTop: templatePager.y
+  property alias pageHeight: templatePager.height
   
   // When the user clicks the back button.
   signal closeRequested()
@@ -43,16 +45,32 @@ Rectangle {
 
   transitions: [
     Transition { from: "albumCover"; to: "gridView";
-      DissolveAnimation { fadeOutTarget: albumCover; fadeInTarget: gridCheckerboard; }
+      ParallelAnimation {
+        DissolveAnimation { fadeOutTarget: albumCover; fadeInTarget: gridCheckerboard; }
+        FadeOutAnimation { target: middleBorder; }
+        FadeOutAnimation { target: pageIndexerPlaceholder; }
+      }
     },
     Transition { from: "pageView"; to: "gridView";
-      DissolveAnimation { fadeOutTarget: templatePager; fadeInTarget: gridCheckerboard; }
+      ParallelAnimation {
+        DissolveAnimation { fadeOutTarget: templatePager; fadeInTarget: gridCheckerboard; }
+        FadeOutAnimation { target: middleBorder; }
+        FadeOutAnimation { target: pageIndexerPlaceholder; }
+      }
     },
     Transition { from: "gridView"; to: "albumCover";
-      DissolveAnimation { fadeOutTarget: gridCheckerboard; fadeInTarget: albumCover; }
+      ParallelAnimation {
+        DissolveAnimation { fadeOutTarget: gridCheckerboard; fadeInTarget: albumCover; }
+        FadeInAnimation { target: middleBorder; }
+        FadeInAnimation { target: pageIndexerPlaceholder; }
+      }
     },
     Transition { from: "gridView"; to: "pageView";
-      DissolveAnimation { fadeOutTarget: gridCheckerboard; fadeInTarget: templatePager; }
+      ParallelAnimation {
+        DissolveAnimation { fadeOutTarget: gridCheckerboard; fadeInTarget: templatePager; }
+        FadeInAnimation { target: middleBorder; }
+        FadeInAnimation { target: pageIndexerPlaceholder; }
+      }
     }
   ]
   
@@ -60,6 +78,7 @@ Rectangle {
     state = ""; // Prevents the animation on gridView -> pageView from happening.
     state = (album.isClosed) ? "albumCover" : "pageView";
     gridCheckerboard.visible = false;
+    middleBorder.visible = true;
     masthead.isTemplateView = true;
   }
 
@@ -122,7 +141,7 @@ Rectangle {
 
     anchors.fill: undefined
     anchors.top: masthead.bottom
-    anchors.bottom: parent.bottom
+    anchors.bottom: pageIndexerPlaceholder.top
     anchors.left: parent.left
     anchors.right: parent.right
     
@@ -232,7 +251,7 @@ Rectangle {
     objectName: "gridCheckerboard"
     
     anchors.top: masthead.bottom
-    anchors.bottom: parent.bottom
+    anchors.bottom: toolbar.top
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.topMargin: 24
@@ -310,13 +329,29 @@ Rectangle {
     }
   }
 
+  Rectangle {
+    id: pageIndexerPlaceholder
+
+    width: parent.width
+    height: 24
+    anchors.bottom: toolbar.top
+  }
+
+  Rectangle {
+    id: middleBorder
+
+    width: borderWidth
+    height: parent.height
+    anchors.centerIn: parent
+    color: "#95b5de"
+  }
+
   GalleryStandardToolbar {
     id: toolbar
     objectName: "toolbar"
 
     hasFullIconSet: (gridCheckerboard.visible && gridCheckerboard.selectedCount > 0)
     useContrastOnWhiteColorScheme: gridCheckerboard.visible
-    isTranslucent: true
 
     z: 10
     anchors.bottom: parent.bottom
