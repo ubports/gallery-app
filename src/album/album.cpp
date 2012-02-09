@@ -71,12 +71,19 @@ void Album::InitInstance() {
 }
 
 void Album::addMediaSource(QVariant vmedia) {
-  Attach(VariantToObject<MediaSource*>(vmedia));
+  MediaSource* media = UncheckedVariantToObject<MediaSource*>(vmedia);
+  if (media != NULL)
+    Attach(media);
 }
 
 void Album::addSelectedMediaSources(QVariant vmodel) {
   QmlMediaCollectionModel* model = VariantToObject<QmlMediaCollectionModel*>(vmodel);
-  AttachMany(model->BackingViewCollection()->GetSelected());
+  
+  // Since QmlEventMarkers are mixed into the QmlEventOverviewModel (which is a
+  // subclass of QmlMediaCollectionModel), filter out the markers and only add
+  // MediaSources
+  AttachMany(
+    FilterSetOnlyType<DataObject*, MediaSource*>(model->BackingViewCollection()->GetSelected()));
 }
 
 const QString& Album::name() const {
