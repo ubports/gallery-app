@@ -191,6 +191,9 @@ Rectangle {
         
         curr = parent.model.getAt(parent.currentIndex);
         
+        if ((!pageFlipAnimation.leftIsCover) && (curr == null || next == null))
+          return;
+        
         pageFlipAnimation.leftToRight = leftToRight;
         pageFlipAnimation.leftPage = (leftToRight) ? curr : next;
         pageFlipAnimation.rightPage = (leftToRight) ? next : curr;
