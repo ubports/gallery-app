@@ -222,6 +222,8 @@ Rectangle {
     
     anchors.fill: templatePager
     
+    cover: albumViewer.album
+    
     visible: isRunning
   }
   

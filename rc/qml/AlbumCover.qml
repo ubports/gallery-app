@@ -26,7 +26,6 @@ Rectangle {
   property Album album
   property int titleDateSpacing: 16
   
-  
   Rectangle {
     id: blank
     
@@ -39,9 +38,10 @@ Rectangle {
   Rectangle {
     id: cover
     
-    anchors.right: parent.right
+    anchors.left: blank.right
     
-    width: parent.width / 2
+    // maintain an aspect ratio, no matter the size
+    width: ((height * 0.75) <= (parent.width / 2)) ? height * 0.75 : parent.width / 2
     height: parent.height
     
     border.width: 2

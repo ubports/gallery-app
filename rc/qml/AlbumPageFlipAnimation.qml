@@ -33,7 +33,7 @@ Rectangle {
   property bool pageFlipped: false
   
   // readonly
-  property bool isRunning: (flippable.state == "running")
+  property bool isRunning: (flippable.state != "" || clipper.trigger)
   
   property bool leftToRight: true
   property bool leftIsCover: false

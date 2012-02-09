@@ -39,11 +39,7 @@ Rectangle {
     
     album: parent.album
     
-    anchors.top: parent.top
-    anchors.bottom: parent.bottom
-    anchors.horizontalCenter: parent.horizontalCenter
-    
-    width: parent.width
+    anchors.fill: parent
     
     visible: (album) ? album.isClosed : false
   }
