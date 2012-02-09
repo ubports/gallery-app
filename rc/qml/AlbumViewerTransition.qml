@@ -18,18 +18,19 @@
  */
 
 import QtQuick 1.1
+import Gallery 1.0
 
 // Some custom components and animations that we want to invoke whenever we
 // bring up the album viewer.
 Item {
   id: albumViewerTransition
-
+  
   property real toolbarHeight: 48
   property int thumbnailGutter: 8
   property int pageGutter: 24
-
-  function transitionToAlbumViewer(albumPage, thumbnailRect) {
-    expandAlbum.albumPage = albumPage;
+  
+  function transitionToAlbumViewer(album, thumbnailRect) {
+    expandAlbum.album = album;
     expandAlbum.x = thumbnailRect.x;
     expandAlbum.y = thumbnailRect.y;
     expandAlbum.width = thumbnailRect.width;
@@ -38,8 +39,9 @@ Item {
     showAlbumViewerAnimation.start();
   }
 
-  function transitionFromAlbumViewer(albumPage, thumbnailRect) {
-    expandAlbum.albumPage = albumPage;
+  function transitionFromAlbumViewer(album, thumbnailRect) {
+    expandAlbum.album = album;
+    
     hideAlbumViewerAnimation.thumbnailRect = thumbnailRect;
     hideAlbumViewerAnimation.start();
   }
@@ -56,7 +58,7 @@ Item {
 
   AlbumPreviewComponent {
     id: expandAlbum
-
+    
     visible: false
   }
 

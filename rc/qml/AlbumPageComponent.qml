@@ -20,39 +20,63 @@
 import QtQuick 1.1
 import Gallery 1.0
 
-Loader {
-  id: loader
+Rectangle {
+  id: albumPageComponent
   
-  property AlbumPage albumPage
+  property AlbumPage albumPage: null
   property int gutter: 24
   property int borderWidth: 1
   property bool isPreview: false
   
-  // read-only
-  property variant mediaSourceList: (albumPage) ? albumPage.mediaSourceList : null
-  
   onAlbumPageChanged: {
     // force reload of the entire page's QML
-    source = (albumPage) ? albumPage.qmlRC : "";
+    loader.source = (albumPage) ? albumPage.qmlRC : "";
   }
-  
-  onMediaSourceListChanged: {
-    if (!mediaSourceList || source == "")
-      return;
     
-    // MediaSources within page have changed, force reload of same QML file
-    var src = source;
-    source = "";
-    source = src;
+  AlbumCover {
+    id: albumCover
+    
+    album: (albumPage) ? albumPage.owner : null
+    
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.left: parent.horizontalCenter
+    anchors.right: parent.right
+    
+    width: parent.width / 2
+    
+    visible: (album != null)
   }
   
-  source: (albumPage) ? albumPage.qmlRC : ""
-  
-  onLoaded: {
-    item.mediaSourceList = albumPage.mediaSourceList;
-    item.width = loader.width;
-    item.height = loader.height;
-    item.borderWidth = loader.borderWidth
-    item.isPreview = loader.isPreview
+  Loader {
+    id: loader
+    
+    // read-only
+    property variant mediaSourceList: (albumPage) ? albumPage.mediaSourceList : null
+    property alias gutter: albumPageComponent.gutter
+    
+    anchors.fill: parent
+    
+    onMediaSourceListChanged: {
+      if (!mediaSourceList || source == "")
+        return;
+      
+      // MediaSources within page have changed, force reload of same QML file
+      var src = source;
+      source = "";
+      source = src;
+    }
+    
+    source: (albumPage) ? albumPage.qmlRC : ""
+    
+    visible: (source != "")
+    
+    onLoaded: {
+      item.mediaSourceList = albumPage.mediaSourceList;
+      item.width = albumPageComponent.width;
+      item.height = albumPageComponent.height;
+      item.borderWidth = albumPageComponent.borderWidth;
+      item.isPreview = albumPageComponent.isPreview
+    }
   }
 }

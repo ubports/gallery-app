@@ -224,7 +224,7 @@ Rectangle {
     }
     
     delegate: AlbumPreviewComponent {
-      albumPage: (modelData.album.currentPage >= 0) ? modelData.album.pages[modelData.album.currentPage] : null
+      album: modelData.album
     }
     
     onActivated: navStack.switchToAlbumViewer(object, activatedRect)

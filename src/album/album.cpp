@@ -30,6 +30,7 @@
 #include "util/variants.h"
 
 const char *Album::DEFAULT_NAME = "New Photo Album";
+const int Album::CLOSED_PAGE = -1;
 
 Album::Album()
   : ContainerSource(DEFAULT_NAME), album_template_(*AlbumDefaultTemplate::instance()),
@@ -59,7 +60,8 @@ void Album::RegisterType() {
 }
 
 void Album::InitInstance() {
-  current_page_ = 0;
+  creation_date_ = QDate::currentDate();
+  current_page_ = CLOSED_PAGE;
   pages_ = new SourceCollection(QString("Pages for ") + name_);
   
   QObject::connect(pages_,
@@ -81,30 +83,44 @@ const QString& Album::name() const {
   return name_;
 }
 
+const QDate& Album::creation_date() const {
+  return creation_date_;
+}
+
 const AlbumTemplate& Album::album_template() const {
   return album_template_;
 }
 
 bool Album::is_closed() const {
-  return current_page_ < 0;
+  return current_page_ <= CLOSED_PAGE;
 }
 
 void Album::close() {
-  set_current_page(-1);
+  set_current_page_number(CLOSED_PAGE);
 }
 
 int Album::page_count() const {
   return pages_->Count();
 }
 
-int Album::current_page() const {
-  return (current_page_ >= 0) ? current_page_ : -1;
+int Album::current_page_number() const {
+  return (current_page_ > CLOSED_PAGE) ? current_page_ : CLOSED_PAGE;
 }
 
-void Album::set_current_page(int page) {
-  current_page_ = (page >= 0) ? page : -1;
+void Album::set_current_page_number(int page) {
+  // normalize closed value (to deal with closed state)
+  if (page < CLOSED_PAGE)
+    page = CLOSED_PAGE;
+  
+  if (current_page_ == page)
+    return;
+  
+  int old_current_page = current_page_;
+  current_page_ = page;
   
   notify_current_page_altered();
+  if (old_current_page == CLOSED_PAGE || page == CLOSED_PAGE)
+    notify_opened_closed();
 }
 
 SourceCollection* Album::pages() {
@@ -113,6 +129,10 @@ SourceCollection* Album::pages() {
 
 AlbumPage* Album::GetPage(int page) const {
   return qobject_cast<AlbumPage*>(pages_->GetAt(page));
+}
+
+QVariant Album::qml_current_page() const {
+  return !is_closed() ? QVariant::fromValue(GetPage(current_page_)) : QVariant();
 }
 
 QDeclarativeListProperty<MediaSource> Album::qml_all_media_sources() {
@@ -125,6 +145,10 @@ QDeclarativeListProperty<AlbumPage> Album::qml_pages() {
 
 void Album::notify_current_page_altered() {
   emit current_page_altered();
+}
+
+void Album::notify_opened_closed() {
+  emit opened_closed();
 }
 
 void Album::notify_current_page_contents_altered() {
@@ -200,7 +224,11 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
   if (current_page_ >= pages_->Count())
     current_page_ = pages_->Count() - 1;
   
-  emit current_page_altered();
+  if (current_page_ != stashed_current_page) {
+    notify_current_page_altered();
+    if (current_page_ == CLOSED_PAGE || stashed_current_page == CLOSED_PAGE)
+      notify_opened_closed();
+  }
   
   // TODO: Again, could be smart and verify the current page has actually
   // changed
@@ -220,5 +248,5 @@ void Album::on_album_page_content_altered(const QSet<DataObject*>* added,
   
   emit pages_altered();
   if (changed)
-    emit current_page_altered();
+    notify_current_page_altered();
 }

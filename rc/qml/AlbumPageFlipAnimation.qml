@@ -26,16 +26,21 @@ import Gallery 1.0
 Rectangle {
   id: pageFlipAnimation
   
+  property Album cover
   property AlbumPage leftPage
   property AlbumPage rightPage
   
   property bool pageFlipped: false
   
+  // readonly
+  property bool isRunning: (flippable.state == "running")
+  
   property bool leftToRight: true
+  property bool leftIsCover: false
   property int durationMsec: 1000
   
   function start() {
-    if (state != "" || clipper.trigger) {
+    if (isRunning) {
       console.log("Blocking start of page flip animation");
       
       return;
@@ -64,6 +69,17 @@ Rectangle {
       width: parent.width
       height: parent.height
       
+      AlbumCover {
+        id: coverBackground
+        
+        album: pageFlipAnimation.cover
+        
+        width: pageFlipAnimation.width
+        height: pageFlipAnimation.height
+        
+        visible: leftIsCover
+      }
+      
       AlbumPageComponent {
         id: leftPageBackground
         
@@ -71,6 +87,8 @@ Rectangle {
         
         width: pageFlipAnimation.width
         height: pageFlipAnimation.height
+        
+        visible: !leftIsCover
       }
     }
   }
@@ -125,6 +143,17 @@ Rectangle {
         width: parent.width
         height: parent.height
         
+        AlbumCover {
+          id: coverAnimated
+          
+          album: pageFlipAnimation.cover
+          
+          width: pageFlipAnimation.width
+          height: pageFlipAnimation.height
+          
+          visible: leftIsCover
+        }
+        
         AlbumPageComponent {
           id: leftPageAnimated
           
@@ -132,6 +161,8 @@ Rectangle {
           
           width: pageFlipAnimation.width
           height: pageFlipAnimation.height
+          
+          visible: !leftIsCover
         }
       }
       

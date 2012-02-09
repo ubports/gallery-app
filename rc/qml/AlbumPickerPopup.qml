@@ -149,23 +149,23 @@ Rectangle {
       }
 
       delegate: AlbumPreviewComponent {
-          albumPage: (album.currentPage >= 0) ? album.pages[album.currentPage] : null
-
-          x: 22
-          clip: true
-
-          MouseArea {
-            anchors.fill: parent
-
-            onClicked: {
-              album_popup_wrapper.selected(album);
-              album_popup_wrapper.state = "hidden";
-            }
+        album: model.album
+        
+        x: 22
+        clip: true
+        
+        MouseArea {
+          anchors.fill: parent
+          
+          onClicked: {
+            album_popup_wrapper.selected(album);
+            album_popup_wrapper.state = "hidden";
           }
         }
       }
     }
-
+  }
+  
   Rectangle {
     color: "transparent"
     border.color: "#a7a9ac"

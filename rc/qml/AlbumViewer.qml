@@ -37,28 +37,35 @@ Rectangle {
 
   states: [
     State { name: "pageView"; },
-    State { name: "gridView"; }
+    State { name: "gridView"; },
+    State { name: "albumCover"; }
   ]
 
   transitions: [
+    Transition { from: "albumCover"; to: "gridView";
+      DissolveAnimation { fadeOutTarget: albumCover; fadeInTarget: gridCheckerboard; }
+    },
     Transition { from: "pageView"; to: "gridView";
       DissolveAnimation { fadeOutTarget: templatePager; fadeInTarget: gridCheckerboard; }
+    },
+    Transition { from: "gridView"; to: "albumCover";
+      DissolveAnimation { fadeOutTarget: gridCheckerboard; fadeInTarget: albumCover; }
     },
     Transition { from: "gridView"; to: "pageView";
       DissolveAnimation { fadeOutTarget: gridCheckerboard; fadeInTarget: templatePager; }
     }
   ]
-
+  
   function resetView() {
     state = ""; // Prevents the animation on gridView -> pageView from happening.
-    state = "pageView";
-    templatePager.visible = true;
+    state = (album.isClosed) ? "albumCover" : "pageView";
     gridCheckerboard.visible = false;
     masthead.isTemplateView = true;
   }
 
   onAlbumChanged: {
-    templatePager.pageTo(album.currentPage);
+    if (album)
+      templatePager.pageTo(album.currentPageNumber);
   }
 
   PlaceholderPopupMenu {
@@ -91,7 +98,7 @@ Rectangle {
 
     onViewModeChanged: {
       if (isTemplateView) {
-        albumViewer.state = "pageView";
+        albumViewer.state = (album.isClosed) ? "albumCover" : "pageView";
       } else {
         albumViewer.state = "gridView";
       }
@@ -121,7 +128,7 @@ Rectangle {
     
     pageCacheSize: 1
     
-    visible: true
+    visible: (album) ? (!album.isClosed && !pageFlipAnimation.visible) : false
     
     model: AlbumPageModel {
       forAlbum: album
@@ -136,63 +143,76 @@ Rectangle {
     
     interactive: false
     
-    onCurrentIndexChanged: album.currentPage = currentIndex
+    onCurrentIndexChanged: {
+      // Can't open an album by changing the currentIndex; this is esp.
+      // problematic at initialization, when the currentIndex is set internally
+      // but not by user interaction
+      if (album && !album.isClosed)
+        album.currentPageNumber = currentIndex;
+    }
     
-    // Because not using the Pager's natural swiping motion (would need to
-    // trap all mouse events and prevent the animation from occurring) to do
-    // our own animation, emulate them here
-    MouseArea {
+    SwipeArea {
       anchors.fill: parent
       
-      // read-only
-      property int requiredHorizMovement: 20
-      
-      property int startX: -1
-      
-      onPositionChanged: {
-        // look for initial swipe
-        if (startX == -1) {
-          startX = mouse.x;
-          
+      onSwiped: {
+        if (pageFlipAnimation.isRunning)
           return;
-        }
         
-        var diff = 0;
-        var leftToRight = true;
-        if (mouse.x < startX) {
-          diff = startX - mouse.x;
-          leftToRight = true;
-        } else if (mouse.x > startX) {
-          diff = mouse.x - startX;
-          leftToRight = false;
-        }
-        
-        if (diff < requiredHorizMovement)
-          return;
+        var curr = null;
+        var next = null;
         
         var ofs = (leftToRight) ? 1 : -1;
-        if ((parent.currentIndex + ofs) < 0)
-          return;
+        if ((parent.currentIndex + ofs) < 0) {
+          album.close();
+          pageFlipAnimation.leftIsCover = true;
+        } else {
+          next = parent.model.getAt(parent.currentIndex + ofs);
+          pageFlipAnimation.leftIsCover = false;
+        }
         
-        var curr = parent.model.getAt(parent.currentIndex);
-        var next = parent.model.getAt(parent.currentIndex + ofs);
-        
-        if (!curr || !next)
-          return;
+        curr = parent.model.getAt(parent.currentIndex);
         
         pageFlipAnimation.leftToRight = leftToRight;
         pageFlipAnimation.leftPage = (leftToRight) ? curr : next;
         pageFlipAnimation.rightPage = (leftToRight) ? next : curr;
         
-        templatePager.visible = false;
-        startX = -1;
-        
-        pageFlipAnimation.visible = true;
         pageFlipAnimation.start();
+        
+        if (leftToRight)
+          parent.pageForward();
+        else if (album && !album.isClosed)
+          parent.pageBack();
       }
       
       onReleased: {
         startX = -1;
+      }
+    }
+  }
+  
+  AlbumCover {
+    id: albumCover
+    
+    album: albumViewer.album
+    
+    anchors.fill: templatePager
+    
+    visible: (album) ? (album.isClosed && !pageFlipAnimation.visible) : false
+    
+    SwipeArea {
+      anchors.fill: parent
+      
+      onSwiped: {
+        if (!leftToRight || pageFlipAnimation.isRunning)
+          return;
+        
+        pageFlipAnimation.leftToRight = true;
+        pageFlipAnimation.leftIsCover = true;
+        pageFlipAnimation.rightPage = templatePager.model.getAt(0);
+        
+        album.currentPageNumber = 0;
+        
+        pageFlipAnimation.start();
       }
     }
   }
@@ -202,19 +222,7 @@ Rectangle {
     
     anchors.fill: templatePager
     
-    visible: false
-    
-    onPageFlippedChanged: {
-      if (pageFlipped) {
-        if (leftToRight)
-          templatePager.pageForward();
-        else
-          templatePager.pageBack();
-        
-        templatePager.visible = true;
-        visible = false;
-      }
-    }
+    visible: isRunning
   }
   
   Checkerboard {

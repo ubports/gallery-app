@@ -87,10 +87,8 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
   if (metadata.get() != NULL && metadata->orientation() != TOP_LEFT_ORIGIN)
     image = image.transformed(metadata->orientation_transform());
   
-  if (size != NULL) {
-    size->setWidth(image.width());
-    size->setHeight(image.height());
-  }
+  if (size != NULL)
+    *size = image.size();
   
 #ifdef GALLERY_LOG_IMAGE
   qDebug("Loaded %s req:%dx%d ret:%dx%d", qPrintable(id), requestedSize.width(),

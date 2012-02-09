@@ -21,7 +21,9 @@ import QtQuick 1.1
 import Gallery 1.0
 
 Rectangle {
-  property AlbumPage albumPage
+  id: albumPreviewComponent
+  
+  property Album album
   property alias pageGutter: albumPageComponent.gutter
   property alias bookmarkOpacity: bookmark.opacity
   property alias nameHeight: text.height
@@ -32,44 +34,66 @@ Rectangle {
   width: canonicalWidth
   height: 252
   
-  AlbumPageComponent {
-    id: albumPageComponent
+  AlbumCover {
+    id: albumCover
     
-    albumPage: parent.albumPage
-    gutter: 8
-    borderWidth: 1
-    isPreview: true
+    album: parent.album
+    
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
     
     width: parent.width
-    height: parent.height - text.height
+    
+    visible: (album) ? album.isClosed : false
   }
   
-  Text {
-    id: text
+  Rectangle {
+    id: albumPreview
     
-    height: 24
+    anchors.fill: parent
     
-    anchors.horizontalCenter: parent.horizontalCenter
-    anchors.top: albumPageComponent.bottom
-    anchors.topMargin: 12
-    anchors.bottomMargin: 12
+    visible: (album) ? !album.isClosed : false
     
-    color: "#657CA9"
+    AlbumPageComponent {
+      id: albumPageComponent
+      
+      albumPage: (album && !album.isClosed) ? album.currentPage : null
+      gutter: 8
+      borderWidth: 1
+      isPreview: true
+      
+      width: parent.width
+      height: parent.height - text.height
+    }
     
-    text: (albumPage) ? albumPage.owner.name : "";
-    smooth: true
-  }
-  
-  Image {
-    id: bookmark
-
-    anchors.horizontalCenter: parent.horizontalCenter
-    anchors.top: albumPageComponent.top
+    Text {
+      id: text
+      
+      height: 24
+      
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.top: albumPageComponent.bottom
+      anchors.topMargin: 12
+      anchors.bottomMargin: 12
+      
+      color: "#657CA9"
+      
+      text: (album) ? album.name : "";
+      smooth: true
+    }
     
-    transformOrigin: Item.Top
-    scale: parent.width / canonicalWidth // Scale the bookmark accordingly if the preview has been resized.
-
-    source: "../img/bookmark-ribbon.png"
-    cache: true
+    Image {
+      id: bookmark
+      
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.top: albumPageComponent.top
+      
+      transformOrigin: Item.Top
+      scale: parent.width / canonicalWidth // Scale the bookmark accordingly if the preview has been resized.
+      
+      source: "../img/bookmark-ribbon.png"
+      cache: true
+    }
   }
 }

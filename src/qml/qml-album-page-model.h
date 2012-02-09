@@ -50,6 +50,6 @@ class QmlAlbumPageModel : public QmlViewCollectionModel {
   Album* album_;
 };
 
-QML_DECLARE_TYPE(QmlAlbumPageModel);
+QML_DECLARE_TYPE(QmlAlbumPageModel)
 
 #endif  // GALLERY_QML_ALBUM_PAGE_MODEL_H_

@@ -19,6 +19,7 @@
     <file>img/viewer-forward.png</file>
     
     <file>qml/AddCreateOperationNavbarButton.qml</file>
+    <file>qml/AlbumCover.qml</file>
     <file>qml/AlbumOperationsToolbarButton.qml</file>
     <file>qml/AlbumPageComponent.qml</file>
     <file>qml/AlbumPageFlipAnimation.qml</file>
@@ -56,6 +57,7 @@
     <file>qml/PushButton.qml</file>
     <file>qml/ReturnButton.qml</file>
     <file>qml/ShareOperationsToolbarButton.qml</file>
+    <file>qml/SwipeArea.qml</file>
     <file>qml/Tab.qml</file>
     <file>qml/TabletSurface.qml</file>
     <file>qml/Toolbar.qml</file>

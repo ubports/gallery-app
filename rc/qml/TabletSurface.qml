@@ -59,7 +59,7 @@ Rectangle {
         navStack.goBack();
         var thumbnailRect = overview.getRectOfAlbumPreview(album, albumViewer);
         if (thumbnailRect)
-          albumViewerTransition.transitionFromAlbumViewer(album.pages[album.currentPage], thumbnailRect);
+          albumViewerTransition.transitionFromAlbumViewer(album, thumbnailRect);
       }
     }
   }
@@ -103,7 +103,7 @@ Rectangle {
     function switchToAlbumViewer(album, thumbnailRect) {
       albumViewer.album = album;
       
-      albumViewerTransition.transitionToAlbumViewer(album.pages[album.currentPage], thumbnailRect);
+      albumViewerTransition.transitionToAlbumViewer(album, thumbnailRect);
     }
     
     function switchToMediaSelector(album) {

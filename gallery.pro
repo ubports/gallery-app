@@ -98,6 +98,7 @@ HEADERS += \
 OTHER_FILES += \
 	rc/gallery.qrc \
 	rc/qml/AddCreateOperationNavbarButton.qml \
+	rc/qml/AlbumCover.qml \
 	rc/qml/AlbumOperationsToolbarButton.qml \
 	rc/qml/AlbumPageComponent.qml \
 	rc/qml/AlbumPageFlipAnimation.qml \
@@ -135,6 +136,7 @@ OTHER_FILES += \
 	rc/qml/PushButton.qml \
 	rc/qml/ReturnButton.qml \
 	rc/qml/ShareOperationsToolbarButton.qml \
+	rc/qml/SwipeArea.qml \
 	rc/qml/Tab.qml \
 	rc/qml/TabletSurface.qml \
 	rc/qml/Toolbar.qml \
