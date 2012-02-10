@@ -27,7 +27,10 @@ Rectangle {
   property alias pageGutter: albumPageComponent.gutter
   property alias bookmarkOpacity: bookmark.opacity
   property alias nameHeight: text.height
-  property int borderWidth: 3
+  property int frameBorderWidth: 3
+  property color frameBorderColor: "#95b5de"
+  property int photoBorderWidth: 4
+  property color photoBorderColor: "#95b5de"
 
   // Read-only, please.
   property real canonicalWidth: 388
@@ -55,6 +58,9 @@ Rectangle {
     AlbumPageComponent {
       id: albumPageComponent
       
+      photoBorderWidth: albumPreviewComponent.photoBorderWidth
+      photoBorderColor: albumPreviewComponent.photoBorderColor
+
       albumPage: (album && !album.isClosed) ? album.currentPage : null
       gutter: 8
       isPreview: true
@@ -69,16 +75,16 @@ Rectangle {
       Rectangle {
         width: albumPageComponent.width / 2
         height: albumPageComponent.height
-        color: "#00000000"
-        border.width: borderWidth
-        border.color: "#95b5de"
+        color: "transparent"
+        border.width: frameBorderWidth
+        border.color: frameBorderColor
       }
       Rectangle {
         width: albumPageComponent.width / 2
         height: albumPageComponent.height
-        color: "#00000000"
-        border.width: borderWidth
-        border.color: "#95b5de"
+        color: "transparent"
+        border.width: frameBorderWidth
+        border.color: frameBorderColor
       }
     }
 

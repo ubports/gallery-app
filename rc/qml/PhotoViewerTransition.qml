@@ -63,7 +63,7 @@ Item {
     isAnimate: true
     ownerName: "PhotoViewerTransition"
     
-    color: "#00000000"
+    color: "transparent"
 
     function setOverThumbnail(photo, thumbnailRect) {
       mediaSource = photo;

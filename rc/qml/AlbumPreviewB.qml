@@ -24,6 +24,8 @@ Row {
   
   property variant mediaSourceList
   property int gutter: (parent ? parent.gutter : 24)
+  property int photoBorderWidth: (parent ? parent.photoBorderWidth : 0)
+  property color photoBorderColor: (parent ? parent.photoBorderColor : "#95b5de")
   property bool isPreview: false
   
   Column {
@@ -38,6 +40,9 @@ Row {
       width: parent.width
       height: parent.height / 2
       
+      photoBorderWidth: albumPreviewB.photoBorderWidth
+      photoBorderColor: albumPreviewB.photoBorderColor
+
       mediaSource: (mediaSourceList != null) ? mediaSourceList[0] : null
       gutter: albumPreviewB.gutter
       isPreview: albumPreviewB.isPreview
@@ -49,6 +54,9 @@ Row {
       width: parent.width
       height: parent.height / 2
       
+      photoBorderWidth: albumPreviewB.photoBorderWidth
+      photoBorderColor: albumPreviewB.photoBorderColor
+
       mediaSource: (mediaSourceList != null) ? mediaSourceList[1] : null
       gutter: albumPreviewB.gutter
       isPreview: albumPreviewB.isPreview
@@ -61,6 +69,9 @@ Row {
     width: parent.width / 2
     height: parent.height
     
+    photoBorderWidth: albumPreviewB.photoBorderWidth
+    photoBorderColor: albumPreviewB.photoBorderColor
+
     mediaSource: (mediaSourceList != null) ? mediaSourceList[2] : null
     gutter: albumPreviewB.gutter
     isPreview: albumPreviewB.isPreview
