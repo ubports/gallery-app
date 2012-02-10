@@ -23,11 +23,14 @@ Toolbar {
   height: 48
   width: parent.width
 
+  property alias addCreateOperationButtonVisible: addCreateOperationNavbarButton.visible
   signal addCreateOperationButtonPressed()
 
   background: "mediumBlue"
 
   AddCreateOperationNavbarButton {
+    id: addCreateOperationNavbarButton
+
     anchors.verticalCenter: parent.verticalCenter
     anchors.left: parent.left
     anchors.leftMargin: 16

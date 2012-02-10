@@ -55,6 +55,8 @@ Rectangle {
     anchors.left: parent.left
     anchors.right: parent.right
     
+    addCreateOperationButtonVisible: !eventsCheckerboard.inSelectionMode
+
     onAddCreateOperationButtonPressed: {
       if (albumViewSwitcher.state == "tab0_active")
         navStack.switchToMediaSelector();
