@@ -27,8 +27,8 @@ Rectangle {
   
   property Album album
   property int borderWidth: 2
-  property alias pageTop: templatePager.y
-  property alias pageHeight: templatePager.height
+  property alias pageTop: pageFlipAnimation.y
+  property alias pageHeight: pageFlipAnimation.height
   
   // When the user clicks the back button.
   signal closeRequested()
@@ -39,35 +39,20 @@ Rectangle {
 
   states: [
     State { name: "pageView"; },
-    State { name: "gridView"; },
-    State { name: "albumCover"; }
+    State { name: "gridView"; }
   ]
 
   transitions: [
-    Transition { from: "albumCover"; to: "gridView";
-      ParallelAnimation {
-        DissolveAnimation { fadeOutTarget: albumCover; fadeInTarget: gridCheckerboard; }
-        FadeOutAnimation { target: middleBorder; }
-        FadeOutAnimation { target: pageIndexerPlaceholder; }
-      }
-    },
     Transition { from: "pageView"; to: "gridView";
       ParallelAnimation {
-        DissolveAnimation { fadeOutTarget: templatePager; fadeInTarget: gridCheckerboard; }
+        DissolveAnimation { fadeOutTarget: pageFlipAnimation; fadeInTarget: gridCheckerboard; }
         FadeOutAnimation { target: middleBorder; }
         FadeOutAnimation { target: pageIndexerPlaceholder; }
-      }
-    },
-    Transition { from: "gridView"; to: "albumCover";
-      ParallelAnimation {
-        DissolveAnimation { fadeOutTarget: gridCheckerboard; fadeInTarget: albumCover; }
-        FadeInAnimation { target: middleBorder; }
-        FadeInAnimation { target: pageIndexerPlaceholder; }
       }
     },
     Transition { from: "gridView"; to: "pageView";
       ParallelAnimation {
-        DissolveAnimation { fadeOutTarget: gridCheckerboard; fadeInTarget: templatePager; }
+        DissolveAnimation { fadeOutTarget: gridCheckerboard; fadeInTarget: pageFlipAnimation; }
         FadeInAnimation { target: middleBorder; }
         FadeInAnimation { target: pageIndexerPlaceholder; }
       }
@@ -76,7 +61,8 @@ Rectangle {
   
   function resetView() {
     state = ""; // Prevents the animation on gridView -> pageView from happening.
-    state = (album.isClosed) ? "albumCover" : "pageView";
+    state = "pageView";
+    pageFlipAnimation.visible = true;
     gridCheckerboard.visible = false;
     middleBorder.visible = true;
     masthead.isTemplateView = true;
@@ -84,9 +70,9 @@ Rectangle {
 
   onAlbumChanged: {
     if (album)
-      templatePager.pageTo(album.currentPageNumber);
+      pageFlipAnimation.setTo(album.currentPageNumber);
   }
-
+  
   PlaceholderPopupMenu {
     id: addPhotosMenu
 
@@ -107,7 +93,7 @@ Rectangle {
     id: masthead
     objectName: "masthead"
 
-    albumName: templatePager.albumName
+    albumName: (album) ? album.name : ""
 
     areItemsSelected: gridCheckerboard.selectedCount > 0
 
@@ -117,7 +103,7 @@ Rectangle {
 
     onViewModeChanged: {
       if (isTemplateView) {
-        albumViewer.state = (album.isClosed) ? "albumCover" : "pageView";
+        albumViewer.state = "pageView";
       } else {
         albumViewer.state = "gridView";
       }
@@ -133,120 +119,25 @@ Rectangle {
     }
   }
   
-  Pager {
-    id: templatePager
-    objectName: "templatePager"
-    
-    property string albumName
-
-    anchors.fill: undefined
-    anchors.top: masthead.bottom
-    anchors.bottom: pageIndexerPlaceholder.top
-    anchors.left: parent.left
-    anchors.right: parent.right
-    
-    pageCacheSize: 1
-    
-    visible: (album) ? (!album.isClosed && !pageFlipAnimation.visible) : false
-    
-    model: AlbumPageModel {
-      forAlbum: album
-    }
-    
-    delegate: AlbumPageComponent {
-      albumPage: object
-      
-      width: templatePager.width
-      height: templatePager.height
-    }
-    
-    interactive: false
-    
-    onCurrentIndexChanged: {
-      // Can't open an album by changing the currentIndex; this is esp.
-      // problematic at initialization, when the currentIndex is set internally
-      // but not by user interaction
-      if (album && !album.isClosed)
-        album.currentPageNumber = currentIndex;
-    }
-    
-    SwipeArea {
-      anchors.fill: parent
-      
-      onSwiped: {
-        if (pageFlipAnimation.isRunning)
-          return;
-        
-        var curr = null;
-        var next = null;
-        
-        var ofs = (leftToRight) ? 1 : -1;
-        if ((parent.currentIndex + ofs) < 0) {
-          album.close();
-          pageFlipAnimation.leftIsCover = true;
-        } else {
-          next = parent.model.getAt(parent.currentIndex + ofs);
-          pageFlipAnimation.leftIsCover = false;
-        }
-        
-        curr = parent.model.getAt(parent.currentIndex);
-        
-        if ((!pageFlipAnimation.leftIsCover) && (curr == null || next == null))
-          return;
-        
-        pageFlipAnimation.leftToRight = leftToRight;
-        pageFlipAnimation.leftPage = (leftToRight) ? curr : next;
-        pageFlipAnimation.rightPage = (leftToRight) ? next : curr;
-        
-        pageFlipAnimation.start();
-        
-        if (leftToRight)
-          parent.pageForward();
-        else if (album && !album.isClosed)
-          parent.pageBack();
-      }
-      
-      onReleased: {
-        startX = -1;
-      }
-    }
-  }
-  
-  AlbumCover {
-    id: albumCover
-    
-    album: albumViewer.album
-    
-    anchors.fill: templatePager
-    
-    visible: (album) ? (album.isClosed && !pageFlipAnimation.visible) : false
-    
-    SwipeArea {
-      anchors.fill: parent
-      
-      onSwiped: {
-        if (!leftToRight || pageFlipAnimation.isRunning)
-          return;
-        
-        pageFlipAnimation.leftToRight = true;
-        pageFlipAnimation.leftIsCover = true;
-        pageFlipAnimation.rightPage = templatePager.model.getAt(0);
-        
-        album.currentPageNumber = 0;
-        
-        pageFlipAnimation.start();
-      }
-    }
-  }
-  
   AlbumPageFlipAnimation {
     id: pageFlipAnimation
     
-    anchors.fill: templatePager
+    anchors.top: masthead.bottom
+    anchors.bottom: pageIndicator.top
+    anchors.left: parent.left
+    anchors.right: parent.right
     
-    cover: albumViewer.album
+    album: albumViewer.album
     
-    visible: isRunning
+    SwipeArea {
+      anchors.fill: parent
+      
+      active: !parent.isRunning
+      
+      onSwiped: {
+        pageFlipAnimation.turnTo(album.currentPageNumber + (leftToRight ? 1 : -1));
+      }
+    }
   }
   
   Checkerboard {
@@ -331,15 +222,24 @@ Rectangle {
       gridCheckerboard.unselectAll();
     }
   }
-
-  Rectangle {
-    id: pageIndexerPlaceholder
-
+  
+  AlbumPageIndicator {
+    id: pageIndicator
+    
+    anchors.bottom: toolbar.top
+    
     width: parent.width
     height: 24
-    anchors.bottom: toolbar.top
+    
+    color: "transparent"
+    
+    album: albumViewer.album
+    
+    onSelected: {
+      pageFlipAnimation.turnTo(pageNumber);
+    }
   }
-
+  
   Rectangle {
     id: middleBorder
 

@@ -51,6 +51,7 @@ SOURCES += \
 	src/photo/photo-metadata.cpp \
 	src/qml/gallery-standard-image-provider.cpp \
 	src/qml/qml-album-collection-model.cpp \
+	src/qml/qml-album-cover-marker.cpp \
 	src/qml/qml-album-page-model.cpp \
 	src/qml/qml-event-collection-model.cpp \
 	src/qml/qml-event-overview-model.cpp \
@@ -84,6 +85,7 @@ HEADERS += \
 	src/photo/photo-metadata.h \
 	src/qml/gallery-standard-image-provider.h \
 	src/qml/qml-album-collection-model.h \
+	src/qml/qml-album-cover-marker.h \
 	src/qml/qml-album-page-model.h \
 	src/qml/qml-event-collection-model.h \
 	src/qml/qml-event-overview-model.h \
@@ -102,6 +104,7 @@ OTHER_FILES += \
 	rc/qml/AlbumOperationsToolbarButton.qml \
 	rc/qml/AlbumPageComponent.qml \
 	rc/qml/AlbumPageFlipAnimation.qml \
+	rc/qml/AlbumPageIndicator.qml \
 	rc/qml/AlbumPickerPopup.qml \
 	rc/qml/AlbumPreviewA.qml \
 	rc/qml/AlbumPreviewB.qml \

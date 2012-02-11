@@ -120,6 +120,11 @@ void DataCollection::Remove(DataObject* object) {
   Sanity();
 }
 
+void DataCollection::RemoveAt(int index) {
+  if (index >= 0 && index < Count())
+    Remove(GetAt(0));
+}
+
 void DataCollection::RemoveMany(const QSet<DataObject *> &objects) {
   if (objects.count() == 0)
     return;

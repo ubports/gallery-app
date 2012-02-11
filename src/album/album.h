@@ -25,6 +25,7 @@
 #include <QDeclarativeListProperty>
 #include <QString>
 #include <QUrl>
+#include <QVariant>
 #include <QtDeclarative>
 
 #include "album/album-page.h"
@@ -40,6 +41,7 @@ class Album : public ContainerSource {
   Q_PROPERTY(QVariant currentPage READ qml_current_page NOTIFY current_page_altered)
   Q_PROPERTY(int currentPageNumber READ current_page_number WRITE set_current_page_number
     NOTIFY current_page_altered)
+  Q_PROPERTY(int pageCount READ page_count NOTIFY pages_altered)
   Q_PROPERTY(bool isClosed READ is_closed NOTIFY opened_closed)
   Q_PROPERTY(QDeclarativeListProperty<AlbumPage> pages READ qml_pages
     NOTIFY pages_altered)
@@ -68,6 +70,7 @@ class Album : public ContainerSource {
   
   Q_INVOKABLE void addMediaSource(QVariant vmedia);
   Q_INVOKABLE void addSelectedMediaSources(QVariant vmodel);
+  Q_INVOKABLE QVariant getPage(int page) const;
   Q_INVOKABLE void close();
   
   const QString& name() const;

@@ -23,6 +23,7 @@
     <file>qml/AlbumOperationsToolbarButton.qml</file>
     <file>qml/AlbumPageComponent.qml</file>
     <file>qml/AlbumPageFlipAnimation.qml</file>
+    <file>qml/AlbumPageIndicator.qml</file>
     <file>qml/AlbumPickerPopup.qml</file>
     <file>qml/AlbumPreviewA.qml</file>
     <file>qml/AlbumPreviewB.qml</file>

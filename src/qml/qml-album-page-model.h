@@ -31,9 +31,12 @@
 class QmlAlbumPageModel : public QmlViewCollectionModel {
   Q_OBJECT
   Q_PROPERTY(QVariant forAlbum READ for_album WRITE set_for_album NOTIFY album_changed)
+  Q_PROPERTY(bool includeCover READ include_cover WRITE set_include_cover
+    NOTIFY include_cover_changed)
   
  signals:
   void album_changed();
+  void include_cover_changed();
   
  public:
   QmlAlbumPageModel(QObject* parent = NULL);
@@ -43,11 +46,17 @@ class QmlAlbumPageModel : public QmlViewCollectionModel {
   QVariant for_album() const;
   void set_for_album(QVariant valbum);
   
+  bool include_cover() const;
+  void set_include_cover(bool include_cover);
+  
  protected:
   virtual QVariant VariantFor(DataObject* object) const;
   
  private:
   Album* album_;
+  bool include_cover_;
+  
+  static bool Comparator(DataObject* a, DataObject* b);
 };
 
 QML_DECLARE_TYPE(QmlAlbumPageModel)

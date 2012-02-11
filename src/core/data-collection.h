@@ -69,6 +69,7 @@ class DataCollection : public QObject {
   void AddMany(const QSet<DataObject*>& objects);
   
   void Remove(DataObject* object);
+  void RemoveAt(int index);
   void RemoveMany(const QSet<DataObject*>& objects);
   void Clear();
   

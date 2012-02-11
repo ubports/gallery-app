@@ -86,6 +86,12 @@ void Album::addSelectedMediaSources(QVariant vmodel) {
     FilterSetOnlyType<DataObject*, MediaSource*>(model->BackingViewCollection()->GetSelected()));
 }
 
+QVariant Album::getPage(int page) const {
+  AlbumPage* album_page = GetPage(page);
+  
+  return (album_page != NULL) ? QVariant::fromValue(album_page) : QVariant();
+}
+
 const QString& Album::name() const {
   return name_;
 }

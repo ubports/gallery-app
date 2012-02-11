@@ -292,6 +292,10 @@ void QmlViewCollectionModel::MonitorContainerSource(ContainerSource* container) 
   SetBackingViewCollection(view);
 }
 
+bool QmlViewCollectionModel::IsMonitoring() const {
+  return view_ != NULL;
+}
+
 void QmlViewCollectionModel::StopMonitoring() {
   if (view_ == NULL)
     return;

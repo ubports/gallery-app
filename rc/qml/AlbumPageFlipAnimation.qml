@@ -26,18 +26,98 @@ import Gallery 1.0
 Rectangle {
   id: pageFlipAnimation
   
-  property Album cover
-  property AlbumPage leftPage
-  property AlbumPage rightPage
-  
-  property bool pageFlipped: false
+  property Album album
+  property int durationMsec: 1000
   
   // readonly
+  property bool pageFlipped: false
   property bool isRunning: (flippable.state != "" || clipper.trigger)
   
+  // internal
+  property AlbumPage leftPage
+  property AlbumPage rightPage
   property bool leftToRight: true
   property bool leftIsCover: false
-  property int durationMsec: 1000
+  property bool rightIsCover: false
+  property int finalPageNumber
+  
+  // Moves to selected page without any animation (good for initializing view)
+  function setTo(index) {
+    if (isRunning) {
+      console.log("Blocking set of album page", index);
+      
+      return;
+    }
+    
+    if (index < 0) {
+      leftIsCover = true;
+      rightIsCover = true;
+    } else {
+      leftIsCover = false;
+      rightIsCover = false;
+      leftPage = album.getPage(index);
+      rightPage = leftPage;
+    }
+    
+    clipper.visible = false;
+  }
+  
+  // Animates page flip and saves new page number to album.
+  function turnTo(index) {
+    if (isRunning) {
+      console.log("Blocking turn to album page", index);
+      
+      return;
+    }
+    
+    if (index < 0) {
+      close();
+      
+      return;
+    }
+    
+    if (index == album.currentPageNumber || index >= album.pageCount)
+      return;
+    
+    leftIsCover = false;
+    rightIsCover = false;
+    
+    if (album.isClosed) {
+      leftIsCover = true;
+      rightPage = album.getPage(index);
+      leftToRight = true;
+    } else if (album.currentPageNumber > index) {
+      leftPage = album.getPage(index);
+      rightPage = album.getPage(album.currentPageNumber);
+      leftToRight = false;
+    } else {
+      leftPage = album.getPage(album.currentPageNumber);
+      rightPage = album.getPage(index);
+      leftToRight = true;
+    }
+    
+    finalPageNumber = index;
+    
+    start();
+  }
+  
+  function close() {
+    if (isRunning) {
+      console.log("Blocking close of album");
+      
+      return;
+    }
+    
+    if (album.isClosed)
+      return;
+    
+    leftIsCover = true;
+    rightPage = album.getPage(album.currentPageNumber);
+    leftToRight = false;
+    finalPageNumber = -1;
+    
+    start();
+  }
   
   function start() {
     if (isRunning) {
@@ -49,12 +129,20 @@ Rectangle {
     // reset
     pageFlipped = false;
     clipper.trigger = false;
+    
+    clipper.visible = true;
+    
     clipper.x = leftToRight ? pageFlipAnimation.width / 2 : 0
     flippable.x = leftToRight ? -(pageFlipAnimation.width / 2) : 0
     flippable.rotation.angle = leftToRight ? 0.0 : -180.0;
     
     // start animation
     clipper.trigger = true;
+  }
+  
+  onAlbumChanged: {
+    if (album)
+      setTo(album.currentPageNumber);
   }
   
   Item {
@@ -72,7 +160,7 @@ Rectangle {
       AlbumCover {
         id: coverBackground
         
-        album: pageFlipAnimation.cover
+        album: pageFlipAnimation.album
         
         width: pageFlipAnimation.width
         height: pageFlipAnimation.height
@@ -106,6 +194,19 @@ Rectangle {
       width: parent.width
       height: parent.height
       
+      AlbumCover {
+        id: rightCoverBackground
+        
+        album: pageFlipAnimation.album
+        
+        x: parent.x
+        y: parent.y
+        width: pageFlipAnimation.width
+        height: pageFlipAnimation.height
+        
+        visible: rightIsCover
+      }
+      
       AlbumPageComponent {
         id: rightPageBackground
         
@@ -115,6 +216,8 @@ Rectangle {
         y: parent.y
         width: pageFlipAnimation.width
         height: pageFlipAnimation.height
+        
+        visible: !rightIsCover
       }
     }
   }
@@ -146,7 +249,7 @@ Rectangle {
         AlbumCover {
           id: coverAnimated
           
-          album: pageFlipAnimation.cover
+          album: pageFlipAnimation.album
           
           width: pageFlipAnimation.width
           height: pageFlipAnimation.height
@@ -232,6 +335,30 @@ Rectangle {
                   }
                 }
               }
+            }
+          }
+          
+          // Update album state and change visibility to show the result of
+          // the page flip
+          ScriptAction {
+            script: {
+              album.currentPageNumber = finalPageNumber;
+              
+              if (album.isClosed) {
+                leftIsCover = true;
+                rightIsCover = true;
+              } else {
+                leftIsCover = false;
+                rightIsCover = false;
+                
+                if (leftToRight) {
+                  leftPage = rightPage;
+                } else {
+                  rightPage = leftPage;
+                }
+              }
+              
+              clipper.visible = false;
             }
           }
           

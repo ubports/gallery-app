@@ -28,13 +28,22 @@ import QtQuick 1.1
 MouseArea {
   signal swiped(bool leftToRight)
   
+  property bool active: true
+  
   // read-only
   property int requiredHorizMovement: 20
   
   // private
   property int startX: -1
   
+  onActiveChanged: {
+    startX = -1;
+  }
+  
   onPositionChanged: {
+    if (!active)
+      return;
+    
     // look for initial swipe
     if (startX == -1) {
       startX = mouse.x;
