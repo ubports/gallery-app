@@ -23,14 +23,14 @@
 import QtQuick 1.1
 import Gallery 1.0
 
-// The AlbumPageFlipAnimation is a specialty controller for displaying and
+// The AlbumPageViewer is a specialty controller for displaying and
 // viewing albums.  The caller simply needs to set the album property and
 // then manipulate what is displayed via turnTo() (which animates the page
 // flipping as though turning pages in a book), setTo() (which immediately
 // jumps to the page without an animation), or close() which animates closing
 // the album; there is no no-animation variant at this time).
 //
-// AlbumPageFlipAnimation updates the album object at the end of the animation,
+// AlbumPageViewer updates the album object at the end of the animation,
 // meaning the final page is treated as the current album page throughout
 // the system.  This is only for turnTo() and close(); setTo() does not update
 // album page state.
@@ -42,13 +42,13 @@ import Gallery 1.0
 // the background and the other half in animation, to simulate the book turning
 // on its spine.
 //
-// When not animating, AlbumPageFlipAnimation enters a state where the two
+// When not animating, AlbumPageViewer enters a state where the two
 // halves are shown side-by-side, making it look like a single page.  This may
 // seem unnecessary, but it removes the need for a separate component to show
 // the entire page and then showing/hiding it via z-order, visibility, or some
 // other trick.
 Rectangle {
-  id: pageFlipAnimation
+  id: albumPageViewer
   
   // public
   property Album album
@@ -76,6 +76,12 @@ Rectangle {
       
       return;
     }
+    
+    // Because setTo() doesn't control the album's state, only check for
+    // bounds issue, not setting to the same page number (which this component
+    // may not be showing currently)
+    if (!album || index >= album.pageCount)
+      return;
     
     if (index < 0) {
       leftIsCover = true;
@@ -105,7 +111,7 @@ Rectangle {
       return;
     }
     
-    if (index == album.currentPageNumber || index >= album.pageCount)
+    if (!album || index == album.currentPageNumber || index >= album.pageCount)
       return;
     
     leftIsCover = false;
@@ -137,7 +143,7 @@ Rectangle {
       return;
     }
     
-    if (album.isClosed)
+    if (!album || album.isClosed)
       return;
     
     leftIsCover = true;
@@ -162,8 +168,8 @@ Rectangle {
     
     clipper.visible = true;
     
-    clipper.x = leftToRight ? pageFlipAnimation.width / 2 : 0
-    flippable.x = leftToRight ? -(pageFlipAnimation.width / 2) : 0
+    clipper.x = leftToRight ? albumPageViewer.width / 2 : 0
+    flippable.x = leftToRight ? -(albumPageViewer.width / 2) : 0
     flippable.rotation.angle = leftToRight ? 0.0 : -180.0;
     
     // start animation
@@ -190,10 +196,10 @@ Rectangle {
       AlbumCover {
         id: coverBackground
         
-        album: pageFlipAnimation.album
+        album: albumPageViewer.album
         
-        width: pageFlipAnimation.width
-        height: pageFlipAnimation.height
+        width: albumPageViewer.width
+        height: albumPageViewer.height
         
         visible: leftIsCover
       }
@@ -203,8 +209,8 @@ Rectangle {
         
         albumPage: leftPage
         
-        width: pageFlipAnimation.width
-        height: pageFlipAnimation.height
+        width: albumPageViewer.width
+        height: albumPageViewer.height
         
         visible: !leftIsCover
       }
@@ -227,12 +233,12 @@ Rectangle {
       AlbumCover {
         id: rightCoverBackground
         
-        album: pageFlipAnimation.album
+        album: albumPageViewer.album
         
         x: parent.x
         y: parent.y
-        width: pageFlipAnimation.width
-        height: pageFlipAnimation.height
+        width: albumPageViewer.width
+        height: albumPageViewer.height
         
         visible: rightIsCover
       }
@@ -244,8 +250,8 @@ Rectangle {
         
         x: parent.x
         y: parent.y
-        width: pageFlipAnimation.width
-        height: pageFlipAnimation.height
+        width: albumPageViewer.width
+        height: albumPageViewer.height
         
         visible: !rightIsCover
       }
@@ -266,9 +272,9 @@ Rectangle {
     Flipable {
       id: flippable
       
-      x: leftToRight ? -(pageFlipAnimation.width / 2) : 0
-      width: pageFlipAnimation.width
-      height: pageFlipAnimation.height
+      x: leftToRight ? -(albumPageViewer.width / 2) : 0
+      width: albumPageViewer.width
+      height: albumPageViewer.height
       
       front: Rectangle {
         x: 0
@@ -279,10 +285,10 @@ Rectangle {
         AlbumCover {
           id: coverAnimated
           
-          album: pageFlipAnimation.album
+          album: albumPageViewer.album
           
-          width: pageFlipAnimation.width
-          height: pageFlipAnimation.height
+          width: albumPageViewer.width
+          height: albumPageViewer.height
           
           visible: leftIsCover
         }
@@ -292,8 +298,8 @@ Rectangle {
           
           albumPage: leftPage
           
-          width: pageFlipAnimation.width
-          height: pageFlipAnimation.height
+          width: albumPageViewer.width
+          height: albumPageViewer.height
           
           visible: !leftIsCover
         }
@@ -310,8 +316,8 @@ Rectangle {
           
           albumPage: rightPage
           
-          width: pageFlipAnimation.width
-          height: pageFlipAnimation.height
+          width: albumPageViewer.width
+          height: albumPageViewer.height
         }
       }
         
@@ -319,8 +325,8 @@ Rectangle {
         Rotation {
           id: rotation
           
-          origin.x: pageFlipAnimation.width / 2
-          origin.y: pageFlipAnimation.height / 2
+          origin.x: albumPageViewer.width / 2
+          origin.y: albumPageViewer.height / 2
           
           axis.x: 0
           axis.y: 1
@@ -360,8 +366,8 @@ Rectangle {
                     clipper.x = 0;
                     flippable.x = 0;
                   } else {
-                    clipper.x = pageFlipAnimation.width / 2;
-                    flippable.x = -pageFlipAnimation.width / 2;
+                    clipper.x = albumPageViewer.width / 2;
+                    flippable.x = -albumPageViewer.width / 2;
                   }
                 }
               }
@@ -394,7 +400,7 @@ Rectangle {
           
           // Signal that the page flip is complete
           PropertyAction {
-            target: pageFlipAnimation
+            target: albumPageViewer
             property: "pageFlipped"
             value: true
           }

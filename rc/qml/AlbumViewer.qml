@@ -27,8 +27,8 @@ Rectangle {
   
   property Album album
   property int borderWidth: 2
-  property alias pageTop: pageFlipAnimation.y
-  property alias pageHeight: pageFlipAnimation.height
+  property alias pageTop: albumPageViewer.y
+  property alias pageHeight: albumPageViewer.height
   
   // When the user clicks the back button.
   signal closeRequested()
@@ -45,14 +45,14 @@ Rectangle {
   transitions: [
     Transition { from: "pageView"; to: "gridView";
       ParallelAnimation {
-        DissolveAnimation { fadeOutTarget: pageFlipAnimation; fadeInTarget: gridCheckerboard; }
+        DissolveAnimation { fadeOutTarget: albumPageViewer; fadeInTarget: gridCheckerboard; }
         FadeOutAnimation { target: middleBorder; }
         FadeOutAnimation { target: pageIndicator; }
       }
     },
     Transition { from: "gridView"; to: "pageView";
       ParallelAnimation {
-        DissolveAnimation { fadeOutTarget: gridCheckerboard; fadeInTarget: pageFlipAnimation; }
+        DissolveAnimation { fadeOutTarget: gridCheckerboard; fadeInTarget: albumPageViewer; }
         FadeInAnimation { target: middleBorder; }
         FadeInAnimation { target: pageIndicator; }
       }
@@ -62,7 +62,7 @@ Rectangle {
   function resetView() {
     state = ""; // Prevents the animation on gridView -> pageView from happening.
     state = "pageView";
-    pageFlipAnimation.visible = true;
+    albumPageViewer.visible = true;
     gridCheckerboard.visible = false;
     middleBorder.visible = true;
     masthead.isTemplateView = true;
@@ -70,7 +70,7 @@ Rectangle {
 
   onAlbumChanged: {
     if (album)
-      pageFlipAnimation.setTo(album.currentPageNumber);
+      albumPageViewer.setTo(album.currentPageNumber);
   }
   
   PlaceholderPopupMenu {
@@ -119,8 +119,8 @@ Rectangle {
     }
   }
   
-  AlbumPageFlipAnimation {
-    id: pageFlipAnimation
+  AlbumPageViewer {
+    id: albumPageViewer
     
     anchors.top: masthead.bottom
     anchors.bottom: pageIndicator.top
@@ -135,7 +135,7 @@ Rectangle {
       active: !parent.isRunning
       
       onSwiped: {
-        pageFlipAnimation.turnTo(album.currentPageNumber + (leftToRight ? 1 : -1));
+        albumPageViewer.turnTo(album.currentPageNumber + (leftToRight ? 1 : -1));
       }
     }
   }
@@ -236,7 +236,7 @@ Rectangle {
     album: albumViewer.album
     
     onSelected: {
-      pageFlipAnimation.turnTo(pageNumber);
+      albumPageViewer.turnTo(pageNumber);
     }
   }
   

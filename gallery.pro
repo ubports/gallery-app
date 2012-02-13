@@ -103,8 +103,8 @@ OTHER_FILES += \
 	rc/qml/AlbumCover.qml \
 	rc/qml/AlbumOperationsToolbarButton.qml \
 	rc/qml/AlbumPageComponent.qml \
-	rc/qml/AlbumPageFlipAnimation.qml \
 	rc/qml/AlbumPageIndicator.qml \
+	rc/qml/AlbumPageViewer.qml \
 	rc/qml/AlbumPickerPopup.qml \
 	rc/qml/AlbumPreviewA.qml \
 	rc/qml/AlbumPreviewB.qml \
