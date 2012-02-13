@@ -24,6 +24,8 @@ Row {
   
   property variant mediaSourceList
   property int gutter: (parent ? parent.gutter : 24)
+  property int photoBorderWidth: (parent ? parent.photoBorderWidth : 0)
+  property color photoBorderColor: (parent ? parent.photoBorderColor : "#95b5de")
   property bool isPreview: false
   
   FramePortrait {
@@ -32,6 +34,9 @@ Row {
     width: (parent.width / 2)
     height: parent.height
     
+    photoBorderWidth: albumPreviewA.photoBorderWidth
+    photoBorderColor: albumPreviewA.photoBorderColor
+
     mediaSource: (mediaSourceList != null) ? mediaSourceList[0] : null
     gutter: parent.gutter
     isPreview: parent.isPreview
@@ -43,6 +48,9 @@ Row {
     width: (parent.width / 2)
     height: parent.height
     
+    photoBorderWidth: albumPreviewA.photoBorderWidth
+    photoBorderColor: albumPreviewA.photoBorderColor
+
     mediaSource: (mediaSourceList != null) ? mediaSourceList[1] : null
     gutter: parent.gutter
     isPreview: parent.isPreview

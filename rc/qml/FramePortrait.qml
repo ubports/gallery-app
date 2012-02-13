@@ -22,6 +22,8 @@ import QtQuick 1.1
 Rectangle {
   property variant mediaSource
   property int gutter: 0
+  property alias photoBorderWidth: photo.photoBorderWidth
+  property alias photoBorderColor: photo.photoBorderColor
   property bool isPreview: false
   
   PhotoComponent {

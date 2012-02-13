@@ -26,6 +26,8 @@ Rectangle {
   property bool isPreview: false
   property bool isZoomable: false
   property bool isAnimate: false
+  property int photoBorderWidth: 0
+  property color photoBorderColor: "#95b5de"
   property int zoomFocusX: 0
   property int zoomFocusY: 0
   property real pinchInteractionStartZoom: 1.0
@@ -217,5 +219,19 @@ Rectangle {
         loaded();
       }
     }
+  }
+
+  Rectangle {
+    id: border
+
+    // We have to be slightly smaller than the parent so we don't get clipped.
+    anchors.centerIn: parent
+    width: parent.width - photoBorderWidth
+    height: parent.height - photoBorderWidth
+
+    color: "transparent"
+
+    border.width: photoBorderWidth
+    border.color: photoBorderColor
   }
 }

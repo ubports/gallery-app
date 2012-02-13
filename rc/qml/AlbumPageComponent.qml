@@ -25,6 +25,8 @@ Rectangle {
   
   property AlbumPage albumPage: null
   property int gutter: 24
+  property int photoBorderWidth: 0
+  property color photoBorderColor: "#95b5de"
   property bool isPreview: false
   
   onAlbumPageChanged: {
@@ -53,6 +55,8 @@ Rectangle {
     // read-only
     property variant mediaSourceList: (albumPage) ? albumPage.mediaSourceList : null
     property alias gutter: albumPageComponent.gutter
+    property alias photoBorderWidth: albumPageComponent.photoBorderWidth
+    property alias photoBorderColor: albumPageComponent.photoBorderColor
     
     anchors.fill: parent
     

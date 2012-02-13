@@ -21,67 +21,71 @@
 import QtQuick 1.1
 
 Rectangle {
-  id: tab_wrapper
-  objectName: "tab_wrapper"
+  id: tab
   
-  property string title: ""
+  property alias title: title.text
+
+  property int deselectedBottomBorderWidth: 2
+  property color deselectedBottomBorderColor: "#7da7d9"
   
+  width: 110
   height: 44
+  radius: 3
+
+  border.color: "#7da7d9"
+  clip: true
   
   signal activated()
   
   states: [
     State { name: "selected";
-      PropertyChanges { target: selected_tab_image; visible: true; }
-      PropertyChanges { target: deselected_tab_image; visible: false; }
-      PropertyChanges { target: tab_wrapper; z: 10; }
+      PropertyChanges { target: tab; z: 10; }
+      PropertyChanges { target: tab; color: "white"; }
+      PropertyChanges { target: tab; border.width: 2; }
     },
 
     State { name: "deselected";
-      PropertyChanges { target: selected_tab_image; visible: false; }
-      PropertyChanges { target: deselected_tab_image; visible: true; }
-      PropertyChanges { target: tab_wrapper; z: 0; }
+      PropertyChanges { target: tab; z: 0; }
+      PropertyChanges { target: tab; color: "#c7d7ee"; }
+      PropertyChanges { target: tab; border.width: 0; }
     }
   ]
   
   state: "deselected"
   
-  Image {
-    id: selected_tab_image
-    objectName: "selected_tab_image"
-    
-    source: "../img/selected-tab.png"
-    
-    Text {
-      text: tab_wrapper.title
-      anchors.centerIn: parent
-      color: "#657CA9"
-    }
-    
-    MouseArea {
-      anchors.fill: parent
-      
-      onClicked: activated()
-    }
+  // This guy squares off the bottom corners of the tab and covers the bottom border.
+  Rectangle {
+    z: parent.z
+    width: parent.width - parent.border.width
+    height: parent.border.width + parent.radius * 2
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.verticalCenter: parent.bottom
+    color: parent.color
   }
-  
-  Image {
-    id: deselected_tab_image
-    objectName: "deselected_tab_image"
-    
-    source: "../img/deselected-tab.png"
 
-    Text {
-      text: tab_wrapper.title
-      anchors.centerIn: parent
-      color: "#657CA9"
-    }
+  // And this guy draws a potentially different border up from the bottom if we're deselected.
+  Rectangle {
+    z: parent.z
+    width: parent.width
+    height: deselectedBottomBorderWidth
+    anchors.bottom: parent.bottom
+    color: deselectedBottomBorderColor
+    visible: parent.state != "selected"
+  }
 
-    MouseArea {
-      anchors.fill: parent
-      
-      onClicked: activated()
+  Text {
+    id: title
+
+    anchors.centerIn: parent
+    color: "#659ad2"
+  }
+
+  MouseArea {
+    anchors.fill: parent
+
+    onClicked: {
+      if (state != "selected")
+        activated();
     }
   }
 }
-

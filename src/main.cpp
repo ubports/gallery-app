@@ -103,6 +103,7 @@ int main(int argc, char *argv[]) {
     GalleryStandardImageProvider::instance());
   view.setSource(QUrl("qrc:/rc/qml/TabletSurface.qml"));
   view.setViewport(gl_widget);
+  QObject::connect(view.engine(), SIGNAL(quit()), &app, SLOT(quit()));
   
   view.show();
   

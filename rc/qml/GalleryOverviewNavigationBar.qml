@@ -23,11 +23,17 @@ Toolbar {
   height: 48
   width: parent.width
 
+  property int bottomBorderWidth: 2
+  property color bottomBorderColor: "#7da7d9"
+
+  property alias addCreateOperationButtonVisible: addCreateOperationNavbarButton.visible
   signal addCreateOperationButtonPressed()
 
   background: "mediumBlue"
 
   AddCreateOperationNavbarButton {
+    id: addCreateOperationNavbarButton
+
     anchors.verticalCenter: parent.verticalCenter
     anchors.left: parent.left
     anchors.leftMargin: 16
@@ -44,5 +50,21 @@ Toolbar {
     anchors.verticalCenter: parent.verticalCenter
     anchors.right: parent.right
     anchors.rightMargin: 16
+
+    MouseArea {
+      anchors.fill: parent
+
+      onPressAndHold: {
+        Qt.quit();
+      }
+    }
+  }
+
+  // Draws a bottom border up from our bottom line.
+  Rectangle {
+    width: parent.width
+    height: bottomBorderWidth
+    anchors.bottom: parent.bottom
+    color: bottomBorderColor
   }
 }
