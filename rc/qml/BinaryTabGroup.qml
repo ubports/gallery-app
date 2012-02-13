@@ -24,13 +24,16 @@ Rectangle {
   id: binary_tab_group
   objectName: "binary_tab_group"
   
-  property string tab0_title: "Tab 0"
-  property string tab1_title: "Tab 1"
+  property alias tab0_title: tab0.title
+  property alias tab1_title: tab1.title
   
   signal tab0_activated()
   signal tab1_activated()
-  
-  width: 296
+
+  width: childrenRect.width
+  height: childrenRect.height
+
+  color: "transparent"
   
   states: [
     State { name: "tab0_active";
@@ -46,31 +49,23 @@ Rectangle {
   
   state: "tab0_active"
   
-  Tab {
-    id: tab0;
-    objectName: "tab0";
-    
-    title: binary_tab_group.tab0_title
-    
-    x: 0
-    
-    onActivated: {
-      binary_tab_group.state = "tab0_active"
-      tab0_activated()
+  Row {
+    Tab {
+      id: tab0;
+
+      onActivated: {
+        binary_tab_group.state = "tab0_active";
+        tab0_activated();
+      }
     }
-  }
-  
-  Tab {
-    id: tab1;
-    objectName: "tab1";
-    
-    title: binary_tab_group.tab1_title
-    
-    x: 140
-    
-    onActivated: {
-      binary_tab_group.state = "tab1_active"
-      tab1_activated()
+
+    Tab {
+      id: tab1;
+
+      onActivated: {
+        binary_tab_group.state = "tab1_active";
+        tab1_activated();
+      }
     }
   }
 }
