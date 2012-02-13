@@ -66,6 +66,7 @@ Rectangle {
     gridCheckerboard.visible = false;
     middleBorder.visible = true;
     masthead.isTemplateView = true;
+    pageIndicator.visible = true;
   }
 
   onAlbumChanged: {
