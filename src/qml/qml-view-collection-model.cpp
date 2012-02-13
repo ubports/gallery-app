@@ -260,12 +260,11 @@ void QmlViewCollectionModel::DisconnectBackingViewCollection() {
     this,
     SLOT(on_contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
   
-  int last = view_->Count();
-  
   delete view_;
   view_ = NULL;
   
-  beginRemoveRows(QModelIndex(), 0, last);
+  // clear the QAbstractListModel
+  beginRemoveRows(QModelIndex(), 0, rowCount(QModelIndex()));
   endRemoveRows();
 }
 

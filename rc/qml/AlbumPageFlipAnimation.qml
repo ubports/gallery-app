@@ -23,9 +23,34 @@
 import QtQuick 1.1
 import Gallery 1.0
 
+// The AlbumPageFlipAnimation is a specialty controller for displaying and
+// viewing albums.  The caller simply needs to set the album property and
+// then manipulate what is displayed via turnTo() (which animates the page
+// flipping as though turning pages in a book), setTo() (which immediately
+// jumps to the page without an animation), or close() which animates closing
+// the album; there is no no-animation variant at this time).
+//
+// AlbumPageFlipAnimation updates the album object at the end of the animation,
+// meaning the final page is treated as the current album page throughout
+// the system.  This is only for turnTo() and close(); setTo() does not update
+// album page state.
+//
+// The animation works by using a Flipable component with the two pages on
+// its front and back along with halves of the components making up the
+// background (thus, two of each component is instantiated).  A sliding clipping
+// region moves with the animation, displaying one half of the component as
+// the background and the other half in animation, to simulate the book turning
+// on its spine.
+//
+// When not animating, AlbumPageFlipAnimation enters a state where the two
+// halves are shown side-by-side, making it look like a single page.  This may
+// seem unnecessary, but it removes the need for a separate component to show
+// the entire page and then showing/hiding it via z-order, visibility, or some
+// other trick.
 Rectangle {
   id: pageFlipAnimation
   
+  // public
   property Album album
   property int durationMsec: 1000
   
@@ -41,7 +66,10 @@ Rectangle {
   property bool rightIsCover: false
   property int finalPageNumber
   
-  // Moves to selected page without any animation (good for initializing view)
+  // Moves to selected page without any animation (good for initializing view).
+  // Passing a negative value will close the album.
+  //
+  // NOTE: setTo() does *not* update the album's current page number.
   function setTo(index) {
     if (isRunning) {
       console.log("Blocking set of album page", index);
@@ -63,6 +91,7 @@ Rectangle {
   }
   
   // Animates page flip and saves new page number to album.
+  // Passing a negative value will close the album.
   function turnTo(index) {
     if (isRunning) {
       console.log("Blocking turn to album page", index);
@@ -119,6 +148,7 @@ Rectangle {
     start();
   }
   
+  // internal
   function start() {
     if (isRunning) {
       console.log("Blocking start of page flip animation");

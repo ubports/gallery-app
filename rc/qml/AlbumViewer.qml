@@ -47,14 +47,14 @@ Rectangle {
       ParallelAnimation {
         DissolveAnimation { fadeOutTarget: pageFlipAnimation; fadeInTarget: gridCheckerboard; }
         FadeOutAnimation { target: middleBorder; }
-        FadeOutAnimation { target: pageIndexerPlaceholder; }
+        FadeOutAnimation { target: pageIndicator; }
       }
     },
     Transition { from: "gridView"; to: "pageView";
       ParallelAnimation {
         DissolveAnimation { fadeOutTarget: gridCheckerboard; fadeInTarget: pageFlipAnimation; }
         FadeInAnimation { target: middleBorder; }
-        FadeInAnimation { target: pageIndexerPlaceholder; }
+        FadeInAnimation { target: pageIndicator; }
       }
     }
   ]
