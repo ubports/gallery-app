@@ -28,6 +28,8 @@ import QtQuick 1.1
 MouseArea {
   signal swiped(bool leftToRight)
   
+  signal tapped();
+  
   property bool active: true
   
   // read-only
@@ -35,6 +37,7 @@ MouseArea {
   
   // private
   property int startX: -1
+  property bool wasSwipe: false
   
   onActiveChanged: {
     startX = -1;
@@ -66,11 +69,16 @@ MouseArea {
     
     // reset start position and signal
     startX = -1;
+    wasSwipe = true;
     
     swiped(leftToRight);
   }
   
   onReleased: {
+    if (!wasSwipe)
+      tapped();
+    
     startX = -1;
+    wasSwipe = false;
   }
 }

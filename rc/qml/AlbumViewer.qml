@@ -64,6 +64,9 @@ Rectangle {
     state = "pageView";
     albumPageViewer.visible = true;
     gridCheckerboard.visible = false;
+    toolbar.state = ""; // Prevents the toolbar's fade animation from happening.
+    toolbar.state = "hidden";
+    toolbar.visible = false;
     middleBorder.visible = true;
     masthead.isTemplateView = true;
     pageIndicator.visible = true;
@@ -105,8 +108,10 @@ Rectangle {
     onViewModeChanged: {
       if (isTemplateView) {
         albumViewer.state = "pageView";
+        toolbar.state = "hidden";
       } else {
         albumViewer.state = "gridView";
+        toolbar.state = "shown";
       }
     }
 
@@ -137,6 +142,10 @@ Rectangle {
       
       onSwiped: {
         albumPageViewer.turnTo(album.currentPageNumber + (leftToRight ? 1 : -1));
+      }
+
+      onTapped: {
+        chromeFadeWaitClock.restart();
       }
     }
   }
@@ -250,6 +259,17 @@ Rectangle {
     color: "#95b5de"
   }
 
+  Timer {
+    id: chromeFadeWaitClock
+
+    interval: 150
+    running: false
+
+    onTriggered: {
+      toolbar.state = (toolbar.state == "shown" ? "hidden" : "shown");
+    }
+  }
+
   GalleryStandardToolbar {
     id: toolbar
     objectName: "toolbar"
@@ -259,6 +279,23 @@ Rectangle {
 
     z: 10
     anchors.bottom: parent.bottom
+    visible: false
+
+    state: "hidden"
+
+    states: [
+      State { name: "shown"; },
+      State { name: "hidden"; }
+    ]
+
+    transitions: [
+      Transition { from: "shown"; to: "hidden";
+        FadeOutAnimation { target: toolbar; }
+      },
+      Transition { from: "hidden"; to: "shown";
+        FadeInAnimation { target: toolbar; }
+      }
+    ]
 
     onReturnButtonPressed: {
       album_picker.visible = false
