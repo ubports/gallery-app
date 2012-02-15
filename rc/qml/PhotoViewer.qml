@@ -139,7 +139,12 @@ Rectangle {
       }
       
       onClicked: {
-        if (parent.currentItem.state == "unzoomed")
+        var deltaX = mouse.x - dragStartX;
+        var deltaY = mouse.y - dragStartY;
+        var distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+        // Trigger chrome if we aren't zoomed or we are but they didn't drag.
+        if (parent.currentItem.state == "unzoomed" || distance < 20)
           chromeFadeWaitClock.restart();
       }
 
@@ -225,6 +230,7 @@ Rectangle {
       onReturnButtonPressed: {
         chromeWrapper.state = "hidden";
         albumPicker.state = "hidden";
+        imagePager.currentItem.state = "unzoomed";
         closeRequested();
       }
     }
