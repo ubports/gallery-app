@@ -58,8 +58,11 @@ Orientation Photo::orientation() const {
 }
 
 QDateTime Photo::exposure_date_time() const {
-  if (exposure_date_time_ == NULL)
-    exposure_date_time_ = new QDateTime(metadata_->exposure_time());
+  if (exposure_date_time_ == NULL) {
+    exposure_date_time_ = (metadata_->exposure_time().isValid()
+      ? new QDateTime(metadata_->exposure_time())
+      : new QDateTime(file().created()));
+  }
   
   return *exposure_date_time_;
 }

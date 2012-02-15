@@ -41,17 +41,7 @@ MediaCollection::MediaCollection(const QDir& directory)
     if (!Photo::IsValid(file))
       continue;
 
-    Photo* photo = new Photo(file);
-    // TODO: Need to address how to deal with photos that have no exposure
-    // date/time.  See also:
-    // https://bugs.launchpad.net/goodhope/+bug/918844
-    if (!photo->exposure_date().isValid()) {
-      delete photo;
-      
-      continue;
-    }
-    
-    photos.insert(photo);
+    photos.insert(new Photo(file));
   }
   
   // By default, sort all media by its exposure date time, descending
