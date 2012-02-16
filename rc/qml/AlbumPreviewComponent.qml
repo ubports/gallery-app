@@ -26,7 +26,7 @@ Rectangle {
   property Album album
   property alias pageGutter: albumPageComponent.gutter
   property alias bookmarkOpacity: bookmark.opacity
-  property alias nameHeight: text.height
+  property alias nameHeight: textContainer.height
   property int frameBorderWidth: 3
   property color frameBorderColor: "#95b5de"
   property int photoBorderWidth: 4
@@ -66,7 +66,7 @@ Rectangle {
       isPreview: true
       
       width: parent.width
-      height: parent.height - text.height
+      height: parent.height - textContainer.height
     }
     
     Row {
@@ -88,22 +88,26 @@ Rectangle {
       }
     }
 
-    Text {
-      id: text
-      
-      height: 24
-      
+    Rectangle {
+      id: textContainer
+
+      height: 48
       anchors.horizontalCenter: parent.horizontalCenter
       anchors.top: albumPageComponent.bottom
-      anchors.topMargin: 12
-      anchors.bottomMargin: 12
-      
-      color: "#657CA9"
-      
-      text: (album) ? album.name : "";
-      smooth: true
+
+      Text {
+        id: text
+
+        anchors.centerIn: parent
+
+        color: "#657CA9"
+
+        text: (album) ? album.name : "";
+        font.pixelSize: 24
+        smooth: true
+      }
     }
-    
+
     Image {
       id: bookmark
       
