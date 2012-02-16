@@ -122,7 +122,7 @@ void DataCollection::Remove(DataObject* object) {
 
 void DataCollection::RemoveAt(int index) {
   if (index >= 0 && index < Count())
-    Remove(GetAt(0));
+    Remove(GetAt(index));
 }
 
 void DataCollection::RemoveMany(const QSet<DataObject *> &objects) {
@@ -187,7 +187,7 @@ bool DataCollection::Contains(DataObject* object) const {
 }
 
 DataObject* DataCollection::GetAt(int index) const {
-  return (index < list_.size()) ? list_[index] : NULL;
+  return (index >= 0 && index < list_.size()) ? list_[index] : NULL;
 }
 
 int DataCollection::IndexOf(DataObject* object) const {

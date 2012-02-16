@@ -24,27 +24,28 @@ import QtQuick 1.1
 // when a swipe has occurred.
 //
 // TODO: Currently no support for vertical swiping
-// TODO: Add support for granular signalling of motion
 MouseArea {
+  signal startSwipe(bool leftToRight, int state)
+  signal swiping(bool leftToRight, int start, int distance)
   signal swiped(bool leftToRight)
+  signal tapped()
   
-  signal tapped();
+  property bool enabled: true
+  property int requiredHorizMovement: 0
   
-  property bool active: true
-  
-  // read-only
-  property int requiredHorizMovement: 20
-  
-  // private
+  // internal
   property int startX: -1
-  property bool wasSwipe: false
+  property bool leftToRight: true
+  property bool swipeStarted: false
   
-  onActiveChanged: {
+  onEnabledChanged: {
     startX = -1;
+    leftToRight = true;
+    swipeStarted = false;
   }
   
   onPositionChanged: {
-    if (!active)
+    if (!enabled)
       return;
     
     // look for initial swipe
@@ -55,30 +56,47 @@ MouseArea {
     }
     
     var diff = 0;
-    var leftToRight = true;
     if (mouse.x < startX) {
+      // once started, don't signal anything on other side of bounding point
+      if (swipeStarted && leftToRight)
+        return;
+      
       diff = startX - mouse.x;
-      leftToRight = true;
-    } else if (mouse.x > startX) {
-      diff = mouse.x - startX;
       leftToRight = false;
+    } else if (mouse.x > startX) {
+      // once started, don't signal anything on other side of bounding point
+      if (swipeStarted && !leftToRight)
+        return;
+      
+      diff = mouse.x - startX;
+      leftToRight = true;
+    }
+    
+    if (swipeStarted) {
+      swiping(leftToRight, startX, diff);
+      
+      return;
     }
     
     if (diff < requiredHorizMovement)
       return;
     
-    // reset start position and signal
-    startX = -1;
-    wasSwipe = true;
+    swipeStarted = true;
     
-    swiped(leftToRight);
+    startSwipe(leftToRight, startX);
+    swiping(leftToRight, startX, diff);
   }
   
   onReleased: {
-    if (!wasSwipe)
-      tapped();
+    if (enabled) {
+      if (swipeStarted)
+        swiped(leftToRight);
+      else
+        tapped();
+    }
     
     startX = -1;
-    wasSwipe = false;
+    leftToRight = true;
+    swipeStarted = false;
   }
 }

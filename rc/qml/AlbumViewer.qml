@@ -136,14 +136,31 @@ Rectangle {
     album: albumViewer.album
     
     SwipeArea {
+      property real commitTurnFraction: 0.35
+      
+      // private
+      property int turningTowardPage
+      
       anchors.fill: parent
       
-      active: !parent.isRunning
+      enabled: !parent.isRunning
+      
+      onStartSwipe: {
+        turningTowardPage = album.currentPageNumber + (leftToRight ? -1 : 1);
+      }
+      
+      onSwiping: {
+        var availableDistance = (leftToRight) ? (width - start) : start;
+        albumPageViewer.turnToward(turningTowardPage, distance / availableDistance);
+      }
       
       onSwiped: {
-        albumPageViewer.turnTo(album.currentPageNumber + (leftToRight ? 1 : -1));
+        if (albumPageViewer.currentFraction >= commitTurnFraction)
+          albumPageViewer.turnTo(turningTowardPage);
+        else
+          albumPageViewer.releasePage();
       }
-
+      
       onTapped: {
         chromeFadeWaitClock.restart();
       }

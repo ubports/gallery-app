@@ -56,7 +56,9 @@ Rectangle {
   
   // readonly
   property bool pageFlipped: false
-  property bool isRunning: (flippable.state != "" || clipper.trigger)
+  property bool isRunning: (flippable.state != "" || clipper.triggerAutomatic)
+  property real currentFraction: leftToRight ? (rotationTransform.angle / -180.0)
+    : 1.0 - (rotationTransform.angle / -180.0)
   
   // internal
   property AlbumPage leftPage
@@ -65,6 +67,12 @@ Rectangle {
   property bool leftIsCover: false
   property bool rightIsCover: false
   property int finalPageNumber
+  property real rotationOrigin: leftToRight ? 0.0 : -180.0
+  property real rotationDestination: leftToRight ? -180.0 : 0.0
+  property real startFraction: 0.0
+  property real endFraction: 1.0
+  property real startRotation: leftToRight ? (-180.0 * startFraction) : -180.0 - (-180.0 * startFraction)
+  property real endRotation: leftToRight ? (-180.0 * endFraction) : -180.0 - (-180.0 * endFraction)
   
   // Moves to selected page without any animation (good for initializing view).
   // Passing a negative value will close the album.
@@ -99,24 +107,117 @@ Rectangle {
   // Animates page flip and saves new page number to album.
   // Passing a negative value will close the album.
   function turnTo(index) {
-    if (isRunning) {
-      console.log("Blocking turn to album page", index);
-      
-      return;
-    }
-    
     if (index < 0) {
       close();
       
       return;
     }
     
-    if (!album || index == album.currentPageNumber || index >= album.pageCount)
+    if (!prepareToTurn(index))
       return;
+    
+    startFraction = currentFraction;
+    endFraction = 1.0;
+    
+    start(true);
+  }
+  
+  function turnToward(index, fraction) {
+    if (index < 0) {
+      turnTowardCover(fraction);
+      
+      return;
+    }
+    
+    if (!prepareToTurn(index))
+      return;
+    
+    startFraction = currentFraction;
+    endFraction = fraction;
+    
+    start(false);
+  }
+  
+  function releasePage() {
+    if (isRunning) {
+      console.log("Blocking release of page");
+      
+      return;
+    }
+    
+    if (!album)
+      return;
+    
+    clipper.visible = true;
+    
+    pageFlipped = false;
+    
+    startFraction = currentFraction;
+    endFraction = 0.0;
+    finalPageNumber = album.currentPageNumber;
+    
+    clipper.triggerAutomatic = true;
+  }
+  
+  function close() {
+    if (!prepareToClose())
+      return;
+    
+    startFraction = 0.0;
+    endFraction = 1.0;
+    
+    start(true);
+  }
+  
+  function turnTowardCover(fraction) {
+    if (!prepareToClose())
+      return;
+    
+    startFraction = currentFraction;
+    endFraction = fraction;
+    
+    start(false);
+  }
+  
+  // internal
+  function prepareToClose() {
+    if (isRunning) {
+      console.log("Blocking close of album");
+      
+      return false;
+    }
+    
+    if (!album || album.isClosed)
+      return false;
+    
+    // initialize rotation angle for changed direction
+    if (leftToRight)
+      rotationTransform.angle = rotationOrigin;
+    
+    leftIsCover = true;
+    rightIsCover = false;
+    rightPage = album.currentPage;
+    leftToRight = false;
+    finalPageNumber = -1;
+    
+    return true;
+  }
+  
+  // internal
+  function prepareToTurn(index) {
+    if (isRunning) {
+      console.log("Blocking turn to album page", index);
+      
+      return false;
+    }
+    
+    if (!album || index >= album.pageCount || index == album.currentPageNumber)
+      return false;
     
     leftIsCover = false;
     rightIsCover = false;
     
+    var oldLeftToRight = leftToRight;
     if (album.isClosed) {
       leftIsCover = true;
       rightPage = album.getPage(index);
@@ -126,36 +227,23 @@ Rectangle {
       rightPage = album.getPage(album.currentPageNumber);
       leftToRight = false;
     } else {
+      // album.currentPageNumber < index
       leftPage = album.getPage(album.currentPageNumber);
       rightPage = album.getPage(index);
       leftToRight = true;
     }
     
+    // initialize rotation angle for changed direction
+    if (oldLeftToRight != leftToRight)
+      rotationTransform.angle = rotationOrigin;
+    
     finalPageNumber = index;
     
-    start();
-  }
-  
-  function close() {
-    if (isRunning) {
-      console.log("Blocking close of album");
-      
-      return;
-    }
-    
-    if (!album || album.isClosed)
-      return;
-    
-    leftIsCover = true;
-    rightPage = album.getPage(album.currentPageNumber);
-    leftToRight = false;
-    finalPageNumber = -1;
-    
-    start();
+    return true;
   }
   
   // internal
-  function start() {
+  function start(automatic) {
     if (isRunning) {
       console.log("Blocking start of page flip animation");
       
@@ -164,16 +252,22 @@ Rectangle {
     
     // reset
     pageFlipped = false;
-    clipper.trigger = false;
     
     clipper.visible = true;
     
-    clipper.x = leftToRight ? albumPageViewer.width / 2 : 0
-    flippable.x = leftToRight ? -(albumPageViewer.width / 2) : 0
-    flippable.rotation.angle = leftToRight ? 0.0 : -180.0;
-    
-    // start animation
-    clipper.trigger = true;
+    if (automatic) {
+      if (rotationTransform.angle == rotationDestination)
+        flippable.rotationCompleted();
+      else
+        clipper.triggerAutomatic = true;
+    } else if (endFraction <= 0.0) {
+      rotationTransform.angle = rotationOrigin;
+    } else if (endFraction >= 1.0) {
+      rotationTransform.angle = rotationDestination;
+    } else {
+      // 0.0 < endFraction < 1.0; endRotation calculates the appropriate angle
+      rotationTransform.angle = endRotation;
+    }
   }
   
   onAlbumChanged: {
@@ -261,7 +355,7 @@ Rectangle {
   Item {
     id: clipper
     
-    property bool trigger: false
+    property bool triggerAutomatic: false
     
     x: leftToRight ? parent.width / 2 : 0
     width: parent.width / 2
@@ -271,6 +365,41 @@ Rectangle {
     
     Flipable {
       id: flippable
+      
+      // internal
+      // Called when a page has completely flipped (rotation is completed)
+      function rotationCompleted() {
+        var pageNumberChanged = (album.currentPageNumber != finalPageNumber);
+        if (pageNumberChanged)
+          album.currentPageNumber = finalPageNumber;
+        
+        // set up this component to display the final page by hiding
+        // the sliding clipping region and configuring the left and
+        // right pages
+        if (album.isClosed) {
+          leftIsCover = true;
+          rightIsCover = true;
+        } else {
+          leftIsCover = false;
+          rightIsCover = false;
+          
+          leftPage = album.currentPage;
+          rightPage = album.currentPage;
+        }
+        
+        // disable trigger
+        clipper.triggerAutomatic = false;
+        
+        // hide the clipper so the background components can be seen
+        clipper.visible = false;
+        
+        // reset rotation transformation for the next pass
+        rotationTransform.angle = rotationOrigin;
+        
+        // notify subscribers
+        if (pageNumberChanged)
+          albumPageViewer.pageFlipped = true;
+      }
       
       x: leftToRight ? -(albumPageViewer.width / 2) : 0
       width: albumPageViewer.width
@@ -321,95 +450,61 @@ Rectangle {
         }
       }
         
-      transform: [
-        Rotation {
-          id: rotation
-          
-          origin.x: albumPageViewer.width / 2
-          origin.y: albumPageViewer.height / 2
-          
-          axis.x: 0
-          axis.y: 1
-          axis.z: 0
-          
-          angle: leftToRight ? 0.0 : -180.0
+      transform: Rotation {
+        id: rotationTransform
+        
+        origin.x: albumPageViewer.width / 2
+        origin.y: albumPageViewer.height / 2
+        
+        axis.x: 0
+        axis.y: 1
+        axis.z: 0
+        
+        angle: startRotation
+        
+        onAngleChanged: {
+          // slide the clipping region left or right depending on the angle
+          // of rotation of the flippable
+          if (angle <= -90.0) {
+            clipper.x = 0;
+            flippable.x = 0;
+          } else {
+            clipper.x = albumPageViewer.width / 2;
+            flippable.x = -albumPageViewer.width / 2;
+          }
         }
-      ]
+      }
       
       states: State {
-        name: "running"
-        PropertyChanges { target: rotation; angle: leftToRight ? -180.0 : 0.0; }
-        when: clipper.trigger
+        name: "animateAutomatic"
+        
+        PropertyChanges {
+          target: rotationTransform
+          angle: endRotation
+        }
+        
+        when: clipper.triggerAutomatic
       }
       
       transitions: Transition {
-        to: "running"
+        to: "animateAutomatic"
+        reversible: false
         
         SequentialAnimation {
-          ParallelAnimation {
-            NumberAnimation {
-              target: rotation
-              property: "angle"
-              duration: durationMsec
-              easing.type: Easing.InOutCubic
-            }
-            
-            // halfway through the animation, move the clipping region to the
-            // other half of the region
-            SequentialAnimation {
-              PauseAnimation {
-                duration: durationMsec / 2
-              }
-              ScriptAction {
-                script: {
-                  if(clipper.x != 0) {
-                    clipper.x = 0;
-                    flippable.x = 0;
-                  } else {
-                    clipper.x = albumPageViewer.width / 2;
-                    flippable.x = -albumPageViewer.width / 2;
-                  }
-                }
-              }
-            }
+          NumberAnimation {
+            target: rotationTransform
+            property: "angle"
+            duration: durationMsec
+            easing.type: Easing.InOutCubic
           }
           
-          // Update album state and change visibility to show the result of
-          // the page flip
           ScriptAction {
             script: {
-              album.currentPageNumber = finalPageNumber;
-              
-              if (album.isClosed) {
-                leftIsCover = true;
-                rightIsCover = true;
-              } else {
-                leftIsCover = false;
-                rightIsCover = false;
-                
-                if (leftToRight) {
-                  leftPage = rightPage;
-                } else {
-                  rightPage = leftPage;
-                }
-              }
-              
-              clipper.visible = false;
+              if (rotationTransform.angle == rotationDestination || rotationTransform.angle == rotationOrigin)
+                flippable.rotationCompleted();
+              else
+                clipper.triggerAutomatic = false;
             }
-          }
-          
-          // Signal that the page flip is complete
-          PropertyAction {
-            target: albumPageViewer
-            property: "pageFlipped"
-            value: true
-          }
-          
-          // Reset state for next page flip
-          PropertyAction {
-            target: clipper
-            property: "trigger"
-            value: false
           }
         }
       }
