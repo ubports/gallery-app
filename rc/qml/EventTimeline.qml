@@ -60,7 +60,7 @@ ListView {
       Repeater {
         model: MediaCollectionModel {
           forCollection: event
-          limit: headTailCount
+          limit: Math.min(Math.ceil(rawCount / 2), headTailCount)
         }
         
         PhotoComponent {
@@ -107,8 +107,8 @@ ListView {
       Repeater {
         model: MediaCollectionModel {
           forCollection: event
-          limit: headTailCount
-          head: 0 - headTailCount
+          limit: Math.min(Math.floor(rawCount / 2), headTailCount)
+          head: 0 - limit
         }
         
         PhotoComponent {
