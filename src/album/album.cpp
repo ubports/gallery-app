@@ -63,6 +63,7 @@ void Album::InitInstance() {
   creation_date_ = QDate::currentDate();
   current_page_ = CLOSED_PAGE;
   pages_ = new SourceCollection(QString("Pages for ") + name_);
+  refreshing_container_ = false;
   
   QObject::connect(pages_,
     SIGNAL(contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
@@ -131,6 +132,7 @@ void Album::set_current_page_number(int page) {
   int old_current_page = current_page_;
   current_page_ = page;
   
+  notify_current_page_number_altered();
   notify_current_page_altered();
   if (old_current_page == CLOSED_PAGE || page == CLOSED_PAGE)
     notify_opened_closed();
@@ -157,11 +159,18 @@ QDeclarativeListProperty<AlbumPage> Album::qml_pages() {
 }
 
 void Album::notify_current_page_altered() {
-  emit current_page_altered();
+  if (!refreshing_container_)
+    emit current_page_altered();
+}
+
+void Album::notify_current_page_number_altered() {
+  if (!refreshing_container_)
+    emit current_page_number_altered();
 }
 
 void Album::notify_opened_closed() {
-  emit opened_closed();
+  if (!refreshing_container_)
+    emit opened_closed();
 }
 
 void Album::notify_current_page_contents_altered() {
@@ -183,6 +192,9 @@ void Album::DestroySource(bool destroy_backing, bool as_orphan) {
 
 void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
   const QSet<DataObject*>* removed) {
+  bool old_refreshing_container = refreshing_container_;
+  refreshing_container_ = true;
+
   ContainerSource::notify_container_contents_altered(added, removed);
   
   // TODO: Can be smarter than this, but since we don't know how position(s)
@@ -231,6 +243,8 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
   all_media_sources_ = CastListToType<DataObject*, MediaSource*>(contained()->GetAll());
   emit album_contents_altered();
   
+  refreshing_container_ = old_refreshing_container;
+
   // return to stashed current page, unless pages have been removed ... note
   // that this will close the album if empty
   current_page_ = stashed_current_page;
@@ -238,6 +252,7 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
     current_page_ = pages_->Count() - 1;
   
   if (current_page_ != stashed_current_page) {
+    notify_current_page_number_altered();
     notify_current_page_altered();
     if (current_page_ == CLOSED_PAGE || stashed_current_page == CLOSED_PAGE)
       notify_opened_closed();
@@ -246,6 +261,7 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
   // TODO: Again, could be smart and verify the current page has actually
   // changed
   notify_current_page_contents_altered();
+  notify_current_page_altered();
 }
 
 void Album::on_album_page_content_altered(const QSet<DataObject*>* added,
@@ -260,6 +276,10 @@ void Album::on_album_page_content_altered(const QSet<DataObject*>* added,
   }
   
   emit pages_altered();
-  if (changed)
+  if (changed) {
+    notify_current_page_number_altered();
     notify_current_page_altered();
+    if (current_page_ == CLOSED_PAGE)
+      notify_opened_closed();
+  }
 }

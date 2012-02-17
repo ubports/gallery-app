@@ -40,7 +40,7 @@ class Album : public ContainerSource {
   Q_PROPERTY(QDate creationDate READ creation_date NOTIFY creation_date_altered)
   Q_PROPERTY(QVariant currentPage READ qml_current_page NOTIFY current_page_altered)
   Q_PROPERTY(int currentPageNumber READ current_page_number WRITE set_current_page_number
-    NOTIFY current_page_altered)
+    NOTIFY current_page_number_altered)
   Q_PROPERTY(int pageCount READ page_count NOTIFY pages_altered)
   Q_PROPERTY(bool isClosed READ is_closed NOTIFY opened_closed)
   Q_PROPERTY(QDeclarativeListProperty<AlbumPage> pages READ qml_pages
@@ -52,6 +52,7 @@ class Album : public ContainerSource {
   void album_contents_altered();
   void creation_date_altered();
   void current_page_altered();
+  void current_page_number_altered();
   void current_page_contents_altered();
   void name_altered();
   void opened_closed();
@@ -99,6 +100,8 @@ class Album : public ContainerSource {
   virtual void DestroySource(bool destroy_backing, bool as_orphan);
   
   virtual void notify_current_page_altered();
+
+  virtual void notify_current_page_number_altered();
   
   virtual void notify_opened_closed();
   
@@ -119,6 +122,7 @@ class Album : public ContainerSource {
   SourceCollection* pages_;
   QList<MediaSource*> all_media_sources_;
   QList<AlbumPage*> all_album_pages_;
+  bool refreshing_container_;
   
   void InitInstance();
 };

@@ -29,6 +29,10 @@
 QmlAlbumCollectionModel::QmlAlbumCollectionModel(QObject* parent)
   : QmlViewCollectionModel(parent, "album", NULL) {
   MonitorSourceCollection(AlbumCollection::instance());
+  QObject::connect(AlbumCollection::instance(),
+    SIGNAL(album_current_page_contents_altered(Album*)),
+    this,
+    SLOT(on_album_current_page_contents_altered(Album*)));
 }
 
 void QmlAlbumCollectionModel::RegisterType() {
