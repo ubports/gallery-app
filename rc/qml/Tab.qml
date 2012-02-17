@@ -24,6 +24,7 @@ Rectangle {
   id: tab
   
   property alias title: title.text
+  property int fontPixelSize: 19
 
   property int deselectedBottomBorderWidth: 2
   property color deselectedBottomBorderColor: "#7da7d9"
@@ -78,6 +79,7 @@ Rectangle {
 
     anchors.centerIn: parent
     color: "#659ad2"
+    font.pixelSize: fontPixelSize
   }
 
   MouseArea {
