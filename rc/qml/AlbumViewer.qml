@@ -35,10 +35,6 @@ Rectangle {
 
   anchors.fill: parent
 
-  function resetView() {
-    chrome.resetVisibility(false);
-  }
-
   onAlbumChanged: {
     if (album)
       albumPageViewer.setTo(album.currentPageNumber);
@@ -78,10 +74,6 @@ Rectangle {
           albumPageViewer.turnTo(turningTowardPage);
         else
           albumPageViewer.releasePage();
-      }
-      
-      onTapped: {
-        chromeFadeWaitClock.restart();
       }
     }
   }
@@ -132,6 +124,9 @@ Rectangle {
     z: 10
     anchors.fill: parent
 
+    state: "shown"
+    visible: true
+
     leftNavigationButtonVisible: false
     rightNavigationButtonVisible: false
 
@@ -144,14 +139,5 @@ Rectangle {
     onMenuItemChosen: navStack.switchToMediaSelector(album)
 
     onReturnButtonPressed: closeRequested()
-
-    Timer {
-      id: chromeFadeWaitClock
-
-      interval: 150
-      running: false
-
-      onTriggered: chrome.flipVisibility()
-    }
   }
 }
