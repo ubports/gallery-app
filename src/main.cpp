@@ -43,6 +43,8 @@
 #include "qml/qml-media-collection-model.h"
 #include "qml/qml-stack.h"
 
+const int APP_GRIDUNIT = 8;
+
 int main(int argc, char *argv[]) {
   // NOTE: This *must* be called prior to QApplication's ctor.
   QApplication::setGraphicsSystem("opengl");
@@ -99,9 +101,10 @@ int main(int argc, char *argv[]) {
   QGLWidget *gl_widget = new QGLWidget(format);
   
   QDeclarativeView view;
+  view.engine()->rootContext()->setContextProperty("GRIDUNIT", QVariant(APP_GRIDUNIT));
   view.engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
     GalleryStandardImageProvider::instance());
-  view.setSource(QUrl("qrc:/rc/qml/TabletSurface.qml"));
+  view.setSource(QUrl("qrc:/rc/qml/GalleryApplication.qml"));
   view.setViewport(gl_widget);
   QObject::connect(view.engine(), SIGNAL(quit()), &app, SLOT(quit()));
   

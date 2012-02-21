@@ -122,6 +122,7 @@ OTHER_FILES += \
 	rc/qml/FadeInAnimation.qml \
 	rc/qml/FadeOutAnimation.qml \
 	rc/qml/FramePortrait.qml \
+	rc/qml/GalleryApplication.qml \
 	rc/qml/GalleryOverviewNavigationBar.qml \
 	rc/qml/GalleryPrimaryPushButton.qml \
 	rc/qml/GallerySecondaryPushButton.qml \
@@ -142,7 +143,6 @@ OTHER_FILES += \
 	rc/qml/ShareOperationsToolbarButton.qml \
 	rc/qml/SwipeArea.qml \
 	rc/qml/Tab.qml \
-	rc/qml/TabletSurface.qml \
 	rc/qml/Toolbar.qml \
 	rc/qml/ToolbarIconButton.qml \
 	rc/qml/TrashOperationToolbarButton.qml \

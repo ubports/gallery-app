@@ -39,6 +39,7 @@
     <file>qml/FadeInAnimation.qml</file>
     <file>qml/FadeOutAnimation.qml</file>
     <file>qml/FramePortrait.qml</file>
+    <file>qml/GalleryApplication.qml</file>
     <file>qml/GalleryOverviewNavigationBar.qml</file>
     <file>qml/GalleryPrimaryPushButton.qml</file>
     <file>qml/GallerySecondaryPushButton.qml</file>
@@ -59,7 +60,6 @@
     <file>qml/ShareOperationsToolbarButton.qml</file>
     <file>qml/SwipeArea.qml</file>
     <file>qml/Tab.qml</file>
-    <file>qml/TabletSurface.qml</file>
     <file>qml/Toolbar.qml</file>
     <file>qml/ToolbarIconButton.qml</file>
     <file>qml/TrashOperationToolbarButton.qml</file>

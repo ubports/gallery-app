@@ -43,7 +43,7 @@ Rectangle {
     
     font.family: "Ubuntu"
     font.weight: Font.Bold
-    font.pixelSize: 24
+    font.pixelSize: gu(3)
     
     text: (event) ? Qt.formatDate(event.date, "d - M - yyyy") : ""
   }

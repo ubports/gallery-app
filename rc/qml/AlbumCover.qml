@@ -24,7 +24,7 @@ Rectangle {
   id: albumCover
   
   property Album album
-  property int titleDateSpacing: 16
+  property int titleDateSpacing: gu(2)
   
   Rectangle {
     id: blank
@@ -44,7 +44,7 @@ Rectangle {
     width: ((height * 0.75) <= (parent.width / 2)) ? height * 0.75 : parent.width / 2
     height: parent.height
     
-    border.width: 2
+    border.width: gu(0.25)
     border.color: "#657CA9"
     
     clip: true
@@ -80,7 +80,7 @@ Rectangle {
         
         font.family: "Ubuntu"
         font.weight: Font.Bold
-        font.pixelSize: 24
+        font.pixelSize: gu(3)
         
         smooth: true
         
@@ -106,7 +106,7 @@ Rectangle {
         
         font.family: "Ubuntu"
         font.weight: Font.Normal
-        font.pixelSize: 18
+        font.pixelSize: gu(2.25)
         
         smooth: true
         

@@ -29,8 +29,8 @@ Rectangle {
   
   signal pressed()
   
-  width: (show_title) ? 192 : 72
-  height: 48
+  width: (show_title) ? gu(24) : gu(9)
+  height: gu(6)
   
   color: "transparent"
   

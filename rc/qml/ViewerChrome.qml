@@ -118,7 +118,7 @@ Item {
 
     is_forward: false
 
-    x: 12
+    x: gu(1.5)
     y: 2 * parent.height / 3
 
     onPressed: {

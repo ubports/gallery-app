@@ -22,7 +22,7 @@ import QtQuick 1.1
 Toolbar {
   property string statusText: ""
 
-  height: 48
+  height: gu(6)
   width: parent.width
 
   background: "lightBlue"

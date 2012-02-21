@@ -55,8 +55,8 @@ Rectangle {
 
   color: "transparent"
 
-  width: 140
-  height: 68
+  width: gu(17.5)
+  height: gu(8.5)
 
   Rectangle {
     color: "white"

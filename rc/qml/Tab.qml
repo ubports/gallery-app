@@ -24,13 +24,13 @@ Rectangle {
   id: tab
   
   property alias title: title.text
-  property int fontPixelSize: 19
+  property int fontPixelSize: gu(2.25)
 
-  property int deselectedBottomBorderWidth: 2
+  property int deselectedBottomBorderWidth: gu(0.25)
   property color deselectedBottomBorderColor: "#7da7d9"
   
-  width: 110
-  height: 44
+  width: gu(13.75)
+  height: gu(5.5)
   radius: 3
 
   border.color: "#7da7d9"

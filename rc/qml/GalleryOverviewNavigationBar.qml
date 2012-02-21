@@ -20,10 +20,10 @@
 import QtQuick 1.1
 
 Toolbar {
-  height: 48
+  height: gu(6)
   width: parent.width
 
-  property int bottomBorderWidth: 2
+  property int bottomBorderWidth: gu(0.75)
   property color bottomBorderColor: "#7da7d9"
 
   property alias addCreateOperationButtonVisible: addCreateOperationNavbarButton.visible
@@ -36,20 +36,20 @@ Toolbar {
 
     anchors.verticalCenter: parent.verticalCenter
     anchors.left: parent.left
-    anchors.leftMargin: 16
+    anchors.leftMargin: gu(2)
 
     onPressed: parent.addCreateOperationButtonPressed()
   }
 
   Image {
-    width: 48
-    height: 32
+    width: gu(6)
+    height: gu(4)
 
     source: "../img/camera-icon.png"
 
     anchors.verticalCenter: parent.verticalCenter
     anchors.right: parent.right
-    anchors.rightMargin: 16
+    anchors.rightMargin: gu(2)
 
     MouseArea {
       anchors.fill: parent

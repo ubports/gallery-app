@@ -41,7 +41,7 @@ Rectangle {
       objectName: "deselectButton"
       
       anchors.right: doneButton.left
-      anchors.rightMargin: 16
+      anchors.rightMargin: gu(2)
       anchors.verticalCenter: parent.verticalCenter
 
       visible: mediaCheckerboard.selectedCount > 0
@@ -56,7 +56,7 @@ Rectangle {
       objectName: "doneButton"
       
       anchors.right: parent.right
-      anchors.rightMargin: 16
+      anchors.rightMargin: gu(2)
       anchors.verticalCenter: parent.verticalCenter
       
       title: "done"
@@ -82,10 +82,10 @@ Rectangle {
     anchors.left: navbar.left
     anchors.right: navbar.right
     anchors.bottom: parent.bottom
-    anchors.topMargin: 24
-    anchors.bottomMargin: 0
-    anchors.leftMargin: 22
-    anchors.rightMargin: 22
+    anchors.topMargin: gu(3)
+    anchors.bottomMargin: gu(0)
+    anchors.leftMargin: gu(2.75)
+    anchors.rightMargin: gu(2.75)
     
     allowSelection: true
     state: "selecting"

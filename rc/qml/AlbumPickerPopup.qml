@@ -29,8 +29,8 @@ Rectangle {
 
   property variant designated_model
 
-  width: 432
-  height: 720
+  width: gu(54)
+  height: gu(90)
   z: 20
 
   color: "transparent"
@@ -87,7 +87,7 @@ Rectangle {
       x: 0
       y: 0
       width: parent.width
-      height: 40
+      height: gu(5)
       color: "white"
 
       Text {
@@ -103,7 +103,7 @@ Rectangle {
         isCompact: true
 
         anchors.left: parent.left
-        anchors.leftMargin: 4
+        anchors.leftMargin: gu(0.5)
         anchors.verticalCenter: parent.verticalCenter
 
         onPressed: { album_popup_wrapper.state = "hidden"; }
@@ -114,7 +114,7 @@ Rectangle {
         isCompact: true
 
         anchors.right: parent.right
-        anchors.rightMargin: 4
+        anchors.rightMargin: gu(0.5)
         anchors.verticalCenter: parent.verticalCenter
 
         onPressed: { album_popup_wrapper.newAlbumRequested(); }
@@ -122,21 +122,20 @@ Rectangle {
     }
 
     ListView {
-      id: album_preview_scoller
-      objectName: "album_preview_scroller"
-
+      id: scroller
+      
       z: 1
       clip: true
       anchors.top: button_bar.bottom
       anchors.bottom: parent.bottom
       anchors.left: parent.left
       anchors.right: parent.right
-      spacing: 22
+      spacing: gu(2.75)
 
       header: Rectangle {
         color: "transparent"
 
-        height: 22;
+        height: scroller.spacing
         anchors.left: parent.left
         anchors.right: parent.right
       }
@@ -144,7 +143,7 @@ Rectangle {
       footer: Rectangle {
         color: "transparent"
 
-        height: 22;
+        height: scroller.spacer
         anchors.left: parent.left
         anchors.right: parent.right
       }
@@ -155,7 +154,7 @@ Rectangle {
       delegate: AlbumPreviewComponent {
         album: model.album
         
-        x: 22
+        x: gu(2.75)
         clip: true
         
         MouseArea {
@@ -173,7 +172,7 @@ Rectangle {
   Rectangle {
     color: "transparent"
     border.color: "#a7a9ac"
-    border.width: 2
+    border.width: gu(0.25)
 
     width: parent.width
     height: parent.height - popup_arrow.height

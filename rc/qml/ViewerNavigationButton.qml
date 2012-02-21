@@ -24,8 +24,8 @@ Image {
   id: viewer_nav_image
   objectName: "viewer_nav_image"
   
-  width: 26
-  height: 48
+  width: gu(3.25)
+  height: gu(6)
   opacity: 0.7
   
   signal pressed()

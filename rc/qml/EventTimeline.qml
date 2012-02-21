@@ -25,17 +25,17 @@ ListView {
   
   signal activated(variant event)
   
-  property int elementWidth: 64
-  property int elementHeight: 48
-  property int elementSpacing: 8
+  property int elementWidth: gu(8)
+  property int elementHeight: gu(6)
+  property int elementSpacing: gu(1)
   
-  property int eventCardWidth: 198
+  property int eventCardWidth: gu(24.75)
   property int eventCardHeight: elementHeight
   
   property int headTailCount: 7
   
   orientation: ListView.Vertical
-  spacing: 8
+  spacing: gu(1)
   
   cacheBuffer: height * 2
   

@@ -36,7 +36,7 @@ Toolbar {
   Text {
     text: mastheadBar.albumName
 
-    x: 128
+    x: gu(16)
     y: (parent.height / 2) - (height / 2) + 1
 
     color: "#657CA9"
@@ -46,7 +46,7 @@ Toolbar {
     source: (mastheadBar.isTemplateView) ? "../img/grid-view.png" :
       "../img/template-view.png";
 
-    x: parent.width - width - 22
+    x: parent.width - width - gu(2.75)
     y: (parent.height / 2) - (height / 2) + 1
 
     visible: !mastheadBar.isSelectionInProgress
@@ -68,7 +68,7 @@ Toolbar {
     title: "done"
 
     anchors.right: parent.right
-    anchors.rightMargin: 16
+    anchors.rightMargin: gu(2)
     anchors.verticalCenter: parent.verticalCenter
 
     visible: mastheadBar.isSelectionInProgress
@@ -83,7 +83,7 @@ Toolbar {
     title: "deselect"
 
     anchors.right: doneButton.left
-    anchors.rightMargin: 16
+    anchors.rightMargin: gu(2)
     anchors.verticalCenter: parent.verticalCenter
 
     visible: mastheadBar.isSelectionInProgress && mastheadBar.areItemsSelected

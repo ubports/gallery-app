@@ -26,8 +26,8 @@ Rectangle {
 
   signal pressed()
 
-  width: (isCompact) ? 72 : 122
-  height: (isCompact) ? 32 : 36
+  width: (isCompact) ? gu(9) : gu(15.25)
+  height: (isCompact) ? gu(4) : gu(4.5)
 
   color: "#a7a9ac"
 

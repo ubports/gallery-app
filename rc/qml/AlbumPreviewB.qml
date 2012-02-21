@@ -23,8 +23,8 @@ Row {
   id: albumPreviewB
   
   property variant mediaSourceList
-  property int gutter: (parent ? parent.gutter : 24)
-  property int photoBorderWidth: (parent ? parent.photoBorderWidth : 0)
+  property int gutter: (parent ? parent.gutter : gu(3))
+  property int photoBorderWidth: (parent ? parent.photoBorderWidth : gu(0))
   property color photoBorderColor: (parent ? parent.photoBorderColor : "#95b5de")
   property bool isPreview: false
   

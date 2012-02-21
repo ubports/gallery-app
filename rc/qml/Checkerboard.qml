@@ -28,10 +28,10 @@ Rectangle {
   property alias model: grid.model
   property Component delegate
   
-  property int widthSansStroke: 206
-  property int heightSansStroke: 156
-  property int widthWithStroke: 198
-  property int heightWithStroke: 148
+  property int widthSansStroke: gu(25.75)
+  property int heightSansStroke: gu(19.5)
+  property int widthWithStroke: gu(24.75)
+  property int heightWithStroke: gu(18.5)
   
   property bool inSelectionMode: false
   property bool allowSelection: true
@@ -154,7 +154,7 @@ Rectangle {
           onReleased: {
             // See onPressAndHold for note on logic behind state changes
             if (checkerboard.state == "normal") {
-              var rect = mapToItem(tablet_surface, parent.x, parent.y);
+              var rect = mapToItem(application, parent.x, parent.y);
               rect.width = width;
               rect.height = height;
               checkerboard.activated(object, model, rect);

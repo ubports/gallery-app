@@ -27,16 +27,16 @@ Rectangle {
   property alias pageGutter: albumPageComponent.gutter
   property alias bookmarkOpacity: bookmark.opacity
   property alias nameHeight: textContainer.height
-  property int frameBorderWidth: 3
+  property int frameBorderWidth: gu(0.375)
   property color frameBorderColor: "#95b5de"
-  property int photoBorderWidth: 4
+  property int photoBorderWidth: gu(0.5)
   property color photoBorderColor: "#95b5de"
 
   // Read-only, please.
-  property real canonicalWidth: 388
+  property real canonicalWidth: gu(48.5)
   
   width: canonicalWidth
-  height: 252
+  height: gu(31.5)
   
   AlbumCover {
     id: albumCover
@@ -62,7 +62,7 @@ Rectangle {
       photoBorderColor: albumPreviewComponent.photoBorderColor
 
       albumPage: (album && !album.isClosed) ? album.currentPage : null
-      gutter: 8
+      gutter: gu(1)
       isPreview: true
       
       width: parent.width
@@ -91,7 +91,7 @@ Rectangle {
     Rectangle {
       id: textContainer
 
-      height: 48
+      height: gu(6)
       anchors.horizontalCenter: parent.horizontalCenter
       anchors.top: albumPageComponent.bottom
 
@@ -103,7 +103,7 @@ Rectangle {
         color: "#657CA9"
 
         text: (album) ? album.name : "";
-        font.pixelSize: 24
+        font.pixelSize: gu(3)
         smooth: true
       }
     }

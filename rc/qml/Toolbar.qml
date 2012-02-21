@@ -24,7 +24,7 @@ Rectangle {
   property bool isTranslucent: false;
 
   width: parent.width
-  height: 48
+  height: gu(6)
 
   color: {
     if (background == "darkBlue") {

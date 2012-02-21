@@ -25,11 +25,11 @@ import Gallery 1.0
 Item {
   id: albumViewerTransition
   
-  property int thumbnailGutter: 8
-  property int pageGutter: 24
+  property int thumbnailGutter: gu(1)
+  property int pageGutter: gu(3)
   
   function transitionToAlbumViewer(album, thumbnailRect) {
-    var translatedRect = mapFromItem(tablet_surface, thumbnailRect.x, thumbnailRect.y);
+    var translatedRect = mapFromItem(application, thumbnailRect.x, thumbnailRect.y);
     translatedRect.width = thumbnailRect.width;
     translatedRect.height = thumbnailRect.height;
 
@@ -43,7 +43,7 @@ Item {
   }
 
   function transitionFromAlbumViewer(album, thumbnailRect) {
-    var translatedRect = mapFromItem(tablet_surface, thumbnailRect.x, thumbnailRect.y);
+    var translatedRect = mapFromItem(application, thumbnailRect.x, thumbnailRect.y);
     translatedRect.width = thumbnailRect.width;
     translatedRect.height = thumbnailRect.height;
 

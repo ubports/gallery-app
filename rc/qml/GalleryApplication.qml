@@ -22,21 +22,22 @@ import QtQuick 1.0
 import Gallery 1.0
 
 Rectangle {
-  id: tablet_surface
-  objectName: "tablet_surface"
+  id: application
   
-  width: 1280
-  height: 776
+  width: gu(160)
+  height: gu(97)
   color: "white"
+  
+  // Converts a grid-unit into a pixel value.
+  function gu(amt) {
+    return Math.floor(GRIDUNIT * amt);
+  }
   
   Overview {
     id: overview
     objectName: "overview"
     
-    x: 0
-    y: 0
-    width: parent.width
-    height: parent.height
+    anchors.fill: parent
     
     visible: false
   }
@@ -45,13 +46,10 @@ Rectangle {
     id: albumViewer
     objectName: "albumViewer"
     
-    x: 0
-    y: 0
-    width: parent.width
-    height: parent.height
+    anchors.fill: parent
     
     visible: false
-
+    
     onCloseRequested: {
       if (state == "gridView") {
         albumViewerTransition.dissolveFromAlbumViewer(albumViewer, navStack.previous());
@@ -86,10 +84,7 @@ Rectangle {
     id: mediaSelector
     objectName: "mediaSelector"
     
-    x: 0
-    y: 0
-    width: parent.width
-    height: parent.height
+    anchors.fill: parent
     
     visible: false
   }

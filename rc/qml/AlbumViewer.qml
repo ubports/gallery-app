@@ -26,7 +26,7 @@ Rectangle {
   objectName: "albumViewer"
   
   property Album album
-  property int borderWidth: 2
+  property int borderWidth: gu(0.25)
   property alias pageTop: albumPageViewer.y
   property alias pageHeight: albumPageViewer.height
   
@@ -157,10 +157,10 @@ Rectangle {
     height: parent.height - masthead.height - chrome.toolbarHeight
     anchors.left: parent.left
     anchors.right: parent.right
-    anchors.topMargin: 24
+    anchors.topMargin: gu(3)
     anchors.bottomMargin: 0
-    anchors.leftMargin: 22
-    anchors.rightMargin: 22
+    anchors.leftMargin: gu(2.75)
+    anchors.rightMargin: gu(2.75)
     
     visible: false
     
@@ -194,7 +194,7 @@ Rectangle {
     
     y: parent.height - chrome.toolbarHeight - height
     width: parent.width
-    height: 24
+    height: gu(3)
     
     color: "transparent"
     

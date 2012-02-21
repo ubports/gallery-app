@@ -31,7 +31,7 @@ MouseArea {
   signal tapped()
   
   property bool enabled: true
-  property int requiredHorizMovement: 0
+  property int requiredHorizMovement: gu(0)
   
   // internal
   property int startX: -1

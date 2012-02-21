@@ -43,7 +43,7 @@ Toolbar {
   Image {
     source: "../img/return-arrow.png"
 
-    x: 48
+    x: gu(6)
 
     visible: wrapper.hasReturnButton
 
@@ -57,10 +57,10 @@ Toolbar {
   Row {
     id: iconGroup
 
-    spacing: 16
+    spacing: gu(2)
     anchors.verticalCenter: parent.verticalCenter
     anchors.right: parent.right
-    anchors.rightMargin: 16
+    anchors.rightMargin: gu(2)
 
     TrashOperationToolbarButton {
       anchors.verticalCenter: parent.verticalCenter

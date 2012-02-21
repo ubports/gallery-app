@@ -28,10 +28,8 @@ Rectangle {
 
   signal pressed();
 
-  /* spec'd normal icons are exactly 48px x 32px, spec'd square icons are
-     exactly 48px x 48px*/
-  width: 48
-  height: (isSquare) ? 48 : 32
+  width: gu(6)
+  height: (isSquare) ? width : gu(4)
 
   color: "transparent"
 

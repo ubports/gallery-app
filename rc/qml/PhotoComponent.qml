@@ -26,7 +26,7 @@ Rectangle {
   property bool isPreview: false
   property bool isZoomable: false
   property bool isAnimate: false
-  property int photoBorderWidth: 0
+  property int photoBorderWidth: gu(0)
   property color photoBorderColor: "#95b5de"
   property int zoomFocusX: 0
   property int zoomFocusY: 0

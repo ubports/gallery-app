@@ -90,7 +90,7 @@ Rectangle {
       objectName: "deselect"
       
       anchors.right: cancelSelecting.left
-      anchors.rightMargin: 16
+      anchors.rightMargin: gu(2)
       anchors.verticalCenter: parent.verticalCenter
 
       title: "deselect"
@@ -107,7 +107,7 @@ Rectangle {
       objectName: "cancelSelecting"
       
       anchors.right: parent.right
-      anchors.rightMargin: 16
+      anchors.rightMargin: gu(2)
       anchors.verticalCenter: parent.verticalCenter
 
       title: "done"
@@ -128,10 +128,10 @@ Rectangle {
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom
-    anchors.topMargin: 24
-    anchors.bottomMargin: 0
-    anchors.leftMargin: 22
-    anchors.rightMargin: 22
+    anchors.topMargin: gu(3)
+    anchors.bottomMargin: gu(0)
+    anchors.leftMargin: gu(2.75)
+    anchors.rightMargin: gu(2.75)
     
     // if switched away from or to, always move back to checkerboard
     onVisibleChanged: {
@@ -186,15 +186,15 @@ Rectangle {
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom
-    anchors.topMargin: 24
-    anchors.bottomMargin: 0
-    anchors.leftMargin: 22
-    anchors.rightMargin: 22
+    anchors.topMargin: gu(3)
+    anchors.bottomMargin: gu(0)
+    anchors.leftMargin: gu(2.75)
+    anchors.rightMargin: gu(2.75)
     
-    widthSansStroke: 412
-    heightSansStroke: 312
-    widthWithStroke: 388
-    heightWithStroke: 288
+    widthSansStroke: gu(51.5)
+    heightSansStroke: gu(39)
+    widthWithStroke: gu(48.5)
+    heightWithStroke: gu(36)
     
     visible: false
     allowSelection: false

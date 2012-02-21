@@ -24,7 +24,7 @@ Rectangle {
   id: albumPageComponent
   
   property AlbumPage albumPage: null
-  property int gutter: 24
+  property int gutter: gu(3)
   property int photoBorderWidth: 0
   property color photoBorderColor: "#95b5de"
   property bool isPreview: false
