@@ -64,9 +64,7 @@ Rectangle {
     state = "pageView";
     albumPageViewer.visible = true;
     gridCheckerboard.visible = false;
-    toolbar.state = ""; // Prevents the toolbar's fade animation from happening.
-    toolbar.state = "hidden";
-    toolbar.visible = false;
+    chrome.resetVisibility(false);
     middleBorder.visible = true;
     masthead.isTemplateView = true;
     pageIndicator.visible = true;
@@ -77,22 +75,6 @@ Rectangle {
       albumPageViewer.setTo(album.currentPageNumber);
   }
   
-  PlaceholderPopupMenu {
-    id: addPhotosMenu
-
-    z: 20
-    anchors.bottom: toolbar.top
-    x: toolbar.moreOperationsPopupX - width;
-
-    itemTitle: "Add photos"
-
-    state: "hidden"
-
-    onItemChosen: {
-      navStack.switchToMediaSelector(album)
-    }
-  }
-
   AlbumViewMasthead {
     id: masthead
     objectName: "masthead"
@@ -108,10 +90,10 @@ Rectangle {
     onViewModeChanged: {
       if (isTemplateView) {
         albumViewer.state = "pageView";
-        toolbar.state = "hidden";
+        chrome.state = "hidden";
       } else {
         albumViewer.state = "gridView";
-        toolbar.state = "shown";
+        chrome.state = "shown";
       }
     }
 
@@ -172,7 +154,7 @@ Rectangle {
     objectName: "gridCheckerboard"
     
     anchors.top: masthead.bottom
-    anchors.bottom: toolbar.top
+    height: parent.height - masthead.height - chrome.toolbarHeight
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.topMargin: 24
@@ -200,23 +182,6 @@ Rectangle {
       ownerName: "AlbumViewer grid"
     }
 
-    MouseArea {
-      id: mouse_blocker
-      objectName: "mouse_blocker"
-
-      anchors.fill: parent
-
-      onClicked: {
-        if (addPhotosMenu.state == "shown" || album_picker.state == "shown") {
-          addPhotosMenu.state = "hidden"
-          album_picker.state = "hidden"
-          return;
-        }
-      }
-
-      visible: (addPhotosMenu.state == "shown" || album_picker.state == "shown")
-    }
-
     onInSelectionModeChanged: {
       masthead.isSelectionInProgress = inSelectionMode
     }
@@ -224,37 +189,10 @@ Rectangle {
     onActivated: photoViewer.animateOpen(object, activatedRect)
   }
 
-  AlbumPickerPopup {
-    id: album_picker
-    objectName: "album_picker"
-
-    y: parent.height - height - toolbar.height
-    x: toolbar.albumOperationsPopupX - width
-
-    designated_model: AlbumCollectionModel {
-    }
-
-    state: "hidden"
-
-    onNewAlbumRequested: {
-      gridCheckerboard.model.createAlbumFromSelected();
-      gridCheckerboard.state = "normal";
-      gridCheckerboard.unselectAll();
-      state = "hidden"
-    }
-
-    onSelected: {
-      album.addSelectedMediaSources(gridCheckerboard.model);
-      gridCheckerboard.state = "normal";
-      gridCheckerboard.unselectAll();
-    }
-  }
-  
   AlbumPageIndicator {
     id: pageIndicator
     
-    anchors.bottom: toolbar.top
-    
+    y: parent.height - chrome.toolbarHeight - height
     width: parent.width
     height: 24
     
@@ -276,46 +214,38 @@ Rectangle {
     color: "#95b5de"
   }
 
-  Timer {
-    id: chromeFadeWaitClock
-
-    interval: 150
-    running: false
-
-    onTriggered: {
-      toolbar.state = (toolbar.state == "shown" ? "hidden" : "shown");
-    }
-  }
-
-  GalleryStandardToolbar {
-    id: toolbar
-    objectName: "toolbar"
-
-    hasFullIconSet: (gridCheckerboard.visible && gridCheckerboard.selectedCount > 0)
-    useContrastOnWhiteColorScheme: gridCheckerboard.visible
+  ViewerChrome {
+    id: chrome
 
     z: 10
-    anchors.bottom: parent.bottom
-    visible: false
+    anchors.fill: parent
 
-    state: "hidden"
+    leftNavigationButtonVisible: false
+    rightNavigationButtonVisible: false
 
-    states: [
-      State { name: "shown"; },
-      State { name: "hidden"; }
-    ]
+    toolbarHasFullIconSet: (gridCheckerboard.visible && gridCheckerboard.selectedCount > 0)
+    toolbarUseContrastOnWhiteColorScheme: gridCheckerboard.visible
 
-    transitions: [
-      Transition { from: "shown"; to: "hidden";
-        FadeOutAnimation { target: toolbar; }
-      },
-      Transition { from: "hidden"; to: "shown";
-        FadeInAnimation { target: toolbar; }
-      }
-    ]
+    popupMenuItemTitle: "Add photos"
+
+    autoHideWait: 0
+
+    onMenuItemChosen: navStack.switchToMediaSelector(album)
+
+    onNewAlbumPicked: {
+      gridCheckerboard.model.createAlbumFromSelected();
+      gridCheckerboard.state = "normal";
+      gridCheckerboard.unselectAll();
+    }
+
+    onAlbumPicked: {
+      album.addSelectedMediaSources(gridCheckerboard.model);
+      gridCheckerboard.state = "normal";
+      gridCheckerboard.unselectAll();
+    }
 
     onReturnButtonPressed: {
-      album_picker.visible = false
+      resetVisibility(false);
       masthead.isSelectionInProgress = false
       masthead.areItemsSelected = false
       gridCheckerboard.state = "normal";
@@ -324,9 +254,14 @@ Rectangle {
       closeRequested();
     }
 
-    onMoreOperationsButtonPressed: addPhotosMenu.flipVisibility();
+    Timer {
+      id: chromeFadeWaitClock
 
-    onAlbumOperationsButtonPressed: album_picker.flipVisibility();
+      interval: 150
+      running: false
+
+      onTriggered: chrome.flipVisibility()
+    }
   }
 
   PopupPhotoViewer {

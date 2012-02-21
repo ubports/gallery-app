@@ -36,26 +36,30 @@ Rectangle {
   color: "transparent"
 
   states: [
-    State { name: "shown";
-      PropertyChanges { target: album_popup_wrapper; opacity: 1; } },
-
-    State { name: "hidden";
-      PropertyChanges { target: album_popup_wrapper; opacity: 0; } }
+    State { name: "shown"; },
+    State { name: "hidden"; }
   ]
 
   transitions: [
-    Transition { from: "*"; to: "*";
-      NumberAnimation { properties: "opacity"; easing.type:
-                        Easing.InQuad; duration: 200; } }
+    Transition { from: "shown"; to: "hidden";
+      FadeOutAnimation { target: album_popup_wrapper; }
+    },
+    Transition { from: "hidden"; to: "shown";
+      FadeInAnimation { target: album_popup_wrapper; }
+    }
   ]
 
   state: "hidden"
+  visible: false
 
   function flipVisibility() {
-    if (this.state == "shown")
-      this.state = "hidden";
-    else
-      this.state = "shown";
+      state = (state == "shown" ? "hidden" : "shown");
+  }
+
+  function resetVisibility(visibility) {
+    state = ""; // To prevent animation.
+    state = (visibility ? "shown" : "hidden");
+    visible = visibility;
   }
 
   Rectangle {

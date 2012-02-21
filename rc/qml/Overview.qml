@@ -98,11 +98,6 @@ Rectangle {
       visible: eventsCheckerboard.selectedCount > 0
       
       onPressed: {
-        if (albumPicker.state == "shown") {
-          albumPicker.state = "hidden";
-          return;
-        }
-        
         eventsCheckerboard.unselectAll();
       }
     }
@@ -120,11 +115,6 @@ Rectangle {
       visible: eventsCheckerboard.inSelectionMode
       
       onPressed: {
-        if (albumPicker.state == "shown") {
-          albumPicker.state = "hidden";
-          return;
-        }
-
         eventsCheckerboard.state = "normal";
         eventsCheckerboard.unselectAll();
       }
@@ -159,19 +149,6 @@ Rectangle {
       allowSelection: true
       
       property variant photoViewerModel: MediaCollectionModel {
-      }
-      
-      MouseArea {
-        anchors.fill: parent
-        
-        onClicked: {
-          if (albumPicker.state == "shown") {
-            albumPicker.state = "hidden";
-            return;
-          }
-        }
-        
-        visible: albumPicker.state == "shown"
       }
       
       onActivated: {
@@ -232,33 +209,6 @@ Rectangle {
     onActivated: navStack.switchToAlbumViewer(object, activatedRect)
   }
 
-  AlbumPickerPopup {
-    id: albumPicker
-    objectName: "albumPicker"
-
-    y: parent.height - height - toolbar.height
-    x: toolbar.albumOperationsPopupX - width
-
-    state: "hidden"
-
-    designated_model: AlbumCollectionModel {
-    }
-
-    onNewAlbumRequested: {
-      eventsCheckerboard.model.createAlbumFromSelected();
-      eventsCheckerboard.state = "normal";
-      eventsCheckerboard.unselectAll();
-      state = "hidden"
-    }
-
-    onSelected: {
-      album.addSelectedMediaSources(eventsCheckerboard.model);
-      eventsCheckerboard.state = "normal";
-      eventsCheckerboard.unselectAll();
-      state = "hidden"
-    }
-  }
-  
   GalleryStatusBar {
     id: statusBar
     objectName: "statusBar"
@@ -272,21 +222,38 @@ Rectangle {
     statusText: "Select photos or movieclip(s)"
   }
 
-  GalleryStandardToolbar {
-    id: toolbar
-    objectName: "toolbar"
-
-    hasReturnButton: false
-    isTranslucent: true
-    background: "lightBlue"
+  ViewerChrome {
+    id: chrome
 
     z: 10
-    anchors.bottom: parent.bottom
+    anchors.fill: parent
 
-    visible: (eventsCheckerboard.inSelectionMode &&
-      eventsCheckerboard.selectedCount > 0)
+    fadeDuration: 0
 
-    onAlbumOperationsButtonPressed: { albumPicker.flipVisibility(); }
+    autoHideWait: 0
+
+    leftNavigationButtonVisible: false
+    rightNavigationButtonVisible: false
+    hasPopupMenu: false
+
+    toolbarHasReturnButton: false
+    toolbarIsTranslucent: true
+    toolbarBackground: "lightBlue"
+
+    state: (eventsCheckerboard.inSelectionMode
+      && eventsCheckerboard.selectedCount > 0) ? "shown" : "hidden"
+
+    onNewAlbumPicked: {
+      eventsCheckerboard.model.createAlbumFromSelected();
+      eventsCheckerboard.state = "normal";
+      eventsCheckerboard.unselectAll();
+    }
+
+    onAlbumPicked: {
+      album.addSelectedMediaSources(eventsCheckerboard.model);
+      eventsCheckerboard.state = "normal";
+      eventsCheckerboard.unselectAll();
+    }
   }
 
   PopupPhotoViewer {

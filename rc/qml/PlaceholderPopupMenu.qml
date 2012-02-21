@@ -27,26 +27,30 @@ Rectangle {
   signal itemChosen()
 
   states: [
-    State { name: "shown";
-      PropertyChanges { target: dummyMenu; opacity: 1; } },
-
-    State { name: "hidden";
-      PropertyChanges { target: dummyMenu; opacity: 0; } }
+    State { name: "shown"; },
+    State { name: "hidden"; }
   ]
 
   transitions: [
-    Transition { from: "*"; to: "*";
-      NumberAnimation { properties: "opacity"; easing.type:
-                        Easing.InQuad; duration: 200; } }
+    Transition { from: "shown"; to: "hidden";
+      FadeOutAnimation { target: dummyMenu; }
+    },
+    Transition { from: "hidden"; to: "shown";
+      FadeInAnimation { target: dummyMenu; }
+    }
   ]
 
   state: "hidden"
+  visible: false
 
   function flipVisibility() {
-    if (this.state == "shown")
-      this.state = "hidden";
-    else
-      this.state = "shown";
+      state = (state == "shown" ? "hidden" : "shown");
+  }
+
+  function resetVisibility(visibility) {
+    state = ""; // To prevent animation.
+    state = (visibility ? "shown" : "hidden");
+    visible = visibility;
   }
 
   color: "transparent"

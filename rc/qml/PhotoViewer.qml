@@ -47,29 +47,6 @@ Rectangle {
 
   color: "#444444"
   
-  AlbumPickerPopup {
-    id: albumPicker
-    objectName: "albumPicker"
-
-    y: parent.height - height - toolbar.height
-    x: toolbar.albumOperationsPopupX - width
-
-    state: "hidden";
-
-    designated_model: AlbumCollectionModel {
-    }
-
-    onSelected: {
-      album.addMediaSource(photo);
-      state = "hidden"
-    }
-    
-    onNewAlbumRequested: {
-      designated_model.createAlbum(photo);
-      state = "hidden"
-    }
-  }
-  
   Pager {
     id: imagePager
     objectName: "imagePager"
@@ -88,10 +65,9 @@ Rectangle {
       ownerName: "PhotoViewer"
     }
     
-    // Don't allow flicking while albumPicker is visible or the image is zoomed.
+    // Don't allow flicking while the chrome is active or the image is zoomed.
     // When images are zoomed, mouse drags should pan, not flick.
-    interactive: (albumPicker.state == "hidden") && (currentItem != null) &&
-      (currentItem.state == "unzoomed")
+    interactive: !chrome.active && (currentItem != null) && (currentItem.state == "unzoomed")
     
     onCurrentIndexChanged: {
       if (model)
@@ -102,15 +78,15 @@ Rectangle {
       anchors.fill: parent;
 
       onGestureStart: {
-        if (albumPicker.state != "hidden")
+        if (chrome.active)
           return;
 
-        chromeWrapper.visible = false;
+        chrome.resetVisibility(false);
         imagePager.currentItem.beginPinchZoom();
       }
 
       onGestureEnd: {
-        chromeWrapper.visible = true;
+        chrome.resetVisibility(true);
         imagePager.currentItem.endPinchZoom();
       }
 
@@ -132,10 +108,7 @@ Rectangle {
         interval: 150
         running: false
 
-        onTriggered: {
-          chromeWrapper.state = (chromeWrapper.state == "shown") ?
-            "hidden" : "shown";
-        }
+        onTriggered: chrome.flipVisibility()
       }
       
       onClicked: {
@@ -178,85 +151,38 @@ Rectangle {
       onDoubleClicked: {
         chromeFadeWaitClock.stop();
 
-        // we don't permit zooming when the album picker popup is open
-        if (albumPicker.state == "shown")
-          return;
-
-        chromeWrapper.state = "hidden";
+        chrome.state = "hidden";
 
         imagePager.currentItem.zoom(mouse.x, mouse.y);
       }
     }
   }
 
-  Rectangle {
-    id: chromeWrapper
-    objectName: "chromeWrapper"
-    
-    states: [
-      State { name: "shown";
-        PropertyChanges { target: chromeWrapper; opacity: 1; } },
+  ViewerChrome {
+    id: chrome
 
-      State { name: "hidden";
-        PropertyChanges { target: chromeWrapper; opacity: 0; } }
-    ]
-    
-    transitions: [
-      Transition { from: "*"; to: "*";
-        NumberAnimation { properties: "opacity"; easing.type:
-                          Easing.InQuad; duration: 200; } }
-    ]
-    
-    state: "hidden"
-    
     z: 10
     anchors.fill: parent
-    
-    color: "transparent"
-    
-    GalleryStandardToolbar {
-      id: toolbar
-      objectName: "toolbar"
 
-      isTranslucent: true
-      opacity: 0.8 /* override default opacity when translucent == true of 0.9
-                      for better compliance with the spec */
+    hasPopupMenu: false
 
-      z: 10
-      anchors.bottom: parent.bottom
+    toolbarIsTranslucent: true
+    toolbarOpacity: 0.8 /* override default opacity when translucent == true of 0.9
+                           for better compliance with the spec */
 
-      onAlbumOperationsButtonPressed: albumPicker.flipVisibility();
+    leftNavigationButtonVisible: !imagePager.atXBeginning
+    rightNavigationButtonVisible: !imagePager.atXEnd
 
-      onReturnButtonPressed: {
-        chromeWrapper.state = "hidden";
-        albumPicker.state = "hidden";
-        imagePager.currentItem.state = "unzoomed";
-        closeRequested();
-      }
-    }
-    
-    ViewerNavigationButton {
-      is_forward: false
-      
-      x: 12
-      y: 2 * parent.height / 3
-      z: 20
-      
-      visible: !imagePager.atXBeginning
-      
-      onPressed: imagePager.pageBack()
-    }
-    
-    ViewerNavigationButton {
-      is_forward: true
-      
-      x: parent.width - width - 12
-      y: 2 * parent.height / 3
-      z: 20
-      
-      visible: !imagePager.atXEnd
-      
-      onPressed: imagePager.pageForward()
+    onLeftNavigationButtonPressed: imagePager.pageBack()
+    onRightNavigationButtonPressed: imagePager.pageForward()
+
+    onAlbumPicked: album.addMediaSource(photo)
+    onNewAlbumPicked: albumPickerDesignatedModel.createAlbum(photo)
+
+    onReturnButtonPressed: {
+      resetVisibility(false);
+      imagePager.currentItem.state = "unzoomed";
+      closeRequested();
     }
   }
 }

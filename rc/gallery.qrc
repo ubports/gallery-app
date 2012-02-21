@@ -63,6 +63,7 @@
     <file>qml/Toolbar.qml</file>
     <file>qml/ToolbarIconButton.qml</file>
     <file>qml/TrashOperationToolbarButton.qml</file>
+    <file>qml/ViewerChrome.qml</file>
     <file>qml/ViewerNavigationButton.qml</file>
 </qresource>
 </RCC>

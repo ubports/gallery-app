@@ -146,4 +146,5 @@ OTHER_FILES += \
 	rc/qml/Toolbar.qml \
 	rc/qml/ToolbarIconButton.qml \
 	rc/qml/TrashOperationToolbarButton.qml \
+	rc/qml/ViewerChrome.qml \
 	rc/qml/ViewerNavigationButton.qml
