@@ -38,27 +38,43 @@ Row {
       id: top
       
       width: parent.width
-      height: parent.height / 2
+      height: (parent.height / 2) - (horizontalGutter.height / 2)
       
       photoBorderWidth: albumPreviewB.photoBorderWidth
       photoBorderColor: albumPreviewB.photoBorderColor
-
+      
+      topGutter: gu(0)
+      bottomGutter: gu(0)
+      leftGutter: gu(3)
+      rightGutter: gu(3)
+      
       mediaSource: (mediaSourceList != null) ? mediaSourceList[0] : null
-      gutter: albumPreviewB.gutter
       isPreview: albumPreviewB.isPreview
+    }
+    
+    // Shared gutter between two pictures
+    Rectangle {
+      id: horizontalGutter
+      
+      width: parent.width
+      height: gu(3)
     }
     
     FramePortrait {
       id: bottom
       
       width: parent.width
-      height: parent.height / 2
+      height: (parent.height / 2) - (horizontalGutter.height / 2)
       
       photoBorderWidth: albumPreviewB.photoBorderWidth
       photoBorderColor: albumPreviewB.photoBorderColor
-
+      
+      topGutter: gu(0)
+      bottomGutter: gu(0)
+      leftGutter: gu(3)
+      rightGutter: gu(3)
+      
       mediaSource: (mediaSourceList != null) ? mediaSourceList[1] : null
-      gutter: albumPreviewB.gutter
       isPreview: albumPreviewB.isPreview
     }
   }
@@ -71,9 +87,13 @@ Row {
     
     photoBorderWidth: albumPreviewB.photoBorderWidth
     photoBorderColor: albumPreviewB.photoBorderColor
-
+    
+    topGutter: gu(0)
+    bottomGutter: gu(0)
+    leftGutter: gu(3)
+    rightGutter: gu(3)
+    
     mediaSource: (mediaSourceList != null) ? mediaSourceList[2] : null
-    gutter: albumPreviewB.gutter
     isPreview: albumPreviewB.isPreview
   }
 }

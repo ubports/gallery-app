@@ -19,26 +19,33 @@
 
 import QtQuick 1.1
 
-Rectangle {
-  property variant mediaSource
+Item {
+  property alias mediaSource: photo.mediaSource
   property int gutter: 0
+  property int topGutter: gutter
+  property int bottomGutter: gutter
+  property int leftGutter: gutter
+  property int rightGutter: gutter
   property alias photoBorderWidth: photo.photoBorderWidth
   property alias photoBorderColor: photo.photoBorderColor
-  property bool isPreview: false
+  property alias isPreview: photo.isPreview
   
-  PhotoComponent {
-    id: photo
-    objectName: "photo"
+  Rectangle {
+    anchors.fill: parent
+    anchors.leftMargin: leftGutter
+    anchors.rightMargin: rightGutter
+    anchors.topMargin: topGutter
+    anchors.bottomMargin: bottomGutter
     
-    anchors.centerIn: parent
+    color: "transparent"
     
-    width: parent.width - (gutter * 2)
-    height: parent.height - (gutter * 2)
-    
-    mediaSource: parent.mediaSource
-    ownerName: "FramePortrait"
-    
-    isCropped: true
-    isPreview: parent.isPreview
+    PhotoComponent {
+      id: photo
+      
+      anchors.fill: parent
+      
+      ownerName: "FramePortrait"
+      isCropped: true
+    }
   }
 }

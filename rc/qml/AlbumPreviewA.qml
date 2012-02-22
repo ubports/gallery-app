@@ -36,9 +36,13 @@ Row {
     
     photoBorderWidth: albumPreviewA.photoBorderWidth
     photoBorderColor: albumPreviewA.photoBorderColor
-
+    
+    topGutter: gu(0)
+    bottomGutter: gu(0)
+    leftGutter: gu(3)
+    rightGutter: gu(3)
+    
     mediaSource: (mediaSourceList != null) ? mediaSourceList[0] : null
-    gutter: parent.gutter
     isPreview: parent.isPreview
   }
   
@@ -50,9 +54,13 @@ Row {
     
     photoBorderWidth: albumPreviewA.photoBorderWidth
     photoBorderColor: albumPreviewA.photoBorderColor
-
+    
+    topGutter: gu(0)
+    bottomGutter: gu(0)
+    leftGutter: gu(3)
+    rightGutter: gu(3)
+    
     mediaSource: (mediaSourceList != null) ? mediaSourceList[1] : null
-    gutter: parent.gutter
     isPreview: parent.isPreview
   }
 }

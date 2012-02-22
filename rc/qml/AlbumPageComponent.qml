@@ -23,7 +23,7 @@ import Gallery 1.0
 Rectangle {
   id: albumPageComponent
   
-  property AlbumPage albumPage: null
+  property AlbumPage albumPage
   property int gutter: gu(3)
   property int photoBorderWidth: 0
   property color photoBorderColor: "#95b5de"
@@ -46,7 +46,7 @@ Rectangle {
     
     width: parent.width / 2
     
-    visible: (album != null)
+    visible: !(albumPage)
   }
   
   Loader {
