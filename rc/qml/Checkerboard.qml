@@ -15,6 +15,7 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
+ * Lucas Beeler <lucas@yorba.org>
  */
 
 import QtQuick 1.1
@@ -132,8 +133,12 @@ Rectangle {
           
           anchors.centerIn: parent
           
-          width: widthWithStroke
-          height: heightWithStroke
+          width: (checkerboard.state == "selecting" ||
+            checkerboard.state == "to-selecting") ? widthSansStroke :
+            widthWithStroke
+          height: (checkerboard.state == "selecting" ||
+            checkerboard.state == "to-selecting") ? heightSansStroke :
+            heightWithStroke
           
           sourceComponent: checkerboard.delegate
         }
@@ -171,12 +176,26 @@ Rectangle {
           
           anchors.top: loader.top
           anchors.right: loader.right
+          z: 8
           
           visible: isSelected
           
           asynchronous: true
           cache: true
           smooth: true
+        }
+
+        BorderImage {
+          source: "../img/selected-border-stroke.png"
+
+          anchors.fill: loader
+          z: 4
+
+          asynchronous: true
+          cache: true
+
+          visible: (checkerboard.state == "selecting" ||
+            checkerboard.state == "to-selecting")
         }
       }
     }
