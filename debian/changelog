@@ -1,3 +1,27 @@
+goodhope (0.0.1ubuntu10~precise1) precise; urgency=low
+
+  * New PPA build for Precise.
+
+ -- Adam Dingle <adam@yorba.org>  Thu, 23 Feb 2012 05:37:53 -0800
+
+goodhope (0.0.1ubuntu10~oneiric1) oneiric; urgency=low
+
+  * New PPA build for Oneiric.
+
+ -- Adam Dingle <adam@yorba.org>  Thu, 23 Feb 2012 05:34:33 -0800
+
+goodhope (0.0.1ubuntu9~precise1) precise; urgency=low
+
+  * New PPA build for Precise.
+
+ -- Adam Dingle <adam@yorba.org>  Thu, 16 Feb 2012 04:48:01 -0800
+
+goodhope (0.0.1ubuntu9~oneiric1) oneiric; urgency=low
+
+  * New PPA build for Oneiric.
+
+ -- Adam Dingle <adam@yorba.org>  Thu, 16 Feb 2012 04:46:43 -0800
+
 goodhope (0.0.1ubuntu8~precise1) precise; urgency=low
 
   * New PPA build for Precise.
