@@ -71,6 +71,7 @@ Rectangle {
     height: albumViewer.pageHeight
 
     onTransitionToAlbumViewerCompleted: {
+      albumViewer.resetView();
       navStack.switchToPage(albumViewer);
     }
 

@@ -35,9 +35,73 @@ Rectangle {
 
   anchors.fill: parent
 
+  state: "pageView"
+
+  states: [
+    State { name: "pageView"; },
+    State { name: "gridView"; }
+  ]
+
+  transitions: [
+    Transition { from: "pageView"; to: "gridView";
+      ParallelAnimation {
+        DissolveAnimation { fadeOutTarget: albumPageViewer; fadeInTarget: gridCheckerboard; }
+        FadeOutAnimation { target: middleBorder; }
+        FadeOutAnimation { target: pageIndicator; }
+      }
+    },
+    Transition { from: "gridView"; to: "pageView";
+      ParallelAnimation {
+        DissolveAnimation { fadeOutTarget: gridCheckerboard; fadeInTarget: albumPageViewer; }
+        FadeInAnimation { target: middleBorder; }
+        FadeInAnimation { target: pageIndicator; }
+      }
+    }
+  ]
+  
+  function resetView() {
+    state = ""; // Prevents the animation on gridView -> pageView from happening.
+    state = "pageView";
+    albumPageViewer.visible = true;
+    gridCheckerboard.visible = false;
+    middleBorder.visible = true;
+    masthead.isTemplateView = true;
+    pageIndicator.visible = true;
+  }
+
   onAlbumChanged: {
     if (album)
       albumPageViewer.setTo(album.currentPageNumber);
+  }
+  
+  AlbumViewMasthead {
+    id: masthead
+    objectName: "masthead"
+
+    albumName: (album) ? album.name : ""
+
+    areItemsSelected: gridCheckerboard.selectedCount > 0
+
+    x: 0
+    y: 0
+    width: parent.width
+
+    onViewModeChanged: {
+      if (isTemplateView) {
+        albumViewer.state = "pageView";
+      } else {
+        albumViewer.state = "gridView";
+      }
+    }
+
+    onSelectionInteractionCompleted: {
+      gridCheckerboard.state = "normal";
+      gridCheckerboard.unselectAll();
+    }
+
+    onDeselectAllRequested: {
+      gridCheckerboard.unselectAll();
+    }
   }
   
   AlbumPageViewer {
@@ -78,6 +142,46 @@ Rectangle {
     }
   }
   
+  Checkerboard {
+    id: gridCheckerboard
+    objectName: "gridCheckerboard"
+    
+    anchors.top: masthead.bottom
+    height: parent.height - masthead.height - chrome.toolbarHeight
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.topMargin: gu(3)
+    anchors.bottomMargin: 0
+    anchors.leftMargin: gu(2.75)
+    anchors.rightMargin: gu(2.75)
+    
+    visible: false
+    
+    allowSelection: true
+    
+    model: MediaCollectionModel {
+      forCollection: album
+    }
+    
+    delegate: PhotoComponent {
+      anchors.centerIn: parent
+      
+      width: parent.width
+      height: parent.height
+      
+      mediaSource: modelData.mediaSource
+      isCropped: true
+      isPreview: true
+      ownerName: "AlbumViewer grid"
+    }
+
+    onInSelectionModeChanged: {
+      masthead.isSelectionInProgress = inSelectionMode
+    }
+    
+    onActivated: photoViewer.animateOpen(object, activatedRect)
+  }
+
   AlbumPageIndicator {
     id: pageIndicator
     
@@ -103,21 +207,6 @@ Rectangle {
     color: "#95b5de"
   }
 
-  Rectangle {
-    id: masthead
-
-    width: parent.width
-    height: gu(6)
-
-    Text {
-      anchors.centerIn: parent
-
-      text: (album) ? album.name : ""
-
-      color: "#657CA9"
-    }
-  }
-
   ViewerChrome {
     id: chrome
 
@@ -130,7 +219,8 @@ Rectangle {
     leftNavigationButtonVisible: false
     rightNavigationButtonVisible: false
 
-    toolbarHasFullIconSet: false
+    toolbarHasFullIconSet: (gridCheckerboard.visible && gridCheckerboard.selectedCount > 0)
+    toolbarUseContrastOnWhiteColorScheme: gridCheckerboard.visible
 
     popupMenuItemTitle: "Add photos"
 
@@ -138,6 +228,48 @@ Rectangle {
 
     onMenuItemChosen: navStack.switchToMediaSelector(album)
 
-    onReturnButtonPressed: closeRequested()
+    onNewAlbumPicked: {
+      gridCheckerboard.model.createAlbumFromSelected();
+      gridCheckerboard.state = "normal";
+      gridCheckerboard.unselectAll();
+    }
+
+    onAlbumPicked: {
+      album.addSelectedMediaSources(gridCheckerboard.model);
+      gridCheckerboard.state = "normal";
+      gridCheckerboard.unselectAll();
+    }
+
+    onReturnButtonPressed: {
+      masthead.isSelectionInProgress = false
+      masthead.areItemsSelected = false
+      gridCheckerboard.state = "normal";
+      gridCheckerboard.unselectAll();
+
+      closeRequested();
+    }
+  }
+
+  PopupPhotoViewer {
+    id: photoViewer
+
+    anchors.fill: parent
+    z: 100
+
+    onOpening: {
+      model = gridCheckerboard.model
+    }
+    
+    onIndexChanged: {
+      gridCheckerboard.ensureIndexVisible(index);
+    }
+
+    onCloseRequested: {
+      var thumbnailRect = gridCheckerboard.getRectOfItemAt(index, photoViewer);
+      if (thumbnailRect)
+        animateClosed(thumbnailRect);
+      else
+        close();
+    }
   }
 }
