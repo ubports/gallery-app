@@ -66,7 +66,6 @@ Rectangle {
     gridCheckerboard.visible = false;
     middleBorder.visible = true;
     masthead.isTemplateView = true;
-    pageIndicator.visible = true;
   }
 
   onAlbumChanged: {
@@ -190,6 +189,7 @@ Rectangle {
     height: gu(3)
     
     color: "transparent"
+    visible: (album) ? album.pageCount > 1 : false;
     
     album: albumViewer.album
     
@@ -200,10 +200,13 @@ Rectangle {
   
   Rectangle {
     id: middleBorder
-
+    
+    anchors.top: masthead.bottom
+    anchors.bottom: pageIndicator.top
+    anchors.horizontalCenter: parent.horizontalCenter
+    
     width: borderWidth
-    height: parent.height
-    anchors.centerIn: parent
+    
     color: "#95b5de"
   }
 

@@ -28,19 +28,20 @@ Rectangle {
   signal selected(int pageNumber)
   
   Row {
+    anchors.centerIn: parent
+    
     Repeater {
       id: pageIndicatorRepeater
       
       model: AlbumPageModel {
         forAlbum: album
-        includeCover: true
       }
       
       delegate: Item {
-        width: pageIndicator.width / pageIndicatorRepeater.model.count
-        height: pageIndicator.height
+        property int pageNumber: index
         
-        property int pageNumber: index - 1
+        width: gu(6)
+        height: pageIndicator.height
         
         Text {
           anchors.fill: parent
@@ -52,7 +53,7 @@ Rectangle {
           
           font.family: "Ubuntu"
           font.bold: true
-          font.pixelSize: pageIndicator.height
+          font.pixelSize: gu(3.5)
           
           horizontalAlignment: Text.AlignHCenter
         }
