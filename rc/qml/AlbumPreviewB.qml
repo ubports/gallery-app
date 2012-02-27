@@ -19,81 +19,85 @@
 
 import QtQuick 1.1
 
-Row {
+Item {
   id: albumPreviewB
   
   property variant mediaSourceList
-  property int gutter: (parent ? parent.gutter : gu(3))
-  property int photoBorderWidth: (parent ? parent.photoBorderWidth : gu(0))
-  property color photoBorderColor: (parent ? parent.photoBorderColor : "#95b5de")
+
+  property real topGutter: (parent ? parent.topGutter : 0)
+  property real bottomGutter: (parent ? parent.bottomGutter : 0)
+  property real leftGutter: (parent ? parent.leftGutter : 0)
+  property real rightGutter: (parent ? parent.rightGutter : 0)
+  property real spineGutter: (parent ? parent.spineGutter : 0)
+  property real insideGutter: (parent ? parent.insideGutter : 0)
+
   property bool isPreview: false
   
-  Column {
-    id: left
-    
-    width: parent.width / 2
-    height: parent.height
-    
-    FramePortrait {
-      id: top
-      
-      width: parent.width
-      height: (parent.height / 2) - (horizontalGutter.height / 2)
-      
-      photoBorderWidth: albumPreviewB.photoBorderWidth
-      photoBorderColor: albumPreviewB.photoBorderColor
-      
-      topGutter: gu(0)
-      bottomGutter: gu(0)
-      leftGutter: gu(3)
-      rightGutter: gu(3)
-      
-      mediaSource: (mediaSourceList != null) ? mediaSourceList[0] : null
-      isPreview: albumPreviewB.isPreview
-    }
-    
-    // Shared gutter between two pictures
-    Rectangle {
-      id: horizontalGutter
-      
-      width: parent.width
-      height: gu(3)
-    }
-    
-    FramePortrait {
-      id: bottom
-      
-      width: parent.width
-      height: (parent.height / 2) - (horizontalGutter.height / 2)
-      
-      photoBorderWidth: albumPreviewB.photoBorderWidth
-      photoBorderColor: albumPreviewB.photoBorderColor
-      
-      topGutter: gu(0)
-      bottomGutter: gu(0)
-      leftGutter: gu(3)
-      rightGutter: gu(3)
-      
-      mediaSource: (mediaSourceList != null) ? mediaSourceList[1] : null
-      isPreview: albumPreviewB.isPreview
-    }
+  property real spineBorderWidth: (parent ? parent.spineBorderWidth : 0)
+  property color spineBorderColor: (parent ? parent.spineBorderColor : "#95b5df")
+
+  FramePortrait {
+    id: top
+
+    anchors.top: parent.top
+    anchors.bottom: parent.verticalCenter
+    anchors.left: parent.left
+    anchors.right: parent.horizontalCenter
+
+    topGutter: albumPreviewB.topGutter
+    bottomGutter: albumPreviewB.insideGutter
+    leftGutter: albumPreviewB.leftGutter
+    rightGutter: albumPreviewB.spineGutter
+
+    mediaSource: (mediaSourceList != null) ? mediaSourceList[0] : null
+    isPreview: albumPreviewB.isPreview
+  }
+
+  FramePortrait {
+    id: bottom
+
+    anchors.top: parent.verticalCenter
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.horizontalCenter
+
+    topGutter: albumPreviewB.insideGutter
+    bottomGutter: albumPreviewB.bottomGutter
+    leftGutter: albumPreviewB.leftGutter
+    rightGutter: albumPreviewB.spineGutter
+
+    mediaSource: (mediaSourceList != null) ? mediaSourceList[1] : null
+    isPreview: albumPreviewB.isPreview
   }
   
   FramePortrait {
     id: right
     
-    width: parent.width / 2
-    height: parent.height
-    
-    photoBorderWidth: albumPreviewB.photoBorderWidth
-    photoBorderColor: albumPreviewB.photoBorderColor
-    
-    topGutter: gu(0)
-    bottomGutter: gu(0)
-    leftGutter: gu(3)
-    rightGutter: gu(3)
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.left: parent.horizontalCenter
+    anchors.right: parent.right
+
+    topGutter: albumPreviewB.topGutter
+    bottomGutter: albumPreviewB.bottomGutter
+    leftGutter: albumPreviewB.spineGutter
+    rightGutter: albumPreviewB.rightGutter
     
     mediaSource: (mediaSourceList != null) ? mediaSourceList[2] : null
     isPreview: albumPreviewB.isPreview
+  }
+
+  Rectangle {
+    id: spineBorder
+
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    width: spineBorderWidth
+
+    anchors.topMargin: albumPreviewB.topGutter
+    anchors.bottomMargin: albumPreviewB.bottomGutter
+
+    color: spineBorderColor
   }
 }

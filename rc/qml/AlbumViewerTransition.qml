@@ -25,8 +25,19 @@ import Gallery 1.0
 Item {
   id: albumViewerTransition
   
-  property int thumbnailGutter: gu(1)
-  property int pageGutter: gu(3)
+  property real pageTopGutter: gu(0)
+  property real pageBottomGutter: gu(0)
+  property real pageLeftGutter: gu(3)
+  property real pageRightGutter: gu(3)
+  property real pageSpineGutter: gu(2)
+  property real pageInsideGutter: gu(2)
+
+  property real thumbnailTopGutter: gu(2)
+  property real thumbnailBottomGutter: gu(2)
+  property real thumbnailLeftGutter: gu(1)
+  property real thumbnailRightGutter: gu(1)
+  property real thumbnailSpineGutter: gu(1)
+  property real thumbnailInsideGutter: gu(0.5)
   
   function transitionToAlbumViewer(album, thumbnailRect) {
     var translatedRect = mapFromItem(application, thumbnailRect.x, thumbnailRect.y);
@@ -79,12 +90,23 @@ Item {
         duration: 200
       }
 
-      NumberAnimation {
-        target: expandAlbum
-        property: "pageGutter"
-        from: thumbnailGutter
-        to: pageGutter
-        duration: 200
+      NumberAnimation { target: expandAlbum; property: "topGutter";
+        from: thumbnailTopGutter; to: pageTopGutter; duration: 200
+      }
+      NumberAnimation { target: expandAlbum; property: "bottomGutter";
+        from: thumbnailBottomGutter; to: pageBottomGutter; duration: 200
+      }
+      NumberAnimation { target: expandAlbum; property: "leftGutter";
+        from: thumbnailLeftGutter; to: pageLeftGutter; duration: 200
+      }
+      NumberAnimation { target: expandAlbum; property: "rightGutter";
+        from: thumbnailRightGutter; to: pageRightGutter; duration: 200
+      }
+      NumberAnimation { target: expandAlbum; property: "spineGutter";
+        from: thumbnailSpineGutter; to: pageSpineGutter; duration: 200
+      }
+      NumberAnimation { target: expandAlbum; property: "insideGutter";
+        from: thumbnailInsideGutter; to: pageInsideGutter; duration: 200
       }
 
       NumberAnimation {
@@ -121,12 +143,23 @@ Item {
         easingType: Easing.OutQuad
       }
 
-      NumberAnimation {
-        target: expandAlbum
-        property: "pageGutter"
-        from: pageGutter
-        to: thumbnailGutter
-        duration: 200
+      NumberAnimation { target: expandAlbum; property: "topGutter";
+        from: pageTopGutter; to: thumbnailTopGutter; duration: 200
+      }
+      NumberAnimation { target: expandAlbum; property: "bottomGutter";
+        from: pageBottomGutter; to: thumbnailBottomGutter; duration: 200
+      }
+      NumberAnimation { target: expandAlbum; property: "leftGutter";
+        from: pageLeftGutter; to: thumbnailLeftGutter; duration: 200
+      }
+      NumberAnimation { target: expandAlbum; property: "rightGutter";
+        from: pageRightGutter; to: thumbnailRightGutter; duration: 200
+      }
+      NumberAnimation { target: expandAlbum; property: "spineGutter";
+        from: pageSpineGutter; to: thumbnailSpineGutter; duration: 200
+      }
+      NumberAnimation { target: expandAlbum; property: "insideGutter";
+        from: pageInsideGutter; to: thumbnailInsideGutter; duration: 200
       }
 
       NumberAnimation {

@@ -19,29 +19,35 @@
 
 import QtQuick 1.1
 
-Row {
+Item {
   id: albumPreviewA
   
   property variant mediaSourceList
-  property int gutter: (parent ? parent.gutter : gu(3))
-  property int photoBorderWidth: (parent ? parent.photoBorderWidth : gu(0))
-  property color photoBorderColor: (parent ? parent.photoBorderColor : "#95b5de")
+
+  property real topGutter: (parent ? parent.topGutter : 0)
+  property real bottomGutter: (parent ? parent.bottomGutter : 0)
+  property real leftGutter: (parent ? parent.leftGutter : 0)
+  property real rightGutter: (parent ? parent.rightGutter : 0)
+  property real spineGutter: (parent ? parent.spineGutter : 0)
+
   property bool isPreview: false
-  
+
+  property real spineBorderWidth: (parent ? parent.spineBorderWidth : 0)
+  property color spineBorderColor: (parent ? parent.spineBorderColor : "#95b5df")
+
   FramePortrait {
     id: left
     
-    width: (parent.width / 2)
-    height: parent.height
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.horizontalCenter
     
-    photoBorderWidth: albumPreviewA.photoBorderWidth
-    photoBorderColor: albumPreviewA.photoBorderColor
-    
-    topGutter: gu(0)
-    bottomGutter: gu(0)
-    leftGutter: gu(3)
-    rightGutter: gu(3)
-    
+    topGutter: albumPreviewA.topGutter
+    bottomGutter: albumPreviewA.bottomGutter
+    leftGutter: albumPreviewA.leftGutter
+    rightGutter: albumPreviewA.spineGutter
+
     mediaSource: (mediaSourceList != null) ? mediaSourceList[0] : null
     isPreview: parent.isPreview
   }
@@ -49,18 +55,31 @@ Row {
   FramePortrait {
     id: right
     
-    width: (parent.width / 2)
-    height: parent.height
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.left: parent.horizontalCenter
+    anchors.right: parent.right
     
-    photoBorderWidth: albumPreviewA.photoBorderWidth
-    photoBorderColor: albumPreviewA.photoBorderColor
-    
-    topGutter: gu(0)
-    bottomGutter: gu(0)
-    leftGutter: gu(3)
-    rightGutter: gu(3)
+    topGutter: albumPreviewA.topGutter
+    bottomGutter: albumPreviewA.bottomGutter
+    leftGutter: albumPreviewA.spineGutter
+    rightGutter: albumPreviewA.rightGutter
     
     mediaSource: (mediaSourceList != null) ? mediaSourceList[1] : null
     isPreview: parent.isPreview
+  }
+
+  Rectangle {
+    id: spineBorder
+
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+    anchors.horizontalCenter: parent.horizontalCenter
+    width: spineBorderWidth
+
+    anchors.topMargin: albumPreviewA.topGutter
+    anchors.bottomMargin: albumPreviewA.bottomGutter
+
+    color: spineBorderColor
   }
 }

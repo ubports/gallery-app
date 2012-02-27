@@ -26,7 +26,6 @@ Rectangle {
   objectName: "albumViewer"
   
   property Album album
-  property int borderWidth: gu(0.25)
   property alias pageTop: albumPageViewer.y
   property alias pageHeight: albumPageViewer.height
   
@@ -46,14 +45,12 @@ Rectangle {
     Transition { from: "pageView"; to: "gridView";
       ParallelAnimation {
         DissolveAnimation { fadeOutTarget: albumPageViewer; fadeInTarget: gridCheckerboard; }
-        FadeOutAnimation { target: middleBorder; }
         FadeOutAnimation { target: pageIndicator; }
       }
     },
     Transition { from: "gridView"; to: "pageView";
       ParallelAnimation {
         DissolveAnimation { fadeOutTarget: gridCheckerboard; fadeInTarget: albumPageViewer; }
-        FadeInAnimation { target: middleBorder; }
         FadeInAnimation { target: pageIndicator; }
       }
     }
@@ -64,7 +61,6 @@ Rectangle {
     state = "pageView";
     albumPageViewer.visible = true;
     gridCheckerboard.visible = false;
-    middleBorder.visible = true;
     masthead.isTemplateView = true;
   }
 
@@ -198,18 +194,6 @@ Rectangle {
     }
   }
   
-  Rectangle {
-    id: middleBorder
-    
-    anchors.top: masthead.bottom
-    anchors.bottom: pageIndicator.top
-    anchors.horizontalCenter: parent.horizontalCenter
-    
-    width: borderWidth
-    
-    color: "#95b5de"
-  }
-
   ViewerChrome {
     id: chrome
 

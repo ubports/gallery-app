@@ -186,15 +186,15 @@ Rectangle {
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom
-    anchors.topMargin: gu(3)
+    anchors.topMargin: gu(2)
     anchors.bottomMargin: gu(0)
-    anchors.leftMargin: gu(2.75)
-    anchors.rightMargin: gu(2.75)
+    anchors.leftMargin: gu(2)
+    anchors.rightMargin: gu(2)
     
-    widthSansStroke: gu(51.5)
-    heightSansStroke: gu(39)
-    widthWithStroke: gu(48.5)
-    heightWithStroke: gu(36)
+    widthSansStroke: gu(52)
+    heightSansStroke: gu(42)
+    widthWithStroke: gu(50)
+    heightWithStroke: gu(40)
     
     visible: false
     allowSelection: false

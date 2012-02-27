@@ -24,10 +24,18 @@ Rectangle {
   id: albumPageComponent
   
   property AlbumPage albumPage
-  property int gutter: gu(3)
-  property int photoBorderWidth: 0
-  property color photoBorderColor: "#95b5de"
+
+  property real topGutter: gu(0)
+  property real bottomGutter: gu(0)
+  property real leftGutter: gu(3)
+  property real rightGutter: gu(3)
+  property real spineGutter: gu(2)
+  property real insideGutter: gu(2)
+
   property bool isPreview: false
+
+  property real spineBorderWidth: gu(0.25)
+  property color spineBorderColor: "#95b5df"
   
   onAlbumPageChanged: {
     // force reload of the entire page's QML
@@ -44,8 +52,6 @@ Rectangle {
     anchors.left: parent.horizontalCenter
     anchors.right: parent.right
     
-    width: parent.width / 2
-    
     visible: !(albumPage)
   }
   
@@ -54,10 +60,15 @@ Rectangle {
     
     // read-only
     property variant mediaSourceList: (albumPage) ? albumPage.mediaSourceList : null
-    property alias gutter: albumPageComponent.gutter
-    property alias photoBorderWidth: albumPageComponent.photoBorderWidth
-    property alias photoBorderColor: albumPageComponent.photoBorderColor
-    
+    property alias topGutter: albumPageComponent.topGutter
+    property alias bottomGutter: albumPageComponent.bottomGutter
+    property alias leftGutter: albumPageComponent.leftGutter
+    property alias rightGutter: albumPageComponent.rightGutter
+    property alias spineGutter: albumPageComponent.spineGutter
+    property alias insideGutter: albumPageComponent.insideGutter
+    property alias spineBorderWidth: albumPageComponent.spineBorderWidth
+    property alias spineBorderColor: albumPageComponent.spineBorderColor
+
     anchors.fill: parent
     
     onMediaSourceListChanged: {
