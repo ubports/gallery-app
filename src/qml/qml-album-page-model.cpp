@@ -38,6 +38,10 @@ QVariant QmlAlbumPageModel::VariantFor(DataObject* object) const {
   return (album_page != NULL) ? QVariant::fromValue(album_page) : QVariant();
 }
 
+DataObject* QmlAlbumPageModel::FromVariant(QVariant var) const {
+  return UncheckedVariantToObject<AlbumPage*>(var);
+}
+
 QVariant QmlAlbumPageModel::for_album() const {
   return (album_ != NULL ) ? QVariant::fromValue(album_) : QVariant();
 }

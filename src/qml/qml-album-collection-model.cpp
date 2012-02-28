@@ -52,6 +52,10 @@ QVariant QmlAlbumCollectionModel::VariantFor(DataObject* object) const {
   return (album != NULL) ? QVariant::fromValue(album) : QVariant();
 }
 
+DataObject* QmlAlbumCollectionModel::FromVariant(QVariant var) const {
+  return UncheckedVariantToObject<Album*>(var);
+}
+
 void QmlAlbumCollectionModel::on_album_current_page_contents_altered(Album* album) {
   NotifyElementAltered(BackingViewCollection()->IndexOf(album), SubclassRole);
 }

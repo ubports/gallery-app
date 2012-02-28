@@ -121,7 +121,7 @@ Rectangle {
     }
   }
   
-  Rectangle {
+  Item {
     id: eventsSheet
     
     anchors.top: navbar.bottom
@@ -156,9 +156,27 @@ Rectangle {
           photoViewer.animateOpen(object, activatedRect);
         } else {
           // Event marker
-          visible = false;
-          eventTimeline.visible = true;
+          eventTimelineTransition.toTimeline();
         }
+      }
+    }
+    
+    EventTimelineTransition {
+      id: eventTimelineTransition
+      
+      anchors.fill: parent
+      
+      visible: false
+      clip: true
+      
+      checkerboard: eventsCheckerboard
+      timeline: eventTimeline
+      
+      model: EventOverviewModel {
+      }
+      
+      delegate: EventCheckerboardDelegate {
+        ownerName: "EventTimelineTransition"
       }
     }
     

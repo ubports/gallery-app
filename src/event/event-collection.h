@@ -27,8 +27,8 @@
 
 #include "core/data-object.h"
 #include "core/source-collection.h"
-#include "media/media-source.h"
 #include "event/event.h"
+#include "media/media-source.h"
 
 class EventCollection : public SourceCollection {
   Q_OBJECT

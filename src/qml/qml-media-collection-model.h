@@ -42,6 +42,7 @@ class QmlMediaCollectionModel : public QmlViewCollectionModel {
   
  protected:
   virtual QVariant VariantFor(DataObject* object) const;
+  virtual DataObject* FromVariant(QVariant var) const;
 };
 
 QML_DECLARE_TYPE(QmlMediaCollectionModel);

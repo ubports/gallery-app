@@ -19,20 +19,79 @@
 
 import QtQuick 1.1
 import Gallery 1.0
+import "GalleryUtility.js" as GalleryUtility
 
 ListView {
   id: eventTimeline
   
   signal activated(variant event)
   
-  property int elementWidth: gu(8)
-  property int elementHeight: gu(6)
+  property int elementWidth: gu(24.75)
+  property int elementHeight: gu(18.5)
   property int elementSpacing: gu(1)
   
   property int eventCardWidth: gu(24.75)
   property int eventCardHeight: elementHeight
   
-  property int headTailCount: 7
+  property int headTailCount: 3
+  
+  function getVisibleObjects() {
+    var vi = GalleryUtility.getVisibleItems(eventTimeline, eventTimeline, function(child) {
+      if (child.objectName == "eventCard" && child.event)
+        return true;
+      
+      if (child.mediaSource)
+        return true;
+      
+      return false;
+    });
+    
+    var vo = [];
+    for (var ctr = 0; ctr < vi.length; ctr++) {
+      var item = vi[ctr];
+      
+      if (item.objectName == "eventCard" && item.event)
+        vo[vo.length] = item.event;
+      else if (item.mediaSource)
+        vo[vo.length] = item.mediaSource;
+    }
+    
+    return vo;
+  }
+  
+  function getRectOfEvent(event) {
+    for (var ctr = 0; ctr < contentItem.children.length; ctr++) {
+      var item = contentItem.children[ctr];
+      if (item.objectName != "eventTimelineElement")
+        continue;
+      
+      var eventCard = GalleryUtility.findChild(item, function(child) {
+        return child.objectName == "eventCard" && child.event == event;
+      });
+      
+      if (eventCard)
+        return GalleryUtility.getRectRelativeTo(eventCard, eventTimeline);
+    }
+    
+    return undefined;
+  }
+  
+  function getRectOfMediaSource(mediaSource) {
+    for (var ctr = 0; ctr < contentItem.children.length; ctr++) {
+      var item = contentItem.children[ctr];
+      if (item.objectName != "eventTimelineElement")
+        continue;
+      
+      var photoComponent = GalleryUtility.findChild(item, function(child) {
+        return child.mediaSource == mediaSource;
+      });
+      
+      if (photoComponent)
+        return GalleryUtility.getRectRelativeTo(photoComponent, eventTimeline);
+    }
+    
+    return undefined;
+  }
   
   orientation: ListView.Vertical
   spacing: gu(1)
@@ -44,6 +103,10 @@ ListView {
   
   delegate: Rectangle {
     id: eventTimelineElement
+    objectName: "eventTimelineElement"
+    
+    property int index: model.index
+    property Event event: model.event
     
     width: eventTimeline.width
     height: elementHeight
@@ -77,6 +140,7 @@ ListView {
     
     EventCard {
       id: eventCard
+      objectName: "eventCard"
       
       anchors.centerIn: parent
       anchors.leftMargin: elementSpacing
@@ -86,7 +150,6 @@ ListView {
       height: eventCardHeight
       
       event: model.event
-      hasBottomSeparator: index != (eventTimeline.model.count - 1)
       
       MouseArea {
         anchors.fill: parent

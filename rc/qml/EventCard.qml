@@ -36,7 +36,7 @@ Rectangle {
     color: textColor
     
     anchors.fill: parent
-    anchors.bottomMargin: 1.0
+    anchors.bottomMargin: 2.0
     
     verticalAlignment: Text.AlignVCenter
     horizontalAlignment: Text.AlignHCenter
@@ -53,7 +53,7 @@ Rectangle {
     anchors.horizontalCenter: parent.horizontalCenter
     
     width: text.width - (parent.anchors.leftMargin + parent.anchors.rightMargin)
-    height: hasBottomSeparator ? 1 : 0
+    height: hasBottomSeparator ? 2 : 0
     
     color: textColor
   }

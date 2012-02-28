@@ -33,6 +33,8 @@
 #include "core/data-source.h"
 #include "photo/photo-metadata.h"
 
+class Event;
+
 typedef DataObjectNumber MediaNumber;
 
 class MediaSource : public DataSource {
@@ -45,12 +47,14 @@ class MediaSource : public DataSource {
   Q_PROPERTY(QDate exposureDate READ exposure_date NOTIFY exposure_date_time_altered)
   Q_PROPERTY(QTime exposureTimeOfDay READ exposure_time_of_day NOTIFY exposure_date_time_altered)
   Q_PROPERTY(int exposure_time_t READ exposure_time_t NOTIFY exposure_date_time_altered)
+  Q_PROPERTY(QVariant event READ QmlFindEvent NOTIFY event_changed)
   
  signals:
   void path_altered();
   void preview_path_altered();
   void orientation_altered();
   void exposure_date_time_altered();
+  void event_changed();
   
  public:
   MediaSource();
@@ -74,6 +78,9 @@ class MediaSource : public DataSource {
   QDate exposure_date() const;
   QTime exposure_time_of_day() const;
   int exposure_time_t() const;
+  
+  Event* FindEvent();
+  QVariant QmlFindEvent();
   
  protected:
   virtual void DestroySource(bool delete_backing, bool as_orphan);

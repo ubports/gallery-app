@@ -23,24 +23,28 @@ QmlEventMarker::QmlEventMarker()
   : DataSource("QmlEventMarker") {
 }
 
-QmlEventMarker::QmlEventMarker(const QDate& date)
-  : DataSource("QmlEventMarker"), date_(date) {
+QmlEventMarker::QmlEventMarker(Event* event)
+  : DataSource("QmlEventMarker"), event_(event) {
 }
 
 void QmlEventMarker::RegisterType() {
   qmlRegisterType<QmlEventMarker>("Gallery", 1, 0, "EventMarker");
 }
 
+QVariant QmlEventMarker::event() const {
+  return QVariant::fromValue(event_);
+}
+
 QDate QmlEventMarker::date() const {
-  return date_;
+  return event_->date();
 }
 
 QDateTime QmlEventMarker::start_date_time() const {
-  return QDateTime(date_);
+  return QDateTime(date());
 }
 
 QDateTime QmlEventMarker::end_date_time() const {
-  return QDateTime(date_, QTime(23, 59, 59, 999));
+  return QDateTime(date(), QTime(23, 59, 59, 999));
 }
 
 void QmlEventMarker::DestroySource(bool destroy_backing, bool as_orphan) {

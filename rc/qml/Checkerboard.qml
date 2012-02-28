@@ -19,10 +19,10 @@
  */
 
 import QtQuick 1.1
+import "GalleryUtility.js" as GalleryUtility
 
 Rectangle {
   id: checkerboard
-  objectName: "checkerboard"
   
   signal activated(variant object, variant objectModel, variant activatedRect)
   
@@ -36,8 +36,7 @@ Rectangle {
   
   property bool inSelectionMode: false
   property bool allowSelection: true
-  property int selectedCount:
-    (model != null) ? model.selectedCount : 0
+  property int selectedCount: (model) ? model.selectedCount : 0
   
   function unselectAll() {
     if (model != null)
@@ -61,27 +60,55 @@ Rectangle {
     }
     return undefined;
   }
-
+  
+  function getRectOfItem(item, relativeTo, adjustForBorder) {
+    var rect = mapToItem(relativeTo, item.x, item.y - grid.contentY);
+    rect.width = item.width;
+    rect.height = item.height;
+    
+    if (adjustForBorder) {
+      // Now we have to adjust for the border inside the delegate.
+      var borderWidth = widthSansStroke - widthWithStroke;
+      var borderHeight = heightSansStroke - heightWithStroke;
+      rect.x += borderWidth / 2;
+      rect.y += borderHeight / 2;
+      rect.width -= borderWidth;
+      rect.height -= borderHeight;
+    }
+    
+    return rect;
+  }
+  
   // Uses getDelegateInstanceAt() to get the delegate instance with the given
   // index, then returns a rect with its coords relative to the given object.
   function getRectOfItemAt(index, relativeTo) {
     var item = getDelegateInstanceAt(index);
-    if (!item)
-      return undefined;
-
-    var rect = mapToItem(relativeTo, item.x, item.y - grid.contentY);
-    rect.width = item.width;
-    rect.height = item.height;
-
-    // Now we have to adjust for the border inside the delegate.
-    var borderWidth = widthSansStroke - widthWithStroke;
-    var borderHeight = heightSansStroke - heightWithStroke;
-    rect.x += borderWidth / 2;
-    rect.y += borderHeight / 2;
-    rect.width -= borderWidth;
-    rect.height -= borderHeight;
-
-    return rect;
+    
+    return (item) ? getRectOfItem(item, relativeTo, true) : undefined;
+  }
+  
+  function getVisibleObjects() {
+    var vi = GalleryUtility.getVisibleItems(grid, grid, function(child) {
+      return child.objectName == "delegateItem"
+    });
+    
+    // return the objects, not the items, to the caller
+    var vo = [];
+    for (var ctr = 0; ctr < vi.length; ctr++)
+      vo[vo.length] = model.getAt(vi[ctr].index);
+    
+    return vo;
+  }
+  
+  function getRectOfObject(object) {
+    for (var ctr = 0; ctr < grid.contentItem.children.length; ctr++) {
+      var item = grid.contentItem.children[ctr];
+      
+      if (item.objectName == "delegateItem" && model.getAt(item.index) == object)
+        return getRectOfItem(item, grid, false);
+    }
+    
+    return undefined;
   }
   
   color: "white"

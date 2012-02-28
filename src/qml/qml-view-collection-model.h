@@ -75,6 +75,8 @@ class QmlViewCollectionModel : public QAbstractListModel {
   
   Q_INVOKABLE int indexOf(QVariant var);
   Q_INVOKABLE QVariant getAt(int index);
+  Q_INVOKABLE void clear();
+  Q_INVOKABLE void add(QVariant var);
   Q_INVOKABLE void unselectAll();
   Q_INVOKABLE void toggleSelection(QVariant var);
   
@@ -102,6 +104,10 @@ class QmlViewCollectionModel : public QAbstractListModel {
   
   // Subclasses should return the DataObject cast and packed in a QVariant
   virtual QVariant VariantFor(DataObject* object) const = 0;
+  
+  // Subclasses should convert from QVariant into appropriate DataObject
+  // subclass.  Return null if unknown type
+  virtual DataObject* FromVariant(QVariant var) const = 0;
   
   // This notifies model subscribers that the element has been added at the
   // particular index ... note that QmlViewCollectionModel monitors

@@ -37,8 +37,9 @@ class QmlEventCollectionModel : public QmlViewCollectionModel {
   
  protected:
   virtual QVariant VariantFor(DataObject *object) const;
+  virtual DataObject* FromVariant(QVariant var) const;
 };
 
-QML_DECLARE_TYPE(QmlEventCollectionModel);
+QML_DECLARE_TYPE(QmlEventCollectionModel)
 
 #endif  // GALLERY_QML_EVENT_COLLECTION_MODEL_H_

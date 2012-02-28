@@ -26,6 +26,7 @@
 #include "media/media-source.h"
 #include "media/media-collection.h"
 #include "util/collections.h"
+#include "util/variants.h"
 
 QmlMediaCollectionModel::QmlMediaCollectionModel(QObject* parent)
   : QmlViewCollectionModel(parent, "mediaSource", NULL) {
@@ -61,4 +62,8 @@ QVariant QmlMediaCollectionModel::VariantFor(DataObject* object) const {
   MediaSource* media_source = qobject_cast<MediaSource*>(object);
   
   return (media_source != NULL) ? QVariant::fromValue(media_source) : QVariant();
+}
+
+DataObject* QmlMediaCollectionModel::FromVariant(QVariant var) const {
+  return UncheckedVariantToObject<MediaSource*>(var);
 }

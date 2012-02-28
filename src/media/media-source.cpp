@@ -19,6 +19,7 @@
 
 #include "media/media-source.h"
 
+#include "event/event-collection.h"
 #include "media/media-collection.h"
 #include "media/preview-manager.h"
 #include "qml/gallery-standard-image-provider.h"
@@ -85,6 +86,14 @@ QTime MediaSource::exposure_time_of_day() const {
 
 int MediaSource::exposure_time_t() const {
   return (int) exposure_date_time().toTime_t();
+}
+
+Event* MediaSource::FindEvent() {
+  return EventCollection::instance()->EventForMediaSource(this);
+}
+
+QVariant MediaSource::QmlFindEvent() {
+  return QVariant::fromValue(FindEvent());
 }
 
 void MediaSource::DestroySource(bool delete_backing, bool as_orphan) {

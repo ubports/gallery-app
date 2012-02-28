@@ -90,6 +90,29 @@ QVariant QmlViewCollectionModel::getAt(int index) {
   return (object != NULL) ? VariantFor(object) : QVariant();
 }
 
+void QmlViewCollectionModel::clear() {
+  StopMonitoring();
+}
+
+void QmlViewCollectionModel::add(QVariant var) {
+  DataObject* object = FromVariant(var);
+  if (object == NULL) {
+    qDebug("Unable to convert variant into appropriate DataObject");
+    
+    return;
+  }
+  
+  if (view_ == NULL) {
+    SelectableViewCollection* view = new SelectableViewCollection("Manual ViewCollection");
+    if (default_comparator_ != NULL)
+      view->SetComparator(default_comparator_);
+    
+    SetBackingViewCollection(view);
+  }
+  
+  view_->Add(object);
+}
+
 void QmlViewCollectionModel::unselectAll() {
   if (view_ != NULL)
     view_->UnselectAll();
@@ -260,12 +283,15 @@ void QmlViewCollectionModel::DisconnectBackingViewCollection() {
     this,
     SLOT(on_contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
   
+  int old_count = view_->Count();
+  if (old_count > 0)
+    beginRemoveRows(QModelIndex(), 0, old_count - 1);
+  
   delete view_;
   view_ = NULL;
   
-  // clear the QAbstractListModel
-  beginRemoveRows(QModelIndex(), 0, rowCount(QModelIndex()));
-  endRemoveRows();
+  if (old_count > 0)
+    endRemoveRows();
 }
 
 SelectableViewCollection* QmlViewCollectionModel::BackingViewCollection() const {

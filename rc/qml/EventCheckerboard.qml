@@ -24,24 +24,7 @@ Checkerboard {
   model: EventOverviewModel {
   }
   
-  delegate: Item {
-    PhotoComponent {
-      anchors.fill: parent
-      
-      visible: modelData.typeName == "MediaSource"
-      
-      mediaSource: (visible) ? modelData.mediaSource : null
-      isCropped: true
-      isPreview: true
-      ownerName: "EventCheckerboard"
-    }
-    
-    EventCard {
-      anchors.fill: parent
-      
-      visible: (event) ? true : false
-      
-      event: (modelData.typeName == "QmlEventMarker") ? modelData.object : null
-    }
+  delegate: EventCheckerboardDelegate {
+    ownerName: "EventCheckerboard"
   }
 }

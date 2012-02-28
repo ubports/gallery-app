@@ -17,40 +17,33 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#ifndef GALLERY_EVENT_H_
-#define GALLERY_EVENT_H_
+import QtQuick 1.1
+import Gallery 1.0
 
-#include <QObject>
-#include <QDate>
-#include <QDeclarativeListProperty>
-#include <QList>
-#include <QtDeclarative>
-
-#include "core/container-source.h"
-#include "media/media-source.h"
-
-class Event : public ContainerSource {
-  Q_OBJECT
-  Q_PROPERTY(QDate date READ date NOTIFY date_altered)
+Item {
+  property alias ownerName: photoComponent.ownerName
+  property alias event: eventCard.event
+  property alias mediaSource: photoComponent.mediaSource
   
- signals:
-  void date_altered();
+  PhotoComponent {
+    id: photoComponent
+    
+    anchors.fill: parent
+    
+    visible: (mediaSource) ? true : false
+    
+    mediaSource: (modelData.typeName == "MediaSource") ? modelData.mediaSource : undefined
+    isCropped: true
+    isPreview: true
+  }
   
- public:
-  Event();
-  explicit Event(const QDate &date);
-  
-  static void RegisterType();
-  
-  const QDate& date() const;
-  
- protected:
-  virtual void DestroySource(bool destroy_backing, bool as_orphan);
-  
- private:
-  QDate date_;
-};
-
-QML_DECLARE_TYPE(Event)
-
-#endif  // GALLERY_EVENT_H_
+  EventCard {
+    id: eventCard
+    
+    anchors.fill: parent
+    
+    visible: (event) ? true : false
+    
+    event: (modelData.typeName == "QmlEventMarker") ? modelData.object : undefined
+  }
+}

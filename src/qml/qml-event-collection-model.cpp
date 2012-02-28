@@ -21,6 +21,7 @@
 
 #include "event/event.h"
 #include "event/event-collection.h"
+#include "util/variants.h"
 
 QmlEventCollectionModel::QmlEventCollectionModel(QObject* parent)
   : QmlViewCollectionModel(parent, "event", NULL) {
@@ -35,4 +36,8 @@ QVariant QmlEventCollectionModel::VariantFor(DataObject *object) const {
   Event* event = qobject_cast<Event*>(object);
   
   return (event != NULL) ? QVariant::fromValue(event) : QVariant();
+}
+
+DataObject* QmlEventCollectionModel::FromVariant(QVariant var) const {
+  return UncheckedVariantToObject<Event*>(var);
 }

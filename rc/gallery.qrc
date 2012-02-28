@@ -35,7 +35,9 @@
     <file>qml/DissolveAnimation.qml</file>
     <file>qml/EventCard.qml</file>
     <file>qml/EventCheckerboard.qml</file>
+    <file>qml/EventCheckerboardDelegate.qml</file>
     <file>qml/EventTimeline.qml</file>
+    <file>qml/EventTimelineTransition.qml</file>
     <file>qml/ExpandAnimation.qml</file>
     <file>qml/FadeInAnimation.qml</file>
     <file>qml/FadeOutAnimation.qml</file>
@@ -46,6 +48,7 @@
     <file>qml/GallerySecondaryPushButton.qml</file>
     <file>qml/GalleryStandardToolbar.qml</file>
     <file>qml/GalleryStatusBar.qml</file>
+    <file>qml/GalleryUtility.js</file>
     <file>qml/MediaSelector.qml</file>
     <file>qml/MoreOperationsToolbarButton.qml</file>
     <file>qml/NavStack.qml</file>

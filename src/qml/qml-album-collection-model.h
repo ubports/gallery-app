@@ -40,6 +40,7 @@ class QmlAlbumCollectionModel : public QmlViewCollectionModel {
   
  protected:
   virtual QVariant VariantFor(DataObject* object) const;
+  virtual DataObject* FromVariant(QVariant var) const;
   
  private slots:
   void on_album_current_page_contents_altered(Album* album);

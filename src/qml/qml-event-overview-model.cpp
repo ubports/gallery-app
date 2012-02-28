@@ -20,8 +20,10 @@
 #include "qml/qml-event-overview-model.h"
 
 #include "core/data-collection.h"
+#include "event/event-collection.h"
 #include "media/media-source.h"
 #include "qml/qml-event-marker.h"
+#include "util/variants.h"
 
 QmlEventOverviewModel::QmlEventOverviewModel(QObject* parent)
   : QmlMediaCollectionModel(parent, Comparator), markers_("QmlEventMarkers") {
@@ -39,10 +41,14 @@ void QmlEventOverviewModel::RegisterType() {
 
 QVariant QmlEventOverviewModel::VariantFor(DataObject* object) const {
   QmlEventMarker* marker = qobject_cast<QmlEventMarker*>(object);
-  if (marker != NULL)
-    return QVariant::fromValue(marker);
   
-  return QmlMediaCollectionModel::VariantFor(object);
+  return (marker != NULL) ? QVariant::fromValue(marker) : QmlMediaCollectionModel::VariantFor(object);
+}
+
+DataObject* QmlEventOverviewModel::FromVariant(QVariant var) const {
+  DataObject* object = UncheckedVariantToObject<QmlEventMarker*>(var);
+  
+  return (object != NULL) ? object : QmlMediaCollectionModel::FromVariant(var);
 }
 
 void QmlEventOverviewModel::notify_backing_collection_changed() {
@@ -62,20 +68,20 @@ void QmlEventOverviewModel::MonitorNewViewCollection() {
     BackingViewCollection(),
     SIGNAL(contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
     this,
-    SLOT(on_contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)));
+    SLOT(on_event_overview_contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)));
   
   QObject::connect(
     BackingViewCollection(),
     SIGNAL(selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
     this,
-    SLOT(on_selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)));
+    SLOT(on_event_overview_selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)));
   
   // seed existing contents with EventMarkers
-  on_contents_altered(&BackingViewCollection()->GetAsSet(), NULL);
+  on_event_overview_contents_altered(&BackingViewCollection()->GetAsSet(), NULL);
 }
 
-void QmlEventOverviewModel::on_contents_altered(const QSet<DataObject*>* added,
-  const QSet<DataObject*>* removed) {
+void QmlEventOverviewModel::on_event_overview_contents_altered(
+  const QSet<DataObject*>* added, const QSet<DataObject*>* removed) {
   SelectableViewCollection* view = BackingViewCollection();
   
   if (added != NULL) {
@@ -86,11 +92,13 @@ void QmlEventOverviewModel::on_contents_altered(const QSet<DataObject*>* added,
         continue;
       
       QDate source_date = source->exposure_date_time().date();
+      Event* event = EventCollection::instance()->EventForDate(source_date);
+      Q_ASSERT(event != NULL);
       
       int index = view->IndexOf(source);
       if (index == 0) {
         // place EventMarker for first photo
-        QmlEventMarker* marker = new QmlEventMarker(source_date);
+        QmlEventMarker* marker = new QmlEventMarker(event);
         markers_.Add(marker);
         
         view->Add(marker);
@@ -104,7 +112,7 @@ void QmlEventOverviewModel::on_contents_altered(const QSet<DataObject*>* added,
       
       // if immediately prior photo is of a different day, place an EventMarker
       if (earlier->exposure_date_time().date() != source_date) {
-        QmlEventMarker* marker = new QmlEventMarker(source_date);
+        QmlEventMarker* marker = new QmlEventMarker(event);
         markers_.Add(marker);
         
         view->Add(marker);
@@ -117,8 +125,8 @@ void QmlEventOverviewModel::on_contents_altered(const QSet<DataObject*>* added,
   }
 }
 
-void QmlEventOverviewModel::on_selection_altered(const QSet<DataObject*>* selected,
-  const QSet<DataObject*>* unselected) {
+void QmlEventOverviewModel::on_event_overview_selection_altered(
+  const QSet<DataObject*>* selected, const QSet<DataObject*>* unselected) {
   // if an EventMarker is selected, select all photos in that date
   SelectUnselectEvent(selected, true);
   

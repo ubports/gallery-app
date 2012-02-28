@@ -117,7 +117,9 @@ OTHER_FILES += \
 	rc/qml/DissolveAnimation.qml \
 	rc/qml/EventCard.qml \
 	rc/qml/EventCheckerboard.qml \
+	rc/qml/EventCheckerboardDelegate.qml \
 	rc/qml/EventTimeline.qml \
+	rc/qml/EventTimelineTransition.qml \
 	rc/qml/ExpandAnimation.qml \
 	rc/qml/FadeInAnimation.qml \
 	rc/qml/FadeOutAnimation.qml \
@@ -128,6 +130,7 @@ OTHER_FILES += \
 	rc/qml/GallerySecondaryPushButton.qml \
 	rc/qml/GalleryStandardToolbar.qml \
 	rc/qml/GalleryStatusBar.qml \
+	rc/qml/GalleryUtility.js \
 	rc/qml/MediaSelector.qml \
 	rc/qml/MoreOperationsToolbarButton.qml \
 	rc/qml/NavStack.qml \
