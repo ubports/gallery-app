@@ -166,12 +166,10 @@ Rectangle {
 
     hasPopupMenu: false
 
-    toolbarIsTranslucent: true
-    toolbarOpacity: 0.8 /* override default opacity when translucent == true of 0.9
-                           for better compliance with the spec */
+    toolbarsAreTranslucent: true
 
-    leftNavigationButtonVisible: !imagePager.atXBeginning
-    rightNavigationButtonVisible: !imagePager.atXEnd
+    hasLeftNavigationButton: !imagePager.atXBeginning
+    hasRightNavigationButton: !imagePager.atXEnd
 
     onLeftNavigationButtonPressed: imagePager.pageBack()
     onRightNavigationButtonPressed: imagePager.pageForward()

@@ -111,7 +111,6 @@ OTHER_FILES += \
 	rc/qml/AlbumPreviewComponent.qml \
 	rc/qml/AlbumViewer.qml \
 	rc/qml/AlbumViewerTransition.qml \
-	rc/qml/AlbumViewMasthead.qml \
 	rc/qml/BinaryTabGroup.qml \
 	rc/qml/Checkerboard.qml \
 	rc/qml/DissolveAnimation.qml \
@@ -126,6 +125,7 @@ OTHER_FILES += \
 	rc/qml/GalleryOverviewNavigationBar.qml \
 	rc/qml/GalleryPrimaryPushButton.qml \
 	rc/qml/GallerySecondaryPushButton.qml \
+	rc/qml/GalleryStandardNavbar.qml \
 	rc/qml/GalleryStandardToolbar.qml \
 	rc/qml/GalleryStatusBar.qml \
 	rc/qml/MediaSelector.qml \

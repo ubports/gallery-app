@@ -29,6 +29,8 @@ Rectangle {
   
   Row {
     anchors.centerIn: parent
+
+    spacing: gu(5)
     
     Repeater {
       id: pageIndicatorRepeater
@@ -40,12 +42,10 @@ Rectangle {
       delegate: Item {
         property int pageNumber: index
         
-        width: gu(6)
-        height: pageIndicator.height
-        
+        width: childrenRect.width
+        height: childrenRect.height
+
         Text {
-          anchors.fill: parent
-          
           // bullet character
           text: "\u2022"
           
@@ -54,8 +54,6 @@ Rectangle {
           font.family: "Ubuntu"
           font.bold: true
           font.pixelSize: gu(3.5)
-          
-          horizontalAlignment: Text.AlignHCenter
         }
         
         MouseArea {

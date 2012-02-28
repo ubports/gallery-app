@@ -24,24 +24,36 @@ Item {
   id: wrapper
 
   property int fadeDuration: 200
-  property bool hasPopupMenu: true
   property alias autoHideWait: autoHideTimer.interval // 0 to disable auto-hide.
+
+  property bool hasPopupMenu: true
+  property bool hasLeftNavigationButton: false
+  property bool hasRightNavigationButton: false
+
+  property bool toolbarsAreTranslucent: true
+
+  property string navbarTitle
+  property bool navbarHasStateButton: false
+
+  property bool toolbarHasFullIconSet: true
+
+  property bool inSelectionMode: false
+
+  // Pass-throughs from the navbar.
+  property alias navbarHeight: navbar.height
+  property alias navbarStateButtonIconFilename: navbar.stateButtonIconFilename
+  signal returnButtonPressed()
+  signal stateButtonPressed()
+  signal selectionDoneButtonPressed()
 
   // Pass-throughs from the toolbar.
   property alias toolbarHeight: toolbar.height
-  property alias toolbarIsTranslucent: toolbar.isTranslucent
-  property alias toolbarOpacity: toolbar.opacity
-  property alias toolbarBackground: toolbar.background
-  property alias toolbarHasFullIconSet: toolbar.hasFullIconSet
-  property alias toolbarHasReturnButton: toolbar.hasReturnButton
-  property alias toolbarUseContrastOnWhiteColorScheme: toolbar.useContrastOnWhiteColorScheme
-  signal trashOperationButtonPressed()
-  signal shareOperationsButtonPressed()
-  signal returnButtonPressed()
+  property alias toolbarHasPageIndicator: toolbar.hasPageIndicator
+  property alias toolbarPageIndicatorAlbum: toolbar.pageIndicatorAlbum
+  signal pageIndicatorPageSelected(int pageNumber)
+  // TODO: any menu signals.
 
   // Pass-throughs from the left/right nav buttons.
-  property alias leftNavigationButtonVisible: leftNavButton.visible
-  property alias rightNavigationButtonVisible: rightNavButton.visible
   signal leftNavigationButtonPressed()
   signal rightNavigationButtonPressed()
 
@@ -118,6 +130,8 @@ Item {
 
     is_forward: false
 
+    visible: wrapper.hasLeftNavigationButton && !wrapper.inSelectionMode
+
     x: gu(1.5)
     y: 2 * parent.height / 3
 
@@ -132,7 +146,9 @@ Item {
 
     is_forward: true
 
-    x: parent.width - width - 12
+    visible: wrapper.hasRightNavigationButton && !wrapper.inSelectionMode
+
+    x: parent.width - width - gu(1.5)
     y: 2 * parent.height / 3
 
     onPressed: {
@@ -173,10 +189,37 @@ Item {
     }
   }
 
+  GalleryStandardNavbar {
+    id: navbar
+
+    anchors.top: parent.top
+
+    background: (!wrapper.inSelectionMode ? "white" : "lightBlue")
+    isTranslucent: (!wrapper.inSelectionMode ? wrapper.toolbarsAreTranslucent : false)
+
+    hasReturnButton: !wrapper.inSelectionMode
+    hasStateButton: wrapper.navbarHasStateButton && !wrapper.inSelectionMode
+    hasSelectionDoneButton: wrapper.inSelectionMode
+
+    titleText: (!wrapper.inSelectionMode ? wrapper.navbarTitle : "")
+
+    onReturnButtonPressed: wrapper.returnButtonPressed()
+    onStateButtonPressed: wrapper.stateButtonPressed()
+    onSelectionDoneButtonPressed: wrapper.selectionDoneButtonPressed()
+  }
+
   GalleryStandardToolbar {
     id: toolbar
 
     anchors.bottom: parent.bottom
+
+    background: (!wrapper.inSelectionMode ? "white" : "lightBlue")
+    isTranslucent: wrapper.toolbarsAreTranslucent
+
+    hasFullIconSet: wrapper.inSelectionMode || wrapper.toolbarHasFullIconSet
+    useContrastOnWhiteColorScheme: wrapper.inSelectionMode
+
+    onPageIndicatorPageSelected: wrapper.pageIndicatorPageSelected(pageNumber)
 
     onAlbumOperationsButtonPressed: albumPicker.flipVisibility()
 
@@ -184,10 +227,6 @@ Item {
       if (hasPopupMenu)
         menu.flipVisibility();
     }
-
-    onTrashOperationButtonPressed: wrapper.trashOperationButtonPressed()
-    onShareOperationsButtonPressed: wrapper.shareOperationsButtonPressed()
-    onReturnButtonPressed: wrapper.returnButtonPressed()
   }
 
   Timer {

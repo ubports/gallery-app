@@ -55,7 +55,7 @@ Rectangle {
     anchors.left: parent.left
     anchors.right: parent.right
     
-    addCreateOperationButtonVisible: !eventsCheckerboard.inSelectionMode
+    visible: !eventsCheckerboard.inSelectionMode
 
     onAddCreateOperationButtonPressed: {
       if (albumViewSwitcher.state == "tab0_active")
@@ -74,49 +74,12 @@ Rectangle {
       
       state: "tab1_active"
       
-      visible: !eventsCheckerboard.inSelectionMode
-      
       onTab0_activated: {
         overview.state = "albumView";
       }
       
       onTab1_activated: {
         overview.state = "eventView"
-      }
-    }
-    
-    GallerySecondaryPushButton {
-      id: deselect
-      objectName: "deselect"
-      
-      anchors.right: cancelSelecting.left
-      anchors.rightMargin: gu(2)
-      anchors.verticalCenter: parent.verticalCenter
-
-      title: "deselect"
-
-      visible: eventsCheckerboard.selectedCount > 0
-      
-      onPressed: {
-        eventsCheckerboard.unselectAll();
-      }
-    }
-    
-    GalleryPrimaryPushButton {
-      id: cancelSelecting
-      objectName: "cancelSelecting"
-      
-      anchors.right: parent.right
-      anchors.rightMargin: gu(2)
-      anchors.verticalCenter: parent.verticalCenter
-
-      title: "done"
-
-      visible: eventsCheckerboard.inSelectionMode
-      
-      onPressed: {
-        eventsCheckerboard.state = "normal";
-        eventsCheckerboard.unselectAll();
       }
     }
   }
@@ -209,19 +172,6 @@ Rectangle {
     onActivated: navStack.switchToAlbumViewer(object, activatedRect)
   }
 
-  GalleryStatusBar {
-    id: statusBar
-    objectName: "statusBar"
-    
-    z: 10
-    anchors.bottom: parent.bottom
-
-    visible: (eventsCheckerboard.inSelectionMode &&
-      eventsCheckerboard.selectedCount == 0)
-    
-    statusText: "Select photos or movieclip(s)"
-  }
-
   ViewerChrome {
     id: chrome
 
@@ -229,19 +179,17 @@ Rectangle {
     anchors.fill: parent
 
     fadeDuration: 0
-
     autoHideWait: 0
 
-    leftNavigationButtonVisible: false
-    rightNavigationButtonVisible: false
     hasPopupMenu: false
 
-    toolbarHasReturnButton: false
-    toolbarIsTranslucent: true
-    toolbarBackground: "lightBlue"
+    inSelectionMode: true
+    visible: eventsCheckerboard.inSelectionMode
 
-    state: (eventsCheckerboard.inSelectionMode
-      && eventsCheckerboard.selectedCount > 0) ? "shown" : "hidden"
+    onSelectionDoneButtonPressed: {
+      eventsCheckerboard.state = "normal";
+      eventsCheckerboard.unselectAll();
+    }
 
     onNewAlbumPicked: {
       eventsCheckerboard.model.createAlbumFromSelected();
