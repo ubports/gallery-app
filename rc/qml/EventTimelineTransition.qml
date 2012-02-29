@@ -18,22 +18,28 @@
  */
 
 import QtQuick 1.1
+import Gallery 1.0
 
 Rectangle {
   id: eventTimelineTransition
   
-  property alias model: repeater.model
+  property EventCheckerboard checkerboard
+  property EventTimeline timeline
+  
   property Component delegate
   
+  property int duration: 500
+  
+  // readonly
+  // TODO: Make constants used from Checkerboard or EventCheckerboard
   property int widthSansStroke: 206
   property int heightSansStroke: 156
   property int widthWithStroke: 198
   property int heightWithStroke: 148
   
+  // internal
+  property EventOverviewModel model: EventOverviewModel {}
   property int xMax: width / widthSansStroke
-  
-  property EventCheckerboard checkerboard
-  property EventTimeline timeline
   
   states: [
     State {
@@ -47,44 +53,56 @@ Rectangle {
   
   state: "grid"
   
+  // public
   function toTimeline() {
-    if (!checkerboard) {
-      console.log("checkerboard is undefined");
-      
+    start("grid", "timeline");
+  }
+  
+  // public
+  function toOverview() {
+    start("timeline", "grid");
+  }
+  
+  // internal
+  function start(starting, ending) {
+    if (!checkerboard || !timeline)
       return;
-    }
     
     checkerboard.visible = false;
-    visible = true;
+    timeline.visible = false;
     
     // clear model before changing state
     model.clear();
     
-    state = "grid";
+    state = starting;
     
-    var vc = checkerboard.getVisibleObjects();
-    var vt = timeline.getVisibleObjects();
+    var vt = timeline.getVisibleMediaSources();
+    var vc = checkerboard.getVisibleMediaSources();
     
-    // populate with items visible in the checkerboard; they're locations will
-    // be determined as the delegates are created
-    for (var ctr = 0; ctr < vc.length; ctr++)
-      model.add(vc[ctr]);
+    // populate with items visible in the timeline; their locations will be
+    // determined as the delegates are created
+    for (var ctr = 0; ctr < vt.length; ctr++)
+      model.add(vt[ctr]);
     
-    // add items visible in the timeline but not visible in the checkerboard;
-    // these will fly in from off-screen from the appropriate direction
-    for (var ctr = 0; ctr < vt.length; ctr++) {
-      if (vc.indexOf(vt[ctr]) == -1)
-        model.add(vt[ctr]);
+    // add items visible in the checkerboard but not in the timeline; they
+    // will emerge from their appropiate event card and dissolve in as they
+    // fly into position
+    for (var ctr = 0; ctr < vc.length; ctr++) {
+      if (vt.indexOf(vc[ctr]) == -1)
+        model.add(vc[ctr]);
     }
     
     // start the transition
-    state = "timeline";
+    visible = true;
+    state = ending;
   }
   
   Repeater {
     id: repeater
     
     anchors.fill: parent
+    
+    model: eventTimelineTransition.model
     
     delegate: Rectangle {
       id: cell
@@ -95,7 +113,7 @@ Rectangle {
       property int gridY
       property int timelineX
       property int timelineY
-      property bool isEvent: false
+      property bool isEvent: model.typeName == "Event"
       property bool hidesUnderEvent: false
       
       width: widthSansStroke
@@ -138,7 +156,7 @@ Rectangle {
             PropertyAnimation {
               properties: "x,y,opacity"
               easing.type: Easing.InOutQuad
-              duration: 500
+              duration: eventTimelineTransition.duration
             }
             
             ScriptAction {
@@ -158,7 +176,7 @@ Rectangle {
             PropertyAnimation {
               properties: "x,y,opacity"
               easing.type: Easing.InOutQuad
-              duration: 500
+              duration: eventTimelineTransition.duration
             }
             
             ScriptAction {
@@ -185,24 +203,25 @@ Rectangle {
             // place photos that are not visible in the checkerboard
             // (but visible in the timeline) off-screen so they fly into place
             gridX = (index % xMax) * widthSansStroke;
-            gridY = eventTimeline.y + eventTimeline.height;
+            gridY = eventTimeline.y + (Math.floor(index / xMax) * heightSansStroke)
           } else {
             console.log("Unable to find index for", model.object);
+            visible = false;
           }
         }
         
-        // Formula for deriving final location:
+        // Formula for deriving timeline location:
         // 1. If Event, fly to EventCard
         // 2. If Photo and visible in Event Timeline, fly to PhotoComponent
         // 3. If not visible in Event Timeline, fly to assoc. EventCard
         
-        rect = (model.mediaSource) ? timeline.getRectOfMediaSource(model.mediaSource) : undefined;
+        rect = !isEvent ? timeline.getRectOfMediaSource(model.mediaSource) : undefined;
         if (!rect) {
-          if (model.mediaSource) {
+          if (!isEvent) {
             rect = timeline.getRectOfEvent(model.mediaSource.event);
             hidesUnderEvent = true;
           } else {
-            rect = timeline.getRectOfEvent(model.object.event);
+            rect = timeline.getRectOfEvent(model.object);
           }
         }
         
@@ -210,9 +229,8 @@ Rectangle {
           timelineX = rect.x;
           timelineY = rect.y;
         } else {
-          //console.log("using fake timeline coords for", model.object);
-          timelineX = 1600;
-          timelineY = 1600;
+          console.log("Unable to find timeline location of", model.object);
+          visible = false;
         }
         
         // place in starting location according to state

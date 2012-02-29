@@ -39,7 +39,6 @@
 #include "qml/qml-album-page-model.h"
 #include "qml/qml-event-collection-model.h"
 #include "qml/qml-event-overview-model.h"
-#include "qml/qml-event-marker.h"
 #include "qml/qml-media-collection-model.h"
 #include "qml/qml-stack.h"
 
@@ -66,7 +65,6 @@ int main(int argc, char *argv[]) {
   QmlAlbumPageModel::RegisterType();
   QmlEventCollectionModel::RegisterType();
   QmlEventOverviewModel::RegisterType();
-  QmlEventMarker::RegisterType();
   QmlMediaCollectionModel::RegisterType();
   QmlStack::RegisterType();
   

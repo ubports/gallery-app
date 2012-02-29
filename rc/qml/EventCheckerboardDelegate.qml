@@ -44,6 +44,6 @@ Item {
     
     visible: (event) ? true : false
     
-    event: (modelData.typeName == "QmlEventMarker") ? modelData.object : undefined
+    event: (modelData.typeName == "Event") ? modelData.object : undefined
   }
 }

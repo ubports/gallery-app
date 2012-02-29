@@ -19,8 +19,32 @@
 
 import QtQuick 1.1
 import Gallery 1.0
+import "GalleryUtility.js" as GalleryUtility
 
 Checkerboard {
+  id: eventCheckerboard
+  
+  function getVisibleMediaSources() {
+    var vd = getVisibleDelegates();
+    
+    // return the objects, not the items, to the caller
+    var vo = [];
+    for (var ctr = 0; ctr < vd.length; ctr++) {
+      var item = vd[ctr];
+      
+      if (!item.event)
+        vo[vo.length] = item.mediaSource;
+    }
+    
+    return vo;
+  }
+  
+  function getRectOfObject(object) {
+    var index = model.indexOf(object);
+    
+    return (index >= 0) ? getRectOfItemAt(index, eventCheckerboard) : undefined;
+  }
+  
   model: EventOverviewModel {
   }
   

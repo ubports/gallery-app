@@ -172,9 +172,6 @@ Rectangle {
       checkerboard: eventsCheckerboard
       timeline: eventTimeline
       
-      model: EventOverviewModel {
-      }
-      
       delegate: EventCheckerboardDelegate {
         ownerName: "EventTimelineTransition"
       }
@@ -190,8 +187,7 @@ Rectangle {
       
       onActivated: {
         // Event marker
-        visible = false;
-        eventsCheckerboard.visible = true;
+        eventTimelineTransition.toOverview();
       }
     }
   }

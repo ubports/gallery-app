@@ -35,26 +35,14 @@ ListView {
   
   property int headTailCount: 3
   
-  function getVisibleObjects() {
+  function getVisibleMediaSources() {
     var vi = GalleryUtility.getVisibleItems(eventTimeline, eventTimeline, function(child) {
-      if (child.objectName == "eventCard" && child.event)
-        return true;
-      
-      if (child.mediaSource)
-        return true;
-      
-      return false;
+      return child.objectName != "eventCard" && child.mediaSource;
     });
     
     var vo = [];
-    for (var ctr = 0; ctr < vi.length; ctr++) {
-      var item = vi[ctr];
-      
-      if (item.objectName == "eventCard" && item.event)
-        vo[vo.length] = item.event;
-      else if (item.mediaSource)
-        vo[vo.length] = item.mediaSource;
-    }
+    for (var ctr = 0; ctr < vi.length; ctr++)
+      vo[vo.length] = vi[ctr].mediaSource;
     
     return vo;
   }

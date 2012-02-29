@@ -20,19 +20,15 @@
 #include "qml/qml-event-overview-model.h"
 
 #include "core/data-collection.h"
+#include "event/event.h"
 #include "event/event-collection.h"
 #include "media/media-source.h"
-#include "qml/qml-event-marker.h"
 #include "util/variants.h"
 
 QmlEventOverviewModel::QmlEventOverviewModel(QObject* parent)
-  : QmlMediaCollectionModel(parent, Comparator), markers_("QmlEventMarkers") {
+  : QmlMediaCollectionModel(parent, Comparator) {
   // initialize ViewCollection as it stands now with EventMarkers
   MonitorNewViewCollection();
-}
-
-QmlEventOverviewModel::~QmlEventOverviewModel() {
-  markers_.DestroyAll(false, true);
 }
 
 void QmlEventOverviewModel::RegisterType() {
@@ -40,13 +36,13 @@ void QmlEventOverviewModel::RegisterType() {
 }
 
 QVariant QmlEventOverviewModel::VariantFor(DataObject* object) const {
-  QmlEventMarker* marker = qobject_cast<QmlEventMarker*>(object);
+  Event* event = qobject_cast<Event*>(object);
   
-  return (marker != NULL) ? QVariant::fromValue(marker) : QmlMediaCollectionModel::VariantFor(object);
+  return (event != NULL) ? QVariant::fromValue(event) : QmlMediaCollectionModel::VariantFor(object);
 }
 
 DataObject* QmlEventOverviewModel::FromVariant(QVariant var) const {
-  DataObject* object = UncheckedVariantToObject<QmlEventMarker*>(var);
+  DataObject* object = UncheckedVariantToObject<Event*>(var);
   
   return (object != NULL) ? object : QmlMediaCollectionModel::FromVariant(var);
 }
@@ -60,9 +56,6 @@ void QmlEventOverviewModel::notify_backing_collection_changed() {
 void QmlEventOverviewModel::MonitorNewViewCollection() {
   if (BackingViewCollection() == NULL)
     return;
-  
-  // destroy existing markers
-  markers_.DestroyAll(true, true);
   
   QObject::connect(
     BackingViewCollection(),
@@ -97,11 +90,8 @@ void QmlEventOverviewModel::on_event_overview_contents_altered(
       
       int index = view->IndexOf(source);
       if (index == 0) {
-        // place EventMarker for first photo
-        QmlEventMarker* marker = new QmlEventMarker(event);
-        markers_.Add(marker);
-        
-        view->Add(marker);
+        // place Event for first photo
+        view->Add(event);
         
         continue;
       }
@@ -111,12 +101,8 @@ void QmlEventOverviewModel::on_event_overview_contents_altered(
         continue;
       
       // if immediately prior photo is of a different day, place an EventMarker
-      if (earlier->exposure_date_time().date() != source_date) {
-        QmlEventMarker* marker = new QmlEventMarker(event);
-        markers_.Add(marker);
-        
-        view->Add(marker);
-      }
+      if (earlier->exposure_date_time().date() != source_date)
+        view->Add(event);
     }
   }
   
@@ -152,11 +138,11 @@ void QmlEventOverviewModel::SelectUnselectEvent(const QSet<DataObject*>* toggled
   // TODO: Select/Unselect in bulk operations for efficiency
   DataObject* object;
   foreach (object, *toggled) {
-    QmlEventMarker* marker = qobject_cast<QmlEventMarker*>(object);
-    if (marker == NULL)
+    Event* event = qobject_cast<Event*>(object);
+    if (event == NULL)
       continue;
     
-    int index = view->IndexOf(marker);
+    int index = view->IndexOf(event);
     for (int ctr = index + 1; ctr < count; ctr++) {
       MediaSource* media = qobject_cast<MediaSource*>(view->GetAt(ctr));
       if (media == NULL)
@@ -188,9 +174,9 @@ QDateTime QmlEventOverviewModel::ObjectDateTime(DataObject* object) {
   if (media != NULL)
     return media->exposure_date_time();
   
-  QmlEventMarker* marker = qobject_cast<QmlEventMarker*>(object);
-  if (marker != NULL)
-    return marker->end_date_time();
+  Event* event = qobject_cast<Event*>(object);
+  if (event != NULL)
+    return event->end_date_time();
   
   return QDateTime();
 }

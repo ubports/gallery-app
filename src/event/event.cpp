@@ -39,6 +39,14 @@ const QDate& Event::date() const {
   return date_;
 }
 
+QDateTime Event::start_date_time() const {
+  return QDateTime(date());
+}
+
+QDateTime Event::end_date_time() const {
+  return QDateTime(date(), QTime(23, 59, 59, 999));
+}
+
 void Event::DestroySource(bool destroy_backing, bool as_orphan) {
   // Event is a virtual DataSource generated as a result of MediaSources added
   // and removed from the system, so nothing to destroy

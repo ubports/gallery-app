@@ -87,28 +87,17 @@ Rectangle {
     return (item) ? getRectOfItem(item, relativeTo, true) : undefined;
   }
   
-  function getVisibleObjects() {
+  function getVisibleDelegates() {
     var vi = GalleryUtility.getVisibleItems(grid, grid, function(child) {
       return child.objectName == "delegateItem"
     });
     
-    // return the objects, not the items, to the caller
-    var vo = [];
+    // return the delegates provided by host, not internal delegate
+    var vd = [];
     for (var ctr = 0; ctr < vi.length; ctr++)
-      vo[vo.length] = model.getAt(vi[ctr].index);
+      vd[vd.length] = vi[ctr].item;
     
-    return vo;
-  }
-  
-  function getRectOfObject(object) {
-    for (var ctr = 0; ctr < grid.contentItem.children.length; ctr++) {
-      var item = grid.contentItem.children[ctr];
-      
-      if (item.objectName == "delegateItem" && model.getAt(item.index) == object)
-        return getRectOfItem(item, grid, false);
-    }
-    
-    return undefined;
+    return vd;
   }
   
   color: "white"
@@ -148,7 +137,8 @@ Rectangle {
       // This is necessary to expose the index property externally, like for
       // getDelegateInstanceAt() above.
       property int index: model.index
-
+      property Item item: loader.item
+      
       Rectangle {
         width: widthSansStroke
         height: heightSansStroke

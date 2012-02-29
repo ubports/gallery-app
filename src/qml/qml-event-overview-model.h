@@ -37,7 +37,6 @@ class QmlEventOverviewModel : public QmlMediaCollectionModel {
   
  public:
   QmlEventOverviewModel(QObject* parent = NULL);
-  virtual ~QmlEventOverviewModel();
   
   static void RegisterType();
   
@@ -54,8 +53,6 @@ class QmlEventOverviewModel : public QmlMediaCollectionModel {
     const QSet<DataObject *> *removed);
   
  private:
-  SourceCollection markers_;
-  
   static bool Comparator(DataObject* a, DataObject* b);
   static QDateTime ObjectDateTime(DataObject* object);
   
