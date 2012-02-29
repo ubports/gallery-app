@@ -31,6 +31,11 @@
 
 class QmlMediaCollectionModel : public QmlViewCollectionModel {
   Q_OBJECT
+  Q_PROPERTY(bool monitored READ monitored WRITE set_monitored
+    NOTIFY monitoring_changed)
+  
+ signals:
+  void monitoring_changed();
   
  public:
   QmlMediaCollectionModel(QObject* parent = NULL);
@@ -40,11 +45,14 @@ class QmlMediaCollectionModel : public QmlViewCollectionModel {
   
   Q_INVOKABLE QVariant createAlbumFromSelected();
   
+  bool monitored() const;
+  void set_monitored(bool monitor);
+  
  protected:
   virtual QVariant VariantFor(DataObject* object) const;
   virtual DataObject* FromVariant(QVariant var) const;
 };
 
-QML_DECLARE_TYPE(QmlMediaCollectionModel);
+QML_DECLARE_TYPE(QmlMediaCollectionModel)
 
 #endif  // GALLERY_QML_MEDIA_COLLECTION_MODEL_H_

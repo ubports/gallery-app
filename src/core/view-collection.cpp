@@ -56,6 +56,10 @@ void ViewCollection::MonitorDataCollection(const DataCollection* collection,
   on_monitored_contents_altered(&all, NULL);
 }
 
+bool ViewCollection::IsMonitoring() const {
+  return monitoring_ != NULL;
+}
+
 void ViewCollection::notify_ordering_altered() {
   if (monitor_ordering_)
     qWarning("ViewCollection monitoring a DataCollection's ordering changed "

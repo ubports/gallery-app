@@ -30,13 +30,11 @@
 
 QmlMediaCollectionModel::QmlMediaCollectionModel(QObject* parent)
   : QmlViewCollectionModel(parent, "mediaSource", NULL) {
-  MonitorSourceCollection(MediaCollection::instance());
 }
 
 QmlMediaCollectionModel::QmlMediaCollectionModel(QObject* parent,
   DataObjectComparator default_comparator)
   : QmlViewCollectionModel(parent, "mediaSource", default_comparator) {
-  MonitorSourceCollection(MediaCollection::instance());
 }
 
 void QmlMediaCollectionModel::RegisterType() {
@@ -56,6 +54,22 @@ QVariant QmlMediaCollectionModel::createAlbumFromSelected() {
   AlbumCollection::instance()->Add(album);
   
   return QVariant::fromValue(album);
+}
+
+bool QmlMediaCollectionModel::monitored() const {
+  return IsMonitoring();
+}
+
+void QmlMediaCollectionModel::set_monitored(bool monitor) {
+  if (IsMonitoring() == monitor)
+    return;
+  
+  if (monitor)
+    MonitorSourceCollection(MediaCollection::instance());
+  else
+    StopMonitoring();
+  
+  monitoring_changed();
 }
 
 QVariant QmlMediaCollectionModel::VariantFor(DataObject* object) const {

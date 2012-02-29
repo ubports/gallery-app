@@ -27,7 +27,7 @@
 
 QmlEventOverviewModel::QmlEventOverviewModel(QObject* parent)
   : QmlMediaCollectionModel(parent, Comparator) {
-  // initialize ViewCollection as it stands now with EventMarkers
+  // initialize ViewCollection as it stands now with Events
   MonitorNewViewCollection();
 }
 
@@ -69,7 +69,7 @@ void QmlEventOverviewModel::MonitorNewViewCollection() {
     this,
     SLOT(on_event_overview_selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)));
   
-  // seed existing contents with EventMarkers
+  // seed existing contents with Events
   on_event_overview_contents_altered(&BackingViewCollection()->GetAsSet(), NULL);
 }
 
@@ -100,23 +100,23 @@ void QmlEventOverviewModel::on_event_overview_contents_altered(
       if (earlier == NULL)
         continue;
       
-      // if immediately prior photo is of a different day, place an EventMarker
+      // if immediately prior photo is of a different day, place its Event
       if (earlier->exposure_date_time().date() != source_date)
         view->Add(event);
     }
   }
   
-  // TODO: Remove EventMarkers as all photos for them are removed
+  // TODO: Remove Events as all photos for them are removed
   if (removed != NULL) {
   }
 }
 
 void QmlEventOverviewModel::on_event_overview_selection_altered(
   const QSet<DataObject*>* selected, const QSet<DataObject*>* unselected) {
-  // if an EventMarker is selected, select all photos in that date
+  // if an Event is selected, select all photos in that date
   SelectUnselectEvent(selected, true);
   
-  // if an EventMarker is unselected, unselect all photos in that date
+  // if an Event is unselected, unselect all photos in that date
   SelectUnselectEvent(unselected, false);
 }
 
@@ -128,12 +128,12 @@ void QmlEventOverviewModel::SelectUnselectEvent(const QSet<DataObject*>* toggled
   SelectableViewCollection* view = BackingViewCollection();
   int count = view->Count();
   
-  // Walk the toggle group looking for EventMarker's; when found, walk all the
+  // Walk the toggle group looking for Event's; when found, walk all the
   // MediaSources that follow and select or unselect them; when another
-  // EventMarker is found (or end of list), exit
+  // Event is found (or end of list), exit
   //
   // Note that this signal is not reentrant because the list is searched only
-  // for EventMarkers and only toggles MediaSources
+  // for Events and only toggles MediaSources
   //
   // TODO: Select/Unselect in bulk operations for efficiency
   DataObject* object;
@@ -165,7 +165,7 @@ bool QmlEventOverviewModel::Comparator(DataObject* a, DataObject* b) {
   return (atime != btime) ? btime < atime : DataCollection::DefaultDataObjectComparator(a, b);
 }
 
-// Since items in the list can be either a MediaSource or an EventMarker,
+// Since items in the list can be either a MediaSource or an Event,
 // determine dynamically and compare.  Since going in reverse chronological order,
 // use the event's end date/time for comparison (to place it before everything
 // else inside of it)

@@ -318,7 +318,7 @@ void QmlViewCollectionModel::MonitorContainerSource(ContainerSource* container) 
 }
 
 bool QmlViewCollectionModel::IsMonitoring() const {
-  return view_ != NULL;
+  return view_ != NULL && view_->IsMonitoring();
 }
 
 void QmlViewCollectionModel::StopMonitoring() {

@@ -55,6 +55,7 @@ public:
   // DataCollection) will hold DataSources of varied finalized types.
   void MonitorDataCollection(const DataCollection* collection, SourceFilter filter,
     bool monitor_ordering);
+  bool IsMonitoring() const;
   
  protected:
   virtual void notify_ordering_altered();

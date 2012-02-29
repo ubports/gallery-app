@@ -80,8 +80,8 @@ void Album::addMediaSource(QVariant vmedia) {
 void Album::addSelectedMediaSources(QVariant vmodel) {
   QmlMediaCollectionModel* model = VariantToObject<QmlMediaCollectionModel*>(vmodel);
   
-  // Since QmlEventMarkers are mixed into the QmlEventOverviewModel (which is a
-  // subclass of QmlMediaCollectionModel), filter out the markers and only add
+  // Since Events are mixed into the QmlEventOverviewModel (which is a
+  // subclass of QmlMediaCollectionModel), filter them out and only add
   // MediaSources
   AttachMany(
     FilterSetOnlyType<DataObject*, MediaSource*>(model->BackingViewCollection()->GetSelected()));

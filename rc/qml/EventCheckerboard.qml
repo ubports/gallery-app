@@ -46,6 +46,7 @@ Checkerboard {
   }
   
   model: EventOverviewModel {
+    monitored: true
   }
   
   delegate: EventCheckerboardDelegate {

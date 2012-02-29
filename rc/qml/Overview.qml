@@ -155,7 +155,7 @@ Rectangle {
         if (objectModel.typeName == "MediaSource") {
           photoViewer.animateOpen(object, activatedRect);
         } else {
-          // Event marker
+          // Event
           eventTimelineTransition.toTimeline();
         }
       }
@@ -186,7 +186,7 @@ Rectangle {
       clip: true
       
       onActivated: {
-        // Event marker
+        // Event card activated
         eventTimelineTransition.toOverview();
       }
     }
