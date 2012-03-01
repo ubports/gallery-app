@@ -156,7 +156,7 @@ Rectangle {
           photoViewer.animateOpen(object, activatedRect);
         } else {
           // Event
-          eventTimelineTransition.toTimeline();
+          eventTimelineTransition.toTimeline(object);
         }
       }
     }
@@ -187,7 +187,7 @@ Rectangle {
       
       onActivated: {
         // Event card activated
-        eventTimelineTransition.toOverview();
+        eventTimelineTransition.toOverview(event);
       }
     }
   }

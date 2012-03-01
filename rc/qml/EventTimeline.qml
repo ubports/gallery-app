@@ -35,6 +35,10 @@ ListView {
   
   property int headTailCount: 3
   
+  function ensureIndexVisible(index) {
+    positionViewAtIndex(index, ListView.Center);
+  }
+  
   function getVisibleMediaSources() {
     var vi = GalleryUtility.getVisibleItems(eventTimeline, eventTimeline, function(child) {
       return child.objectName != "eventCard" && child.mediaSource;
@@ -45,6 +49,18 @@ ListView {
       vo[vo.length] = vi[ctr].mediaSource;
     
     return vo;
+  }
+  
+  function getVisibleEvents() {
+    var vi = GalleryUtility.getVisibleItems(eventTimeline, eventTimeline, function(child) {
+      return child.objectName == "eventCard";
+    });
+    
+    var ve = [];
+    for (var ctr = 0; ctr < vi.length; ctr++)
+      ve[ve.length] = vi[ctr].event;
+    
+    return ve;
   }
   
   function getRectOfEvent(event) {

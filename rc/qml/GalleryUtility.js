@@ -53,34 +53,23 @@ function gatherChildren(parent, accum, cond) {
 }
 
 function getRectRelativeTo(item, relativeTo) {
-  var rect = item.mapToItem(relativeTo, item.x, item.y);
-  
-  // TODO: Unsure why this fixup is necessary, but it is in order to get the
-  // proper coordinates
-  rect.x -= item.x;
-  rect.y -= item.y;
+  var rect = item.mapToItem(relativeTo, 0, 0);
   rect.width = item.width;
   rect.height = item.height;
   
   return rect;
 }
 
-// Useful only for vertically scrolling views of multiple items
+// Useful only for vertically scrolling containers of multiple items
 function getVisibleItems(container, relativeTo, cond) {
-  // calculate the top and bottom Y of the visible area; note that since
-  // Gallery's views can never scroll horizontally, that dimension doesn't need
-  // be tested
-  var top = Math.floor(container.visibleArea.yPosition * container.height);
-  var bottom = top + container.height;
-  
   var v = [];
   gatherChildren(container.contentItem, v, function visibleCond(child) {
     if (!cond(child))
       return false;
     
-    var rect = getRectRelativeTo(child, relativeTo);
+    var rect = getRectRelativeTo(child, container);
     
-    return ((rect.y + rect.height) >= top && rect.y <= bottom);
+    return ((rect.y + rect.height) >= 0 && rect.y <= container.height);
   });
   
   return v;

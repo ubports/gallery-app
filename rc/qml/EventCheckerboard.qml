@@ -39,10 +39,25 @@ Checkerboard {
     return vo;
   }
   
+  function getVisibleEvents() {
+    var vd = getVisibleDelegates();
+    
+    // return objects, not the items, to caller
+    var ve = [];
+    for (var ctr = 0; ctr < vd.length; ctr++) {
+      var item = vd[ctr];
+      
+      if (item.event)
+        ve[ve.length] = item.event;
+    }
+    
+    return ve;
+  }
+  
   function getRectOfObject(object) {
     var index = model.indexOf(object);
     
-    return (index >= 0) ? getRectOfItemAt(index, eventCheckerboard) : undefined;
+    return (index >= 0) ? getRectOfItemAt(index, eventCheckerboard, false) : undefined;
   }
   
   model: EventOverviewModel {

@@ -78,7 +78,11 @@ void QmlViewCollectionModel::set_for_collection(QVariant var) {
 }
 
 int QmlViewCollectionModel::indexOf(QVariant var) {
-  return (view_ != NULL) ? view_->IndexOf(VariantToObject<DataObject*>(var)) : -1;
+  DataObject* object = UncheckedVariantToObject<DataObject*>(var);
+  if (object == NULL)
+    return -1;
+  
+  return (view_ != NULL) ? view_->IndexOf(object) : -1;
 }
 
 QVariant QmlViewCollectionModel::getAt(int index) {

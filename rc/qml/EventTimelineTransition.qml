@@ -28,7 +28,7 @@ Rectangle {
   
   property Component delegate
   
-  property int duration: 500
+  property int duration: 750
   
   // readonly
   // TODO: Make constants used from Checkerboard or EventCheckerboard
@@ -54,19 +54,26 @@ Rectangle {
   state: "grid"
   
   // public
-  function toTimeline() {
-    start("grid", "timeline");
+  function toTimeline(event) {
+    start(event, "grid", "timeline");
   }
   
   // public
-  function toOverview() {
-    start("timeline", "grid");
+  function toOverview(event) {
+    start(event, "timeline", "grid");
   }
   
   // internal
-  function start(starting, ending) {
+  function start(event, starting, ending) {
     if (!checkerboard || !timeline)
       return;
+    
+    state = starting;
+    
+    // Only need to fetch MediaSources; the EventOverviewModel will automatically
+    // create Event Cards
+    var vc = checkerboard.getVisibleMediaSources();
+    var vt = timeline.getVisibleMediaSources();
     
     checkerboard.visible = false;
     timeline.visible = false;
@@ -74,27 +81,47 @@ Rectangle {
     // clear model before changing state
     model.clear();
     
-    state = starting;
-    
-    var vt = timeline.getVisibleMediaSources();
-    var vc = checkerboard.getVisibleMediaSources();
-    
-    // populate with items visible in the timeline; their locations will be
+    // populate with items visible in the checkerboard; their locations will be
     // determined as the delegates are created
-    for (var ctr = 0; ctr < vt.length; ctr++)
-      model.add(vt[ctr]);
+    for (var ctr = 0; ctr < vc.length; ctr++)
+      model.add(vc[ctr]);
     
-    // add items visible in the checkerboard but not in the timeline; they
-    // will emerge from their appropiate event card and dissolve in as they
-    // fly into position
-    for (var ctr = 0; ctr < vc.length; ctr++) {
-      if (vt.indexOf(vc[ctr]) == -1)
-        model.add(vc[ctr]);
+    // add items visible in the timline but not in the checkerboard; they
+    // will emerge from their appropiate event card and dissolve in/out as they
+    // fly in to/out of position
+    for (var ctr = 0; ctr < vt.length; ctr++) {
+      if (vc.indexOf(vt[ctr]) == -1)
+        model.add(vt[ctr]);
     }
     
     // start the transition
     visible = true;
     state = ending;
+  }
+  
+  // Because it's desireable for the selected event to be visible in the timeline
+  // view when the transition occurs, need to ensure it's ready.  However,
+  // can't do it at the start of the transition because the event loop has
+  // not had a chance to run, so the timeline's getVisibleObjects() will not
+  // return the proper set of objects.
+  Connections {
+    target: checkerboard
+    
+    onMovementEnded: {
+      var ve = checkerboard.getVisibleEvents();
+      if (ve.length > 0)
+        timeline.ensureIndexVisible(timeline.model.indexOf(ve[0]));
+    }
+  }
+  
+  Connections {
+    target: timeline
+    
+    onMovementEnded: {
+      var ve = timeline.getVisibleEvents();
+      if (ve.length > 0)
+        checkerboard.ensureIndexVisible(checkerboard.model.indexOf(ve[0]));
+    }
   }
   
   Repeater {
@@ -193,36 +220,35 @@ Rectangle {
         if (!checkerboard || !timeline)
           return;
         
-        var rect = checkerboard.getRectOfObject(model.object);
-        if (rect) {
-          gridX = rect.x;
-          gridY = rect.y;
+        // although could use checkerboard.getRectOfObject(), that method
+        // uses a potentially expensive searching algorithm; plus, if the
+        // object is not loaded into the GridView, still need to know where
+        // it would be located *if* it was.  Its index in the model and the
+        // dimensions of the delegates and viewing area means that is
+        // deterministic for all objects
+        var cindex = checkerboard.model.indexOf(model.object);
+        if (cindex >= 0) {
+          // As view scrolls vertically, x coordinate needs no translation
+          gridX = (cindex % xMax) * widthSansStroke;
+          
+          // translate y coordinate according to checkerboard viewport
+          gridY = (Math.floor(cindex / xMax) * heightSansStroke) - checkerboard.contentY;
         } else {
-          var index = checkerboard.model.indexOf(model.object);
-          if (index >= 0) {
-            // place photos that are not visible in the checkerboard
-            // (but visible in the timeline) off-screen so they fly into place
-            gridX = (index % xMax) * widthSansStroke;
-            gridY = eventTimeline.y + (Math.floor(index / xMax) * heightSansStroke)
-          } else {
-            console.log("Unable to find index for", model.object);
-            visible = false;
-          }
+          console.log("Unable to find index for", model.object);
+          visible = false;
         }
         
         // Formula for deriving timeline location:
-        // 1. If Event, fly to EventCard
-        // 2. If Photo and visible in Event Timeline, fly to PhotoComponent
-        // 3. If not visible in Event Timeline, fly to assoc. EventCard
+        // 1. If Event, fly to EventCard position
+        // 2. If Photo and visible in Event Timeline, fly to PhotoComponent position
+        // 3. If Photo and not visible in Event Timeline, fly to assoc. EventCard
         
-        rect = !isEvent ? timeline.getRectOfMediaSource(model.mediaSource) : undefined;
-        if (!rect) {
-          if (!isEvent) {
-            rect = timeline.getRectOfEvent(model.mediaSource.event);
-            hidesUnderEvent = true;
-          } else {
-            rect = timeline.getRectOfEvent(model.object);
-          }
+        var rect = !isEvent ? timeline.getRectOfMediaSource(model.mediaSource) : undefined;
+        if (!rect && !isEvent) {
+          rect = timeline.getRectOfEvent(model.mediaSource.event);
+          hidesUnderEvent = true;
+        } else if (isEvent) {
+          rect = timeline.getRectOfEvent(model.object);
         }
         
         if (rect) {
@@ -231,15 +257,6 @@ Rectangle {
         } else {
           console.log("Unable to find timeline location of", model.object);
           visible = false;
-        }
-        
-        // place in starting location according to state
-        if (state == "grid") {
-          x = gridX;
-          y = gridY;
-        } else {
-          x = timelineX;
-          y = timelineY;
         }
       }
       

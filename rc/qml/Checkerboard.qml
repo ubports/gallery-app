@@ -26,8 +26,16 @@ Rectangle {
   
   signal activated(variant object, variant objectModel, variant activatedRect)
   
+  signal movementStarted()
+  signal movementEnded()
+  
   property alias model: grid.model
   property Component delegate
+  
+  property alias contentX: grid.contentX
+  property alias contentY: grid.contentY
+  
+  property int xMax: width / widthSansStroke
   
   property int widthSansStroke: gu(25.75)
   property int heightSansStroke: gu(19.5)
@@ -62,9 +70,7 @@ Rectangle {
   }
   
   function getRectOfItem(item, relativeTo, adjustForBorder) {
-    var rect = mapToItem(relativeTo, item.x, item.y - grid.contentY);
-    rect.width = item.width;
-    rect.height = item.height;
+    var rect = GalleryUtility.getRectRelativeTo(item, relativeTo);
     
     if (adjustForBorder) {
       // Now we have to adjust for the border inside the delegate.
@@ -129,6 +135,9 @@ Rectangle {
     // Dimensions without stroke
     cellWidth: widthSansStroke
     cellHeight: heightSansStroke
+    
+    onMovementStarted: checkerboard.movementStarted()
+    onMovementEnded: checkerboard.movementEnded()
     
     delegate: Row {
       // This name is checked for in getDelegateInstanceAt() above.
