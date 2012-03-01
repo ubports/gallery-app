@@ -20,6 +20,9 @@
 import QtQuick 1.1
 import Gallery 1.0
 
+// The ViewerChrome object wraps toolbars and other chrome elements into one
+// easy to use, standardized object.  You'll probably want to fill the screen
+// with it, as it places its chrome children at its edges.
 Item {
   id: wrapper
 
@@ -36,6 +39,7 @@ Item {
   property bool navbarHasStateButton: false
 
   property bool toolbarHasFullIconSet: true
+  property bool toolbarHasMainIconsWhenSelecting: true
 
   property bool inSelectionMode: false
 
@@ -51,6 +55,7 @@ Item {
   property alias toolbarHasPageIndicator: toolbar.hasPageIndicator
   property alias toolbarPageIndicatorAlbum: toolbar.pageIndicatorAlbum
   signal pageIndicatorPageSelected(int pageNumber)
+  signal moreOperationsButtonPressed()
   // TODO: any menu signals.
 
   // Pass-throughs from the left/right nav buttons.
@@ -62,12 +67,8 @@ Item {
   signal albumPicked(variant album)
   signal newAlbumPicked()
 
-  // Pass-throughs from the popup menu.
-  property alias popupMenuItemTitle: menu.itemTitle
-  signal menuItemChosen()
-
   // Read-only, please.
-  property bool active: (albumPicker.visible || menu.visible)
+  property bool active: albumPicker.visible
 
   visible: false
   state: "hidden"
@@ -98,7 +99,6 @@ Item {
 
   onVisibleChanged: {
     albumPicker.resetVisibility(false);
-    menu.resetVisibility(false);
     if (visible)
       autoHideTimer.startAutoHide();
   }
@@ -112,7 +112,6 @@ Item {
 
   function cancelActivity() {
     albumPicker.state = "hidden";
-    menu.state = "hidden";
   }
 
   MouseArea {
@@ -177,18 +176,6 @@ Item {
     }
   }
 
-  PlaceholderPopupMenu {
-    id: menu
-
-    anchors.bottom: toolbar.top
-    x: toolbar.moreOperationsPopupX - width
-
-    onItemChosen: {
-      menuItemChosen();
-      state = "hidden";
-    }
-  }
-
   GalleryStandardNavbar {
     id: navbar
 
@@ -216,6 +203,7 @@ Item {
     background: (!wrapper.inSelectionMode ? "white" : "lightBlue")
     isTranslucent: wrapper.toolbarsAreTranslucent
 
+    hasMainIconSet: (wrapper.inSelectionMode ? wrapper.toolbarHasMainIconsWhenSelecting : true)
     hasFullIconSet: wrapper.inSelectionMode || wrapper.toolbarHasFullIconSet
     useContrastOnWhiteColorScheme: wrapper.inSelectionMode
 
@@ -223,10 +211,7 @@ Item {
 
     onAlbumOperationsButtonPressed: albumPicker.flipVisibility()
 
-    onMoreOperationsButtonPressed: {
-      if (hasPopupMenu)
-        menu.flipVisibility();
-    }
+    onMoreOperationsButtonPressed: wrapper.moreOperationsButtonPressed()
   }
 
   Timer {
