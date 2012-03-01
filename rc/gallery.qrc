@@ -45,7 +45,6 @@
     <file>qml/GallerySecondaryPushButton.qml</file>
     <file>qml/GalleryStandardNavbar.qml</file>
     <file>qml/GalleryStandardToolbar.qml</file>
-    <file>qml/GalleryStatusBar.qml</file>
     <file>qml/MediaSelector.qml</file>
     <file>qml/MoreOperationsToolbarButton.qml</file>
     <file>qml/NavStack.qml</file>
