@@ -51,6 +51,7 @@ Item {
   property alias toolbarHasPageIndicator: toolbar.hasPageIndicator
   property alias toolbarPageIndicatorAlbum: toolbar.pageIndicatorAlbum
   signal pageIndicatorPageSelected(int pageNumber)
+  signal moreOperationsButtonPressed()
   // TODO: any menu signals.
 
   // Pass-throughs from the left/right nav buttons.
@@ -62,12 +63,8 @@ Item {
   signal albumPicked(variant album)
   signal newAlbumPicked()
 
-  // Pass-throughs from the popup menu.
-  property alias popupMenuItemTitle: menu.itemTitle
-  signal menuItemChosen()
-
   // Read-only, please.
-  property bool active: (albumPicker.visible || menu.visible)
+  property bool active: albumPicker.visible
 
   visible: false
   state: "hidden"
@@ -98,7 +95,6 @@ Item {
 
   onVisibleChanged: {
     albumPicker.resetVisibility(false);
-    menu.resetVisibility(false);
     if (visible)
       autoHideTimer.startAutoHide();
   }
@@ -112,7 +108,6 @@ Item {
 
   function cancelActivity() {
     albumPicker.state = "hidden";
-    menu.state = "hidden";
   }
 
   MouseArea {
@@ -177,18 +172,6 @@ Item {
     }
   }
 
-  PlaceholderPopupMenu {
-    id: menu
-
-    anchors.bottom: toolbar.top
-    x: toolbar.moreOperationsPopupX - width
-
-    onItemChosen: {
-      menuItemChosen();
-      state = "hidden";
-    }
-  }
-
   GalleryStandardNavbar {
     id: navbar
 
@@ -223,10 +206,7 @@ Item {
 
     onAlbumOperationsButtonPressed: albumPicker.flipVisibility()
 
-    onMoreOperationsButtonPressed: {
-      if (hasPopupMenu)
-        menu.flipVisibility();
-    }
+    onMoreOperationsButtonPressed: wrapper.moreOperationsButtonPressed()
   }
 
   Timer {

@@ -135,6 +135,14 @@ Rectangle {
     onActivated: photoViewer.animateOpen(object, activatedRect)
   }
 
+  AlbumViewerOptionsMenu {
+    id: albumViewerOptionsMenu
+
+    popupOriginX: parent.width - gu(5);
+
+    visible: false;
+  }
+
   ViewerChrome {
     id: chrome
 
@@ -159,10 +167,6 @@ Rectangle {
     toolbarHasFullIconSet: false
     toolbarHasPageIndicator: albumViewer.state == "pageView"
     toolbarPageIndicatorAlbum: albumViewer.album
-
-    popupMenuItemTitle: "Add photos"
-
-    onMenuItemChosen: navStack.switchToMediaSelector(album)
 
     onPageIndicatorPageSelected: albumPageViewer.turnTo(pageNumber)
 
@@ -192,6 +196,10 @@ Rectangle {
       gridCheckerboard.unselectAll();
 
       closeRequested();
+    }
+
+    onMoreOperationsButtonPressed: {
+      albumViewerOptionsMenu.flipVisibility();
     }
   }
 

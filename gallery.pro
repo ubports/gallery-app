@@ -110,6 +110,7 @@ OTHER_FILES += \
 	rc/qml/AlbumPreviewB.qml \
 	rc/qml/AlbumPreviewComponent.qml \
 	rc/qml/AlbumViewer.qml \
+	rc/qml/AlbumViewerOptionsMenu.qml \
 	rc/qml/AlbumViewerTransition.qml \
 	rc/qml/BinaryTabGroup.qml \
 	rc/qml/Checkerboard.qml \
@@ -129,6 +130,7 @@ OTHER_FILES += \
 	rc/qml/GalleryStandardToolbar.qml \
 	rc/qml/GalleryStatusBar.qml \
 	rc/qml/MediaSelector.qml \
+	rc/qml/MenuItem.qml \
 	rc/qml/MoreOperationsToolbarButton.qml \
 	rc/qml/NavStack.qml \
 	rc/qml/Overview.qml \
@@ -136,7 +138,8 @@ OTHER_FILES += \
 	rc/qml/PhotoComponent.qml \
 	rc/qml/PhotoViewer.qml \
 	rc/qml/PhotoViewerTransition.qml \
-	rc/qml/PlaceholderPopupMenu.qml \
+	rc/qml/PopupBox.qml \
+	rc/qml/PopupMenu.qml \
 	rc/qml/PopupPhotoViewer.qml \
 	rc/qml/PushButton.qml \
 	rc/qml/ReturnButton.qml \
