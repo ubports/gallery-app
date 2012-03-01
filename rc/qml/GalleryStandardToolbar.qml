@@ -22,8 +22,9 @@ import QtQuick 1.1
 Toolbar {
   id: wrapper
 
+  property bool hasPageIndicator: false
+  property alias pageIndicatorAlbum: pageIndicator.album
   property bool hasFullIconSet: true;
-  property bool hasReturnButton: true;
   property bool useContrastOnWhiteColorScheme: false
 
   /* read only properties */
@@ -32,26 +33,23 @@ Toolbar {
   property int moreOperationsPopupX: moreOperationsToolbarButton.x +
     iconGroup.x + 34;
 
+  signal pageIndicatorPageSelected(int pageNumber)
   signal albumOperationsButtonPressed()
   signal trashOperationButtonPressed()
   signal shareOperationsButtonPressed()
   signal moreOperationsButtonPressed()
-  signal returnButtonPressed()
 
   background: "white"
 
-  Image {
-    source: "../img/return-arrow.png"
+  AlbumPageIndicator {
+    id: pageIndicator
 
-    x: gu(6)
+    anchors.centerIn: parent
 
-    visible: wrapper.hasReturnButton
+    color: "transparent"
+    visible: (album) ? wrapper.hasPageIndicator && album.pageCount > 1 : false;
 
-    MouseArea {
-      anchors.fill: parent
-
-      onClicked: wrapper.returnButtonPressed()
-    }
+    onSelected: wrapper.pageIndicatorPageSelected(pageNumber)
   }
 
   Row {

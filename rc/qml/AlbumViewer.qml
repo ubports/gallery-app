@@ -45,13 +45,11 @@ Rectangle {
     Transition { from: "pageView"; to: "gridView";
       ParallelAnimation {
         DissolveAnimation { fadeOutTarget: albumPageViewer; fadeInTarget: gridCheckerboard; }
-        FadeOutAnimation { target: pageIndicator; }
       }
     },
     Transition { from: "gridView"; to: "pageView";
       ParallelAnimation {
         DissolveAnimation { fadeOutTarget: gridCheckerboard; fadeInTarget: albumPageViewer; }
-        FadeInAnimation { target: pageIndicator; }
       }
     }
   ]
@@ -61,7 +59,6 @@ Rectangle {
     state = "pageView";
     albumPageViewer.visible = true;
     gridCheckerboard.visible = false;
-    masthead.isTemplateView = true;
   }
 
   onAlbumChanged: {
@@ -69,43 +66,12 @@ Rectangle {
       albumPageViewer.setTo(album.currentPageNumber);
   }
   
-  AlbumViewMasthead {
-    id: masthead
-    objectName: "masthead"
-
-    albumName: (album) ? album.name : ""
-
-    areItemsSelected: gridCheckerboard.selectedCount > 0
-
-    x: 0
-    y: 0
-    width: parent.width
-
-    onViewModeChanged: {
-      if (isTemplateView) {
-        albumViewer.state = "pageView";
-      } else {
-        albumViewer.state = "gridView";
-      }
-    }
-
-    onSelectionInteractionCompleted: {
-      gridCheckerboard.state = "normal";
-      gridCheckerboard.unselectAll();
-    }
-
-    onDeselectAllRequested: {
-      gridCheckerboard.unselectAll();
-    }
-  }
-  
   AlbumPageViewer {
     id: albumPageViewer
     
-    anchors.top: masthead.bottom
-    anchors.bottom: pageIndicator.top
-    anchors.left: parent.left
-    anchors.right: parent.right
+    anchors.fill: parent
+    anchors.topMargin: chrome.navbarHeight
+    anchors.bottomMargin: chrome.toolbarHeight
     
     album: albumViewer.album
     
@@ -141,12 +107,8 @@ Rectangle {
     id: gridCheckerboard
     objectName: "gridCheckerboard"
     
-    anchors.top: masthead.bottom
-    height: parent.height - masthead.height - chrome.toolbarHeight
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.topMargin: gu(3)
-    anchors.bottomMargin: 0
+    anchors.fill: parent
+    anchors.topMargin: chrome.navbarHeight + gu(3)
     anchors.leftMargin: gu(2.75)
     anchors.rightMargin: gu(2.75)
     
@@ -170,50 +132,48 @@ Rectangle {
       ownerName: "AlbumViewer grid"
     }
 
-    onInSelectionModeChanged: {
-      masthead.isSelectionInProgress = inSelectionMode
-    }
-    
     onActivated: photoViewer.animateOpen(object, activatedRect)
   }
 
-  AlbumPageIndicator {
-    id: pageIndicator
-    
-    y: parent.height - chrome.toolbarHeight - height
-    width: parent.width
-    height: gu(3)
-    
-    color: "transparent"
-    visible: (album) ? album.pageCount > 1 : false;
-    
-    album: albumViewer.album
-    
-    onSelected: {
-      albumPageViewer.turnTo(pageNumber);
-    }
-  }
-  
   ViewerChrome {
     id: chrome
 
     z: 10
     anchors.fill: parent
 
+    navbarTitle: (album) ? album.name : ""
+
     state: "shown"
     visible: true
 
-    leftNavigationButtonVisible: false
-    rightNavigationButtonVisible: false
+    autoHideWait: 0
 
-    toolbarHasFullIconSet: (gridCheckerboard.visible && gridCheckerboard.selectedCount > 0)
-    toolbarUseContrastOnWhiteColorScheme: gridCheckerboard.visible
+    inSelectionMode: gridCheckerboard.visible && gridCheckerboard.inSelectionMode
+
+    toolbarsAreTranslucent: (albumViewer.state == "gridView")
+
+    navbarHasStateButton: true
+    navbarStateButtonIconFilename: (albumViewer.state == "pageView") ? "../img/grid-view.png" :
+      "../img/template-view.png";
+
+    toolbarHasFullIconSet: false
+    toolbarHasPageIndicator: albumViewer.state == "pageView"
+    toolbarPageIndicatorAlbum: albumViewer.album
 
     popupMenuItemTitle: "Add photos"
 
-    autoHideWait: 0
-
     onMenuItemChosen: navStack.switchToMediaSelector(album)
+
+    onPageIndicatorPageSelected: albumPageViewer.turnTo(pageNumber)
+
+    onStateButtonPressed: {
+      albumViewer.state = (albumViewer.state == "pageView" ? "gridView" : "pageView");
+    }
+
+    onSelectionDoneButtonPressed: {
+      gridCheckerboard.state = "normal";
+      gridCheckerboard.unselectAll();
+    }
 
     onNewAlbumPicked: {
       gridCheckerboard.model.createAlbumFromSelected();
@@ -228,8 +188,6 @@ Rectangle {
     }
 
     onReturnButtonPressed: {
-      masthead.isSelectionInProgress = false
-      masthead.areItemsSelected = false
       gridCheckerboard.state = "normal";
       gridCheckerboard.unselectAll();
 

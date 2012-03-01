@@ -29,7 +29,6 @@
     <file>qml/AlbumPreviewComponent.qml</file>
     <file>qml/AlbumViewer.qml</file>
     <file>qml/AlbumViewerTransition.qml</file>
-    <file>qml/AlbumViewMasthead.qml</file>
     <file>qml/BinaryTabGroup.qml</file>
     <file>qml/Checkerboard.qml</file>
     <file>qml/DissolveAnimation.qml</file>
@@ -46,6 +45,7 @@
     <file>qml/GalleryOverviewNavigationBar.qml</file>
     <file>qml/GalleryPrimaryPushButton.qml</file>
     <file>qml/GallerySecondaryPushButton.qml</file>
+    <file>qml/GalleryStandardNavbar.qml</file>
     <file>qml/GalleryStandardToolbar.qml</file>
     <file>qml/GalleryStatusBar.qml</file>
     <file>qml/GalleryUtility.js</file>
