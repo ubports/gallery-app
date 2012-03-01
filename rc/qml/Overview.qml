@@ -112,6 +112,7 @@ Rectangle {
       allowSelection: true
       
       property variant photoViewerModel: MediaCollectionModel {
+        monitored: true
       }
       
       onActivated: {
@@ -230,9 +231,8 @@ Rectangle {
     
     onPhotoChanged: {
       if (photo && eventsCheckerboard.model) {
-        eventsCheckerboard.ensureIndexVisible(
-          eventsCheckerboard.model.indexOf(photo)
-        );
+        eventsCheckerboard.ensureIndexVisible(eventsCheckerboard.model.indexOf(photo),
+          false);
       }
     }
 

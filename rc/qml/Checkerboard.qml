@@ -51,8 +51,8 @@ Rectangle {
       model.unselectAll();
   }
 
-  function ensureIndexVisible(index) {
-    grid.positionViewAtIndex(index, GridView.Visible);
+  function ensureIndexVisible(index, centered) {
+    grid.positionViewAtIndex(index, centered ? GridView.Center : GridView.Visible);
   }
 
   // Uses black magic to hunt for the delegate instance with the given index.

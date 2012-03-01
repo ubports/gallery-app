@@ -206,7 +206,7 @@ Rectangle {
     }
     
     onIndexChanged: {
-      gridCheckerboard.ensureIndexVisible(index);
+      gridCheckerboard.ensureIndexVisible(index, false);
     }
 
     onCloseRequested: {

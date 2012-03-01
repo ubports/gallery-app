@@ -64,7 +64,31 @@ Rectangle {
   }
   
   // internal
+  property Event event
+  property string starting
+  property string ending
+  
+  // internal
   function start(event, starting, ending) {
+    // Because it's desireable for the selected event to be visible in the timeline
+    // view when the transition occurs, need to ensure it's ready.  However,
+    // can't do it and start the transition because the event loop has
+    // not had a chance to run.  By using a Timer, we give the loop a chance to
+    // process the request before starting the transition
+    if (starting == "grid")
+      timeline.ensureIndexVisible(timeline.model.indexOf(event), true);
+    else
+      checkerboard.ensureIndexVisible(checkerboard.model.indexOf(event), true);
+    
+    eventTimelineTransition.event = event;
+    eventTimelineTransition.starting = starting;
+    eventTimelineTransition.ending = ending;
+    
+    delayedTimer.start();
+  }
+  
+  // internal
+  function delayedStart() {
     if (!checkerboard || !timeline)
       return;
     
@@ -99,29 +123,13 @@ Rectangle {
     state = ending;
   }
   
-  // Because it's desireable for the selected event to be visible in the timeline
-  // view when the transition occurs, need to ensure it's ready.  However,
-  // can't do it at the start of the transition because the event loop has
-  // not had a chance to run, so the timeline's getVisibleObjects() will not
-  // return the proper set of objects.
-  Connections {
-    target: checkerboard
+  Timer {
+    id: delayedTimer
     
-    onMovementEnded: {
-      var ve = checkerboard.getVisibleEvents();
-      if (ve.length > 0)
-        timeline.ensureIndexVisible(timeline.model.indexOf(ve[0]));
-    }
-  }
-  
-  Connections {
-    target: timeline
+    interval: 20
+    repeat: false
     
-    onMovementEnded: {
-      var ve = timeline.getVisibleEvents();
-      if (ve.length > 0)
-        checkerboard.ensureIndexVisible(checkerboard.model.indexOf(ve[0]));
-    }
+    onTriggered: eventTimelineTransition.delayedStart()
   }
   
   Repeater {

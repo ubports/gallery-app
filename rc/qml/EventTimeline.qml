@@ -35,8 +35,8 @@ ListView {
   
   property int headTailCount: 3
   
-  function ensureIndexVisible(index) {
-    positionViewAtIndex(index, ListView.Center);
+  function ensureIndexVisible(index, centered) {
+    positionViewAtIndex(index, centered ? ListView.Center : ListView.Visible);
   }
   
   function getVisibleMediaSources() {
