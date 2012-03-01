@@ -28,73 +28,44 @@ Rectangle {
   
   anchors.fill: parent
   
-  GalleryOverviewNavigationBar {
-    id: navbar
-    objectName: "navbar"
-    
-    anchors.top: parent.top
-    anchors.left: parent.left
-    anchors.right: parent.right
-    
-    GallerySecondaryPushButton {
-      id: deselectButton
-      objectName: "deselectButton"
-      
-      anchors.right: doneButton.left
-      anchors.rightMargin: gu(2)
-      anchors.verticalCenter: parent.verticalCenter
-
-      visible: mediaCheckerboard.selectedCount > 0
-      
-      title: "deselect"
-      
-      onPressed: mediaCheckerboard.model.unselectAll()
-    }
-    
-    GalleryPrimaryPushButton {
-      id: doneButton
-      objectName: "doneButton"
-      
-      anchors.right: parent.right
-      anchors.rightMargin: gu(2)
-      anchors.verticalCenter: parent.verticalCenter
-      
-      title: "done"
-      
-      onPressed: {
-        if (album)
-          album.addSelectedMediaSources(mediaCheckerboard.model);
-        else
-          album = mediaCheckerboard.model.createAlbumFromSelected();
-
-        mediaCheckerboard.unselectAll();
-
-        navStack.goBack()
-      }
-    }
-  }
-  
   EventCheckerboard {
     id: mediaCheckerboard
     objectName: "mediaCheckerboard"
     
-    anchors.top: navbar.bottom
-    anchors.left: navbar.left
-    anchors.right: navbar.right
-    anchors.bottom: parent.bottom
-    anchors.topMargin: gu(3)
-    anchors.bottomMargin: gu(0)
+    anchors.fill: parent
+    anchors.topMargin: chrome.navbarHeight + gu(3)
     anchors.leftMargin: gu(2.75)
     anchors.rightMargin: gu(2.75)
     
     allowSelection: true
     state: "selecting"
   }
-  
-  GalleryStatusBar {
-    anchors.bottom: parent.bottom
-    
-    statusText: (mediaCheckerboard.selectedCount == 0) ?
-      "Select photos or movieclip(s) to add" : ""
+
+  ViewerChrome {
+    id: chrome
+
+    anchors.fill: parent
+
+    fadeDuration: 0
+    autoHideWait: 0
+
+    toolbarHasMainIconsWhenSelecting: false
+
+    hasPopupMenu: false
+
+    inSelectionMode: true
+    state: "shown"
+    visible: true
+
+    onSelectionDoneButtonPressed: {
+      if (album)
+        album.addSelectedMediaSources(mediaCheckerboard.model);
+      else
+        album = mediaCheckerboard.model.createAlbumFromSelected();
+
+      mediaCheckerboard.unselectAll();
+
+      navStack.goBack()
+    }
   }
 }

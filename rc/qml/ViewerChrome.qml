@@ -20,6 +20,9 @@
 import QtQuick 1.1
 import Gallery 1.0
 
+// The ViewerChrome object wraps toolbars and other chrome elements into one
+// easy to use, standardized object.  You'll probably want to fill the screen
+// with it, as it places its chrome children at its edges.
 Item {
   id: wrapper
 
@@ -36,6 +39,7 @@ Item {
   property bool navbarHasStateButton: false
 
   property bool toolbarHasFullIconSet: true
+  property bool toolbarHasMainIconsWhenSelecting: true
 
   property bool inSelectionMode: false
 
@@ -199,6 +203,7 @@ Item {
     background: (!wrapper.inSelectionMode ? "white" : "lightBlue")
     isTranslucent: wrapper.toolbarsAreTranslucent
 
+    hasMainIconSet: (wrapper.inSelectionMode ? wrapper.toolbarHasMainIconsWhenSelecting : true)
     hasFullIconSet: wrapper.inSelectionMode || wrapper.toolbarHasFullIconSet
     useContrastOnWhiteColorScheme: wrapper.inSelectionMode
 

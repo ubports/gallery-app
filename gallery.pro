@@ -128,7 +128,6 @@ OTHER_FILES += \
 	rc/qml/GallerySecondaryPushButton.qml \
 	rc/qml/GalleryStandardNavbar.qml \
 	rc/qml/GalleryStandardToolbar.qml \
-	rc/qml/GalleryStatusBar.qml \
 	rc/qml/MediaSelector.qml \
 	rc/qml/MenuItem.qml \
 	rc/qml/MoreOperationsToolbarButton.qml \

@@ -24,7 +24,8 @@ Toolbar {
 
   property bool hasPageIndicator: false
   property alias pageIndicatorAlbum: pageIndicator.album
-  property bool hasFullIconSet: true;
+  property bool hasMainIconSet: true
+  property bool hasFullIconSet: true
   property bool useContrastOnWhiteColorScheme: false
 
   /* read only properties */
@@ -59,6 +60,8 @@ Toolbar {
     anchors.verticalCenter: parent.verticalCenter
     anchors.right: parent.right
     anchors.rightMargin: gu(2)
+
+    visible: hasMainIconSet
 
     TrashOperationToolbarButton {
       anchors.verticalCenter: parent.verticalCenter
