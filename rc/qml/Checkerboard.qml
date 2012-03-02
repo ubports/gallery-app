@@ -42,6 +42,7 @@ Rectangle {
   property int widthWithStroke: gu(24.75)
   property int heightWithStroke: gu(18.5)
   
+  property bool allowActivation: true
   property bool inSelectionMode: false
   property bool allowSelection: true
   property int selectedCount: (model) ? model.selectedCount : 0
@@ -171,6 +172,8 @@ Rectangle {
         
         MouseArea {
           anchors.fill: loader
+
+          enabled: (allowActivation || allowSelection)
           
           onPressAndHold: {
             // Press-and-hold activates selection mode,
@@ -184,7 +187,7 @@ Rectangle {
           
           onReleased: {
             // See onPressAndHold for note on logic behind state changes
-            if (checkerboard.state == "normal") {
+            if (allowActivation && checkerboard.state == "normal") {
               var rect = mapToItem(application, parent.x, parent.y);
               rect.width = width;
               rect.height = height;

@@ -42,7 +42,7 @@ class Album : public ContainerSource {
   Q_PROPERTY(int currentPageNumber READ current_page_number WRITE set_current_page_number
     NOTIFY current_page_number_altered)
   Q_PROPERTY(int pageCount READ page_count NOTIFY pages_altered)
-  Q_PROPERTY(bool isClosed READ is_closed NOTIFY opened_closed)
+  Q_PROPERTY(bool closed READ is_closed WRITE set_closed NOTIFY opened_closed)
   Q_PROPERTY(QDeclarativeListProperty<AlbumPage> pages READ qml_pages
     NOTIFY pages_altered)
   Q_PROPERTY(QDeclarativeListProperty<MediaSource> allMediaSources
@@ -60,7 +60,6 @@ class Album : public ContainerSource {
   
  public:
   static const char *DEFAULT_NAME;
-  static const int CLOSED_PAGE;
   
   Album();
   explicit Album(const AlbumTemplate& album_template);
@@ -72,7 +71,6 @@ class Album : public ContainerSource {
   Q_INVOKABLE void addMediaSource(QVariant vmedia);
   Q_INVOKABLE void addSelectedMediaSources(QVariant vmodel);
   Q_INVOKABLE QVariant getPage(int page) const;
-  Q_INVOKABLE void close();
   
   const QString& name() const;
   const QDate& creation_date() const;
@@ -80,11 +78,9 @@ class Album : public ContainerSource {
   bool is_closed() const;
   int page_count() const;
   
-  // Returns CLOSED_PAGE if album is closed
   int current_page_number() const;
-  
-  // Pass CLOSED_PAGE to close album
   void set_current_page_number(int page);
+  void set_closed(bool closed);
   
   // Returns a SourceCollection representing all AlbumPages held by this Album
   SourceCollection* pages();
@@ -119,6 +115,7 @@ class Album : public ContainerSource {
   QString name_;
   QDate creation_date_;
   int current_page_;
+  bool closed_;
   SourceCollection* pages_;
   QList<MediaSource*> all_media_sources_;
   QList<AlbumPage*> all_album_pages_;

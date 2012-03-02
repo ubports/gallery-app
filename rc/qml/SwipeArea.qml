@@ -37,6 +37,8 @@ MouseArea {
   property int startX: -1
   property bool leftToRight: true
   property bool swipeStarted: false
+
+  preventStealing: swipeStarted
   
   onEnabledChanged: {
     startX = -1;

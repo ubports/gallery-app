@@ -50,7 +50,7 @@ Rectangle {
     
     anchors.fill: parent
     
-    visible: (album) ? album.isClosed : false
+    visible: (album) ? album.closed : false
   }
   
   Rectangle {
@@ -58,7 +58,7 @@ Rectangle {
     
     anchors.fill: parent
     
-    visible: (album) ? !album.isClosed : false
+    visible: (album) ? !album.closed : false
     
     AlbumPageComponent {
       id: albumPageComponent
@@ -83,7 +83,7 @@ Rectangle {
       spineGutter: gu(1)
       insideGutter: gu(0.5)
 
-      albumPage: (album && !album.isClosed) ? album.currentPage : null
+      albumPage: (album ? album.currentPage : null)
       isPreview: true
     }
     

@@ -20,6 +20,7 @@
 
 import QtQuick 1.1
 import Gallery 1.0
+import "GalleryUtility.js" as GalleryUtility
 
 Rectangle {
   id: overview
@@ -176,12 +177,33 @@ Rectangle {
     
     visible: false
     allowSelection: false
+    allowActivation: false
     
     model: AlbumCollectionModel {
     }
     
     delegate: AlbumPreviewComponent {
+      id: previewDelegate
+
       album: modelData.album
+
+      SwipeArea {
+        anchors.fill: parent
+
+        requiredHorizMovement: gu(4)
+
+        onTapped: {
+          var rect = GalleryUtility.getRectRelativeTo(previewDelegate, overview);
+          albumsCheckerboard.activated(modelData.object, modelData.model, rect);
+        }
+
+        onSwiped: {
+          if (leftToRight && !album.closed)
+            album.closed = true;
+          else if (!leftToRight && album.closed)
+            album.closed = false;
+        }
+      }
     }
     
     onActivated: navStack.switchToAlbumViewer(object, activatedRect)

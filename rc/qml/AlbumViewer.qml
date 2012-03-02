@@ -61,11 +61,6 @@ Rectangle {
     gridCheckerboard.visible = false;
   }
 
-  onAlbumChanged: {
-    if (album)
-      albumPageViewer.setTo(album.currentPageNumber);
-  }
-  
   AlbumPageViewer {
     id: albumPageViewer
     
@@ -80,25 +75,36 @@ Rectangle {
       
       // private
       property int turningTowardPage
+      property bool turningTowardCover
       
       anchors.fill: parent
       
       enabled: !parent.isRunning
       
       onStartSwipe: {
-        turningTowardPage = album.currentPageNumber + (leftToRight ? -1 : 1);
+        turningTowardPage = (album.closed
+         ? album.currentPageNumber
+         : album.currentPageNumber + (leftToRight ? -1 : 1));
+        turningTowardCover = (leftToRight && album.currentPageNumber == 0)
       }
       
       onSwiping: {
         var availableDistance = (leftToRight) ? (width - start) : start;
-        albumPageViewer.turnToward(turningTowardPage, distance / availableDistance);
+        if (turningTowardCover)
+          albumPageViewer.turnTowardCover(distance / availableDistance);
+        else
+          albumPageViewer.turnToward(turningTowardPage, distance / availableDistance);
       }
       
       onSwiped: {
-        if (albumPageViewer.currentFraction >= commitTurnFraction)
-          albumPageViewer.turnTo(turningTowardPage);
-        else
+        if (albumPageViewer.currentFraction >= commitTurnFraction) {
+          if (turningTowardCover)
+            albumPageViewer.close();
+          else
+            albumPageViewer.turnTo(turningTowardPage);
+        } else {
           albumPageViewer.releasePage();
+        }
       }
     }
   }

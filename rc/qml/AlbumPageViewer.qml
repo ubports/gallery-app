@@ -67,6 +67,7 @@ Rectangle {
   property bool leftIsCover: false
   property bool rightIsCover: false
   property int finalPageNumber
+  property bool finalPageIsCover
   property real rotationOrigin: leftToRight ? 0.0 : -180.0
   property real rotationDestination: leftToRight ? -180.0 : 0.0
   property real startFraction: 0.0
@@ -75,8 +76,6 @@ Rectangle {
   property real endRotation: leftToRight ? (-180.0 * endFraction) : -180.0 - (-180.0 * endFraction)
   
   // Moves to selected page without any animation (good for initializing view).
-  // Passing a negative value will close the album.
-  //
   // NOTE: setTo() does *not* update the album's current page number.
   function setTo(index) {
     if (isRunning) {
@@ -88,31 +87,35 @@ Rectangle {
     // Because setTo() doesn't control the album's state, only check for
     // bounds issue, not setting to the same page number (which this component
     // may not be showing currently)
-    if (!album || index >= album.pageCount)
+    if (!album || index < 0 || index >= album.pageCount)
       return;
-    
-    if (index < 0) {
-      leftIsCover = true;
-      rightIsCover = true;
-    } else {
-      leftIsCover = false;
-      rightIsCover = false;
-      leftPage = album.getPage(index);
-      rightPage = leftPage;
+
+    leftIsCover = false;
+    rightIsCover = false;
+    leftPage = album.getPage(index);
+    rightPage = leftPage;
+
+    clipper.visible = false;
+  }
+  
+  // Moves to album cover without any animation (good for initializing view).
+  // NOTE: setToClosed() does *not* update the album's state.
+  function setToClosed() {
+    if (isRunning) {
+      console.log("Blocking set of album page", index);
+
+      return;
     }
-    
+
+    leftIsCover = true;
+    rightIsCover = true;
+
     clipper.visible = false;
   }
   
   // Animates page flip and saves new page number to album.
   // Passing a negative value will close the album.
   function turnTo(index) {
-    if (index < 0) {
-      close();
-      
-      return;
-    }
-    
     if (!prepareToTurn(index))
       return;
     
@@ -123,12 +126,6 @@ Rectangle {
   }
   
   function turnToward(index, fraction) {
-    if (index < 0) {
-      turnTowardCover(fraction);
-      
-      return;
-    }
-    
     if (!prepareToTurn(index))
       return;
     
@@ -155,6 +152,7 @@ Rectangle {
     startFraction = currentFraction;
     endFraction = 0.0;
     finalPageNumber = album.currentPageNumber;
+    finalPageIsCover = album.closed;
     
     clipper.triggerAutomatic = true;
   }
@@ -187,7 +185,7 @@ Rectangle {
       return false;
     }
     
-    if (!album || album.isClosed)
+    if (!album || album.closed)
       return false;
     
     // initialize rotation angle for changed direction
@@ -198,7 +196,7 @@ Rectangle {
     rightIsCover = false;
     rightPage = album.currentPage;
     leftToRight = false;
-    finalPageNumber = -1;
+    finalPageIsCover = true;
     
     return true;
   }
@@ -211,14 +209,16 @@ Rectangle {
       return false;
     }
     
-    if (!album || index >= album.pageCount || index == album.currentPageNumber)
+    if (!album || index >= album.pageCount
+      || (index == album.currentPageNumber && !album.closed)) {
       return false;
+    }
     
     leftIsCover = false;
     rightIsCover = false;
     
     var oldLeftToRight = leftToRight;
-    if (album.isClosed) {
+    if (album.closed) {
       leftIsCover = true;
       rightPage = album.getPage(index);
       leftToRight = true;
@@ -238,6 +238,7 @@ Rectangle {
       rotationTransform.angle = rotationOrigin;
     
     finalPageNumber = index;
+    finalPageIsCover = false;
     
     return true;
   }
@@ -271,8 +272,12 @@ Rectangle {
   }
   
   onAlbumChanged: {
-    if (album)
-      setTo(album.currentPageNumber);
+    if (album) {
+      if (album.closed)
+        setToClosed()
+      else
+        setTo(album.currentPageNumber);
+    }
   }
   
   Item {
@@ -369,14 +374,27 @@ Rectangle {
       // internal
       // Called when a page has completely flipped (rotation is completed)
       function rotationCompleted() {
-        var pageNumberChanged = (album.currentPageNumber != finalPageNumber);
-        if (pageNumberChanged)
-          album.currentPageNumber = finalPageNumber;
+        var pageFlipped = false;
+        if (finalPageIsCover) {
+          if (!album.closed) {
+            pageFlipped = true;
+            album.closed = true;
+          }
+        } else {
+          if (album.currentPageNumber != finalPageNumber) {
+            pageFlipped = true;
+            album.currentPageNumber = finalPageNumber;
+          }
+          if (album.closed) {
+            pageFlipped = true;
+            album.closed = false;
+          }
+        }
         
         // set up this component to display the final page by hiding
         // the sliding clipping region and configuring the left and
         // right pages
-        if (album.isClosed) {
+        if (album.closed) {
           leftIsCover = true;
           rightIsCover = true;
         } else {
@@ -397,7 +415,7 @@ Rectangle {
         rotationTransform.angle = rotationOrigin;
         
         // notify subscribers
-        if (pageNumberChanged)
+        if (pageFlipped)
           albumPageViewer.pageFlipped = true;
       }
       

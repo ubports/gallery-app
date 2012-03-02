@@ -49,7 +49,7 @@ Rectangle {
           // bullet character
           text: "\u2022"
           
-          color: album.currentPageNumber == pageNumber ? "steelblue" : "lightgray"
+          color: (album.currentPageNumber == pageNumber && !album.closed) ? "steelblue" : "lightgray"
           
           font.family: "Ubuntu"
           font.bold: true
@@ -59,7 +59,7 @@ Rectangle {
         MouseArea {
           anchors.fill: parent
           
-          enabled: album.currentPageNumber != pageNumber
+          enabled: (album.currentPageNumber != pageNumber || album.closed)
           
           onClicked: {
             selected(pageNumber);

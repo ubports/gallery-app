@@ -41,19 +41,6 @@ Rectangle {
     // force reload of the entire page's QML
     loader.source = (albumPage) ? albumPage.qmlRC : "";
   }
-    
-  AlbumCover {
-    id: albumCover
-    
-    album: (albumPage) ? albumPage.owner : null
-    
-    anchors.top: parent.top
-    anchors.bottom: parent.bottom
-    anchors.left: parent.horizontalCenter
-    anchors.right: parent.right
-    
-    visible: !(albumPage)
-  }
   
   Loader {
     id: loader
