@@ -237,7 +237,11 @@ void QmlViewCollectionModel::SetBackingViewCollection(SelectableViewCollection* 
   
   DisconnectBackingViewCollection();
   
+  beginResetModel();
+  
   view_ = view;
+  
+  endResetModel();
   
   QObject::connect(view_,
     SIGNAL(selection_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
@@ -255,11 +259,6 @@ void QmlViewCollectionModel::SetBackingViewCollection(SelectableViewCollection* 
     SLOT(on_contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
   
   notify_backing_collection_changed();
-  
-  if (view_->Count() > 0) {
-    beginInsertRows(QModelIndex(), 0, view_->Count() - 1);
-    endInsertRows();
-  }
   
   if (old_count != view_->Count())
     emit count_changed();
@@ -287,15 +286,12 @@ void QmlViewCollectionModel::DisconnectBackingViewCollection() {
     this,
     SLOT(on_contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
   
-  int old_count = view_->Count();
-  if (old_count > 0)
-    beginRemoveRows(QModelIndex(), 0, old_count - 1);
+  beginResetModel();
   
   delete view_;
   view_ = NULL;
   
-  if (old_count > 0)
-    endRemoveRows();
+  endResetModel();
 }
 
 SelectableViewCollection* QmlViewCollectionModel::BackingViewCollection() const {
