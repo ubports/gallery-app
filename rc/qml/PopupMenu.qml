@@ -74,9 +74,10 @@ Rectangle {
     interactive: false
 
     delegate: MenuItem {
-      title: model.title
-      isSeparator: model.isSeparator
-      hasBottomBorder: model.hasBottomBorder
+      title: (model.title) ? model.title : ""
+      isSeparator: (model.isSeparator) ? model.isSeparator : false
+      hasBottomBorder: (model.hasBottomBorder) ? model.hasBottomBorder : false
+      iconFilename: (model.iconFilename) ? model.iconFilename : ""
     }
 
     onContentHeightChanged: {

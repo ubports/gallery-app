@@ -25,28 +25,53 @@ Rectangle {
   property bool isSeparator: false
   property alias title: menuItemCaption.text
   property bool hasBottomBorder: true
+  property alias iconFilename: iconImage.source
 
-  height: (isSeparator) ? gu(1) : gu(6)
+  height: {
+    if (isSeparator)
+      return (title != "") ? gu(3) : gu(1)
+    else
+      return gu(6)
+  }
+
   width: gu(40)
 
   clip: true;
 
   color: (isSeparator) ? "#bcbdc0" : "white"
 
+  Image {
+    id: iconImage
+
+    visible: (iconFilename != "") ? true : false
+
+    width: 36
+    height: 36
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.leftMargin: gu(1)
+  }
+
   Text {
     id: menuItemCaption
 
-    anchors.fill: parent
+    anchors.left: (iconFilename != "") ? iconImage.right : parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
 
-    horizontalAlignment: Text.AlignHCenter
+    horizontalAlignment: (isSeparator || iconFilename != "") ? Text.AlignLeft :
+      Text.AlignHCenter
     verticalAlignment: Text.AlignVCenter
     font.family: "Ubuntu"
-    font.weight: Font.Normal
-    font.pixelSize: gu(2)
+    font.weight: (isSeparator) ? Font.Bold : Font.Normal
+    font.pixelSize: (isSeparator) ? gu(1.75) : gu(2)
 
-    visible: !menuItem.isSeparator
+    anchors.leftMargin: (isSeparator || iconFilename != "") ? gu(1) : 0
 
-    color: "#818285"
+    visible: (text) ? true : false
+
+    color: (isSeparator) ? "white" : "#818285"
   }
 
   Rectangle {

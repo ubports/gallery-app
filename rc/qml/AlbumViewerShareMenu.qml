@@ -22,28 +22,33 @@ import QtQuick 1.1
 PopupMenu {
   model: ListModel {
     ListElement {
-      title: "Add photos"
-    }
-
-    ListElement {
+      title: "Share"
       isSeparator: true
     }
 
     ListElement {
-      title: "Export to Device"
+      title: "Quick Share"
       hasBottomBorder: true
     }
 
     ListElement {
-      title: "Print album"
+      title: "Create Link"
     }
 
     ListElement {
+      title: "Paste into app"
       isSeparator: true
     }
 
     ListElement {
-      title: "Delete album"
+      title: "GMail"
+      hasBottomBorder: true
+      iconFilename: "../img/dummy-menu-icon.png"
+    }
+
+    ListElement {
+      title: "Yahoo! Mail"
+      iconFilename: "../img/dummy-menu-icon.png"
     }
   }
 }

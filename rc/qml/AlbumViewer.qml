@@ -143,6 +143,15 @@ Rectangle {
     visible: false;
   }
 
+  AlbumViewerShareMenu {
+    id: albumViewerShareMenu
+
+    popupOriginX: parent.width - gu(12.25);
+
+    visible: false
+  }
+
+
   ViewerChrome {
     id: chrome
 
@@ -200,6 +209,10 @@ Rectangle {
 
     onMoreOperationsButtonPressed: {
       albumViewerOptionsMenu.flipVisibility();
+    }
+
+    onShareOperationsButtonPressed: {
+      albumViewerShareMenu.flipVisibility();
     }
   }
 

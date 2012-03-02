@@ -56,6 +56,7 @@ Item {
   property alias toolbarPageIndicatorAlbum: toolbar.pageIndicatorAlbum
   signal pageIndicatorPageSelected(int pageNumber)
   signal moreOperationsButtonPressed()
+  signal shareOperationsButtonPressed()
   // TODO: any menu signals.
 
   // Pass-throughs from the left/right nav buttons.
@@ -212,6 +213,8 @@ Item {
     onAlbumOperationsButtonPressed: albumPicker.flipVisibility()
 
     onMoreOperationsButtonPressed: wrapper.moreOperationsButtonPressed()
+
+    onShareOperationsButtonPressed: wrapper.shareOperationsButtonPressed()
   }
 
   Timer {
