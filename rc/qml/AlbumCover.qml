@@ -20,25 +20,19 @@
 import QtQuick 1.1
 import Gallery 1.0
 
-Rectangle {
+Item {
   id: albumCover
   
   property Album album
+  property bool anchorRight: true
+  property bool isBlank: false
   property int titleDateSpacing: gu(2)
-  
-  Rectangle {
-    id: blank
-    
-    anchors.left: parent.left
-    
-    width: parent.width / 2
-    height: parent.height
-  }
   
   Rectangle {
     id: cover
     
-    anchors.left: blank.right
+    anchors.left: (anchorRight) ? parent.horizontalCenter : undefined
+    anchors.right: (anchorRight) ? undefined : parent.horizontalCenter
     
     // maintain an aspect ratio, no matter the size
     width: ((height * 0.75) <= (parent.width / 2)) ? height * 0.75 : parent.width / 2
@@ -76,6 +70,8 @@ Rectangle {
         
         width: parent.width
         
+        visible: !isBlank
+        
         color: "#657CA9"
         
         font.family: "Ubuntu"
@@ -101,6 +97,8 @@ Rectangle {
         anchors.topMargin: titleDateSpacing
         
         width: parent.width
+        
+        visible: !isBlank
         
         color: "#657CA9"
         

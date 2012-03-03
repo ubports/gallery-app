@@ -97,14 +97,11 @@ Rectangle {
       }
       
       onSwiped: {
-        if (albumPageViewer.currentFraction >= commitTurnFraction) {
-          if (turningTowardCover)
-            albumPageViewer.close();
-          else
-            albumPageViewer.turnTo(turningTowardPage);
-        } else {
+        // Can turn toward the cover, but never close the album in the viewer
+        if (albumPageViewer.currentFraction >= commitTurnFraction && !turningTowardCover)
+          albumPageViewer.turnTo(turningTowardPage);
+        else
           albumPageViewer.releasePage();
-        }
       }
     }
   }

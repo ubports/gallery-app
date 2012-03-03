@@ -22,7 +22,6 @@ import Gallery 1.0
 
 Stack {
   id: navStack
-  objectName: "navStack"
   
   function switchToPage(page) {
     if (!isEmpty)

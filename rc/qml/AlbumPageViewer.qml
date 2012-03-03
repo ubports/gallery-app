@@ -47,7 +47,7 @@ import Gallery 1.0
 // seem unnecessary, but it removes the need for a separate component to show
 // the entire page and then showing/hiding it via z-order, visibility, or some
 // other trick.
-Rectangle {
+Item {
   id: albumPageViewer
   
   // public
@@ -66,6 +66,7 @@ Rectangle {
   property bool leftToRight: true
   property bool leftIsCover: false
   property bool rightIsCover: false
+  property bool rightIsBackCover: false
   property int finalPageNumber
   property bool finalPageIsCover
   property real rotationOrigin: leftToRight ? 0.0 : -180.0
@@ -103,19 +104,25 @@ Rectangle {
   function setToClosed() {
     if (isRunning) {
       console.log("Blocking set of album page", index);
-
+      
       return;
     }
-
+    
     leftIsCover = true;
     rightIsCover = true;
-
+    
     clipper.visible = false;
   }
   
   // Animates page flip and saves new page number to album.
   // Passing a negative value will close the album.
   function turnTo(index) {
+    if (index >= album.pageCount) {
+      releasePage();
+      
+      return;
+    }
+    
     if (!prepareToTurn(index))
       return;
     
@@ -209,7 +216,9 @@ Rectangle {
       return false;
     }
     
-    if (!album || index >= album.pageCount
+    // Can turn past the last page, but only pull it up, not close the album
+    // with the back cover facing the user
+    if (!album || (index >= album.pageCount + 1)
       || (index == album.currentPageNumber && !album.closed)) {
       return false;
     }
@@ -229,8 +238,13 @@ Rectangle {
     } else {
       // album.currentPageNumber < index
       leftPage = album.getPage(album.currentPageNumber);
-      rightPage = album.getPage(index);
       leftToRight = true;
+      if (index < album.pageCount) {
+        rightPage = album.getPage(index);
+      } else {
+        rightIsCover = true;
+        rightIsBackCover = true;
+      }
     }
     
     // initialize rotation angle for changed direction
@@ -293,7 +307,7 @@ Rectangle {
       height: parent.height
       
       AlbumCover {
-        id: coverBackground
+        id: leftCoverBackground
         
         album: albumPageViewer.album
         
@@ -333,6 +347,8 @@ Rectangle {
         id: rightCoverBackground
         
         album: albumPageViewer.album
+        anchorRight: !rightIsBackCover
+        isBlank: rightIsBackCover
         
         x: parent.x
         y: parent.y
@@ -397,6 +413,7 @@ Rectangle {
         if (album.closed) {
           leftIsCover = true;
           rightIsCover = true;
+          rightIsBackCover = false;
         } else {
           leftIsCover = false;
           rightIsCover = false;
@@ -430,7 +447,7 @@ Rectangle {
         height: parent.height
         
         AlbumCover {
-          id: coverAnimated
+          id: leftCoverAnimated
           
           album: albumPageViewer.album
           
@@ -458,6 +475,19 @@ Rectangle {
         width: parent.width
         height: parent.height
         
+        AlbumCover {
+          id: rightCoverAnimated
+          
+          album: albumPageViewer.album
+          anchorRight: false
+          isBlank: true
+          
+          width: albumPageViewer.width
+          height: albumPageViewer.height
+          
+          visible: rightIsCover
+        }
+        
         AlbumPageComponent {
           id: rightPageAnimated
           
@@ -465,6 +495,8 @@ Rectangle {
           
           width: albumPageViewer.width
           height: albumPageViewer.height
+          
+          visible: !rightIsCover
         }
       }
         

@@ -21,12 +21,11 @@
 import QtQuick 1.0
 import Gallery 1.0
 
-Rectangle {
+Item {
   id: application
   
   width: gu(160)
   height: gu(97)
-  color: "white"
   
   // Converts a grid-unit into a pixel value.
   function gu(amt) {
@@ -35,7 +34,6 @@ Rectangle {
   
   Overview {
     id: overview
-    objectName: "overview"
     
     anchors.fill: parent
     
@@ -44,7 +42,6 @@ Rectangle {
   
   AlbumViewer {
     id: albumViewer
-    objectName: "albumViewer"
     
     anchors.fill: parent
     
@@ -82,7 +79,6 @@ Rectangle {
   
   MediaSelector {
     id: mediaSelector
-    objectName: "mediaSelector"
     
     anchors.fill: parent
     
@@ -91,7 +87,6 @@ Rectangle {
   
   NavStack {
     id: navStack
-    objectName: "navStack"
   
     function switchToAlbumViewer(album, thumbnailRect) {
       albumViewer.album = album;
