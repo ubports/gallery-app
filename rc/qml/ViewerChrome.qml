@@ -37,6 +37,7 @@ Item {
 
   property string navbarTitle
   property bool navbarHasStateButton: false
+  property bool navbarHasCancelSelectionButton: false
 
   property bool toolbarHasFullIconSet: true
   property bool toolbarHasMainIconsWhenSelecting: true
@@ -46,9 +47,11 @@ Item {
   // Pass-throughs from the navbar.
   property alias navbarHeight: navbar.height
   property alias navbarStateButtonIconFilename: navbar.stateButtonIconFilename
+  property alias navbarSelectionDoneButtonTitle: navbar.selectionDoneButtonTitle
   signal returnButtonPressed()
   signal stateButtonPressed()
   signal selectionDoneButtonPressed()
+  signal cancelSelectionButtonPressed()
 
   // Pass-throughs from the toolbar.
   property alias toolbarHeight: toolbar.height
@@ -196,12 +199,14 @@ Item {
     hasReturnButton: !wrapper.inSelectionMode
     hasStateButton: wrapper.navbarHasStateButton && !wrapper.inSelectionMode
     hasSelectionDoneButton: wrapper.inSelectionMode
+    hasCancelSelectionButton: wrapper.inSelectionMode && wrapper.navbarHasCancelSelectionButton
 
     titleText: (!wrapper.inSelectionMode ? wrapper.navbarTitle : "")
 
     onReturnButtonPressed: wrapper.returnButtonPressed()
     onStateButtonPressed: wrapper.stateButtonPressed()
     onSelectionDoneButtonPressed: wrapper.selectionDoneButtonPressed()
+    onCancelSelectionButtonPressed: wrapper.cancelSelectionButtonPressed()
   }
 
   GalleryStandardToolbar {

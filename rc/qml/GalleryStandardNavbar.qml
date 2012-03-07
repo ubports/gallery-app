@@ -26,12 +26,15 @@ Toolbar {
   property bool hasStateButton: false
   property string stateButtonIconFilename
   property bool hasSelectionDoneButton: false
+  property alias selectionDoneButtonTitle: selectionDoneButton.title
+  property bool hasCancelSelectionButton: false
   property alias titleText: title.text
   property alias titleColor: title.color
 
   signal returnButtonPressed()
   signal stateButtonPressed()
   signal selectionDoneButtonPressed()
+  signal cancelSelectionButtonPressed()
 
   background: "white"
 
@@ -42,6 +45,16 @@ Toolbar {
     anchors.verticalCenter: parent.verticalCenter
     anchors.left: parent.left
     anchors.leftMargin: gu(2)
+
+    GallerySecondaryPushButton {
+      id: cancelSelectionButton
+
+      title: "cancel"
+
+      visible: wrapper.hasCancelSelectionButton
+
+      onPressed: wrapper.cancelSelectionButtonPressed()
+    }
 
     ToolbarIconButton {
       visible: wrapper.hasReturnButton

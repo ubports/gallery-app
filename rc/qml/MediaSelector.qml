@@ -49,6 +49,9 @@ Rectangle {
     fadeDuration: 0
     autoHideWait: 0
 
+    navbarSelectionDoneButtonTitle: "add to album"
+    navbarHasCancelSelectionButton: true
+
     toolbarHasMainIconsWhenSelecting: false
 
     hasPopupMenu: false
@@ -64,7 +67,11 @@ Rectangle {
         album = mediaCheckerboard.model.createAlbumFromSelected();
 
       mediaCheckerboard.unselectAll();
+      navStack.goBack()
+    }
 
+    onCancelSelectionButtonPressed: {
+      mediaCheckerboard.unselectAll();
       navStack.goBack()
     }
   }
