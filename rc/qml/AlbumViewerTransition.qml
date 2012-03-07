@@ -29,8 +29,8 @@ Item {
   property Rectangle backgroundGlass
   property int durationMsec: 200
   
-  property real pageTopGutter: gu(0)
-  property real pageBottomGutter: gu(0)
+  property real pageTopGutter: gu(6)
+  property real pageBottomGutter: gu(6)
   property real pageLeftGutter: gu(3)
   property real pageRightGutter: gu(3)
   property real pageSpineGutter: gu(2)

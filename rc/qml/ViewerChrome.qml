@@ -71,16 +71,12 @@ Item {
   // Read-only, please.
   property bool active: albumPicker.visible
   
-  // internal
-  property real controlOpacity: 1.0
-  
   visible: false
   state: "hidden"
 
   states: [
     State { name: "shown"; },
-    State { name: "hidden"; },
-    State { name: "dimmed"; }
+    State { name: "hidden"; }
   ]
 
   transitions: [
@@ -89,24 +85,6 @@ Item {
     },
     Transition { from: "hidden"; to: "shown";
       FadeInAnimation { target: wrapper; duration: fadeDuration; }
-    },
-    Transition { from: "shown,hidden"; to: "dimmed";
-      PropertyAnimation {
-        target: wrapper
-        property: "controlOpacity"
-        from: 1.0
-        to: 0.0
-        duration: fadeDuration
-      }
-    },
-    Transition { from: "dimmed"; to: "shown,hidden";
-      PropertyAnimation {
-        target: wrapper
-        property: "controlOpacity"
-        from: 0.0
-        to: 1.0
-        duration: fadeDuration
-      }
     }
   ]
 
@@ -120,8 +98,12 @@ Item {
     visible = visibility;
   }
   
-  function dimControls(dimmed) {
-    state = dimmed ? "dimmed" : "hidden";
+  function show() {
+    state = "shown";
+  }
+  
+  function hide() {
+    state = "hidden";
   }
   
   onVisibleChanged: {
@@ -161,8 +143,6 @@ Item {
     x: gu(1.5)
     y: 2 * parent.height / 3
     
-    opacity: controlOpacity
-    
     onPressed: {
       autoHideTimer.startAutoHide();
       leftNavigationButtonPressed();
@@ -178,8 +158,6 @@ Item {
 
     x: parent.width - width - gu(1.5)
     y: 2 * parent.height / 3
-    
-    opacity: controlOpacity
     
     onPressed: {
       autoHideTimer.startAutoHide();
@@ -215,8 +193,6 @@ Item {
     background: (!wrapper.inSelectionMode ? "white" : "lightBlue")
     isTranslucent: (!wrapper.inSelectionMode ? wrapper.toolbarsAreTranslucent : false)
     
-    controlOpacity: parent.controlOpacity
-    
     hasReturnButton: !wrapper.inSelectionMode
     hasStateButton: wrapper.navbarHasStateButton && !wrapper.inSelectionMode
     hasSelectionDoneButton: wrapper.inSelectionMode
@@ -235,8 +211,6 @@ Item {
 
     background: (!wrapper.inSelectionMode ? "white" : "lightBlue")
     isTranslucent: wrapper.toolbarsAreTranslucent
-    
-    controlOpacity: parent.controlOpacity
     
     hasMainIconSet: (wrapper.inSelectionMode ? wrapper.toolbarHasMainIconsWhenSelecting : true)
     hasFullIconSet: wrapper.inSelectionMode || wrapper.toolbarHasFullIconSet

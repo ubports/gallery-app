@@ -50,6 +50,8 @@ import Gallery 1.0
 Item {
   id: albumPageViewer
   
+  signal pageReleased()
+  
   // public
   property Album album
   property int durationMsec: 1000
@@ -484,6 +486,8 @@ Item {
         // notify subscribers
         if (pageFlipped)
           albumPageViewer.pageFlipped = true;
+        else
+          pageReleased();
       }
       
       x: leftToRight ? -(parent.width / 2) : (parent.width / 2)

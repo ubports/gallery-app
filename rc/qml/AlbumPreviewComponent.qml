@@ -60,7 +60,7 @@ Rectangle {
     anchors.bottom: parent.bottom
     height: titleHeight
     
-    visible: album && !album.closed
+    visible: album != undefined && !album.closed
     
     Column {
       anchors.centerIn: parent

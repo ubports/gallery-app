@@ -60,7 +60,7 @@ Rectangle {
     if (album)
       albumPageViewer.setTo(album.currentPageNumber);
     albumPageViewer.visible = true;
-    chrome.dimControls(false);
+    chrome.show();
     gridCheckerboard.visible = false;
   }
 
@@ -72,8 +72,13 @@ Rectangle {
     album: albumViewer.album
     
     onPageFlippedChanged: {
+      // turn chrome back on once flip is completed
       if (pageFlipped)
-        chrome.dimControls(false);
+        chrome.show();
+    }
+    
+    onPageReleased: {
+      chrome.show();
     }
     
     SwipeArea {
@@ -94,7 +99,8 @@ Rectangle {
         turningTowardCover = (leftToRight && album.currentPageNumber == 0)
         albumPageViewer.turnTowardPageNumber = turningTowardPage;
         
-        chrome.dimControls(true);
+        // turn off chrome, allow the page flipper full screen
+        chrome.hide();
       }
       
       onSwiping: {
@@ -175,6 +181,7 @@ Rectangle {
     state: "shown"
     visible: true
 
+    fadeDuration: 100
     autoHideWait: 0
 
     inSelectionMode: gridCheckerboard.visible && gridCheckerboard.inSelectionMode

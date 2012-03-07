@@ -27,7 +27,6 @@ Toolbar {
   property bool hasMainIconSet: true
   property bool hasFullIconSet: true
   property bool useContrastOnWhiteColorScheme: false
-  property real controlOpacity: 1.0
 
   /* read only properties */
   property int albumOperationsPopupX: albumOperationsToolbarButton.x +
@@ -50,7 +49,6 @@ Toolbar {
 
     color: "transparent"
     visible: (album) ? wrapper.hasPageIndicator && album.pageCount > 1 : false;
-    opacity: controlOpacity
 
     onSelected: wrapper.pageIndicatorPageSelected(pageNumber)
   }
@@ -69,7 +67,6 @@ Toolbar {
       anchors.verticalCenter: parent.verticalCenter
 
       visible: hasFullIconSet
-      opacity: controlOpacity
 
       onPressed: wrapper.trashOperationButtonPressed();
     }
@@ -82,15 +79,12 @@ Toolbar {
       anchors.verticalCenter: parent.verticalCenter
 
       visible: hasFullIconSet
-      opacity: controlOpacity
 
       onPressed: wrapper.albumOperationsButtonPressed();
     }
 
     ShareOperationsToolbarButton {
       anchors.verticalCenter: parent.verticalCenter
-
-      opacity: controlOpacity
 
       onPressed: wrapper.shareOperationsButtonPressed();
     }
@@ -99,8 +93,6 @@ Toolbar {
       id: moreOperationsToolbarButton
 
       anchors.verticalCenter: parent.verticalCenter
-
-      opacity: controlOpacity
 
       onPressed: wrapper.moreOperationsButtonPressed();
     }
