@@ -26,12 +26,20 @@ Rectangle {
   id: overview
   objectName: "overview"
   
+  property Rectangle glass: overviewGlass
+  
   anchors.fill: parent
 
   function getRectOfAlbumPreview(album, relativeTo) {
     return albumsCheckerboard.getRectOfItemAt(albumsCheckerboard.model.indexOf(album), relativeTo);
   }
-
+  
+  function showAlbumPreview(album, show) {
+    var delegate = albumsCheckerboard.getDelegateInstanceAt(albumsCheckerboard.model.indexOf(album));
+    if (delegate)
+      delegate.visible = show;
+  }
+  
   state: "eventView"
 
   states: [
@@ -264,5 +272,14 @@ Rectangle {
       else
         close();
     }
+  }
+  
+  Rectangle {
+    id: overviewGlass
+    
+    anchors.fill: parent
+    
+    color: "black"
+    opacity: 0.0
   }
 }

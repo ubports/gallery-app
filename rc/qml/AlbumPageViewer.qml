@@ -53,9 +53,11 @@ Item {
   // public
   property Album album
   property int durationMsec: 1000
+  property int turnTowardPageNumber: 0
+  property real turnFraction: 0.0
   property bool isPreview: false
-  property real topGutter: gu(0)
-  property real bottomGutter: gu(0)
+  property real topGutter: gu(6)
+  property real bottomGutter: gu(6)
   property real leftGutter: gu(3)
   property real rightGutter: gu(3)
   property real spineGutter: gu(2)
@@ -150,12 +152,12 @@ Item {
     start(true);
   }
   
-  function turnToward(index, fraction) {
-    if (!prepareToTurn(index))
+  onTurnFractionChanged: {
+    if (!prepareToTurn(turnTowardPageNumber))
       return;
     
     startFraction = currentFraction;
-    endFraction = fraction;
+    endFraction = turnFraction;
     
     start(false);
   }
@@ -320,13 +322,13 @@ Item {
     width: parent.width
     height: parent.height * 2
     
-    clip: true
-    
     Rectangle {
       x: albumPageViewer.width / 2
       y: albumPageViewer.height / 2
       width: albumPageViewer.width / 2
       height: albumPageViewer.height
+      
+      color: "transparent"
       
       AlbumCover {
         id: leftCoverBackground
@@ -377,6 +379,8 @@ Item {
       y: albumPageViewer.height / 2
       width: albumPageViewer.width / 2
       height: albumPageViewer.height
+      
+      color: "transparent"
       
       AlbumCover {
         id: rightCoverBackground

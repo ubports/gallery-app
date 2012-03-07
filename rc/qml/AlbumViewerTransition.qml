@@ -25,6 +25,10 @@ import Gallery 1.0
 Item {
   id: albumViewerTransition
   
+  property Album album
+  property Rectangle backgroundGlass
+  property int durationMsec: 200
+  
   property real pageTopGutter: gu(0)
   property real pageBottomGutter: gu(0)
   property real pageLeftGutter: gu(3)
@@ -43,13 +47,14 @@ Item {
     var translatedRect = mapFromItem(application, thumbnailRect.x, thumbnailRect.y);
     translatedRect.width = thumbnailRect.width;
     translatedRect.height = thumbnailRect.height;
-
-    expandAlbum.album = album;
+    
+    albumViewerTransition.album = album;
+    
     expandAlbum.x = translatedRect.x;
     expandAlbum.y = translatedRect.y;
     expandAlbum.width = translatedRect.width;
     expandAlbum.height = translatedRect.height;
-
+    
     showAlbumViewerAnimation.start();
   }
 
@@ -57,9 +62,15 @@ Item {
     var translatedRect = mapFromItem(application, thumbnailRect.x, thumbnailRect.y);
     translatedRect.width = thumbnailRect.width;
     translatedRect.height = thumbnailRect.height;
-
-    expandAlbum.album = album;
+    
+    albumViewerTransition.album = album;
+    
+    expandAlbum.x = 0;
+    expandAlbum.y = 0;
+    expandAlbum.width = width;
+    expandAlbum.height = height;
     hideAlbumViewerAnimation.thumbnailRect = translatedRect;
+    
     hideAlbumViewerAnimation.start();
   }
 
@@ -76,6 +87,8 @@ Item {
   AlbumPreviewComponent {
     id: expandAlbum
     
+    album: parent.album
+    
     visible: false
   }
 
@@ -83,37 +96,51 @@ Item {
     id: showAlbumViewerAnimation
 
     PropertyAction { target: expandAlbum; property: "visible"; value: true; }
+    
+    PropertyAction {
+      target: backgroundGlass
+      property: "opacity"
+      value: 0.0
+    }
+    
     ParallelAnimation {
       ExpandAnimation {
         target: expandAlbum
         endHeight: albumViewerTransition.height + expandAlbum.nameHeight
-        duration: 200
+        duration: durationMsec
       }
 
       NumberAnimation { target: expandAlbum; property: "topGutter";
-        from: thumbnailTopGutter; to: pageTopGutter; duration: 200
+        from: thumbnailTopGutter; to: pageTopGutter; duration: durationMsec
       }
       NumberAnimation { target: expandAlbum; property: "bottomGutter";
-        from: thumbnailBottomGutter; to: pageBottomGutter; duration: 200
+        from: thumbnailBottomGutter; to: pageBottomGutter; duration: durationMsec
       }
       NumberAnimation { target: expandAlbum; property: "leftGutter";
-        from: thumbnailLeftGutter; to: pageLeftGutter; duration: 200
+        from: thumbnailLeftGutter; to: pageLeftGutter; duration: durationMsec
       }
       NumberAnimation { target: expandAlbum; property: "rightGutter";
-        from: thumbnailRightGutter; to: pageRightGutter; duration: 200
+        from: thumbnailRightGutter; to: pageRightGutter; duration: durationMsec
       }
       NumberAnimation { target: expandAlbum; property: "spineGutter";
-        from: thumbnailSpineGutter; to: pageSpineGutter; duration: 200
+        from: thumbnailSpineGutter; to: pageSpineGutter; duration: durationMsec
       }
       NumberAnimation { target: expandAlbum; property: "insideGutter";
-        from: thumbnailInsideGutter; to: pageInsideGutter; duration: 200
+        from: thumbnailInsideGutter; to: pageInsideGutter; duration: durationMsec
       }
 
       NumberAnimation {
         target: expandAlbum
         property: "bookmarkOpacity"
         to: 0
-        duration: 200
+        duration: durationMsec
+      }
+      
+      PropertyAnimation {
+        target: backgroundGlass
+        property: "opacity"
+        to: 1.0
+        duration: durationMsec
       }
     }
 
@@ -132,6 +159,13 @@ Item {
 
     PropertyAction { target: expandAlbum; property: "bookmarkOpacity"; value: 0; }
     PropertyAction { target: expandAlbum; property: "visible"; value: true; }
+    
+    PropertyAction {
+      target: backgroundGlass
+      property: "opacity"
+      value: 1.0
+    }
+    
     ParallelAnimation {
       ExpandAnimation {
         target: expandAlbum
@@ -139,34 +173,41 @@ Item {
         endY: hideAlbumViewerAnimation.thumbnailRect.y
         endWidth: hideAlbumViewerAnimation.thumbnailRect.width
         endHeight: hideAlbumViewerAnimation.thumbnailRect.height
-        duration: 200
+        duration: durationMsec
         easingType: Easing.OutQuad
       }
 
       NumberAnimation { target: expandAlbum; property: "topGutter";
-        from: pageTopGutter; to: thumbnailTopGutter; duration: 200
+        from: pageTopGutter; to: thumbnailTopGutter; duration: durationMsec
       }
       NumberAnimation { target: expandAlbum; property: "bottomGutter";
-        from: pageBottomGutter; to: thumbnailBottomGutter; duration: 200
+        from: pageBottomGutter; to: thumbnailBottomGutter; duration: durationMsec
       }
       NumberAnimation { target: expandAlbum; property: "leftGutter";
-        from: pageLeftGutter; to: thumbnailLeftGutter; duration: 200
+        from: pageLeftGutter; to: thumbnailLeftGutter; duration: durationMsec
       }
       NumberAnimation { target: expandAlbum; property: "rightGutter";
-        from: pageRightGutter; to: thumbnailRightGutter; duration: 200
+        from: pageRightGutter; to: thumbnailRightGutter; duration: durationMsec
       }
       NumberAnimation { target: expandAlbum; property: "spineGutter";
-        from: pageSpineGutter; to: thumbnailSpineGutter; duration: 200
+        from: pageSpineGutter; to: thumbnailSpineGutter; duration: durationMsec
       }
       NumberAnimation { target: expandAlbum; property: "insideGutter";
-        from: pageInsideGutter; to: thumbnailInsideGutter; duration: 200
+        from: pageInsideGutter; to: thumbnailInsideGutter; duration: durationMsec
       }
 
       NumberAnimation {
         target: expandAlbum
         property: "bookmarkOpacity"
         to: 1
-        duration: 200
+        duration: durationMsec
+      }
+      
+      PropertyAnimation {
+        target: backgroundGlass
+        property: "opacity"
+        to: 0.0
+        duration: durationMsec
       }
     }
     PropertyAction { target: expandAlbum; property: "visible"; value: false; }

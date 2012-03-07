@@ -19,6 +19,7 @@
     <file>img/viewer-forward.png</file>
     
     <file>qml/AddCreateOperationNavbarButton.qml</file>
+    <file>qml/AlbumClosedViewerTransition.qml</file>
     <file>qml/AlbumCover.qml</file>
     <file>qml/AlbumOperationsToolbarButton.qml</file>
     <file>qml/AlbumPageComponent.qml</file>

@@ -59,7 +59,9 @@ Rectangle {
     anchors.right: parent.right
     anchors.bottom: parent.bottom
     height: titleHeight
-
+    
+    visible: album && !album.closed
+    
     Column {
       anchors.centerIn: parent
 

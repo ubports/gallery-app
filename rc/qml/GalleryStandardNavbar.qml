@@ -28,6 +28,7 @@ Toolbar {
   property bool hasSelectionDoneButton: false
   property alias titleText: title.text
   property alias titleColor: title.color
+  property real controlOpacity: 1.0
 
   signal returnButtonPressed()
   signal stateButtonPressed()
@@ -47,6 +48,8 @@ Toolbar {
       visible: wrapper.hasReturnButton
 
       iconFilename: "../img/return-arrow.png"
+      
+      opacity: controlOpacity
 
       onPressed: wrapper.returnButtonPressed()
     }
@@ -55,6 +58,8 @@ Toolbar {
       visible: wrapper.hasStateButton
 
       iconFilename: stateButtonIconFilename
+      
+      opacity: controlOpacity
 
       onPressed: wrapper.stateButtonPressed()
     }
@@ -67,6 +72,8 @@ Toolbar {
 
     font.pixelSize: gu(2)
     color: "#bfb7ae"
+    
+    opacity: controlOpacity
   }
 
   Row {
@@ -83,6 +90,7 @@ Toolbar {
       title: "done"
 
       visible: wrapper.hasSelectionDoneButton
+      opacity: controlOpacity
 
       onPressed: wrapper.selectionDoneButtonPressed()
     }

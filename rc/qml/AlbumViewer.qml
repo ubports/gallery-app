@@ -57,7 +57,10 @@ Rectangle {
   function resetView() {
     state = ""; // Prevents the animation on gridView -> pageView from happening.
     state = "pageView";
+    if (album)
+      albumPageViewer.setTo(album.currentPageNumber);
     albumPageViewer.visible = true;
+    chrome.dimControls(false);
     gridCheckerboard.visible = false;
   }
 
@@ -65,10 +68,13 @@ Rectangle {
     id: albumPageViewer
     
     anchors.fill: parent
-    anchors.topMargin: chrome.navbarHeight
-    anchors.bottomMargin: chrome.toolbarHeight
     
     album: albumViewer.album
+    
+    onPageFlippedChanged: {
+      if (pageFlipped)
+        chrome.dimControls(false);
+    }
     
     SwipeArea {
       property real commitTurnFraction: 0.35
@@ -86,6 +92,9 @@ Rectangle {
          ? album.currentPageNumber
          : album.currentPageNumber + (leftToRight ? -1 : 1));
         turningTowardCover = (leftToRight && album.currentPageNumber == 0)
+        albumPageViewer.turnTowardPageNumber = turningTowardPage;
+        
+        chrome.dimControls(true);
       }
       
       onSwiping: {
@@ -93,7 +102,7 @@ Rectangle {
         if (turningTowardCover)
           albumPageViewer.turnTowardCover(distance / availableDistance);
         else
-          albumPageViewer.turnToward(turningTowardPage, distance / availableDistance);
+          albumPageViewer.turnFraction = (distance / availableDistance);
       }
       
       onSwiped: {
