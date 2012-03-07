@@ -181,7 +181,7 @@ Rectangle {
     state: "shown"
     visible: true
 
-    fadeDuration: 100
+    fadeDuration: 0
     autoHideWait: 0
 
     inSelectionMode: gridCheckerboard.visible && gridCheckerboard.inSelectionMode
