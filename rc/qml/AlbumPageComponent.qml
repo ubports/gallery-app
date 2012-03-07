@@ -35,8 +35,11 @@ Rectangle {
   property bool isPreview: false
 
   property real spineBorderWidth: gu(0.25)
-  property color spineBorderColor: "#95b5df"
+  property color borderColor: (isPreview ? "#0072bc" : "#95b5df")
   
+  border.width: (isPreview ? gu(0.25) : gu(0))
+  border.color: borderColor
+
   onAlbumPageChanged: {
     // force reload of the entire page's QML
     loader.source = (albumPage) ? albumPage.qmlRC : "";
@@ -54,7 +57,7 @@ Rectangle {
     property alias spineGutter: albumPageComponent.spineGutter
     property alias insideGutter: albumPageComponent.insideGutter
     property alias spineBorderWidth: albumPageComponent.spineBorderWidth
-    property alias spineBorderColor: albumPageComponent.spineBorderColor
+    property alias spineBorderColor: albumPageComponent.borderColor
 
     anchors.fill: parent
     

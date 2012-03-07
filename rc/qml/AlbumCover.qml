@@ -26,6 +26,7 @@ Item {
   property Album album
   property bool anchorRight: true
   property bool isBlank: false
+  property real titleOpacity: 1
   property int titleDateSpacing: gu(2)
   
   Rectangle {
@@ -71,7 +72,7 @@ Item {
         width: parent.width
         
         visible: !isBlank
-        
+        opacity: titleOpacity
         color: "#657CA9"
         
         font.family: "Ubuntu"
@@ -99,7 +100,7 @@ Item {
         width: parent.width
         
         visible: !isBlank
-        
+        opacity: titleOpacity
         color: "#657CA9"
         
         font.family: "Ubuntu"

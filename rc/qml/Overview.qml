@@ -183,25 +183,23 @@ Rectangle {
     }
     
     delegate: AlbumPreviewComponent {
-      id: previewDelegate
-
       album: modelData.album
 
       SwipeArea {
         anchors.fill: parent
 
-        requiredHorizMovement: gu(4)
-
-        onTapped: {
-          var rect = GalleryUtility.getRectRelativeTo(previewDelegate, overview);
-          albumsCheckerboard.activated(modelData.object, modelData.model, rect);
-        }
+        enabled: !parent.isRunning
 
         onSwiped: {
-          if (leftToRight && !album.closed)
-            album.closed = true;
-          else if (!leftToRight && album.closed)
-            album.closed = false;
+          if (leftToRight)
+            parent.close();
+          else
+            parent.open();
+        }
+
+        onTapped: {
+          var rect = GalleryUtility.getRectRelativeTo(parent, overview);
+          albumsCheckerboard.activated(modelData.object, modelData.model, rect);
         }
       }
     }

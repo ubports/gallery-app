@@ -53,6 +53,14 @@ Item {
   // public
   property Album album
   property int durationMsec: 1000
+  property bool isPreview: false
+  property real topGutter: gu(0)
+  property real bottomGutter: gu(0)
+  property real leftGutter: gu(3)
+  property real rightGutter: gu(3)
+  property real spineGutter: gu(2)
+  property real insideGutter: gu(2)
+  property real coverTitleOpacity: 1
   
   // readonly
   property bool pageFlipped: false
@@ -113,9 +121,19 @@ Item {
     
     clipper.visible = false;
   }
+
+  // Calls either setTo() or setToClosed() depending on the current state of
+  // the album.  An easy way to keep this state consistent with the album's.
+  function setToAlbumCurrent() {
+    if (album) {
+      if (album.closed)
+        setToClosed()
+      else
+        setTo(album.currentPageNumber);
+    }
+  }
   
   // Animates page flip and saves new page number to album.
-  // Passing a negative value will close the album.
   function turnTo(index) {
     if (index >= album.pageCount) {
       releasePage();
@@ -168,7 +186,7 @@ Item {
     if (!prepareToClose())
       return;
     
-    startFraction = 0.0;
+    startFraction = currentFraction;
     endFraction = 1.0;
     
     start(true);
@@ -195,9 +213,7 @@ Item {
     if (!album || album.closed)
       return false;
     
-    // initialize rotation angle for changed direction
-    if (leftToRight)
-      rotationTransform.angle = rotationOrigin;
+    var oldLeftToRight = leftToRight;
     
     leftIsCover = true;
     rightIsCover = false;
@@ -205,6 +221,10 @@ Item {
     leftToRight = false;
     finalPageIsCover = true;
     
+    // initialize rotation angle for changed direction
+    if (oldLeftToRight != leftToRight)
+      rotationTransform.angle = rotationOrigin;
+
     return true;
   }
   
@@ -285,26 +305,28 @@ Item {
     }
   }
   
-  onAlbumChanged: {
-    if (album) {
-      if (album.closed)
-        setToClosed()
-      else
-        setTo(album.currentPageNumber);
-    }
-  }
+  onAlbumChanged: setToAlbumCurrent()
+
+  onVisibleChanged: setToAlbumCurrent()
   
   Item {
-    width: parent.width / 2
-    height: parent.height
+    // This clipping item exists to prevent half of the page from showing up
+    // (the half we aren't animating yet).  It's arbitrarily bigger than the
+    // parent region (so we don't clip the borders of the children) and
+    // positioned so its edge is right down the middle of the page, hence the
+    // odd negative absolute coordinates here.
+    x: -(parent.width / 2)
+    y: -(parent.height / 2)
+    width: parent.width
+    height: parent.height * 2
     
     clip: true
     
     Rectangle {
-      x: 0
-      y: 0
-      width: parent.width
-      height: parent.height
+      x: albumPageViewer.width / 2
+      y: albumPageViewer.height / 2
+      width: albumPageViewer.width / 2
+      height: albumPageViewer.height
       
       AlbumCover {
         id: leftCoverBackground
@@ -315,6 +337,8 @@ Item {
         height: albumPageViewer.height
         
         visible: leftIsCover
+
+        titleOpacity: albumPageViewer.coverTitleOpacity
       }
       
       AlbumPageComponent {
@@ -325,23 +349,34 @@ Item {
         width: albumPageViewer.width
         height: albumPageViewer.height
         
+        topGutter: albumPageViewer.topGutter
+        bottomGutter: albumPageViewer.bottomGutter
+        leftGutter: albumPageViewer.leftGutter
+        rightGutter: albumPageViewer.rightGutter
+        spineGutter: albumPageViewer.spineGutter
+        insideGutter: albumPageViewer.insideGutter
+
         visible: !leftIsCover
+
+        isPreview: albumPageViewer.isPreview
       }
     }
   }
   
   Item {
+    // See the note in the previous item about these odd absolute coordinates.
     x: parent.width / 2
-    width: parent.width / 2
-    height: parent.height
+    y: -(parent.height / 2)
+    width: parent.width
+    height: parent.height * 2
     
     clip: true
     
     Rectangle {
-      x: -(parent.width / 2)
-      y: 0
-      width: parent.width
-      height: parent.height
+      x: -(albumPageViewer.width / 2)
+      y: albumPageViewer.height / 2
+      width: albumPageViewer.width / 2
+      height: albumPageViewer.height
       
       AlbumCover {
         id: rightCoverBackground
@@ -350,12 +385,12 @@ Item {
         anchorRight: !rightIsBackCover
         isBlank: rightIsBackCover
         
-        x: parent.x
-        y: parent.y
         width: albumPageViewer.width
         height: albumPageViewer.height
         
         visible: rightIsCover
+
+        titleOpacity: albumPageViewer.coverTitleOpacity
       }
       
       AlbumPageComponent {
@@ -363,12 +398,19 @@ Item {
         
         albumPage: rightPage
         
-        x: parent.x
-        y: parent.y
         width: albumPageViewer.width
         height: albumPageViewer.height
         
+        topGutter: albumPageViewer.topGutter
+        bottomGutter: albumPageViewer.bottomGutter
+        leftGutter: albumPageViewer.leftGutter
+        rightGutter: albumPageViewer.rightGutter
+        spineGutter: albumPageViewer.spineGutter
+        insideGutter: albumPageViewer.insideGutter
+
         visible: !rightIsCover
+
+        isPreview: albumPageViewer.isPreview
       }
     }
   }
@@ -378,9 +420,13 @@ Item {
     
     property bool triggerAutomatic: false
     
-    x: leftToRight ? parent.width / 2 : 0
-    width: parent.width / 2
-    height: parent.height
+    // Similar to the above two items, this clipping item exists to prevent
+    // half of the flippable from being seen.  See the note about the above
+    // items' odd absolute positioning.
+    x: leftToRight ? (parent.width / 2) : -(parent.width / 2)
+    y: -(parent.height / 2)
+    width: parent.width
+    height: parent.height * 2
     
     clip: true
     
@@ -436,7 +482,8 @@ Item {
           albumPageViewer.pageFlipped = true;
       }
       
-      x: leftToRight ? -(albumPageViewer.width / 2) : 0
+      x: leftToRight ? -(parent.width / 2) : (parent.width / 2)
+      y: albumPageViewer.height / 2
       width: albumPageViewer.width
       height: albumPageViewer.height
       
@@ -455,6 +502,8 @@ Item {
           height: albumPageViewer.height
           
           visible: leftIsCover
+
+          titleOpacity: albumPageViewer.coverTitleOpacity
         }
         
         AlbumPageComponent {
@@ -465,7 +514,16 @@ Item {
           width: albumPageViewer.width
           height: albumPageViewer.height
           
+          topGutter: albumPageViewer.topGutter
+          bottomGutter: albumPageViewer.bottomGutter
+          leftGutter: albumPageViewer.leftGutter
+          rightGutter: albumPageViewer.rightGutter
+          spineGutter: albumPageViewer.spineGutter
+          insideGutter: albumPageViewer.insideGutter
+
           visible: !leftIsCover
+
+          isPreview: albumPageViewer.isPreview
         }
       }
       
@@ -486,6 +544,8 @@ Item {
           height: albumPageViewer.height
           
           visible: rightIsCover
+
+          titleOpacity: albumPageViewer.coverTitleOpacity
         }
         
         AlbumPageComponent {
@@ -496,7 +556,16 @@ Item {
           width: albumPageViewer.width
           height: albumPageViewer.height
           
+          topGutter: albumPageViewer.topGutter
+          bottomGutter: albumPageViewer.bottomGutter
+          leftGutter: albumPageViewer.leftGutter
+          rightGutter: albumPageViewer.rightGutter
+          spineGutter: albumPageViewer.spineGutter
+          insideGutter: albumPageViewer.insideGutter
+
           visible: !rightIsCover
+
+          isPreview: albumPageViewer.isPreview
         }
       }
         
@@ -516,8 +585,8 @@ Item {
           // slide the clipping region left or right depending on the angle
           // of rotation of the flippable
           if (angle <= -90.0) {
-            clipper.x = 0;
-            flippable.x = 0;
+            clipper.x = -albumPageViewer.width / 2;
+            flippable.x = albumPageViewer.width / 2;
           } else {
             clipper.x = albumPageViewer.width / 2;
             flippable.x = -albumPageViewer.width / 2;

@@ -27,114 +27,152 @@ Rectangle {
   property alias bookmarkOpacity: bookmark.opacity
   property alias nameHeight: textContainer.height
 
-  property real borderWidth: gu(0.25)
-  property color borderColor: "#0072bc"
-
-  property alias topGutter: albumPageComponent.topGutter
-  property alias bottomGutter: albumPageComponent.bottomGutter
-  property alias leftGutter: albumPageComponent.leftGutter
-  property alias rightGutter: albumPageComponent.rightGutter
-  property alias spineGutter: albumPageComponent.spineGutter
-  property alias insideGutter: albumPageComponent.insideGutter
+  property alias topGutter: albumPageViewer.topGutter
+  property alias bottomGutter: albumPageViewer.bottomGutter
+  property alias leftGutter: albumPageViewer.leftGutter
+  property alias rightGutter: albumPageViewer.rightGutter
+  property alias spineGutter: albumPageViewer.spineGutter
+  property alias insideGutter: albumPageViewer.insideGutter
 
   // Read-only, please.
   property real canonicalWidth: gu(50)
+  property real openHorizontalMargin: gu(1)
+  property real titleHeight: gu(7)
   
+  function open() {
+    if (album.closed)
+      openAnimation.start();
+  }
+
+  function close() {
+    if (!album.closed)
+      closeAnimation.start();
+  }
+
   width: canonicalWidth
   height: gu(40)
-  
-  AlbumCover {
-    id: albumCover
-    
-    album: parent.album
-    
-    anchors.fill: parent
-    
-    visible: (album) ? album.closed : false
-  }
-  
+
   Rectangle {
-    id: albumPreview
-    
-    anchors.fill: parent
-    
-    visible: (album) ? !album.closed : false
-    
-    AlbumPageComponent {
-      id: albumPageComponent
-      
-      anchors.left: parent.left
-      anchors.right: parent.right
-      anchors.top: parent.top
-      anchors.bottom: textContainer.top
-      anchors.topMargin: gu(1)
-      anchors.bottomMargin: gu(1)
+    id: textContainer
 
-      border.width: borderWidth
-      border.color: borderColor
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    height: titleHeight
 
-      spineBorderWidth: borderWidth
-      spineBorderColor: borderColor
+    Column {
+      anchors.centerIn: parent
 
-      topGutter: gu(2)
-      bottomGutter: gu(2)
-      leftGutter: gu(1)
-      rightGutter: gu(1)
-      spineGutter: gu(1)
-      insideGutter: gu(0.5)
+      Text {
+        anchors.horizontalCenter: parent.horizontalCenter
 
-      albumPage: (album ? album.currentPage : null)
-      isPreview: true
+        text: (album) ? album.name : "";
+        color: "#818285"
+        font.pointSize: 18 // Straight from the spec.
+        smooth: true
+      }
+
+      Item { // Vertical spacer.
+        width: 1
+        height: gu(1)
+      }
+
+      Text {
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        // TODO: subtitle, not creation date.
+        text: (album) ? Qt.formatDate(album.creationDate, "MM/dd/yy") : ""
+        color: "#a7a9ac"
+        font.pointSize: 14 // From the spec.
+        smooth: true
+      }
     }
-    
-    Rectangle {
-      id: textContainer
+  }
 
-      anchors.left: parent.left
-      anchors.right: parent.right
-      anchors.bottom: parent.bottom
-      height: gu(7)
+  AlbumPageViewer {
+    id: albumPageViewer
 
-      Column {
-        anchors.centerIn: parent
+    property real topMargin: (album && album.closed ? 0 : openTopMargin)
+    property real bottomMargin: (album && album.closed ? 0 : openBottomMargin)
 
-        Text {
-          anchors.horizontalCenter: parent.horizontalCenter
+    property real openTopMargin: openHorizontalMargin
+    property real openBottomMargin: openHorizontalMargin + titleHeight
+    property real closedTopMargin: 0
+    property real closedBottomMargin: 0
 
-          text: (album) ? album.name : "";
-          color: "#818285"
-          font.pointSize: 18 // Straight from the spec.
-          smooth: true
-        }
+    album: albumPreviewComponent.album
 
-        Item { // Vertical spacer.
-          width: 1
-          height: gu(1)
-        }
+    anchors.fill: parent
+    anchors.topMargin: topMargin
+    anchors.bottomMargin: bottomMargin
 
-        Text {
-          anchors.horizontalCenter: parent.horizontalCenter
+    topGutter: gu(2)
+    bottomGutter: gu(2)
+    leftGutter: gu(1)
+    rightGutter: gu(1)
+    spineGutter: gu(1)
+    insideGutter: gu(0.5)
 
-          // TODO: subtitle, not creation date.
-          text: (album) ? Qt.formatDate(album.creationDate, "MM/dd/yy") : ""
-          color: "#a7a9ac"
-          font.pointSize: 14 // From the spec.
-          smooth: true
-        }
+    isPreview: true
+  }
+
+  Image {
+    id: bookmark
+
+    visible: (album ? !album.closed : false)
+
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.top: albumPageViewer.top
+
+    transformOrigin: Item.Top
+    scale: parent.width / canonicalWidth // Scale the bookmark accordingly if the preview has been resized.
+
+    source: "../img/bookmark-ribbon.png"
+    cache: true
+  }
+
+  SequentialAnimation {
+    id: openAnimation
+
+    ScriptAction { script: albumPageViewer.turnTo(album.currentPageNumber); }
+
+    NumberAnimation { target: albumPageViewer; property: "coverTitleOpacity";
+      to: 0; easing.type: Easing.OutQuad; duration: 200;
+    }
+
+    ParallelAnimation {
+      FadeInAnimation { target: textContainer; duration: 200; }
+      NumberAnimation { target: albumPageViewer; property: "topMargin";
+        to: albumPageViewer.openTopMargin; easing.type: Easing.InQuad; duration: 200;
+      }
+      NumberAnimation { target: albumPageViewer; property: "bottomMargin";
+        to: albumPageViewer.openBottomMargin; easing.type: Easing.InQuad; duration: 200;
       }
     }
 
-    Image {
-      id: bookmark
-      
-      anchors.horizontalCenter: parent.horizontalCenter
-      anchors.top: albumPageComponent.top
-      
-      transformOrigin: Item.Top
-      scale: parent.width / canonicalWidth // Scale the bookmark accordingly if the preview has been resized.
-      
-      source: "../img/bookmark-ribbon.png"
-      cache: true
+    PauseAnimation { duration: 100; }
+    FadeInAnimation { target: bookmark; duration: 200; }
+  }
+
+  SequentialAnimation {
+    id: closeAnimation
+
+    ScriptAction { script: albumPageViewer.close(); }
+
+    PauseAnimation { duration: 400; }
+    FadeOutAnimation { target: bookmark; duration: 200; }
+
+    ParallelAnimation {
+      FadeOutAnimation { target: textContainer; duration: 200; }
+      NumberAnimation { target: albumPageViewer; property: "topMargin";
+        to: albumPageViewer.closedTopMargin; duration: 200;
+      }
+      NumberAnimation { target: albumPageViewer; property: "bottomMargin";
+        to: albumPageViewer.closedBottomMargin; duration: 200;
+      }
+    }
+    NumberAnimation { target: albumPageViewer; property: "coverTitleOpacity";
+      to: 1; easing.type: Easing.InQuad; duration: 200;
     }
   }
 }
