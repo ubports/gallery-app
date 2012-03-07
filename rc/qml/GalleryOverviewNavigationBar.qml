@@ -23,7 +23,7 @@ Toolbar {
   height: gu(6)
   width: parent.width
 
-  property int bottomBorderWidth: gu(0.75)
+  property int bottomBorderWidth: gu(0.25)
   property color bottomBorderColor: "#7da7d9"
 
   property alias addCreateOperationButtonVisible: addCreateOperationNavbarButton.visible
