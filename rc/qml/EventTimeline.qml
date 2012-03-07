@@ -120,7 +120,7 @@ ListView {
       
       anchors.top: parent.top
       anchors.bottom: parent.bottom
-      anchors.right: eventCard.left
+      anchors.right: eventCard.horizontalCenter
       
       spacing: elementSpacing
       
@@ -128,6 +128,34 @@ ListView {
         model: MediaCollectionModel {
           forCollection: event
           limit: Math.min(Math.ceil(rawCount / 2), headTailCount)
+        }
+        
+        PhotoComponent {
+          width: elementWidth
+          height: elementHeight
+          
+          mediaSource: model.mediaSource
+          isCropped: true
+          isPreview: true
+          ownerName: "EventTimeline"
+        }
+      }
+    }
+    
+    Row {
+      id: rightList
+      
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      anchors.left: eventCard.horizontalCenter
+      
+      spacing: elementSpacing
+      
+      Repeater {
+        model: MediaCollectionModel {
+          forCollection: event
+          limit: Math.min(Math.floor(rawCount / 2), headTailCount)
+          head: 0 - limit
         }
         
         PhotoComponent {
@@ -159,34 +187,6 @@ ListView {
         anchors.fill: parent
         
         onClicked: activated(event)
-      }
-    }
-    
-    Row {
-      id: rightList
-      
-      anchors.top: parent.top
-      anchors.bottom: parent.bottom
-      anchors.left: eventCard.right
-      
-      spacing: elementSpacing
-      
-      Repeater {
-        model: MediaCollectionModel {
-          forCollection: event
-          limit: Math.min(Math.floor(rawCount / 2), headTailCount)
-          head: 0 - limit
-        }
-        
-        PhotoComponent {
-          width: elementWidth
-          height: elementHeight
-          
-          mediaSource: model.mediaSource
-          isCropped: true
-          isPreview: true
-          ownerName: "EventTimeline"
-        }
       }
     }
   }
