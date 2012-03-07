@@ -25,6 +25,7 @@ ListView {
   id: eventTimeline
   
   signal activated(variant event)
+  signal timedOut()
   
   property int elementWidth: gu(24.75)
   property int elementHeight: gu(18.5)
@@ -186,8 +187,27 @@ ListView {
       MouseArea {
         anchors.fill: parent
         
-        onClicked: activated(event)
+        onClicked: {
+          timeoutTimer.stop();
+          activated(event);
+        }
       }
     }
+  }
+
+  onVisibleChanged: {
+    if (visible)
+      timeoutTimer.restart();
+  }
+
+  onContentYChanged: timeoutTimer.restart()
+
+  Timer {
+    id: timeoutTimer
+
+    interval: 3000
+    running: false
+
+    onTriggered: eventTimeline.timedOut()
   }
 }
