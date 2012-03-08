@@ -65,6 +65,7 @@ Item {
   property real spineGutter: gu(2)
   property real insideGutter: gu(2)
   property real coverTitleOpacity: 1
+  property real bookmarkOpacity: 1
   
   // readonly
   property bool pageFlipped: false
@@ -363,6 +364,8 @@ Item {
         visible: !leftIsCover
 
         isPreview: albumPageViewer.isPreview
+
+        bookmarkOpacity: albumPageViewer.bookmarkOpacity
       }
     }
   }
@@ -417,6 +420,8 @@ Item {
         visible: !rightIsCover
 
         isPreview: albumPageViewer.isPreview
+
+        bookmarkOpacity: albumPageViewer.bookmarkOpacity
       }
     }
   }
@@ -532,6 +537,8 @@ Item {
           visible: !leftIsCover
 
           isPreview: albumPageViewer.isPreview
+
+          bookmarkOpacity: albumPageViewer.bookmarkOpacity
         }
       }
       
@@ -574,6 +581,8 @@ Item {
           visible: !rightIsCover
 
           isPreview: albumPageViewer.isPreview
+
+          bookmarkOpacity: albumPageViewer.bookmarkOpacity
         }
       }
         

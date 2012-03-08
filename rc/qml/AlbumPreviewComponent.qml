@@ -24,7 +24,7 @@ Rectangle {
   id: albumPreviewComponent
   
   property Album album
-  property alias bookmarkOpacity: bookmark.opacity
+  property alias bookmarkOpacity: albumPageViewer.bookmarkOpacity
   property alias nameHeight: textContainer.height
 
   property alias topGutter: albumPageViewer.topGutter
@@ -35,7 +35,6 @@ Rectangle {
   property alias insideGutter: albumPageViewer.insideGutter
 
   // Read-only, please.
-  property real canonicalWidth: gu(50)
   property real openHorizontalMargin: gu(1)
   property real titleHeight: gu(7)
   
@@ -49,7 +48,7 @@ Rectangle {
       closeAnimation.start();
   }
 
-  width: canonicalWidth
+  width: gu(50)
   height: gu(40)
 
   Rectangle {
@@ -118,32 +117,16 @@ Rectangle {
     isPreview: true
   }
 
-  Image {
-    id: bookmark
-
-    visible: (album ? !album.closed : false)
-
-    anchors.horizontalCenter: parent.horizontalCenter
-    anchors.top: albumPageViewer.top
-
-    transformOrigin: Item.Top
-    scale: parent.width / canonicalWidth // Scale the bookmark accordingly if the preview has been resized.
-
-    source: "../img/bookmark-ribbon.png"
-    cache: true
-  }
-
   SequentialAnimation {
     id: openAnimation
 
     ScriptAction { script: albumPageViewer.turnTo(album.currentPageNumber); }
 
-    NumberAnimation { target: albumPageViewer; property: "coverTitleOpacity";
-      to: 0; easing.type: Easing.OutQuad; duration: 200;
-    }
-
     ParallelAnimation {
-      FadeInAnimation { target: textContainer; duration: 200; }
+      NumberAnimation { target: albumPageViewer; property: "coverTitleOpacity";
+        to: 0; easing.type: Easing.OutQuad; duration: 100;
+      }
+
       NumberAnimation { target: albumPageViewer; property: "topMargin";
         to: albumPageViewer.openTopMargin; easing.type: Easing.InQuad; duration: 200;
       }
@@ -152,8 +135,7 @@ Rectangle {
       }
     }
 
-    PauseAnimation { duration: 100; }
-    FadeInAnimation { target: bookmark; duration: 200; }
+    FadeInAnimation { target: textContainer; duration: 500; }
   }
 
   SequentialAnimation {
@@ -161,11 +143,9 @@ Rectangle {
 
     ScriptAction { script: albumPageViewer.close(); }
 
-    PauseAnimation { duration: 400; }
-    FadeOutAnimation { target: bookmark; duration: 200; }
+    FadeOutAnimation { target: textContainer; duration: 500; }
 
     ParallelAnimation {
-      FadeOutAnimation { target: textContainer; duration: 200; }
       NumberAnimation { target: albumPageViewer; property: "topMargin";
         to: albumPageViewer.closedTopMargin; duration: 200;
       }
