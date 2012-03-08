@@ -25,6 +25,7 @@ ListView {
   id: eventTimeline
   
   signal activated(variant event)
+  signal timedOut()
   
   property int elementWidth: gu(24.75)
   property int elementHeight: gu(18.5)
@@ -120,7 +121,7 @@ ListView {
       
       anchors.top: parent.top
       anchors.bottom: parent.bottom
-      anchors.right: eventCard.left
+      anchors.right: eventCard.horizontalCenter
       
       spacing: elementSpacing
       
@@ -128,6 +129,34 @@ ListView {
         model: MediaCollectionModel {
           forCollection: event
           limit: Math.min(Math.ceil(rawCount / 2), headTailCount)
+        }
+        
+        PhotoComponent {
+          width: elementWidth
+          height: elementHeight
+          
+          mediaSource: model.mediaSource
+          isCropped: true
+          isPreview: true
+          ownerName: "EventTimeline"
+        }
+      }
+    }
+    
+    Row {
+      id: rightList
+      
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      anchors.left: eventCard.horizontalCenter
+      
+      spacing: elementSpacing
+      
+      Repeater {
+        model: MediaCollectionModel {
+          forCollection: event
+          limit: Math.min(Math.floor(rawCount / 2), headTailCount)
+          head: 0 - limit
         }
         
         PhotoComponent {
@@ -158,36 +187,27 @@ ListView {
       MouseArea {
         anchors.fill: parent
         
-        onClicked: activated(event)
-      }
-    }
-    
-    Row {
-      id: rightList
-      
-      anchors.top: parent.top
-      anchors.bottom: parent.bottom
-      anchors.left: eventCard.right
-      
-      spacing: elementSpacing
-      
-      Repeater {
-        model: MediaCollectionModel {
-          forCollection: event
-          limit: Math.min(Math.floor(rawCount / 2), headTailCount)
-          head: 0 - limit
-        }
-        
-        PhotoComponent {
-          width: elementWidth
-          height: elementHeight
-          
-          mediaSource: model.mediaSource
-          isCropped: true
-          isPreview: true
-          ownerName: "EventTimeline"
+        onClicked: {
+          timeoutTimer.stop();
+          activated(event);
         }
       }
     }
+  }
+
+  onVisibleChanged: {
+    if (visible)
+      timeoutTimer.restart();
+  }
+
+  onContentYChanged: timeoutTimer.restart()
+
+  Timer {
+    id: timeoutTimer
+
+    interval: 3000
+    running: false
+
+    onTriggered: eventTimeline.timedOut()
   }
 }

@@ -162,6 +162,8 @@ Rectangle {
         // Event card activated
         eventTimelineTransition.toOverview(event);
       }
+
+      onTimedOut: eventTimelineTransition.backToOverview()
     }
   }
   

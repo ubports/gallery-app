@@ -622,7 +622,7 @@ Item {
             target: rotationTransform
             property: "angle"
             duration: durationMsec
-            easing.type: Easing.InOutCubic
+            easing.type: Easing.OutQuad
           }
           
           ScriptAction {

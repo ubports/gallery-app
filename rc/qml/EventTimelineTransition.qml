@@ -62,6 +62,12 @@ Rectangle {
   function toOverview(event) {
     start(event, "timeline", "grid");
   }
+
+  // public
+  function backToOverview() {
+    // Uses the previously-saved event.
+    start(event, "timeline", "grid");
+  }
   
   // internal
   property Event event
