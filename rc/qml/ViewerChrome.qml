@@ -29,7 +29,8 @@ Item {
   property int fadeDuration: 200
   property alias autoHideWait: autoHideTimer.interval // 0 to disable auto-hide.
 
-  property bool hasPopupMenu: true
+  property variant popups: [ ]
+
   property bool hasLeftNavigationButton: false
   property bool hasRightNavigationButton: false
 
@@ -43,6 +44,9 @@ Item {
   property bool toolbarHasMainIconsWhenSelecting: true
 
   property bool inSelectionMode: false
+
+  // signals sent from the entire chrome ensemble
+  signal hidePopups();
 
   // Pass-throughs from the navbar.
   property alias navbarHeight: navbar.height
@@ -60,7 +64,6 @@ Item {
   signal pageIndicatorPageSelected(int pageNumber)
   signal moreOperationsButtonPressed()
   signal shareOperationsButtonPressed()
-  // TODO: any menu signals.
 
   // Pass-throughs from the left/right nav buttons.
   signal leftNavigationButtonPressed()
@@ -71,9 +74,9 @@ Item {
   signal albumPicked(variant album)
   signal newAlbumPicked()
 
-  // Read-only, please.
-  property bool active: albumPicker.visible
-  
+  // private properties -- don't touch these from outside this component
+  property bool active: false
+
   visible: false
   state: "hidden"
 
@@ -109,8 +112,27 @@ Item {
     state = "hidden";
   }
   
+  function cyclePopup(target) {
+    if (!target.visible)
+      hideAllPopups();
+
+    target.flipVisibility();
+
+    this.active = target.visible;
+  }
+
+  function hideAllPopups() {
+    for (var i = 0; i < popups.length; i++)
+      popups[i].state = "hidden";
+
+    this.active = false;
+  }
+
   onVisibleChanged: {
     albumPicker.resetVisibility(false);
+
+    wrapper.hidePopups();
+
     if (visible)
       autoHideTimer.startAutoHide();
   }
@@ -123,6 +145,7 @@ Item {
   }
 
   function cancelActivity() {
+    this.hideAllPopups();
     albumPicker.state = "hidden";
   }
 
@@ -130,6 +153,7 @@ Item {
     id: cancelArea
 
     anchors.fill: parent
+    z:16
 
     visible: chrome.active
 
@@ -223,7 +247,12 @@ Item {
 
     onPageIndicatorPageSelected: wrapper.pageIndicatorPageSelected(pageNumber)
 
-    onAlbumOperationsButtonPressed: albumPicker.flipVisibility()
+    onAlbumOperationsButtonPressed: {
+      if (albumPicker.state == "hidden")
+        wrapper.active = true;
+
+      albumPicker.flipVisibility()
+    }
 
     onMoreOperationsButtonPressed: wrapper.moreOperationsButtonPressed()
 

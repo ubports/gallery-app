@@ -6,6 +6,7 @@
     <file>img/bookmark-ribbon.png</file>
     <file>img/camera-icon.png</file>
     <file>img/dummy-menu-icon.png</file>
+    <file>img/dummy-menu-photo-icon.png</file>
     <file>img/grid-view.png</file>
     <file>img/more-operations-icon.png</file>
     <file>img/popup-arrow.png</file>
@@ -60,6 +61,8 @@
     <file>qml/Pager.qml</file>
     <file>qml/PhotoComponent.qml</file>
     <file>qml/PhotoViewer.qml</file>
+    <file>qml/PhotoViewerOptionsMenu.qml</file>
+    <file>qml/PhotoViewerShareMenu.qml</file>
     <file>qml/PhotoViewerTransition.qml</file>
     <file>qml/PopupBox.qml</file>
     <file>qml/PopupMenu.qml</file>

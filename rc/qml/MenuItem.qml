@@ -26,6 +26,7 @@ Rectangle {
   property alias title: menuItemCaption.text
   property bool hasBottomBorder: true
   property alias iconFilename: iconImage.source
+  property alias hasCueRectangle: cueRectangle.visible
 
   height: {
     if (isSeparator)
@@ -50,6 +51,22 @@ Rectangle {
     anchors.left: parent.left
     anchors.verticalCenter: parent.verticalCenter
     anchors.leftMargin: gu(1)
+  }
+
+  Rectangle {
+    id: cueRectangle
+
+    width: gu(3);
+    height: gu(3);
+
+    anchors.right: parent.right
+    anchors.rightMargin: gu(1.5)
+    anchors.verticalCenter: parent.verticalCenter
+
+    color: "#bcbdc0"
+    border.color: "#818285"
+    border.width: 1
+    radius: 4
   }
 
   Text {

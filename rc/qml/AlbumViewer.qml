@@ -153,23 +153,6 @@ Rectangle {
     onActivated: photoViewer.animateOpen(object, activatedRect)
   }
 
-  AlbumViewerOptionsMenu {
-    id: albumViewerOptionsMenu
-
-    popupOriginX: parent.width - gu(5);
-
-    visible: false;
-  }
-
-  AlbumViewerShareMenu {
-    id: albumViewerShareMenu
-
-    popupOriginX: parent.width - gu(12.25);
-
-    visible: false
-  }
-
-
   ViewerChrome {
     id: chrome
 
@@ -195,6 +178,24 @@ Rectangle {
     toolbarHasFullIconSet: false
     toolbarHasPageIndicator: albumViewer.state == "pageView"
     toolbarPageIndicatorAlbum: albumViewer.album
+
+    property variant popups: [ albumViewerOptionsMenu, albumViewerShareMenu ]
+
+    AlbumViewerOptionsMenu {
+      id: albumViewerOptionsMenu
+
+      popupOriginX: -gu(5.5);
+
+      visible: false;
+    }
+
+    AlbumViewerShareMenu {
+      id: albumViewerShareMenu
+
+      popupOriginX: -gu(13);
+
+      visible: false
+    }
 
     onPageIndicatorPageSelected: albumPageViewer.turnTo(pageNumber)
 
@@ -227,11 +228,11 @@ Rectangle {
     }
 
     onMoreOperationsButtonPressed: {
-      albumViewerOptionsMenu.flipVisibility();
+      cyclePopup(albumViewerOptionsMenu);
     }
 
     onShareOperationsButtonPressed: {
-      albumViewerShareMenu.flipVisibility();
+      cyclePopup(albumViewerShareMenu);
     }
   }
 

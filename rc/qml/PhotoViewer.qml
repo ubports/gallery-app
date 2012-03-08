@@ -164,8 +164,6 @@ Rectangle {
     z: 10
     anchors.fill: parent
 
-    hasPopupMenu: false
-
     toolbarsAreTranslucent: true
 
     hasLeftNavigationButton: !imagePager.atXBeginning
@@ -177,10 +175,36 @@ Rectangle {
     onAlbumPicked: album.addMediaSource(photo)
     onNewAlbumPicked: albumPickerDesignatedModel.createAlbum(photo)
 
+    popups: [ photoViewerShareMenu, photoViewerOptionsMenu ]
+
+    PhotoViewerShareMenu {
+      id: photoViewerShareMenu
+
+      popupOriginX: -gu(13)
+
+      visible: false
+    }
+
+    PhotoViewerOptionsMenu {
+      id: photoViewerOptionsMenu
+
+      popupOriginX: -gu(5.5)
+
+      visible: false
+    }
+
     onReturnButtonPressed: {
       resetVisibility(false);
       imagePager.currentItem.state = "unzoomed";
       closeRequested();
+    }
+
+    onShareOperationsButtonPressed: {
+      cyclePopup(photoViewerShareMenu);
+    }
+
+    onMoreOperationsButtonPressed: {
+      cyclePopup(photoViewerOptionsMenu);
     }
   }
 }
