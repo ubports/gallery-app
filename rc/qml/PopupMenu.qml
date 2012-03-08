@@ -24,7 +24,7 @@ Rectangle {
 
   property alias model: menuItemList.model
   property int popupOriginX: parent.width -
-    Math.floor(popupBox.originCueHeight / 2)
+    Math.floor(popupBox.originCueWidth / 2)
   property int popupOriginY: parent.height - gu(6) /* toolbar height */
   property int fadeDuration: 200
 
@@ -49,9 +49,15 @@ Rectangle {
   }
 
   width: gu(40)
-  x: popupOriginX - width + Math.floor(popupBox.originCueHeight / 2)
+  x: {
+    var cueArrowOffset = Math.floor(popupBox.originCueWidth / 2)
+    if (popupOriginX >= 0)
+      return popupOriginX - width + cueArrowOffset;
+    else
+      return parent.width - width + popupOriginX + cueArrowOffset;
+  }
   y: popupOriginY - height;
-  z: 20
+  z: 32
 
   color: "transparent"
 
@@ -78,6 +84,7 @@ Rectangle {
       isSeparator: (model.isSeparator) ? model.isSeparator : false
       hasBottomBorder: (model.hasBottomBorder) ? model.hasBottomBorder : false
       iconFilename: (model.iconFilename) ? model.iconFilename : ""
+      hasCueRectangle: (model.hasCueRectangle) ? model.hasCueRectangle : false
     }
 
     onContentHeightChanged: {

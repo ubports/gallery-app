@@ -26,7 +26,8 @@ Rectangle {
   property int contentTop: 1
   property int contentWidth: width - 2
   property int contentHeight: height - originCueImage.height - 2
-  property int originCueHeight: originCueImage.height
+  property alias originCueHeight: originCueImage.height
+  property alias originCueWidth: originCueImage.width
 
   anchors.fill: parent
 

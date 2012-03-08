@@ -224,8 +224,6 @@ Rectangle {
     fadeDuration: 0
     autoHideWait: 0
 
-    hasPopupMenu: false
-
     inSelectionMode: true
     visible: eventsCheckerboard.inSelectionMode
 

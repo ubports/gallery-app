@@ -139,6 +139,8 @@ OTHER_FILES += \
 	rc/qml/Pager.qml \
 	rc/qml/PhotoComponent.qml \
 	rc/qml/PhotoViewer.qml \
+	rc/qml/PhotoViewerOptionsMenu.qml \
+	rc/qml/PhotoViewerShareMenu.qml \
 	rc/qml/PhotoViewerTransition.qml \
 	rc/qml/PopupBox.qml \
 	rc/qml/PopupMenu.qml \

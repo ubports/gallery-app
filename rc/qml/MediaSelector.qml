@@ -54,8 +54,6 @@ Rectangle {
 
     toolbarHasMainIconsWhenSelecting: false
 
-    hasPopupMenu: false
-
     inSelectionMode: true
     state: "shown"
     visible: true
