@@ -146,6 +146,7 @@ Item {
 
     PropertyAction { target: expandAlbum; property: "visible"; value: false; }
     PropertyAction { target: expandAlbum; property: "bookmarkOpacity"; value: 1; }
+    PropertyAction { target: backgroundGlass; property: "opacity"; value: 0.0; }
 
     onCompleted: {
       transitionToAlbumViewerCompleted();
