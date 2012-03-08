@@ -25,6 +25,7 @@
 #include "album/album-default-template.h"
 #include "core/data-collection.h"
 #include "media/media-source.h"
+#include "media/media-collection.h"
 #include "qml/qml-media-collection-model.h"
 #include "util/collections.h"
 #include "util/variants.h"
@@ -32,18 +33,20 @@
 const char *Album::DEFAULT_NAME = "New Photo Album";
 
 Album::Album()
-  : ContainerSource(DEFAULT_NAME), album_template_(*AlbumDefaultTemplate::instance()),
-  name_(DEFAULT_NAME) {
+  : ContainerSource(DEFAULT_NAME, MediaCollection::ExposureDateTimeAscendingComparator),
+    album_template_(*AlbumDefaultTemplate::instance()), name_(DEFAULT_NAME) {
   InitInstance();
 }
 
 Album::Album(const AlbumTemplate& album_template)
-  : ContainerSource(DEFAULT_NAME), album_template_(album_template), name_(DEFAULT_NAME) {
+  : ContainerSource(DEFAULT_NAME, MediaCollection::ExposureDateTimeAscendingComparator),
+    album_template_(album_template), name_(DEFAULT_NAME) {
   InitInstance();
 }
 
 Album::Album(const AlbumTemplate& album_template, const QString& name)
-  : ContainerSource(name), album_template_(album_template), name_(name) {
+  : ContainerSource(name, MediaCollection::ExposureDateTimeAscendingComparator),
+    album_template_(album_template), name_(name) {
   InitInstance();
 }
 
@@ -59,7 +62,7 @@ void Album::RegisterType() {
 }
 
 void Album::InitInstance() {
-  creation_date_ = QDate::currentDate();
+  creation_date_time_ = QDateTime::currentDateTime();
   current_page_ = 0;
   closed_ = true;
   pages_ = new SourceCollection(QString("Pages for ") + name_);
@@ -97,8 +100,8 @@ const QString& Album::name() const {
   return name_;
 }
 
-const QDate& Album::creation_date() const {
-  return creation_date_;
+const QDateTime& Album::creation_date_time() const {
+  return creation_date_time_;
 }
 
 const AlbumTemplate& Album::album_template() const {

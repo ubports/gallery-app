@@ -19,6 +19,8 @@
 
 #include "core/container-source-collection.h"
 
-ContainerSourceCollection::ContainerSourceCollection(const QString& name)
+ContainerSourceCollection::ContainerSourceCollection(const QString& name,
+  DataObjectComparator comparator)
   : SourceCollection(name) {
+  SetComparator(comparator);
 }

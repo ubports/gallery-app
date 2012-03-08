@@ -19,8 +19,10 @@
 
 #include "core/container-source.h"
 
-ContainerSource::ContainerSource(const QString& name)
+ContainerSource::ContainerSource(const QString& name, DataObjectComparator comparator)
   : DataSource(name), contained_(QString("Container for ") + QString(name)) {
+  contained_.SetComparator(comparator);
+  
   QObject::connect(&contained_,
     SIGNAL(contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
     this,

@@ -32,13 +32,14 @@
 #include <QObject>
 #include <QString>
 
+#include "core/data-object.h"
 #include "core/source-collection.h"
 
 class ContainerSourceCollection : public SourceCollection {
   Q_OBJECT
   
 public:
-  ContainerSourceCollection(const QString& name);
+  ContainerSourceCollection(const QString& name, DataObjectComparator comparator);
 };
 
 #endif  // GALLERY_CONTAINER_SOURCE_COLLECTION_H_

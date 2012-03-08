@@ -24,6 +24,7 @@
 
 #include "album/album.h"
 #include "core/container-source-collection.h"
+#include "core/data-object.h"
 
 class AlbumCollection : public ContainerSourceCollection {
   Q_OBJECT
@@ -37,6 +38,8 @@ class AlbumCollection : public ContainerSourceCollection {
   static void Init();
   
   static AlbumCollection* instance();
+  
+  static bool CreationDateTimeAscendingComparator(DataObject* a, DataObject* b);
   
  protected:
   virtual void notify_album_current_page_contents_altered(Album* album);

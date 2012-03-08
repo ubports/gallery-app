@@ -21,7 +21,7 @@
 #define GALLERY_ALBUM_H_
 
 #include <QObject>
-#include <QDate>
+#include <QDateTime>
 #include <QDeclarativeListProperty>
 #include <QString>
 #include <QUrl>
@@ -37,7 +37,8 @@
 class Album : public ContainerSource {
   Q_OBJECT
   Q_PROPERTY(QString name READ name NOTIFY name_altered)
-  Q_PROPERTY(QDate creationDate READ creation_date NOTIFY creation_date_altered)
+  Q_PROPERTY(QDateTime creationDateTime READ creation_date_time
+    NOTIFY creation_date_time_altered)
   Q_PROPERTY(QVariant currentPage READ qml_current_page NOTIFY current_page_altered)
   Q_PROPERTY(int currentPageNumber READ current_page_number WRITE set_current_page_number
     NOTIFY current_page_number_altered)
@@ -50,7 +51,7 @@ class Album : public ContainerSource {
   
  signals:
   void album_contents_altered();
-  void creation_date_altered();
+  void creation_date_time_altered();
   void current_page_altered();
   void current_page_number_altered();
   void current_page_contents_altered();
@@ -73,7 +74,7 @@ class Album : public ContainerSource {
   Q_INVOKABLE QVariant getPage(int page) const;
   
   const QString& name() const;
-  const QDate& creation_date() const;
+  const QDateTime& creation_date_time() const;
   const AlbumTemplate& album_template() const;
   bool is_closed() const;
   int page_count() const;
@@ -113,7 +114,7 @@ class Album : public ContainerSource {
  private:
   const AlbumTemplate& album_template_;
   QString name_;
-  QDate creation_date_;
+  QDateTime creation_date_time_;
   int current_page_;
   bool closed_;
   SourceCollection* pages_;
