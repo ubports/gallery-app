@@ -82,7 +82,7 @@ Rectangle {
     }
     
     SwipeArea {
-      property real commitTurnFraction: 0.35
+      property real commitTurnFraction: 0.05
       
       // private
       property int turningTowardPage
