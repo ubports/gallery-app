@@ -37,6 +37,8 @@ Rectangle {
   property real spineBorderWidth: gu(0.25)
   property color borderColor: (isPreview ? "#0072bc" : "#95b5df")
   
+  property alias bookmarkOpacity: bookmark.opacity
+
   border.width: (isPreview ? gu(0.25) : gu(0))
   border.color: borderColor
 
@@ -81,5 +83,24 @@ Rectangle {
       item.height = albumPageComponent.height;
       item.isPreview = albumPageComponent.isPreview
     }
+  }
+
+  Image {
+    id: bookmark
+
+    // internal
+    property real canonicalPreviewWidth: gu(50)
+
+    visible: albumPageComponent.isPreview
+
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.top: parent.top
+
+    transformOrigin: Item.Top
+    // Scale the bookmark accordingly if the preview has been resized.
+    scale: parent.width / canonicalPreviewWidth
+
+    source: "../img/bookmark-ribbon.png"
+    cache: true
   }
 }
