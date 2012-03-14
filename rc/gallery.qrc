@@ -19,6 +19,11 @@
     <file>img/viewer-back.png</file>
     <file>img/viewer-forward.png</file>
     
+    <file>Capetown/qmldir</file>
+    <file>Capetown/DissolveAnimation.qml</file>
+    <file>Capetown/FadeInAnimation.qml</file>
+    <file>Capetown/FadeOutAnimation.qml</file>
+    
     <file>qml/AddCreateOperationNavbarButton.qml</file>
     <file>qml/AlbumClosedViewerTransition.qml</file>
     <file>qml/AlbumCover.qml</file>
@@ -36,15 +41,12 @@
     <file>qml/AlbumViewerTransition.qml</file>
     <file>qml/BinaryTabGroup.qml</file>
     <file>qml/Checkerboard.qml</file>
-    <file>qml/DissolveAnimation.qml</file>
     <file>qml/EventCard.qml</file>
     <file>qml/EventCheckerboard.qml</file>
     <file>qml/EventCheckerboardDelegate.qml</file>
     <file>qml/EventTimeline.qml</file>
     <file>qml/EventTimelineTransition.qml</file>
     <file>qml/ExpandAnimation.qml</file>
-    <file>qml/FadeInAnimation.qml</file>
-    <file>qml/FadeOutAnimation.qml</file>
     <file>qml/FramePortrait.qml</file>
     <file>qml/GalleryApplication.qml</file>
     <file>qml/GalleryOverviewNavigationBar.qml</file>

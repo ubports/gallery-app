@@ -32,6 +32,10 @@ Item {
     return Math.floor(GRIDUNIT * amt);
   }
   
+  Component.onCompleted: {
+    navStack.switchToPage(overview);
+  }
+  
   Overview {
     id: overview
     
@@ -107,7 +111,7 @@ Item {
   
   NavStack {
     id: navStack
-  
+    
     function switchToAlbumViewer(album, thumbnailRect) {
       albumViewer.album = album;
       
@@ -130,9 +134,5 @@ Item {
       
       navStack.switchToPage(mediaSelector);
     }
-  }
-
-  Component.onCompleted: {
-    navStack.switchToPage(overview);
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical Ltd
+ * Copyright (C) 2011-2012 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -19,37 +19,46 @@
 
 import QtQuick 1.1
 
-// Sets the target to visible at the startOpacity, animates to the endOpacity.
+// Sets the target to visible at the startOpacity, animates to the endOpacity,
+// then returns the startOpacity but with visible set to false.
 SequentialAnimation {
-  id: fadeInAnimation
-  objectName: "fadeInAnimation"
-
-  property variant target
-
-  property real startOpacity: 0
-  property real endOpacity: 1
-
+  id: fadeOutAnimation
+  
+  property Item target
+  property real startOpacity: 1
+  property real endOpacity: 0
   property int duration: 200
-
-  property int easingType: Easing.InQuad
+  property int easingType: Easing.OutQuad
 
   PropertyAction {
-    target: fadeInAnimation.target
+    target: fadeOutAnimation.target
     property: "opacity"
     value: startOpacity
   }
 
   PropertyAction {
-    target: fadeInAnimation.target
+    target: fadeOutAnimation.target
     property: "visible"
     value: true
   }
 
   NumberAnimation {
-    target: fadeInAnimation.target
+    target: fadeOutAnimation.target
     property: "opacity"
     to: endOpacity
-    duration: fadeInAnimation.duration
+    duration: fadeOutAnimation.duration
     easing.type: easingType
+  }
+
+  PropertyAction {
+    target: fadeOutAnimation.target
+    property: "visible"
+    value: false
+  }
+
+  PropertyAction {
+    target: fadeOutAnimation.target
+    property: "opacity"
+    value: startOpacity
   }
 }

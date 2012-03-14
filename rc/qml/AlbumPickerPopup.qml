@@ -19,6 +19,7 @@
 
 import QtQuick 1.1
 import Gallery 1.0
+import Capetown 1.0
 
 Rectangle {
   id: album_popup_wrapper

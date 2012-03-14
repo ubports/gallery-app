@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical Ltd
+ * Copyright (C) 2011-2012 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -19,24 +19,33 @@
 
 import QtQuick 1.1
 
-// Fades in the fadeInTarget while fading out the fadeOutTarget.
+// Sets the target to visible at the startOpacity, animates to the endOpacity.
 SequentialAnimation {
-  id: dissolveAnimation
-  objectName: "dissolveAnimation"
-
-  property variant fadeInTarget
-  property variant fadeOutTarget
+  id: fadeInAnimation
+  
+  property Item target
+  property real startOpacity: 0
+  property real endOpacity: 1
   property int duration: 200
+  property int easingType: Easing.InQuad
 
-  ParallelAnimation {
-    FadeInAnimation {
-      target: fadeInTarget
-      duration: dissolveAnimation.duration
-    }
+  PropertyAction {
+    target: fadeInAnimation.target
+    property: "opacity"
+    value: startOpacity
+  }
 
-    FadeOutAnimation {
-      target: fadeOutTarget
-      duration: dissolveAnimation.duration
-    }
+  PropertyAction {
+    target: fadeInAnimation.target
+    property: "visible"
+    value: true
+  }
+
+  NumberAnimation {
+    target: fadeInAnimation.target
+    property: "opacity"
+    to: endOpacity
+    duration: fadeInAnimation.duration
+    easing.type: easingType
   }
 }

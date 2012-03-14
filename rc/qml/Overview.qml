@@ -20,6 +20,7 @@
 
 import QtQuick 1.1
 import Gallery 1.0
+import Capetown 1.0
 import "GalleryUtility.js" as GalleryUtility
 
 Rectangle {

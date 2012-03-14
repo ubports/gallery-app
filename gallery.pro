@@ -97,6 +97,12 @@ HEADERS += \
 
 OTHER_FILES += \
 	rc/gallery.qrc \
+	\
+	rc/Capetown/qmldir \
+	rc/Capetown/DissolveAnimation.qml \
+	rc/Capetown/FadeInAnimation.qml \
+	rc/Capetown/FadeOutAnimation.qml \
+	\
 	rc/qml/AddCreateOperationNavbarButton.qml \
 	rc/qml/AlbumClosedViewerTransition.qml \
 	rc/qml/AlbumCover.qml \
@@ -114,15 +120,12 @@ OTHER_FILES += \
 	rc/qml/AlbumViewerTransition.qml \
 	rc/qml/BinaryTabGroup.qml \
 	rc/qml/Checkerboard.qml \
-	rc/qml/DissolveAnimation.qml \
 	rc/qml/EventCard.qml \
 	rc/qml/EventCheckerboard.qml \
 	rc/qml/EventCheckerboardDelegate.qml \
 	rc/qml/EventTimeline.qml \
 	rc/qml/EventTimelineTransition.qml \
 	rc/qml/ExpandAnimation.qml \
-	rc/qml/FadeInAnimation.qml \
-	rc/qml/FadeOutAnimation.qml \
 	rc/qml/FramePortrait.qml \
 	rc/qml/GalleryApplication.qml \
 	rc/qml/GalleryOverviewNavigationBar.qml \
