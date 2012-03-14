@@ -82,7 +82,7 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
 
         // TODO: subtitle, not creation date.
-        text: (album) ? Qt.formatDate(album.creationDate, "MM/dd/yy") : ""
+        text: (album) ? Qt.formatDateTime(album.creationDateTime, "MM/dd/yy") : ""
         color: "#a7a9ac"
         font.pointSize: 14 // From the spec.
         smooth: true

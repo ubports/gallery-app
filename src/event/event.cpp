@@ -21,14 +21,16 @@
 
 #include <QString>
 
+#include "media/media-collection.h"
 #include "util/collections.h"
 
 Event::Event()
-  : ContainerSource("Event (undated)") {
+  : ContainerSource("Event (undated)", MediaCollection::ExposureDateTimeDescendingComparator) {
 }
 
 Event::Event(const QDate& date)
-  : ContainerSource(QString("Event for ") + date.toString()), date_(date) {
+  : ContainerSource(QString("Event for ") + date.toString(),
+  MediaCollection::ExposureDateTimeDescendingComparator), date_(date) {
 }
 
 void Event::RegisterType() {

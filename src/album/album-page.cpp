@@ -20,19 +20,22 @@
 #include "album/album-page.h"
 
 #include "album/album.h"
+#include "media/media-collection.h"
 #include "util/collections.h"
 
 AlbumPage::AlbumPage()
-  : ContainerSource("AlbumPage"), owner_(NULL), page_number_(-1), template_page_(NULL) {
+  : ContainerSource("AlbumPage", MediaCollection::ExposureDateTimeAscendingComparator),
+   owner_(NULL), page_number_(-1), template_page_(NULL) {
 }
 
 AlbumPage::AlbumPage(Album* owner)
-  : ContainerSource("AlbumPage"), owner_(owner), page_number_(-1), template_page_(NULL) {
+  : ContainerSource("AlbumPage", MediaCollection::ExposureDateTimeAscendingComparator),
+  owner_(owner), page_number_(-1), template_page_(NULL) {
 }
 
 AlbumPage::AlbumPage(Album* owner, int page_number, AlbumTemplatePage* template_page)
-  : ContainerSource("AlbumPage"), owner_(owner), page_number_(page_number),
-  template_page_(template_page) {
+  : ContainerSource("AlbumPage", MediaCollection::ExposureDateTimeAscendingComparator),
+  owner_(owner), page_number_(page_number), template_page_(template_page) {
 }
 
 void AlbumPage::RegisterType() {

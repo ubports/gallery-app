@@ -116,7 +116,7 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         
-        text: (album) ? Qt.formatDate(album.creationDate, "MM/dd/yy") : ""
+        text: (album) ? Qt.formatDateTime(album.creationDateTime, "MM/dd/yy") : ""
       }
     }
   }
