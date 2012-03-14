@@ -65,9 +65,11 @@ Rectangle {
       ownerName: "PhotoViewer"
     }
     
-    // Don't allow flicking while the chrome is active or the image is zoomed.
-    // When images are zoomed, mouse drags should pan, not flick.
-    interactive: !chrome.active && (currentItem != null) && (currentItem.state == "unzoomed")
+    // Don't allow flicking while the chrome is actively displaying a popup
+    // menu or the image is zoomed. When images are zoomed, mouse drags should
+    // pan, not flick.
+    interactive: !chrome.popupActive && (currentItem != null) &&
+      (currentItem.state == "unzoomed")
     
     onCurrentIndexChanged: {
       if (model)
@@ -182,6 +184,10 @@ Rectangle {
 
       popupOriginX: -gu(13)
 
+      onPopupInteractionCompleted: {
+        hideAllPopups();
+      }
+
       visible: false
     }
 
@@ -189,6 +195,10 @@ Rectangle {
       id: photoViewerOptionsMenu
 
       popupOriginX: -gu(5.5)
+
+      onPopupInteractionCompleted: {
+        hideAllPopups();
+      }
 
       visible: false
     }

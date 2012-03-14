@@ -27,6 +27,80 @@ Rectangle {
   property bool hasBottomBorder: true
   property alias iconFilename: iconImage.source
   property alias hasCueRectangle: cueRectangle.visible
+  property string action: ""
+  property Item hostMenu
+
+  signal actionInvoked(string name)
+  signal popupInteractionCompleted()
+
+  states: [
+    State {
+      name: "normal";
+
+      PropertyChanges {
+        target: menuItem;
+        color: (!menuItem.isSeparator) ? "white" : "#bcbdc0";
+      }
+
+      PropertyChanges {
+        target: menuItemCaption;
+        color: (!menuItem.isSeparator) ? "#818285" : "white"
+      }
+    },
+
+    State {
+      name: "highlight";
+
+      PropertyChanges {
+        target: menuItem;
+        color: (!menuItem.isSeparator) ? "#bcbdc0" : "white"
+      }
+
+      PropertyChanges {
+        target: menuItemCaption;
+        color: "white" }
+    }]
+
+  state: "normal"
+
+  function dispatchAction() {
+    acknowledgeItemPressTimer.restart();
+    clearHighlightTimer.restart();
+    actionDispatchTimer.restart();
+  }
+
+  Timer {
+    id: clearHighlightTimer;
+
+    interval: 650
+
+    onTriggered: {
+      menuItem.state = "normal"
+    }
+  }
+
+  Timer {
+    id: actionDispatchTimer
+
+    interval: clearHighlightTimer.interval
+
+    onTriggered: {
+      if (menuItem.action != "")
+        menuItem.actionInvoked(menuItem.action);
+    }
+  }
+
+  Timer {
+    id: acknowledgeItemPressTimer
+
+    interval: 300
+
+    onTriggered: {
+      chrome.cyclePopup(hostMenu);
+      chrome.popupActive = false
+    }
+  }
+
 
   height: {
     if (isSeparator)
@@ -38,8 +112,6 @@ Rectangle {
   width: gu(40)
 
   clip: true;
-
-  color: (isSeparator) ? "#bcbdc0" : "white"
 
   Image {
     id: iconImage
@@ -87,8 +159,6 @@ Rectangle {
     anchors.leftMargin: (isSeparator || iconFilename != "") ? gu(1) : 0
 
     visible: (text) ? true : false
-
-    color: (isSeparator) ? "white" : "#818285"
   }
 
   Rectangle {
@@ -99,6 +169,17 @@ Rectangle {
     visible: !menuItem.isSeparator && menuItem.hasBottomBorder
 
     color: "#bcbdc0"
+  }
+
+  MouseArea {
+    anchors.fill: parent;
+
+    onPressed: {
+      if (!menuItem.isSeparator)
+        menuItem.state = "highlight"
+
+      dispatchAction();
+    }
   }
 }
 

@@ -26,7 +26,11 @@ Rectangle {
   property int popupOriginX: parent.width -
     Math.floor(popupBox.originCueWidth / 2)
   property int popupOriginY: parent.height - gu(6) /* toolbar height */
-  property int fadeDuration: 200
+  property int fadeDuration: 300
+  property bool ready: false
+
+  signal actionInvoked(string name);
+  signal popupInteractionCompleted();
 
   state: "hidden"
 
@@ -76,7 +80,6 @@ Rectangle {
     height: 1 // height is set dynamically once content height can be
               // computed
     clip: true;
-
     interactive: false
 
     delegate: MenuItem {
@@ -85,6 +88,16 @@ Rectangle {
       hasBottomBorder: (model.hasBottomBorder) ? model.hasBottomBorder : false
       iconFilename: (model.iconFilename) ? model.iconFilename : ""
       hasCueRectangle: (model.hasCueRectangle) ? model.hasCueRectangle : false
+      action: (model.action) ? model.action : ""
+      hostMenu: popupMenu
+
+      onActionInvoked: {
+        popupMenu.actionInvoked(name);
+      }
+
+      onPopupInteractionCompleted: {
+        popupMenu.popupInteractionCompleted();
+      }
     }
 
     onContentHeightChanged: {
@@ -93,14 +106,6 @@ Rectangle {
       popupMenu.y = popupMenu.popupOriginY - popupMenu.height;
 
       height = contentHeight;
-    }
-
-    MouseArea {
-      id: mouseBlocker;
-
-      anchors.fill: parent;
-
-      onClicked: popupMenu.state = "hidden"
     }
   }
 

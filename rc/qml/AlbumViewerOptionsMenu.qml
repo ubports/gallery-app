@@ -20,9 +20,12 @@
 import QtQuick 1.1
 
 PopupMenu {
+  id: albumViewerOptionsMenu
+
   model: ListModel {
     ListElement {
       title: "Add photos"
+      action: "onAddPhotos"
     }
 
     ListElement {

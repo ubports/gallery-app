@@ -186,6 +186,20 @@ Rectangle {
 
       popupOriginX: -gu(5.5);
 
+      // a switch-case case statement instead of an if statement because we
+      // soon hope to be able to respond to all six menu items
+      onActionInvoked: {
+        switch (name) {
+          case "onAddPhotos":
+            navStack.switchToMediaSelector(albumViewer.album);
+          break;
+        }
+      }
+
+      onPopupInteractionCompleted: {
+        hideAllPopups();
+      }
+
       visible: false;
     }
 
@@ -193,6 +207,10 @@ Rectangle {
       id: albumViewerShareMenu
 
       popupOriginX: -gu(13);
+
+      onPopupInteractionCompleted: {
+        hideAllPopups();
+      }
 
       visible: false
     }

@@ -75,7 +75,7 @@ Item {
   signal newAlbumPicked()
 
   // private properties -- don't touch these from outside this component
-  property bool active: false
+  property bool popupActive: false
 
   visible: false
   state: "hidden"
@@ -118,14 +118,14 @@ Item {
 
     target.flipVisibility();
 
-    this.active = target.visible;
+    this.popupActive = target.visible;
   }
 
   function hideAllPopups() {
     for (var i = 0; i < popups.length; i++)
       popups[i].state = "hidden";
 
-    this.active = false;
+    this.popupActive = false;
   }
 
   onVisibleChanged: {
@@ -137,8 +137,8 @@ Item {
       autoHideTimer.startAutoHide();
   }
 
-  onActiveChanged: {
-    if (active)
+  onPopupActiveChanged: {
+    if (popupActive)
       autoHideTimer.stop();
     else
       autoHideTimer.startAutoHide();
@@ -155,7 +155,7 @@ Item {
     anchors.fill: parent
     z:16
 
-    visible: chrome.active
+    visible: chrome.popupActive
 
     onClicked: chrome.cancelActivity()
   }
@@ -249,7 +249,7 @@ Item {
 
     onAlbumOperationsButtonPressed: {
       if (albumPicker.state == "hidden")
-        wrapper.active = true;
+        wrapper.popupActive = true;
 
       albumPicker.flipVisibility()
     }
