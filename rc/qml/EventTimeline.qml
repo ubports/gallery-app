@@ -27,11 +27,11 @@ ListView {
   signal activated(variant event)
   signal timedOut()
   
-  property int elementWidth: gu(24.75)
-  property int elementHeight: gu(18.5)
+  property int elementWidth: gu(24)
+  property int elementHeight: gu(19)
   property int elementSpacing: gu(1)
   
-  property int eventCardWidth: gu(24.75)
+  property int eventCardWidth: elementWidth
   property int eventCardHeight: elementHeight
   
   property int headTailCount: 3
@@ -99,14 +99,14 @@ ListView {
   }
   
   orientation: ListView.Vertical
-  spacing: gu(1)
+  spacing: elementSpacing
   
   cacheBuffer: height * 2
   
   model: EventCollectionModel {
   }
   
-  delegate: Rectangle {
+  delegate: Item {
     id: eventTimelineElement
     objectName: "eventTimelineElement"
     
@@ -176,8 +176,6 @@ ListView {
       objectName: "eventCard"
       
       anchors.centerIn: parent
-      anchors.leftMargin: elementSpacing
-      anchors.rightMargin: elementSpacing
       
       width: eventCardWidth
       height: eventCardHeight

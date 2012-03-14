@@ -19,6 +19,7 @@
 
 import QtQuick 1.1
 import Gallery 1.0
+import "GalleryUtility.js" as GalleryUtility
 
 Rectangle {
   id: eventTimelineTransition
@@ -31,15 +32,15 @@ Rectangle {
   property int duration: 750
   
   // readonly
-  // TODO: Make constants used from Checkerboard or EventCheckerboard
-  property int widthSansStroke: 206
-  property int heightSansStroke: 156
-  property int widthWithStroke: 198
-  property int heightWithStroke: 148
+  property real itemWidth: checkerboard.itemWidth
+  property real itemHeight: checkerboard.itemHeight
+  property real gutterSize: checkerboard.gutterSize
+  property real delegateWidth: checkerboard.delegateWidth
+  property real delegateHeight: checkerboard.delegateHeight
   
   // internal
   property EventOverviewModel model: EventOverviewModel {}
-  property int xMax: width / widthSansStroke
+  property int xMax: width / delegateWidth
   
   states: [
     State {
@@ -145,7 +146,7 @@ Rectangle {
     
     model: eventTimelineTransition.model
     
-    delegate: Rectangle {
+    delegate: Item {
       id: cell
       
       // This is necessary to expose the index properties externally
@@ -157,8 +158,8 @@ Rectangle {
       property bool isEvent: model.typeName == "Event"
       property bool hidesUnderEvent: false
       
-      width: widthSansStroke
-      height: heightSansStroke
+      width: itemWidth
+      height: itemHeight
       
       z: isEvent ? 1 : 0
       
@@ -240,13 +241,18 @@ Rectangle {
         // it would be located *if* it was.  Its index in the model and the
         // dimensions of the delegates and viewing area means that is
         // deterministic for all objects
+
+        // Note that we have to compensate for the photo being slightly smaller
+        // than the GridView delegate (the gutter).
+        var gutterOffset = gutterSize / 2;
+
         var cindex = checkerboard.model.indexOf(model.object);
         if (cindex >= 0) {
           // As view scrolls vertically, x coordinate needs no translation
-          gridX = (cindex % xMax) * widthSansStroke;
+          gridX = (cindex % xMax) * delegateWidth + gutterOffset;
           
           // translate y coordinate according to checkerboard viewport
-          gridY = (Math.floor(cindex / xMax) * heightSansStroke) - checkerboard.contentY;
+          gridY = (Math.floor(cindex / xMax) * delegateHeight) - checkerboard.contentY + gutterOffset;
         } else {
           console.log("Unable to find index for", model.object);
           visible = false;
@@ -266,6 +272,7 @@ Rectangle {
         }
         
         if (rect) {
+          rect = GalleryUtility.translateRect(rect, timeline, eventTimelineTransition);
           timelineX = rect.x;
           timelineY = rect.y;
         } else {
@@ -281,8 +288,8 @@ Rectangle {
         
         anchors.centerIn: parent
         
-        width: widthWithStroke
-        height: heightWithStroke
+        width: itemWidth
+        height: itemHeight
         
         sourceComponent: eventTimelineTransition.delegate
         

@@ -35,18 +35,19 @@ Rectangle {
   property alias contentX: grid.contentX
   property alias contentY: grid.contentY
   
-  property int xMax: width / widthSansStroke
-  
-  property int widthSansStroke: gu(25.75)
-  property int heightSansStroke: gu(19.5)
-  property int widthWithStroke: gu(24.75)
-  property int heightWithStroke: gu(18.5)
+  property real itemWidth: gu(24)
+  property real itemHeight: gu(19)
+  property real gutterSize: gu(2)
   
   property bool allowActivation: true
   property bool inSelectionMode: false
   property bool allowSelection: true
   property int selectedCount: (model) ? model.selectedCount : 0
   
+  // readonly
+  property real delegateWidth: itemWidth + gutterSize
+  property real delegateHeight: itemHeight + gutterSize
+
   function unselectAll() {
     if (model != null)
       model.unselectAll();
@@ -70,17 +71,15 @@ Rectangle {
     return undefined;
   }
   
-  function getRectOfItem(item, relativeTo, adjustForBorder) {
+  function getRectOfItem(item, relativeTo, adjustForGutter) {
     var rect = GalleryUtility.getRectRelativeTo(item, relativeTo);
     
-    if (adjustForBorder) {
-      // Now we have to adjust for the border inside the delegate.
-      var borderWidth = widthSansStroke - widthWithStroke;
-      var borderHeight = heightSansStroke - heightWithStroke;
-      rect.x += borderWidth / 2;
-      rect.y += borderHeight / 2;
-      rect.width -= borderWidth;
-      rect.height -= borderHeight;
+    if (adjustForGutter) {
+      // Now we have to adjust for the gutter inside the delegate.
+      rect.x += gutterSize / 2;
+      rect.y += gutterSize / 2;
+      rect.width -= gutterSize;
+      rect.height -= gutterSize;
     }
     
     return rect;
@@ -130,17 +129,15 @@ Rectangle {
     id: grid
     objectName: "grid"
     
-    width: parent.width
-    height: parent.height
+    anchors.fill: parent
     
-    // Dimensions without stroke
-    cellWidth: widthSansStroke
-    cellHeight: heightSansStroke
+    cellWidth: delegateWidth
+    cellHeight: delegateHeight
     
     onMovementStarted: checkerboard.movementStarted()
     onMovementEnded: checkerboard.movementEnded()
     
-    delegate: Row {
+    delegate: Item {
       // This name is checked for in getDelegateInstanceAt() above.
       objectName: "delegateItem"
 
@@ -149,29 +146,22 @@ Rectangle {
       property int index: model.index
       property Item item: loader.item
       
-      Rectangle {
-        width: widthSansStroke
-        height: heightSansStroke
-        
-        Loader {
-          id: loader
-          
-          property variant modelData: model
-          
-          anchors.centerIn: parent
-          
-          width: (checkerboard.state == "selecting" ||
-            checkerboard.state == "to-selecting") ? widthSansStroke :
-            widthWithStroke
-          height: (checkerboard.state == "selecting" ||
-            checkerboard.state == "to-selecting") ? heightSansStroke :
-            heightWithStroke
-          
-          sourceComponent: checkerboard.delegate
-        }
+      width: delegateWidth
+      height: delegateHeight
+
+      Loader {
+        id: loader
+
+        property variant modelData: model
+
+        width: itemWidth
+        height: itemHeight
+        anchors.centerIn: parent
+
+        sourceComponent: checkerboard.delegate
         
         MouseArea {
-          anchors.fill: loader
+          anchors.fill: parent
 
           enabled: (allowActivation || allowSelection)
           
@@ -188,9 +178,7 @@ Rectangle {
           onReleased: {
             // See onPressAndHold for note on logic behind state changes
             if (allowActivation && checkerboard.state == "normal") {
-              var rect = mapToItem(application, parent.x, parent.y);
-              rect.width = width;
-              rect.height = height;
+              var rect = GalleryUtility.getRectRelativeTo(loader, checkerboard);
               checkerboard.activated(object, model, rect);
             } else if (allowSelection && checkerboard.state == "to-selecting") {
               checkerboard.state = "selecting";
@@ -217,7 +205,7 @@ Rectangle {
         BorderImage {
           source: "../img/selected-border-stroke.png"
 
-          anchors.fill: loader
+          anchors.fill: parent
           z: 4
 
           asynchronous: true

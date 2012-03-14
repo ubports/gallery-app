@@ -96,14 +96,11 @@ Rectangle {
   Item {
     id: eventsSheet
     
-    anchors.top: navbar.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.bottom: parent.bottom
-    anchors.topMargin: gu(3)
+    anchors.fill: parent
+    anchors.topMargin: gu(2) + navbar.height
     anchors.bottomMargin: gu(0)
-    anchors.leftMargin: gu(2.75)
-    anchors.rightMargin: gu(2.75)
+    anchors.leftMargin: gu(2)
+    anchors.rightMargin: gu(2)
     
     // if switched away from or to, always move back to checkerboard
     onVisibleChanged: {
@@ -126,7 +123,8 @@ Rectangle {
       
       onActivated: {
         if (objectModel.typeName == "MediaSource") {
-          photoViewer.animateOpen(object, activatedRect);
+          var photoRect = GalleryUtility.translateRect(activatedRect, eventsCheckerboard, photoViewer);
+          photoViewer.animateOpen(object, photoRect);
         } else {
           // Event
           eventTimelineTransition.toTimeline(object);
@@ -180,10 +178,9 @@ Rectangle {
     anchors.leftMargin: gu(2)
     anchors.rightMargin: gu(2)
     
-    widthSansStroke: gu(52)
-    heightSansStroke: gu(42)
-    widthWithStroke: gu(50)
-    heightWithStroke: gu(40)
+    itemWidth: gu(50)
+    itemHeight: gu(40)
+    gutterSize: gu(2)
     
     visible: false
     allowSelection: false

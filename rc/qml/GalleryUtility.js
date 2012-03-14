@@ -52,12 +52,19 @@ function gatherChildren(parent, accum, cond) {
     gatherChildren(parent.contentItem, accum, cond);
 }
 
+// Translates a rectangle's coordinates from one item's coordinate space to
+// another's.
+function translateRect(rect, fromItem, toItem) {
+  var newRect = fromItem.mapToItem(toItem, rect.x, rect.y);
+  newRect.width = rect.width;
+  newRect.height = rect.height;
+
+  return newRect;
+}
+
+// Gets the rect of an item relative to another item.
 function getRectRelativeTo(item, relativeTo) {
-  var rect = item.mapToItem(relativeTo, 0, 0);
-  rect.width = item.width;
-  rect.height = item.height;
-  
-  return rect;
+  return translateRect({"x": 0, "y": 0, "width": item.width, "height": item.height}, item, relativeTo);
 }
 
 // Useful only for vertically scrolling containers of multiple items
