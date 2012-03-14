@@ -127,9 +127,9 @@ Rectangle {
     objectName: "gridCheckerboard"
     
     anchors.fill: parent
-    anchors.topMargin: chrome.navbarHeight + gu(3)
-    anchors.leftMargin: gu(2.75)
-    anchors.rightMargin: gu(2.75)
+    anchors.topMargin: chrome.navbarHeight + gu(2)
+    anchors.leftMargin: gu(2)
+    anchors.rightMargin: gu(2)
     
     visible: false
     
