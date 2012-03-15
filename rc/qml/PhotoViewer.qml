@@ -45,7 +45,7 @@ Rectangle {
     imagePager.pageTo(index);
   }
 
-  color: "#444444"
+  color: "black"
   
   Pager {
     id: imagePager
@@ -57,7 +57,7 @@ Rectangle {
       width: imagePager.width
       height: imagePager.height
       
-      color: "#444444"
+      color: "black"
 
       isZoomable: true;
       
