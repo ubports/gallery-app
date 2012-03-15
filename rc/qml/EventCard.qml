@@ -57,4 +57,13 @@ Rectangle {
     
     color: textColor
   }
+
+  Image {
+    id: mat
+
+    anchors.centerIn: parent
+
+    source: "../img/photo-mat.png"
+    cache: true
+  }
 }

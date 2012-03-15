@@ -8,6 +8,7 @@
     <file>img/dummy-menu-icon.png</file>
     <file>img/dummy-menu-photo-icon.png</file>
     <file>img/grid-view.png</file>
+    <file>img/photo-mat.png</file>
     <file>img/more-operations-icon.png</file>
     <file>img/popup-arrow.png</file>
     <file>img/return-arrow.png</file>
@@ -55,6 +56,7 @@
     <file>qml/GalleryStandardNavbar.qml</file>
     <file>qml/GalleryStandardToolbar.qml</file>
     <file>qml/GalleryUtility.js</file>
+    <file>qml/MattedPhotoPreview.qml</file>
     <file>qml/MediaSelector.qml</file>
     <file>qml/MenuItem.qml</file>
     <file>qml/MoreOperationsToolbarButton.qml</file>

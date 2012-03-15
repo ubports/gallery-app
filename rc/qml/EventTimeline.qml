@@ -131,13 +131,11 @@ ListView {
           limit: Math.min(Math.ceil(rawCount / 2), headTailCount)
         }
         
-        PhotoComponent {
+        MattedPhotoPreview {
           width: elementWidth
           height: elementHeight
           
           mediaSource: model.mediaSource
-          isCropped: true
-          isPreview: true
           ownerName: "EventTimeline"
         }
       }
@@ -159,13 +157,11 @@ ListView {
           head: 0 - limit
         }
         
-        PhotoComponent {
+        MattedPhotoPreview {
           width: elementWidth
           height: elementHeight
           
           mediaSource: model.mediaSource
-          isCropped: true
-          isPreview: true
           ownerName: "EventTimeline"
         }
       }
