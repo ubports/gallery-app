@@ -99,7 +99,6 @@ int main(int argc, char *argv[]) {
   QGLWidget *gl_widget = new QGLWidget(format);
   
   QDeclarativeView view;
-  view.engine()->addImportPath("rc");
   view.engine()->rootContext()->setContextProperty("GRIDUNIT", QVariant(APP_GRIDUNIT));
   view.engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
     GalleryStandardImageProvider::instance());

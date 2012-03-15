@@ -18,7 +18,7 @@
  */
 
 import QtQuick 1.1
-import Capetown 1.0
+import "../Capetown"
 
 Rectangle {
   id: popupMenu

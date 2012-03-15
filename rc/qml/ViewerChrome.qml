@@ -19,7 +19,7 @@
 
 import QtQuick 1.1
 import Gallery 1.0
-import Capetown 1.0
+import "../Capetown"
 
 // The ViewerChrome object wraps toolbars and other chrome elements into one
 // easy to use, standardized object.  You'll probably want to fill the screen
