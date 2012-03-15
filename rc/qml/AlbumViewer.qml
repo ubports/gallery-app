@@ -21,6 +21,7 @@
 import QtQuick 1.1
 import Gallery 1.0
 import "../Capetown"
+import "GalleryUtility.js" as GalleryUtility
 
 Rectangle {
   id: albumViewer
@@ -151,7 +152,10 @@ Rectangle {
       ownerName: "AlbumViewer grid"
     }
 
-    onActivated: photoViewer.animateOpen(object, activatedRect)
+    onActivated: {
+      var photoRect = GalleryUtility.translateRect(activatedRect, gridCheckerboard, photoViewer);
+      photoViewer.animateOpen(object, photoRect);
+    }
   }
 
   ViewerChrome {

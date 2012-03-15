@@ -206,13 +206,16 @@ Rectangle {
         }
 
         onTapped: {
-          var rect = GalleryUtility.getRectRelativeTo(parent, overview);
+          var rect = GalleryUtility.getRectRelativeTo(parent, albumsCheckerboard);
           albumsCheckerboard.activated(modelData.object, modelData.model, rect);
         }
       }
     }
     
-    onActivated: navStack.switchToAlbumViewer(object, activatedRect)
+    onActivated: {
+      var albumRect = GalleryUtility.translateRect(activatedRect, albumsCheckerboard, overview);
+      navStack.switchToAlbumViewer(object, albumRect);
+    }
   }
 
   ViewerChrome {
