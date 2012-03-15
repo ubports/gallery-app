@@ -14,34 +14,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Authors:
- * Jim Nelson <jim@yorba.org>
+ * Charles Lindsay <chaz@yorba.org>
  */
 
 import QtQuick 1.1
 import Gallery 1.0
 
+// A preview PhotoComponent with an overlay mat image.  Could be expanded to
+// handle more than just previews with a little work and a better image.
 Item {
-  property alias ownerName: photo.ownerName
-  property alias event: eventCard.event
-  property alias mediaSource: photo.mediaSource
-  
-  MattedPhotoPreview {
-    id: photo
-    
+  id: mattedPhotoPreview
+
+  property alias ownerName: preview.ownerName
+  property alias mediaSource: preview.mediaSource
+
+  PhotoComponent {
+    id: preview
+
     anchors.fill: parent
-    
+
     visible: (mediaSource) ? true : false
-    
-    mediaSource: (modelData.typeName == "MediaSource") ? modelData.mediaSource : undefined
+
+    isCropped: true
+    isPreview: true
   }
-  
-  EventCard {
-    id: eventCard
-    
-    anchors.fill: parent
-    
-    visible: (event) ? true : false
-    
-    event: (modelData.typeName == "Event") ? modelData.object : undefined
+
+  Image {
+    id: mat
+
+    anchors.centerIn: parent
+
+    source: "../img/photo-mat.png"
+    cache: true
   }
 }

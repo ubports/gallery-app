@@ -134,6 +134,7 @@ OTHER_FILES += \
 	rc/qml/GalleryStandardNavbar.qml \
 	rc/qml/GalleryStandardToolbar.qml \
 	rc/qml/GalleryUtility.js \
+	rc/qml/MattedPhotoPreview.qml \
 	rc/qml/MediaSelector.qml \
 	rc/qml/MenuItem.qml \
 	rc/qml/MoreOperationsToolbarButton.qml \
