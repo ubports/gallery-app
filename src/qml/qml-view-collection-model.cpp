@@ -117,6 +117,11 @@ void QmlViewCollectionModel::add(QVariant var) {
   view_->Add(object);
 }
 
+void QmlViewCollectionModel::selectAll() {
+  if (view_ != NULL)
+    view_->SelectAll();
+}
+
 void QmlViewCollectionModel::unselectAll() {
   if (view_ != NULL)
     view_->UnselectAll();

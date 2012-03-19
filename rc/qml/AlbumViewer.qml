@@ -188,9 +188,10 @@ Rectangle {
 
     AlbumViewerOptionsMenu {
       id: albumViewerOptionsMenu
-
-      popupOriginX: -gu(5.5);
-
+      
+      popupOriginX: -gu(1.5)
+      popupOriginY: -gu(6)
+      
       // a switch-case case statement instead of an if statement because we
       // soon hope to be able to respond to all six menu items
       onActionInvoked: {
@@ -210,9 +211,10 @@ Rectangle {
 
     AlbumViewerShareMenu {
       id: albumViewerShareMenu
-
-      popupOriginX: -gu(13);
-
+      
+      popupOriginX: -gu(9)
+      popupOriginY: -gu(6)
+      
       onPopupInteractionCompleted: {
         hideAllPopups();
       }

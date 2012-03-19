@@ -226,10 +226,18 @@ Rectangle {
 
     fadeDuration: 0
     autoHideWait: 0
-
+    
+    hasSelectionOperationsButton: true
+    
     inSelectionMode: true
     visible: eventsCheckerboard.inSelectionMode
-
+    
+    property variant popups: [ selectionOperationsMenu ]
+    
+    onSelectionOperationsButtonPressed: {
+      cyclePopup(selectionOperationsMenu);
+    }
+    
     onSelectionDoneButtonPressed: {
       eventsCheckerboard.state = "normal";
       eventsCheckerboard.unselectAll();
@@ -245,6 +253,45 @@ Rectangle {
       album.addSelectedMediaSources(eventsCheckerboard.model);
       eventsCheckerboard.state = "normal";
       eventsCheckerboard.unselectAll();
+    }
+    
+    PopupMenu {
+      id: selectionOperationsMenu
+      
+      popupOriginX: gu(3.5)
+      popupOriginY: -gu(6)
+      
+      visible: false
+      state: "hidden"
+      
+      model: ListModel {
+        ListElement {
+          title: "Select All"
+          action: "SelectAll"
+          hasBottomBorder: true
+        }
+        
+        ListElement {
+          title: "Select None"
+          action: "SelectNone"
+        }
+      }
+      
+      onPopupInteractionCompleted: {
+        hideAllPopups();
+      }
+      
+      onActionInvoked: {
+        switch (name) {
+          case "SelectAll":
+            eventsCheckerboard.selectAll();
+          break;
+          
+          case "SelectNone":
+            eventsCheckerboard.unselectAll();
+          break;
+        }
+      }
     }
   }
 

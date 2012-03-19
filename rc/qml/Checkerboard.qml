@@ -47,9 +47,14 @@ Rectangle {
   // readonly
   property real delegateWidth: itemWidth + gutterSize
   property real delegateHeight: itemHeight + gutterSize
-
+  
+  function selectAll() {
+    if (model)
+      model.selectAll();
+  }
+  
   function unselectAll() {
-    if (model != null)
+    if (model)
       model.unselectAll();
   }
 

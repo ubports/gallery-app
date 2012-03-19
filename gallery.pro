@@ -151,6 +151,7 @@ OTHER_FILES += \
 	rc/qml/PopupPhotoViewer.qml \
 	rc/qml/PushButton.qml \
 	rc/qml/ReturnButton.qml \
+	rc/qml/SelectionOperationsToolbarButton.qml \
 	rc/qml/ShareOperationsToolbarButton.qml \
 	rc/qml/SwipeArea.qml \
 	rc/qml/Tab.qml \

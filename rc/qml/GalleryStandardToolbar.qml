@@ -27,6 +27,7 @@ Toolbar {
   property bool hasMainIconSet: true
   property bool hasFullIconSet: true
   property bool useContrastOnWhiteColorScheme: false
+  property alias hasSelectionOperationsButton: selectionToolbarButton.visible
 
   /* read only properties */
   property int albumOperationsPopupX: albumOperationsToolbarButton.x +
@@ -39,9 +40,22 @@ Toolbar {
   signal trashOperationButtonPressed()
   signal shareOperationsButtonPressed()
   signal moreOperationsButtonPressed()
+  signal selectionOperationsButtonPressed(variant button)
 
   background: "white"
-
+  
+  SelectionOperationsToolbarButton {
+    id: selectionToolbarButton
+    
+    anchors.left: parent.left
+    anchors.verticalCenter: parent.verticalCenter
+    anchors.leftMargin: gu(2)
+    
+    visible: false
+    
+    onPressed: wrapper.selectionOperationsButtonPressed(selectionToolbarButton)
+  }
+  
   AlbumPageIndicator {
     id: pageIndicator
 

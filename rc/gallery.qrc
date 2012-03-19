@@ -14,6 +14,7 @@
     <file>img/return-arrow.png</file>
     <file>img/selected-border-stroke.png</file>
     <file>img/selected-media.png</file>
+    <file>img/selection-operations-icon.png</file>
     <file>img/share-operations-icon.png</file>
     <file>img/template-view.png</file>
     <file>img/trash-operation-icon.png</file>
@@ -73,6 +74,7 @@
     <file>qml/PopupPhotoViewer.qml</file>
     <file>qml/PushButton.qml</file>
     <file>qml/ReturnButton.qml</file>
+    <file>qml/SelectionOperationsToolbarButton.qml</file>
     <file>qml/ShareOperationsToolbarButton.qml</file>
     <file>qml/SwipeArea.qml</file>
     <file>qml/Tab.qml</file>

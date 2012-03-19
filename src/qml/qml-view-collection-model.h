@@ -77,6 +77,7 @@ class QmlViewCollectionModel : public QAbstractListModel {
   Q_INVOKABLE QVariant getAt(int index);
   Q_INVOKABLE void clear();
   Q_INVOKABLE void add(QVariant var);
+  Q_INVOKABLE void selectAll();
   Q_INVOKABLE void unselectAll();
   Q_INVOKABLE void toggleSelection(QVariant var);
   

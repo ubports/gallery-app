@@ -45,6 +45,7 @@ Item {
   property bool toolbarHasMainIconsWhenSelecting: true
 
   property bool inSelectionMode: false
+  property alias hasSelectionOperationsButton: toolbar.hasSelectionOperationsButton
 
   // signals sent from the entire chrome ensemble
   signal hidePopups();
@@ -65,6 +66,7 @@ Item {
   signal pageIndicatorPageSelected(int pageNumber)
   signal moreOperationsButtonPressed()
   signal shareOperationsButtonPressed()
+  signal selectionOperationsButtonPressed(variant button)
 
   // Pass-throughs from the left/right nav buttons.
   signal leftNavigationButtonPressed()
@@ -116,9 +118,9 @@ Item {
   function cyclePopup(target) {
     if (!target.visible)
       hideAllPopups();
-
+    
     target.flipVisibility();
-
+    
     this.popupActive = target.visible;
   }
 
@@ -256,8 +258,8 @@ Item {
     }
 
     onMoreOperationsButtonPressed: wrapper.moreOperationsButtonPressed()
-
     onShareOperationsButtonPressed: wrapper.shareOperationsButtonPressed()
+    onSelectionOperationsButtonPressed: wrapper.selectionOperationsButtonPressed(button)
   }
 
   Timer {
