@@ -37,7 +37,8 @@ Rectangle {
   
   property real itemWidth: gu(24)
   property real itemHeight: gu(19)
-  property real gutterSize: gu(2)
+  property real gutterWidth: gu(2)
+  property real gutterHeight: gu(2)
   
   property bool allowActivation: true
   property bool inSelectionMode: false
@@ -45,8 +46,8 @@ Rectangle {
   property int selectedCount: (model) ? model.selectedCount : 0
   
   // readonly
-  property real delegateWidth: itemWidth + gutterSize
-  property real delegateHeight: itemHeight + gutterSize
+  property real delegateWidth: itemWidth + gutterWidth
+  property real delegateHeight: itemHeight + gutterHeight
   
   function selectAll() {
     if (model)
@@ -81,10 +82,10 @@ Rectangle {
     
     if (adjustForGutter) {
       // Now we have to adjust for the gutter inside the delegate.
-      rect.x += gutterSize / 2;
-      rect.y += gutterSize / 2;
-      rect.width -= gutterSize;
-      rect.height -= gutterSize;
+      rect.x += gutterWidth / 2;
+      rect.y += gutterHeight / 2;
+      rect.width -= gutterWidth;
+      rect.height -= gutterHeight;
     }
     
     return rect;

@@ -19,143 +19,116 @@
 
 import QtQuick 1.1
 import Gallery 1.0
-import "../Capetown"
 
 Rectangle {
   id: albumPreviewComponent
   
   property Album album
-  property alias bookmarkOpacity: albumPageViewer.bookmarkOpacity
-  property alias nameHeight: textContainer.height
-
-  property alias topGutter: albumPageViewer.topGutter
-  property alias bottomGutter: albumPageViewer.bottomGutter
-  property alias leftGutter: albumPageViewer.leftGutter
-  property alias rightGutter: albumPageViewer.rightGutter
-  property alias spineGutter: albumPageViewer.spineGutter
-  property alias insideGutter: albumPageViewer.insideGutter
-
+  
+  property alias topGutter: albumPageComponent.topGutter
+  property alias bottomGutter: albumPageComponent.bottomGutter
+  property alias leftGutter: albumPageComponent.leftGutter
+  property alias rightGutter: albumPageComponent.rightGutter
+  property alias spineGutter: albumPageComponent.spineGutter
+  property alias insideGutter: albumPageComponent.insideGutter
+  
+  property int backCoverExposedWidth: gu(0.625)
+  property int backCoverSpineWidth: gu(0.125)
+  
   // Read-only, please.
   property real openHorizontalMargin: gu(1)
   property real titleHeight: gu(7)
   
-  function open() {
-    if (album.closed)
-      openAnimation.start();
-  }
-
-  function close() {
-    if (!album.closed)
-      closeAnimation.start();
-  }
-
-  width: gu(50)
-  height: gu(40)
-
-  Rectangle {
-    id: textContainer
-
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.bottom: parent.bottom
-    height: titleHeight
-    
-    visible: album != undefined && !album.closed
-    
-    Column {
-      anchors.centerIn: parent
-
-      Text {
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        text: (album) ? album.name : "";
-        color: "#818285"
-        font.pointSize: 18 // Straight from the spec.
-        smooth: true
-      }
-
-      Item { // Vertical spacer.
-        width: 1
-        height: gu(1)
-      }
-
-      Text {
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        // TODO: subtitle, not creation date.
-        text: (album) ? Qt.formatDateTime(album.creationDateTime, "MM/dd/yy") : ""
-        color: "#a7a9ac"
-        font.pointSize: 14 // From the spec.
-        smooth: true
-      }
-    }
-  }
-
-  AlbumPageViewer {
-    id: albumPageViewer
-
-    property real topMargin: (album && album.closed ? 0 : openTopMargin)
-    property real bottomMargin: (album && album.closed ? 0 : openBottomMargin)
-
-    property real openTopMargin: openHorizontalMargin
-    property real openBottomMargin: openHorizontalMargin + titleHeight
-    property real closedTopMargin: 0
-    property real closedBottomMargin: 0
-
-    album: albumPreviewComponent.album
-
+  width: gu(28)
+  height: gu(33)
+  
+  AlbumCover {
     anchors.fill: parent
-    anchors.topMargin: topMargin
-    anchors.bottomMargin: bottomMargin
-
-    topGutter: gu(2)
-    bottomGutter: gu(2)
-    leftGutter: gu(1)
-    rightGutter: gu(1)
-    spineGutter: gu(1)
-    insideGutter: gu(0.5)
-
-    isPreview: true
+    
+    album: albumPreviewComponent.album
+    anchorRight: false
+    maintainAspectRatio: false
+    
+    visible: (album) ? album.closed : false
   }
-
-  SequentialAnimation {
-    id: openAnimation
-
-    ScriptAction { script: albumPageViewer.turnTo(album.currentPageNumber); }
-
-    ParallelAnimation {
-      NumberAnimation { target: albumPageViewer; property: "coverTitleOpacity";
-        to: 0; easing.type: Easing.OutQuad; duration: 100;
-      }
-
-      NumberAnimation { target: albumPageViewer; property: "topMargin";
-        to: albumPageViewer.openTopMargin; easing.type: Easing.InQuad; duration: 200;
-      }
-      NumberAnimation { target: albumPageViewer; property: "bottomMargin";
-        to: albumPageViewer.openBottomMargin; easing.type: Easing.InQuad; duration: 200;
+  
+  Column {
+    anchors.fill: parent
+    
+    visible: (album) ? !album.closed : false
+    
+    // Back cover is exposed on three edges, with a thinner line for the spine
+    Rectangle {
+      id: backCover
+      
+      // TODO: Should only have rounded corners on the right-hand corners of
+      // the folded-back cover ... QML currently doesn't support rounding
+      // Rectangle corners selectively
+      color: "#5f5952"
+      radius: 4.0
+      
+      width: albumPreviewComponent.width
+      height: albumPreviewComponent.height
+      
+      Rectangle {
+        id: clippingRegion
+        
+        x: albumPreviewComponent.x + backCoverSpineWidth
+        y: albumPreviewComponent.y + backCoverExposedWidth
+        width: albumPreviewComponent.width - (backCoverSpineWidth + backCoverExposedWidth)
+        height: albumPreviewComponent.height - (backCoverExposedWidth * 2)
+        
+        clip: true
+        
+        AlbumPageComponent {
+          id: albumPageComponent
+          
+          x: albumPreviewComponent.x - (width / 2)
+          y: albumPreviewComponent.y
+          width: (albumPreviewComponent.width * 2) - (2 * backCoverExposedWidth)
+          height: parent.height
+          
+          albumPage: (album) ? album.currentPage : null
+          isPreview: true
+          hasBorder: false
+          
+          topGutter: gu(1)
+          bottomGutter: gu(1)
+          leftGutter: gu(1)
+          rightGutter: gu(1)
+          spineGutter: gu(1)
+          insideGutter: gu(0.5)
+          spineBorderWidth: gu(0)
+        }
       }
     }
-
-    FadeInAnimation { target: textContainer; duration: 500; }
-  }
-
-  SequentialAnimation {
-    id: closeAnimation
-
-    ScriptAction { script: albumPageViewer.close(); }
-
-    FadeOutAnimation { target: textContainer; duration: 500; }
-
-    ParallelAnimation {
-      NumberAnimation { target: albumPageViewer; property: "topMargin";
-        to: albumPageViewer.closedTopMargin; duration: 200;
-      }
-      NumberAnimation { target: albumPageViewer; property: "bottomMargin";
-        to: albumPageViewer.closedBottomMargin; duration: 200;
-      }
+    
+    // Spacer
+    Item {
+      width: 1
+      height: gu(1)
     }
-    NumberAnimation { target: albumPageViewer; property: "coverTitleOpacity";
-      to: 1; easing.type: Easing.InQuad; duration: 200;
+    
+    Text {
+      anchors.horizontalCenter: parent.horizontalCenter
+      
+      text: (album) ? album.name : "";
+      color: "#818285"
+      font.family: "Ubuntu"
+      font.pointSize: 14
+      smooth: true
+    }
+    
+    Text {
+      anchors.horizontalCenter: parent.horizontalCenter
+      
+      // TODO: subtitle, not creation date.
+      text: (album) ? Qt.formatDateTime(album.creationDateTime, "MM/dd/yy") : ""
+      color: "#a7a9ac"
+      font.family: "Ubuntu"
+      font.pointSize: 9 // From the spec.
+      font.bold: true
+      smooth: true
     }
   }
 }

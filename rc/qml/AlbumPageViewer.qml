@@ -342,7 +342,7 @@ Item {
         height: albumPageViewer.height
         
         visible: leftIsCover
-
+        
         titleOpacity: albumPageViewer.coverTitleOpacity
       }
       
@@ -364,8 +364,6 @@ Item {
         visible: !leftIsCover
 
         isPreview: albumPageViewer.isPreview
-
-        bookmarkOpacity: albumPageViewer.bookmarkOpacity
       }
     }
   }
@@ -420,8 +418,6 @@ Item {
         visible: !rightIsCover
 
         isPreview: albumPageViewer.isPreview
-
-        bookmarkOpacity: albumPageViewer.bookmarkOpacity
       }
     }
   }
@@ -537,8 +533,6 @@ Item {
           visible: !leftIsCover
 
           isPreview: albumPageViewer.isPreview
-
-          bookmarkOpacity: albumPageViewer.bookmarkOpacity
         }
       }
       
@@ -581,8 +575,6 @@ Item {
           visible: !rightIsCover
 
           isPreview: albumPageViewer.isPreview
-
-          bookmarkOpacity: albumPageViewer.bookmarkOpacity
         }
       }
         

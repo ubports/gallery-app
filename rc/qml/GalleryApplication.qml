@@ -52,20 +52,7 @@ Item {
     visible: false
     
     onCloseRequested: {
-      if (state == "gridView") {
-        albumViewerTransition.dissolveFromAlbumViewer(albumViewer, navStack.previous());
-      } else {
-        navStack.goBack();
-        var thumbnailRect = overview.getRectOfAlbumPreview(album, albumViewer);
-        if (thumbnailRect) {
-          overview.showAlbumPreview(album, false);
-          
-          albumViewerTransition.album = album;
-          albumViewerTransition.backgroundGlass = overview.glass;
-          
-          albumViewerTransition.transitionFromAlbumViewer(album, thumbnailRect);
-        }
-      }
+      albumViewerTransition.dissolve(albumViewer, navStack.previous());
     }
   }
 
@@ -84,20 +71,11 @@ Item {
     
     onTransitionFromAlbumViewerCompleted: overview.showAlbumPreview(album, true)
     
-    onDissolveFromAlbumViewerCompleted: {
-      navStack.goBack();
-    }
-  }
-  
-  AlbumClosedViewerTransition {
-    id: albumClosedViewerTransition
-    
-    anchors.fill: parent
-    
-    onEnterCompleted: {
-      navStack.switchToPage(albumViewer);
-      albumViewer.resetView();
-      overview.showAlbumPreview(album, true);
+    onDissolveCompleted: {
+      if (fadeInTarget == navStack.previous())
+        navStack.goBack();
+      else
+        navStack.switchToPage(fadeInTarget);
     }
   }
   
@@ -115,18 +93,7 @@ Item {
     function switchToAlbumViewer(album, thumbnailRect) {
       albumViewer.album = album;
       
-      albumViewerTransition.album = album;
-      albumViewerTransition.backgroundGlass = overview.glass;
-      
-      albumClosedViewerTransition.album = album;
-      albumClosedViewerTransition.backgroundGlass = overview.glass;
-      
-      if (album.closed) {
-        overview.showAlbumPreview(album, false);
-        albumClosedViewerTransition.start(thumbnailRect);
-      } else {
-        albumViewerTransition.transitionToAlbumViewer(album, thumbnailRect);
-      }
+      albumViewerTransition.dissolve(navStack.top, albumViewer);
     }
     
     function switchToMediaSelector(album) {

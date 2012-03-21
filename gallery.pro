@@ -104,7 +104,6 @@ OTHER_FILES += \
 	rc/Capetown/FadeOutAnimation.qml \
 	\
 	rc/qml/AddCreateOperationNavbarButton.qml \
-	rc/qml/AlbumClosedViewerTransition.qml \
 	rc/qml/AlbumCover.qml \
 	rc/qml/AlbumOperationsToolbarButton.qml \
 	rc/qml/AlbumPageComponent.qml \

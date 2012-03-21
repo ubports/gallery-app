@@ -75,7 +75,7 @@ Item {
     hideAlbumViewerAnimation.start();
   }
 
-  function dissolveFromAlbumViewer(fadeOutTarget, fadeInTarget) {
+  function dissolve(fadeOutTarget, fadeInTarget) {
     dissolveAlbumViewerTransition.fadeOutTarget = fadeOutTarget;
     dissolveAlbumViewerTransition.fadeInTarget = fadeInTarget;
     dissolveAlbumViewerTransition.start();
@@ -83,7 +83,7 @@ Item {
 
   signal transitionToAlbumViewerCompleted()
   signal transitionFromAlbumViewerCompleted()
-  signal dissolveFromAlbumViewerCompleted()
+  signal dissolveCompleted(variant fadeOutTarget, variant fadeInTarget)
 
   AlbumPreviewComponent {
     id: expandAlbum
@@ -130,13 +130,6 @@ Item {
         from: thumbnailInsideGutter; to: pageInsideGutter; duration: durationMsec
       }
 
-      NumberAnimation {
-        target: expandAlbum
-        property: "bookmarkOpacity"
-        to: 0
-        duration: durationMsec
-      }
-      
       PropertyAnimation {
         target: backgroundGlass
         property: "opacity"
@@ -146,7 +139,6 @@ Item {
     }
 
     PropertyAction { target: expandAlbum; property: "visible"; value: false; }
-    PropertyAction { target: expandAlbum; property: "bookmarkOpacity"; value: 1; }
     PropertyAction { target: backgroundGlass; property: "opacity"; value: 0.0; }
 
     onCompleted: {
@@ -159,7 +151,6 @@ Item {
 
     property variant thumbnailRect: {"x": 0, "y": 0, "width": 0, "height": 0}
 
-    PropertyAction { target: expandAlbum; property: "bookmarkOpacity"; value: 0; }
     PropertyAction { target: expandAlbum; property: "visible"; value: true; }
     
     PropertyAction {
@@ -198,13 +189,6 @@ Item {
         from: pageInsideGutter; to: thumbnailInsideGutter; duration: durationMsec
       }
 
-      NumberAnimation {
-        target: expandAlbum
-        property: "bookmarkOpacity"
-        to: 1
-        duration: durationMsec
-      }
-      
       PropertyAnimation {
         target: backgroundGlass
         property: "opacity"
@@ -226,7 +210,7 @@ Item {
     fadeInTarget: Rectangle { } // Dummy Rectangle to avoid compilation errors.
 
     onCompleted: {
-      dissolveFromAlbumViewerCompleted();
+      dissolveCompleted(fadeOutTarget, fadeInTarget);
     }
   }
 }

@@ -179,9 +179,10 @@ Rectangle {
     anchors.leftMargin: gu(2)
     anchors.rightMargin: gu(2)
     
-    itemWidth: gu(50)
-    itemHeight: gu(40)
-    gutterSize: gu(2)
+    itemWidth: gu(28)
+    itemHeight: gu(33)
+    gutterWidth: gu(11)
+    gutterHeight: gu(8)
     
     visible: false
     allowSelection: false
@@ -195,16 +196,9 @@ Rectangle {
 
       SwipeArea {
         anchors.fill: parent
-
+        
         enabled: !parent.isRunning
-
-        onSwiped: {
-          if (leftToRight)
-            parent.close();
-          else
-            parent.open();
-        }
-
+        
         onTapped: {
           var rect = GalleryUtility.getRectRelativeTo(parent, albumsCheckerboard);
           albumsCheckerboard.activated(modelData.object, modelData.model, rect);

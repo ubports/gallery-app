@@ -34,7 +34,8 @@ Rectangle {
   // readonly
   property real itemWidth: checkerboard.itemWidth
   property real itemHeight: checkerboard.itemHeight
-  property real gutterSize: checkerboard.gutterSize
+  property real gutterWidth: checkerboard.gutterWidth
+  property real gutterHeight: checkerboard.gutterHeight
   property real delegateWidth: checkerboard.delegateWidth
   property real delegateHeight: checkerboard.delegateHeight
   
@@ -244,15 +245,16 @@ Rectangle {
 
         // Note that we have to compensate for the photo being slightly smaller
         // than the GridView delegate (the gutter).
-        var gutterOffset = gutterSize / 2;
+        var gutterWidthOffset = gutterWidth / 2;
+        var gutterHeightOffset = gutterHeight / 2;
 
         var cindex = checkerboard.model.indexOf(model.object);
         if (cindex >= 0) {
           // As view scrolls vertically, x coordinate needs no translation
-          gridX = (cindex % xMax) * delegateWidth + gutterOffset;
+          gridX = (cindex % xMax) * delegateWidth + gutterWidthOffset;
           
           // translate y coordinate according to checkerboard viewport
-          gridY = (Math.floor(cindex / xMax) * delegateHeight) - checkerboard.contentY + gutterOffset;
+          gridY = (Math.floor(cindex / xMax) * delegateHeight) - checkerboard.contentY + gutterHeightOffset;
         } else {
           console.log("Unable to find index for", model.object);
           visible = false;
