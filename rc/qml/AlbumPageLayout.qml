@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical Ltd
+ * Copyright (C) 2012 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -14,14 +14,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Authors:
- * Jim Nelson <jim@yorba.org>
  * Charles Lindsay <chaz@yorba.org>
  */
 
 import QtQuick 1.1
 
+// AlbumPageLayouts are all loaded from AlbumPageContents, and should inherit
+// its properties.
 Item {
-  id: albumPageLayoutARight
+  id: albumPageLayout
 
   property variant mediaSourceList: (parent ? parent.mediaSourceList : null)
 
@@ -35,18 +36,4 @@ Item {
 
   width: (parent ? parent.width : 0)
   height: (parent ? parent.height : 0)
-
-  FramePortrait {
-    id: right
-
-    anchors.fill: parent
-
-    topMargin: albumPageLayoutARight.topMargin
-    bottomMargin: albumPageLayoutARight.bottomMargin
-    leftMargin: albumPageLayoutARight.gutterMargin
-    rightMargin: albumPageLayoutARight.outerMargin
-
-    mediaSource: (mediaSourceList ? mediaSourceList[1] : null)
-    isPreview: albumPageLayoutARight.isPreview
-  }
 }

@@ -31,10 +31,10 @@
     <file>qml/AlbumPageComponent.qml</file>
     <file>qml/AlbumPageContents.qml</file>
     <file>qml/AlbumPageIndicator.qml</file>
-    <file>qml/AlbumPageLayoutALeft.qml</file>
-    <file>qml/AlbumPageLayoutARight.qml</file>
-    <file>qml/AlbumPageLayoutBLeft.qml</file>
-    <file>qml/AlbumPageLayoutBRight.qml</file>
+    <file>qml/AlbumPageLayout.qml</file>
+    <file>qml/AlbumPageLayoutLeftDoubleLandscape.qml</file>
+    <file>qml/AlbumPageLayoutLeftPortrait.qml</file>
+    <file>qml/AlbumPageLayoutRightPortrait.qml</file>
     <file>qml/AlbumPageViewer.qml</file>
     <file>qml/AlbumPickerPopup.qml</file>
     <file>qml/AlbumPreviewComponent.qml</file>

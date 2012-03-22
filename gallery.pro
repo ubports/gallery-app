@@ -109,10 +109,10 @@ OTHER_FILES += \
 	rc/qml/AlbumPageComponent.qml \
 	rc/qml/AlbumPageContents.qml \
 	rc/qml/AlbumPageIndicator.qml \
-	rc/qml/AlbumPageLayoutALeft.qml \
-	rc/qml/AlbumPageLayoutARight.qml \
-	rc/qml/AlbumPageLayoutBLeft.qml \
-	rc/qml/AlbumPageLayoutBRight.qml \
+	rc/qml/AlbumPageLayout.qml \
+	rc/qml/AlbumPageLayoutLeftDoubleLandscape.qml \
+	rc/qml/AlbumPageLayoutLeftPortrait.qml \
+	rc/qml/AlbumPageLayoutRightPortrait.qml \
 	rc/qml/AlbumPageViewer.qml \
 	rc/qml/AlbumPickerPopup.qml \
 	rc/qml/AlbumPreviewComponent.qml \
