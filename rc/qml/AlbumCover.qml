@@ -24,8 +24,6 @@ Item {
   id: albumCover
   
   property Album album
-  property bool anchorRight: true
-  property bool maintainAspectRatio: true
   property bool isBlank: false
   property real titleOpacity: 1
   property int titleDateSpacing: gu(2)
@@ -33,18 +31,7 @@ Item {
   Rectangle {
     id: cover
     
-    anchors.fill: (anchorRight && maintainAspectRatio) ? undefined : parent
-    anchors.left: (anchorRight && maintainAspectRatio) ? parent.horizontalCenter : undefined
-    anchors.right: (anchorRight && maintainAspectRatio) ? undefined : parent.horizontalCenter
-    
-    // maintain an aspect ratio, no matter the size
-    width: {
-      if (maintainAspectRatio)
-        return ((height * 0.75) <= (parent.width / 2)) ? height * 0.75 : parent.width / 2;
-      
-      return parent.width;
-    }
-    height: parent.height
+    anchors.fill: parent
     
     border.width: gu(0.25)
     border.color: "#657CA9"

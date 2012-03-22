@@ -34,7 +34,8 @@ class Album;
 class AlbumPage : public ContainerSource {
   Q_OBJECT
   Q_PROPERTY(int pageNumber READ page_number NOTIFY page_number_changed);
-  Q_PROPERTY(QUrl qmlRC READ qml_rc NOTIFY qml_rc_changed);
+  Q_PROPERTY(QUrl leftQmlRc READ left_qml_rc NOTIFY qml_rc_changed);
+  Q_PROPERTY(QUrl rightQmlRc READ right_qml_rc NOTIFY qml_rc_changed);
   Q_PROPERTY(QDeclarativeListProperty<MediaSource> mediaSourceList
     READ qml_media_source_list NOTIFY media_source_list_changed);
   Q_PROPERTY(QVariant owner READ qml_owner NOTIFY owner_changed);
@@ -54,8 +55,9 @@ class AlbumPage : public ContainerSource {
   
   int page_number() const;
   AlbumTemplatePage* template_page() const;
-  QUrl qml_rc() const;
-  
+  QUrl left_qml_rc() const;
+  QUrl right_qml_rc() const;
+
   QDeclarativeListProperty<MediaSource> qml_media_source_list();
   QVariant qml_owner() const;
   

@@ -15,72 +15,70 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
+ * Charles Lindsay <chaz@yorba.org>
  */
 
 import QtQuick 1.1
 import Gallery 1.0
 
-Rectangle {
+// One "piece of paper" in an album.  Contains photos (or the cover) from the
+// album and handles rotating, displaying the right page or subsequent left
+// page.
+Flipable {
   id: albumPageComponent
-  
-  property AlbumPage albumPage
 
-  property real topGutter: gu(0)
-  property real bottomGutter: gu(0)
-  property real leftGutter: gu(3)
-  property real rightGutter: gu(3)
-  property real spineGutter: gu(2)
-  property real insideGutter: gu(2)
-  
-  property bool isPreview: false
-  property bool hasBorder: false
-  
-  property real spineBorderWidth: gu(0.25)
-  property color borderColor: (isPreview ? "#0072bc" : "#95b5df")
-  
-  border.width: (hasBorder ? gu(0.25) : gu(0))
-  border.color: borderColor
+  property Album album // The album this page is in.
 
-  onAlbumPageChanged: {
-    // force reload of the entire page's QML
-    loader.source = (albumPage) ? albumPage.qmlRC : "";
+  // 0 = cover on front, left half of first spread on back.  1 = right of first
+  // spread on front, left of second spread on back, etc.
+  property int pageNumber
+
+  // [0,2]: 0 = flat right page, 1 = flat left page, 2 = back to right page.
+  // The page turns 360 degrees from 0-2 in a normal "book" fashion.
+  property real flipFraction: 0
+
+  property bool isPreview: false // Whether to load preview or normal images.
+
+  front: AlbumPageContents {
+    id: frontContents
+
+    width: albumPageComponent.width
+    height: albumPageComponent.height
+
+    album: albumPageComponent.album
+    isCover: (pageNumber == 0)
+    albumPage: (album && pageNumber > 0 && pageNumber <= album.pageCount ? album.getPage(pageNumber - 1) : null)
+    isLeft: false
+
+    isPreview: albumPageComponent.isPreview
   }
-  
-  Loader {
-    id: loader
-    
-    // read-only
-    property variant mediaSourceList: (albumPage) ? albumPage.mediaSourceList : null
-    property alias topGutter: albumPageComponent.topGutter
-    property alias bottomGutter: albumPageComponent.bottomGutter
-    property alias leftGutter: albumPageComponent.leftGutter
-    property alias rightGutter: albumPageComponent.rightGutter
-    property alias spineGutter: albumPageComponent.spineGutter
-    property alias insideGutter: albumPageComponent.insideGutter
-    property alias spineBorderWidth: albumPageComponent.spineBorderWidth
-    property alias spineBorderColor: albumPageComponent.borderColor
 
-    anchors.fill: parent
-    
-    onMediaSourceListChanged: {
-      if (!mediaSourceList || source == "")
-        return;
-      
-      // MediaSources within page have changed, force reload of same QML file
-      var src = source;
-      source = "";
-      source = src;
-    }
-    
-    source: (albumPage) ? albumPage.qmlRC : ""
-    
-    visible: (source != "")
-    
-    onLoaded: {
-      item.mediaSourceList = albumPage.mediaSourceList;
-      item.width = albumPageComponent.width;
-      item.height = albumPageComponent.height;
-      item.isPreview = albumPageComponent.isPreview
-    }
+  back: AlbumPageContents {
+    id: backContents
+
+    width: albumPageComponent.width
+    height: albumPageComponent.height
+
+    album: albumPageComponent.album
+    isCover: false
+    albumPage: (album && pageNumber >= 0 && pageNumber < album.pageCount ? album.getPage(pageNumber) : null)
+    isLeft: true
+
+    isPreview: albumPageComponent.isPreview
+  }
+
+  transformOrigin: Item.TopLeft
+
+  transform: Rotation {
+    id: rotation
+
+    origin.x: 0
+    origin.y: albumPageComponent.height / 2
+
+    axis.x: 0
+    axis.y: 1
+    axis.z: 0
+
+    angle: (flipFraction * -180)
   }
 }

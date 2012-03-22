@@ -30,20 +30,6 @@ Item {
   property Rectangle backgroundGlass
   property int durationMsec: 200
   
-  property real pageTopGutter: gu(6)
-  property real pageBottomGutter: gu(6)
-  property real pageLeftGutter: gu(3)
-  property real pageRightGutter: gu(3)
-  property real pageSpineGutter: gu(2)
-  property real pageInsideGutter: gu(2)
-
-  property real thumbnailTopGutter: gu(2)
-  property real thumbnailBottomGutter: gu(2)
-  property real thumbnailLeftGutter: gu(1)
-  property real thumbnailRightGutter: gu(1)
-  property real thumbnailSpineGutter: gu(1)
-  property real thumbnailInsideGutter: gu(0.5)
-  
   function transitionToAlbumViewer(album, thumbnailRect) {
     var translatedRect = mapFromItem(application, thumbnailRect.x, thumbnailRect.y);
     translatedRect.width = thumbnailRect.width;
@@ -111,25 +97,6 @@ Item {
         duration: durationMsec
       }
 
-      NumberAnimation { target: expandAlbum; property: "topGutter";
-        from: thumbnailTopGutter; to: pageTopGutter; duration: durationMsec
-      }
-      NumberAnimation { target: expandAlbum; property: "bottomGutter";
-        from: thumbnailBottomGutter; to: pageBottomGutter; duration: durationMsec
-      }
-      NumberAnimation { target: expandAlbum; property: "leftGutter";
-        from: thumbnailLeftGutter; to: pageLeftGutter; duration: durationMsec
-      }
-      NumberAnimation { target: expandAlbum; property: "rightGutter";
-        from: thumbnailRightGutter; to: pageRightGutter; duration: durationMsec
-      }
-      NumberAnimation { target: expandAlbum; property: "spineGutter";
-        from: thumbnailSpineGutter; to: pageSpineGutter; duration: durationMsec
-      }
-      NumberAnimation { target: expandAlbum; property: "insideGutter";
-        from: thumbnailInsideGutter; to: pageInsideGutter; duration: durationMsec
-      }
-
       PropertyAnimation {
         target: backgroundGlass
         property: "opacity"
@@ -168,25 +135,6 @@ Item {
         endHeight: hideAlbumViewerAnimation.thumbnailRect.height
         duration: durationMsec
         easingType: Easing.OutQuad
-      }
-
-      NumberAnimation { target: expandAlbum; property: "topGutter";
-        from: pageTopGutter; to: thumbnailTopGutter; duration: durationMsec
-      }
-      NumberAnimation { target: expandAlbum; property: "bottomGutter";
-        from: pageBottomGutter; to: thumbnailBottomGutter; duration: durationMsec
-      }
-      NumberAnimation { target: expandAlbum; property: "leftGutter";
-        from: pageLeftGutter; to: thumbnailLeftGutter; duration: durationMsec
-      }
-      NumberAnimation { target: expandAlbum; property: "rightGutter";
-        from: pageRightGutter; to: thumbnailRightGutter; duration: durationMsec
-      }
-      NumberAnimation { target: expandAlbum; property: "spineGutter";
-        from: pageSpineGutter; to: thumbnailSpineGutter; duration: durationMsec
-      }
-      NumberAnimation { target: expandAlbum; property: "insideGutter";
-        from: pageInsideGutter; to: thumbnailInsideGutter; duration: durationMsec
       }
 
       PropertyAnimation {

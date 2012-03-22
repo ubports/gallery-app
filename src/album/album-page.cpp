@@ -50,8 +50,12 @@ AlbumTemplatePage* AlbumPage::template_page() const {
   return template_page_;
 }
 
-QUrl AlbumPage::qml_rc() const {
-  return template_page_->qml_rc();
+QUrl AlbumPage::left_qml_rc() const {
+  return template_page_->left_qml_rc();
+}
+
+QUrl AlbumPage::right_qml_rc() const {
+  return template_page_->right_qml_rc();
 }
 
 QDeclarativeListProperty<MediaSource> AlbumPage::qml_media_source_list() {

@@ -29,10 +29,10 @@ AlbumDefaultTemplate::AlbumDefaultTemplate()
   // as they must exactly descrive their respective templates, and changes
   // there must be reflected here.  For now, this will have to do, although
   // in the future a more robust solution will be implemented.
-  AddPage(new AlbumTemplatePage("Template A", "qrc:/rc/qml/AlbumPreviewA.qml", 2,
-    PORTRAIT, PORTRAIT));
-  AddPage(new AlbumTemplatePage("Template B", "qrc:/rc/qml/AlbumPreviewB.qml", 3,
-    LANDSCAPE, LANDSCAPE, PORTRAIT));
+  AddPage(new AlbumTemplatePage("Template A", "qrc:/rc/qml/AlbumPageLayoutALeft.qml",
+    "qrc:/rc/qml/AlbumPageLayoutARight.qml", 2, PORTRAIT, PORTRAIT));
+  AddPage(new AlbumTemplatePage("Template B", "qrc:/rc/qml/AlbumPageLayoutBLeft.qml",
+    "qrc:/rc/qml/AlbumPageLayoutBRight.qml", 3, LANDSCAPE, LANDSCAPE, PORTRAIT));
 }
 
 void AlbumDefaultTemplate::Init() {

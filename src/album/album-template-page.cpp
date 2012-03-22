@@ -21,9 +21,9 @@
 
 #include <cstdarg>
 
-AlbumTemplatePage::AlbumTemplatePage(const char* name, const char* qml_rc,
-  int frame_count, ...)
-  : name_(name), qml_rc_(qml_rc) {
+AlbumTemplatePage::AlbumTemplatePage(const char* name, const char* left_qml_rc,
+  const char* right_qml_rc, int frame_count, ...)
+  : name_(name), left_qml_rc_(left_qml_rc), right_qml_rc_(right_qml_rc) {
   Q_ASSERT(frame_count > 0);
   
   va_list valist;
@@ -37,8 +37,12 @@ const QString& AlbumTemplatePage::name() const {
   return name_;
 }
 
-const QUrl& AlbumTemplatePage::qml_rc() const {
-  return qml_rc_;
+const QUrl& AlbumTemplatePage::left_qml_rc() const {
+  return left_qml_rc_;
+}
+
+const QUrl& AlbumTemplatePage::right_qml_rc() const {
+  return right_qml_rc_;
 }
 
 int AlbumTemplatePage::FrameCount() const {

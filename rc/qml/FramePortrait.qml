@@ -21,16 +21,16 @@ import QtQuick 1.1
 
 Item {
   property alias mediaSource: photo.mediaSource
-  property real leftGutter
-  property real rightGutter
-  property real topGutter
-  property real bottomGutter
+  property real leftMargin
+  property real rightMargin
+  property real topMargin
+  property real bottomMargin
   property alias isPreview: photo.isPreview
   
-  anchors.leftMargin: leftGutter
-  anchors.rightMargin: rightGutter
-  anchors.topMargin: topGutter
-  anchors.bottomMargin: bottomGutter
+  anchors.leftMargin: leftMargin
+  anchors.rightMargin: rightMargin
+  anchors.topMargin: topMargin
+  anchors.bottomMargin: bottomMargin
 
   PhotoComponent {
     id: photo

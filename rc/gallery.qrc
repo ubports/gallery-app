@@ -29,11 +29,14 @@
     <file>qml/AlbumCover.qml</file>
     <file>qml/AlbumOperationsToolbarButton.qml</file>
     <file>qml/AlbumPageComponent.qml</file>
+    <file>qml/AlbumPageContents.qml</file>
     <file>qml/AlbumPageIndicator.qml</file>
+    <file>qml/AlbumPageLayoutALeft.qml</file>
+    <file>qml/AlbumPageLayoutARight.qml</file>
+    <file>qml/AlbumPageLayoutBLeft.qml</file>
+    <file>qml/AlbumPageLayoutBRight.qml</file>
     <file>qml/AlbumPageViewer.qml</file>
     <file>qml/AlbumPickerPopup.qml</file>
-    <file>qml/AlbumPreviewA.qml</file>
-    <file>qml/AlbumPreviewB.qml</file>
     <file>qml/AlbumPreviewComponent.qml</file>
     <file>qml/AlbumViewer.qml</file>
     <file>qml/AlbumViewerOptionsMenu.qml</file>

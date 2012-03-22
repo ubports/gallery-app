@@ -107,11 +107,14 @@ OTHER_FILES += \
 	rc/qml/AlbumCover.qml \
 	rc/qml/AlbumOperationsToolbarButton.qml \
 	rc/qml/AlbumPageComponent.qml \
+	rc/qml/AlbumPageContents.qml \
 	rc/qml/AlbumPageIndicator.qml \
+	rc/qml/AlbumPageLayoutALeft.qml \
+	rc/qml/AlbumPageLayoutARight.qml \
+	rc/qml/AlbumPageLayoutBLeft.qml \
+	rc/qml/AlbumPageLayoutBRight.qml \
 	rc/qml/AlbumPageViewer.qml \
 	rc/qml/AlbumPickerPopup.qml \
-	rc/qml/AlbumPreviewA.qml \
-	rc/qml/AlbumPreviewB.qml \
 	rc/qml/AlbumPreviewComponent.qml \
 	rc/qml/AlbumViewer.qml \
 	rc/qml/AlbumViewerOptionsMenu.qml \

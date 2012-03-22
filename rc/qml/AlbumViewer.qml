@@ -73,10 +73,9 @@ Rectangle {
     
     album: albumViewer.album
     
-    onPageFlippedChanged: {
+    onPageFlipped: {
       // turn chrome back on once flip is completed
-      if (pageFlipped)
-        chrome.show();
+      chrome.show();
     }
     
     onPageReleased: {

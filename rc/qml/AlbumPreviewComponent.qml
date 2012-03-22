@@ -25,13 +25,6 @@ Rectangle {
   
   property Album album
   
-  property alias topGutter: albumPageComponent.topGutter
-  property alias bottomGutter: albumPageComponent.bottomGutter
-  property alias leftGutter: albumPageComponent.leftGutter
-  property alias rightGutter: albumPageComponent.rightGutter
-  property alias spineGutter: albumPageComponent.spineGutter
-  property alias insideGutter: albumPageComponent.insideGutter
-  
   property int backCoverExposedWidth: gu(0.625)
   property int backCoverSpineWidth: gu(0.125)
   
@@ -46,8 +39,6 @@ Rectangle {
     anchors.fill: parent
     
     album: albumPreviewComponent.album
-    anchorRight: false
-    maintainAspectRatio: false
     
     visible: (album) ? album.closed : false
   }
@@ -70,36 +61,17 @@ Rectangle {
       width: albumPreviewComponent.width
       height: albumPreviewComponent.height
       
-      Rectangle {
-        id: clippingRegion
-        
-        x: albumPreviewComponent.x + backCoverSpineWidth
-        y: albumPreviewComponent.y + backCoverExposedWidth
+      AlbumPageComponent {
+        id: albumPageComponent
+
+        x: backCoverSpineWidth
+        y: backCoverExposedWidth
         width: albumPreviewComponent.width - (backCoverSpineWidth + backCoverExposedWidth)
         height: albumPreviewComponent.height - (backCoverExposedWidth * 2)
-        
-        clip: true
-        
-        AlbumPageComponent {
-          id: albumPageComponent
-          
-          x: albumPreviewComponent.x - (width / 2)
-          y: albumPreviewComponent.y
-          width: (albumPreviewComponent.width * 2) - (2 * backCoverExposedWidth)
-          height: parent.height
-          
-          albumPage: (album) ? album.currentPage : null
-          isPreview: true
-          hasBorder: false
-          
-          topGutter: gu(1)
-          bottomGutter: gu(1)
-          leftGutter: gu(1)
-          rightGutter: gu(1)
-          spineGutter: gu(1)
-          insideGutter: gu(0.5)
-          spineBorderWidth: gu(0)
-        }
+
+        album: albumPreviewComponent.album
+        pageNumber: (album ? album.currentPageNumber + 1 : 0)
+        isPreview: true
       }
     }
     
