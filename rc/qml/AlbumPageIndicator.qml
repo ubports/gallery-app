@@ -27,6 +27,14 @@ Rectangle {
   
   signal selected(int pageNumber)
   
+  onAlbumChanged: pageIndicatorRepeater.filterModel()
+
+  Connections {
+    target: album
+    ignoreUnknownSignals: true
+    onContentPagesAltered: pageIndicatorRepeater.filterModel()
+  }
+
   Row {
     anchors.centerIn: parent
 
@@ -35,25 +43,23 @@ Rectangle {
     Repeater {
       id: pageIndicatorRepeater
       
+      model: ListModel {}
+
       // TODO: come up with a formula for this that takes into account
       // orientation, toolbar icons, etc.
       property int maxIndicators: 20
       
-      property AlbumPageModel fullModel : AlbumPageModel {
-        forAlbum: album
-        
-        onCountChanged: {
-          pageIndicatorRepeater.filterModel();
-        }
-      }
-
-      property ListModel filteredModel: ListModel {}
-      
       function filterModel() {
-        filteredModel.clear();
+        model.clear();
 
-        if(fullModel.count > 1) {
-          var indicatorCount = Math.min(fullModel.count, maxIndicators);
+        if (!album)
+          return;
+
+        // A "spread" is a pair of two adjacent pages.
+        var spreadCount = album.contentPageCount / 2;
+
+        if(spreadCount > 1) {
+          var indicatorCount = Math.min(spreadCount, maxIndicators);
 
           // Breakdown: we may have more pages than space for dots.  At each
           // step, we take the ratio (adjusted so that the last dot always has
@@ -61,32 +67,26 @@ Rectangle {
           // many whole pages to each dot as were in the accumulator.  At the
           // end, due to rounding errors we may have a page left over, so we
           // special-case it (and the last, single page).
-          var addend = (fullModel.count - 1) / (indicatorCount - 1)
+          var addend = (spreadCount - 1) / (indicatorCount - 1)
           var accumulator = 0;
-          var currentPage = 0;
+          var currentSpread = 0;
 
           for (var i = 0; i < indicatorCount - 2; ++i) {
             accumulator += addend;
-            var pageCount = Math.floor(accumulator);
-            accumulator -= pageCount;
+            var spreads = Math.floor(accumulator);
+            accumulator -= spreads;
 
-            filteredModel.append({"firstPageIndex": currentPage, "pageCount": pageCount});
-            currentPage += pageCount;
+            model.append({"firstPageIndex": currentSpread * 2 + album.firstContentPageNumber,
+              "pageCount": spreads * 2});
+            currentSpread += spreads;
           }
-          filteredModel.append({"firstPageIndex": currentPage, "pageCount": fullModel.count - currentPage - 1});
-          filteredModel.append({"firstPageIndex": fullModel.count - 1, "pageCount": 1});
+          model.append({"firstPageIndex": currentSpread * 2 + album.firstContentPageNumber,
+            "pageCount": (spreadCount - currentSpread - 1) * 2});
+          model.append({"firstPageIndex": album.lastContentPageNumber - 1, "pageCount": 2});
         }
-        
-        model = filteredModel;
       }
       
-      Component.onCompleted: {
-        filterModel();
-      }
-      
-      onFullModelChanged: {
-        filterModel();
-      }
+      Component.onCompleted: filterModel()
       
       delegate: Item {
         property int pageNumber: firstPageIndex

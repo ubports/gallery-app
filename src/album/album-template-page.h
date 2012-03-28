@@ -37,12 +37,10 @@ class AlbumTemplatePage : public QObject {
  public:
   // Final arguments are a list of PageOrientation enums that describe the page's
   // frames (slots) from top to bottom, left to right.
-  AlbumTemplatePage(const char* name, const char* left_qml_rc, const char* right_qml_rc,
-    int frame_count, ...);
+  AlbumTemplatePage(const char* name, const char* qml_rc, int frame_count, ...);
   
   const QString& name() const;
-  const QUrl& left_qml_rc() const;
-  const QUrl& right_qml_rc() const;
+  const QUrl& qml_rc() const;
   
   int FrameCount() const;
   int FramesFor(PageOrientation orientation) const;
@@ -50,8 +48,7 @@ class AlbumTemplatePage : public QObject {
   
  private:
   QString name_;
-  QUrl left_qml_rc_;
-  QUrl right_qml_rc_;
+  QUrl qml_rc_;
   QList<PageOrientation> layout_;
 };
 

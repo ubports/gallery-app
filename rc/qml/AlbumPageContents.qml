@@ -27,9 +27,7 @@ Rectangle {
   id: albumPageContents
 
   property Album album
-  property bool isCover: false
-  property AlbumPage albumPage
-  property bool isLeft: false
+  property int pageNumber: -1
   property bool isPreview: false
 
   // readonly
@@ -44,18 +42,20 @@ Rectangle {
   // internal
   property real aspect: canonicalWidth / canonicalHeight
 
-  onAlbumPageChanged: {
-    if (!albumPage || isCover)
-      loader.source = "";
-    else
-      loader.source = (isLeft ? albumPage.leftQmlRc : albumPage.rightQmlRc);
+  onAlbumChanged: loader.reload()
+  onPageNumberChanged: loader.reload()
+
+  Connections {
+    target: album
+    ignoreUnknownSignals: true
+    onContentPagesAltered: loader.reload();
   }
 
   Loader {
     id: loader
 
     // read-only
-    property variant mediaSourceList: (albumPage) ? albumPage.mediaSourceList : null
+    property variant mediaSourceList
     property alias topMargin: albumPageContents.canonicalTopMargin
     property alias bottomMargin: albumPageContents.canonicalBottomMargin
     property alias gutterMargin: albumPageContents.canonicalGutterMargin
@@ -63,31 +63,31 @@ Rectangle {
     property alias insideMargin: albumPageContents.canonicalInsideMargin
     property alias isPreview: albumPageContents.isPreview
 
+    function reload() {
+      mediaSourceList = null;
+      source = "";
+
+      if (!album)
+        return;
+      var page = album.getPage(pageNumber);
+      if (!page)
+        return;
+
+      mediaSourceList = page.mediaSourceList;
+      source = page.qmlRc;
+    }
+
     width: canonicalWidth
     height: canonicalHeight
 
-    transformOrigin: Item.TopLeft
-    scale: ((parent.width / parent.height > canonicalWidth / canonicalHeight)
-      ? parent.height / canonicalHeight // Wider than canonical, scale up to height only.
-      : parent.width / canonicalWidth) // Higher than canonical, scale up to width only.
+    transform: Scale {
+      xScale: parent.width / canonicalWidth
+      yScale: parent.height / canonicalHeight
+    }
 
     visible: (source != "")
 
-    source: {
-      if (!albumPage || isCover)
-        return "";
-      return (isLeft ? albumPage.leftQmlRc : albumPage.rightQmlRc);
-    }
-
-    onMediaSourceListChanged: {
-      if (!mediaSourceList || source == "")
-        return;
-
-      // MediaSources within page have changed, force reload of same QML file
-      var src = source;
-      source = "";
-      source = src;
-    }
+    Component.onCompleted: reload()
   }
 
   AlbumCover {
@@ -96,12 +96,12 @@ Rectangle {
     width: canonicalWidth
     height: canonicalHeight
 
-    transformOrigin: Item.TopLeft
-    scale: ((parent.width / parent.height > canonicalWidth / canonicalHeight)
-      ? parent.height / canonicalHeight // Wider than canonical, scale up to height only.
-      : parent.width / canonicalWidth) // Higher than canonical, scale up to width only.
+    transform: Scale {
+      xScale: parent.width / canonicalWidth
+      yScale: parent.height / canonicalHeight
+    }
 
-    visible: (!!album && isCover)
+    visible: (!!album && (pageNumber == 0 || pageNumber == album.totalPageCount - 1))
 
     album: albumPageContents.album
   }

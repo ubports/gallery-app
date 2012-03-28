@@ -87,17 +87,13 @@ Rectangle {
       
       // private
       property int turningTowardPage
-      property bool turningTowardCover
       
       anchors.fill: parent
       
       enabled: !parent.isRunning
       
       onStartSwipe: {
-        turningTowardPage = (album.closed
-         ? album.currentPageNumber
-         : album.currentPageNumber + (leftToRight ? -1 : 1));
-        turningTowardCover = (leftToRight && album.currentPageNumber == 0)
+        turningTowardPage = album.currentPageNumber + (leftToRight ? -2 : 2); // 2 pages per spread.
         albumPageViewer.turnTowardPageNumber = turningTowardPage;
         
         // turn off chrome, allow the page flipper full screen
@@ -106,15 +102,13 @@ Rectangle {
       
       onSwiping: {
         var availableDistance = (leftToRight) ? (width - start) : start;
-        if (turningTowardCover)
-          albumPageViewer.turnTowardCover(distance / availableDistance);
-        else
-          albumPageViewer.turnFraction = (distance / availableDistance);
+        albumPageViewer.turnFraction = (distance / availableDistance);
       }
       
       onSwiped: {
         // Can turn toward the cover, but never close the album in the viewer
-        if (albumPageViewer.currentFraction >= commitTurnFraction && !turningTowardCover)
+        if (albumPageViewer.currentFraction >= commitTurnFraction
+        && turningTowardPage > album.firstCurrentPageNumber && turningTowardPage < album.lastCurrentPageNumber)
           albumPageViewer.turnTo(turningTowardPage);
         else
           albumPageViewer.releasePage();

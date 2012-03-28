@@ -70,7 +70,7 @@ Rectangle {
         height: albumPreviewComponent.height - (backCoverExposedWidth * 2)
 
         album: albumPreviewComponent.album
-        pageNumber: (album ? album.currentPageNumber + 1 : 0)
+        frontPageNumber: (album ? album.currentPageNumber + 1 : -1)
         isPreview: true
       }
     }

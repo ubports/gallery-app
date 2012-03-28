@@ -29,9 +29,8 @@ Flipable {
 
   property Album album // The album this page is in.
 
-  // 0 = cover on front, left half of first spread on back.  1 = right of first
-  // spread on front, left of second spread on back, etc.
-  property int pageNumber
+  property alias frontPageNumber: frontContents.pageNumber // On the right when viewed like in a book.
+  property alias backPageNumber: backContents.pageNumber // On the left when viewed like in a book.
 
   // [0,2]: 0 = flat right page, 1 = flat left page, 2 = back to right page.
   // The page turns 360 degrees from 0-2 in a normal "book" fashion.
@@ -46,9 +45,6 @@ Flipable {
     height: albumPageComponent.height
 
     album: albumPageComponent.album
-    isCover: (pageNumber == 0)
-    albumPage: (album && pageNumber > 0 && pageNumber <= album.pageCount ? album.getPage(pageNumber - 1) : null)
-    isLeft: false
 
     isPreview: albumPageComponent.isPreview
   }
@@ -60,9 +56,6 @@ Flipable {
     height: albumPageComponent.height
 
     album: albumPageComponent.album
-    isCover: false
-    albumPage: (album && pageNumber >= 0 && pageNumber < album.pageCount ? album.getPage(pageNumber) : null)
-    isLeft: true
 
     isPreview: albumPageComponent.isPreview
   }

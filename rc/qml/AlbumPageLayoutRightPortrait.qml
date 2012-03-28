@@ -34,7 +34,7 @@ AlbumPageLayout {
     rightMargin: albumPageLayoutRightPortrait.outerMargin
 
     mediaSource: (albumPageLayoutRightPortrait.mediaSourceList
-      ? albumPageLayoutRightPortrait.mediaSourceList[1]
+      ? albumPageLayoutRightPortrait.mediaSourceList[0]
       : null)
     isPreview: albumPageLayoutRightPortrait.isPreview
   }

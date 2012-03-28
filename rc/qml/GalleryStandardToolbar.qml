@@ -62,7 +62,7 @@ Toolbar {
     anchors.centerIn: parent
 
     color: "transparent"
-    visible: (album) ? wrapper.hasPageIndicator && album.pageCount > 1 : false;
+    visible: (album) ? wrapper.hasPageIndicator && album.contentPageCount > 2 : false;
 
     onSelected: wrapper.pageIndicatorPageSelected(pageNumber)
   }

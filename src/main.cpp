@@ -35,8 +35,6 @@
 #include "media/preview-manager.h"
 #include "qml/gallery-standard-image-provider.h"
 #include "qml/qml-album-collection-model.h"
-#include "qml/qml-album-cover-marker.h"
-#include "qml/qml-album-page-model.h"
 #include "qml/qml-event-collection-model.h"
 #include "qml/qml-event-overview-model.h"
 #include "qml/qml-media-collection-model.h"
@@ -61,8 +59,6 @@ int main(int argc, char *argv[]) {
   Event::RegisterType();
   MediaSource::RegisterType();
   QmlAlbumCollectionModel::RegisterType();
-  QmlAlbumCoverMarker::RegisterType();
-  QmlAlbumPageModel::RegisterType();
   QmlEventCollectionModel::RegisterType();
   QmlEventOverviewModel::RegisterType();
   QmlMediaCollectionModel::RegisterType();

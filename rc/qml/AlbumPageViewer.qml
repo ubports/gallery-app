@@ -26,14 +26,16 @@ import Gallery 1.0
 
 // The AlbumPageViewer is a specialty controller for displaying and
 // viewing albums.  The caller simply needs to set the album property and
-// then manipulate what is displayed via turnTo()/close() (which animate the
-// page flipping as though turning pages in a book), setTo()/setToClosed()
-// (which immediately jump to the page without an animation).
+// then manipulate what is displayed via turnTo() (which animates the page
+// flipping as though turning pages in a book), setTo() (which immediately
+// jumps to the page without an animation).  To perform incremental flipping,
+// first set turnTowardPageNumber (which will become the album's
+// currentPageNumber) and manipulate turnFraction on the range [0, 1].
 //
 // AlbumPageViewer updates the album object at the end of the animation,
-// meaning the final page is treated as the current album page throughout
-// the system.  This is only for turnTo() and close(); setTo() and
-// setToClosed() does not update album page state.
+// meaning the turned-to page is treated as the current album page throughout
+// the system.  This is only for turnTo(); setTo() does not update album page
+// state.
 Item {
   id: albumPageViewer
   
@@ -52,14 +54,14 @@ Item {
   property real currentFraction: (leftToRight ? animatedPage.flipFraction : 1 - animatedPage.flipFraction)
   
   // internal
-  property int leftPageNumber // In AlbumPageComponent terms.
-  property int rightPageNumber // In AlbumPageComponent terms.
-  property int animatedPageNumber // In AlbumPageComponent terms.
+  property alias leftPageNumber: leftPage.backPageNumber
+  property alias rightPageNumber: rightPage.frontPageNumber
+  property alias animatedFrontPageNumber: animatedPage.frontPageNumber
+  property alias animatedBackPageNumber: animatedPage.backPageNumber
   // leftToRight = true when the animated page is moving from the right side to
   // the left, like flipping a page forward in an LTR language.
   property bool leftToRight: true
-  property int destAlbumPageNumber // In C++ Album terms.
-  property bool destAlbumClosed
+  property int destAlbumCurrentPageNumber
   property real rotationOrigin: leftToRight ? 0 : 1
   property real rotationDestination: leftToRight ? 1 : 0
   property real startFraction: 0
@@ -78,41 +80,25 @@ Item {
     // Because setTo() doesn't control the album's state, only check for
     // bounds issue, not setting to the same page number (which this component
     // may not be showing currently)
-    if (!album || index < 0 || index >= album.pageCount)
+    if (!album || index < album.firstCurrentPageNumber || index > album.lastCurrentPageNumber)
       return;
 
     leftPageNumber = index;
     rightPageNumber = index + 1;
-    animatedPageNumber = -1;
+    animatedFrontPageNumber = -1;
+    animatedBackPageNumber = -1;
   }
   
-  // Moves to album cover without any animation (good for initializing view).
-  // NOTE: setToClosed() does *not* update the album's state.
-  function setToClosed() {
-    if (isRunning) {
-      console.log("Blocking set of album page to closed");
-      return;
-    }
-    
-    leftPageNumber = -1;
-    rightPageNumber = 0;
-    animatedPageNumber = -1;
-  }
-
-  // Calls either setTo() or setToClosed() depending on the current state of
-  // the album.  An easy way to keep this state consistent with the album's.
+  // Calls either setTo() with the album's current page.  An easy way to keep
+  // this state consistent with the album's.
   function setToAlbumCurrent() {
-    if (album) {
-      if (album.closed)
-        setToClosed()
-      else
-        setTo(album.currentPageNumber);
-    }
+    if (album)
+      setTo(album.currentPageNumber);
   }
   
   // Animates page flip and saves new page number to album.
   function turnTo(index) {
-    if (index >= album.pageCount) {
+    if (index < album.firstCurrentPageNumber || index > album.lastCurrentPageNumber) {
       releasePage();
       return;
     }
@@ -126,16 +112,8 @@ Item {
     start(true);
   }
   
-  function close() {
-    if (!prepareToClose())
-      return;
-
-    startFraction = currentFraction;
-    endFraction = 1.0;
-
-    start(true);
-  }
-
+  // Call when done incrementally animating to animate the return to a static
+  // state.
   function releasePage() {
     if (isRunning) {
       console.log("Blocking release of page");
@@ -147,8 +125,7 @@ Item {
 
     startFraction = currentFraction;
     endFraction = 0.0;
-    destAlbumPageNumber = album.currentPageNumber;
-    destAlbumClosed = album.closed;
+    destAlbumCurrentPageNumber = album.currentPageNumber;
 
     animatedPage.state = "animateAutomatic";
   }
@@ -163,42 +140,6 @@ Item {
     start(false);
   }
   
-  function turnTowardCover(fraction) {
-    if (!prepareToClose())
-      return;
-    
-    startFraction = currentFraction;
-    endFraction = fraction;
-    
-    start(false);
-  }
-  
-  // internal
-  function prepareToClose() {
-    if (isRunning) {
-      console.log("Blocking close of album");
-      return false;
-    }
-    
-    if (!album || album.closed)
-      return false;
-    
-    var oldLeftToRight = leftToRight;
-    leftToRight = false;
-
-    leftPageNumber = -1;
-    animatedPageNumber = 0;
-
-    destAlbumPageNumber = album.currentPageNumber;
-    destAlbumClosed = true;
-    
-    // initialize rotation angle for changed direction
-    if (oldLeftToRight != leftToRight)
-      animatedPage.flipFraction = rotationOrigin;
-
-    return true;
-  }
-  
   // internal
   function prepareToTurn(index) {
     if (isRunning) {
@@ -206,29 +147,22 @@ Item {
       return false;
     }
     
-    // Can turn past the last page, but only pull it up, not close the album
-    // with the back cover facing the user
-    if (!album || (index >= album.pageCount + 1)
-      || (index == album.currentPageNumber && !album.closed)) {
+    if (!album || index < album.firstCurrentPageNumber || index > album.lastCurrentPageNumber
+      || index == album.currentPageNumber) {
       return false;
     }
     
     var oldLeftToRight = leftToRight;
-    if (album.closed) {
-      leftPageNumber = -1;
-      rightPageNumber = index + 1;
-      animatedPageNumber = index;
-      leftToRight = true;
-    } else if (album.currentPageNumber > index) {
+    if (album.currentPageNumber > index) {
       leftPageNumber = index;
-      rightPageNumber = album.currentPageNumber + 1;
-      animatedPageNumber = index + 1;
+      animatedFrontPageNumber = index + 1;
+      animatedBackPageNumber = album.currentPageNumber;
       leftToRight = false;
     } else {
       // album.currentPageNumber < index
-      leftPageNumber = album.currentPageNumber;
       rightPageNumber = index + 1;
-      animatedPageNumber = index;
+      animatedFrontPageNumber = album.currentPageNumber + 1;
+      animatedBackPageNumber = index;
       leftToRight = true;
     }
 
@@ -236,8 +170,7 @@ Item {
     if (oldLeftToRight != leftToRight)
       animatedPage.flipFraction = rotationOrigin;
     
-    destAlbumPageNumber = index;
-    destAlbumClosed = false;
+    destAlbumCurrentPageNumber = index;
 
     return true;
   }
@@ -276,12 +209,11 @@ Item {
     anchors.left: parent.horizontalCenter
     anchors.right: parent.right
 
-    visible: leftPageNumber >= 0
+    visible: (backPageNumber >= 0)
 
     album: albumPageViewer.album
     isPreview: albumPageViewer.isPreview
 
-    pageNumber: leftPageNumber
     flipFraction: 1
   }
 
@@ -293,12 +225,11 @@ Item {
     anchors.left: parent.horizontalCenter
     anchors.right: parent.right
 
-    visible: rightPageNumber >= 0
+    visible: (!!album && frontPageNumber < album.totalPageCount)
 
     album: albumPageViewer.album
     isPreview: albumPageViewer.isPreview
 
-    pageNumber: rightPageNumber
     flipFraction: 0
   }
 
@@ -309,20 +240,14 @@ Item {
     // Called when a page has completely flipped (rotation is completed)
     function rotationCompleted() {
       var flipped = false;
-      if (destAlbumClosed) {
-        if (!album.closed) {
-          flipped = true;
+      if (album.currentPageNumber != destAlbumCurrentPageNumber) {
+        flipped = true;
+        album.currentPageNumber = destAlbumCurrentPageNumber;
+        if (destAlbumCurrentPageNumber == album.firstCurrentPageNumber
+          || destAlbumCurrentPageNumber == album.lastCurrentPageNumber)
           album.closed = true;
-        }
-      } else {
-        if (album.currentPageNumber != destAlbumPageNumber) {
-          flipped = true;
-          album.currentPageNumber = destAlbumPageNumber;
-        }
-        if (album.closed) {
-          flipped = true;
+        else
           album.closed = false;
-        }
       }
 
       state = "";
@@ -341,12 +266,13 @@ Item {
     anchors.left: parent.horizontalCenter
     anchors.right: parent.right
 
-    visible: animatedPageNumber >= 0
+    visible: (!!album && (
+      (frontPageNumber >= 0 && frontPageNumber < album.totalPageCount)
+      || (backPageNumber >= 0 && backPageNumber < album.totalPageCount)
+    ))
 
     album: albumPageViewer.album
     isPreview: albumPageViewer.isPreview
-
-    pageNumber: animatedPageNumber
 
     states: State {
       name: "animateAutomatic"
