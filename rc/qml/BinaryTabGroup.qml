@@ -20,7 +20,7 @@
 
 import QtQuick 1.1;
 
-Rectangle {
+Item {
   id: binary_tab_group
   objectName: "binary_tab_group"
   
@@ -33,8 +33,6 @@ Rectangle {
   width: childrenRect.width
   height: childrenRect.height
 
-  color: "transparent"
-  
   states: [
     State { name: "tab0_active";
       PropertyChanges { target: tab0; state: "selected"; }
@@ -53,6 +51,9 @@ Rectangle {
     Tab {
       id: tab0;
 
+      selectedBackgroundSource: "../img/tab-left-active.png"
+      deselectedBackgroundSource: "../img/tab-left-inactive.png"
+
       onActivated: {
         binary_tab_group.state = "tab0_active";
         tab0_activated();
@@ -61,6 +62,9 @@ Rectangle {
 
     Tab {
       id: tab1;
+
+      selectedBackgroundSource: "../img/tab-right-active.png"
+      deselectedBackgroundSource: "../img/tab-right-inactive.png"
 
       onActivated: {
         binary_tab_group.state = "tab1_active";

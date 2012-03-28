@@ -24,7 +24,7 @@ Toolbar {
 
   property bool hasReturnButton: true
   property bool hasStateButton: false
-  property string stateButtonIconFilename
+  property url stateButtonIconFilename
   property bool hasSelectionDoneButton: false
   property alias selectionDoneButtonTitle: selectionDoneButton.title
   property bool hasCancelSelectionButton: false
@@ -59,7 +59,8 @@ Toolbar {
     ToolbarIconButton {
       visible: wrapper.hasReturnButton
 
-      iconFilename: "../img/return-arrow.png"
+      selectedIconFilename: "../img/return-arrow.png"
+      deselectedIconFilename: selectedIconFilename
       
       onPressed: wrapper.returnButtonPressed()
     }
@@ -67,7 +68,8 @@ Toolbar {
     ToolbarIconButton {
       visible: wrapper.hasStateButton
 
-      iconFilename: stateButtonIconFilename
+      selectedIconFilename: stateButtonIconFilename
+      deselectedIconFilename: stateButtonIconFilename
       
       onPressed: wrapper.stateButtonPressed()
     }

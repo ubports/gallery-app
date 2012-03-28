@@ -23,13 +23,14 @@ Toolbar {
   height: gu(6)
   width: parent.width
 
-  property int bottomBorderWidth: gu(0.25)
-  property color bottomBorderColor: "#7da7d9"
-
   property alias addCreateOperationButtonVisible: addCreateOperationNavbarButton.visible
   signal addCreateOperationButtonPressed()
 
-  background: "mediumBlue"
+  Image {
+    id: background
+
+    source: "../img/toolbar-background.png"
+  }
 
   AddCreateOperationNavbarButton {
     id: addCreateOperationNavbarButton
@@ -41,30 +42,16 @@ Toolbar {
     onPressed: parent.addCreateOperationButtonPressed()
   }
 
-  Image {
-    width: gu(6)
-    height: gu(4)
-
-    source: "../img/camera-icon.png"
-
+  ToolbarIconButton {
     anchors.verticalCenter: parent.verticalCenter
     anchors.right: parent.right
     anchors.rightMargin: gu(2)
 
-    MouseArea {
-      anchors.fill: parent
+    selectedBackgroundFilename: "../img/toolbar-button-active.png"
+    deselectedBackgroundFilename: "../img/toolbar-button-inactive.png"
+    selectedIconFilename: "../img/icon-camera-active.png"
+    deselectedIconFilename: "../img/icon-camera-inactive.png"
 
-      onPressAndHold: {
-        Qt.quit();
-      }
-    }
-  }
-
-  // Draws a bottom border up from our bottom line.
-  Rectangle {
-    width: parent.width
-    height: bottomBorderWidth
-    anchors.bottom: parent.bottom
-    color: bottomBorderColor
+    onPressedAndHeld: Qt.quit()
   }
 }

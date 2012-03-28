@@ -20,7 +20,8 @@
 import QtQuick 1.1
 
 ToolbarIconButton {
-  isSquare: true;
-
-  iconFilename: "../img/add-create-operation-icon.png";
+  selectedBackgroundFilename: "../img/toolbar-button-active.png"
+  deselectedBackgroundFilename: "../img/toolbar-button-inactive.png"
+  selectedIconFilename: "../img/icon-plus-active.png";
+  deselectedIconFilename: "../img/icon-plus-inactive.png";
 }

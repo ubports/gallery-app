@@ -20,5 +20,6 @@
 import QtQuick 1.1
 
 ToolbarIconButton {
-  iconFilename: "../img/trash-operation-icon.png"
+  selectedIconFilename: "../img/trash-operation-icon.png"
+  deselectedIconFilename: selectedIconFilename
 }

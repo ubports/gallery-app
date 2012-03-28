@@ -1,21 +1,31 @@
 <RCC>
 <qresource>
-    <file>img/add-create-operation-icon.png</file>
     <file>img/album-operations-icon.png</file>
     <file>img/album-operations-icon-contrast.png</file>
-    <file>img/camera-icon.png</file>
     <file>img/dummy-menu-icon.png</file>
     <file>img/dummy-menu-photo-icon.png</file>
     <file>img/grid-view.png</file>
+    <file>img/icon-camera-active.png</file>
+    <file>img/icon-camera-inactive.png</file>
+    <file>img/icon-plus-active.png</file>
+    <file>img/icon-plus-inactive.png</file>
     <file>img/photo-mat.png</file>
     <file>img/more-operations-icon.png</file>
+    <file>img/overview-background.png</file>
     <file>img/popup-arrow.png</file>
     <file>img/return-arrow.png</file>
     <file>img/selected-border-stroke.png</file>
     <file>img/selected-media.png</file>
     <file>img/selection-operations-icon.png</file>
     <file>img/share-operations-icon.png</file>
+    <file>img/tab-left-active.png</file>
+    <file>img/tab-left-inactive.png</file>
+    <file>img/tab-right-active.png</file>
+    <file>img/tab-right-inactive.png</file>
     <file>img/template-view.png</file>
+    <file>img/toolbar-background.png</file>
+    <file>img/toolbar-button-active.png</file>
+    <file>img/toolbar-button-inactive.png</file>
     <file>img/trash-operation-icon.png</file>
     <file>img/viewer-back.png</file>
     <file>img/viewer-forward.png</file>

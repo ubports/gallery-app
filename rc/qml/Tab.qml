@@ -16,70 +16,48 @@
  * Authors:
  * Jim Nelson <jim@yorba.org>
  * Lucas Beeler <lucas@yorba.org>
+ * Charles Lindsay <chaz@yorba.org>
  */
 
 import QtQuick 1.1
 
-Rectangle {
+Item {
   id: tab
   
   property alias title: title.text
-  property int fontPixelSize: gu(2.25)
+  property int fontPointSize: 9 // From the reference wireframes.
 
-  property int deselectedBottomBorderWidth: gu(0.25)
-  property color deselectedBottomBorderColor: "#7da7d9"
-  
-  width: gu(13.75)
-  height: gu(5.5)
-  radius: 3
+  property url selectedBackgroundSource
+  property url deselectedBackgroundSource
 
-  border.color: "#7da7d9"
-  clip: true
-  
+  property color selectedTextColor: "white"
+  property color deselectedTextColor: "#747273"
+
   signal activated()
   
-  states: [
-    State { name: "selected";
-      PropertyChanges { target: tab; z: 10; }
-      PropertyChanges { target: tab; color: "white"; }
-      PropertyChanges { target: tab; border.width: 2; }
-    },
+  width: (background.source != "" ? background.width : gu(13.75))
+  height: (background.source != "" ? background.height : gu(5.5))
 
-    State { name: "deselected";
-      PropertyChanges { target: tab; z: 0; }
-      PropertyChanges { target: tab; color: "#c7d7ee"; }
-      PropertyChanges { target: tab; border.width: 0; }
-    }
+  state: "deselected"
+  states: [
+    State { name: "selected"; },
+    State { name: "deselected"; }
   ]
   
-  state: "deselected"
-  
-  // This guy squares off the bottom corners of the tab and covers the bottom border.
-  Rectangle {
-    z: parent.z
-    width: parent.width - parent.border.width
-    height: parent.border.width + parent.radius * 2
-    anchors.horizontalCenter: parent.horizontalCenter
-    anchors.verticalCenter: parent.bottom
-    color: parent.color
-  }
+  Image {
+    id: background
 
-  // And this guy draws a potentially different border up from the bottom if we're deselected.
-  Rectangle {
-    z: parent.z
-    width: parent.width
-    height: deselectedBottomBorderWidth
-    anchors.bottom: parent.bottom
-    color: deselectedBottomBorderColor
-    visible: parent.state != "selected"
+    source: (tab.state == "selected" ? selectedBackgroundSource : deselectedBackgroundSource)
   }
 
   Text {
     id: title
 
     anchors.centerIn: parent
-    color: "#659ad2"
-    font.pixelSize: fontPixelSize
+    color: (tab.state == "selected" ? selectedTextColor : deselectedTextColor)
+    font.pointSize: fontPointSize
+    font.italic: true
+    font.weight: (tab.state == "selected" ? Font.DemiBold : Font.Normal)
   }
 
   MouseArea {

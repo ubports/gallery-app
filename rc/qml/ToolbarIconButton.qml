@@ -15,37 +15,50 @@
  *
  * Authors:
  * Lucas Beeler <lucas@yorba.org>
+ * Charles Lindsay <chaz@yorba.org>
  */
 
 import QtQuick 1.1
 
-Rectangle {
-  id: wrapper
-  objectName: "wrapper"
+Item {
+  id: toolbarIconButton
 
-  property string iconFilename
-  property bool isSquare: false
+  property url selectedBackgroundFilename
+  property url deselectedBackgroundFilename
+  property url selectedIconFilename
+  property url deselectedIconFilename
 
-  signal pressed();
+  signal pressed()
+  signal pressedAndHeld()
 
-  width: gu(6)
-  height: (isSquare) ? width : gu(4)
+  width: (background.source != "" ? background.width : gu(6))
+  height: (background.source != "" ? background.height : gu(4))
 
-  color: "transparent"
+  state: "deselected"
+  states: [
+    State { name: "selected"; },
+    State { name: "deselected"; }
+  ]
 
   Image {
-    z: 0
-    anchors.fill: parent
+    id: background
 
-    source: wrapper.iconFilename
+    source: (toolbarIconButton.state == "selected" ? selectedBackgroundFilename : deselectedBackgroundFilename)
+  }
 
-    opacity: 1.0
+  Image {
+    id: icon
+
+    anchors.centerIn: parent
+    source: (toolbarIconButton.state == "selected" ? selectedIconFilename : deselectedIconFilename)
   }
 
   MouseArea {
-    z: 1
     anchors.fill: parent
 
-    onClicked: wrapper.pressed()
+    onPressed: toolbarIconButton.state = "selected"
+    onReleased: toolbarIconButton.state = "deselected"
+    onClicked: toolbarIconButton.pressed()
+    onPressAndHold: toolbarIconButton.pressedAndHeld()
   }
 }

@@ -57,6 +57,10 @@ Rectangle {
     }
   ]
 
+  Image {
+    source: "../img/overview-background.png"
+  }
+
   GalleryOverviewNavigationBar {
     id: navbar
     objectName: "navbar"
@@ -116,6 +120,7 @@ Rectangle {
       anchors.fill: parent
       
       visible: true
+      color: "transparent"
       allowSelection: true
       
       property variant photoViewerModel: MediaCollectionModel {
@@ -170,6 +175,8 @@ Rectangle {
     id: albumsCheckerboard
     objectName: "albumsCheckerboard"
     
+    color: "transparent"
+
     anchors.top: navbar.bottom
     anchors.left: parent.left
     anchors.right: parent.right
