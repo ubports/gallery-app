@@ -199,16 +199,57 @@ Rectangle {
     }
     
     delegate: AlbumPreviewComponent {
+      id: albumThumbnail
+
       album: modelData.album
 
+      scale: (isFlipping
+       ? 1 + 1.5 * (currentFraction < 0.5 ? currentFraction : (1 - currentFraction))
+       : 1)
+
       SwipeArea {
+        property real commitTurnFraction: 0.05
+
+        // internal
+        property bool validSwipe: false
+        property bool opening: false
+
         anchors.fill: parent
         
-        enabled: !parent.isRunning
+        enabled: !albumThumbnail.isRunning
         
         onTapped: {
-          var rect = GalleryUtility.getRectRelativeTo(parent, albumsCheckerboard);
+          var rect = GalleryUtility.getRectRelativeTo(albumThumbnail, albumsCheckerboard);
           albumsCheckerboard.activated(modelData.object, modelData.model, rect);
+        }
+
+        onStartSwipe: {
+          if ((leftToRight && !album.closed) || (!leftToRight && album.closed))
+            validSwipe = true;
+          opening = !leftToRight;
+
+          var currentOrContent = (album.currentPageNumber == album.firstCurrentPageNumber
+            ? album.firstContentPageNumber
+            : album.currentPageNumber)
+          albumThumbnail.turnTowardPageNumber = (opening ? currentOrContent : album.firstCurrentPageNumber);
+        }
+
+        onSwiping: {
+          if (!validSwipe)
+            return;
+
+          var availableDistance = (leftToRight) ? (width - start) : start;
+          albumThumbnail.turnFraction = (distance / availableDistance);
+        }
+
+        onSwiped: {
+          if (!validSwipe)
+            return;
+
+          if (albumThumbnail.currentFraction >= commitTurnFraction)
+            albumThumbnail.turnTo(albumThumbnail.turnTowardPageNumber);
+          else
+            albumThumbnail.releasePage();
         }
       }
     }

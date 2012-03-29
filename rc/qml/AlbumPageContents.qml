@@ -20,17 +20,21 @@
 import QtQuick 1.1
 import Gallery 1.0
 
-// A rectangle placing the pictures on the front or back of an
-// AlbumPageComponent.  Note: this component draws one side of one "piece of
-// paper", that is, half a spread (half an AlbumPage in the C++ sense).
-Rectangle {
+// An item placing the pictures (or cover!) on the front or back of an
+// AlbumPageComponent, including an optional frame around the pictures to mimic
+// seeing the edge of the back of the cover under the page.
+Item {
   id: albumPageContents
 
   property Album album
   property int pageNumber: -1
   property bool isPreview: false
+  property bool contentHasPreviewFrame: false
 
   // readonly
+  property bool isCover: cover.visible
+
+  // internal
   property real canonicalWidth: gu(80)
   property real canonicalHeight: gu(97)
   property real canonicalTopMargin: gu(6)
@@ -39,8 +43,35 @@ Rectangle {
   property real canonicalOuterMargin: gu(3) // Between opposite edge and photo.
   property real canonicalInsideMargin: gu(4) // Between photos on one page.
 
-  // internal
-  property real aspect: canonicalWidth / canonicalHeight
+  // Apologies for how complex this got.  The idea was to have one item that
+  // would scale down from some reference size easily so it would look good no
+  // matter what size you gave it.  Unfortunately, the frame image was given
+  // to us at thumbnail size, so we're scaling it up while we scale other bits
+  // down.  That makes this component somewhat complicated, but greatly
+  // simplifies everything that happens above it.
+  property bool isRight: (pageNumber % 2 == 0)
+  // Where the transparent shadow ends in the frame image.
+  property real frameStartX: (isRight ? 6 : 5)
+  property real frameStartY: 5
+  property real frameWidth: gu(28)
+  property real frameHeight: gu(33)
+  // Offset from frameStart* to the "page" inside the frame.
+  property real frameContentOffsetX: (isRight ? 0 : 5)
+  property real frameContentOffsetY: 5
+  property real frameContentWidth: 219
+  property real frameContentHeight: 254
+  property real contentPageX: (contentHasPreviewFrame
+    ? frameContentOffsetX * (parent.width / frameWidth)
+    : 0)
+  property real contentPageY: (contentHasPreviewFrame
+    ? frameContentOffsetY * (parent.height / frameHeight)
+    : 0)
+  property real canonicalContentPageWidth: (contentHasPreviewFrame
+    ? frameContentWidth * (canonicalWidth / frameWidth)
+    : canonicalWidth)
+  property real canonicalContentPageHeight: (contentHasPreviewFrame
+    ? frameContentHeight * (canonicalHeight / frameHeight)
+    : canonicalHeight)
 
   onAlbumChanged: loader.reload()
   onPageNumberChanged: loader.reload()
@@ -48,7 +79,39 @@ Rectangle {
   Connections {
     target: album
     ignoreUnknownSignals: true
-    onContentPagesAltered: loader.reload();
+    onContentPagesAltered: loader.reload()
+  }
+
+  Image {
+    id: frame
+
+    x: -frameStartX
+    y: -frameStartY
+
+    transform: Scale {
+      origin.x: frameStartX
+      origin.y: frameStartY
+      xScale: parent.width / frameWidth
+      yScale: parent.height / frameHeight
+    }
+
+    source: "../img/album-thumbnail-frame.png"
+    mirror: !isRight
+    visible: (loader.visible && contentHasPreviewFrame)
+  }
+
+  Rectangle {
+    id: nonframeBackground
+
+    width: canonicalWidth
+    height: canonicalHeight
+
+    transform: Scale {
+      xScale: parent.width / canonicalWidth
+      yScale: parent.height / canonicalHeight
+    }
+
+    visible: (loader.visible && !contentHasPreviewFrame)
   }
 
   Loader {
@@ -77,15 +140,17 @@ Rectangle {
       source = page.qmlRc;
     }
 
-    width: canonicalWidth
-    height: canonicalHeight
+    x: contentPageX
+    y: contentPageY
+    width: canonicalContentPageWidth
+    height: canonicalContentPageHeight
+
+    visible: (source != "")
 
     transform: Scale {
       xScale: parent.width / canonicalWidth
       yScale: parent.height / canonicalHeight
     }
-
-    visible: (source != "")
 
     Component.onCompleted: reload()
   }

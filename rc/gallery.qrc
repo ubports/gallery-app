@@ -2,6 +2,7 @@
 <qresource>
     <file>img/album-operations-icon.png</file>
     <file>img/album-operations-icon-contrast.png</file>
+    <file>img/album-thumbnail-frame.png</file>
     <file>img/dummy-menu-icon.png</file>
     <file>img/dummy-menu-photo-icon.png</file>
     <file>img/grid-view.png</file>

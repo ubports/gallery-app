@@ -71,7 +71,7 @@ Item {
         
         font.family: "Ubuntu"
         font.weight: Font.Bold
-        font.pixelSize: gu(3)
+        font.pointSize: 40 // Off the top of my head.
         
         smooth: true
         
@@ -99,7 +99,7 @@ Item {
         
         font.family: "Ubuntu"
         font.weight: Font.Normal
-        font.pixelSize: gu(2.25)
+        font.pointSize: 30 // Off the top of my head.
         
         smooth: true
         

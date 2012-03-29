@@ -45,15 +45,22 @@ Item {
   // public
   property Album album
   property bool isPreview: false
+  property bool contentHasPreviewFrame: false
+  property bool viewWholeSpread: true
   property int durationMsec: 1000
   property int turnTowardPageNumber: 0
   property real turnFraction: 0.0
   
   // readonly
   property bool isRunning: (animatedPage.state != "")
-  property real currentFraction: (leftToRight ? animatedPage.flipFraction : 1 - animatedPage.flipFraction)
+  property alias isFlipping: animatedPage.visible
+  property real currentFraction: (leftToRight
+    ? animatedPage.flipFraction / maxRotation
+    : 1 - (animatedPage.flipFraction / maxRotation))
+  property alias rightIsCover: rightPage.frontIsCover
   
   // internal
+  property real maxRotation: (viewWholeSpread ? 1 : 2)
   property alias leftPageNumber: leftPage.backPageNumber
   property alias rightPageNumber: rightPage.frontPageNumber
   property alias animatedFrontPageNumber: animatedPage.frontPageNumber
@@ -62,12 +69,12 @@ Item {
   // the left, like flipping a page forward in an LTR language.
   property bool leftToRight: true
   property int destAlbumCurrentPageNumber
-  property real rotationOrigin: leftToRight ? 0 : 1
-  property real rotationDestination: leftToRight ? 1 : 0
+  property real rotationOrigin: leftToRight ? 0 : maxRotation
+  property real rotationDestination: leftToRight ? maxRotation : 0
   property real startFraction: 0
   property real endFraction: 1
-  property real startRotation: (leftToRight ? startFraction : 1 - startFraction)
-  property real endRotation: (leftToRight ? endFraction : 1 - endFraction)
+  property real startRotation: (leftToRight ? startFraction : 1 - startFraction) * maxRotation
+  property real endRotation: (leftToRight ? endFraction : 1 - endFraction) * maxRotation
   
   // Moves to selected page without any animation (good for initializing view).
   // NOTE: setTo() does *not* update the album's current page number.
@@ -206,13 +213,14 @@ Item {
 
     anchors.top: parent.top
     anchors.bottom: parent.bottom
-    anchors.left: parent.horizontalCenter
+    anchors.left: (viewWholeSpread ? parent.horizontalCenter : parent.left)
     anchors.right: parent.right
 
-    visible: (backPageNumber >= 0)
+    visible: (viewWholeSpread && backPageNumber >= 0)
 
     album: albumPageViewer.album
     isPreview: albumPageViewer.isPreview
+    contentHasPreviewFrame: albumPageViewer.contentHasPreviewFrame
 
     flipFraction: 1
   }
@@ -222,13 +230,14 @@ Item {
 
     anchors.top: parent.top
     anchors.bottom: parent.bottom
-    anchors.left: parent.horizontalCenter
+    anchors.left: (viewWholeSpread ? parent.horizontalCenter : parent.left)
     anchors.right: parent.right
 
     visible: (!!album && frontPageNumber < album.totalPageCount)
 
     album: albumPageViewer.album
     isPreview: albumPageViewer.isPreview
+    contentHasPreviewFrame: albumPageViewer.contentHasPreviewFrame
 
     flipFraction: 0
   }
@@ -263,8 +272,10 @@ Item {
 
     anchors.top: parent.top
     anchors.bottom: parent.bottom
-    anchors.left: parent.horizontalCenter
+    anchors.left: (viewWholeSpread ? parent.horizontalCenter : parent.left)
     anchors.right: parent.right
+
+    z: (flipFraction >= 1.5 ? -10 : 0)
 
     visible: (!!album && (
       (frontPageNumber >= 0 && frontPageNumber < album.totalPageCount)
@@ -273,6 +284,7 @@ Item {
 
     album: albumPageViewer.album
     isPreview: albumPageViewer.isPreview
+    contentHasPreviewFrame: albumPageViewer.contentHasPreviewFrame
 
     states: State {
       name: "animateAutomatic"

@@ -21,9 +21,9 @@
 import QtQuick 1.1
 import Gallery 1.0
 
-// One "piece of paper" in an album.  Contains photos (or the cover) from the
-// album and handles rotating, displaying the right page or subsequent left
-// page.
+// One "piece of paper" in an album.  Contains album content i.e. photos (or
+// the cover) from the album and handles rotating, displaying an arbitrary page
+// on the front (right) or back (left) sides.
 Flipable {
   id: albumPageComponent
 
@@ -38,6 +38,13 @@ Flipable {
 
   property bool isPreview: false // Whether to load preview or normal images.
 
+  // Whether to draw a frame around the page, if it's a content page.
+  property bool contentHasPreviewFrame: false
+
+  // readonly
+  property alias frontIsCover: frontContents.isCover
+  property alias backIsCover: backContents.isCover
+
   front: AlbumPageContents {
     id: frontContents
 
@@ -47,6 +54,7 @@ Flipable {
     album: albumPageComponent.album
 
     isPreview: albumPageComponent.isPreview
+    contentHasPreviewFrame: albumPageComponent.contentHasPreviewFrame
   }
 
   back: AlbumPageContents {
@@ -58,6 +66,7 @@ Flipable {
     album: albumPageComponent.album
 
     isPreview: albumPageComponent.isPreview
+    contentHasPreviewFrame: albumPageComponent.contentHasPreviewFrame
   }
 
   transformOrigin: Item.TopLeft
