@@ -38,6 +38,7 @@
     
     <file>qml/AddCreateOperationNavbarButton.qml</file>
     <file>qml/AlbumCover.qml</file>
+    <file>qml/AlbumOpener.qml</file>
     <file>qml/AlbumOperationsToolbarButton.qml</file>
     <file>qml/AlbumPageComponent.qml</file>
     <file>qml/AlbumPageContents.qml</file>
@@ -46,9 +47,9 @@
     <file>qml/AlbumPageLayoutLeftDoubleLandscape.qml</file>
     <file>qml/AlbumPageLayoutLeftPortrait.qml</file>
     <file>qml/AlbumPageLayoutRightPortrait.qml</file>
-    <file>qml/AlbumPageViewer.qml</file>
     <file>qml/AlbumPickerPopup.qml</file>
     <file>qml/AlbumPreviewComponent.qml</file>
+    <file>qml/AlbumSpreadViewer.qml</file>
     <file>qml/AlbumViewer.qml</file>
     <file>qml/AlbumViewerOptionsMenu.qml</file>
     <file>qml/AlbumViewerShareMenu.qml</file>

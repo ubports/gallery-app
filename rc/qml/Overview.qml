@@ -201,22 +201,21 @@ Rectangle {
     delegate: AlbumPreviewComponent {
       id: albumThumbnail
 
+      property real maxAddScale: 0.5
+
       album: modelData.album
 
-      scale: (isFlipping
-       ? 1 + 1.5 * (currentFraction < 0.5 ? currentFraction : (1 - currentFraction))
-       : 1)
+      // Scale from 1 to 1 + maxAddScale and back to 1 as openFraction goes
+      // from 0 to 0.5 to 1.
+      scale: 1 + maxAddScale - Math.abs((openFraction - 0.5) * maxAddScale * 2)
 
       SwipeArea {
-        property real commitTurnFraction: 0.05
+        property real commitFraction: 0.05
 
         // internal
         property bool validSwipe: false
-        property bool opening: false
 
         anchors.fill: parent
-        
-        enabled: !albumThumbnail.isRunning
         
         onTapped: {
           var rect = GalleryUtility.getRectRelativeTo(albumThumbnail, albumsCheckerboard);
@@ -224,14 +223,7 @@ Rectangle {
         }
 
         onStartSwipe: {
-          if ((leftToRight && !album.closed) || (!leftToRight && album.closed))
-            validSwipe = true;
-          opening = !leftToRight;
-
-          var currentOrContent = (album.currentPageNumber == album.firstCurrentPageNumber
-            ? album.firstContentPageNumber
-            : album.currentPageNumber)
-          albumThumbnail.turnTowardPageNumber = (opening ? currentOrContent : album.firstCurrentPageNumber);
+          validSwipe = ((leftToRight && !album.closed) || (!leftToRight && album.closed));
         }
 
         onSwiping: {
@@ -239,17 +231,24 @@ Rectangle {
             return;
 
           var availableDistance = (leftToRight) ? (width - start) : start;
-          albumThumbnail.turnFraction = (distance / availableDistance);
+          var fraction = Math.max(0, Math.min(1, distance / availableDistance));
+          fraction *= 0.5; // Slow down the swipe a little.
+
+          albumThumbnail.openFraction = (leftToRight ? 1 - fraction : fraction);
         }
 
         onSwiped: {
           if (!validSwipe)
             return;
 
-          if (albumThumbnail.currentFraction >= commitTurnFraction)
-            albumThumbnail.turnTo(albumThumbnail.turnTowardPageNumber);
+          var fraction = (leftToRight
+            ? 1 - albumThumbnail.openFraction
+            : albumThumbnail.openFraction);
+          if ((leftToRight && fraction >= commitFraction)
+            || (!leftToRight && fraction < commitFraction))
+            albumThumbnail.close();
           else
-            albumThumbnail.releasePage();
+            albumThumbnail.open();
         }
       }
     }

@@ -29,8 +29,8 @@ Flipable {
 
   property Album album // The album this page is in.
 
-  property alias frontPageNumber: frontContents.pageNumber // On the right when viewed like in a book.
-  property alias backPageNumber: backContents.pageNumber // On the left when viewed like in a book.
+  property alias frontPage: frontContents.page // On the right when viewed like in a book.
+  property alias backPage: backContents.page // On the left when viewed like in a book.
 
   // [0,2]: 0 = flat right page, 1 = flat left page, 2 = back to right page.
   // The page turns 360 degrees from 0-2 in a normal "book" fashion.
@@ -44,6 +44,18 @@ Flipable {
   // readonly
   property alias frontIsCover: frontContents.isCover
   property alias backIsCover: backContents.isCover
+
+  // Returns the page number of the left page of the current "spread", denoted
+  // by a currentPage number from an album.  This will go on the backPage.
+  function leftPageForCurrent(currentPage) {
+    return currentPage;
+  }
+
+  // Returns the page number of the right page of the current "spread", denoted
+  // by a currentPage number from an album.  This will go on the frontPage.
+  function rightPageForCurrent(currentPage) {
+    return currentPage + 1;
+  }
 
   front: AlbumPageContents {
     id: frontContents

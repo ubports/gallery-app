@@ -35,7 +35,7 @@ const char *Album::DEFAULT_NAME = "New Photo Album";
 const int Album::PAGES_PER_COVER = 1;
 // We use the left page's number as current_page_.  -1 because the cover is 0
 // and we want it to show up on the right.
-const int Album::FIRST_CURRENT_PAGE_NUMBER = -1;
+const int Album::FIRST_VALID_CURRENT_PAGE = -1;
 
 Album::Album()
   : ContainerSource(DEFAULT_NAME, MediaCollection::ExposureDateTimeAscendingComparator),
@@ -68,7 +68,7 @@ void Album::RegisterType() {
 
 void Album::InitInstance() {
   creation_date_time_ = QDateTime::currentDateTime();
-  current_page_ = FIRST_CURRENT_PAGE_NUMBER;
+  current_page_ = FIRST_VALID_CURRENT_PAGE;
   closed_ = true;
   content_pages_ = new SourceCollection(QString("Pages for ") + name_);
   refreshing_container_ = false;
@@ -125,34 +125,34 @@ int Album::content_page_count() const {
   return content_pages_->Count();
 }
 
-int Album::first_content_page_number() const {
-  return content_to_absolute_page_number(0);
+int Album::first_content_page() const {
+  return content_to_absolute_page(0);
 }
 
-int Album::last_content_page_number() const {
-  return content_to_absolute_page_number(content_pages_->Count() - 1);
+int Album::last_content_page() const {
+  return content_to_absolute_page(content_pages_->Count() - 1);
 }
 
-int Album::first_current_page_number() const {
-  return FIRST_CURRENT_PAGE_NUMBER;
+int Album::first_valid_current_page() const {
+  return FIRST_VALID_CURRENT_PAGE;
 }
 
-int Album::last_current_page_number() const {
+int Album::last_valid_current_page() const {
   // The back cover should show up on the left, hence it's our last.
   return total_page_count() - 1;
 }
 
-int Album::current_page_number() const {
+int Album::current_page() const {
   return current_page_;
 }
 
-void Album::set_current_page_number(int page) {
+void Album::set_current_page(int page) {
   if (current_page_ == page)
     return;
   
   current_page_ = page;
   
-  notify_current_page_number_altered();
+  notify_current_page_altered();
 }
 
 void Album::set_closed(bool closed) {
@@ -160,7 +160,7 @@ void Album::set_closed(bool closed) {
     return;
 
   closed_ = closed;
-  notify_opened_closed();
+  notify_closed_altered();
 }
 
 SourceCollection* Album::content_pages() {
@@ -168,7 +168,7 @@ SourceCollection* Album::content_pages() {
 }
 
 AlbumPage* Album::GetPage(int page) const {
-  int content_page = absolute_to_content_page_number(page);
+  int content_page = absolute_to_content_page(page);
   return qobject_cast<AlbumPage*>(content_pages_->GetAt(content_page));
 }
 
@@ -180,14 +180,14 @@ QDeclarativeListProperty<AlbumPage> Album::qml_pages() {
   return QDeclarativeListProperty<AlbumPage>(this, all_album_pages_);
 }
 
-void Album::notify_current_page_number_altered() {
+void Album::notify_current_page_altered() {
   if (!refreshing_container_)
-    emit current_page_number_altered();
+    emit current_page_altered();
 }
 
-void Album::notify_opened_closed() {
+void Album::notify_closed_altered() {
   if (!refreshing_container_)
-    emit opened_closed();
+    emit closedAltered();
 }
 
 void Album::notify_current_page_contents_altered() {
@@ -224,7 +224,7 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
   QQueue<DataObject*> queue;
   queue.append(contained()->GetAll());
   
-  int building_page = content_to_absolute_page_number(0);
+  int building_page = content_to_absolute_page(0);
   int building_page_template = 2;
   AlbumPage* page = NULL;
   while (queue.count() > 0) {
@@ -275,23 +275,23 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
   // return to stashed current page, unless pages have been removed ... note
   // that this will close the album if empty
   current_page_ = stashed_current_page;
-  if (current_page_ > last_current_page_number())
-    current_page_ = last_current_page_number();
+  if (current_page_ > last_valid_current_page())
+    current_page_ = last_valid_current_page();
   
   if (current_page_ != stashed_current_page)
-    notify_current_page_number_altered();
+    notify_current_page_altered();
   
   // TODO: Again, could be smart and verify the current page has actually
   // changed
   notify_current_page_contents_altered();
 }
 
-int Album::content_to_absolute_page_number(int content_page_number) const {
-  return content_page_number + PAGES_PER_COVER; // The front cover comes first.
+int Album::content_to_absolute_page(int content_page) const {
+  return content_page + PAGES_PER_COVER; // The front cover comes first.
 }
 
-int Album::absolute_to_content_page_number(int absolute_page_number) const {
-  return absolute_page_number - PAGES_PER_COVER;
+int Album::absolute_to_content_page(int absolute_page) const {
+  return absolute_page - PAGES_PER_COVER;
 }
 
 void Album::on_album_page_content_altered(const QSet<DataObject*>* added,
@@ -299,13 +299,13 @@ void Album::on_album_page_content_altered(const QSet<DataObject*>* added,
   all_album_pages_ = CastListToType<DataObject*, AlbumPage*>(content_pages_->GetAll());
   
   bool changed = false;
-  if (current_page_ > last_current_page_number()) {
+  if (current_page_ > last_valid_current_page()) {
     // this deals with the closed case too
-    current_page_ = last_current_page_number();
+    current_page_ = last_valid_current_page();
     changed = true;
   }
   
   emit contentPagesAltered();
   if (changed)
-    notify_current_page_number_altered();
+    notify_current_page_altered();
 }

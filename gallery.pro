@@ -101,6 +101,7 @@ OTHER_FILES += \
 	\
 	rc/qml/AddCreateOperationNavbarButton.qml \
 	rc/qml/AlbumCover.qml \
+	rc/qml/AlbumOpener.qml \
 	rc/qml/AlbumOperationsToolbarButton.qml \
 	rc/qml/AlbumPageComponent.qml \
 	rc/qml/AlbumPageContents.qml \
@@ -109,9 +110,9 @@ OTHER_FILES += \
 	rc/qml/AlbumPageLayoutLeftDoubleLandscape.qml \
 	rc/qml/AlbumPageLayoutLeftPortrait.qml \
 	rc/qml/AlbumPageLayoutRightPortrait.qml \
-	rc/qml/AlbumPageViewer.qml \
 	rc/qml/AlbumPickerPopup.qml \
 	rc/qml/AlbumPreviewComponent.qml \
+	rc/qml/AlbumSpreadViewer.qml \
 	rc/qml/AlbumViewer.qml \
 	rc/qml/AlbumViewerOptionsMenu.qml \
 	rc/qml/AlbumViewerShareMenu.qml \

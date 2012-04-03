@@ -28,8 +28,8 @@ Rectangle {
   objectName: "albumViewer"
   
   property Album album
-  property alias pageTop: albumPageViewer.y
-  property alias pageHeight: albumPageViewer.height
+  property alias pageTop: albumSpreadViewer.y
+  property alias pageHeight: albumSpreadViewer.height
   
   // When the user clicks the back button.
   signal closeRequested()
@@ -46,12 +46,12 @@ Rectangle {
   transitions: [
     Transition { from: "pageView"; to: "gridView";
       ParallelAnimation {
-        DissolveAnimation { fadeOutTarget: albumPageViewer; fadeInTarget: gridCheckerboard; }
+        DissolveAnimation { fadeOutTarget: albumSpreadViewer; fadeInTarget: gridCheckerboard; }
       }
     },
     Transition { from: "gridView"; to: "pageView";
       ParallelAnimation {
-        DissolveAnimation { fadeOutTarget: gridCheckerboard; fadeInTarget: albumPageViewer; }
+        DissolveAnimation { fadeOutTarget: gridCheckerboard; fadeInTarget: albumSpreadViewer; }
       }
     }
   ]
@@ -59,15 +59,17 @@ Rectangle {
   function resetView() {
     state = ""; // Prevents the animation on gridView -> pageView from happening.
     state = "pageView";
+
     if (album)
-      albumPageViewer.setTo(album.currentPageNumber);
-    albumPageViewer.visible = true;
+      albumSpreadViewer.setTo(album.currentPage);
+
+    albumSpreadViewer.visible = true;
     chrome.show();
     gridCheckerboard.visible = false;
   }
 
-  AlbumPageViewer {
-    id: albumPageViewer
+  AlbumSpreadViewer {
+    id: albumSpreadViewer
     
     anchors.fill: parent
     
@@ -93,8 +95,8 @@ Rectangle {
       enabled: !parent.isRunning
       
       onStartSwipe: {
-        turningTowardPage = album.currentPageNumber + (leftToRight ? -2 : 2); // 2 pages per spread.
-        albumPageViewer.turnTowardPageNumber = turningTowardPage;
+        turningTowardPage = album.currentPage + (leftToRight ? -2 : 2); // 2 pages per spread.
+        albumSpreadViewer.turnTowardPage = turningTowardPage;
         
         // turn off chrome, allow the page flipper full screen
         chrome.hide();
@@ -102,16 +104,17 @@ Rectangle {
       
       onSwiping: {
         var availableDistance = (leftToRight) ? (width - start) : start;
-        albumPageViewer.turnFraction = (distance / availableDistance);
+        albumSpreadViewer.turnFraction = (distance / availableDistance);
       }
       
       onSwiped: {
         // Can turn toward the cover, but never close the album in the viewer
-        if (albumPageViewer.currentFraction >= commitTurnFraction
-        && turningTowardPage > album.firstCurrentPageNumber && turningTowardPage < album.lastCurrentPageNumber)
-          albumPageViewer.turnTo(turningTowardPage);
+        if (albumSpreadViewer.currentFraction >= commitTurnFraction
+          && turningTowardPage > album.firstValidCurrentPage
+          && turningTowardPage < album.lastValidCurrentPage)
+          albumSpreadViewer.turnTo(turningTowardPage);
         else
-          albumPageViewer.releasePage();
+          albumSpreadViewer.releasePage();
       }
     }
   }
@@ -215,7 +218,7 @@ Rectangle {
       visible: false
     }
 
-    onPageIndicatorPageSelected: albumPageViewer.turnTo(pageNumber)
+    onPageIndicatorPageSelected: albumSpreadViewer.turnTo(page)
 
     onStateButtonPressed: {
       albumViewer.state = (albumViewer.state == "pageView" ? "gridView" : "pageView");

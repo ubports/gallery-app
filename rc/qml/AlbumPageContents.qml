@@ -27,7 +27,7 @@ Item {
   id: albumPageContents
 
   property Album album
-  property int pageNumber: -1
+  property int page: -1
   property bool isPreview: false
   property bool contentHasPreviewFrame: false
 
@@ -49,7 +49,7 @@ Item {
   // to us at thumbnail size, so we're scaling it up while we scale other bits
   // down.  That makes this component somewhat complicated, but greatly
   // simplifies everything that happens above it.
-  property bool isRight: (pageNumber % 2 == 0)
+  property bool isRight: (page % 2 == 0)
   // Where the transparent shadow ends in the frame image.
   property real frameStartX: (isRight ? 6 : 5)
   property real frameStartY: 5
@@ -74,7 +74,7 @@ Item {
     : canonicalHeight)
 
   onAlbumChanged: loader.reload()
-  onPageNumberChanged: loader.reload()
+  onPageChanged: loader.reload()
 
   Connections {
     target: album
@@ -132,12 +132,12 @@ Item {
 
       if (!album)
         return;
-      var page = album.getPage(pageNumber);
-      if (!page)
+      var albumPage = album.getPage(page);
+      if (!albumPage)
         return;
 
-      mediaSourceList = page.mediaSourceList;
-      source = page.qmlRc;
+      mediaSourceList = albumPage.mediaSourceList;
+      source = albumPage.qmlRc;
     }
 
     x: contentPageX
@@ -166,7 +166,7 @@ Item {
       yScale: parent.height / canonicalHeight
     }
 
-    visible: (!!album && (pageNumber == 0 || pageNumber == album.totalPageCount - 1))
+    visible: (Boolean(album) && (page == 0 || page == album.totalPageCount - 1))
 
     album: albumPageContents.album
   }

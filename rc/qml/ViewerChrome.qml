@@ -63,7 +63,7 @@ Item {
   property alias toolbarHeight: toolbar.height
   property alias toolbarHasPageIndicator: toolbar.hasPageIndicator
   property alias toolbarPageIndicatorAlbum: toolbar.pageIndicatorAlbum
-  signal pageIndicatorPageSelected(int pageNumber)
+  signal pageIndicatorPageSelected(int page)
   signal moreOperationsButtonPressed()
   signal shareOperationsButtonPressed()
   signal selectionOperationsButtonPressed(variant button)
@@ -248,7 +248,7 @@ Item {
     hasFullIconSet: wrapper.inSelectionMode || wrapper.toolbarHasFullIconSet
     useContrastOnWhiteColorScheme: wrapper.inSelectionMode
 
-    onPageIndicatorPageSelected: wrapper.pageIndicatorPageSelected(pageNumber)
+    onPageIndicatorPageSelected: wrapper.pageIndicatorPageSelected(page)
 
     onAlbumOperationsButtonPressed: {
       if (albumPicker.state == "hidden")

@@ -39,14 +39,13 @@
 // always shows up on the right side of the spread.  The first "content" page
 // is number 1, and it shows up on the left.  There are always an even number
 // of content pages.  The last page (after the last content page) is the back
-// cover, which always shows up on the left.  You can use
-// first/lastContentPageNumber and total/contentPageCount to avoid off-by-one
-// errors.
+// cover, which always shows up on the left.  You can use first/lastContentPage
+// and total/contentPageCount to avoid off-by-one errors.
 //
 // Note about "current page number": the current page is the page on the left
 // of the current spread.  This means that when the album is closed,
-// currentPageNumber is actually -1 (since the cover on the right is page 0).
-// You can use first/lastCurrentPageNumber to avoid off-by-one errors.
+// currentPage is actually -1 (since the cover on the right is page 0).
+// You can use first/lastValidCurrentPage to avoid off-by-one errors.
 class Album : public ContainerSource {
   Q_OBJECT
   Q_PROPERTY(QString name READ name NOTIFY name_altered)
@@ -56,29 +55,29 @@ class Album : public ContainerSource {
     NOTIFY contentPagesAltered)
   Q_PROPERTY(QDeclarativeListProperty<MediaSource> allMediaSources
     READ qml_all_media_sources NOTIFY album_contents_altered)
-  Q_PROPERTY(int firstContentPageNumber READ first_content_page_number NOTIFY contentPagesAltered)
-  Q_PROPERTY(int lastContentPageNumber READ last_content_page_number NOTIFY contentPagesAltered)
+  Q_PROPERTY(int firstContentPage READ first_content_page NOTIFY contentPagesAltered)
+  Q_PROPERTY(int lastContentPage READ last_content_page NOTIFY contentPagesAltered)
   Q_PROPERTY(int totalPageCount READ total_page_count NOTIFY contentPagesAltered)
   Q_PROPERTY(int contentPageCount READ content_page_count NOTIFY contentPagesAltered)
-  Q_PROPERTY(int firstCurrentPageNumber READ first_current_page_number NOTIFY contentPagesAltered)
-  Q_PROPERTY(int lastCurrentPageNumber READ last_current_page_number NOTIFY contentPagesAltered)
-  Q_PROPERTY(int currentPageNumber READ current_page_number WRITE set_current_page_number
-    NOTIFY current_page_number_altered)
-  Q_PROPERTY(bool closed READ is_closed WRITE set_closed NOTIFY opened_closed)
+  Q_PROPERTY(int firstValidCurrentPage READ first_valid_current_page NOTIFY contentPagesAltered)
+  Q_PROPERTY(int lastValidCurrentPage READ last_valid_current_page NOTIFY contentPagesAltered)
+  Q_PROPERTY(int currentPage READ current_page WRITE set_current_page
+    NOTIFY current_page_altered)
+  Q_PROPERTY(bool closed READ is_closed WRITE set_closed NOTIFY closedAltered)
   
  signals:
   void album_contents_altered();
   void creation_date_time_altered();
-  void current_page_number_altered();
+  void current_page_altered();
   void current_page_contents_altered();
   void name_altered();
-  void opened_closed();
+  void closedAltered();
   void contentPagesAltered();
   
  public:
   static const char *DEFAULT_NAME;
   static const int PAGES_PER_COVER;
-  static const int FIRST_CURRENT_PAGE_NUMBER;
+  static const int FIRST_VALID_CURRENT_PAGE;
 
   Album();
   explicit Album(const AlbumTemplate& album_template);
@@ -97,12 +96,12 @@ class Album : public ContainerSource {
   bool is_closed() const;
   int total_page_count() const;
   int content_page_count() const;
-  int first_content_page_number() const;
-  int last_content_page_number() const;
-  int first_current_page_number() const;
-  int last_current_page_number() const;
-  int current_page_number() const;
-  void set_current_page_number(int page);
+  int first_content_page() const;
+  int last_content_page() const;
+  int first_valid_current_page() const;
+  int last_valid_current_page() const;
+  int current_page() const;
+  void set_current_page(int page);
   void set_closed(bool closed);
   
   // Returns a SourceCollection representing all AlbumPages held by this Album
@@ -117,14 +116,14 @@ class Album : public ContainerSource {
  protected:
   virtual void DestroySource(bool destroy_backing, bool as_orphan);
   
-  virtual void notify_current_page_number_altered();
-  virtual void notify_opened_closed();
+  virtual void notify_current_page_altered();
+  virtual void notify_closed_altered();
   virtual void notify_current_page_contents_altered();
   virtual void notify_container_contents_altered(const QSet<DataObject*>* added,
     const QSet<DataObject*>* removed);
 
-  int content_to_absolute_page_number(int content_page_number) const;
-  int absolute_to_content_page_number(int absolute_page_number) const;
+  int content_to_absolute_page(int content_page) const;
+  int absolute_to_content_page(int absolute_page) const;
   
  private slots:
   void on_album_page_content_altered(const QSet<DataObject*>* added,

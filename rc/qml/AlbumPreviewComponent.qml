@@ -25,20 +25,17 @@ Item {
   id: albumPreviewComponent
 
   property Album album
-  property alias turnTowardPageNumber: albumPageViewer.turnTowardPageNumber
-  property alias turnFraction: albumPageViewer.turnFraction
+  property alias openFraction: albumPreview.openFraction
 
   // readonly
-  property alias isRunning: albumPageViewer.isRunning
-  property alias isFlipping: albumPageViewer.isFlipping
-  property alias currentFraction: albumPageViewer.currentFraction
+  property alias isFlipping: albumPreview.isFlipping
 
-  function turnTo(index) {
-    return albumPageViewer.turnTo(index);
+  function open() {
+    return albumPreview.open();
   }
 
-  function releasePage() {
-    return albumPageViewer.releasePage();
+  function close() {
+    return albumPreview.close();
   }
 
   width: gu(28)
@@ -46,8 +43,8 @@ Item {
 
   Column {
     
-    AlbumPageViewer {
-      id: albumPageViewer
+    AlbumOpener {
+      id: albumPreview
 
       // Yes, the page takes up the entire region of the preview component.
       // The text below spills out into the gutter.  That's by design.
@@ -57,7 +54,6 @@ Item {
       album: albumPreviewComponent.album
       isPreview: true
       contentHasPreviewFrame: true
-      viewWholeSpread: false
     }
 
     // Spacer
@@ -75,7 +71,7 @@ Item {
       font.pointSize: 8 // From the spec.
       smooth: true
 
-      visible: !albumPageViewer.rightIsCover && !albumPageViewer.isFlipping
+      visible: (Boolean(album) && !album.closed && !albumPreview.isFlipping)
     }
     
     Text {
@@ -88,7 +84,7 @@ Item {
       font.pointSize: 6 // From the spec.
       smooth: true
 
-      visible: !albumPageViewer.rightIsCover && !albumPageViewer.isFlipping
+      visible: (Boolean(album) && !album.closed && !albumPreview.isFlipping)
     }
   }
 }

@@ -35,7 +35,7 @@ Toolbar {
   property int moreOperationsPopupX: moreOperationsToolbarButton.x +
     iconGroup.x + 34;
 
-  signal pageIndicatorPageSelected(int pageNumber)
+  signal pageIndicatorPageSelected(int page)
   signal albumOperationsButtonPressed()
   signal trashOperationButtonPressed()
   signal shareOperationsButtonPressed()
@@ -64,7 +64,7 @@ Toolbar {
     color: "transparent"
     visible: (album) ? wrapper.hasPageIndicator && album.contentPageCount > 2 : false;
 
-    onSelected: wrapper.pageIndicatorPageSelected(pageNumber)
+    onSelected: wrapper.pageIndicatorPageSelected(page)
   }
 
   Row {

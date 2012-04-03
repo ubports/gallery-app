@@ -25,7 +25,7 @@ Rectangle {
   
   property Album album
   
-  signal selected(int pageNumber)
+  signal selected(int page)
   
   onAlbumChanged: pageIndicatorRepeater.filterModel()
 
@@ -76,22 +76,22 @@ Rectangle {
             var spreads = Math.floor(accumulator);
             accumulator -= spreads;
 
-            model.append({"firstPageIndex": currentSpread * 2 + album.firstContentPageNumber,
+            model.append({"firstPageIndex": currentSpread * 2 + album.firstContentPage,
               "pageCount": spreads * 2});
             currentSpread += spreads;
           }
-          model.append({"firstPageIndex": currentSpread * 2 + album.firstContentPageNumber,
+          model.append({"firstPageIndex": currentSpread * 2 + album.firstContentPage,
             "pageCount": (spreadCount - currentSpread - 1) * 2});
-          model.append({"firstPageIndex": album.lastContentPageNumber - 1, "pageCount": 2});
+          model.append({"firstPageIndex": album.lastContentPage - 1, "pageCount": 2});
         }
       }
       
       Component.onCompleted: filterModel()
       
       delegate: Item {
-        property int pageNumber: firstPageIndex
-        property bool isCurrent: (!album.closed && album.currentPageNumber >= firstPageIndex
-                                  && album.currentPageNumber < firstPageIndex + pageCount)
+        property int page: firstPageIndex
+        property bool isCurrent: (!album.closed && album.currentPage >= firstPageIndex
+                                  && album.currentPage < firstPageIndex + pageCount)
         
         width: childrenRect.width
         height: childrenRect.height
@@ -113,7 +113,7 @@ Rectangle {
           enabled: !isCurrent
           
           onClicked: {
-            selected(pageNumber);
+            selected(page);
           }
         }
       }
