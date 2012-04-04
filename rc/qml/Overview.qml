@@ -27,6 +27,8 @@ Rectangle {
   id: overview
   objectName: "overview"
   
+  signal albumSelected(variant album, variant thumbnailRect)
+
   property Rectangle glass: overviewGlass
   
   anchors.fill: parent
@@ -255,7 +257,7 @@ Rectangle {
     
     onActivated: {
       var albumRect = GalleryUtility.translateRect(activatedRect, albumsCheckerboard, overview);
-      navStack.switchToAlbumViewer(object, albumRect);
+      albumSelected(object, albumRect);
     }
   }
 

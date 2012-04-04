@@ -30,19 +30,32 @@ Item {
   property Rectangle backgroundGlass
   property int durationMsec: 500
   
+  signal transitionToAlbumViewerCompleted()
+  signal transitionFromAlbumViewerCompleted()
+  signal dissolveCompleted(variant fadeOutTarget, variant fadeInTarget)
+
+  function transitionToAlbumViewer(album, thumbnailRect) {
+    albumViewerTransition.album = album;
+
+    expandAlbum.x = thumbnailRect.x;
+    expandAlbum.y = thumbnailRect.y;
+    expandAlbum.width = thumbnailRect.width;
+    expandAlbum.height = thumbnailRect.height;
+
+    showAlbumViewerAnimation.screenRect = getFullscreenRect();
+    showAlbumViewerAnimation.start();
+  }
+
   function transitionFromAlbumViewer(album, thumbnailRect) {
     albumViewerTransition.album = album;
-    
-    // We have to compensate for the frame, present in the animation but not in
-    // the album viewer.
-    var frameWidth = width / 2 * expandAlbum.frameToContentWidth;
-    var frameHeight = height * expandAlbum.frameToContentHeight;
-    expandAlbum.x = (width - frameWidth) / 2; // Centered.
-    expandAlbum.y = (height - frameHeight) / 2;
-    expandAlbum.width = frameWidth;
-    expandAlbum.height = frameHeight;
-    hideAlbumViewerAnimation.thumbnailRect = thumbnailRect;
 
+    var rect = getFullscreenRect();
+    expandAlbum.x = rect.x;
+    expandAlbum.y = rect.y;
+    expandAlbum.width = rect.width;
+    expandAlbum.height = rect.height;
+
+    hideAlbumViewerAnimation.thumbnailRect = thumbnailRect;
     hideAlbumViewerAnimation.start();
   }
 
@@ -52,8 +65,22 @@ Item {
     dissolveAlbumViewerTransition.start();
   }
 
-  signal transitionFromAlbumViewerCompleted()
-  signal dissolveCompleted(variant fadeOutTarget, variant fadeInTarget)
+  // internal
+  function getFullscreenRect() {
+    var rect = {"x": 0, "y": 0, "width": 0, "height": 0};
+
+    // We have to compensate for the frame, present in the animation but not in
+    // the album viewer.
+    var frameWidth = width / 2 * expandAlbum.frameToContentWidth;
+    var frameHeight = height * expandAlbum.frameToContentHeight;
+
+    rect.x = (width - frameWidth) / 2; // Centered.
+    rect.y = (height - frameHeight) / 2;
+    rect.width = frameWidth;
+    rect.height = frameHeight;
+
+    return rect;
+  }
 
   AlbumOpener {
     id: expandAlbum
@@ -66,17 +93,60 @@ Item {
   }
 
   SequentialAnimation {
+    id: showAlbumViewerAnimation
+
+    property variant screenRect: {"x": 0, "y": 0, "width": 0, "height": 0}
+
+    PropertyAction { target: expandAlbum; property: "visible"; value: true; }
+
+    ParallelAnimation {
+      ExpandAnimation {
+        target: expandAlbum
+        endX: showAlbumViewerAnimation.screenRect.x
+        endY: showAlbumViewerAnimation.screenRect.y
+        endWidth: showAlbumViewerAnimation.screenRect.width
+        endHeight: showAlbumViewerAnimation.screenRect.height
+        duration: durationMsec
+        easingType: Easing.OutQuad
+      }
+
+      NumberAnimation {
+        target: expandAlbum
+        property: "openFraction"
+        from: (album && album.closed ? 0 : 1)
+        to: 0.5
+        duration: durationMsec
+        easing.type: Easing.OutQuad
+      }
+
+      FadeInAnimation {
+        target: backgroundGlass
+        duration: durationMsec
+      }
+    }
+
+    PropertyAction { target: expandAlbum; property: "visible"; value: false; }
+    PropertyAction { target: backgroundGlass; property: "visible"; value: false; }
+
+    ScriptAction {
+      script: {
+        album.closed = false;
+        if (album.currentPage == album.firstValidCurrentPage)
+          album.currentPage = album.firstContentPage;
+      }
+    }
+
+    onCompleted: {
+      transitionToAlbumViewerCompleted();
+    }
+  }
+
+  SequentialAnimation {
     id: hideAlbumViewerAnimation
 
     property variant thumbnailRect: {"x": 0, "y": 0, "width": 0, "height": 0}
 
     PropertyAction { target: expandAlbum; property: "visible"; value: true; }
-    
-    PropertyAction {
-      target: backgroundGlass
-      property: "opacity"
-      value: 1.0
-    }
     
     ParallelAnimation {
       ExpandAnimation {
@@ -98,13 +168,12 @@ Item {
         easing.type: Easing.InQuad
       }
 
-      PropertyAnimation {
+      FadeOutAnimation {
         target: backgroundGlass
-        property: "opacity"
-        to: 0.0
         duration: durationMsec
       }
     }
+
     PropertyAction { target: expandAlbum; property: "visible"; value: false; }
 
     onCompleted: {

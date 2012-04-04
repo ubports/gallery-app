@@ -54,12 +54,11 @@ Rectangle {
     }
   ]
   
-  function resetView() {
+  function resetView(album) {
+    albumViewer.album = album;
+
     state = ""; // Prevents the animation on gridView -> pageView from happening.
     state = "pageView";
-
-    if (album)
-      albumSpreadViewer.setTo(album.currentPage);
 
     albumSpreadViewer.visible = true;
     chrome.show();
