@@ -28,8 +28,6 @@ Rectangle {
   objectName: "albumViewer"
   
   property Album album
-  property alias pageTop: albumSpreadViewer.y
-  property alias pageHeight: albumSpreadViewer.height
   
   // When the user clicks the back button.
   signal closeRequested()

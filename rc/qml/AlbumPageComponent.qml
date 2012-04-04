@@ -44,6 +44,8 @@ Flipable {
   // readonly
   property alias frontIsCover: frontContents.isCover
   property alias backIsCover: backContents.isCover
+  property alias frameToContentWidth: frontContents.frameToContentWidth
+  property alias frameToContentHeight: frontContents.frameToContentHeight
 
   // Returns the page number of the left page of the current "spread", denoted
   // by a currentPage number from an album.  This will go on the backPage.

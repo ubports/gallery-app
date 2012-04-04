@@ -52,23 +52,28 @@ Item {
     visible: false
     
     onCloseRequested: {
-      albumViewerTransition.dissolve(albumViewer, navStack.previous());
+      if (state == "gridView") {
+        albumViewerTransition.dissolve(albumViewer, navStack.previous());
+      } else {
+        navStack.goBack();
+        var thumbnailRect = overview.getRectOfAlbumPreview(album, albumViewerTransition);
+        if (thumbnailRect) {
+          overview.showAlbumPreview(album, false);
+
+          albumViewerTransition.album = album;
+          albumViewerTransition.backgroundGlass = overview.glass;
+
+          albumViewerTransition.transitionFromAlbumViewer(album, thumbnailRect);
+        }
+      }
     }
   }
 
   AlbumViewerTransition {
     id: albumViewerTransition
 
-    x: 0
-    y: albumViewer.pageTop
-    width: parent.width
-    height: albumViewer.pageHeight
+    anchors.fill: albumViewer
 
-    onTransitionToAlbumViewerCompleted: {
-      albumViewer.resetView();
-      navStack.switchToPage(albumViewer);
-    }
-    
     onTransitionFromAlbumViewerCompleted: overview.showAlbumPreview(album, true)
     
     onDissolveCompleted: {

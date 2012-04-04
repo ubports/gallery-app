@@ -28,36 +28,21 @@ Item {
   
   property Album album
   property Rectangle backgroundGlass
-  property int durationMsec: 200
+  property int durationMsec: 500
   
-  function transitionToAlbumViewer(album, thumbnailRect) {
-    var translatedRect = mapFromItem(application, thumbnailRect.x, thumbnailRect.y);
-    translatedRect.width = thumbnailRect.width;
-    translatedRect.height = thumbnailRect.height;
-    
-    albumViewerTransition.album = album;
-    
-    expandAlbum.x = translatedRect.x;
-    expandAlbum.y = translatedRect.y;
-    expandAlbum.width = translatedRect.width;
-    expandAlbum.height = translatedRect.height;
-    
-    showAlbumViewerAnimation.start();
-  }
-
   function transitionFromAlbumViewer(album, thumbnailRect) {
-    var translatedRect = mapFromItem(application, thumbnailRect.x, thumbnailRect.y);
-    translatedRect.width = thumbnailRect.width;
-    translatedRect.height = thumbnailRect.height;
-    
     albumViewerTransition.album = album;
     
-    expandAlbum.x = 0;
-    expandAlbum.y = 0;
-    expandAlbum.width = width;
-    expandAlbum.height = height;
-    hideAlbumViewerAnimation.thumbnailRect = translatedRect;
-    
+    // We have to compensate for the frame, present in the animation but not in
+    // the album viewer.
+    var frameWidth = width / 2 * expandAlbum.frameToContentWidth;
+    var frameHeight = height * expandAlbum.frameToContentHeight;
+    expandAlbum.x = (width - frameWidth) / 2; // Centered.
+    expandAlbum.y = (height - frameHeight) / 2;
+    expandAlbum.width = frameWidth;
+    expandAlbum.height = frameHeight;
+    hideAlbumViewerAnimation.thumbnailRect = thumbnailRect;
+
     hideAlbumViewerAnimation.start();
   }
 
@@ -67,50 +52,17 @@ Item {
     dissolveAlbumViewerTransition.start();
   }
 
-  signal transitionToAlbumViewerCompleted()
   signal transitionFromAlbumViewerCompleted()
   signal dissolveCompleted(variant fadeOutTarget, variant fadeInTarget)
 
-  AlbumPreviewComponent {
+  AlbumOpener {
     id: expandAlbum
     
     album: parent.album
+    isPreview: true
+    contentHasPreviewFrame: true
     
     visible: false
-  }
-
-  SequentialAnimation {
-    id: showAlbumViewerAnimation
-
-    PropertyAction { target: expandAlbum; property: "visible"; value: true; }
-    
-    PropertyAction {
-      target: backgroundGlass
-      property: "opacity"
-      value: 0.0
-    }
-    
-    ParallelAnimation {
-      ExpandAnimation {
-        target: expandAlbum
-        endHeight: albumViewerTransition.height + expandAlbum.nameHeight
-        duration: durationMsec
-      }
-
-      PropertyAnimation {
-        target: backgroundGlass
-        property: "opacity"
-        to: 1.0
-        duration: durationMsec
-      }
-    }
-
-    PropertyAction { target: expandAlbum; property: "visible"; value: false; }
-    PropertyAction { target: backgroundGlass; property: "opacity"; value: 0.0; }
-
-    onCompleted: {
-      transitionToAlbumViewerCompleted();
-    }
   }
 
   SequentialAnimation {
@@ -135,6 +87,15 @@ Item {
         endHeight: hideAlbumViewerAnimation.thumbnailRect.height
         duration: durationMsec
         easingType: Easing.OutQuad
+      }
+
+      NumberAnimation {
+        target: expandAlbum
+        property: "openFraction"
+        from: 0.5
+        to: 1
+        duration: durationMsec
+        easing.type: Easing.InQuad
       }
 
       PropertyAnimation {

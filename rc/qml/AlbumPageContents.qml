@@ -33,6 +33,13 @@ Item {
 
   // readonly
   property bool isCover: cover.visible
+  // These constants (only useful when contentHasPreviewFrame is true) expose
+  // the ratio of size between the whole framed page (displayed at the size of
+  // this component) and the content of that page (displayed slightly smaller,
+  // within the frame), for if you need to match the contents but not the
+  // frame.
+  property real frameToContentWidth: (frameWidth / frameContentWidth)
+  property real frameToContentHeight: (frameHeight / frameContentHeight)
 
   // internal
   property real canonicalWidth: gu(80)

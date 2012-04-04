@@ -32,6 +32,8 @@ Item {
 
   // readonly
   property bool isFlipping: (openFraction != 0 && openFraction != 1)
+  property alias frameToContentWidth: rightPage.frameToContentWidth
+  property alias frameToContentHeight: rightPage.frameToContentHeight
 
   // internal
   property int currentOrFirstContentPage: (!album
