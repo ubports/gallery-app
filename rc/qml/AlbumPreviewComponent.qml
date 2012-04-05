@@ -68,7 +68,7 @@ Item {
       text: (album) ? album.name : "";
       color: "#818285"
       font.family: "Ubuntu"
-      font.pointSize: 8 // From the spec.
+      font.pointSize: pointUnits(8) // From the spec.
       smooth: true
 
       visible: (Boolean(album) && !album.closed && !albumPreview.isFlipping)
@@ -81,7 +81,7 @@ Item {
       text: (album) ? Qt.formatDateTime(album.creationDateTime, "MM/dd/yy") : ""
       color: "#a7a9ac"
       font.family: "Ubuntu"
-      font.pointSize: 6 // From the spec.
+      font.pointSize: pointUnits(6) // From the spec.
       smooth: true
 
       visible: (Boolean(album) && !album.closed && !albumPreview.isFlipping)

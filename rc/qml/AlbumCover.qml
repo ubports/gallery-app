@@ -56,8 +56,6 @@ Item {
     Column {
       x: coverStartX
       y: coverStartY
-      width: canonicalWidth
-      height: canonicalHeight
 
       visible: !isBack && !isBlank
       
@@ -69,12 +67,13 @@ Item {
 
       Text {
         anchors.horizontalCenter: parent.horizontalCenter
+        width: canonicalWidth
 
         opacity: titleOpacity
         color: "#f5e8e0"
         
         font.family: "Nimbus Roman No9 L"
-        font.pointSize: 16 // From the spec.
+        font.pointSize: pointUnits(16) // From the spec.
         smooth: true
         
         wrapMode: Text.WordWrap
@@ -93,17 +92,19 @@ Item {
 
       Text {
         anchors.horizontalCenter: parent.horizontalCenter
+        width: canonicalWidth
 
         opacity: titleOpacity
         color: "#f5e8e0"
         
         font.family: "Nimbus Roman No9 L"
-        font.pointSize: 10 // From the spec.
+        font.pointSize: pointUnits(10) // From the spec.
         smooth: true
         
         wrapMode: Text.WordWrap
         elide: Text.ElideRight
         maximumLineCount: 1
+        horizontalAlignment: Text.AlignHCenter
 
         text: (album) ? Qt.formatDateTime(album.creationDateTime, "MM/dd/yy") : ""
       }

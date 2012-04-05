@@ -31,6 +31,12 @@ Item {
   function gu(amt) {
     return Math.floor(GRIDUNIT * amt);
   }
+
+  // gu(), but for font point sizes.
+  function pointUnits(amt) {
+    // 1.6 is a hacky fudge-factor for now.
+    return Math.round(1.6 * amt);
+  }
   
   Component.onCompleted: {
     navStack.switchToPage(overview);

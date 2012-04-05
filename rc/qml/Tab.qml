@@ -25,7 +25,7 @@ Item {
   id: tab
   
   property alias title: title.text
-  property int fontPointSize: 9 // From the reference wireframes.
+  property int fontPointSize: pointUnits(9) // From the reference wireframes.
 
   property url selectedBackgroundSource
   property url deselectedBackgroundSource
