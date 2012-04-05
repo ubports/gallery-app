@@ -25,7 +25,7 @@ import uTouch 1.0
 Rectangle {
   id: photoViewer
   objectName: "photoViewer"
-  
+
   // When the user clicks the back button.
   signal closeRequested()
 
@@ -36,7 +36,7 @@ Rectangle {
   // setCurrentIndex() to initialize the view.
   property variant photo: null
   property alias index: imagePager.currentIndex
-  
+
   function setCurrentPhoto(photo) {
     imagePager.pageTo(model.indexOf(photo));
   }
@@ -46,31 +46,31 @@ Rectangle {
   }
 
   color: "black"
-  
+
   Pager {
     id: imagePager
     objectName: "imagePager"
-    
+
     model: parent.model
-    
+
     delegate: PhotoComponent {
       width: imagePager.width
       height: imagePager.height
-      
+
       color: "black"
 
       isZoomable: true;
-      
+
       mediaSource: model.mediaSource
       ownerName: "PhotoViewer"
     }
-    
+
     // Don't allow flicking while the chrome is actively displaying a popup
     // menu or the image is zoomed. When images are zoomed, mouse drags should
     // pan, not flick.
     interactive: !chrome.popupActive && (currentItem != null) &&
       (currentItem.state == "unzoomed")
-    
+
     onCurrentIndexChanged: {
       if (model)
         photo = model.getAt(currentIndex);
@@ -96,7 +96,7 @@ Rectangle {
         imagePager.currentItem.updatePinchZoom(radius.current / radius.initial);
       }
     }
-    
+
     MouseArea {
       anchors.fill: parent
 
@@ -112,7 +112,7 @@ Rectangle {
 
         onTriggered: chrome.flipVisibility()
       }
-      
+
       onClicked: {
         var deltaX = mouse.x - dragStartX;
         var deltaY = mouse.y - dragStartY;
@@ -182,7 +182,8 @@ Rectangle {
     PhotoViewerShareMenu {
       id: photoViewerShareMenu
 
-      popupOriginX: -gu(13)
+      popupOriginX: -gu(8.5)
+      popupOriginY: -gu(6)
 
       onPopupInteractionCompleted: {
         hideAllPopups();
@@ -194,7 +195,8 @@ Rectangle {
     PhotoViewerOptionsMenu {
       id: photoViewerOptionsMenu
 
-      popupOriginX: -gu(5.5)
+      popupOriginX: -gu(0.5)
+      popupOriginY: -gu(6)
 
       onPopupInteractionCompleted: {
         hideAllPopups();
