@@ -30,6 +30,7 @@ Toolbar {
     id: background
 
     source: "../img/toolbar-background.png"
+    cache: true
   }
 
   AddCreateOperationNavbarButton {

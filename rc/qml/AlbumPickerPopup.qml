@@ -185,6 +185,7 @@ Rectangle {
     objectName: "popup_arrow"
 
     source: "../img/popup-arrow.png"
+    cache: true
 
     width: 39
     height: 25

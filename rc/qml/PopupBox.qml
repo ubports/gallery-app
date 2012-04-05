@@ -55,5 +55,6 @@ Rectangle {
     height: 25
     
     source: "../img/popup-arrow.png"
+    cache: true
   }
 }

@@ -48,6 +48,7 @@ Item {
     id: background
 
     source: (tab.state == "selected" ? selectedBackgroundSource : deselectedBackgroundSource)
+    cache: true
   }
 
   Text {

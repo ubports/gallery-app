@@ -61,6 +61,7 @@ Rectangle {
 
   Image {
     source: "../img/overview-background.png"
+    cache: true
   }
 
   GalleryOverviewNavigationBar {

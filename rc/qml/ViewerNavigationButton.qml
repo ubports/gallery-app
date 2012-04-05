@@ -33,6 +33,7 @@ Image {
   property bool is_forward: true
   
   source: (is_forward) ? "../img/viewer-forward.png" : "../img/viewer-back.png"
+  cache: true
   
   MouseArea {
     anchors.fill: parent

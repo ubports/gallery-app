@@ -51,6 +51,7 @@ Item {
     }
 
     source: "../img/album-cover.png"
+    cache: true
     mirror: isBack
 
     Column {

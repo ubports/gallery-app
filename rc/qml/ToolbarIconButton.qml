@@ -44,6 +44,7 @@ Item {
     id: background
 
     source: (toolbarIconButton.state == "selected" ? selectedBackgroundFilename : deselectedBackgroundFilename)
+    cache: true
   }
 
   Image {
@@ -51,6 +52,7 @@ Item {
 
     anchors.centerIn: parent
     source: (toolbarIconButton.state == "selected" ? selectedIconFilename : deselectedIconFilename)
+    cache: true
   }
 
   MouseArea {

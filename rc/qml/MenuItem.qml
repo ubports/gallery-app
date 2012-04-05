@@ -118,6 +118,8 @@ Rectangle {
 
     visible: (iconFilename != "") ? true : false
 
+    cache: true
+
     width: 36
     height: 36
     anchors.left: parent.left

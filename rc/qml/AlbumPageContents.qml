@@ -103,6 +103,7 @@ Item {
     }
 
     source: "../img/album-thumbnail-frame.png"
+    cache: true
     mirror: !isRight
     visible: (loader.visible && contentHasPreviewFrame)
   }
