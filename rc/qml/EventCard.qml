@@ -15,55 +15,66 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
+ * Charles Lindsay <chaz@yorba.org>
  */
 
 import QtQuick 1.1
 import Gallery 1.0
 
-Rectangle {
+Item {
   id: eventCard
   
   property variant event
-  property string textColor: "#95b5de"
-  property string backgroundColor: "white"
-  property bool hasBottomSeparator: false
+  property color textColor: "#6e6046"
   
-  color: backgroundColor
-  
-  Text {
-    id: text
-    
-    color: textColor
-    
-    anchors.fill: parent
-    anchors.bottomMargin: 2.0
-    
-    verticalAlignment: Text.AlignVCenter
-    horizontalAlignment: Text.AlignHCenter
-    
-    font.family: "Ubuntu"
-    font.weight: Font.Bold
-    font.pixelSize: gu(3)
-    
-    text: (event) ? Qt.formatDate(event.date, "d - M - yyyy") : ""
-  }
-  
-  Rectangle {
-    anchors.top: text.bottom
-    anchors.horizontalCenter: parent.horizontalCenter
-    
-    width: text.width - (parent.anchors.leftMargin + parent.anchors.rightMargin)
-    height: hasBottomSeparator ? 2 : 0
-    
-    color: textColor
-  }
+  // internal
+  property real cardWidth: gu(24)
+  property real cardHeight: gu(19)
+  // Where the transparent shadow ends in the card image.
+  property real cardStartX: 2
+  property real cardStartY: 2
 
   Image {
-    id: mat
+    x: -cardStartX
+    y: -cardStartY
 
-    anchors.centerIn: parent
-
-    source: "../img/photo-mat.png"
+    source: "../img/event-card.png"
     cache: true
+
+    Column {
+      x: cardStartX
+      y: cardStartY
+
+      // Spacer
+      Item {
+        width: 1
+        height: gu(2)
+      }
+
+      Text {
+        width: cardWidth
+
+        font.family: "Ubuntu"
+        font.pointSize: pointUnits(9)
+        color: textColor
+
+        font.capitalization: Font.AllUppercase
+        horizontalAlignment: Text.AlignHCenter
+
+        text: (event) ? Qt.formatDate(event.date, "MMMM yyyy") : ""
+      }
+
+      Text {
+        width: cardWidth
+
+        font.family: "Ubuntu"
+        font.pointSize: pointUnits(26)
+        color: textColor
+
+        horizontalAlignment: Text.AlignHCenter
+
+        text: (event) ? Qt.formatDate(event.date, "dd") : ""
+      }
+    }
   }
 }
