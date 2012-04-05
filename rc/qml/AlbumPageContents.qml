@@ -165,16 +165,11 @@ Item {
   AlbumCover {
     id: cover
 
-    width: canonicalWidth
-    height: canonicalHeight
-
-    transform: Scale {
-      xScale: parent.width / canonicalWidth
-      yScale: parent.height / canonicalHeight
-    }
+    anchors.fill: parent
 
     visible: (Boolean(album) && (page == 0 || page == album.totalPageCount - 1))
 
     album: albumPageContents.album
+    isBack: !isRight
   }
 }

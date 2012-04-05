@@ -27,6 +27,8 @@ Rectangle {
   id: overview
   objectName: "overview"
   
+  signal albumSelected(variant album, variant thumbnailRect)
+
   property Rectangle glass: overviewGlass
   
   anchors.fill: parent
@@ -205,6 +207,8 @@ Rectangle {
 
       album: modelData.album
 
+      z: (isFlipping ? 10 : 0)
+
       // Scale from 1 to 1 + maxAddScale and back to 1 as openFraction goes
       // from 0 to 0.5 to 1.
       scale: 1 + maxAddScale - Math.abs((openFraction - 0.5) * maxAddScale * 2)
@@ -232,7 +236,6 @@ Rectangle {
 
           var availableDistance = (leftToRight) ? (width - start) : start;
           var fraction = Math.max(0, Math.min(1, distance / availableDistance));
-          fraction *= 0.5; // Slow down the swipe a little.
 
           albumThumbnail.openFraction = (leftToRight ? 1 - fraction : fraction);
         }
@@ -255,7 +258,7 @@ Rectangle {
     
     onActivated: {
       var albumRect = GalleryUtility.translateRect(activatedRect, albumsCheckerboard, overview);
-      navStack.switchToAlbumViewer(object, albumRect);
+      albumSelected(object, albumRect);
     }
   }
 

@@ -155,6 +155,10 @@ Rectangle {
       width: delegateWidth
       height: delegateHeight
 
+      // Allows the Checkerboard delegates to control the z order relative to
+      // each other.
+      z: loader.item.z
+
       Loader {
         id: loader
 

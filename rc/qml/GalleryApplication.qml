@@ -42,6 +42,11 @@ Item {
     anchors.fill: parent
     
     visible: false
+
+    onAlbumSelected: {
+      overview.showAlbumPreview(album, false);
+      albumViewerTransition.transitionToAlbumViewer(album, thumbnailRect);
+    }
   }
   
   AlbumViewer {
@@ -56,13 +61,10 @@ Item {
         albumViewerTransition.dissolve(albumViewer, navStack.previous());
       } else {
         navStack.goBack();
+
         var thumbnailRect = overview.getRectOfAlbumPreview(album, albumViewerTransition);
         if (thumbnailRect) {
           overview.showAlbumPreview(album, false);
-
-          albumViewerTransition.album = album;
-          albumViewerTransition.backgroundGlass = overview.glass;
-
           albumViewerTransition.transitionFromAlbumViewer(album, thumbnailRect);
         }
       }
@@ -73,6 +75,13 @@ Item {
     id: albumViewerTransition
 
     anchors.fill: albumViewer
+
+    backgroundGlass: overview.glass
+
+    onTransitionToAlbumViewerCompleted: {
+      navStack.switchToAlbumViewer(album);
+      overview.showAlbumPreview(album, true);
+    }
 
     onTransitionFromAlbumViewerCompleted: overview.showAlbumPreview(album, true)
     
@@ -95,10 +104,10 @@ Item {
   NavStack {
     id: navStack
     
-    function switchToAlbumViewer(album, thumbnailRect) {
-      albumViewer.album = album;
+    function switchToAlbumViewer(album) {
+      albumViewer.resetView(album);
       
-      albumViewerTransition.dissolve(navStack.top, albumViewer);
+      navStack.switchToPage(albumViewer);
     }
     
     function switchToMediaSelector(album) {
