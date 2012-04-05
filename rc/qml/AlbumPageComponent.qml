@@ -83,8 +83,6 @@ Flipable {
     contentHasPreviewFrame: albumPageComponent.contentHasPreviewFrame
   }
 
-  transformOrigin: Item.TopLeft
-
   transform: Rotation {
     id: rotation
 

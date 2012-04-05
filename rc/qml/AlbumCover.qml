@@ -15,6 +15,7 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
+ * Charles Lindsay <chaz@yorba.org>
  */
 
 import QtQuick 1.1
@@ -24,92 +25,86 @@ Item {
   id: albumCover
   
   property Album album
+  property bool isBack: false
   property bool isBlank: false
   property real titleOpacity: 1
   property int titleDateSpacing: gu(2)
   
-  Rectangle {
+  // internal
+  property real canonicalWidth: gu(28)
+  property real canonicalHeight: gu(33)
+  // Where the transparent shadow ends in the cover image.
+  property real coverStartX: 5
+  property real coverStartY: 5
+
+  Image {
     id: cover
     
-    anchors.fill: parent
-    
-    border.width: gu(0.25)
-    border.color: "#657CA9"
-    
-    clip: true
-    
-    Rectangle {
-      width: (parent.width > parent.height) ? parent.width : parent.height
-      height: width
-      
-      gradient: Gradient {
-        GradientStop { position: 0.0; color: "#95b5de"; }
-        GradientStop { position: 1.0; color: "#657CA9"; }
-      }
-      
-      rotation: -90.0
+    x: -coverStartX
+    y: -coverStartY
+
+    transform: Scale {
+      origin.x: coverStartX
+      origin.y: coverStartY
+      xScale: parent.width / canonicalWidth
+      yScale: parent.height / canonicalHeight
     }
-    
-    Rectangle {
-      anchors.verticalCenter: parent.verticalCenter
+
+    source: "../img/album-cover.png"
+    mirror: isBack
+
+    Column {
+      x: coverStartX
+      y: coverStartY
+      width: canonicalWidth
+      height: canonicalHeight
+
+      visible: !isBack && !isBlank
       
-      width: parent.width
-      height: titleText.height + dateText.height + titleDateSpacing
-      
-      color: "transparent"
-      
+      // Spacer
+      Item {
+        width: 1
+        height: gu(6)
+      }
+
       Text {
-        id: titleText
-        
-        anchors.top: parent.top
-        
-        width: parent.width
-        
-        visible: !isBlank
+        anchors.horizontalCenter: parent.horizontalCenter
+
         opacity: titleOpacity
-        color: "#657CA9"
+        color: "#f5e8e0"
         
-        font.family: "Ubuntu"
-        font.weight: Font.Bold
-        font.pointSize: 40 // Off the top of my head.
-        
+        font.family: "Nimbus Roman No9 L"
+        font.pointSize: 16 // From the spec.
         smooth: true
         
         wrapMode: Text.WordWrap
         elide: Text.ElideRight
         maximumLineCount: 3
-        
         horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        
+
         text: (album) ? album.name : ""
       }
       
+      // Spacer
+      Item {
+        width: 1
+        height: titleDateSpacing
+      }
+
       Text {
-        id: dateText
-        
-        anchors.top: titleText.bottom
-        anchors.topMargin: titleDateSpacing
-        
-        width: parent.width
-        
-        visible: !isBlank
+        anchors.horizontalCenter: parent.horizontalCenter
+
         opacity: titleOpacity
-        color: "#657CA9"
+        color: "#f5e8e0"
         
-        font.family: "Ubuntu"
-        font.weight: Font.Normal
-        font.pointSize: 30 // Off the top of my head.
-        
+        font.family: "Nimbus Roman No9 L"
+        font.pointSize: 10 // From the spec.
         smooth: true
         
         wrapMode: Text.WordWrap
         elide: Text.ElideRight
         maximumLineCount: 1
-        
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        
+
         text: (album) ? Qt.formatDateTime(album.creationDateTime, "MM/dd/yy") : ""
       }
     }

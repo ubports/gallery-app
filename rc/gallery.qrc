@@ -1,5 +1,6 @@
 <RCC>
 <qresource>
+    <file>img/album-cover.png</file>
     <file>img/album-operations-icon.png</file>
     <file>img/album-operations-icon-contrast.png</file>
     <file>img/album-thumbnail-frame.png</file>
