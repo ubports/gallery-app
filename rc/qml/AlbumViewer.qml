@@ -29,8 +29,8 @@ Rectangle {
 
   property Album album
 
-  // When the user clicks the back button.
-  signal closeRequested()
+  // When the user clicks the back button or pages back to the cover.
+  signal closeRequested(bool stayOpen)
 
   anchors.fill: parent
 
@@ -100,6 +100,11 @@ Rectangle {
       }
 
       onSwiping: {
+        if (leftToRight && album.currentPage == album.firstContentPage) {
+          closeRequested(false);
+          return;
+        }
+
         var availableDistance = (leftToRight) ? (width - start) : start;
         albumSpreadViewer.turnFraction = (distance / availableDistance);
       }
@@ -258,7 +263,7 @@ Rectangle {
       gridCheckerboard.state = "normal";
       gridCheckerboard.unselectAll();
 
-      closeRequested();
+      closeRequested(true);
     }
 
     onMoreOperationsButtonPressed: {

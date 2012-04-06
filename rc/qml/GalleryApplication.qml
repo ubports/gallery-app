@@ -71,7 +71,7 @@ Item {
         var thumbnailRect = overview.getRectOfAlbumPreview(album, albumViewerTransition);
         if (thumbnailRect) {
           overview.showAlbumPreview(album, false);
-          albumViewerTransition.transitionFromAlbumViewer(album, thumbnailRect);
+          albumViewerTransition.transitionFromAlbumViewer(album, thumbnailRect, stayOpen);
         }
       }
     }

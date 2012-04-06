@@ -26,14 +26,17 @@ import "../Capetown"
 Item {
   id: albumViewerTransition
   
-  property Album album
-  property Rectangle backgroundGlass
-  property int durationMsec: 500
-  
   signal transitionToAlbumViewerCompleted()
   signal transitionFromAlbumViewerCompleted()
   signal dissolveCompleted(variant fadeOutTarget, variant fadeInTarget)
 
+  property Album album
+  property Rectangle backgroundGlass
+  property int durationMsec: 500
+
+  // internal
+  property bool hideStayingOpen
+  
   function transitionToAlbumViewer(album, thumbnailRect) {
     albumViewerTransition.album = album;
 
@@ -46,7 +49,7 @@ Item {
     showAlbumViewerAnimation.start();
   }
 
-  function transitionFromAlbumViewer(album, thumbnailRect) {
+  function transitionFromAlbumViewer(album, thumbnailRect, stayOpen) {
     albumViewerTransition.album = album;
 
     var rect = getFullscreenRect();
@@ -55,6 +58,7 @@ Item {
     expandAlbum.width = rect.width;
     expandAlbum.height = rect.height;
 
+    hideStayingOpen = stayOpen;
     hideAlbumViewerAnimation.thumbnailRect = thumbnailRect;
     hideAlbumViewerAnimation.start();
   }
@@ -128,15 +132,11 @@ Item {
     PropertyAction { target: expandAlbum; property: "visible"; value: false; }
     PropertyAction { target: backgroundGlass; property: "visible"; value: false; }
 
-    ScriptAction {
-      script: {
-        album.closed = false;
-        if (album.currentPage == album.firstValidCurrentPage)
-          album.currentPage = album.firstContentPage;
-      }
-    }
-
     onCompleted: {
+      album.closed = false;
+      if (album.currentPage == album.firstValidCurrentPage)
+        album.currentPage = album.firstContentPage;
+
       transitionToAlbumViewerCompleted();
     }
   }
@@ -163,7 +163,7 @@ Item {
         target: expandAlbum
         property: "openFraction"
         from: 0.5
-        to: 1
+        to: (hideStayingOpen ? 1 : 0)
         duration: durationMsec
         easing.type: Easing.InQuad
       }
@@ -177,6 +177,8 @@ Item {
     PropertyAction { target: expandAlbum; property: "visible"; value: false; }
 
     onCompleted: {
+      album.closed = !hideStayingOpen;
+
       transitionFromAlbumViewerCompleted();
     }
   }

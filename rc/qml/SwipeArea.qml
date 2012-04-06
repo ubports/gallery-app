@@ -38,13 +38,17 @@ MouseArea {
   property bool leftToRight: true
   property bool swipeStarted: false
 
-  preventStealing: swipeStarted
-  
-  onEnabledChanged: {
+  // internal
+  function reset() {
     startX = -1;
     leftToRight = true;
     swipeStarted = false;
   }
+
+  preventStealing: swipeStarted
+  
+  onEnabledChanged: reset()
+  onVisibleChanged: reset()
   
   onPositionChanged: {
     if (!enabled)
