@@ -1,5 +1,7 @@
 <RCC>
 <qresource>
+    <file>img/add-to-new-album-selected.png</file>
+    <file>img/add-to-new-album-unselected.png</file>
     <file>img/album-cover.png</file>
     <file>img/album-operations-icon.png</file>
     <file>img/album-operations-icon-contrast.png</file>
@@ -39,6 +41,7 @@
     <file>Capetown/FadeOutAnimation.qml</file>
     
     <file>qml/AddCreateOperationNavbarButton.qml</file>
+    <file>qml/AddToNewAlbumButton.qml</file>
     <file>qml/AlbumCover.qml</file>
     <file>qml/AlbumOpener.qml</file>
     <file>qml/AlbumOperationsToolbarButton.qml</file>
@@ -49,7 +52,6 @@
     <file>qml/AlbumPageLayoutLeftDoubleLandscape.qml</file>
     <file>qml/AlbumPageLayoutLeftPortrait.qml</file>
     <file>qml/AlbumPageLayoutRightPortrait.qml</file>
-    <file>qml/AlbumPickerPopup.qml</file>
     <file>qml/AlbumPreviewComponent.qml</file>
     <file>qml/AlbumSpreadViewer.qml</file>
     <file>qml/AlbumViewer.qml</file>
@@ -84,6 +86,7 @@
     <file>qml/PhotoViewerOptionsMenu.qml</file>
     <file>qml/PhotoViewerShareMenu.qml</file>
     <file>qml/PhotoViewerTransition.qml</file>
+    <file>qml/PopupAlbumPicker.qml</file>
     <file>qml/PopupBox.qml</file>
     <file>qml/PopupMenu.qml</file>
     <file>qml/PopupPhotoViewer.qml</file>

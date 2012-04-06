@@ -174,10 +174,7 @@ Rectangle {
     onLeftNavigationButtonPressed: imagePager.pageBack()
     onRightNavigationButtonPressed: imagePager.pageForward()
 
-    onAlbumPicked: album.addMediaSource(photo)
-    onNewAlbumPicked: albumPickerDesignatedModel.createAlbum(photo)
-
-    popups: [ photoViewerShareMenu, photoViewerOptionsMenu ]
+    popups: [ photoViewerShareMenu, photoViewerOptionsMenu, popupAlbumPicker ]
 
     PhotoViewerShareMenu {
       id: photoViewerShareMenu
@@ -186,7 +183,7 @@ Rectangle {
       popupOriginY: -gu(6)
 
       onPopupInteractionCompleted: {
-        hideAllPopups();
+        chrome.hideAllPopups();
       }
 
       visible: false
@@ -199,8 +196,24 @@ Rectangle {
       popupOriginY: -gu(6)
 
       onPopupInteractionCompleted: {
-        hideAllPopups();
+        chrome.hideAllPopups();
       }
+
+      visible: false
+    }
+
+    PopupAlbumPicker {
+      id: popupAlbumPicker
+
+      popupOriginX: -gu(17.5)
+      popupOriginY: -gu(6)
+
+      onPopupInteractionCompleted: {
+        chrome.hideAllPopups();
+      }
+
+      onNewAlbumRequested: albumModel.createAlbum(photo)
+      onAlbumPicked: album.addMediaSource(photo)
 
       visible: false
     }
@@ -217,6 +230,10 @@ Rectangle {
 
     onMoreOperationsButtonPressed: {
       cyclePopup(photoViewerOptionsMenu);
+    }
+
+    onAlbumOperationsButtonPressed: {
+      cyclePopup(popupAlbumPicker);
     }
   }
 }

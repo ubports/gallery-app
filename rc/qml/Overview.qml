@@ -26,23 +26,23 @@ import "GalleryUtility.js" as GalleryUtility
 Rectangle {
   id: overview
   objectName: "overview"
-  
+
   signal albumSelected(variant album, variant thumbnailRect)
 
   property Rectangle glass: overviewGlass
-  
+
   anchors.fill: parent
 
   function getRectOfAlbumPreview(album, relativeTo) {
     return albumsCheckerboard.getRectOfItemAt(albumsCheckerboard.model.indexOf(album), relativeTo);
   }
-  
+
   function showAlbumPreview(album, show) {
     var delegate = albumsCheckerboard.getDelegateInstanceAt(albumsCheckerboard.model.indexOf(album));
     if (delegate)
       delegate.visible = show;
   }
-  
+
   state: "eventView"
 
   states: [
@@ -67,69 +67,69 @@ Rectangle {
   GalleryOverviewNavigationBar {
     id: navbar
     objectName: "navbar"
-    
+
     anchors.top: parent.top
     anchors.left: parent.left
     anchors.right: parent.right
-    
+
     visible: !eventsCheckerboard.inSelectionMode
 
     onAddCreateOperationButtonPressed: {
       if (albumViewSwitcher.state == "tab0_active")
         navStack.switchToMediaSelector();
     }
-    
+
     BinaryTabGroup {
       id: albumViewSwitcher
       objectName: "albumViewSwitcher"
-      
+
       anchors.horizontalCenter: parent.horizontalCenter
       anchors.bottom: parent.bottom
-      
+
       tab0_title: "Albums"
       tab1_title: "Events"
-      
+
       state: "tab1_active"
-      
+
       onTab0_activated: {
         overview.state = "albumView";
       }
-      
+
       onTab1_activated: {
         overview.state = "eventView"
       }
     }
   }
-  
+
   Item {
     id: eventsSheet
-    
+
     anchors.fill: parent
     anchors.topMargin: gu(2) + navbar.height
     anchors.bottomMargin: gu(0)
     anchors.leftMargin: gu(2)
     anchors.rightMargin: gu(2)
-    
+
     // if switched away from or to, always move back to checkerboard
     onVisibleChanged: {
       eventsCheckerboard.visible = true;
       eventTimeline.visible = false;
     }
-    
+
     EventCheckerboard {
       id: eventsCheckerboard
       objectName: "eventsCheckerboard"
-      
+
       anchors.fill: parent
-      
+
       visible: true
       color: "transparent"
       allowSelection: true
-      
+
       property variant photoViewerModel: MediaCollectionModel {
         monitored: true
       }
-      
+
       onActivated: {
         if (objectModel.typeName == "MediaSource") {
           var photoRect = GalleryUtility.translateRect(activatedRect, eventsCheckerboard, photoViewer);
@@ -140,31 +140,31 @@ Rectangle {
         }
       }
     }
-    
+
     EventTimelineTransition {
       id: eventTimelineTransition
-      
+
       anchors.fill: parent
-      
+
       visible: false
       clip: true
-      
+
       checkerboard: eventsCheckerboard
       timeline: eventTimeline
-      
+
       delegate: EventCheckerboardDelegate {
         ownerName: "EventTimelineTransition"
       }
     }
-    
+
     EventTimeline {
       id: eventTimeline
-      
+
       anchors.fill: parent
-      
+
       visible: false
       clip: true
-      
+
       onActivated: {
         // Event card activated
         eventTimelineTransition.toOverview(event);
@@ -173,11 +173,11 @@ Rectangle {
       onTimedOut: eventTimelineTransition.backToOverview()
     }
   }
-  
+
   Checkerboard {
     id: albumsCheckerboard
     objectName: "albumsCheckerboard"
-    
+
     color: "transparent"
 
     anchors.top: navbar.bottom
@@ -188,19 +188,19 @@ Rectangle {
     anchors.bottomMargin: gu(0)
     anchors.leftMargin: gu(2)
     anchors.rightMargin: gu(2)
-    
+
     itemWidth: gu(28)
     itemHeight: gu(33)
     gutterWidth: gu(11)
     gutterHeight: gu(8)
-    
+
     visible: false
     allowSelection: false
     allowActivation: false
-    
+
     model: AlbumCollectionModel {
     }
-    
+
     delegate: AlbumPreviewComponent {
       id: albumThumbnail
 
@@ -221,7 +221,7 @@ Rectangle {
         property bool validSwipe: false
 
         anchors.fill: parent
-        
+
         onTapped: {
           var rect = GalleryUtility.getRectRelativeTo(albumThumbnail, albumsCheckerboard);
           albumsCheckerboard.activated(modelData.object, modelData.model, rect);
@@ -256,7 +256,7 @@ Rectangle {
         }
       }
     }
-    
+
     onActivated: {
       var albumRect = GalleryUtility.translateRect(activatedRect, albumsCheckerboard, overview);
       albumSelected(object, albumRect);
@@ -271,67 +271,80 @@ Rectangle {
 
     fadeDuration: 0
     autoHideWait: 0
-    
+
     hasSelectionOperationsButton: true
-    
+
     inSelectionMode: true
     visible: eventsCheckerboard.inSelectionMode
-    
-    property variant popups: [ selectionOperationsMenu ]
-    
-    onSelectionOperationsButtonPressed: {
-      cyclePopup(selectionOperationsMenu);
-    }
-    
+
+    property variant popups: [ selectionOperationsMenu, popupAlbumPicker ]
+
+    onSelectionOperationsButtonPressed: cyclePopup(selectionOperationsMenu);
+
     onSelectionDoneButtonPressed: {
-      eventsCheckerboard.state = "normal";
       eventsCheckerboard.unselectAll();
+      eventsCheckerboard.state = "normal";
     }
 
-    onNewAlbumPicked: {
-      eventsCheckerboard.model.createAlbumFromSelected();
-      eventsCheckerboard.state = "normal";
-      eventsCheckerboard.unselectAll();
-    }
+    onAlbumOperationsButtonPressed: cyclePopup(popupAlbumPicker);
 
-    onAlbumPicked: {
-      album.addSelectedMediaSources(eventsCheckerboard.model);
-      eventsCheckerboard.state = "normal";
-      eventsCheckerboard.unselectAll();
-    }
-    
-    PopupMenu {
-      id: selectionOperationsMenu
-      
-      popupOriginX: gu(3.5)
+    PopupAlbumPicker {
+      id: popupAlbumPicker
+
+      popupOriginX: -gu(17.5)
       popupOriginY: -gu(6)
-      
+
+      onPopupInteractionCompleted: {
+        chrome.hideAllPopups();
+        eventsCheckerboard.state = "normal";
+      }
+
+      onNewAlbumRequested: {
+        eventsCheckerboard.model.createAlbumFromSelected();
+        eventsCheckerboard.unselectAll();
+      }
+
+      onAlbumPicked: {
+        album.addSelectedMediaSources(eventsCheckerboard.model);
+        eventsCheckerboard.unselectAll();
+      }
+
       visible: false
       state: "hidden"
-      
+    }
+
+    PopupMenu {
+      id: selectionOperationsMenu
+
+      popupOriginX: gu(3.5)
+      popupOriginY: -gu(6)
+
+      visible: false
+      state: "hidden"
+
       model: ListModel {
         ListElement {
           title: "Select All"
           action: "SelectAll"
           hasBottomBorder: true
         }
-        
+
         ListElement {
           title: "Select None"
           action: "SelectNone"
         }
       }
-      
+
       onPopupInteractionCompleted: {
         hideAllPopups();
       }
-      
+
       onActionInvoked: {
         switch (name) {
           case "SelectAll":
             eventsCheckerboard.selectAll();
           break;
-          
+
           case "SelectNone":
             eventsCheckerboard.unselectAll();
           break;
@@ -345,11 +358,11 @@ Rectangle {
 
     anchors.fill: parent
     z: 100
-    
+
     onOpening: {
       model = eventsCheckerboard.photoViewerModel;
     }
-    
+
     onPhotoChanged: {
       if (photo && eventsCheckerboard.model) {
         eventsCheckerboard.ensureIndexVisible(eventsCheckerboard.model.indexOf(photo),
@@ -366,12 +379,12 @@ Rectangle {
         close();
     }
   }
-  
+
   Rectangle {
     id: overviewGlass
-    
+
     anchors.fill: parent
-    
+
     color: "black"
     opacity: 0.0
   }

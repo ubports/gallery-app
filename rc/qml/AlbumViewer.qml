@@ -26,9 +26,9 @@ import "GalleryUtility.js" as GalleryUtility
 Rectangle {
   id: albumViewer
   objectName: "albumViewer"
-  
+
   property Album album
-  
+
   // When the user clicks the back button.
   signal closeRequested()
 
@@ -53,7 +53,7 @@ Rectangle {
       }
     }
   ]
-  
+
   function resetView(album) {
     albumViewer.album = album;
 
@@ -67,43 +67,43 @@ Rectangle {
 
   AlbumSpreadViewer {
     id: albumSpreadViewer
-    
+
     anchors.fill: parent
-    
+
     album: albumViewer.album
-    
+
     onPageFlipped: {
       // turn chrome back on once flip is completed
       chrome.show();
     }
-    
+
     onPageReleased: {
       chrome.show();
     }
-    
+
     SwipeArea {
       property real commitTurnFraction: 0.05
-      
+
       // private
       property int turningTowardPage
-      
+
       anchors.fill: parent
-      
+
       enabled: !parent.isRunning
-      
+
       onStartSwipe: {
         turningTowardPage = album.currentPage + (leftToRight ? -2 : 2); // 2 pages per spread.
         albumSpreadViewer.turnTowardPage = turningTowardPage;
-        
+
         // turn off chrome, allow the page flipper full screen
         chrome.hide();
       }
-      
+
       onSwiping: {
         var availableDistance = (leftToRight) ? (width - start) : start;
         albumSpreadViewer.turnFraction = (distance / availableDistance);
       }
-      
+
       onSwiped: {
         // Can turn toward the cover, but never close the album in the viewer
         if (albumSpreadViewer.currentFraction >= commitTurnFraction
@@ -115,30 +115,30 @@ Rectangle {
       }
     }
   }
-  
+
   Checkerboard {
     id: gridCheckerboard
     objectName: "gridCheckerboard"
-    
+
     anchors.fill: parent
     anchors.topMargin: chrome.navbarHeight + gu(2)
     anchors.leftMargin: gu(2)
     anchors.rightMargin: gu(2)
-    
+
     visible: false
-    
+
     allowSelection: true
-    
+
     model: MediaCollectionModel {
       forCollection: album
     }
-    
+
     delegate: PhotoComponent {
       anchors.centerIn: parent
-      
+
       width: parent.width
       height: parent.height
-      
+
       mediaSource: modelData.mediaSource
       isCropped: true
       isPreview: true
@@ -177,14 +177,42 @@ Rectangle {
     toolbarHasPageIndicator: albumViewer.state == "pageView"
     toolbarPageIndicatorAlbum: albumViewer.album
 
-    property variant popups: [ albumViewerOptionsMenu, albumViewerShareMenu ]
+    property variant popups: [ albumViewerOptionsMenu, albumViewerShareMenu,
+      popupAlbumPicker ]
+
+    onAlbumOperationsButtonPressed: cyclePopup(popupAlbumPicker);
+
+    PopupAlbumPicker {
+      id: popupAlbumPicker
+
+      popupOriginX: -gu(17.5)
+      popupOriginY: -gu(6)
+
+      onPopupInteractionCompleted: {
+        chrome.hideAllPopups();
+        gridCheckerboard.state = "normal";
+      }
+
+      onNewAlbumRequested: {
+        gridCheckerboard.model.createAlbumFromSelected();
+        gridCheckerboard.unselectAll();
+      }
+
+      onAlbumPicked: {
+        album.addSelectedMediaSources(gridCheckerboard.model);
+        gridCheckerboard.unselectAll();
+      }
+
+      visible: false
+      state: "hidden"
+    }
 
     AlbumViewerOptionsMenu {
       id: albumViewerOptionsMenu
-      
+
       popupOriginX: -gu(1.5)
       popupOriginY: -gu(6)
-      
+
       // a switch-case case statement instead of an if statement because we
       // soon hope to be able to respond to all six menu items
       onActionInvoked: {
@@ -204,10 +232,10 @@ Rectangle {
 
     AlbumViewerShareMenu {
       id: albumViewerShareMenu
-      
+
       popupOriginX: -gu(9)
       popupOriginY: -gu(6)
-      
+
       onPopupInteractionCompleted: {
         hideAllPopups();
       }
@@ -222,18 +250,6 @@ Rectangle {
     }
 
     onSelectionDoneButtonPressed: {
-      gridCheckerboard.state = "normal";
-      gridCheckerboard.unselectAll();
-    }
-
-    onNewAlbumPicked: {
-      gridCheckerboard.model.createAlbumFromSelected();
-      gridCheckerboard.state = "normal";
-      gridCheckerboard.unselectAll();
-    }
-
-    onAlbumPicked: {
-      album.addSelectedMediaSources(gridCheckerboard.model);
       gridCheckerboard.state = "normal";
       gridCheckerboard.unselectAll();
     }
@@ -263,7 +279,7 @@ Rectangle {
     onOpening: {
       model = gridCheckerboard.model
     }
-    
+
     onIndexChanged: {
       gridCheckerboard.ensureIndexVisible(index, false);
     }

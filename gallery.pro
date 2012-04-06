@@ -100,6 +100,7 @@ OTHER_FILES += \
 	rc/Capetown/FadeOutAnimation.qml \
 	\
 	rc/qml/AddCreateOperationNavbarButton.qml \
+	rc/qml/AddToNewAlbumButton.qml \
 	rc/qml/AlbumCover.qml \
 	rc/qml/AlbumOpener.qml \
 	rc/qml/AlbumOperationsToolbarButton.qml \
@@ -110,7 +111,6 @@ OTHER_FILES += \
 	rc/qml/AlbumPageLayoutLeftDoubleLandscape.qml \
 	rc/qml/AlbumPageLayoutLeftPortrait.qml \
 	rc/qml/AlbumPageLayoutRightPortrait.qml \
-	rc/qml/AlbumPickerPopup.qml \
 	rc/qml/AlbumPreviewComponent.qml \
 	rc/qml/AlbumSpreadViewer.qml \
 	rc/qml/AlbumViewer.qml \
@@ -145,6 +145,7 @@ OTHER_FILES += \
 	rc/qml/PhotoViewerOptionsMenu.qml \
 	rc/qml/PhotoViewerShareMenu.qml \
 	rc/qml/PhotoViewerTransition.qml \
+	rc/qml/PopupAlbumPicker.qml \
 	rc/qml/PopupBox.qml \
 	rc/qml/PopupMenu.qml \
 	rc/qml/PopupPhotoViewer.qml \

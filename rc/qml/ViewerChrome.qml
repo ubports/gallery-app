@@ -15,6 +15,7 @@
  *
  * Authors:
  * Charles Lindsay <chaz@yorba.org>
+ * Lucas Beeler <lucas@yorba.org>
  */
 
 import QtQuick 1.1
@@ -66,16 +67,12 @@ Item {
   signal pageIndicatorPageSelected(int page)
   signal moreOperationsButtonPressed()
   signal shareOperationsButtonPressed()
+  signal albumOperationsButtonPressed()
   signal selectionOperationsButtonPressed(variant button)
 
   // Pass-throughs from the left/right nav buttons.
   signal leftNavigationButtonPressed()
   signal rightNavigationButtonPressed()
-
-  // Pass-throughs from the album picker.
-  property alias albumPickerDesignatedModel: albumPicker.designated_model
-  signal albumPicked(variant album)
-  signal newAlbumPicked()
 
   // private properties -- don't touch these from outside this component
   property bool popupActive: false
@@ -106,21 +103,21 @@ Item {
     state = (visibility ? "shown" : "hidden");
     visible = visibility;
   }
-  
+
   function show() {
     state = "shown";
   }
-  
+
   function hide() {
     state = "hidden";
   }
-  
+
   function cyclePopup(target) {
     if (!target.visible)
       hideAllPopups();
-    
+
     target.flipVisibility();
-    
+
     this.popupActive = target.visible;
   }
 
@@ -132,8 +129,6 @@ Item {
   }
 
   onVisibleChanged: {
-    albumPicker.resetVisibility(false);
-
     wrapper.hidePopups();
 
     if (visible)
@@ -149,7 +144,6 @@ Item {
 
   function cancelActivity() {
     this.hideAllPopups();
-    albumPicker.state = "hidden";
   }
 
   MouseArea {
@@ -172,7 +166,7 @@ Item {
 
     x: gu(1.5)
     y: 2 * parent.height / 3
-    
+
     onPressed: {
       autoHideTimer.startAutoHide();
       leftNavigationButtonPressed();
@@ -188,30 +182,10 @@ Item {
 
     x: parent.width - width - gu(1.5)
     y: 2 * parent.height / 3
-    
+
     onPressed: {
       autoHideTimer.startAutoHide();
       rightNavigationButtonPressed();
-    }
-  }
-
-  AlbumPickerPopup {
-    id: albumPicker
-
-    anchors.bottom: toolbar.top
-    x: toolbar.albumOperationsPopupX - width
-
-    designated_model: AlbumCollectionModel {
-    }
-
-    onSelected: {
-      albumPicked(album);
-      state = "hidden";
-    }
-
-    onNewAlbumRequested: {
-      newAlbumPicked();
-      state = "hidden";
     }
   }
 
@@ -222,7 +196,7 @@ Item {
 
     background: (!wrapper.inSelectionMode ? "white" : "lightBlue")
     isTranslucent: (!wrapper.inSelectionMode ? wrapper.toolbarsAreTranslucent : false)
-    
+
     hasReturnButton: !wrapper.inSelectionMode
     hasStateButton: wrapper.navbarHasStateButton && !wrapper.inSelectionMode
     hasSelectionDoneButton: wrapper.inSelectionMode
@@ -243,20 +217,14 @@ Item {
 
     background: (!wrapper.inSelectionMode ? "white" : "lightBlue")
     isTranslucent: wrapper.toolbarsAreTranslucent
-    
+
     hasMainIconSet: (wrapper.inSelectionMode ? wrapper.toolbarHasMainIconsWhenSelecting : true)
     hasFullIconSet: wrapper.inSelectionMode || wrapper.toolbarHasFullIconSet
     useContrastOnWhiteColorScheme: wrapper.inSelectionMode
 
     onPageIndicatorPageSelected: wrapper.pageIndicatorPageSelected(page)
 
-    onAlbumOperationsButtonPressed: {
-      if (albumPicker.state == "hidden")
-        wrapper.popupActive = true;
-
-      albumPicker.flipVisibility()
-    }
-
+    onAlbumOperationsButtonPressed: wrapper.albumOperationsButtonPressed()
     onMoreOperationsButtonPressed: wrapper.moreOperationsButtonPressed()
     onShareOperationsButtonPressed: wrapper.shareOperationsButtonPressed()
     onSelectionOperationsButtonPressed: wrapper.selectionOperationsButtonPressed(button)
