@@ -133,7 +133,7 @@ Rectangle {
       onActivated: {
         if (objectModel.typeName == "MediaSource") {
           var photoRect = GalleryUtility.translateRect(activatedRect, eventsCheckerboard, photoViewer);
-          photoViewer.animateOpen(object, photoRect);
+          photoViewer.animateOpen(object, photoRect, true);
         } else {
           // Event
           eventTimelineTransition.toTimeline(object);
@@ -374,7 +374,7 @@ Rectangle {
       var thumbnailRect =
         eventsCheckerboard.getRectOfItemAt(eventsCheckerboard.model.indexOf(photo), photoViewer);
       if (thumbnailRect)
-        animateClosed(thumbnailRect);
+        animateClosed(thumbnailRect, true);
       else
         close();
     }

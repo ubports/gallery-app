@@ -14,7 +14,8 @@
     <file>img/icon-camera-inactive.png</file>
     <file>img/icon-plus-active.png</file>
     <file>img/icon-plus-inactive.png</file>
-    <file>img/photo-mat.png</file>
+    <file>img/photo-preview-backing.png</file>
+    <file>img/photo-preview-inside-shadow.png</file>
     <file>img/more-operations-icon.png</file>
     <file>img/overview-background.png</file>
     <file>img/popup-arrow.png</file>

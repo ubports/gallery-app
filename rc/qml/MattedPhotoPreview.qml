@@ -28,23 +28,52 @@ Item {
   property alias ownerName: preview.ownerName
   property alias mediaSource: preview.mediaSource
 
-  PhotoComponent {
-    id: preview
+  // readonly
+  property alias photoWidth: preview.width
+  property alias photoHeight: preview.height
 
-    anchors.fill: parent
-
-    visible: (mediaSource) ? true : false
-
-    isCropped: true
-    isPreview: true
-  }
+  // internal
+  property real previewWidth: gu(24)
+  property real previewHeight: gu(19)
+  // Where the transparent shadow ends in the backing image.
+  property real backingStartX: 2
+  property real backingStartY: 2
 
   Image {
-    id: mat
+    x: -backingStartX
+    y: -backingStartY
 
-    anchors.centerIn: parent
-
-    source: "../img/photo-mat.png"
+    source: "../img/photo-preview-backing.png"
     cache: true
+
+    Item {
+      // An area the size of the backing image (the non-transparent parts).
+      x: backingStartX
+      y: backingStartY
+      width: previewWidth
+      height: previewHeight
+
+      PhotoComponent {
+        id: preview
+
+        width: insideShadow.width
+        height: insideShadow.height
+        anchors.centerIn: parent
+
+        visible: (mediaSource) ? true : false
+
+        isCropped: true
+        isPreview: true
+      }
+
+      Image {
+        id: insideShadow
+
+        anchors.centerIn: parent
+
+        source: "../img/photo-preview-inside-shadow.png"
+        cache: true
+      }
+    }
   }
 }

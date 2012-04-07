@@ -26,12 +26,18 @@ Item {
   id: photoViewerTransition
   objectName: "photoViewerTransition"
 
-  function transitionToPhotoViewer(photo, thumbnailRect) {
+  function transitionToPhotoViewer(photo, thumbnailRect, adjustForPhotoMat) {
+    if (adjustForPhotoMat)
+      thumbnailRect = adjustRectForPhotoMat(thumbnailRect);
+
     expandPhoto.setOverThumbnail(photo, thumbnailRect);
     showPhotoViewerAnimation.start();
   }
 
-  function transitionFromPhotoViewer(photo, thumbnailRect) {
+  function transitionFromPhotoViewer(photo, thumbnailRect, adjustForPhotoMat) {
+    if (adjustForPhotoMat)
+      thumbnailRect = adjustRectForPhotoMat(thumbnailRect);
+
     expandPhoto.setOverThumbnail(photo, thumbnailRect);
     hidePhotoViewerAnimation.thumbnailRect =
       Qt.rect(expandPhoto.x, expandPhoto.y, expandPhoto.width, expandPhoto.height);
@@ -42,6 +48,21 @@ Item {
     expandPhoto.width = parent.width - expandPhoto.x * 2;
     expandPhoto.height = parent.height - expandPhoto.y * 2;
     hidePhotoViewerAnimation.start();
+  }
+
+  // internal
+  function adjustRectForPhotoMat(rect) {
+    // The photo is actually slightly smaller than the delegate rect, due to
+    // the photo mat we apply to the previews.
+    var thumbnailPhotoWidth = 182; // These dimensions come from the mat image.
+    var thumbnailPhotoHeight = 134;
+
+    rect.x += (rect.width - thumbnailPhotoWidth) / 2;
+    rect.y += (rect.height - thumbnailPhotoHeight) / 2;
+    rect.width = thumbnailPhotoWidth;
+    rect.height = thumbnailPhotoHeight;
+
+    return rect;
   }
 
   signal transitionToPhotoViewerCompleted()

@@ -152,7 +152,7 @@ Rectangle {
 
     onActivated: {
       var photoRect = GalleryUtility.translateRect(activatedRect, gridCheckerboard, photoViewer);
-      photoViewer.animateOpen(object, photoRect);
+      photoViewer.animateOpen(object, photoRect, false);
     }
   }
 
@@ -292,7 +292,7 @@ Rectangle {
     onCloseRequested: {
       var thumbnailRect = gridCheckerboard.getRectOfItemAt(index, photoViewer);
       if (thumbnailRect)
-        animateClosed(thumbnailRect);
+        animateClosed(thumbnailRect, false);
       else
         close();
     }

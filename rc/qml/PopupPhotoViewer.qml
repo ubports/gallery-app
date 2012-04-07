@@ -41,14 +41,14 @@ Item {
   signal closeRequested() // The user pressed the back button.  Call animateClosed() or close().
   signal closed() // The photo viewer's closing animation is finished.
 
-  function animateOpen(photo, thumbnailRect) {
+  function animateOpen(photo, thumbnailRect, adjustForPhotoMat) {
     opening();
     viewer.setCurrentPhoto(photo);
-    transition.transitionToPhotoViewer(photo, thumbnailRect);
+    transition.transitionToPhotoViewer(photo, thumbnailRect, adjustForPhotoMat);
   }
 
-  function animateClosed(thumbnailRect) {
-    transition.transitionFromPhotoViewer(photo, thumbnailRect);
+  function animateClosed(thumbnailRect, adjustForPhotoMat) {
+    transition.transitionFromPhotoViewer(photo, thumbnailRect, adjustForPhotoMat);
     viewer.visible = false;
   }
 
