@@ -71,7 +71,7 @@ Item {
       font.pointSize: pointUnits(8) // From the spec.
       smooth: true
 
-      visible: (Boolean(album) && !album.closed && !albumPreview.isFlipping)
+      visible: (Boolean(album) && albumPreview.openFraction == 1)
     }
     
     Text {
@@ -84,7 +84,7 @@ Item {
       font.pointSize: pointUnits(6) // From the spec.
       smooth: true
 
-      visible: (Boolean(album) && !album.closed && !albumPreview.isFlipping)
+      visible: (Boolean(album) && albumPreview.openFraction == 1)
     }
   }
 }

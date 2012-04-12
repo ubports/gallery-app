@@ -44,11 +44,13 @@ Item {
 
   function open() {
     animator.to = 1;
+    animator.duration = (1 - openFraction) * duration;
     animator.restart();
   }
 
   function close() {
     animator.to = 0;
+    animator.duration = openFraction * duration;
     animator.restart();
   }
 
@@ -105,7 +107,6 @@ Item {
 
     target: albumOpener
     property: "openFraction"
-    duration: albumOpener.duration
     easing.type: Easing.OutQuad
 
     onCompleted: {
