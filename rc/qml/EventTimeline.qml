@@ -177,14 +177,14 @@ ListView {
       height: eventCardHeight
       
       event: model.event
+    }
+    
+    MouseArea {
+      anchors.fill: parent
       
-      MouseArea {
-        anchors.fill: parent
-        
-        onClicked: {
-          timeoutTimer.stop();
-          activated(event);
-        }
+      onClicked: {
+        timeoutTimer.stop();
+        activated(event);
       }
     }
   }
