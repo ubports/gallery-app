@@ -92,6 +92,7 @@
     <file>qml/PopupMenu.qml</file>
     <file>qml/PopupPhotoViewer.qml</file>
     <file>qml/PushButton.qml</file>
+    <file>qml/SelectionMenu.qml</file>
     <file>qml/SelectionOperationsToolbarButton.qml</file>
     <file>qml/ShareOperationsToolbarButton.qml</file>
     <file>qml/SwipeArea.qml</file>

@@ -150,6 +150,7 @@ OTHER_FILES += \
 	rc/qml/PopupMenu.qml \
 	rc/qml/PopupPhotoViewer.qml \
 	rc/qml/PushButton.qml \
+	rc/qml/SelectionMenu.qml \
 	rc/qml/SelectionOperationsToolbarButton.qml \
 	rc/qml/ShareOperationsToolbarButton.qml \
 	rc/qml/SwipeArea.qml \

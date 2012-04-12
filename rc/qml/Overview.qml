@@ -313,43 +313,10 @@ Rectangle {
       state: "hidden"
     }
 
-    PopupMenu {
+    SelectionMenu {
       id: selectionOperationsMenu
-
-      popupOriginX: gu(3.5)
-      popupOriginY: -gu(6)
-
-      visible: false
-      state: "hidden"
-
-      model: ListModel {
-        ListElement {
-          title: "Select All"
-          action: "SelectAll"
-          hasBottomBorder: true
-        }
-
-        ListElement {
-          title: "Select None"
-          action: "SelectNone"
-        }
-      }
-
-      onPopupInteractionCompleted: {
-        hideAllPopups();
-      }
-
-      onActionInvoked: {
-        switch (name) {
-          case "SelectAll":
-            eventsCheckerboard.selectAll();
-          break;
-
-          case "SelectNone":
-            eventsCheckerboard.unselectAll();
-          break;
-        }
-      }
+      
+      checkerboard: eventsCheckerboard
     }
   }
 

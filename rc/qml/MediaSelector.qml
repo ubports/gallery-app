@@ -57,7 +57,10 @@ Rectangle {
     inSelectionMode: true
     state: "shown"
     visible: true
-
+    
+    hasSelectionOperationsButton: true
+    onSelectionOperationsButtonPressed: cyclePopup(selectionMenu);
+    
     onSelectionDoneButtonPressed: {
       if (album)
         album.addSelectedMediaSources(mediaCheckerboard.model);
@@ -71,6 +74,12 @@ Rectangle {
     onCancelSelectionButtonPressed: {
       mediaCheckerboard.unselectAll();
       navStack.goBack()
+    }
+    
+    SelectionMenu {
+      id: selectionMenu
+      
+      checkerboard: mediaCheckerboard
     }
   }
 }
