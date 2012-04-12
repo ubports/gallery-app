@@ -40,7 +40,8 @@ class AlbumCollection : public ContainerSourceCollection {
   static AlbumCollection* instance();
   
   static bool CreationDateTimeAscendingComparator(DataObject* a, DataObject* b);
-  
+  static bool CreationDateTimeDescendingComparator(DataObject* a, DataObject* b);
+
  protected:
   virtual void notify_album_current_page_contents_altered(Album* album);
   

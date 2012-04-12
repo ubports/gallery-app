@@ -22,7 +22,7 @@
 AlbumCollection *AlbumCollection::instance_ = NULL;
 
 AlbumCollection::AlbumCollection()
-  : ContainerSourceCollection("AlbumCollection", CreationDateTimeAscendingComparator) {
+  : ContainerSourceCollection("AlbumCollection", CreationDateTimeDescendingComparator) {
 }
 
 void AlbumCollection::Init() {
@@ -39,6 +39,10 @@ AlbumCollection* AlbumCollection::instance() {
 
 bool AlbumCollection::CreationDateTimeAscendingComparator(DataObject* a, DataObject* b) {
   return qobject_cast<Album*>(a)->creation_date_time() < qobject_cast<Album*>(b)->creation_date_time();
+}
+
+bool AlbumCollection::CreationDateTimeDescendingComparator(DataObject* a, DataObject* b) {
+  return CreationDateTimeAscendingComparator(b, a);
 }
 
 void AlbumCollection::notify_album_current_page_contents_altered(Album* album) {
