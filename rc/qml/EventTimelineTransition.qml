@@ -158,6 +158,7 @@ Item {
       property int timelineY
       property bool isEvent: model.typeName == "Event"
       property bool hidesUnderEvent: false
+      property bool disappears: false
       
       width: itemWidth
       height: itemHeight
@@ -185,7 +186,7 @@ Item {
             target: cell
             x: timelineX
             y: timelineY
-            opacity: (!isEvent && hidesUnderEvent) ? 0.0 : 1.0
+            opacity: ((!isEvent && hidesUnderEvent) || disappears) ? 0.0 : 1.0
           }
         }
       ]
@@ -257,7 +258,7 @@ Item {
           gridY = (Math.floor(cindex / xMax) * delegateHeight) - checkerboard.contentY + gutterHeightOffset;
         } else {
           console.log("Unable to find index for", model.object);
-          visible = false;
+          disappers = true;
         }
         
         // Formula for deriving timeline location:
@@ -278,8 +279,13 @@ Item {
           timelineX = rect.x;
           timelineY = rect.y;
         } else {
-          console.log("Unable to find timeline location of", model.object);
-          visible = false;
+          // this can happen if the event line hasn't been instantiated yet
+          // in the timeline (due to ListView only instantiating delegates
+          // on-demand) ... this is okay, not vital for this transition to
+          // look good
+          disappears = true;
+          timelineX = gridX;
+          timelineY = gridY;
         }
       }
       
