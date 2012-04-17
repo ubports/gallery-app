@@ -101,6 +101,24 @@ QVariant Album::getPage(int page) const {
   return (album_page != NULL) ? QVariant::fromValue(album_page) : QVariant();
 }
 
+QVariant Album::getPageForMediaSource(QVariant vmedia) const {
+  MediaSource* media = UncheckedVariantToObject<MediaSource*>(vmedia);
+  if (media == NULL)
+    return QVariant();
+  
+  if (content_pages_ == NULL)
+    return QVariant();
+  
+  int page_count = content_pages_->Count();
+  for (int page_ctr = 0; page_ctr < page_count; page_ctr++) {
+    AlbumPage* album_page = content_pages_->GetAtAsType<AlbumPage*>(page_ctr);
+    if (album_page->Contains(media))
+      return QVariant::fromValue(album_page);
+  }
+  
+  return QVariant();
+}
+
 const QString& Album::name() const {
   return name_;
 }

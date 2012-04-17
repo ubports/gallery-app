@@ -81,3 +81,19 @@ function getVisibleItems(container, relativeTo, cond) {
   
   return v;
 }
+
+function doesPointIntersectRect(x, y, rect) {
+  return x >= rect.x && x <= (rect.x + rect.width) && y >= rect.y && y <= (rect.y + rect.height);
+}
+
+function isNumber(n) {
+  return n === parseFloat(n);
+}
+
+function isEven(n) {
+  return isNumber(n) && (n % 2 == 0);
+}
+
+function isOdd(n) {
+  return isNumber(n) && (n % 2 == 1);
+}

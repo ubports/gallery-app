@@ -79,7 +79,9 @@ Item {
   property real canonicalContentPageHeight: (contentHasPreviewFrame
     ? frameContentHeight * (canonicalHeight / frameHeight)
     : canonicalHeight)
-
+  
+  property variant mediaFrames: (loader.item) ? loader.item.mediaFrames : undefined
+  
   onAlbumChanged: loader.reload()
   onPageChanged: loader.reload()
 

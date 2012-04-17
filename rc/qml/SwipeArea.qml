@@ -28,7 +28,7 @@ MouseArea {
   signal startSwipe(bool leftToRight, int state)
   signal swiping(bool leftToRight, int start, int distance)
   signal swiped(bool leftToRight)
-  signal tapped()
+  signal tapped(int x, int y)
   
   property bool enabled: true
   property int requiredHorizMovement: gu(0)
@@ -98,7 +98,7 @@ MouseArea {
       if (swipeStarted)
         swiped(leftToRight);
       else
-        tapped();
+        tapped(mouse.x, mouse.y);
     }
     
     startX = -1;

@@ -40,6 +40,7 @@
 #include <QObject>
 #include <QByteArray>
 #include <QString>
+#include <QVariant>
 
 typedef int DataObjectNumber;
 
@@ -51,6 +52,8 @@ class DataObject : public QObject {
   
   DataObjectNumber number() const;
   void SetInternalName(const QString& name);
+  
+  Q_INVOKABLE bool equals(QVariant vobject) const;
   
   virtual const char* ToString() const;
   

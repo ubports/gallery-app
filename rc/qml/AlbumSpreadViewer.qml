@@ -23,6 +23,7 @@
 
 import QtQuick 1.1
 import Gallery 1.0
+import "GalleryUtility.js" as GalleryUtility
 
 // The AlbumSpreadViewer is a specialty controller for displaying and
 // viewing albums.  The caller simply needs to set the album property and
@@ -73,6 +74,18 @@ Item {
   property real endFraction: 1
   property real startRotation: (leftToRight ? startFraction : 1 - startFraction)
   property real endRotation: (leftToRight ? endFraction : 1 - endFraction)
+  
+  // Converts a page number into the appropriate page number to place on the
+  // left-hand side of the component
+  function getLeftHandPageNumber(pageNumber) {
+    if (pageNumber <= album.firstValidCurrentPage)
+      return album.firstValidCurrentPage;
+    
+    if (pageNumber >= album.lastValidCurrentPage)
+      return album.lastValidCurrentPage;
+    
+    return GalleryUtility.isOdd(pageNumber) ? pageNumber : pageNumber - 1;
+  }
   
   // Moves to selected page without any animation (good for initializing view).
   // NOTE: setTo() does *not* update the album's current page number.
@@ -203,6 +216,57 @@ Item {
       // 0.0 < endFraction < 1.0; endRotation calculates the appropriate angle
       animatedPage.flipFraction = endRotation;
     }
+  }
+  
+  // public
+  function hitTestFrame(x, y, relativeTo) {
+    // current visible photos are on the back of the left page and the front
+    // of the right page
+    var hit = hitTestPage(left.back, x, y, relativeTo);
+    if (hit)
+      return hit;
+    
+    return hitTestPage(right.front, x, y, relativeTo);
+  }
+  
+  // internal
+  function hitTestPage(page, x, y, relativeTo) {
+    if (!page.mediaFrames)
+      return undefined;
+    
+    var ctr;
+    for (ctr = 0; ctr < page.mediaFrames.length; ctr++) {
+      var rect = GalleryUtility.getRectRelativeTo(page.mediaFrames[ctr], relativeTo);
+      if (GalleryUtility.doesPointIntersectRect(x, y, rect))
+        return page.mediaFrames[ctr];
+    }
+    
+    return undefined;
+  }
+  
+  // public
+  function getRectOfMediaSource(media) {
+    // current visible photos are on the back of the left page and the front of
+    // the right page
+    var rect = searchPageForMedia(left.back, media);
+    if (rect)
+      return rect;
+    
+    return searchPageForMedia(right.front, media);
+  }
+  
+  // private
+  function searchPageForMedia(page, media) {
+    if (!page.mediaFrames)
+      return undefined;
+    
+    var ctr;
+    for (ctr = 0; ctr < page.mediaFrames.length; ctr++) {
+      if (page.mediaFrames[ctr].mediaSource && page.mediaFrames[ctr].mediaSource.equals(media))
+        return page.mediaFrames[ctr];
+    }
+    
+    return undefined;
   }
   
   onAlbumChanged: setToAlbumCurrent()

@@ -22,7 +22,9 @@ import QtQuick 1.1
 
 AlbumPageLayout {
   id: albumPageLayoutRightPortrait
-
+  
+  mediaFrames: [ right ]
+  
   FramePortrait {
     id: right
 

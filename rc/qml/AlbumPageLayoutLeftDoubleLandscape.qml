@@ -23,6 +23,8 @@ import QtQuick 1.1
 AlbumPageLayout {
   id: albumPageLayoutLeftDoubleLandscape
   
+  mediaFrames: [ top, bottom ]
+  
   FramePortrait {
     id: top
 

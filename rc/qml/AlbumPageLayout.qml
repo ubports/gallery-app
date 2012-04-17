@@ -33,7 +33,9 @@ Item {
   property real insideMargin: (parent ? parent.insideMargin : 0)
 
   property bool isPreview: (parent ? parent.isPreview : false)
-
+  
+  property variant mediaFrames: []
+  
   width: (parent ? parent.width : 0)
   height: (parent ? parent.height : 0)
 }

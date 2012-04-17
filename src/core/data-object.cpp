@@ -19,6 +19,8 @@
 
 #include "core/data-object.h"
 
+#include "util/variants.h"
+
 DataObjectNumber DataObject::next_number_ = 0;
 
 DataObject::DataObject(const QString& name)
@@ -31,6 +33,11 @@ DataObjectNumber DataObject::number() const {
 
 void DataObject::SetInternalName(const QString& name) {
   name_ = name.toUtf8();
+}
+
+bool DataObject::equals(QVariant vobject) const {
+  // DataObjects are unique and can be compared through identity alone
+  return UncheckedVariantToObject<DataObject*>(vobject) == this;
 }
 
 const char* DataObject::ToString() const {

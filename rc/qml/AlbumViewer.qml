@@ -90,7 +90,16 @@ Rectangle {
       anchors.fill: parent
 
       enabled: !parent.isRunning
-
+      
+      onTapped: {
+        var hit = albumSpreadViewer.hitTestFrame(x, y, parent);
+        if (!hit)
+          return;
+        
+        var rect = GalleryUtility.getRectRelativeTo(hit, photoViewer);
+        photoViewer.animateOpen(hit.mediaSource, rect, false);
+      }
+      
       onStartSwipe: {
         turningTowardPage = album.currentPage + (leftToRight ? -2 : 2); // 2 pages per spread.
         albumSpreadViewer.turnTowardPage = turningTowardPage;
@@ -277,22 +286,39 @@ Rectangle {
 
   PopupPhotoViewer {
     id: photoViewer
-
+    
+    // true if the grid view component is using the photo viewer, false if the
+    // album spread viewer is using it ... this should be set prior to 
+    // opening the viewer
+    property bool forGridView
+    
     anchors.fill: parent
     z: 100
 
     onOpening: {
-      model = gridCheckerboard.model
+      // although this might be used by the page viewer, it too uses the grid's
+      // models because you can walk the entire album from both
+      model = gridCheckerboard.model;
     }
 
     onIndexChanged: {
-      gridCheckerboard.ensureIndexVisible(index, false);
+      if (forGridView) {
+        gridCheckerboard.ensureIndexVisible(index, false);
+      } else {
+        var page = album.getPageForMediaSource(photo);
+        if (page) {
+          album.currentPage = albumSpreadViewer.getLeftHandPageNumber(page.pageNumber);
+          albumSpreadViewer.setToAlbumCurrent();
+        }
+      }
     }
 
     onCloseRequested: {
-      var thumbnailRect = gridCheckerboard.getRectOfItemAt(index, photoViewer);
-      if (thumbnailRect)
-        animateClosed(thumbnailRect, false);
+      var rect = (forGridView)
+        ? gridCheckerboard.getRectOfItemAt(index, photoViewer)
+        : albumSpreadViewer.getRectOfMediaSource(photo);
+      if (rect)
+        animateClosed(GalleryUtility.getRectRelativeTo(rect, photoViewer), false);
       else
         close();
     }
