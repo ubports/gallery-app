@@ -34,7 +34,7 @@ Item {
 
   // internal
   property real previewWidth: gu(24)
-  property real previewHeight: gu(19)
+  property real previewHeight: gu(18)
   // Where the transparent shadow ends in the backing image.
   property real backingStartX: 2
   property real backingStartY: 2

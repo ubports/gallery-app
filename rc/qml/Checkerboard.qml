@@ -37,7 +37,7 @@ Rectangle {
   property alias contentY: grid.contentY
   
   property real itemWidth: gu(24)
-  property real itemHeight: gu(19)
+  property real itemHeight: gu(18)
   property real gutterWidth: gu(2)
   property real gutterHeight: gu(2)
   

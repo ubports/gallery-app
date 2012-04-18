@@ -28,7 +28,7 @@ ListView {
   signal timedOut()
   
   property int elementWidth: gu(24)
-  property int elementHeight: gu(19)
+  property int elementHeight: gu(18)
   property int elementSpacing: gu(1)
   
   property int eventCardWidth: elementWidth

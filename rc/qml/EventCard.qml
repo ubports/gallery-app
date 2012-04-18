@@ -29,7 +29,7 @@ Item {
   
   // internal
   property real cardWidth: gu(24)
-  property real cardHeight: gu(19)
+  property real cardHeight: gu(18)
   // Where the transparent shadow ends in the card image.
   property real cardStartX: 2
   property real cardStartY: 2
