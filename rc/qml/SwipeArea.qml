@@ -15,6 +15,7 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
+ * Charles Lindsay <chaz@yorba.org>
  */
 
 import QtQuick 1.1
@@ -25,24 +26,26 @@ import QtQuick 1.1
 //
 // TODO: Currently no support for vertical swiping
 MouseArea {
-  signal startSwipe(bool leftToRight, int state)
+  signal startSwipe(bool leftToRight, int start)
   signal swiping(bool leftToRight, int start, int distance)
   signal swiped(bool leftToRight)
   signal tapped(int x, int y)
+  signal longPressed()
   
-  property bool enabled: true
   property int requiredHorizMovement: gu(0)
   
   // internal
   property int startX: -1
   property bool leftToRight: true
   property bool swipeStarted: false
+  property bool longPress: false
 
   // internal
   function reset() {
     startX = -1;
     leftToRight = true;
     swipeStarted = false;
+    longPress = false;
   }
 
   preventStealing: swipeStarted
@@ -51,7 +54,7 @@ MouseArea {
   onVisibleChanged: reset()
   
   onPositionChanged: {
-    if (!enabled)
+    if (longPress)
       return;
     
     // look for initial swipe
@@ -76,6 +79,10 @@ MouseArea {
       
       diff = mouse.x - startX;
       leftToRight = true;
+    } else {
+      // If mouse.x == startX, there's no horizontal swiping going on.  This
+      // lets e.g. the GridView steal vertical mouse movement for its flicking.
+      return;
     }
     
     if (swipeStarted) {
@@ -92,17 +99,21 @@ MouseArea {
     startSwipe(leftToRight, startX);
     swiping(leftToRight, startX, diff);
   }
+
+  onPressAndHold: {
+    if (swipeStarted)
+      return;
+
+    longPress = true;
+    longPressed();
+  }
   
   onReleased: {
-    if (enabled) {
-      if (swipeStarted)
-        swiped(leftToRight);
-      else
-        tapped(mouse.x, mouse.y);
-    }
+    if (swipeStarted)
+      swiped(leftToRight);
+    else if (!longPress)
+      tapped(mouse.x, mouse.y);
     
-    startX = -1;
-    leftToRight = true;
-    swipeStarted = false;
+    reset();
   }
 }

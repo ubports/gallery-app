@@ -15,6 +15,7 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
+ * Charles Lindsay <chaz@yorba.org>
  */
 
 import QtQuick 1.1
@@ -31,8 +32,6 @@ Item {
     anchors.fill: parent
     
     visible: (mediaSource) ? true : false
-    
-    mediaSource: (modelData.typeName == "MediaSource") ? modelData.mediaSource : undefined
   }
   
   EventCard {
@@ -41,7 +40,5 @@ Item {
     anchors.fill: parent
     
     visible: (event) ? true : false
-    
-    event: (modelData.typeName == "Event") ? modelData.object : undefined
   }
 }

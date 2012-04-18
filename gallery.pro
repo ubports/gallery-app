@@ -119,9 +119,10 @@ OTHER_FILES += \
 	rc/qml/AlbumViewerTransition.qml \
 	rc/qml/BinaryTabGroup.qml \
 	rc/qml/Checkerboard.qml \
+	rc/qml/CheckerboardDelegate.qml \
 	rc/qml/EventCard.qml \
 	rc/qml/EventCheckerboard.qml \
-	rc/qml/EventCheckerboardDelegate.qml \
+	rc/qml/EventCheckerboardPreview.qml \
 	rc/qml/EventTimeline.qml \
 	rc/qml/EventTimelineTransition.qml \
 	rc/qml/ExpandAnimation.qml \

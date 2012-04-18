@@ -16,6 +16,7 @@
  * Authors:
  * Jim Nelson <jim@yorba.org>
  * Lucas Beeler <lucas@yorba.org>
+ * Charles Lindsay <chaz@yorba.org>
  */
 
 import QtQuick 1.1
@@ -30,7 +31,7 @@ Rectangle {
   signal movementEnded()
   
   property alias model: grid.model
-  property Component delegate
+  property alias delegate: grid.delegate
   
   property alias contentX: grid.contentX
   property alias contentY: grid.contentY
@@ -69,9 +70,10 @@ Rectangle {
   function getDelegateInstanceAt(index) {
     for(var i = 0; i < grid.contentItem.children.length; ++i) {
       var item = grid.contentItem.children[i];
-      // We have to check for the specific objectName we gave our delegates
-      // below, since we also get some items that were not our delegates here.
-      if (item.objectName == "delegateItem" && item.index == index)
+      // We have to check for the specific objectName we gave our delegates in
+      // CheckerboardDelegate, since we also get some items that were not our
+      // delegates here.
+      if (item.objectName == "checkerboardDelegate" && item.index == index)
         return item;
     }
     return undefined;
@@ -100,36 +102,13 @@ Rectangle {
   }
   
   function getVisibleDelegates() {
-    var vi = GalleryUtility.getVisibleItems(grid, grid, function(child) {
-      return child.objectName == "delegateItem"
+    return GalleryUtility.getVisibleItems(grid, grid, function(child) {
+      return child.objectName == "checkerboardDelegate"
     });
-    
-    // return the delegates provided by host, not internal delegate
-    var vd = [];
-    for (var ctr = 0; ctr < vi.length; ctr++)
-      vd[vd.length] = vi[ctr].item;
-    
-    return vd;
   }
   
   color: "white"
   clip: true
-  
-  state: "normal"
-  states: [
-    State { 
-      name: "normal"
-      PropertyChanges { target: checkerboard; inSelectionMode: false }
-    },
-    State { 
-      name: "to-selecting" 
-      PropertyChanges { target: checkerboard; inSelectionMode: true }
-    },
-    State { 
-      name: "selecting"
-      PropertyChanges { target: checkerboard; inSelectionMode: true }
-    }
-  ]
   
   GridView {
     id: grid
@@ -142,89 +121,5 @@ Rectangle {
     
     onMovementStarted: checkerboard.movementStarted()
     onMovementEnded: checkerboard.movementEnded()
-    
-    delegate: Item {
-      // This name is checked for in getDelegateInstanceAt() above.
-      objectName: "delegateItem"
-
-      // This is necessary to expose the index property externally, like for
-      // getDelegateInstanceAt() above.
-      property int index: model.index
-      property Item item: loader.item
-      
-      width: delegateWidth
-      height: delegateHeight
-
-      // Allows the Checkerboard delegates to control the z order relative to
-      // each other.
-      z: loader.item.z
-
-      Loader {
-        id: loader
-
-        property variant modelData: model
-
-        width: itemWidth
-        height: itemHeight
-        anchors.centerIn: parent
-
-        sourceComponent: checkerboard.delegate
-        
-        MouseArea {
-          anchors.fill: parent
-
-          enabled: (allowActivation || allowSelection)
-          
-          onPressAndHold: {
-            // Press-and-hold activates selection mode,
-            // but need to differentiate in onReleased whether it's a mode
-            // change or a selection/activation
-            if (allowSelection && checkerboard.state == "normal") {
-              checkerboard.state = "to-selecting";
-              checkerboard.model.toggleSelection(object);
-            }
-          }
-          
-          onReleased: {
-            // See onPressAndHold for note on logic behind state changes
-            if (allowActivation && checkerboard.state == "normal") {
-              var rect = GalleryUtility.getRectRelativeTo(loader, checkerboard);
-              checkerboard.activated(object, model, rect);
-            } else if (allowSelection && checkerboard.state == "to-selecting") {
-              checkerboard.state = "selecting";
-            } else if (allowSelection && checkerboard.state == "selecting") {
-              checkerboard.model.toggleSelection(object);
-            }
-          }
-        }
-        
-        Image {
-          source: "../img/selected-media.png"
-          
-          anchors.top: loader.top
-          anchors.right: loader.right
-          z: 8
-          
-          visible: isSelected
-          
-          asynchronous: true
-          cache: true
-          smooth: true
-        }
-
-        BorderImage {
-          source: "../img/selected-border-stroke.png"
-
-          anchors.fill: parent
-          z: 4
-
-          asynchronous: true
-          cache: true
-
-          visible: (checkerboard.state == "selecting" ||
-            checkerboard.state == "to-selecting")
-        }
-      }
-    }
   }
 }

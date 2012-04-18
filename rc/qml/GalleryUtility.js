@@ -74,7 +74,7 @@ function getVisibleItems(container, relativeTo, cond) {
     if (!cond(child))
       return false;
     
-    var rect = getRectRelativeTo(child, container);
+    var rect = getRectRelativeTo(child, relativeTo);
     
     return ((rect.y + rect.height) >= 0 && rect.y <= container.height);
   });

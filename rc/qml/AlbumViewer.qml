@@ -148,16 +148,20 @@ Rectangle {
       forCollection: album
     }
 
-    delegate: PhotoComponent {
-      anchors.centerIn: parent
+    delegate: CheckerboardDelegate {
+      checkerboard: gridCheckerboard
 
-      width: parent.width
-      height: parent.height
+      content: PhotoComponent {
+        anchors.centerIn: parent
 
-      mediaSource: modelData.mediaSource
-      isCropped: true
-      isPreview: true
-      ownerName: "AlbumViewer grid"
+        width: parent.width
+        height: parent.height
+
+        mediaSource: modelData.mediaSource
+        isCropped: true
+        isPreview: true
+        ownerName: "AlbumViewer grid"
+      }
     }
 
     onActivated: {
@@ -206,7 +210,7 @@ Rectangle {
 
       onPopupInteractionCompleted: {
         chrome.hideAllPopups();
-        gridCheckerboard.state = "normal";
+        gridCheckerboard.inSelectionMode = false;
       }
 
       onNewAlbumRequested: {
@@ -266,13 +270,13 @@ Rectangle {
     }
 
     onSelectionDoneButtonPressed: {
-      gridCheckerboard.state = "normal";
       gridCheckerboard.unselectAll();
+      gridCheckerboard.inSelectionMode = false;
     }
 
     onReturnButtonPressed: {
-      gridCheckerboard.state = "normal";
       gridCheckerboard.unselectAll();
+      gridCheckerboard.inSelectionMode = false;
 
       closeRequested(true);
     }

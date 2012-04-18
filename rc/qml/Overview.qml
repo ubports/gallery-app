@@ -151,10 +151,6 @@ Rectangle {
 
       checkerboard: eventsCheckerboard
       timeline: eventTimeline
-
-      delegate: EventCheckerboardDelegate {
-        ownerName: "EventTimelineTransition"
-      }
     }
 
     EventTimeline {
@@ -195,65 +191,60 @@ Rectangle {
     gutterHeight: gu(8)
 
     visible: false
-    allowSelection: false
+    allowSelection: true
     allowActivation: false
 
     model: AlbumCollectionModel {
     }
 
-    delegate: AlbumPreviewComponent {
-      id: albumThumbnail
+    delegate: CheckerboardDelegate {
+      property real commitFraction: 0.05
 
-      property real maxAddScale: 0.5
+      // internal
+      property bool validSwipe: false
 
-      album: modelData.album
+      checkerboard: albumsCheckerboard
 
-      z: (isFlipping ? 10 : 0)
+      onSwipeStarted: {
+        validSwipe = ((leftToRight && !album.closed) || (!leftToRight && album.closed));
+      }
 
-      // Scale from 1 to 1 + maxAddScale and back to 1 as openFraction goes
-      // from 0 to 0.5 to 1.
-      scale: 1 + maxAddScale - Math.abs((openFraction - 0.5) * maxAddScale * 2)
+      onSwiping: {
+        if (!validSwipe)
+          return;
 
-      SwipeArea {
-        property real commitFraction: 0.05
+        var availableDistance = (leftToRight) ? (width - start) : start;
+        var fraction = Math.max(0, Math.min(1, distance / availableDistance));
 
-        // internal
-        property bool validSwipe: false
+        albumThumbnail.openFraction = (leftToRight ? 1 - fraction : fraction);
+      }
 
-        anchors.fill: parent
+      onSwiped: {
+        if (!validSwipe)
+          return;
 
-        onTapped: {
-          var rect = GalleryUtility.getRectRelativeTo(albumThumbnail, albumsCheckerboard);
-          albumsCheckerboard.activated(modelData.object, modelData.model, rect);
-        }
+        var fraction = (leftToRight
+          ? 1 - albumThumbnail.openFraction
+          : albumThumbnail.openFraction);
+        if ((leftToRight && fraction >= commitFraction)
+          || (!leftToRight && fraction < commitFraction))
+          albumThumbnail.close();
+        else
+          albumThumbnail.open();
+      }
 
-        onStartSwipe: {
-          validSwipe = ((leftToRight && !album.closed) || (!leftToRight && album.closed));
-        }
+      content: AlbumPreviewComponent {
+        id: albumThumbnail
 
-        onSwiping: {
-          if (!validSwipe)
-            return;
+        property real maxAddScale: 0.5
 
-          var availableDistance = (leftToRight) ? (width - start) : start;
-          var fraction = Math.max(0, Math.min(1, distance / availableDistance));
+        album: modelData.album
 
-          albumThumbnail.openFraction = (leftToRight ? 1 - fraction : fraction);
-        }
+        z: (isFlipping ? 10 : 0)
 
-        onSwiped: {
-          if (!validSwipe)
-            return;
-
-          var fraction = (leftToRight
-            ? 1 - albumThumbnail.openFraction
-            : albumThumbnail.openFraction);
-          if ((leftToRight && fraction >= commitFraction)
-            || (!leftToRight && fraction < commitFraction))
-            albumThumbnail.close();
-          else
-            albumThumbnail.open();
-        }
+        // Scale from 1 to 1 + maxAddScale and back to 1 as openFraction goes
+        // from 0 to 0.5 to 1.
+        scale: 1 + maxAddScale - Math.abs((openFraction - 0.5) * maxAddScale * 2)
       }
     }
 
@@ -275,7 +266,7 @@ Rectangle {
     hasSelectionOperationsButton: true
 
     inSelectionMode: true
-    visible: eventsCheckerboard.inSelectionMode
+    visible: eventsCheckerboard.inSelectionMode || albumsCheckerboard.inSelectionMode
 
     property variant popups: [ selectionOperationsMenu, popupAlbumPicker ]
 
@@ -283,10 +274,16 @@ Rectangle {
 
     onSelectionDoneButtonPressed: {
       eventsCheckerboard.unselectAll();
-      eventsCheckerboard.state = "normal";
+      eventsCheckerboard.inSelectionMode = false;
+
+      albumsCheckerboard.unselectAll();
+      albumsCheckerboard.inSelectionMode = false;
     }
 
-    onAlbumOperationsButtonPressed: cyclePopup(popupAlbumPicker);
+    onAlbumOperationsButtonPressed: {
+      if (eventsCheckerboard.inSelectionMode)
+        cyclePopup(popupAlbumPicker);
+    }
 
     PopupAlbumPicker {
       id: popupAlbumPicker
@@ -296,7 +293,7 @@ Rectangle {
 
       onPopupInteractionCompleted: {
         chrome.hideAllPopups();
-        eventsCheckerboard.state = "normal";
+        eventsCheckerboard.inSelectionMode = false;
       }
 
       onNewAlbumRequested: {
@@ -316,7 +313,7 @@ Rectangle {
     SelectionMenu {
       id: selectionOperationsMenu
       
-      checkerboard: eventsCheckerboard
+      checkerboard: (eventsCheckerboard.inSelectionMode ? eventsCheckerboard : albumsCheckerboard)
     }
   }
 

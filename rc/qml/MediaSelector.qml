@@ -38,7 +38,7 @@ Rectangle {
     anchors.rightMargin: gu(2)
     
     allowSelection: true
-    state: "selecting"
+    inSelectionMode: true
   }
 
   ViewerChrome {
@@ -68,12 +68,12 @@ Rectangle {
         album = mediaCheckerboard.model.createAlbumFromSelected();
 
       mediaCheckerboard.unselectAll();
-      navStack.goBack()
+      navStack.goBack();
     }
 
     onCancelSelectionButtonPressed: {
       mediaCheckerboard.unselectAll();
-      navStack.goBack()
+      navStack.goBack();
     }
     
     SelectionMenu {

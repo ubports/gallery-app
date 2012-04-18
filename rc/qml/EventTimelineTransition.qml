@@ -27,8 +27,6 @@ Item {
   property EventCheckerboard checkerboard
   property EventTimeline timeline
   
-  property Component delegate
-  
   property int duration: 750
   
   // readonly
@@ -289,21 +287,11 @@ Item {
         }
       }
       
-      Loader {
-        id: loader
-        
-        property variant modelData: model
-        
-        anchors.centerIn: parent
-        
-        width: itemWidth
-        height: itemHeight
-        
-        sourceComponent: eventTimelineTransition.delegate
-        
-        onLoaded: {
-          cell.isEvent = (item.event) ? true : false;
-        }
+      EventCheckerboardPreview {
+        ownerName: "EventTimelineTransition"
+
+        mediaSource: (model.typeName == "MediaSource") ? model.mediaSource : undefined
+        event: (model.typeName == "Event") ? model.object : undefined
       }
     }
   }

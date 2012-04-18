@@ -23,7 +23,7 @@ import Gallery 1.0
 PopupMenu {
   id: selectionMenu
   
-  property Checkerboard checkerboard
+  property variant checkerboard
   
   // these are hardcoded to match the location of the Selection Button in the
   // chrome

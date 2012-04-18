@@ -64,7 +64,21 @@ Checkerboard {
     monitored: true
   }
   
-  delegate: EventCheckerboardDelegate {
-    ownerName: "EventCheckerboard"
+  delegate: CheckerboardDelegate {
+    checkerboard: eventCheckerboard
+
+    // internal
+    // Needed for getVisibleMediaSources() and getVisibleEvents() above.
+    property alias mediaSource: preview.mediaSource
+    property alias event: preview.event
+
+    content: EventCheckerboardPreview {
+      id: preview
+
+      ownerName: "EventCheckerboard"
+
+      mediaSource: (modelData.typeName == "MediaSource") ? modelData.mediaSource : undefined
+      event: (modelData.typeName == "Event") ? modelData.object : undefined
+    }
   }
 }
