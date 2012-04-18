@@ -32,7 +32,7 @@ Rectangle {
   Connections {
     target: album
     ignoreUnknownSignals: true
-    onContentPagesAltered: pageIndicatorRepeater.filterModel()
+    onPageCountAltered: pageIndicatorRepeater.filterModel()
   }
 
   Row {
@@ -90,7 +90,7 @@ Rectangle {
       
       delegate: Item {
         property int page: firstPageIndex
-        property bool isCurrent: (!album.closed && album.currentPage >= firstPageIndex
+        property bool isCurrent: (album.currentPage >= firstPageIndex
                                   && album.currentPage < firstPageIndex + pageCount)
         
         width: childrenRect.width

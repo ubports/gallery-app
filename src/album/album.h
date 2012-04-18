@@ -55,12 +55,12 @@ class Album : public ContainerSource {
     NOTIFY contentPagesAltered)
   Q_PROPERTY(QDeclarativeListProperty<MediaSource> allMediaSources
     READ qml_all_media_sources NOTIFY album_contents_altered)
-  Q_PROPERTY(int firstContentPage READ first_content_page NOTIFY contentPagesAltered)
-  Q_PROPERTY(int lastContentPage READ last_content_page NOTIFY contentPagesAltered)
-  Q_PROPERTY(int totalPageCount READ total_page_count NOTIFY contentPagesAltered)
-  Q_PROPERTY(int contentPageCount READ content_page_count NOTIFY contentPagesAltered)
-  Q_PROPERTY(int firstValidCurrentPage READ first_valid_current_page NOTIFY contentPagesAltered)
-  Q_PROPERTY(int lastValidCurrentPage READ last_valid_current_page NOTIFY contentPagesAltered)
+  Q_PROPERTY(int firstContentPage READ first_content_page NOTIFY pageCountAltered)
+  Q_PROPERTY(int lastContentPage READ last_content_page NOTIFY pageCountAltered)
+  Q_PROPERTY(int totalPageCount READ total_page_count NOTIFY pageCountAltered)
+  Q_PROPERTY(int contentPageCount READ content_page_count NOTIFY pageCountAltered)
+  Q_PROPERTY(int firstValidCurrentPage READ first_valid_current_page NOTIFY pageCountAltered)
+  Q_PROPERTY(int lastValidCurrentPage READ last_valid_current_page NOTIFY pageCountAltered)
   Q_PROPERTY(int currentPage READ current_page WRITE set_current_page
     NOTIFY current_page_altered)
   Q_PROPERTY(bool closed READ is_closed WRITE set_closed NOTIFY closedAltered)
@@ -73,6 +73,7 @@ class Album : public ContainerSource {
   void name_altered();
   void closedAltered();
   void contentPagesAltered();
+  void pageCountAltered();
   
  public:
   static const char *DEFAULT_NAME;
@@ -119,6 +120,8 @@ class Album : public ContainerSource {
   
   virtual void notify_current_page_altered();
   virtual void notify_closed_altered();
+  virtual void notify_page_count_altered();
+  virtual void notify_content_pages_altered();
   virtual void notify_current_page_contents_altered();
   virtual void notify_container_contents_altered(const QSet<DataObject*>* added,
     const QSet<DataObject*>* removed);

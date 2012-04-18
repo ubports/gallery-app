@@ -208,6 +208,16 @@ void Album::notify_closed_altered() {
     emit closedAltered();
 }
 
+void Album::notify_page_count_altered() {
+  if (!refreshing_container_)
+    emit pageCountAltered();
+}
+
+void Album::notify_content_pages_altered() {
+  if (!refreshing_container_)
+    emit contentPagesAltered();
+}
+
 void Album::notify_current_page_contents_altered() {
   emit current_page_contents_altered();
   
@@ -227,8 +237,10 @@ void Album::DestroySource(bool destroy_backing, bool as_orphan) {
 
 void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
   const QSet<DataObject*>* removed) {
-  bool old_refreshing_container = refreshing_container_;
+  bool stashed_refreshing_container = refreshing_container_;
   refreshing_container_ = true;
+
+  int old_page_count = content_pages_->Count();
 
   ContainerSource::notify_container_contents_altered(added, removed);
   
@@ -288,7 +300,7 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
   all_media_sources_ = CastListToType<DataObject*, MediaSource*>(contained()->GetAll());
   emit album_contents_altered();
   
-  refreshing_container_ = old_refreshing_container;
+  refreshing_container_ = stashed_refreshing_container;
 
   // return to stashed current page, unless pages have been removed ... note
   // that this will close the album if empty
@@ -298,7 +310,11 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
   
   if (current_page_ != stashed_current_page)
     notify_current_page_altered();
+
+  if (content_pages_->Count() != old_page_count)
+    notify_page_count_altered();
   
+  notify_content_pages_altered();
   // TODO: Again, could be smart and verify the current page has actually
   // changed
   notify_current_page_contents_altered();
@@ -323,7 +339,8 @@ void Album::on_album_page_content_altered(const QSet<DataObject*>* added,
     changed = true;
   }
   
-  emit contentPagesAltered();
+  notify_page_count_altered();
+  notify_content_pages_altered();
   if (changed)
     notify_current_page_altered();
 }
