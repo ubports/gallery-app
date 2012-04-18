@@ -72,14 +72,8 @@ Rectangle {
 
     album: albumViewer.album
 
-    onPageFlipped: {
-      // turn chrome back on once flip is completed
-      chrome.show();
-    }
-
-    onPageReleased: {
-      chrome.show();
-    }
+    onPageFlipped: chrome.show()
+    onPageReleased: chrome.show()
 
     SwipeArea {
       property real commitTurnFraction: 0.05
@@ -263,7 +257,10 @@ Rectangle {
       visible: false
     }
 
-    onPageIndicatorPageSelected: albumSpreadViewer.turnTo(page)
+    onPageIndicatorPageSelected: {
+      chrome.hide();
+      albumSpreadViewer.turnTo(page);
+    }
 
     onStateButtonPressed: {
       albumViewer.state = (albumViewer.state == "pageView" ? "gridView" : "pageView");
