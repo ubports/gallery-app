@@ -51,7 +51,10 @@ Item {
 
   width: checkerboard.delegateWidth
   height: checkerboard.delegateHeight
-
+  
+  opacity: !checkerboard.inSelectionMode || (useInternalSelectionHighlight && isSelected)
+    ? 1.0 : 0.25
+  
   Component.onCompleted: {
     if (content)
       content.parent = contentArea;
@@ -63,32 +66,6 @@ Item {
     width: checkerboard.itemWidth
     height: checkerboard.itemHeight
     anchors.centerIn: parent
-
-    Item {
-      id: selectionHighlightContainer
-
-      anchors.fill: parent
-      z: 100
-
-      visible: useInternalSelectionHighlight && isSelected
-
-      BorderImage {
-        source: "../img/selected-border-stroke.png"
-        cache: true
-        asynchronous: true
-
-        anchors.fill: parent
-      }
-
-      Image {
-        source: "../img/selected-media.png"
-        cache: true
-        asynchronous: true
-
-        anchors.top: parent.top
-        anchors.right: parent.right
-      }
-    }
 
     SwipeArea {
       id: inputArea

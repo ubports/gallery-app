@@ -182,7 +182,6 @@ Rectangle {
 
   Image {
     id: image
-    objectName: "image"
     
     source: {
       if (!parent.mediaSource)
