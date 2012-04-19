@@ -87,6 +87,7 @@
     <file>qml/PhotoViewerShareMenu.qml</file>
     <file>qml/PhotoViewerTransition.qml</file>
     <file>qml/PopupAlbumPicker.qml</file>
+    <file>qml/PopupActionCancelDialog.qml</file>
     <file>qml/PopupBox.qml</file>
     <file>qml/PopupMenu.qml</file>
     <file>qml/PopupPhotoViewer.qml</file>

@@ -174,7 +174,8 @@ Rectangle {
     onLeftNavigationButtonPressed: imagePager.pageBack()
     onRightNavigationButtonPressed: imagePager.pageForward()
 
-    popups: [ photoViewerShareMenu, photoViewerOptionsMenu, popupAlbumPicker ]
+    popups: [ photoViewerShareMenu, photoViewerOptionsMenu,
+      trashOperationDialog, popupAlbumPicker ]
 
     PhotoViewerShareMenu {
       id: photoViewerShareMenu
@@ -200,6 +201,25 @@ Rectangle {
       }
 
       visible: false
+    }
+
+    PopupActionCancelDialog {
+      id: trashOperationDialog
+
+      popupOriginX: -gu(24.5)
+      popupOriginY: -gu(6)
+
+      onPopupInteractionCompleted: {
+        chrome.hideAllPopups();
+      }
+
+      visible: false
+
+      explanatoryText: "Selecting Delete will permanently delete this photo " +
+                       "from your tablet and from any albums that it appears " +
+                       "in."
+
+      actionButtonTitle: "Delete"
     }
 
     PopupAlbumPicker {
@@ -234,6 +254,10 @@ Rectangle {
 
     onAlbumOperationsButtonPressed: {
       cyclePopup(popupAlbumPicker);
+    }
+
+    onTrashOperationButtonPressed: {
+      cyclePopup(trashOperationDialog);
     }
   }
 }

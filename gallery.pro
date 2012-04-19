@@ -146,6 +146,7 @@ OTHER_FILES += \
 	rc/qml/PhotoViewerOptionsMenu.qml \
 	rc/qml/PhotoViewerShareMenu.qml \
 	rc/qml/PhotoViewerTransition.qml \
+	rc/qml/PopupActionCancelDialog.qml \
 	rc/qml/PopupAlbumPicker.qml \
 	rc/qml/PopupBox.qml \
 	rc/qml/PopupMenu.qml \

@@ -68,6 +68,7 @@ Item {
   signal moreOperationsButtonPressed()
   signal shareOperationsButtonPressed()
   signal albumOperationsButtonPressed()
+  signal trashOperationButtonPressed()
   signal selectionOperationsButtonPressed(variant button)
 
   // Pass-throughs from the left/right nav buttons.
@@ -228,6 +229,7 @@ Item {
     onMoreOperationsButtonPressed: wrapper.moreOperationsButtonPressed()
     onShareOperationsButtonPressed: wrapper.shareOperationsButtonPressed()
     onSelectionOperationsButtonPressed: wrapper.selectionOperationsButtonPressed(button)
+    onTrashOperationButtonPressed: wrapper.trashOperationButtonPressed()
   }
 
   Timer {
