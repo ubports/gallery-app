@@ -127,6 +127,7 @@ OTHER_FILES += \
 	rc/qml/EventTimelineTransition.qml \
 	rc/qml/ExpandAnimation.qml \
 	rc/qml/FramePortrait.qml \
+	rc/qml/Gallery.js \
 	rc/qml/GalleryApplication.qml \
 	rc/qml/GalleryOverviewNavigationBar.qml \
 	rc/qml/GalleryPrimaryPushButton.qml \

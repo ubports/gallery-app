@@ -19,6 +19,7 @@
 
 import QtQuick 1.1
 import "GalleryUtility.js" as GalleryUtility
+import "Gallery.js" as Gallery
 
 // A child delegate for a Checkerboard.  Tightly coupled to Checkerboard due to
 // some required interactions (e.g. selection).  This is a separate component
@@ -52,8 +53,14 @@ Item {
   width: checkerboard.delegateWidth
   height: checkerboard.delegateHeight
   
-  opacity: !checkerboard.inSelectionMode || (useInternalSelectionHighlight && isSelected)
-    ? 1.0 : 0.25
+  opacity: {
+    if (!checkerboard.inSelectionMode)
+      return 1.0;
+    else if (useInternalSelectionHighlight && isSelected)
+      return Gallery.SELECTED_OPACITY;
+    else
+      return Gallery.UNSELECTED_OPACITY;
+  }
   
   Component.onCompleted: {
     if (content)

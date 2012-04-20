@@ -20,6 +20,7 @@
 import QtQuick 1.1
 import Gallery 1.0
 import "GalleryUtility.js" as GalleryUtility
+import "Gallery.js" as Gallery
 
 Item {
   id: eventTimelineTransition
@@ -184,7 +185,14 @@ Item {
             target: cell
             x: timelineX
             y: timelineY
-            opacity: ((!isEvent && hidesUnderEvent) || disappears) ? 0.0 : 1.0
+            opacity: {
+              if (disappears || hidesUnderEvent)
+                return 0.0;
+              else if (isEvent)
+                return Gallery.EVENT_TIMELINE_EVENT_CARD_OPACITY;
+              else
+                return Gallery.EVENT_TIMELINE_MEDIA_SOURCE_OPACITY;
+            }
           }
         }
       ]

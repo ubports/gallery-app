@@ -20,6 +20,7 @@
 import QtQuick 1.1
 import Gallery 1.0
 import "GalleryUtility.js" as GalleryUtility
+import "Gallery.js" as Gallery
 
 ListView {
   id: eventTimeline
@@ -137,6 +138,8 @@ ListView {
           
           mediaSource: model.mediaSource
           ownerName: "EventTimeline"
+          
+          opacity: Gallery.EVENT_TIMELINE_MEDIA_SOURCE_OPACITY
         }
       }
     }
@@ -163,6 +166,8 @@ ListView {
           
           mediaSource: model.mediaSource
           ownerName: "EventTimeline"
+          
+          opacity: Gallery.EVENT_TIMELINE_MEDIA_SOURCE_OPACITY
         }
       }
     }
@@ -177,6 +182,8 @@ ListView {
       height: eventCardHeight
       
       event: model.event
+      
+      opacity: Gallery.EVENT_TIMELINE_EVENT_CARD_OPACITY
     }
     
     MouseArea {
