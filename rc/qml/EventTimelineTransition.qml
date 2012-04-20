@@ -37,6 +37,10 @@ Item {
   property real gutterHeight: checkerboard.gutterHeight
   property real delegateWidth: checkerboard.delegateWidth
   property real delegateHeight: checkerboard.delegateHeight
+  property real topExtraGutter: checkerboard.topExtraGutter
+  property real bottomExtraGutter: checkerboard.bottomExtraGutter
+  property real leftExtraGutter: checkerboard.leftExtraGutter
+  property real rightExtraGutter: checkerboard.rightExtraGutter
   
   // internal
   property EventOverviewModel model: EventOverviewModel {}
@@ -143,6 +147,11 @@ Item {
     id: repeater
     
     anchors.fill: parent
+
+    anchors.topMargin: topExtraGutter
+    anchors.bottomMargin: bottomExtraGutter
+    anchors.leftMargin: leftExtraGutter
+    anchors.rightMargin: rightExtraGutter
     
     model: eventTimelineTransition.model
     
@@ -251,17 +260,18 @@ Item {
         // deterministic for all objects
 
         // Note that we have to compensate for the photo being slightly smaller
-        // than the GridView delegate (the gutter).
-        var gutterWidthOffset = gutterWidth / 2;
-        var gutterHeightOffset = gutterHeight / 2;
+        // than the GridView delegate (the gutter), and the
+        // top/leftExtraGutters.
+        var widthOffset = gutterWidth / 2 + leftExtraGutter;
+        var heightOffset = gutterHeight / 2 + topExtraGutter;
 
         var cindex = checkerboard.model.indexOf(model.object);
         if (cindex >= 0) {
           // As view scrolls vertically, x coordinate needs no translation
-          gridX = (cindex % xMax) * delegateWidth + gutterWidthOffset;
+          gridX = (cindex % xMax) * delegateWidth + widthOffset;
           
           // translate y coordinate according to checkerboard viewport
-          gridY = (Math.floor(cindex / xMax) * delegateHeight) - checkerboard.contentY + gutterHeightOffset;
+          gridY = (Math.floor(cindex / xMax) * delegateHeight) - checkerboard.contentY + heightOffset;
         } else {
           console.log("Unable to find index for", model.object);
           disappers = true;

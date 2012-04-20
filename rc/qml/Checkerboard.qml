@@ -40,6 +40,10 @@ Rectangle {
   property real itemHeight: gu(18)
   property real gutterWidth: gu(2)
   property real gutterHeight: gu(2)
+  property real topExtraGutter: 0
+  property real bottomExtraGutter: 0
+  property real leftExtraGutter: 0
+  property real rightExtraGutter: 0
   
   property bool allowActivation: true
   property bool inSelectionMode: false
@@ -115,6 +119,10 @@ Rectangle {
     objectName: "grid"
     
     anchors.fill: parent
+    anchors.topMargin: topExtraGutter
+    anchors.bottomMargin: bottomExtraGutter
+    anchors.leftMargin: leftExtraGutter
+    anchors.rightMargin: rightExtraGutter
     
     cellWidth: delegateWidth
     cellHeight: delegateHeight
