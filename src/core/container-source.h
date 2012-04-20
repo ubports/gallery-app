@@ -34,6 +34,7 @@
 
 class ContainerSource : public DataSource {
   Q_OBJECT
+  Q_PROPERTY(int containedCount READ ContainedCount NOTIFY container_contents_altered)
   
  signals:
   void container_contents_altered(const QSet<DataObject*>* added,

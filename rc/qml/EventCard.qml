@@ -33,27 +33,36 @@ Item {
   // Where the transparent shadow ends in the card image.
   property real cardStartX: 2
   property real cardStartY: 2
-
+  // marks in corners of the card
+  property real cornersWidth: 14
+  property real cornersHeight: 14
+  
+  // TODO: Warning: internationalization issues ahead
+  function photosLabel(count) {
+    return count + ((count == 1) ? " photo" : " photos");
+  }
+  
   Image {
     x: -cardStartX
     y: -cardStartY
 
     source: "../img/event-card.png"
     cache: true
-
-    Column {
-      x: cardStartX
-      y: cardStartY
-
-      // Spacer
-      Item {
-        width: 1
-        height: gu(2)
-      }
-
+    
+    Item {
+      // funky geometry produces an Item centered inside the card proper, not
+      // the card plus shadow and border, with some space on top and bottom
+      // to avoid the triangles in the corners
+      x: parent.x + (cardStartX * 3) + cornersWidth
+      y: parent.y + (cardStartY * 3) + cornersHeight
+      width: cardWidth - (cardStartX * 2) - (cornersWidth * 2)
+      height: cardHeight - (cardStartY * 2) - (cornersHeight * 2)
+      
       Text {
-        width: cardWidth
-
+        anchors.top: parent.top
+        
+        width: parent.width
+        
         font.family: "Ubuntu"
         font.pointSize: pointUnits(9)
         color: textColor
@@ -65,7 +74,10 @@ Item {
       }
 
       Text {
-        width: cardWidth
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
+        
+        width: parent.width
 
         font.family: "Ubuntu"
         font.pointSize: pointUnits(26)
@@ -74,6 +86,21 @@ Item {
         horizontalAlignment: Text.AlignHCenter
 
         text: (event) ? Qt.formatDate(event.date, "dd") : ""
+      }
+      
+      Text {
+        anchors.bottom: parent.bottom
+        
+        width: parent.width
+        
+        font.family: "Ubuntu"
+        font.pointSize: pointUnits(7)
+        color: textColor
+        
+        font.capitalization: Font.AllUppercase
+        horizontalAlignment: Text.AlignHCenter
+        
+        text: (event) ? photosLabel(event.containedCount) : ""
       }
     }
   }
