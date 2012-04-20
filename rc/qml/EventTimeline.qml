@@ -15,33 +15,41 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
+ * Charles Lindsay <chaz@yorba.org>
  */
 
 import QtQuick 1.1
 import Gallery 1.0
 import "GalleryUtility.js" as GalleryUtility
 
-ListView {
+Item {
   id: eventTimeline
   
   signal activated(variant event)
   signal timedOut()
+
+  property alias model: list.model
   
   property int elementWidth: gu(24)
   property int elementHeight: gu(18)
   property int elementSpacing: gu(1)
   
+  property real topExtraGutter: 0
+  property real bottomExtraGutter: 0
+  property real leftExtraGutter: 0
+  property real rightExtraGutter: 0
+
   property int eventCardWidth: elementWidth
   property int eventCardHeight: elementHeight
   
   property int headTailCount: 3
   
   function ensureIndexVisible(index, centered) {
-    positionViewAtIndex(index, centered ? ListView.Center : ListView.Visible);
+    list.positionViewAtIndex(index, centered ? ListView.Center : ListView.Visible);
   }
   
   function getVisibleMediaSources() {
-    var vi = GalleryUtility.getVisibleItems(eventTimeline, eventTimeline, function(child) {
+    var vi = GalleryUtility.getVisibleItems(list, eventTimeline, function(child) {
       return child.objectName != "eventCard" && child.mediaSource;
     });
     
@@ -53,7 +61,7 @@ ListView {
   }
   
   function getVisibleEvents() {
-    var vi = GalleryUtility.getVisibleItems(eventTimeline, eventTimeline, function(child) {
+    var vi = GalleryUtility.getVisibleItems(list, eventTimeline, function(child) {
       return child.objectName == "eventCard";
     });
     
@@ -65,8 +73,8 @@ ListView {
   }
   
   function getRectOfEvent(event) {
-    for (var ctr = 0; ctr < contentItem.children.length; ctr++) {
-      var item = contentItem.children[ctr];
+    for (var ctr = 0; ctr < list.contentItem.children.length; ctr++) {
+      var item = list.contentItem.children[ctr];
       if (item.objectName != "eventTimelineElement")
         continue;
       
@@ -82,8 +90,8 @@ ListView {
   }
   
   function getRectOfMediaSource(mediaSource) {
-    for (var ctr = 0; ctr < contentItem.children.length; ctr++) {
-      var item = contentItem.children[ctr];
+    for (var ctr = 0; ctr < list.contentItem.children.length; ctr++) {
+      var item = list.contentItem.children[ctr];
       if (item.objectName != "eventTimelineElement")
         continue;
       
@@ -98,103 +106,113 @@ ListView {
     return undefined;
   }
   
-  orientation: ListView.Vertical
-  spacing: elementSpacing
-  
-  cacheBuffer: height * 2
-  
-  model: EventCollectionModel {
-  }
-  
-  delegate: Item {
-    id: eventTimelineElement
-    objectName: "eventTimelineElement"
-    
-    property int index: model.index
-    property Event event: model.event
-    
-    width: eventTimeline.width
-    height: elementHeight
-    
-    Row {
-      id: leftList
-      
-      anchors.top: parent.top
-      anchors.bottom: parent.bottom
-      anchors.right: eventCard.horizontalCenter
-      
-      spacing: elementSpacing
-      
-      Repeater {
-        model: MediaCollectionModel {
-          forCollection: event
-          limit: Math.min(Math.ceil(rawCount / 2), headTailCount)
-        }
-        
-        MattedPhotoPreview {
-          width: elementWidth
-          height: elementHeight
-          
-          mediaSource: model.mediaSource
-          ownerName: "EventTimeline"
-        }
-      }
-    }
-    
-    Row {
-      id: rightList
-      
-      anchors.top: parent.top
-      anchors.bottom: parent.bottom
-      anchors.left: eventCard.horizontalCenter
-      
-      spacing: elementSpacing
-      
-      Repeater {
-        model: MediaCollectionModel {
-          forCollection: event
-          limit: Math.min(Math.floor(rawCount / 2), headTailCount)
-          head: 0 - limit
-        }
-        
-        MattedPhotoPreview {
-          width: elementWidth
-          height: elementHeight
-          
-          mediaSource: model.mediaSource
-          ownerName: "EventTimeline"
-        }
-      }
-    }
-    
-    EventCard {
-      id: eventCard
-      objectName: "eventCard"
-      
-      anchors.centerIn: parent
-      
-      width: eventCardWidth
-      height: eventCardHeight
-      
-      event: model.event
-    }
-    
-    MouseArea {
-      anchors.fill: parent
-      
-      onClicked: {
-        timeoutTimer.stop();
-        activated(event);
-      }
-    }
-  }
+  ListView {
+    id: list
 
-  onVisibleChanged: {
-    if (visible)
-      timeoutTimer.restart();
-  }
+    anchors.fill: parent
+    anchors.topMargin: topExtraGutter
+    anchors.bottomMargin: bottomExtraGutter
+    anchors.leftMargin: leftExtraGutter
+    anchors.rightMargin: rightExtraGutter
 
-  onContentYChanged: timeoutTimer.restart()
+    orientation: ListView.Vertical
+    spacing: elementSpacing
+
+    cacheBuffer: height * 2
+
+    model: EventCollectionModel {
+    }
+
+    delegate: Item {
+      id: eventTimelineElement
+      objectName: "eventTimelineElement"
+
+      property int index: model.index
+      property Event event: model.event
+
+      width: list.width
+      height: elementHeight
+
+      Row {
+        id: leftList
+
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.right: eventCard.horizontalCenter
+
+        spacing: elementSpacing
+
+        Repeater {
+          model: MediaCollectionModel {
+            forCollection: event
+            limit: Math.min(Math.ceil(rawCount / 2), headTailCount)
+          }
+
+          MattedPhotoPreview {
+            width: elementWidth
+            height: elementHeight
+
+            mediaSource: model.mediaSource
+            ownerName: "EventTimeline"
+          }
+        }
+      }
+
+      Row {
+        id: rightList
+
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        anchors.left: eventCard.horizontalCenter
+
+        spacing: elementSpacing
+
+        Repeater {
+          model: MediaCollectionModel {
+            forCollection: event
+            limit: Math.min(Math.floor(rawCount / 2), headTailCount)
+            head: 0 - limit
+          }
+
+          MattedPhotoPreview {
+            width: elementWidth
+            height: elementHeight
+
+            mediaSource: model.mediaSource
+            ownerName: "EventTimeline"
+          }
+        }
+      }
+
+      EventCard {
+        id: eventCard
+        objectName: "eventCard"
+
+        anchors.centerIn: parent
+
+        width: eventCardWidth
+        height: eventCardHeight
+
+        event: model.event
+      }
+
+      MouseArea {
+        anchors.fill: parent
+
+        onClicked: {
+          timeoutTimer.stop();
+          activated(event);
+        }
+      }
+    }
+
+    onVisibleChanged: {
+      if (visible)
+        timeoutTimer.restart();
+    }
+
+    onContentYChanged: timeoutTimer.restart()
+  }
 
   Timer {
     id: timeoutTimer

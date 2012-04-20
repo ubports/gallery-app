@@ -105,10 +105,7 @@ Rectangle {
     id: eventsSheet
 
     anchors.fill: parent
-    anchors.topMargin: gu(2) + navbar.height
-    anchors.bottomMargin: gu(0)
-    anchors.leftMargin: gu(2)
-    anchors.rightMargin: gu(2)
+    anchors.topMargin: navbar.height
 
     // if switched away from or to, always move back to checkerboard
     onVisibleChanged: {
@@ -121,6 +118,11 @@ Rectangle {
       objectName: "eventsCheckerboard"
 
       anchors.fill: parent
+
+      topExtraGutter: gu(2)
+      bottomExtraGutter: gu(0)
+      leftExtraGutter: gu(2)
+      rightExtraGutter: gu(2)
 
       visible: true
       color: "transparent"
@@ -158,6 +160,11 @@ Rectangle {
 
       anchors.fill: parent
 
+      topExtraGutter: gu(2)
+      bottomExtraGutter: gu(0)
+      leftExtraGutter: gu(2)
+      rightExtraGutter: gu(2)
+
       visible: false
       clip: true
 
@@ -180,10 +187,11 @@ Rectangle {
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.bottom: parent.bottom
-    anchors.topMargin: gu(2)
-    anchors.bottomMargin: gu(0)
-    anchors.leftMargin: gu(2)
-    anchors.rightMargin: gu(2)
+
+    topExtraGutter: gu(2)
+    bottomExtraGutter: gu(0)
+    leftExtraGutter: gu(2)
+    rightExtraGutter: gu(2)
 
     itemWidth: gu(28)
     itemHeight: gu(33)
