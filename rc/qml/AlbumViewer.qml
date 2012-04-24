@@ -216,7 +216,7 @@ Rectangle {
     toolbarPageIndicatorAlbum: albumViewer.album
 
     property variant popups: [ albumViewerOptionsMenu, albumViewerShareMenu,
-      popupAlbumPicker ]
+      popupAlbumPicker, selectionMenu ]
 
     onAlbumOperationsButtonPressed: cyclePopup(popupAlbumPicker);
 
