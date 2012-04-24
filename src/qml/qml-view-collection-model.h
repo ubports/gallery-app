@@ -36,7 +36,7 @@ class QmlViewCollectionModel : public QAbstractListModel {
   Q_OBJECT
   Q_PROPERTY(int count READ count NOTIFY count_changed)
   Q_PROPERTY(int rawCount READ raw_count NOTIFY count_changed)
-  Q_PROPERTY(int selectedCount READ selected_count NOTIFY selected_count_changed)
+  Q_PROPERTY(int selectedCount READ selected_count NOTIFY selectedCountChanged)
   Q_PROPERTY(QVariant forCollection READ for_collection WRITE set_for_collection
     NOTIFY backing_collection_changed)
   Q_PROPERTY(int head READ head WRITE set_head NOTIFY head_changed)
@@ -44,7 +44,7 @@ class QmlViewCollectionModel : public QAbstractListModel {
   
  signals:
   void count_changed();
-  void selected_count_changed();
+  void selectedCountChanged();
   void backing_collection_changed();
   void head_changed();
   void limit_changed();
@@ -80,6 +80,7 @@ class QmlViewCollectionModel : public QAbstractListModel {
   Q_INVOKABLE void selectAll();
   Q_INVOKABLE void unselectAll();
   Q_INVOKABLE void toggleSelection(QVariant var);
+  Q_INVOKABLE bool isSelected(QVariant var);
   
   virtual int rowCount(const QModelIndex& parent) const;
   virtual QVariant data(const QModelIndex& index, int role) const;

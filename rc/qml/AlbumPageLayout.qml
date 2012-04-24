@@ -18,6 +18,7 @@
  */
 
 import QtQuick 1.1
+import "Gallery.js" as Gallery
 
 // AlbumPageLayouts are all loaded from AlbumPageContents, and should inherit
 // its properties.
@@ -25,6 +26,8 @@ Item {
   id: albumPageLayout
 
   property variant mediaSourceList: (parent ? parent.mediaSourceList : null)
+
+  property variant selectionCheckerboard: (parent ? parent.selectionCheckerboard : null)
 
   property real topMargin: (parent ? parent.topMargin : 0)
   property real bottomMargin: (parent ? parent.bottomMargin : 0)
@@ -35,7 +38,36 @@ Item {
   property bool isPreview: (parent ? parent.isPreview : false)
   
   property variant mediaFrames: []
+
+  // internal
+  function calculateMediaOpacity() {
+    for(var index in mediaFrames) {
+      var frame = mediaFrames[index];
+
+      if (!frame.mediaSource || !selectionCheckerboard || !selectionCheckerboard.inSelectionMode)
+        frame.opacity = 1;
+      else if (selectionCheckerboard.model.isSelected(frame.mediaSource))
+        frame.opacity = Gallery.SELECTED_OPACITY;
+      else
+        frame.opacity = Gallery.UNSELECTED_OPACITY;
+    }
+  }
   
   width: (parent ? parent.width : 0)
   height: (parent ? parent.height : 0)
+
+  onSelectionCheckerboardChanged: calculateMediaOpacity()
+  Component.onCompleted: calculateMediaOpacity()
+
+  Connections {
+    target: selectionCheckerboard || null
+    ignoreUnknownSignals: true
+    onInSelectionModeChanged: calculateMediaOpacity()
+  }
+
+  Connections {
+    target: (selectionCheckerboard ? selectionCheckerboard.model : null)
+    ignoreUnknownSignals: true
+    onSelectedCountChanged: calculateMediaOpacity()
+  }
 }

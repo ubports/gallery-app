@@ -80,9 +80,13 @@ Item {
       anchors.fill: parent
 
       onLongPressed: {
-        if (checkerboard.allowSelection && !checkerboard.inSelectionMode) {
-          checkerboard.inSelectionMode = true;
-          checkerboard.model.toggleSelection(modelData.object);
+        if (checkerboard.allowSelection) {
+          checkerboard.inSelectionMode = !checkerboard.inSelectionMode;
+
+          if (checkerboard.inSelectionMode)
+            checkerboard.model.toggleSelection(modelData.object);
+          else
+            checkerboard.unselectAll();
         }
       }
 

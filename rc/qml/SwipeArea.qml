@@ -30,7 +30,7 @@ MouseArea {
   signal swiping(bool leftToRight, int start, int distance)
   signal swiped(bool leftToRight)
   signal tapped(int x, int y)
-  signal longPressed()
+  signal longPressed(int x, int y)
   
   property int requiredHorizMovement: gu(0)
   
@@ -105,7 +105,7 @@ MouseArea {
       return;
 
     longPress = true;
-    longPressed();
+    longPressed(mouse.x, mouse.y);
   }
   
   onReleased: {

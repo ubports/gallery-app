@@ -28,6 +28,7 @@ Flipable {
   id: albumPageComponent
 
   property Album album // The album this page is in.
+  property variant selectionCheckerboard: null
 
   property alias frontPage: frontContents.page // On the right when viewed like in a book.
   property alias backPage: backContents.page // On the left when viewed like in a book.
@@ -66,6 +67,7 @@ Flipable {
     height: albumPageComponent.height
 
     album: albumPageComponent.album
+    selectionCheckerboard: albumPageComponent.selectionCheckerboard
 
     isPreview: albumPageComponent.isPreview
     contentHasPreviewFrame: albumPageComponent.contentHasPreviewFrame
@@ -78,6 +80,7 @@ Flipable {
     height: albumPageComponent.height
 
     album: albumPageComponent.album
+    selectionCheckerboard: albumPageComponent.selectionCheckerboard
 
     isPreview: albumPageComponent.isPreview
     contentHasPreviewFrame: albumPageComponent.contentHasPreviewFrame

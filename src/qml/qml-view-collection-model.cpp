@@ -132,6 +132,12 @@ void QmlViewCollectionModel::toggleSelection(QVariant var) {
     view_->ToggleSelect(VariantToObject<DataObject*>(var));
 }
 
+bool QmlViewCollectionModel::isSelected(QVariant var) {
+  return (view_ != NULL
+    ? view_->IsSelected(VariantToObject<DataObject*>(var))
+    : false);
+}
+
 int QmlViewCollectionModel::rowCount(const QModelIndex& parent) const {
   return count();
 }
@@ -269,7 +275,7 @@ void QmlViewCollectionModel::SetBackingViewCollection(SelectableViewCollection* 
     emit count_changed();
   
   if (old_selected_count != view_->SelectedCount())
-    emit selected_count_changed();
+    emit selectedCountChanged();
 }
 
 void QmlViewCollectionModel::DisconnectBackingViewCollection() {
@@ -341,7 +347,7 @@ void QmlViewCollectionModel::StopMonitoring() {
     emit count_changed();
   
   if (old_selected_count != 0)
-    emit selected_count_changed();
+    emit selectedCountChanged();
 }
 
 void QmlViewCollectionModel::notify_backing_collection_changed() {
@@ -383,7 +389,7 @@ void QmlViewCollectionModel::on_selection_altered(const QSet<DataObject*>* selec
   if (unselected != NULL)
     NotifySetAltered(unselected, SelectionRole);
   
-  emit selected_count_changed();
+  emit selectedCountChanged();
 }
 
 void QmlViewCollectionModel::on_contents_to_be_altered(const QSet<DataObject*>* added,

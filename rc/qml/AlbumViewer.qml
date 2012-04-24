@@ -71,6 +71,7 @@ Rectangle {
     anchors.fill: parent
 
     album: albumViewer.album
+    selectionCheckerboard: gridCheckerboard
 
     onPageFlipped: chrome.show()
     onPageReleased: chrome.show()
@@ -87,12 +88,28 @@ Rectangle {
       
       onTapped: {
         var hit = albumSpreadViewer.hitTestFrame(x, y, parent);
-        if (!hit)
+        if (!hit || !hit.mediaSource)
           return;
         
-        var rect = GalleryUtility.getRectRelativeTo(hit, photoViewer);
-        photoViewer.forGridView = false;
-        photoViewer.animateOpen(hit.mediaSource, rect, false);
+        if (gridCheckerboard.inSelectionMode) {
+          gridCheckerboard.model.toggleSelection(hit.mediaSource);
+        } else {
+          var rect = GalleryUtility.getRectRelativeTo(hit, photoViewer);
+          photoViewer.forGridView = false;
+          photoViewer.animateOpen(hit.mediaSource, rect, false);
+        }
+      }
+
+      onLongPressed: {
+        var hit = albumSpreadViewer.hitTestFrame(x, y, parent);
+        if (!hit || !hit.mediaSource)
+          return;
+
+        gridCheckerboard.inSelectionMode = !gridCheckerboard.inSelectionMode;
+        if (gridCheckerboard.inSelectionMode)
+          gridCheckerboard.model.toggleSelection(hit.mediaSource);
+        else
+          gridCheckerboard.unselectAll();
       }
       
       onStartSwipe: {
@@ -182,7 +199,11 @@ Rectangle {
     fadeDuration: 0
     autoHideWait: 0
 
-    inSelectionMode: gridCheckerboard.visible && gridCheckerboard.inSelectionMode
+    inSelectionMode: gridCheckerboard.inSelectionMode
+    hasSelectionNavbar: false
+
+    hasSelectionOperationsButton: inSelectionMode
+    onSelectionOperationsButtonPressed: cyclePopup(selectionMenu)
 
     toolbarsAreTranslucent: (albumViewer.state == "gridView")
 
@@ -198,6 +219,12 @@ Rectangle {
       popupAlbumPicker ]
 
     onAlbumOperationsButtonPressed: cyclePopup(popupAlbumPicker);
+
+    SelectionMenu {
+      id: selectionMenu
+
+      checkerboard: gridCheckerboard
+    }
 
     PopupAlbumPicker {
       id: popupAlbumPicker

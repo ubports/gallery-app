@@ -45,6 +45,7 @@ Item {
   
   // public
   property Album album
+  property variant selectionCheckerboard: null
   property bool isPreview: false
   property bool contentHasPreviewFrame: false
   property int durationMsec: 1000
@@ -284,6 +285,7 @@ Item {
     visible: (backPage >= 0)
 
     album: albumSpreadViewer.album
+    selectionCheckerboard: albumSpreadViewer.selectionCheckerboard
     isPreview: albumSpreadViewer.isPreview
     contentHasPreviewFrame: albumSpreadViewer.contentHasPreviewFrame
 
@@ -301,6 +303,7 @@ Item {
     visible: (Boolean(album) && frontPage < album.totalPageCount)
 
     album: albumSpreadViewer.album
+    selectionCheckerboard: albumSpreadViewer.selectionCheckerboard
     isPreview: albumSpreadViewer.isPreview
     contentHasPreviewFrame: albumSpreadViewer.contentHasPreviewFrame
 
@@ -346,6 +349,7 @@ Item {
     ))
 
     album: albumSpreadViewer.album
+    selectionCheckerboard: albumSpreadViewer.selectionCheckerboard
     isPreview: albumSpreadViewer.isPreview
     contentHasPreviewFrame: albumSpreadViewer.contentHasPreviewFrame
 
