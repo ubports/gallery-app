@@ -49,7 +49,6 @@ Rectangle {
 
   Pager {
     id: imagePager
-    objectName: "imagePager"
 
     model: parent.model
 
@@ -58,7 +57,14 @@ Rectangle {
       height: imagePager.height
 
       color: "black"
-
+      
+      opacity: {
+        if (index != imagePager.currentIndex || !imagePager.moving || imagePager.contentX < 0)
+          return 1.0;
+        
+        return 1.0 - Math.abs((imagePager.contentX - x) / width);
+      }
+      
       isZoomable: true;
 
       mediaSource: model.mediaSource
