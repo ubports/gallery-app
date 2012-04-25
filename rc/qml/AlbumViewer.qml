@@ -210,43 +210,17 @@ Rectangle {
       "../img/template-view.png";
 
     toolbarHasFullIconSet: false
+    toolbarHasAlbumOperationsButton: false
     toolbarHasPageIndicator: albumViewer.state == "pageView"
     toolbarPageIndicatorAlbum: albumViewer.album
 
     property variant popups: [ albumViewerOptionsMenu, albumViewerShareMenu,
-      popupAlbumPicker, selectionMenu ]
-
-    onAlbumOperationsButtonPressed: cyclePopup(popupAlbumPicker);
+      selectionMenu ]
 
     SelectionMenu {
       id: selectionMenu
 
       checkerboard: gridCheckerboard
-    }
-
-    PopupAlbumPicker {
-      id: popupAlbumPicker
-
-      popupOriginX: -gu(17.5)
-      popupOriginY: -gu(6)
-
-      onPopupInteractionCompleted: {
-        chrome.hideAllPopups();
-        gridCheckerboard.inSelectionMode = false;
-      }
-
-      onNewAlbumRequested: {
-        gridCheckerboard.model.createAlbumFromSelected();
-        gridCheckerboard.unselectAll();
-      }
-
-      onAlbumPicked: {
-        album.addSelectedMediaSources(gridCheckerboard.model);
-        gridCheckerboard.unselectAll();
-      }
-
-      visible: false
-      state: "hidden"
     }
 
     AlbumViewerOptionsMenu {

@@ -63,6 +63,7 @@ Item {
   // Pass-throughs from the toolbar.
   property alias toolbarHeight: toolbar.height
   property alias toolbarHasPageIndicator: toolbar.hasPageIndicator
+  property alias toolbarHasAlbumOperationsButton: toolbar.hasAlbumOperationsButton
   property alias toolbarPageIndicatorAlbum: toolbar.pageIndicatorAlbum
   signal pageIndicatorPageSelected(int page)
   signal moreOperationsButtonPressed()

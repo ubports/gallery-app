@@ -26,6 +26,7 @@ Toolbar {
   property alias pageIndicatorAlbum: pageIndicator.album
   property bool hasMainIconSet: true
   property bool hasFullIconSet: true
+  property bool hasAlbumOperationsButton: true
   property bool useContrastOnWhiteColorScheme: false
   property alias hasSelectionOperationsButton: selectionToolbarButton.visible
 
@@ -92,7 +93,7 @@ Toolbar {
 
       anchors.verticalCenter: parent.verticalCenter
 
-      visible: hasFullIconSet
+      visible: hasFullIconSet && hasAlbumOperationsButton
 
       onPressed: wrapper.albumOperationsButtonPressed();
     }

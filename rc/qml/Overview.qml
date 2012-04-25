@@ -272,11 +272,12 @@ Rectangle {
     autoHideWait: 0
 
     hasSelectionOperationsButton: true
+    toolbarHasAlbumOperationsButton: false
 
     inSelectionMode: true
     visible: eventsCheckerboard.inSelectionMode || albumsCheckerboard.inSelectionMode
 
-    property variant popups: [ selectionOperationsMenu, popupAlbumPicker ]
+    property variant popups: [ selectionOperationsMenu ]
 
     onSelectionOperationsButtonPressed: cyclePopup(selectionOperationsMenu);
 
@@ -286,36 +287,6 @@ Rectangle {
 
       albumsCheckerboard.unselectAll();
       albumsCheckerboard.inSelectionMode = false;
-    }
-
-    onAlbumOperationsButtonPressed: {
-      if (eventsCheckerboard.inSelectionMode)
-        cyclePopup(popupAlbumPicker);
-    }
-
-    PopupAlbumPicker {
-      id: popupAlbumPicker
-
-      popupOriginX: -gu(17.5)
-      popupOriginY: -gu(6)
-
-      onPopupInteractionCompleted: {
-        chrome.hideAllPopups();
-        eventsCheckerboard.inSelectionMode = false;
-      }
-
-      onNewAlbumRequested: {
-        eventsCheckerboard.model.createAlbumFromSelected();
-        eventsCheckerboard.unselectAll();
-      }
-
-      onAlbumPicked: {
-        album.addSelectedMediaSources(eventsCheckerboard.model);
-        eventsCheckerboard.unselectAll();
-      }
-
-      visible: false
-      state: "hidden"
     }
 
     SelectionMenu {
