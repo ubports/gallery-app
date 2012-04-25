@@ -28,8 +28,6 @@ Toolbar {
   property bool hasSelectionDoneButton: false
   property alias selectionDoneButtonTitle: selectionDoneButton.title
   property bool hasCancelSelectionButton: false
-  property alias titleText: title.text
-  property alias titleColor: title.color
 
   signal returnButtonPressed()
   signal stateButtonPressed()
@@ -73,15 +71,6 @@ Toolbar {
       
       onPressed: wrapper.stateButtonPressed()
     }
-  }
-
-  Text {
-    id: title
-
-    anchors.centerIn: parent
-
-    font.pixelSize: gu(2)
-    color: "#bfb7ae"
   }
 
   Row {

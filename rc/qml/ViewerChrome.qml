@@ -38,7 +38,6 @@ Item {
 
   property bool toolbarsAreTranslucent: true
 
-  property string navbarTitle
   property bool navbarHasStateButton: false
   property bool navbarHasCancelSelectionButton: false
 
@@ -205,8 +204,6 @@ Item {
     hasStateButton: wrapper.navbarHasStateButton && !inSelectionMode
     hasSelectionDoneButton: inSelectionMode
     hasCancelSelectionButton: inSelectionMode && wrapper.navbarHasCancelSelectionButton
-
-    titleText: (!inSelectionMode ? wrapper.navbarTitle : "")
 
     onReturnButtonPressed: wrapper.returnButtonPressed()
     onStateButtonPressed: wrapper.stateButtonPressed()

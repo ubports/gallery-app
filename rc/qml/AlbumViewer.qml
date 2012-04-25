@@ -191,8 +191,6 @@ Rectangle {
     z: 10
     anchors.fill: parent
 
-    navbarTitle: (album) ? album.name : ""
-
     state: "shown"
     visible: true
 
