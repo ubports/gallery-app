@@ -25,23 +25,12 @@ PopupBox {
   id: popupAlbumPicker
 
   signal albumPicked(variant album);
-  signal newAlbumRequested();
   signal popupInteractionCompleted();
 
   property alias albumModel: scroller.model
 
   width: gu(40)
   height: gu(80) + originCueHeight
-
-  AddToNewAlbumButton {
-    id: addToNewAlbumButton
-
-    hostPopup: popupAlbumPicker
-
-    onPressAnimationStarted: popupAlbumPicker.newAlbumRequested();
-
-    onPressed: popupAlbumPicker.popupInteractionCompleted();
-  }
 
   Timer {
     id: interactionCompletedTimer
@@ -62,27 +51,11 @@ PopupBox {
     }
   }
 
-  Rectangle {
-    width: parent.width - gu(0.5)
-    height: gu(5)
-    anchors.left: parent.left
-    anchors.leftMargin: gu(0.25)
-    anchors.rightMargin: gu(0.25)
-    anchors.right: parent.right
-    anchors.bottom: parent.bottom
-    anchors.bottomMargin: originCueHeight + gu(0.25)
-
-    gradient: Gradient {
-      GradientStop { position: 0.0; color: "#bcbdc0" }
-      GradientStop { position: 1.0; color: "#6b6c6e" }
-    }
-  }
-
   ListView {
     id: scroller
 
     clip: true
-    anchors.top: addToNewAlbumButton.bottom
+    anchors.top: parent.top
     anchors.topMargin: gu(2)
     anchors.bottom: parent.bottom
     anchors.bottomMargin: originCueHeight + gu(2)

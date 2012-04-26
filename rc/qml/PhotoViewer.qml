@@ -238,7 +238,6 @@ Rectangle {
         chrome.hideAllPopups();
       }
 
-      onNewAlbumRequested: albumModel.createAlbum(photo)
       onAlbumPicked: album.addMediaSource(photo)
 
       visible: false
