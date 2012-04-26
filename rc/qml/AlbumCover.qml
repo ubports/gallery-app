@@ -82,7 +82,7 @@ Item {
         maximumLineCount: 3
         horizontalAlignment: Text.AlignHCenter
 
-        text: (album) ? album.name : ""
+        text: (album) ? album.title : ""
       }
       
       // Spacer
@@ -107,7 +107,7 @@ Item {
         maximumLineCount: 1
         horizontalAlignment: Text.AlignHCenter
 
-        text: (album) ? Qt.formatDateTime(album.creationDateTime, "MM/dd/yy") : ""
+        text: (album) ? album.subtitle : ""
       }
     }
   }

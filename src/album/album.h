@@ -48,7 +48,8 @@
 // You can use first/lastValidCurrentPage to avoid off-by-one errors.
 class Album : public ContainerSource {
   Q_OBJECT
-  Q_PROPERTY(QString name READ name NOTIFY name_altered)
+  Q_PROPERTY(QString title READ title NOTIFY title_altered)
+  Q_PROPERTY(QString subtitle READ subtitle NOTIFY subtitle_altered)
   Q_PROPERTY(QDateTime creationDateTime READ creation_date_time
     NOTIFY creation_date_time_altered)
   Q_PROPERTY(QDeclarativeListProperty<AlbumPage> contentPages READ qml_pages
@@ -70,19 +71,22 @@ class Album : public ContainerSource {
   void creation_date_time_altered();
   void current_page_altered();
   void current_page_contents_altered();
-  void name_altered();
+  void title_altered();
+  void subtitle_altered();
   void closedAltered();
   void contentPagesAltered();
   void pageCountAltered();
   
  public:
-  static const char *DEFAULT_NAME;
+  static const char *DEFAULT_TITLE;
+  static const char *DEFAULT_SUBTITLE;
   static const int PAGES_PER_COVER;
   static const int FIRST_VALID_CURRENT_PAGE;
 
   Album();
   explicit Album(const AlbumTemplate& album_template);
-  Album(const AlbumTemplate& album_template, const QString &name);
+  Album(const AlbumTemplate& album_template, const QString &title,
+    const QString &subtitle);
   virtual ~Album();
   
   static void RegisterType();
@@ -92,7 +96,8 @@ class Album : public ContainerSource {
   Q_INVOKABLE QVariant getPage(int page) const;
   Q_INVOKABLE QVariant getPageForMediaSource(QVariant vmedia) const;
   
-  const QString& name() const;
+  const QString& title() const;
+  const QString& subtitle() const;
   const QDateTime& creation_date_time() const;
   const AlbumTemplate& album_template() const;
   bool is_closed() const;
@@ -135,7 +140,8 @@ class Album : public ContainerSource {
   
  private:
   const AlbumTemplate& album_template_;
-  QString name_;
+  QString title_;
+  QString subtitle_;
   QDateTime creation_date_time_;
   int current_page_; // Page number of the left page of the current spread.
   bool closed_;

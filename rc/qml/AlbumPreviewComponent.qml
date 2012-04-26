@@ -65,7 +65,7 @@ Item {
     Text {
       anchors.horizontalCenter: parent.horizontalCenter
       
-      text: (album) ? album.name : "";
+      text: (album) ? album.title : ""
       color: "#818285"
       font.family: "Ubuntu"
       font.pointSize: pointUnits(8) // From the spec.
@@ -77,8 +77,7 @@ Item {
     Text {
       anchors.horizontalCenter: parent.horizontalCenter
       
-      // TODO: subtitle, not creation date.
-      text: (album) ? Qt.formatDateTime(album.creationDateTime, "MM/dd/yy") : ""
+      text: (album) ? album.subtitle : ""
       color: "#a7a9ac"
       font.family: "Ubuntu"
       font.pointSize: pointUnits(6) // From the spec.

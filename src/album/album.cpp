@@ -31,27 +31,30 @@
 #include "util/collections.h"
 #include "util/variants.h"
 
-const char *Album::DEFAULT_NAME = "New Photo Album";
+const char *Album::DEFAULT_TITLE = "New Photo Album";
+const char *Album::DEFAULT_SUBTITLE = "Subtitle";
 const int Album::PAGES_PER_COVER = 1;
 // We use the left page's number as current_page_.  -1 because the cover is 0
 // and we want it to show up on the right.
 const int Album::FIRST_VALID_CURRENT_PAGE = -1;
 
 Album::Album()
-  : ContainerSource(DEFAULT_NAME, MediaCollection::ExposureDateTimeAscendingComparator),
-    album_template_(*AlbumDefaultTemplate::instance()), name_(DEFAULT_NAME) {
+  : ContainerSource(DEFAULT_TITLE, MediaCollection::ExposureDateTimeAscendingComparator),
+    album_template_(*AlbumDefaultTemplate::instance()), title_(DEFAULT_TITLE),
+    subtitle_(DEFAULT_SUBTITLE) {
   InitInstance();
 }
 
 Album::Album(const AlbumTemplate& album_template)
-  : ContainerSource(DEFAULT_NAME, MediaCollection::ExposureDateTimeAscendingComparator),
-    album_template_(album_template), name_(DEFAULT_NAME) {
+  : ContainerSource(DEFAULT_TITLE, MediaCollection::ExposureDateTimeAscendingComparator),
+    album_template_(album_template), title_(DEFAULT_TITLE), subtitle_(DEFAULT_SUBTITLE) {
   InitInstance();
 }
 
-Album::Album(const AlbumTemplate& album_template, const QString& name)
-  : ContainerSource(name, MediaCollection::ExposureDateTimeAscendingComparator),
-    album_template_(album_template), name_(name) {
+Album::Album(const AlbumTemplate& album_template, const QString& title,
+  const QString& subtitle)
+  : ContainerSource(title, MediaCollection::ExposureDateTimeAscendingComparator),
+    album_template_(album_template), title_(title), subtitle_(subtitle) {
   InitInstance();
 }
 
@@ -70,7 +73,7 @@ void Album::InitInstance() {
   creation_date_time_ = QDateTime::currentDateTime();
   current_page_ = FIRST_VALID_CURRENT_PAGE;
   closed_ = true;
-  content_pages_ = new SourceCollection(QString("Pages for ") + name_);
+  content_pages_ = new SourceCollection(QString("Pages for ") + title_);
   refreshing_container_ = false;
   
   QObject::connect(content_pages_,
@@ -119,8 +122,12 @@ QVariant Album::getPageForMediaSource(QVariant vmedia) const {
   return QVariant();
 }
 
-const QString& Album::name() const {
-  return name_;
+const QString& Album::title() const {
+  return title_;
+}
+
+const QString& Album::subtitle() const {
+  return subtitle_;
 }
 
 const QDateTime& Album::creation_date_time() const {
