@@ -39,6 +39,8 @@ class QmlViewCollectionModel : public QAbstractListModel {
   Q_PROPERTY(int selectedCount READ selected_count NOTIFY selectedCountChanged)
   Q_PROPERTY(QVariant forCollection READ for_collection WRITE set_for_collection
     NOTIFY backing_collection_changed)
+  Q_PROPERTY(QVariant monitorSelection READ monitor_selection
+    WRITE set_monitor_selection NOTIFY monitor_selection_changed)
   Q_PROPERTY(int head READ head WRITE set_head NOTIFY head_changed)
   Q_PROPERTY(int limit READ limit WRITE set_limit NOTIFY limit_changed)
   
@@ -48,6 +50,8 @@ class QmlViewCollectionModel : public QAbstractListModel {
   void backing_collection_changed();
   void head_changed();
   void limit_changed();
+  void ordering_altered();
+  void monitor_selection_changed();
   
  public:
   // These roles are available for all subclasses of QmlViewCollectionModel.
@@ -73,6 +77,9 @@ class QmlViewCollectionModel : public QAbstractListModel {
   QVariant for_collection() const;
   void set_for_collection(QVariant var);
   
+  QVariant monitor_selection() const;
+  void set_monitor_selection(QVariant vmodel);
+  
   Q_INVOKABLE int indexOf(QVariant var);
   Q_INVOKABLE QVariant getAt(int index);
   Q_INVOKABLE void clear();
@@ -96,6 +103,9 @@ class QmlViewCollectionModel : public QAbstractListModel {
   
   SelectableViewCollection* BackingViewCollection() const;
   
+  DataObjectComparator default_comparator() const;
+  void set_default_comparator(DataObjectComparator comparator);
+  
  protected:
   virtual void notify_backing_collection_changed();
   
@@ -111,16 +121,6 @@ class QmlViewCollectionModel : public QAbstractListModel {
   // subclass.  Return null if unknown type
   virtual DataObject* FromVariant(QVariant var) const = 0;
   
-  // This notifies model subscribers that the element has been added at the
-  // particular index ... note that QmlViewCollectionModel monitors
-  // the SelectableViewCollections "contents-altered" signal already
-  void NotifyElementAdded(int index);
-  
-  // This notifies model subscribers that the element at this index was
-  // removed ... note that QmlViewCollectionModel monitors the
-  // SelectableViewCollections' "contents-altered" signal already
-  void NotifyElementRemoved(int index);
-  
   // This notifies model subscribers that the element at the particular index
   // has been altered in some way.
   void NotifyElementAltered(int index, int role);
@@ -128,15 +128,14 @@ class QmlViewCollectionModel : public QAbstractListModel {
 private slots:
   void on_selection_altered(const QSet<DataObject*>* selected,
     const QSet<DataObject*>* unselected);
-  void on_contents_to_be_altered(const QSet<DataObject*>* added,
-    const QSet<DataObject*>* removed);
   void on_contents_altered(const QSet<DataObject*>* add,
     const QSet<DataObject*>* removed);
+  void on_ordering_altered();
   
  private:
   QVariant collection_;
+  QVariant monitor_selection_;
   SelectableViewCollection* view_;
-  QList<int> to_be_removed_;
   DataObjectComparator default_comparator_;
   int head_;
   int limit_;

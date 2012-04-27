@@ -37,11 +37,11 @@
 class SelectableViewCollection : public ViewCollection {
   Q_OBJECT
   
-signals:
+ signals:
   void selection_altered(const QSet<DataObject*>* selected,
     const QSet<DataObject*>* unselected);
   
-public:
+ public:
   SelectableViewCollection(const QString& name);
   
   bool IsSelected(DataObject* object) const;
@@ -68,15 +68,33 @@ public:
   // Returns the number of items selected (that weren't selected before)
   int SelectAll();
   
+  // Returns the number of items selected (that weren't selected before)
+  int SelectMany(const QSet<DataObject*>& select);
+  
   // Returns the number of items unselected (that weren't unselected before)
   int UnselectAll();
   
-protected:
+  // Returns the number of items unselected (that weren't unselected before)
+  int UnselectMany(const QSet<DataObject*>& unselect);
+  
+  // One SelectableViewCollection may monitor the selection status of another ...
+  // this does *not* mirror the collection, merely alter selection state of
+  // elements in this collection as they change in another
+  void MonitorSelectionState(SelectableViewCollection* view);
+  void StopMonitoringSelectionState();
+  bool isMonitoringSelectionState();
+  
+ protected:
   virtual void notify_selection_altered(QSet<DataObject*>* selected,
     QSet<DataObject*>* unselected);
   
-private:
+ private slots:
+  void on_monitoring_selection_altered(const QSet<DataObject*>* selected,
+    const QSet<DataObject*>* unselected);
+  
+ private:
   QSet<DataObject*> selected_;
+  SelectableViewCollection* monitoring_selection_;
 };
 
 #endif  // GALLERY_SELECTABLE_VIEW_COLLECTION_H_

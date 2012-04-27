@@ -20,7 +20,7 @@
 #include "core/selectable-view-collection.h"
 
 SelectableViewCollection::SelectableViewCollection(const QString& name)
-  : ViewCollection(name) {
+  : ViewCollection(name), monitoring_selection_(NULL) {
 }
 
 void SelectableViewCollection::notify_selection_altered(QSet<DataObject*>* selected,
@@ -74,11 +74,15 @@ bool SelectableViewCollection::ToggleSelect(DataObject* object) {
 }
 
 int SelectableViewCollection::SelectAll() {
+  return SelectMany(GetAsSet());
+}
+
+int SelectableViewCollection::SelectMany(const QSet<DataObject*>& select) {
   // Only select objects not already selected
   QSet<DataObject*> selected;
   DataObject* object;
-  foreach (object, GetAll()) {
-    if (!IsSelected(object)) {
+  foreach (object, select) {
+    if (Contains(object) && !IsSelected(object)) {
       selected_.insert(object);
       selected.insert(object);
     }
@@ -103,4 +107,56 @@ int SelectableViewCollection::UnselectAll() {
   notify_selection_altered(NULL, &unselected);
   
   return unselected.count();
+}
+
+int SelectableViewCollection::UnselectMany(const QSet<DataObject*>& unselect) {
+  QSet<DataObject*> unselected;
+  DataObject* object;
+  foreach (object, unselect) {
+    if (Contains(object) && IsSelected(object)) {
+      selected_.remove(object);
+      unselected.insert(object);
+    }
+  }
+  
+  if (unselected.count() > 0)
+    notify_selection_altered(NULL, &unselected);
+  
+  return unselected.count();
+}
+
+void SelectableViewCollection::MonitorSelectionState(SelectableViewCollection* view) {
+  StopMonitoringSelectionState();
+  
+  monitoring_selection_ = view;
+  
+  QObject::connect(monitoring_selection_,
+    SIGNAL(selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
+    this,
+    SLOT(on_monitoring_selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)));
+}
+
+void SelectableViewCollection::StopMonitoringSelectionState() {
+  if (monitoring_selection_ == NULL)
+    return;
+  
+  monitoring_selection_ = NULL;
+  
+  QObject::disconnect(monitoring_selection_,
+    SIGNAL(selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
+    this,
+    SLOT(on_monitoring_selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)));
+}
+
+bool SelectableViewCollection::isMonitoringSelectionState() {
+  return (monitoring_selection_ != NULL);
+}
+
+void SelectableViewCollection::on_monitoring_selection_altered(
+  const QSet<DataObject*>* selected, const QSet<DataObject*>* unselected) {
+  if (selected != NULL)
+    SelectMany(*selected);
+  
+  if (unselected != NULL)
+    UnselectMany(*unselected);
 }

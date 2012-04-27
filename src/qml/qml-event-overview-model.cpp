@@ -26,13 +26,29 @@
 #include "util/variants.h"
 
 QmlEventOverviewModel::QmlEventOverviewModel(QObject* parent)
-  : QmlMediaCollectionModel(parent, Comparator) {
+  : QmlMediaCollectionModel(parent, DescendingComparator), ascending_order_(false) {
   // initialize ViewCollection as it stands now with Events
   MonitorNewViewCollection();
 }
 
 void QmlEventOverviewModel::RegisterType() {
   qmlRegisterType<QmlEventOverviewModel>("Gallery", 1, 0, "EventOverviewModel");
+}
+
+bool QmlEventOverviewModel::ascending_order() const {
+  return ascending_order_;
+}
+
+void QmlEventOverviewModel::set_ascending_order(bool ascending) {
+  if (ascending == ascending_order_)
+    return;
+  
+  ascending_order_ = ascending;
+  DataObjectComparator comparator =
+    ascending_order_ ? AscendingComparator : DescendingComparator;
+  
+  set_default_comparator(comparator);
+  BackingViewCollection()->SetComparator(comparator);
 }
 
 QVariant QmlEventOverviewModel::VariantFor(DataObject* object) const {
@@ -88,20 +104,7 @@ void QmlEventOverviewModel::on_event_overview_contents_altered(
       Event* event = EventCollection::instance()->EventForDate(source_date);
       Q_ASSERT(event != NULL);
       
-      int index = view->IndexOf(source);
-      if (index == 0) {
-        // place Event for first photo
-        view->Add(event);
-        
-        continue;
-      }
-      
-      MediaSource* earlier = qobject_cast<MediaSource*>(view->GetAt(index - 1));
-      if (earlier == NULL)
-        continue;
-      
-      // if immediately prior photo is of a different day, place its Event
-      if (earlier->exposure_date_time().date() != source_date)
+      if (!view->Contains(event))
         view->Add(event);
     }
   }
@@ -156,27 +159,71 @@ void QmlEventOverviewModel::SelectUnselectEvent(const QSet<DataObject*>* toggled
   }
 }
 
-bool QmlEventOverviewModel::Comparator(DataObject* a, DataObject* b) {
-  QDateTime atime = ObjectDateTime(a);
-  QDateTime btime = ObjectDateTime(b);
+int QmlEventOverviewModel::mediaCountForEvent(QVariant vevent) const {
+  Event* event = UncheckedVariantToObject<Event*>(vevent);
+  if (event == NULL)
+    return -1;
   
-  // Sort in reverse chronological order (hence reversed comparison); also,
-  // use default comparator to stabilize sort
-  return (atime != btime) ? btime < atime : DataCollection::DefaultDataObjectComparator(a, b);
+  SelectableViewCollection* view = BackingViewCollection();
+  
+  int startIndex = view->IndexOf(event);
+  if (startIndex < 0)
+    return -1;
+  
+  int total = 0;
+  
+  int count = view->Count();
+  for (int ctr = startIndex + 1; ctr < count; ctr++) {
+    MediaSource* media = view->GetAtAsType<MediaSource*>(ctr);
+    if (media == NULL) {
+      // reached the end of the run of MediaSources for this event
+      break;
+    }
+    
+    total++;
+  }
+  
+  return total;
+}
+
+bool QmlEventOverviewModel::AscendingComparator(DataObject* a, DataObject* b) {
+  return EventComparator(a, b, true);
+}
+
+bool QmlEventOverviewModel::DescendingComparator(DataObject* a, DataObject* b) {
+  return EventComparator(a, b, false);
+}
+
+bool QmlEventOverviewModel::EventComparator(DataObject* a, DataObject* b, bool asc) {
+  QDateTime atime = ObjectDateTime(a, asc);
+  QDateTime btime = ObjectDateTime(b, asc);
+  
+  // use default comparator to stabilize order (reversing comparison for descending
+  // order)
+  bool lessThan;
+  if (atime != btime)
+    lessThan = atime < btime;
+  else
+    lessThan = DataCollection::DefaultDataObjectComparator(a, b);
+  
+  return (asc) ? lessThan : !lessThan;
 }
 
 // Since items in the list can be either a MediaSource or an Event,
 // determine dynamically and compare.  Since going in reverse chronological order,
 // use the event's end date/time for comparison (to place it before everything
 // else inside of it)
-QDateTime QmlEventOverviewModel::ObjectDateTime(DataObject* object) {
+QDateTime QmlEventOverviewModel::ObjectDateTime(DataObject* object, bool asc) {
   MediaSource* media = qobject_cast<MediaSource*>(object);
   if (media != NULL)
     return media->exposure_date_time();
   
+  // Events are different depending on ascending vs. descending; they should
+  // always be at the head of the MediaSource span, so they need to use different
+  // times to ensure that
   Event* event = qobject_cast<Event*>(object);
   if (event != NULL)
-    return event->end_date_time();
+    return asc ? event->start_date_time() : event->end_date_time();
   
   return QDateTime();
 }

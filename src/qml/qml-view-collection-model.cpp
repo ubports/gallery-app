@@ -77,6 +77,29 @@ void QmlViewCollectionModel::set_for_collection(QVariant var) {
   qDebug("Unable to set collection that is neither ContainerSource nor SourceCollection");
 }
 
+QVariant QmlViewCollectionModel::monitor_selection() const {
+  return monitor_selection_;
+}
+
+void QmlViewCollectionModel::set_monitor_selection(QVariant vmodel) {
+  // always stop monitoring
+  monitor_selection_ = QVariant();
+  if (view_ != NULL)
+    view_->StopMonitoringSelectionState();
+    
+  QmlViewCollectionModel* model = UncheckedVariantToObject<QmlViewCollectionModel*>(vmodel);
+  if (model == NULL) {
+    if (vmodel.isValid())
+      qDebug("Unable to monitor selection of type %s", vmodel.typeName());
+      
+    return;
+  }
+  
+  monitor_selection_ = vmodel;
+  if (view_ != NULL)
+    view_->MonitorSelectionState(model->view_);
+}
+
 int QmlViewCollectionModel::indexOf(QVariant var) {
   DataObject* object = UncheckedVariantToObject<DataObject*>(var);
   if (object == NULL)
@@ -260,14 +283,14 @@ void QmlViewCollectionModel::SetBackingViewCollection(SelectableViewCollection* 
     SLOT(on_selection_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
   
   QObject::connect(view_,
-    SIGNAL(contents_to_be_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
-    this,
-    SLOT(on_contents_to_be_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
-  
-  QObject::connect(view_,
     SIGNAL(contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
     this,
     SLOT(on_contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
+  
+  QObject::connect(view_,
+    SIGNAL(ordering_altered()),
+    this,
+    SLOT(on_ordering_altered()));
   
   notify_backing_collection_changed();
   
@@ -288,14 +311,14 @@ void QmlViewCollectionModel::DisconnectBackingViewCollection() {
     SLOT(on_selection_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
   
   QObject::disconnect(view_,
-    SIGNAL(contents_to_be_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
-    this,
-    SLOT(on_contents_to_be_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
-  
-  QObject::disconnect(view_,
     SIGNAL(contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
     this,
     SLOT(on_contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
+  
+  QObject::disconnect(view_,
+    SIGNAL(ordering_altered()),
+    this,
+    SLOT(on_ordering_altered()));
   
   beginResetModel();
   
@@ -307,6 +330,14 @@ void QmlViewCollectionModel::DisconnectBackingViewCollection() {
 
 SelectableViewCollection* QmlViewCollectionModel::BackingViewCollection() const {
   return view_;
+}
+
+DataObjectComparator QmlViewCollectionModel::default_comparator() const {
+  return default_comparator_;
+}
+
+void QmlViewCollectionModel::set_default_comparator(DataObjectComparator comparator) {
+  default_comparator_ = comparator;
 }
 
 void QmlViewCollectionModel::MonitorSourceCollection(SourceCollection* sources) {
@@ -354,20 +385,6 @@ void QmlViewCollectionModel::notify_backing_collection_changed() {
   emit backing_collection_changed();
 }
 
-void QmlViewCollectionModel::NotifyElementAdded(int index) {
-  if (index >= 0) {
-    beginInsertRows(QModelIndex(), index, index);
-    endInsertRows();
-  }
-}
-
-void QmlViewCollectionModel::NotifyElementRemoved(int index) {
-  if (index >= 0) {
-    beginRemoveRows(QModelIndex(), index, index);
-    endRemoveRows();
-  }
-}
-
 void QmlViewCollectionModel::NotifyElementAltered(int index, int role) {
   if (index >= 0) {
     QModelIndex model_index = createIndex(index, role);
@@ -392,48 +409,28 @@ void QmlViewCollectionModel::on_selection_altered(const QSet<DataObject*>* selec
   emit selectedCountChanged();
 }
 
-void QmlViewCollectionModel::on_contents_to_be_altered(const QSet<DataObject*>* added,
-  const QSet<DataObject*>* removed) {
-  // Gather the indexes of all the elements to be removed before removal,
-  // then report their removal when they've actually been removed
-  if (removed != NULL) {
-    // should already be cleared; either first use or cleared in on_contents_altered()
-    Q_ASSERT(to_be_removed_.count() == 0);
-    DataObject* object;
-    foreach (object, *removed) {
-      int index = view_->IndexOf(object);
-      Q_ASSERT(index >= 0);
-      to_be_removed_.append(index);
-    }
-  }
-}
-
 void QmlViewCollectionModel::on_contents_altered(const QSet<DataObject*>* added,
   const QSet<DataObject*>* removed) {
-  // TODO: Could be more efficient in both loop by spotting runs and reporting
-  // the spans rather than one element at a time
+  // Previous code used begin/endInsertRows, but these were not working as
+  // expected when insertions were made on an existing QmlViewCollectionModel,
+  // creating unstable sort orders ... rather than fight this now, using the
+  // model reset methods to simply clear the decks and start anew for each
+  // inseration and removal.  This may be a performance problem later as
+  // collections grow, in which case the more specific insert/remove methods
+  // should be used.  (Reporting the insertion and removal of spans rather than
+  // paired calls for each element may also be more efficient.)
   
-  // Report inserted items after they've been inserted
-  if (added != NULL) {
-    DataObject* object;
-    foreach (object, *added)
-      NotifyElementAdded(view_->IndexOf(object));
-  }
-  
-  // Report removed items using indices gathered from on_contents_to_be_altered()
-  if (to_be_removed_.count() > 0) {
-    // sort indices in reverse order and walk in descending order so they're
-    // always accurate as items are "removed"
-    qSort(to_be_removed_.begin(), to_be_removed_.end(), IntReverseLessThan);
-    
-    int index;
-    foreach (index, to_be_removed_)
-      NotifyElementRemoved(index);
-    
-    to_be_removed_.clear();
-  }
+  beginResetModel();
+  endResetModel();
   
   emit count_changed();
+}
+
+void QmlViewCollectionModel::on_ordering_altered() {
+  beginResetModel();
+  endResetModel();
+  
+  emit ordering_altered();
 }
 
 bool QmlViewCollectionModel::IntReverseLessThan(int a, int b) {

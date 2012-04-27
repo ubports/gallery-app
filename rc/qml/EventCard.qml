@@ -25,6 +25,7 @@ Item {
   id: eventCard
   
   property variant event
+  property int mediaCount: -1
   property color textColor: "#6e6046"
   
   // internal
@@ -100,7 +101,14 @@ Item {
         font.capitalization: Font.AllUppercase
         horizontalAlignment: Text.AlignHCenter
         
-        text: (event) ? photosLabel(event.containedCount) : ""
+        text: {
+          if (mediaCount >= 0)
+            return photosLabel(mediaCount)
+          else if (event)
+            return photosLabel(event.containedCount);
+          else
+            return "";
+        }
       }
     }
   }

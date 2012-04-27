@@ -34,15 +34,32 @@
 
 class QmlEventOverviewModel : public QmlMediaCollectionModel {
   Q_OBJECT
+  Q_PROPERTY(bool ascending READ ascending_order WRITE set_ascending_order
+    NOTIFY ordering_altered)
+  
+ signals:
+  void ordering_altered();
   
  public:
   QmlEventOverviewModel(QObject* parent = NULL);
   
   static void RegisterType();
   
-  virtual void notify_backing_collection_changed();
+  bool ascending_order() const;
+  void set_ascending_order(bool ascending);
+  
+  // In EventOverviewModels that use forCollection (such as an Album), the
+  // number of photos in each event grouping could be a subset of the photos
+  // in each Event.  This method returns the number of photos from the event
+  // that are in this collection.
+  //
+  // There is no special signal to monitor to know when this value has changed.
+  // QML should use "countChanged" and recalculate for all events.
+  Q_INVOKABLE int mediaCountForEvent(QVariant vevent) const;
   
  protected:
+  virtual void notify_backing_collection_changed();
+  
   virtual QVariant VariantFor(DataObject *object) const;
   virtual DataObject* FromVariant(QVariant var) const;
   
@@ -53,8 +70,12 @@ class QmlEventOverviewModel : public QmlMediaCollectionModel {
     const QSet<DataObject *> *removed);
   
  private:
-  static bool Comparator(DataObject* a, DataObject* b);
-  static QDateTime ObjectDateTime(DataObject* object);
+  bool ascending_order_;
+  
+  static bool AscendingComparator(DataObject* a, DataObject* b);
+  static bool DescendingComparator(DataObject* a, DataObject* b);
+  static bool EventComparator(DataObject* a, DataObject* b, bool desc);
+  static QDateTime ObjectDateTime(DataObject* object, bool desc);
   
   void MonitorNewViewCollection();
   void SelectUnselectEvent(const QSet<DataObject*>* toggled, bool doSelect);

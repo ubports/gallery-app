@@ -67,8 +67,8 @@ PopupBox {
       color: "transparent"
 
       height: scroller.spacing
-      anchors.left: parent.left
-      anchors.right: parent.right
+      anchors.left: (parent) ? parent.left : undefined
+      anchors.right: (parent) ? parent.right : undefined
     }
 
     model: AlbumCollectionModel {
