@@ -102,6 +102,8 @@ OTHER_FILES += \
 	rc/qml/AddCreateOperationNavbarButton.qml \
 	rc/qml/AddToNewAlbumButton.qml \
 	rc/qml/AlbumCover.qml \
+	rc/qml/AlbumEditor.qml \
+	rc/qml/AlbumEditorTransition.qml \
 	rc/qml/AlbumOpener.qml \
 	rc/qml/AlbumOperationsToolbarButton.qml \
 	rc/qml/AlbumPageComponent.qml \

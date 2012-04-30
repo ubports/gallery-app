@@ -37,7 +37,10 @@ class QmlAlbumCollectionModel : public QmlViewCollectionModel {
   static void RegisterType();
   
   Q_INVOKABLE void createAlbum(QVariant vmedia);
-  
+  Q_INVOKABLE QVariant createOrphan();
+  Q_INVOKABLE void destroyOrphan(QVariant valbum);
+  Q_INVOKABLE void addOrphan(QVariant valbum);
+
  protected:
   virtual QVariant VariantFor(DataObject* object) const;
   virtual DataObject* FromVariant(QVariant var) const;

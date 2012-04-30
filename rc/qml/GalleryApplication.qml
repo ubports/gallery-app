@@ -49,10 +49,35 @@ Item {
     
     visible: false
 
+    onAddAlbumRequested: {
+      albumEditor.editNewAlbum();
+      albumEditorTransition.enterEditor();
+    }
+
     onAlbumSelected: {
       overview.showAlbumPreview(album, false);
       albumViewerTransition.transitionToAlbumViewer(album, thumbnailRect);
     }
+  }
+
+  AlbumEditor {
+    id: albumEditor
+
+    anchors.fill: parent
+
+    visible: false
+
+    onCloseRequested: albumEditorTransition.exitEditor()
+    onAddPhotosRequested: navStack.switchToMediaSelector(album)
+  }
+
+  AlbumEditorTransition {
+    id: albumEditorTransition
+
+    anchors.fill: parent
+
+    backgroundGlass: overview.glass
+    editor: albumEditor
   }
   
   AlbumViewer {
@@ -115,7 +140,7 @@ Item {
       
       navStack.switchToPage(albumViewer);
     }
-    
+
     function switchToMediaSelector(album) {
       mediaSelector.album = album;
       

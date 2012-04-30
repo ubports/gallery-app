@@ -46,6 +46,26 @@ void QmlAlbumCollectionModel::createAlbum(QVariant vmedia) {
   AlbumCollection::instance()->Add(album);
 }
 
+QVariant QmlAlbumCollectionModel::createOrphan() {
+  return QVariant::fromValue(new Album(*AlbumDefaultTemplate::instance()));
+}
+
+void QmlAlbumCollectionModel::destroyOrphan(QVariant valbum) {
+  Album* album = VariantToObject<Album*>(valbum);
+
+  if (album != NULL) {
+    album->DestroyOrphan(true);
+    delete album;
+  }
+}
+
+void QmlAlbumCollectionModel::addOrphan(QVariant valbum) {
+  Album* album = VariantToObject<Album*>(valbum);
+
+  if (album != NULL)
+    AlbumCollection::instance()->Add(album);
+}
+
 QVariant QmlAlbumCollectionModel::VariantFor(DataObject* object) const {
   Album* album = qobject_cast<Album*>(object);
   

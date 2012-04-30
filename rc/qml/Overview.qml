@@ -27,6 +27,7 @@ Rectangle {
   id: overview
   objectName: "overview"
 
+  signal addAlbumRequested()
   signal albumSelected(variant album, variant thumbnailRect)
 
   property Rectangle glass: overviewGlass
@@ -76,7 +77,7 @@ Rectangle {
 
     onAddCreateOperationButtonPressed: {
       if (albumViewSwitcher.state == "tab0_active")
-        navStack.switchToMediaSelector();
+        overview.addAlbumRequested();
     }
 
     BinaryTabGroup {

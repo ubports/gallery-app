@@ -101,8 +101,8 @@ Item {
     transform: Scale {
       origin.x: frameStartX
       origin.y: frameStartY
-      xScale: parent.width / frameWidth
-      yScale: parent.height / frameHeight
+      xScale: albumPageContents.width / frameWidth
+      yScale: albumPageContents.height / frameHeight
     }
 
     source: "../img/album-thumbnail-frame.png"
@@ -118,8 +118,8 @@ Item {
     height: canonicalHeight
 
     transform: Scale {
-      xScale: parent.width / canonicalWidth
-      yScale: parent.height / canonicalHeight
+      xScale: albumPageContents.width / canonicalWidth
+      yScale: albumPageContents.height / canonicalHeight
     }
 
     visible: (loader.visible && !contentHasPreviewFrame)
@@ -160,8 +160,8 @@ Item {
     visible: (source != "")
 
     transform: Scale {
-      xScale: parent.width / canonicalWidth
-      yScale: parent.height / canonicalHeight
+      xScale: albumPageContents.width / canonicalWidth
+      yScale: albumPageContents.height / canonicalHeight
     }
 
     Component.onCompleted: reload()

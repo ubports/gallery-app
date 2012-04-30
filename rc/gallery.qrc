@@ -3,6 +3,8 @@
     <file>img/add-to-new-album-selected.png</file>
     <file>img/add-to-new-album-unselected.png</file>
     <file>img/album-cover.png</file>
+    <file>img/album-cover-large.png</file>
+    <file>img/album-edit-close.png</file>
     <file>img/album-operations-icon.png</file>
     <file>img/album-operations-icon-contrast.png</file>
     <file>img/album-thumbnail-frame.png</file>
@@ -42,6 +44,8 @@
     <file>qml/AddCreateOperationNavbarButton.qml</file>
     <file>qml/AddToNewAlbumButton.qml</file>
     <file>qml/AlbumCover.qml</file>
+    <file>qml/AlbumEditor.qml</file>
+    <file>qml/AlbumEditorTransition.qml</file>
     <file>qml/AlbumOpener.qml</file>
     <file>qml/AlbumOperationsToolbarButton.qml</file>
     <file>qml/AlbumPageComponent.qml</file>

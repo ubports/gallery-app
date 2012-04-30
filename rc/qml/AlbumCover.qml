@@ -27,12 +27,19 @@ Item {
   property Album album
   property bool isBack: false
   property bool isBlank: false
+  property bool isPreview: true
   property real titleOpacity: 1
-  property int titleDateSpacing: gu(2)
+  property int titleDateSpacing: gu(2) // (Preview-sized; will scale up)
   
   // internal
-  property real canonicalWidth: gu(28)
-  property real canonicalHeight: gu(33)
+  property real canonicalPreviewWidth: gu(28)
+  property real canonicalPreviewHeight: gu(33)
+  property real canonicalFullWidth: gu(66)
+  property real canonicalFullHeight: gu(80)
+  property real canonicalWidth: (isPreview ? canonicalPreviewWidth : canonicalFullWidth)
+  property real canonicalHeight: (isPreview ? canonicalPreviewHeight : canonicalFullHeight)
+  property real textScale: canonicalWidth / canonicalPreviewWidth
+  property real spacerScale: canonicalHeight / canonicalPreviewHeight
   // Where the transparent shadow ends in the cover image.
   property real coverStartX: 5
   property real coverStartY: 5
@@ -46,11 +53,11 @@ Item {
     transform: Scale {
       origin.x: coverStartX
       origin.y: coverStartY
-      xScale: parent.width / canonicalWidth
-      yScale: parent.height / canonicalHeight
+      xScale: albumCover.width / canonicalWidth
+      yScale: albumCover.height / canonicalHeight
     }
 
-    source: "../img/album-cover.png"
+    source: (isPreview ? "../img/album-cover.png" : "../img/album-cover-large.png")
     cache: true
     mirror: isBack
 
@@ -63,7 +70,7 @@ Item {
       // Spacer
       Item {
         width: 1
-        height: gu(6)
+        height: gu(6) * spacerScale
       }
 
       Text {
@@ -74,7 +81,7 @@ Item {
         color: "#f5e8e0"
         
         font.family: "Nimbus Roman No9 L"
-        font.pointSize: pointUnits(16) // From the spec.
+        font.pointSize: pointUnits(16) * textScale // From the spec.
         smooth: true
         
         wrapMode: Text.WordWrap
@@ -88,7 +95,7 @@ Item {
       // Spacer
       Item {
         width: 1
-        height: titleDateSpacing
+        height: titleDateSpacing * spacerScale
       }
 
       Text {
@@ -99,7 +106,7 @@ Item {
         color: "#f5e8e0"
         
         font.family: "Nimbus Roman No9 L"
-        font.pointSize: pointUnits(10) // From the spec.
+        font.pointSize: pointUnits(10) * textScale // From the spec.
         smooth: true
         
         wrapMode: Text.WordWrap
