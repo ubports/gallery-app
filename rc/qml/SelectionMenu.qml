@@ -38,20 +38,25 @@ PopupMenu {
   }
   
   onActionInvoked: {
+    // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you edit
+    // a switch statement in QML.  The short version is: use braces always.
     switch (name) {
-      case "SelectAll":
+      case "SelectAll": {
         if (checkerboard)
           checkerboard.selectAll();
-      break;
+        break;
+      }
       
-      case "SelectNone":
+      case "SelectNone": {
         if (checkerboard)
           checkerboard.unselectAll();
-      break;
+        break;
+      }
       
-      default:
+      default: {
         console.log("Unknown action", name);
-      break;
+        break;
+      }
     }
   }
   

@@ -54,6 +54,11 @@ Item {
       albumEditorTransition.enterEditor();
     }
 
+    onEditAlbumRequested: {
+      albumEditor.editAlbum(album);
+      albumEditorTransition.enterEditor();
+    }
+
     onAlbumSelected: {
       overview.showAlbumPreview(album, false);
       albumViewerTransition.transitionToAlbumViewer(album, thumbnailRect);

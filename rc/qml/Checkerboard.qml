@@ -48,9 +48,11 @@ Rectangle {
   property bool allowActivation: true
   property bool inSelectionMode: false
   property bool allowSelection: true
+  property bool singleSelectionOnly: false // Enforces always exactly one selected.
   property int selectedCount: (model) ? model.selectedCount : 0
   
   // readonly
+  property variant singleSelectedItem // Only if singleSelectionOnly is true.
   property real delegateWidth: itemWidth + gutterWidth
   property real delegateHeight: itemHeight + gutterHeight
   

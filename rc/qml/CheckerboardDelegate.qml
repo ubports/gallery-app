@@ -83,15 +83,24 @@ Item {
         if (checkerboard.allowSelection) {
           checkerboard.inSelectionMode = !checkerboard.inSelectionMode;
 
-          if (checkerboard.inSelectionMode)
+          if (checkerboard.inSelectionMode) {
             checkerboard.model.toggleSelection(modelData.object);
-          else
+
+            if (checkerboard.singleSelectionOnly)
+              checkerboard.singleSelectedItem = modelData.object;
+          } else {
             checkerboard.unselectAll();
+          }
         }
       }
 
       onTapped: {
         if (checkerboard.inSelectionMode) {
+          if (checkerboard.singleSelectionOnly) {
+            checkerboard.unselectAll();
+            checkerboard.singleSelectedItem = modelData.object;
+          }
+
           checkerboard.model.toggleSelection(modelData.object);
         } else {
           var rect = GalleryUtility.getRectRelativeTo(checkerboardDelegate, checkerboard);

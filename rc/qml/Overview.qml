@@ -28,6 +28,7 @@ Rectangle {
   objectName: "overview"
 
   signal addAlbumRequested()
+  signal editAlbumRequested(variant album)
   signal albumSelected(variant album, variant thumbnailRect)
 
   property Rectangle glass: overviewGlass
@@ -201,6 +202,7 @@ Rectangle {
 
     visible: false
     allowSelection: true
+    singleSelectionOnly: true
     allowActivation: false
 
     model: AlbumCollectionModel {
@@ -211,6 +213,8 @@ Rectangle {
 
       // internal
       property bool validSwipe: false
+
+      z: (albumThumbnail.isFlipping ? 10 : 0)
 
       checkerboard: albumsCheckerboard
 
@@ -249,8 +253,6 @@ Rectangle {
 
         album: modelData.album
 
-        z: (isFlipping ? 10 : 0)
-
         // Scale from 1 to 1 + maxAddScale and back to 1 as openFraction goes
         // from 0 to 0.5 to 1.
         scale: 1 + maxAddScale - Math.abs((openFraction - 0.5) * maxAddScale * 2)
@@ -272,15 +274,25 @@ Rectangle {
     fadeDuration: 0
     autoHideWait: 0
 
-    hasSelectionOperationsButton: true
+    hasSelectionOperationsButton: eventsCheckerboard.inSelectionMode
     toolbarHasAlbumOperationsButton: false
 
     inSelectionMode: true
     visible: eventsCheckerboard.inSelectionMode || albumsCheckerboard.inSelectionMode
 
-    property variant popups: [ selectionOperationsMenu ]
+    popups: (eventsCheckerboard.inSelectionMode
+      ? [ selectionOperationsMenu ]
+      : [ albumOptionsMenu ])
 
-    onSelectionOperationsButtonPressed: cyclePopup(selectionOperationsMenu);
+    onSelectionOperationsButtonPressed: {
+      if (eventsCheckerboard.inSelectionMode)
+        cyclePopup(selectionOperationsMenu);
+    }
+
+    onMoreOperationsButtonPressed: {
+      if (!eventsCheckerboard.inSelectionMode)
+        cyclePopup(albumOptionsMenu);
+    }
 
     onSelectionDoneButtonPressed: {
       eventsCheckerboard.unselectAll();
@@ -292,8 +304,41 @@ Rectangle {
 
     SelectionMenu {
       id: selectionOperationsMenu
-      
+
       checkerboard: (eventsCheckerboard.inSelectionMode ? eventsCheckerboard : albumsCheckerboard)
+    }
+
+    PopupMenu {
+      id: albumOptionsMenu
+
+      popupOriginX: -gu(1.5)
+      popupOriginY: -gu(6)
+
+      visible: false
+
+      model: ListModel {
+        ListElement {
+          title: "Edit"
+          action: "onEdit"
+        }
+      }
+
+      onActionInvoked: {
+        // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you
+        // edit a switch statement in QML.  The short version is: use braces
+        // always.
+        switch (name) {
+          case "onEdit": {
+            overview.editAlbumRequested(albumsCheckerboard.singleSelectedItem);
+
+            albumsCheckerboard.unselectAll();
+            albumsCheckerboard.inSelectionMode = false;
+            break;
+          }
+        }
+      }
+
+      onPopupInteractionCompleted: hideAllPopups()
     }
   }
 
