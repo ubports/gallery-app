@@ -42,7 +42,7 @@ Rectangle {
     leftExtraGutter: gu(2)
     rightExtraGutter: gu(2)
 
-    allowSelection: true
+    allowSelectionModeChange: false
     inSelectionMode: true
   }
 

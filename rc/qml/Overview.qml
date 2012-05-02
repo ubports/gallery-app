@@ -128,7 +128,7 @@ Rectangle {
 
       visible: true
       color: "transparent"
-      allowSelection: true
+      allowSelectionModeChange: true
 
       property variant photoViewerModel: MediaCollectionModel {
         monitored: true
@@ -201,7 +201,7 @@ Rectangle {
     gutterHeight: gu(8)
 
     visible: false
-    allowSelection: true
+    allowSelectionModeChange: true
     singleSelectionOnly: true
     allowActivation: false
 

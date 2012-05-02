@@ -163,7 +163,7 @@ Rectangle {
     visible: false
     
     forCollection: albumViewer.album
-    allowSelection: true
+    allowSelectionModeChange: true
     ascending: true
     
     onActivated: {

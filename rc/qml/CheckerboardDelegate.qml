@@ -80,7 +80,7 @@ Item {
       anchors.fill: parent
 
       onLongPressed: {
-        if (checkerboard.allowSelection) {
+        if (checkerboard.allowSelectionModeChange) {
           checkerboard.inSelectionMode = !checkerboard.inSelectionMode;
 
           if (checkerboard.inSelectionMode) {

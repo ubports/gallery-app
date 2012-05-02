@@ -47,7 +47,7 @@ Rectangle {
   
   property bool allowActivation: true
   property bool inSelectionMode: false
-  property bool allowSelection: true
+  property bool allowSelectionModeChange: true
   property bool singleSelectionOnly: false // Enforces always exactly one selected.
   property int selectedCount: (model) ? model.selectedCount : 0
   
