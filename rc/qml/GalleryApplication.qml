@@ -73,7 +73,7 @@ Item {
     visible: false
 
     onCloseRequested: albumEditorTransition.exitEditor()
-    onAddPhotosRequested: navStack.switchToMediaSelector(album)
+    onAddPhotosRequested: mediaSelectorSlider.showMediaSelector(album)
   }
 
   AlbumEditorTransition {
@@ -105,6 +105,8 @@ Item {
         }
       }
     }
+
+    onAddPhotosRequested: mediaSelectorSlider.showMediaSelector(album)
   }
 
   AlbumViewerTransition {
@@ -129,12 +131,32 @@ Item {
     }
   }
   
-  MediaSelector {
-    id: mediaSelector
-    
-    anchors.fill: parent
-    
-    visible: false
+  SlidingPane {
+    id: mediaSelectorSlider
+
+    function showMediaSelector(album) {
+      mediaSelector.album = album;
+
+      slideIn();
+    }
+
+    x: 0
+    y: parent.height
+    width: parent.width
+    height: parent.height
+
+    inX: 0
+    inY: 0
+
+    visible: (y < parent.height)
+
+    MediaSelector {
+      id: mediaSelector
+
+      anchors.fill: parent
+
+      onCloseRequested: mediaSelectorSlider.slideOut()
+    }
   }
   
   NavStack {
@@ -144,12 +166,6 @@ Item {
       albumViewer.resetView(album);
       
       navStack.switchToPage(albumViewer);
-    }
-
-    function switchToMediaSelector(album) {
-      mediaSelector.album = album;
-      
-      navStack.switchToPage(mediaSelector);
     }
   }
 }

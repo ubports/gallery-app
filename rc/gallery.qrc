@@ -100,6 +100,7 @@
     <file>qml/SelectionMenu.qml</file>
     <file>qml/SelectionOperationsToolbarButton.qml</file>
     <file>qml/ShareOperationsToolbarButton.qml</file>
+    <file>qml/SlidingPane.qml</file>
     <file>qml/SwipeArea.qml</file>
     <file>qml/Tab.qml</file>
     <file>qml/Toolbar.qml</file>

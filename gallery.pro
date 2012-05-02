@@ -158,6 +158,7 @@ OTHER_FILES += \
 	rc/qml/SelectionMenu.qml \
 	rc/qml/SelectionOperationsToolbarButton.qml \
 	rc/qml/ShareOperationsToolbarButton.qml \
+	rc/qml/SlidingPane.qml \
 	rc/qml/SwipeArea.qml \
 	rc/qml/Tab.qml \
 	rc/qml/Toolbar.qml \

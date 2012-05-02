@@ -30,6 +30,7 @@ Rectangle {
 
   // When the user clicks the back button or pages back to the cover.
   signal closeRequested(bool stayOpen)
+  signal addPhotosRequested(variant album)
 
   anchors.fill: parent
 
@@ -221,7 +222,7 @@ Rectangle {
       onActionInvoked: {
         switch (name) {
           case "onAddPhotos":
-            navStack.switchToMediaSelector(albumViewer.album);
+            albumViewer.addPhotosRequested(albumViewer.album);
           break;
         }
       }

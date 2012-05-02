@@ -24,6 +24,8 @@ Rectangle {
   id: mediaSelector
   objectName: "mediaSelector"
   
+  signal closeRequested()
+
   property variant album
   
   anchors.fill: parent
@@ -71,12 +73,12 @@ Rectangle {
         album = mediaCheckerboard.model.createAlbumFromSelected();
 
       mediaCheckerboard.unselectAll();
-      navStack.goBack();
+      mediaSelector.closeRequested();
     }
 
     onCancelSelectionButtonPressed: {
       mediaCheckerboard.unselectAll();
-      navStack.goBack();
+      mediaSelector.closeRequested();
     }
     
     SelectionMenu {
