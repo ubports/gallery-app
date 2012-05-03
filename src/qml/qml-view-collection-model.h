@@ -121,13 +121,25 @@ class QmlViewCollectionModel : public QAbstractListModel {
   // subclass.  Return null if unknown type
   virtual DataObject* FromVariant(QVariant var) const = 0;
   
-  // This notifies model subscribers that the element at the particular index
+  // This notifies model subscribers that the element has been added at the
+  // particular index ... note that QmlViewCollectionModel monitors
+  // the SelectableViewCollections "contents-altered" signal already
+  void NotifyElementAdded(int index);
+  
+  // This notifies model subscribers that the element at this index was
+  // removed ... note that QmlViewCollectionModel monitors the
+  // SelectableViewCollections' "contents-altered" signal already
+  void NotifyElementRemoved(int index);
+  
+    // This notifies model subscribers that the element at the particular index
   // has been altered in some way.
   void NotifyElementAltered(int index, int role);
   
 private slots:
   void on_selection_altered(const QSet<DataObject*>* selected,
     const QSet<DataObject*>* unselected);
+  void on_contents_to_be_altered(const QSet<DataObject*>* added,
+    const QSet<DataObject*>* removed);
   void on_contents_altered(const QSet<DataObject*>* add,
     const QSet<DataObject*>* removed);
   void on_ordering_altered();
@@ -136,10 +148,12 @@ private slots:
   QVariant collection_;
   QVariant monitor_selection_;
   SelectableViewCollection* view_;
+  QList<int> to_be_removed_;
   DataObjectComparator default_comparator_;
   int head_;
   int limit_;
   
+  static bool IntLessThan(int a, int b);
   static bool IntReverseLessThan(int a, int b);
   
   void SetBackingViewCollection(SelectableViewCollection* view);
