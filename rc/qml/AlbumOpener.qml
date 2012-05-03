@@ -54,7 +54,7 @@ Item {
     animator.restart();
   }
 
-  onAlbumChanged: openFraction = (album.closed ? 0 : 1)
+  onAlbumChanged: openFraction = (!album || album.closed ? 0 : 1)
 
   Connections {
     target: album

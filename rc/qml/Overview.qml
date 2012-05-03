@@ -28,7 +28,7 @@ Rectangle {
   objectName: "overview"
 
   signal addAlbumRequested()
-  signal editAlbumRequested(variant album)
+  signal editAlbumRequested(variant album, variant thumbnailRect)
   signal albumSelected(variant album, variant thumbnailRect)
 
   property Rectangle glass: overviewGlass
@@ -329,7 +329,8 @@ Rectangle {
         // always.
         switch (name) {
           case "onEdit": {
-            overview.editAlbumRequested(albumsCheckerboard.singleSelectedItem);
+            var album = albumsCheckerboard.singleSelectedItem;
+            overview.editAlbumRequested(album, getRectOfAlbumPreview(album, overview));
 
             albumsCheckerboard.unselectAll();
             albumsCheckerboard.inSelectionMode = false;

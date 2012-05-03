@@ -23,10 +23,16 @@ import Gallery 1.0
 Item {
   id: albumEditor
 
-  signal closeRequested()
+  signal closeRequested(variant album)
   signal addPhotosRequested(variant album)
 
   property Album album
+
+  // readonly
+  property alias editorX: cover.x
+  property alias editorY: cover.y
+  property alias editorWidth: cover.width
+  property alias editorHeight: cover.height
 
   function editNewAlbum() {
     albumEditor.album = albumModel.createOrphan();
@@ -74,7 +80,7 @@ Item {
           albumEditor.album = null;
         }
 
-        albumEditor.closeRequested();
+        albumEditor.closeRequested(albumEditor.album);
       }
     }
   }

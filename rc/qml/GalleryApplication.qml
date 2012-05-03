@@ -56,11 +56,13 @@ Item {
 
     onEditAlbumRequested: {
       albumEditor.editAlbum(album);
-      albumEditorTransition.enterEditor();
+
+      showAlbumPreview(album, false);
+      albumEditorTransition.enterEditor(album, thumbnailRect);
     }
 
     onAlbumSelected: {
-      overview.showAlbumPreview(album, false);
+      showAlbumPreview(album, false);
       albumViewerTransition.transitionToAlbumViewer(album, thumbnailRect);
     }
   }
@@ -72,7 +74,17 @@ Item {
 
     visible: false
 
-    onCloseRequested: albumEditorTransition.exitEditor()
+    onCloseRequested: {
+      if (album) {
+        var thumbnailRect = overview.getRectOfAlbumPreview(album, albumEditorTransition);
+
+        overview.showAlbumPreview(album, false);
+        albumEditorTransition.exitEditor(album, thumbnailRect);
+      } else {
+        albumEditorTransition.exitEditor(null, null);
+      }
+    }
+
     onAddPhotosRequested: mediaSelectorSlider.showMediaSelector(album)
   }
 
@@ -83,6 +95,8 @@ Item {
 
     backgroundGlass: overview.glass
     editor: albumEditor
+
+    onEditorExited: overview.showAlbumPreview(album, true)
   }
   
   AlbumViewer {

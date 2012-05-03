@@ -176,5 +176,6 @@ Item {
 
     album: albumPageContents.album
     isBack: !isRight
+    isPreview: albumPageContents.isPreview
   }
 }
