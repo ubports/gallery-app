@@ -26,13 +26,6 @@ Toolbar {
   property alias addCreateOperationButtonVisible: addCreateOperationNavbarButton.visible
   signal addCreateOperationButtonPressed()
 
-  Image {
-    id: background
-
-    source: "../img/toolbar-background.png"
-    cache: true
-  }
-
   AddCreateOperationNavbarButton {
     id: addCreateOperationNavbarButton
 
@@ -48,8 +41,6 @@ Toolbar {
     anchors.right: parent.right
     anchors.rightMargin: gu(2)
 
-    selectedBackgroundFilename: "../img/toolbar-button-active.png"
-    deselectedBackgroundFilename: "../img/toolbar-button-inactive.png"
     selectedIconFilename: "../img/icon-camera-active.png"
     deselectedIconFilename: "../img/icon-camera-inactive.png"
 

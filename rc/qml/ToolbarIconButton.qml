@@ -23,43 +23,31 @@ import QtQuick 1.1
 Item {
   id: toolbarIconButton
 
-  property url selectedBackgroundFilename
-  property url deselectedBackgroundFilename
-  property url selectedIconFilename
-  property url deselectedIconFilename
-
   signal pressed()
   signal pressedAndHeld()
 
-  width: (background.source != "" ? background.width : gu(6))
-  height: (background.source != "" ? background.height : gu(4))
+  property url selectedIconFilename
+  property url deselectedIconFilename
 
-  state: "deselected"
-  states: [
-    State { name: "selected"; },
-    State { name: "deselected"; }
-  ]
+  // readonly
+  property bool isSelected
 
-  Image {
-    id: background
-
-    source: (toolbarIconButton.state == "selected" ? selectedBackgroundFilename : deselectedBackgroundFilename)
-    cache: true
-  }
+  width: gu(6)
+  height: gu(4)
 
   Image {
     id: icon
 
     anchors.centerIn: parent
-    source: (toolbarIconButton.state == "selected" ? selectedIconFilename : deselectedIconFilename)
+    source: (isSelected ? selectedIconFilename : deselectedIconFilename)
     cache: true
   }
 
   MouseArea {
     anchors.fill: parent
 
-    onPressed: toolbarIconButton.state = "selected"
-    onReleased: toolbarIconButton.state = "deselected"
+    onPressed: isSelected = true
+    onReleased: isSelected = false
     onClicked: toolbarIconButton.pressed()
     onPressAndHold: toolbarIconButton.pressedAndHeld()
   }

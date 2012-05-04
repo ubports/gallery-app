@@ -100,7 +100,6 @@ OTHER_FILES += \
 	rc/Capetown/FadeOutAnimation.qml \
 	\
 	rc/qml/AddCreateOperationNavbarButton.qml \
-	rc/qml/AddToNewAlbumButton.qml \
 	rc/qml/AlbumCover.qml \
 	rc/qml/AlbumEditor.qml \
 	rc/qml/AlbumEditorTransition.qml \
@@ -132,8 +131,6 @@ OTHER_FILES += \
 	rc/qml/Gallery.js \
 	rc/qml/GalleryApplication.qml \
 	rc/qml/GalleryOverviewNavigationBar.qml \
-	rc/qml/GalleryPrimaryPushButton.qml \
-	rc/qml/GallerySecondaryPushButton.qml \
 	rc/qml/GalleryStandardNavbar.qml \
 	rc/qml/GalleryStandardToolbar.qml \
 	rc/qml/GalleryUtility.js \
@@ -154,7 +151,6 @@ OTHER_FILES += \
 	rc/qml/PopupBox.qml \
 	rc/qml/PopupMenu.qml \
 	rc/qml/PopupPhotoViewer.qml \
-	rc/qml/PushButton.qml \
 	rc/qml/SelectionMenu.qml \
 	rc/qml/SelectionOperationsToolbarButton.qml \
 	rc/qml/ShareOperationsToolbarButton.qml \
@@ -163,6 +159,7 @@ OTHER_FILES += \
 	rc/qml/Tab.qml \
 	rc/qml/Toolbar.qml \
 	rc/qml/ToolbarIconButton.qml \
+	rc/qml/ToolbarTextButton.qml \
 	rc/qml/TrashOperationToolbarButton.qml \
 	rc/qml/ViewerChrome.qml \
 	rc/qml/ViewerNavigationButton.qml

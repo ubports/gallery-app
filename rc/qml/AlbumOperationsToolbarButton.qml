@@ -20,10 +20,6 @@
 import QtQuick 1.1
 
 ToolbarIconButton {
-  property bool useContrastOnWhiteColorScheme: false
-
-  selectedIconFilename: (useContrastOnWhiteColorScheme) ?
-    "../img/album-operations-icon-contrast.png" :
-    "../img/album-operations-icon.png";
-  deselectedIconFilename: selectedIconFilename
+  selectedIconFilename: "../img/icon-album-active.png"
+  deselectedIconFilename: "../img/icon-album-inactive.png"
 }

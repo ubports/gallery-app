@@ -20,6 +20,6 @@
 import QtQuick 1.1
 
 ToolbarIconButton {
-  selectedIconFilename: "../img/more-operations-icon.png"
-  deselectedIconFilename: selectedIconFilename
+  selectedIconFilename: "../img/icon-more-active.png"
+  deselectedIconFilename: "../img/icon-more-inactive.png"
 }

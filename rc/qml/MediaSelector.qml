@@ -54,7 +54,7 @@ Rectangle {
     fadeDuration: 0
     autoHideWait: 0
 
-    navbarSelectionDoneButtonTitle: "add to album"
+    navbarSelectionDoneButtonText: "Add to album"
     navbarHasCancelSelectionButton: true
 
     toolbarHasMainIconsWhenSelecting: false

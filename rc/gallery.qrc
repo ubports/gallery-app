@@ -1,38 +1,49 @@
 <RCC>
 <qresource>
-    <file>img/add-to-new-album-selected.png</file>
-    <file>img/add-to-new-album-unselected.png</file>
     <file>img/album-cover.png</file>
     <file>img/album-cover-large.png</file>
     <file>img/album-edit-close.png</file>
-    <file>img/album-operations-icon.png</file>
-    <file>img/album-operations-icon-contrast.png</file>
     <file>img/album-thumbnail-frame.png</file>
+    <file>img/button-body-active.png</file>
+    <file>img/button-body-inactive.png</file>
+    <file>img/button-left-active.png</file>
+    <file>img/button-left-inactive.png</file>
+    <file>img/button-right-active.png</file>
+    <file>img/button-right-inactive.png</file>
     <file>img/dummy-menu-icon.png</file>
     <file>img/dummy-menu-photo-icon.png</file>
     <file>img/event-card.png</file>
-    <file>img/grid-view.png</file>
+    <file>img/icon-album-active.png</file>
+    <file>img/icon-album-inactive.png</file>
+    <file>img/icon-album-view-active.png</file>
+    <file>img/icon-album-view-inactive.png</file>
+    <file>img/icon-back-active.png</file>
+    <file>img/icon-back-inactive.png</file>
     <file>img/icon-camera-active.png</file>
     <file>img/icon-camera-inactive.png</file>
+    <file>img/icon-grid-view-active.png</file>
+    <file>img/icon-grid-view-inactive.png</file>
+    <file>img/icon-more-active.png</file>
+    <file>img/icon-more-inactive.png</file>
     <file>img/icon-plus-active.png</file>
     <file>img/icon-plus-inactive.png</file>
+    <file>img/icon-share-active.png</file>
+    <file>img/icon-share-inactive.png</file>
+    <file>img/icon-trash-active.png</file>
+    <file>img/icon-trash-inactive.png</file>
+    <file>img/overview-background.png</file>
     <file>img/photo-preview-backing.png</file>
     <file>img/photo-preview-inside-shadow.png</file>
-    <file>img/more-operations-icon.png</file>
-    <file>img/overview-background.png</file>
     <file>img/popup-arrow.png</file>
-    <file>img/return-arrow.png</file>
     <file>img/selection-operations-icon.png</file>
-    <file>img/share-operations-icon.png</file>
     <file>img/tab-left-active.png</file>
     <file>img/tab-left-inactive.png</file>
     <file>img/tab-right-active.png</file>
     <file>img/tab-right-inactive.png</file>
-    <file>img/template-view.png</file>
-    <file>img/toolbar-background.png</file>
-    <file>img/toolbar-button-active.png</file>
-    <file>img/toolbar-button-inactive.png</file>
-    <file>img/trash-operation-icon.png</file>
+    <file>img/toolbar-background-bottom.png</file>
+    <file>img/toolbar-background-top.png</file>
+    <file>img/toolbar-shadow-above.png</file>
+    <file>img/toolbar-shadow-below.png</file>
     <file>img/viewer-back.png</file>
     <file>img/viewer-forward.png</file>
     
@@ -42,7 +53,6 @@
     <file>Capetown/FadeOutAnimation.qml</file>
     
     <file>qml/AddCreateOperationNavbarButton.qml</file>
-    <file>qml/AddToNewAlbumButton.qml</file>
     <file>qml/AlbumCover.qml</file>
     <file>qml/AlbumEditor.qml</file>
     <file>qml/AlbumEditorTransition.qml</file>
@@ -74,8 +84,6 @@
     <file>qml/Gallery.js</file>
     <file>qml/GalleryApplication.qml</file>
     <file>qml/GalleryOverviewNavigationBar.qml</file>
-    <file>qml/GalleryPrimaryPushButton.qml</file>
-    <file>qml/GallerySecondaryPushButton.qml</file>
     <file>qml/GalleryStandardNavbar.qml</file>
     <file>qml/GalleryStandardToolbar.qml</file>
     <file>qml/GalleryUtility.js</file>
@@ -96,7 +104,6 @@
     <file>qml/PopupBox.qml</file>
     <file>qml/PopupMenu.qml</file>
     <file>qml/PopupPhotoViewer.qml</file>
-    <file>qml/PushButton.qml</file>
     <file>qml/SelectionMenu.qml</file>
     <file>qml/SelectionOperationsToolbarButton.qml</file>
     <file>qml/ShareOperationsToolbarButton.qml</file>
@@ -105,6 +112,7 @@
     <file>qml/Tab.qml</file>
     <file>qml/Toolbar.qml</file>
     <file>qml/ToolbarIconButton.qml</file>
+    <file>qml/ToolbarTextButton.qml</file>
     <file>qml/TrashOperationToolbarButton.qml</file>
     <file>qml/ViewerChrome.qml</file>
     <file>qml/ViewerNavigationButton.qml</file>

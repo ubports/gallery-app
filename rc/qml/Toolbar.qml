@@ -15,29 +15,47 @@
  *
  * Authors:
  * Lucas Beeler <lucas@yorba.org>
+ * Charles Lindsay <chaz@yorba.org>
  */
 
 import QtQuick 1.1
 
-Rectangle {
-  property string background: "white"
-  property bool isTranslucent: false;
+Item {
+  property bool isTextured: true
+  property bool isTranslucent: false
+  property bool isBottom: false // vs. top; what part of the screen it's on.
 
   width: parent.width
   height: gu(6)
 
-  color: {
-    if (background == "darkBlue") {
-      return "#2384c6"; /* used for Edit Photo toolbar only */
-    } else if (background == "lightBlue") {
-      return "#adc5e6"; /* used for inside album view, photo overview, and
-                           album overview, when content is selected */
-    } else if (background == "mediumBlue") {
-      return "#95b5de"; /* used for most navigation bars */
-    } else {
-      return "white";   /* used for single photo/video view and album view */
-    }
+  opacity: (isTranslucent ? 0.9 : 1.0)
+
+  Image {
+    id: background
+
+    anchors.fill: parent
+
+    source: (isBottom
+      ? "../img/toolbar-background-bottom.png"
+      : "../img/toolbar-background-top.png")
+    cache: true
+
+    visible: isTextured
   }
 
-  opacity: (isTranslucent) ? 0.9 : 1.0
+  Image {
+    id: shadow
+
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: (isBottom ? undefined : parent.bottom)
+    anchors.bottom: (isBottom ? parent.top : undefined)
+
+    source: (isBottom
+      ? "../img/toolbar-shadow-above.png"
+      : "../img/toolbar-shadow-below.png")
+    cache: true
+
+    visible: isTextured
+  }
 }

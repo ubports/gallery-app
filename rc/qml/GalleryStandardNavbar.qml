@@ -24,17 +24,16 @@ Toolbar {
 
   property bool hasReturnButton: true
   property bool hasStateButton: false
-  property url stateButtonIconFilename
+  property alias selectedStateButtonIconFilename: stateButton.selectedIconFilename
+  property alias deselectedStateButtonIconFilename: stateButton.deselectedIconFilename
   property bool hasSelectionDoneButton: false
-  property alias selectionDoneButtonTitle: selectionDoneButton.title
+  property alias selectionDoneButtonText: selectionDoneButton.text
   property bool hasCancelSelectionButton: false
 
   signal returnButtonPressed()
   signal stateButtonPressed()
   signal selectionDoneButtonPressed()
   signal cancelSelectionButtonPressed()
-
-  background: "white"
 
   Row {
     id: leftIconGroup
@@ -44,10 +43,8 @@ Toolbar {
     anchors.left: parent.left
     anchors.leftMargin: gu(2)
 
-    GallerySecondaryPushButton {
-      id: cancelSelectionButton
-
-      title: "cancel"
+    ToolbarTextButton {
+      text: "Cancel"
 
       visible: wrapper.hasCancelSelectionButton
 
@@ -57,18 +54,17 @@ Toolbar {
     ToolbarIconButton {
       visible: wrapper.hasReturnButton
 
-      selectedIconFilename: "../img/return-arrow.png"
-      deselectedIconFilename: selectedIconFilename
+      selectedIconFilename: "../img/icon-back-active.png"
+      deselectedIconFilename: "../img/icon-back-inactive.png"
       
       onPressed: wrapper.returnButtonPressed()
     }
 
     ToolbarIconButton {
+      id: stateButton
+
       visible: wrapper.hasStateButton
 
-      selectedIconFilename: stateButtonIconFilename
-      deselectedIconFilename: stateButtonIconFilename
-      
       onPressed: wrapper.stateButtonPressed()
     }
   }
@@ -81,10 +77,10 @@ Toolbar {
     anchors.right: parent.right
     anchors.rightMargin: gu(2)
 
-    GalleryPrimaryPushButton {
+    ToolbarTextButton {
       id: selectionDoneButton
 
-      title: "done"
+      text: "Done"
 
       visible: wrapper.hasSelectionDoneButton
 

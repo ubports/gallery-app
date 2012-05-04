@@ -27,7 +27,6 @@ Toolbar {
   property bool hasMainIconSet: true
   property bool hasFullIconSet: true
   property bool hasAlbumOperationsButton: true
-  property bool useContrastOnWhiteColorScheme: false
   property alias hasSelectionOperationsButton: selectionToolbarButton.visible
 
   /* read only properties */
@@ -43,8 +42,6 @@ Toolbar {
   signal moreOperationsButtonPressed()
   signal selectionOperationsButtonPressed(variant button)
 
-  background: "white"
-  
   SelectionOperationsToolbarButton {
     id: selectionToolbarButton
     
@@ -79,8 +76,6 @@ Toolbar {
     visible: hasMainIconSet
 
     TrashOperationToolbarButton {
-      anchors.verticalCenter: parent.verticalCenter
-
       visible: hasFullIconSet
 
       onPressed: wrapper.trashOperationButtonPressed();
@@ -89,25 +84,17 @@ Toolbar {
     AlbumOperationsToolbarButton {
       id: albumOperationsToolbarButton
 
-      useContrastOnWhiteColorScheme: wrapper.useContrastOnWhiteColorScheme
-
-      anchors.verticalCenter: parent.verticalCenter
-
       visible: hasFullIconSet && hasAlbumOperationsButton
 
       onPressed: wrapper.albumOperationsButtonPressed();
     }
 
     ShareOperationsToolbarButton {
-      anchors.verticalCenter: parent.verticalCenter
-
       onPressed: wrapper.shareOperationsButtonPressed();
     }
 
     MoreOperationsToolbarButton {
       id: moreOperationsToolbarButton
-
-      anchors.verticalCenter: parent.verticalCenter
 
       onPressed: wrapper.moreOperationsButtonPressed();
     }

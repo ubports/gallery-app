@@ -193,9 +193,16 @@ Rectangle {
 
     toolbarsAreTranslucent: (albumViewer.state == "gridView")
 
+    toolbarIsTextured: (albumViewer.state == "gridView")
+    navbarIsTextured: (albumViewer.state == "gridView")
+
     navbarHasStateButton: true
-    navbarStateButtonIconFilename: (albumViewer.state == "pageView") ? "../img/grid-view.png" :
-      "../img/template-view.png";
+    navbarSelectedStateButtonIconFilename: (albumViewer.state == "pageView"
+      ? "../img/icon-grid-view-active.png"
+      : "../img/icon-album-view-active.png")
+    navbarDeselectedStateButtonIconFilename: (albumViewer.state == "pageView"
+      ? "../img/icon-grid-view-inactive.png"
+      : "../img/icon-album-view-inactive.png")
 
     toolbarHasFullIconSet: false
     toolbarHasAlbumOperationsButton: false

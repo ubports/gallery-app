@@ -66,43 +66,6 @@ Rectangle {
     cache: true
   }
 
-  GalleryOverviewNavigationBar {
-    id: navbar
-    objectName: "navbar"
-
-    anchors.top: parent.top
-    anchors.left: parent.left
-    anchors.right: parent.right
-
-    visible: !eventsCheckerboard.inSelectionMode
-
-    onAddCreateOperationButtonPressed: {
-      if (albumViewSwitcher.state == "tab0_active")
-        overview.addAlbumRequested();
-    }
-
-    BinaryTabGroup {
-      id: albumViewSwitcher
-      objectName: "albumViewSwitcher"
-
-      anchors.horizontalCenter: parent.horizontalCenter
-      anchors.bottom: parent.bottom
-
-      tab0_title: "Albums"
-      tab1_title: "Events"
-
-      state: "tab1_active"
-
-      onTab0_activated: {
-        overview.state = "albumView";
-      }
-
-      onTab1_activated: {
-        overview.state = "eventView"
-      }
-    }
-  }
-
   Item {
     id: eventsSheet
 
@@ -262,6 +225,43 @@ Rectangle {
     onActivated: {
       var albumRect = GalleryUtility.translateRect(activatedRect, albumsCheckerboard, overview);
       albumSelected(object, albumRect);
+    }
+  }
+
+  GalleryOverviewNavigationBar {
+    id: navbar
+    objectName: "navbar"
+
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+
+    visible: !eventsCheckerboard.inSelectionMode
+
+    onAddCreateOperationButtonPressed: {
+      if (albumViewSwitcher.state == "tab0_active")
+        overview.addAlbumRequested();
+    }
+
+    BinaryTabGroup {
+      id: albumViewSwitcher
+      objectName: "albumViewSwitcher"
+
+      anchors.horizontalCenter: parent.horizontalCenter
+      anchors.bottom: parent.bottom
+
+      tab0_title: "Albums"
+      tab1_title: "Events"
+
+      state: "tab1_active"
+
+      onTab0_activated: {
+        overview.state = "albumView";
+      }
+
+      onTab1_activated: {
+        overview.state = "eventView"
+      }
     }
   }
 

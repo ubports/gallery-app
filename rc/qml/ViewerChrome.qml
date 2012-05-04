@@ -53,8 +53,10 @@ Item {
 
   // Pass-throughs from the navbar.
   property alias navbarHeight: navbar.height
-  property alias navbarStateButtonIconFilename: navbar.stateButtonIconFilename
-  property alias navbarSelectionDoneButtonTitle: navbar.selectionDoneButtonTitle
+  property alias navbarIsTextured: navbar.isTextured
+  property alias navbarSelectedStateButtonIconFilename: navbar.selectedStateButtonIconFilename
+  property alias navbarDeselectedStateButtonIconFilename: navbar.deselectedStateButtonIconFilename
+  property alias navbarSelectionDoneButtonText: navbar.selectionDoneButtonText
   signal returnButtonPressed()
   signal stateButtonPressed()
   signal selectionDoneButtonPressed()
@@ -62,6 +64,7 @@ Item {
 
   // Pass-throughs from the toolbar.
   property alias toolbarHeight: toolbar.height
+  property alias toolbarIsTextured: toolbar.isTextured
   property alias toolbarHasPageIndicator: toolbar.hasPageIndicator
   property alias toolbarHasAlbumOperationsButton: toolbar.hasAlbumOperationsButton
   property alias toolbarPageIndicatorAlbum: toolbar.pageIndicatorAlbum
@@ -198,7 +201,6 @@ Item {
 
     anchors.top: parent.top
 
-    background: (!inSelectionMode ? "white" : "lightBlue")
     isTranslucent: (!inSelectionMode ? wrapper.toolbarsAreTranslucent : false)
 
     hasReturnButton: !inSelectionMode
@@ -217,12 +219,10 @@ Item {
 
     anchors.bottom: parent.bottom
 
-    background: (!wrapper.inSelectionMode ? "white" : "lightBlue")
     isTranslucent: wrapper.toolbarsAreTranslucent
 
     hasMainIconSet: (wrapper.inSelectionMode ? wrapper.toolbarHasMainIconsWhenSelecting : true)
     hasFullIconSet: wrapper.inSelectionMode || wrapper.toolbarHasFullIconSet
-    useContrastOnWhiteColorScheme: wrapper.inSelectionMode
 
     onPageIndicatorPageSelected: wrapper.pageIndicatorPageSelected(page)
 
