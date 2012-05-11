@@ -32,6 +32,8 @@
 
 #include "core/data-collection.h"
 
+class DataSource;
+
 class SourceCollection : public DataCollection {
   Q_OBJECT
   
@@ -43,6 +45,7 @@ class SourceCollection : public DataCollection {
   SourceCollection(const QString& name);
   
   void DestroyAll(bool destroy_backing, bool delete_objects);
+  void Destroy(DataSource* object, bool destroy_backing, bool delete_object);
   
  protected:
   virtual void notify_destroying(const QSet<DataObject*>* objects);

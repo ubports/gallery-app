@@ -50,6 +50,25 @@ void SourceCollection::DestroyAll(bool destroy_backing, bool delete_objects) {
   }
 }
 
+void SourceCollection::Destroy(DataSource* object, bool destroy_backing, bool delete_object) {
+  if (object == NULL || !Contains(object))
+    return;
+
+  // Encapsulate the object in a set for the signals below.
+  QSet<DataObject*> object_set;
+  object_set.insert(object);
+
+  // must be done before destruction and removal
+  notify_destroying(&object_set);
+
+  // remove before destroying
+  Remove(object);
+
+  object->Destroy(destroy_backing);
+  if (delete_object)
+    delete object;
+}
+
 void SourceCollection::notify_destroying(const QSet<DataObject*>* objects) {
   emit destroying(objects);
 }

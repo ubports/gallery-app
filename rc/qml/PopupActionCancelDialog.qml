@@ -24,6 +24,8 @@ import "../Capetown"
 PopupBox {
   id: popupActionCancelDialog
 
+  signal confirmed()
+
   property alias explanatoryText: explanatoryText.text
   property alias actionButtonTitle: actionButtonText.text
   property alias cancelButtonTitle: cancelButtonText.text
@@ -77,6 +79,15 @@ PopupBox {
 
       horizontalAlignment: Text.AlignHCenter
       verticalAlignment: Text.AlignVCenter
+    }
+
+    MouseArea {
+      anchors.fill: parent
+
+      onClicked: {
+        confirmed();
+        popupInteractionCompleted();
+      }
     }
   }
 

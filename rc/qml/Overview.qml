@@ -282,7 +282,7 @@ Rectangle {
 
     popups: (eventsCheckerboard.inSelectionMode
       ? [ selectionOperationsMenu ]
-      : [ albumOptionsMenu ])
+      : [ albumOptionsMenu, albumTrashDialog ])
 
     onSelectionOperationsButtonPressed: {
       if (eventsCheckerboard.inSelectionMode)
@@ -292,6 +292,11 @@ Rectangle {
     onMoreOperationsButtonPressed: {
       if (!eventsCheckerboard.inSelectionMode)
         cyclePopup(albumOptionsMenu);
+    }
+
+    onTrashOperationButtonPressed: {
+      if (!eventsCheckerboard.inSelectionMode)
+        cyclePopup(albumTrashDialog);
     }
 
     onSelectionDoneButtonPressed: {
@@ -340,6 +345,30 @@ Rectangle {
       }
 
       onPopupInteractionCompleted: hideAllPopups()
+    }
+
+    PopupActionCancelDialog {
+      id: albumTrashDialog
+
+      popupOriginX: -gu(24.5)
+      popupOriginY: -gu(6)
+
+      visible: false
+
+      explanatoryText: "Selecting remove will remove this album only- the "
+        + "contents of the album will remain."
+
+      actionButtonTitle: "remove"
+
+      onConfirmed: {
+        var album = albumsCheckerboard.singleSelectedItem;
+        albumsCheckerboard.model.destroyAlbum(album);
+
+        albumsCheckerboard.unselectAll();
+        albumsCheckerboard.inSelectionMode = false;
+      }
+
+      onPopupInteractionCompleted: chrome.hideAllPopups()
     }
   }
 

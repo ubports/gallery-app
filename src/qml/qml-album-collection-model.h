@@ -37,6 +37,7 @@ class QmlAlbumCollectionModel : public QmlViewCollectionModel {
   static void RegisterType();
   
   Q_INVOKABLE void createAlbum(QVariant vmedia);
+  Q_INVOKABLE void destroyAlbum(QVariant valbum);
   Q_INVOKABLE QVariant createOrphan();
   Q_INVOKABLE void destroyOrphan(QVariant valbum);
   Q_INVOKABLE void addOrphan(QVariant valbum);
