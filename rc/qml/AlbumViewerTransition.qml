@@ -64,8 +64,8 @@ Item {
   }
 
   function dissolve(fadeOutTarget, fadeInTarget) {
-    dissolveAlbumViewerTransition.fadeOutTarget = fadeOutTarget;
-    dissolveAlbumViewerTransition.fadeInTarget = fadeInTarget;
+    dissolveAlbumViewerTransition.fadeOutTarget = fadeOutTarget || dissolveDummy;
+    dissolveAlbumViewerTransition.fadeInTarget = fadeInTarget || dissolveDummy;
     dissolveAlbumViewerTransition.start();
   }
 
@@ -186,11 +186,15 @@ Item {
   DissolveAnimation {
     id: dissolveAlbumViewerTransition
 
-    fadeOutTarget: Rectangle { } // Dummy Rectangle to avoid compilation errors.
-    fadeInTarget: Rectangle { } // Dummy Rectangle to avoid compilation errors.
+    fadeOutTarget: dissolveDummy
+    fadeInTarget: dissolveDummy
 
     onCompleted: {
       dissolveCompleted(fadeOutTarget, fadeInTarget);
     }
+  }
+
+  Item {
+    id: dissolveDummy
   }
 }

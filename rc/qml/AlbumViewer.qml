@@ -209,8 +209,33 @@ Rectangle {
     toolbarHasPageIndicator: albumViewer.state == "pageView"
     toolbarPageIndicatorAlbum: albumViewer.album
 
-    property variant popups: [ albumViewerOptionsMenu, albumViewerShareMenu,
-      selectionMenu ]
+    popups: [ albumViewerOptionsMenu, albumViewerShareMenu,
+      selectionMenu, trashDialog ]
+
+    onPageIndicatorPageSelected: {
+      chrome.hide();
+      albumSpreadViewer.turnTo(page);
+    }
+
+    onStateButtonPressed: {
+      albumViewer.state = (albumViewer.state == "pageView" ? "gridView" : "pageView");
+    }
+
+    onSelectionDoneButtonPressed: {
+      gridCheckerboard.unselectAll();
+      gridCheckerboard.inSelectionMode = false;
+    }
+
+    onReturnButtonPressed: {
+      gridCheckerboard.unselectAll();
+      gridCheckerboard.inSelectionMode = false;
+
+      closeRequested(true);
+    }
+
+    onMoreOperationsButtonPressed: cyclePopup(albumViewerOptionsMenu)
+    onShareOperationsButtonPressed: cyclePopup(albumViewerShareMenu)
+    onTrashOperationButtonPressed: cyclePopup(trashDialog)
 
     SelectionMenu {
       id: selectionMenu
@@ -254,33 +279,46 @@ Rectangle {
       visible: false
     }
 
-    onPageIndicatorPageSelected: {
-      chrome.hide();
-      albumSpreadViewer.turnTo(page);
-    }
+    PopupActionCancelDialog {
+      id: trashDialog
 
-    onStateButtonPressed: {
-      albumViewer.state = (albumViewer.state == "pageView" ? "gridView" : "pageView");
-    }
+      popupOriginX: -gu(16.5)
+      popupOriginY: -gu(6)
 
-    onSelectionDoneButtonPressed: {
-      gridCheckerboard.unselectAll();
-      gridCheckerboard.inSelectionMode = false;
-    }
+      visible: false
 
-    onReturnButtonPressed: {
-      gridCheckerboard.unselectAll();
-      gridCheckerboard.inSelectionMode = false;
+      explanatoryText: "Selecting remove will remove this photo from this "
+        + "album only."
 
-      closeRequested(true);
-    }
+      actionButtonTitle: "Remove"
 
-    onMoreOperationsButtonPressed: {
-      cyclePopup(albumViewerOptionsMenu);
-    }
+      onConfirmed: {
+        album.removeSelectedMediaSources(gridCheckerboard.model);
 
-    onShareOperationsButtonPressed: {
-      cyclePopup(albumViewerShareMenu);
+        gridCheckerboard.unselectAll();
+        gridCheckerboard.inSelectionMode = false;
+
+        if (album.contentPageCount == 0) {
+          trashModel.destroyAlbum(album);
+          albumViewer.closeRequested(true);
+          return;
+        }
+
+        // In the Album model, the last valid current page is the back cover.
+        // However, in the UI, we want to stay on the content pages.  The -1 is
+        // since the last content page will be on the right, but current page
+        // must always be the left page.
+        if (album.currentPage > album.lastContentPage - 1) {
+          album.currentPage = album.lastContentPage - 1;
+          albumSpreadViewer.setToAlbumCurrent();
+        }
+      }
+
+      onPopupInteractionCompleted: chrome.hideAllPopups()
+
+      AlbumCollectionModel {
+        id: trashModel
+      }
     }
   }
 

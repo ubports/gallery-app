@@ -93,6 +93,8 @@ class Album : public ContainerSource {
   
   Q_INVOKABLE void addMediaSource(QVariant vmedia);
   Q_INVOKABLE void addSelectedMediaSources(QVariant vmodel);
+  Q_INVOKABLE void removeMediaSource(QVariant vmedia);
+  Q_INVOKABLE void removeSelectedMediaSources(QVariant vmodel);
   Q_INVOKABLE QVariant getPage(int page) const;
   Q_INVOKABLE QVariant getPageForMediaSource(QVariant vmedia) const;
   

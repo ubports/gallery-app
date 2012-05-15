@@ -107,7 +107,11 @@ Item {
     visible: false
     
     onCloseRequested: {
-      if (state == "gridView") {
+      if (!album) {
+        // TODO: this isn't quite right.  Not sure how this should look.
+        albumViewer.visible = false;
+        albumViewerTransition.dissolve(null, navStack.previous());
+      } else if (state == "gridView") {
         albumViewerTransition.dissolve(albumViewer, navStack.previous());
       } else {
         navStack.goBack();

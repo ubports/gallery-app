@@ -98,6 +98,20 @@ void Album::addSelectedMediaSources(QVariant vmodel) {
     FilterSetOnlyType<DataObject*, MediaSource*>(model->BackingViewCollection()->GetSelected()));
 }
 
+void Album::removeMediaSource(QVariant vmedia) {
+  MediaSource* media = UncheckedVariantToObject<MediaSource*>(vmedia);
+  if (media != NULL)
+    Detach(media);
+}
+
+void Album::removeSelectedMediaSources(QVariant vmodel) {
+  QmlMediaCollectionModel* model = VariantToObject<QmlMediaCollectionModel*>(vmodel);
+
+  DetachMany(
+    FilterSetOnlyType<DataObject*, MediaSource*>(
+      model->BackingViewCollection()->GetSelected()));
+}
+
 QVariant Album::getPage(int page) const {
   AlbumPage* album_page = GetPage(page);
   

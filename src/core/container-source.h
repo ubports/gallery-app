@@ -45,6 +45,9 @@ class ContainerSource : public DataSource {
   
   void Attach(DataObject* object);
   void AttachMany(const QSet<DataObject*>& objects);
+
+  void Detach(DataObject* object);
+  void DetachMany(const QSet<DataObject*>& objects);
   
   bool Contains(DataObject* object) const;
   int ContainedCount() const;

@@ -37,6 +37,14 @@ void ContainerSource::AttachMany(const QSet<DataObject*>& objects) {
   contained_.AddMany(objects);
 }
 
+void ContainerSource::Detach(DataObject* object) {
+  contained_.Remove(object);
+}
+
+void ContainerSource::DetachMany(const QSet<DataObject*>& objects) {
+  contained_.RemoveMany(objects);
+}
+
 bool ContainerSource::Contains(DataObject* object) const {
   return contained_.Contains(object);
 }

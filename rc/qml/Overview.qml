@@ -358,7 +358,7 @@ Rectangle {
       explanatoryText: "Selecting remove will remove this album only- the "
         + "contents of the album will remain."
 
-      actionButtonTitle: "remove"
+      actionButtonTitle: "Remove"
 
       onConfirmed: {
         var album = albumsCheckerboard.singleSelectedItem;
