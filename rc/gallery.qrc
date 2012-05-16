@@ -74,6 +74,8 @@
     <file>qml/BinaryTabGroup.qml</file>
     <file>qml/Checkerboard.qml</file>
     <file>qml/CheckerboardDelegate.qml</file>
+    <file>qml/DeleteDialog.qml</file>
+    <file>qml/DeleteRemoveDialog.qml</file>
     <file>qml/EventCard.qml</file>
     <file>qml/EventCheckerboard.qml</file>
     <file>qml/EventCheckerboardPreview.qml</file>
@@ -101,7 +103,10 @@
     <file>qml/PhotoViewerTransition.qml</file>
     <file>qml/PopupAlbumPicker.qml</file>
     <file>qml/PopupActionCancelDialog.qml</file>
+    <file>qml/PopupActionChoiceDialog.qml</file>
     <file>qml/PopupBox.qml</file>
+    <file>qml/PopupDialog.qml</file>
+    <file>qml/PopupDialogButton.qml</file>
     <file>qml/PopupMenu.qml</file>
     <file>qml/PopupPhotoViewer.qml</file>
     <file>qml/SelectionMenu.qml</file>

@@ -121,6 +121,8 @@ OTHER_FILES += \
 	rc/qml/BinaryTabGroup.qml \
 	rc/qml/Checkerboard.qml \
 	rc/qml/CheckerboardDelegate.qml \
+	rc/qml/DeleteDialog.qml \
+	rc/qml/DeleteRemoveDialog.qml \
 	rc/qml/EventCard.qml \
 	rc/qml/EventCheckerboard.qml \
 	rc/qml/EventCheckerboardPreview.qml \
@@ -147,8 +149,11 @@ OTHER_FILES += \
 	rc/qml/PhotoViewerShareMenu.qml \
 	rc/qml/PhotoViewerTransition.qml \
 	rc/qml/PopupActionCancelDialog.qml \
+	rc/qml/PopupActionChoiceDialog.qml \
 	rc/qml/PopupAlbumPicker.qml \
 	rc/qml/PopupBox.qml \
+	rc/qml/PopupDialog.qml \
+	rc/qml/PopupDialogButton.qml \
 	rc/qml/PopupMenu.qml \
 	rc/qml/PopupPhotoViewer.qml \
 	rc/qml/SelectionMenu.qml \

@@ -209,7 +209,7 @@ Rectangle {
       visible: false
     }
 
-    PopupActionCancelDialog {
+    DeleteDialog {
       id: trashOperationDialog
 
       popupOriginX: -gu(24.5)
@@ -220,12 +220,6 @@ Rectangle {
       }
 
       visible: false
-
-      explanatoryText: "Selecting Delete will permanently delete this photo " +
-                       "from your tablet and from any albums that it appears " +
-                       "in."
-
-      actionButtonTitle: "Delete"
     }
 
     PopupAlbumPicker {

@@ -358,9 +358,9 @@ Rectangle {
       explanatoryText: "Selecting remove will remove this album only- the "
         + "contents of the album will remain."
 
-      actionButtonTitle: "Remove"
+      actionTitle: "Remove"
 
-      onConfirmed: {
+      onActionRequested: {
         var album = albumsCheckerboard.singleSelectedItem;
         albumsCheckerboard.model.destroyAlbum(album);
 

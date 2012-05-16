@@ -290,9 +290,9 @@ Rectangle {
       explanatoryText: "Selecting remove will remove this photo from this "
         + "album only."
 
-      actionButtonTitle: "Remove"
+      actionTitle: "Remove"
 
-      onConfirmed: {
+      onActionRequested: {
         album.removeSelectedMediaSources(gridCheckerboard.model);
 
         gridCheckerboard.unselectAll();
