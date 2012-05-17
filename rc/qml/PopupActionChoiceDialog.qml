@@ -26,6 +26,7 @@ PopupDialog {
 
   signal action0Requested()
   signal action1Requested()
+  signal cancelRequested()
 
   property alias action0Title: action0Button.title
   property alias action1Title: action1Button.title
@@ -79,7 +80,7 @@ PopupDialog {
     isCancelButton: true
 
     onPressed: {
-      popupActionChoiceDialog.action1Requested();
+      popupActionChoiceDialog.cancelRequested();
       popupActionChoiceDialog.popupInteractionCompleted();
     }
   }
