@@ -97,5 +97,8 @@ QVariant MediaSource::QmlFindEvent() {
 }
 
 void MediaSource::DestroySource(bool delete_backing, bool as_orphan) {
-  // TODO: Delete backing file
+  if (delete_backing) {
+    if (!QFile::remove(file_.absoluteFilePath()))
+      qDebug("Unable to delete media file %s", qPrintable(file_.absoluteFilePath()));
+  }
 }

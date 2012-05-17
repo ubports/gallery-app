@@ -220,6 +220,11 @@ Rectangle {
       }
 
       visible: false
+
+      onDeleteRequested: {
+        model.destroyMedia(photo);
+        // TODO: put the photo viewer back in a consistent state.
+      }
     }
 
     PopupAlbumPicker {

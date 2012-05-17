@@ -32,10 +32,13 @@ PreviewManager::PreviewManager() {
   this,
   SLOT(on_media_added_removed(const QSet<DataObject*>*,const QSet<DataObject*>*)));
   
+  QObject::connect(MediaCollection::instance(),
+  SIGNAL(destroying(const QSet<DataObject*>*)),
+  this,
+  SLOT(on_media_destroying(const QSet<DataObject*>*)));
+
   // Verify previews for all existing added MediaSources
   on_media_added_removed(&MediaCollection::instance()->GetAsSet(), NULL);
-  
-  // TODO: Subscribe to destroyed signal to remove cached previews
 }
 
 void PreviewManager::Init() {
@@ -61,6 +64,14 @@ void PreviewManager::on_media_added_removed(const QSet<DataObject*>* added,
     DataObject* object;
     foreach (object, *added)
       VerifyPreview(qobject_cast<MediaSource*>(object));
+  }
+}
+
+void PreviewManager::on_media_destroying(const QSet<DataObject*>* destroying) {
+  if (destroying != NULL) {
+    DataObject* object;
+    foreach (object, *destroying)
+      DestroyPreview(qobject_cast<MediaSource*>(object));
   }
 }
 
@@ -108,4 +119,11 @@ bool PreviewManager::VerifyPreview(MediaSource* media) {
   }
   
   return true;
+}
+
+void PreviewManager::DestroyPreview(MediaSource* media) {
+  QString filename = PreviewFileFor(media).filePath();
+
+  if (!QFile::remove(filename))
+    qDebug("Unable to remove preview %s", qPrintable(filename));
 }

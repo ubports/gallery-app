@@ -279,22 +279,11 @@ Rectangle {
       visible: false
     }
 
-    PopupActionCancelDialog {
+    DeleteRemoveDialog {
       id: trashDialog
 
-      popupOriginX: -gu(16.5)
-      popupOriginY: -gu(6)
-
-      visible: false
-
-      explanatoryText: "Selecting remove will remove this photo from this "
-        + "album only."
-
-      actionTitle: "Remove"
-
-      onActionRequested: {
-        album.removeSelectedMediaSources(gridCheckerboard.model);
-
+      // internal
+      function finishRemove() {
         gridCheckerboard.unselectAll();
         gridCheckerboard.inSelectionMode = false;
 
@@ -312,6 +301,23 @@ Rectangle {
           album.currentPage = album.lastContentPage - 1;
           albumSpreadViewer.setToAlbumCurrent();
         }
+      }
+
+      popupOriginX: -gu(16.5)
+      popupOriginY: -gu(6)
+
+      visible: false
+
+      onRemoveRequested: {
+        album.removeSelectedMediaSources(gridCheckerboard.model);
+
+        finishRemove();
+      }
+
+      onDeleteRequested: {
+        gridCheckerboard.model.destroySelectedMedia();
+
+        finishRemove();
       }
 
       onPopupInteractionCompleted: chrome.hideAllPopups()

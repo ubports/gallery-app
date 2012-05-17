@@ -39,18 +39,26 @@ void SourceCollection::DestroyAll(bool destroy_backing, bool delete_objects) {
   Clear();
   
   // destroy and optionally delete all objects
-  DataObject* object;
-  foreach (object, all) {
-    DataSource* source = qobject_cast<DataSource*>(object);
-    Q_ASSERT(source != NULL);
-    
-    source->Destroy(destroy_backing);
-    if (delete_objects)
-      delete source;
-  }
+  DestroyObjects(all, destroy_backing, delete_objects);
 }
 
-void SourceCollection::Destroy(DataSource* object, bool destroy_backing, bool delete_object) {
+void SourceCollection::DestroyMany(const QSet<DataObject*>& objects,
+  bool destroy_backing, bool delete_objects) {
+  QSet<DataObject*> intersection(GetAsSet());
+  intersection.intersect(objects);
+
+  if (intersection.count() == 0)
+    return;
+
+  notify_destroying(&intersection);
+
+  RemoveMany(intersection);
+
+  DestroyObjects(intersection, destroy_backing, delete_objects);
+}
+
+void SourceCollection::Destroy(DataSource* object, bool destroy_backing,
+  bool delete_object) {
   if (object == NULL || !Contains(object))
     return;
 
@@ -95,4 +103,17 @@ void SourceCollection::notify_contents_altered(const QSet<DataObject*>* added,
   }
   
   DataCollection::notify_contents_altered(added, removed);
+}
+
+void SourceCollection::DestroyObjects(const QSet<DataObject*>& objects,
+  bool destroy_backing, bool delete_objects) {
+  DataObject* object;
+  foreach (object, objects) {
+    DataSource* source = qobject_cast<DataSource*>(object);
+    Q_ASSERT(source != NULL);
+
+    source->Destroy(destroy_backing);
+    if (delete_objects)
+      delete source;
+  }
 }

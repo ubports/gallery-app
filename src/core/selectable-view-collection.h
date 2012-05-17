@@ -85,6 +85,8 @@ class SelectableViewCollection : public ViewCollection {
   bool isMonitoringSelectionState();
   
  protected:
+  virtual void notify_contents_to_be_altered(const QSet<DataObject*>* added,
+    const QSet<DataObject*>* removed);
   virtual void notify_selection_altered(QSet<DataObject*>* selected,
     QSet<DataObject*>* unselected);
   

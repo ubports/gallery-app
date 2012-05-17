@@ -23,6 +23,14 @@ SelectableViewCollection::SelectableViewCollection(const QString& name)
   : ViewCollection(name), monitoring_selection_(NULL) {
 }
 
+void SelectableViewCollection::notify_contents_to_be_altered(const QSet<DataObject*>* added,
+  const QSet<DataObject*>* removed) {
+  if (removed != NULL)
+    UnselectMany(*removed);
+
+  ViewCollection::notify_contents_to_be_altered(added, removed);
+}
+
 void SelectableViewCollection::notify_selection_altered(QSet<DataObject*>* selected,
   QSet<DataObject*>* unselected) {
   emit selection_altered(selected, unselected);

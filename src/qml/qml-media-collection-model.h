@@ -44,6 +44,8 @@ class QmlMediaCollectionModel : public QmlViewCollectionModel {
   static void RegisterType();
   
   Q_INVOKABLE QVariant createAlbumFromSelected();
+  Q_INVOKABLE void destroySelectedMedia();
+  Q_INVOKABLE void destroyMedia(QVariant vmedia);
   
   bool monitored() const;
   void set_monitored(bool monitor);

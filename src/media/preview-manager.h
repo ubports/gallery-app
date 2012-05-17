@@ -47,6 +47,7 @@ class PreviewManager : public QObject {
  private slots:
   void on_media_added_removed(const QSet<DataObject*>* added,
     const QSet<DataObject*>* removed);
+  void on_media_destroying(const QSet<DataObject*>* destroying);
   
  private:
   static PreviewManager* instance_;
@@ -54,6 +55,7 @@ class PreviewManager : public QObject {
   PreviewManager();
   
   bool VerifyPreview(MediaSource* media);
+  void DestroyPreview(MediaSource* media);
 };
 
 #endif  // GALLERY_PREVIEW_MANAGER_H_

@@ -19,10 +19,20 @@
 
 #include "album/album-collection.h"
 
+#include "media/media-collection.h"
+
 AlbumCollection *AlbumCollection::instance_ = NULL;
 
 AlbumCollection::AlbumCollection()
   : ContainerSourceCollection("AlbumCollection", CreationDateTimeDescendingComparator) {
+
+  // We need to monitor the media collection so that when photos get removed
+  // from the system, they also get removed from all albums.
+  QObject::connect(
+    MediaCollection::instance(),
+    SIGNAL(contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
+    this,
+    SLOT(on_media_added_removed(const QSet<DataObject*>*,const QSet<DataObject*>*)));
 }
 
 void AlbumCollection::Init() {
@@ -47,4 +57,25 @@ bool AlbumCollection::CreationDateTimeDescendingComparator(DataObject* a, DataOb
 
 void AlbumCollection::notify_album_current_page_contents_altered(Album* album) {
   emit album_current_page_contents_altered(album);
+}
+
+void AlbumCollection::on_media_added_removed(const QSet<DataObject *> *added,
+  const QSet<DataObject *> *removed) {
+  if (removed != NULL) {
+    // TODO: this could maybe be optimized.  Many albums might not care about
+    // the particular photo being added.
+    DataObject* album_object;
+    foreach (album_object, GetAsSet()) {
+      Album* album = qobject_cast<Album*>(album_object);
+      Q_ASSERT(album != NULL);
+
+      DataObject* object;
+      foreach (object, *removed) {
+        MediaSource* media = qobject_cast<MediaSource*>(object);
+        Q_ASSERT(media != NULL);
+
+        album->Detach(media);
+      }
+    }
+  }
 }

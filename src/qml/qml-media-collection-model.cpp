@@ -56,6 +56,23 @@ QVariant QmlMediaCollectionModel::createAlbumFromSelected() {
   return QVariant::fromValue(album);
 }
 
+void QmlMediaCollectionModel::destroySelectedMedia() {
+  SelectableViewCollection* view = BackingViewCollection();
+  if (view->SelectedCount() == 0)
+    return;
+
+  MediaCollection::instance()->DestroyMany(
+    FilterSetOnlyType<DataObject*, MediaSource*>(view->GetSelected()),
+    true, true);
+}
+
+void QmlMediaCollectionModel::destroyMedia(QVariant vmedia) {
+  MediaSource* media = VariantToObject<MediaSource*>(vmedia);
+
+  if (media != NULL)
+    MediaCollection::instance()->Destroy(media, true, true);
+}
+
 bool QmlMediaCollectionModel::monitored() const {
   return IsMonitoring();
 }

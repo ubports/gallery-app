@@ -45,6 +45,8 @@ class SourceCollection : public DataCollection {
   SourceCollection(const QString& name);
   
   void DestroyAll(bool destroy_backing, bool delete_objects);
+  void DestroyMany(const QSet<DataObject*>& objects, bool destroy_backing,
+    bool delete_objects);
   void Destroy(DataSource* object, bool destroy_backing, bool delete_object);
   
  protected:
@@ -52,6 +54,10 @@ class SourceCollection : public DataCollection {
   
   virtual void notify_contents_altered(const QSet<DataObject*>* added,
     const QSet<DataObject*>* removed);
+
+ private:
+  void DestroyObjects(const QSet<DataObject*>& objects, bool destroy_backing,
+    bool delete_objects);
 };
 
 #endif  // GALLERY_SOURCE_COLLECTION_H_

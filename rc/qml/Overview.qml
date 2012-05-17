@@ -281,7 +281,7 @@ Rectangle {
     visible: eventsCheckerboard.inSelectionMode || albumsCheckerboard.inSelectionMode
 
     popups: (eventsCheckerboard.inSelectionMode
-      ? [ selectionOperationsMenu ]
+      ? [ selectionOperationsMenu, photoTrashDialog ]
       : [ albumOptionsMenu, albumTrashDialog ])
 
     onSelectionOperationsButtonPressed: {
@@ -295,7 +295,9 @@ Rectangle {
     }
 
     onTrashOperationButtonPressed: {
-      if (!eventsCheckerboard.inSelectionMode)
+      if (eventsCheckerboard.inSelectionMode)
+        cyclePopup(photoTrashDialog);
+      else
         cyclePopup(albumTrashDialog);
     }
 
@@ -347,10 +349,10 @@ Rectangle {
       onPopupInteractionCompleted: hideAllPopups()
     }
 
-    PopupActionCancelDialog {
+    DeleteDialog {
       id: albumTrashDialog
 
-      popupOriginX: -gu(24.5)
+      popupOriginX: -gu(16.5)
       popupOriginY: -gu(6)
 
       visible: false
@@ -360,12 +362,34 @@ Rectangle {
 
       actionTitle: "Remove"
 
-      onActionRequested: {
+      onDeleteRequested: {
         var album = albumsCheckerboard.singleSelectedItem;
         albumsCheckerboard.model.destroyAlbum(album);
 
+        chrome.hideAllPopups(); // Have to do here since our popup list changes
+                                // based on selection mode.
         albumsCheckerboard.unselectAll();
         albumsCheckerboard.inSelectionMode = false;
+      }
+
+      onPopupInteractionCompleted: chrome.hideAllPopups()
+    }
+
+    DeleteDialog {
+      id: photoTrashDialog
+
+      popupOriginX: -gu(16.5)
+      popupOriginY: -gu(6)
+
+      visible: false
+
+      onDeleteRequested: {
+        eventsCheckerboard.model.destroySelectedMedia();
+
+        chrome.hideAllPopups(); // Have to do here since our popup list changes
+                                // based on selection mode.
+        eventsCheckerboard.unselectAll();
+        eventsCheckerboard.inSelectionMode = false;
       }
 
       onPopupInteractionCompleted: chrome.hideAllPopups()
