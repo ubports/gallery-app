@@ -50,6 +50,15 @@ Rectangle {
   Pager {
     id: imagePager
 
+    property int currentIndexForHighlight: -1
+
+    onMovingChanged: {
+      // TODO: if you scroll through a number of pages without stopping, this
+      // never gets updated, so the highlighting stops working.
+      if (moving)
+        currentIndexForHighlight = currentIndex;
+    }
+
     model: parent.model
 
     delegate: PhotoComponent {
@@ -59,7 +68,8 @@ Rectangle {
       color: "black"
       
       opacity: {
-        if (index != imagePager.currentIndex || !imagePager.moving || imagePager.contentX < 0)
+        if (!imagePager.moving || imagePager.contentX < 0
+          || index != imagePager.currentIndexForHighlight)
           return 1.0;
         
         return 1.0 - Math.abs((imagePager.contentX - x) / width);
@@ -223,7 +233,9 @@ Rectangle {
 
       onDeleteRequested: {
         model.destroyMedia(photo);
-        // TODO: put the photo viewer back in a consistent state.
+
+        if (model.count == 0)
+          photoViewer.closeRequested();
       }
     }
 

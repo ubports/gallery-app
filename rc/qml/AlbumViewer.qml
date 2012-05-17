@@ -287,6 +287,8 @@ Rectangle {
         gridCheckerboard.unselectAll();
         gridCheckerboard.inSelectionMode = false;
 
+        // TODO: this needs to happen in the C++ model layer, not here and when
+        // the photo viewer closes.
         if (album.contentPageCount == 0) {
           trashModel.destroyAlbum(album);
           albumViewer.closeRequested(true);
@@ -358,6 +360,13 @@ Rectangle {
     }
 
     onCloseRequested: {
+      if (album.contentPageCount == 0) {
+        close();
+        trashModel.destroyAlbum(album);
+        albumViewer.closeRequested(true);
+        return;
+      }
+
       var rect = (forGridView)
         ? gridCheckerboard.getRectOfItemAt(index, photoViewer)
         : albumSpreadViewer.getRectOfMediaSource(photo);

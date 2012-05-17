@@ -48,31 +48,7 @@ ListView {
 
   orientation: ListView.Horizontal
   snapMode: ListView.SnapOneItem
+  highlightRangeMode: ListView.StrictlyEnforceRange
   cacheBuffer: width * pageCacheSize
   flickDeceleration: 50
-  keyNavigationWraps: true
-  highlightMoveSpeed: 2000.0
-
-  // It didn't appear to us that the currentIndex was actually accurate as you moved through the
-  // list, so we have to manually keep it in sync.
-  function updateCurrentIndex() {
-    // Add one to ensure the hit-test is inside the delegate's boundaries
-    currentIndex = indexAt(contentX + 1, contentY + 1);
-  }
-  
-  onModelChanged: {
-    updateCurrentIndex();
-  }
-  
-  onVisibleChanged: {
-    updateCurrentIndex();
-  }
-  
-  onCountChanged: {
-    updateCurrentIndex();
-  }
-
-  onMovementEnded: {
-    updateCurrentIndex();
-  }
 }
