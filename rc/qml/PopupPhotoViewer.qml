@@ -40,6 +40,7 @@ Item {
   signal opened() // The photo viewer's opening animation is finished.
   signal closeRequested() // The user pressed the back button.  Call animateClosed() or close().
   signal closed() // The photo viewer's closing animation is finished.
+  signal editRequested(variant photo) // The user wants to edit this photo.
 
   function animateOpen(photo, thumbnailRect, adjustForPhotoMat) {
     opening();
@@ -64,6 +65,8 @@ Item {
     visible: false
 
     onCloseRequested: popupPhotoViewer.closeRequested()
+
+    onEditRequested: popupPhotoViewer.editRequested(photo)
   }
 
   PhotoViewerTransition {

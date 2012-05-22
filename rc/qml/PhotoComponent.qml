@@ -203,6 +203,10 @@ Rectangle {
     
     // By using a minimum sourceSize width, can reduce the amount of I/O
     // fetching the same image
+    // TODO: as we animate previews, since we're changing the sourceSize, it
+    // triggers a reload from disk at each step.  We should cap these previews'
+    // sourceSize so that stops happening.  (This might apply to more than
+    // previews at some point in time.)
     sourceSize.width: (width <= 1024) ? 1024 : width
     
     asynchronous: !isAnimate

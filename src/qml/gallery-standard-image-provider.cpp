@@ -55,7 +55,15 @@ QUrl GalleryStandardImageProvider::ToURL(const QFileInfo& file) {
 
 QImage GalleryStandardImageProvider::requestImage(const QString& id,
   QSize* size, const QSize& requestedSize) {
-  QImageReader reader(id);
+  // Note that even though id looks like a path at this point, it can contain
+  // arbitrary "parameters" that came from the original URL.  We use these
+  // parameters to ensure that we reload images from disk (skipping QML's
+  // internal cache) when editing photos.  So, for now, we strip off everything
+  // but the path part of the "URL" (the ?edit=x part is simply ignored).
+  QUrl url(id);
+  QString file = url.path();
+
+  QImageReader reader(file);
   
   // use scaled load-and-decode if size has been requested
   if (requestedSize.width() > 0 || requestedSize.height() > 0) {
@@ -83,7 +91,7 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
   }
   
   // apply orientation if necessary
-  std::auto_ptr<PhotoMetadata> metadata(PhotoMetadata::FromFile(id));
+  std::auto_ptr<PhotoMetadata> metadata(PhotoMetadata::FromFile(file));
   if (metadata.get() != NULL && metadata->orientation() != TOP_LEFT_ORIGIN)
     image = image.transformed(metadata->orientation_transform());
   

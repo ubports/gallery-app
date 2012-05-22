@@ -62,11 +62,17 @@ class PhotoMetadata : public QObject {
  public:
   static PhotoMetadata* FromFile(const char* filepath);
   static PhotoMetadata* FromFile(const QFileInfo& file);
+
+  static Orientation rotate_orientation(Orientation orientation, bool left);
     
   QDateTime exposure_time() const;
   Orientation orientation() const;
   QTransform orientation_transform() const;
   OrientationCorrection orientation_correction() const;
+
+  void set_orientation(Orientation orientation);
+
+  bool save() const;
   
  private:
   PhotoMetadata(const char* filepath);

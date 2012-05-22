@@ -23,6 +23,7 @@ PopupMenu {
   model: ListModel {
     ListElement {
       title: "Edit"
+      action: "onEdit"
     }
 
     ListElement {

@@ -62,8 +62,23 @@ void PreviewManager::on_media_added_removed(const QSet<DataObject*>* added,
   const QSet<DataObject*>* removed) {
   if (added != NULL) {
     DataObject* object;
-    foreach (object, *added)
-      VerifyPreview(qobject_cast<MediaSource*>(object));
+    foreach (object, *added) {
+      MediaSource* source = qobject_cast<MediaSource*>(object);
+
+      QObject::connect(source, SIGNAL(data_altered()),
+        this, SLOT(on_media_data_altered()), Qt::UniqueConnection);
+
+      VerifyPreview(source);
+    }
+  }
+
+  if (removed != NULL) {
+    DataObject* object;
+    foreach (object, *removed) {
+      MediaSource* source = qobject_cast<MediaSource*>(object);
+      QObject::disconnect(source, SIGNAL(data_altered()),
+        this, SLOT(on_media_data_altered()));
+    }
   }
 }
 
@@ -75,6 +90,13 @@ void PreviewManager::on_media_destroying(const QSet<DataObject*>* destroying) {
   }
 }
 
+void PreviewManager::on_media_data_altered() {
+  QObject* object = QObject::sender();
+  MediaSource* source = qobject_cast<MediaSource*>(object);
+
+  VerifyPreview(source, true);
+}
+
 QFileInfo PreviewManager::PreviewFileFor(const MediaSource* media) const {
   QFileInfo file = media->file();
   
@@ -82,13 +104,13 @@ QFileInfo PreviewManager::PreviewFileFor(const MediaSource* media) const {
     PREVIEW_DIR + "/" + file.completeBaseName() + "_th." + file.completeSuffix());
 }
 
-bool PreviewManager::VerifyPreview(MediaSource* media) {
+bool PreviewManager::VerifyPreview(MediaSource* media, bool regen) {
   // create the thumbnail directory if not already present
   media->file().dir().mkdir(PREVIEW_DIR);
   
-  // If preview file exists, considered valid
+  // If preview file exists, considered valid (unless we're regenerating it).
   QFileInfo preview = PreviewFileFor(media);
-  if (preview.exists())
+  if (preview.exists() && !regen)
     return true;
   
   QImage fullsized = media->Image();

@@ -65,6 +65,8 @@ Item {
       showAlbumPreview(album, false);
       albumViewerTransition.transitionToAlbumViewer(album, thumbnailRect);
     }
+
+    onEditPhotoRequested: navStack.switchToPhotoEditor(photo)
   }
 
   AlbumEditor {
@@ -124,6 +126,8 @@ Item {
       }
     }
 
+    onEditPhotoRequested: navStack.switchToPhotoEditor(photo)
+
     onAddPhotosRequested: mediaSelectorSlider.showMediaSelector(album)
   }
 
@@ -177,9 +181,26 @@ Item {
     }
   }
   
+  PhotoEditor {
+    id: photoEditor
+
+    z: 20
+    anchors.fill: parent
+
+    visible: false
+
+    onCloseRequested: navStack.goBack()
+  }
+
   NavStack {
     id: navStack
     
+    function switchToPhotoEditor(photo) {
+      photoEditor.photo = photo;
+
+      navStack.switchToPage(photoEditor);
+    }
+
     function switchToAlbumViewer(album) {
       albumViewer.resetView(album);
       

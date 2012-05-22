@@ -30,6 +30,7 @@ Rectangle {
   signal addAlbumRequested()
   signal editAlbumRequested(variant album, variant thumbnailRect)
   signal albumSelected(variant album, variant thumbnailRect)
+  signal editPhotoRequested(variant photo)
 
   property Rectangle glass: overviewGlass
 
@@ -412,6 +413,8 @@ Rectangle {
           false);
       }
     }
+
+    onEditRequested: overview.editPhotoRequested(photo)
 
     onCloseRequested: {
       var thumbnailRect =

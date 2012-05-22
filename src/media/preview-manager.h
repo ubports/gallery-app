@@ -48,13 +48,14 @@ class PreviewManager : public QObject {
   void on_media_added_removed(const QSet<DataObject*>* added,
     const QSet<DataObject*>* removed);
   void on_media_destroying(const QSet<DataObject*>* destroying);
+  void on_media_data_altered();
   
  private:
   static PreviewManager* instance_;
   
   PreviewManager();
   
-  bool VerifyPreview(MediaSource* media);
+  bool VerifyPreview(MediaSource* media, bool regen = false);
   void DestroyPreview(MediaSource* media);
 };
 

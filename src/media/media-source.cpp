@@ -102,3 +102,7 @@ void MediaSource::DestroySource(bool delete_backing, bool as_orphan) {
       qDebug("Unable to delete media file %s", qPrintable(file_.absoluteFilePath()));
   }
 }
+
+void MediaSource::notify_data_altered() {
+  emit data_altered();
+}

@@ -31,6 +31,7 @@ Rectangle {
   // When the user clicks the back button or pages back to the cover.
   signal closeRequested(bool stayOpen)
   signal addPhotosRequested(variant album)
+  signal editPhotoRequested(variant photo)
 
   anchors.fill: parent
 
@@ -259,9 +260,7 @@ Rectangle {
         }
       }
 
-      onPopupInteractionCompleted: {
-        hideAllPopups();
-      }
+      onPopupInteractionCompleted: chrome.hideAllPopups()
 
       visible: false;
     }
@@ -272,9 +271,7 @@ Rectangle {
       popupOriginX: -gu(9)
       popupOriginY: -gu(6)
 
-      onPopupInteractionCompleted: {
-        hideAllPopups();
-      }
+      onPopupInteractionCompleted: chrome.hideAllPopups()
 
       visible: false
     }
@@ -358,6 +355,8 @@ Rectangle {
         }
       }
     }
+
+    onEditRequested: albumViewer.editPhotoRequested(photo)
 
     onCloseRequested: {
       if (album.contentPageCount == 0) {

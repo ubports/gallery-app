@@ -95,12 +95,8 @@ Rectangle {
 
     interval: 300
 
-    onTriggered: {
-      chrome.cyclePopup(hostMenu);
-      chrome.popupActive = false
-    }
+    onTriggered: popupInteractionCompleted()
   }
-
 
   height: {
     if (isSeparator)

@@ -144,6 +144,7 @@ OTHER_FILES += \
 	rc/qml/Overview.qml \
 	rc/qml/Pager.qml \
 	rc/qml/PhotoComponent.qml \
+	rc/qml/PhotoEditor.qml \
 	rc/qml/PhotoViewer.qml \
 	rc/qml/PhotoViewerOptionsMenu.qml \
 	rc/qml/PhotoViewerShareMenu.qml \

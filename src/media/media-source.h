@@ -41,8 +41,8 @@ class MediaSource : public DataSource {
   Q_OBJECT
   Q_PROPERTY(QUrl path READ path NOTIFY path_altered)
   Q_PROPERTY(QUrl previewPath READ preview_path NOTIFY preview_path_altered)
-  Q_PROPERTY(QUrl galleryPath READ gallery_path NOTIFY path_altered)
-  Q_PROPERTY(QUrl galleryPreviewPath READ gallery_preview_path NOTIFY preview_path_altered)
+  Q_PROPERTY(QUrl galleryPath READ gallery_path NOTIFY gallery_path_altered)
+  Q_PROPERTY(QUrl galleryPreviewPath READ gallery_preview_path NOTIFY gallery_preview_path_altered)
   Q_PROPERTY(int orientation READ orientation NOTIFY orientation_altered)
   Q_PROPERTY(QDate exposureDate READ exposure_date NOTIFY exposure_date_time_altered)
   Q_PROPERTY(QTime exposureTimeOfDay READ exposure_time_of_day NOTIFY exposure_date_time_altered)
@@ -52,9 +52,12 @@ class MediaSource : public DataSource {
  signals:
   void path_altered();
   void preview_path_altered();
+  void gallery_path_altered();
+  void gallery_preview_path_altered();
   void orientation_altered();
   void exposure_date_time_altered();
   void event_changed();
+  void data_altered();
   
  public:
   MediaSource();
@@ -64,11 +67,11 @@ class MediaSource : public DataSource {
   
   QFileInfo file() const;
   QUrl path() const;
-  QUrl gallery_path() const;
+  virtual QUrl gallery_path() const;
   
   QFileInfo preview_file() const;
   QUrl preview_path() const;
-  QUrl gallery_preview_path() const;
+  virtual QUrl gallery_preview_path() const;
   
   virtual QImage Image(bool respect_orientation = true) const;
   
@@ -84,6 +87,8 @@ class MediaSource : public DataSource {
   
  protected:
   virtual void DestroySource(bool delete_backing, bool as_orphan);
+
+  virtual void notify_data_altered();
   
  private:
   QFileInfo file_;

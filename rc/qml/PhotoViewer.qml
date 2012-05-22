@@ -28,6 +28,7 @@ Rectangle {
 
   // When the user clicks the back button.
   signal closeRequested()
+  signal editRequested(variant photo) // The user wants to edit this photo.
 
   property variant model: null
 
@@ -217,6 +218,18 @@ Rectangle {
       }
 
       visible: false
+
+      onActionInvoked: {
+        // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you
+        // edit a switch statement in QML.  The short version is: use braces
+        // always.
+        switch (name) {
+          case "onEdit": {
+            photoViewer.editRequested(photo);
+            break;
+          }
+        }
+      }
     }
 
     DeleteDialog {

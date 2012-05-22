@@ -131,7 +131,25 @@ PhotoMetadata* PhotoMetadata::FromFile(const QFileInfo &file) {
   return PhotoMetadata::FromFile(file.absoluteFilePath().toStdString().c_str());
 }
 
-Orientation PhotoMetadata::orientation() const { 
+Orientation PhotoMetadata::rotate_orientation(Orientation orientation, bool left) {
+  QVector<Orientation> sequence_a;
+  QVector<Orientation> sequence_b;
+  sequence_a <<
+    TOP_LEFT_ORIGIN << LEFT_BOTTOM_ORIGIN << BOTTOM_RIGHT_ORIGIN << RIGHT_TOP_ORIGIN;
+  sequence_b <<
+    TOP_RIGHT_ORIGIN << RIGHT_BOTTOM_ORIGIN << BOTTOM_LEFT_ORIGIN << LEFT_TOP_ORIGIN;
+
+  const QVector<Orientation>& sequence = (
+    sequence_a.contains(orientation) ? sequence_a : sequence_b);
+
+  int current = sequence.indexOf(orientation);
+  int jump = (left ? 1 : sequence.count() - 1);
+  int next = (current + jump) % sequence.count();
+
+  return sequence[next];
+}
+
+Orientation PhotoMetadata::orientation() const {
   Exiv2::ExifData& exif_data = image_->exifData();
   
   if (exif_data.empty())
@@ -175,6 +193,24 @@ QTransform PhotoMetadata::orientation_transform() const {
   result.rotate(correction.rotation_angle_);
 
   return result;
+}
+
+void PhotoMetadata::set_orientation(Orientation orientation) {
+  Exiv2::ExifData& exif_data = image_->exifData();
+
+  exif_data[EXIF_ORIENTATION_KEY] = orientation;
+
+  if (!keys_present_.contains(EXIF_ORIENTATION_KEY))
+    keys_present_.insert(EXIF_ORIENTATION_KEY);
+}
+
+bool PhotoMetadata::save() const {
+  try {
+    image_->writeMetadata();
+    return true;
+  } catch (Exiv2::AnyError& e) {
+    return false;
+  }
 }
 
 OrientationCorrection OrientationCorrection::FromOrientation(Orientation o) {

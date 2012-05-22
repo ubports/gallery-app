@@ -39,16 +39,27 @@ class Photo : public MediaSource {
   virtual QImage Image(bool respect_orientation) const;
   virtual Orientation orientation() const;
   virtual QDateTime exposure_date_time() const;
-  
+
+  virtual QUrl gallery_path() const;
+  virtual QUrl gallery_preview_path() const;
+
+  Q_INVOKABLE void rotateRight();
+  Q_INVOKABLE void rotateLeft();
+
  protected:
   virtual void DestroySource(bool destroy_backing, bool as_orphan);
   
  private:
+  void set_orientation(Orientation new_orientation);
+  void append_edit_revision(QUrl& url) const;
+  void finish_edit();
+
   // Go ahead and cache the photo's metadata object inside the photo. Insofar
   // as we know, Gallery will be the only application on the device mutating
   // photo files, so we won't have to worry about the cache going stale.
   PhotoMetadata* metadata_;
   mutable QDateTime *exposure_date_time_;
+  int edit_revision_; // How many times the pixel data has been modified by us.
 };
 
 #endif  // GALLERY_PHOTO_H_

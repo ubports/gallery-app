@@ -97,6 +97,7 @@
     <file>qml/Overview.qml</file>
     <file>qml/Pager.qml</file>
     <file>qml/PhotoComponent.qml</file>
+    <file>qml/PhotoEditor.qml</file>
     <file>qml/PhotoViewer.qml</file>
     <file>qml/PhotoViewerOptionsMenu.qml</file>
     <file>qml/PhotoViewerShareMenu.qml</file>
