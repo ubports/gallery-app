@@ -48,15 +48,6 @@ class QmlEventOverviewModel : public QmlMediaCollectionModel {
   bool ascending_order() const;
   void set_ascending_order(bool ascending);
   
-  // In EventOverviewModels that use forCollection (such as an Album), the
-  // number of photos in each event grouping could be a subset of the photos
-  // in each Event.  This method returns the number of photos from the event
-  // that are in this collection.
-  //
-  // There is no special signal to monitor to know when this value has changed.
-  // QML should use "countChanged" and recalculate for all events.
-  Q_INVOKABLE int mediaCountForEvent(QVariant vevent) const;
-  
  protected:
   virtual void notify_backing_collection_changed();
   

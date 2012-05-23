@@ -25,7 +25,6 @@ Item {
   property alias ownerName: photo.ownerName
   property alias event: eventCard.event
   property alias mediaSource: photo.mediaSource
-  property alias eventMediaCount: eventCard.mediaCount
   
   MattedPhotoPreview {
     id: photo

@@ -143,9 +143,8 @@ Rectangle {
     }
   }
 
-  EventCheckerboard {
+  Checkerboard {
     id: gridCheckerboard
-    objectName: "gridCheckerboard"
     
     property variant photoViewerModel: MediaCollectionModel {
       forCollection: albumViewer.album
@@ -163,10 +162,28 @@ Rectangle {
 
     visible: false
     
-    forCollection: albumViewer.album
     allowSelectionModeChange: true
-    ascending: true
     
+    model: MediaCollectionModel {
+      forCollection: album
+    }
+
+    delegate: CheckerboardDelegate {
+      checkerboard: gridCheckerboard
+
+      content: PhotoComponent {
+        anchors.centerIn: parent
+
+        width: parent.width
+        height: parent.height
+
+        mediaSource: modelData.mediaSource
+        isCropped: true
+        isPreview: true
+        ownerName: "AlbumViewer grid"
+      }
+    }
+
     onActivated: {
       var photoRect = GalleryUtility.translateRect(activatedRect, gridCheckerboard, photoViewer);
       photoViewer.forGridView = true;
@@ -341,7 +358,7 @@ Rectangle {
     onOpening: {
       // although this might be used by the page viewer, it too uses the grid's
       // models because you can walk the entire album from both
-      model = gridCheckerboard.photoViewerModel;
+      model = gridCheckerboard.model;
     }
 
     onIndexChanged: {

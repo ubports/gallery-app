@@ -24,10 +24,6 @@ import "GalleryUtility.js" as GalleryUtility
 Checkerboard {
   id: eventCheckerboard
   
-  // public
-  property alias forCollection: eventOverviewModel.forCollection
-  property alias ascending: eventOverviewModel.ascending
-  
   function getVisibleMediaSources() {
     var vd = getVisibleDelegates();
     
@@ -65,10 +61,7 @@ Checkerboard {
   }
   
   model: EventOverviewModel {
-    id: eventOverviewModel
-    
     monitored: true
-    ascending: false
   }
   
   delegate: CheckerboardDelegate {
@@ -86,16 +79,6 @@ Checkerboard {
 
       mediaSource: (modelData.typeName == "MediaSource") ? modelData.mediaSource : undefined
       event: (modelData.typeName == "Event") ? modelData.object : undefined
-      eventMediaCount: (event) ? eventOverviewModel.mediaCountForEvent(event) : -1
-      
-      Connections {
-        target: eventOverviewModel
-        
-        onCountChanged: {
-          if (event)
-            preview.eventMediaCount = eventOverviewModel.mediaCountForEvent(event);
-        }
-      }
     }
   }
 }

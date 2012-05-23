@@ -159,33 +159,6 @@ void QmlEventOverviewModel::SelectUnselectEvent(const QSet<DataObject*>* toggled
   }
 }
 
-int QmlEventOverviewModel::mediaCountForEvent(QVariant vevent) const {
-  Event* event = UncheckedVariantToObject<Event*>(vevent);
-  if (event == NULL)
-    return -1;
-  
-  SelectableViewCollection* view = BackingViewCollection();
-  
-  int startIndex = view->IndexOf(event);
-  if (startIndex < 0)
-    return -1;
-  
-  int total = 0;
-  
-  int count = view->Count();
-  for (int ctr = startIndex + 1; ctr < count; ctr++) {
-    MediaSource* media = view->GetAtAsType<MediaSource*>(ctr);
-    if (media == NULL) {
-      // reached the end of the run of MediaSources for this event
-      break;
-    }
-    
-    total++;
-  }
-  
-  return total;
-}
-
 bool QmlEventOverviewModel::AscendingComparator(DataObject* a, DataObject* b) {
   return EventComparator(a, b, true);
 }

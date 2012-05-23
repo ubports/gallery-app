@@ -135,9 +135,12 @@ int SelectableViewCollection::UnselectMany(const QSet<DataObject*>& unselect) {
 
 void SelectableViewCollection::MonitorSelectionState(SelectableViewCollection* view) {
   StopMonitoringSelectionState();
-  
+
+  if (view == NULL)
+    return;
+
   monitoring_selection_ = view;
-  
+
   QObject::connect(monitoring_selection_,
     SIGNAL(selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
     this,
@@ -147,13 +150,13 @@ void SelectableViewCollection::MonitorSelectionState(SelectableViewCollection* v
 void SelectableViewCollection::StopMonitoringSelectionState() {
   if (monitoring_selection_ == NULL)
     return;
-  
-  monitoring_selection_ = NULL;
-  
+
   QObject::disconnect(monitoring_selection_,
     SIGNAL(selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
     this,
     SLOT(on_monitoring_selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)));
+
+  monitoring_selection_ = NULL;
 }
 
 bool SelectableViewCollection::isMonitoringSelectionState() {
@@ -164,7 +167,7 @@ void SelectableViewCollection::on_monitoring_selection_altered(
   const QSet<DataObject*>* selected, const QSet<DataObject*>* unselected) {
   if (selected != NULL)
     SelectMany(*selected);
-  
+
   if (unselected != NULL)
     UnselectMany(*unselected);
 }
