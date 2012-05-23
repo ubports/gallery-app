@@ -32,7 +32,8 @@ Rectangle {
   
   property alias model: grid.model
   property alias delegate: grid.delegate
-  
+  property alias header: grid.header
+
   property alias contentX: grid.contentX
   property alias contentY: grid.contentY
   

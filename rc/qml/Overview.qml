@@ -71,7 +71,6 @@ Rectangle {
     id: eventsSheet
 
     anchors.fill: parent
-    anchors.topMargin: navbar.height
 
     // if switched away from or to, always move back to checkerboard
     onVisibleChanged: {
@@ -84,6 +83,12 @@ Rectangle {
       objectName: "eventsCheckerboard"
 
       anchors.fill: parent
+      header: Item {
+        id: emptyScrollSpace
+
+        height: navbar.height;
+        width: parent.width;
+      }
 
       topExtraGutter: gu(2)
       bottomExtraGutter: gu(0)
@@ -107,6 +112,26 @@ Rectangle {
           eventTimelineTransition.toTimeline(object);
         }
       }
+
+      onMovementStarted: {
+        scrollOrchestrator.viewMovementStarted(contentY);
+      }
+
+      onContentYChanged: {
+        scrollOrchestrator.viewScrolled(contentY);
+      }
+
+      onMovementEnded: {
+        scrollOrchestrator.viewMovementEnded(contentY);
+      }
+    }
+
+    NavbarScrollOrchestrator {
+      id: scrollOrchestrator
+
+      navigationBar: navbar
+
+      onInitialized: eventsCheckerboard.contentY = 0;
     }
 
     EventTimelineTransition {
@@ -233,7 +258,7 @@ Rectangle {
     id: navbar
     objectName: "navbar"
 
-    anchors.top: parent.top
+    y: 0
     anchors.left: parent.left
     anchors.right: parent.right
 

@@ -141,6 +141,7 @@ OTHER_FILES += \
 	rc/qml/MenuItem.qml \
 	rc/qml/MoreOperationsToolbarButton.qml \
 	rc/qml/NavStack.qml \
+	rc/qml/NavbarScrollOrchestrator.qml \
 	rc/qml/Overview.qml \
 	rc/qml/Pager.qml \
 	rc/qml/PhotoComponent.qml \

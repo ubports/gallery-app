@@ -93,6 +93,7 @@
     <file>qml/MediaSelector.qml</file>
     <file>qml/MenuItem.qml</file>
     <file>qml/MoreOperationsToolbarButton.qml</file>
+    <file>qml/NavbarScrollOrchestrator.qml</file>
     <file>qml/NavStack.qml</file>
     <file>qml/Overview.qml</file>
     <file>qml/Pager.qml</file>
