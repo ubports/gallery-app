@@ -138,6 +138,7 @@ Rectangle {
       id: eventTimelineTransition
 
       anchors.fill: parent
+      anchors.topMargin: navbar.height
 
       visible: false
       clip: true
@@ -151,7 +152,7 @@ Rectangle {
 
       anchors.fill: parent
 
-      topExtraGutter: gu(2)
+      topExtraGutter: gu(2) + navbar.height
       bottomExtraGutter: gu(0)
       leftExtraGutter: gu(2)
       rightExtraGutter: gu(2)
