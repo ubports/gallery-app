@@ -146,12 +146,6 @@ Rectangle {
   Checkerboard {
     id: gridCheckerboard
     
-    property variant photoViewerModel: MediaCollectionModel {
-      forCollection: albumViewer.album
-      monitored: true
-      monitorSelection: gridCheckerboard.model
-    }
-    
     anchors.fill: parent
     anchors.topMargin: chrome.navbarHeight
 
