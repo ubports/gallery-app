@@ -66,61 +66,15 @@ Item {
 
     anchors.bottom: parent.bottom
 
-    MoreOperationsToolbarButton {
+    ToolbarIconButton {
       anchors.verticalCenter: parent.verticalCenter
       anchors.right: parent.right
       anchors.rightMargin: gu(2)
 
-      onPressed: editMenu.visible = true
+      selectedIconFilename: "../img/icon-rotate.png"
+      deselectedIconFilename: selectedIconFilename
+
+      onPressed: photo.rotateRight()
     }
-  }
-
-  MouseArea {
-    id: cancelArea
-
-    anchors.fill: parent
-
-    visible: editMenu.visible
-
-    onClicked: editMenu.visible = false
-  }
-
-  PopupMenu {
-    id: editMenu
-
-    popupOriginX: -gu(1.5)
-    popupOriginY: -gu(6)
-
-    visible: false
-
-    model: ListModel {
-      ListElement {
-        title: "Rotate Left"
-        action: "onRotateLeft"
-      }
-      ListElement {
-        title: "Rotate Right"
-        action: "onRotateRight"
-      }
-    }
-
-    onActionInvoked: {
-      // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you
-      // edit a switch statement in QML.  The short version is: use braces
-      // always.
-      switch (name) {
-        case "onRotateLeft": {
-          photo.rotateLeft();
-          break;
-        }
-
-        case "onRotateRight": {
-          photo.rotateRight();
-          break;
-        }
-      }
-    }
-
-    onPopupInteractionCompleted: visible = false
   }
 }
