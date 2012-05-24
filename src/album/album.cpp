@@ -110,6 +110,14 @@ void Album::removeSelectedMediaSources(QVariant vmodel) {
   DetachMany(
     FilterSetOnlyType<DataObject*, MediaSource*>(
       model->BackingViewCollection()->GetSelected()));
+
+  // TODO: this might belong somewhere like in
+  // notify_container_contents_altered() below (in which case the similar logic
+  // in AlbumCollection's on_media_added_removed() could be removed), but
+  // delete self is a risky operation, and this is the only place I was 100%
+  // sure it would happen at the very end of the method invocation chain.
+  if (ContainedCount() == 0)
+    AlbumCollection::instance()->Destroy(this, true, true);
 }
 
 QVariant Album::getPage(int page) const {

@@ -295,10 +295,9 @@ Rectangle {
         gridCheckerboard.unselectAll();
         gridCheckerboard.inSelectionMode = false;
 
-        // TODO: this needs to happen in the C++ model layer, not here and when
-        // the photo viewer closes.
-        if (album.contentPageCount == 0) {
-          trashModel.destroyAlbum(album);
+        // If all the photos were removed from the album and it was deleted,
+        // album will now be set to null.
+        if (!album) {
           albumViewer.closeRequested(true);
           return;
         }
@@ -370,9 +369,10 @@ Rectangle {
     onEditRequested: albumViewer.editPhotoRequested(photo)
 
     onCloseRequested: {
-      if (album.contentPageCount == 0) {
+      // If all the photos were removed from the album and it was deleted,
+      // album will now be set to null.
+      if (!album) {
         close();
-        trashModel.destroyAlbum(album);
         albumViewer.closeRequested(true);
         return;
       }
