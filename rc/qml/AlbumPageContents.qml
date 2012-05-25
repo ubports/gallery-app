@@ -44,7 +44,7 @@ Item {
 
   // internal
   property real canonicalWidth: gu(80)
-  property real canonicalHeight: gu(97)
+  property real canonicalHeight: gu(100)
   property real canonicalTopMargin: gu(6)
   property real canonicalBottomMargin: gu(6)
   property real canonicalGutterMargin: gu(2) // Between spine and photo.
@@ -106,13 +106,12 @@ Item {
     }
 
     source: "../img/album-thumbnail-frame.png"
-    cache: true
     mirror: !isRight
     visible: (loader.visible && contentHasPreviewFrame)
   }
 
   Rectangle {
-    id: nonframeBackground
+    id: plainBackground
 
     width: canonicalWidth
     height: canonicalHeight
@@ -122,7 +121,30 @@ Item {
       yScale: albumPageContents.height / canonicalHeight
     }
 
-    visible: (loader.visible && !contentHasPreviewFrame)
+    visible: (loader.visible && !contentHasPreviewFrame && isPreview)
+  }
+
+  Item {
+    id: paperBackground
+
+    width: canonicalWidth
+    height: canonicalHeight
+
+    transform: Scale {
+      xScale: albumPageContents.width / canonicalWidth
+      yScale: albumPageContents.height / canonicalHeight
+    }
+
+    visible: (loader.visible && !contentHasPreviewFrame && !isPreview)
+
+    clip: true
+
+    Image {
+      x: (isRight ? -canonicalWidth : 0)
+      y: 0
+
+      source: "../img/overview-background.png"
+    }
   }
 
   Loader {

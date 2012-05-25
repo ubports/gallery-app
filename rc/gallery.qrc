@@ -3,6 +3,10 @@
     <file>img/album-cover.png</file>
     <file>img/album-cover-large.png</file>
     <file>img/album-edit-close.png</file>
+    <file>img/album-page-backing-full.png</file>
+    <file>img/album-page-backing-half.png</file>
+    <file>img/album-page-inside-shadow-full.png</file>
+    <file>img/album-page-inside-shadow-half.png</file>
     <file>img/album-thumbnail-frame.png</file>
     <file>img/button-body-active.png</file>
     <file>img/button-body-inactive.png</file>
@@ -90,6 +94,9 @@
     <file>qml/GalleryStandardNavbar.qml</file>
     <file>qml/GalleryStandardToolbar.qml</file>
     <file>qml/GalleryUtility.js</file>
+    <file>qml/MattedAlbumHalfPagePhoto.qml</file>
+    <file>qml/MattedAlbumPagePhoto.qml</file>
+    <file>qml/MattedPhoto.qml</file>
     <file>qml/MattedPhotoPreview.qml</file>
     <file>qml/MediaSelector.qml</file>
     <file>qml/MenuItem.qml</file>

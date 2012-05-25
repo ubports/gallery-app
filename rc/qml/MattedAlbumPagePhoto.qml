@@ -21,13 +21,11 @@ import QtQuick 1.1
 import Gallery 1.0
 
 MattedPhoto {
-  isPreview: true
+  backingImage: "../img/album-page-backing-full.png"
+  insideShadowImage: "../img/album-page-inside-shadow-full.png"
 
-  backingImage: "../img/photo-preview-backing.png"
-  insideShadowImage: "../img/photo-preview-inside-shadow.png"
-
-  mattedPhotoWidth: gu(24)
-  mattedPhotoHeight: gu(18)
+  mattedPhotoWidth: gu(75)
+  mattedPhotoHeight: gu(88)
   backingStartX: 2
   backingStartY: 2
 }

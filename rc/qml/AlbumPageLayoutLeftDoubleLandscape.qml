@@ -33,15 +33,16 @@ AlbumPageLayout {
     anchors.left: parent.left
     anchors.right: parent.right
 
-    topMargin: albumPageLayoutLeftDoubleLandscape.topMargin
-    bottomMargin: albumPageLayoutLeftDoubleLandscape.insideMargin / 2
-    leftMargin: albumPageLayoutLeftDoubleLandscape.outerMargin
-    rightMargin: albumPageLayoutLeftDoubleLandscape.gutterMargin
+    anchors.topMargin: albumPageLayoutLeftDoubleLandscape.topMargin
+    anchors.bottomMargin: albumPageLayoutLeftDoubleLandscape.insideMargin / 2
+    anchors.leftMargin: albumPageLayoutLeftDoubleLandscape.outerMargin
+    anchors.rightMargin: albumPageLayoutLeftDoubleLandscape.gutterMargin
 
     mediaSource: (albumPageLayoutLeftDoubleLandscape.mediaSourceList
       ? albumPageLayoutLeftDoubleLandscape.mediaSourceList[0]
       : null)
     isPreview: albumPageLayoutLeftDoubleLandscape.isPreview
+    isHalfPage: true
   }
 
   FramePortrait {
@@ -52,14 +53,15 @@ AlbumPageLayout {
     anchors.left: parent.left
     anchors.right: parent.right
 
-    topMargin: albumPageLayoutLeftDoubleLandscape.insideMargin / 2
-    bottomMargin: albumPageLayoutLeftDoubleLandscape.bottomMargin
-    leftMargin: albumPageLayoutLeftDoubleLandscape.outerMargin
-    rightMargin: albumPageLayoutLeftDoubleLandscape.gutterMargin
+    anchors.topMargin: albumPageLayoutLeftDoubleLandscape.insideMargin / 2
+    anchors.bottomMargin: albumPageLayoutLeftDoubleLandscape.bottomMargin
+    anchors.leftMargin: albumPageLayoutLeftDoubleLandscape.outerMargin
+    anchors.rightMargin: albumPageLayoutLeftDoubleLandscape.gutterMargin
 
     mediaSource: (albumPageLayoutLeftDoubleLandscape.mediaSourceList
       ? albumPageLayoutLeftDoubleLandscape.mediaSourceList[1]
       : null)
     isPreview: albumPageLayoutLeftDoubleLandscape.isPreview
+    isHalfPage: true
   }
 }

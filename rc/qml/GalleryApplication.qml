@@ -25,7 +25,7 @@ Item {
   id: application
   
   width: gu(160)
-  height: gu(97)
+  height: gu(100)
   
   // Converts a grid-unit into a pixel value.
   function gu(amt) {

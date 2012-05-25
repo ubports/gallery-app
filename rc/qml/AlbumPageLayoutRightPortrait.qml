@@ -30,14 +30,15 @@ AlbumPageLayout {
 
     anchors.fill: parent
 
-    topMargin: albumPageLayoutRightPortrait.topMargin
-    bottomMargin: albumPageLayoutRightPortrait.bottomMargin
-    leftMargin: albumPageLayoutRightPortrait.gutterMargin
-    rightMargin: albumPageLayoutRightPortrait.outerMargin
+    anchors.topMargin: albumPageLayoutRightPortrait.topMargin
+    anchors.bottomMargin: albumPageLayoutRightPortrait.bottomMargin
+    anchors.leftMargin: albumPageLayoutRightPortrait.gutterMargin
+    anchors.rightMargin: albumPageLayoutRightPortrait.outerMargin
 
     mediaSource: (albumPageLayoutRightPortrait.mediaSourceList
       ? albumPageLayoutRightPortrait.mediaSourceList[0]
       : null)
     isPreview: albumPageLayoutRightPortrait.isPreview
+    isHalfPage: false
   }
 }

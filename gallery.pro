@@ -136,6 +136,9 @@ OTHER_FILES += \
 	rc/qml/GalleryStandardNavbar.qml \
 	rc/qml/GalleryStandardToolbar.qml \
 	rc/qml/GalleryUtility.js \
+	rc/qml/MattedAlbumHalfPagePhoto.qml \
+	rc/qml/MattedAlbumPagePhoto.qml \
+	rc/qml/MattedPhoto.qml \
 	rc/qml/MattedPhotoPreview.qml \
 	rc/qml/MediaSelector.qml \
 	rc/qml/MenuItem.qml \

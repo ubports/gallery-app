@@ -20,24 +20,42 @@
 import QtQuick 1.1
 
 Item {
-  property alias mediaSource: photo.mediaSource
-  property real leftMargin
-  property real rightMargin
-  property real topMargin
-  property real bottomMargin
-  property alias isPreview: photo.isPreview
+  id: framePortrait
+
+  property variant mediaSource
+  property bool isPreview
+  property bool isHalfPage
   
-  anchors.leftMargin: leftMargin
-  anchors.rightMargin: rightMargin
-  anchors.topMargin: topMargin
-  anchors.bottomMargin: bottomMargin
+  visible: Boolean(mediaSource)
 
   PhotoComponent {
-    id: photo
-
     anchors.fill: parent
 
+    visible: framePortrait.isPreview
+
     ownerName: "FramePortrait"
+    mediaSource: framePortrait.mediaSource
+    isPreview: true
     isCropped: true
+  }
+
+  MattedAlbumPagePhoto {
+    anchors.fill: parent
+
+    visible: !framePortrait.isPreview && !framePortrait.isHalfPage
+
+    ownerName: "FramePortrait"
+    mediaSource: framePortrait.mediaSource
+    isPreview: true
+  }
+
+  MattedAlbumHalfPagePhoto {
+    anchors.fill: parent
+
+    visible: !framePortrait.isPreview && framePortrait.isHalfPage
+
+    ownerName: "FramePortrait"
+    mediaSource: framePortrait.mediaSource
+    isPreview: true
   }
 }
