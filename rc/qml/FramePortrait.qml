@@ -46,7 +46,7 @@ Item {
 
     ownerName: "FramePortrait"
     mediaSource: framePortrait.mediaSource
-    isPreview: true
+    isPreview: false
   }
 
   MattedAlbumHalfPagePhoto {
@@ -56,6 +56,6 @@ Item {
 
     ownerName: "FramePortrait"
     mediaSource: framePortrait.mediaSource
-    isPreview: true
+    isPreview: false
   }
 }
