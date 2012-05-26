@@ -29,6 +29,12 @@ Item {
 
   property alias photo: photoComponent.mediaSource
 
+  // internal
+  function leavePhotoEditor() {
+    photo.discardSavePoints();
+    closeRequested();
+  }
+
   PhotoComponent {
     id: photoComponent
 
@@ -52,12 +58,25 @@ Item {
 
     ToolbarTextButton {
       anchors.verticalCenter: parent.verticalCenter
+      anchors.left: parent.left
+      anchors.leftMargin: gu(2)
+
+      text: "Cancel"
+
+      onPressed: {
+        photo.revertToLastSavePoint();
+        photoEditor.leavePhotoEditor();
+      }
+    }
+
+    ToolbarTextButton {
+      anchors.verticalCenter: parent.verticalCenter
       anchors.right: parent.right
       anchors.rightMargin: gu(2)
 
       text: "Done"
 
-      onPressed: photoEditor.closeRequested()
+      onPressed: photoEditor.leavePhotoEditor()
     }
   }
 

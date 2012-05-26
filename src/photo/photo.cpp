@@ -23,6 +23,8 @@
 #include <QFileInfo>
 #include <QImage>
 
+const QString Photo::SAVE_POINT_DIR = ".savepoints";
+
 bool Photo::IsValid(const QFileInfo& file) {
   QString extension = file.suffix().toLower();
   // TODO: be extension-agnostic.  This check is here because
@@ -37,7 +39,7 @@ bool Photo::IsValid(const QFileInfo& file) {
 
 Photo::Photo(const QFileInfo& file)
   : MediaSource(file), metadata_(PhotoMetadata::FromFile(file)),
-    exposure_date_time_(NULL), edit_revision_(0) {
+    exposure_date_time_(NULL), edit_revision_(0), save_points_() {
 }
 
 QImage Photo::Image(bool respect_orientation) const {
@@ -97,9 +99,50 @@ void Photo::rotateLeft() {
   set_orientation(PhotoMetadata::rotate_orientation(orientation(), true));
 }
 
+bool Photo::revertToLastSavePoint() {
+  if (save_points_.isEmpty())
+    return false;
+
+  QFileInfo save_point = save_points_.pop();
+
+  if (!QFile::remove(file().filePath())) {
+    qDebug("Unable to remove edited file %s to revert to a save point",
+      qPrintable(file().filePath()));
+    return false;
+  }
+
+  if (!QFile::rename(save_point.filePath(), file().filePath())) {
+    qDebug("Unable to restore save point %s",
+      qPrintable(save_point.filePath()));
+    return false;
+  }
+
+  // Since we aren't keeping track of what we've applied to the metadata since
+  // the save point, we just reload it from the file we're restoring.  Note
+  // that we don't reset exposure_date_time_ so that in case we're using the
+  // file modified time, it won't change for the duration of the app.  Not sure
+  // if that's ultimately desirable.
+  delete metadata_;
+  metadata_ = PhotoMetadata::FromFile(file().filePath());
+
+  // TODO: we may be able to optimize this, so instead of reloading the file
+  // from disk again we'd instead go back to a prior edit_version_ that may
+  // still be in memory.  This seems good enough for now.
+  finish_edit();
+  return true;
+}
+
+void Photo::discardSavePoints() {
+  while(!save_points_.isEmpty()) {
+    QFile::remove(save_points_.pop().filePath());
+  }
+}
+
 void Photo::set_orientation(Orientation new_orientation) {
   if (new_orientation == orientation())
     return;
+
+  start_edit();
 
   metadata_->set_orientation(new_orientation);
   metadata_->save();
@@ -107,6 +150,43 @@ void Photo::set_orientation(Orientation new_orientation) {
   emit orientation_altered();
 
   finish_edit();
+}
+
+QFileInfo Photo::get_save_point_file(int index) const {
+  return QFileInfo(file().dir(), QString("%1/%2_sv%3.%4")
+    .arg(SAVE_POINT_DIR).arg(file().completeBaseName()).arg(index).arg(file().completeSuffix()));
+}
+
+bool Photo::create_save_point() {
+  file().dir().mkdir(SAVE_POINT_DIR);
+
+  int index = save_points_.count();
+  QFileInfo save_point = get_save_point_file(index);
+
+  if (!QFile::rename(file().filePath(), save_point.filePath())) {
+    qDebug("Unable to create save point %s",
+      qPrintable(save_point.filePath()));
+    return false;
+  }
+
+  // TODO: this may not be necessary with a better framework in place for
+  // editing.  Right now, with rotation being the only supported operation, it
+  // only writes the metadata out to the filename it originally read, so we
+  // need to make sure the file is still available where it's expecting.
+  if (!QFile::copy(save_point.filePath(), file().filePath())) {
+    qDebug("Unable to recreate file %s after save point creation",
+      qPrintable(file().filePath()));
+    return false;
+  }
+
+  save_points_.push(save_point);
+  return true;
+}
+
+void Photo::start_edit() {
+  // For now, we only allow one save point to exist at a time.
+  if (save_points_.isEmpty())
+    create_save_point();
 }
 
 void Photo::finish_edit() {

@@ -24,6 +24,7 @@
 #include <QObject>
 #include <QDateTime>
 #include <QFileInfo>
+#include <QStack>
 
 #include "media/media-source.h"
 #include "photo/photo-metadata.h"
@@ -32,6 +33,8 @@ class Photo : public MediaSource {
   Q_OBJECT
   
  public:
+  static const QString SAVE_POINT_DIR;
+
   static bool IsValid(const QFileInfo& file);
   
   explicit Photo(const QFileInfo& file);
@@ -45,6 +48,8 @@ class Photo : public MediaSource {
 
   Q_INVOKABLE void rotateRight();
   Q_INVOKABLE void rotateLeft();
+  Q_INVOKABLE bool revertToLastSavePoint();
+  Q_INVOKABLE void discardSavePoints();
 
  protected:
   virtual void DestroySource(bool destroy_backing, bool as_orphan);
@@ -52,6 +57,9 @@ class Photo : public MediaSource {
  private:
   void set_orientation(Orientation new_orientation);
   void append_edit_revision(QUrl& url) const;
+  QFileInfo get_save_point_file(int index) const;
+  bool create_save_point();
+  void start_edit();
   void finish_edit();
 
   // Go ahead and cache the photo's metadata object inside the photo. Insofar
@@ -60,6 +68,7 @@ class Photo : public MediaSource {
   PhotoMetadata* metadata_;
   mutable QDateTime *exposure_date_time_;
   int edit_revision_; // How many times the pixel data has been modified by us.
+  QStack<QFileInfo> save_points_; // Edits we've saved as files.
 };
 
 #endif  // GALLERY_PHOTO_H_
