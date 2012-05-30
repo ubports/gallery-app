@@ -84,7 +84,7 @@ Rectangle {
 
       anchors.fill: parent
       header: Item {
-        id: emptyScrollSpace
+        id: eventsEmptyScrollSpace
 
         height: navbar.height;
         width: parent.width;
@@ -124,14 +124,6 @@ Rectangle {
       onMovementEnded: {
         scrollOrchestrator.viewMovementEnded(contentY);
       }
-    }
-
-    NavbarScrollOrchestrator {
-      id: scrollOrchestrator
-
-      navigationBar: navbar
-
-      onInitialized: eventsCheckerboard.contentY = 0;
     }
 
     EventTimelineTransition {
@@ -175,10 +167,13 @@ Rectangle {
 
     color: "transparent"
 
-    anchors.top: navbar.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.bottom: parent.bottom
+    anchors.fill: parent
+    header: Item {
+      id: albumsEmptyScrollSpace
+
+      height: navbar.height;
+      width: parent.width;
+    }
 
     topExtraGutter: gu(2)
     bottomExtraGutter: gu(0)
@@ -253,6 +248,29 @@ Rectangle {
       var albumRect = GalleryUtility.translateRect(activatedRect, albumsCheckerboard, overview);
       albumSelected(object, albumRect);
     }
+
+    onMovementStarted: {
+      scrollOrchestrator.viewMovementStarted(contentY);
+    }
+
+    onContentYChanged: {
+      scrollOrchestrator.viewScrolled(contentY);
+    }
+
+    onMovementEnded: {
+      scrollOrchestrator.viewMovementEnded(contentY);
+    }
+  }
+
+  NavbarScrollOrchestrator {
+    id: scrollOrchestrator
+
+    navigationBar: navbar
+
+    onInitialized: {
+      eventsCheckerboard.contentY = 0;
+      albumsCheckerboard.contentY = 0;
+    }
   }
 
   GalleryOverviewNavigationBar {
@@ -283,10 +301,12 @@ Rectangle {
       state: "tab1_active"
 
       onTab0_activated: {
+        scrollOrchestrator.reset();
         overview.state = "albumView";
       }
 
       onTab1_activated: {
+        scrollOrchestrator.reset();
         overview.state = "eventView"
       }
     }

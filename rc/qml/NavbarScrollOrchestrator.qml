@@ -160,6 +160,10 @@ Item {
   }
 
   function viewMovementEnded(contentY) {
+    reset();
+  }
+
+  function reset() {
     isMovementInProgress = false;
     isSweepInProgress = false;
   }
