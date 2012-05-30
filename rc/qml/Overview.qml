@@ -130,13 +130,13 @@ Rectangle {
       id: eventTimelineTransition
 
       anchors.fill: parent
-      anchors.topMargin: navbar.height
 
       visible: false
       clip: true
 
       checkerboard: eventsCheckerboard
       timeline: eventTimeline
+      navigationBar: navbar
     }
 
     EventTimeline {
@@ -144,7 +144,7 @@ Rectangle {
 
       anchors.fill: parent
 
-      topExtraGutter: gu(2) + navbar.height
+      topExtraGutter: gu(0)
       bottomExtraGutter: gu(0)
       leftExtraGutter: gu(2)
       rightExtraGutter: gu(2)

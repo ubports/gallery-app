@@ -27,6 +27,7 @@ Item {
   
   property EventCheckerboard checkerboard
   property EventTimeline timeline
+  property GalleryOverviewNavigationBar navigationBar
   
   property int duration: 750
   
@@ -37,7 +38,8 @@ Item {
   property real gutterHeight: checkerboard.gutterHeight
   property real delegateWidth: checkerboard.delegateWidth
   property real delegateHeight: checkerboard.delegateHeight
-  property real topExtraGutter: checkerboard.topExtraGutter
+  property real topExtraGutter: checkerboard.topExtraGutter +
+    navigationBar.height
   property real bottomExtraGutter: checkerboard.bottomExtraGutter
   property real leftExtraGutter: checkerboard.leftExtraGutter
   property real rightExtraGutter: checkerboard.rightExtraGutter
