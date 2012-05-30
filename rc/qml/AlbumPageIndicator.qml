@@ -96,15 +96,10 @@ Rectangle {
         width: childrenRect.width
         height: childrenRect.height
 
-        Text {
-          // bullet character
-          text: "\u2022"
-          
-          color: (isCurrent ? "steelblue" : "lightgray")
-          
-          font.family: "Ubuntu"
-          font.bold: true
-          font.pixelSize: gu(3.5)
+        Image {
+          source: (isCurrent
+            ? "../img/icon-pager-active.png"
+            : "../img/icon-pager-inactive.png")
         }
         
         MouseArea {
