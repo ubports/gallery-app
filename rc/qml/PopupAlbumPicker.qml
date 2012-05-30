@@ -51,24 +51,27 @@ PopupBox {
     }
   }
 
-  ListView {
+  GridView {
     id: scroller
 
+    property int albumPreviewWidth: gu(14);
+    property int albumPreviewHeight: gu(16.5);
+    property int spacing: gu(2);
+
     clip: true
-    anchors.top: parent.top
-    anchors.topMargin: gu(2)
+    anchors.top: titleTextFrame.bottom
     anchors.bottom: parent.bottom
-    anchors.bottomMargin: originCueHeight + gu(2)
-    anchors.horizontalCenter: parent.horizontalCenter
-    width: gu(34)
-    spacing: gu(2.75)
+    anchors.bottomMargin: originCueHeight + gu(0.25)
+    anchors.left: parent.left
+    anchors.leftMargin: gu(5)
+    anchors.right: parent.right
 
-    footer: Rectangle {
-      color: "transparent"
+    cellWidth: scroller.albumPreviewWidth + scroller.spacing;
+    cellHeight: scroller.albumPreviewHeight + scroller.spacing;
 
-      height: scroller.spacing
-      anchors.left: (parent) ? parent.left : undefined
-      anchors.right: (parent) ? parent.right : undefined
+    header: Item {
+      width: parent.width
+      height: gu(2);
     }
 
     model: AlbumCollectionModel {
@@ -77,17 +80,88 @@ PopupBox {
     delegate: AlbumPreviewComponent {
       album: model.album
 
-      x: gu(2.75)
+      width: scroller.albumPreviewWidth;
+      height: scroller.albumPreviewHeight;
+
       clip: true
+
+      states: [
+        State { name: "unconfirmed";
+          PropertyChanges { target: confirmCheck; opacity: 0.0 }
+        },
+
+        State { name: "confirmed";
+          PropertyChanges { target: confirmCheck; opacity: 1.0 }
+        }
+      ]
+
+      transitions: [
+        Transition { from: "unconfirmed"; to: "confirmed";
+          NumberAnimation { target: confirmCheck; property: "opacity";
+            duration: 300; easing.type: Easing.InOutQuad }
+        }
+      ]
+
+      state: "unconfirmed"
+
+      Image {
+        id: confirmCheck
+
+        anchors.centerIn: parent;
+        width: gu(7);
+        height: gu(7);
+
+        source: "../img/confirm-check.png"
+      }
+
+      Timer {
+        id: confirmStateResetTimer
+
+        interval: addPhotoLingerTimer.interval +
+          interactionCompletedTimer.interval
+
+        onTriggered: parent.state = "unconfirmed"
+      }
 
       MouseArea {
         anchors.fill: parent
 
         onClicked: {
+          parent.state = "confirmed"
           popupAlbumPicker.albumPicked(album);
           addPhotoLingerTimer.restart();
+          confirmStateResetTimer.restart();
         }
       }
+    }
+  }
+
+  Rectangle {
+    id: titleTextFrame
+
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.top: parent.top
+
+    height: gu(3)
+
+    border.color: "white"
+    border.width: gu(0.125);
+    color: "transparent"
+
+    Text {
+      id: titleText
+
+      anchors.fill: parent
+      anchors.leftMargin: gu(0.5)
+      anchors.topMargin: gu(0.5)
+
+      color: "white"
+      font.pixelSize: gu(2)
+      font.italic: true
+      font.weight: Font.Light
+
+      text: "Add Photo to Album"
     }
   }
 
