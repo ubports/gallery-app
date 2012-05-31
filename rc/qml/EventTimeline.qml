@@ -28,8 +28,12 @@ Item {
   
   signal activated(variant event)
   signal timedOut()
+  signal movementStarted()
+  signal movementEnded()
 
   property alias model: list.model
+  property alias contentY: list.contentY
+  property alias header: list.header
   
   property int elementWidth: gu(24)
   property int elementHeight: gu(18)
@@ -219,6 +223,10 @@ Item {
     }
 
     onContentYChanged: timeoutTimer.restart()
+
+    onMovementStarted: eventTimeline.movementStarted();
+
+    onMovementEnded: eventTimeline.movementEnded();
   }
 
   Timer {

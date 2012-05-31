@@ -151,7 +151,6 @@ Item {
       if (!sweepSampler.running)
         sweepSampler.restart();
     }
-
   }
 
   function viewMovementStarted(contentY) {

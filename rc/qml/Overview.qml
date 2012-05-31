@@ -124,6 +124,15 @@ Rectangle {
       onMovementEnded: {
         scrollOrchestrator.viewMovementEnded(contentY);
       }
+
+      onVisibleChanged: {
+        if (visible) {
+          // If we just became visible, it's possible that our scroll position
+          // changed due to moving in/out of the timeline view. Let the scroll
+          // orchestrator know this so it can keep its state consistent.
+          scrollOrchestrator.viewScrolled(contentY);
+        }
+      }
     }
 
     EventTimelineTransition {
@@ -143,6 +152,12 @@ Rectangle {
       id: eventTimeline
 
       anchors.fill: parent
+      header: Item {
+        id: timelineEmptyScrollSpace
+
+        height: navbar.height;
+        width: parent.width;
+      }
 
       topExtraGutter: gu(0)
       bottomExtraGutter: gu(0)
@@ -158,6 +173,12 @@ Rectangle {
       }
 
       onTimedOut: eventTimelineTransition.backToOverview()
+
+      onMovementStarted: scrollOrchestrator.viewMovementStarted(contentY)
+
+      onMovementEnded: scrollOrchestrator.viewMovementEnded(contentY)
+
+      onContentYChanged: scrollOrchestrator.viewScrolled(contentY)
     }
   }
 
