@@ -48,6 +48,7 @@ class Photo : public MediaSource {
 
   Q_INVOKABLE void rotateRight();
   Q_INVOKABLE void rotateLeft();
+  Q_INVOKABLE void crop(QVariant vrect); // All coords in [0,1].
   Q_INVOKABLE bool revertToLastSavePoint();
   Q_INVOKABLE void discardSavePoints();
 

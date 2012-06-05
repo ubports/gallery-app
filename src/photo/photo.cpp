@@ -99,6 +99,43 @@ void Photo::rotateLeft() {
   set_orientation(PhotoMetadata::rotate_orientation(orientation(), true));
 }
 
+void Photo::crop(QVariant vrect) {
+  QRectF rel_rect = vrect.toRectF();
+  if (!rel_rect.isValid())
+    return;
+
+  QImage image = Image(true);
+
+  // Integer truncation is good enough here.
+  int x = rel_rect.x() * image.width();
+  int y = rel_rect.y() * image.height();
+  int width = rel_rect.width() * image.width();
+  int height = rel_rect.height() * image.height();
+
+  if (x < 0 || y < 0 || width <= 0 || height <= 0
+    || x + width > image.width() || y + height > image.height()) {
+    qDebug("Invalid cropping rectangle");
+    return;
+  }
+
+  QImage cropped = image.copy(x, y, width, height);
+
+  start_edit();
+
+  // We loaded the data pre-rotated, and QImage will always save data in this
+  // orientation.
+  bool change_orientation = (orientation() != TOP_LEFT_ORIGIN);
+  if (change_orientation)
+    metadata_->set_orientation(TOP_LEFT_ORIGIN);
+
+  cropped.save(file().filePath());
+  metadata_->save();
+
+  if (change_orientation)
+    emit orientation_altered();
+  finish_edit();
+}
+
 bool Photo::revertToLastSavePoint() {
   if (save_points_.isEmpty())
     return false;

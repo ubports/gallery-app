@@ -121,6 +121,9 @@ OTHER_FILES += \
 	rc/qml/BinaryTabGroup.qml \
 	rc/qml/Checkerboard.qml \
 	rc/qml/CheckerboardDelegate.qml \
+	rc/qml/CropCorner.qml \
+	rc/qml/CropDragArea.qml \
+	rc/qml/CropFrame.qml \
 	rc/qml/DeleteDialog.qml \
 	rc/qml/DeleteRemoveDialog.qml \
 	rc/qml/EventCard.qml \
@@ -148,6 +151,7 @@ OTHER_FILES += \
 	rc/qml/Overview.qml \
 	rc/qml/Pager.qml \
 	rc/qml/PhotoComponent.qml \
+	rc/qml/PhotoCropper.qml \
 	rc/qml/PhotoEditor.qml \
 	rc/qml/PhotoViewer.qml \
 	rc/qml/PhotoViewerOptionsMenu.qml \

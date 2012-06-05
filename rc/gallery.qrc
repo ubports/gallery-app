@@ -26,6 +26,7 @@
     <file>img/icon-back-inactive.png</file>
     <file>img/icon-camera-active.png</file>
     <file>img/icon-camera-inactive.png</file>
+    <file>img/icon-crop.png</file>
     <file>img/icon-grid-view-active.png</file>
     <file>img/icon-grid-view-inactive.png</file>
     <file>img/icon-more-active.png</file>
@@ -82,6 +83,9 @@
     <file>qml/BinaryTabGroup.qml</file>
     <file>qml/Checkerboard.qml</file>
     <file>qml/CheckerboardDelegate.qml</file>
+    <file>qml/CropCorner.qml</file>
+    <file>qml/CropDragArea.qml</file>
+    <file>qml/CropFrame.qml</file>
     <file>qml/DeleteDialog.qml</file>
     <file>qml/DeleteRemoveDialog.qml</file>
     <file>qml/EventCard.qml</file>
@@ -109,6 +113,7 @@
     <file>qml/Overview.qml</file>
     <file>qml/Pager.qml</file>
     <file>qml/PhotoComponent.qml</file>
+    <file>qml/PhotoCropper.qml</file>
     <file>qml/PhotoEditor.qml</file>
     <file>qml/PhotoViewer.qml</file>
     <file>qml/PhotoViewerOptionsMenu.qml</file>

@@ -56,6 +56,12 @@ Item {
 
     anchors.top: parent.top
 
+    Text {
+      anchors.centerIn: parent
+      color: "#747273"
+      text: "Edit"
+    }
+
     ToolbarTextButton {
       anchors.verticalCenter: parent.verticalCenter
       anchors.left: parent.left
@@ -85,15 +91,55 @@ Item {
 
     anchors.bottom: parent.bottom
 
-    ToolbarIconButton {
+    Row {
       anchors.verticalCenter: parent.verticalCenter
       anchors.right: parent.right
       anchors.rightMargin: gu(2)
 
-      selectedIconFilename: "../img/icon-rotate.png"
-      deselectedIconFilename: selectedIconFilename
+      ToolbarIconButton {
+        selectedIconFilename: "../img/icon-rotate.png"
+        deselectedIconFilename: selectedIconFilename
 
-      onPressed: photo.rotateRight()
+        onPressed: photo.rotateRight()
+      }
+
+      ToolbarIconButton {
+        selectedIconFilename: "../img/icon-crop.png"
+        deselectedIconFilename: selectedIconFilename
+
+        onPressed: cropper.state = "shown"
+      }
+    }
+  }
+
+  PhotoCropper {
+    id: cropper
+
+    state: "hidden"
+    states: [
+      State { name: "shown";
+        PropertyChanges { target: cropper; visible: true; }
+      },
+      State { name: "hidden";
+        PropertyChanges { target: cropper; visible: false; }
+      }
+    ]
+
+    transitions: [
+      Transition { from: "hidden"; to: "shown";
+        ScriptAction { script: cropper.resetCropRegion(); }
+      }
+    ]
+
+    anchors.fill: parent
+
+    photo: photoEditor.photo
+
+    onCanceled: state = "hidden"
+
+    onCropped: {
+      photo.crop(rect);
+      state = "hidden";
     }
   }
 }
