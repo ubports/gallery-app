@@ -35,7 +35,7 @@
 class QmlViewCollectionModel : public QAbstractListModel {
   Q_OBJECT
   Q_PROPERTY(int count READ count NOTIFY count_changed)
-  Q_PROPERTY(int rawCount READ raw_count NOTIFY count_changed)
+  Q_PROPERTY(int rawCount READ raw_count NOTIFY raw_count_changed)
   Q_PROPERTY(int selectedCount READ selected_count NOTIFY selectedCountChanged)
   Q_PROPERTY(QVariant forCollection READ for_collection WRITE set_for_collection
     NOTIFY backing_collection_changed)
@@ -46,6 +46,7 @@ class QmlViewCollectionModel : public QAbstractListModel {
   
  signals:
   void count_changed();
+  void raw_count_changed();
   void selectedCountChanged();
   void backing_collection_changed();
   void head_changed();
@@ -134,6 +135,9 @@ class QmlViewCollectionModel : public QAbstractListModel {
     // This notifies model subscribers that the element at the particular index
   // has been altered in some way.
   void NotifyElementAltered(int index, int role);
+
+  // Tells model subscribers that everything has changed.
+  void NotifyReset();
   
 private slots:
   void on_selection_altered(const QSet<DataObject*>* selected,

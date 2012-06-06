@@ -29,6 +29,14 @@ QmlEventOverviewModel::QmlEventOverviewModel(QObject* parent)
   : QmlMediaCollectionModel(parent, DescendingComparator), ascending_order_(false) {
   // initialize ViewCollection as it stands now with Events
   MonitorNewViewCollection();
+
+  // We need to know when events get removed from the system so we can remove
+  // them too.
+  QObject::connect(
+    EventCollection::instance(),
+    SIGNAL(contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
+    this,
+    SLOT(on_events_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)));
 }
 
 void QmlEventOverviewModel::RegisterType() {
@@ -89,6 +97,24 @@ void QmlEventOverviewModel::MonitorNewViewCollection() {
   on_event_overview_contents_altered(&BackingViewCollection()->GetAsSet(), NULL);
 }
 
+void QmlEventOverviewModel::on_events_altered(const QSet<DataObject*>* added,
+  const QSet<DataObject*>* removed) {
+  SelectableViewCollection* view = BackingViewCollection();
+  if (view == NULL)
+    return;
+
+  if (removed != NULL) {
+    DataObject* object;
+    foreach (object, *removed) {
+      Event* event = qobject_cast<Event*>(object);
+      Q_ASSERT(event != NULL);
+
+      if (view->Contains(event))
+        view->Remove(event);
+    }
+  }
+}
+
 void QmlEventOverviewModel::on_event_overview_contents_altered(
   const QSet<DataObject*>* added, const QSet<DataObject*>* removed) {
   SelectableViewCollection* view = BackingViewCollection();
@@ -107,10 +133,6 @@ void QmlEventOverviewModel::on_event_overview_contents_altered(
       if (!view->Contains(event))
         view->Add(event);
     }
-  }
-  
-  // TODO: Remove Events as all photos for them are removed
-  if (removed != NULL) {
   }
 }
 

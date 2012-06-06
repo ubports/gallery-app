@@ -243,7 +243,10 @@ void QmlViewCollectionModel::set_head(int head) {
   
   head_ = head;
   
-  head_changed();
+  emit head_changed();
+  // TODO: this could be checked for and optimized instead of nuking it all.
+  emit count_changed();
+  NotifyReset();
 }
 
 int QmlViewCollectionModel::limit() const {
@@ -258,7 +261,9 @@ void QmlViewCollectionModel::set_limit(int limit) {
   
   limit_ = normalized;
   
-  limit_changed();
+  emit limit_changed();
+  emit count_changed();
+  NotifyReset();
 }
 
 void QmlViewCollectionModel::clear_limit() {
@@ -299,8 +304,11 @@ void QmlViewCollectionModel::SetBackingViewCollection(SelectableViewCollection* 
   
   notify_backing_collection_changed();
   
-  if (old_count != view_->Count())
+  if (old_count != view_->Count()) {
+    emit raw_count_changed();
+    // TODO: we could maybe check for this instead of always firing it.
     emit count_changed();
+  }
   
   if (old_selected_count != view_->SelectedCount())
     emit selectedCountChanged();
@@ -384,8 +392,10 @@ void QmlViewCollectionModel::StopMonitoring() {
   
   notify_backing_collection_changed();
   
-  if (old_count != 0)
+  if (old_count != 0) {
+    emit raw_count_changed();
     emit count_changed();
+  }
   
   if (old_selected_count != 0)
     emit selectedCountChanged();
@@ -422,6 +432,11 @@ void QmlViewCollectionModel::NotifySetAltered(const QSet<DataObject*>* list, int
     NotifyElementAltered(view_->IndexOf(object), role);
 }
 
+void QmlViewCollectionModel::NotifyReset() {
+  beginResetModel();
+  endResetModel();
+}
+
 void QmlViewCollectionModel::on_selection_altered(const QSet<DataObject*>* selected,
   const QSet<DataObject*>* unselected) {
   if (selected != NULL)
@@ -451,8 +466,22 @@ void QmlViewCollectionModel::on_contents_to_be_altered(const QSet<DataObject*>* 
 
 void QmlViewCollectionModel::on_contents_altered(const QSet<DataObject*>* added,
   const QSet<DataObject*>* removed) {
-  bool changed = false;
-  
+  // Report removed items using indices gathered from on_contents_to_be_altered()
+  if (to_be_removed_.count() > 0) {
+    // sort indices in reverse order and walk in descending order so they're
+    // always accurate as items are "removed"
+    qSort(to_be_removed_.begin(), to_be_removed_.end(), IntReverseLessThan);
+
+    // Only if we aren't getting a sub-view do we directly map these up to QML.
+    if (head_ == 0 && limit_ < 0) {
+      int index;
+      foreach (index, to_be_removed_)
+        NotifyElementRemoved(index);
+    }
+
+    to_be_removed_.clear();
+  }
+
   // Report inserted items after they've been inserted
   if (added != NULL) {
     // sort the indices in ascending order so each element is added in the
@@ -465,36 +494,26 @@ void QmlViewCollectionModel::on_contents_altered(const QSet<DataObject*>* added,
     
     qSort(indices.begin(), indices.end(), IntLessThan);
     
-    // report the indices in order
-    int index;
-    foreach (index, indices)
-      NotifyElementAdded(index);
-    
-    changed = true;
+    // Again, don't map directly to QML if we're only getting a sub-view.
+    if (head_ == 0 && limit_ < 0) {
+      int index;
+      foreach (index, indices)
+        NotifyElementAdded(index);
+    }
   }
   
-  // Report removed items using indices gathered from on_contents_to_be_altered()
-  if (to_be_removed_.count() > 0) {
-    // sort indices in reverse order and walk in descending order so they're
-    // always accurate as items are "removed"
-    qSort(to_be_removed_.begin(), to_be_removed_.end(), IntReverseLessThan);
-    
-    int index;
-    foreach (index, to_be_removed_)
-      NotifyElementRemoved(index);
-    
-    to_be_removed_.clear();
-    
-    changed = true;
-  }
-  
-  if (changed)
-    emit count_changed();
+  // TODO: "filtered" views get some special treatment.  Instead of figuring
+  // out how each addition/deletion affects it, we just wipe the whole thing
+  // out each time it's altered.  This is probably wasteful.
+  if (head_ != 0 || limit_ >= 0)
+    NotifyReset();
+
+  emit raw_count_changed();
+  emit count_changed();
 }
 
 void QmlViewCollectionModel::on_ordering_altered() {
-  beginResetModel();
-  endResetModel();
+  NotifyReset();
   
   emit ordering_altered();
 }

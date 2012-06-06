@@ -111,11 +111,11 @@ void Album::removeSelectedMediaSources(QVariant vmodel) {
     FilterSetOnlyType<DataObject*, MediaSource*>(
       model->BackingViewCollection()->GetSelected()));
 
-  // TODO: this might belong somewhere like in
-  // notify_container_contents_altered() below (in which case the similar logic
-  // in AlbumCollection's on_media_added_removed() could be removed), but
-  // delete self is a risky operation, and this is the only place I was 100%
-  // sure it would happen at the very end of the method invocation chain.
+  // TODO: it's unfortunate that this has to happen here AND in AlbumCollection
+  // to handle all photos removed AND all photos deleted.  Ideally they could
+  // be combined somewhere in notify_container_contents_altered() below, but it
+  // seemed too risky to do the equivalent of delete this somewhere so deep in
+  // the call chain.  This is right up at the top where we're sure it's safe.
   if (ContainedCount() == 0)
     AlbumCollection::instance()->Destroy(this, true, true);
 }

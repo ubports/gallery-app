@@ -61,7 +61,7 @@ public:
   virtual void notify_ordering_altered();
   
 private slots:
-  void on_monitored_contents_altered(const QSet<DataObject*>*added,
+  void on_monitored_contents_altered(const QSet<DataObject*>* added,
     const QSet<DataObject*>* removed);
   void on_monitored_ordering_altered();
   

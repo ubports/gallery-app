@@ -77,8 +77,6 @@ void AlbumCollection::on_media_added_removed(const QSet<DataObject *> *added,
         album->Detach(media);
       }
 
-      // TODO: this could possibly be done better; see the TODO in Album's
-      // removeSelectedMediaSources().
       if (album->ContainedCount() == 0)
         Destroy(album, true, true);
     }

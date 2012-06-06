@@ -100,8 +100,20 @@ void EventCollection::on_media_added_removed(const QSet<DataObject *> *added,
     }
   }
   
-  // TODO: Deal with removed case
   if (removed != NULL) {
+    DataObject* object;
+    foreach (object, *removed) {
+      MediaSource* media = qobject_cast<MediaSource*>(object);
+      Q_ASSERT(media != NULL);
+
+      Event* event = date_map_.value(media->exposure_date());
+      Q_ASSERT(event != NULL);
+
+      event->Detach(media);
+
+      if (event->ContainedCount() == 0)
+        Destroy(event, true, true);
+    }
   }
 }
 

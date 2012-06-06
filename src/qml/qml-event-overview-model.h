@@ -55,10 +55,12 @@ class QmlEventOverviewModel : public QmlMediaCollectionModel {
   virtual DataObject* FromVariant(QVariant var) const;
   
  private slots:
-  void on_event_overview_contents_altered(const QSet<DataObject *> *add,
-    const QSet<DataObject *> *removed);
-  void on_event_overview_selection_altered(const QSet<DataObject *> *add,
-    const QSet<DataObject *> *removed);
+  void on_events_altered(const QSet<DataObject*>* added,
+    const QSet<DataObject*>* removed);
+  void on_event_overview_contents_altered(const QSet<DataObject*>* added,
+    const QSet<DataObject*>* removed);
+  void on_event_overview_selection_altered(const QSet<DataObject*>* selected,
+    const QSet<DataObject*>* unselected);
   
  private:
   bool ascending_order_;
