@@ -21,7 +21,7 @@
 
 #include "media/media-collection.h"
 
-const QString PreviewManager::PREVIEW_DIR = "thumbs";
+const QString PreviewManager::PREVIEW_DIR = ".thumbs";
 
 PreviewManager* PreviewManager::instance_ = NULL;
 

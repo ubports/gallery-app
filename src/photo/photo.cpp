@@ -23,7 +23,7 @@
 #include <QFileInfo>
 #include <QImage>
 
-const QString Photo::SAVE_POINT_DIR = ".savepoints";
+const QString Photo::SAVE_POINT_DIR = ".temp";
 
 bool Photo::IsValid(const QFileInfo& file) {
   QString extension = file.suffix().toLower();
@@ -200,6 +200,7 @@ bool Photo::create_save_point() {
   int index = save_points_.count();
   QFileInfo save_point = get_save_point_file(index);
 
+  QFile::remove(save_point.filePath());
   if (!QFile::rename(file().filePath(), save_point.filePath())) {
     qDebug("Unable to create save point %s",
       qPrintable(save_point.filePath()));
@@ -207,9 +208,10 @@ bool Photo::create_save_point() {
   }
 
   // TODO: this may not be necessary with a better framework in place for
-  // editing.  Right now, with rotation being the only supported operation, it
-  // only writes the metadata out to the filename it originally read, so we
-  // need to make sure the file is still available where it's expecting.
+  // editing.  Right now, with rotation it only writes the metadata out to the
+  // filename it originally read, so we need to make sure the file is still
+  // available where it's expecting.  Other operations overwrite the whole
+  // file, so this is wasteful in those cases.
   if (!QFile::copy(save_point.filePath(), file().filePath())) {
     qDebug("Unable to recreate file %s after save point creation",
       qPrintable(file().filePath()));
