@@ -22,7 +22,7 @@
 import QtQuick 1.1
 import "GalleryUtility.js" as GalleryUtility
 
-Rectangle {
+Item {
   id: checkerboard
   
   signal activated(variant object, variant objectModel, variant activatedRect)
@@ -114,9 +114,12 @@ Rectangle {
     });
   }
   
-  color: "white"
   clip: true
   
+  Image {
+    source: "../img/background-paper.png"
+  }
+
   GridView {
     id: grid
     objectName: "grid"

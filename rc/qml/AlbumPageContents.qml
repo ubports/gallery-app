@@ -143,7 +143,7 @@ Item {
       x: (isRight ? -canonicalWidth : 0)
       y: 0
 
-      source: "../img/overview-background.png"
+      source: "../img/background-paper.png"
     }
   }
 

@@ -62,11 +62,6 @@ Rectangle {
     }
   ]
 
-  Image {
-    source: "../img/overview-background.png"
-    cache: true
-  }
-
   Item {
     id: eventsSheet
 
@@ -96,7 +91,6 @@ Rectangle {
       rightExtraGutter: gu(2)
 
       visible: true
-      color: "transparent"
       allowSelectionModeChange: true
 
       property variant photoViewerModel: MediaCollectionModel {
@@ -185,8 +179,6 @@ Rectangle {
   Checkerboard {
     id: albumsCheckerboard
     objectName: "albumsCheckerboard"
-
-    color: "transparent"
 
     anchors.fill: parent
     header: Item {

@@ -8,6 +8,7 @@
     <file>img/album-page-inside-shadow-full.png</file>
     <file>img/album-page-inside-shadow-half.png</file>
     <file>img/album-thumbnail-frame.png</file>
+    <file>img/background-paper.png</file>
     <file>img/button-body-active.png</file>
     <file>img/button-body-inactive.png</file>
     <file>img/button-left-active.png</file>
@@ -40,7 +41,6 @@
     <file>img/icon-share-inactive.png</file>
     <file>img/icon-trash-active.png</file>
     <file>img/icon-trash-inactive.png</file>
-    <file>img/overview-background.png</file>
     <file>img/photo-preview-backing.png</file>
     <file>img/photo-preview-inside-shadow.png</file>
     <file>img/popup-arrow.png</file>

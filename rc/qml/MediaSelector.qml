@@ -20,7 +20,7 @@
 import QtQuick 1.1
 import Gallery 1.0
 
-Rectangle {
+Item {
   id: mediaSelector
   objectName: "mediaSelector"
   
@@ -35,9 +35,8 @@ Rectangle {
     objectName: "mediaCheckerboard"
     
     anchors.fill: parent
-    anchors.topMargin: chrome.navbarHeight
-    
-    topExtraGutter: gu(3)
+
+    topExtraGutter: gu(2) + chrome.navbarHeight
     bottomExtraGutter: gu(0)
     leftExtraGutter: gu(2)
     rightExtraGutter: gu(2)

@@ -147,7 +147,10 @@ Rectangle {
     id: gridCheckerboard
     
     anchors.fill: parent
-    anchors.topMargin: chrome.navbarHeight
+    header: Item {
+      height: chrome.navbarHeight
+      width: 1
+    }
 
     topExtraGutter: gu(2)
     bottomExtraGutter: gu(0)
@@ -165,23 +168,16 @@ Rectangle {
     delegate: CheckerboardDelegate {
       checkerboard: gridCheckerboard
 
-      content: PhotoComponent {
-        anchors.centerIn: parent
-
-        width: parent.width
-        height: parent.height
-
-        mediaSource: modelData.mediaSource
-        isCropped: true
-        isPreview: true
+      content: MattedPhotoPreview {
         ownerName: "AlbumViewer grid"
+        mediaSource: modelData.mediaSource
       }
     }
 
     onActivated: {
       var photoRect = GalleryUtility.translateRect(activatedRect, gridCheckerboard, photoViewer);
       photoViewer.forGridView = true;
-      photoViewer.animateOpen(object, photoRect, false);
+      photoViewer.animateOpen(object, photoRect, true);
     }
   }
 
