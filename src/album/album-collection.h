@@ -45,10 +45,13 @@ class AlbumCollection : public ContainerSourceCollection {
  protected:
   virtual void notify_album_current_page_contents_altered(Album* album);
   
+  virtual void notify_contents_altered(const QSet<DataObject*>* added,
+    const QSet<DataObject*>* removed);
+  
  private slots:
   void on_media_added_removed(const QSet<DataObject*>* added,
     const QSet<DataObject*>* removed);
-
+  
  private:
   static AlbumCollection* instance_;
   

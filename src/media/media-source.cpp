@@ -96,6 +96,14 @@ QVariant MediaSource::QmlFindEvent() {
   return QVariant::fromValue(FindEvent());
 }
 
+void MediaSource::set_id(qint64 id) {
+  this->id = id;
+}
+
+qint64 MediaSource::get_id() {
+  return id;
+}
+
 void MediaSource::DestroySource(bool delete_backing, bool as_orphan) {
   if (delete_backing) {
     if (!QFile::remove(file_.absoluteFilePath()))

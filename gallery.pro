@@ -12,7 +12,7 @@ DEPENDPATH += . src
 INCLUDEPATH += src
 CONFIG += qt debug link_pkgconfig
 QMAKE_CXXFLAGS += -Werror -Wno-unused-parameter
-QT += gui declarative opengl
+QT += gui declarative opengl sql
 MOC_DIR = build
 OBJECTS_DIR = build
 RESOURCES = rc/gallery.qrc
@@ -42,6 +42,9 @@ SOURCES += \
 	src/core/selectable-view-collection.cpp \
 	src/core/source-collection.cpp \
 	src/core/view-collection.cpp \
+	src/database/album-table.cpp \
+	src/database/database.cpp \
+	src/database/media-table.cpp \
 	src/event/event.cpp \
 	src/event/event-collection.cpp \
 	src/media/media-collection.cpp \
@@ -73,6 +76,9 @@ HEADERS += \
 	src/core/selectable-view-collection.h \
 	src/core/source-collection.h \
 	src/core/view-collection.h \
+	src/database/album-table.h \
+	src/database/database.h \
+	src/database/media-table.h \
 	src/event/event.h \
 	src/event/event-collection.h \
 	src/media/media-collection.h \
@@ -176,4 +182,6 @@ OTHER_FILES += \
 	rc/qml/ToolbarTextButton.qml \
 	rc/qml/TrashOperationToolbarButton.qml \
 	rc/qml/ViewerChrome.qml \
-	rc/qml/ViewerNavigationButton.qml
+	rc/qml/ViewerNavigationButton.qml \
+	\
+	rc/sql/1.sql

@@ -22,9 +22,12 @@
 
 #include <QObject>
 #include <QDir>
+#include <QMap>
+#include <QSet>
 
 #include "core/data-object.h"
 #include "core/source-collection.h"
+#include "media-source.h"
 
 class MediaCollection : public SourceCollection {
   Q_OBJECT
@@ -39,12 +42,21 @@ public:
   
   const QDir& directory() const;
   
+  // Returns a media object for a row id.
+  MediaSource* mediaForId(qint64 id);
+  
+protected slots:
+  virtual void notify_contents_altered(const QSet<DataObject*>* added,
+    const QSet<DataObject*>* removed);
+  
 private:
   static MediaCollection* instance_;
   
   QDir directory_;
+  QHash<qint64, DataObject*> id_map_;
   
   MediaCollection(const QDir& directory);
+  
 };
 
 #endif  // GALLERY_MEDIA_COLLECTION_H_

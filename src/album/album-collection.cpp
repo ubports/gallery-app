@@ -18,14 +18,27 @@
  */
 
 #include "album/album-collection.h"
-
 #include "media/media-collection.h"
+#include "database/database.h"
+#include "database/album-table.h"
 
 AlbumCollection *AlbumCollection::instance_ = NULL;
 
 AlbumCollection::AlbumCollection()
   : ContainerSourceCollection("AlbumCollection", CreationDateTimeDescendingComparator) {
-
+  // Load existing albums from database.
+  QList<Album*> album_list;
+  Database::instance()->get_album_table()->get_albums(&album_list);
+  foreach (Album* a, album_list) {
+    Add(a);
+    
+    // Link each album up with its photos.
+    QList<qint64> photo_list;
+    Database::instance()->get_album_table()->media_for_album(a->get_id(), &photo_list);
+    foreach (qint64 mediaId, photo_list)
+      a->Attach(MediaCollection::instance()->mediaForId(mediaId));
+  }
+  
   // We need to monitor the media collection so that when photos get removed
   // from the system, they also get removed from all albums.
   QObject::connect(
@@ -79,6 +92,38 @@ void AlbumCollection::on_media_added_removed(const QSet<DataObject *> *added,
 
       if (album->ContainedCount() == 0)
         Destroy(album, true, true);
+    }
+  }
+}
+
+void AlbumCollection::notify_contents_altered(const QSet<DataObject*>* added,
+  const QSet<DataObject*>* removed) {
+  ContainerSourceCollection::notify_contents_altered(added, removed);
+  
+  if (added != NULL) {
+    foreach (DataObject* object, *added) {
+      Album* album = qobject_cast<Album*>(object);
+      Q_ASSERT(album != NULL);
+      
+      // Add the album.
+      Database::instance()->get_album_table()->add_album(album);
+      
+      // Add initial photos.
+      foreach(DataObject* o, album->contained()->GetAll()) {
+        MediaSource* media = qobject_cast<MediaSource*>(o);
+        Q_ASSERT(media != NULL);
+        Database::instance()->get_album_table()->attach_to_album(album->get_id(), 
+                                                             media->get_id());
+      }
+    }
+  }
+  
+  if (removed != NULL) {
+    foreach (DataObject* object, *removed) {
+      Album* album = qobject_cast<Album*>(object);
+      Q_ASSERT(album != NULL);
+      
+      Database::instance()->get_album_table()->remove_album(album);
     }
   }
 }

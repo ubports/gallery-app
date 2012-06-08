@@ -139,5 +139,7 @@
     <file>qml/TrashOperationToolbarButton.qml</file>
     <file>qml/ViewerChrome.qml</file>
     <file>qml/ViewerNavigationButton.qml</file>
+    
+    <file>sql/1.sql</file>
 </qresource>
 </RCC>

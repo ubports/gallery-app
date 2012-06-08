@@ -85,6 +85,9 @@ class MediaSource : public DataSource {
   Event* FindEvent();
   QVariant QmlFindEvent();
   
+  void set_id(qint64 id);
+  qint64 get_id();
+  
  protected:
   virtual void DestroySource(bool delete_backing, bool as_orphan);
 
@@ -92,6 +95,7 @@ class MediaSource : public DataSource {
   
  private:
   QFileInfo file_;
+  qint64 id;
 };
 
 QML_DECLARE_TYPE(MediaSource)

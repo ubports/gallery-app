@@ -23,11 +23,13 @@
 #include <QGLWidget>
 #include <QString>
 #include <QUrl>
+#include <QString>
 
 #include "album/album.h"
 #include "album/album-collection.h"
 #include "album/album-default-template.h"
 #include "album/album-page.h"
+#include "database/database.h"
 #include "event/event.h"
 #include "event/event-collection.h"
 #include "media/media-collection.h"
@@ -41,6 +43,12 @@
 #include "qml/qml-stack.h"
 
 const int APP_GRIDUNIT = 8;
+
+// Path to database, relative to pictures path.
+const QString database_path = ".database";
+
+// Path to .SQL files
+const QString sql_path = "rc/sql";
 
 int main(int argc, char *argv[]) {
   // NOTE: This *must* be called prior to QApplication's ctor.
@@ -73,14 +81,22 @@ int main(int argc, char *argv[]) {
   
   qDebug("Opening %s...", qPrintable(path.path()));
   
+  QDir db_dir(path);
+  db_dir.mkdir(database_path);
+  db_dir.cd(database_path);
+  
+  QDir sql_dir(sql_path);
+  
   // Not in alpha-order because initialization order is important here
   // TODO: Need to use an initialization system that deals with init order
   // issues
+  Database::Init(db_dir, sql_dir);
+  Database::instance()->get_media_table()->verify_files();
+  AlbumDefaultTemplate::Init();
   MediaCollection::Init(path);
   AlbumCollection::Init();
   EventCollection::Init();
   PreviewManager::Init();
-  AlbumDefaultTemplate::Init();
   GalleryStandardImageProvider::Init();
   
   qDebug("Opened %s", qPrintable(path.path()));

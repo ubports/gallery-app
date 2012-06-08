@@ -101,6 +101,7 @@ class Album : public ContainerSource {
   const QString& title() const;
   const QString& subtitle() const;
   const QDateTime& creation_date_time() const;
+  void set_creation_date_time(QDateTime timestamp);
   const AlbumTemplate& album_template() const;
   bool is_closed() const;
   int total_page_count() const;
@@ -112,6 +113,8 @@ class Album : public ContainerSource {
   int current_page() const;
   void set_current_page(int page);
   void set_closed(bool closed);
+  void set_id(qint64 id_);
+  qint64 get_id();
   
   // Returns a SourceCollection representing all AlbumPages held by this Album
   SourceCollection* content_pages();
@@ -151,6 +154,7 @@ class Album : public ContainerSource {
   QList<MediaSource*> all_media_sources_;
   QList<AlbumPage*> all_album_pages_;
   bool refreshing_container_;
+  qint64 id_;
   
   void InitInstance();
 };

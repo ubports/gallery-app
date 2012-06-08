@@ -30,6 +30,7 @@
 #include "qml/qml-media-collection-model.h"
 #include "util/collections.h"
 #include "util/variants.h"
+#include "database/database.h"
 
 const char *Album::DEFAULT_TITLE = "New Photo Album";
 const char *Album::DEFAULT_SUBTITLE = "Subtitle";
@@ -75,6 +76,7 @@ void Album::InitInstance() {
   closed_ = true;
   content_pages_ = new SourceCollection(QString("Pages for ") + title_);
   refreshing_container_ = false;
+  id_ = INVALID_ID;
   
   QObject::connect(content_pages_,
     SIGNAL(contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
@@ -156,6 +158,11 @@ const QDateTime& Album::creation_date_time() const {
   return creation_date_time_;
 }
 
+void Album::set_creation_date_time(QDateTime timestamp) {
+  creation_date_time_ = timestamp;
+  emit creation_date_time_altered();
+}
+
 const AlbumTemplate& Album::album_template() const {
   return album_template_;
 }
@@ -208,6 +215,14 @@ void Album::set_closed(bool closed) {
 
   closed_ = closed;
   notify_closed_altered();
+}
+
+void Album::set_id(qint64 id) {
+  this->id_ = id;
+}
+
+qint64 Album::get_id() {
+  return id_;
 }
 
 SourceCollection* Album::content_pages() {
@@ -272,6 +287,30 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
   int old_page_count = content_pages_->Count();
 
   ContainerSource::notify_container_contents_altered(added, removed);
+  
+  // Update database.
+  // If the album isn't in the DB yet, ignore for now.
+  if (get_id() != INVALID_ID) {
+    if (added != NULL) {
+      QSetIterator<DataObject*> i(*added);
+      while (i.hasNext()) {
+        MediaSource* media = qobject_cast<MediaSource*>(i.next());
+        Q_ASSERT(media != NULL);
+        Database::instance()->get_album_table()->attach_to_album(get_id(), 
+                                                             media->get_id());
+      }
+    }
+    
+    if (removed != NULL) {
+      QSetIterator<DataObject*> i(*removed);
+      while (i.hasNext()) {
+        MediaSource* media = qobject_cast<MediaSource*>(i.next());
+        Q_ASSERT(media != NULL);
+        Database::instance()->get_album_table()->detach_from_album(get_id(), 
+                                                             media->get_id());
+      }
+    }
+  }
   
   // TODO: Can be smarter than this, but since we don't know how position(s)
   // in the contained sources list have now changed, need to reset and start

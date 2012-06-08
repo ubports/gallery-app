@@ -24,6 +24,8 @@
 
 #include "photo/photo.h"
 #include "util/collections.h"
+#include "database/database.h"
+#include "database/media-table.h"
 
 MediaCollection* MediaCollection::instance_ = NULL;
 
@@ -31,6 +33,9 @@ MediaCollection::MediaCollection(const QDir& directory)
   : SourceCollection("MediaCollection"), directory_(directory) {
   directory_.setFilter(QDir::Files);
   directory_.setSorting(QDir::Name);
+  
+  // By default, sort all media by its exposure date time, descending
+  SetComparator(ExposureDateTimeDescendingComparator);
   
   QSet<DataObject*> photos;
   QStringList filenames = directory_.entryList();
@@ -40,12 +45,14 @@ MediaCollection::MediaCollection(const QDir& directory)
 
     if (!Photo::IsValid(file))
       continue;
-
-    photos.insert(new Photo(file));
+    
+    Photo* p = new Photo(file);
+    qint64 id = Database::instance()->get_media_table()->get_id_for_media(
+          file.absoluteFilePath());
+    p->set_id(id);
+    photos.insert(p);
+    id_map_.insert(id, p);
   }
-  
-  // By default, sort all media by its exposure date time, descending
-  SetComparator(ExposureDateTimeDescendingComparator);
   
   AddMany(photos);
 }
@@ -76,4 +83,37 @@ bool MediaCollection::ExposureDateTimeDescendingComparator(DataObject* a,
   DataObject* b) {
   return
     qobject_cast<MediaSource*>(a)->exposure_date_time() > qobject_cast<MediaSource*>(b)->exposure_date_time();
+}
+
+MediaSource* MediaCollection::mediaForId(qint64 id) {
+  return id_map_.contains(id) ? qobject_cast<MediaSource*>(id_map_[id]) : NULL;
+}
+
+void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
+  const QSet<DataObject*>* removed) {
+  
+  SourceCollection::notify_contents_altered(added, removed);
+  
+  // Track IDs of objects as they're added and removed.
+  if (added != NULL) { 
+    QSetIterator<DataObject*> i(*added);
+    while (i.hasNext()) {
+      DataObject* o = i.next();
+      id_map_.insert(qobject_cast<MediaSource*>(o)->get_id(), o);
+    }
+  }
+  
+  if (removed != NULL) {
+    QSetIterator<DataObject*> i(*removed);
+    while (i.hasNext()) {
+      DataObject* o = i.next();
+      MediaSource* media = qobject_cast<MediaSource*>(o);
+      id_map_.remove(media->get_id());
+      
+      // TODO: In the future we may want to do this in the Destroy method
+      // (as defined in DataSource) if we want to differentiate between
+      // removing the photo and "deleting the backing file."
+      Database::instance()->get_media_table()->remove(media->get_id());
+    }
+  }
 }
