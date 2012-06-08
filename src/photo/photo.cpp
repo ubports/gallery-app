@@ -24,6 +24,7 @@
 #include <QImage>
 
 const QString Photo::SAVE_POINT_DIR = ".temp";
+const QString Photo::ORIGINAL_DIR = ".original";
 
 bool Photo::IsValid(const QFileInfo& file) {
   QString extension = file.suffix().toLower();
@@ -51,9 +52,9 @@ QImage Photo::Image(bool respect_orientation) const {
 }
 
 void Photo::DestroySource(bool destroy_backing, bool as_orphan) {
-  // TODO: destroy the database entry
-  
   MediaSource::DestroySource(destroy_backing, as_orphan);
+
+  discardOriginal();
 }
 
 Orientation Photo::orientation() const {
@@ -136,37 +137,27 @@ void Photo::crop(QVariant vrect) {
   finish_edit();
 }
 
+bool Photo::revertToOriginal() {
+  QFileInfo original = get_original_file();
+
+  if (!original.exists())
+    return false;
+
+  discardSavePoints();
+  return restore(original);
+}
+
 bool Photo::revertToLastSavePoint() {
   if (save_points_.isEmpty())
     return false;
 
   QFileInfo save_point = save_points_.pop();
 
-  if (!QFile::remove(file().filePath())) {
-    qDebug("Unable to remove edited file %s to revert to a save point",
-      qPrintable(file().filePath()));
-    return false;
-  }
+  return restore(save_point);
+}
 
-  if (!QFile::rename(save_point.filePath(), file().filePath())) {
-    qDebug("Unable to restore save point %s",
-      qPrintable(save_point.filePath()));
-    return false;
-  }
-
-  // Since we aren't keeping track of what we've applied to the metadata since
-  // the save point, we just reload it from the file we're restoring.  Note
-  // that we don't reset exposure_date_time_ so that in case we're using the
-  // file modified time, it won't change for the duration of the app.  Not sure
-  // if that's ultimately desirable.
-  delete metadata_;
-  metadata_ = PhotoMetadata::FromFile(file().filePath());
-
-  // TODO: we may be able to optimize this, so instead of reloading the file
-  // from disk again we'd instead go back to a prior edit_version_ that may
-  // still be in memory.  This seems good enough for now.
-  finish_edit();
-  return true;
+void Photo::discardOriginal() {
+  QFile::remove(get_original_file().filePath());
 }
 
 void Photo::discardSavePoints() {
@@ -189,16 +180,57 @@ void Photo::set_orientation(Orientation new_orientation) {
   finish_edit();
 }
 
+QFileInfo Photo::get_original_file() const {
+  return QFileInfo(file().dir(), QString("%1/%2")
+    .arg(ORIGINAL_DIR).arg(file().fileName()));
+}
+
 QFileInfo Photo::get_save_point_file(int index) const {
   return QFileInfo(file().dir(), QString("%1/%2_sv%3.%4")
     .arg(SAVE_POINT_DIR).arg(file().completeBaseName()).arg(index).arg(file().completeSuffix()));
 }
 
+bool Photo::restore(QFileInfo source) {
+  if (!QFile::remove(file().filePath())) {
+    qDebug("Unable to remove edited file %s", qPrintable(file().filePath()));
+    return false;
+  }
+
+  if (!QFile::rename(source.filePath(), file().filePath())) {
+    qDebug("Unable to restore from %s", qPrintable(source.filePath()));
+    return false;
+  }
+
+  // Since we aren't keeping track of what we've applied to the metadata since
+  // the save point, we just reload it from the file we're restoring.  Note
+  // that we don't reset exposure_date_time_ so that in case we're using the
+  // file modified time, it won't change for the duration of the app.  Not sure
+  // if that's ultimately desirable.
+  delete metadata_;
+  metadata_ = PhotoMetadata::FromFile(file().filePath());
+
+  // TODO: we may be able to optimize this, so instead of reloading the file
+  // from disk again we'd instead go back to a prior edit_version_ that may
+  // still be in memory.  This seems good enough for now.
+  finish_edit();
+  return true;
+}
+
 bool Photo::create_save_point() {
   file().dir().mkdir(SAVE_POINT_DIR);
+  file().dir().mkdir(ORIGINAL_DIR);
 
-  int index = save_points_.count();
-  QFileInfo save_point = get_save_point_file(index);
+  QFileInfo original = get_original_file();
+  int save_point_index = save_points_.count();
+  QFileInfo save_point = get_save_point_file(save_point_index);
+
+  if (QFile::rename(file().filePath(), original.filePath())) {
+    if (!QFile::copy(original.filePath(), file().filePath())) {
+      qDebug("Unable to recreate file %s after creating original",
+        qPrintable(file().filePath()));
+      return false;
+    }
+  }
 
   QFile::remove(save_point.filePath());
   if (!QFile::rename(file().filePath(), save_point.filePath())) {

@@ -91,6 +91,17 @@ Item {
 
     anchors.bottom: parent.bottom
 
+    ToolbarIconButton {
+      anchors.verticalCenter: parent.verticalCenter
+      anchors.left: parent.left
+      anchors.leftMargin: gu(2)
+
+      selectedIconFilename: "../img/icon-undo-redo.png"
+      deselectedIconFilename: selectedIconFilename
+
+      onPressed: undoMenu.flipVisibility()
+    }
+
     Row {
       anchors.verticalCenter: parent.verticalCenter
       anchors.right: parent.right
@@ -108,6 +119,43 @@ Item {
         deselectedIconFilename: selectedIconFilename
 
         onPressed: cropper.state = "shown"
+      }
+    }
+  }
+
+  MouseArea {
+    id: menuCancelArea
+
+    anchors.fill: parent
+    visible: (undoMenu.state == "shown")
+    onPressed: undoMenu.state = "hidden"
+  }
+
+  PopupMenu {
+    id: undoMenu
+
+    popupOriginX: gu(3.5)
+    popupOriginY: -gu(6)
+
+    visible: false
+    state: "hidden"
+
+    onActionInvoked: {
+      // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you edit
+      // a switch statement in QML.  The short version is: use braces always.
+      switch (name) {
+        case "Revert": {
+          photoEditor.photo.revertToOriginal();
+          state = "hidden";
+          break;
+        }
+      }
+    }
+
+    model: ListModel {
+      ListElement {
+        title: "Revert to original"
+        action: "Revert"
       }
     }
   }

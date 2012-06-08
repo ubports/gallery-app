@@ -34,6 +34,7 @@ class Photo : public MediaSource {
   
  public:
   static const QString SAVE_POINT_DIR;
+  static const QString ORIGINAL_DIR;
 
   static bool IsValid(const QFileInfo& file);
   
@@ -49,7 +50,9 @@ class Photo : public MediaSource {
   Q_INVOKABLE void rotateRight();
   Q_INVOKABLE void rotateLeft();
   Q_INVOKABLE void crop(QVariant vrect); // All coords in [0,1].
+  Q_INVOKABLE bool revertToOriginal();
   Q_INVOKABLE bool revertToLastSavePoint();
+  Q_INVOKABLE void discardOriginal();
   Q_INVOKABLE void discardSavePoints();
 
  protected:
@@ -58,7 +61,9 @@ class Photo : public MediaSource {
  private:
   void set_orientation(Orientation new_orientation);
   void append_edit_revision(QUrl& url) const;
+  QFileInfo get_original_file() const;
   QFileInfo get_save_point_file(int index) const;
+  bool restore(QFileInfo source);
   bool create_save_point();
   void start_edit();
   void finish_edit();
