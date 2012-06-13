@@ -22,7 +22,7 @@
 #include <cstdarg>
 
 AlbumTemplatePage::AlbumTemplatePage(const char* name, const char* qml_rc, int frame_count, ...)
-  : name_(name), qml_rc_(qml_rc) {
+  : name_(name) {
   Q_ASSERT(frame_count > 0);
   
   va_list valist;
@@ -30,13 +30,15 @@ AlbumTemplatePage::AlbumTemplatePage(const char* name, const char* qml_rc, int f
   for (int ctr = 0; ctr < frame_count; ctr++)
     layout_.append(static_cast<PageOrientation>(va_arg(valist, int)));
   va_end(valist);
+  
+  qml_rc_ = QString(qml_rc);
 }
 
 const QString& AlbumTemplatePage::name() const {
   return name_;
 }
 
-const QUrl& AlbumTemplatePage::qml_rc() const {
+const QString& AlbumTemplatePage::qml_rc() const {
   return qml_rc_;
 }
 

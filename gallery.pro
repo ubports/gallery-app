@@ -12,17 +12,13 @@ DEPENDPATH += . src
 INCLUDEPATH += src
 CONFIG += qt debug link_pkgconfig
 QMAKE_CXXFLAGS += -Werror -Wno-unused-parameter
+DEFINES += "INSTALL_PREFIX=\\\"$$PREFIX\\\""
 QT += gui declarative opengl sql
 MOC_DIR = build
 OBJECTS_DIR = build
-RESOURCES = rc/gallery.qrc
 RCC_DIR = build
 QMAKE_RESOURCE_FLAGS += -root /rc
 PKGCONFIG += exiv2
-
-install.path = $$PREFIX/bin/
-install.files = gallery
-INSTALLS = install
 
 # Input
 
@@ -59,7 +55,8 @@ SOURCES += \
 	src/qml/qml-media-collection-model.cpp \
 	src/qml/qml-stack.cpp \
 	src/qml/qml-view-collection-model.cpp \
-	src/util/time.cpp
+	src/util/time.cpp \
+	src/util/resource.cpp
 
 HEADERS += \
 	src/album/album.h \
@@ -95,11 +92,10 @@ HEADERS += \
 	src/qml/qml-view-collection-model.h \
 	src/util/collections.h \
 	src/util/time.h \
-	src/util/variants.h
+	src/util/variants.h \
+	src/util/resource.h
 
 OTHER_FILES += \
-	rc/gallery.qrc \
-	\
 	rc/Capetown/qmldir \
 	rc/Capetown/DissolveAnimation.qml \
 	rc/Capetown/FadeInAnimation.qml \
@@ -185,3 +181,11 @@ OTHER_FILES += \
 	rc/qml/ViewerNavigationButton.qml \
 	\
 	rc/sql/1.sql
+
+# Install
+
+install_binary.path = $$PREFIX/bin/
+install_binary.files = gallery
+install_resources.path = $$PREFIX/share/gallery/
+install_resources.files = rc/
+INSTALLS = install_binary install_resources

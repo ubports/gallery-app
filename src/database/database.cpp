@@ -19,13 +19,15 @@
 
 #include "database.h"
 
+#include "util/resource.h"
+
 Database* Database::instance_ = NULL;
 
 
-void Database::Init(const QDir& db_dir, const QDir& sql_dir) {
+void Database::Init(const QDir& db_dir) {
   Q_ASSERT(instance_ == NULL);
   
-  instance_ = new Database(db_dir, sql_dir, NULL);
+  instance_ = new Database(db_dir, NULL);
 }
 
 Database* Database::instance() {
@@ -34,10 +36,7 @@ Database* Database::instance() {
   return instance_;
 }
 
-Database::Database(const QDir& db_dir, const QDir& sql_dir,
-                 QObject* parent) : QObject(parent) {
-  this->sql_directory_ = sql_dir;
-  
+Database::Database(const QDir& db_dir, QObject* parent) : QObject(parent) {
   // Setup database.
   db_ = QSqlDatabase::addDatabase("QSQLITE");
   
@@ -101,7 +100,7 @@ void Database::upgrade_schema(int current_version) {
   for (;; version++) {
     // Check for the existence of an updated db file.
     // Filename format is n.sql, where n is the schema version number.
-    QFile file(sql_directory_.path() + "/" + QString::number(version) + ".sql");
+    QFile file(get_sql_dir().path() + "/" + QString::number(version) + ".sql");
     if (!file.exists())
       return;
     
@@ -155,4 +154,8 @@ MediaTable* Database::get_media_table() const {
 
 QSqlDatabase* Database::get_db() {
   return &db_;
+}
+
+QDir Database::get_sql_dir() {
+  return QDir(Resource::instance()->get_rc_url("sql").path());
 }

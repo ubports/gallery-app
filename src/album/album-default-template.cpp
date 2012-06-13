@@ -30,13 +30,13 @@ AlbumDefaultTemplate::AlbumDefaultTemplate()
   // there must be reflected here.  For now, this will have to do, although
   // in the future a more robust solution will be implemented.
   AddPage(new AlbumTemplatePage("Template A Left",
-    "qrc:/rc/qml/AlbumPageLayoutLeftPortrait.qml", 1, PORTRAIT));
+    "qml/AlbumPageLayoutLeftPortrait.qml", 1, PORTRAIT));
   AddPage(new AlbumTemplatePage("Template A Right",
-    "qrc:/rc/qml/AlbumPageLayoutRightPortrait.qml", 1, PORTRAIT));
+    "qml/AlbumPageLayoutRightPortrait.qml", 1, PORTRAIT));
   AddPage(new AlbumTemplatePage("Template B Left",
-    "qrc:/rc/qml/AlbumPageLayoutLeftDoubleLandscape.qml", 2, LANDSCAPE, LANDSCAPE));
+    "qml/AlbumPageLayoutLeftDoubleLandscape.qml", 2, LANDSCAPE, LANDSCAPE));
   AddPage(new AlbumTemplatePage("Template B Right",
-    "qrc:/rc/qml/AlbumPageLayoutRightPortrait.qml", 1, PORTRAIT));
+    "qml/AlbumPageLayoutRightPortrait.qml", 1, PORTRAIT));
 }
 
 void AlbumDefaultTemplate::Init() {

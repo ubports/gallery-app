@@ -22,6 +22,7 @@
 #include "album/album.h"
 #include "media/media-collection.h"
 #include "util/collections.h"
+#include "util/resource.h"
 
 AlbumPage::AlbumPage()
   : ContainerSource("AlbumPage", MediaCollection::ExposureDateTimeAscendingComparator),
@@ -51,7 +52,7 @@ AlbumTemplatePage* AlbumPage::template_page() const {
 }
 
 QUrl AlbumPage::qml_rc() const {
-  return template_page_->qml_rc();
+  return Resource::instance()->get_rc_url(template_page_->qml_rc());
 }
 
 QDeclarativeListProperty<MediaSource> AlbumPage::qml_media_source_list() {

@@ -40,7 +40,7 @@ class Database : public QObject {
   
  public:
   
-  static void Init(const QDir& db_dir, const QDir& sql_dir);
+  static void Init(const QDir& db_dir);
   static Database* instance();
   
   ~Database();
@@ -54,8 +54,7 @@ class Database : public QObject {
   MediaTable* get_media_table() const;
   
  private:
-  Database(const QDir& db_dir, const QDir& sql_dir,
-           QObject* parent = 0);
+  Database(const QDir& db_dir, QObject* parent = 0);
   
   // Get/set schema version.
   int get_schema_version() const;
@@ -67,9 +66,11 @@ class Database : public QObject {
   // Executes a text file containing SQL commands.
   bool execute_sql_file(QFile& file);
   
+  // Returns the directory where the .sql files live.
+  QDir get_sql_dir();
+  
   static Database* instance_;
   QSqlDatabase db_;
-  QDir sql_directory_;
   
   AlbumTable* album_table_;
   MediaTable* media_table_;

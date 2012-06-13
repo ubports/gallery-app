@@ -41,14 +41,12 @@
 #include "qml/qml-event-overview-model.h"
 #include "qml/qml-media-collection-model.h"
 #include "qml/qml-stack.h"
+#include "util/resource.h"
 
 const int APP_GRIDUNIT = 8;
 
 // Path to database, relative to pictures path.
 const QString database_path = ".database";
-
-// Path to .SQL files
-const QString sql_path = "rc/sql";
 
 int main(int argc, char *argv[]) {
   // NOTE: This *must* be called prior to QApplication's ctor.
@@ -77,29 +75,28 @@ int main(int argc, char *argv[]) {
   // traversal)
   //
   
-  QDir path(argc > 1 ? QString(argv[1]) : QDir::homePath() + "/Pictures");
+  QDir pictures_path(argc > 1 ? QString(argv[1]) : QDir::homePath() + "/Pictures");
   
-  qDebug("Opening %s...", qPrintable(path.path()));
+  qDebug("Opening %s...", qPrintable(pictures_path.path()));
   
-  QDir db_dir(path);
+  QDir db_dir(pictures_path);
   db_dir.mkdir(database_path);
   db_dir.cd(database_path);
-  
-  QDir sql_dir(sql_path);
   
   // Not in alpha-order because initialization order is important here
   // TODO: Need to use an initialization system that deals with init order
   // issues
-  Database::Init(db_dir, sql_dir);
+  Resource::Init(app.applicationDirPath(), INSTALL_PREFIX);
+  Database::Init(db_dir);
   Database::instance()->get_media_table()->verify_files();
   AlbumDefaultTemplate::Init();
-  MediaCollection::Init(path);
-  AlbumCollection::Init();
+  MediaCollection::Init(pictures_path); // only init after db
+  AlbumCollection::Init(); // only init after media collection
   EventCollection::Init();
   PreviewManager::Init();
   GalleryStandardImageProvider::Init();
   
-  qDebug("Opened %s", qPrintable(path.path()));
+  qDebug("Opened %s", qPrintable(pictures_path.path()));
   
   //
   // Create the master QDeclarativeView that all the pages will operate within
@@ -114,7 +111,7 @@ int main(int argc, char *argv[]) {
   view.engine()->rootContext()->setContextProperty("GRIDUNIT", QVariant(APP_GRIDUNIT));
   view.engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
     GalleryStandardImageProvider::instance());
-  view.setSource(QUrl("qrc:/rc/qml/GalleryApplication.qml"));
+  view.setSource(Resource::instance()->get_rc_url("qml/GalleryApplication.qml"));
   view.setViewport(gl_widget);
   QObject::connect(view.engine(), SIGNAL(quit()), &app, SLOT(quit()));
   

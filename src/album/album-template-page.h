@@ -40,7 +40,7 @@ class AlbumTemplatePage : public QObject {
   AlbumTemplatePage(const char* name, const char* qml_rc, int frame_count, ...);
   
   const QString& name() const;
-  const QUrl& qml_rc() const;
+  const QString& qml_rc() const;
   
   int FrameCount() const;
   int FramesFor(PageOrientation orientation) const;
@@ -48,7 +48,7 @@ class AlbumTemplatePage : public QObject {
   
  private:
   QString name_;
-  QUrl qml_rc_;
+  QString qml_rc_;
   QList<PageOrientation> layout_;
 };
 
