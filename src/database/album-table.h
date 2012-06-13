@@ -56,6 +56,12 @@ class AlbumTable : public QObject {
   // Returns a list of photos for an album.
   void media_for_album(qint64 album_id, QList<qint64>* list) const;
   
+  // Sets whether or not an album is open.
+  void set_is_closed(qint64 album_id, bool is_closed);
+  
+  // Sets the current page of the album.
+  void set_current_page(qint64 album_id, int page);
+  
  private:
   Database* db_;
 };

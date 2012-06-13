@@ -31,12 +31,16 @@ AlbumCollection::AlbumCollection()
   Database::instance()->get_album_table()->get_albums(&album_list);
   foreach (Album* a, album_list) {
     Add(a);
+    int saved_current_page = a->current_page();
     
     // Link each album up with its photos.
     QList<qint64> photo_list;
     Database::instance()->get_album_table()->media_for_album(a->get_id(), &photo_list);
     foreach (qint64 mediaId, photo_list)
       a->Attach(MediaCollection::instance()->mediaForId(mediaId));
+    
+    // After photos are attached, restore the current page.
+    a->set_current_page(saved_current_page);
   }
   
   // We need to monitor the media collection so that when photos get removed

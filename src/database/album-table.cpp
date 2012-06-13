@@ -26,21 +26,26 @@ AlbumTable::AlbumTable(Database* db, QObject* parent) : QObject(parent), db_(db)
 
 void AlbumTable::get_albums(QList<Album*>* album_list) const {
   QSqlQuery query(*db_->get_db());
-  query.prepare("SELECT id, title, subtitle, time_added FROM AlbumTable "
-                "ORDER BY time_added DESC");
+  query.prepare("SELECT id, title, subtitle, time_added, is_closed, current_page "
+                "FROM AlbumTable ORDER BY time_added DESC");
   if (!query.exec())
     db_->log_sql_error(query);
   
   while (query.next()) {
+    QDateTime timestamp;
+    
     qint64 id = query.value(0).toLongLong();
     QString title = query.value(1).toString();
     QString subtitle = query.value(2).toString();
-    QDateTime timestamp;
     timestamp.setMSecsSinceEpoch(query.value(3).toLongLong());
+    bool is_closed = query.value(4).toBool();
+    int current_page = query.value(5).toInt();
     
     Album* a = new Album(*AlbumDefaultTemplate::instance(), title, subtitle);
     a->set_id(id);
     a->set_creation_date_time(timestamp);
+    a->set_closed(is_closed);
+    a->set_current_page(current_page);
     
     album_list->append(a);
   }
@@ -51,11 +56,14 @@ void AlbumTable::add_album(Album* album) {
     return; // Nothing to do here.
   
   QSqlQuery query(*db_->get_db());
-  query.prepare("INSERT INTO AlbumTable (title, subtitle, time_added) "
-                "VALUES (:title, :subtitle, :time_added)");
+  query.prepare("INSERT INTO AlbumTable (title, subtitle, time_added, is_closed, "
+                "current_page) "
+                "VALUES (:title, :subtitle, :time_added, :is_closed, :page)");
   query.bindValue(":title", album->title());
   query.bindValue(":subtitle", album->subtitle());
   query.bindValue(":time_added", album->creation_date_time().toMSecsSinceEpoch());
+  query.bindValue(":is_closed", album->is_closed());
+  query.bindValue(":page", album->current_page());
   if (!query.exec())
       db_->log_sql_error(query);
   
@@ -105,4 +113,24 @@ void AlbumTable::media_for_album(qint64 album_id, QList<qint64>* list) const {
   
   while (query.next())
     list->append(query.value(0).toLongLong());
+}
+
+void AlbumTable::set_is_closed(qint64 album_id, bool is_closed) {
+  QSqlQuery query(*db_->get_db());
+  query.prepare("UPDATE AlbumTable SET is_closed = :is_closed WHERE "
+                "id = :album_id");
+  query.bindValue(":is_closed", is_closed);
+  query.bindValue(":album_id", album_id);
+  if (!query.exec())
+      db_->log_sql_error(query);
+}
+
+void AlbumTable::set_current_page(qint64 album_id, int page) {
+  QSqlQuery query(*db_->get_db());
+  query.prepare("UPDATE AlbumTable SET current_page = :page WHERE "
+                "id = :album_id");
+  query.bindValue(":page", page);
+  query.bindValue(":album_id", album_id);
+  if (!query.exec())
+      db_->log_sql_error(query);
 }

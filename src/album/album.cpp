@@ -212,7 +212,7 @@ void Album::set_current_page(int page) {
 void Album::set_closed(bool closed) {
   if (closed_ == closed)
     return;
-
+  
   closed_ = closed;
   notify_closed_altered();
 }
@@ -243,13 +243,17 @@ QDeclarativeListProperty<AlbumPage> Album::qml_pages() {
 }
 
 void Album::notify_current_page_altered() {
-  if (!refreshing_container_)
+  if (!refreshing_container_) {
     emit current_page_altered();
+    Database::instance()->get_album_table()->set_current_page(id_, current_page_);
+  }
 }
 
 void Album::notify_closed_altered() {
-  if (!refreshing_container_)
+  if (!refreshing_container_) {
     emit closedAltered();
+    Database::instance()->get_album_table()->set_is_closed(id_, closed_);
+  }
 }
 
 void Album::notify_page_count_altered() {
