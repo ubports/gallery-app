@@ -41,6 +41,7 @@ SOURCES += \
 	src/database/album-table.cpp \
 	src/database/database.cpp \
 	src/database/media-table.cpp \
+	src/database/photo-edit-table.cpp \
 	src/event/event.cpp \
 	src/event/event-collection.cpp \
 	src/media/media-collection.cpp \
@@ -76,6 +77,7 @@ HEADERS += \
 	src/database/album-table.h \
 	src/database/database.h \
 	src/database/media-table.h \
+	src/database/photo-edit-table.h \
 	src/event/event.h \
 	src/event/event-collection.h \
 	src/media/media-collection.h \
@@ -180,7 +182,9 @@ OTHER_FILES += \
 	rc/qml/ViewerChrome.qml \
 	rc/qml/ViewerNavigationButton.qml \
 	\
-	rc/sql/1.sql
+	rc/sql/1.sql \
+	rc/sql/2.sql \
+	rc/sql/3.sql
 
 # Install
 

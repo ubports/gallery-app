@@ -43,29 +43,37 @@ class Photo : public MediaSource {
   virtual QImage Image(bool respect_orientation) const;
   virtual Orientation orientation() const;
   virtual QDateTime exposure_date_time() const;
+  virtual QRect crop_rectangle() const;
 
   virtual QUrl gallery_path() const;
   virtual QUrl gallery_preview_path() const;
 
+  void set_crop_rectangle(const QRect& crop_rectangle);
+
   Q_INVOKABLE void rotateRight();
-  Q_INVOKABLE void rotateLeft();
+  Q_INVOKABLE QVariant prepareForCropping(); // Returns crop coords in [0,1].
   Q_INVOKABLE void crop(QVariant vrect); // All coords in [0,1].
   Q_INVOKABLE bool revertToOriginal();
   Q_INVOKABLE bool revertToLastSavePoint();
   Q_INVOKABLE void discardOriginal();
+  Q_INVOKABLE void discardLastSavePoint();
   Q_INVOKABLE void discardSavePoints();
 
  protected:
   virtual void DestroySource(bool destroy_backing, bool as_orphan);
   
  private:
+  QImage load_image(const QFileInfo& file, bool respect_orientation) const;
   void set_orientation(Orientation new_orientation);
-  void append_edit_revision(QUrl& url) const;
+  void internal_crop(const QRect& crop_rect, const QImage& original);
+  void rotate_crop_rect(bool left);
+  void append_edit_revision(QUrl* url) const;
   QFileInfo get_original_file() const;
   QFileInfo get_save_point_file(int index) const;
-  bool restore(QFileInfo source);
+  bool create_edited_original(Orientation orientation, const QRect& crop_rect);
+  bool restore(const QFileInfo& source, bool leave_source = false);
   bool create_save_point();
-  void start_edit();
+  void start_edit(bool always_create_save_point = false);
   void finish_edit();
 
   // Go ahead and cache the photo's metadata object inside the photo. Insofar
@@ -75,6 +83,7 @@ class Photo : public MediaSource {
   mutable QDateTime *exposure_date_time_;
   int edit_revision_; // How many times the pixel data has been modified by us.
   QStack<QFileInfo> save_points_; // Edits we've saved as files.
+  QRect crop_rect_;
 };
 
 #endif  // GALLERY_PHOTO_H_

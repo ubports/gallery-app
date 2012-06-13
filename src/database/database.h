@@ -29,9 +29,11 @@
 
 #include "album-table.h"
 #include "media-table.h"
+#include "photo-edit-table.h"
 
 class AlbumTable;
 class MediaTable;
+class PhotoEditTable;
 
 const qint64 INVALID_ID = -1;
 
@@ -50,8 +52,8 @@ class Database : public QObject {
   QSqlDatabase* get_db();
   
   AlbumTable* get_album_table() const;
-  
   MediaTable* get_media_table() const;
+  PhotoEditTable* get_photo_edit_table() const;
   
  private:
   Database(const QDir& db_dir, QObject* parent = 0);
@@ -74,6 +76,7 @@ class Database : public QObject {
   
   AlbumTable* album_table_;
   MediaTable* media_table_;
+  PhotoEditTable* photo_edit_table_;
 };
 
 #endif // DATABASE_H

@@ -118,7 +118,7 @@ Item {
         selectedIconFilename: "../img/icon-crop.png"
         deselectedIconFilename: selectedIconFilename
 
-        onPressed: cropper.state = "shown"
+        onPressed: cropper.show(photo)
       }
     }
   }
@@ -163,6 +163,11 @@ Item {
   PhotoCropper {
     id: cropper
 
+    function show(photo) {
+      enterCropper(photo);
+      state = "shown";
+    }
+
     state: "hidden"
     states: [
       State { name: "shown";
@@ -173,15 +178,7 @@ Item {
       }
     ]
 
-    transitions: [
-      Transition { from: "hidden"; to: "shown";
-        ScriptAction { script: cropper.resetCropRegion(); }
-      }
-    ]
-
     anchors.fill: parent
-
-    photo: photoEditor.photo
 
     onCanceled: state = "hidden"
 

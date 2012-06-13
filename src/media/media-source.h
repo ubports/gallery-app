@@ -95,7 +95,7 @@ class MediaSource : public DataSource {
   
  private:
   QFileInfo file_;
-  qint64 id;
+  qint64 id_;
 };
 
 QML_DECLARE_TYPE(MediaSource)

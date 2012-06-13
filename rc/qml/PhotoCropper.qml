@@ -29,10 +29,17 @@ Item {
   signal cropped(variant rect)
   signal canceled()
 
-  property variant photo
+  // readonly
+  property variant photo // Set with enterCropper().
 
-  function resetCropRegion() {
-    cropRegion.reset();
+  // internal
+  property variant ratio_crop_rect
+
+  function enterCropper(photo) {
+    var ratio_crop_rect = photo.prepareForCropping();
+
+    photoCropper.ratio_crop_rect = ratio_crop_rect;
+    photoCropper.photo = photo;
   }
 
   PhotoComponent {
@@ -48,6 +55,12 @@ Item {
     mediaSource: photoCropper.photo
     ownerName: "PhotoCropper"
 
+    onLoaded: {
+      // This is kind of silly, but I couldn't find any other way to get the
+      // dimensions to be accurate when we need to reset the crop rectangle.
+      cropRegion.reset(photoCropper.ratio_crop_rect);
+    }
+
     // An item placed over the actual photo.
     Item {
       id: photoRegion
@@ -56,11 +69,6 @@ Item {
       y: (original.height - original.paintedHeight) / 2
       width: original.paintedWidth
       height: original.paintedHeight
-
-      onXChanged: cropRegion.reset()
-      onYChanged: cropRegion.reset()
-      onWidthChanged: cropRegion.reset()
-      onHeightChanged: cropRegion.reset()
 
       Rectangle {
         id: tint
@@ -74,14 +82,12 @@ Item {
       Item {
         id: cropRegion
 
-        function reset() {
-          x = Math.floor(photoRegion.width / 4)
-          y = Math.floor(photoRegion.height / 4)
-          width = Math.ceil(photoRegion.width / 2)
-          height = Math.ceil(photoRegion.height / 2)
+        function reset(ratio_crop_rect) {
+          x = Math.floor(ratio_crop_rect.x * photoRegion.width);
+          y = Math.floor(ratio_crop_rect.y * photoRegion.height);
+          width = Math.ceil(ratio_crop_rect.width * photoRegion.width);
+          height = Math.ceil(ratio_crop_rect.height * photoRegion.height);
         }
-
-        Component.onCompleted: reset()
 
         // TODO: also support pinch/splay resizing of the cropRegion.
 
@@ -175,7 +181,10 @@ Item {
 
       text: "Cancel"
 
-      onPressed: photoCropper.canceled()
+      onPressed: {
+        photo.revertToLastSavePoint();
+        photoCropper.canceled()
+      }
     }
 
     ToolbarTextButton {
@@ -186,6 +195,8 @@ Item {
       text: "OK"
 
       onPressed: {
+        photo.discardLastSavePoint();
+
         // Need to translate to [0,1] since we aren't using photo pixel
         // coordinates here.
         var rect = Qt.rect(

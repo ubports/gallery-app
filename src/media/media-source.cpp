@@ -97,11 +97,11 @@ QVariant MediaSource::QmlFindEvent() {
 }
 
 void MediaSource::set_id(qint64 id) {
-  this->id = id;
+  id_ = id;
 }
 
 qint64 MediaSource::get_id() {
-  return id;
+  return id_;
 }
 
 void MediaSource::DestroySource(bool delete_backing, bool as_orphan) {

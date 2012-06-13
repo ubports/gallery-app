@@ -47,9 +47,16 @@ MediaCollection::MediaCollection(const QDir& directory)
       continue;
     
     Photo* p = new Photo(file);
+
     qint64 id = Database::instance()->get_media_table()->get_id_for_media(
           file.absoluteFilePath());
+    QRect crop_rect = Database::instance()->get_photo_edit_table()
+        ->get_crop_rectangle(id);
+
     p->set_id(id);
+    if (crop_rect.isValid())
+      p->set_crop_rectangle(crop_rect);
+
     photos.insert(p);
     id_map_.insert(id, p);
   }

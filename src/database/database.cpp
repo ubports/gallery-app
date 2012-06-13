@@ -42,6 +42,7 @@ Database::Database(const QDir& db_dir, QObject* parent) : QObject(parent) {
   
   album_table_ = new AlbumTable(this, this);
   media_table_ = new MediaTable(this, this);
+  photo_edit_table_ = new PhotoEditTable(this, this);
   
   // Open the database.
   db_.setDatabaseName(db_dir.path() + "/gallery.sqlite");
@@ -70,6 +71,7 @@ Database::Database(const QDir& db_dir, QObject* parent) : QObject(parent) {
 Database::~Database() {
   delete album_table_;
   delete media_table_;
+  delete photo_edit_table_;
 }
 
 void Database::log_sql_error(QSqlQuery& q) const {
@@ -150,6 +152,10 @@ AlbumTable* Database::get_album_table() const {
 
 MediaTable* Database::get_media_table() const {
   return media_table_;
+}
+
+PhotoEditTable* Database::get_photo_edit_table() const {
+  return photo_edit_table_;
 }
 
 QSqlDatabase* Database::get_db() {
