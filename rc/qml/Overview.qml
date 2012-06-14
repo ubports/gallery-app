@@ -406,7 +406,7 @@ Rectangle {
         }
       }
 
-      onPopupInteractionCompleted: hideAllPopups()
+      onPopupInteractionCompleted: chrome.hideAllPopups()
     }
 
     DeleteDialog {
