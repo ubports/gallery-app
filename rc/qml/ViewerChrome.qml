@@ -36,7 +36,9 @@ Item {
   property bool hasLeftNavigationButton: false
   property bool hasRightNavigationButton: false
 
+  property bool toolbarsAreTextured: true
   property bool toolbarsAreTranslucent: true
+  property bool toolbarsAreDark: false
 
   property bool navbarHasStateButton: false
   property bool navbarHasCancelSelectionButton: false
@@ -53,7 +55,6 @@ Item {
 
   // Pass-throughs from the navbar.
   property alias navbarHeight: navbar.height
-  property alias navbarIsTextured: navbar.isTextured
   property alias navbarSelectedStateButtonIconFilename: navbar.selectedStateButtonIconFilename
   property alias navbarDeselectedStateButtonIconFilename: navbar.deselectedStateButtonIconFilename
   property alias navbarSelectionDoneButtonText: navbar.selectionDoneButtonText
@@ -64,7 +65,6 @@ Item {
 
   // Pass-throughs from the toolbar.
   property alias toolbarHeight: toolbar.height
-  property alias toolbarIsTextured: toolbar.isTextured
   property alias toolbarHasPageIndicator: toolbar.hasPageIndicator
   property alias toolbarHasAlbumOperationsButton: toolbar.hasAlbumOperationsButton
   property alias toolbarPageIndicatorAlbum: toolbar.pageIndicatorAlbum
@@ -201,7 +201,9 @@ Item {
 
     anchors.top: parent.top
 
+    isTextured: wrapper.toolbarsAreTextured
     isTranslucent: (!inSelectionMode ? wrapper.toolbarsAreTranslucent : false)
+    isDark: wrapper.toolbarsAreDark
 
     hasReturnButton: !inSelectionMode
     hasStateButton: wrapper.navbarHasStateButton && !inSelectionMode
@@ -219,7 +221,9 @@ Item {
 
     anchors.bottom: parent.bottom
 
+    isTextured: wrapper.toolbarsAreTextured
     isTranslucent: wrapper.toolbarsAreTranslucent
+    isDark: wrapper.toolbarsAreDark
 
     hasMainIconSet: (wrapper.inSelectionMode ? wrapper.toolbarHasMainIconsWhenSelecting : true)
     hasFullIconSet: wrapper.inSelectionMode || wrapper.toolbarHasFullIconSet

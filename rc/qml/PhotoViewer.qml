@@ -183,7 +183,9 @@ Rectangle {
     z: 10
     anchors.fill: parent
 
+    toolbarsAreTextured: false
     toolbarsAreTranslucent: true
+    toolbarsAreDark: true
 
     hasLeftNavigationButton: !imagePager.atXBeginning
     hasRightNavigationButton: !imagePager.atXEnd

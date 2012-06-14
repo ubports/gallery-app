@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical Ltd
+ * Copyright (C) 2012 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -14,11 +14,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Authors:
- * Lucas Beeler <lucas@yorba.org>
+ * Charles Lindsay <chaz@yorba.org>
  */
 
 import QtQuick 1.1
 
-StandardToolbarIconButton {
-  iconName: "trash"
+ToolbarIconButton {
+  id: standardToolbarIconButton
+
+  property bool isWhite
+  property string iconName
+
+  // internal
+  property string prefix: (isWhite ? "icon-white-" : "icon-")
+
+  selectedIconFilename: "../img/" + prefix + iconName + "-active.png"
+  deselectedIconFilename: "../img/" + prefix + iconName + "-inactive.png"
 }

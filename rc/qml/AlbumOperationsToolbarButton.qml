@@ -19,7 +19,6 @@
 
 import QtQuick 1.1
 
-ToolbarIconButton {
-  selectedIconFilename: "../img/icon-album-active.png"
-  deselectedIconFilename: "../img/icon-album-inactive.png"
+StandardToolbarIconButton {
+  iconName: "album"
 }

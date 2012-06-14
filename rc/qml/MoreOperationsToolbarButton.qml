@@ -19,7 +19,6 @@
 
 import QtQuick 1.1
 
-ToolbarIconButton {
-  selectedIconFilename: "../img/icon-more-active.png"
-  deselectedIconFilename: "../img/icon-more-inactive.png"
+StandardToolbarIconButton {
+  iconName: "more"
 }

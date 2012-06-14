@@ -23,15 +23,26 @@ import QtQuick 1.1
 Item {
   property bool isTextured: true
   property bool isTranslucent: false
+  property bool isDark: false
   property bool isBottom: false // vs. top; what part of the screen it's on.
 
   width: parent.width
   height: gu(6)
 
-  opacity: (isTranslucent ? 0.9 : 1.0)
+  opacity: (isTranslucent ? (isDark ? 0.7 : 0.9) : 1.0)
+
+  Rectangle {
+    id: darkBackground
+
+    anchors.fill: parent
+
+    color: "black"
+
+    visible: !isTextured && isDark
+  }
 
   Image {
-    id: background
+    id: backgroundTexture
 
     anchors.fill: parent
 

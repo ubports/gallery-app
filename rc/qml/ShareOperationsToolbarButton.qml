@@ -19,7 +19,6 @@
 
 import QtQuick 1.1
 
-ToolbarIconButton {
-  selectedIconFilename: "../img/icon-share-active.png"
-  deselectedIconFilename: "../img/icon-share-inactive.png"
+StandardToolbarIconButton {
+  iconName: "share"
 }

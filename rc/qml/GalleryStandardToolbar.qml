@@ -77,6 +77,7 @@ Toolbar {
 
     TrashOperationToolbarButton {
       visible: hasFullIconSet
+      isWhite: wrapper.isDark
 
       onPressed: wrapper.trashOperationButtonPressed();
     }
@@ -85,16 +86,21 @@ Toolbar {
       id: albumOperationsToolbarButton
 
       visible: hasFullIconSet && hasAlbumOperationsButton
+      isWhite: wrapper.isDark
 
       onPressed: wrapper.albumOperationsButtonPressed();
     }
 
     ShareOperationsToolbarButton {
+      isWhite: wrapper.isDark
+
       onPressed: wrapper.shareOperationsButtonPressed();
     }
 
     MoreOperationsToolbarButton {
       id: moreOperationsToolbarButton
+
+      isWhite: wrapper.isDark
 
       onPressed: wrapper.moreOperationsButtonPressed();
     }

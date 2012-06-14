@@ -51,12 +51,10 @@ Toolbar {
       onPressed: wrapper.cancelSelectionButtonPressed()
     }
 
-    ToolbarIconButton {
+    ReturnToolbarButton {
       visible: wrapper.hasReturnButton
+      isWhite: wrapper.isDark
 
-      selectedIconFilename: "../img/icon-back-active.png"
-      deselectedIconFilename: "../img/icon-back-inactive.png"
-      
       onPressed: wrapper.returnButtonPressed()
     }
 

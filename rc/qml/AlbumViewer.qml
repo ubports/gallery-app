@@ -200,9 +200,7 @@ Rectangle {
     onSelectionOperationsButtonPressed: cyclePopup(selectionMenu)
 
     toolbarsAreTranslucent: (albumViewer.state == "gridView")
-
-    toolbarIsTextured: (albumViewer.state == "gridView")
-    navbarIsTextured: (albumViewer.state == "gridView")
+    toolbarsAreTextured: (albumViewer.state == "gridView")
 
     navbarHasStateButton: true
     navbarSelectedStateButtonIconFilename: (albumViewer.state == "pageView"
