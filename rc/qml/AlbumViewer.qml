@@ -80,9 +80,6 @@ Rectangle {
     SwipeArea {
       property real commitTurnFraction: 0.05
 
-      // private
-      property int turningTowardPage
-
       anchors.fill: parent
 
       enabled: !parent.isRunning
@@ -114,8 +111,8 @@ Rectangle {
       }
       
       onStartSwipe: {
-        turningTowardPage = album.currentPage + (leftToRight ? -2 : 2); // 2 pages per spread.
-        albumSpreadViewer.turnTowardPage = turningTowardPage;
+        albumSpreadViewer.destinationPage =
+            album.currentPage + (leftToRight ? -2 : 2); // 2 pages per spread.
 
         // turn off chrome, allow the page flipper full screen
         chrome.hide();
@@ -128,17 +125,23 @@ Rectangle {
         }
 
         var availableDistance = (leftToRight) ? (width - start) : start;
-        albumSpreadViewer.turnFraction = (distance / availableDistance);
+        // TODO: the 0.999 here is kind of a hack.  The AlbumPageFlipper
+        // can't tell the difference between its flipFraction being set to 1
+        // from the drag vs. its own animation.  So I don't let the drag set it
+        // quite all the way to 1.  I should somehow fix this shortcoming in
+        // the AlbumPageFlipper, but this is fine for now.
+        albumSpreadViewer.flipFraction =
+            Math.max(0, Math.min(0.999, distance / availableDistance));
       }
 
       onSwiped: {
         // Can turn toward the cover, but never close the album in the viewer
-        if (albumSpreadViewer.currentFraction >= commitTurnFraction
-          && turningTowardPage > album.firstValidCurrentPage
-          && turningTowardPage < album.lastValidCurrentPage)
-          albumSpreadViewer.turnTo(turningTowardPage);
+        if (albumSpreadViewer.flipFraction >= commitTurnFraction &&
+            albumSpreadViewer.destinationPage > album.firstValidCurrentPage &&
+            albumSpreadViewer.destinationPage < album.lastValidCurrentPage)
+          albumSpreadViewer.flip();
         else
-          albumSpreadViewer.releasePage();
+          albumSpreadViewer.release();
       }
     }
   }
@@ -220,7 +223,9 @@ Rectangle {
 
     onPageIndicatorPageSelected: {
       chrome.hide();
-      albumSpreadViewer.turnTo(page);
+      albumSpreadViewer.destinationPage = page;
+      albumSpreadViewer.flipFraction = 0;
+      albumSpreadViewer.flip();
     }
 
     onStateButtonPressed: {
@@ -300,10 +305,8 @@ Rectangle {
         // However, in the UI, we want to stay on the content pages.  The -1 is
         // since the last content page will be on the right, but current page
         // must always be the left page.
-        if (album.currentPage > album.lastContentPage - 1) {
+        if (album.currentPage > album.lastContentPage - 1)
           album.currentPage = album.lastContentPage - 1;
-          albumSpreadViewer.setToAlbumCurrent();
-        }
       }
 
       popupOriginX: -gu(16.5)
@@ -353,10 +356,8 @@ Rectangle {
         gridCheckerboard.ensureIndexVisible(index, false);
       } else {
         var page = album.getPageForMediaSource(photo);
-        if (page) {
+        if (page)
           album.currentPage = albumSpreadViewer.getLeftHandPageNumber(page.pageNumber);
-          albumSpreadViewer.setToAlbumCurrent();
-        }
       }
     }
 

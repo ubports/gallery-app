@@ -38,6 +38,9 @@ Flipable {
   property real flipFraction: 0
 
   property bool isPreview: false // Whether to load preview or normal images.
+  // These override the isPreview option if specified.
+  property alias frontIsPreview: frontContents.isPreview
+  property alias backIsPreview: backContents.isPreview
 
   // Whether to draw a frame around the page, if it's a content page.
   property bool contentHasPreviewFrame: false

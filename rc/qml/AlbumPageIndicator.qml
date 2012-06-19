@@ -47,7 +47,7 @@ Rectangle {
 
       // TODO: come up with a formula for this that takes into account
       // orientation, toolbar icons, etc.
-      property int maxIndicators: 20
+      property int maxIndicators: 15
       
       function filterModel() {
         model.clear();

@@ -1,0 +1,109 @@
+/*
+ * Copyright (C) 2012 Canonical Ltd
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 3 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Authors:
+ * Charles Lindsay <chaz@yorba.org>
+ */
+
+import QtQuick 1.1
+import Gallery 1.0
+
+// A group of animated pages flippable from the AlbumSpreadViewer.  Because of
+// how there are multiple pages to be flipped at once, keyed off a single
+// incremental value, this involves a lot of non-obvious math internally.  The
+// interface is simple, though: set the album and destinationPage, then simply
+// move flipFraction from 0 -> 1 to incrementally flip the page(s) or call
+// turnToDestination() or ...Origin() to animate it automatically.  The album's
+// state will be updated when the animation triggered by turnTo*() finishes.
+Item {
+  id: albumPageFlipper
+
+  signal flipFinished(bool toDestination)
+
+  property Album album
+  property variant selectionCheckerboard: null
+  property int destinationPage
+  property int duration: 1000
+  property real flipFraction
+
+  // readonly
+  property bool isFlipping: (flipFraction != 0 && flipFraction != 1)
+  property bool isForward: (destinationPage > currentPage)
+  property int firstPage: (isForward ? currentPage : destinationPage)
+  property int lastPage: (isForward ? destinationPage : currentPage)
+  property alias isRunning: animator.running
+
+  // internal
+  property int currentPage: (!album ? -1 : album.currentPage)
+  property int maxPages: 5
+  property int numPages: Math.min(maxPages,
+                                  Math.abs(destinationPage - currentPage) / 2)
+  property real pageFlipFraction: (isForward ? flipFraction : 1 - flipFraction)
+  property real gapBetweenPages: 0.1
+  property real flipSlope: 1 / (1 - gapBetweenPages * (numPages - 1))
+
+  function flipToDestination() {
+    animator.to = 1;
+    animator.duration = (1 - flipFraction) * duration;
+    animator.restart();
+  }
+
+  function flipToOrigin() {
+    animator.to = 0;
+    animator.duration = flipFraction * duration;
+    animator.restart();
+  }
+
+  AlbumPageFlipperPage {
+    flipperPage: 0
+  }
+
+  AlbumPageFlipperPage {
+    flipperPage: 1
+  }
+
+  AlbumPageFlipperPage {
+    flipperPage: 2
+  }
+
+  AlbumPageFlipperPage {
+    flipperPage: 3
+  }
+
+  AlbumPageFlipperPage {
+    flipperPage: 4
+  }
+
+  NumberAnimation {
+    id: animator
+
+    target: albumPageFlipper
+    property: "flipFraction"
+    easing.type: Easing.OutQuad
+
+    onCompleted: {
+      if (flipFraction == 1) {
+        if (destinationPage == album.firstValidCurrentPage) {
+          album.closed = true;
+        } else {
+          album.currentPage = destinationPage;
+          album.closed = false;
+        }
+      }
+
+      flipFinished(flipFraction == 1);
+    }
+  }
+}
