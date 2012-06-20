@@ -65,6 +65,8 @@ class Album : public ContainerSource {
   Q_PROPERTY(int currentPage READ current_page WRITE set_current_page
     NOTIFY current_page_altered)
   Q_PROPERTY(bool closed READ is_closed WRITE set_closed NOTIFY closedAltered)
+  Q_PROPERTY(QString coverNickname READ cover_nickname WRITE set_cover_nickname
+    NOTIFY coverNicknameAltered)
   
  signals:
   void album_contents_altered();
@@ -76,6 +78,7 @@ class Album : public ContainerSource {
   void closedAltered();
   void contentPagesAltered();
   void pageCountAltered();
+  void coverNicknameAltered();
   
  public:
   static const char *DEFAULT_TITLE;
@@ -115,6 +118,8 @@ class Album : public ContainerSource {
   void set_closed(bool closed);
   void set_id(qint64 id_);
   qint64 get_id();
+  QString cover_nickname() const;
+  void set_cover_nickname(QString name);
   
   // Returns a SourceCollection representing all AlbumPages held by this Album
   SourceCollection* content_pages();
@@ -155,6 +160,7 @@ class Album : public ContainerSource {
   QList<AlbumPage*> all_album_pages_;
   bool refreshing_container_;
   qint64 id_;
+  QString cover_nickname_;
   
   void InitInstance();
 };

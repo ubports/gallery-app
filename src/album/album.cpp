@@ -77,6 +77,7 @@ void Album::InitInstance() {
   content_pages_ = new SourceCollection(QString("Pages for ") + title_);
   refreshing_container_ = false;
   id_ = INVALID_ID;
+  cover_nickname_ = "default";
   
   QObject::connect(content_pages_,
     SIGNAL(contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
@@ -223,6 +224,20 @@ void Album::set_id(qint64 id) {
 
 qint64 Album::get_id() {
   return id_;
+}
+
+QString Album::cover_nickname() const {
+  return cover_nickname_;
+}
+
+void Album::set_cover_nickname(QString name) {
+  bool signal = cover_nickname_ != name;
+  cover_nickname_ = name;
+  
+  if (signal) {
+    Database::instance()->get_album_table()->set_cover_nickname(id_, cover_nickname_);
+    emit coverNicknameAltered();
+  }
 }
 
 SourceCollection* Album::content_pages() {

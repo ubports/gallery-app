@@ -26,8 +26,8 @@ AlbumTable::AlbumTable(Database* db, QObject* parent) : QObject(parent), db_(db)
 
 void AlbumTable::get_albums(QList<Album*>* album_list) const {
   QSqlQuery query(*db_->get_db());
-  query.prepare("SELECT id, title, subtitle, time_added, is_closed, current_page "
-                "FROM AlbumTable ORDER BY time_added DESC");
+  query.prepare("SELECT id, title, subtitle, time_added, is_closed, current_page, "
+                "cover_nickname FROM AlbumTable ORDER BY time_added DESC");
   if (!query.exec())
     db_->log_sql_error(query);
   
@@ -40,12 +40,14 @@ void AlbumTable::get_albums(QList<Album*>* album_list) const {
     timestamp.setMSecsSinceEpoch(query.value(3).toLongLong());
     bool is_closed = query.value(4).toBool();
     int current_page = query.value(5).toInt();
+    QString cover_nickname = query.value(6).toString();
     
     Album* a = new Album(*AlbumDefaultTemplate::instance(), title, subtitle);
     a->set_id(id);
     a->set_creation_date_time(timestamp);
     a->set_closed(is_closed);
     a->set_current_page(current_page);
+    a->set_cover_nickname(cover_nickname);
     
     album_list->append(a);
   }
@@ -57,13 +59,15 @@ void AlbumTable::add_album(Album* album) {
   
   QSqlQuery query(*db_->get_db());
   query.prepare("INSERT INTO AlbumTable (title, subtitle, time_added, is_closed, "
-                "current_page) "
-                "VALUES (:title, :subtitle, :time_added, :is_closed, :page)");
+                "current_page, cover_nickname) "
+                "VALUES (:title, :subtitle, :time_added, :is_closed, :page, "
+                ":cover_nickname)");
   query.bindValue(":title", album->title());
   query.bindValue(":subtitle", album->subtitle());
   query.bindValue(":time_added", album->creation_date_time().toMSecsSinceEpoch());
   query.bindValue(":is_closed", album->is_closed());
   query.bindValue(":page", album->current_page());
+  query.bindValue(":cover_nickname", album->cover_nickname());
   if (!query.exec())
       db_->log_sql_error(query);
   
@@ -132,5 +136,15 @@ void AlbumTable::set_current_page(qint64 album_id, int page) {
   query.bindValue(":page", page);
   query.bindValue(":album_id", album_id);
   if (!query.exec())
-      db_->log_sql_error(query);
+    db_->log_sql_error(query);
+}
+
+void AlbumTable::set_cover_nickname(qint64 album_id, QString cover_nickname) {
+  QSqlQuery query(*db_->get_db());
+  query.prepare("UPDATE AlbumTable SET cover_nickname = :cover_nickname WHERE "
+                "id = :album_id");
+  query.bindValue(":cover_nickname", cover_nickname);
+  query.bindValue(":album_id", album_id);
+  if (!query.exec())
+    db_->log_sql_error(query);
 }

@@ -43,7 +43,9 @@ Item {
   // Where the transparent shadow ends in the cover image.
   property real coverStartX: 5
   property real coverStartY: 5
-
+  property variant coverElement: album !== null ?
+    coverList.elementForActionName(album.coverNickname) : coverList.getDefault();
+  
   Image {
     id: cover
     
@@ -56,11 +58,16 @@ Item {
       xScale: albumCover.width / canonicalWidth
       yScale: albumCover.height / canonicalHeight
     }
-
-    source: (isPreview ? "../img/album-cover.png" : "../img/album-cover-large.png")
+    
+    AlbumCoverList {
+      id: coverList
+    }
+    
+    source: isPreview ? coverElement.imagePreview : coverElement.imageFull;
+    
     cache: true
     mirror: isBack
-
+    
     Column {
       x: coverStartX
       y: coverStartY

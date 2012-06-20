@@ -19,6 +19,7 @@
 
 import QtQuick 1.1
 import Gallery 1.0
+import "GalleryUtility.js" as GalleryUtility
 
 Item {
   id: albumEditor
@@ -36,10 +37,12 @@ Item {
 
   function editNewAlbum() {
     albumEditor.album = albumModel.createOrphan();
+    coverMenu.state = "hidden"
   }
 
   function editAlbum(album) {
     albumEditor.album = album;
+    coverMenu.state = "hidden"
   }
 
   AlbumCollectionModel {
@@ -61,6 +64,27 @@ Item {
 
     album: albumEditor.album
     isPreview: false
+    
+    MouseArea {
+      anchors.fill: parent
+      
+      onPressed: coverMenu.flipVisibility()
+    }
+  }
+  
+  // Cover picker
+  AlbumCoverMenu {
+    id: coverMenu
+    
+    visible: false
+    state: "hidden"
+    popupOriginX: -gu(3)
+    popupOriginY: -gu(15)
+    
+    onActionInvoked: {
+      albumEditor.album.coverNickname = name
+      state = "hidden"
+    }
   }
 
   Image {

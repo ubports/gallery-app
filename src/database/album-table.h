@@ -62,6 +62,9 @@ class AlbumTable : public QObject {
   // Sets the current page of the album.
   void set_current_page(qint64 album_id, int page);
   
+  // Sets the cover style for the album.
+  void set_cover_nickname(qint64 album_id, QString cover_nickname);
+  
  private:
   Database* db_;
 };
