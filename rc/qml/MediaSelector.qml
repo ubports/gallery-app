@@ -79,11 +79,15 @@ Item {
       mediaCheckerboard.unselectAll();
       mediaSelector.closeRequested();
     }
+
+    popups: [selectionMenu]
     
     SelectionMenu {
       id: selectionMenu
       
       checkerboard: mediaCheckerboard
+
+      onPopupInteractionCompleted: chrome.hideAllPopups()
     }
   }
 }

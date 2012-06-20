@@ -373,6 +373,8 @@ Rectangle {
       id: selectionOperationsMenu
 
       checkerboard: (eventsCheckerboard.inSelectionMode ? eventsCheckerboard : albumsCheckerboard)
+
+      onPopupInteractionCompleted: chrome.hideAllPopups()
     }
 
     PopupMenu {

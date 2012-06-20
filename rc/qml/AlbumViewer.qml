@@ -252,6 +252,8 @@ Rectangle {
       id: selectionMenu
 
       checkerboard: gridCheckerboard
+
+      onPopupInteractionCompleted: chrome.hideAllPopups()
     }
 
     AlbumViewerOptionsMenu {

@@ -33,10 +33,6 @@ PopupMenu {
   visible: false
   state: "hidden"
   
-  onPopupInteractionCompleted: {
-    hideAllPopups();
-  }
-  
   onActionInvoked: {
     // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you edit
     // a switch statement in QML.  The short version is: use braces always.
