@@ -35,90 +35,122 @@ Item {
     closeRequested();
   }
 
-  PhotoComponent {
-    id: photoComponent
-
-    anchors.top: topToolbar.bottom
-    anchors.bottom: bottomToolbar.top
-    anchors.left: parent.left
-    anchors.right: parent.right
-
+  Rectangle {
+    anchors.fill: parent
     color: "black"
 
-    ownerName: "PhotoEditor"
+    PhotoComponent {
+      id: photoComponent
+
+      anchors.fill: parent
+      anchors.topMargin: topToolbar.height + gu(3)
+      anchors.bottomMargin: bottomToolbar.height + gu(3)
+      anchors.leftMargin: gu(3)
+      anchors.rightMargin: gu(3)
+
+      color: "black"
+
+      ownerName: "PhotoEditor"
+    }
   }
 
   // TODO: use real components for the toolbars/menus instead of this hacky
   // reinvention of the wheel.
 
-  Toolbar {
-    id: topToolbar
+  SlidingPane {
+    id: topSlidingPane
 
-    anchors.top: parent.top
+    x: 0
+    y: -height
+    width: parent.width
+    height: childrenRect.height
 
-    Text {
-      anchors.centerIn: parent
-      color: "#747273"
-      text: "Edit"
-    }
+    inY: 0
 
-    ToolbarTextButton {
-      anchors.verticalCenter: parent.verticalCenter
-      anchors.left: parent.left
-      anchors.leftMargin: gu(2)
+    state: "in"
 
-      text: "Cancel"
+    Toolbar {
+      id: topToolbar
 
-      onPressed: {
-        photo.revertToLastSavePoint();
-        photoEditor.leavePhotoEditor();
+      anchors.top: parent.top
+
+      Text {
+        anchors.centerIn: parent
+        color: "#747273"
+        text: "Edit"
       }
-    }
 
-    ToolbarTextButton {
-      anchors.verticalCenter: parent.verticalCenter
-      anchors.right: parent.right
-      anchors.rightMargin: gu(2)
+      ToolbarTextButton {
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.leftMargin: gu(2)
 
-      text: "Done"
+        text: "Cancel"
 
-      onPressed: photoEditor.leavePhotoEditor()
+        onPressed: {
+          photo.revertToLastSavePoint();
+          photoEditor.leavePhotoEditor();
+        }
+      }
+
+      ToolbarTextButton {
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.right: parent.right
+        anchors.rightMargin: gu(2)
+
+        text: "Done"
+
+        onPressed: photoEditor.leavePhotoEditor()
+      }
     }
   }
 
-  Toolbar {
-    id: bottomToolbar
+  SlidingPane {
+    id: bottomSlidingPane
 
-    anchors.bottom: parent.bottom
+    x: 0
+    y: parent.height
+    width: parent.width
+    height: childrenRect.height
 
-    ToolbarIconButton {
-      anchors.verticalCenter: parent.verticalCenter
-      anchors.left: parent.left
-      anchors.leftMargin: gu(2)
+    inY: parent.height - height
 
-      selectedIconFilename: "../img/icon-undo-redo.png"
-      deselectedIconFilename: selectedIconFilename
+    state: "in"
 
-      onPressed: undoMenu.flipVisibility()
-    }
+    Toolbar {
+      id: bottomToolbar
 
-    Row {
-      anchors.verticalCenter: parent.verticalCenter
-      anchors.right: parent.right
-      anchors.rightMargin: gu(2)
+      anchors.bottom: parent.bottom
 
       ToolbarIconButton {
-        selectedIconFilename: "../img/icon-rotate.png"
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.leftMargin: gu(2)
+
+        selectedIconFilename: "../img/icon-undo-redo.png"
         deselectedIconFilename: selectedIconFilename
 
-        onPressed: photo.rotateRight()
+        onPressed: undoMenu.flipVisibility()
       }
 
-      ToolbarIconButton {
-        selectedIconFilename: "../img/icon-crop.png"
-        deselectedIconFilename: selectedIconFilename
+      Row {
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.right: parent.right
+        anchors.rightMargin: gu(2)
 
-        onPressed: cropper.show(photo)
+        ToolbarIconButton {
+          selectedIconFilename: "../img/icon-rotate.png"
+          deselectedIconFilename: selectedIconFilename
+
+          onPressed: photo.rotateRight()
+        }
+
+        ToolbarIconButton {
+          selectedIconFilename: "../img/icon-crop.png"
+          deselectedIconFilename: selectedIconFilename
+
+          onPressed: cropper.show(photo)
+        }
       }
     }
   }
@@ -164,27 +196,44 @@ Item {
     id: cropper
 
     function show(photo) {
+      topSlidingPane.slideOut();
+      bottomSlidingPane.slideOut();
+
       enterCropper(photo);
       state = "shown";
+    }
+
+    function hide() {
+      topSlidingPane.slideIn();
+      bottomSlidingPane.slideIn();
+
+      state = "hidden";
     }
 
     state: "hidden"
     states: [
       State { name: "shown";
-        PropertyChanges { target: cropper; visible: true; }
+        PropertyChanges { target: cropper; opacity: 1; }
       },
       State { name: "hidden";
-        PropertyChanges { target: cropper; visible: false; }
+        PropertyChanges { target: cropper; opacity: 0; }
       }
     ]
 
+    Behavior on opacity {
+      animation: NumberAnimation {
+        easing.type: Easing.OutQuad
+        duration: topSlidingPane.duration
+      }
+    }
+
     anchors.fill: parent
 
-    onCanceled: state = "hidden"
+    onCanceled: hide()
 
     onCropped: {
       photo.crop(rect);
-      state = "hidden";
+      hide();
     }
   }
 }

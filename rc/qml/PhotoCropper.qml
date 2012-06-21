@@ -42,13 +42,25 @@ Item {
     photoCropper.photo = photo;
   }
 
+  MouseArea {
+    id: cancelArea
+
+    anchors.fill: parent
+
+    onPressed: {
+      photo.revertToLastSavePoint();
+      photoCropper.canceled()
+    }
+  }
+
   PhotoComponent {
     id: original
 
-    anchors.top: topToolbar.bottom
-    anchors.bottom: parent.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
+    anchors.fill: parent
+    anchors.topMargin: gu(6) /* toolbar height */ + gu(3)
+    anchors.bottomMargin: gu(6) /* toolbar height */ + gu(3)
+    anchors.leftMargin: gu(3)
+    anchors.rightMargin: gu(3)
 
     color: "black"
 
@@ -149,6 +161,8 @@ Item {
         }
 
         MouseArea {
+          id: dragArea
+
           anchors.fill: parent
           anchors.margins: gu(1)
 
@@ -159,53 +173,46 @@ Item {
           drag.minimumY: 0
           drag.maximumY: photoRegion.height - cropRegion.height
         }
-      }
-    }
-  }
 
-  Toolbar {
-    id: topToolbar
+        ToolbarIconButton {
+          id: cropButton
 
-    anchors.top: parent.top
+          anchors.centerIn: parent
 
-    Text {
-      anchors.centerIn: parent
-      color: "#747273"
-      text: "Crop"
-    }
+          selectedIconFilename: "../img/icon-crop.png"
+          deselectedIconFilename: selectedIconFilename
 
-    ToolbarTextButton {
-      anchors.verticalCenter: parent.verticalCenter
-      anchors.left: parent.left
-      anchors.leftMargin: gu(2)
+          state: (dragArea.pressed ? "faded" : "visible")
+          states: [
+            State { name: "visible";
+              PropertyChanges { target: cropButton; opacity: 1; }
+            },
+            State { name: "faded";
+              PropertyChanges { target: cropButton; opacity: 0; }
+            }
+          ]
 
-      text: "Cancel"
+          Behavior on opacity {
+            animation: NumberAnimation {
+              easing.type: Easing.OutQuad
+              duration: 200
+            }
+          }
 
-      onPressed: {
-        photo.revertToLastSavePoint();
-        photoCropper.canceled()
-      }
-    }
+          onPressed: {
+            photo.discardLastSavePoint();
 
-    ToolbarTextButton {
-      anchors.verticalCenter: parent.verticalCenter
-      anchors.right: parent.right
-      anchors.rightMargin: gu(2)
+            // Need to translate to [0,1] since we aren't using photo pixel
+            // coordinates here.
+            var rect = Qt.rect(
+              cropRegion.x / photoRegion.width,
+              cropRegion.y / photoRegion.height,
+              cropRegion.width / photoRegion.width,
+              cropRegion.height / photoRegion.height);
 
-      text: "OK"
-
-      onPressed: {
-        photo.discardLastSavePoint();
-
-        // Need to translate to [0,1] since we aren't using photo pixel
-        // coordinates here.
-        var rect = Qt.rect(
-          cropRegion.x / photoRegion.width,
-          cropRegion.y / photoRegion.height,
-          cropRegion.width / photoRegion.width,
-          cropRegion.height / photoRegion.height);
-
-        photoCropper.cropped(rect);
+            photoCropper.cropped(rect);
+          }
+        }
       }
     }
   }
