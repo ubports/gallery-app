@@ -27,8 +27,6 @@ Rectangle {
   id: overview
   objectName: "overview"
 
-  signal addAlbumRequested()
-  signal editAlbumRequested(variant album, variant thumbnailRect)
   signal albumSelected(variant album, variant thumbnailRect)
   signal editPhotoRequested(variant photo)
 
@@ -297,8 +295,10 @@ Rectangle {
     visible: !eventsCheckerboard.inSelectionMode
 
     onAddCreateOperationButtonPressed: {
-      if (albumViewSwitcher.state == "tab0_active")
-        overview.addAlbumRequested();
+      if (albumViewSwitcher.state == "tab0_active") {
+        albumEditor.editNewAlbum();
+        albumEditorTransition.enterEditor();
+      }
     }
 
     BinaryTabGroup {
@@ -399,7 +399,12 @@ Rectangle {
         switch (name) {
           case "onEdit": {
             var album = albumsCheckerboard.singleSelectedItem;
-            overview.editAlbumRequested(album, getRectOfAlbumPreview(album, overview));
+            albumEditor.editAlbum(album);
+
+            overview.showAlbumPreview(album, false);
+
+            var thumbnailRect = getRectOfAlbumPreview(album, overview);
+            albumEditorTransition.enterEditor(album, thumbnailRect);
 
             albumsCheckerboard.unselectAll();
             albumsCheckerboard.inSelectionMode = false;
@@ -458,6 +463,50 @@ Rectangle {
     }
   }
 
+  Rectangle {
+    id: overviewGlass
+
+    anchors.fill: parent
+
+    color: "black"
+    opacity: 0.0
+  }
+
+  AlbumEditor {
+    id: albumEditor
+
+    anchors.fill: parent
+
+    visible: false
+
+    onCloseRequested: {
+      if (album) {
+        if (enterViewer) {
+          overview.albumSelected(album, null);
+          albumEditorTransition.exitEditor(null, null);
+        } else {
+          var thumbnailRect = overview.getRectOfAlbumPreview(album, albumEditorTransition);
+
+          overview.showAlbumPreview(album, false);
+          albumEditorTransition.exitEditor(album, thumbnailRect);
+        }
+      } else {
+        albumEditorTransition.exitEditor(null, null);
+      }
+    }
+  }
+
+  AlbumEditorTransition {
+    id: albumEditorTransition
+
+    anchors.fill: parent
+
+    backgroundGlass: overview.glass
+    editor: albumEditor
+
+    onEditorExited: overview.showAlbumPreview(album, true)
+  }
+
   PopupPhotoViewer {
     id: photoViewer
 
@@ -485,14 +534,5 @@ Rectangle {
       else
         close();
     }
-  }
-
-  Rectangle {
-    id: overviewGlass
-
-    anchors.fill: parent
-
-    color: "black"
-    opacity: 0.0
   }
 }

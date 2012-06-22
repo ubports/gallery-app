@@ -30,7 +30,6 @@ Rectangle {
 
   // When the user clicks the back button or pages back to the cover.
   signal closeRequested(bool stayOpen)
-  signal addPhotosRequested(variant album)
   signal editPhotoRequested(variant photo)
 
   anchors.fill: parent
@@ -187,7 +186,6 @@ Rectangle {
   ViewerChrome {
     id: chrome
 
-    z: 10
     anchors.fill: parent
 
     state: "shown"
@@ -267,7 +265,7 @@ Rectangle {
       onActionInvoked: {
         switch (name) {
           case "onAddPhotos":
-            albumViewer.addPhotosRequested(albumViewer.album);
+            mediaSelector.show();
           break;
         }
       }
@@ -345,7 +343,6 @@ Rectangle {
     property bool forGridView
     
     anchors.fill: parent
-    z: 100
 
     onOpening: {
       // although this might be used by the page viewer, it too uses the grid's
@@ -385,5 +382,15 @@ Rectangle {
         close();
       }
     }
+  }
+
+  MediaSelector {
+    id: mediaSelector
+
+    anchors.fill: parent
+
+    album: albumViewer.album
+
+    onCloseRequested: hide()
   }
 }

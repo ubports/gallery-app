@@ -27,7 +27,7 @@ Item {
 
   property real inX
   property real inY
-  property alias duration: slideAnimation.duration
+  property int duration: 200
 
   // readonly
   property bool isIn: (state == "in")
@@ -47,13 +47,16 @@ Item {
     }
   ]
 
-  Behavior on x { animation: slideAnimation; }
-  Behavior on y { animation: slideAnimation; }
-
-  NumberAnimation {
-    id: slideAnimation
-
-    easing.type: Easing.OutQuad
-    duration: 200
+  Behavior on x {
+    animation: NumberAnimation {
+      easing.type: Easing.OutQuad
+      duration: slidingPane.duration
+    }
+  }
+  Behavior on y {
+    animation: NumberAnimation {
+      easing.type: Easing.OutQuad
+      duration: slidingPane.duration
+    }
   }
 }

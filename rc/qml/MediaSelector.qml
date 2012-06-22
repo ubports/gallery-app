@@ -15,6 +15,7 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
+ * Charles Lindsay <chaz@yorba.org>
  */
 
 import QtQuick 1.1
@@ -22,72 +23,91 @@ import Gallery 1.0
 
 Item {
   id: mediaSelector
-  objectName: "mediaSelector"
   
-  signal closeRequested()
+  signal closeRequested(bool added)
 
   property variant album
-  
-  anchors.fill: parent
-  
-  EventCheckerboard {
-    id: mediaCheckerboard
-    objectName: "mediaCheckerboard"
-    
-    anchors.fill: parent
 
-    topExtraGutter: gu(2) + chrome.navbarHeight
-    bottomExtraGutter: gu(0)
-    leftExtraGutter: gu(2)
-    rightExtraGutter: gu(2)
-
-    allowSelectionModeChange: false
-    inSelectionMode: true
+  function show() {
+    slider.slideIn();
   }
 
-  ViewerChrome {
-    id: chrome
+  function hide() {
+    slider.slideOut();
+  }
+  
+  SlidingPane {
+    id: slider
 
-    anchors.fill: parent
+    x: 0
+    y: parent.height
+    width: parent.width
+    height: parent.height
 
-    fadeDuration: 0
-    autoHideWait: 0
+    inX: 0
+    inY: 0
 
-    navbarSelectionDoneButtonText: "Add to album"
-    navbarHasCancelSelectionButton: true
+    visible: (y < parent.height)
 
-    toolbarHasMainIconsWhenSelecting: false
+    EventCheckerboard {
+      id: mediaCheckerboard
+      objectName: "mediaCheckerboard"
 
-    inSelectionMode: true
-    state: "shown"
-    visible: true
-    
-    hasSelectionOperationsButton: true
-    onSelectionOperationsButtonPressed: cyclePopup(selectionMenu);
-    
-    onSelectionDoneButtonPressed: {
-      if (album)
-        album.addSelectedMediaSources(mediaCheckerboard.model);
-      else
-        album = mediaCheckerboard.model.createAlbumFromSelected();
+      anchors.fill: parent
 
-      mediaCheckerboard.unselectAll();
-      mediaSelector.closeRequested();
+      topExtraGutter: gu(2) + chrome.navbarHeight
+      bottomExtraGutter: gu(0)
+      leftExtraGutter: gu(2)
+      rightExtraGutter: gu(2)
+
+      allowSelectionModeChange: false
+      inSelectionMode: true
     }
 
-    onCancelSelectionButtonPressed: {
-      mediaCheckerboard.unselectAll();
-      mediaSelector.closeRequested();
-    }
+    ViewerChrome {
+      id: chrome
 
-    popups: [selectionMenu]
-    
-    SelectionMenu {
-      id: selectionMenu
-      
-      checkerboard: mediaCheckerboard
+      anchors.fill: parent
 
-      onPopupInteractionCompleted: chrome.hideAllPopups()
+      fadeDuration: 0
+      autoHideWait: 0
+
+      navbarSelectionDoneButtonText: "Add to album"
+      navbarHasCancelSelectionButton: true
+
+      toolbarHasMainIconsWhenSelecting: false
+
+      inSelectionMode: true
+      state: "shown"
+      visible: true
+
+      hasSelectionOperationsButton: true
+      onSelectionOperationsButtonPressed: cyclePopup(selectionMenu);
+
+      onSelectionDoneButtonPressed: {
+        if (album)
+          album.addSelectedMediaSources(mediaCheckerboard.model);
+        else
+          album = mediaCheckerboard.model.createAlbumFromSelected();
+
+        mediaCheckerboard.unselectAll();
+        mediaSelector.closeRequested(true);
+      }
+
+      onCancelSelectionButtonPressed: {
+        mediaCheckerboard.unselectAll();
+        mediaSelector.closeRequested(false);
+      }
+
+      popups: [selectionMenu]
+
+      SelectionMenu {
+        id: selectionMenu
+
+        checkerboard: mediaCheckerboard
+
+        onPopupInteractionCompleted: chrome.hideAllPopups()
+      }
     }
   }
 }

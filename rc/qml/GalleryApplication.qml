@@ -49,58 +49,19 @@ Item {
     
     visible: false
 
-    onAddAlbumRequested: {
-      albumEditor.editNewAlbum();
-      albumEditorTransition.enterEditor();
-    }
-
-    onEditAlbumRequested: {
-      albumEditor.editAlbum(album);
-
-      showAlbumPreview(album, false);
-      albumEditorTransition.enterEditor(album, thumbnailRect);
-    }
-
     onAlbumSelected: {
-      showAlbumPreview(album, false);
-      albumViewerTransition.transitionToAlbumViewer(album, thumbnailRect);
+      if (thumbnailRect) {
+        showAlbumPreview(album, false);
+        albumViewerTransition.transitionToAlbumViewer(album, thumbnailRect);
+      } else {
+        albumViewer.resetView(album);
+        albumViewerTransition.dissolve(overview, albumViewer);
+      }
     }
 
     onEditPhotoRequested: navStack.switchToPhotoEditor(photo)
   }
 
-  AlbumEditor {
-    id: albumEditor
-
-    anchors.fill: parent
-
-    visible: false
-
-    onCloseRequested: {
-      if (album) {
-        var thumbnailRect = overview.getRectOfAlbumPreview(album, albumEditorTransition);
-
-        overview.showAlbumPreview(album, false);
-        albumEditorTransition.exitEditor(album, thumbnailRect);
-      } else {
-        albumEditorTransition.exitEditor(null, null);
-      }
-    }
-
-    onAddPhotosRequested: mediaSelectorSlider.showMediaSelector(album)
-  }
-
-  AlbumEditorTransition {
-    id: albumEditorTransition
-
-    anchors.fill: parent
-
-    backgroundGlass: overview.glass
-    editor: albumEditor
-
-    onEditorExited: overview.showAlbumPreview(album, true)
-  }
-  
   AlbumViewer {
     id: albumViewer
     
@@ -127,8 +88,6 @@ Item {
     }
 
     onEditPhotoRequested: navStack.switchToPhotoEditor(photo)
-
-    onAddPhotosRequested: mediaSelectorSlider.showMediaSelector(album)
   }
 
   AlbumViewerTransition {
@@ -150,34 +109,6 @@ Item {
         navStack.goBack();
       else
         navStack.switchToPage(fadeInTarget);
-    }
-  }
-  
-  SlidingPane {
-    id: mediaSelectorSlider
-
-    function showMediaSelector(album) {
-      mediaSelector.album = album;
-
-      slideIn();
-    }
-
-    x: 0
-    y: parent.height
-    width: parent.width
-    height: parent.height
-
-    inX: 0
-    inY: 0
-
-    visible: (y < parent.height)
-
-    MediaSelector {
-      id: mediaSelector
-
-      anchors.fill: parent
-
-      onCloseRequested: mediaSelectorSlider.slideOut()
     }
   }
   

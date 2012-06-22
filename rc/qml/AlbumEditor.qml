@@ -24,8 +24,7 @@ import "GalleryUtility.js" as GalleryUtility
 Item {
   id: albumEditor
 
-  signal closeRequested(variant album)
-  signal addPhotosRequested(variant album)
+  signal closeRequested(variant album, bool enterViewer)
 
   property Album album
 
@@ -43,6 +42,19 @@ Item {
   function editAlbum(album) {
     albumEditor.album = album;
     coverMenu.state = "hidden"
+  }
+
+  // internal
+  function closeAlbum() {
+    if (album.contentPageCount > 0) {
+      albumModel.addOrphan(album);
+
+      // Don't want to stay on the cover.
+      if (album.currentPage == album.firstValidCurrentPage)
+        album.currentPage = album.firstContentPage;
+    } else {
+      albumModel.destroyOrphan(album);
+    }
   }
 
   AlbumCollectionModel {
@@ -69,6 +81,14 @@ Item {
       anchors.fill: parent
       
       onPressed: coverMenu.flipVisibility()
+    }
+
+    MouseArea {
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      width: gu(14)
+      height: gu(14)
+      onClicked: mediaSelector.show()
     }
   }
   
@@ -97,24 +117,35 @@ Item {
     MouseArea {
       anchors.fill: parent
       onClicked: {
-        if (albumEditor.album.contentPageCount > 0) {
-          albumModel.addOrphan(albumEditor.album);
-        } else {
-          albumModel.destroyOrphan(albumEditor.album);
-          albumEditor.album = null;
-        }
+        closeAlbum();
 
-        albumEditor.closeRequested(albumEditor.album);
+        albumEditor.closeRequested(albumEditor.album, false);
       }
     }
   }
 
   MouseArea {
-    anchors.right: cover.right
-    anchors.bottom: cover.bottom
-    width: gu(14)
-    height: gu(14)
+    id: menuCancelArea
 
-    onClicked: albumEditor.addPhotosRequested(albumEditor.album)
+    anchors.fill: parent
+    visible: coverMenu.state != "hidden"
+    onPressed: coverMenu.state = "hidden"
+  }
+
+  MediaSelector {
+    id: mediaSelector
+
+    anchors.fill: parent
+
+    album: albumEditor.album
+
+    onCloseRequested: {
+      if (added) {
+        closeAlbum();
+        albumEditor.closeRequested(albumEditor.album, true);
+      }
+
+      hide();
+    }
   }
 }
