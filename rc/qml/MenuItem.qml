@@ -62,7 +62,7 @@ Rectangle {
     }]
 
   state: "normal"
-
+  
   function dispatchAction() {
     acknowledgeItemPressTimer.restart();
     clearHighlightTimer.restart();

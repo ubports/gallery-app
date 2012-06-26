@@ -33,6 +33,7 @@ Item {
   signal swipeStarted(bool leftToRight, int start)
   signal swiping(bool leftToRight, int start, int distance)
   signal swiped(bool leftToRight)
+  signal longPressed(variant object)
 
   property variant checkerboard // The owning Checkerboard.
   // This delegate encompasses the content + the gutter.  content is the item
@@ -80,6 +81,8 @@ Item {
       anchors.fill: parent
 
       onLongPressed: {
+        checkerboardDelegate.longPressed(modelData.object)
+        
         if (checkerboard.allowSelectionModeChange) {
           checkerboard.inSelectionMode = !checkerboard.inSelectionMode;
 

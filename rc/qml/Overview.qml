@@ -197,7 +197,7 @@ Rectangle {
     gutterHeight: gu(8)
 
     visible: false
-    allowSelectionModeChange: true
+    allowSelectionModeChange: false
     singleSelectionOnly: true
     allowActivation: false
 
@@ -227,7 +227,11 @@ Rectangle {
 
         albumThumbnail.openFraction = (leftToRight ? 1 - fraction : fraction);
       }
-
+      
+      onLongPressed: {
+        albumMenu.show(album)
+      }
+      
       onSwiped: {
         if (!validSwipe)
           return;
@@ -254,7 +258,7 @@ Rectangle {
         scale: 1 + maxAddScale - Math.abs((openFraction - 0.5) * maxAddScale * 2)
       }
     }
-
+    
     onActivated: {
       var albumRect = GalleryUtility.translateRect(activatedRect, albumsCheckerboard, overview);
       albumSelected(object, albumRect);
@@ -338,110 +342,25 @@ Rectangle {
     toolbarHasAlbumOperationsButton: false
 
     inSelectionMode: true
-    visible: eventsCheckerboard.inSelectionMode || albumsCheckerboard.inSelectionMode
-
-    popups: (eventsCheckerboard.inSelectionMode
-      ? [ selectionOperationsMenu, photoTrashDialog ]
-      : [ albumOptionsMenu, albumTrashDialog ])
-
-    onSelectionOperationsButtonPressed: {
-      if (eventsCheckerboard.inSelectionMode)
-        cyclePopup(selectionOperationsMenu);
-    }
-
-    onMoreOperationsButtonPressed: {
-      if (!eventsCheckerboard.inSelectionMode)
-        cyclePopup(albumOptionsMenu);
-    }
-
-    onTrashOperationButtonPressed: {
-      if (eventsCheckerboard.inSelectionMode)
-        cyclePopup(photoTrashDialog);
-      else
-        cyclePopup(albumTrashDialog);
-    }
+    visible: eventsCheckerboard.inSelectionMode
+    
+    popups: ([ selectionOperationsMenu, photoTrashDialog ])
+    onSelectionOperationsButtonPressed: cyclePopup(selectionOperationsMenu);
+    onTrashOperationButtonPressed: cyclePopup(photoTrashDialog);
 
     onSelectionDoneButtonPressed: {
       eventsCheckerboard.unselectAll();
       eventsCheckerboard.inSelectionMode = false;
-
-      albumsCheckerboard.unselectAll();
-      albumsCheckerboard.inSelectionMode = false;
     }
 
     SelectionMenu {
       id: selectionOperationsMenu
 
-      checkerboard: (eventsCheckerboard.inSelectionMode ? eventsCheckerboard : albumsCheckerboard)
+      checkerboard: eventsCheckerboard
 
       onPopupInteractionCompleted: chrome.hideAllPopups()
     }
-
-    PopupMenu {
-      id: albumOptionsMenu
-
-      popupOriginX: -gu(1.5)
-      popupOriginY: -gu(6)
-
-      visible: false
-
-      model: ListModel {
-        ListElement {
-          title: "Edit"
-          action: "onEdit"
-        }
-      }
-
-      onActionInvoked: {
-        // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you
-        // edit a switch statement in QML.  The short version is: use braces
-        // always.
-        switch (name) {
-          case "onEdit": {
-            var album = albumsCheckerboard.singleSelectedItem;
-            albumEditor.editAlbum(album);
-
-            overview.showAlbumPreview(album, false);
-
-            var thumbnailRect = getRectOfAlbumPreview(album, overview);
-            albumEditorTransition.enterEditor(album, thumbnailRect);
-
-            albumsCheckerboard.unselectAll();
-            albumsCheckerboard.inSelectionMode = false;
-            break;
-          }
-        }
-      }
-
-      onPopupInteractionCompleted: chrome.hideAllPopups()
-    }
-
-    DeleteDialog {
-      id: albumTrashDialog
-
-      popupOriginX: -gu(16.5)
-      popupOriginY: -gu(6)
-
-      visible: false
-
-      explanatoryText: "Selecting remove will remove this album only- the "
-        + "contents of the album will remain."
-
-      actionTitle: "Remove"
-
-      onDeleteRequested: {
-        var album = albumsCheckerboard.singleSelectedItem;
-        albumsCheckerboard.model.destroyAlbum(album);
-
-        chrome.hideAllPopups(); // Have to do here since our popup list changes
-                                // based on selection mode.
-        albumsCheckerboard.unselectAll();
-        albumsCheckerboard.inSelectionMode = false;
-      }
-
-      onPopupInteractionCompleted: chrome.hideAllPopups()
-    }
-
+    
     DeleteDialog {
       id: photoTrashDialog
 
@@ -471,7 +390,107 @@ Rectangle {
     color: "black"
     opacity: 0.0
   }
-
+  
+  AlbumEditMenu {
+    id: albumMenu
+    
+    visible: false
+    state: "hidden"
+    
+    property Album album
+    
+    function show(a) {
+      album = a;
+      var rect = getRectOfAlbumPreview(album, overview);
+      if (rect.x <= overview.width / 2)
+        popupOriginX = rect.x + rect.width + gu(4);
+      else
+        popupOriginX = rect.x - childrenRect.width;
+      
+      popupOriginY = rect.y >= navbar.height ? rect.y : navbar.height;
+      state = "shown"
+    }
+    
+    onActionInvoked: {
+      // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you
+      // edit a switch statement in QML.  The short version is: use braces
+      // always.
+      switch (name) {
+        case "onEdit": {
+          albumEditor.editAlbum(album);
+          
+          showAlbumPreview(album, false);
+          var thumbnailRect = getRectOfAlbumPreview(album, overview);
+          albumEditorTransition.enterEditor(album, thumbnailRect);
+          break;
+        }
+        
+        case "onExport": {
+          // TODO
+          break;
+        }
+        
+        case "onPrint": {
+          // TODO
+          break;
+        }
+        
+        case "onShare": {
+          // TODO
+          break;
+        }
+        
+        case "onDelete": {
+          albumTrashDialog.show(album)
+          break;
+        }
+      }
+    }
+    
+    onPopupInteractionCompleted: state = "hidden"
+  }
+  
+  DeleteDialog {
+    id: albumTrashDialog
+    
+    property variant album: null
+    
+    visible: false
+    
+    explanatoryText: "Selecting remove will remove this album only- the "
+      + "contents of the album will remain."
+    
+    actionTitle: "Remove"
+    
+    function show(albumToShow) {
+      album = albumToShow;
+      state = "shown"
+      
+      var rect = getRectOfAlbumPreview(album, overview);
+      if (rect.x <= overview.width / 2)
+        popupOriginX = rect.x + rect.width + gu(4);
+      else
+        popupOriginX = rect.x - childrenRect.width;
+      
+      popupOriginY = rect.y >= navbar.height ? rect.y : navbar.height;
+    }
+    
+    onDeleteRequested: {
+      albumsCheckerboard.model.destroyAlbum(album);
+    }
+    
+    onPopupInteractionCompleted: state = "hidden"
+  }
+  
+  // Cancel out of albumMenu if user clicks outside of it.
+  MouseArea {
+    id: menuCancelArea
+    
+    anchors.fill: parent
+    visible: (albumMenu.state === "shown")
+    onPressed: albumMenu.state = "hidden"
+  }
+  
   AlbumEditor {
     id: albumEditor
 
