@@ -51,6 +51,12 @@ Item {
     flipper.flipToOrigin();
   }
 
+  function flipTo(page) {
+    destinationPage = page;
+    flipFraction = 0;
+    flip();
+  }
+
   // Converts a page number into the appropriate page number to place on the
   // left-hand side of the component
   function getLeftHandPageNumber(pageNumber) {

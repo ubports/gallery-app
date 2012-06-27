@@ -139,12 +139,13 @@ Item {
 
     album: albumEditor.album
 
-    onCloseRequested: {
-      if (added) {
-        closeAlbum();
-        albumEditor.closeRequested(albumEditor.album, true);
-      }
+    onCancelRequested: hide()
 
+    onDoneRequested: {
+      album.addSelectedMediaSources(model);
+      closeAlbum();
+
+      albumEditor.closeRequested(albumEditor.album, true);
       hide();
     }
   }

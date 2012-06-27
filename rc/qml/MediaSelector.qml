@@ -24,7 +24,8 @@ import Gallery 1.0
 Item {
   id: mediaSelector
   
-  signal closeRequested(bool added)
+  signal cancelRequested()
+  signal doneRequested(variant model)
 
   property variant album
 
@@ -85,18 +86,14 @@ Item {
       onSelectionOperationsButtonPressed: cyclePopup(selectionMenu);
 
       onSelectionDoneButtonPressed: {
-        if (album)
-          album.addSelectedMediaSources(mediaCheckerboard.model);
-        else
-          album = mediaCheckerboard.model.createAlbumFromSelected();
+        doneRequested(mediaCheckerboard.model);
 
         mediaCheckerboard.unselectAll();
-        mediaSelector.closeRequested(true);
       }
 
       onCancelSelectionButtonPressed: {
         mediaCheckerboard.unselectAll();
-        mediaSelector.closeRequested(false);
+        cancelRequested();
       }
 
       popups: [selectionMenu]

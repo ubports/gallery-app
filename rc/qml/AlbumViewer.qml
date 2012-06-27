@@ -221,9 +221,7 @@ Rectangle {
 
     onPageIndicatorPageSelected: {
       chrome.hide();
-      albumSpreadViewer.destinationPage = page;
-      albumSpreadViewer.flipFraction = 0;
-      albumSpreadViewer.flip();
+      albumSpreadViewer.flipTo(page);
     }
 
     onStateButtonPressed: {
@@ -355,8 +353,8 @@ Rectangle {
         gridCheckerboard.ensureIndexVisible(index, false);
       } else {
         var page = album.getPageForMediaSource(photo);
-        if (page)
-          album.currentPage = albumSpreadViewer.getLeftHandPageNumber(page.pageNumber);
+        if (page >= 0)
+          album.currentPage = albumSpreadViewer.getLeftHandPageNumber(page);
       }
     }
 
@@ -391,6 +389,20 @@ Rectangle {
 
     album: albumViewer.album
 
-    onCloseRequested: hide()
+    onCancelRequested: hide()
+
+    onDoneRequested: {
+      var firstPhoto = album.addSelectedMediaSources(model);
+
+      hide();
+
+      if (firstPhoto && albumViewer.state == "pageView") {
+        var firstChangedPage = album.getPageForMediaSource(firstPhoto);
+        var firstChangedSpread = albumSpreadViewer.getLeftHandPageNumber(firstChangedPage);
+
+        chrome.hide();
+        albumSpreadViewer.flipTo(firstChangedSpread);
+      }
+    }
   }
 }

@@ -91,14 +91,29 @@ void Album::addMediaSource(QVariant vmedia) {
     Attach(media);
 }
 
-void Album::addSelectedMediaSources(QVariant vmodel) {
+QVariant Album::addSelectedMediaSources(QVariant vmodel) {
   QmlMediaCollectionModel* model = VariantToObject<QmlMediaCollectionModel*>(vmodel);
   
   // Since Events are mixed into the QmlEventOverviewModel (which is a
   // subclass of QmlMediaCollectionModel), filter them out and only add
   // MediaSources
-  AttachMany(
-    FilterSetOnlyType<DataObject*, MediaSource*>(model->BackingViewCollection()->GetSelected()));
+  QSet<DataObject*> media_sources =
+      FilterSetOnlyType<DataObject*, MediaSource*>(
+          model->BackingViewCollection()->GetSelected());
+
+  // Only adding ones that aren't already in the set.
+  QSet<DataObject*> adding = media_sources - contained()->GetAsSet();
+
+  AttachMany(media_sources);
+
+  QList<DataObject*> sorted(adding.toList());
+  qSort(sorted.begin(), sorted.end(), contained()->comparator());
+
+  // We return the sorted-first photo that was added, so we can later jump to
+  // that page of the album.
+  if (sorted.count() == 0)
+    return QVariant();
+  return QVariant::fromValue(qobject_cast<MediaSource*>(sorted.at(0)));
 }
 
 void Album::removeMediaSource(QVariant vmedia) {
@@ -129,22 +144,22 @@ QVariant Album::getPage(int page) const {
   return (album_page != NULL) ? QVariant::fromValue(album_page) : QVariant();
 }
 
-QVariant Album::getPageForMediaSource(QVariant vmedia) const {
+int Album::getPageForMediaSource(QVariant vmedia) const {
   MediaSource* media = UncheckedVariantToObject<MediaSource*>(vmedia);
   if (media == NULL)
-    return QVariant();
+    return -1;
   
   if (content_pages_ == NULL)
-    return QVariant();
+    return -1;
   
   int page_count = content_pages_->Count();
   for (int page_ctr = 0; page_ctr < page_count; page_ctr++) {
     AlbumPage* album_page = content_pages_->GetAtAsType<AlbumPage*>(page_ctr);
     if (album_page->Contains(media))
-      return QVariant::fromValue(album_page);
+      return album_page->page_number();
   }
   
-  return QVariant();
+  return -1;
 }
 
 const QString& Album::title() const {
