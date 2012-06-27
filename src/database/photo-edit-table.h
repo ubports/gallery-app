@@ -33,8 +33,13 @@ class PhotoEditTable : public QObject {
   QRect get_crop_rectangle(qint64 media_id) const;
   void set_crop_rectangle(qint64 media_id, const QRect& crop_rect);
 
+  bool get_is_enhanced(qint64 media_id) const;
+  void set_is_enhanced(qint64 media_id, bool is_enhanced);
+
  private:
-   Database* db_;
+  void prepare_row(qint64 media_id);
+
+  Database* db_;
 };
 
 #endif // PHOTOEDITTABLE_H

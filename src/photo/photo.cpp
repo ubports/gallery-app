@@ -20,12 +20,14 @@
 
 #include "photo/photo.h"
 #include "database/database.h"
+#include "util/imaging.h"
 
 #include <QFileInfo>
 #include <QImage>
 
 const QString Photo::SAVE_POINT_DIR = ".temp";
 const QString Photo::ORIGINAL_DIR = ".original";
+const QString Photo::ENHANCED_DIR = ".enhanced";
 
 bool Photo::IsValid(const QFileInfo& file) {
   QString extension = file.suffix().toLower();
@@ -41,7 +43,8 @@ bool Photo::IsValid(const QFileInfo& file) {
 
 Photo::Photo(const QFileInfo& file)
   : MediaSource(file), metadata_(PhotoMetadata::FromFile(file)),
-    exposure_date_time_(NULL), edit_revision_(0), save_points_(), crop_rect_() {
+    exposure_date_time_(NULL), edit_revision_(0), save_points_(), crop_rect_(),
+    is_enhanced_(false) {
 }
 
 QImage Photo::Image(bool respect_orientation) const {
@@ -51,7 +54,7 @@ QImage Photo::Image(bool respect_orientation) const {
 void Photo::DestroySource(bool destroy_backing, bool as_orphan) {
   MediaSource::DestroySource(destroy_backing, as_orphan);
 
-  discardOriginal();
+  discard_cached_editing_files();
 }
 
 QImage Photo::load_image(const QFileInfo &file,
@@ -101,6 +104,14 @@ void Photo::set_crop_rectangle(const QRect& crop_rectangle) {
         get_id(), crop_rectangle);
 }
 
+void Photo::set_is_enhanced(bool is_enhanced) {
+  is_enhanced_ = is_enhanced;
+
+  if (get_id() != INVALID_ID)
+    Database::instance()->get_photo_edit_table()->set_is_enhanced(
+          get_id(), is_enhanced);
+}
+
 void Photo::append_edit_revision(QUrl* url) const {
   // Because of QML's aggressive, opaque caching of loaded images, we need to
   // add an arbitrary URL parameter to gallery_path and gallery_preview_path so
@@ -116,17 +127,54 @@ void Photo::rotateRight() {
   Orientation new_orientation =
       PhotoMetadata::rotate_orientation(orientation(), false);
 
-  start_edit();
+  cache_original();
+  start_edit(false, false);
 
   set_orientation(new_orientation);
 
   finish_edit();
 }
 
-QVariant Photo::prepareForCropping() {
-  start_edit(true);
+void Photo::autoEnhance() {
+  if (is_enhanced_)
+    return;
 
-  create_edited_original(orientation(), QRect());
+  cache_original();
+  start_edit(true, true);
+  swap_in_original();
+
+  QImage sample_img = QImage(get_original_file().filePath());
+  sample_img = sample_img.scaledToWidth(400);
+  AutoEnhanceTransformation enhance_txn = AutoEnhanceTransformation(sample_img);
+
+  QImage enhanced_image(file().filePath());
+  for (int j = 0; j < enhanced_image.height(); j++) {
+    for (int i = 0; i < enhanced_image.width(); i++) {
+      QColor px = enhance_txn.transform_pixel(
+        QColor(enhanced_image.pixel(i, j)));
+      enhanced_image.setPixel(i, j, px.rgb());
+    }
+  }
+
+  enhanced_image.save(file().filePath(), 0, 99);
+  metadata_->save();
+  cache_enhanced();
+
+  // if cropped, re-apply the crop after enhancement to make sure that we're
+  // cropping on enhanced pixels, not original pixels
+  internal_crop(crop_rectangle(),enhanced_image);
+
+  set_is_enhanced(true);
+
+  finish_edit();
+}
+
+QVariant Photo::prepareForCropping() {
+  cache_original();
+
+  start_edit(true, false);
+
+  swap_in_crop_source();
 
   finish_edit();
 
@@ -166,11 +214,58 @@ void Photo::crop(QVariant vrect) {
     return;
   }
 
-  start_edit();
+  start_edit(false, false);
 
   internal_crop(QRect(x, y, width, height), image);
 
   finish_edit();
+}
+
+// Replace the working file with the crop source file, which could either come
+// from the .original directory (if the image hasn't been enhanced) or from the
+// .enhanced directory (if the image has been enhanced)
+void Photo::swap_in_crop_source() {
+  if ((!get_original_file().exists()) && (!get_enhanced_file().exists())) {
+    // if neither the original file nor the cached enhanced file exists, then
+    // we can't do anything, so short-circuit return
+    return;
+  }
+
+  QString crop_source_path = (is_enhanced_) ? get_enhanced_file().filePath() :
+    get_original_file().filePath();
+  QFile::remove(file().filePath());
+  QFile::copy(crop_source_path, file().filePath());
+}
+
+// Replace the working file with original file
+void Photo::swap_in_original() {
+  if (!get_original_file().exists()) {
+    // if the original file doesn't exist, then we can't do anything, so
+    // short-circuit return
+    return;
+  }
+
+  QFile::remove(file().filePath());
+  QFile::copy(get_original_file().filePath(), file().filePath());
+}
+
+// Save a copy of the working file into the .enhanced directory, creating the
+// .enhanced directory if necessary.
+void Photo::cache_enhanced() {
+  file().dir().mkdir(ENHANCED_DIR);
+  QFile::remove(get_enhanced_file().filePath());
+  QFile::copy(file().filePath(), get_enhanced_file().filePath());
+}
+
+// Save a copy of the working file into the .original directory, creating the
+// .original directory if necessary. If a valid original already exists, do
+// nothing.
+void Photo::cache_original() {
+  if (get_original_file().exists())
+    return;
+
+  file().dir().mkdir(ORIGINAL_DIR);
+  QFile::copy(file().filePath(), get_original_file().filePath());
 }
 
 bool Photo::revertToOriginal() {
@@ -185,6 +280,11 @@ bool Photo::revertToOriginal() {
 
   // Don't need to start_edit(), since this is a revert.
   finish_edit();
+
+  discard_cached_editing_files();
+  set_is_enhanced(false);
+  set_crop_rectangle(QRect());
+
   return true;
 }
 
@@ -192,9 +292,15 @@ bool Photo::revertToLastSavePoint() {
   if (save_points_.isEmpty())
     return false;
 
-  QFileInfo save_point = save_points_.pop();
+  SavePoint save_point = save_points_.pop();
+  QFileInfo snapshot_file = save_point.snapshot_file_;
 
-  if (!restore(save_point))
+  if (save_point.enhance_performed_) {
+    discard_enhanced();
+    set_is_enhanced(false);
+  }
+
+  if (!restore(snapshot_file))
     return false;
 
   // Don't need to start_edit(), since this is a revert.
@@ -205,18 +311,23 @@ bool Photo::revertToLastSavePoint() {
   return true;
 }
 
-void Photo::discardOriginal() {
+void Photo::discard_cached_editing_files() {
+  discard_enhanced();
   QFile::remove(get_original_file().filePath());
+}
+
+void Photo::discard_enhanced() {
+  QFile::remove(get_enhanced_file().filePath());
 }
 
 void Photo::discardLastSavePoint() {
   if (!save_points_.isEmpty())
-    QFile::remove(save_points_.pop().filePath());
+    QFile::remove(save_points_.pop().snapshot_file_.filePath());
 }
 
 void Photo::discardSavePoints() {
   while (!save_points_.isEmpty()) {
-    QFile::remove(save_points_.pop().filePath());
+    QFile::remove(save_points_.pop().snapshot_file_.filePath());
   }
 }
 
@@ -268,25 +379,14 @@ QFileInfo Photo::get_original_file() const {
     .arg(ORIGINAL_DIR).arg(file().fileName()));
 }
 
+QFileInfo Photo::get_enhanced_file() const {
+  return QFileInfo(file().dir(), QString("%1/%2")
+    .arg(ENHANCED_DIR).arg(file().fileName()));
+}
+
 QFileInfo Photo::get_save_point_file(int index) const {
   return QFileInfo(file().dir(), QString("%1/%2_sv%3.%4")
     .arg(SAVE_POINT_DIR).arg(file().completeBaseName()).arg(index).arg(file().completeSuffix()));
-}
-
-bool Photo::create_edited_original(Orientation orientation,
-    const QRect& crop_rect) {
-  QFileInfo original = get_original_file();
-  if (!original.exists())
-    return false;
-
-  if (!restore(original, true))
-    return false;
-
-  set_orientation(orientation);
-  if (crop_rect.isValid())
-    internal_crop(crop_rect, Image(true));
-
-  return true;
 }
 
 bool Photo::restore(const QFileInfo& source, bool leave_source) {
@@ -314,31 +414,21 @@ bool Photo::restore(const QFileInfo& source, bool leave_source) {
   return true;
 }
 
-bool Photo::create_save_point() {
+bool Photo::create_save_point(bool is_pre_enhance) {
   // TODO: this system of savepoints might be able to go away when we get a
   // proper undo stack.  Then, instead of saving the actual file at particular
   // times, we can just always recreate it from the list of edits that should
   // be applied to the original at that point in time.
 
   file().dir().mkdir(SAVE_POINT_DIR);
-  file().dir().mkdir(ORIGINAL_DIR);
 
-  QFileInfo original = get_original_file();
   int save_point_index = save_points_.count();
-  QFileInfo save_point = get_save_point_file(save_point_index);
+  QFileInfo save_point_file = get_save_point_file(save_point_index);
 
-  if (QFile::rename(file().filePath(), original.filePath())) {
-    if (!QFile::copy(original.filePath(), file().filePath())) {
-      qDebug("Unable to recreate file %s after creating original",
-        qPrintable(file().filePath()));
-      return false;
-    }
-  }
-
-  QFile::remove(save_point.filePath());
-  if (!QFile::rename(file().filePath(), save_point.filePath())) {
+  QFile::remove(save_point_file.filePath());
+  if (!QFile::rename(file().filePath(), save_point_file.filePath())) {
     qDebug("Unable to create save point %s",
-      qPrintable(save_point.filePath()));
+      qPrintable(save_point_file.filePath()));
     return false;
   }
 
@@ -347,20 +437,20 @@ bool Photo::create_save_point() {
   // filename it originally read, so we need to make sure the file is still
   // available where it's expecting.  Other operations overwrite the whole
   // file, so this is wasteful in those cases.
-  if (!QFile::copy(save_point.filePath(), file().filePath())) {
+  if (!QFile::copy(save_point_file.filePath(), file().filePath())) {
     qDebug("Unable to recreate file %s after save point creation",
       qPrintable(file().filePath()));
     return false;
   }
 
-  save_points_.push(save_point);
+  save_points_.push(SavePoint(save_point_file, is_pre_enhance));
   return true;
 }
 
-void Photo::start_edit(bool always_create_save_point) {
+void Photo::start_edit(bool always_create_save_point, bool is_enhance) {
   // Only allow one save point unless we're forcing a new one.
   if (always_create_save_point || save_points_.isEmpty())
-    create_save_point();
+    create_save_point(is_enhance);
 }
 
 void Photo::finish_edit() {

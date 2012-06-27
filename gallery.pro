@@ -57,7 +57,8 @@ SOURCES += \
 	src/qml/qml-stack.cpp \
 	src/qml/qml-view-collection-model.cpp \
 	src/util/time.cpp \
-	src/util/resource.cpp
+	src/util/resource.cpp \
+	src/util/imaging.cpp
 
 HEADERS += \
 	src/album/album.h \
@@ -95,7 +96,8 @@ HEADERS += \
 	src/util/collections.h \
 	src/util/time.h \
 	src/util/variants.h \
-	src/util/resource.h
+	src/util/resource.h \
+	src/util/imaging.h
 
 # Install
 

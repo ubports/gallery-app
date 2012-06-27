@@ -31,10 +31,22 @@
 
 class Photo : public MediaSource {
   Q_OBJECT
-  
+
+  struct SavePoint {
+    QFileInfo snapshot_file_;
+    bool enhance_performed_;
+
+    SavePoint() { }
+
+    SavePoint(QFileInfo snapshot_file, bool enhance_performed)
+      : snapshot_file_(snapshot_file), enhance_performed_(enhance_performed) {
+    }
+  };
+
  public:
   static const QString SAVE_POINT_DIR;
   static const QString ORIGINAL_DIR;
+  static const QString ENHANCED_DIR;
 
   static bool IsValid(const QFileInfo& file);
   
@@ -49,13 +61,14 @@ class Photo : public MediaSource {
   virtual QUrl gallery_preview_path() const;
 
   void set_crop_rectangle(const QRect& crop_rectangle);
+  void set_is_enhanced(bool is_enhanced);
 
   Q_INVOKABLE void rotateRight();
+  Q_INVOKABLE void autoEnhance();
   Q_INVOKABLE QVariant prepareForCropping(); // Returns crop coords in [0,1].
   Q_INVOKABLE void crop(QVariant vrect); // All coords in [0,1].
   Q_INVOKABLE bool revertToOriginal();
   Q_INVOKABLE bool revertToLastSavePoint();
-  Q_INVOKABLE void discardOriginal();
   Q_INVOKABLE void discardLastSavePoint();
   Q_INVOKABLE void discardSavePoints();
 
@@ -70,11 +83,17 @@ class Photo : public MediaSource {
   void append_edit_revision(QUrl* url) const;
   QFileInfo get_original_file() const;
   QFileInfo get_save_point_file(int index) const;
-  bool create_edited_original(Orientation orientation, const QRect& crop_rect);
+  QFileInfo get_enhanced_file() const;
   bool restore(const QFileInfo& source, bool leave_source = false);
-  bool create_save_point();
-  void start_edit(bool always_create_save_point = false);
+  bool create_save_point(bool is_pre_enhance);
+  void start_edit(bool force_create_save_point, bool is_enhance);
   void finish_edit();
+  void discard_enhanced();
+  void discard_cached_editing_files();
+  void cache_original();
+  void cache_enhanced();
+  void swap_in_crop_source();
+  void swap_in_original();
 
   // Go ahead and cache the photo's metadata object inside the photo. Insofar
   // as we know, Gallery will be the only application on the device mutating
@@ -82,8 +101,9 @@ class Photo : public MediaSource {
   PhotoMetadata* metadata_;
   mutable QDateTime *exposure_date_time_;
   int edit_revision_; // How many times the pixel data has been modified by us.
-  QStack<QFileInfo> save_points_; // Edits we've saved as files.
+  QStack<SavePoint> save_points_; // Edits we've saved as files.
   QRect crop_rect_;
+  bool is_enhanced_;
 };
 
 #endif  // GALLERY_PHOTO_H_

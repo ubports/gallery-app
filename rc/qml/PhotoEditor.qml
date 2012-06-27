@@ -151,6 +151,13 @@ Item {
 
           onPressed: cropper.show(photo)
         }
+
+        ToolbarIconButton {
+          selectedIconFilename: "../img/icon-enhance.png"
+          deselectedIconFilename: selectedIconFilename
+
+          onPressed: photo.autoEnhance()
+        }
       }
     }
   }
