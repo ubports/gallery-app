@@ -20,6 +20,8 @@
 import QtQuick 1.1
 import Gallery 1.0
 
+// A component to show an album thumbnail in closed or open state, and
+// transition between the two.
 Item {
   id: albumOpener
 

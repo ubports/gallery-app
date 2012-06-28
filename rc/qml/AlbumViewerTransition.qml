@@ -32,7 +32,7 @@ Item {
 
   property Album album
   property Rectangle backgroundGlass
-  property int durationMsec: 500
+  property int duration: 500
 
   // internal
   property bool hideStayingOpen
@@ -61,6 +61,19 @@ Item {
     hideStayingOpen = stayOpen;
     hideAlbumViewerAnimation.thumbnailRect = thumbnailRect;
     hideAlbumViewerAnimation.start();
+  }
+
+  function backCoverTransitionFromAlbumViewer(album, thumbnailRect) {
+    albumViewerTransition.album = album;
+
+    var rect = getFullscreenRect();
+    albumCloser.x = rect.x;
+    albumCloser.y = rect.y;
+    albumCloser.width = rect.width;
+    albumCloser.height = rect.height;
+
+    backCoverHideAlbumViewerAnimation.thumbnailRect = thumbnailRect;
+    backCoverHideAlbumViewerAnimation.start();
   }
 
   function dissolve(fadeOutTarget, fadeInTarget) {
@@ -96,6 +109,16 @@ Item {
     visible: false
   }
 
+  AlbumCloser {
+    id: albumCloser
+
+    album: parent.album
+    isPreview: true
+    contentHasPreviewFrame: true
+
+    visible: false
+  }
+
   SequentialAnimation {
     id: showAlbumViewerAnimation
 
@@ -110,7 +133,7 @@ Item {
         endY: showAlbumViewerAnimation.screenRect.y
         endWidth: showAlbumViewerAnimation.screenRect.width
         endHeight: showAlbumViewerAnimation.screenRect.height
-        duration: durationMsec
+        duration: albumViewerTransition.duration
         easingType: Easing.OutQuad
       }
 
@@ -119,13 +142,13 @@ Item {
         property: "openFraction"
         from: (album && album.closed ? 0 : 1)
         to: 0.5
-        duration: durationMsec
+        duration: albumViewerTransition.duration
         easing.type: Easing.OutQuad
       }
 
       FadeInAnimation {
         target: backgroundGlass
-        duration: durationMsec
+        duration: albumViewerTransition.duration
       }
     }
 
@@ -155,7 +178,7 @@ Item {
         endY: hideAlbumViewerAnimation.thumbnailRect.y
         endWidth: hideAlbumViewerAnimation.thumbnailRect.width
         endHeight: hideAlbumViewerAnimation.thumbnailRect.height
-        duration: durationMsec
+        duration: albumViewerTransition.duration
         easingType: Easing.OutQuad
       }
 
@@ -164,13 +187,13 @@ Item {
         property: "openFraction"
         from: 0.5
         to: (hideStayingOpen ? 1 : 0)
-        duration: durationMsec
+        duration: albumViewerTransition.duration
         easing.type: Easing.InQuad
       }
 
       FadeOutAnimation {
         target: backgroundGlass
-        duration: durationMsec
+        duration: albumViewerTransition.duration
       }
     }
 
@@ -178,6 +201,57 @@ Item {
 
     onCompleted: {
       album.closed = !hideStayingOpen;
+
+      transitionFromAlbumViewerCompleted();
+    }
+  }
+
+  SequentialAnimation {
+    id: backCoverHideAlbumViewerAnimation
+
+    property variant thumbnailRect: {"x": 0, "y": 0, "width": 0, "height": 0}
+
+    PropertyAction { target: albumCloser; property: "visible"; value: true; }
+
+    ParallelAnimation {
+      ExpandAnimation {
+        target: albumCloser
+        endX: backCoverHideAlbumViewerAnimation.thumbnailRect.x
+        endY: backCoverHideAlbumViewerAnimation.thumbnailRect.y
+        endWidth: backCoverHideAlbumViewerAnimation.thumbnailRect.width
+        endHeight: backCoverHideAlbumViewerAnimation.thumbnailRect.height
+        duration: albumViewerTransition.duration
+        easingType: Easing.OutQuad
+      }
+
+      NumberAnimation {
+        target: albumCloser
+        property: "leftFlipFraction"
+        from: 1
+        to: 0
+        duration: albumViewerTransition.duration
+        easing.type: Easing.InQuad
+      }
+
+      NumberAnimation {
+        target: albumCloser
+        property: "rightFlipFraction"
+        from: 0.25
+        to: 0
+        duration: albumViewerTransition.duration
+        easing.type: Easing.OutQuad
+      }
+
+      FadeOutAnimation {
+        target: backgroundGlass
+        duration: albumViewerTransition.duration
+      }
+    }
+
+    PropertyAction { target: albumCloser; property: "visible"; value: false; }
+
+    onCompleted: {
+      album.closed = true;
 
       transitionFromAlbumViewerCompleted();
     }
