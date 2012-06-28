@@ -40,10 +40,9 @@ Item {
   // (sized checkerboard.itemWidth/Height) inside the gutter.  It will be
   // reparented internally so it's positioned correctly.
   property Item content
+  property bool contentIsSwipable: false
   // Whether to apply the default selection highlighting internally.
   property bool useInternalSelectionHighlight: true
-  // Whether to use the default selection/activation handling internally.
-  property alias handleInput: inputArea.enabled
 
   // readonly
   property variant modelData: model
@@ -75,42 +74,57 @@ Item {
     height: checkerboard.itemHeight
     anchors.centerIn: parent
 
-    SwipeArea {
-      id: inputArea
+    function longPressed() {
+      checkerboardDelegate.longPressed(modelData.object);
+
+      if (checkerboard.allowSelectionModeChange) {
+        checkerboard.inSelectionMode = !checkerboard.inSelectionMode;
+
+        if (checkerboard.inSelectionMode) {
+          checkerboard.model.toggleSelection(modelData.object);
+
+          if (checkerboard.singleSelectionOnly)
+            checkerboard.singleSelectedItem = modelData.object;
+        } else {
+          checkerboard.unselectAll();
+        }
+      }
+    }
+
+    function tapped() {
+      if (checkerboard.inSelectionMode) {
+        if (checkerboard.singleSelectionOnly) {
+          checkerboard.unselectAll();
+          checkerboard.singleSelectedItem = modelData.object;
+        }
+
+        checkerboard.model.toggleSelection(modelData.object);
+      } else {
+        var rect = GalleryUtility.getRectRelativeTo(checkerboardDelegate, checkerboard);
+        checkerboard.activated(modelData.object, modelData, rect);
+      }
+    }
+
+    MouseArea {
+      id: mouseArea
 
       anchors.fill: parent
 
-      onLongPressed: {
-        checkerboardDelegate.longPressed(modelData.object)
-        
-        if (checkerboard.allowSelectionModeChange) {
-          checkerboard.inSelectionMode = !checkerboard.inSelectionMode;
+      visible: !contentIsSwipable
 
-          if (checkerboard.inSelectionMode) {
-            checkerboard.model.toggleSelection(modelData.object);
+      onPressAndHold: contentArea.longPressed()
+      onClicked: contentArea.tapped()
+    }
 
-            if (checkerboard.singleSelectionOnly)
-              checkerboard.singleSelectedItem = modelData.object;
-          } else {
-            checkerboard.unselectAll();
-          }
-        }
-      }
+    SwipeArea {
+      id: swipeArea
 
-      onTapped: {
-        if (checkerboard.inSelectionMode) {
-          if (checkerboard.singleSelectionOnly) {
-            checkerboard.unselectAll();
-            checkerboard.singleSelectedItem = modelData.object;
-          }
+      anchors.fill: parent
 
-          checkerboard.model.toggleSelection(modelData.object);
-        } else {
-          var rect = GalleryUtility.getRectRelativeTo(checkerboardDelegate, checkerboard);
-          checkerboard.activated(modelData.object, modelData, rect);
-        }
-      }
+      visible: contentIsSwipable
 
+      onLongPressed: contentArea.longPressed()
+      onTapped: contentArea.tapped()
       onStartSwipe: checkerboardDelegate.swipeStarted(leftToRight, start)
       onSwiping: checkerboardDelegate.swiping(leftToRight, start, distance)
       onSwiped: checkerboardDelegate.swiped(leftToRight)

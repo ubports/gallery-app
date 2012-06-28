@@ -214,6 +214,8 @@ Rectangle {
 
       checkerboard: albumsCheckerboard
 
+      contentIsSwipable: true
+
       onSwipeStarted: {
         validSwipe = ((leftToRight && !album.closed) || (!leftToRight && album.closed));
       }
