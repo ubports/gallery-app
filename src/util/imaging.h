@@ -68,11 +68,16 @@ class ToneExpansionTransformation : public virtual HSVTransformation {
 
   bool is_identity() const;
 
+  float low_discard_mass() const;
+  float high_discard_mass() const;
+
  private:
   void build_remap_table();
 
   int low_kink_;
   int high_kink_;
+  float low_discard_mass_;
+  float high_discard_mass_;
 };
 
 class HermiteGammaApproximationFunction {

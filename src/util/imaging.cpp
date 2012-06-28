@@ -70,6 +70,9 @@ ToneExpansionTransformation::ToneExpansionTransformation(IntensityHistogram h,
   if (high_discard_mass == -1.0f)
     high_discard_mass = DEFAULT_HIGH_DISCARD_MASS;
 
+  low_discard_mass_ = low_discard_mass;
+  high_discard_mass_ = high_discard_mass;
+
   low_kink_ = 0;
   high_kink_ = 255;
 
@@ -106,6 +109,14 @@ void ToneExpansionTransformation::build_remap_table() {
 
   for ( ; i < 256; i++)
       remap_table_[i] = 255;
+}
+
+float ToneExpansionTransformation::low_discard_mass() const {
+  return low_discard_mass_;
+}
+
+float ToneExpansionTransformation::high_discard_mass() const {
+  return high_discard_mass_;
 }
 
 HermiteGammaApproximationFunction::HermiteGammaApproximationFunction(
@@ -243,7 +254,10 @@ QColor AutoEnhanceTransformation::transform_pixel(
     int h, s, v;
     px.getHsv(&h, &s, &v);
 
-    s = (int) (((float) s) * 1.15f);
+    float compensation_multiplier =
+        (tone_expansion_transform_->low_discard_mass() < 0.01f) ? 1.02f : 1.10f;
+
+    s = (int) (((float) s) * compensation_multiplier);
     s = clampi(s, 0, 255);
 
     px.setHsv(h, s, v);
