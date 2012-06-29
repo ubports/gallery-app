@@ -53,7 +53,14 @@ Rectangle {
       }
     }
   ]
-
+  
+  onStateChanged: {
+    if (state == "pageView") {
+      gridCheckerboard.unselectAll();
+      gridCheckerboard.inSelectionMode = false;
+    }
+  }
+  
   function resetView(album) {
     albumViewer.album = album;
 
@@ -71,11 +78,10 @@ Rectangle {
     anchors.fill: parent
 
     album: albumViewer.album
-    selectionCheckerboard: gridCheckerboard
 
     onPageFlipped: chrome.show()
     onPageReleased: chrome.show()
-
+    
     SwipeArea {
       property real commitTurnFraction: 0.05
       property real backCoverCloseFraction: 0.25
@@ -102,12 +108,9 @@ Rectangle {
         var hit = albumSpreadViewer.hitTestFrame(x, y, parent);
         if (!hit || !hit.mediaSource)
           return;
-
-        gridCheckerboard.inSelectionMode = !gridCheckerboard.inSelectionMode;
-        if (gridCheckerboard.inSelectionMode)
-          gridCheckerboard.model.toggleSelection(hit.mediaSource);
-        else
-          gridCheckerboard.unselectAll();
+        
+        albumPagePhotoMenu.positionRelativeTo(hit.mediaSource);
+        chrome.cyclePopup(albumPagePhotoMenu);
       }
       
       onStartSwipe: {
@@ -227,7 +230,7 @@ Rectangle {
     toolbarPageIndicatorAlbum: albumViewer.album
 
     popups: [ albumViewerOptionsMenu, albumViewerShareMenu,
-      selectionMenu, trashDialog ]
+      selectionMenu, trashDialog, albumPagePhotoMenu, trashFromAlbumPageDialog ]
 
     onPageIndicatorPageSelected: {
       chrome.hide();
@@ -293,7 +296,8 @@ Rectangle {
 
       visible: false
     }
-
+    
+    // When delete is invoked from grid view
     DeleteRemoveDialog {
       id: trashDialog
 
@@ -340,8 +344,89 @@ Rectangle {
         id: trashModel
       }
     }
+    
+    AlbumPagePhotoMenu {
+      id: albumPagePhotoMenu
+      
+      visible: false
+      state: "hidden"
+      
+      property MediaSource mediaSource
+      
+      function positionRelativeTo(m) {
+        mediaSource = m;
+        var rect = albumSpreadViewer.getRectOfMediaSource(mediaSource);
+        rect = GalleryUtility.getRectRelativeTo(rect, photoViewer);
+        if (rect.x <= overview.width / 2)
+          popupOriginX = rect.x + rect.width + gu(4);
+        else
+          popupOriginX = rect.x - childrenRect.width;
+        
+        popupOriginY = rect.y;
+      }
+      
+      onActionInvoked: {
+        // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you
+        // edit a switch statement in QML.  The short version is: use braces
+        // always.
+        switch (name) {
+          case "onExport": {
+            // TODO
+            break;
+          }
+          
+          case "onPrint": {
+            // TODO
+            break;
+          }
+          
+          case "onShare": {
+            // TODO
+            break;
+          }
+          
+          case "onDelete": {
+            trashFromAlbumPageDialog.popupOriginX = popupOriginX;
+            trashFromAlbumPageDialog.popupOriginY = popupOriginY;
+            trashFromAlbumPageDialog.media = mediaSource;
+            chrome.cyclePopup(trashFromAlbumPageDialog);
+            
+            break;
+          }
+        }
+      }
+      
+      onPopupInteractionCompleted: chrome.hideAllPopups()
+    }
+    
+    // When delete is invoked from an album page
+    DeleteRemoveDialog {
+      id: trashFromAlbumPageDialog
+      
+      property MediaSource media
+      
+      visible: false
+      
+      onRemoveRequested: {
+        album.removeMediaSource(media);
+        
+        trashDialog.finishRemove();
+      }
+      
+      onDeleteRequested: {
+        gridCheckerboard.model.destroyMedia(media);
+        
+        trashDialog.finishRemove();
+      }
+      
+      onPopupInteractionCompleted: chrome.hideAllPopups()
+      
+      AlbumCollectionModel {
+        id: trashFromAlbumPageModel
+      }
+    }
   }
-
+  
   PopupPhotoViewer {
     id: photoViewer
     
@@ -391,7 +476,7 @@ Rectangle {
       }
     }
   }
-
+  
   MediaSelector {
     id: mediaSelector
 

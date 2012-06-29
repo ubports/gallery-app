@@ -59,7 +59,6 @@ AlbumPageComponent {
   visible: numPages > flipperPage
 
   album: parent.album
-  selectionCheckerboard: parent.selectionCheckerboard
 
   frontPage: rightPageForCurrent(page)
   backPage: leftPageForCurrent(page + 2) // Next spread.

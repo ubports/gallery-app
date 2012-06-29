@@ -33,7 +33,6 @@ Item {
   signal flipFinished(bool toDestination)
 
   property Album album
-  property variant selectionCheckerboard: null
   property int destinationPage
   property int duration: 1000
   property real flipFraction

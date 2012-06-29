@@ -34,7 +34,6 @@ Item {
   
   // public
   property Album album
-  property variant selectionCheckerboard: null
   property alias destinationPage: flipper.destinationPage
   property alias duration: flipper.duration
   property alias flipFraction: flipper.flipFraction
@@ -136,7 +135,6 @@ Item {
       visible: (backPage >= 0)
 
       album: albumSpreadViewer.album
-      selectionCheckerboard: albumSpreadViewer.selectionCheckerboard
 
       backPage: leftPageForCurrent(flipper.isFlipping ? flipper.firstPage :
           (album ? album.currentPage : -1))
@@ -152,7 +150,6 @@ Item {
       visible: (Boolean(album) && frontPage < album.totalPageCount)
 
       album: albumSpreadViewer.album
-      selectionCheckerboard: albumSpreadViewer.selectionCheckerboard
 
       frontPage: rightPageForCurrent(flipper.isFlipping ? flipper.lastPage :
           (album ? album.currentPage : -1))
@@ -168,7 +165,6 @@ Item {
       visible: isFlipping
 
       album: albumSpreadViewer.album
-      selectionCheckerboard: albumSpreadViewer.selectionCheckerboard
 
       onFlipFinished: {
         if (toDestination)

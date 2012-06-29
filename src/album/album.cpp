@@ -120,6 +120,10 @@ void Album::removeMediaSource(QVariant vmedia) {
   MediaSource* media = UncheckedVariantToObject<MediaSource*>(vmedia);
   if (media != NULL)
     Detach(media);
+  
+  // TODO: see comment in removeSelectedMediaSources()
+  if (ContainedCount() == 0)
+    AlbumCollection::instance()->Destroy(this, true, true);
 }
 
 void Album::removeSelectedMediaSources(QVariant vmodel) {

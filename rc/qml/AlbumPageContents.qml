@@ -27,7 +27,6 @@ Item {
   id: albumPageContents
 
   property Album album
-  property variant selectionCheckerboard: null
   property int page: -1
   property bool isPreview: false
   property bool contentHasPreviewFrame: false
@@ -152,7 +151,6 @@ Item {
 
     // read-only
     property variant mediaSourceList
-    property alias selectionCheckerboard: albumPageContents.selectionCheckerboard
     property alias topMargin: albumPageContents.canonicalTopMargin
     property alias bottomMargin: albumPageContents.canonicalBottomMargin
     property alias gutterMargin: albumPageContents.canonicalGutterMargin
