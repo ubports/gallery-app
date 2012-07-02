@@ -71,16 +71,37 @@ Rectangle {
     chrome.show();
     gridCheckerboard.visible = false;
   }
-
+  
   AlbumSpreadViewer {
     id: albumSpreadViewer
 
     anchors.fill: parent
 
     album: albumViewer.album
+    
+    // Keyboard focus while visible
+    focus: visible == true
 
     onPageFlipped: chrome.show()
     onPageReleased: chrome.show()
+    
+    Keys.onPressed: {
+      if (event.key === Qt.Key_Left &&
+        album.currentPage > album.firstContentPage &&
+        !albumSpreadViewer.isFlipping) {
+        
+        chrome.hide();
+        albumSpreadViewer.flipTo(album.currentPage -2 ); // 2 pages per spread
+        event.accepted = true;
+      } else if (event.key === Qt.Key_Right &&
+        album.currentPage < albumSpreadViewer.getLeftHandPageNumber(album.lastContentPage) &&
+        !albumSpreadViewer.isFlipping) {
+        
+        chrome.hide();
+        albumSpreadViewer.flipTo(album.currentPage + 2); // 2 pages per spread
+        event.accepted = true;
+      }
+    }
     
     SwipeArea {
       property real commitTurnFraction: 0.05

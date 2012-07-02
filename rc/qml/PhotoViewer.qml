@@ -59,6 +59,19 @@ Rectangle {
       if (moving)
         currentIndexForHighlight = currentIndex;
     }
+    
+    // Keyboard focus while visible
+    focus: visible == true
+    
+    Keys.onPressed: {
+      if (event.key === Qt.Key_Left) {
+        pageBack();
+        event.accepted = true;
+      } else if (event.key === Qt.Key_Right) {
+        pageForward();
+        event.accepted = true;
+      }
+    }
 
     model: parent.model
 
