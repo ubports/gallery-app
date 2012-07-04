@@ -26,6 +26,7 @@ Item {
   
   property variant event
   property color textColor: "#6e6046"
+  property bool isSelected
   
   // internal
   property real cardWidth: gu(24)
@@ -33,6 +34,8 @@ Item {
   // Where the transparent shadow ends in the card image.
   property real cardStartX: 2
   property real cardStartY: 2
+  property real rightShadowWidth: eventCardImage.width - cardWidth - cardStartX
+  property real bottomShadowHeight: eventCardImage.height - cardHeight - cardStartY
   // marks in corners of the card
   property real cornersWidth: 14
   property real cornersHeight: 14
@@ -43,6 +46,8 @@ Item {
   }
   
   Image {
+    id: eventCardImage
+    
     x: -cardStartX
     y: -cardStartY
 
@@ -102,6 +107,18 @@ Item {
         
         text: (event) ? photosLabel(event.containedCount) : ""
       }
+    }
+    
+    Image {
+      id: overlay
+      
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      
+      anchors.rightMargin: rightShadowWidth
+      anchors.bottomMargin: bottomShadowHeight
+      
+      source: isSelected ? "../img/photo-preview-selected-overlay.png" : ""
     }
   }
 }

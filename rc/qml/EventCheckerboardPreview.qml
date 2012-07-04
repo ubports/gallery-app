@@ -22,9 +22,12 @@ import QtQuick 1.1
 import Gallery 1.0
 
 Item {
+  id: eventCheckerboardPreview
+  
   property alias ownerName: photo.ownerName
   property alias event: eventCard.event
   property alias mediaSource: photo.mediaSource
+  property alias isSelected: eventCard.isSelected
   
   MattedPhotoPreview {
     id: photo
@@ -32,6 +35,7 @@ Item {
     anchors.fill: parent
     
     visible: (mediaSource) ? true : false
+    isSelected: eventCheckerboardPreview.isSelected
   }
   
   EventCard {

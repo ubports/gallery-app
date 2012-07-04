@@ -31,6 +31,7 @@ Item {
 
   property alias backingImage: backing.source
   property alias insideShadowImage: insideShadow.source
+  property alias overlayImage: overlay.source
 
   property real mattedPhotoWidth
   property real mattedPhotoHeight
@@ -71,6 +72,13 @@ Item {
         id: insideShadow
 
         anchors.centerIn: parent
+      }
+      
+      Image {
+        id: overlay
+        
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
       }
     }
   }

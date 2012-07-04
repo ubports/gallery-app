@@ -53,15 +53,6 @@ Item {
   width: checkerboard.delegateWidth
   height: checkerboard.delegateHeight
   
-  opacity: {
-    if (!checkerboard.inSelectionMode)
-      return 1.0;
-    else if (useInternalSelectionHighlight && isSelected)
-      return Gallery.SELECTED_OPACITY;
-    else
-      return Gallery.UNSELECTED_OPACITY;
-  }
-  
   Component.onCompleted: {
     if (content)
       content.parent = contentArea;

@@ -21,11 +21,15 @@ import QtQuick 1.1
 import Gallery 1.0
 
 MattedPhoto {
+  property bool isSelected
+  
   isPreview: true
 
-  backingImage: "../img/photo-preview-backing.png"
+  backingImage: isSelected ? "../img/photo-preview-backing-selected.png"
+    : "../img/photo-preview-backing.png"
   insideShadowImage: "../img/photo-preview-inside-shadow.png"
-
+  overlayImage: isSelected ? "../img/photo-preview-selected-overlay.png" : ""
+  
   mattedPhotoWidth: gu(24)
   mattedPhotoHeight: gu(18)
   backingStartX: 2

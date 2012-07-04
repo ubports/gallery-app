@@ -202,11 +202,14 @@ Rectangle {
     }
 
     delegate: CheckerboardDelegate {
+      id: gridCheckerboardDelegate
+      
       checkerboard: gridCheckerboard
-
+      
       content: MattedPhotoPreview {
         ownerName: "AlbumViewer grid"
         mediaSource: modelData.mediaSource
+        isSelected: gridCheckerboardDelegate.isSelected
       }
     }
 

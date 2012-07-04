@@ -65,8 +65,10 @@ Checkerboard {
   }
   
   delegate: CheckerboardDelegate {
+    id: eventCheckerboardDelegate
+    
     checkerboard: eventCheckerboard
-
+    
     // internal
     // Needed for getVisibleMediaSources() and getVisibleEvents() above.
     property alias mediaSource: preview.mediaSource
@@ -79,6 +81,7 @@ Checkerboard {
 
       mediaSource: (modelData.typeName == "MediaSource") ? modelData.mediaSource : undefined
       event: (modelData.typeName == "Event") ? modelData.object : undefined
+      isSelected: eventCheckerboardDelegate.isSelected
     }
   }
 }
