@@ -345,10 +345,13 @@ Rectangle {
 
     inSelectionMode: true
     visible: eventsCheckerboard.inSelectionMode
-    
-    popups: ([ selectionOperationsMenu, photoTrashDialog ])
+
+    popups: ([ selectionOperationsMenu, photoTrashDialog,
+              selectionModeShareMenu, selectionModeOptionsMenu ])
     onSelectionOperationsButtonPressed: cyclePopup(selectionOperationsMenu);
     onTrashOperationButtonPressed: cyclePopup(photoTrashDialog);
+    onShareOperationsButtonPressed: cyclePopup(selectionModeShareMenu);
+    onMoreOperationsButtonPressed: cyclePopup(selectionModeOptionsMenu);
 
     onSelectionDoneButtonPressed: {
       eventsCheckerboard.unselectAll();
@@ -381,6 +384,32 @@ Rectangle {
       }
 
       onPopupInteractionCompleted: chrome.hideAllPopups()
+    }
+
+    GenericShareMenu {
+      id: selectionModeShareMenu
+
+      popupOriginX: -gu(8.5)
+      popupOriginY: -gu(6)
+
+      onPopupInteractionCompleted: {
+        chrome.hideAllPopups();
+      }
+
+      visible: false
+    }
+
+    SelectionModeOptionsMenu {
+      id: selectionModeOptionsMenu
+
+      popupOriginX: -gu(0.5)
+      popupOriginY: -gu(6)
+
+      onPopupInteractionCompleted: {
+        chrome.hideAllPopups();
+      }
+
+      visible: false
     }
   }
 

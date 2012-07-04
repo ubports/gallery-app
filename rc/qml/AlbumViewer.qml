@@ -310,7 +310,7 @@ Rectangle {
       visible: false;
     }
 
-    AlbumViewerShareMenu {
+    GenericShareMenu {
       id: albumViewerShareMenu
 
       popupOriginX: -gu(9)
