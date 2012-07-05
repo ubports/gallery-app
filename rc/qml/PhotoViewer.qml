@@ -209,7 +209,7 @@ Rectangle {
     popups: [ photoViewerShareMenu, photoViewerOptionsMenu,
       trashOperationDialog, popupAlbumPicker ]
 
-    PhotoViewerShareMenu {
+    GenericShareMenu {
       id: photoViewerShareMenu
 
       popupOriginX: -gu(8.5)
