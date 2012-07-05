@@ -21,8 +21,8 @@
 
 import QtQuick 1.1
 
-// A Pager is a ListView of screen-sized items whose currentIndex tracks which page the user is
-// currently on.
+// A Pager is a ListView of screen-sized items whose currentIndex tracks which
+// page the user is currently on.
 ListView {
   id: pager
   objectName: "pager"
@@ -31,12 +31,10 @@ ListView {
   
   function pageForward() {
     incrementCurrentIndex();
-    positionViewAtIndex(currentIndex, ListView.Beginning);
   }
 
   function pageBack() {
     decrementCurrentIndex();
-    positionViewAtIndex(currentIndex, ListView.Beginning);
   }
 
   function pageTo(pageIndex) {
@@ -49,6 +47,8 @@ ListView {
   orientation: ListView.Horizontal
   snapMode: ListView.SnapOneItem
   highlightRangeMode: ListView.StrictlyEnforceRange
+  highlightFollowsCurrentItem: true
   cacheBuffer: width * pageCacheSize
   flickDeceleration: 50
+  highlightMoveDuration: 200
 }
