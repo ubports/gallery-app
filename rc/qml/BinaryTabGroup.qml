@@ -19,6 +19,7 @@
  */
 
 import QtQuick 1.1;
+import "../Capetown"
 
 Item {
   id: binary_tab_group

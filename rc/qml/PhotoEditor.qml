@@ -19,6 +19,7 @@
 
 import QtQuick 1.1
 import Gallery 1.0
+import "../Capetown"
 
 // A top-level component for editing Photos.
 Item {

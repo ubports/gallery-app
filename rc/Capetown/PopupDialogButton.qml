@@ -18,8 +18,6 @@
  */
 
 import QtQuick 1.1
-import "GalleryUtility.js" as GalleryUtility
-import "../Capetown"
 
 Rectangle {
   id: popupDialogButton

@@ -18,6 +18,7 @@
  */
 
 import QtQuick 1.1
+import "../Capetown"
 
 Toolbar {
   id: wrapper

@@ -18,8 +18,6 @@
  */
 
 import QtQuick 1.1
-import "GalleryUtility.js" as GalleryUtility
-import "../Capetown"
 
 Rectangle {
   id: popupBox
@@ -117,7 +115,7 @@ Rectangle {
     width: 39
     height: 25
 
-    source: "../img/popup-arrow.png"
+    source: "img/popup-arrow.png"
     cache: true
   }
 }

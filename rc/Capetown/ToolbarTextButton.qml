@@ -41,12 +41,12 @@ Item {
     height: parent.height
 
     Image {
-      source: (isSelected ? "../img/button-left-active.png" : "../img/button-left-inactive.png")
+      source: (isSelected ? "img/button-left-active.png" : "img/button-left-inactive.png")
       cache: true
     }
 
     Image {
-      source: (isSelected ? "../img/button-body-active.png" : "../img/button-body-inactive.png")
+      source: (isSelected ? "img/button-body-active.png" : "img/button-body-inactive.png")
       cache: true
       fillMode: Image.TileHorizontally
       width: text.width
@@ -64,7 +64,7 @@ Item {
     }
 
     Image {
-      source: (isSelected ? "../img/button-right-active.png" : "../img/button-right-inactive.png")
+      source: (isSelected ? "img/button-right-active.png" : "img/button-right-inactive.png")
       cache: true
     }
   }

@@ -18,6 +18,7 @@
  */
 
 import QtQuick 1.1
+import "../Capetown"
 
 ToolbarIconButton {
   selectedIconFilename: "../img/selection-operations-icon.png"

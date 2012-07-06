@@ -47,8 +47,8 @@ Item {
     anchors.fill: parent
 
     source: (isBottom
-      ? "../img/toolbar-background-bottom.png"
-      : "../img/toolbar-background-top.png")
+      ? "img/toolbar-background-bottom.png"
+      : "img/toolbar-background-top.png")
     cache: true
 
     visible: isTextured
@@ -63,8 +63,8 @@ Item {
     anchors.bottom: (isBottom ? parent.top : undefined)
 
     source: (isBottom
-      ? "../img/toolbar-shadow-above.png"
-      : "../img/toolbar-shadow-below.png")
+      ? "img/toolbar-shadow-above.png"
+      : "img/toolbar-shadow-below.png")
     cache: true
 
     visible: isTextured

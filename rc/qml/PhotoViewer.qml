@@ -21,6 +21,7 @@
 import QtQuick 1.1
 import Gallery 1.0
 import uTouch 1.0
+import "../Capetown"
 
 Rectangle {
   id: photoViewer

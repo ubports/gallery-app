@@ -18,41 +18,21 @@
  */
 
 import QtQuick 1.1
-import "GalleryUtility.js" as GalleryUtility
-import "../Capetown"
 
 PopupDialog {
-  id: popupActionChoiceDialog
+  id: popupActionCancelDialog
 
-  signal action0Requested()
-  signal action1Requested()
+  signal actionRequested()
   signal cancelRequested()
 
-  property alias action0Title: action0Button.title
-  property alias action1Title: action1Button.title
+  property alias actionTitle: actionButton.title
   property alias cancelTitle: cancelButton.title
 
   width: gu(40);
-  height: gu(32) + originCueHeight;
+  height: gu(26) + originCueHeight;
 
   PopupDialogButton {
-    id: action0Button
-
-    anchors.left: parent.left
-    anchors.leftMargin: gu(2)
-    anchors.right: parent.right
-    anchors.rightMargin: gu(2)
-    anchors.bottom: parent.bottom
-    anchors.bottomMargin: gu(13) + originCueHeight
-
-    onPressed: {
-      popupActionChoiceDialog.action0Requested();
-      popupActionChoiceDialog.popupInteractionCompleted();
-    }
-  }
-
-  PopupDialogButton {
-    id: action1Button
+    id: actionButton
 
     anchors.left: parent.left
     anchors.leftMargin: gu(2)
@@ -62,8 +42,8 @@ PopupDialog {
     anchors.bottomMargin: gu(7.5) + originCueHeight
 
     onPressed: {
-      popupActionChoiceDialog.action1Requested();
-      popupActionChoiceDialog.popupInteractionCompleted();
+      popupActionCancelDialog.actionRequested();
+      popupActionCancelDialog.popupInteractionCompleted();
     }
   }
 
@@ -80,8 +60,8 @@ PopupDialog {
     isCancelButton: true
 
     onPressed: {
-      popupActionChoiceDialog.cancelRequested();
-      popupActionChoiceDialog.popupInteractionCompleted();
+      popupActionCancelDialog.cancelRequested();
+      popupActionCancelDialog.popupInteractionCompleted();
     }
   }
 }

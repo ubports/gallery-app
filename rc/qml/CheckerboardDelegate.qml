@@ -20,6 +20,7 @@
 import QtQuick 1.1
 import "GalleryUtility.js" as GalleryUtility
 import "Gallery.js" as Gallery
+import "../Capetown"
 
 // A child delegate for a Checkerboard.  Tightly coupled to Checkerboard due to
 // some required interactions (e.g. selection).  This is a separate component
