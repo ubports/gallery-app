@@ -23,6 +23,7 @@
 #include <QString>
 
 #include "photo/photo.h"
+#include "photo/photo-edit-state.h"
 #include "util/collections.h"
 #include "database/database.h"
 #include "database/media-table.h"
@@ -50,15 +51,13 @@ MediaCollection::MediaCollection(const QDir& directory)
 
     qint64 id = Database::instance()->get_media_table()->get_id_for_media(
           file.absoluteFilePath());
-    QRect crop_rect =
-        Database::instance()->get_photo_edit_table()->get_crop_rectangle(id);
-    bool is_enhanced =
-        Database::instance()->get_photo_edit_table()->get_is_enhanced(id);
+
+    PhotoEditState edit_state =
+        Database::instance()->get_photo_edit_table()->get_edit_state(id);
+    edit_state.orientation_ = p->get_base_orientation();
 
     p->set_id(id);
-    if (crop_rect.isValid())
-      p->set_crop_rectangle(crop_rect);
-    p->set_is_enhanced(is_enhanced);
+    p->set_base_edit_state(edit_state);
 
     photos.insert(p);
     id_map_.insert(id, p);

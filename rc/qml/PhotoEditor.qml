@@ -30,10 +30,9 @@ Item {
 
   property alias photo: photoComponent.mediaSource
 
-  // internal
-  function leavePhotoEditor() {
-    photo.discardSavePoints();
-    closeRequested();
+  function enterEditor(photo) {
+    photo.saveState();
+    photoEditor.photo = photo;
   }
 
   Rectangle {
@@ -89,8 +88,8 @@ Item {
         text: "Cancel"
 
         onPressed: {
-          photo.revertToLastSavePoint();
-          photoEditor.leavePhotoEditor();
+          photo.revertToSavedState();
+          photoEditor.closeRequested();
         }
       }
 
@@ -101,7 +100,7 @@ Item {
 
         text: "Done"
 
-        onPressed: photoEditor.leavePhotoEditor()
+        onPressed: photoEditor.closeRequested()
       }
     }
   }
@@ -184,7 +183,17 @@ Item {
       // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you edit
       // a switch statement in QML.  The short version is: use braces always.
       switch (name) {
-        case "Revert": {
+        case "onUndo": {
+          photoEditor.photo.undo();
+          state = "hidden";
+          break;
+        }
+        case "onRedo": {
+          photoEditor.photo.redo();
+          state = "hidden";
+          break;
+        }
+        case "onRevert": {
           photoEditor.photo.revertToOriginal();
           state = "hidden";
           break;
@@ -194,8 +203,18 @@ Item {
 
     model: ListModel {
       ListElement {
+        title: "Undo"
+        action: "onUndo"
+        hasBottomBorder: true
+      }
+      ListElement {
+        title: "Redo"
+        action: "onRedo"
+        hasBottomBorder: true
+      }
+      ListElement {
         title: "Revert to original"
-        action: "Revert"
+        action: "onRevert"
       }
     }
   }
@@ -207,7 +226,8 @@ Item {
       topSlidingPane.slideOut();
       bottomSlidingPane.slideOut();
 
-      enterCropper(photo);
+      var ratio_crop_rect = photo.prepareForCropping();
+      enterCropper(photo, ratio_crop_rect);
       state = "shown";
     }
 
@@ -237,7 +257,10 @@ Item {
 
     anchors.fill: parent
 
-    onCanceled: hide()
+    onCanceled: {
+      photo.cancelCropping();
+      hide();
+    }
 
     onCropped: {
       photo.crop(rect);

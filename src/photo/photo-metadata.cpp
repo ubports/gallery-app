@@ -186,13 +186,7 @@ OrientationCorrection PhotoMetadata::orientation_correction() const {
 }
 
 QTransform PhotoMetadata::orientation_transform() const {
-  OrientationCorrection correction = orientation_correction();
-
-  QTransform result;
-  result.scale(correction.horizontal_scale_factor_, 1.0);
-  result.rotate(correction.rotation_angle_);
-
-  return result;
+  return orientation_correction().to_transform();
 }
 
 void PhotoMetadata::set_orientation(Orientation orientation) {
@@ -259,4 +253,28 @@ OrientationCorrection OrientationCorrection::FromOrientation(Orientation o) {
 
 OrientationCorrection OrientationCorrection::Identity() {
   return OrientationCorrection(0.0, 1.0);
+}
+
+QTransform OrientationCorrection::to_transform() const {
+  QTransform result;
+  result.scale(horizontal_scale_factor_, 1.0);
+  result.rotate(rotation_angle_);
+
+  return result;
+}
+
+bool OrientationCorrection::is_flipped_from(
+    const OrientationCorrection& other) const {
+  return (horizontal_scale_factor_ != other.horizontal_scale_factor_);
+}
+
+int OrientationCorrection::get_normalized_rotation_difference(
+    const OrientationCorrection& other) const {
+  int degrees_rotation = (int)rotation_angle_ - (int)other.rotation_angle_;
+  if (degrees_rotation < 0)
+    degrees_rotation += 360;
+
+  Q_ASSERT(degrees_rotation == 0 || degrees_rotation == 90 ||
+           degrees_rotation == 180 || degrees_rotation == 270);
+  return degrees_rotation;
 }

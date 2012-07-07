@@ -22,7 +22,8 @@
 
 #include <QObject>
 
-#include "database.h"
+#include "database/database.h"
+#include "photo/photo-edit-state.h"
 
 class PhotoEditTable : public QObject {
   Q_OBJECT
@@ -30,11 +31,8 @@ class PhotoEditTable : public QObject {
  public:
   explicit PhotoEditTable(Database* db, QObject *parent = 0);
 
-  QRect get_crop_rectangle(qint64 media_id) const;
-  void set_crop_rectangle(qint64 media_id, const QRect& crop_rect);
-
-  bool get_is_enhanced(qint64 media_id) const;
-  void set_is_enhanced(qint64 media_id, bool is_enhanced);
+  PhotoEditState get_edit_state(qint64 media_id) const;
+  void set_edit_state(qint64 media_id, const PhotoEditState& edit_state);
 
  private:
   void prepare_row(qint64 media_id);

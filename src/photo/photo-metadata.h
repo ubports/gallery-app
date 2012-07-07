@@ -50,6 +50,16 @@ struct OrientationCorrection {
   const double rotation_angle_;
   const double horizontal_scale_factor_;
 
+  // Returns the correction as a QTransform.
+  QTransform to_transform() const;
+
+  // Returns whether the two orientations are flipped relative to each other.
+  // Ignores rotation_angle; only checks horizontal_scale_factor_.
+  bool is_flipped_from(const OrientationCorrection& other) const;
+  // Returns the rotation difference in degrees (this - other), normalized to
+  // 0, 90, 180, or 270.  Ignores the horizontal_scale_factor_.
+  int get_normalized_rotation_difference(const OrientationCorrection& other) const;
+
  private:
   OrientationCorrection(double rotation_angle, double horizontal_scale_factor)
     : rotation_angle_(rotation_angle),

@@ -58,7 +58,9 @@ SOURCES += \
 	src/qml/qml-view-collection-model.cpp \
 	src/util/time.cpp \
 	src/util/resource.cpp \
-	src/util/imaging.cpp
+	src/util/imaging.cpp \
+    src/photo/photo-edit-state.cpp \
+    src/photo/photo-caches.cpp
 
 HEADERS += \
 	src/album/album.h \
@@ -97,7 +99,9 @@ HEADERS += \
 	src/util/time.h \
 	src/util/variants.h \
 	src/util/resource.h \
-	src/util/imaging.h
+	src/util/imaging.h \
+    src/photo/photo-edit-state.h \
+    src/photo/photo-caches.h
 
 # Install
 

@@ -131,7 +131,7 @@ Item {
     id: navStack
     
     function switchToPhotoEditor(photo) {
-      photoEditor.photo = photo;
+      photoEditor.enterEditor(photo);
 
       navStack.switchToPage(photoEditor);
     }

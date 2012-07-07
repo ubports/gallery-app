@@ -36,9 +36,7 @@ Item {
   // internal
   property variant ratio_crop_rect
 
-  function enterCropper(photo) {
-    var ratio_crop_rect = photo.prepareForCropping();
-
+  function enterCropper(photo, ratio_crop_rect) {
     photoCropper.ratio_crop_rect = ratio_crop_rect;
     photoCropper.photo = photo;
   }
@@ -48,10 +46,7 @@ Item {
 
     anchors.fill: parent
 
-    onPressed: {
-      photo.revertToLastSavePoint();
-      photoCropper.canceled()
-    }
+    onPressed: photoCropper.canceled()
   }
 
   PhotoComponent {
@@ -201,8 +196,6 @@ Item {
           }
 
           onPressed: {
-            photo.discardLastSavePoint();
-
             // Need to translate to [0,1] since we aren't using photo pixel
             // coordinates here.
             var rect = Qt.rect(

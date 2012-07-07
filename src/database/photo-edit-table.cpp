@@ -25,11 +25,11 @@ PhotoEditTable::PhotoEditTable(Database* db, QObject* parent)
     : QObject(parent), db_(db) {
 }
 
-QRect PhotoEditTable::get_crop_rectangle(qint64 media_id) const {
-  QRect crop_rect;
+PhotoEditState PhotoEditTable::get_edit_state(qint64 media_id) const {
+  PhotoEditState edit_state;
 
   QSqlQuery query(*db_->get_db());
-  query.prepare("SELECT crop_rectangle FROM PhotoEditTable "
+  query.prepare("SELECT crop_rectangle, is_enhanced FROM PhotoEditTable "
                 "WHERE media_id = :media_id");
 
   query.bindValue(":media_id", media_id);
@@ -38,65 +38,48 @@ QRect PhotoEditTable::get_crop_rectangle(qint64 media_id) const {
 
   if (query.next()) {
     QStringList parts = query.value(0).toString().split(',');
-
     if (parts.count() == 4) {
       int x = parts[0].toInt();
       int y = parts[1].toInt();
       int width = parts[2].toInt();
       int height = parts[3].toInt();
 
-      crop_rect = QRect(x, y, width, height);
+      edit_state.crop_rectangle_ = QRect(x, y, width, height);
     }
-  }
 
-  return crop_rect;
+    edit_state.is_enhanced_ = query.value(1).toBool();
+  }
+  // edit_state.orientation_ isn't stored in the DB, but in the file's
+  // metadata.
+
+  return edit_state;
 }
 
-void PhotoEditTable::set_crop_rectangle(qint64 media_id,
-    const QRect &crop_rect) {
+void PhotoEditTable::set_edit_state(qint64 media_id,
+                                    const PhotoEditState& edit_state) {
   if (media_id == INVALID_ID)
     return;
 
   prepare_row(media_id);
 
   QString crop_rect_string = QString("%1,%2,%3,%4")
-      .arg(crop_rect.x())
-      .arg(crop_rect.y())
-      .arg(crop_rect.width())
-      .arg(crop_rect.height());
+      .arg(edit_state.crop_rectangle_.x())
+      .arg(edit_state.crop_rectangle_.y())
+      .arg(edit_state.crop_rectangle_.width())
+      .arg(edit_state.crop_rectangle_.height());
 
   QSqlQuery query(*db_->get_db());
 
-  query.prepare("UPDATE PhotoEditTable SET crop_rectangle = :crop_rect_string "
+  query.prepare("UPDATE PhotoEditTable "
+                "SET crop_rectangle = :crop_rect_string, "
+                  "is_enhanced = :is_enhanced "
                 "WHERE media_id = :media_id");
   query.bindValue(":media_id", media_id);
   query.bindValue(":crop_rect_string", crop_rect_string);
+  query.bindValue(":is_enhanced", edit_state.is_enhanced_);
+  // Again, note that edit_state.orientation_ comes from the photo file, and
+  // isn't stored here.
 
-  if (!query.exec())
-    db_->log_sql_error(query);
-}
-
-bool PhotoEditTable::get_is_enhanced(qint64 media_id) const {
-  QSqlQuery query(*db_->get_db());
-  query.prepare("SELECT is_enhanced FROM PhotoEditTable "
-                "WHERE media_id = :media_id");
-
-  query.bindValue(":media_id", media_id);
-  if (!query.exec())
-    db_->log_sql_error(query);
-
-  return (query.next()) ? query.value(0).toBool() : false;
-}
-
-void PhotoEditTable::set_is_enhanced(qint64 media_id, bool is_enhanced) {
-  prepare_row(media_id);
-
-  QSqlQuery query(*db_->get_db());
-  query.prepare("UPDATE PhotoEditTable SET is_enhanced = :is_enhanced "
-                "WHERE media_id = :media_id");
-
-  query.bindValue(":media_id", media_id);
-  query.bindValue(":is_enhanced", is_enhanced);
   if (!query.exec())
     db_->log_sql_error(query);
 }
