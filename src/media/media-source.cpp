@@ -23,11 +23,12 @@
 #include "media/media-collection.h"
 #include "media/preview-manager.h"
 #include "qml/gallery-standard-image-provider.h"
+#include "database/database.h"
 
-MediaSource::MediaSource() {
+MediaSource::MediaSource() : id_(INVALID_ID) {
 }
 
-MediaSource::MediaSource(const QFileInfo& file) {
+MediaSource::MediaSource(const QFileInfo& file) : id_(INVALID_ID) {
   file_ = file;
   
   SetInternalName(file_.completeBaseName());
@@ -61,17 +62,9 @@ QUrl MediaSource::gallery_preview_path() const {
   return GalleryStandardImageProvider::ToURL(preview_file());
 }
 
-QImage MediaSource::Image(bool respect_orientation) const {
+QImage MediaSource::Image(bool respect_orientation) {
   // QML data types cannot be abstract, so return a null image
   return QImage();
-}
-
-int MediaSource::width() {
-  return Image().width();
-}
-
-int MediaSource::height() {
-  return Image().height();
 }
 
 Orientation MediaSource::orientation() const {
@@ -82,6 +75,29 @@ Orientation MediaSource::orientation() const {
 
 QDateTime MediaSource::exposure_date_time() const {
   return QDateTime();
+}
+
+const QSize& MediaSource::size() {
+  if (!is_size_set()) {
+    // This is potentially very slow, so you should set the size as early as
+    // possible to avoid this.
+    QImage image = Image();
+    set_size(image.size());
+  }
+
+  return size_;
+}
+
+void MediaSource::set_size(const QSize& size) {
+  if (size_ == size)
+    return;
+
+  size_ = size;
+  notify_size_altered();
+}
+
+bool MediaSource::is_size_set() const {
+  return size_.isValid();
 }
 
 QDate MediaSource::exposure_date() const {
@@ -121,4 +137,11 @@ void MediaSource::DestroySource(bool delete_backing, bool as_orphan) {
 
 void MediaSource::notify_data_altered() {
   emit data_altered();
+}
+
+void MediaSource::notify_size_altered() {
+  emit size_altered();
+
+  if (id_ != INVALID_ID)
+    Database::instance()->get_media_table()->set_media_size(id_, size_);
 }

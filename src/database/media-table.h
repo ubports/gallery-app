@@ -42,6 +42,9 @@ class MediaTable : public QObject {
   
   // Removes a photo from the database.
   void remove(qint64 mediaId);
+
+  QSize get_media_size(qint64 media_id);
+  void set_media_size(qint64 media_id, const QSize& size);
   
  private:
   Database* db_;

@@ -82,9 +82,7 @@ class Photo : public MediaSource {
   explicit Photo(const QFileInfo& file);
   virtual ~Photo();
   
-  virtual QImage Image(bool respect_orientation) const;
-  virtual int width();
-  virtual int height();
+  virtual QImage Image(bool respect_orientation);
   virtual Orientation orientation() const;
   virtual QDateTime exposure_date_time() const;
 
@@ -117,8 +115,8 @@ class Photo : public MediaSource {
   
  private:
   const PhotoEditState& current_state() const;
-  // Returns the original image dimensions translated to the desired orientation.
-  void get_original_dimensions(int* width, int* height, Orientation orientation);
+  // Returns the original image size translated to the desired orientation.
+  QSize get_original_size(Orientation orientation);
   void make_undoable_edit(const PhotoEditState& state);
   void save(const PhotoEditState& state, Orientation old_orientation);
   void edit_file(const PhotoEditState& state);
@@ -133,10 +131,7 @@ class Photo : public MediaSource {
 
   // We cache this data to avoid an image read at various times.
   PhotoMetadata* original_metadata_;
-  int original_width_;
-  int original_height_;
-  int width_;
-  int height_;
+  QSize original_size_;
 };
 
 #endif  // GALLERY_PHOTO_H_

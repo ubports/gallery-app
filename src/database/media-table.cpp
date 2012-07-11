@@ -74,3 +74,32 @@ void MediaTable::remove(qint64 mediaId) {
   if (!query.exec())
     db_->log_sql_error(query);
 }
+
+QSize MediaTable::get_media_size(qint64 media_id) {
+  QSqlQuery query(*db_->get_db());
+  query.prepare("SELECT width, height FROM MediaTable WHERE id = :id");
+  query.bindValue(":id", media_id);
+  if (!query.exec())
+    db_->log_sql_error(query);
+
+  QSize size;
+  if (query.next()) {
+    int width = query.value(0).toInt();
+    int height = query.value(1).toInt();
+    if (width > 0 && height > 0)
+      size = QSize(width, height);
+  }
+
+  return size;
+}
+
+void MediaTable::set_media_size(qint64 media_id, const QSize& size) {
+  QSqlQuery query(*db_->get_db());
+  query.prepare("UPDATE MediaTable SET width = :width, height = :height "
+                "WHERE id = :id");
+  query.bindValue(":id", media_id);
+  query.bindValue(":width", size.width());
+  query.bindValue(":height", size.height());
+  if (!query.exec())
+    db_->log_sql_error(query);
+}

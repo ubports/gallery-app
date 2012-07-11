@@ -51,13 +51,18 @@ MediaCollection::MediaCollection(const QDir& directory)
 
     qint64 id = Database::instance()->get_media_table()->get_id_for_media(
           file.absoluteFilePath());
+    QSize size = Database::instance()->get_media_table()->get_media_size(id);
 
     PhotoEditState edit_state =
         Database::instance()->get_photo_edit_table()->get_edit_state(id);
     edit_state.orientation_ = p->get_base_orientation();
 
-    p->set_id(id);
+    // We set the id last so we don't save the info we just read in back out to
+    // the DB.
+    if (size.isValid())
+      p->set_size(size);
     p->set_base_edit_state(edit_state);
+    p->set_id(id);
 
     photos.insert(p);
     id_map_.insert(id, p);

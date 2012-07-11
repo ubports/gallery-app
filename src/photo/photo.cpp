@@ -45,10 +45,7 @@ Photo::Photo(const QFileInfo& file)
     edits_(),
     saved_state_(),
     caches_(file),
-    original_width_(0),
-    original_height_(0),
-    width_(0),
-    height_(0) {
+    original_size_() {
   original_metadata_ = PhotoMetadata::FromFile(caches_.pristine_file());
 }
 
@@ -57,30 +54,19 @@ Photo::~Photo() {
   delete exposure_date_time_;
 }
 
-QImage Photo::Image(bool respect_orientation) const {
+QImage Photo::Image(bool respect_orientation) {
   QImage image(file().filePath());
-  if (!image.isNull() && respect_orientation)
+  if (!image.isNull() && respect_orientation) {
     image = image.transformed(
         OrientationCorrection::FromOrientation(orientation())
         .to_transform());
 
-  return image;
-}
-
-int Photo::width() {
-  if (width_ <= 0 || height_ <= 0) {
-    QImage image = Image(true);
-    width_ = image.width();
-    height_ = image.height();
+    // Cache this here since the image is already loaded.
+    if (!is_size_set())
+      set_size(image.size());
   }
 
-  return width_;
-}
-
-int Photo::height() {
-  width(); // Ensures width_ and height_ are set.
-
-  return height_;
+  return image;
 }
 
 Orientation Photo::orientation() const {
@@ -160,10 +146,9 @@ void Photo::rotateRight() {
   Orientation new_orientation =
       PhotoMetadata::rotate_orientation(orientation(), false);
 
-  int width, height;
-  get_original_dimensions(&width, &height, orientation());
+  QSize size = get_original_size(orientation());
   PhotoEditState next_state =
-      current_state().rotate(new_orientation, width, height);
+      current_state().rotate(new_orientation, size.width(), size.height());
 
   make_undoable_edit(next_state);
 }
@@ -185,15 +170,13 @@ QVariant Photo::prepareForCropping() {
 
   QRectF ratio_crop_rect(0.25, 0.25, 0.5, 0.5);
   if (current_state().crop_rectangle_.isValid()) {
-    int image_width, image_height;
-    get_original_dimensions(&image_width, &image_height,
-                            current_state().orientation_);
+    QSize image_size = get_original_size(current_state().orientation_);
 
     QRect rect = current_state().crop_rectangle_;
-    qreal x = (qreal)rect.x() / image_width;
-    qreal y = (qreal)rect.y() / image_height;
-    qreal width = (qreal)rect.width() / image_width;
-    qreal height = (qreal)rect.height() / image_height;
+    qreal x = (qreal)rect.x() / image_size.width();
+    qreal y = (qreal)rect.y() / image_size.height();
+    qreal width = (qreal)rect.width() / image_size.width();
+    qreal height = (qreal)rect.height() / image_size.height();
 
     if (x >= 0.0 && y >= 0.0 && width > 0.0 && height > 0.0 &&
         x + width <= 1.0 && y + height <= 1.0)
@@ -216,18 +199,16 @@ void Photo::cancelCropping() {
 void Photo::crop(QVariant vrect) {
   QRectF ratio_crop_rect = vrect.toRectF();
 
-  int image_width, image_height;
-  get_original_dimensions(&image_width, &image_height,
-                          current_state().orientation_);
+  QSize image_size = get_original_size(current_state().orientation_);
 
   // Integer truncation is good enough here.
-  int x = ratio_crop_rect.x() * image_width;
-  int y = ratio_crop_rect.y() * image_height;
-  int width = ratio_crop_rect.width() * image_width;
-  int height = ratio_crop_rect.height() * image_height;
+  int x = ratio_crop_rect.x() * image_size.width();
+  int y = ratio_crop_rect.y() * image_size.height();
+  int width = ratio_crop_rect.width() * image_size.width();
+  int height = ratio_crop_rect.height() * image_size.height();
 
   if (x < 0 || y < 0 || width <= 0 || height <= 0
-    || x + width > image_width || y + height > image_height) {
+    || x + width > image_size.width() || y + height > image_size.height()) {
     qDebug("Invalid cropping rectangle");
     undo(); // Go back to the state before prepareForCropping() was called.
     return;
@@ -252,34 +233,30 @@ const PhotoEditState& Photo::current_state() const {
   return edits_.current();
 }
 
-void Photo::get_original_dimensions(int* width, int* height,
-                                    Orientation orientation) {
-  if (original_width_ <= 0 || original_height_ <= 0) {
+QSize Photo::get_original_size(Orientation orientation) {
+  if (!original_size_.isValid()) {
     QImage original(caches_.pristine_file().filePath());
     original =
         original.transformed(original_metadata_->orientation_transform());
 
-    original_width_ = original.width();
-    original_height_ = original.height();
+    original_size_ = original.size();
   }
 
-  int rotated_width = original_width_;
-  int rotated_height = original_height_;
+  QSize rotated_size = original_size_;
 
-  OrientationCorrection original_correction =
-      OrientationCorrection::FromOrientation(original_metadata_->orientation());
-  OrientationCorrection out_correction =
-      OrientationCorrection::FromOrientation(orientation);
-  int degrees_rotation =
-      original_correction.get_normalized_rotation_difference(out_correction);
+  if (orientation != PhotoEditState::ORIGINAL_ORIENTATION) {
+    OrientationCorrection original_correction =
+        OrientationCorrection::FromOrientation(original_metadata_->orientation());
+    OrientationCorrection out_correction =
+        OrientationCorrection::FromOrientation(orientation);
+    int degrees_rotation =
+        original_correction.get_normalized_rotation_difference(out_correction);
 
-  if (degrees_rotation == 90 || degrees_rotation == 270)
-    std::swap(rotated_width, rotated_height);
+    if (degrees_rotation == 90 || degrees_rotation == 270)
+      rotated_size.transpose();
+  }
 
-  if (width)
-    *width = rotated_width;
-  if (height)
-    *height = rotated_height;
+  return rotated_size;
 }
 
 void Photo::make_undoable_edit(const PhotoEditState& state) {
@@ -309,6 +286,9 @@ void Photo::edit_file(const PhotoEditState& state) {
   if (state.is_original()) {
     if (!caches_.restore_original())
       qDebug("Error restoring original for %s", qPrintable(file().filePath()));
+    else
+      set_size(get_original_size(PhotoEditState::ORIGINAL_ORIENTATION));
+
     // As a courtesy, when the original goes away, we get rid of the other
     // cached files too.
     caches_.discard_cached_enhanced();
@@ -340,18 +320,15 @@ void Photo::edit_file(const PhotoEditState& state) {
   if (metadata->orientation() != TOP_LEFT_ORIGIN)
     image = image.transformed(metadata->orientation_transform());
 
-  // Cache these here so we may be able to avoid another JPEG decode later just
+  // Cache this here so we may be able to avoid another JPEG decode later just
   // to find the dimensions.
-  if (original_width_ <= 0 || original_height_ <= 0) {
-    original_width_ = image.width();
-    original_height_ = image.height();
-  }
+  if (!original_size_.isValid())
+    original_size_ = image.size();
 
   if (state.crop_rectangle_.isValid())
     image = image.copy(state.crop_rectangle_);
 
-  width_ = image.width();
-  height_ = image.height();
+  QSize new_size = image.size();
 
   // We need to apply the reverse transformation so that when we reload the
   // file and reapply the transformation it comes out correctly.
@@ -362,6 +339,8 @@ void Photo::edit_file(const PhotoEditState& state) {
     qDebug("Error saving edited %s", qPrintable(file().filePath()));
 
   delete metadata;
+
+  set_size(new_size);
 }
 
 void Photo::create_cached_enhanced() {

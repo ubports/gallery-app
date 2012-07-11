@@ -372,7 +372,8 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
     for(int i = 0; i < next_photos_count; ++i) {
       MediaSource* photo = qobject_cast<MediaSource*>(queue.at(i));
       Q_ASSERT(photo != NULL);
-      next_photo_orientations[i] = (photo->height() > photo->width()
+      QSize size = photo->size();
+      next_photo_orientations[i] = (size.height() > size.width()
                                     ? PORTRAIT : LANDSCAPE);
     }
 

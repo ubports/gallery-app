@@ -58,6 +58,7 @@ class MediaSource : public DataSource {
   void exposure_date_time_altered();
   void event_changed();
   void data_altered();
+  void size_altered();
   
  public:
   MediaSource();
@@ -73,14 +74,13 @@ class MediaSource : public DataSource {
   QUrl preview_path() const;
   virtual QUrl gallery_preview_path() const;
   
-  virtual QImage Image(bool respect_orientation = true) const;
-  virtual int width();
-  virtual int height();
-  
+  virtual QImage Image(bool respect_orientation = true);
   virtual Orientation orientation() const;
   virtual QDateTime exposure_date_time() const;
 
-  bool is_portrait() const; // As opposed to landscape.
+  const QSize& size();
+  void set_size(const QSize& size);
+  bool is_size_set() const;
   QDate exposure_date() const;
   QTime exposure_time_of_day() const;
   int exposure_time_t() const;
@@ -95,10 +95,12 @@ class MediaSource : public DataSource {
   virtual void DestroySource(bool delete_backing, bool as_orphan);
 
   virtual void notify_data_altered();
+  virtual void notify_size_altered();
   
  private:
   QFileInfo file_;
   qint64 id_;
+  QSize size_;
 };
 
 QML_DECLARE_TYPE(MediaSource)
