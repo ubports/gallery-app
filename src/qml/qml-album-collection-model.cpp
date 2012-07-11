@@ -40,7 +40,7 @@ void QmlAlbumCollectionModel::RegisterType() {
 }
 
 void QmlAlbumCollectionModel::createAlbum(QVariant vmedia) {
-  Album* album = new Album(*AlbumDefaultTemplate::instance());
+  Album* album = new Album(AlbumDefaultTemplate::instance());
   album->Attach(VariantToObject<MediaSource*>(vmedia));
   
   AlbumCollection::instance()->Add(album);
@@ -54,7 +54,7 @@ void QmlAlbumCollectionModel::destroyAlbum(QVariant valbum) {
 }
 
 QVariant QmlAlbumCollectionModel::createOrphan() {
-  return QVariant::fromValue(new Album(*AlbumDefaultTemplate::instance()));
+  return QVariant::fromValue(new Album(AlbumDefaultTemplate::instance()));
 }
 
 void QmlAlbumCollectionModel::destroyOrphan(QVariant valbum) {

@@ -74,10 +74,13 @@ class MediaSource : public DataSource {
   virtual QUrl gallery_preview_path() const;
   
   virtual QImage Image(bool respect_orientation = true) const;
+  virtual int width();
+  virtual int height();
   
   virtual Orientation orientation() const;
-  
   virtual QDateTime exposure_date_time() const;
+
+  bool is_portrait() const; // As opposed to landscape.
   QDate exposure_date() const;
   QTime exposure_time_of_day() const;
   int exposure_time_t() const;

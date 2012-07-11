@@ -87,8 +87,8 @@ class Album : public ContainerSource {
   static const int FIRST_VALID_CURRENT_PAGE;
 
   Album();
-  explicit Album(const AlbumTemplate& album_template);
-  Album(const AlbumTemplate& album_template, const QString &title,
+  explicit Album(AlbumTemplate* album_template);
+  Album(AlbumTemplate* album_template, const QString &title,
     const QString &subtitle);
   virtual ~Album();
   
@@ -105,7 +105,7 @@ class Album : public ContainerSource {
   const QString& subtitle() const;
   const QDateTime& creation_date_time() const;
   void set_creation_date_time(QDateTime timestamp);
-  const AlbumTemplate& album_template() const;
+  AlbumTemplate* album_template() const;
   bool is_closed() const;
   int total_page_count() const;
   int content_page_count() const;
@@ -149,7 +149,7 @@ class Album : public ContainerSource {
     const QSet<DataObject*>* removed);
   
  private:
-  const AlbumTemplate& album_template_;
+  AlbumTemplate* album_template_;
   QString title_;
   QString subtitle_;
   QDateTime creation_date_time_;

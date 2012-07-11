@@ -32,6 +32,10 @@ class AlbumTemplate : public QObject {
  public:
   int page_count() const;
   const QList<AlbumTemplatePage*>& pages() const;
+
+  virtual void reset_best_fit_data() = 0;
+  virtual AlbumTemplatePage* get_best_fit_page(bool is_left, int num_photos,
+      PageOrientation photo_orientations[]) = 0;
   
  protected:
   explicit AlbumTemplate(const char* name);

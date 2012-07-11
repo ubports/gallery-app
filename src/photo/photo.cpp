@@ -40,14 +40,16 @@ bool Photo::IsValid(const QFileInfo& file) {
 
 Photo::Photo(const QFileInfo& file)
   : MediaSource(file),
-    original_metadata_(PhotoMetadata::FromFile(file)),
     exposure_date_time_(NULL),
     edit_revision_(0),
     edits_(),
     saved_state_(),
     caches_(file),
     original_width_(0),
-    original_height_(0) {
+    original_height_(0),
+    width_(0),
+    height_(0) {
+  original_metadata_ = PhotoMetadata::FromFile(caches_.pristine_file());
 }
 
 Photo::~Photo() {
@@ -63,6 +65,22 @@ QImage Photo::Image(bool respect_orientation) const {
         .to_transform());
 
   return image;
+}
+
+int Photo::width() {
+  if (width_ <= 0 || height_ <= 0) {
+    QImage image = Image(true);
+    width_ = image.width();
+    height_ = image.height();
+  }
+
+  return width_;
+}
+
+int Photo::height() {
+  width(); // Ensures width_ and height_ are set.
+
+  return height_;
 }
 
 Orientation Photo::orientation() const {
@@ -237,9 +255,7 @@ const PhotoEditState& Photo::current_state() const {
 void Photo::get_original_dimensions(int* width, int* height,
                                     Orientation orientation) {
   if (original_width_ <= 0 || original_height_ <= 0) {
-    QFileInfo original_file = (caches_.has_cached_original()
-                               ? caches_.original_file() : file());
-    QImage original(original_file.filePath());
+    QImage original(caches_.pristine_file().filePath());
     original =
         original.transformed(original_metadata_->orientation_transform());
 
@@ -333,6 +349,9 @@ void Photo::edit_file(const PhotoEditState& state) {
 
   if (state.crop_rectangle_.isValid())
     image = image.copy(state.crop_rectangle_);
+
+  width_ = image.width();
+  height_ = image.height();
 
   // We need to apply the reverse transformation so that when we reload the
   // file and reapply the transformation it comes out correctly.

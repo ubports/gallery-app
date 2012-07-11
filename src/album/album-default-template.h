@@ -15,6 +15,7 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
+ * Charles Lindsay <chaz@yorba.org>
  */
 
 #ifndef GALLERY_ALBUM_DEFAULT_TEMPLATE_H_
@@ -32,10 +33,17 @@ class AlbumDefaultTemplate : public AlbumTemplate {
   
   static AlbumDefaultTemplate* instance();
   
+  virtual void reset_best_fit_data();
+  virtual AlbumTemplatePage* get_best_fit_page(bool is_left, int num_photos,
+      PageOrientation photo_orientations[]);
+
  private:
   static AlbumDefaultTemplate* instance_;
   
   AlbumDefaultTemplate();
+
+  // Used internally in get_best_fit_page().
+  PageOrientation next_decision_page_type_;
 };
 
 #endif  // GALLERY_ALBUM_DEFAULT_TEMPLATE_H_

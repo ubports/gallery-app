@@ -66,6 +66,14 @@ QImage MediaSource::Image(bool respect_orientation) const {
   return QImage();
 }
 
+int MediaSource::width() {
+  return Image().width();
+}
+
+int MediaSource::height() {
+  return Image().height();
+}
+
 Orientation MediaSource::orientation() const {
   // Default is identity orientation; subclasses should parse source's metadata
   // and return proper value

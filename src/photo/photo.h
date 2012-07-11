@@ -83,6 +83,8 @@ class Photo : public MediaSource {
   virtual ~Photo();
   
   virtual QImage Image(bool respect_orientation) const;
+  virtual int width();
+  virtual int height();
   virtual Orientation orientation() const;
   virtual QDateTime exposure_date_time() const;
 
@@ -123,7 +125,6 @@ class Photo : public MediaSource {
   void create_cached_enhanced();
   void append_edit_revision(QUrl* url) const;
 
-  PhotoMetadata* original_metadata_;
   mutable QDateTime* exposure_date_time_;
   int edit_revision_; // How many times the pixel data has been modified by us.
   EditStack edits_;
@@ -131,8 +132,11 @@ class Photo : public MediaSource {
   PhotoCaches caches_;
 
   // We cache this data to avoid an image read at various times.
+  PhotoMetadata* original_metadata_;
   int original_width_;
   int original_height_;
+  int width_;
+  int height_;
 };
 
 #endif  // GALLERY_PHOTO_H_

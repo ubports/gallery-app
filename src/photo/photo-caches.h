@@ -41,6 +41,10 @@ class PhotoCaches {
   const QFileInfo& original_file() const;
   const QFileInfo& enhanced_file() const;
 
+  // Returns original_file() if it exists; otherwise, returns the file passed
+  // to the constructor.
+  const QFileInfo& pristine_file() const;
+
   // Moves the pristine file into .original so we don't mess it up.  Note that
   // this potentially removes the main file, so it must be followed by a copy
   // from original (or elsewhere) back to the file.

@@ -41,18 +41,18 @@ const int Album::FIRST_VALID_CURRENT_PAGE = -1;
 
 Album::Album()
   : ContainerSource(DEFAULT_TITLE, MediaCollection::ExposureDateTimeAscendingComparator),
-    album_template_(*AlbumDefaultTemplate::instance()), title_(DEFAULT_TITLE),
+    album_template_(AlbumDefaultTemplate::instance()), title_(DEFAULT_TITLE),
     subtitle_(DEFAULT_SUBTITLE) {
   InitInstance();
 }
 
-Album::Album(const AlbumTemplate& album_template)
+Album::Album(AlbumTemplate* album_template)
   : ContainerSource(DEFAULT_TITLE, MediaCollection::ExposureDateTimeAscendingComparator),
     album_template_(album_template), title_(DEFAULT_TITLE), subtitle_(DEFAULT_SUBTITLE) {
   InitInstance();
 }
 
-Album::Album(const AlbumTemplate& album_template, const QString& title,
+Album::Album(AlbumTemplate* album_template, const QString& title,
   const QString& subtitle)
   : ContainerSource(title, MediaCollection::ExposureDateTimeAscendingComparator),
     album_template_(album_template), title_(title), subtitle_(subtitle) {
@@ -183,7 +183,7 @@ void Album::set_creation_date_time(QDateTime timestamp) {
   emit creation_date_time_altered();
 }
 
-const AlbumTemplate& Album::album_template() const {
+AlbumTemplate* Album::album_template() const {
   return album_template_;
 }
 
@@ -361,45 +361,34 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
   queue.append(contained()->GetAll());
   
   int building_page = content_to_absolute_page(0);
-  int building_page_template = 2;
-  AlbumPage* page = NULL;
-  while (queue.count() > 0) {
-    if ((page == NULL)
-      || (page->ContainedCount() >= page->template_page()->FrameCount())) {
-      if (page != NULL)
-        content_pages_->Add(page);
-      
-      // create the AlbumPage using the current template page
-      page = new AlbumPage(this, building_page++,
-        album_template_.pages()[building_page_template++]);
-      
-      // simple algorithm: simply move on to next page in template, returning
-      // to first on overflow
-      if (building_page_template >= album_template_.page_count())
-        building_page_template = 0;
+  bool page_is_left = true; // First page is on the left.
+
+  album_template_->reset_best_fit_data();
+  // We loop until we've added all photos, and then ensure there's always an
+  // even number of pages (the last one of which may be empty).
+  while(!queue.isEmpty() || content_pages_->Count() % 2 != 0) {
+    PageOrientation next_photo_orientations[2];
+    int next_photos_count = std::min(queue.count(), 2);
+    for(int i = 0; i < next_photos_count; ++i) {
+      MediaSource* photo = qobject_cast<MediaSource*>(queue.at(i));
+      Q_ASSERT(photo != NULL);
+      next_photo_orientations[i] = (photo->height() > photo->width()
+                                    ? PORTRAIT : LANDSCAPE);
     }
-    
-    page->Attach(queue.dequeue());
-  }
-  
-  // Add any partial page.
-  if (page != NULL && page->ContainedCount() > 0) {
+
+    AlbumTemplatePage* template_page =
+        album_template_->get_best_fit_page(page_is_left, next_photos_count,
+                                           next_photo_orientations);
+    AlbumPage* page = new AlbumPage(this, building_page, template_page);
+
+    int photos_on_page = std::min(queue.count(), template_page->FrameCount());
+    for(int i = 0; i < photos_on_page; ++i)
+      page->Attach(queue.dequeue());
+
     content_pages_->Add(page);
 
-    page = new AlbumPage(this, building_page++,
-      album_template_.pages()[building_page_template++]);
-    // NOTE: if you need to reuse building_page_template after this point,
-    // you'll have to add here the same modulo/if check as above.
-  }
-
-  // Once we get here, page is either null or contains an empty page.  If
-  // necessary, we add it as a padding page (we need an even number of pages so
-  // the covers always show up in the right places).  If not, we delete it.
-  if (content_pages_->Count() % 2 != 0) {
-    content_pages_->Add(page);
-  } else if (page != NULL) {
-    page->DestroyOrphan(true);
-    delete page;
+    ++building_page;
+    page_is_left = !page_is_left;
   }
 
   // update QML lists and notify QML watchers

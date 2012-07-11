@@ -46,7 +46,7 @@ QVariant QmlMediaCollectionModel::createAlbumFromSelected() {
   if (view->SelectedCount() == 0)
     return QVariant();
   
-  Album* album = new Album(*AlbumDefaultTemplate::instance());
+  Album* album = new Album(AlbumDefaultTemplate::instance());
   
   // Attach only the MediaSources in the backing collection
   album->AttachMany(FilterSetOnlyType<DataObject*, MediaSource*>(view->GetSelected()));

@@ -51,6 +51,10 @@ const QFileInfo& PhotoCaches::enhanced_file() const {
   return enhanced_file_;
 }
 
+const QFileInfo& PhotoCaches::pristine_file() const {
+  return (has_cached_original() ? original_file_ : file_);
+}
+
 bool PhotoCaches::cache_original() {
   if (has_cached_original()) {
     return true;
@@ -73,11 +77,9 @@ bool PhotoCaches::restore_original() {
 bool PhotoCaches::cache_enhanced_from_original() {
   file_.dir().mkdir(ENHANCED_DIR);
 
-  QFileInfo source = (has_cached_original() ? original_file_ : file_);
-
   // If called subsequently, the previously cached version is replaced.
   remove(enhanced_file_);
-  return copy(source, enhanced_file_);
+  return copy(pristine_file(), enhanced_file_);
 }
 
 bool PhotoCaches::overwrite_from_cache(bool prefer_enhanced) {

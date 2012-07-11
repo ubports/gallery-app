@@ -15,6 +15,7 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
+ * Charles Lindsay <chaz@yorba.org>
  */
 
 #ifndef GALLERY_ALBUM_TEMPLATE_PAGE_H_
@@ -35,12 +36,15 @@ class AlbumTemplatePage : public QObject {
   Q_OBJECT
   
  public:
-  // Final arguments are a list of PageOrientation enums that describe the page's
-  // frames (slots) from top to bottom, left to right.
-  AlbumTemplatePage(const char* name, const char* qml_rc, int frame_count, ...);
+  // is_left determines whether the page is meant to be displayed on the right
+  // or left of a spread.  Final arguments are a list of PageOrientation enums
+  // that describe the page's frames (slots) from top to bottom, left to right.
+  AlbumTemplatePage(const char* name, const char* qml_rc, bool is_left,
+                    int frame_count, ...);
   
   const QString& name() const;
   const QString& qml_rc() const;
+  bool is_left() const;
   
   int FrameCount() const;
   int FramesFor(PageOrientation orientation) const;
@@ -49,6 +53,7 @@ class AlbumTemplatePage : public QObject {
  private:
   QString name_;
   QString qml_rc_;
+  bool is_left_;
   QList<PageOrientation> layout_;
 };
 
