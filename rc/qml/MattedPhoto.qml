@@ -56,7 +56,7 @@ Item {
       width: mattedPhotoWidth
       height: mattedPhotoHeight
 
-      PhotoComponent {
+      GalleryPhotoComponent {
         id: photo
 
         width: insideShadow.width

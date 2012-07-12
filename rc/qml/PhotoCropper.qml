@@ -49,7 +49,7 @@ Item {
     onPressed: photoCropper.canceled()
   }
 
-  PhotoComponent {
+  GalleryPhotoComponent {
     id: original
 
     anchors.fill: parent
@@ -145,7 +145,7 @@ Item {
           anchors.fill: parent
           clip: true
 
-          PhotoComponent {
+          GalleryPhotoComponent {
             x: -cropRegion.x
             y: -cropRegion.y
             width: photoRegion.width

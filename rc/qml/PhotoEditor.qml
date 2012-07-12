@@ -39,7 +39,7 @@ Item {
     anchors.fill: parent
     color: "black"
 
-    PhotoComponent {
+    GalleryPhotoComponent {
       id: photoComponent
 
       anchors.fill: parent

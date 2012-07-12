@@ -28,7 +28,7 @@ Item {
   
   visible: Boolean(mediaSource)
 
-  PhotoComponent {
+  GalleryPhotoComponent {
     anchors.fill: parent
 
     visible: framePortrait.isPreview

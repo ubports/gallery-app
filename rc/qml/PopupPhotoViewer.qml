@@ -57,8 +57,8 @@ Item {
     viewer.visible = false;
     closed();
   }
-
-  PhotoViewer {
+  
+  GalleryPhotoViewer {
     id: viewer
 
     anchors.fill: parent

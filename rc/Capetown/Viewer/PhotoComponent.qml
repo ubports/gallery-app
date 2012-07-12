@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical Ltd
+ * Copyright (C) 2011-2012 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -16,12 +16,18 @@
  * Authors:
  * Jim Nelson <jim@yorba.org>
  * Lucas Beeler <lucas@yorba.org>
+ * Eric Gregory <eric@yorba.org>
  */
 
 import QtQuick 1.1
 
+// Basic photo component.  Can be used on its own, or as a delegate
+// for PhotoViewer.
 Rectangle {
-  property variant mediaSource
+  id: photoComponent
+  
+  property alias source: image.source
+  
   property bool isCropped: false
   property bool isPreview: false
   property bool isZoomable: false
@@ -182,19 +188,6 @@ Rectangle {
 
   Image {
     id: image
-    
-    source: {
-      if (!parent.mediaSource)
-        return "";
-      
-      // TODO: If MediaSource could return dimensions of both original image
-      // and its preview, could dynamically determine if the display dimensions
-      // are smaller than preview's and automatically use that instead of a
-      // full image load
-      
-      // Load image using the Gallery image provider to ensure EXIF orientation
-      return isPreview ? mediaSource.galleryPreviewPath : mediaSource.galleryPath
-    }
 
     width: parent.width
     height: parent.height

@@ -76,7 +76,7 @@ Item {
     anchors.fill: parent
   }
 
-  PhotoComponent {
+  GalleryPhotoComponent {
     id: expandPhoto
 
     visible: false
