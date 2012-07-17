@@ -82,11 +82,7 @@ Item {
         var thumbnailRect = overview.getRectOfAlbumPreview(album, albumViewerTransition);
         if (thumbnailRect) {
           overview.showAlbumPreview(album, false);
-
-          if (backCoverCloseAnimation)
-            albumViewerTransition.backCoverTransitionFromAlbumViewer(album, thumbnailRect);
-          else
-            albumViewerTransition.transitionFromAlbumViewer(album, thumbnailRect, stayOpen);
+          albumViewerTransition.transitionFromAlbumViewer(album, thumbnailRect, stayOpen);
         }
       }
     }

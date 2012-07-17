@@ -63,19 +63,6 @@ Item {
     hideAlbumViewerAnimation.start();
   }
 
-  function backCoverTransitionFromAlbumViewer(album, thumbnailRect) {
-    albumViewerTransition.album = album;
-
-    var rect = getFullscreenRect();
-    albumCloser.x = rect.x;
-    albumCloser.y = rect.y;
-    albumCloser.width = rect.width;
-    albumCloser.height = rect.height;
-
-    backCoverHideAlbumViewerAnimation.thumbnailRect = thumbnailRect;
-    backCoverHideAlbumViewerAnimation.start();
-  }
-
   function dissolve(fadeOutTarget, fadeInTarget) {
     dissolveAlbumViewerTransition.fadeOutTarget = fadeOutTarget || dissolveDummy;
     dissolveAlbumViewerTransition.fadeInTarget = fadeInTarget || dissolveDummy;
@@ -106,16 +93,6 @@ Item {
     isPreview: true
     contentHasPreviewFrame: true
     
-    visible: false
-  }
-
-  AlbumCloser {
-    id: albumCloser
-
-    album: parent.album
-    isPreview: true
-    contentHasPreviewFrame: true
-
     visible: false
   }
 
@@ -201,57 +178,6 @@ Item {
 
     onCompleted: {
       album.closed = !hideStayingOpen;
-
-      transitionFromAlbumViewerCompleted();
-    }
-  }
-
-  SequentialAnimation {
-    id: backCoverHideAlbumViewerAnimation
-
-    property variant thumbnailRect: {"x": 0, "y": 0, "width": 0, "height": 0}
-
-    PropertyAction { target: albumCloser; property: "visible"; value: true; }
-
-    ParallelAnimation {
-      ExpandAnimation {
-        target: albumCloser
-        endX: backCoverHideAlbumViewerAnimation.thumbnailRect.x
-        endY: backCoverHideAlbumViewerAnimation.thumbnailRect.y
-        endWidth: backCoverHideAlbumViewerAnimation.thumbnailRect.width
-        endHeight: backCoverHideAlbumViewerAnimation.thumbnailRect.height
-        duration: albumViewerTransition.duration
-        easingType: Easing.OutQuad
-      }
-
-      NumberAnimation {
-        target: albumCloser
-        property: "leftFlipFraction"
-        from: 1
-        to: 0
-        duration: albumViewerTransition.duration
-        easing.type: Easing.InQuad
-      }
-
-      NumberAnimation {
-        target: albumCloser
-        property: "rightFlipFraction"
-        from: 0.25
-        to: 0
-        duration: albumViewerTransition.duration
-        easing.type: Easing.OutQuad
-      }
-
-      FadeOutAnimation {
-        target: backgroundGlass
-        duration: albumViewerTransition.duration
-      }
-    }
-
-    PropertyAction { target: albumCloser; property: "visible"; value: false; }
-
-    onCompleted: {
-      album.closed = true;
 
       transitionFromAlbumViewerCompleted();
     }

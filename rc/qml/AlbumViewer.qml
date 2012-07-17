@@ -29,7 +29,7 @@ Rectangle {
   property Album album
 
   // When the user clicks the back button or pages back to the cover.
-  signal closeRequested(bool stayOpen, bool backCoverCloseAnimation)
+  signal closeRequested(bool stayOpen)
   signal editPhotoRequested(variant photo)
 
   anchors.fill: parent
@@ -105,7 +105,6 @@ Rectangle {
     
     SwipeArea {
       property real commitTurnFraction: 0.05
-      property real backCoverCloseFraction: 0.25
 
       anchors.fill: parent
 
@@ -143,8 +142,12 @@ Rectangle {
       }
 
       onSwiping: {
-        if (leftToRight && album.currentPage == album.firstContentPage) {
-          closeRequested(false, false);
+        var lastCurrentPage =
+            albumSpreadViewer.getLeftHandPageNumber(album.lastContentPage);
+
+        if ((leftToRight && album.currentPage == album.firstContentPage) ||
+            (!leftToRight && album.currentPage == lastCurrentPage)) {
+          closeRequested(false);
           return;
         }
 
@@ -157,14 +160,6 @@ Rectangle {
         var flipFraction =
             Math.max(0, Math.min(0.999, distance / availableDistance));
         albumSpreadViewer.flipFraction = flipFraction;
-
-        if (!leftToRight &&
-            album.currentPage == albumSpreadViewer.getLeftHandPageNumber(album.lastContentPage) &&
-            flipFraction >= backCoverCloseFraction) {
-          closeRequested(false, true);
-          albumSpreadViewer.flipFraction = 0;
-          return;
-        }
       }
 
       onSwiped: {
@@ -274,7 +269,7 @@ Rectangle {
       gridCheckerboard.unselectAll();
       gridCheckerboard.inSelectionMode = false;
 
-      closeRequested(true, false);
+      closeRequested(true);
     }
 
     onMoreOperationsButtonPressed: cyclePopup(albumViewerOptionsMenu)
@@ -333,7 +328,7 @@ Rectangle {
         // If all the photos were removed from the album and it was deleted,
         // album will now be set to null.
         if (!album) {
-          albumViewer.closeRequested(true, false);
+          albumViewer.closeRequested(true);
           return;
         }
 
@@ -484,7 +479,7 @@ Rectangle {
       // album will now be set to null.
       if (!album) {
         close();
-        albumViewer.closeRequested(true, false);
+        albumViewer.closeRequested(true);
         return;
       }
 
