@@ -109,6 +109,8 @@ int main(int argc, char *argv[]) {
   
   QDeclarativeView view;
   view.setWindowTitle("Gallery");
+  view.setResizeMode(QDeclarativeView::SizeRootObjectToView);
+  view.setMinimumSize(60 * APP_GRIDUNIT, 60 * APP_GRIDUNIT);
   view.engine()->rootContext()->setContextProperty("GRIDUNIT", QVariant(APP_GRIDUNIT));
   view.engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
     GalleryStandardImageProvider::instance());

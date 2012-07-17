@@ -39,8 +39,8 @@ Item {
   
   property real itemWidth: gu(24)
   property real itemHeight: gu(18)
-  property real gutterWidth: gu(2)
-  property real gutterHeight: gu(2)
+  property real minGutterWidth: gu(2)
+  property real minGutterHeight: gu(2)
   property real topExtraGutter: 0
   property real bottomExtraGutter: 0
   property real leftExtraGutter: 0
@@ -56,6 +56,13 @@ Item {
   property variant singleSelectedItem // Only if singleSelectionOnly is true.
   property real delegateWidth: itemWidth + gutterWidth
   property real delegateHeight: itemHeight + gutterHeight
+
+  // internal
+  property real itemAreaWidth: width - leftExtraGutter - rightExtraGutter
+  property real minDelegateWidth: itemWidth + minGutterWidth
+  property int columns: Math.max(1, Math.floor(itemAreaWidth / minDelegateWidth))
+  property real gutterWidth: Math.floor(itemAreaWidth / columns - itemWidth)
+  property real gutterHeight: minGutterHeight
   
   function selectAll() {
     if (model)
@@ -117,7 +124,10 @@ Item {
   clip: true
   
   Image {
+    anchors.fill: parent
+
     source: "../img/background-paper.png"
+    fillMode: Image.Tile
   }
 
   GridView {

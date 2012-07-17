@@ -21,9 +21,6 @@ import QtQuick 1.1
 import "../Capetown"
 
 Toolbar {
-  height: gu(6)
-  width: parent.width
-
   property alias addCreateOperationButtonVisible: addCreateOperationNavbarButton.visible
   signal addCreateOperationButtonPressed()
 

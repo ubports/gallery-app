@@ -193,8 +193,8 @@ Rectangle {
 
     itemWidth: gu(28)
     itemHeight: gu(33)
-    gutterWidth: gu(11)
-    gutterHeight: gu(8)
+    minGutterWidth: gu(6)
+    minGutterHeight: gu(8)
 
     visible: false
     allowSelectionModeChange: false

@@ -49,7 +49,7 @@ Item {
     source: (isBottom
       ? "img/toolbar-background-bottom.png"
       : "img/toolbar-background-top.png")
-    cache: true
+    fillMode: Image.Tile
 
     visible: isTextured
   }
@@ -65,7 +65,7 @@ Item {
     source: (isBottom
       ? "img/toolbar-shadow-above.png"
       : "img/toolbar-shadow-below.png")
-    cache: true
+    fillMode: Image.Tile
 
     visible: isTextured
   }
