@@ -120,7 +120,7 @@ Rectangle {
         } else {
           var rect = GalleryUtility.getRectRelativeTo(hit, photoViewer);
           photoViewer.forGridView = false;
-          photoViewer.animateOpen(hit.mediaSource, rect, false);
+          photoViewer.fadeOpen(hit.mediaSource);
         }
       }
 
@@ -483,15 +483,14 @@ Rectangle {
         return;
       }
 
-      var rect = (forGridView)
-        ? gridCheckerboard.getRectOfItemAt(index, photoViewer)
-        : albumSpreadViewer.getRectOfMediaSource(photo);
-      if (rect) {
-        if (!forGridView)
-          rect = GalleryUtility.getRectRelativeTo(rect, photoViewer);
-        animateClosed(rect, false);
+      if (forGridView) {
+        var rect = gridCheckerboard.getRectOfItemAt(index, photoViewer);
+        if (rect)
+          animateClosed(rect, false);
+        else
+          close();
       } else {
-        close();
+        fadeClosed();
       }
     }
   }

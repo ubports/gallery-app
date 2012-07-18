@@ -18,6 +18,7 @@
  */
 
 import QtQuick 1.1
+import "../Capetown"
 
 // A PhotoViewer that is opened and closed with the PhotoViewerTransition.
 Item {
@@ -53,6 +54,16 @@ Item {
     viewer.visible = false;
   }
 
+  function fadeOpen(photo) {
+    opening();
+    viewer.setCurrentPhoto(photo);
+    fadeIn.restart();
+  }
+
+  function fadeClosed() {
+    fadeOut.restart();
+  }
+
   function close() {
     viewer.visible = false;
     closed();
@@ -82,5 +93,19 @@ Item {
     onTransitionFromPhotoViewerCompleted: {
       closed();
     }
+  }
+
+  FadeInAnimation {
+    id: fadeIn
+
+    target: viewer
+    onCompleted: opened()
+  }
+
+  FadeOutAnimation {
+    id: fadeOut
+
+    target: viewer
+    onCompleted: closed()
   }
 }
