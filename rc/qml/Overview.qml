@@ -71,6 +71,15 @@ Rectangle {
       eventTimeline.visible = false;
     }
 
+    // The EventsCheckerboard has its own background paper, but this will be
+    // visible during the timeline and timeline transition.
+    Image {
+      anchors.fill: parent
+
+      source: "../img/background-paper.png"
+      fillMode: Image.Tile
+    }
+
     EventCheckerboard {
       id: eventsCheckerboard
       objectName: "eventsCheckerboard"
