@@ -26,7 +26,8 @@
 #include "util/variants.h"
 
 QmlEventOverviewModel::QmlEventOverviewModel(QObject* parent)
-  : QmlMediaCollectionModel(parent, DescendingComparator), ascending_order_(false) {
+  : QmlMediaCollectionModel(parent, DescendingComparator),
+    ascending_order_(false), syncing_media_(false) {
   // initialize ViewCollection as it stands now with Events
   MonitorNewViewCollection();
 
@@ -139,16 +140,23 @@ void QmlEventOverviewModel::on_event_overview_contents_altered(
 void QmlEventOverviewModel::on_event_overview_selection_altered(
   const QSet<DataObject*>* selected, const QSet<DataObject*>* unselected) {
   // if an Event is selected, select all photos in that date
-  SelectUnselectEvent(selected, true);
+  SyncSelectedMedia(selected, true);
   
   // if an Event is unselected, unselect all photos in that date
-  SelectUnselectEvent(unselected, false);
+  SyncSelectedMedia(unselected, false);
 }
 
-void QmlEventOverviewModel::SelectUnselectEvent(const QSet<DataObject*>* toggled,
-  bool doSelect) {
+void QmlEventOverviewModel::SyncSelectedMedia(const QSet<DataObject*>* toggled,
+  bool selected) {
   if (toggled == NULL)
     return;
+
+  // Don't recurse -- only take action from the selection made by the user, not
+  // any other selections we've done internally.
+  if (syncing_media_)
+    return;
+
+  syncing_media_ = true;
   
   SelectableViewCollection* view = BackingViewCollection();
   int count = view->Count();
@@ -156,9 +164,6 @@ void QmlEventOverviewModel::SelectUnselectEvent(const QSet<DataObject*>* toggled
   // Walk the toggle group looking for Event's; when found, walk all the
   // MediaSources that follow and select or unselect them; when another
   // Event is found (or end of list), exit
-  //
-  // Note that this signal is not reentrant because the list is searched only
-  // for Events and only toggles MediaSources
   //
   // TODO: Select/Unselect in bulk operations for efficiency
   DataObject* object;
@@ -173,12 +178,60 @@ void QmlEventOverviewModel::SelectUnselectEvent(const QSet<DataObject*>* toggled
       if (media == NULL)
         break;
       
-      if (doSelect)
+      if (selected)
         view->Select(media);
       else
         view->Unselect(media);
     }
   }
+
+  // The other case is when the user is selecting or deselecting media.  We
+  // walk around looking for other media to see if we should select or deselect
+  // the containing event.
+  //
+  // TODO: Select/Unselect in bulk operations for efficiency
+  foreach (object, *toggled) {
+    MediaSource* media = qobject_cast<MediaSource*>(object);
+    if (media == NULL)
+      break;
+
+    int index = view->IndexOf(media);
+    bool all_match_selection = true;
+
+    // First walk forward to the next event/end of list looking for differing
+    // selection states in other media.
+    for (int i = index + 1; i < count; ++i) {
+      MediaSource* media = qobject_cast<MediaSource*>(view->GetAt(i));
+      if (media == NULL)
+        break;
+
+      if (view->IsSelected(media) != selected) {
+        all_match_selection = false;
+        break;
+      }
+    }
+
+    // Now walk backwards also checking media, and looking for the event.
+    for (int i = index - 1; i >= 0; --i) {
+      MediaSource* media = qobject_cast<MediaSource*>(view->GetAt(i));
+      Event* event = qobject_cast<Event*>(view->GetAt(i));
+
+      if (media != NULL) {
+        if (view->IsSelected(media) != selected)
+          all_match_selection = false;
+      }
+
+      if (event != NULL) {
+        if (all_match_selection && selected)
+          view->Select(event);
+        else
+          view->Unselect(event);
+        break;
+      }
+    }
+  }
+
+  syncing_media_ = false;
 }
 
 bool QmlEventOverviewModel::AscendingComparator(DataObject* a, DataObject* b) {

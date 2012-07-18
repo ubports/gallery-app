@@ -64,6 +64,7 @@ class QmlEventOverviewModel : public QmlMediaCollectionModel {
   
  private:
   bool ascending_order_;
+  bool syncing_media_;
   
   static bool AscendingComparator(DataObject* a, DataObject* b);
   static bool DescendingComparator(DataObject* a, DataObject* b);
@@ -71,7 +72,7 @@ class QmlEventOverviewModel : public QmlMediaCollectionModel {
   static QDateTime ObjectDateTime(DataObject* object, bool desc);
   
   void MonitorNewViewCollection();
-  void SelectUnselectEvent(const QSet<DataObject*>* toggled, bool doSelect);
+  void SyncSelectedMedia(const QSet<DataObject*>* toggled, bool selected);
 };
 
 QML_DECLARE_TYPE(QmlEventOverviewModel)
