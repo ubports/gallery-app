@@ -16,21 +16,24 @@
  * Authors:
  * Jim Nelson <jim@yorba.org>
  * Lucas Beeler <lucas@yorba.org>
+ * Charles Lindsay <chaz@yorba.org>
  */
 
 import QtQuick 1.1;
-import "../Capetown"
 
 Item {
   id: binary_tab_group
   objectName: "binary_tab_group"
   
-  property alias tab0_title: tab0.title
-  property alias tab1_title: tab1.title
-  
-  signal tab0_activated()
-  signal tab1_activated()
+  signal tab0Activated()
+  signal tab1Activated()
 
+  property alias tab0Title: tab0.title
+  property alias tab1Title: tab1.title
+
+  // readonly
+  property bool isTab0Active: state == "tab0_active"
+  
   width: childrenRect.width
   height: childrenRect.height
 
@@ -52,26 +55,25 @@ Item {
     Tab {
       id: tab0;
 
-      selectedBackgroundSource: "../img/tab-left-active.png"
-      deselectedBackgroundSource: "../img/tab-left-inactive.png"
+      selectedBackgroundSource: "img/tab-left-active.png"
+      deselectedBackgroundSource: "img/tab-left-inactive.png"
 
       onActivated: {
         binary_tab_group.state = "tab0_active";
-        tab0_activated();
+        tab0Activated();
       }
     }
 
     Tab {
       id: tab1;
 
-      selectedBackgroundSource: "../img/tab-right-active.png"
-      deselectedBackgroundSource: "../img/tab-right-inactive.png"
+      selectedBackgroundSource: "img/tab-right-active.png"
+      deselectedBackgroundSource: "img/tab-right-inactive.png"
 
       onActivated: {
         binary_tab_group.state = "tab1_active";
-        tab1_activated();
+        tab1Activated();
       }
     }
   }
 }
-

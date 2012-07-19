@@ -33,7 +33,6 @@ Item {
 
   property alias model: list.model
   property alias contentY: list.contentY
-  property alias header: list.header
   
   property int elementWidth: gu(24)
   property int elementHeight: gu(18)
@@ -53,6 +52,10 @@ Item {
     list.positionViewAtIndex(index, centered ? ListView.Center : ListView.Visible);
   }
   
+  function scrollToTop() {
+    scroller.restart();
+  }
+
   function getVisibleMediaSources() {
     var vi = GalleryUtility.getVisibleItems(list, eventTimeline, function(child) {
       return child.objectName != "eventCard" && child.mediaSource;
@@ -110,6 +113,8 @@ Item {
     
     return undefined;
   }
+
+  clip: true
   
   ListView {
     id: list
@@ -236,5 +241,16 @@ Item {
     running: false
 
     onTriggered: eventTimeline.timedOut()
+  }
+
+  NumberAnimation {
+    id: scroller
+
+    target: list
+    property: "contentY"
+    to: 0
+
+    easing.type: Easing.OutQuad
+    duration: 200
   }
 }

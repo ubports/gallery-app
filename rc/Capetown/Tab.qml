@@ -64,9 +64,8 @@ Item {
   MouseArea {
     anchors.fill: parent
 
-    onClicked: {
-      if (state != "selected")
-        activated();
-    }
+    enabled: tab.state != "selected"
+
+    onClicked: activated()
   }
 }

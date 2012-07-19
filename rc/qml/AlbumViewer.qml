@@ -178,12 +178,8 @@ Rectangle {
     id: gridCheckerboard
     
     anchors.fill: parent
-    header: Item {
-      height: chrome.navbarHeight
-      width: 1
-    }
 
-    topExtraGutter: gu(2)
+    topExtraGutter: gu(2) + chrome.navbarHeight
     bottomExtraGutter: gu(0)
     leftExtraGutter: gu(2)
     rightExtraGutter: gu(2)

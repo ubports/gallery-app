@@ -38,8 +38,7 @@ Item {
   property real gutterHeight: checkerboard.gutterHeight
   property real delegateWidth: checkerboard.delegateWidth
   property real delegateHeight: checkerboard.delegateHeight
-  property real topExtraGutter: checkerboard.topExtraGutter +
-    navigationBar.height
+  property real topExtraGutter: checkerboard.topExtraGutter
   property real bottomExtraGutter: checkerboard.bottomExtraGutter
   property real leftExtraGutter: checkerboard.leftExtraGutter
   property real rightExtraGutter: checkerboard.rightExtraGutter

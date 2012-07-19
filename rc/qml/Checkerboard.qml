@@ -32,7 +32,6 @@ Item {
   
   property alias model: grid.model
   property alias delegate: grid.delegate
-  property alias header: grid.header
 
   property alias contentX: grid.contentX
   property alias contentY: grid.contentY
@@ -76,6 +75,10 @@ Item {
 
   function ensureIndexVisible(index, centered) {
     grid.positionViewAtIndex(index, centered ? GridView.Center : GridView.Visible);
+  }
+
+  function scrollToTop() {
+    gridScroller.restart();
   }
 
   // Uses black magic to hunt for the delegate instance with the given index.
@@ -145,5 +148,16 @@ Item {
     
     onMovementStarted: checkerboard.movementStarted()
     onMovementEnded: checkerboard.movementEnded()
+  }
+
+  NumberAnimation {
+    id: gridScroller
+
+    target: grid
+    property: "contentY"
+    to: 0
+
+    easing.type: Easing.OutQuad
+    duration: 200
   }
 }

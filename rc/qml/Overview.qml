@@ -85,14 +85,8 @@ Rectangle {
       objectName: "eventsCheckerboard"
 
       anchors.fill: parent
-      header: Item {
-        id: eventsEmptyScrollSpace
 
-        height: navbar.height;
-        width: parent.width;
-      }
-
-      topExtraGutter: gu(2)
+      topExtraGutter: gu(2) + navbar.height
       bottomExtraGutter: gu(0)
       leftExtraGutter: gu(2)
       rightExtraGutter: gu(2)
@@ -153,14 +147,8 @@ Rectangle {
       id: eventTimeline
 
       anchors.fill: parent
-      header: Item {
-        id: timelineEmptyScrollSpace
 
-        height: navbar.height;
-        width: parent.width;
-      }
-
-      topExtraGutter: gu(0)
+      topExtraGutter: gu(0) + navbar.height
       bottomExtraGutter: gu(0)
       leftExtraGutter: gu(2)
       rightExtraGutter: gu(2)
@@ -188,14 +176,8 @@ Rectangle {
     objectName: "albumsCheckerboard"
 
     anchors.fill: parent
-    header: Item {
-      id: albumsEmptyScrollSpace
 
-      height: navbar.height;
-      width: parent.width;
-    }
-
-    topExtraGutter: gu(2)
+    topExtraGutter: gu(2) + navbar.height
     bottomExtraGutter: gu(0)
     leftExtraGutter: gu(2)
     rightExtraGutter: gu(2)
@@ -310,9 +292,26 @@ Rectangle {
     visible: !eventsCheckerboard.inSelectionMode
 
     onAddCreateOperationButtonPressed: {
-      if (albumViewSwitcher.state == "tab0_active") {
+      if (albumViewSwitcher.isTab0Active) {
         albumEditor.editNewAlbum();
         albumEditorTransition.enterEditor();
+      }
+    }
+
+    MouseArea {
+      anchors.fill: parent
+      anchors.leftMargin: gu(10)
+      anchors.rightMargin: gu(10)
+
+      onClicked: {
+        if (overview.state == "eventView") {
+          if (eventsCheckerboard.visible)
+            eventsCheckerboard.scrollToTop();
+          else if (eventTimeline.visible)
+            eventTimeline.scrollToTop();
+        } else {
+          albumsCheckerboard.scrollToTop();
+        }
       }
     }
 
@@ -323,17 +322,17 @@ Rectangle {
       anchors.horizontalCenter: parent.horizontalCenter
       anchors.bottom: parent.bottom
 
-      tab0_title: "Albums"
-      tab1_title: "Events"
+      tab0Title: "Albums"
+      tab1Title: "Events"
 
       state: "tab1_active"
 
-      onTab0_activated: {
+      onTab0Activated: {
         scrollOrchestrator.reset();
         overview.state = "albumView";
       }
 
-      onTab1_activated: {
+      onTab1Activated: {
         scrollOrchestrator.reset();
         overview.state = "eventView"
       }
