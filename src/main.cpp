@@ -49,6 +49,9 @@ const int APP_GRIDUNIT = 8;
 const QString database_path = ".database";
 
 int main(int argc, char *argv[]) {
+  // Instructs Qt to use UTF-8 when converting to std::strings.
+  QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
+
   // NOTE: This *must* be called prior to QApplication's ctor.
   QApplication::setGraphicsSystem("opengl");
   

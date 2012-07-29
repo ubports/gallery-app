@@ -106,6 +106,7 @@ PhotoMetadata* PhotoMetadata::FromFile(const char* filepath) {
     result = new PhotoMetadata(filepath);
 
     if (!result->image_->good()) {
+      qDebug("Invalid image metadata in %s", filepath);
       delete result;
       return NULL;
     }
@@ -122,6 +123,7 @@ PhotoMetadata* PhotoMetadata::FromFile(const char* filepath) {
     
     return result;
   } catch (Exiv2::AnyError& e) {
+    qDebug("Error loading image metadata: %s", e.what());
     delete result;
     return NULL;
   }
