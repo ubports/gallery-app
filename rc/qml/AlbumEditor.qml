@@ -19,6 +19,7 @@
 
 import QtQuick 1.1
 import Gallery 1.0
+import "../Capetown"
 import "GalleryUtility.js" as GalleryUtility
 
 Item {
@@ -29,10 +30,11 @@ Item {
   property Album album
 
   // readonly
-  property alias editorX: cover.x
-  property alias editorY: cover.y
-  property alias editorWidth: cover.width
-  property alias editorHeight: cover.height
+  property variant editorRect
+
+  // internal
+  property real canonicalWidth: gu(66)
+  property real canonicalHeight: gu(80)
 
   function editNewAlbum() {
     albumEditor.album = albumModel.createOrphan();
@@ -57,6 +59,15 @@ Item {
     }
   }
 
+  // internal
+  function resetEditorRect() {
+    editorRect = GalleryUtility.getRectRelativeTo(cover, albumEditor);
+  }
+
+  onAlbumChanged: resetEditorRect() // HACK: works, but not conceptually correct.
+  onWidthChanged: resetEditorRect()
+  onHeightChanged: resetEditorRect()
+
   AlbumCollectionModel {
     id: albumModel
   }
@@ -67,28 +78,53 @@ Item {
     anchors.fill: parent
   }
 
-  AlbumCover {
-    id: cover
+  AspectArea {
+    id: coverArea
 
     anchors.centerIn: parent
-    width: gu(66)
-    height: gu(80)
+    width: Math.min(parent.width - gu(8), canonicalWidth)
+    height: Math.min(parent.height - gu(8), canonicalHeight)
 
-    album: albumEditor.album
-    isPreview: false
-    
-    MouseArea {
+    aspectWidth: canonicalWidth
+    aspectHeight: canonicalHeight
+
+    content: AlbumCover {
+      id: cover
+
       anchors.fill: parent
-      
-      onPressed: coverMenu.flipVisibility()
-    }
 
-    MouseArea {
-      anchors.right: parent.right
-      anchors.bottom: parent.bottom
-      width: gu(14)
-      height: gu(14)
-      onClicked: mediaSelector.show()
+      album: albumEditor.album
+      isPreview: false
+
+      MouseArea {
+        anchors.fill: parent
+
+        onPressed: coverMenu.flipVisibility()
+      }
+
+      MouseArea {
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        width: gu(14)
+        height: gu(14)
+        onClicked: mediaSelector.show()
+      }
+
+      Image {
+        anchors.verticalCenter: parent.top
+        anchors.horizontalCenter: parent.right
+
+        source: "../img/album-edit-close.png"
+
+        MouseArea {
+          anchors.fill: parent
+          onClicked: {
+            closeAlbum();
+
+            albumEditor.closeRequested(albumEditor.album, false);
+          }
+        }
+      }
     }
   }
   
@@ -104,23 +140,6 @@ Item {
     onActionInvoked: {
       albumEditor.album.coverNickname = name
       state = "hidden"
-    }
-  }
-
-  Image {
-    anchors.verticalCenter: cover.top
-    anchors.horizontalCenter: cover.right
-
-    source: "../img/album-edit-close.png"
-    cache: true
-
-    MouseArea {
-      anchors.fill: parent
-      onClicked: {
-        closeAlbum();
-
-        albumEditor.closeRequested(albumEditor.album, false);
-      }
     }
   }
 

@@ -56,10 +56,10 @@ Item {
     if (thumbnailRect) {
       exitExpandAnimation.thumbnailRect = thumbnailRect;
 
-      thumbnail.x = editor.editorX;
-      thumbnail.y = editor.editorY;
-      thumbnail.width = editor.editorWidth;
-      thumbnail.height = editor.editorHeight;
+      thumbnail.x = editor.editorRect.x;
+      thumbnail.y = editor.editorRect.y;
+      thumbnail.width = editor.editorRect.width;
+      thumbnail.height = editor.editorRect.height;
 
       exitExpandAnimation.restart();
     } else {
@@ -126,10 +126,10 @@ Item {
     ParallelAnimation {
       ExpandAnimation {
         target: thumbnail
-        endX: editor.editorX
-        endY: editor.editorY
-        endWidth: editor.editorWidth
-        endHeight: editor.editorHeight
+        endX: editor.editorRect.x
+        endY: editor.editorRect.y
+        endWidth: editor.editorRect.width
+        endHeight: editor.editorRect.height
         duration: albumEditorTransition.duration
         easingType: Easing.OutQuad
       }
