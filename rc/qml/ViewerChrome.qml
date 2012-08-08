@@ -48,7 +48,6 @@ Item {
 
   property bool inSelectionMode: false
   property alias hasSelectionOperationsButton: toolbar.hasSelectionOperationsButton
-  property bool hasSelectionNavbar: true
 
   // signals sent from the entire chrome ensemble
   signal hidePopups();
@@ -197,18 +196,18 @@ Item {
   GalleryStandardNavbar {
     id: navbar
 
-    property bool inSelectionMode: wrapper.inSelectionMode && wrapper.hasSelectionNavbar
-
     anchors.top: parent.top
 
     isTextured: wrapper.toolbarsAreTextured
-    isTranslucent: (!inSelectionMode ? wrapper.toolbarsAreTranslucent : false)
+    isTranslucent: (!wrapper.inSelectionMode
+                    ? wrapper.toolbarsAreTranslucent : false)
     isDark: wrapper.toolbarsAreDark
 
-    hasReturnButton: !inSelectionMode
-    hasStateButton: wrapper.navbarHasStateButton && !inSelectionMode
-    hasSelectionDoneButton: inSelectionMode
-    hasCancelSelectionButton: inSelectionMode && wrapper.navbarHasCancelSelectionButton
+    hasReturnButton: !wrapper.inSelectionMode
+    hasStateButton: wrapper.navbarHasStateButton && !wrapper.inSelectionMode
+    hasSelectionDoneButton: wrapper.inSelectionMode
+    hasCancelSelectionButton: wrapper.inSelectionMode &&
+                              wrapper.navbarHasCancelSelectionButton
 
     onReturnButtonPressed: wrapper.returnButtonPressed()
     onStateButtonPressed: wrapper.stateButtonPressed()

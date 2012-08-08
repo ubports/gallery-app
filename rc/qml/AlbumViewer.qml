@@ -223,7 +223,6 @@ Rectangle {
     autoHideWait: 0
 
     inSelectionMode: gridCheckerboard.inSelectionMode
-    hasSelectionNavbar: false
 
     hasSelectionOperationsButton: inSelectionMode
     onSelectionOperationsButtonPressed: cyclePopup(selectionMenu)
