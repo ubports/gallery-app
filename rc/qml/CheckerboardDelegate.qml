@@ -69,17 +69,14 @@ Item {
     function longPressed() {
       checkerboardDelegate.longPressed(modelData.object);
 
-      if (checkerboard.allowSelectionModeChange) {
-        checkerboard.inSelectionMode = !checkerboard.inSelectionMode;
+      if (checkerboard.allowSelectionModeChange &&
+          !checkerboard.inSelectionMode) {
+        checkerboard.inSelectionMode = true;
 
-        if (checkerboard.inSelectionMode) {
-          checkerboard.model.toggleSelection(modelData.object);
+        checkerboard.model.toggleSelection(modelData.object);
 
-          if (checkerboard.singleSelectionOnly)
-            checkerboard.singleSelectedItem = modelData.object;
-        } else {
-          checkerboard.unselectAll();
-        }
+        if (checkerboard.singleSelectionOnly)
+          checkerboard.singleSelectedItem = modelData.object;
       }
     }
 
