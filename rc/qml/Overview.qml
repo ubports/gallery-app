@@ -161,8 +161,6 @@ Rectangle {
         eventTimelineTransition.toOverview(event);
       }
 
-      onTimedOut: eventTimelineTransition.backToOverview()
-
       onMovementStarted: scrollOrchestrator.viewMovementStarted(contentY)
 
       onMovementEnded: scrollOrchestrator.viewMovementEnded(contentY)

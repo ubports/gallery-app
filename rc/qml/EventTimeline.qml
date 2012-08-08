@@ -27,7 +27,6 @@ Item {
   id: eventTimeline
   
   signal activated(variant event)
-  signal timedOut()
   signal movementStarted()
   signal movementEnded()
 
@@ -215,32 +214,13 @@ Item {
       MouseArea {
         anchors.fill: parent
 
-        onClicked: {
-          timeoutTimer.stop();
-          activated(event);
-        }
+        onClicked: activated(event)
       }
     }
-
-    onVisibleChanged: {
-      if (visible)
-        timeoutTimer.restart();
-    }
-
-    onContentYChanged: timeoutTimer.restart()
 
     onMovementStarted: eventTimeline.movementStarted();
 
     onMovementEnded: eventTimeline.movementEnded();
-  }
-
-  Timer {
-    id: timeoutTimer
-
-    interval: 3000
-    running: false
-
-    onTriggered: eventTimeline.timedOut()
   }
 
   NumberAnimation {
