@@ -38,6 +38,16 @@ PhotoViewer {
   function setCurrentPhoto(photo) {
     setCurrentIndex(model.indexOf(photo));
   }
+
+  function goBack() {
+    galleryPhotoViewer.currentItem.state = "unzoomed";
+    pageBack();
+  }
+
+  function goForward() {
+    galleryPhotoViewer.currentItem.state = "unzoomed";
+    pageForward();
+  }
   
   onCurrentIndexChanged: {
     if (model)
@@ -143,8 +153,8 @@ PhotoViewer {
     hasLeftNavigationButton: !galleryPhotoViewer.atXBeginning
     hasRightNavigationButton: !galleryPhotoViewer.atXEnd
 
-    onLeftNavigationButtonPressed: galleryPhotoViewer.pageBack()
-    onRightNavigationButtonPressed: galleryPhotoViewer.pageForward()
+    onLeftNavigationButtonPressed: galleryPhotoViewer.goBack()
+    onRightNavigationButtonPressed: galleryPhotoViewer.goForward()
 
     popups: [ photoViewerShareMenu, photoViewerOptionsMenu,
       trashOperationDialog, popupAlbumPicker ]
