@@ -59,7 +59,7 @@ Item {
         color: (isSelected ? "white" : "#747273")
         font.pointSize: pointUnits(9)
         font.italic: true
-        font.weight: Font.DemiBold
+        font.family: "Ubuntu"
       }
     }
 

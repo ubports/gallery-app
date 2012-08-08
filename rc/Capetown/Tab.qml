@@ -58,7 +58,7 @@ Item {
     color: (tab.state == "selected" ? selectedTextColor : deselectedTextColor)
     font.pointSize: fontPointSize
     font.italic: true
-    font.weight: (tab.state == "selected" ? Font.DemiBold : Font.Normal)
+    font.family: "Ubuntu"
   }
 
   MouseArea {
