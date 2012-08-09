@@ -118,7 +118,6 @@ Rectangle {
         if (gridCheckerboard.inSelectionMode) {
           gridCheckerboard.model.toggleSelection(hit.mediaSource);
         } else {
-          var rect = GalleryUtility.getRectRelativeTo(hit, photoViewer);
           photoViewer.forGridView = false;
           photoViewer.fadeOpen(hit.mediaSource);
         }

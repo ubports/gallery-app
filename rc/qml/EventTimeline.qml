@@ -27,6 +27,7 @@ Item {
   id: eventTimeline
   
   signal activated(variant event)
+  signal viewPhotoRequested(variant event, variant photo, variant thumbnailRect)
   signal movementStarted()
   signal movementEnded()
 
@@ -142,6 +143,12 @@ Item {
       width: list.width
       height: elementHeight
 
+      MouseArea {
+        anchors.fill: parent
+
+        onClicked: activated(event)
+      }
+
       Row {
         id: leftList
 
@@ -158,6 +165,8 @@ Item {
           }
 
           MattedPhotoPreview {
+            id: leftThumbnail
+
             width: elementWidth
             height: elementHeight
 
@@ -165,6 +174,17 @@ Item {
             ownerName: "EventTimeline"
             
             opacity: Gallery.EVENT_TIMELINE_MEDIA_SOURCE_OPACITY
+
+            MouseArea {
+              anchors.fill: parent
+
+              onClicked: {
+                var photoRect = GalleryUtility.getRectRelativeTo(
+                    leftThumbnail, eventTimeline);
+                eventTimeline.viewPhotoRequested(
+                    event, leftThumbnail.mediaSource, photoRect);
+              }
+            }
           }
         }
       }
@@ -186,6 +206,8 @@ Item {
           }
 
           MattedPhotoPreview {
+            id: rightThumbnail
+
             width: elementWidth
             height: elementHeight
 
@@ -193,6 +215,17 @@ Item {
             ownerName: "EventTimeline"
             
             opacity: Gallery.EVENT_TIMELINE_MEDIA_SOURCE_OPACITY
+
+            MouseArea {
+              anchors.fill: parent
+
+              onClicked: {
+                var photoRect = GalleryUtility.getRectRelativeTo(
+                    rightThumbnail, eventTimeline);
+                eventTimeline.viewPhotoRequested(
+                    event, rightThumbnail.mediaSource, photoRect);
+              }
+            }
           }
         }
       }
@@ -209,12 +242,12 @@ Item {
         event: model.event
         
         opacity: Gallery.EVENT_TIMELINE_EVENT_CARD_OPACITY
-      }
 
-      MouseArea {
-        anchors.fill: parent
+        MouseArea {
+          anchors.fill: parent
 
-        onClicked: activated(event)
+          onClicked: activated(event)
+        }
       }
     }
 
