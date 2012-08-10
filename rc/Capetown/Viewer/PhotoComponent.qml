@@ -132,32 +132,6 @@ Rectangle {
     zoomFocusX = 0;
     zoomFocusY = 0;
   }
-
-  function beginPinchZoom() {
-    pinchInteractionStartZoom = image.scale;
-
-    state = "intermediate_zoom";
-  }
-
-  function updatePinchZoom(factor) {
-    if (state != "intermediate_zoom")
-      return;
-
-    var newScale = factor * pinchInteractionStartZoom;
-    if (newScale < 1.0)
-      newScale = 1.0;
-    else if (newScale > kMaxZoomFactor)
-      newScale = kMaxZoomFactor;
-
-    image.scale = newScale;
-  }
-
-  function endPinchZoom() {
-    if (image.scale == 1.0)
-      state = "unzoomed";
-    else if (image.scale == kMaxZoomFactor)
-      state = "full_zoom";
-  }
   
   states: [
     State { name: "unzoomed";

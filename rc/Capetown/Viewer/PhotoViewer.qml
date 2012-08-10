@@ -20,7 +20,6 @@
  */
 
 import QtQuick 1.1
-import uTouch 1.0
 import ".."
 
 // Displays a flickable photo stream.
@@ -70,24 +69,6 @@ Pager {
     
     z: -1000 //background
     color: "black"
-  }
-  
-  UTouchPinchArea {
-    id: photoViewerUTouchPinchArea
-    
-    anchors.fill: parent
-    
-    onGestureStart: {
-      photoViewer.currentItem.beginPinchZoom();
-    }
-    
-    onGestureEnd: {
-      photoViewer.currentItem.endPinchZoom();
-    }
-    
-    onGestureUpdate: {
-      photoViewer.currentItem.updatePinchZoom(radius.current / radius.initial);
-    }
   }
   
   MouseArea {
