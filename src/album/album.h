@@ -48,8 +48,8 @@
 // You can use first/lastValidCurrentPage to avoid off-by-one errors.
 class Album : public ContainerSource {
   Q_OBJECT
-  Q_PROPERTY(QString title READ title NOTIFY title_altered)
-  Q_PROPERTY(QString subtitle READ subtitle NOTIFY subtitle_altered)
+  Q_PROPERTY(QString title READ title WRITE set_title NOTIFY title_altered)
+  Q_PROPERTY(QString subtitle READ subtitle WRITE set_subtitle NOTIFY subtitle_altered)
   Q_PROPERTY(QDateTime creationDateTime READ creation_date_time
     NOTIFY creation_date_time_altered)
   Q_PROPERTY(QDeclarativeListProperty<AlbumPage> contentPages READ qml_pages
@@ -102,7 +102,9 @@ class Album : public ContainerSource {
   Q_INVOKABLE int getPageForMediaSource(QVariant vmedia) const;
   
   const QString& title() const;
+  void set_title(QString title);
   const QString& subtitle() const;
+  void set_subtitle(QString subtitle);
   const QDateTime& creation_date_time() const;
   void set_creation_date_time(QDateTime timestamp);
   AlbumTemplate* album_template() const;

@@ -43,10 +43,6 @@ class AlbumTable : public QObject {
   // Removes an album from the DB.
   void remove_album(Album* album);
   
-  // Updates an existing album in the DB.
-  // Note: ID must be set.
-  void update_album(Album* album);
-  
   // Adds a photo to an album.
   void attach_to_album(qint64 album_id, qint64 media_id);
   
@@ -64,6 +60,12 @@ class AlbumTable : public QObject {
   
   // Sets the cover style for the album.
   void set_cover_nickname(qint64 album_id, QString cover_nickname);
+  
+  // Sets the title of the album.
+  void set_title(qint64 album_id, QString title);
+  
+  // Sets the subtitle of the album.
+  void set_subtitle(qint64 album_id, QString subtitle);
   
  private:
   Database* db_;

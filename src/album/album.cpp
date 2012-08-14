@@ -170,8 +170,28 @@ const QString& Album::title() const {
   return title_;
 }
 
+void Album::set_title(QString title) {
+  bool signal = title_ != title;
+  title_ = title;
+  
+  if (signal) {
+    Database::instance()->get_album_table()->set_title(id_, title_);
+    emit title_altered();
+  }
+}
+
 const QString& Album::subtitle() const {
   return subtitle_;
+}
+
+void Album::set_subtitle(QString subtitle) {
+  bool signal = subtitle_ != subtitle;
+  subtitle_ = subtitle;
+  
+  if (signal) {
+    Database::instance()->get_album_table()->set_subtitle(id_, subtitle_);
+    emit subtitle_altered();
+  }
 }
 
 const QDateTime& Album::creation_date_time() const {

@@ -16,13 +16,17 @@
  * Authors:
  * Jim Nelson <jim@yorba.org>
  * Charles Lindsay <chaz@yorba.org>
+ * Eric Gregory <eric@yorba.org>
  */
 
 import QtQuick 1.1
 import Gallery 1.0
+import "../Capetown"
 
 Item {
   id: albumCover
+  
+  signal pressed(variant mouse)
   
   property Album album
   property bool isBack: false
@@ -46,6 +50,15 @@ Item {
   property variant coverElement: album !== null ?
     coverList.elementForActionName(album.coverNickname) : coverList.getDefault();
   
+  // Read-only
+  property bool isTextEditing: title.isEditing || subtitle.isEditing
+  
+  // Stops editing title/subtitle.
+  function editingDone() {
+    title.done();
+    subtitle.done();
+  }
+  
   Image {
     id: cover
     
@@ -68,6 +81,17 @@ Item {
     cache: true
     mirror: isBack
     
+    // Must be positioned before TextEdit elements to capture mouse events
+    // underneath the album title.
+    MouseArea {
+      anchors.fill: parent
+      
+      onPressed: { 
+        mouse.accepted = false;
+        albumCover.pressed(mouse); 
+      }
+    }
+    
     Column {
       x: coverStartX
       y: coverStartY
@@ -80,23 +104,33 @@ Item {
         height: gu(6) * spacerScale
       }
 
-      Text {
+      TextEditOnClick {
+        id: title
+        
+        text: (album) ? album.title : ""
+        onTextUpdated: album.title = text
+        
+        editable: !isPreview
+        
         anchors.horizontalCenter: parent.horizontalCenter
         width: canonicalWidth
-
+        
         opacity: titleOpacity
         color: "#f5e8e0"
         
-        font.family: "Nimbus Roman No9 L"
-        font.pointSize: pointUnits(16) * textScale // From the spec.
+        fontFamily: "Nimbus Roman No9 L"
+        fontPointSize: pointUnits(16) * textScale // From the spec.
         smooth: true
+        textFormat: TextEdit.PlainText
         
-        wrapMode: Text.WordWrap
-        elide: Text.ElideRight
-        maximumLineCount: 3
+        wrapMode: Text.Wrap
         horizontalAlignment: Text.AlignHCenter
-
-        text: (album) ? album.title : ""
+        
+        onEnterPressed: {
+          // If the user hits enter, start editing the subtitle.
+          done();
+          subtitle.start(-1, -1);
+        }
       }
       
       // Spacer
@@ -104,24 +138,31 @@ Item {
         width: 1
         height: titleDateSpacing * spacerScale
       }
-
-      Text {
+      
+      TextEditOnClick {
+        id: subtitle
+        
+        text: (album) ? album.subtitle : ""
+        onTextUpdated: album.subtitle = text
+        
+        editable: !isPreview
+        
         anchors.horizontalCenter: parent.horizontalCenter
         width: canonicalWidth
-
+        
         opacity: titleOpacity
         color: "#f5e8e0"
         
-        font.family: "Nimbus Roman No9 L"
-        font.pointSize: pointUnits(10) * textScale // From the spec.
-        smooth: true
+        fontFamily: "Nimbus Roman No9 L"
         
-        wrapMode: Text.WordWrap
-        elide: Text.ElideRight
-        maximumLineCount: 1
+        // The -1 is due to a slight mismatch in preview vs. full album
+        // cover aspect ratios.
+        fontPointSize: pointUnits(10) * textScale - 1
+        smooth: true
+        textFormat: TextEdit.PlainText
+        
+        wrapMode: Text.Wrap
         horizontalAlignment: Text.AlignHCenter
-
-        text: (album) ? album.subtitle : ""
       }
     }
   }

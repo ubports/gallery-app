@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical Ltd
+ * Copyright (C) 2011-2012 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -15,6 +15,7 @@
  *
  * Authors:
  * Charles Lindsay <chaz@yorba.org>
+ * Eric Gregory <eric@yorba.org>
  */
 
 import QtQuick 1.1
@@ -71,23 +72,31 @@ Item {
   AlbumCollectionModel {
     id: albumModel
   }
-
+  
   MouseArea {
-    id: blocker
-
+    id: coverCloser
+    
     anchors.fill: parent
+    onPressed: {
+      coverMenu.state = "hidden";
+      cover.editingDone();
+      closeAlbum();
+      
+      albumEditor.closeRequested(albumEditor.album, false);
+    }
   }
 
   AspectArea {
     id: coverArea
 
     anchors.centerIn: parent
+
     width: Math.min(parent.width - gu(8), canonicalWidth)
     height: Math.min(parent.height - gu(8), canonicalHeight)
 
     aspectWidth: canonicalWidth
     aspectHeight: canonicalHeight
-
+    
     content: AlbumCover {
       id: cover
 
@@ -95,35 +104,30 @@ Item {
 
       album: albumEditor.album
       isPreview: false
-
-      MouseArea {
-        anchors.fill: parent
-
-        onPressed: coverMenu.flipVisibility()
+      
+      onPressed: {
+        mouse.accepted = true;
+        if (!isTextEditing) {
+          coverMenu.flipVisibility();
+        } else {
+          cover.editingDone()
+        }
+      }
+      
+      onIsTextEditingChanged: {
+        // Hide menu when we start editing text.
+        if (isTextEditing && coverMenu.state !== "hidden")
+          coverMenu.state = "hidden";
       }
 
       MouseArea {
+        id: addPhotosButton
+        
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         width: gu(14)
         height: gu(14)
         onClicked: mediaSelector.show()
-      }
-
-      Image {
-        anchors.verticalCenter: parent.top
-        anchors.horizontalCenter: parent.right
-
-        source: "../img/album-edit-close.png"
-
-        MouseArea {
-          anchors.fill: parent
-          onClicked: {
-            closeAlbum();
-
-            albumEditor.closeRequested(albumEditor.album, false);
-          }
-        }
       }
     }
   }
@@ -142,15 +146,7 @@ Item {
       state = "hidden"
     }
   }
-
-  MouseArea {
-    id: menuCancelArea
-
-    anchors.fill: parent
-    visible: coverMenu.state != "hidden"
-    onPressed: coverMenu.state = "hidden"
-  }
-
+  
   MediaSelector {
     id: mediaSelector
 

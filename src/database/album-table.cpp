@@ -148,3 +148,23 @@ void AlbumTable::set_cover_nickname(qint64 album_id, QString cover_nickname) {
   if (!query.exec())
     db_->log_sql_error(query);
 }
+
+void AlbumTable::set_title(qint64 album_id, QString title)  {
+  QSqlQuery query(*db_->get_db());
+  query.prepare("UPDATE AlbumTable SET title = :title WHERE "
+                "id = :album_id");
+  query.bindValue(":title", title);
+  query.bindValue(":album_id", album_id);
+  if (!query.exec())
+    db_->log_sql_error(query);
+}
+
+void AlbumTable::set_subtitle(qint64 album_id, QString subtitle) {
+  QSqlQuery query(*db_->get_db());
+  query.prepare("UPDATE AlbumTable SET subtitle = :subtitle WHERE "
+                "id = :album_id");
+  query.bindValue(":subtitle", subtitle);
+  query.bindValue(":album_id", album_id);
+  if (!query.exec())
+    db_->log_sql_error(query);
+}
