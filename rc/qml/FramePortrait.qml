@@ -24,7 +24,6 @@ Item {
 
   property variant mediaSource
   property bool isPreview
-  property bool isHalfPage
   
   visible: Boolean(mediaSource)
 
@@ -42,17 +41,7 @@ Item {
   MattedAlbumPagePhoto {
     anchors.fill: parent
 
-    visible: !framePortrait.isPreview && !framePortrait.isHalfPage
-
-    ownerName: "FramePortrait"
-    mediaSource: framePortrait.mediaSource
-    isPreview: false
-  }
-
-  MattedAlbumHalfPagePhoto {
-    anchors.fill: parent
-
-    visible: !framePortrait.isPreview && framePortrait.isHalfPage
+    visible: !framePortrait.isPreview
 
     ownerName: "FramePortrait"
     mediaSource: framePortrait.mediaSource

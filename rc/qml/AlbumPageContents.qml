@@ -31,6 +31,12 @@ Item {
   property bool isPreview: false
   property bool contentHasPreviewFrame: false
 
+  property real topMargin
+  property real bottomMargin
+  property real gutterMargin
+  property real outerMargin
+  property real insideMargin
+
   // readonly
   property bool isCover: cover.visible
   // These constants (only useful when contentHasPreviewFrame is true) expose
@@ -42,20 +48,9 @@ Item {
   property real frameToContentHeight: (frameHeight / frameContentHeight)
 
   // internal
-  property real canonicalWidth: gu(80)
-  property real canonicalHeight: gu(100)
-  property real canonicalTopMargin: gu(6)
-  property real canonicalBottomMargin: gu(6)
-  property real canonicalGutterMargin: gu(2) // Between spine and photo.
-  property real canonicalOuterMargin: gu(3) // Between opposite edge and photo.
-  property real canonicalInsideMargin: gu(4) // Between photos on one page.
-
-  // Apologies for how complex this got.  The idea was to have one item that
-  // would scale down from some reference size easily so it would look good no
-  // matter what size you gave it.  Unfortunately, the frame image was given
-  // to us at thumbnail size, so we're scaling it up while we scale other bits
-  // down.  That makes this component somewhat complicated, but greatly
-  // simplifies everything that happens above it.
+  // This might be able to be simplified some, as the components have changed.
+  // The original idea was to scale the page up and down, but now the only
+  // thing that actually gets scaled is the frame image.
   property bool isRight: (page % 2 == 0)
   // Where the transparent shadow ends in the frame image.
   property real frameStartX: (isRight ? 6 : 5)
@@ -73,12 +68,12 @@ Item {
   property real contentPageY: (contentHasPreviewFrame
     ? frameContentOffsetY * (parent.height / frameHeight)
     : 0)
-  property real canonicalContentPageWidth: (contentHasPreviewFrame
-    ? frameContentWidth * (canonicalWidth / frameWidth)
-    : canonicalWidth)
-  property real canonicalContentPageHeight: (contentHasPreviewFrame
-    ? frameContentHeight * (canonicalHeight / frameHeight)
-    : canonicalHeight)
+  property real contentPageWidth: (contentHasPreviewFrame
+    ? frameContentWidth * (parent.width / frameWidth)
+    : parent.width)
+  property real contentPageHeight: (contentHasPreviewFrame
+    ? frameContentHeight * (parent.height / frameHeight)
+    : parent.height)
   
   property variant mediaFrames: (loader.item) ? loader.item.mediaFrames : undefined
   
@@ -112,13 +107,7 @@ Item {
   Rectangle {
     id: plainBackground
 
-    width: canonicalWidth
-    height: canonicalHeight
-
-    transform: Scale {
-      xScale: albumPageContents.width / canonicalWidth
-      yScale: albumPageContents.height / canonicalHeight
-    }
+    anchors.fill: parent
 
     visible: (loader.visible && !contentHasPreviewFrame && isPreview)
   }
@@ -126,23 +115,21 @@ Item {
   Item {
     id: paperBackground
 
-    width: canonicalWidth
-    height: canonicalHeight
-
-    transform: Scale {
-      xScale: albumPageContents.width / canonicalWidth
-      yScale: albumPageContents.height / canonicalHeight
-    }
+    anchors.fill: parent
 
     visible: (loader.visible && !contentHasPreviewFrame && !isPreview)
 
     clip: true
 
     Image {
-      x: (isRight ? -canonicalWidth : 0)
+      x: (isRight ? -parent.width : 0)
       y: 0
+      width: (isRight ? parent.width * 2 : parent.width)
+      height: parent.height
 
       source: "../img/background-paper.png"
+
+      fillMode: Image.Tile
     }
   }
 
@@ -151,11 +138,11 @@ Item {
 
     // read-only
     property variant mediaSourceList
-    property alias topMargin: albumPageContents.canonicalTopMargin
-    property alias bottomMargin: albumPageContents.canonicalBottomMargin
-    property alias gutterMargin: albumPageContents.canonicalGutterMargin
-    property alias outerMargin: albumPageContents.canonicalOuterMargin
-    property alias insideMargin: albumPageContents.canonicalInsideMargin
+    property alias topMargin: albumPageContents.topMargin
+    property alias bottomMargin: albumPageContents.bottomMargin
+    property alias gutterMargin: albumPageContents.gutterMargin
+    property alias outerMargin: albumPageContents.outerMargin
+    property alias insideMargin: albumPageContents.insideMargin
     property alias isPreview: albumPageContents.isPreview
 
     function reload() {
@@ -174,15 +161,10 @@ Item {
 
     x: contentPageX
     y: contentPageY
-    width: canonicalContentPageWidth
-    height: canonicalContentPageHeight
+    width: contentPageWidth
+    height: contentPageHeight
 
     visible: (source != "")
-
-    transform: Scale {
-      xScale: albumPageContents.width / canonicalWidth
-      yScale: albumPageContents.height / canonicalHeight
-    }
 
     Component.onCompleted: reload()
   }

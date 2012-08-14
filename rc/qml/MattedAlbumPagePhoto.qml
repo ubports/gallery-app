@@ -18,14 +18,20 @@
  */
 
 import QtQuick 1.1
-import Gallery 1.0
 
-MattedPhoto {
-  backingImage: "../img/album-page-backing-full.png"
-  insideShadowImage: "../img/album-page-inside-shadow-full.png"
+CompositeMattedPhoto {
+  id: mattedAlbumPagePhoto
 
-  mattedPhotoWidth: gu(75)
-  mattedPhotoHeight: gu(88)
-  backingStartX: 2
-  backingStartY: 2
+  backingBorderImage: "../img/album-page-frame-border.sci"
+  insideShadowBorderImage: "../img/album-page-frame-inside-shadow-border.sci"
+
+  backingShadowPixelsLeft: 2
+  backingShadowPixelsRight: 2
+  backingShadowPixelsTop: 2
+  backingShadowPixelsBottom: 2
+
+  backingFramePixelsLeft: 5
+  backingFramePixelsRight: 5
+  backingFramePixelsTop: 5
+  backingFramePixelsBottom: 5
 }

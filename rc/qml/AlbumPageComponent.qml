@@ -44,11 +44,29 @@ Flipable {
   // Whether to draw a frame around the page, if it's a content page.
   property bool contentHasPreviewFrame: false
 
+  property real topMargin: pageTopMargin
+  property real bottomMargin: pageBottomMargin
+  property real gutterMargin: pageGutterMargin
+  property real outerMargin: pageOuterMargin
+  property real insideMargin: pageInsideMargin
+
   // readonly
   property alias frontIsCover: frontContents.isCover
   property alias backIsCover: backContents.isCover
   property alias frameToContentWidth: frontContents.frameToContentWidth
   property alias frameToContentHeight: frontContents.frameToContentHeight
+
+  property real pageTopMargin: gu(6)
+  property real pageBottomMargin: gu(6)
+  property real pageGutterMargin: gu(2) // Between spine and photo.
+  property real pageOuterMargin: gu(3) // Between opposite edge and photo.
+  property real pageInsideMargin: gu(4) // Between photos on one page.
+
+  property real previewTopMargin: gu(2)
+  property real previewBottomMargin: gu(2)
+  property real previewGutterMargin: gu(1) // Between spine and photo.
+  property real previewOuterMargin: gu(1) // Between opposite edge and photo.
+  property real previewInsideMargin: gu(2) // Between photos on one page.
 
   // Returns the page number of the left page of the current "spread", denoted
   // by a currentPage number from an album.  This will go on the backPage.
@@ -72,6 +90,12 @@ Flipable {
 
     isPreview: albumPageComponent.isPreview
     contentHasPreviewFrame: albumPageComponent.contentHasPreviewFrame
+
+    topMargin: albumPageComponent.topMargin
+    bottomMargin: albumPageComponent.bottomMargin
+    gutterMargin: albumPageComponent.gutterMargin
+    outerMargin: albumPageComponent.outerMargin
+    insideMargin: albumPageComponent.insideMargin
   }
 
   back: AlbumPageContents {
@@ -84,6 +108,12 @@ Flipable {
 
     isPreview: albumPageComponent.isPreview
     contentHasPreviewFrame: albumPageComponent.contentHasPreviewFrame
+
+    topMargin: albumPageComponent.topMargin
+    bottomMargin: albumPageComponent.bottomMargin
+    gutterMargin: albumPageComponent.gutterMargin
+    outerMargin: albumPageComponent.outerMargin
+    insideMargin: albumPageComponent.insideMargin
   }
 
   transform: Rotation {

@@ -32,10 +32,28 @@ Item {
   property int duration: 1000
   property real openFraction: 0
 
+  property real topMargin: previewTopMargin
+  property real bottomMargin: previewBottomMargin
+  property real gutterMargin: previewGutterMargin
+  property real outerMargin: previewOuterMargin
+  property real insideMargin: previewInsideMargin
+
   // readonly
   property bool isFlipping: (openFraction != 0 && openFraction != 1)
   property alias frameToContentWidth: rightPage.frameToContentWidth
   property alias frameToContentHeight: rightPage.frameToContentHeight
+
+  property alias pageTopMargin: rightPage.pageTopMargin
+  property alias pageBottomMargin: rightPage.pageBottomMargin
+  property alias pageGutterMargin: rightPage.pageGutterMargin
+  property alias pageOuterMargin: rightPage.pageOuterMargin
+  property alias pageInsideMargin: rightPage.pageInsideMargin
+
+  property alias previewTopMargin: rightPage.previewTopMargin
+  property alias previewBottomMargin: rightPage.previewBottomMargin
+  property alias previewGutterMargin: rightPage.previewGutterMargin
+  property alias previewOuterMargin: rightPage.previewOuterMargin
+  property alias previewInsideMargin: rightPage.previewInsideMargin
 
   // internal
   property int currentOrFirstContentPage: (!album
@@ -86,6 +104,12 @@ Item {
       contentHasPreviewFrame: albumOpener.contentHasPreviewFrame
 
       flipFraction: (openFraction > 0.5 && openFraction <= 1 ? openFraction * -2 + 3 : 0)
+
+      topMargin: albumOpener.topMargin
+      bottomMargin: albumOpener.bottomMargin
+      gutterMargin: albumOpener.gutterMargin
+      outerMargin: albumOpener.outerMargin
+      insideMargin: albumOpener.insideMargin
     }
 
     AlbumPageComponent {
@@ -101,6 +125,12 @@ Item {
       contentHasPreviewFrame: albumOpener.contentHasPreviewFrame
 
       flipFraction: (openFraction >= 0 && openFraction < 0.5 ? openFraction * 2 : 1)
+
+      topMargin: albumOpener.topMargin
+      bottomMargin: albumOpener.bottomMargin
+      gutterMargin: albumOpener.gutterMargin
+      outerMargin: albumOpener.outerMargin
+      insideMargin: albumOpener.insideMargin
     }
   }
 

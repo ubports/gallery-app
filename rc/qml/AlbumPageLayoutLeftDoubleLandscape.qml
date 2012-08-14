@@ -42,7 +42,6 @@ AlbumPageLayout {
       ? albumPageLayoutLeftDoubleLandscape.mediaSourceList[0]
       : null)
     isPreview: albumPageLayoutLeftDoubleLandscape.isPreview
-    isHalfPage: true
   }
 
   FramePortrait {
@@ -62,6 +61,5 @@ AlbumPageLayout {
       ? albumPageLayoutLeftDoubleLandscape.mediaSourceList[1]
       : null)
     isPreview: albumPageLayoutLeftDoubleLandscape.isPreview
-    isHalfPage: true
   }
 }

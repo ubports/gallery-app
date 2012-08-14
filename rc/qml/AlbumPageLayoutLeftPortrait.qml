@@ -39,6 +39,5 @@ AlbumPageLayout {
       ? albumPageLayoutLeftPortrait.mediaSourceList[0]
       : null)
     isPreview: albumPageLayoutLeftPortrait.isPreview
-    isHalfPage: false
   }
 }

@@ -27,6 +27,12 @@ Item {
   property Album album
   property alias openFraction: albumPreview.openFraction
 
+  property alias topMargin: albumPreview.topMargin
+  property alias bottomMargin: albumPreview.bottomMargin
+  property alias gutterMargin: albumPreview.gutterMargin
+  property alias outerMargin: albumPreview.outerMargin
+  property alias insideMargin: albumPreview.insideMargin
+
   // readonly
   property alias isFlipping: albumPreview.isFlipping
 

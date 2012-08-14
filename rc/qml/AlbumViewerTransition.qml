@@ -123,6 +123,47 @@ Item {
         easing.type: Easing.OutQuad
       }
 
+      NumberAnimation {
+        target: expandAlbum
+        property: "topMargin"
+        from: expandAlbum.previewTopMargin
+        to: expandAlbum.pageTopMargin
+        duration: albumViewerTransition.duration
+        easing.type: Easing.OutQuad
+      }
+      NumberAnimation {
+        target: expandAlbum
+        property: "bottomMargin"
+        from: expandAlbum.previewBottomMargin
+        to: expandAlbum.pageBottomMargin
+        duration: albumViewerTransition.duration
+        easing.type: Easing.OutQuad
+      }
+      NumberAnimation {
+        target: expandAlbum
+        property: "gutterMargin"
+        from: expandAlbum.previewGutterMargin
+        to: expandAlbum.pageGutterMargin
+        duration: albumViewerTransition.duration
+        easing.type: Easing.OutQuad
+      }
+      NumberAnimation {
+        target: expandAlbum
+        property: "outerMargin"
+        from: expandAlbum.previewOuterMargin
+        to: expandAlbum.pageOuterMargin
+        duration: albumViewerTransition.duration
+        easing.type: Easing.OutQuad
+      }
+      NumberAnimation {
+        target: expandAlbum
+        property: "insideMargin"
+        from: expandAlbum.previewInsideMargin
+        to: expandAlbum.pageInsideMargin
+        duration: albumViewerTransition.duration
+        easing.type: Easing.OutQuad
+      }
+
       FadeInAnimation {
         target: backgroundGlass
         duration: albumViewerTransition.duration
@@ -166,6 +207,47 @@ Item {
         to: (hideStayingOpen ? 1 : 0)
         duration: albumViewerTransition.duration
         easing.type: Easing.InQuad
+      }
+
+      NumberAnimation {
+        target: expandAlbum
+        property: "topMargin"
+        from: expandAlbum.pageTopMargin
+        to: expandAlbum.previewTopMargin
+        duration: albumViewerTransition.duration
+        easing.type: Easing.OutQuad
+      }
+      NumberAnimation {
+        target: expandAlbum
+        property: "bottomMargin"
+        from: expandAlbum.pageBottomMargin
+        to: expandAlbum.previewBottomMargin
+        duration: albumViewerTransition.duration
+        easing.type: Easing.OutQuad
+      }
+      NumberAnimation {
+        target: expandAlbum
+        property: "gutterMargin"
+        from: expandAlbum.pageGutterMargin
+        to: expandAlbum.previewGutterMargin
+        duration: albumViewerTransition.duration
+        easing.type: Easing.OutQuad
+      }
+      NumberAnimation {
+        target: expandAlbum
+        property: "outerMargin"
+        from: expandAlbum.pageOuterMargin
+        to: expandAlbum.previewOuterMargin
+        duration: albumViewerTransition.duration
+        easing.type: Easing.OutQuad
+      }
+      NumberAnimation {
+        target: expandAlbum
+        property: "insideMargin"
+        from: expandAlbum.pageInsideMargin
+        to: expandAlbum.previewInsideMargin
+        duration: albumViewerTransition.duration
+        easing.type: Easing.OutQuad
       }
 
       FadeOutAnimation {

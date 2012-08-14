@@ -89,7 +89,7 @@ Item {
 
         checkerboard.model.toggleSelection(modelData.object);
       } else {
-        var rect = GalleryUtility.getRectRelativeTo(checkerboardDelegate, checkerboard);
+        var rect = GalleryUtility.getRectRelativeTo(contentArea, checkerboard);
         checkerboard.activated(modelData.object, modelData, rect);
       }
     }
