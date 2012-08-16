@@ -33,8 +33,29 @@ Item {
   function enterEditor(photo) {
     photo.saveState();
     photoEditor.photo = photo;
+    photo.busyChanged.connect(setBusy);
   }
-
+  
+  // Internal: use to switch the busy indicator on or off.
+  function setBusy() {
+    if (photo.busy) {
+      busySpinner.visible = true;
+      topSlidingPane.visible = false;
+      bottomSlidingPane.visible = false;
+    } else {
+      busySpinner.visible = false;
+      topSlidingPane.visible = true;
+      bottomSlidingPane.visible = true;
+    }
+  }
+  
+  // Internal: call this function to exit.
+  function notifyCloseRequested() {
+    photo.busyChanged.disconnect(setBusy);
+    
+    closeRequested();
+  }
+  
   Rectangle {
     anchors.fill: parent
     color: "black"
@@ -51,6 +72,14 @@ Item {
       color: "black"
 
       ownerName: "PhotoEditor"
+      
+      AnimatedImage {
+        id: busySpinner
+        
+        visible: false
+        anchors.centerIn: parent
+        source: "../img/spin.mng"
+      }
     }
   }
 
@@ -68,7 +97,7 @@ Item {
     inY: 0
 
     state: "in"
-
+    
     Toolbar {
       id: topToolbar
 
@@ -89,7 +118,7 @@ Item {
 
         onPressed: {
           photo.revertToSavedState();
-          photoEditor.closeRequested();
+          notifyCloseRequested();
         }
       }
 
@@ -100,7 +129,7 @@ Item {
 
         text: "Done"
 
-        onPressed: photoEditor.closeRequested()
+        onPressed: notifyCloseRequested()
       }
     }
   }
@@ -178,24 +207,39 @@ Item {
 
     visible: false
     state: "hidden"
-
+    
+    // Hack: wait for menu to fade out before performing actions.
+    Timer {
+      id: undoTimer
+      
+      interval: undoMenu.fadeDuration
+      onTriggered: photoEditor.photo.undo()
+    }
+    
+    Timer {
+      id: redoTimer
+      
+      interval: undoMenu.fadeDuration
+      onTriggered: photoEditor.photo.redo()
+    }
+    
     onActionInvoked: {
       // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you edit
       // a switch statement in QML.  The short version is: use braces always.
       switch (name) {
         case "onUndo": {
-          photoEditor.photo.undo();
           state = "hidden";
+          undoTimer.restart();
           break;
         }
         case "onRedo": {
-          photoEditor.photo.redo();
           state = "hidden";
+          redoTimer.restart();
           break;
         }
         case "onRevert": {
-          photoEditor.photo.revertToOriginal();
           state = "hidden";
+          photoEditor.photo.revertToOriginal();
           break;
         }
       }

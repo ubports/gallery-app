@@ -17,6 +17,8 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
+#include <QApplication>
+
 #include "util/imaging.h"
 
 QColor HSVTransformation::transform_pixel(const QColor &pixel_color) const {
@@ -40,6 +42,8 @@ IntensityHistogram::IntensityHistogram(const QImage& basis_image) {
   int height = basis_image.height();
 
   for (int j = 0; j < height; j++) {
+    QApplication::processEvents();
+    
     for (int i = 0; i < width; i++) {
       QColor c = QColor(basis_image.pixel(i, j));
       int intensity = c.value();
@@ -216,6 +220,8 @@ AutoEnhanceTransformation::AutoEnhanceTransformation(const QImage& basis)
     QImage shadow_corrected_image = QImage(basis);
 
     for (int j = 0; j < shadow_corrected_image.height(); j++) {
+      QApplication::processEvents();
+      
       for (int i = 0; i < shadow_corrected_image.width(); i++) {
         QColor px = shadow_transform_->transform_pixel(
           QColor(shadow_corrected_image.pixel(i, j)));
@@ -242,7 +248,7 @@ AutoEnhanceTransformation::~AutoEnhanceTransformation() {
 QColor AutoEnhanceTransformation::transform_pixel(
   const QColor& pixel_color) const {
   QColor px = pixel_color;
-
+  
   if (shadow_transform_)
     px = shadow_transform_->transform_pixel(px);
 

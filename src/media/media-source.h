@@ -48,6 +48,7 @@ class MediaSource : public DataSource {
   Q_PROPERTY(QTime exposureTimeOfDay READ exposure_time_of_day NOTIFY exposure_date_time_altered)
   Q_PROPERTY(int exposure_time_t READ exposure_time_t NOTIFY exposure_date_time_altered)
   Q_PROPERTY(QVariant event READ QmlFindEvent NOTIFY event_changed)
+  Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
   
  signals:
   void path_altered();
@@ -59,6 +60,7 @@ class MediaSource : public DataSource {
   void event_changed();
   void data_altered();
   void size_altered();
+  void busyChanged();
   
  public:
   MediaSource();
@@ -91,6 +93,9 @@ class MediaSource : public DataSource {
   void set_id(qint64 id);
   qint64 get_id();
   
+  bool busy();
+  void set_busy(bool busy);
+  
  protected:
   virtual void DestroySource(bool delete_backing, bool as_orphan);
 
@@ -101,6 +106,7 @@ class MediaSource : public DataSource {
   QFileInfo file_;
   qint64 id_;
   QSize size_;
+  bool busy_;
 };
 
 QML_DECLARE_TYPE(MediaSource)

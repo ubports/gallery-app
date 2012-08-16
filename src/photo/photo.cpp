@@ -348,7 +348,9 @@ void Photo::create_cached_enhanced() {
     qDebug("Error creating enhanced file for %s", qPrintable(file().filePath()));
     return;
   }
-
+  
+  set_busy(true);
+  
   QFileInfo to_enhance = caches_.enhanced_file();
   PhotoMetadata* metadata = PhotoMetadata::FromFile(to_enhance);
 
@@ -360,6 +362,8 @@ void Photo::create_cached_enhanced() {
     sample_img = sample_img.scaledToWidth(400);
   AutoEnhanceTransformation enhance_txn = AutoEnhanceTransformation(sample_img);
 
+  int pixels = 0;
+  
   // TODO: may be able to avoid doing another JPEG load here by creating the
   // enhanced_image from scratch here with a different constructor.
   QImage enhanced_image(to_enhance.filePath());
@@ -368,6 +372,13 @@ void Photo::create_cached_enhanced() {
       QColor px = enhance_txn.transform_pixel(
         QColor(enhanced_image.pixel(i, j)));
       enhanced_image.setPixel(i, j, px.rgb());
+      
+      // Spin the event loop every 50 pixels.
+      pixels++;
+      if (pixels > 50) {
+        QApplication::processEvents();
+        pixels = 0;
+      }
     }
   }
 
@@ -376,7 +387,9 @@ void Photo::create_cached_enhanced() {
     qDebug("Error saving enhanced file for %s", qPrintable(file().filePath()));
     caches_.discard_cached_enhanced();
   }
-
+  
+  set_busy(false);
+  
   delete metadata;
 }
 

@@ -120,6 +120,10 @@ QVariant MediaSource::QmlFindEvent() {
   return QVariant::fromValue(FindEvent());
 }
 
+bool MediaSource::busy() {
+  return busy_;
+}
+
 void MediaSource::set_id(qint64 id) {
   id_ = id;
 }
@@ -127,6 +131,15 @@ void MediaSource::set_id(qint64 id) {
 qint64 MediaSource::get_id() {
   return id_;
 }
+
+void MediaSource::set_busy(bool busy) {
+  if (busy == busy_)
+    return;
+  
+  busy_ = busy;
+  emit busyChanged();
+}
+
 
 void MediaSource::DestroySource(bool delete_backing, bool as_orphan) {
   if (delete_backing) {
