@@ -24,9 +24,9 @@ import Gallery 1.0
 Item {
   id: application
   
-  width: gu(160)
-  height: gu(100)
-  
+  // readonly
+  property bool isPortrait: (height > width)
+
   // Converts a grid-unit into a pixel value.
   function gu(amt) {
     return Math.floor(GRIDUNIT * amt);
@@ -38,6 +38,9 @@ Item {
     return Math.round(1.6 * amt);
   }
   
+  width: gu(160)
+  height: gu(100)
+
   Component.onCompleted: {
     navStack.switchToPage(overview);
   }
