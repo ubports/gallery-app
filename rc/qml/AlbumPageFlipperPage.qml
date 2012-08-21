@@ -32,14 +32,14 @@ AlbumPageComponent {
   page: {           // two lines like so.
     // Last page's number is one spread back from lastPage.
     if (flipperPage == numPages - 1)
-      return lastPage - 2;
+      return lastPage - pagesPerSpread;
 
     // Second to last page's number is two spreads back.
     if (flipperPage == numPages - 2)
-      return lastPage - 4;
+      return lastPage - 2 * pagesPerSpread;
 
     // Otherwise, we do sequential spreads forward from firstPage.
-    return firstPage + 2 * flipperPage;
+    return firstPage + pagesPerSpread * flipperPage;
   }
 
   property real flipFractionIntercept:
@@ -52,6 +52,8 @@ AlbumPageComponent {
   property real gapBetweenPages: parent.gapBetweenPages
   property real pageFlipFraction: parent.pageFlipFraction
   property real flipSlope: parent.flipSlope
+  property bool isPortrait: parent.isPortrait
+  property int pagesPerSpread: parent.pagesPerSpread
 
   anchors.fill: parent
   z: flipFraction < 0.5 ? numPages - flipperPage : flipperPage
@@ -60,12 +62,15 @@ AlbumPageComponent {
 
   album: parent.album
 
-  frontPage: rightPageForCurrent(page)
-  backPage: leftPageForCurrent(page + 2) // Next spread.
+  frontPage: (isPortrait ? page : rightPageForCurrent(page))
+  // backPage is the next spread or blank for portrait mode.
+  backPage: (isPortrait ? -1 : leftPageForCurrent(page + pagesPerSpread))
 
   frontIsPreview: flipperPage > 0
   backIsPreview: numPages > flipperPage + 1
 
-  flipFraction: Math.min(1, Math.max(0,
+  // The 0.55 factor causes the animation to end juuuuust past vertical in
+  // portrait mode.  This looks better to my eyes than directly vertical (0.5).
+  flipFraction: (isPortrait ? 0.55 : 1) * Math.min(1, Math.max(0,
       flipSlope * pageFlipFraction + flipFractionIntercept))
 }

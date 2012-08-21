@@ -48,6 +48,9 @@ Item {
 
   property bool inSelectionMode: false
   property alias hasSelectionOperationsButton: toolbar.hasSelectionOperationsButton
+  
+  property alias pagesPerSpread: toolbar.albumPagesPerSpread
+  property alias viewingPage: toolbar.albumViewingPage
 
   // signals sent from the entire chrome ensemble
   signal hidePopups();

@@ -20,6 +20,7 @@
 
 import QtQuick 1.0
 import Gallery 1.0
+import "GalleryUtility.js" as GalleryUtility
 
 Item {
   id: application
@@ -41,9 +42,7 @@ Item {
   width: gu(160)
   height: gu(100)
 
-  Component.onCompleted: {
-    navStack.switchToPage(overview);
-  }
+  Component.onCompleted: navStack.switchToPage(overview)
   
   Overview {
     id: overview

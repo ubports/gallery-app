@@ -25,17 +25,19 @@ import Gallery 1.0
 // incremental value, this involves a lot of non-obvious math internally.  The
 // interface is simple, though: set the album and destinationPage, then simply
 // move flipFraction from 0 -> 1 to incrementally flip the page(s) or call
-// turnToDestination() or ...Origin() to animate it automatically.  The album's
-// state will be updated when the animation triggered by turnTo*() finishes.
+// turnToDestination() or ...Origin() to animate it automatically.
 Item {
   id: albumPageFlipper
 
   signal flipFinished(bool toDestination)
 
   property Album album
+  property int currentPage
   property int destinationPage
   property int duration: 1000
   property real flipFraction
+  property bool isPortrait
+  property int pagesPerSpread
 
   // readonly
   property bool isFlipping: (flipFraction != 0 && flipFraction != 1)
@@ -45,12 +47,12 @@ Item {
   property alias isRunning: animator.running
 
   // internal
-  property int currentPage: (!album ? -1 : album.currentPage)
   property int maxPages: 5
   property int numPages: Math.min(maxPages,
-                                  Math.abs(destinationPage - currentPage) / 2)
+                                  Math.abs(destinationPage - currentPage) /
+                                  pagesPerSpread)
   property real pageFlipFraction: (isForward ? flipFraction : 1 - flipFraction)
-  property real gapBetweenPages: 0.1
+  property real gapBetweenPages: (isPortrait ? 0.12 : 0.1) // Eyeballed.
   property real flipSlope: 1 / (1 - gapBetweenPages * (numPages - 1))
 
   function flipToDestination() {
@@ -92,17 +94,6 @@ Item {
     property: "flipFraction"
     easing.type: Easing.OutQuad
 
-    onCompleted: {
-      if (flipFraction == 1) {
-        if (destinationPage == album.firstValidCurrentPage) {
-          album.closed = true;
-        } else {
-          album.currentPage = destinationPage;
-          album.closed = false;
-        }
-      }
-
-      flipFinished(flipFraction == 1);
-    }
+    onCompleted: flipFinished(flipFraction == 1)
   }
 }

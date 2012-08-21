@@ -29,6 +29,8 @@ Toolbar {
   property bool hasFullIconSet: true
   property bool hasAlbumOperationsButton: true
   property alias hasSelectionOperationsButton: selectionToolbarButton.visible
+  property alias albumPagesPerSpread: pageIndicator.pagesPerSpread
+  property alias albumViewingPage: pageIndicator.viewingPage
 
   /* read only properties */
   property int albumOperationsPopupX: albumOperationsToolbarButton.x +
@@ -57,12 +59,13 @@ Toolbar {
   
   AlbumPageIndicator {
     id: pageIndicator
-
+    
     anchors.centerIn: parent
-
+    isPortrait: application.isPortrait
+    
     color: "transparent"
-    visible: (album) ? wrapper.hasPageIndicator && album.contentPageCount > 2 : false;
-
+    visible: wrapper.hasPageIndicator && indicatorDotCount > 1
+    
     onSelected: wrapper.pageIndicatorPageSelected(page)
   }
 

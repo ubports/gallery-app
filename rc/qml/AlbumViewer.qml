@@ -70,6 +70,8 @@ Rectangle {
     albumSpreadViewer.visible = true;
     chrome.show();
     gridCheckerboard.visible = false;
+
+    albumSpreadViewer.viewingPage = album.currentPage;
   }
   
   AlbumSpreadViewer {
@@ -87,18 +89,20 @@ Rectangle {
     
     Keys.onPressed: {
       if (event.key === Qt.Key_Left &&
-        album.currentPage > album.firstContentPage &&
-        !albumSpreadViewer.isFlipping) {
+          albumSpreadViewer.viewingPage > album.firstContentPage &&
+          !albumSpreadViewer.isFlipping) {
         
         chrome.hide();
-        albumSpreadViewer.flipTo(album.currentPage -2 ); // 2 pages per spread
+        albumSpreadViewer.flipTo(albumSpreadViewer.viewingPage -
+                                 albumSpreadViewer.pagesPerSpread);
         event.accepted = true;
       } else if (event.key === Qt.Key_Right &&
-        album.currentPage < albumSpreadViewer.getLeftHandPageNumber(album.lastContentPage) &&
-        !albumSpreadViewer.isFlipping) {
+          albumSpreadViewer.viewingPage < album.lastContentPage &&
+          !albumSpreadViewer.isFlipping) {
         
         chrome.hide();
-        albumSpreadViewer.flipTo(album.currentPage + 2); // 2 pages per spread
+        albumSpreadViewer.flipTo(albumSpreadViewer.viewingPage +
+                                 albumSpreadViewer.pagesPerSpread);
         event.accepted = true;
       }
     }
@@ -133,19 +137,17 @@ Rectangle {
       }
       
       onStartSwipe: {
+        var direction = (leftToRight ? -1 : 1);
         albumSpreadViewer.destinationPage =
-            album.currentPage + (leftToRight ? -2 : 2); // 2 pages per spread.
+            albumSpreadViewer.viewingPage +
+            direction * albumSpreadViewer.pagesPerSpread;
 
         // turn off chrome, allow the page flipper full screen
         chrome.hide();
       }
 
       onSwiping: {
-        var lastCurrentPage =
-            albumSpreadViewer.getLeftHandPageNumber(album.lastContentPage);
-
-        if ((leftToRight && album.currentPage == album.firstContentPage) ||
-            (!leftToRight && album.currentPage == lastCurrentPage)) {
+        if (!albumSpreadViewer.isContentPage(albumSpreadViewer.destinationPage)) {
           closeRequested(false);
           return;
         }
@@ -220,6 +222,9 @@ Rectangle {
 
     fadeDuration: 200
     autoHideWait: 0
+    
+    pagesPerSpread: albumSpreadViewer.pagesPerSpread
+    viewingPage: albumSpreadViewer.viewingPage
 
     inSelectionMode: gridCheckerboard.inSelectionMode
 
@@ -327,11 +332,12 @@ Rectangle {
         }
 
         // In the Album model, the last valid current page is the back cover.
-        // However, in the UI, we want to stay on the content pages.  The -1 is
-        // since the last content page will be on the right, but current page
-        // must always be the left page.
-        if (album.currentPage > album.lastContentPage - 1)
-          album.currentPage = album.lastContentPage - 1;
+        // However, in the UI, we want to stay on the content pages.
+        if (album.currentPage > album.lastContentPage - 1) {
+          album.currentPage =
+              albumSpreadViewer.getLeftHandPageNumber(album.lastContentPage);
+          albumSpreadViewer.viewingPage = album.lastContentPage;
+        }
       }
 
       popupOriginX: -gu(16.5)
@@ -461,8 +467,10 @@ Rectangle {
         gridCheckerboard.ensureIndexVisible(index, false);
       } else {
         var page = album.getPageForMediaSource(photo);
-        if (page >= 0)
+        if (page >= 0) {
           album.currentPage = albumSpreadViewer.getLeftHandPageNumber(page);
+          albumSpreadViewer.viewingPage = page;
+        }
       }
     }
 

@@ -23,9 +23,11 @@ import Gallery 1.0
 import "GalleryUtility.js" as GalleryUtility
 
 // The AlbumSpreadViewer is a specialty controller for displaying and viewing
-// albums one spread (two pages side by side like an open book) at a time.
-// Also encapsulates the logic of turning the pages from a swipe or via a page
-// indicator button (see AlbumPageFlipper for details).
+// albums one spread (two pages side by side like an open book) at a time, and
+// also one page at a time in the "magical" portrait layout where every page is
+// on the right hand side of the album.  Also encapsulates the logic of turning
+// the pages from a swipe or via a page indicator button (see AlbumPageFlipper
+// for details).
 Item {
   id: albumSpreadViewer
   
@@ -41,6 +43,11 @@ Item {
   // readonly
   property alias isFlipping: flipper.isFlipping
   property alias isRunning: flipper.isRunning
+  property bool isPortrait: application.isPortrait
+  // Same as album.currentPage, unless we're in portrait mode in which case it
+  // can be either the left OR right page.
+  property int viewingPage: -1
+  property int pagesPerSpread: (isPortrait ? 1 : 2)
 
   function flip() {
     flipper.flipToDestination();
@@ -54,6 +61,12 @@ Item {
     destinationPage = page;
     flipFraction = 0;
     flip();
+  }
+
+  // Returns whether the page is a content page in the album.
+  function isContentPage(page) {
+    return (album && page >= album.firstContentPage
+            && page <= album.lastContentPage);
   }
 
   // Converts a page number into the appropriate page number to place on the
@@ -118,13 +131,21 @@ Item {
     
     return undefined;
   }
+
+  onAlbumChanged: viewingPage = (album ? album.currentPage : -1)
+  onIsPortraitChanged: {
+    // Make sure we're on a valid currentPage when switching back to regular
+    // mode from portrait.
+    if (!isPortrait && GalleryUtility.isEven(viewingPage))
+      --viewingPage;
+  }
   
   Item {
     id: pageArea
 
     anchors.top: parent.top
     anchors.bottom: parent.bottom
-    anchors.left: parent.horizontalCenter
+    anchors.left: (isPortrait ? parent.left : parent.horizontalCenter)
     anchors.right: parent.right
 
     AlbumPageComponent {
@@ -132,12 +153,13 @@ Item {
 
       anchors.fill: parent
 
-      visible: (backPage >= 0)
+      visible: (backPage >= 0 && !isPortrait)
 
       album: albumSpreadViewer.album
 
-      backPage: leftPageForCurrent(flipper.isFlipping ? flipper.firstPage :
-          (album ? album.currentPage : -1))
+      backPage: leftPageForCurrent(flipper.isFlipping
+                                   ? flipper.firstPage
+                                   : viewingPage)
 
       flipFraction: 1
     }
@@ -151,8 +173,10 @@ Item {
 
       album: albumSpreadViewer.album
 
-      frontPage: rightPageForCurrent(flipper.isFlipping ? flipper.lastPage :
-          (album ? album.currentPage : -1))
+      frontPage: {
+        var page = (flipper.isFlipping ? flipper.lastPage : viewingPage);
+        return (isPortrait ? page : rightPageForCurrent(page));
+      }
 
       flipFraction: 0
     }
@@ -165,12 +189,23 @@ Item {
       visible: isFlipping
 
       album: albumSpreadViewer.album
+      currentPage: viewingPage
+      isPortrait: albumSpreadViewer.isPortrait
+      pagesPerSpread: albumSpreadViewer.pagesPerSpread
 
       onFlipFinished: {
-        if (toDestination)
+        if (toDestination) {
+          if (destinationPage == album.firstValidCurrentPage) {
+            album.closed = true;
+          } else {
+            album.currentPage = getLeftHandPageNumber(destinationPage);
+            album.closed = false;
+          }
+          viewingPage = destinationPage;
           pageFlipped();
-        else
+        } else {
           pageReleased();
+        }
       }
     }
   }
