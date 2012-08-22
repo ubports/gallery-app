@@ -33,6 +33,7 @@ Item {
   property Album album
   property Rectangle backgroundGlass
   property int duration: 500
+  property int pagesPerSpread
 
   // internal
   property bool hideStayingOpen
@@ -75,7 +76,7 @@ Item {
 
     // We have to compensate for the frame, present in the animation but not in
     // the album viewer.
-    var frameWidth = width / 2 * expandAlbum.frameToContentWidth;
+    var frameWidth = width / pagesPerSpread * expandAlbum.frameToContentWidth;
     var frameHeight = height * expandAlbum.frameToContentHeight;
 
     rect.x = (width - frameWidth) / 2; // Centered.
@@ -92,6 +93,7 @@ Item {
     album: parent.album
     isPreview: true
     contentHasPreviewFrame: true
+    showAsPortrait: application.isPortrait
     
     visible: false
   }
@@ -117,8 +119,8 @@ Item {
       NumberAnimation {
         target: expandAlbum
         property: "openFraction"
-        from: (album && album.closed ? 0 : 1)
-        to: 0.5
+        from: isPortrait ? 1 : (album && album.closed ? 0 : 1)
+        to: isPortrait ? 1 : 0.5
         duration: albumViewerTransition.duration
         easing.type: Easing.OutQuad
       }
@@ -203,7 +205,7 @@ Item {
       NumberAnimation {
         target: expandAlbum
         property: "openFraction"
-        from: 0.5
+        from: isPortrait ? (hideStayingOpen ? 1 : 0) : 0.5
         to: (hideStayingOpen ? 1 : 0)
         duration: albumViewerTransition.duration
         easing.type: Easing.InQuad

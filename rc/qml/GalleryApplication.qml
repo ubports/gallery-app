@@ -98,6 +98,7 @@ Item {
     anchors.fill: albumViewer
 
     backgroundGlass: overview.glass
+    pagesPerSpread: albumViewer.pagesPerSpread
 
     onTransitionToAlbumViewerCompleted: {
       navStack.switchToAlbumViewer(album);

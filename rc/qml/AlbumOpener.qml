@@ -31,6 +31,7 @@ Item {
   property bool contentHasPreviewFrame: false
   property int duration: 1000
   property real openFraction: 0
+  property bool showAsPortrait: false // only show left page if true
 
   property real topMargin: previewTopMargin
   property real bottomMargin: previewBottomMargin
@@ -94,7 +95,7 @@ Item {
       id: rightPage
 
       anchors.fill: parent
-      visible: (openFraction > 0 && openFraction < 1)
+      visible: (openFraction > 0 && openFraction < 1) && !showAsPortrait
 
       album: albumOpener.album
       frontPage: rightPageForCurrent(currentOrFirstContentPage)

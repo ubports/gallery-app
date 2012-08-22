@@ -27,7 +27,10 @@ Rectangle {
   id: albumViewer
 
   property Album album
-
+  
+  // Read-only
+  property alias pagesPerSpread: albumSpreadViewer.pagesPerSpread
+  
   // When the user clicks the back button or pages back to the cover.
   signal closeRequested(bool stayOpen)
   signal editPhotoRequested(variant photo)
