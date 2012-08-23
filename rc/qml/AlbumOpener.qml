@@ -31,7 +31,8 @@ Item {
   property bool contentHasPreviewFrame: false
   property int duration: 1000
   property real openFraction: 0
-  property bool showAsPortrait: false // only show left page if true
+  property int insideLeftPage: defaultInsideLeftPage
+  property int insideRightPage: defaultInsideRightPage
 
   property real topMargin: previewTopMargin
   property real bottomMargin: previewBottomMargin
@@ -43,6 +44,9 @@ Item {
   property bool isFlipping: (openFraction != 0 && openFraction != 1)
   property alias frameToContentWidth: rightPage.frameToContentWidth
   property alias frameToContentHeight: rightPage.frameToContentHeight
+
+  property int defaultInsideLeftPage: leftPage.leftPageForCurrent(currentOrFirstContentPage)
+  property int defaultInsideRightPage: rightPage.rightPageForCurrent(currentOrFirstContentPage)
 
   property alias pageTopMargin: rightPage.pageTopMargin
   property alias pageBottomMargin: rightPage.pageBottomMargin
@@ -95,10 +99,10 @@ Item {
       id: rightPage
 
       anchors.fill: parent
-      visible: (openFraction > 0 && openFraction < 1) && !showAsPortrait
+      visible: (openFraction > 0 && openFraction < 1)
 
       album: albumOpener.album
-      frontPage: rightPageForCurrent(currentOrFirstContentPage)
+      frontPage: insideRightPage
       backPage: (album ? leftPageForCurrent(album.lastValidCurrentPage) : -1)
 
       isPreview: albumOpener.isPreview
@@ -120,7 +124,7 @@ Item {
 
       album: albumOpener.album
       frontPage: (album ? rightPageForCurrent(album.firstValidCurrentPage) : -1)
-      backPage: leftPageForCurrent(currentOrFirstContentPage)
+      backPage: insideLeftPage
 
       isPreview: albumOpener.isPreview
       contentHasPreviewFrame: albumOpener.contentHasPreviewFrame

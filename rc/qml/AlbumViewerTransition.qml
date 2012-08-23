@@ -33,7 +33,7 @@ Item {
   property Album album
   property Rectangle backgroundGlass
   property int duration: 500
-  property int pagesPerSpread
+  property bool isPortrait
 
   // internal
   property bool hideStayingOpen
@@ -41,19 +41,33 @@ Item {
   function transitionToAlbumViewer(album, thumbnailRect) {
     albumViewerTransition.album = album;
 
+    expandAlbum.insideLeftPage = (isPortrait
+                                  ? album.currentPage // Anything -- invisible.
+                                  : expandAlbum.defaultInsideLeftPage);
+    expandAlbum.insideRightPage = (isPortrait
+                                   ? album.currentPage
+                                   : expandAlbum.defaultInsideRightPage);
+
     expandAlbum.x = thumbnailRect.x;
     expandAlbum.y = thumbnailRect.y;
     expandAlbum.width = thumbnailRect.width;
     expandAlbum.height = thumbnailRect.height;
 
-    showAlbumViewerAnimation.screenRect = getFullscreenRect();
+    showAlbumViewerAnimation.screenRect = getFullscreenRect(album.closed);
     showAlbumViewerAnimation.start();
   }
 
-  function transitionFromAlbumViewer(album, thumbnailRect, stayOpen) {
+  function transitionFromAlbumViewer(album, thumbnailRect, stayOpen, viewingPage) {
     albumViewerTransition.album = album;
 
-    var rect = getFullscreenRect();
+    expandAlbum.insideLeftPage = (isPortrait
+                                  ? viewingPage // Anything -- invisible.
+                                  : expandAlbum.defaultInsideLeftPage);
+    expandAlbum.insideRightPage = (isPortrait
+                                   ? viewingPage
+                                   : expandAlbum.defaultInsideRightPage);
+
+    var rect = getFullscreenRect(!stayOpen);
     expandAlbum.x = rect.x;
     expandAlbum.y = rect.y;
     expandAlbum.width = rect.width;
@@ -71,18 +85,37 @@ Item {
   }
 
   // internal
-  function getFullscreenRect() {
+  function getFullscreenRect(portraitHalfOpen) {
     var rect = {"x": 0, "y": 0, "width": 0, "height": 0};
+
+    // This code is kind of hacky.  There's just lots of special casing that we
+    // need, and it didn't seem worth it to come up with a cleaner abstraction
+    // for what amounts to one-off animation code.
 
     // We have to compensate for the frame, present in the animation but not in
     // the album viewer.
-    var frameWidth = width / pagesPerSpread * expandAlbum.frameToContentWidth;
+    var frameWidth = width * expandAlbum.frameToContentWidth;
+    // Normally, the spread's width is half of how it appears when open.
+    if (!isPortrait)
+      frameWidth /= 2;
     var frameHeight = height * expandAlbum.frameToContentHeight;
 
-    rect.x = (width - frameWidth) / 2; // Centered.
-    rect.y = (height - frameHeight) / 2;
+    // Normally, we center it.  For portrait, we set it flush on one side or
+    // the other (if it'll be half-open, flush left, otherwise right; this is
+    // because of our thumbnail image having a border on only one side).
+    if (isPortrait)
+      rect.x = (portraitHalfOpen ? 0 : width - frameWidth);
+    else
+      rect.x = (width - frameWidth) / 2;
+    rect.y = (height - frameHeight) / 2; // Centered.
     rect.width = frameWidth;
     rect.height = frameHeight;
+
+    // Move the thing left 1/4 of the thing's width.  This is to match the
+    // opener, which slides right 1/4 of the way at its "half-open" state
+    // (actually, 0.25 openFraction).
+    if (isPortrait && portraitHalfOpen)
+      rect.x -= frameWidth / 4;
 
     return rect;
   }
@@ -93,8 +126,7 @@ Item {
     album: parent.album
     isPreview: true
     contentHasPreviewFrame: true
-    showAsPortrait: application.isPortrait
-    
+
     visible: false
   }
 
@@ -119,8 +151,8 @@ Item {
       NumberAnimation {
         target: expandAlbum
         property: "openFraction"
-        from: isPortrait ? 1 : (album && album.closed ? 0 : 1)
-        to: isPortrait ? 1 : 0.5
+        from: (album && album.closed ? 0 : 1)
+        to: isPortrait ? (album && album.closed ? 0.25 : 1) : 0.5
         duration: albumViewerTransition.duration
         easing.type: Easing.OutQuad
       }
@@ -205,7 +237,7 @@ Item {
       NumberAnimation {
         target: expandAlbum
         property: "openFraction"
-        from: isPortrait ? (hideStayingOpen ? 1 : 0) : 0.5
+        from: isPortrait ? (hideStayingOpen ? 1 : 0.25) : 0.5
         to: (hideStayingOpen ? 1 : 0)
         duration: albumViewerTransition.duration
         easing.type: Easing.InQuad

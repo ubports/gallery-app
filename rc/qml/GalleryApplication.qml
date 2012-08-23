@@ -84,7 +84,8 @@ Item {
         var thumbnailRect = overview.getRectOfAlbumPreview(album, albumViewerTransition);
         if (thumbnailRect) {
           overview.showAlbumPreview(album, false);
-          albumViewerTransition.transitionFromAlbumViewer(album, thumbnailRect, stayOpen);
+          albumViewerTransition.transitionFromAlbumViewer(
+              album, thumbnailRect, stayOpen, viewingPage);
         }
       }
     }
@@ -98,7 +99,7 @@ Item {
     anchors.fill: albumViewer
 
     backgroundGlass: overview.glass
-    pagesPerSpread: albumViewer.pagesPerSpread
+    isPortrait: application.isPortrait
 
     onTransitionToAlbumViewerCompleted: {
       navStack.switchToAlbumViewer(album);

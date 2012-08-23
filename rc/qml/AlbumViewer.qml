@@ -32,7 +32,7 @@ Rectangle {
   property alias pagesPerSpread: albumSpreadViewer.pagesPerSpread
   
   // When the user clicks the back button or pages back to the cover.
-  signal closeRequested(bool stayOpen)
+  signal closeRequested(bool stayOpen, int viewingPage)
   signal editPhotoRequested(variant photo)
 
   anchors.fill: parent
@@ -151,7 +151,7 @@ Rectangle {
 
       onSwiping: {
         if (!albumSpreadViewer.isContentPage(albumSpreadViewer.destinationPage)) {
-          closeRequested(false);
+          closeRequested(false, albumSpreadViewer.viewingPage);
           return;
         }
 
@@ -271,7 +271,7 @@ Rectangle {
       gridCheckerboard.unselectAll();
       gridCheckerboard.inSelectionMode = false;
 
-      closeRequested(true);
+      closeRequested(true, albumSpreadViewer.viewingPage);
     }
 
     onMoreOperationsButtonPressed: cyclePopup(albumViewerOptionsMenu)
@@ -330,7 +330,7 @@ Rectangle {
         // If all the photos were removed from the album and it was deleted,
         // album will now be set to null.
         if (!album) {
-          albumViewer.closeRequested(true);
+          albumViewer.closeRequested(true, -1);
           return;
         }
 
@@ -484,7 +484,7 @@ Rectangle {
       // album will now be set to null.
       if (!album) {
         close();
-        albumViewer.closeRequested(true);
+        albumViewer.closeRequested(true, -1);
         return;
       }
 
