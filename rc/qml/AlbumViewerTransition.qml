@@ -37,9 +37,12 @@ Item {
 
   // internal
   property bool hideStayingOpen
+  property variant expandAlbum: albumOpenerLandscape
+  property bool flipOnClose: isPortrait
   
   function transitionToAlbumViewer(album, thumbnailRect) {
     albumViewerTransition.album = album;
+    expandAlbum = albumOpenerLandscape;
 
     expandAlbum.insideLeftPage = (isPortrait
                                   ? album.currentPage // Anything -- invisible.
@@ -58,15 +61,20 @@ Item {
   }
 
   function transitionFromAlbumViewer(album, thumbnailRect, stayOpen, viewingPage) {
+    // Set up portrait mode even-numbered page close transition.
+    albumOpenerPortrait.viewingPage = viewingPage;
+    flipOnClose = isPortrait && viewingPage !== album.currentPage && stayOpen;
+    
     albumViewerTransition.album = album;
-
+    expandAlbum = flipOnClose ? albumOpenerPortrait : albumOpenerLandscape;
+    
     expandAlbum.insideLeftPage = (isPortrait
                                   ? viewingPage // Anything -- invisible.
                                   : expandAlbum.defaultInsideLeftPage);
     expandAlbum.insideRightPage = (isPortrait
                                    ? viewingPage
                                    : expandAlbum.defaultInsideRightPage);
-
+    
     var rect = getFullscreenRect(!stayOpen);
     expandAlbum.x = rect.x;
     expandAlbum.y = rect.y;
@@ -121,12 +129,22 @@ Item {
   }
 
   AlbumOpener {
-    id: expandAlbum
+    id: albumOpenerLandscape
     
     album: parent.album
     isPreview: true
     contentHasPreviewFrame: true
 
+    visible: false
+  }
+  
+  AlbumViewerTransitionPortraitPage {
+    id: albumOpenerPortrait
+    
+    album: parent.album
+    isPreview: true
+    contentHasPreviewFrame: true
+    
     visible: false
   }
 
@@ -237,8 +255,18 @@ Item {
       NumberAnimation {
         target: expandAlbum
         property: "openFraction"
-        from: isPortrait ? (hideStayingOpen ? 1 : 0.25) : 0.5
-        to: (hideStayingOpen ? 1 : 0)
+        
+        from: {
+          if (flipOnClose)
+            return 0;
+          else if (isPortrait)
+            return (hideStayingOpen ? 1 : 0.25); // same as "to" property
+          else
+            return 0.5;
+        }
+        
+        to: flipOnClose ? 1 : (hideStayingOpen ? 1 : 0)
+        
         duration: albumViewerTransition.duration
         easing.type: Easing.InQuad
       }
