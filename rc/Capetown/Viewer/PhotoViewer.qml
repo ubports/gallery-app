@@ -51,7 +51,7 @@ Pager {
   }
   
   // Keyboard focus while visible
-  focus: visible == true
+  focus: visible
   
   Keys.onPressed: {
     if (event.key === Qt.Key_Left) {

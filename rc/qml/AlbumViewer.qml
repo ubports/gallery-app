@@ -84,8 +84,8 @@ Rectangle {
 
     album: albumViewer.album
     
-    // Keyboard focus while visible
-    focus: visible == true
+    // Keyboard focus while visible and viewer is not visible
+    focus: !photoViewer.isPoppedUp && visible
 
     onPageFlipped: chrome.show()
     onPageReleased: chrome.show()
