@@ -53,10 +53,6 @@ Item {
     id: original
 
     anchors.fill: parent
-    anchors.topMargin: gu(6) /* toolbar height */ + gu(3)
-    anchors.bottomMargin: gu(6) /* toolbar height */ + gu(3)
-    anchors.leftMargin: gu(3)
-    anchors.rightMargin: gu(3)
 
     color: "black"
 

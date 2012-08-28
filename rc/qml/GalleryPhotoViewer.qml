@@ -49,6 +49,24 @@ PhotoViewer {
     pageForward();
   }
   
+  Connections {
+    target: photo || null
+    ignoreUnknownSignals: true
+    onBusyChanged: updateBusy()
+  }
+
+  // Internal: use to switch the busy indicator on or off.
+  function updateBusy() {
+    if (photo.busy) {
+      busySpinner.visible = true;
+      // HACK: chrome.hide() doesn't work here for some reason.
+      chrome.visible = false;
+    } else {
+      busySpinner.visible = false;
+      chrome.visible = true;
+    }
+  }
+
   onCurrentIndexChanged: {
     if (model)
       photo = model.getAt(currentIndex);
@@ -78,11 +96,19 @@ PhotoViewer {
   }
 
   // Don't allow flicking while the chrome is actively displaying a popup
-  // menu or the image is zoomed. When images are zoomed, mouse drags should
-  // pan, not flick.
+  // menu, or the image is zoomed, or we're cropping. When images are zoomed,
+  // mouse drags should pan, not flick.
   interactive: !chrome.popupActive && (currentItem != null) &&
-    (currentItem.state == "unzoomed")
+               (currentItem.state == "unzoomed") && cropper.state == "hidden"
   
+  AnimatedImage {
+    id: busySpinner
+
+    visible: false
+    anchors.centerIn: parent
+    source: "../img/spin.mng"
+  }
+
   // Handles the Chrome overlay.  (The underlying PhotoViewer's MouseArea
   // is where flicking and zooming are handled.)
   //
@@ -150,6 +176,8 @@ PhotoViewer {
     toolbarsAreTranslucent: true
     toolbarsAreDark: true
 
+    toolbarHasEditOperationsButton: true
+
     hasLeftNavigationButton: !galleryPhotoViewer.atXBeginning
     hasRightNavigationButton: !galleryPhotoViewer.atXEnd
 
@@ -157,7 +185,7 @@ PhotoViewer {
     onRightNavigationButtonPressed: galleryPhotoViewer.goForward()
 
     popups: [ photoViewerShareMenu, photoViewerOptionsMenu,
-      trashOperationDialog, popupAlbumPicker ]
+      trashOperationDialog, popupAlbumPicker, editMenu ]
 
     GenericShareMenu {
       id: photoViewerShareMenu
@@ -217,6 +245,54 @@ PhotoViewer {
       }
     }
 
+    PhotoEditMenu {
+      id: editMenu
+
+      popupOriginX: gu(3.5)
+      popupOriginY: -gu(6)
+
+      onPopupInteractionCompleted: chrome.hideAllPopups()
+
+      visible: false
+
+      onActionInvoked: {
+        // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you edit
+        // a switch statement in QML.  The short version is: use braces always.
+        switch (name) {
+          case "onRotate": {
+            state = "hidden";
+            photo.rotateRight();
+            break;
+          }
+          case "onCrop": {
+            state = "hidden";
+            cropper.show(photo);
+            break;
+          }
+          case "onAutoEnhance": {
+            state = "hidden";
+            photo.autoEnhance();
+            break;
+          }
+          case "onUndo": {
+            state = "hidden";
+            photo.undo();
+            break;
+          }
+          case "onRedo": {
+            state = "hidden";
+            photo.redo();
+            break;
+          }
+          case "onRevert": {
+            state = "hidden";
+            photo.revertToOriginal();
+            break;
+          }
+        }
+      }
+    }
+
     PopupAlbumPicker {
       id: popupAlbumPicker
 
@@ -238,20 +314,55 @@ PhotoViewer {
       closeRequested();
     }
 
-    onShareOperationsButtonPressed: {
-      cyclePopup(photoViewerShareMenu);
+    onShareOperationsButtonPressed: cyclePopup(photoViewerShareMenu)
+    onMoreOperationsButtonPressed: cyclePopup(photoViewerOptionsMenu)
+    onAlbumOperationsButtonPressed: cyclePopup(popupAlbumPicker)
+    onTrashOperationButtonPressed: cyclePopup(trashOperationDialog)
+    onEditOperationsButtonPressed: cyclePopup(editMenu)
+  }
+
+  PhotoCropper {
+    id: cropper
+
+    function show(photo) {
+      chrome.hide();
+
+      var ratio_crop_rect = photo.prepareForCropping();
+      enterCropper(photo, ratio_crop_rect);
+      state = "shown";
     }
 
-    onMoreOperationsButtonPressed: {
-      cyclePopup(photoViewerOptionsMenu);
+    function hide() {
+      state = "hidden";
     }
 
-    onAlbumOperationsButtonPressed: {
-      cyclePopup(popupAlbumPicker);
+    state: "hidden"
+    states: [
+      State { name: "shown";
+        PropertyChanges { target: cropper; opacity: 1; }
+      },
+      State { name: "hidden";
+        PropertyChanges { target: cropper; opacity: 0; }
+      }
+    ]
+
+    Behavior on opacity {
+      animation: NumberAnimation {
+        easing.type: Easing.OutQuad
+        duration: chrome.fadeDuration
+      }
     }
 
-    onTrashOperationButtonPressed: {
-      cyclePopup(trashOperationDialog);
+    anchors.fill: parent
+
+    onCanceled: {
+      photo.cancelCropping();
+      hide();
+    }
+
+    onCropped: {
+      photo.crop(rect);
+      hide();
     }
   }
 }

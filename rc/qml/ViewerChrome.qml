@@ -70,12 +70,14 @@ Item {
   property alias toolbarHasPageIndicator: toolbar.hasPageIndicator
   property alias toolbarHasAlbumOperationsButton: toolbar.hasAlbumOperationsButton
   property alias toolbarPageIndicatorAlbum: toolbar.pageIndicatorAlbum
+  property alias toolbarHasEditOperationsButton: toolbar.hasEditOperationsButton
   signal pageIndicatorPageSelected(int page)
   signal moreOperationsButtonPressed()
   signal shareOperationsButtonPressed()
   signal albumOperationsButtonPressed()
   signal trashOperationButtonPressed()
   signal selectionOperationsButtonPressed(variant button)
+  signal editOperationsButtonPressed()
 
   // Pass-throughs from the left/right nav buttons.
   signal leftNavigationButtonPressed()
@@ -237,6 +239,7 @@ Item {
     onShareOperationsButtonPressed: wrapper.shareOperationsButtonPressed()
     onSelectionOperationsButtonPressed: wrapper.selectionOperationsButtonPressed(button)
     onTrashOperationButtonPressed: wrapper.trashOperationButtonPressed()
+    onEditOperationsButtonPressed: wrapper.editOperationsButtonPressed()
   }
 
   Timer {

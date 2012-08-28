@@ -28,7 +28,6 @@ Rectangle {
   objectName: "overview"
 
   signal albumSelected(variant album, variant thumbnailRect)
-  signal editPhotoRequested(variant photo)
 
   property Rectangle glass: overviewGlass
 
@@ -594,8 +593,6 @@ Rectangle {
           false);
       }
     }
-
-    onEditRequested: overview.editPhotoRequested(photo)
 
     onCloseRequested: {
       if (forTimeline) {

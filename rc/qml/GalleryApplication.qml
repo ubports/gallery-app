@@ -60,8 +60,6 @@ Item {
         albumViewerTransition.dissolve(overview, albumViewer);
       }
     }
-
-    onEditPhotoRequested: navStack.switchToPhotoEditor(photo)
   }
 
   AlbumViewer {
@@ -89,8 +87,6 @@ Item {
         }
       }
     }
-
-    onEditPhotoRequested: navStack.switchToPhotoEditor(photo)
   }
 
   AlbumViewerTransition {
@@ -116,26 +112,9 @@ Item {
     }
   }
   
-  PhotoEditor {
-    id: photoEditor
-
-    z: 20
-    anchors.fill: parent
-
-    visible: false
-
-    onCloseRequested: navStack.goBack()
-  }
-
   NavStack {
     id: navStack
     
-    function switchToPhotoEditor(photo) {
-      photoEditor.enterEditor(photo);
-
-      navStack.switchToPage(photoEditor);
-    }
-
     function switchToAlbumViewer(album) {
       albumViewer.resetView(album);
       

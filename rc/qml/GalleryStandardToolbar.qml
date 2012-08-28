@@ -29,6 +29,7 @@ Toolbar {
   property bool hasFullIconSet: true
   property bool hasAlbumOperationsButton: true
   property alias hasSelectionOperationsButton: selectionToolbarButton.visible
+  property alias hasEditOperationsButton: editToolbarButton.visible
   property alias albumPagesPerSpread: pageIndicator.pagesPerSpread
   property alias albumViewingPage: pageIndicator.viewingPage
 
@@ -44,19 +45,31 @@ Toolbar {
   signal shareOperationsButtonPressed()
   signal moreOperationsButtonPressed()
   signal selectionOperationsButtonPressed(variant button)
+  signal editOperationsButtonPressed()
 
-  SelectionOperationsToolbarButton {
-    id: selectionToolbarButton
-    
-    anchors.left: parent.left
+  Row {
+    spacing: gu(2)
     anchors.verticalCenter: parent.verticalCenter
+    anchors.left: parent.left
     anchors.leftMargin: gu(2)
-    
-    visible: false
-    
-    onPressed: wrapper.selectionOperationsButtonPressed(selectionToolbarButton)
+
+    SelectionOperationsToolbarButton {
+      id: selectionToolbarButton
+
+      visible: false
+
+      onPressed: wrapper.selectionOperationsButtonPressed(selectionToolbarButton)
+    }
+
+    EditOperationsToolbarButton {
+      id: editToolbarButton
+
+      visible: false
+
+      onPressed: wrapper.editOperationsButtonPressed()
+    }
   }
-  
+
   AlbumPageIndicator {
     id: pageIndicator
     

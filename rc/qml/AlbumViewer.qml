@@ -33,7 +33,6 @@ Rectangle {
   
   // When the user clicks the back button or pages back to the cover.
   signal closeRequested(bool stayOpen, int viewingPage)
-  signal editPhotoRequested(variant photo)
 
   anchors.fill: parent
 
@@ -476,8 +475,6 @@ Rectangle {
         }
       }
     }
-
-    onEditRequested: albumViewer.editPhotoRequested(photo)
 
     onCloseRequested: {
       // If all the photos were removed from the album and it was deleted,
