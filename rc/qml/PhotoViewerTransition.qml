@@ -25,7 +25,10 @@ import "../Capetown"
 Item {
   id: photoViewerTransition
   objectName: "photoViewerTransition"
-
+  
+  // Read-only
+  property bool animationRunning: showPhotoViewerAnimation.running || hidePhotoViewerAnimation.running
+  
   function transitionToPhotoViewer(photo, thumbnailRect, adjustForPhotoMat) {
     if (adjustForPhotoMat)
       thumbnailRect = adjustRectForPhotoMat(thumbnailRect);

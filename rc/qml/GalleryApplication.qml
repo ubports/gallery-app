@@ -121,4 +121,12 @@ Item {
       navStack.switchToPage(albumViewer);
     }
   }
+  
+  MouseArea {
+    id: transitionClickBlocker
+    
+    anchors.fill: parent
+    
+    visible: albumViewerTransition.animationRunning || albumViewer.animationRunning
+  }
 }

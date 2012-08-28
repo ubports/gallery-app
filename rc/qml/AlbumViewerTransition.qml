@@ -34,7 +34,11 @@ Item {
   property Rectangle backgroundGlass
   property int duration: 500
   property bool isPortrait
-
+  
+  // Read-only
+  property bool animationRunning: showAlbumViewerAnimation.running ||
+    hideAlbumViewerAnimation.running || dissolveAlbumViewerTransition.running
+  
   // internal
   property bool hideStayingOpen
   property variant expandAlbum: albumOpenerLandscape

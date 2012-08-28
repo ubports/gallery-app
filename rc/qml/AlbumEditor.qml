@@ -32,6 +32,7 @@ Item {
 
   // readonly
   property variant editorRect
+  property alias animationRunning: mediaSelector.animationRunning
 
   // internal
   property real canonicalWidth: gu(66)

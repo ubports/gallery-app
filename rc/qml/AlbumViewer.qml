@@ -30,6 +30,7 @@ Rectangle {
   
   // Read-only
   property alias pagesPerSpread: albumSpreadViewer.pagesPerSpread
+  property bool animationRunning: photoViewer.animationRunning
   
   // When the user clicks the back button or pages back to the cover.
   signal closeRequested(bool stayOpen, int viewingPage)
@@ -519,5 +520,13 @@ Rectangle {
         albumSpreadViewer.flipTo(firstChangedSpread);
       }
     }
+  }
+  
+  MouseArea {
+    id: blocker
+    
+    anchors.fill: parent
+    
+    visible: albumSpreadViewer.isFlipping
   }
 }

@@ -28,7 +28,11 @@ Item {
 
   property alias photo: viewer.photo
   property alias index: viewer.index
-
+  
+  // Read-only
+  property bool animationRunning: transition.animationRunning || 
+    fadeIn.running || fadeOut.running
+  
   function setCurrentPhoto(photo) {
     viewer.setCurrentPhoto(photo);
   }

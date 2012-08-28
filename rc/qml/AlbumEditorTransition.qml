@@ -34,7 +34,12 @@ Item {
   property AlbumEditor editor
 
   property int duration: 500
-
+  
+  // Read-only
+  property bool animationRunning: enterFadeAnimation.running ||
+    exitFadeAnimation.running || enterExpandAnimation.running ||
+    exitExpandAnimation.running;
+  
   function enterEditor(album, thumbnailRect) {
     albumEditorTransition.album = album || null;
 

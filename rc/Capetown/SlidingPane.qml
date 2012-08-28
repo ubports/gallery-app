@@ -31,6 +31,7 @@ Item {
 
   // readonly
   property bool isIn: (state == "in")
+  property bool animationRunning: slideX.running || slideY.running
 
   function slideIn() {
     state = "in";
@@ -49,12 +50,14 @@ Item {
 
   Behavior on x {
     animation: NumberAnimation {
+      id: slideX
       easing.type: Easing.OutQuad
       duration: slidingPane.duration
     }
   }
   Behavior on y {
     animation: NumberAnimation {
+      id: slideY
       easing.type: Easing.OutQuad
       duration: slidingPane.duration
     }

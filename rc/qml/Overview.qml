@@ -608,4 +608,13 @@ Rectangle {
       }
     }
   }
+  
+  MouseArea {
+    id: blocker
+    
+    anchors.fill: parent
+    
+    visible: photoViewer.animationRunning || 
+      albumEditorTransition.animationRunning || albumEditor.animationRunning
+  }
 }

@@ -27,9 +27,12 @@ Item {
   
   signal cancelRequested()
   signal doneRequested(variant model)
-
+  
   property variant album
-
+  
+  // Read-only.
+  property bool animationRunning: slider.animationRunning
+  
   function show() {
     slider.slideIn();
   }
