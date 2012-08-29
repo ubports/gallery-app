@@ -532,13 +532,16 @@ Rectangle {
     onPopupInteractionCompleted: state = "hidden"
   }
   
-  // Cancel out of albumMenu if user clicks outside of it.
+  // Cancel out of menus if user clicks outside the menu area.
   MouseArea {
     id: menuCancelArea
     
     anchors.fill: parent
-    visible: (albumMenu.state === "shown")
-    onPressed: albumMenu.state = "hidden"
+    visible: (albumMenu.state === "shown" || albumTrashDialog.state === "shown")
+    onPressed: {
+      albumMenu.state = "hidden";
+      albumTrashDialog.state = "hidden";
+    }
   }
   
   AlbumEditor {
