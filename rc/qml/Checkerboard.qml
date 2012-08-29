@@ -35,6 +35,7 @@ Item {
 
   property alias contentX: grid.contentX
   property alias contentY: grid.contentY
+  property alias footer: grid.footer
   
   property real itemWidth: gu(24)
   property real itemHeight: gu(18)
@@ -79,6 +80,12 @@ Item {
 
   function scrollToTop() {
     gridScroller.restart();
+  }
+
+  // Ensures the view is inside its normal bounds after you've mucked with
+  // things manually.
+  function returnToBounds() {
+    grid.returnToBounds();
   }
 
   // Uses black magic to hunt for the delegate instance with the given index.

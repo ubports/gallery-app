@@ -24,6 +24,8 @@ import "GalleryUtility.js" as GalleryUtility
 Checkerboard {
   id: eventCheckerboard
   
+  property real selectionFooterHeight: gu(6) // Toolbar height
+
   function getVisibleMediaSources() {
     var vd = getVisibleDelegates();
     
@@ -83,5 +85,14 @@ Checkerboard {
       event: (modelData.typeName == "Event") ? modelData.object : undefined
       isSelected: eventCheckerboardDelegate.isSelected
     }
+  }
+
+  footer: Item {
+    id: selectionSpacer
+
+    width: parent.width
+    height: (inSelectionMode ? selectionFooterHeight : 0)
+
+    onHeightChanged: returnToBounds()
   }
 }

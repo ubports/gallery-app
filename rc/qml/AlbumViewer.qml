@@ -181,7 +181,7 @@ Rectangle {
     anchors.fill: parent
 
     topExtraGutter: gu(2) + chrome.navbarHeight
-    bottomExtraGutter: gu(0)
+    bottomExtraGutter: gu(0) + chrome.toolbarHeight
     leftExtraGutter: gu(2)
     rightExtraGutter: gu(2)
 
