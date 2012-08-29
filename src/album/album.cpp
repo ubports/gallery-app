@@ -74,6 +74,7 @@ void Album::InitInstance() {
   creation_date_time_ = QDateTime::currentDateTime();
   current_page_ = FIRST_VALID_CURRENT_PAGE;
   closed_ = true;
+  populated_pages_count_ = 0;
   content_pages_ = new SourceCollection(QString("Pages for ") + title_);
   refreshing_container_ = false;
   id_ = INVALID_ID;
@@ -219,12 +220,20 @@ int Album::content_page_count() const {
   return content_pages_->Count();
 }
 
+int Album::populated_content_page_count() const {
+  return populated_pages_count_;
+}
+
 int Album::first_content_page() const {
   return content_to_absolute_page(0);
 }
 
 int Album::last_content_page() const {
   return content_to_absolute_page(content_pages_->Count() - 1);
+}
+
+int Album::last_populated_content_page() const {
+  return content_to_absolute_page(populated_pages_count_ - 1);
 }
 
 int Album::first_valid_current_page() const {
@@ -375,6 +384,7 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
   // afresh
   int stashed_current_page = current_page_;
   content_pages_->DestroyAll(true, true);
+  populated_pages_count_ = 0;
   
   // Convert contained DataObjects into a queue to process in order
   QQueue<DataObject*> queue;
@@ -407,6 +417,8 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
       page->Attach(queue.dequeue());
 
     content_pages_->Add(page);
+    if (photos_on_page > 0)
+      ++populated_pages_count_;
 
     ++building_page;
     page_is_left = !page_is_left;

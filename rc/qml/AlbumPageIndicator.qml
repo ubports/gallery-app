@@ -45,6 +45,7 @@ Rectangle {
   }
   
   onPagesPerSpreadChanged: pageIndicatorRepeater.filterModel();
+  onIsPortraitChanged: pageIndicatorRepeater.filterModel();
   
   Row {
     anchors.centerIn: parent
@@ -71,7 +72,8 @@ Rectangle {
         // A "spread" is:
         //    Landscape mode: a pair of two adjacent pages
         //    Portrait mode: a single padge
-        var spreadCount = album.contentPageCount / pagesPerSpread;
+        var spreadCount = Math.ceil(
+            album.populatedContentPageCount / pagesPerSpread);
         
         indicatorDotCount = spreadCount;
         
@@ -92,8 +94,8 @@ Rectangle {
             accumulator += addend;
             var spreads = Math.floor(accumulator);
             accumulator -= spreads;
-            
-            model.append({"firstPageIndex": currentSpread * pagesPerSpread + 
+
+            model.append({"firstPageIndex": currentSpread * pagesPerSpread +
               album.firstContentPage, "pageCount": spreads * pagesPerSpread});
             
             currentSpread += spreads;
@@ -101,8 +103,11 @@ Rectangle {
           
           model.append({"firstPageIndex": currentSpread * pagesPerSpread + album.firstContentPage,
             "pageCount": (spreadCount - currentSpread - 1) * pagesPerSpread});
-          model.append({"firstPageIndex": album.lastContentPage - 
-            (isPortrait ? 0 : 1), "pageCount": pagesPerSpread});
+
+          var lastSpread = (isPortrait
+                            ? album.lastPopulatedContentPage
+                            : album.lastContentPage - 1);
+          model.append({"firstPageIndex": lastSpread, "pageCount": pagesPerSpread});
         }
       }
       

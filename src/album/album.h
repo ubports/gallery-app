@@ -58,8 +58,10 @@ class Album : public ContainerSource {
     READ qml_all_media_sources NOTIFY album_contents_altered)
   Q_PROPERTY(int firstContentPage READ first_content_page NOTIFY pageCountAltered)
   Q_PROPERTY(int lastContentPage READ last_content_page NOTIFY pageCountAltered)
+  Q_PROPERTY(int lastPopulatedContentPage READ last_populated_content_page NOTIFY pageCountAltered)
   Q_PROPERTY(int totalPageCount READ total_page_count NOTIFY pageCountAltered)
   Q_PROPERTY(int contentPageCount READ content_page_count NOTIFY pageCountAltered)
+  Q_PROPERTY(int populatedContentPageCount READ populated_content_page_count NOTIFY pageCountAltered)
   Q_PROPERTY(int firstValidCurrentPage READ first_valid_current_page NOTIFY pageCountAltered)
   Q_PROPERTY(int lastValidCurrentPage READ last_valid_current_page NOTIFY pageCountAltered)
   Q_PROPERTY(int currentPage READ current_page WRITE set_current_page
@@ -111,8 +113,10 @@ class Album : public ContainerSource {
   bool is_closed() const;
   int total_page_count() const;
   int content_page_count() const;
+  int populated_content_page_count() const;
   int first_content_page() const;
   int last_content_page() const;
+  int last_populated_content_page() const;
   int first_valid_current_page() const;
   int last_valid_current_page() const;
   int current_page() const;
@@ -157,6 +161,7 @@ class Album : public ContainerSource {
   QDateTime creation_date_time_;
   int current_page_; // Page number of the left page of the current spread.
   bool closed_;
+  int populated_pages_count_;
   SourceCollection* content_pages_;
   QList<MediaSource*> all_media_sources_;
   QList<AlbumPage*> all_album_pages_;

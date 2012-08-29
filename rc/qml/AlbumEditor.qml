@@ -50,7 +50,7 @@ Item {
 
   // internal
   function closeAlbum() {
-    if (album.contentPageCount > 0) {
+    if (album.populatedContentPageCount > 0) {
       albumModel.addOrphan(album);
 
       // Don't want to stay on the cover.

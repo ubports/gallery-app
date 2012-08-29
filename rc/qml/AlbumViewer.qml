@@ -91,21 +91,17 @@ Rectangle {
     onPageReleased: chrome.show()
     
     Keys.onPressed: {
-      if (event.key === Qt.Key_Left &&
-          albumSpreadViewer.viewingPage > album.firstContentPage &&
-          !albumSpreadViewer.isFlipping) {
-        
+      if (event.key !== Qt.Key_Left && event.key !== Qt.Key_Right)
+        return;
+
+      var direction = (event.key === Qt.Key_Left ? -1 : 1);
+      var destination = albumSpreadViewer.viewingPage +
+          direction * albumSpreadViewer.pagesPerSpread;
+
+      if (!albumSpreadViewer.isFlipping &&
+          albumSpreadViewer.isPopulatedContentPage(destination)) {
         chrome.hide();
-        albumSpreadViewer.flipTo(albumSpreadViewer.viewingPage -
-                                 albumSpreadViewer.pagesPerSpread);
-        event.accepted = true;
-      } else if (event.key === Qt.Key_Right &&
-          albumSpreadViewer.viewingPage < album.lastContentPage &&
-          !albumSpreadViewer.isFlipping) {
-        
-        chrome.hide();
-        albumSpreadViewer.flipTo(albumSpreadViewer.viewingPage +
-                                 albumSpreadViewer.pagesPerSpread);
+        albumSpreadViewer.flipTo(destination);
         event.accepted = true;
       }
     }
@@ -150,7 +146,8 @@ Rectangle {
       }
 
       onSwiping: {
-        if (!albumSpreadViewer.isContentPage(albumSpreadViewer.destinationPage)) {
+        if (!albumSpreadViewer.isPopulatedContentPage(
+            albumSpreadViewer.destinationPage)) {
           closeRequested(false, albumSpreadViewer.viewingPage);
           return;
         }
@@ -336,10 +333,10 @@ Rectangle {
 
         // In the Album model, the last valid current page is the back cover.
         // However, in the UI, we want to stay on the content pages.
-        if (album.currentPage > album.lastContentPage - 1) {
-          album.currentPage =
-              albumSpreadViewer.getLeftHandPageNumber(album.lastContentPage);
-          albumSpreadViewer.viewingPage = album.lastContentPage;
+        if (album.currentPage > album.lastPopulatedContentPage - 1) {
+          album.currentPage = albumSpreadViewer.getLeftHandPageNumber(
+                album.lastPopulatedContentPage);
+          albumSpreadViewer.viewingPage = album.lastPopulatedContentPage;
         }
       }
 

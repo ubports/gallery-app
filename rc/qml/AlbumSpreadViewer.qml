@@ -63,10 +63,10 @@ Item {
     flip();
   }
 
-  // Returns whether the page is a content page in the album.
-  function isContentPage(page) {
+  // Returns whether the page is a content page that has any photos on it.
+  function isPopulatedContentPage(page) {
     return (album && page >= album.firstContentPage
-            && page <= album.lastContentPage);
+            && page <= album.lastPopulatedContentPage);
   }
 
   // Converts a page number into the appropriate page number to place on the
