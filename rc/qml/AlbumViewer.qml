@@ -469,7 +469,7 @@ Rectangle {
         var page = album.getPageForMediaSource(photo);
         if (page >= 0) {
           album.currentPage = albumSpreadViewer.getLeftHandPageNumber(page);
-          albumSpreadViewer.viewingPage = page;
+          albumSpreadViewer.viewingPage = isPortrait? page : album.currentPage;
         }
       }
     }
