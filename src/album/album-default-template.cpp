@@ -28,13 +28,17 @@ AlbumDefaultTemplate::AlbumDefaultTemplate()
   : AlbumTemplate("Default Album Template"),
     next_decision_page_type_(LANDSCAPE) {
   AddPage(new AlbumTemplatePage("Template A Left",
-    "qml/AlbumPageLayoutLeftPortrait.qml", true, 1, PORTRAIT));
+      "qml/Components/AlbumInternals/AlbumPageLayoutLeftPortrait.qml",
+      true, 1, PORTRAIT));
   AddPage(new AlbumTemplatePage("Template A Right",
-    "qml/AlbumPageLayoutRightPortrait.qml", false, 1, PORTRAIT));
+      "qml/Components/AlbumInternals/AlbumPageLayoutRightPortrait.qml",
+      false, 1, PORTRAIT));
   AddPage(new AlbumTemplatePage("Template B Left",
-    "qml/AlbumPageLayoutLeftDoubleLandscape.qml", true, 2, LANDSCAPE, LANDSCAPE));
+      "qml/Components/AlbumInternals/AlbumPageLayoutLeftDoubleLandscape.qml",
+      true, 2, LANDSCAPE, LANDSCAPE));
   AddPage(new AlbumTemplatePage("Template B Right",
-    "qml/AlbumPageLayoutRightDoubleLandscape.qml", false, 2, LANDSCAPE, LANDSCAPE));
+      "qml/Components/AlbumInternals/AlbumPageLayoutRightDoubleLandscape.qml",
+      false, 2, LANDSCAPE, LANDSCAPE));
 }
 
 void AlbumDefaultTemplate::Init() {

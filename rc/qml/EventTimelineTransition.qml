@@ -19,8 +19,10 @@
 
 import QtQuick 1.1
 import Gallery 1.0
-import "GalleryUtility.js" as GalleryUtility
-import "Gallery.js" as Gallery
+import "../js/Gallery.js" as Gallery
+import "../js/GalleryUtility.js" as GalleryUtility
+import "Utility"
+import "Widgets"
 
 Item {
   id: eventTimelineTransition

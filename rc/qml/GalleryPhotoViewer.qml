@@ -22,6 +22,8 @@ import QtQuick 1.1
 import Gallery 1.0
 import "../Capetown"
 import "../Capetown/Viewer"
+import "Components"
+import "Widgets"
 
 PhotoViewer {
   id: galleryPhotoViewer

@@ -18,8 +18,8 @@
  */
 
 import QtQuick 1.1
-import Gallery 1.0
 import "../Capetown"
+import "Components"
 
 // Provides a smooth transition between the album overview and album editor.
 Item {

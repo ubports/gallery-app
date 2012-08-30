@@ -18,8 +18,9 @@
  */
 
 import QtQuick 1.1
-import Gallery 1.0
-import "../Capetown"
+import "../Capetown/Widgets"
+import "Components"
+import "Utility"
 
 // Lets you interactively crop Photos from inside the PhotoEditor.
 Item {

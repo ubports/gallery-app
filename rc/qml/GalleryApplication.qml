@@ -19,8 +19,7 @@
  */
 
 import QtQuick 1.0
-import Gallery 1.0
-import "GalleryUtility.js" as GalleryUtility
+import "Utility"
 
 Item {
   id: application

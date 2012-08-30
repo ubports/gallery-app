@@ -19,6 +19,7 @@
 
 import QtQuick 1.1
 import "../Capetown"
+import "Components"
 
 // Some custom components and animations that we want to invoke whenever we
 // bring up the photo viewer.
