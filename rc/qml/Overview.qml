@@ -101,7 +101,6 @@ Rectangle {
         if (objectModel.typeName == "MediaSource") {
           var photoRect = GalleryUtility.translateRect(activatedRect, eventsCheckerboard, photoViewer);
           photoViewer.model = eventsCheckerboard.photoViewerModel;
-          photoViewer.forTimeline = false;
           photoViewer.animateOpen(object, photoRect, true);
         } else {
           // Event
@@ -167,18 +166,6 @@ Rectangle {
       onMovementEnded: scrollOrchestrator.viewMovementEnded(contentY)
 
       onContentYChanged: scrollOrchestrator.viewScrolled(contentY)
-
-      onViewPhotoRequested: {
-        var photoRect = GalleryUtility.translateRect(thumbnailRect, eventTimeline, overview);
-        eventPhotoViewerModel.forCollection = event;
-        photoViewer.model = eventPhotoViewerModel;
-        photoViewer.forTimeline = true;
-        photoViewer.animateOpen(photo, photoRect, true);
-      }
-
-      MediaCollectionModel {
-        id: eventPhotoViewerModel
-      }
     }
   }
 
@@ -581,34 +568,25 @@ Rectangle {
 
   PopupPhotoViewer {
     id: photoViewer
-
-    // Whether we're looking at photos from one event (launched from the event
-    // timeline) or all events (launched from the event overview).  We behave
-    // slightly differently depending.
-    property bool forTimeline
-
+    
     anchors.fill: parent
     z: 100
-
+    
     onPhotoChanged: {
-      if (!forTimeline && photo && eventsCheckerboard.model) {
+      if (photo && eventsCheckerboard.model) {
         eventsCheckerboard.ensureIndexVisible(eventsCheckerboard.model.indexOf(photo),
           false);
       }
     }
 
     onCloseRequested: {
-      if (forTimeline) {
-        fadeClosed();
-      } else {
-        var thumbnailRect =
-          eventsCheckerboard.getRectOfItemAt(
-              eventsCheckerboard.model.indexOf(photo), photoViewer);
-        if (thumbnailRect)
-          animateClosed(thumbnailRect, true);
-        else
-          close();
-      }
+      var thumbnailRect =
+        eventsCheckerboard.getRectOfItemAt(
+            eventsCheckerboard.model.indexOf(photo), photoViewer);
+      if (thumbnailRect)
+        animateClosed(thumbnailRect, true);
+      else
+        close();
     }
   }
   
