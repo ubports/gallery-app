@@ -89,10 +89,8 @@ class Photo : public MediaSource {
   virtual QUrl gallery_path() const;
   virtual QUrl gallery_preview_path() const;
 
-  // The "base state" is the PhotoEditState of the file when Gallery starts.  It's
-  // the bottom of the undo stack.  The orientation comes from the file itself,
-  // but the rest of the PhotoEditState params come from the DB.
-  Orientation get_base_orientation() const;
+  // The "base state" is the PhotoEditState of the file when Gallery starts.
+  // It's the bottom of the undo stack.  Comes from the DB.
   void set_base_edit_state(const PhotoEditState& base);
 
   Q_INVOKABLE void saveState();
@@ -122,7 +120,10 @@ class Photo : public MediaSource {
   void edit_file(const PhotoEditState& state);
   void create_cached_enhanced();
   void append_edit_revision(QUrl* url) const;
+  bool file_format_has_metadata() const;
+  bool file_format_has_orientation() const;
 
+  QString file_format_;
   mutable QDateTime* exposure_date_time_;
   int edit_revision_; // How many times the pixel data has been modified by us.
   EditStack edits_;

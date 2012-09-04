@@ -27,15 +27,19 @@
 #include <QImage>
 
 bool Photo::IsValid(const QFileInfo& file) {
-  QString extension = file.suffix().toLower();
-  // TODO: be extension-agnostic.  This check is here because
-  // QImageReader.canRead() will return true for raw files named *.srw, but
-  // then QImage will fail to load them.
-  if (extension != "jpg" && extension != "jpeg" && extension != "jpe")
-    return false;
-
   QImageReader reader(file.filePath());
-  return reader.canRead();
+  QByteArray format = reader.format();
+
+  if (QString(format).toLower() == "tiff") {
+    // QImageReader.canRead() will detect some raw files as readable TIFFs,
+    // though QImage will fail to load them.
+    QString extension = file.suffix().toLower();
+    if (extension != "tiff" && extension != "tif")
+      return false;
+  }
+
+  return reader.canRead() &&
+      QImageWriter::supportedImageFormats().contains(reader.format());
 }
 
 Photo::Photo(const QFileInfo& file)
@@ -46,6 +50,11 @@ Photo::Photo(const QFileInfo& file)
     saved_state_(),
     caches_(file),
     original_size_() {
+  QByteArray format = QImageReader(file.filePath()).format();
+  file_format_ = QString(format).toLower();
+  if (file_format_ == "jpg") // Why does Qt expose two different names here?
+    file_format_ = "jpeg";
+
   original_metadata_ = PhotoMetadata::FromFile(caches_.pristine_file());
 }
 
@@ -55,8 +64,8 @@ Photo::~Photo() {
 }
 
 QImage Photo::Image(bool respect_orientation) {
-  QImage image(file().filePath());
-  if (!image.isNull() && respect_orientation) {
+  QImage image(file().filePath(), file_format_.toStdString().c_str());
+  if (!image.isNull() && respect_orientation && file_format_has_orientation()) {
     image = image.transformed(
         OrientationCorrection::FromOrientation(orientation())
         .to_transform());
@@ -71,7 +80,9 @@ QImage Photo::Image(bool respect_orientation) {
 
 Orientation Photo::orientation() const {
   if (current_state().orientation_ == PhotoEditState::ORIGINAL_ORIENTATION)
-    return original_metadata_->orientation();
+    return (file_format_has_orientation()
+            ? original_metadata_->orientation()
+            : TOP_LEFT_ORIGIN);
 
   return current_state().orientation_;
 }
@@ -96,14 +107,6 @@ QUrl Photo::gallery_preview_path() const {
   QUrl url = MediaSource::gallery_preview_path();
   append_edit_revision(&url);
   return url;
-}
-
-Orientation Photo::get_base_orientation() const {
-  // If we've cached the original, we assume the photo has been edited.
-  if (caches_.has_cached_original())
-    return orientation();
-
-  return PhotoEditState::ORIGINAL_ORIENTATION;
 }
 
 void Photo::set_base_edit_state(const PhotoEditState& base) {
@@ -235,9 +238,11 @@ const PhotoEditState& Photo::current_state() const {
 
 QSize Photo::get_original_size(Orientation orientation) {
   if (!original_size_.isValid()) {
-    QImage original(caches_.pristine_file().filePath());
-    original =
-        original.transformed(original_metadata_->orientation_transform());
+    QImage original(caches_.pristine_file().filePath(),
+                    file_format_.toStdString().c_str());
+    if (file_format_has_orientation())
+      original =
+          original.transformed(original_metadata_->orientation_transform());
 
     original_size_ = original.size();
   }
@@ -246,7 +251,9 @@ QSize Photo::get_original_size(Orientation orientation) {
 
   if (orientation != PhotoEditState::ORIGINAL_ORIENTATION) {
     OrientationCorrection original_correction =
-        OrientationCorrection::FromOrientation(original_metadata_->orientation());
+        OrientationCorrection::FromOrientation(file_format_has_orientation()
+                                               ? original_metadata_->orientation()
+                                               : TOP_LEFT_ORIGIN);
     OrientationCorrection out_correction =
         OrientationCorrection::FromOrientation(orientation);
     int degrees_rotation =
@@ -308,17 +315,24 @@ void Photo::edit_file(const PhotoEditState& state) {
   // more general optimizations) under certain conditions here.  Might be worth
   // doing if it doesn't make the code too much worse.
 
-  QImage image(file().filePath());
+  QImage image(file().filePath(), file_format_.toStdString().c_str());
   if (image.isNull()) {
     qDebug("Error loading %s for editing", qPrintable(file().filePath()));
     return;
   }
   PhotoMetadata* metadata = PhotoMetadata::FromFile(file());
 
-  if (state.orientation_ != PhotoEditState::ORIGINAL_ORIENTATION)
+  if (file_format_has_orientation() &&
+      state.orientation_ != PhotoEditState::ORIGINAL_ORIENTATION)
     metadata->set_orientation(state.orientation_);
-  if (metadata->orientation() != TOP_LEFT_ORIGIN)
+
+  if (file_format_has_orientation() &&
+      metadata->orientation() != TOP_LEFT_ORIGIN)
     image = image.transformed(metadata->orientation_transform());
+  else if (state.orientation_ != PhotoEditState::ORIGINAL_ORIENTATION &&
+      state.orientation_ != TOP_LEFT_ORIGIN)
+    image = image.transformed(
+        OrientationCorrection::FromOrientation(state.orientation_).to_transform());
 
   // Cache this here so we may be able to avoid another JPEG decode later just
   // to find the dimensions.
@@ -332,10 +346,14 @@ void Photo::edit_file(const PhotoEditState& state) {
 
   // We need to apply the reverse transformation so that when we reload the
   // file and reapply the transformation it comes out correctly.
-  if (metadata->orientation() != TOP_LEFT_ORIGIN)
+  if (file_format_has_orientation() &&
+      metadata->orientation() != TOP_LEFT_ORIGIN)
     image = image.transformed(metadata->orientation_transform().inverted());
 
-  if (!image.save(file().filePath()) || !metadata->save())
+  bool saved = image.save(file().filePath(), file_format_.toStdString().c_str());
+  if (saved && file_format_has_metadata())
+    saved = metadata->save();
+  if (!saved)
     qDebug("Error saving edited %s", qPrintable(file().filePath()));
 
   delete metadata;
@@ -354,7 +372,7 @@ void Photo::create_cached_enhanced() {
   QFileInfo to_enhance = caches_.enhanced_file();
   PhotoMetadata* metadata = PhotoMetadata::FromFile(to_enhance);
 
-  QImage sample_img(to_enhance.filePath());
+  QImage sample_img(to_enhance.filePath(), file_format_.toStdString().c_str());
   int width = sample_img.width();
   int height = sample_img.height();
 
@@ -366,7 +384,13 @@ void Photo::create_cached_enhanced() {
   
   // TODO: may be able to avoid doing another JPEG load here by creating the
   // enhanced_image from scratch here with a different constructor.
-  QImage enhanced_image(to_enhance.filePath());
+  QImage enhanced_image(to_enhance.filePath(),
+                        file_format_.toStdString().c_str());
+
+  // Can't write into indexed images, due to a limitation in Qt.
+  if (enhanced_image.format() == QImage::Format_Indexed8)
+    enhanced_image = enhanced_image.convertToFormat(QImage::Format_RGB32);
+
   for (int j = 0; j < height; j++) {
     for (int i = 0; i < width; i++) {
       QColor px = enhance_txn.transform_pixel(
@@ -382,8 +406,11 @@ void Photo::create_cached_enhanced() {
     }
   }
 
-  if (!enhanced_image.save(to_enhance.filePath(), 0, 99) ||
-      !metadata->save()) {
+  bool saved = enhanced_image.save(to_enhance.filePath(),
+                                   file_format_.toStdString().c_str(), 99);
+  if (saved && file_format_has_metadata())
+    saved = metadata->save();
+  if (!saved) {
     qDebug("Error saving enhanced file for %s", qPrintable(file().filePath()));
     caches_.discard_cached_enhanced();
   }
@@ -400,4 +427,13 @@ void Photo::append_edit_revision(QUrl* url) const {
   // just hitting the cache.
   if (edit_revision_ != 0)
     url->addQueryItem("edit", QString::number(edit_revision_));
+}
+
+bool Photo::file_format_has_metadata() const {
+  return (file_format_ == "jpeg" || file_format_ == "tiff" ||
+          file_format_ == "png");
+}
+
+bool Photo::file_format_has_orientation() const {
+  return (file_format_ == "jpeg");
 }

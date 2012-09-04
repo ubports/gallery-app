@@ -55,7 +55,6 @@ MediaCollection::MediaCollection(const QDir& directory)
 
     PhotoEditState edit_state =
         Database::instance()->get_photo_edit_table()->get_edit_state(id);
-    edit_state.orientation_ = p->get_base_orientation();
 
     // We set the id last so we don't save the info we just read in back out to
     // the DB.

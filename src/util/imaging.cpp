@@ -218,6 +218,10 @@ AutoEnhanceTransformation::AutoEnhanceTransformation(const QImage& basis)
       = new ShadowDetailTransformation(shadow_trans_effect_size);
 
     QImage shadow_corrected_image = QImage(basis);
+    // Can't write into indexed images, due to a limitation in Qt.
+    if (shadow_corrected_image.format() == QImage::Format_Indexed8)
+      shadow_corrected_image = shadow_corrected_image.convertToFormat(
+          QImage::Format_RGB32);
 
     for (int j = 0; j < shadow_corrected_image.height(); j++) {
       QApplication::processEvents();

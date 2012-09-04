@@ -28,8 +28,9 @@
 // PhotoEditState is considered the "original" edit state, which we use to mean
 // that the photo has no edits applied to it.
 struct PhotoEditState {
-  static const Orientation ORIGINAL_ORIENTATION =
-      (Orientation)(MIN_ORIENTATION - 1);
+  // An orientation outside the range [MIN_ORIENTATION,MAX_ORIENTATION] (also,
+  // must match the DB's default orientation).
+  static const Orientation ORIGINAL_ORIENTATION = (Orientation)0;
 
   Orientation orientation_;
   QRect crop_rectangle_;

@@ -29,7 +29,8 @@ PhotoEditState PhotoEditTable::get_edit_state(qint64 media_id) const {
   PhotoEditState edit_state;
 
   QSqlQuery query(*db_->get_db());
-  query.prepare("SELECT crop_rectangle, is_enhanced FROM PhotoEditTable "
+  query.prepare("SELECT crop_rectangle, is_enhanced, orientation "
+                "FROM PhotoEditTable "
                 "WHERE media_id = :media_id");
 
   query.bindValue(":media_id", media_id);
@@ -48,9 +49,8 @@ PhotoEditState PhotoEditTable::get_edit_state(qint64 media_id) const {
     }
 
     edit_state.is_enhanced_ = query.value(1).toBool();
+    edit_state.orientation_ = static_cast<Orientation>(query.value(2).toInt());
   }
-  // edit_state.orientation_ isn't stored in the DB, but in the file's
-  // metadata.
 
   return edit_state;
 }
@@ -72,13 +72,13 @@ void PhotoEditTable::set_edit_state(qint64 media_id,
 
   query.prepare("UPDATE PhotoEditTable "
                 "SET crop_rectangle = :crop_rect_string, "
-                  "is_enhanced = :is_enhanced "
+                  "is_enhanced = :is_enhanced, "
+                  "orientation = :orientation "
                 "WHERE media_id = :media_id");
   query.bindValue(":media_id", media_id);
   query.bindValue(":crop_rect_string", crop_rect_string);
   query.bindValue(":is_enhanced", edit_state.is_enhanced_);
-  // Again, note that edit_state.orientation_ comes from the photo file, and
-  // isn't stored here.
+  query.bindValue(":orientation", static_cast<int>(edit_state.orientation_));
 
   if (!query.exec())
     db_->log_sql_error(query);
