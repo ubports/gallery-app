@@ -73,12 +73,39 @@ int main(int argc, char *argv[]) {
   QmlMediaCollectionModel::RegisterType();
   QmlStack::RegisterType();
   
+  QStringList args = app.arguments();
+
+  QHash<QString, QSize> form_factors;
+  form_factors.insert("desktop", QSize(160, 100)); // In BGU.
+  form_factors.insert("tablet", QSize(160, 100));
+  form_factors.insert("phone", QSize(71, 40));
+  form_factors.insert("sidebar", QSize(71, 40));
+
+  QString form_factor = "desktop";
+  foreach(const QString& test, form_factors.keys()) {
+    QString arg_test = QString("--%1").arg(test);
+    if (args.contains(arg_test)) {
+      args.removeAll(arg_test);
+      form_factor = test;
+    }
+  }
+
+  bool is_portrait = false;
+  if (args.contains("--landscape")) {
+    args.removeAll("--landscape");
+    is_portrait = false;
+  }
+  if (args.contains("--portrait")) {
+    args.removeAll("--portrait");
+    is_portrait = true;
+  }
+
   //
   // Library is currently only loaded from ~/Pictures (no subdirectory
   // traversal)
   //
   
-  QDir pictures_path(argc > 1 ? QString(argv[1]) : QDir::homePath() + "/Pictures");
+  QDir pictures_path(args.count() > 1 ? args.at(1) : QDir::homePath() + "/Pictures");
   
   qDebug("Opening %s...", qPrintable(pictures_path.path()));
   
@@ -112,9 +139,25 @@ int main(int argc, char *argv[]) {
   
   QDeclarativeView view;
   view.setWindowTitle("Gallery");
-  view.setResizeMode(QDeclarativeView::SizeRootObjectToView);
-  view.setMinimumSize(60 * APP_GRIDUNIT, 60 * APP_GRIDUNIT);
+
+  QSize size = form_factors[form_factor];
+  if (is_portrait)
+    size.transpose();
+
+  // Only the desktop is resizable.
+  if (form_factor == "desktop") {
+    view.setResizeMode(QDeclarativeView::SizeRootObjectToView);
+    view.setMinimumSize(60 * APP_GRIDUNIT, 60 * APP_GRIDUNIT);
+  } else {
+    view.setMinimumSize(size.width() * APP_GRIDUNIT, size.height() * APP_GRIDUNIT);
+    view.setMaximumSize(size.width() * APP_GRIDUNIT, size.height() * APP_GRIDUNIT);
+  }
+
+  view.engine()->rootContext()->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
+  view.engine()->rootContext()->setContextProperty("DEVICE_HEIGHT", QVariant(size.height()));
+  view.engine()->rootContext()->setContextProperty("FORM_FACTOR", QVariant(form_factor));
   view.engine()->rootContext()->setContextProperty("GRIDUNIT", QVariant(APP_GRIDUNIT));
+
   view.engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
     GalleryStandardImageProvider::instance());
   view.setSource(Resource::instance()->get_rc_url("qml/GalleryApplication.qml"));

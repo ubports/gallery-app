@@ -38,8 +38,8 @@ Item {
     return Math.round(1.6 * amt);
   }
   
-  width: gu(160)
-  height: gu(100)
+  width: gu(DEVICE_WIDTH)
+  height: gu(DEVICE_HEIGHT)
 
   Component.onCompleted: navStack.switchToPage(overview)
   
