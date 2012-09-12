@@ -25,305 +25,344 @@ import "../Capetown/Viewer"
 import "Components"
 import "Widgets"
 
-PhotoViewer {
-  id: galleryPhotoViewer
+Rectangle {
+  id: viewerWrapper
 
-  // When the user clicks the back button.
+  property alias photo: galleryPhotoViewer.photo
+  property alias model: galleryPhotoViewer.model
+  property alias index: galleryPhotoViewer.index
+  property alias currentIndexForHighlight:
+      galleryPhotoViewer.currentIndexForHighlight
+  property alias mouseArea: galleryPhotoViewer.mouseArea
+
   signal closeRequested()
-  signal editRequested(variant photo) // The user wants to edit this photo.
+  signal editRequested(variant photo)
 
-  // NOTE: These properties should be treated as read-only, as setting them
-  // individually can lead to bogus results.  Use setCurrentPhoto() or
-  // setCurrentIndex() to initialize the view.
-  property variant photo: null
+  function setCurrentIndex(index) {
+    galleryPhotoViewer.setCurrentIndex(index);
+  }
 
   function setCurrentPhoto(photo) {
-    setCurrentIndex(model.indexOf(photo));
+    galleryPhotoViewer.setCurrentPhoto(photo);
   }
 
   function goBack() {
-    galleryPhotoViewer.currentItem.state = "unzoomed";
-    pageBack();
+    galleryPhotoViewer.goBack();
   }
 
   function goForward() {
-    galleryPhotoViewer.currentItem.state = "unzoomed";
-    pageForward();
-  }
-  
-  Connections {
-    target: photo || null
-    ignoreUnknownSignals: true
-    onBusyChanged: updateBusy()
+    galleryPhotoViewer.goForward();
   }
 
-  // Internal: use to switch the busy indicator on or off.
-  function updateBusy() {
-    if (photo.busy) {
-      busySpinner.visible = true;
-      // HACK: chrome.hide() doesn't work here for some reason.
-      chrome.visible = false;
-    } else {
-      busySpinner.visible = false;
-      chrome.visible = true;
-    }
-  }
+  anchors.fill: parent;
 
-  onCurrentIndexChanged: {
-    if (model)
-      photo = model.getAt(currentIndex);
-  }
-  
-  delegate: GalleryPhotoComponent {
-    id: galleryPhotoComponent
-    
-    width: galleryPhotoViewer.width
-    height: galleryPhotoViewer.height
-    
-    visible: true
-    color: "black"
-    
-    opacity: {
-      if (!galleryPhotoViewer.moving || galleryPhotoViewer.contentX < 0
-        || index != galleryPhotoViewer.currentIndexForHighlight)
-        return 1.0;
-      
-      return 1.0 - Math.abs((galleryPhotoViewer.contentX - x) / width);
-    }
-    
-    isZoomable: true;
-    
-    mediaSource: model.mediaSource
-    ownerName: "galleryPhotoViewer"
-  }
+  color: "black";
 
-  // Don't allow flicking while the chrome is actively displaying a popup
-  // menu, or the image is zoomed, or we're cropping. When images are zoomed,
-  // mouse drags should pan, not flick.
-  interactive: !chrome.popupActive && (currentItem != null) &&
-               (currentItem.state == "unzoomed") && cropper.state == "hidden"
-  
-  AnimatedImage {
-    id: busySpinner
+  PhotoViewer {
+    id: galleryPhotoViewer
 
-    visible: false
-    anchors.centerIn: parent
-    source: "../img/spin.mng"
-  }
+    // When the user clicks the back button.
+    signal closeRequested()
+    signal editRequested(variant photo) // The user wants to edit this photo.
 
-  // Handles the Chrome overlay.  (The underlying PhotoViewer's MouseArea
-  // is where flicking and zooming are handled.)
-  //
-  // Note that this involves some evil hacks to propogate the events to the
-  // underlying MouseArea; this should be unecessary once we swich to Qt 5.
-  // See this bug for more info: https://bugreports.qt-project.org/browse/QTBUG-13007
-  MouseArea {
-    id: galleryPhotoViewerMouseArea
-    
-    property bool wasPressed: false
-    
-    anchors.fill: parent
-    
-    Timer {
-      id: chromeFadeWaitClock
-      
-      interval: 150
-      running: false
-      
-      onTriggered: chrome.flipVisibility()
-    }
-    
-    onClicked: {
-      // TODO: remove when switching to Qt 5 (see above)
-      mouseArea.clicked(mouse);
-      
-      // Trigger chrome if we aren't zoomed or we are but they didn't drag.
-      if (currentItem.state == "unzoomed" || mouseArea.distance < 20)
-        chromeFadeWaitClock.restart();
-    }
-    
-    onDoubleClicked: {
-      // TODO: remove when switching to Qt 5 (see above)
-      mouseArea.doubleClicked(mouse);
-      
-      chromeFadeWaitClock.stop();
-      chrome.state = "hidden";
-    }
-    
-    onPressed: {
-      // This signal works slightly differently than the others; since
-      // pressed is a read-only bool, and signals don't act as proper functions
-      // in QML, we use a workaround.  See PhotoViewer for more details.
-      mouseArea.onPressedPublic(mouse);
-    }
-    
-    onPositionChanged: {
-      // TODO: remove when switching to Qt 5 (see above)
-      mouseArea.positionChanged(mouse);
-    }
-    
-    onReleased: {
-      // TODO: remove when switching to Qt 5 (see above)
-      mouseArea.released(mouse);
-    }
-  }
-  
-  ViewerChrome {
-    id: chrome
+    // NOTE: These properties should be treated as read-only, as setting them
+    // individually can lead to bogus results.  Use setCurrentPhoto() or
+    // setCurrentIndex() to initialize the view.
+    property variant photo: null
 
-    z: 10
-    anchors.fill: parent
-
-    toolbarsAreTextured: false
-    toolbarsAreTranslucent: true
-    toolbarsAreDark: true
-
-    toolbarHasEditOperationsButton: true
-
-    hasLeftNavigationButton: !galleryPhotoViewer.atXBeginning
-    hasRightNavigationButton: !galleryPhotoViewer.atXEnd
-
-    onLeftNavigationButtonPressed: galleryPhotoViewer.goBack()
-    onRightNavigationButtonPressed: galleryPhotoViewer.goForward()
-
-    popups: [ photoViewerShareMenu, photoViewerOptionsMenu,
-      trashOperationDialog, popupAlbumPicker, editMenu ]
-
-    GenericShareMenu {
-      id: photoViewerShareMenu
-
-      popupOriginX: -gu(8.5)
-      popupOriginY: -gu(6)
-
-      onPopupInteractionCompleted: {
-        chrome.hideAllPopups();
-      }
-
-      visible: false
+    function setCurrentPhoto(photo) {
+      setCurrentIndex(model.indexOf(photo));
     }
 
-    PhotoViewerOptionsMenu {
-      id: photoViewerOptionsMenu
-
-      popupOriginX: -gu(0.5)
-      popupOriginY: -gu(6)
-
-      onPopupInteractionCompleted: {
-        chrome.hideAllPopups();
-      }
-
-      visible: false
-
-      onActionInvoked: {
-        // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you
-        // edit a switch statement in QML.  The short version is: use braces
-        // always.
-        switch (name) {
-          case "onEdit": {
-            photoViewer.editRequested(photo);
-            break;
-          }
-        }
-      }
-    }
-
-    DeleteDialog {
-      id: trashOperationDialog
-
-      popupOriginX: -gu(24.5)
-      popupOriginY: -gu(6)
-
-      onPopupInteractionCompleted: {
-        chrome.hideAllPopups();
-      }
-
-      visible: false
-
-      onDeleteRequested: {
-        model.destroyMedia(photo);
-
-        if (model.count == 0)
-          photoViewer.closeRequested();
-      }
-    }
-
-    PhotoEditMenu {
-      id: editMenu
-
-      popupOriginX: gu(3.5)
-      popupOriginY: -gu(6)
-
-      onPopupInteractionCompleted: chrome.hideAllPopups()
-
-      visible: false
-
-      onActionInvoked: {
-        // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you edit
-        // a switch statement in QML.  The short version is: use braces always.
-        switch (name) {
-          case "onRotate": {
-            state = "hidden";
-            photo.rotateRight();
-            break;
-          }
-          case "onCrop": {
-            state = "hidden";
-            cropper.show(photo);
-            break;
-          }
-          case "onAutoEnhance": {
-            state = "hidden";
-            photo.autoEnhance();
-            break;
-          }
-          case "onUndo": {
-            state = "hidden";
-            photo.undo();
-            break;
-          }
-          case "onRedo": {
-            state = "hidden";
-            photo.redo();
-            break;
-          }
-          case "onRevert": {
-            state = "hidden";
-            photo.revertToOriginal();
-            break;
-          }
-        }
-      }
-    }
-
-    PopupAlbumPicker {
-      id: popupAlbumPicker
-
-      popupOriginX: -gu(17.5)
-      popupOriginY: -gu(6)
-
-      onPopupInteractionCompleted: {
-        chrome.hideAllPopups();
-      }
-
-      onAlbumPicked: album.addMediaSource(photo)
-
-      visible: false
-    }
-
-    onReturnButtonPressed: {
-      resetVisibility(false);
+    function goBack() {
       galleryPhotoViewer.currentItem.state = "unzoomed";
-      closeRequested();
+      pageBack();
     }
 
-    onShareOperationsButtonPressed: cyclePopup(photoViewerShareMenu)
-    onMoreOperationsButtonPressed: cyclePopup(photoViewerOptionsMenu)
-    onAlbumOperationsButtonPressed: cyclePopup(popupAlbumPicker)
-    onTrashOperationButtonPressed: cyclePopup(trashOperationDialog)
-    onEditOperationsButtonPressed: cyclePopup(editMenu)
+    function goForward() {
+      galleryPhotoViewer.currentItem.state = "unzoomed";
+      pageForward();
+    }
+
+    Connections {
+      target: photo || null
+      ignoreUnknownSignals: true
+      onBusyChanged: updateBusy()
+    }
+
+    // Internal: use to switch the busy indicator on or off.
+    function updateBusy() {
+      if (photo.busy) {
+        busySpinner.visible = true;
+        // HACK: chrome.hide() doesn't work here for some reason.
+        chrome.visible = false;
+      } else {
+        busySpinner.visible = false;
+        chrome.visible = true;
+      }
+    }
+
+    onCurrentIndexChanged: {
+      if (model)
+        photo = model.getAt(currentIndex);
+    }
+
+    delegate: GalleryPhotoComponent {
+      id: galleryPhotoComponent
+
+      width: galleryPhotoViewer.width
+      height: galleryPhotoViewer.height
+
+      visible: true
+      color: "black"
+
+      opacity: {
+        if (!galleryPhotoViewer.moving || galleryPhotoViewer.contentX < 0
+          || index != galleryPhotoViewer.currentIndexForHighlight)
+          return 1.0;
+
+        return 1.0 - Math.abs((galleryPhotoViewer.contentX - x) / width);
+      }
+
+      isZoomable: true;
+
+      mediaSource: model.mediaSource
+      ownerName: "galleryPhotoViewer"
+    }
+
+    // Don't allow flicking while the chrome is actively displaying a popup
+    // menu, or the image is zoomed, or we're cropping. When images are zoomed,
+    // mouse drags should pan, not flick.
+    interactive: !chrome.popupActive && (currentItem != null) &&
+                 (currentItem.state == "unzoomed") && cropper.state == "hidden"
+
+    AnimatedImage {
+      id: busySpinner
+
+      visible: false
+      anchors.centerIn: parent
+      source: "../img/spin.mng"
+    }
+
+    // Handles the Chrome overlay.  (The underlying PhotoViewer's MouseArea
+    // is where flicking and zooming are handled.)
+    //
+    // Note that this involves some evil hacks to propogate the events to the
+    // underlying MouseArea; this should be unecessary once we swich to Qt 5.
+    // See this bug for more info: https://bugreports.qt-project.org/browse/QTBUG-13007
+    MouseArea {
+      id: galleryPhotoViewerMouseArea
+
+      property bool wasPressed: false
+
+      anchors.fill: parent
+
+      Timer {
+        id: chromeFadeWaitClock
+
+        interval: 150
+        running: false
+
+        onTriggered: chrome.flipVisibility()
+      }
+
+      onClicked: {
+        // TODO: remove when switching to Qt 5 (see above)
+        mouseArea.clicked(mouse);
+
+        // Trigger chrome if we aren't zoomed or we are but they didn't drag.
+        if (galleryPhotoViewer.currentItem.state == "unzoomed" ||
+            mouseArea.distance < 20)
+          chromeFadeWaitClock.restart();
+      }
+
+      onDoubleClicked: {
+        // TODO: remove when switching to Qt 5 (see above)
+        mouseArea.doubleClicked(mouse);
+
+        chromeFadeWaitClock.stop();
+        chrome.state = "hidden";
+      }
+
+      onPressed: {
+        // This signal works slightly differently than the others; since
+        // pressed is a read-only bool, and signals don't act as proper functions
+        // in QML, we use a workaround.  See PhotoViewer for more details.
+        mouseArea.onPressedPublic(mouse);
+      }
+
+      onPositionChanged: {
+        // TODO: remove when switching to Qt 5 (see above)
+        mouseArea.positionChanged(mouse);
+      }
+
+      onReleased: {
+        // TODO: remove when switching to Qt 5 (see above)
+        mouseArea.released(mouse);
+      }
+    }
+
+    ViewerChrome {
+      id: chrome
+
+      z: 10
+      anchors.fill: parent
+
+      toolbarsAreTextured: false
+      toolbarsAreTranslucent: true
+      toolbarsAreDark: true
+
+      toolbarHasEditOperationsButton: true
+
+      hasLeftNavigationButton: !galleryPhotoViewer.atXBeginning
+      hasRightNavigationButton: !galleryPhotoViewer.atXEnd
+
+      onLeftNavigationButtonPressed: galleryPhotoViewer.goBack()
+      onRightNavigationButtonPressed: galleryPhotoViewer.goForward()
+
+      popups: [ photoViewerShareMenu, photoViewerOptionsMenu,
+        trashOperationDialog, popupAlbumPicker, editMenu ]
+
+      GenericShareMenu {
+        id: photoViewerShareMenu
+
+        popupOriginX: -gu(8.5)
+        popupOriginY: -gu(6)
+
+        onPopupInteractionCompleted: {
+          chrome.hideAllPopups();
+        }
+
+        visible: false
+      }
+
+      PhotoViewerOptionsMenu {
+        id: photoViewerOptionsMenu
+
+        popupOriginX: -gu(0.5)
+        popupOriginY: -gu(6)
+
+        onPopupInteractionCompleted: {
+          chrome.hideAllPopups();
+        }
+
+        visible: false
+
+        onActionInvoked: {
+          // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you
+          // edit a switch statement in QML.  The short version is: use braces
+          // always.
+          switch (name) {
+            case "onEdit": {
+              photoViewer.editRequested(photo);
+              break;
+            }
+          }
+        }
+      }
+
+      DeleteDialog {
+        id: trashOperationDialog
+
+        popupOriginX: -gu(24.5)
+        popupOriginY: -gu(6)
+
+        onPopupInteractionCompleted: {
+          chrome.hideAllPopups();
+        }
+
+        visible: false
+
+        onDeleteRequested: {
+          model.destroyMedia(photo);
+
+          if (model.count == 0)
+            photoViewer.closeRequested();
+        }
+      }
+
+      PhotoEditMenu {
+        id: editMenu
+
+        popupOriginX: gu(3.5)
+        popupOriginY: -gu(6)
+
+        onPopupInteractionCompleted: chrome.hideAllPopups()
+
+        visible: false
+
+        onActionInvoked: {
+          // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you edit
+          // a switch statement in QML.  The short version is: use braces always.
+          switch (name) {
+            case "onRotate": {
+              state = "hidden";
+              photo.rotateRight();
+              break;
+            }
+            case "onCrop": {
+              state = "hidden";
+              galleryPhotoViewer.visible = false
+              cropper.show(photo);
+              break;
+            }
+            case "onAutoEnhance": {
+              state = "hidden";
+              photo.autoEnhance();
+              break;
+            }
+            case "onUndo": {
+              state = "hidden";
+              photo.undo();
+              break;
+            }
+            case "onRedo": {
+              state = "hidden";
+              photo.redo();
+              break;
+            }
+            case "onRevert": {
+              state = "hidden";
+              photo.revertToOriginal();
+              break;
+            }
+          }
+        }
+      }
+
+      PopupAlbumPicker {
+        id: popupAlbumPicker
+
+        popupOriginX: -gu(17.5)
+        popupOriginY: -gu(6)
+
+        onPopupInteractionCompleted: {
+          chrome.hideAllPopups();
+        }
+
+        onAlbumPicked: album.addMediaSource(photo)
+
+        visible: false
+      }
+
+      onReturnButtonPressed: {
+        resetVisibility(false);
+        galleryPhotoViewer.currentItem.state = "unzoomed";
+        closeRequested();
+      }
+
+      onShareOperationsButtonPressed: cyclePopup(photoViewerShareMenu)
+      onMoreOperationsButtonPressed: cyclePopup(photoViewerOptionsMenu)
+      onAlbumOperationsButtonPressed: cyclePopup(popupAlbumPicker)
+      onTrashOperationButtonPressed: cyclePopup(trashOperationDialog)
+      onEditOperationsButtonPressed: cyclePopup(editMenu)
+    }
+
+    onCloseRequested: viewerWrapper.closeRequested()
+    onEditRequested: viewerWrapper.editRequested(photo)
   }
 
-  PhotoCropper {
+  CropInteractor {
     id: cropper
 
     function show(photo) {
@@ -348,23 +387,26 @@ PhotoViewer {
       }
     ]
 
-    Behavior on opacity {
-      animation: NumberAnimation {
-        easing.type: Easing.OutQuad
-        duration: chrome.fadeDuration
-      }
-    }
-
     anchors.fill: parent
+
+    MouseArea {
+      id: blocker
+
+      anchors.fill: parent
+
+      onClicked: { }
+    }
 
     onCanceled: {
       photo.cancelCropping();
       hide();
+      galleryPhotoViewer.visible = true;
     }
 
     onCropped: {
       photo.crop(rect);
       hide();
+      galleryPhotoViewer.visible = true;
     }
   }
 }

@@ -49,7 +49,9 @@ class MediaSource : public DataSource {
   Q_PROPERTY(int exposure_time_t READ exposure_time_t NOTIFY exposure_date_time_altered)
   Q_PROPERTY(QVariant event READ QmlFindEvent NOTIFY event_changed)
   Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
-  
+  Q_PROPERTY(int width READ width)
+  Q_PROPERTY(int height READ height)
+
  signals:
   void path_altered();
   void preview_path_altered();
@@ -103,6 +105,14 @@ class MediaSource : public DataSource {
   virtual void notify_size_altered();
   
  private:
+  int width() const {
+    return size_.width();
+  }
+
+  int height() const {
+    return size_.height();
+  }
+
   QFileInfo file_;
   qint64 id_;
   QSize size_;

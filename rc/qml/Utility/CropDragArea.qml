@@ -24,6 +24,8 @@ MouseArea {
   id: cropDragArea
 
   signal dragged(real dx, real dy)
+  signal dragStarted()
+  signal dragCompleted()
 
   // Since we're usually moving this area with the mouse in response to
   // dragging, we don't need to capture the last x/y, just where it was
@@ -32,8 +34,14 @@ MouseArea {
   property real grabY: -1
 
   onPressed: {
+    dragStarted();
+
     grabX = mouse.x;
     grabY = mouse.y;
+  }
+
+  onReleased: {
+    dragCompleted();
   }
 
   onMousePositionChanged: cropDragArea.dragged(mouse.x - grabX, mouse.y - grabY)

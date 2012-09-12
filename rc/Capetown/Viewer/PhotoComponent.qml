@@ -34,7 +34,6 @@ Rectangle {
   property bool isAnimate: false
   property int zoomFocusX: 0
   property int zoomFocusY: 0
-  property real pinchInteractionStartZoom: 1.0
   property string ownerName: "(not set)"
   
   // read-only

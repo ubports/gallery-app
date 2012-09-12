@@ -24,6 +24,8 @@ Item {
   id: cropCorner
 
   signal dragged(real dx, real dy)
+  signal dragStarted()
+  signal dragCompleted()
 
   property bool isLeft: true
   property bool isTop: true
@@ -54,5 +56,9 @@ Item {
     anchors.fill: parent
 
     onDragged: cropCorner.dragged(dx, dy)
+
+    onDragStarted: cropCorner.dragStarted()
+
+    onDragCompleted: cropCorner.dragCompleted()
   }
 }
