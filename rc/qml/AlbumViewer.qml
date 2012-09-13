@@ -21,6 +21,7 @@
 import QtQuick 1.1
 import Gallery 1.0
 import "../Capetown"
+import "../js/Gallery.js" as Gallery
 import "../js/GalleryUtility.js" as GalleryUtility
 import "Components"
 import "Utility"
@@ -183,10 +184,10 @@ Rectangle {
     
     anchors.fill: parent
 
-    topExtraGutter: gu(2) + chrome.navbarHeight
-    bottomExtraGutter: gu(0) + chrome.toolbarHeight
-    leftExtraGutter: gu(2)
-    rightExtraGutter: gu(2)
+    topExtraGutter: chrome.navbarHeight + Gallery.getDeviceSpecific("photoGridTopMargin")
+    bottomExtraGutter: chrome.toolbarHeight
+    leftExtraGutter: Gallery.getDeviceSpecific("photoGridLeftMargin")
+    rightExtraGutter: Gallery.getDeviceSpecific("photoGridRightMargin")
 
     visible: false
     

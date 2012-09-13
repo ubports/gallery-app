@@ -20,6 +20,7 @@
 
 import QtQuick 1.1
 import "../Components"
+import "../../js/Gallery.js" as Gallery
 
 Item {
   id: eventCheckerboardPreview
@@ -29,6 +30,9 @@ Item {
   property alias mediaSource: photo.mediaSource
   property alias isSelected: eventCard.isSelected
   
+  width: Gallery.getDeviceSpecific("photoThumbnailWidth")
+  height: Gallery.getDeviceSpecific("photoThumbnailHeight")
+
   MattedPhotoPreview {
     id: photo
     

@@ -19,6 +19,7 @@
  */
 
 import QtQuick 1.1
+import "../../js/Gallery.js" as Gallery
 
 Item {
   id: eventCard
@@ -44,6 +45,16 @@ Item {
     return count + ((count == 1) ? " photo" : " photos");
   }
   
+  width: Gallery.getDeviceSpecific("photoThumbnailWidth")
+  height: Gallery.getDeviceSpecific("photoThumbnailHeight")
+
+  // TODO: we may want different graphical assets/font sizes here instead of
+  // just scaling down the tablet-sized ones.
+  transform: Scale {
+    xScale: width / cardWidth
+    yScale: height / cardHeight
+  }
+
   Image {
     id: eventCardImage
     

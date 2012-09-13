@@ -18,6 +18,7 @@
  */
 
 import QtQuick 1.1
+import "../../js/Gallery.js" as Gallery
 
 // A PhotoComponent with a backing "mat and shadow" image and an internal
 // overlay shadow image.  Unlike the CompositeMattedPhoto, this is always
@@ -39,6 +40,16 @@ Item {
   // readonly
   property alias photoWidth: photo.width
   property alias photoHeight: photo.height
+
+  width: Gallery.getDeviceSpecific("photoThumbnailWidth")
+  height: Gallery.getDeviceSpecific("photoThumbnailHeight")
+
+  // TODO: we may want different graphical assets here instead of just scaling
+  // down the tablet-sized ones.
+  transform: Scale {
+    xScale: width / mattedPhotoWidth
+    yScale: height / mattedPhotoHeight
+  }
 
   Image {
     id: backing

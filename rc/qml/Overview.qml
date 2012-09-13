@@ -22,6 +22,7 @@ import QtQuick 1.1
 import Gallery 1.0
 import "../Capetown"
 import "../Capetown/Widgets"
+import "../js/Gallery.js" as Gallery
 import "../js/GalleryUtility.js" as GalleryUtility
 import "Components"
 import "Utility"
@@ -89,10 +90,10 @@ Rectangle {
 
       anchors.fill: parent
 
-      topExtraGutter: gu(2) + navbar.height
+      topExtraGutter: navbar.height + Gallery.getDeviceSpecific("photoGridTopMargin")
       bottomExtraGutter: gu(0)
-      leftExtraGutter: gu(2)
-      rightExtraGutter: gu(2)
+      leftExtraGutter: Gallery.getDeviceSpecific("photoGridLeftMargin")
+      rightExtraGutter: Gallery.getDeviceSpecific("photoGridRightMargin")
 
       visible: true
       allowSelectionModeChange: true

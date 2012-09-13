@@ -34,8 +34,8 @@ Item {
   property alias model: list.model
   property alias contentY: list.contentY
   
-  property int elementWidth: gu(24)
-  property int elementHeight: gu(18)
+  property int elementWidth: Gallery.getDeviceSpecific('photoThumbnailWidthTimeline')
+  property int elementHeight: Gallery.getDeviceSpecific('photoThumbnailHeightTimeline')
   property int elementSpacing: gu(1)
   
   property real topExtraGutter: 0

@@ -20,6 +20,7 @@
  */
 
 import QtQuick 1.1
+import "../../js/Gallery.js" as Gallery
 import "../../js/GalleryUtility.js" as GalleryUtility
 
 Item {
@@ -37,10 +38,10 @@ Item {
   property alias contentY: grid.contentY
   property alias footer: grid.footer
   
-  property real itemWidth: gu(24)
-  property real itemHeight: gu(18)
-  property real minGutterWidth: gu(2)
-  property real minGutterHeight: gu(2)
+  property real itemWidth: Gallery.getDeviceSpecific('photoThumbnailWidth')
+  property real itemHeight: Gallery.getDeviceSpecific('photoThumbnailHeight')
+  property real minGutterWidth: Gallery.getDeviceSpecific('photoGridGutterWidth')
+  property real minGutterHeight: Gallery.getDeviceSpecific('photoGridGutterHeight')
   property real topExtraGutter: 0
   property real bottomExtraGutter: 0
   property real leftExtraGutter: 0
