@@ -65,7 +65,8 @@ Item {
     height: checkerboard.itemHeight
     anchors.centerIn: parent
 
-    function longPressed() {
+    // Long press/right click.
+    function alternativePressed() {
       checkerboardDelegate.longPressed(modelData.object);
 
       if (checkerboard.allowSelectionModeChange &&
@@ -79,7 +80,8 @@ Item {
       }
     }
 
-    function tapped() {
+    // Normal press/click.
+    function pressed() {
       if (checkerboard.inSelectionMode) {
         if (checkerboard.singleSelectionOnly) {
           checkerboard.unselectAll();
@@ -100,8 +102,15 @@ Item {
 
       visible: !contentIsSwipable
 
-      onPressAndHold: contentArea.longPressed()
-      onClicked: contentArea.tapped()
+      acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+      onPressAndHold: contentArea.alternativePressed()
+      onClicked: {
+        if (mouse.button == Qt.RightButton)
+          contentArea.alternativePressed();
+        else
+          contentArea.pressed();
+      }
     }
 
     SwipeArea {
@@ -111,8 +120,13 @@ Item {
 
       visible: contentIsSwipable
 
-      onLongPressed: contentArea.longPressed()
-      onTapped: contentArea.tapped()
+      onLongPressed: contentArea.alternativePressed()
+      onTapped: {
+        if (rightButton)
+          contentArea.alternativePressed();
+        else
+          contentArea.pressed();
+      }
       onStartSwipe: checkerboardDelegate.swipeStarted(leftToRight, start)
       onSwiping: checkerboardDelegate.swiping(leftToRight, start, distance)
       onSwiped: checkerboardDelegate.swiped(leftToRight)

@@ -163,6 +163,8 @@ Item {
 
     visible: chrome.popupActive
 
+    acceptedButtons: Qt.LeftButton | Qt.RightButton
+
     onClicked: chrome.cancelActivity()
   }
 

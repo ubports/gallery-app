@@ -530,6 +530,7 @@ Rectangle {
     
     anchors.fill: parent
     visible: (albumMenu.state === "shown" || albumTrashDialog.state === "shown")
+    acceptedButtons: Qt.LeftButton | Qt.RightButton
     onPressed: {
       albumMenu.state = "hidden";
       albumTrashDialog.state = "hidden";

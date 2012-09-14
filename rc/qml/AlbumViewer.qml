@@ -113,15 +113,12 @@ Rectangle {
     SwipeArea {
       property real commitTurnFraction: 0.05
 
-      anchors.fill: parent
-
-      enabled: !parent.isRunning
-      
-      onTapped: {
+      // Normal press/click.
+      function pressed(x, y) {
         var hit = albumSpreadViewer.hitTestFrame(x, y, parent);
         if (!hit || !hit.mediaSource)
           return;
-        
+
         if (gridCheckerboard.inSelectionMode) {
           gridCheckerboard.model.toggleSelection(hit.mediaSource);
         } else {
@@ -130,14 +127,27 @@ Rectangle {
         }
       }
 
-      onLongPressed: {
+      // Long press/right click.
+      function alternativePressed(x, y) {
         var hit = albumSpreadViewer.hitTestFrame(x, y, parent);
         if (!hit || !hit.mediaSource)
           return;
-        
+
         albumPagePhotoMenu.positionRelativeTo(hit.mediaSource);
         chrome.cyclePopup(albumPagePhotoMenu);
       }
+
+      anchors.fill: parent
+
+      enabled: !parent.isRunning
+      
+      onTapped: {
+        if (rightButton)
+          alternativePressed(x, y);
+        else
+          pressed(x, y);
+      }
+      onLongPressed: alternativePressed(x, y)
       
       onStartSwipe: {
         var direction = (leftToRight ? -1 : 1);

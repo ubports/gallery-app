@@ -29,7 +29,7 @@ MouseArea {
   signal startSwipe(bool leftToRight, int start)
   signal swiping(bool leftToRight, int start, int distance)
   signal swiped(bool leftToRight)
-  signal tapped(int x, int y)
+  signal tapped(int x, int y, bool rightButton)
   signal longPressed(int x, int y)
   
   property int requiredHorizMovement: gu(0)
@@ -49,6 +49,7 @@ MouseArea {
   }
 
   preventStealing: swipeStarted
+  acceptedButtons: Qt.LeftButton | Qt.RightButton
   
   onEnabledChanged: reset()
   onVisibleChanged: reset()
@@ -112,7 +113,7 @@ MouseArea {
     if (swipeStarted)
       swiped(leftToRight);
     else if (!longPress)
-      tapped(mouse.x, mouse.y);
+      tapped(mouse.x, mouse.y, (mouse.button == Qt.RightButton));
     
     reset();
   }
