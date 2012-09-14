@@ -67,7 +67,10 @@ Item {
 
     // Long press/right click.
     function alternativePressed() {
-      checkerboardDelegate.longPressed(modelData.object);
+      if (checkerboard.inSelectionMode)
+        pressed();
+      else
+        checkerboardDelegate.longPressed(modelData.object);
 
       if (checkerboard.allowSelectionModeChange &&
           !checkerboard.inSelectionMode) {
