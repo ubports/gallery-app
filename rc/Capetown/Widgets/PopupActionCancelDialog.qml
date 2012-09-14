@@ -18,6 +18,7 @@
  */
 
 import QtQuick 1.1
+import Ubuntu.Components 0.1
 
 PopupDialog {
   id: popupActionCancelDialog
@@ -25,14 +26,16 @@ PopupDialog {
   signal actionRequested()
   signal cancelRequested()
 
-  property alias actionTitle: actionButton.title
-  property alias cancelTitle: cancelButton.title
+  property alias actionTitle: actionButton.text
+  property alias cancelTitle: cancelButton.text
 
   width: gu(40);
   height: gu(26) + originCueHeight;
 
-  PopupDialogButton {
+  Button {
     id: actionButton
+
+    color: "#f15c22"
 
     anchors.left: parent.left
     anchors.leftMargin: gu(2)
@@ -41,14 +44,17 @@ PopupDialog {
     anchors.bottom: parent.bottom
     anchors.bottomMargin: gu(7.5) + originCueHeight
 
-    onPressed: {
+    onClicked: {
       popupActionCancelDialog.actionRequested();
       popupActionCancelDialog.popupInteractionCompleted();
     }
   }
 
-  PopupDialogButton {
+  Button {
     id: cancelButton
+
+    text: "Cancel"
+    color: "#818285"
 
     anchors.left: parent.left
     anchors.leftMargin: gu(2)
@@ -57,9 +63,7 @@ PopupDialog {
     anchors.bottom: parent.bottom
     anchors.bottomMargin: gu(2) + originCueHeight
 
-    isCancelButton: true
-
-    onPressed: {
+    onClicked: {
       popupActionCancelDialog.cancelRequested();
       popupActionCancelDialog.popupInteractionCompleted();
     }
