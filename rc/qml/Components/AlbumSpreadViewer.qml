@@ -40,6 +40,8 @@ Item {
   property alias destinationPage: flipper.destinationPage
   property alias duration: flipper.duration
   property alias flipFraction: flipper.flipFraction
+  property bool freeze: false   // See AlbumPageComponent
+  property bool showCover: true // See AlbumPageComponent
 
   // readonly
   property alias isFlipping: flipper.isFlipping
@@ -49,6 +51,8 @@ Item {
   // can be either the left OR right page.
   property int viewingPage: -1
   property int pagesPerSpread: (isPortrait ? 1 : 2)
+  property alias leftPageComponent: left
+  property alias rightPageComponent: right
 
   function flip() {
     flipper.flipToDestination();
@@ -154,7 +158,7 @@ Item {
 
       anchors.fill: parent
 
-      visible: (backPage >= 0 && !isPortrait)
+      visible: freeze || (backPage >= 0 && !isPortrait)
 
       album: albumSpreadViewer.album
 
@@ -163,6 +167,8 @@ Item {
                                    : viewingPage)
 
       flipFraction: 1
+      freeze: albumSpreadViewer.freeze
+      showCover: albumSpreadViewer.showCover
     }
 
     AlbumPageComponent {
@@ -170,7 +176,7 @@ Item {
 
       anchors.fill: parent
 
-      visible: (Boolean(album) && frontPage < album.totalPageCount)
+      visible: freeze || (Boolean(album) && frontPage < album.totalPageCount)
 
       album: albumSpreadViewer.album
 
@@ -180,6 +186,8 @@ Item {
       }
 
       flipFraction: 0
+      freeze: albumSpreadViewer.freeze
+      showCover: albumSpreadViewer.showCover
     }
 
     AlbumPageFlipper {

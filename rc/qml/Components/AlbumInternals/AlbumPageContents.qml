@@ -37,7 +37,11 @@ Item {
   property real gutterMargin
   property real outerMargin
   property real insideMargin
-
+  
+  // See AlbumPageComponent for descriptions of these properties
+  property bool freeze: false
+  property bool showCover: true
+  
   // readonly
   property bool isCover: cover.visible
   // These constants (only useful when contentHasPreviewFrame is true) expose
@@ -80,13 +84,17 @@ Item {
   
   onAlbumChanged: loader.reload()
   onPageChanged: loader.reload()
+  onFreezeChanged: {
+    if (!freeze)
+      loader.reload();
+  }
 
   Connections {
     target: album
     ignoreUnknownSignals: true
     onContentPagesAltered: loader.reload()
   }
-
+  
   Image {
     id: frame
 
@@ -147,8 +155,11 @@ Item {
     property alias isPreview: albumPageContents.isPreview
 
     function reload() {
+      if (freeze)
+        return;
+      
       mediaSourceList = null;
-      source = "";
+      source = "AlbumPageLayoutLeftPortrait.qml";
 
       if (!album)
         return;
@@ -165,17 +176,17 @@ Item {
     width: contentPageWidth
     height: contentPageHeight
 
-    visible: (source != "")
+    visible: (source != null)
 
     Component.onCompleted: reload()
   }
-
+  
   AlbumCover {
     id: cover
 
     anchors.fill: parent
 
-    visible: (Boolean(album) && (page == 0 || page == album.totalPageCount - 1))
+    visible: showCover && !freeze && (Boolean(album) && (page == 0 || page == album.totalPageCount - 1))
 
     album: albumPageContents.album
     isBack: !isRight
