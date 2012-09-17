@@ -18,6 +18,7 @@
  */
 
 import QtQuick 1.1
+import Ubuntu.Components 0.1
 import "../../Capetown/Widgets"
 
 Toolbar {
@@ -44,7 +45,10 @@ Toolbar {
     anchors.left: parent.left
     anchors.leftMargin: gu(2)
 
-    ToolbarTextButton {
+    Button {
+      height: gu(4)
+      width: gu(15)
+
       text: "Cancel"
 
       visible: wrapper.hasCancelSelectionButton
@@ -76,8 +80,10 @@ Toolbar {
     anchors.right: parent.right
     anchors.rightMargin: gu(2)
 
-    ToolbarTextButton {
+    Button {
       id: selectionDoneButton
+      height: gu(4)
+      width: gu(15)
 
       text: "Done"
 
