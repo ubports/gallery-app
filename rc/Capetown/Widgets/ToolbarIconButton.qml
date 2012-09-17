@@ -19,36 +19,20 @@
  */
 
 import QtQuick 1.1
+import Ubuntu.Components 0.1
 
-Item {
+ButtonWithForeground {
   id: toolbarIconButton
 
-  signal pressed()
   signal pressedAndHeld()
 
   property url selectedIconFilename
   property url deselectedIconFilename
 
-  // readonly
-  property bool isSelected
-
   width: gu(6)
   height: gu(4)
 
-  Image {
-    id: icon
+  iconSource: pressed ? selectedIconFilename : deselectedIconFilename
 
-    anchors.centerIn: parent
-    source: (isSelected ? selectedIconFilename : deselectedIconFilename)
-    cache: true
-  }
-
-  MouseArea {
-    anchors.fill: parent
-
-    onPressed: isSelected = true
-    onReleased: isSelected = false
-    onClicked: toolbarIconButton.pressed()
-    onPressAndHold: toolbarIconButton.pressedAndHeld()
-  }
+  Component.onCompleted: mouseArea.pressAndHold.connect(pressedAndHeld);
 }

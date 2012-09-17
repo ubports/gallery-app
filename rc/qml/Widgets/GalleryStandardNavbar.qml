@@ -56,7 +56,7 @@ Toolbar {
       visible: wrapper.hasReturnButton
       isWhite: wrapper.isDark
 
-      onPressed: wrapper.returnButtonPressed()
+      onClicked: wrapper.returnButtonPressed()
     }
 
     ToolbarIconButton {
@@ -64,7 +64,7 @@ Toolbar {
 
       visible: wrapper.hasStateButton
 
-      onPressed: wrapper.stateButtonPressed()
+      onClicked: wrapper.stateButtonPressed()
     }
   }
 

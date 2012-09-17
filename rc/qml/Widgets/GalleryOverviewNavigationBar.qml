@@ -31,7 +31,7 @@ Toolbar {
     anchors.left: parent.left
     anchors.leftMargin: gu(2)
 
-    onPressed: parent.addCreateOperationButtonPressed()
+    onClicked: parent.addCreateOperationButtonPressed()
   }
 
   ToolbarIconButton {
