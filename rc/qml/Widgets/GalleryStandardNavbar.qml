@@ -49,7 +49,7 @@ Toolbar {
 
       visible: wrapper.hasCancelSelectionButton
 
-      onPressed: wrapper.cancelSelectionButtonPressed()
+      onClicked: wrapper.cancelSelectionButtonPressed()
     }
 
     ReturnToolbarButton {
@@ -83,7 +83,7 @@ Toolbar {
 
       visible: wrapper.hasSelectionDoneButton
 
-      onPressed: wrapper.selectionDoneButtonPressed()
+      onClicked: wrapper.selectionDoneButtonPressed()
     }
   }
 }

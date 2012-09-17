@@ -18,63 +18,9 @@
  */
 
 import QtQuick 1.1
+import Ubuntu.Components 0.1
 
-Item {
+Button {
   id: toolbarTextButton
-
-  signal pressed()
-  signal pressedAndHeld()
-
-  property alias text: text.text
-
-  // readonly
-  property bool isSelected
-
-  width: parts.width
   height: gu(4)
-
-  Row {
-    id: parts
-
-    anchors.centerIn: parent
-    width: childrenRect.width
-    height: parent.height
-
-    Image {
-      source: (isSelected ? "img/button-left-active.png" : "img/button-left-inactive.png")
-      cache: true
-    }
-
-    Image {
-      source: (isSelected ? "img/button-body-active.png" : "img/button-body-inactive.png")
-      cache: true
-      fillMode: Image.TileHorizontally
-      width: text.width
-
-      Text {
-        id: text
-
-        anchors.verticalCenter: parent.verticalCenter
-
-        color: (isSelected ? "white" : "#747273")
-        font.pointSize: pointUnits(9)
-        font.italic: true
-        font.family: "Ubuntu"
-      }
-    }
-
-    Image {
-      source: (isSelected ? "img/button-right-active.png" : "img/button-right-inactive.png")
-      cache: true
-    }
-  }
-
-  MouseArea {
-    anchors.fill: parts
-
-    onPressed: isSelected = true
-    onReleased: isSelected = false
-    onClicked: toolbarTextButton.pressed()
-    onPressAndHold: toolbarTextButton.pressedAndHeld()
-  }
 }
