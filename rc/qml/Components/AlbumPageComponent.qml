@@ -50,6 +50,13 @@ Flipable {
   property real gutterMargin: pageGutterMargin
   property real outerMargin: pageOuterMargin
   property real insideMargin: pageInsideMargin
+  
+  // Prevent the page from reflecting the album as its modified
+  property bool freeze: false
+  
+  // Whether to draw the cover (defaults to true)
+  // This is used to prevent the cover from being drawn during certain transitions.
+  property bool showCover: true
 
   // readonly
   property alias frontIsCover: frontContents.isCover
@@ -97,6 +104,9 @@ Flipable {
     gutterMargin: albumPageComponent.gutterMargin
     outerMargin: albumPageComponent.outerMargin
     insideMargin: albumPageComponent.insideMargin
+    
+    freeze: albumPageComponent.freeze
+    showCover: albumPageComponent.showCover
   }
 
   back: AlbumPageContents {
@@ -115,6 +125,9 @@ Flipable {
     gutterMargin: albumPageComponent.gutterMargin
     outerMargin: albumPageComponent.outerMargin
     insideMargin: albumPageComponent.insideMargin
+    
+    freeze: albumPageComponent.freeze
+    showCover: albumPageComponent.showCover
   }
 
   transform: Rotation {

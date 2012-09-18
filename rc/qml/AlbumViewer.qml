@@ -34,7 +34,9 @@ Rectangle {
   
   // Read-only
   property alias pagesPerSpread: albumSpreadViewer.pagesPerSpread
-  property bool animationRunning: photoViewer.animationRunning
+  property bool animationRunning: photoViewer.animationRunning ||
+    albumSpreadViewer.isFlipping || removeCrossfadeAnimation.running ||
+    albumSpreadViewerForTransition.freeze
   
   // When the user clicks the back button or pages back to the cover.
   signal closeRequested(bool stayOpen, int viewingPage)
@@ -68,6 +70,60 @@ Rectangle {
     }
   }
   
+  function crossfadeRemove() {
+    removeCrossfadeAnimation.restart();
+  }
+  
+  function fadeOutAndFlipRemove(flipToPage) {
+    fadeOutAnimation.flipToPage = flipToPage;
+    fadeOutAnimation.restart();
+  }
+  
+  FadeOutAnimation {
+    id: fadeOutAnimation
+    
+    property int flipToPage: 0
+    
+    target: isPortrait ? albumSpreadViewerForTransition.rightPageComponent :
+                         albumSpreadViewerForTransition.leftPageComponent
+    duration: 200
+    easingType: Easing.Linear
+    
+    onRunningChanged: {
+      if (running)
+        return;
+      
+      flipTimer.restart()
+      
+      albumSpreadViewerForTransition.flipTo(flipToPage);
+      albumSpreadViewer.flipTo(flipToPage);
+    }
+  }
+  
+  Timer {
+    id: flipTimer
+    
+    interval: albumSpreadViewer.duration
+    
+    onTriggered: albumSpreadViewerForTransition.freeze = false
+  }
+  
+  DissolveAnimation {
+    id: removeCrossfadeAnimation
+    
+    duration: 200
+    fadeOutTarget: albumSpreadViewerForTransition
+    fadeInTarget: albumSpreadViewer
+    easingType: Easing.Linear
+    
+    onRunningChanged: {
+      if (running)
+        return;
+      
+      albumSpreadViewerForTransition.freeze = false;
+    }
+  }
+  
   function resetView(album) {
     albumViewer.album = album;
 
@@ -81,6 +137,30 @@ Rectangle {
     albumSpreadViewer.viewingPage = album.currentPage;
   }
   
+  // Used for the cross-fade transition.
+  AlbumSpreadViewer {
+    id: albumSpreadViewerForTransition
+    
+    anchors.fill: parent
+    album: albumViewer.album
+    z: 100
+    visible: freeze
+    
+    Connections {
+      target: albumSpreadViewer
+      
+      onViewingPageChanged: {
+        if (!albumSpreadViewerForTransition.freeze)
+          albumSpreadViewerForTransition.flipTo(albumSpreadViewer.viewingPage);
+      }
+    }
+    
+    onFreezeChanged: {
+      if (!freeze)
+        flipTo(albumSpreadViewer.viewingPage);
+    }
+  }
+  
   AlbumSpreadViewer {
     id: albumSpreadViewer
 
@@ -90,7 +170,9 @@ Rectangle {
     
     // Keyboard focus while visible and viewer is not visible
     focus: !photoViewer.isPoppedUp && visible
-
+    
+    showCover: !albumSpreadViewerForTransition.freeze
+    
     onPageFlipped: chrome.show()
     onPageReleased: chrome.show()
     
@@ -105,7 +187,9 @@ Rectangle {
       if (!albumSpreadViewer.isFlipping &&
           albumSpreadViewer.isPopulatedContentPage(destination)) {
         chrome.hide();
-        albumSpreadViewer.flipTo(destination);
+        
+        albumSpreadViewerForTransition.flipTo(destination);
+        
         event.accepted = true;
       }
     }
@@ -188,7 +272,7 @@ Rectangle {
       }
     }
   }
-
+  
   Checkerboard {
     id: gridCheckerboard
     
@@ -337,14 +421,14 @@ Rectangle {
       function finishRemove() {
         gridCheckerboard.unselectAll();
         gridCheckerboard.inSelectionMode = false;
-
+        
         // If all the photos were removed from the album and it was deleted,
         // album will now be set to null.
         if (!album) {
           albumViewer.closeRequested(true, -1);
           return;
         }
-
+        
         // In the Album model, the last valid current page is the back cover.
         // However, in the UI, we want to stay on the content pages.
         if (album.currentPage > album.lastPopulatedContentPage - 1) {
@@ -353,7 +437,7 @@ Rectangle {
           albumSpreadViewer.viewingPage = album.lastPopulatedContentPage;
         }
       }
-
+      
       popupOriginX: -gu(16.5)
       popupOriginY: -gu(6)
 
@@ -361,14 +445,14 @@ Rectangle {
 
       onRemoveRequested: {
         album.removeSelectedMediaSources(gridCheckerboard.model);
-
-        finishRemove();
+        
+        finishRemove(false);
       }
 
       onDeleteRequested: {
         gridCheckerboard.model.destroySelectedMedia();
 
-        finishRemove();
+        finishRemove(false);
       }
 
       onPopupInteractionCompleted: chrome.hideAllPopups()
@@ -440,17 +524,36 @@ Rectangle {
       
       visible: false
       
-      onRemoveRequested: {
+      // internal
+      // media: photo to remove/delete
+      // deleteMedia: if true, the backing file will be deleted
+      function removeOrDelete(media, deleteMedia) {
+        albumSpreadViewerForTransition.freeze = true;
         album.removeMediaSource(media);
         
-        trashDialog.finishRemove();
+        // Display the proper animation for this case.
+        if (!album) {
+          // If all the photos were removed from the album and it was deleted,
+          // album will now be set to null.
+          albumViewer.closeRequested(true, -1);
+          albumSpreadViewerForTransition.freeze = false;
+        } else if (albumSpreadViewer.viewingPage > album.lastPopulatedContentPage) {
+          // In the Album model, the last valid current page is the back cover.
+          // However, in the UI, we want to stay on the content pages.
+          fadeOutAndFlipRemove(isPortrait ? album.lastPopulatedContentPage :
+                                            album.lastPopulatedContentPage - 1);
+        } else {
+          // For most album situations, just fade the old page into the new one.
+          crossfadeRemove();
+        }
+        
+        if (deleteMedia)
+          gridCheckerboard.model.destroyMedia(media);
       }
       
-      onDeleteRequested: {
-        gridCheckerboard.model.destroyMedia(media);
-        
-        trashDialog.finishRemove();
-      }
+      onRemoveRequested: removeOrDelete(media, false)
+      
+      onDeleteRequested: removeOrDelete(media, true)
       
       onPopupInteractionCompleted: chrome.hideAllPopups()
       
@@ -531,13 +634,5 @@ Rectangle {
         albumSpreadViewer.flipTo(firstChangedSpread);
       }
     }
-  }
-  
-  MouseArea {
-    id: blocker
-    
-    anchors.fill: parent
-    
-    visible: albumSpreadViewer.isFlipping
   }
 }
