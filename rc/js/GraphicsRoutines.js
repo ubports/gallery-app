@@ -69,6 +69,7 @@ function fitRect(viewport, item) {
   result.height = clamp(result.height, 0, viewport.height);
   result.x = viewport.x + (viewport.width - result.width) / 2;
   result.y = viewport.y + (viewport.height - result.height) / 2;
+  result.scaleFactor = scaleFactor;
 
   return result;
 }

@@ -65,20 +65,17 @@ Item {
   signal matteRegionPressed()
   signal cropButtonPressed()
 
-  function reset() {
+  function resetFor(rectSet) {
     if (initialFrameX != -1 && initialFrameY != -1 && initialFrameWidth != -1 &&
         initialFrameHeight != -1) {
-      photo.scale = 1.0;
-      photo.x = initialFrameX
-      photo.y = initialFrameY
-      frame.x = initialFrameX;
-      frame.y = initialFrameY;
-      frame.width = initialFrameWidth;
-      frame.height = initialFrameHeight;
-      photoExtent.x = initialFrameX;
-      photoExtent.y = initialFrameY;
-      photoExtent.width = initialFrameWidth;
-      photoExtent.height = initialFrameHeight;
+      frame.x = rectSet.cropFrameRect.x;
+      frame.y = rectSet.cropFrameRect.y;
+      frame.width = rectSet.cropFrameRect.width;
+      frame.height = rectSet.cropFrameRect.height;
+      photoExtent.x = rectSet.photoExtentRect.x;
+      photoExtent.y = rectSet.photoExtentRect.y;
+      photoExtent.width = rectSet.photoExtentRect.width;
+      photoExtent.height = rectSet.photoExtentRect.height;
     }
   }
 

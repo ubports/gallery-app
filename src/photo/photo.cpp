@@ -171,7 +171,7 @@ QVariant Photo::prepareForCropping() {
   // this creating an undoable edit (to make the cancel button in the crop tool
   // function correctly) so we do an edit anyway.
 
-  QRectF ratio_crop_rect(0.25, 0.25, 0.5, 0.5);
+  QRectF ratio_crop_rect(0.0, 0.0, 1.0, 1.0);
   if (current_state().crop_rectangle_.isValid()) {
     QSize image_size = get_original_size(current_state().orientation_);
 

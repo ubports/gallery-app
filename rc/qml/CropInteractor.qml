@@ -44,21 +44,55 @@ Item {
   // internal
   property variant ratio_crop_rect
 
+  function computeRectSet(photo, relativeCropRect) {
+    var result = { };
+
+    var wholePhotoPreviewRect = GraphicsRoutines.fitRect(viewport,
+      cropInteractor.photo);
+
+    var unfitCropRect = Qt.rect(0, 0, 1, 1);
+    unfitCropRect.x = relativeCropRect.x * wholePhotoPreviewRect.width;
+    unfitCropRect.y = relativeCropRect.y * wholePhotoPreviewRect.height;
+    unfitCropRect.width = relativeCropRect.width * wholePhotoPreviewRect.width;
+    unfitCropRect.height = relativeCropRect.height *
+      wholePhotoPreviewRect.height;
+
+    var cropFrameRect = GraphicsRoutines.fitRect(viewport, unfitCropRect);
+
+    var photoExtentRect = Qt.rect(0, 0, 1, 1);
+    photoExtentRect.x = cropFrameRect.x - (cropFrameRect.scaleFactor *
+      wholePhotoPreviewRect.width * relativeCropRect.x);
+    photoExtentRect.y = cropFrameRect.y - (cropFrameRect.scaleFactor *
+      wholePhotoPreviewRect.height * relativeCropRect.y);
+    photoExtentRect.width = cropFrameRect.scaleFactor *
+      wholePhotoPreviewRect.width;
+    photoExtentRect.height = cropFrameRect.scaleFactor *
+      wholePhotoPreviewRect.height;
+    photoExtentRect.scaleFactor = cropFrameRect.scaleFactor;
+
+    result.photoPreviewRect = wholePhotoPreviewRect;
+    result.cropFrameRect = cropFrameRect;
+    result.photoExtentRect = photoExtentRect;
+
+    return result;
+  }
+
   function enterCropper(photo, ratio_crop_rect) {
     cropInteractor.photo = photo;
     original.mediaSource = photo;
     cropInteractor.ratio_crop_rect = ratio_crop_rect;
 
-    var fitRect = GraphicsRoutines.fitRect(viewport, cropInteractor.photo);
+    var rects = computeRectSet(photo, ratio_crop_rect);
 
-    overlay.initialFrameX = fitRect.x;
-    overlay.initialFrameY = fitRect.y;
-    overlay.initialFrameWidth = fitRect.width;
-    overlay.initialFrameHeight = fitRect.height;
+    overlay.initialFrameX = rects.cropFrameRect.x;
+    overlay.initialFrameY = rects.cropFrameRect.y;
+    overlay.initialFrameWidth = rects.cropFrameRect.width;
+    overlay.initialFrameHeight = rects.cropFrameRect.height;
 
-    overlay.reset();
-    overlay.visible = true;
+    overlay.resetFor(rects);
+
     original.visible = true;
+    overlay.visible = true;
   }
 
   Item {
@@ -90,6 +124,9 @@ Item {
     }
 
     onCropButtonPressed: {
+      original.visible = false;
+      overlay.visible = false;
+      original.scale = 1.0;
       cropInteractor.cropped(overlay.getRelativeFrameRect());
     }
   }
@@ -101,6 +138,7 @@ Item {
     y: viewport.y;
     width: viewport.width;
     height: viewport.height;
+    transformOrigin: Item.TopLeft;
 
     color: "black"
     visible: false
@@ -109,17 +147,14 @@ Item {
     ownerName: "cropInteractor"
 
     onLoaded: {
-      var fitRect = GraphicsRoutines.fitRect(viewport, cropInteractor.photo);
+      var rects = cropInteractor.computeRectSet(cropInteractor.photo,
+        cropInteractor.ratio_crop_rect);
 
-      x = fitRect.x;
-      y = fitRect.y;
-      width = fitRect.width;
-      height = fitRect.height;
-
-      overlay.initialFrameX = x;
-      overlay.initialFrameY = y;
-      overlay.initialFrameWidth = width;
-      overlay.initialFrameHeight = height;
+      x = rects.photoExtentRect.x;
+      y = rects.photoExtentRect.y;
+      width = rects.photoPreviewRect.width;
+      height = rects.photoPreviewRect.height;
+      scale = rects.photoExtentRect.scaleFactor;
     }
   }
 }
