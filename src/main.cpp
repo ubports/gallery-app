@@ -117,7 +117,7 @@ int main(int argc, char *argv[]) {
   // TODO: Need to use an initialization system that deals with init order
   // issues
   Resource::Init(app.applicationDirPath(), INSTALL_PREFIX);
-  Database::Init(db_dir);
+  Database::Init(db_dir, &app);
   Database::instance()->get_media_table()->verify_files();
   AlbumDefaultTemplate::Init();
   MediaCollection::Init(pictures_path); // only init after db

@@ -24,10 +24,10 @@
 Database* Database::instance_ = NULL;
 
 
-void Database::Init(const QDir& db_dir) {
+void Database::Init(const QDir& db_dir, QObject* parent) {
   Q_ASSERT(instance_ == NULL);
   
-  instance_ = new Database(db_dir, NULL);
+  instance_ = new Database(db_dir, parent);
 }
 
 Database* Database::instance() {
@@ -36,23 +36,26 @@ Database* Database::instance() {
   return instance_;
 }
 
-Database::Database(const QDir& db_dir, QObject* parent) : QObject(parent) {
-  // Setup database.
-  db_ = QSqlDatabase::addDatabase("QSQLITE");
+Database::Database(const QDir& db_dir, QObject* parent) : QObject(parent), 
+  db_dir_(db_dir) {
   
   album_table_ = new AlbumTable(this, this);
   media_table_ = new MediaTable(this, this);
   photo_edit_table_ = new PhotoEditTable(this, this);
   
   // Open the database.
-  db_.setDatabaseName(db_dir.path() + "/gallery.sqlite");
-  if (!db_.open()) {
-    qDebug("Could not open db.");
-    return;
+  if (!open_db())
+    restore_from_backup();
+  
+  // Attempt a query to make sure the DB is valid.
+  QSqlQuery test_query(db_);
+  if (!test_query.exec("SELECT * FROM SQLITE_MASTER LIMIT 1")) {
+    log_sql_error(test_query);
+    restore_from_backup();
   }
   
-  // Turn synchronous off.
   QSqlQuery query(db_);
+  // Turn synchronous off.
   if (!query.exec("PRAGMA synchronous = OFF")) {
     log_sql_error(query);
     return;
@@ -72,11 +75,24 @@ Database::~Database() {
   delete album_table_;
   delete media_table_;
   delete photo_edit_table_;
+  
+  create_backup();
 }
 
 void Database::log_sql_error(QSqlQuery& q) const {
   qDebug() << "SQLite error: " << q.lastError();
   qDebug() << "SQLite string: " << q.lastQuery();
+}
+
+bool Database::open_db() {
+  db_ = QSqlDatabase::addDatabase("QSQLITE");
+  db_.setDatabaseName(get_db_name());
+  if (!db_.open()) {
+    qDebug() << "Error opening DB: " << db_.lastError().text();
+    return false;
+  }
+  
+  return true;
 }
 
 int Database::get_schema_version() const {
@@ -164,4 +180,32 @@ QSqlDatabase* Database::get_db() {
 
 QDir Database::get_sql_dir() {
   return QDir(Resource::instance()->get_rc_url("sql").path());
+}
+
+void Database::restore_from_backup() {
+  db_.close();
+  
+  // Remove existing DB.
+  QFile bad_db(get_db_name());
+  if (!bad_db.remove())
+    qDebug() << "Could not remove old file.";
+  
+  // Copy the backup, if it exists.
+  QFile file(get_db_backup_name());
+  if (file.exists()) {
+    qDebug() << "Restoring database from backup.";
+    file.copy(get_db_name());
+  }
+  
+  open_db();
+}
+
+void Database::create_backup() {
+  QFile old_backup(get_db_backup_name());
+  if (!old_backup.remove())
+    qDebug() << "Could not remove existing backup.";
+  
+  // Copy the database to the backup.
+  QFile file(get_db_name());
+  file.copy(get_db_backup_name());
 }

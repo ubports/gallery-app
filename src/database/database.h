@@ -42,7 +42,7 @@ class Database : public QObject {
   
  public:
   
-  static void Init(const QDir& db_dir);
+  static void Init(const QDir& db_dir, QObject* parent);
   static Database* instance();
   
   ~Database();
@@ -58,6 +58,9 @@ class Database : public QObject {
  private:
   Database(const QDir& db_dir, QObject* parent = 0);
   
+  // Open the SQLite database.
+  bool open_db();
+  
   // Get/set schema version.
   int get_schema_version() const;
   void set_schema_version(int version);
@@ -71,8 +74,23 @@ class Database : public QObject {
   // Returns the directory where the .sql files live.
   QDir get_sql_dir();
   
+  inline QString get_db_name() {
+    return db_dir_.path() + "/gallery.sqlite";
+  }
+  
+  inline QString get_db_backup_name() {
+    return db_dir_.path() + "/gallery.sqlite.bak";
+  }
+  
+  // Restores the database from the auto-backup, if possible.
+  void restore_from_backup();
+  
+  // Creates the auto-backup.
+  void create_backup();
+  
   static Database* instance_;
   QSqlDatabase db_;
+  QDir db_dir_;
   
   AlbumTable* album_table_;
   MediaTable* media_table_;
