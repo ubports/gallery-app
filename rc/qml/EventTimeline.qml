@@ -36,7 +36,7 @@ Item {
   
   property int elementWidth: Gallery.getDeviceSpecific('photoThumbnailWidthTimeline')
   property int elementHeight: Gallery.getDeviceSpecific('photoThumbnailHeightTimeline')
-  property int elementSpacing: gu(1)
+  property int verticalGutter: gu(2)
   
   property real topExtraGutter: 0
   property real bottomExtraGutter: 0
@@ -80,7 +80,8 @@ Item {
     return ve;
   }
   
-  function getRectOfEvent(event) {
+  // Returns a rect with additional z property.
+  function getGeometryOfEvent(event) {
     for (var ctr = 0; ctr < list.contentItem.children.length; ctr++) {
       var item = list.contentItem.children[ctr];
       if (item.objectName != "eventTimelineElement")
@@ -90,14 +91,18 @@ Item {
         return child.objectName == "eventCard" && child.event == event;
       });
       
-      if (eventCard)
-        return GalleryUtility.getRectRelativeTo(eventCard, eventTimeline);
+      if (eventCard) {
+        var geom = GalleryUtility.getRectRelativeTo(eventCard, eventTimeline);
+        geom.z = eventCard.z;
+        return geom;
+      }
     }
     
     return undefined;
   }
   
-  function getRectOfMediaSource(mediaSource) {
+  // Returns a rect with additional z property.
+  function getGeometryOfMediaSource(mediaSource) {
     for (var ctr = 0; ctr < list.contentItem.children.length; ctr++) {
       var item = list.contentItem.children[ctr];
       if (item.objectName != "eventTimelineElement")
@@ -107,8 +112,11 @@ Item {
         return child.mediaSource == mediaSource;
       });
       
-      if (photoComponent)
-        return GalleryUtility.getRectRelativeTo(photoComponent, eventTimeline);
+      if (photoComponent) {
+        var geom = GalleryUtility.getRectRelativeTo(photoComponent, eventTimeline);
+        geom.z = photoComponent.z;
+        return geom;
+      }
     }
     
     return undefined;
@@ -120,13 +128,13 @@ Item {
     id: list
 
     anchors.fill: parent
-    anchors.topMargin: topExtraGutter
-    anchors.bottomMargin: bottomExtraGutter
+    anchors.topMargin: topExtraGutter + verticalGutter
+    anchors.bottomMargin: bottomExtraGutter + verticalGutter
     anchors.leftMargin: leftExtraGutter
     anchors.rightMargin: rightExtraGutter
 
     orientation: ListView.Vertical
-    spacing: elementSpacing
+    spacing: verticalGutter
 
     cacheBuffer: height * 2
 
@@ -143,62 +151,70 @@ Item {
       width: list.width
       height: elementHeight
       
-      Row {
-        id: leftList
+      Repeater {
+        id: leftRepeater
 
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.right: eventCard.horizontalCenter
+        model: MediaCollectionModel {
+          id: leftRepeaterModel
 
-        spacing: elementSpacing
+          forCollection: event
+          limit: Math.min(Math.ceil(rawCount / 2), headTailCount)
+        }
 
-        Repeater {
-          model: MediaCollectionModel {
-            forCollection: event
-            limit: Math.min(Math.ceil(rawCount / 2), headTailCount)
+        MattedPhotoPreview {
+          id: leftThumbnail
+
+          property int position: headTailCount - leftRepeaterModel.count + index
+
+          x: {
+            var x = eventCard.x - elementWidth / 2;
+            if (position < 2)
+              x -= Gallery.getDeviceSpecific('timelineFirstPhotoDistance');
+            if (position < 1)
+              x -= Gallery.getDeviceSpecific('timelineSecondPhotoDistance');
+            return x;
           }
+          y: eventCard.y
+          z: position + 1
+          width: elementWidth
+          height: elementHeight
 
-          MattedPhotoPreview {
-            id: leftThumbnail
+          mediaSource: model.mediaSource
+          ownerName: "EventTimeline"
 
-            width: elementWidth
-            height: elementHeight
-
-            mediaSource: model.mediaSource
-            ownerName: "EventTimeline"
-            
-            opacity: Gallery.EVENT_TIMELINE_MEDIA_SOURCE_OPACITY
-          }
+          opacity: Gallery.EVENT_TIMELINE_MEDIA_SOURCE_OPACITY
         }
       }
 
-      Row {
-        id: rightList
+      Repeater {
+        id: rightRepeater
 
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.left: eventCard.horizontalCenter
+        model: MediaCollectionModel {
+          forCollection: event
+          limit: Math.min(Math.floor(rawCount / 2), headTailCount)
+          head: 0 - limit
+        }
 
-        spacing: elementSpacing
+        MattedPhotoPreview {
+          id: rightThumbnail
 
-        Repeater {
-          model: MediaCollectionModel {
-            forCollection: event
-            limit: Math.min(Math.floor(rawCount / 2), headTailCount)
-            head: 0 - limit
+          x: {
+            var x = eventCard.x + elementWidth / 2;
+            if (index > 0)
+              x += Gallery.getDeviceSpecific('timelineFirstPhotoDistance');
+            if (index > 1)
+              x += Gallery.getDeviceSpecific('timelineSecondPhotoDistance');
+            return x;
           }
+          y: eventCard.y
+          z: headTailCount - index
+          width: elementWidth
+          height: elementHeight
 
-          MattedPhotoPreview {
-            id: rightThumbnail
+          mediaSource: model.mediaSource
+          ownerName: "EventTimeline"
 
-            width: elementWidth
-            height: elementHeight
-
-            mediaSource: model.mediaSource
-            ownerName: "EventTimeline"
-            
-            opacity: Gallery.EVENT_TIMELINE_MEDIA_SOURCE_OPACITY
-          }
+          opacity: Gallery.EVENT_TIMELINE_MEDIA_SOURCE_OPACITY
         }
       }
 
@@ -207,6 +223,8 @@ Item {
         objectName: "eventCard"
 
         anchors.centerIn: parent
+
+        z: headTailCount + 1
 
         width: eventCardWidth
         height: eventCardHeight

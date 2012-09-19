@@ -48,6 +48,11 @@ Item {
   // internal
   property EventOverviewModel model: EventOverviewModel {}
   property int xMax: width / delegateWidth
+  property int gridWidth: Gallery.getDeviceSpecific('photoThumbnailWidth')
+  property int gridHeight: Gallery.getDeviceSpecific('photoThumbnailHeight')
+  property int timelineWidth: Gallery.getDeviceSpecific('photoThumbnailWidthTimeline')
+  property int timelineHeight: Gallery.getDeviceSpecific('photoThumbnailHeightTimeline')
+
   
   states: [
     State {
@@ -186,6 +191,8 @@ Item {
             target: cell
             x: gridX
             y: gridY
+            width: gridWidth
+            height: gridHeight
             opacity: 1.0
           }
         },
@@ -197,6 +204,8 @@ Item {
             target: cell
             x: timelineX
             y: timelineY
+            width: timelineWidth
+            height: timelineHeight
             opacity: {
               if (disappears || hidesUnderEvent)
                 return 0.0;
@@ -216,7 +225,7 @@ Item {
           
           SequentialAnimation {
             PropertyAnimation {
-              properties: "x,y,opacity"
+              properties: "x,y,width,height,opacity"
               easing.type: Easing.InOutQuad
               duration: eventTimelineTransition.duration
             }
@@ -236,7 +245,7 @@ Item {
           
           SequentialAnimation {
             PropertyAnimation {
-              properties: "x,y,opacity"
+              properties: "x,y,width,height,opacity"
               easing.type: Easing.InOutQuad
               duration: eventTimelineTransition.duration
             }
@@ -285,18 +294,20 @@ Item {
         // 2. If Photo and visible in Event Timeline, fly to PhotoComponent position
         // 3. If Photo and not visible in Event Timeline, fly to assoc. EventCard
         
-        var rect = !isEvent ? timeline.getRectOfMediaSource(model.mediaSource) : undefined;
-        if (!rect && !isEvent) {
-          rect = timeline.getRectOfEvent(model.mediaSource.event);
+        var geom = !isEvent ? timeline.getGeometryOfMediaSource(model.mediaSource) : undefined;
+        if (!geom && !isEvent) {
+          geom = timeline.getGeometryOfEvent(model.mediaSource.event);
           hidesUnderEvent = true;
         } else if (isEvent) {
-          rect = timeline.getRectOfEvent(model.object);
+          geom = timeline.getGeometryOfEvent(model.object);
         }
         
-        if (rect) {
-          rect = GalleryUtility.translateRect(rect, timeline, eventTimelineTransition);
-          timelineX = rect.x;
-          timelineY = rect.y;
+        if (geom) {
+          if (!hidesUnderEvent)
+            z = geom.z;
+          geom = GalleryUtility.translateRect(geom, timeline, eventTimelineTransition);
+          timelineX = geom.x;
+          timelineY = geom.y;
         } else {
           // this can happen if the event line hasn't been instantiated yet
           // in the timeline (due to ListView only instantiating delegates
@@ -309,6 +320,8 @@ Item {
       }
       
       EventCheckerboardPreview {
+        anchors.fill: parent
+
         ownerName: "EventTimelineTransition"
 
         mediaSource: (model.typeName == "MediaSource") ? model.mediaSource : undefined

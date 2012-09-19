@@ -21,24 +21,26 @@ var EVENT_TIMELINE_MEDIA_SOURCE_OPACITY = 0.8;
 var EVENT_TIMELINE_EVENT_CARD_OPACITY = 1.0;
 
 function getDeviceSpecific(key, form_factor, is_portrait) {
+  // Big list of form factor-specific values.  'default' is used if the key
+  // can't be found under any other form_factor (otherwise, form_factors should
+  // match the FORM_FACTOR values passed from main.cpp).  Just add Portrait to
+  // the end of a key to make it portrait-mode specific.
   var specifics = {
     'default': {
       photoThumbnailWidth: gu(24),
       photoThumbnailHeight: gu(18),
-      photoThumbnailWidthTimeline: gu(24),
-      photoThumbnailHeightTimeline: gu(18),
 
       photoGridTopMargin: gu(2),
       photoGridLeftMargin: gu(2),
       photoGridRightMargin: gu(2),
-      photoGridTopMarginPortrait: gu(2),
-      photoGridLeftMarginPortrait: gu(2),
-      photoGridRightMarginPortrait: gu(2),
 
       photoGridGutterWidth: gu(2),
       photoGridGutterHeight: gu(2),
-      photoGridGutterWidthPortrait: gu(2),
-      photoGridGutterHeightPortrait: gu(2),
+
+      photoThumbnailWidthTimeline: gu(24),
+      photoThumbnailHeightTimeline: gu(18),
+      timelineFirstPhotoDistance: gu(25), // width + 1
+      timelineSecondPhotoDistance: gu(25), // width + 1
 
       albumThumbnailWidth: gu(28),
       albumThumbnailHeight: gu(33),
@@ -47,8 +49,6 @@ function getDeviceSpecific(key, form_factor, is_portrait) {
     phone: {
       photoThumbnailWidth: gu(17),
       photoThumbnailHeight: gu(13),
-      photoThumbnailWidthTimeline: gu(13),
-      photoThumbnailHeightTimeline: gu(10),
 
       photoGridTopMargin: gu(2),
       photoGridLeftMargin: gu(4),
@@ -62,6 +62,13 @@ function getDeviceSpecific(key, form_factor, is_portrait) {
       photoGridGutterWidthPortrait: gu(2),
       photoGridGutterHeightPortrait: gu(2),
 
+      photoThumbnailWidthTimeline: gu(13),
+      photoThumbnailHeightTimeline: gu(10),
+      timelineFirstPhotoDistance: gu(10.5),
+      timelineSecondPhotoDistance: gu(10),
+      timelineFirstPhotoDistancePortrait: gu(3),
+      timelineSecondPhotoDistancePortrait: gu(2),
+
       albumThumbnailWidth: gu(17),
       albumThumbnailHeight: gu(20),
     },
@@ -72,6 +79,8 @@ function getDeviceSpecific(key, form_factor, is_portrait) {
 
   if (!form_factor)
     form_factor = FORM_FACTOR; // From C++.
+  if (form_factor === 'sidebar')
+    form_factor = 'phone'; // Equivalent; saves typing above.
   if (specifics[form_factor] === undefined)
     form_factor = 'default';
 
