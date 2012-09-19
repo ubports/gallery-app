@@ -58,7 +58,7 @@ Toolbar {
 
       visible: false
 
-      onPressed: wrapper.selectionOperationsButtonPressed(selectionToolbarButton)
+      onClicked: wrapper.selectionOperationsButtonPressed(selectionToolbarButton)
     }
 
     EditOperationsToolbarButton {
@@ -66,7 +66,7 @@ Toolbar {
 
       visible: false
 
-      onPressed: wrapper.editOperationsButtonPressed()
+      onClicked: wrapper.editOperationsButtonPressed()
     }
   }
 
@@ -96,7 +96,7 @@ Toolbar {
       visible: hasFullIconSet
       isWhite: wrapper.isDark
 
-      onPressed: wrapper.trashOperationButtonPressed();
+      onClicked: wrapper.trashOperationButtonPressed();
     }
 
     AlbumOperationsToolbarButton {
@@ -105,13 +105,13 @@ Toolbar {
       visible: hasFullIconSet && hasAlbumOperationsButton
       isWhite: wrapper.isDark
 
-      onPressed: wrapper.albumOperationsButtonPressed();
+      onClicked: wrapper.albumOperationsButtonPressed();
     }
 
     ShareOperationsToolbarButton {
       isWhite: wrapper.isDark
 
-      onPressed: wrapper.shareOperationsButtonPressed();
+      onClicked: wrapper.shareOperationsButtonPressed();
     }
 
     MoreOperationsToolbarButton {
@@ -119,7 +119,7 @@ Toolbar {
 
       isWhite: wrapper.isDark
 
-      onPressed: wrapper.moreOperationsButtonPressed();
+      onClicked: wrapper.moreOperationsButtonPressed();
     }
   }
 }
