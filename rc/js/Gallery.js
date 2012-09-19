@@ -44,6 +44,13 @@ function getDeviceSpecific(key, form_factor, is_portrait) {
 
       albumThumbnailWidth: gu(28),
       albumThumbnailHeight: gu(33),
+
+      albumGridTopMargin: gu(2),
+      albumGridLeftMargin: gu(2),
+      albumGridRightMargin: gu(2),
+
+      albumGridGutterWidth: gu(6),
+      albumGridGutterHeight: gu(8),
     },
 
     phone: {
@@ -71,6 +78,18 @@ function getDeviceSpecific(key, form_factor, is_portrait) {
 
       albumThumbnailWidth: gu(17),
       albumThumbnailHeight: gu(20),
+
+      albumGridTopMargin: gu(1),
+      albumGridLeftMargin: gu(4),
+      albumGridRightMargin: gu(4),
+      albumGridTopMarginPortrait: -gu(1), // gets added to a bigger positive value
+      albumGridLeftMarginPortrait: gu(1),
+      albumGridRightMarginPortrait: gu(1),
+
+      albumGridGutterWidth: gu(4),
+      albumGridGutterHeight: gu(6),
+      albumGridGutterWidthPortrait: gu(2),
+      albumGridGutterHeightPortrait: gu(6),
     },
   };
 

@@ -180,15 +180,15 @@ Rectangle {
 
     anchors.fill: parent
 
-    topExtraGutter: gu(2) + navbar.height
-    bottomExtraGutter: gu(0)
-    leftExtraGutter: gu(2)
-    rightExtraGutter: gu(2)
+    topExtraGutter: navbar.height + Gallery.getDeviceSpecific("albumGridTopMargin")
+    bottomExtraGutter: Gallery.getDeviceSpecific("albumGridGutterHeight") / 2
+    leftExtraGutter: Gallery.getDeviceSpecific("albumGridLeftMargin")
+    rightExtraGutter: Gallery.getDeviceSpecific("albumGridRightMargin")
 
-    itemWidth: gu(28)
-    itemHeight: gu(33)
-    minGutterWidth: gu(6)
-    minGutterHeight: gu(8)
+    itemWidth: Gallery.getDeviceSpecific("albumThumbnailWidth")
+    itemHeight: Gallery.getDeviceSpecific("albumThumbnailHeight")
+    minGutterWidth: Gallery.getDeviceSpecific("albumGridGutterWidth")
+    minGutterHeight: Gallery.getDeviceSpecific("albumGridGutterHeight")
 
     visible: false
     allowSelectionModeChange: false
@@ -246,6 +246,9 @@ Rectangle {
         id: albumThumbnail
 
         property real maxAddScale: 0.5
+
+        width: albumsCheckerboard.itemWidth
+        height: albumsCheckerboard.itemHeight
 
         album: modelData.album
 
