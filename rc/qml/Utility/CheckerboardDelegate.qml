@@ -43,6 +43,7 @@ Item {
   property bool contentIsSwipable: false
   // Whether to apply the default selection highlighting internally.
   property bool useInternalSelectionHighlight: true
+  property bool enabled: true
 
   // readonly
   property variant modelData: model
@@ -52,6 +53,7 @@ Item {
 
   width: checkerboard.delegateWidth
   height: checkerboard.delegateHeight
+  opacity: enabled ? 1 : 0.2
   
   Component.onCompleted: {
     if (content)
@@ -103,7 +105,7 @@ Item {
 
       anchors.fill: parent
 
-      visible: !contentIsSwipable
+      visible: !contentIsSwipable && checkerboardDelegate.enabled
 
       acceptedButtons: Qt.LeftButton | Qt.RightButton
 
@@ -121,7 +123,7 @@ Item {
 
       anchors.fill: parent
 
-      visible: contentIsSwipable
+      visible: contentIsSwipable && checkerboardDelegate.enabled
 
       onLongPressed: contentArea.alternativePressed()
       onTapped: {

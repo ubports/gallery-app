@@ -49,6 +49,10 @@ bool ContainerSource::Contains(DataObject* object) const {
   return contained_.Contains(object);
 }
 
+bool ContainerSource::ContainsAll(ContainerSource* collection) const {
+  return contained_.ContainsAll(&collection->contained_);
+}
+
 int ContainerSource::ContainedCount() const {
   return contained_.Count();
 }

@@ -70,6 +70,7 @@ Item {
 
       allowSelectionModeChange: false
       inSelectionMode: true
+      disableMediaInAlbum: mediaSelector.album
     }
 
     ViewerChrome {

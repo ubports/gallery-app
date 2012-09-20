@@ -102,6 +102,8 @@ class Album : public ContainerSource {
   Q_INVOKABLE void removeSelectedMediaSources(QVariant vmodel);
   Q_INVOKABLE QVariant getPage(int page) const;
   Q_INVOKABLE int getPageForMediaSource(QVariant vmedia) const;
+  Q_INVOKABLE bool containsMedia(QVariant vmedia) const;
+  Q_INVOKABLE bool containsAll(QVariant vContainerSource) const;
   
   const QString& title() const;
   void set_title(QString title);

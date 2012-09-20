@@ -106,7 +106,7 @@ QVariant Album::addSelectedMediaSources(QVariant vmodel) {
   QSet<DataObject*> adding = media_sources - contained()->GetAsSet();
 
   AttachMany(media_sources);
-
+  
   QList<DataObject*> sorted(adding.toList());
   qSort(sorted.begin(), sorted.end(), contained()->comparator());
 
@@ -133,7 +133,7 @@ void Album::removeSelectedMediaSources(QVariant vmodel) {
   DetachMany(
     FilterSetOnlyType<DataObject*, MediaSource*>(
       model->BackingViewCollection()->GetSelected()));
-
+  
   // TODO: it's unfortunate that this has to happen here AND in AlbumCollection
   // to handle all photos removed AND all photos deleted.  Ideally they could
   // be combined somewhere in notify_container_contents_altered() below, but it
@@ -165,6 +165,22 @@ int Album::getPageForMediaSource(QVariant vmedia) const {
   }
   
   return -1;
+}
+
+bool Album::containsMedia(QVariant vmedia) const {
+  MediaSource* media = UncheckedVariantToObject<MediaSource*>(vmedia);
+  if (media == NULL)
+    return false;
+  
+  return Contains(media);
+}
+
+bool Album::containsAll(QVariant vContainerSource) const {
+  ContainerSource* container = UncheckedVariantToObject<ContainerSource*>(vContainerSource);
+  if (container == NULL)
+    return false;
+  
+  return ContainsAll(container);
 }
 
 const QString& Album::title() const {

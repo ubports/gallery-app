@@ -50,6 +50,7 @@ class ContainerSource : public DataSource {
   void DetachMany(const QSet<DataObject*>& objects);
   
   bool Contains(DataObject* object) const;
+  bool ContainsAll(ContainerSource* collection) const;
   int ContainedCount() const;
   const ViewCollection* contained() const;
   

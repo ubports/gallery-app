@@ -23,6 +23,9 @@ import Gallery 1.0
 Checkerboard {
   id: eventCheckerboard
   
+  // Set this to an album to "grey out" photos already in the album.
+  property variant disableMediaInAlbum: null
+  
   property real selectionFooterHeight: gu(6) // Toolbar height
 
   function getVisibleMediaSources() {
@@ -69,12 +72,44 @@ Checkerboard {
     id: eventCheckerboardDelegate
     
     checkerboard: eventCheckerboard
+    enabled: true
     
     // internal
     // Needed for getVisibleMediaSources() and getVisibleEvents() above.
     property alias mediaSource: preview.mediaSource
     property alias event: preview.event
-
+    
+    // If an album is specified, disable photos already in the album.  If this
+    // delegate is an event card, disable the event card if all the photos are
+    // present in that album.
+    function updateEnabled() {
+      if (!checkerboard.disableMediaInAlbum)
+        return;
+      
+      if (mediaSource) {
+        eventCheckerboardDelegate.enabled =
+          !checkerboard.disableMediaInAlbum.containsMedia(modelData.mediaSource);
+      } else {
+        eventCheckerboardDelegate.enabled = !disableMediaInAlbum.containsAll(event);
+      }
+    }
+    
+    Connections {
+      target: checkerboard
+      ignoreUnknownSignals: true
+      
+      onDisableMediaInAlbumChanged: updateEnabled()
+    }
+    
+    Connections {
+      target: checkerboard.disableMediaInAlbum || null
+      ignoreUnknownSignals: true
+      
+      onAllMediaSourcesChanged: updateEnabled()
+    }
+    
+    Component.onCompleted: updateEnabled()
+    
     content: EventCheckerboardPreview {
       id: preview
 
@@ -82,7 +117,7 @@ Checkerboard {
 
       mediaSource: (modelData.typeName == "MediaSource") ? modelData.mediaSource : undefined
       event: (modelData.typeName == "Event") ? modelData.object : undefined
-      isSelected: eventCheckerboardDelegate.isSelected
+      isSelected: eventCheckerboardDelegate.isSelected && eventCheckerboardDelegate.enabled
     }
   }
 

@@ -74,6 +74,7 @@ class DataCollection : public QObject {
   void Clear();
   
   bool Contains(DataObject* object) const;
+  bool ContainsAll(DataCollection* collection) const;
   const QList<DataObject*>& GetAll() const;
   const QSet<DataObject*>& GetAsSet() const;
   DataObject* GetAt(int index) const;

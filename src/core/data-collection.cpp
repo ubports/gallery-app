@@ -186,6 +186,10 @@ bool DataCollection::Contains(DataObject* object) const {
   return set_.contains(object);
 }
 
+bool DataCollection::ContainsAll(DataCollection* collection) const {
+  return set_.contains(collection->set_);
+}
+
 DataObject* DataCollection::GetAt(int index) const {
   return (index >= 0 && index < list_.size()) ? list_[index] : NULL;
 }
