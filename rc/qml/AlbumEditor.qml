@@ -22,6 +22,7 @@ import QtQuick 1.1
 import Gallery 1.0
 import "../Capetown"
 import "../js/GalleryUtility.js" as GalleryUtility
+import "../js/GraphicsRoutines.js" as GraphicsRoutines
 import "Components"
 import "Widgets"
 
@@ -31,6 +32,11 @@ Item {
   signal closeRequested(variant album, bool enterViewer)
 
   property Album album
+  property real minimumCoverWidth: gu(32)
+  property real minimumCoverHeight: gu(38)
+  property real preferredCoverWidth: width - gu(8)
+  property real preferredCoverHeight: height - gu(8)
+  property real minimumTopMargin: gu(3)
 
   // readonly
   property variant editorRect
@@ -92,10 +98,13 @@ Item {
   AspectArea {
     id: coverArea
 
-    anchors.centerIn: parent
+    x: (parent.width - width) / 2
+    y: Math.max((parent.height - height) / 2, minimumTopMargin)
 
-    width: Math.min(parent.width - gu(8), canonicalWidth)
-    height: Math.min(parent.height - gu(8), canonicalHeight)
+    width: GraphicsRoutines.clamp(
+        preferredCoverWidth, minimumCoverWidth, canonicalWidth)
+    height: GraphicsRoutines.clamp(
+        preferredCoverHeight, minimumCoverHeight, canonicalHeight)
 
     aspectWidth: canonicalWidth
     aspectHeight: canonicalHeight
