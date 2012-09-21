@@ -131,7 +131,7 @@ Rectangle {
     state = "pageView";
 
     albumSpreadViewer.visible = true;
-    chrome.show();
+    chrome.resetVisibility(!Gallery.isSmallFormFactor());
     gridCheckerboard.visible = false;
 
     albumSpreadViewer.viewingPage = album.currentPage;
@@ -173,8 +173,14 @@ Rectangle {
     
     showCover: !albumSpreadViewerForTransition.freeze
     
-    onPageFlipped: chrome.show()
-    onPageReleased: chrome.show()
+    onPageFlipped: {
+      if (!Gallery.isSmallFormFactor())
+        chrome.show();
+    }
+    onPageReleased: {
+      if (!Gallery.isSmallFormFactor())
+        chrome.show();
+    }
     
     Keys.onPressed: {
       if (event.key !== Qt.Key_Left && event.key !== Qt.Key_Right)
@@ -310,13 +316,32 @@ Rectangle {
     }
   }
 
+  MouseArea {
+    id: chromeShowArea
+
+    width: parent.width
+    height: chrome.toolbarHeight
+    anchors.bottom: parent.bottom
+    enabled: (Gallery.isSmallFormFactor() && albumViewer.state == "pageView" &&
+              chrome.state == "hidden")
+    onClicked: chrome.show()
+  }
+  MouseArea {
+    id: chromeHideArea
+
+    anchors.fill: parent
+    enabled: (Gallery.isSmallFormFactor() && albumViewer.state == "pageView" &&
+              chrome.state == "shown")
+    onClicked: chrome.hide()
+  }
+
   ViewerChrome {
     id: chrome
 
     anchors.fill: parent
 
-    state: "shown"
-    visible: true
+    state: "hidden"
+    visible: false
 
     fadeDuration: 200
     autoHideWait: 0
@@ -329,8 +354,10 @@ Rectangle {
     hasSelectionOperationsButton: inSelectionMode
     onSelectionOperationsButtonPressed: cyclePopup(selectionMenu)
 
-    toolbarsAreTranslucent: (albumViewer.state == "gridView")
-    toolbarsAreTextured: (albumViewer.state == "gridView")
+    toolbarsAreTranslucent: (albumViewer.state == "gridView" ||
+                             Gallery.isSmallFormFactor())
+    toolbarsAreTextured: (albumViewer.state == "gridView" ||
+                          Gallery.isSmallFormFactor())
 
     navbarHasStateButton: true
     navbarSelectedStateButtonIconFilename: (albumViewer.state == "pageView"
@@ -342,7 +369,8 @@ Rectangle {
 
     toolbarHasFullIconSet: false
     toolbarHasAlbumOperationsButton: false
-    toolbarHasPageIndicator: albumViewer.state == "pageView"
+    toolbarHasPageIndicator: (albumViewer.state == "pageView" &&
+                              !Gallery.isSmallFormFactor())
     toolbarPageIndicatorAlbum: albumViewer.album
 
     popups: [ albumViewerOptionsMenu, albumViewerShareMenu,

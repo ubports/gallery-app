@@ -21,6 +21,7 @@
 import QtQuick 1.1
 import Gallery 1.0
 import "AlbumInternals"
+import "../../js/Gallery.js" as Gallery
 
 // One "piece of paper" in an album.  Contains album content i.e. photos (or
 // the cover) from the album and handles rotating, displaying an arbitrary page
@@ -64,17 +65,17 @@ Flipable {
   property alias frameToContentWidth: frontContents.frameToContentWidth
   property alias frameToContentHeight: frontContents.frameToContentHeight
 
-  property real pageTopMargin: gu(6)
-  property real pageBottomMargin: gu(6)
-  property real pageGutterMargin: gu(2) // Between spine and photo.
-  property real pageOuterMargin: gu(3) // Between opposite edge and photo.
-  property real pageInsideMargin: gu(4) // Between photos on one page.
+  property real pageTopMargin: Gallery.getDeviceSpecific('albumPageTopMargin')
+  property real pageBottomMargin: Gallery.getDeviceSpecific('albumPageBottomMargin')
+  property real pageGutterMargin: Gallery.getDeviceSpecific('albumPageGutterMargin')
+  property real pageOuterMargin: Gallery.getDeviceSpecific('albumPageOuterMargin')
+  property real pageInsideMargin: Gallery.getDeviceSpecific('albumPageInsideMargin')
 
-  property real previewTopMargin: gu(2)
-  property real previewBottomMargin: gu(2)
-  property real previewGutterMargin: gu(1) // Between spine and photo.
-  property real previewOuterMargin: gu(1) // Between opposite edge and photo.
-  property real previewInsideMargin: gu(2) // Between photos on one page.
+  property real previewTopMargin: Gallery.getDeviceSpecific('albumPreviewTopMargin')
+  property real previewBottomMargin: Gallery.getDeviceSpecific('albumPreviewBottomMargin')
+  property real previewGutterMargin: Gallery.getDeviceSpecific('albumPreviewGutterMargin')
+  property real previewOuterMargin: Gallery.getDeviceSpecific('albumPreviewOuterMargin')
+  property real previewInsideMargin: Gallery.getDeviceSpecific('albumPreviewInsideMargin')
 
   // Returns the page number of the left page of the current "spread", denoted
   // by a currentPage number from an album.  This will go on the backPage.

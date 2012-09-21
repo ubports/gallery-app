@@ -27,30 +27,47 @@ function getDeviceSpecific(key, form_factor, is_portrait) {
   // the end of a key to make it portrait-mode specific.
   var specifics = {
     'default': {
+      // Size of thumbnails in event overview/media selector/etc.
       photoThumbnailWidth: gu(24),
       photoThumbnailHeight: gu(18),
 
-      photoGridTopMargin: gu(2),
-      photoGridLeftMargin: gu(2),
-      photoGridRightMargin: gu(2),
-
+      // Whitespace around photos in event overview/media selector/etc.
+      photoGridTopMargin: gu(2), // Plus half of photoGridGutterHeight.
+      photoGridLeftMargin: gu(2), // Plus half of photoGridGutterWidth.
+      photoGridRightMargin: gu(2), // Plus half of photoGridGutterWidth.
       photoGridGutterWidth: gu(2),
       photoGridGutterHeight: gu(2),
 
+      // Layout of thumbnails in event timeline.
       photoThumbnailWidthTimeline: gu(24),
       photoThumbnailHeightTimeline: gu(18),
       timelineFirstPhotoDistance: gu(25), // width + 1
       timelineSecondPhotoDistance: gu(25), // width + 1
 
+      // Size of thumbnails in album overview.
       albumThumbnailWidth: gu(28),
       albumThumbnailHeight: gu(33),
 
-      albumGridTopMargin: gu(2),
-      albumGridLeftMargin: gu(2),
-      albumGridRightMargin: gu(2),
-
+      // Whitespace around photos in album overview.
+      albumGridTopMargin: gu(2), // Plus half of albumGridGutterHeight.
+      albumGridLeftMargin: gu(2), // Plus half of albumGridGutterWidth.
+      albumGridRightMargin: gu(2), // Plus half of albumGridGutterWidth.
       albumGridGutterWidth: gu(6),
       albumGridGutterHeight: gu(8),
+
+      // Whitespace around photos on album pages in the album viewer.
+      albumPageTopMargin: gu(6),
+      albumPageBottomMargin: gu(6),
+      albumPageGutterMargin: gu(2), // Between spine and photo.
+      albumPageOuterMargin: gu(3), // Between opposite edge and photo.
+      albumPageInsideMargin: gu(4), // Between photos on one page.
+
+      // Whitespace around photos on album pages in preview thumbnails.
+      albumPreviewTopMargin: gu(2),
+      albumPreviewBottomMargin: gu(2),
+      albumPreviewGutterMargin: gu(1), // Between spine and photo.
+      albumPreviewOuterMargin: gu(1), // Between opposite edge and photo.
+      albumPreviewInsideMargin: gu(2), // Between photos on one page.
     },
 
     phone: {
@@ -90,6 +107,20 @@ function getDeviceSpecific(key, form_factor, is_portrait) {
       albumGridGutterHeight: gu(6),
       albumGridGutterWidthPortrait: gu(2),
       albumGridGutterHeightPortrait: gu(6),
+
+      albumPageTopMargin: gu(1),
+      albumPageBottomMargin: gu(1),
+      albumPageGutterMargin: gu(0.5),
+      albumPageOuterMargin: gu(1),
+      albumPageInsideMargin: gu(2),
+      albumPageGutterMarginPortrait: gu(1),
+      albumPageInsideMarginPortrait: gu(3),
+
+      albumPreviewTopMargin: gu(1),
+      albumPreviewBottomMargin: gu(1),
+      albumPreviewGutterMargin: gu(1),
+      albumPreviewOuterMargin: gu(1),
+      albumPreviewInsideMargin: gu(1),
     },
   };
 
@@ -116,4 +147,11 @@ function getDeviceSpecific(key, form_factor, is_portrait) {
 
   console.debug("Invalid key '" + key + "' passed to Gallery.getDeviceSpecific()");
   return undefined;
+}
+
+function isSmallFormFactor(form_factor) {
+  if (!form_factor)
+    form_factor = FORM_FACTOR; // From C++.
+
+  return (form_factor === 'phone' || form_factor === 'sidebar');
 }
