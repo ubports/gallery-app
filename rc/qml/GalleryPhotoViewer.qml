@@ -40,12 +40,12 @@ Rectangle {
 
   function setCurrentIndex(index) {
     galleryPhotoViewer.setCurrentIndex(index);
-    chrome.resetVisibility(false);
+    chrome.resetVisibility(true);
   }
 
   function setCurrentPhoto(photo) {
     galleryPhotoViewer.setCurrentPhoto(photo);
-    chrome.resetVisibility(false);
+    chrome.resetVisibility(true);
   }
 
   function goBack() {
@@ -209,6 +209,8 @@ Rectangle {
 
       z: 10
       anchors.fill: parent
+
+      autoHideWait: 8000
 
       toolbarsAreTextured: false
       toolbarsAreTranslucent: true
