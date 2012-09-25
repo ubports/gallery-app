@@ -79,7 +79,6 @@ Item {
 
       anchors.fill: parent
 
-      fadeDuration: 0
       autoHideWait: 0
 
       navbarSelectionDoneButtonText: "Add to album"

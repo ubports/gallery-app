@@ -31,7 +31,7 @@ Item {
   property EventTimeline timeline
   property GalleryOverviewNavigationBar navigationBar
   
-  property int duration: 750
+  property int duration: Gallery.SLOW_DURATION
   
   // readonly
   property real itemWidth: checkerboard.itemWidth
@@ -226,7 +226,7 @@ Item {
           SequentialAnimation {
             PropertyAnimation {
               properties: "x,y,width,height,opacity"
-              easing.type: Easing.InOutQuad
+              easing.type: Easing.InQuint
               duration: eventTimelineTransition.duration
             }
             
@@ -246,7 +246,7 @@ Item {
           SequentialAnimation {
             PropertyAnimation {
               properties: "x,y,width,height,opacity"
-              easing.type: Easing.InOutQuad
+              easing.type: Easing.InQuint
               duration: eventTimelineTransition.duration
             }
             

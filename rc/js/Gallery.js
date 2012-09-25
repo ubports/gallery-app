@@ -15,7 +15,17 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
+ * Charles Lindsay <chaz@yorba.org>
  */
+
+// Animation durations, in milliseconds.  For SNAP_DURATION, use linear easing;
+// others should use some form of quint easing.  Note that these names are
+// based on names from animation guidelines, but the values are made up and
+// should eventually come from the SDK.
+var SNAP_DURATION = 175;
+var FAST_DURATION = 300;
+var SLOW_DURATION = 700;
+var SLEEPY_DURATION = 1500;
 
 var EVENT_TIMELINE_MEDIA_SOURCE_OPACITY = 0.8;
 var EVENT_TIMELINE_EVENT_CARD_OPACITY = 1.0;

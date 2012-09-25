@@ -40,10 +40,12 @@ Rectangle {
 
   function setCurrentIndex(index) {
     galleryPhotoViewer.setCurrentIndex(index);
+    chrome.resetVisibility(false);
   }
 
   function setCurrentPhoto(photo) {
     galleryPhotoViewer.setCurrentPhoto(photo);
+    chrome.resetVisibility(false);
   }
 
   function goBack() {
@@ -160,10 +162,10 @@ Rectangle {
       Timer {
         id: chromeFadeWaitClock
 
-        interval: 150
+        interval: 100
         running: false
 
-        onTriggered: chrome.flipVisibility()
+        onTriggered: chrome.flipVisibility(true)
       }
 
       onClicked: {
@@ -181,7 +183,7 @@ Rectangle {
         mouseArea.doubleClicked(mouse);
 
         chromeFadeWaitClock.stop();
-        chrome.state = "hidden";
+        chrome.hide(true);
       }
 
       onPressed: {
@@ -366,7 +368,7 @@ Rectangle {
     id: cropper
 
     function show(photo) {
-      chrome.hide();
+      chrome.hide(true);
 
       var ratio_crop_rect = photo.prepareForCropping();
       enterCropper(photo, ratio_crop_rect);

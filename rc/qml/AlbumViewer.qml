@@ -175,11 +175,11 @@ Rectangle {
     
     onPageFlipped: {
       if (!Gallery.isSmallFormFactor())
-        chrome.show();
+        chrome.show(true);
     }
     onPageReleased: {
       if (!Gallery.isSmallFormFactor())
-        chrome.show();
+        chrome.show(true);
     }
     
     Keys.onPressed: {
@@ -192,7 +192,7 @@ Rectangle {
 
       if (!albumSpreadViewer.isFlipping &&
           albumSpreadViewer.isPopulatedContentPage(destination)) {
-        chrome.hide();
+        chrome.hide(true);
         
         albumSpreadViewerForTransition.flipTo(destination);
         
@@ -246,7 +246,7 @@ Rectangle {
             direction * albumSpreadViewer.pagesPerSpread;
 
         // turn off chrome, allow the page flipper full screen
-        chrome.hide();
+        chrome.hide(true);
       }
 
       onSwiping: {
@@ -324,7 +324,7 @@ Rectangle {
     anchors.bottom: parent.bottom
     enabled: (Gallery.isSmallFormFactor() && albumViewer.state == "pageView" &&
               chrome.state == "hidden")
-    onClicked: chrome.show()
+    onClicked: chrome.show(true)
   }
   MouseArea {
     id: chromeHideArea
@@ -332,7 +332,7 @@ Rectangle {
     anchors.fill: parent
     enabled: (Gallery.isSmallFormFactor() && albumViewer.state == "pageView" &&
               chrome.state == "shown")
-    onClicked: chrome.hide()
+    onClicked: chrome.hide(true)
   }
 
   ViewerChrome {
@@ -343,7 +343,6 @@ Rectangle {
     state: "hidden"
     visible: false
 
-    fadeDuration: 200
     autoHideWait: 0
     
     pagesPerSpread: albumSpreadViewer.pagesPerSpread
@@ -377,7 +376,7 @@ Rectangle {
       selectionMenu, trashDialog, albumPagePhotoMenu, trashFromAlbumPageDialog ]
 
     onPageIndicatorPageSelected: {
-      chrome.hide();
+      chrome.hide(true);
       albumSpreadViewer.flipTo(page);
     }
 
@@ -658,7 +657,7 @@ Rectangle {
         var firstChangedPage = album.getPageForMediaSource(firstPhoto);
         var firstChangedSpread = albumSpreadViewer.getLeftHandPageNumber(firstChangedPage);
 
-        chrome.hide();
+        chrome.hide(true);
         albumSpreadViewer.flipTo(firstChangedSpread);
       }
     }

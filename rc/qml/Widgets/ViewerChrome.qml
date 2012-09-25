@@ -21,6 +21,7 @@
 import QtQuick 1.1
 import Gallery 1.0
 import "../../Capetown"
+import "../../js/Gallery.js" as Gallery
 
 // The ViewerChrome object wraps toolbars and other chrome elements into one
 // easy to use, standardized object.  You'll probably want to fill the screen
@@ -28,7 +29,6 @@ import "../../Capetown"
 Item {
   id: wrapper
 
-  property int fadeDuration: 200
   property alias autoHideWait: autoHideTimer.interval // 0 to disable auto-hide.
 
   property variant popups: [ ]
@@ -83,8 +83,10 @@ Item {
   signal leftNavigationButtonPressed()
   signal rightNavigationButtonPressed()
 
-  // private properties -- don't touch these from outside this component
+  // internal
   property bool popupActive: false
+  property int fadeDuration
+  property int fadeEasing
 
   visible: false
   state: "hidden"
@@ -96,28 +98,33 @@ Item {
 
   transitions: [
     Transition { from: "shown"; to: "hidden";
-      FadeOutAnimation { target: wrapper; duration: fadeDuration; }
+      FadeOutAnimation { target: wrapper; duration: fadeDuration;
+          easingType: fadeEasing; }
     },
     Transition { from: "hidden"; to: "shown";
-      FadeInAnimation { target: wrapper; duration: fadeDuration; }
+      FadeInAnimation { target: wrapper; duration: fadeDuration;
+          easingType: fadeEasing; }
     }
   ]
 
-  function flipVisibility() {
-      state = (state == "shown" ? "hidden" : "shown");
+  function flipVisibility(fromUserAction) {
+    setFadeParams(fromUserAction);
+    state = (state == "shown" ? "hidden" : "shown");
   }
 
   function resetVisibility(visibility) {
     state = ""; // To prevent animation.
-    state = (visibility ? "shown" : "hidden");
     visible = visibility;
+    state = (visibility ? "shown" : "hidden");
   }
 
-  function show() {
+  function show(fromUserAction) {
+    setFadeParams(fromUserAction);
     state = "shown";
   }
 
-  function hide() {
+  function hide(fromUserAction) {
+    setFadeParams(fromUserAction);
     state = "hidden";
   }
 
@@ -135,6 +142,12 @@ Item {
       popups[i].state = "hidden";
 
     this.popupActive = false;
+  }
+
+  // internal
+  function setFadeParams(fromUserAction) {
+    fadeDuration = (fromUserAction ? Gallery.SNAP_DURATION : Gallery.SLOW_DURATION);
+    fadeEasing = (fromUserAction ? Easing.InQuint : Easing.InOutQuint);
   }
 
   onVisibleChanged: {
@@ -255,6 +268,6 @@ Item {
     interval: 3000
     running: false
 
-    onTriggered: chrome.state = "hidden"
+    onTriggered: chrome.hide(false)
   }
 }

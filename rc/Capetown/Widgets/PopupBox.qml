@@ -88,10 +88,12 @@ Rectangle {
 
   transitions: [
     Transition { from: "shown"; to: "hidden";
-      FadeOutAnimation { target: popupBox; duration: fadeDuration; }
+      FadeOutAnimation { target: popupBox; duration: fadeDuration;
+          easingType: Easing.InQuint; }
     },
     Transition { from: "hidden"; to: "shown";
-      FadeInAnimation { target: popupBox; duration: fadeDuration; }
+      FadeInAnimation { target: popupBox; duration: fadeDuration;
+          easingType: Easing.InQuint; }
     }
   ]
 

@@ -351,7 +351,6 @@ Rectangle {
     z: 10
     anchors.fill: parent
 
-    fadeDuration: 0
     autoHideWait: 0
 
     hasSelectionOperationsButton: eventsCheckerboard.inSelectionMode
