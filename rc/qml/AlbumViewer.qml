@@ -175,11 +175,11 @@ Rectangle {
     
     onPageFlipped: {
       if (!Gallery.isSmallFormFactor())
-        chrome.show(true);
+        chrome.show(false);
     }
     onPageReleased: {
       if (!Gallery.isSmallFormFactor())
-        chrome.show(true);
+        chrome.show(false);
     }
     
     Keys.onPressed: {

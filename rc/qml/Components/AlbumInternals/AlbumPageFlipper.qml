@@ -19,6 +19,7 @@
 
 import QtQuick 1.1
 import Gallery 1.0
+import "../../../js/Gallery.js" as Gallery
 
 // A group of animated pages flippable from the AlbumSpreadViewer.  Because of
 // how there are multiple pages to be flipped at once, keyed off a single
@@ -34,7 +35,7 @@ Item {
   property Album album
   property int currentPage
   property int destinationPage
-  property int duration: 1000
+  property int duration: Gallery.SLOW_DURATION
   property real flipFraction
   property bool isPortrait
   property int pagesPerSpread

@@ -22,6 +22,7 @@ import Gallery 1.0
 import "../Capetown"
 import "Components"
 import "Utility"
+import "../js/Gallery.js" as Gallery
 
 // Some custom components and animations that we want to invoke whenever we
 // bring up the album viewer.
@@ -34,7 +35,8 @@ Item {
 
   property Album album
   property Rectangle backgroundGlass
-  property int duration: 500
+  property int duration: Gallery.SLOW_DURATION
+  property int easing: Easing.InQuint
   property bool isPortrait
   
   // Read-only
@@ -169,7 +171,7 @@ Item {
         endWidth: showAlbumViewerAnimation.screenRect.width
         endHeight: showAlbumViewerAnimation.screenRect.height
         duration: albumViewerTransition.duration
-        easingType: Easing.OutQuad
+        easingType: albumViewerTransition.easing
       }
 
       NumberAnimation {
@@ -178,7 +180,7 @@ Item {
         from: (album && album.closed ? 0 : 1)
         to: isPortrait ? (album && album.closed ? 0.25 : 1) : 0.5
         duration: albumViewerTransition.duration
-        easing.type: Easing.OutQuad
+        easing.type: albumViewerTransition.easing
       }
 
       NumberAnimation {
@@ -187,7 +189,7 @@ Item {
         from: expandAlbum.previewTopMargin
         to: expandAlbum.pageTopMargin
         duration: albumViewerTransition.duration
-        easing.type: Easing.OutQuad
+        easing.type: albumViewerTransition.easing
       }
       NumberAnimation {
         target: expandAlbum
@@ -195,7 +197,7 @@ Item {
         from: expandAlbum.previewBottomMargin
         to: expandAlbum.pageBottomMargin
         duration: albumViewerTransition.duration
-        easing.type: Easing.OutQuad
+        easing.type: albumViewerTransition.easing
       }
       NumberAnimation {
         target: expandAlbum
@@ -203,7 +205,7 @@ Item {
         from: expandAlbum.previewGutterMargin
         to: expandAlbum.pageGutterMargin
         duration: albumViewerTransition.duration
-        easing.type: Easing.OutQuad
+        easing.type: albumViewerTransition.easing
       }
       NumberAnimation {
         target: expandAlbum
@@ -211,7 +213,7 @@ Item {
         from: expandAlbum.previewOuterMargin
         to: expandAlbum.pageOuterMargin
         duration: albumViewerTransition.duration
-        easing.type: Easing.OutQuad
+        easing.type: albumViewerTransition.easing
       }
       NumberAnimation {
         target: expandAlbum
@@ -219,12 +221,13 @@ Item {
         from: expandAlbum.previewInsideMargin
         to: expandAlbum.pageInsideMargin
         duration: albumViewerTransition.duration
-        easing.type: Easing.OutQuad
+        easing.type: albumViewerTransition.easing
       }
 
       FadeInAnimation {
         target: backgroundGlass
         duration: albumViewerTransition.duration
+        easingType: albumViewerTransition.easing
       }
     }
 
@@ -255,7 +258,7 @@ Item {
         endWidth: hideAlbumViewerAnimation.thumbnailRect.width
         endHeight: hideAlbumViewerAnimation.thumbnailRect.height
         duration: albumViewerTransition.duration
-        easingType: Easing.OutQuad
+        easingType: albumViewerTransition.easing
       }
 
       NumberAnimation {
@@ -274,7 +277,7 @@ Item {
         to: flipOnClose ? 1 : (hideStayingOpen ? 1 : 0)
         
         duration: albumViewerTransition.duration
-        easing.type: Easing.InQuad
+        easing.type: albumViewerTransition.easing
       }
 
       NumberAnimation {
@@ -283,7 +286,7 @@ Item {
         from: expandAlbum.pageTopMargin
         to: expandAlbum.previewTopMargin
         duration: albumViewerTransition.duration
-        easing.type: Easing.OutQuad
+        easing.type: albumViewerTransition.easing
       }
       NumberAnimation {
         target: expandAlbum
@@ -291,7 +294,7 @@ Item {
         from: expandAlbum.pageBottomMargin
         to: expandAlbum.previewBottomMargin
         duration: albumViewerTransition.duration
-        easing.type: Easing.OutQuad
+        easing.type: albumViewerTransition.easing
       }
       NumberAnimation {
         target: expandAlbum
@@ -299,7 +302,7 @@ Item {
         from: expandAlbum.pageGutterMargin
         to: expandAlbum.previewGutterMargin
         duration: albumViewerTransition.duration
-        easing.type: Easing.OutQuad
+        easing.type: albumViewerTransition.easing
       }
       NumberAnimation {
         target: expandAlbum
@@ -307,7 +310,7 @@ Item {
         from: expandAlbum.pageOuterMargin
         to: expandAlbum.previewOuterMargin
         duration: albumViewerTransition.duration
-        easing.type: Easing.OutQuad
+        easing.type: albumViewerTransition.easing
       }
       NumberAnimation {
         target: expandAlbum
@@ -315,12 +318,13 @@ Item {
         from: expandAlbum.pageInsideMargin
         to: expandAlbum.previewInsideMargin
         duration: albumViewerTransition.duration
-        easing.type: Easing.OutQuad
+        easing.type: albumViewerTransition.easing
       }
 
       FadeOutAnimation {
         target: backgroundGlass
         duration: albumViewerTransition.duration
+        easingType: albumViewerTransition.easing
       }
     }
 
@@ -338,6 +342,7 @@ Item {
 
     fadeOutTarget: dissolveDummy
     fadeInTarget: dissolveDummy
+    easingType: albumViewerTransition.easing
 
     onCompleted: {
       dissolveCompleted(fadeOutTarget, fadeInTarget);
