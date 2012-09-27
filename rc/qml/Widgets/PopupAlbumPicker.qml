@@ -15,12 +15,14 @@
  *
  * Authors:
  * Lucas Beeler <lucas@yorba.org>
+ * Charles Lindsay <chaz@yorba.org>
  */
 
 import QtQuick 1.1
 import Gallery 1.0
 import "../../Capetown/Widgets"
 import "../Components"
+import "../../js/Gallery.js" as Gallery
 
 PopupBox {
   id: popupAlbumPicker
@@ -36,7 +38,7 @@ PopupBox {
   Timer {
     id: interactionCompletedTimer
 
-    interval: 300
+    interval: Gallery.FAST_DURATION
 
     onTriggered: popupAlbumPicker.popupInteractionCompleted()
   }
@@ -44,7 +46,7 @@ PopupBox {
   Timer {
     id: addPhotoLingerTimer
 
-    interval: 300
+    interval: Gallery.FAST_DURATION
 
     onTriggered: {
       popupAlbumPicker.state = "hidden";
@@ -57,81 +59,91 @@ PopupBox {
 
     property int albumPreviewWidth: gu(14);
     property int albumPreviewHeight: gu(16.5);
-    property int spacing: gu(2);
+    property int gutterWidth: gu(2)
+    property int gutterHeight: gu(4)
 
     clip: true
     anchors.top: titleTextFrame.bottom
     anchors.bottom: parent.bottom
     anchors.bottomMargin: originCueHeight + gu(0.25)
     anchors.left: parent.left
-    anchors.leftMargin: gu(5)
+    anchors.leftMargin: gu(4)
     anchors.right: parent.right
 
-    cellWidth: scroller.albumPreviewWidth + scroller.spacing;
-    cellHeight: scroller.albumPreviewHeight + scroller.spacing;
+    cellWidth: scroller.albumPreviewWidth + scroller.gutterWidth
+    cellHeight: scroller.albumPreviewHeight + scroller.gutterHeight
 
     header: Item {
       width: parent.width
       height: gu(2);
     }
+    footer: Item {
+      width: parent.width
+      height: scroller.gutterHeight / 2
+    }
 
     model: AlbumCollectionModel {
     }
 
-    delegate: AlbumPreviewComponent {
-      album: model.album
+    delegate: Item {
+      width: scroller.cellWidth
+      height: scroller.cellHeight
 
-      width: scroller.albumPreviewWidth;
-      height: scroller.albumPreviewHeight;
+      AlbumPreviewComponent {
+        album: model.album
 
-      clip: true
+        width: scroller.albumPreviewWidth
+        height: scroller.albumPreviewHeight
+        anchors.centerIn: parent
 
-      states: [
-        State { name: "unconfirmed";
-          PropertyChanges { target: confirmCheck; opacity: 0.0 }
-        },
+        states: [
+          State { name: "unconfirmed";
+            PropertyChanges { target: confirmCheck; opacity: 0.0 }
+          },
 
-        State { name: "confirmed";
-          PropertyChanges { target: confirmCheck; opacity: 1.0 }
+          State { name: "confirmed";
+            PropertyChanges { target: confirmCheck; opacity: 1.0 }
+          }
+        ]
+
+        transitions: [
+          Transition { from: "unconfirmed"; to: "confirmed";
+            NumberAnimation { target: confirmCheck; property: "opacity";
+              duration: addPhotoLingerTimer.interval;
+              easing.type: Easing.InOutQuint }
+          }
+        ]
+
+        state: "unconfirmed"
+
+        Image {
+          id: confirmCheck
+
+          anchors.centerIn: parent;
+          width: gu(7);
+          height: gu(7);
+
+          source: "img/confirm-check.png"
         }
-      ]
 
-      transitions: [
-        Transition { from: "unconfirmed"; to: "confirmed";
-          NumberAnimation { target: confirmCheck; property: "opacity";
-            duration: 300; easing.type: Easing.InOutQuad }
+        Timer {
+          id: confirmStateResetTimer
+
+          interval: addPhotoLingerTimer.interval +
+            interactionCompletedTimer.interval
+
+          onTriggered: parent.state = "unconfirmed"
         }
-      ]
 
-      state: "unconfirmed"
+        MouseArea {
+          anchors.fill: parent
 
-      Image {
-        id: confirmCheck
-
-        anchors.centerIn: parent;
-        width: gu(7);
-        height: gu(7);
-
-        source: "img/confirm-check.png"
-      }
-
-      Timer {
-        id: confirmStateResetTimer
-
-        interval: addPhotoLingerTimer.interval +
-          interactionCompletedTimer.interval
-
-        onTriggered: parent.state = "unconfirmed"
-      }
-
-      MouseArea {
-        anchors.fill: parent
-
-        onClicked: {
-          parent.state = "confirmed"
-          popupAlbumPicker.albumPicked(album);
-          addPhotoLingerTimer.restart();
-          confirmStateResetTimer.restart();
+          onClicked: {
+            parent.state = "confirmed"
+            popupAlbumPicker.albumPicked(album);
+            addPhotoLingerTimer.restart();
+            confirmStateResetTimer.restart();
+          }
         }
       }
     }

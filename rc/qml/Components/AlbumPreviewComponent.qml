@@ -36,6 +36,12 @@ Item {
   // readonly
   property alias isFlipping: albumPreview.isFlipping
 
+  // internal
+  property real canonicalWidth: gu(28)
+  property real canonicalHeight: gu(33)
+  property real widthRatio: width / canonicalWidth
+  property real heightRatio: height / canonicalHeight
+
   function open() {
     return albumPreview.open();
   }
@@ -44,8 +50,8 @@ Item {
     return albumPreview.close();
   }
 
-  width: gu(28)
-  height: gu(33)
+  width: canonicalWidth
+  height: canonicalHeight
 
   Column {
     
@@ -69,24 +75,28 @@ Item {
     }
     
     Text {
+      property real canonicalSize: pointUnits(8) // From the spec.
+
       anchors.horizontalCenter: parent.horizontalCenter
       
       text: (album) ? album.title : ""
       color: "#818285"
       font.family: "Ubuntu"
-      font.pointSize: pointUnits(8) // From the spec.
+      font.pointSize: Math.max(Math.ceil(canonicalSize * widthRatio), 1)
       smooth: true
 
       visible: (Boolean(album) && albumPreview.openFraction == 1)
     }
     
     Text {
+      property real canonicalSize: pointUnits(6) // From the spec.
+
       anchors.horizontalCenter: parent.horizontalCenter
       
       text: (album) ? album.subtitle : ""
       color: "#a7a9ac"
       font.family: "Ubuntu"
-      font.pointSize: pointUnits(6) // From the spec.
+      font.pointSize: Math.max(Math.ceil(canonicalSize * widthRatio), 1)
       smooth: true
 
       visible: (Boolean(album) && albumPreview.openFraction == 1)
