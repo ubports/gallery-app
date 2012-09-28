@@ -48,7 +48,7 @@ class DataObject : public QObject {
   Q_OBJECT
   
  public:
-  DataObject(const QString& name = "");
+  DataObject(QObject * parent = 0, const QString& name = "");
   
   DataObjectNumber number() const;
   void SetInternalName(const QString& name);

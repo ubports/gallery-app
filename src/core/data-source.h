@@ -61,7 +61,7 @@ class DataSource : public DataObject {
   void destroyed(bool destroyed_backing, bool as_orphan);
   
  public:
-  DataSource(const QString& name = "");
+  DataSource(QObject * parent = 0, const QString& name = "");
   
   friend class SourceCollection;
   

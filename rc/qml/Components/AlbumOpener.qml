@@ -146,7 +146,10 @@ Item {
     property: "openFraction"
     easing.type: Easing.OutQuad
 
-    onCompleted: {
+    onRunningChanged: {
+      if (running)
+        return;
+      
       if (openFraction == 0) {
         album.closed = true;
       } else if (openFraction == 1) {

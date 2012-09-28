@@ -46,7 +46,7 @@ class AlbumPage : public ContainerSource {
   void owner_changed();
   
  public:
-  AlbumPage();
+  AlbumPage(QObject * parent = 0);
   explicit AlbumPage(Album* owner);
   AlbumPage(Album* owner, int page_number, AlbumTemplatePage* template_page);
   

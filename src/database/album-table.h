@@ -35,7 +35,7 @@ class AlbumTable : public QObject {
   explicit AlbumTable(Database* db, QObject* parent = 0);
   
   // Returns a set of all albums.
-  void get_albums(QList<Album*>* album_set) const;
+  void get_albums(QList<Album*>* album_set);
   
   // Adds an album to the DB.
   void add_album(Album* album);

@@ -24,7 +24,7 @@ AlbumTable::AlbumTable(Database* db, QObject* parent) : QObject(parent), db_(db)
 {
 }
 
-void AlbumTable::get_albums(QList<Album*>* album_list) const {
+void AlbumTable::get_albums(QList<Album*>* album_list) {
   QSqlQuery query(*db_->get_db());
   query.prepare("SELECT id, title, subtitle, time_added, is_closed, current_page, "
                 "cover_nickname FROM AlbumTable ORDER BY time_added DESC");
@@ -42,7 +42,7 @@ void AlbumTable::get_albums(QList<Album*>* album_list) const {
     int current_page = query.value(5).toInt();
     QString cover_nickname = query.value(6).toString();
     
-    Album* a = new Album(AlbumDefaultTemplate::instance(), title, subtitle);
+    Album* a = new Album(this, AlbumDefaultTemplate::instance(), title, subtitle);
     a->set_id(id);
     a->set_creation_date_time(timestamp);
     a->set_closed(is_closed);

@@ -89,9 +89,12 @@ Item {
 
   ParallelAnimation {
     id: enterFadeAnimation
-
-    onCompleted: editorEntered(albumEditorTransition.album)
-
+    
+    onRunningChanged: {
+      if (!running)
+        editorEntered(albumEditorTransition.album);
+    }
+    
     FadeInAnimation {
       target: backgroundGlass
       endOpacity: 0.75
@@ -106,9 +109,12 @@ Item {
 
   ParallelAnimation {
     id: exitFadeAnimation
-
-    onCompleted: onExitFinished()
-
+    
+    onRunningChanged: {
+      if (!running)
+        onExitFinished();
+    }
+    
     FadeOutAnimation {
       target: backgroundGlass
       startOpacity: 0.75
@@ -124,7 +130,10 @@ Item {
   SequentialAnimation {
     id: enterExpandAnimation
 
-    onCompleted: editorEntered(albumEditorTransition.album)
+    onRunningChanged: {
+      if (!running)
+        editorEntered(albumEditorTransition.album);
+    }
 
     PropertyAction { target: thumbnail; property: "visible"; value: true; }
 
@@ -163,9 +172,12 @@ Item {
     id: exitExpandAnimation
 
     property variant thumbnailRect: {"x": 0, "y": 0, "width": 0, "height": 0}
-
-    onCompleted: onExitFinished()
-
+    
+    onRunningChanged: {
+      if (!running)
+        onExitFinished();
+    }
+    
     PropertyAction { target: editor; property: "visible"; value: false; }
     PropertyAction { target: thumbnail; property: "visible"; value: true; }
 

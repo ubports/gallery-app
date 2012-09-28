@@ -24,18 +24,18 @@
 #include "util/collections.h"
 #include "util/resource.h"
 
-AlbumPage::AlbumPage()
-  : ContainerSource("AlbumPage", MediaCollection::ExposureDateTimeAscendingComparator),
+AlbumPage::AlbumPage(QObject * parent)
+  : ContainerSource(parent, "AlbumPage", MediaCollection::ExposureDateTimeAscendingComparator),
    owner_(NULL), page_number_(-1), template_page_(NULL) {
 }
 
 AlbumPage::AlbumPage(Album* owner)
-  : ContainerSource("AlbumPage", MediaCollection::ExposureDateTimeAscendingComparator),
+  : ContainerSource(owner, "AlbumPage", MediaCollection::ExposureDateTimeAscendingComparator),
   owner_(owner), page_number_(-1), template_page_(NULL) {
 }
 
 AlbumPage::AlbumPage(Album* owner, int page_number, AlbumTemplatePage* template_page)
-  : ContainerSource("AlbumPage", MediaCollection::ExposureDateTimeAscendingComparator),
+  : ContainerSource(owner, "AlbumPage", MediaCollection::ExposureDateTimeAscendingComparator),
   owner_(owner), page_number_(page_number), template_page_(template_page) {
 }
 

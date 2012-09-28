@@ -395,9 +395,10 @@ Rectangle {
 
     MouseArea {
       id: blocker
-
+      
+      visible: cropper.state == "shown"
       anchors.fill: parent
-
+      
       onClicked: { }
     }
 
@@ -408,7 +409,8 @@ Rectangle {
     }
 
     onCropped: {
-      photo.crop(rect);
+      var qtRect = Qt.rect(rect.x, rect.y, rect.width, rect.height);
+      photo.crop(qtRect);
       hide();
       galleryPhotoViewer.visible = true;
     }

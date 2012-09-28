@@ -104,13 +104,19 @@ Item {
     id: fadeIn
 
     target: viewer
-    onCompleted: opened()
+    onRunningChanged: {
+      if (!running)
+        opened();
+    }
   }
 
   FadeOutAnimation {
     id: fadeOut
 
     target: viewer
-    onCompleted: closed()
+    onRunningChanged: {
+      if (!running)
+        closed();
+    }
   }
 }

@@ -20,6 +20,7 @@
 import QtQuick 1.1
 import "../Capetown"
 import "Components"
+import "../js/GraphicsRoutines.js" as GraphicsRoutines
 
 // Some custom components and animations that we want to invoke whenever we
 // bring up the photo viewer.
@@ -41,11 +42,10 @@ Item {
   function transitionFromPhotoViewer(photo, thumbnailRect, adjustForPhotoMat) {
     if (adjustForPhotoMat)
       thumbnailRect = adjustRectForPhotoMat(thumbnailRect);
-
+    
     expandPhoto.setOverThumbnail(photo, thumbnailRect);
-    hidePhotoViewerAnimation.thumbnailRect =
-      Qt.rect(expandPhoto.x, expandPhoto.y, expandPhoto.width, expandPhoto.height);
-
+    hidePhotoViewerAnimation.thumbnailRect = GraphicsRoutines.cloneRect(expandPhoto);
+    
     // Start part of the way in so the jump to the scaled thumbnail isn't so noticeable.
     expandPhoto.x /= 10;
     expandPhoto.y /= 10;
@@ -126,8 +126,9 @@ Item {
     PropertyAction { target: expandPhoto; property: "visible"; value: false; }
     PropertyAction { target: fadeRectangle; property: "visible"; value: false; }
 
-    onCompleted: {
-      transitionToPhotoViewerCompleted();
+    onRunningChanged: {
+      if (!running)
+        transitionToPhotoViewerCompleted();
     }
   }
 
@@ -153,8 +154,9 @@ Item {
       }
     }
 
-    onCompleted: {
-      transitionFromPhotoViewerCompleted();
+    onRunningChanged: {
+      if (!running)
+        transitionFromPhotoViewerCompleted();
     }
   }
 }

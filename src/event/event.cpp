@@ -24,12 +24,12 @@
 #include "media/media-collection.h"
 #include "util/collections.h"
 
-Event::Event()
-  : ContainerSource("Event (undated)", MediaCollection::ExposureDateTimeDescendingComparator) {
+Event::Event(QObject * parent)
+  : ContainerSource(parent, "Event (undated)", MediaCollection::ExposureDateTimeDescendingComparator) {
 }
 
-Event::Event(const QDate& date)
-  : ContainerSource(QString("Event for ") + date.toString(),
+Event::Event(QObject * parent, const QDate& date)
+  : ContainerSource(parent, QString("Event for ") + date.toString(),
   MediaCollection::ExposureDateTimeDescendingComparator), date_(date) {
 }
 

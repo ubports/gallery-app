@@ -95,6 +95,9 @@ Item {
     property: "flipFraction"
     easing.type: Easing.OutQuad
 
-    onCompleted: flipFinished(flipFraction == 1)
+    onRunningChanged: {
+      if (!running)
+        flipFinished(flipFraction == 1);
+    }
   }
 }

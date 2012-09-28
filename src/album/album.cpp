@@ -39,22 +39,22 @@ const int Album::PAGES_PER_COVER = 1;
 // and we want it to show up on the right.
 const int Album::FIRST_VALID_CURRENT_PAGE = -1;
 
-Album::Album()
-  : ContainerSource(DEFAULT_TITLE, MediaCollection::ExposureDateTimeAscendingComparator),
+Album::Album(QObject * parent)
+  : ContainerSource(parent, DEFAULT_TITLE, MediaCollection::ExposureDateTimeAscendingComparator),
     album_template_(AlbumDefaultTemplate::instance()), title_(DEFAULT_TITLE),
     subtitle_(DEFAULT_SUBTITLE) {
   InitInstance();
 }
 
-Album::Album(AlbumTemplate* album_template)
-  : ContainerSource(DEFAULT_TITLE, MediaCollection::ExposureDateTimeAscendingComparator),
+Album::Album(QObject * parent, AlbumTemplate* album_template)
+  : ContainerSource(parent, DEFAULT_TITLE, MediaCollection::ExposureDateTimeAscendingComparator),
     album_template_(album_template), title_(DEFAULT_TITLE), subtitle_(DEFAULT_SUBTITLE) {
   InitInstance();
 }
 
-Album::Album(AlbumTemplate* album_template, const QString& title,
+Album::Album(QObject * parent, AlbumTemplate* album_template, const QString& title,
   const QString& subtitle)
-  : ContainerSource(title, MediaCollection::ExposureDateTimeAscendingComparator),
+  : ContainerSource(parent, title, MediaCollection::ExposureDateTimeAscendingComparator),
     album_template_(album_template), title_(title), subtitle_(subtitle) {
   InitInstance();
 }

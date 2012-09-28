@@ -88,9 +88,9 @@ class Album : public ContainerSource {
   static const int PAGES_PER_COVER;
   static const int FIRST_VALID_CURRENT_PAGE;
 
-  Album();
-  explicit Album(AlbumTemplate* album_template);
-  Album(AlbumTemplate* album_template, const QString &title,
+  Album(QObject * parent = 0);
+  explicit Album(QObject * parent, AlbumTemplate* album_template);
+  Album(QObject * parent, AlbumTemplate* album_template, const QString &title,
     const QString &subtitle);
   virtual ~Album();
   

@@ -234,11 +234,14 @@ Item {
     PropertyAction { target: expandAlbum; property: "visible"; value: false; }
     PropertyAction { target: backgroundGlass; property: "visible"; value: false; }
 
-    onCompleted: {
+    onRunningChanged: {
+      if (running)
+        return;
+      
       album.closed = false;
       if (album.currentPage == album.firstValidCurrentPage)
         album.currentPage = album.firstContentPage;
-
+      
       transitionToAlbumViewerCompleted();
     }
   }
@@ -330,9 +333,12 @@ Item {
 
     PropertyAction { target: expandAlbum; property: "visible"; value: false; }
 
-    onCompleted: {
+    onRunningChanged: {
+      if (running)
+        return;
+      
       album.closed = !hideStayingOpen;
-
+      
       transitionFromAlbumViewerCompleted();
     }
   }
@@ -344,8 +350,9 @@ Item {
     fadeInTarget: dissolveDummy
     easingType: albumViewerTransition.easing
 
-    onCompleted: {
-      dissolveCompleted(fadeOutTarget, fadeInTarget);
+    onRunningChanged: {
+      if (!running)
+        dissolveCompleted(fadeOutTarget, fadeInTarget);
     }
   }
 

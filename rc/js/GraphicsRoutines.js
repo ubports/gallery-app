@@ -31,11 +31,17 @@ function clamp(input, lowConstraint, highConstraint) {
 }
 
 function cloneRect(source) {
-  return Qt.rect(source.x, source.y, source.width, source.height);
+  var ret = { };
+  ret.x = source.x;
+  ret.y = source.y;
+  ret.width = source.width;
+  ret.height = source.height;
+  
+  return ret;
 }
 
 function interpolateRect(start, end, factor) {
-  var result = Qt.rect(0, 0, 1, 1);
+  var result = { };
 
   result.x = start.x + factor * (end.x - start.x);
   result.y = start.y + factor * (end.y - start.y);
@@ -54,7 +60,7 @@ function fitRect(viewport, item) {
   var itemAspectRatio = item.width / item.height;
   var viewportAspectRatio = viewport.width / viewport.height;
 
-  var result = Qt.rect(0, 0, 1, 1);
+  var result = { };
   if (itemAspectRatio > viewportAspectRatio) {
     var scaleFactor = viewport.width / item.width;
     result.width = viewport.width;
@@ -75,7 +81,7 @@ function fitRect(viewport, item) {
 }
 
 function getRelativeRect(geom, relativeTo) {
-  var result = Qt.rect(0, 0, 1, 1);
+  var result = { };
 
   result.x = (geom.x - relativeTo.x) / relativeTo.width;
   result.y = (geom.y - relativeTo.y) / relativeTo.height;

@@ -82,7 +82,7 @@ Item {
   /* Return the (x, y) position and the width and height of the viewport
    */
   function getViewportExtentRect() {
-    return Qt.rect(viewport.x, viewport.y, viewport.width, viewport.height);
+    return GraphicsRoutines.cloneRect(viewport);
   }
 
   /* Return the (x, y) position and the width and height of the photoExtent.
@@ -90,8 +90,7 @@ Item {
    * preview.
    */
   function getPhotoExtentRect() {
-    return Qt.rect(photoExtent.x, photoExtent.y, photoExtent.width,
-      photoExtent.height);
+    return GraphicsRoutines.cloneRect(photoExtent);
   }
 
   function getRelativeFrameRect() {
@@ -254,7 +253,7 @@ Item {
     property variant dragStartRect
 
     function getExtentRect() {
-      var result = Qt.rect(0, 0, 1, 1);
+      var result = { };
 
       result.x = x;
       result.y = y;
@@ -553,7 +552,7 @@ Item {
     // as the size of the frame constraint region, we have to recompute the
     // geometry of of the frame for the FIT state every time.
 
-    startFrame = Qt.rect(frame.x, frame.y, frame.width, frame.height);
+    startFrame = GraphicsRoutines.cloneRect(frame);
 
     endFrame = GraphicsRoutines.fitRect(getViewportExtentRect(),
       frame.getExtentRect());
@@ -575,9 +574,12 @@ Item {
     property: "interpolationFactor"; from: 0.0; to: 1.0 }
 
   onInterpolationFactorChanged: {
-    var endPhotoRect = Qt.rect(endPhotoX, endPhotoY, endPhotoWidth,
-      endPhotoHeight);
-
+    var endPhotoRect = { };
+    endPhotoRect.x = endPhotoX;
+    endPhotoRect.y = endPhotoY;
+    endPhotoRect.width = endPhotoWidth;
+    endPhotoRect.height = endPhotoHeight;
+    
     var interpolatedRect = GraphicsRoutines.interpolateRect(startFrame,
       endFrame, interpolationFactor);
     GraphicsRoutines.sizeToRect(interpolatedRect, frame);

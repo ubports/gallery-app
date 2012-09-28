@@ -40,8 +40,8 @@ class Event : public ContainerSource {
   void date_altered();
   
  public:
-  Event();
-  explicit Event(const QDate &date);
+  Event(QObject * parent = 0);
+  explicit Event(QObject * parent, const QDate &date);
   
   static void RegisterType();
   

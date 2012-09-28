@@ -19,8 +19,8 @@
 
 #include "core/data-source.h"
 
-DataSource::DataSource(const QString& name)
-  : DataObject(name), membership_(NULL) {
+DataSource::DataSource(QObject * parent, const QString& name)
+  : DataObject(parent, name), membership_(NULL) {
 }
 
 void DataSource::Destroy(bool destroy_backing) {

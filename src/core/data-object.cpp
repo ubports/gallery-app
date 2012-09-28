@@ -23,8 +23,8 @@
 
 DataObjectNumber DataObject::next_number_ = 0;
 
-DataObject::DataObject(const QString& name)
-  : name_(name.toUtf8()), number_(next_number_++) {
+DataObject::DataObject(QObject * parent, const QString& name)
+  : QObject(parent), name_(name.toUtf8()), number_(next_number_++) {
 }
 
 DataObjectNumber DataObject::number() const {

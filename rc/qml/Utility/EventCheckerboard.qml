@@ -118,6 +118,7 @@ Checkerboard {
       mediaSource: (modelData.typeName == "MediaSource") ? modelData.mediaSource : undefined
       event: (modelData.typeName == "Event") ? modelData.object : undefined
       isSelected: eventCheckerboardDelegate.isSelected && eventCheckerboardDelegate.enabled
+      opacity: enabled ? 1 : 0.2
     }
   }
 

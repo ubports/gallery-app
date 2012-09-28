@@ -50,7 +50,7 @@ Item {
     var wholePhotoPreviewRect = GraphicsRoutines.fitRect(viewport,
       cropInteractor.photo);
 
-    var unfitCropRect = Qt.rect(0, 0, 1, 1);
+    var unfitCropRect = { };
     unfitCropRect.x = relativeCropRect.x * wholePhotoPreviewRect.width;
     unfitCropRect.y = relativeCropRect.y * wholePhotoPreviewRect.height;
     unfitCropRect.width = relativeCropRect.width * wholePhotoPreviewRect.width;
@@ -59,7 +59,7 @@ Item {
 
     var cropFrameRect = GraphicsRoutines.fitRect(viewport, unfitCropRect);
 
-    var photoExtentRect = Qt.rect(0, 0, 1, 1);
+    var photoExtentRect = { };
     photoExtentRect.x = cropFrameRect.x - (cropFrameRect.scaleFactor *
       wholePhotoPreviewRect.width * relativeCropRect.x);
     photoExtentRect.y = cropFrameRect.y - (cropFrameRect.scaleFactor *

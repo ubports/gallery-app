@@ -19,8 +19,8 @@
 
 #include "core/container-source.h"
 
-ContainerSource::ContainerSource(const QString& name, DataObjectComparator comparator)
-  : DataSource(name), contained_(QString("Container for ") + QString(name)) {
+ContainerSource::ContainerSource(QObject * parent, const QString& name, DataObjectComparator comparator)
+  : DataSource(parent, name), contained_(QString("Container for ") + QString(name)) {
   contained_.SetComparator(comparator);
   
   QObject::connect(&contained_,

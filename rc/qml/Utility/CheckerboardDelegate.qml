@@ -53,7 +53,6 @@ Item {
 
   width: checkerboard.delegateWidth
   height: checkerboard.delegateHeight
-  opacity: enabled ? 1 : 0.2
   
   Component.onCompleted: {
     if (content)
