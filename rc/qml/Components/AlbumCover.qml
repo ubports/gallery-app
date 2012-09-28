@@ -87,7 +87,8 @@ Item {
     MouseArea {
       anchors.fill: parent
       
-      onPressed: { 
+      acceptedButtons: Qt.LeftButton | Qt.RightButton
+      onPressed: {
         mouse.accepted = false;
         albumCover.pressed(mouse); 
       }

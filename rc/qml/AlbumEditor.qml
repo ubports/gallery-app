@@ -85,6 +85,7 @@ Item {
   MouseArea {
     id: coverCloser
     
+    acceptedButtons: Qt.LeftButton | Qt.RightButton
     anchors.fill: parent
     onPressed: {
       coverMenu.state = "hidden";
@@ -135,6 +136,7 @@ Item {
       MouseArea {
         id: addPhotosButton
         
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         width: gu(14)
