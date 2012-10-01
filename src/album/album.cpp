@@ -313,12 +313,12 @@ AlbumPage* Album::GetPage(int page) const {
   return qobject_cast<AlbumPage*>(content_pages_->GetAt(content_page));
 }
 
-QDeclarativeListProperty<MediaSource> Album::qml_all_media_sources() {
-  return QDeclarativeListProperty<MediaSource>(this, all_media_sources_);
+QQmlListProperty<MediaSource> Album::qml_all_media_sources() {
+  return QQmlListProperty<MediaSource>(this, all_media_sources_);
 }
 
-QDeclarativeListProperty<AlbumPage> Album::qml_pages() {
-  return QDeclarativeListProperty<AlbumPage>(this, all_album_pages_);
+QQmlListProperty<AlbumPage> Album::qml_pages() {
+  return QQmlListProperty<AlbumPage>(this, all_album_pages_);
 }
 
 void Album::notify_current_page_altered() {

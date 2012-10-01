@@ -22,7 +22,7 @@
 
 #include <QObject>
 #include <QVariant>
-#include <QtDeclarative>
+#include <QtQml>
 
 #include "core/data-object.h"
 #include "qml/qml-view-collection-model.h"

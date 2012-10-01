@@ -21,9 +21,9 @@
 #define GALLERY_ALBUM_PAGE_H_
 
 #include <QObject>
-#include <QDeclarativeListProperty>
+#include <QQmlListProperty>
 #include <QUrl>
-#include <QtDeclarative>
+#include <QtQml>
 
 #include "album/album-template-page.h"
 #include "core/container-source.h"
@@ -35,7 +35,7 @@ class AlbumPage : public ContainerSource {
   Q_OBJECT
   Q_PROPERTY(int pageNumber READ page_number NOTIFY page_number_changed);
   Q_PROPERTY(QUrl qmlRc READ qml_rc NOTIFY qml_rc_changed);
-  Q_PROPERTY(QDeclarativeListProperty<MediaSource> mediaSourceList
+  Q_PROPERTY(QQmlListProperty<MediaSource> mediaSourceList
     READ qml_media_source_list NOTIFY media_source_list_changed);
   Q_PROPERTY(QVariant owner READ qml_owner NOTIFY owner_changed);
   
@@ -56,7 +56,7 @@ class AlbumPage : public ContainerSource {
   AlbumTemplatePage* template_page() const;
   QUrl qml_rc() const;
 
-  QDeclarativeListProperty<MediaSource> qml_media_source_list();
+  QQmlListProperty<MediaSource> qml_media_source_list();
   QVariant qml_owner() const;
   
  protected:

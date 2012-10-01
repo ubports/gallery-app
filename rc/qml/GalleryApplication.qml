@@ -18,7 +18,7 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-import QtQuick 1.0
+import QtQuick 2.0
 import "Utility"
 
 Item {

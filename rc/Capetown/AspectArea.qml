@@ -17,7 +17,7 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-import QtQuick 1.1
+import QtQuick 2.0
 
 // An item that contains an inside area the maximum size of a particular aspect
 // ratio (similar to the Image.PreserveAspectFit fillMode of QtQuick's Image

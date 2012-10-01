@@ -26,6 +26,9 @@
 #include <QDateTime>
 #include <QFileInfo>
 #include <QStack>
+#include <QImageReader>
+#include <QImageWriter>
+#include <QApplication>
 
 #include "media/media-source.h"
 #include "photo/photo-metadata.h"

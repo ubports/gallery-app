@@ -17,7 +17,7 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-import QtQuick 1.1
+import QtQuick 2.0
 
 StandardToolbarIconButton {
   iconName: "plus"

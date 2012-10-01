@@ -18,7 +18,7 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-import QtQuick 1.1
+import QtQuick 2.0
 
 // Because some QML components' natural swiping motion requires custom
 // event handling, this emulates it and allows for programmatic control

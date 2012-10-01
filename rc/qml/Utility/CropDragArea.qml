@@ -17,7 +17,7 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-import QtQuick 1.1
+import QtQuick 2.0
 
 // A MouseArea meant to drag a corner/edge of a crop area.
 MouseArea {
@@ -44,5 +44,5 @@ MouseArea {
     dragCompleted();
   }
 
-  onMousePositionChanged: cropDragArea.dragged(mouse.x - grabX, mouse.y - grabY)
+  onPositionChanged: cropDragArea.dragged(mouse.x - grabX, mouse.y - grabY)
 }

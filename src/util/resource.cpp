@@ -52,8 +52,8 @@ QString Resource::trailing_slash(QString path) {
 
 QUrl Resource::get_rc_url(const QString& path) {
   return is_installed() ? 
-    QUrl(trailing_slash(install_dir_.path()) + "share/gallery/rc/" + path) :
-    QUrl(trailing_slash(app_dir_.path()) + "rc/" + path);
+    QUrl::fromLocalFile(trailing_slash(install_dir_.path()) + "share/gallery/rc/" + path) :
+    QUrl::fromLocalFile(trailing_slash(app_dir_.path()) + "rc/" + path);
 }
 
 QDir Resource::get_rc_dir(const QString& path) {

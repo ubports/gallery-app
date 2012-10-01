@@ -31,7 +31,7 @@ const char* GalleryStandardImageProvider::PROVIDER_ID = "gallery-standard";
 const char* GalleryStandardImageProvider::PROVIDER_ID_SCHEME = "image://gallery-standard/";
 
 GalleryStandardImageProvider::GalleryStandardImageProvider()
-  : QDeclarativeImageProvider(QDeclarativeImageProvider::Image) {
+  : QQuickImageProvider(QQuickImageProvider::Image) {
 }
 
 GalleryStandardImageProvider::~GalleryStandardImageProvider() {

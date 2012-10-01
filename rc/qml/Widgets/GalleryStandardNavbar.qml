@@ -17,8 +17,8 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-import QtQuick 1.1
-import Ubuntu.Components 0.1
+import QtQuick 2.0
+import "../../UbuntuComponents"
 import "../../Capetown/Widgets"
 
 Toolbar {

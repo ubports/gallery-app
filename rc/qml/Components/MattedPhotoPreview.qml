@@ -17,7 +17,7 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-import QtQuick 1.1
+import QtQuick 2.0
 import "../../js/Gallery.js" as Gallery
 
 // A PhotoComponent with a backing "mat and shadow" image and an internal

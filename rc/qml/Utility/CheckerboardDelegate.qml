@@ -17,7 +17,7 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-import QtQuick 1.1
+import QtQuick 2.0
 import "../../Capetown"
 import "../../js/GalleryUtility.js" as GalleryUtility
 
@@ -58,7 +58,7 @@ Item {
     if (content)
       content.parent = contentArea;
   }
-
+  
   Item {
     id: contentArea
 

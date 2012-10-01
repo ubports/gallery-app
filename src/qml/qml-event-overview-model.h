@@ -25,7 +25,7 @@
 #include <QDateTime>
 #include <QSet>
 #include <QVariant>
-#include <QtDeclarative>
+#include <QtQml>
 
 #include "core/data-object.h"
 #include "core/data-source.h"

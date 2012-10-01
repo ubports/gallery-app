@@ -24,6 +24,7 @@
 #include <QString>
 #include <QUrl>
 #include <QString>
+#include <QQuickView>
 
 #include "album/album.h"
 #include "album/album-collection.h"
@@ -49,12 +50,6 @@ const int APP_GRIDUNIT = 8;
 const QString database_path = ".database";
 
 int main(int argc, char *argv[]) {
-  // Instructs Qt to use UTF-8 when converting to std::strings.
-  QTextCodec::setCodecForCStrings(QTextCodec::codecForName("UTF-8"));
-
-  // NOTE: This *must* be called prior to QApplication's ctor.
-  QApplication::setGraphicsSystem("opengl");
-  
   QApplication app(argc, argv);
   
   //
@@ -133,11 +128,7 @@ int main(int argc, char *argv[]) {
   // using the OpenGL backing and load the root container
   //
   
-  QGLFormat format = QGLFormat::defaultFormat();
-  format.setSampleBuffers(false);
-  QGLWidget *gl_widget = new QGLWidget(format);
-  
-  QDeclarativeView view;
+  QQuickView view;
   view.setWindowTitle("Gallery");
 
   QSize size = form_factors[form_factor];
@@ -146,11 +137,11 @@ int main(int argc, char *argv[]) {
 
   // Only the desktop is resizable.
   if (form_factor == "desktop") {
-    view.setResizeMode(QDeclarativeView::SizeRootObjectToView);
-    view.setMinimumSize(60 * APP_GRIDUNIT, 60 * APP_GRIDUNIT);
+    view.setResizeMode(QQuickView::SizeRootObjectToView);
+    view.setMinimumSize(QSize(60 * APP_GRIDUNIT, 60 * APP_GRIDUNIT));
   } else {
-    view.setMinimumSize(size.width() * APP_GRIDUNIT, size.height() * APP_GRIDUNIT);
-    view.setMaximumSize(size.width() * APP_GRIDUNIT, size.height() * APP_GRIDUNIT);
+    view.setMinimumSize(QSize(size.width() * APP_GRIDUNIT, size.height() * APP_GRIDUNIT));
+    view.setMaximumSize(QSize(size.width() * APP_GRIDUNIT, size.height() * APP_GRIDUNIT));
   }
 
   view.engine()->rootContext()->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
@@ -161,7 +152,6 @@ int main(int argc, char *argv[]) {
   view.engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
     GalleryStandardImageProvider::instance());
   view.setSource(Resource::instance()->get_rc_url("qml/GalleryApplication.qml"));
-  view.setViewport(gl_widget);
   QObject::connect(view.engine(), SIGNAL(quit()), &app, SLOT(quit()));
   
   view.show();

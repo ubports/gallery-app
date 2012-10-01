@@ -13,7 +13,7 @@ INCLUDEPATH += src
 CONFIG += qt debug link_pkgconfig
 QMAKE_CXXFLAGS += -Werror -Wno-unused-parameter
 DEFINES += "INSTALL_PREFIX=\\\"$$PREFIX\\\""
-QT += gui declarative opengl sql
+QT += gui qml quick opengl sql
 MOC_DIR = build
 OBJECTS_DIR = build
 RCC_DIR = build
