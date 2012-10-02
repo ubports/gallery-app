@@ -34,6 +34,9 @@ Rectangle {
   property alias currentIndexForHighlight:
       galleryPhotoViewer.currentIndexForHighlight
   property alias mouseArea: galleryPhotoViewer.mouseArea
+  
+  // Set this when entering from an album.
+  property variant album
 
   signal closeRequested()
   signal editRequested(variant photo)
@@ -225,7 +228,8 @@ Rectangle {
       onRightNavigationButtonPressed: galleryPhotoViewer.goForward()
 
       popups: [ photoViewerShareMenu, photoViewerOptionsMenu,
-        trashOperationDialog, popupAlbumPicker, editMenu ]
+        trashOperationDialog, trashOrRemoveOperationDialog, popupAlbumPicker,
+        editMenu ]
 
       GenericShareMenu {
         id: photoViewerShareMenu
@@ -264,7 +268,8 @@ Rectangle {
           }
         }
       }
-
+      
+      // Shown when launched from event view.
       DeleteDialog {
         id: trashOperationDialog
 
@@ -283,6 +288,34 @@ Rectangle {
           if (model.count == 0)
             photoViewer.closeRequested();
         }
+      }
+      
+      // Shown when launched from album view.
+      DeleteRemoveDialog {
+        id: trashOrRemoveOperationDialog
+        
+        // internal
+        function finishRemove() {
+          if (model.count === 0)
+            photoViewer.closeRequested();
+        }
+        
+        popupOriginX: -gu(24.5)
+        popupOriginY: -gu(6)
+        
+        visible: false
+        
+        onRemoveRequested: {
+          viewerWrapper.album.removeMediaSource(photo);
+          finishRemove();
+        }
+        
+        onDeleteRequested: {
+          model.destroyMedia(photo);
+          finishRemove();
+        }
+        
+        onPopupInteractionCompleted: chrome.hideAllPopups()
       }
 
       PhotoEditMenu {
@@ -358,7 +391,7 @@ Rectangle {
       onShareOperationsButtonPressed: cyclePopup(photoViewerShareMenu)
       onMoreOperationsButtonPressed: cyclePopup(photoViewerOptionsMenu)
       onAlbumOperationsButtonPressed: cyclePopup(popupAlbumPicker)
-      onTrashOperationButtonPressed: cyclePopup(trashOperationDialog)
+      onTrashOperationButtonPressed: cyclePopup(album ? trashOrRemoveOperationDialog : trashOperationDialog)
       onEditOperationsButtonPressed: cyclePopup(editMenu)
     }
 

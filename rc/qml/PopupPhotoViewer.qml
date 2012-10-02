@@ -29,6 +29,9 @@ Item {
   property alias photo: viewer.photo
   property alias index: viewer.index
   
+  // Optional: set this when launching from an album view
+  property alias album: viewer.album
+  
   // Read-only
   property bool animationRunning: transition.animationRunning || 
     fadeIn.running || fadeOut.running

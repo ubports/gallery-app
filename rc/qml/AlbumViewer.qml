@@ -598,6 +598,8 @@ Rectangle {
     // opening the viewer
     property bool forGridView
     
+    album: albumViewer.album
+    
     anchors.fill: parent
 
     onOpening: {
@@ -610,10 +612,10 @@ Rectangle {
       if (forGridView) {
         gridCheckerboard.ensureIndexVisible(index, false);
       } else {
-        var page = album.getPageForMediaSource(photo);
+        var page = albumViewer.album.getPageForMediaSource(photo);
         if (page >= 0) {
-          album.currentPage = albumSpreadViewer.getLeftHandPageNumber(page);
-          albumSpreadViewer.viewingPage = isPortrait? page : album.currentPage;
+          albumViewer.album.currentPage = albumSpreadViewer.getLeftHandPageNumber(page);
+          albumSpreadViewer.viewingPage = isPortrait? page : albumViewer.album.currentPage;
         }
       }
     }
