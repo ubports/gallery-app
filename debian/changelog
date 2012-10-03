@@ -1,3 +1,9 @@
+goodhope (0.0.16.1) UNRELEASED; urgency=low
+
+  * Stricten dependency on Qt4 based version of qt-components-ubuntu
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Wed, 03 Oct 2012 10:57:05 +0100
+
 goodhope (0.0.16) precise; urgency=low
 
   * New weekly build.
