@@ -70,10 +70,20 @@ Rectangle {
     anchors.fill: parent
 
     // if switched away from or to, always move back to checkerboard
-    onVisibleChanged: {
-      eventsCheckerboard.visible = true;
-      eventTimeline.visible = false;
-    }
+    onVisibleChanged: state = "checkerboard"
+
+    // HACK: these shouldn't strictly be necessary.  I want to key the
+    // visibility of the children checkerboard/timeline/transition on the
+    // transition's timelineFraction property, but when I did that, I was
+    // getting weird problems where it looked like the window wasn't refreshing
+    // after things' visibilities changed.  This is a little more code, and a
+    // little more procedural, but fixes the issue.
+    state: "checkerboard"
+    states: [
+      State { name: "checkerboard"; },
+      State { name: "transition"; },
+      State { name: "timeline"; }
+    ]
 
     // The EventsCheckerboard has its own background paper, but this will be
     // visible during the timeline and timeline transition.
@@ -95,7 +105,7 @@ Rectangle {
       leftExtraGutter: Gallery.getDeviceSpecific("photoGridLeftMargin")
       rightExtraGutter: Gallery.getDeviceSpecific("photoGridRightMargin")
 
-      visible: true
+      visible: (eventsSheet.state === "checkerboard")
       allowSelectionModeChange: true
 
       property variant photoViewerModel: MediaCollectionModel {
@@ -109,7 +119,9 @@ Rectangle {
           photoViewer.animateOpen(object, photoRect, true);
         } else {
           // Event
-          eventTimelineTransition.toTimeline(object);
+          eventTimelineTransition.prepare(object, true);
+          eventTimelineTransition.finish(true);
+          eventsSheet.state = "transition";
         }
       }
 
@@ -140,12 +152,17 @@ Rectangle {
 
       anchors.fill: parent
 
-      visible: false
+      visible: (eventsSheet.state === "transition")
       clip: true
+
+      timelineFraction: timelineSwipeArea.swipeFraction
 
       checkerboard: eventsCheckerboard
       timeline: eventTimeline
-      navigationBar: navbar
+
+      onTransitionFinished: (eventsSheet.state = (toTimeline
+                                                  ? "timeline"
+                                                  : "checkerboard"))
     }
 
     EventTimeline {
@@ -158,12 +175,14 @@ Rectangle {
       leftExtraGutter: gu(2)
       rightExtraGutter: gu(2)
 
-      visible: false
+      visible: (eventsSheet.state === "timeline")
       clip: true
 
       onActivated: {
         // Event card activated
-        eventTimelineTransition.toOverview(event);
+        eventTimelineTransition.prepare(event, false);
+        eventTimelineTransition.finish(false);
+        eventsSheet.state = "transition";
       }
 
       onMovementStarted: scrollOrchestrator.viewMovementStarted(contentY)
@@ -341,6 +360,67 @@ Rectangle {
       onTab1Activated: {
         scrollOrchestrator.reset();
         overview.state = "eventView"
+      }
+    }
+  }
+
+  // HACK: temporary swipe area for timeline transition.
+  Item {
+    id: timelineSwipeComponent
+
+    visible: overview.state === "eventView"
+
+    anchors.left: navbar.left
+    anchors.bottom: navbar.bottom
+    width: navbar.width / 4
+    height: navbar.height / 4
+
+    Rectangle {
+      anchors.fill: parent
+      color: "green"
+      opacity: 0.2
+    }
+
+    SwipeArea {
+      id: timelineSwipeArea
+
+      property bool validSwipe: false
+      property real swipeFraction: 0
+
+      anchors.fill: parent
+
+      onStartSwipe: {
+        var event;
+        if (leftToRight && eventsSheet.state === "checkerboard") {
+          validSwipe = true;
+          event = eventsCheckerboard.getVisibleEvents()[0];
+        } else if (!leftToRight && eventsSheet.state === "timeline"){
+          validSwipe = true;
+          event = eventTimeline.getVisibleEvents()[0];
+        } else {
+          validSwipe = false;
+        }
+
+        if (validSwipe) {
+          eventTimelineTransition.prepare(event, leftToRight);
+          eventsSheet.state = "transition";
+        }
+      }
+
+      onSwiping: {
+        if (!validSwipe)
+          return;
+
+        var availableDistance = (leftToRight) ? (width - start) : start;
+        var fraction = Math.max(0, Math.min(1, distance / availableDistance));
+        swipeFraction = (leftToRight ? fraction : 1 - fraction);
+      }
+
+      onSwiped: {
+        if (!validSwipe)
+          return;
+
+        eventTimelineTransition.finish(leftToRight);
       }
     }
   }

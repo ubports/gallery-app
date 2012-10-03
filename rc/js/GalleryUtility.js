@@ -97,3 +97,7 @@ function isEven(n) {
 function isOdd(n) {
   return isNumber(n) && (n % 2 == 1);
 }
+
+function interpolate(start, end, parameter) {
+  return start + parameter * (end - start);
+}

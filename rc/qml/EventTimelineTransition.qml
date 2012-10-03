@@ -27,13 +27,18 @@ import "Widgets"
 Item {
   id: eventTimelineTransition
   
+  signal transitionFinished(bool toTimeline)
+
+  property real timelineFraction
+
   property EventCheckerboard checkerboard
   property EventTimeline timeline
-  property GalleryOverviewNavigationBar navigationBar
   
-  property int duration: Gallery.SLOW_DURATION
+  property alias duration: animator.duration
   
   // readonly
+  property bool isFlipping: (timelineFraction !== 0 && timelineFraction !== 1)
+  property alias isRunning: animator.running
   property real itemWidth: checkerboard.itemWidth
   property real itemHeight: checkerboard.itemHeight
   property real gutterWidth: checkerboard.gutterWidth
@@ -52,77 +57,41 @@ Item {
   property int gridHeight: Gallery.getDeviceSpecific('photoThumbnailHeight')
   property int timelineWidth: Gallery.getDeviceSpecific('photoThumbnailWidthTimeline')
   property int timelineHeight: Gallery.getDeviceSpecific('photoThumbnailHeightTimeline')
-
-  
-  states: [
-    State {
-      name: "grid"
-    },
-    
-    State {
-      name: "timeline"
-    }
-  ]
-  
-  state: "grid"
-  
-  // public
-  function toTimeline(event) {
-    start(event, "grid", "timeline");
-  }
-  
-  // public
-  function toOverview(event) {
-    start(event, "timeline", "grid");
-  }
-
-  // public
-  function backToOverview() {
-    // Uses the previously-saved event.
-    start(event, "timeline", "grid");
-  }
-  
-  // internal
   property Event event
-  property string starting
-  property string ending
-  
-  // internal
-  function start(event, starting, ending) {
+  property real endFraction
+
+  // public
+  function prepare(event, toTimeline) {
     // Because it's desireable for the selected event to be visible in the timeline
     // view when the transition occurs, need to ensure it's ready.  However,
     // can't do it and start the transition because the event loop has
     // not had a chance to run.  By using a Timer, we give the loop a chance to
     // process the request before starting the transition
-    if (starting == "grid")
+    if (toTimeline)
       timeline.ensureIndexVisible(timeline.model.indexOf(event), true);
     else
       checkerboard.ensureIndexVisible(checkerboard.model.indexOf(event), true);
-    
+
     eventTimelineTransition.event = event;
-    eventTimelineTransition.starting = starting;
-    eventTimelineTransition.ending = ending;
-    
+    model.clear();
+
     delayedTimer.start();
   }
-  
+
+  function finish(toTimeline) {
+    eventTimelineTransition.endFraction = (toTimeline ? 1 : 0);
+    animator.restart();
+  }
+
   // internal
-  function delayedStart() {
+  function delayedPrepare() {
     if (!checkerboard || !timeline)
       return;
-    
-    state = starting;
     
     // Only need to fetch MediaSources; the EventOverviewModel will automatically
     // create Event Cards
     var vc = checkerboard.getVisibleMediaSources();
     var vt = timeline.getVisibleMediaSources();
-    
-    checkerboard.visible = false;
-    timeline.visible = false;
-    
-    // clear model before changing state
-    model.clear();
     
     // populate with items visible in the checkerboard; their locations will be
     // determined as the delegates are created
@@ -136,10 +105,6 @@ Item {
       if (vc.indexOf(vt[ctr]) == -1)
         model.add(vt[ctr]);
     }
-    
-    // start the transition
-    visible = true;
-    state = ending;
   }
   
   Timer {
@@ -148,9 +113,24 @@ Item {
     interval: 20
     repeat: false
     
-    onTriggered: eventTimelineTransition.delayedStart()
+    onTriggered: eventTimelineTransition.delayedPrepare()
   }
   
+  NumberAnimation {
+    id: animator
+
+    target: eventTimelineTransition
+    property: "timelineFraction"
+    to: endFraction
+    duration: Gallery.SLOW_DURATION
+    easing.type: Easing.InQuint
+
+    onRunningChanged: {
+      if (!running)
+        transitionFinished(endFraction === 1);
+    }
+  }
+
   Repeater {
     id: repeater
     
@@ -165,7 +145,14 @@ Item {
     
     delegate: Item {
       id: cell
-      
+
+      x: GalleryUtility.interpolate(gridX, timelineX, timelineFraction)
+      y: GalleryUtility.interpolate(gridY, timelineY, timelineFraction)
+      width: GalleryUtility.interpolate(gridWidth, timelineWidth, timelineFraction)
+      height: GalleryUtility.interpolate(gridHeight, timelineHeight, timelineFraction)
+
+      opacity: GalleryUtility.interpolate(gridOpacity, timelineOpacity, timelineFraction)
+
       // This is necessary to expose the index properties externally
       property int index: model.index
       property int gridX
@@ -175,91 +162,17 @@ Item {
       property bool isEvent: model.typeName == "Event"
       property bool hidesUnderEvent: false
       property bool disappears: false
-      
-      width: itemWidth
-      height: itemHeight
-      
-      z: isEvent ? 1 : 0
-      
-      state: eventTimelineTransition.state
-      
-      states: [
-        State {
-          name: "grid"
-          
-          PropertyChanges {
-            target: cell
-            x: gridX
-            y: gridY
-            width: gridWidth
-            height: gridHeight
-            opacity: 1.0
-          }
-        },
-        
-        State {
-          name: "timeline"
-          
-          PropertyChanges {
-            target: cell
-            x: timelineX
-            y: timelineY
-            width: timelineWidth
-            height: timelineHeight
-            opacity: {
-              if (disappears || hidesUnderEvent)
-                return 0.0;
-              else if (isEvent)
-                return Gallery.EVENT_TIMELINE_EVENT_CARD_OPACITY;
-              else
-                return Gallery.EVENT_TIMELINE_MEDIA_SOURCE_OPACITY;
-            }
-          }
-        }
-      ]
-      
-      transitions: [
-        Transition {
-          from: "grid"
-          to: "timeline"
-          
-          SequentialAnimation {
-            PropertyAnimation {
-              properties: "x,y,width,height,opacity"
-              easing.type: Easing.InQuint
-              duration: eventTimelineTransition.duration
-            }
-            
-            ScriptAction {
-              script: {
-                eventTimelineTransition.visible = false;
-                timeline.visible = true;
-              }
-            }
-          }
-        },
-        
-        Transition {
-          from: "timeline"
-          to: "grid"
-          
-          SequentialAnimation {
-            PropertyAnimation {
-              properties: "x,y,width,height,opacity"
-              easing.type: Easing.InQuint
-              duration: eventTimelineTransition.duration
-            }
-            
-            ScriptAction {
-              script: {
-                eventTimelineTransition.visible = false;
-                checkerboard.visible = true;
-              }
-            }
-          }
-        }
-      ]
-      
+      property real gridOpacity: 1.0
+      property real timelineOpacity
+      timelineOpacity: { // Parse error unless split onto two lines.
+        if (disappears || hidesUnderEvent)
+          return 0.0;
+        else if (isEvent)
+          return Gallery.EVENT_TIMELINE_EVENT_CARD_OPACITY;
+        else
+          return Gallery.EVENT_TIMELINE_MEDIA_SOURCE_OPACITY;
+      }
+
       Component.onCompleted: {
         if (!checkerboard || !timeline)
           return;
