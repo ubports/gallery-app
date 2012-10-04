@@ -165,3 +165,10 @@ function isSmallFormFactor(form_factor) {
 
   return (form_factor === 'phone' || form_factor === 'sidebar');
 }
+
+function isDesktop(form_factor) {
+  if (!form_factor)
+    form_factor = FORM_FACTOR; // From C++.
+
+  return (form_factor === 'desktop');
+}

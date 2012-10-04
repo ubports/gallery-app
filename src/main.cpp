@@ -149,8 +149,7 @@ int main(int argc, char *argv[]) {
     view.setResizeMode(QDeclarativeView::SizeRootObjectToView);
     view.setMinimumSize(60 * APP_GRIDUNIT, 60 * APP_GRIDUNIT);
   } else {
-    view.setMinimumSize(size.width() * APP_GRIDUNIT, size.height() * APP_GRIDUNIT);
-    view.setMaximumSize(size.width() * APP_GRIDUNIT, size.height() * APP_GRIDUNIT);
+    view.setResizeMode(QDeclarativeView::SizeViewToRootObject);
   }
 
   view.engine()->rootContext()->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
