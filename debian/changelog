@@ -1,3 +1,15 @@
+goodhope (0.0.17) precise; urgency=low
+
+  * New weekly build.
+
+ -- Charles Lindsay <chaz@yorba.org>  Wed, 03 Oct 2012 17:30:03 -0700
+
+goodhope (0.0.16.1) precise; urgency=low
+
+  * Stricten dependency on Qt4 based version of qt-components-ubuntu
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Wed, 03 Oct 2012 10:58:49 +0100
+
 goodhope (0.0.16) precise; urgency=low
 
   * New weekly build.
