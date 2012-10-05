@@ -19,7 +19,7 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-import QtQuick 1.1
+import QtQuick 2.0
 
 // A Pager is a ListView of screen-sized items whose currentIndex tracks which
 // page the user is currently on.

@@ -17,7 +17,7 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-import QtQuick 1.1
+import QtQuick 2.0
 
 // A PhotoComponent with a backing "mat and shadow" image and an internal
 // overlay shadow image, all made of composite images (i.e. 4 corners, and 4

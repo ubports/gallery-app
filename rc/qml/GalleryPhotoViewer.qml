@@ -18,7 +18,7 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-import QtQuick 1.1
+import QtQuick 2.0
 import Gallery 1.0
 import "../Capetown"
 import "../Capetown/Viewer"
@@ -92,7 +92,7 @@ Rectangle {
     Connections {
       target: photo || null
       ignoreUnknownSignals: true
-      onBusyChanged: updateBusy()
+      onBusyChanged: galleryPhotoViewer.updateBusy()
     }
 
     // Internal: use to switch the busy indicator on or off.
@@ -151,15 +151,14 @@ Rectangle {
 
     // Handles the Chrome overlay.  (The underlying PhotoViewer's MouseArea
     // is where flicking and zooming are handled.)
-    //
-    // Note that this involves some evil hacks to propogate the events to the
-    // underlying MouseArea; this should be unecessary once we swich to Qt 5.
-    // See this bug for more info: https://bugreports.qt-project.org/browse/QTBUG-13007
     MouseArea {
       id: galleryPhotoViewerMouseArea
 
       property bool wasPressed: false
-
+      
+      // Propagate the PhotoViewer's MouseArea
+      propagateComposedEvents: true
+      
       anchors.fill: parent
 
       Timer {
@@ -172,8 +171,7 @@ Rectangle {
       }
 
       onClicked: {
-        // TODO: remove when switching to Qt 5 (see above)
-        mouseArea.clicked(mouse);
+        mouse.accepted = false;
 
         // Trigger chrome if we aren't zoomed or we are but they didn't drag.
         if (galleryPhotoViewer.currentItem.state == "unzoomed" ||
@@ -182,28 +180,10 @@ Rectangle {
       }
 
       onDoubleClicked: {
-        // TODO: remove when switching to Qt 5 (see above)
-        mouseArea.doubleClicked(mouse);
+        mouse.accepted = false;
 
         chromeFadeWaitClock.stop();
         chrome.hide(true);
-      }
-
-      onPressed: {
-        // This signal works slightly differently than the others; since
-        // pressed is a read-only bool, and signals don't act as proper functions
-        // in QML, we use a workaround.  See PhotoViewer for more details.
-        mouseArea.onPressedPublic(mouse);
-      }
-
-      onPositionChanged: {
-        // TODO: remove when switching to Qt 5 (see above)
-        mouseArea.positionChanged(mouse);
-      }
-
-      onReleased: {
-        // TODO: remove when switching to Qt 5 (see above)
-        mouseArea.released(mouse);
       }
     }
 
@@ -417,10 +397,10 @@ Rectangle {
     state: "hidden"
     states: [
       State { name: "shown";
-        PropertyChanges { target: cropper; opacity: 1; }
+        PropertyChanges { target: cropper; visible: true; }
       },
       State { name: "hidden";
-        PropertyChanges { target: cropper; opacity: 0; }
+        PropertyChanges { target: cropper; visible: false; }
       }
     ]
 

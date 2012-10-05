@@ -22,7 +22,7 @@
 #define GALLERY_GALLERY_STANDARD_IMAGE_PROVIDER_H_
 
 #include <QObject>
-#include <QDeclarativeImageProvider>
+#include <QQuickImageProvider>
 #include <QFileInfo>
 #include <QImage>
 #include <QSize>
@@ -30,7 +30,7 @@
 #include <QUrl>
 
 class GalleryStandardImageProvider
-  : public QObject, public QDeclarativeImageProvider {
+  : public QObject, public QQuickImageProvider {
   Q_OBJECT
   
  public:

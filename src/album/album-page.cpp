@@ -55,8 +55,8 @@ QUrl AlbumPage::qml_rc() const {
   return Resource::instance()->get_rc_url(template_page_->qml_rc());
 }
 
-QDeclarativeListProperty<MediaSource> AlbumPage::qml_media_source_list() {
-  return QDeclarativeListProperty<MediaSource>(this, source_list_);
+QQmlListProperty<MediaSource> AlbumPage::qml_media_source_list() {
+  return QQmlListProperty<MediaSource>(this, source_list_);
 }
 
 QVariant AlbumPage::qml_owner() const {

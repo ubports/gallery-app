@@ -28,7 +28,7 @@
 #include <QTime>
 #include <QUrl>
 #include <QVariant>
-#include <QtDeclarative>
+#include <QtQml>
 
 #include "core/data-source.h"
 #include "photo/photo-metadata.h"

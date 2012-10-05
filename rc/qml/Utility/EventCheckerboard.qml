@@ -17,7 +17,7 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-import QtQuick 1.1
+import QtQuick 2.0
 import Gallery 1.0
 
 Checkerboard {
@@ -98,17 +98,17 @@ Checkerboard {
       target: checkerboard
       ignoreUnknownSignals: true
       
-      onDisableMediaInAlbumChanged: updateEnabled()
+      onDisableMediaInAlbumChanged: eventCheckerboardDelegate.updateEnabled()
     }
     
     Connections {
       target: checkerboard.disableMediaInAlbum || null
       ignoreUnknownSignals: true
       
-      onAllMediaSourcesChanged: updateEnabled()
+      onAllMediaSourcesChanged: eventCheckerboardDelegate.updateEnabled()
     }
     
-    Component.onCompleted: updateEnabled()
+    Component.onCompleted: eventCheckerboardDelegate.updateEnabled()
     
     content: EventCheckerboardPreview {
       id: preview
@@ -118,7 +118,7 @@ Checkerboard {
       mediaSource: (modelData.typeName == "MediaSource") ? modelData.mediaSource : undefined
       event: (modelData.typeName == "Event") ? modelData.object : undefined
       isSelected: eventCheckerboardDelegate.isSelected && eventCheckerboardDelegate.enabled
-      opacity: enabled ? 1 : 0.2
+      opacity: eventCheckerboardDelegate.enabled ? 1 : 0.2
     }
   }
 

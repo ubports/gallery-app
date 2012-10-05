@@ -23,9 +23,9 @@
 #include <QObject>
 #include <QDate>
 #include <QDateTime>
-#include <QDeclarativeListProperty>
+#include <QQmlListProperty>
 #include <QList>
-#include <QtDeclarative>
+#include <QtQml>
 
 #include "core/container-source.h"
 #include "media/media-source.h"
@@ -40,8 +40,8 @@ class Event : public ContainerSource {
   void date_altered();
   
  public:
-  Event(QObject * parent = 0);
-  explicit Event(QObject * parent, const QDate &date);
+  Event(QObject* parent = 0);
+  explicit Event(QObject* parent, const QDate &date);
   
   static void RegisterType();
   

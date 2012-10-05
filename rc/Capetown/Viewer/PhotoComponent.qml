@@ -19,7 +19,7 @@
  * Eric Gregory <eric@yorba.org>
  */
 
-import QtQuick 1.1
+import QtQuick 2.0
 
 // Basic photo component.  Can be used on its own, or as a delegate
 // for PhotoViewer.

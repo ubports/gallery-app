@@ -22,7 +22,7 @@
 
 #include <QObject>
 #include <QVariant>
-#include <QtDeclarative>
+#include <QtQml>
 
 #include "album/album.h"
 #include "core/data-object.h"

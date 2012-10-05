@@ -17,7 +17,7 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-import QtQuick 1.1
+import QtQuick 2.0
 
 // An Item that animates back and forth between two positions, normal ("out",
 // given in the normal QML Item properties) and an alternate ("in", given in

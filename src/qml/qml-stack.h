@@ -23,7 +23,7 @@
 #include <QObject>
 #include <QStack>
 #include <QVariant>
-#include <QtDeclarative>
+#include <QtQml>
 
 class QmlStack : public QObject {
   Q_OBJECT

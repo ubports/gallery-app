@@ -23,11 +23,11 @@
 
 #include <QObject>
 #include <QDateTime>
-#include <QDeclarativeListProperty>
+#include <QQmlListProperty>
 #include <QString>
 #include <QUrl>
 #include <QVariant>
-#include <QtDeclarative>
+#include <QtQml>
 
 #include "album/album-page.h"
 #include "album/album-template.h"
@@ -52,9 +52,9 @@ class Album : public ContainerSource {
   Q_PROPERTY(QString subtitle READ subtitle WRITE set_subtitle NOTIFY subtitle_altered)
   Q_PROPERTY(QDateTime creationDateTime READ creation_date_time
     NOTIFY creation_date_time_altered)
-  Q_PROPERTY(QDeclarativeListProperty<AlbumPage> contentPages READ qml_pages
+  Q_PROPERTY(QQmlListProperty<AlbumPage> contentPages READ qml_pages
     NOTIFY contentPagesAltered)
-  Q_PROPERTY(QDeclarativeListProperty<MediaSource> allMediaSources
+  Q_PROPERTY(QQmlListProperty<MediaSource> allMediaSources
     READ qml_all_media_sources NOTIFY album_contents_altered)
   Q_PROPERTY(int firstContentPage READ first_content_page NOTIFY pageCountAltered)
   Q_PROPERTY(int lastContentPage READ last_content_page NOTIFY pageCountAltered)
@@ -135,8 +135,8 @@ class Album : public ContainerSource {
   // Returns NULL if page number is beyond bounds
   AlbumPage* GetPage(int page) const;
   
-  QDeclarativeListProperty<AlbumPage> qml_pages();
-  QDeclarativeListProperty<MediaSource> qml_all_media_sources();
+  QQmlListProperty<AlbumPage> qml_pages();
+  QQmlListProperty<MediaSource> qml_all_media_sources();
   
  protected:
   virtual void DestroySource(bool destroy_backing, bool as_orphan);

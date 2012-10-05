@@ -19,7 +19,7 @@
  * Eric Gregory <eric@yorba.org>
  */
 
-import QtQuick 1.1
+import QtQuick 2.0
 import Gallery 1.0
 import "../../Capetown"
 import "../Utility"

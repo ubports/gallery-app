@@ -23,7 +23,7 @@
 
 #include <QObject>
 #include <QVariant>
-#include <QtDeclarative>
+#include <QtQml>
 
 #include "core/data-object.h"
 #include "core/selectable-view-collection.h"
