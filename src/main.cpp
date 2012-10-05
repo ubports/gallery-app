@@ -140,8 +140,7 @@ int main(int argc, char *argv[]) {
     view.setResizeMode(QQuickView::SizeRootObjectToView);
     view.setMinimumSize(QSize(60 * APP_GRIDUNIT, 60 * APP_GRIDUNIT));
   } else {
-    view.setMinimumSize(QSize(size.width() * APP_GRIDUNIT, size.height() * APP_GRIDUNIT));
-    view.setMaximumSize(QSize(size.width() * APP_GRIDUNIT, size.height() * APP_GRIDUNIT));
+    view.setResizeMode(QQuickView::SizeViewToRootObject);
   }
 
   view.engine()->rootContext()->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));

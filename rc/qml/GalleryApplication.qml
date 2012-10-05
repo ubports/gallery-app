@@ -20,6 +20,7 @@
 
 import QtQuick 2.0
 import "Utility"
+import "../js/Gallery.js" as Gallery
 
 Item {
   id: application
@@ -42,6 +43,19 @@ Item {
   height: gu(DEVICE_HEIGHT)
 
   Component.onCompleted: navStack.switchToPage(overview)
+
+  focus: true
+  Keys.onPressed: {
+    if (Gallery.isDesktop())
+      return;
+
+    if ((event.key == Qt.Key_L && isPortrait) ||
+        (event.key == Qt.Key_P && !isPortrait)) {
+      var temp = width;
+      width = height;
+      height = temp;
+    }
+  }
   
   Overview {
     id: overview

@@ -19,7 +19,7 @@
  */
 
 import QtQuick 2.0
-import "../../UbuntuComponents"
+import Ubuntu.Components 0.1
 
 ButtonWithForeground {
   id: toolbarIconButton

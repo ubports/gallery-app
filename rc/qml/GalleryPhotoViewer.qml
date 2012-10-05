@@ -92,7 +92,7 @@ Rectangle {
     Connections {
       target: photo || null
       ignoreUnknownSignals: true
-      onBusyChanged: updateBusy()
+      onBusyChanged: galleryPhotoViewer.updateBusy()
     }
 
     // Internal: use to switch the busy indicator on or off.

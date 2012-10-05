@@ -98,17 +98,17 @@ Checkerboard {
       target: checkerboard
       ignoreUnknownSignals: true
       
-      onDisableMediaInAlbumChanged: updateEnabled()
+      onDisableMediaInAlbumChanged: eventCheckerboardDelegate.updateEnabled()
     }
     
     Connections {
       target: checkerboard.disableMediaInAlbum || null
       ignoreUnknownSignals: true
       
-      onAllMediaSourcesChanged: updateEnabled()
+      onAllMediaSourcesChanged: eventCheckerboardDelegate.updateEnabled()
     }
     
-    Component.onCompleted: updateEnabled()
+    Component.onCompleted: eventCheckerboardDelegate.updateEnabled()
     
     content: EventCheckerboardPreview {
       id: preview
