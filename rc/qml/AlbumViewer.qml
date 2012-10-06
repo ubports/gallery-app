@@ -206,9 +206,16 @@ Rectangle {
       // Normal press/click.
       function pressed(x, y) {
         var hit = albumSpreadViewer.hitTestFrame(x, y, parent);
-        if (!hit || !hit.mediaSource)
+        if (!hit)
           return;
-
+        
+        // Handle add button.
+        if (hit.objectName === "addButton")
+          mediaSelector.show();
+        
+        if (!hit.mediaSource)
+          return;
+        
         if (gridCheckerboard.inSelectionMode) {
           gridCheckerboard.model.toggleSelection(hit.mediaSource);
         } else {
@@ -296,7 +303,7 @@ Rectangle {
     model: MediaCollectionModel {
       forCollection: album
     }
-
+    
     delegate: CheckerboardDelegate {
       id: gridCheckerboardDelegate
       
@@ -313,6 +320,30 @@ Rectangle {
       var photoRect = GalleryUtility.translateRect(activatedRect, gridCheckerboard, photoViewer);
       photoViewer.forGridView = true;
       photoViewer.animateOpen(object, photoRect, true);
+    }
+    
+    onVisibleChanged: {
+      if (!visible && album) {
+        // When we hide this, we need to ensure the album is closed if it's empty.
+        if (album.containedCount == 0)
+          album.closed = true;
+      }
+    }
+    
+    // When album is empty, show the add button
+    MattedPhotoPreview {
+      visible: album !== null && album.containedCount == 0
+      
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.topMargin: gridCheckerboard.topExtraGutter
+      anchors.leftMargin: gridCheckerboard.leftExtraGutter
+      substituteSource: "Components/AlbumInternals/img/album-add.png"
+      
+      MouseArea {
+        anchors.fill: parent
+        onClicked: mediaSelector.show()
+      }
     }
   }
 
@@ -393,7 +424,7 @@ Rectangle {
       gridCheckerboard.unselectAll();
       gridCheckerboard.inSelectionMode = false;
 
-      closeRequested(true, albumSpreadViewer.viewingPage);
+      closeRequested(album.containedCount > 0, albumSpreadViewer.viewingPage);
     }
 
     onMoreOperationsButtonPressed: cyclePopup(albumViewerOptionsMenu)
@@ -448,13 +479,6 @@ Rectangle {
       function finishRemove() {
         gridCheckerboard.unselectAll();
         gridCheckerboard.inSelectionMode = false;
-        
-        // If all the photos were removed from the album and it was deleted,
-        // album will now be set to null.
-        if (!album) {
-          albumViewer.closeRequested(true, -1);
-          return;
-        }
         
         // In the Album model, the last valid current page is the back cover.
         // However, in the UI, we want to stay on the content pages.
@@ -559,12 +583,7 @@ Rectangle {
         album.removeMediaSource(media);
         
         // Display the proper animation for this case.
-        if (!album) {
-          // If all the photos were removed from the album and it was deleted,
-          // album will now be set to null.
-          albumViewer.closeRequested(true, -1);
-          albumSpreadViewerForTransition.freeze = false;
-        } else if (albumSpreadViewer.viewingPage > album.lastPopulatedContentPage) {
+        if (albumSpreadViewer.viewingPage > album.lastPopulatedContentPage) {
           // In the Album model, the last valid current page is the back cover.
           // However, in the UI, we want to stay on the content pages.
           fadeOutAndFlipRemove(isPortrait ? album.lastPopulatedContentPage :
@@ -621,14 +640,6 @@ Rectangle {
     }
 
     onCloseRequested: {
-      // If all the photos were removed from the album and it was deleted,
-      // album will now be set to null.
-      if (!album) {
-        close();
-        albumViewer.closeRequested(true, -1);
-        return;
-      }
-
       if (forGridView) {
         var rect = gridCheckerboard.getRectOfItemAt(index, photoViewer);
         if (rect)

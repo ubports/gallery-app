@@ -80,6 +80,8 @@ void Album::InitInstance() {
   id_ = INVALID_ID;
   cover_nickname_ = "default";
   
+  create_add_photos_page();
+  
   QObject::connect(content_pages_,
     SIGNAL(contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
     this,
@@ -121,10 +123,6 @@ void Album::removeMediaSource(QVariant vmedia) {
   MediaSource* media = UncheckedVariantToObject<MediaSource*>(vmedia);
   if (media != NULL)
     Detach(media);
-  
-  // TODO: see comment in removeSelectedMediaSources()
-  if (ContainedCount() == 0)
-    AlbumCollection::instance()->Destroy(this, true, true);
 }
 
 void Album::removeSelectedMediaSources(QVariant vmodel) {
@@ -133,14 +131,6 @@ void Album::removeSelectedMediaSources(QVariant vmodel) {
   DetachMany(
     FilterSetOnlyType<DataObject*, MediaSource*>(
       model->BackingViewCollection()->GetSelected()));
-  
-  // TODO: it's unfortunate that this has to happen here AND in AlbumCollection
-  // to handle all photos removed AND all photos deleted.  Ideally they could
-  // be combined somewhere in notify_container_contents_altered() below, but it
-  // seemed too risky to do the equivalent of delete this somewhere so deep in
-  // the call chain.  This is right up at the top where we're sure it's safe.
-  if (ContainedCount() == 0)
-    AlbumCollection::instance()->Destroy(this, true, true);
 }
 
 QVariant Album::getPage(int page) const {
@@ -445,7 +435,11 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
   emit album_contents_altered();
   
   refreshing_container_ = stashed_refreshing_container;
-
+  
+  // If there's no content, add the "add photos" page.
+  if (ContainedCount() == 0)
+    create_add_photos_page();
+  
   // return to stashed current page, unless pages have been removed ... note
   // that this will close the album if empty
   current_page_ = stashed_current_page;
@@ -470,6 +464,21 @@ int Album::content_to_absolute_page(int content_page) const {
 
 int Album::absolute_to_content_page(int absolute_page) const {
   return absolute_page - PAGES_PER_COVER;
+}
+
+void Album::create_add_photos_page() {
+  PageOrientation orientation[0];
+  AlbumTemplatePage* template_page_add = new AlbumTemplatePage(
+    "Add photos", "qml/Components/AlbumInternals/AlbumPageLayoutAdd.qml", true, 0);
+  AlbumPage* page1 = new AlbumPage(this, content_to_absolute_page(0), template_page_add);
+  AlbumPage* page2 = new AlbumPage(this, content_to_absolute_page(0), 
+    album_template_->get_best_fit_page(false, 0, orientation));
+  
+  content_pages_->Add(page1);
+  content_pages_->Add(page2);
+  populated_pages_count_ += 1;
+  
+  set_closed(true);
 }
 
 void Album::on_album_page_content_altered(const QSet<DataObject*>* added,

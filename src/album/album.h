@@ -152,6 +152,11 @@ class Album : public ContainerSource {
   int content_to_absolute_page(int content_page) const;
   int absolute_to_content_page(int absolute_page) const;
   
+  // Creates the "add photos" pages for an empty album
+  // Note: make sure the album is empty before calling this.  No page count
+  // alterated signal is fired by this function.
+  void create_add_photos_page();
+  
  private slots:
   void on_album_page_content_altered(const QSet<DataObject*>* added,
     const QSet<DataObject*>* removed);

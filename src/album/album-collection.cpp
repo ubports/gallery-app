@@ -41,7 +41,13 @@ AlbumCollection::AlbumCollection()
     
     // After photos are attached, restore the current page.
     a->set_current_page(saved_current_page);
-  }
+    
+    // If there are no photos in the album, mark it as closed.
+    // This is needed for the case where the user exits the application while
+    // viewing an empty album.
+    if (a->ContainedCount() == 0)
+      a->set_closed(true);
+ }
   
   // We need to monitor the media collection so that when photos get removed
   // from the system, they also get removed from all albums.
@@ -93,9 +99,6 @@ void AlbumCollection::on_media_added_removed(const QSet<DataObject *> *added,
 
         album->Detach(media);
       }
-
-      if (album->ContainedCount() == 0)
-        Destroy(album, true, true);
     }
   }
 }

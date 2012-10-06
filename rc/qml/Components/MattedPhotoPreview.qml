@@ -29,6 +29,9 @@ Item {
   property alias ownerName: photo.ownerName
   property alias mediaSource: photo.mediaSource
   property bool isSelected
+  
+  // Use this to make this element show an arbitrary image.
+  property alias substituteSource: substitutePhoto.source
 
   // internal
   property real mattedPhotoWidth: gu(24)
@@ -79,7 +82,18 @@ Item {
         isCropped: true
         isPreview: true
       }
-
+      
+      Image {
+        id: substitutePhoto
+        
+        width: insideShadow.width
+        height: insideShadow.height
+        anchors.centerIn: parent
+        fillMode: Image.PreserveAspectFit
+        
+        visible: source != null
+      }
+      
       Image {
         id: insideShadow
 

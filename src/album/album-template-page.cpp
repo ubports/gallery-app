@@ -24,7 +24,7 @@
 AlbumTemplatePage::AlbumTemplatePage(const char* name, const char* qml_rc,
                                      bool is_left, int frame_count, ...)
   : name_(name), is_left_(is_left) {
-  Q_ASSERT(frame_count > 0);
+  Q_ASSERT(frame_count >= 0);
   
   va_list valist;
   va_start(valist, frame_count);
