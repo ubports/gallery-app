@@ -133,6 +133,11 @@ PhotoMetadata* PhotoMetadata::FromFile(const QFileInfo &file) {
   return PhotoMetadata::FromFile(file.absoluteFilePath().toStdString().c_str());
 }
 
+void PhotoMetadata::Init() {
+  // Disable logging of Exiv2 errors.
+  Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute);
+}
+
 Orientation PhotoMetadata::rotate_orientation(Orientation orientation, bool left) {
   QVector<Orientation> sequence_a;
   QVector<Orientation> sequence_b;

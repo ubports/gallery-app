@@ -36,6 +36,7 @@
 #include "media/media-collection.h"
 #include "media/media-source.h"
 #include "media/preview-manager.h"
+#include "photo/photo-metadata.h"
 #include "qml/gallery-standard-image-provider.h"
 #include "qml/qml-album-collection-model.h"
 #include "qml/qml-event-collection-model.h"
@@ -111,6 +112,7 @@ int main(int argc, char *argv[]) {
   // Not in alpha-order because initialization order is important here
   // TODO: Need to use an initialization system that deals with init order
   // issues
+  PhotoMetadata::Init(); // must init before loading photos
   Resource::Init(app.applicationDirPath(), INSTALL_PREFIX);
   Database::Init(db_dir, &app);
   Database::instance()->get_media_table()->verify_files();
