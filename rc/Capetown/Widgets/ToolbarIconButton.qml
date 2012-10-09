@@ -24,8 +24,6 @@ import Ubuntu.Components 0.1
 ButtonWithForeground {
   id: toolbarIconButton
 
-  signal pressedAndHeld()
-
   property url selectedIconFilename
   property url deselectedIconFilename
 
@@ -33,6 +31,4 @@ ButtonWithForeground {
   height: gu(4)
 
   iconSource: pressed ? selectedIconFilename : deselectedIconFilename
-
-  Component.onCompleted: mouseArea.pressAndHold.connect(pressedAndHeld);
 }

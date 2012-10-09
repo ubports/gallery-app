@@ -42,6 +42,6 @@ Toolbar {
     selectedIconFilename: "img/icon-camera-active.png"
     deselectedIconFilename: "img/icon-camera-inactive.png"
 
-    onPressedAndHeld: Qt.quit()
+    onPressAndHold: Qt.quit()
   }
 }
