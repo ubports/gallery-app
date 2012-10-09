@@ -3,12 +3,12 @@ Section: graphics
 Priority: extra
 Maintainer: The Good Hope Team <goodhope@lists.canonical.com>
 Uploaders: Adam Dingle <adam@yorba.org>
-Build-Depends: debhelper (>= 8.0.0), libexiv2-dev, qt5-meta-full
+Build-Depends: debhelper (>= 8.0.0), libexiv2-dev, qtbase, qtjsbackend, qtdeclarative, qtxmlpatterns, qtscript, qtimageformats, qtmultimedia
 Standards-Version: 3.9.2
 Homepage: https://launchpad.net/goodhope
 
 Package: goodhope
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, qtbase, qtjsbackend, qtdeclarative, qtxmlpatterns, qtscript, qtimageformats, qtmultimedia, qt-components-ubuntu (<= 0.1+bzr101)
+Depends: ${shlibs:Depends}, ${misc:Depends}, qtbase, qtjsbackend, qtdeclarative, qtxmlpatterns, qtscript, qtimageformats, qtmultimedia, qt-components-ubuntu
 Description: Photo gallery for the Ubuntu tablet
  Good Hope is a photo gallery for the Ubuntu tablet.
