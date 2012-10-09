@@ -48,6 +48,7 @@ PopupMenu {
 
     ListElement {
       title: "Delete album"
+      action: "onDeleteAlbum"
     }
   }
 }

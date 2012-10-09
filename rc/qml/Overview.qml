@@ -401,7 +401,10 @@ Rectangle {
 
       popupOriginX: -gu(16.5)
       popupOriginY: -gu(6)
-
+      
+      actionTitle: eventsCheckerboard.model.selectedCount > 1 ? 
+                     "Delete selected items" : "Delete photo"
+      
       visible: false
 
       onDeleteRequested: {
@@ -511,17 +514,16 @@ Rectangle {
     onPopupInteractionCompleted: state = "hidden"
   }
   
-  DeleteDialog {
+  // Dialog for deleting albums.
+  DeleteOrDeleteWithContentsDialog {
     id: albumTrashDialog
     
     property variant album: null
     
     visible: false
     
-    explanatoryText: "Selecting remove will remove this album only- the "
-      + "contents of the album will remain."
-    
-    actionTitle: "Remove"
+    deleteTitle: "Delete album"
+    deleteWithContentsTitle: "Delete album + contents"
     
     function show(albumToShow) {
       album = albumToShow;
@@ -536,7 +538,15 @@ Rectangle {
       popupOriginY = rect.y >= navbar.height ? rect.y : navbar.height;
     }
     
-    onDeleteRequested: {
+    onDeleteRequested: albumsCheckerboard.model.destroyAlbum(album)
+    
+    onDeleteWithContentsRequested: {
+      // Remove contents.
+      var list = album.allMediaSources;
+      for (var i = 0; i < list.length; i++)
+        eventsCheckerboard.model.destroyMedia(list[i]);
+      
+      // Remove album.
       albumsCheckerboard.model.destroyAlbum(album);
     }
     

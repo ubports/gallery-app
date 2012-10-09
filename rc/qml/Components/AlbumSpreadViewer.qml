@@ -203,6 +203,9 @@ Item {
       pagesPerSpread: albumSpreadViewer.pagesPerSpread
 
       onFlipFinished: {
+        if (!album)
+          return;
+        
         if (toDestination) {
           if (destinationPage == album.firstValidCurrentPage) {
             album.closed = true;

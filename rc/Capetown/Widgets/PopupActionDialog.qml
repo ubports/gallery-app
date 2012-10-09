@@ -15,22 +15,21 @@
  *
  * Authors:
  * Lucas Beeler <lucas@yorba.org>
+ * Eric Gregory <eric@yorba.org>
  */
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
-PopupDialog {
-  id: popupActionCancelDialog
+PopupBox {
+  id: popupActionDialog
 
   signal actionRequested()
-  signal cancelRequested()
 
   property alias actionTitle: actionButton.text
-  property alias cancelTitle: cancelButton.text
 
   width: gu(40);
-  height: gu(26) + originCueHeight;
+  height: gu(9) + originCueHeight;
 
   Button {
     id: actionButton
@@ -42,30 +41,11 @@ PopupDialog {
     anchors.right: parent.right
     anchors.rightMargin: gu(2)
     anchors.bottom: parent.bottom
-    anchors.bottomMargin: gu(7.5) + originCueHeight
-
-    onClicked: {
-      popupActionCancelDialog.actionRequested();
-      popupActionCancelDialog.popupInteractionCompleted();
-    }
-  }
-
-  Button {
-    id: cancelButton
-
-    text: "Cancel"
-    color: "#818285"
-
-    anchors.left: parent.left
-    anchors.leftMargin: gu(2)
-    anchors.right: parent.right
-    anchors.rightMargin: gu(2)
-    anchors.bottom: parent.bottom
     anchors.bottomMargin: gu(2) + originCueHeight
 
     onClicked: {
-      popupActionCancelDialog.cancelRequested();
-      popupActionCancelDialog.popupInteractionCompleted();
+      popupActionDialog.actionRequested();
+      popupActionDialog.popupInteractionCompleted();
     }
   }
 }

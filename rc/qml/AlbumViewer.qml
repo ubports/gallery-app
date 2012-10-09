@@ -404,7 +404,8 @@ Rectangle {
     toolbarPageIndicatorAlbum: albumViewer.album
 
     popups: [ albumViewerOptionsMenu, albumViewerShareMenu,
-      selectionMenu, trashDialog, albumPagePhotoMenu, trashFromAlbumPageDialog ]
+      selectionMenu, trashDialog, albumPagePhotoMenu, trashFromAlbumPageDialog,
+      albumTrashDialog ]
 
     onPageIndicatorPageSelected: {
       chrome.hide(true);
@@ -452,6 +453,10 @@ Rectangle {
           case "onAddPhotos":
             mediaSelector.show();
           break;
+          
+          case "onDeleteAlbum":
+            chrome.cyclePopup(albumTrashDialog);
+          break;
         }
       }
 
@@ -488,6 +493,9 @@ Rectangle {
           albumSpreadViewer.viewingPage = album.lastPopulatedContentPage;
         }
       }
+      
+      action0Title: "Remove from album"
+      action1Title: "Delete photo"
       
       popupOriginX: -gu(16.5)
       popupOriginY: -gu(6)
@@ -575,6 +583,9 @@ Rectangle {
       
       visible: false
       
+      action0Title: "Remove from album"
+      action1Title: "Delete photo"
+      
       // internal
       // media: photo to remove/delete
       // deleteMedia: if true, the backing file will be deleted
@@ -606,6 +617,41 @@ Rectangle {
       AlbumCollectionModel {
         id: trashFromAlbumPageModel
       }
+    }
+    
+    // Delete album from album view.
+    DeleteOrDeleteWithContentsDialog {
+      id: albumTrashDialog
+      
+      visible: false
+      
+      deleteTitle: "Delete album"
+      deleteWithContentsTitle: "Delete album + contents"
+      
+      popupOriginX: -gu(2)
+      popupOriginY: -gu(6)
+      
+      onDeleteRequested: {
+        albumCollectionModel.destroyAlbum(albumViewer.album);
+        albumViewer.closeRequested(true, -1);
+      }
+      
+      onDeleteWithContentsRequested: {
+        // Remove contents.
+        var list = albumViewer.album.allMediaSources;
+        for (var i = 0; i < list.length; i++)
+          gridCheckerboard.model.destroyMedia(list[i]);
+        
+        // Remove album.
+        albumCollectionModel.destroyAlbum(albumViewer.album);
+        albumViewer.closeRequested(true, -1);
+      }
+      
+      AlbumCollectionModel {
+        id: albumCollectionModel
+      }
+      
+      onPopupInteractionCompleted: state = "hidden"
     }
   }
   

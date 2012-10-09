@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2012 Canonical Ltd
+ * Copyright (C) 2012 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -14,19 +14,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Authors:
- * Lucas Beeler <lucas@yorba.org>
  * Eric Gregory <eric@yorba.org>
  */
 
 import QtQuick 2.0
 import "../../Capetown/Widgets"
 
-PopupActionDialog {
-  id: deleteDialog
+PopupActionChoiceDialog {
+  id: deleteOrDeleteWithContentsDialog
+  
+  property variant album
+  property alias deleteTitle: deleteOrDeleteWithContentsDialog.action0Title
+  property alias deleteWithContentsTitle: deleteOrDeleteWithContentsDialog.action1Title
+  
+  signal deleteRequested();
+  signal deleteWithContentsRequested();
+  
+  visible: false
+  
+  action0Title: "Delete"
+  onAction0Requested: deleteRequested()
 
-  signal deleteRequested()
-
-  actionTitle: "Delete"
-
-  onActionRequested: deleteRequested()
+  action1Title: "Delete with contents"
+  onAction1Requested: deleteWithContentsRequested()
 }

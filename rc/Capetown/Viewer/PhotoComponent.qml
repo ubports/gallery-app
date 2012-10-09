@@ -61,7 +61,7 @@ Rectangle {
       state = "full_zoom";
     } else {
       state = "unzoomed";
-      this.clearZoomFocus();
+      clearZoomFocus();
     }
   }
 

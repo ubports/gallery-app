@@ -252,7 +252,9 @@ Rectangle {
       // Shown when launched from event view.
       DeleteDialog {
         id: trashOperationDialog
-
+        
+        actionTitle: "Delete Photo"
+        
         popupOriginX: -gu(24.5)
         popupOriginY: -gu(6)
 
@@ -279,6 +281,9 @@ Rectangle {
           if (model.count === 0)
             photoViewer.closeRequested();
         }
+        
+        action0Title: "Remove from album"
+        action1Title: "Delete photo"
         
         popupOriginX: -gu(24.5)
         popupOriginY: -gu(6)

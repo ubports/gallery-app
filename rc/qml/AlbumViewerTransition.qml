@@ -337,7 +337,8 @@ Item {
       if (running)
         return;
       
-      album.closed = !hideStayingOpen;
+      if (album)
+        album.closed = !hideStayingOpen;
       
       transitionFromAlbumViewerCompleted();
     }

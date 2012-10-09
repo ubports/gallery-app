@@ -28,10 +28,6 @@ PopupActionChoiceDialog {
 
   visible: false
 
-  explanatoryText: "Selecting Remove will remove this photo from this " +
-                   "album only. Delete will permanently delete this " +
-                   "photo."
-
   action0Title: "Remove"
   onAction0Requested: removeRequested()
 

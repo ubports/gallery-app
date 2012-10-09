@@ -133,15 +133,14 @@ Item {
       hideAllPopups();
 
     target.flipVisibility();
-
-    this.popupActive = target.visible;
+    popupActive = target.visible;
   }
 
   function hideAllPopups() {
     for (var i = 0; i < popups.length; i++)
       popups[i].state = "hidden";
 
-    this.popupActive = false;
+    popupActive = false;
   }
 
   // internal
@@ -165,7 +164,7 @@ Item {
   }
 
   function cancelActivity() {
-    this.hideAllPopups();
+    hideAllPopups();
   }
 
   MouseArea {
