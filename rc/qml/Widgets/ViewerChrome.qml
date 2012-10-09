@@ -188,8 +188,9 @@ Item {
 
     visible: wrapper.hasLeftNavigationButton && !wrapper.inSelectionMode
 
-    x: gu(1.5)
-    y: 2 * parent.height / 3
+    anchors.leftMargin: gu(1.5)
+    anchors.left: parent.left
+    anchors.bottom: toolbar.top
 
     onPressed: {
       autoHideTimer.startAutoHide();
@@ -204,8 +205,9 @@ Item {
 
     visible: wrapper.hasRightNavigationButton && !wrapper.inSelectionMode
 
-    x: parent.width - width - gu(1.5)
-    y: 2 * parent.height / 3
+    anchors.rightMargin: gu(1.5)
+    anchors.right: parent.right
+    anchors.bottom: toolbar.top
 
     onPressed: {
       autoHideTimer.startAutoHide();
