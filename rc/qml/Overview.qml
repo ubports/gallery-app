@@ -155,8 +155,6 @@ Rectangle {
       visible: (eventsSheet.state === "transition")
       clip: true
 
-      timelineFraction: timelineSwipeArea.swipeFraction
-
       checkerboard: eventsCheckerboard
       timeline: eventTimeline
 
@@ -360,67 +358,6 @@ Rectangle {
       onTab1Activated: {
         scrollOrchestrator.reset();
         overview.state = "eventView"
-      }
-    }
-  }
-
-  // HACK: temporary swipe area for timeline transition.
-  Item {
-    id: timelineSwipeComponent
-
-    visible: overview.state === "eventView"
-
-    anchors.left: navbar.left
-    anchors.bottom: navbar.bottom
-    width: navbar.width / 4
-    height: navbar.height / 4
-
-    Rectangle {
-      anchors.fill: parent
-      color: "green"
-      opacity: 0.2
-    }
-
-    SwipeArea {
-      id: timelineSwipeArea
-
-      property bool validSwipe: false
-      property real swipeFraction: 0
-
-      anchors.fill: parent
-
-      onStartSwipe: {
-        var event;
-        if (leftToRight && eventsSheet.state === "checkerboard") {
-          validSwipe = true;
-          event = eventsCheckerboard.getVisibleEvents()[0];
-        } else if (!leftToRight && eventsSheet.state === "timeline"){
-          validSwipe = true;
-          event = eventTimeline.getVisibleEvents()[0];
-        } else {
-          validSwipe = false;
-        }
-
-        if (validSwipe) {
-          eventTimelineTransition.prepare(event, leftToRight);
-          eventsSheet.state = "transition";
-        }
-      }
-
-      onSwiping: {
-        if (!validSwipe)
-          return;
-
-        var availableDistance = (leftToRight) ? (width - start) : start;
-        var fraction = Math.max(0, Math.min(1, distance / availableDistance));
-        swipeFraction = (leftToRight ? fraction : 1 - fraction);
-      }
-
-      onSwiped: {
-        if (!validSwipe)
-          return;
-
-        eventTimelineTransition.finish(leftToRight);
       }
     }
   }
