@@ -2,10 +2,8 @@
 
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
-
-# Qt5 pre-release path
-export QTDIR := /opt/qt5
-export PATH := $(QTDIR)/bin:$(PATH)
+export CMAKE_MODULE_PATH=/opt/qt5/lib/cmake/
+PATH := /opt/qt5/bin:$(PATH)
 
 %:
 	dh $@
