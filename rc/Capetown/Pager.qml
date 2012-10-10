@@ -51,4 +51,5 @@ ListView {
   cacheBuffer: width * pageCacheSize
   flickDeceleration: 50
   highlightMoveDuration: 200
+  boundsBehavior: Flickable.DragOverBounds
 }
