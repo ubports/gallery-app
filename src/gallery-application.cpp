@@ -46,7 +46,7 @@
 
 GalleryApplication::GalleryApplication(int& argc, char** argv) :
     QApplication(argc, argv), form_factor_("desktop"), is_portrait_(false),
-    view_() {
+    bgu_size_(8), view_() {
 
   form_factors_.insert("desktop", QSize(160, 100)); // In BGU.
   form_factors_.insert("tablet", QSize(160, 100));
@@ -107,6 +107,12 @@ void GalleryApplication::process_args() {
     is_portrait_ = true;
   }
 
+  int index = args.indexOf("--bgu-size");
+  if (index >= 0 && args.count() > index + 1) {
+    bgu_size_ = args.takeAt(index + 1).toInt();
+    args.removeAll("--bgu-size");
+  }
+
   if (args.count() > 1)
     pictures_dir_ = QDir(args.takeFirst());
 }
@@ -132,7 +138,7 @@ void GalleryApplication::create_view() {
   // Only the desktop is resizable.
   if (form_factor_ == "desktop") {
     view_.setResizeMode(QQuickView::SizeRootObjectToView);
-    view_.setMinimumSize(QSize(60 * GRIDUNIT, 60 * GRIDUNIT));
+    view_.setMinimumSize(QSize(60 * bgu_size_, 60 * bgu_size_));
   } else {
     view_.setResizeMode(QQuickView::SizeViewToRootObject);
   }
@@ -140,7 +146,7 @@ void GalleryApplication::create_view() {
   view_.engine()->rootContext()->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
   view_.engine()->rootContext()->setContextProperty("DEVICE_HEIGHT", QVariant(size.height()));
   view_.engine()->rootContext()->setContextProperty("FORM_FACTOR", QVariant(form_factor_));
-  view_.engine()->rootContext()->setContextProperty("GRIDUNIT", QVariant(GRIDUNIT));
+  view_.engine()->rootContext()->setContextProperty("GRIDUNIT", QVariant(bgu_size_));
 
   view_.engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
     GalleryStandardImageProvider::instance());

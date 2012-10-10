@@ -29,8 +29,6 @@ class GalleryApplication : public QApplication
   Q_OBJECT
 
  public:
-  static const int GRIDUNIT = 8;
-
   explicit GalleryApplication(int& argc, char** argv);
   int exec();
   
@@ -47,6 +45,7 @@ class GalleryApplication : public QApplication
   QHash<QString, QSize> form_factors_;
   QString form_factor_;
   bool is_portrait_;
+  int bgu_size_;
   QDir pictures_dir_;
   QQuickView view_;
 
