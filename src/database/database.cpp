@@ -15,19 +15,22 @@
  *
  * Authors:
  * Eric Gregory <eric@yorba.org>
+ * Charles Lindsay <chaz@yorba.org>
  */
 
 #include "database.h"
 
 #include "util/resource.h"
 
+const QString Database::DATABASE_DIR = ".database";
+
 Database* Database::instance_ = NULL;
 
 
-void Database::Init(const QDir& db_dir, QObject* parent) {
+void Database::Init(const QDir& pictures_dir, QObject* parent) {
   Q_ASSERT(instance_ == NULL);
   
-  instance_ = new Database(db_dir, parent);
+  instance_ = new Database(pictures_dir, parent);
 }
 
 Database* Database::instance() {
@@ -36,9 +39,14 @@ Database* Database::instance() {
   return instance_;
 }
 
-Database::Database(const QDir& db_dir, QObject* parent) : QObject(parent), 
-  db_dir_(db_dir) {
+Database::Database(const QDir& pictures_dir, QObject* parent) :
+    QObject(parent) {
   
+  QDir db_dir(pictures_dir);
+  db_dir.mkdir(DATABASE_DIR);
+  db_dir.cd(DATABASE_DIR);
+  db_dir_ = db_dir;
+
   album_table_ = new AlbumTable(this, this);
   media_table_ = new MediaTable(this, this);
   photo_edit_table_ = new PhotoEditTable(this, this);

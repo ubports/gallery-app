@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical Ltd
+ * Copyright (C) 2012 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -14,14 +14,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  * Authors:
- * Jim Nelson <jim@yorba.org>
- * Lucas Beeler <lucas@yorba.org>
- * Charles Lindsay <chaz@yorba.org>
+ * Charles Lindsay <chaz@yorba.org
  */
 
-#include "gallery-application.h"
+import QtQuick 2.0
 
-int main(int argc, char *argv[]) {
-  GalleryApplication app(argc, argv);
-  return app.exec();
+Item {
+  id: loadingScreen
+
+  Image {
+    anchors.fill: parent
+
+    source: "../img/background-paper.png"
+    fillMode: Image.Tile
+  }
+
+  Text {
+    anchors.centerIn: parent
+    text: "Loading..."
+    font.pointSize: pointUnits(20)
+  }
 }

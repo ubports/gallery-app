@@ -21,6 +21,8 @@
 
 #include "media/media-collection.h"
 
+#include <QApplication>
+
 const QString PreviewManager::PREVIEW_DIR = ".thumbs";
 
 PreviewManager* PreviewManager::instance_ = NULL;
@@ -140,6 +142,9 @@ bool PreviewManager::VerifyPreview(MediaSource* media, bool regen) {
     return false;
   }
   
+  // Spin the event loop so we don't hang the app if we do lots of this.
+  QApplication::processEvents();
+
   return true;
 }
 

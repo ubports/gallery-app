@@ -16,10 +16,10 @@
  * Authors:
  * Jim Nelson <jim@yorba.org>
  * Lucas Beeler <lucas@yorba.org>
+ * Charles Lindsay <chaz@yorba.org
  */
 
 import QtQuick 2.0
-import "Utility"
 import "../js/Gallery.js" as Gallery
 
 Item {
@@ -38,11 +38,14 @@ Item {
     // 1.6 is a hacky fudge-factor for now.
     return Math.round(1.6 * amt);
   }
+
+  function onLoaded() {
+    mainScreenLoader.load();
+    loadingScreen.visible = false;
+  }
   
   width: gu(DEVICE_WIDTH)
   height: gu(DEVICE_HEIGHT)
-
-  Component.onCompleted: navStack.switchToPage(overview)
 
   focus: true
   Keys.onPressed: {
@@ -57,89 +60,27 @@ Item {
     }
   }
   
-  Overview {
-    id: overview
-    
-    anchors.fill: parent
-    
-    visible: false
+  LoadingScreen {
+    id: loadingScreen
 
-    onAlbumSelected: {
-      if (thumbnailRect) {
-        showAlbumPreview(album, false);
-        albumViewerTransition.transitionToAlbumViewer(album, thumbnailRect);
-      } else {
-        albumViewer.resetView(album);
-        albumViewerTransition.dissolve(overview, albumViewer);
+    anchors.fill: parent
+  }
+
+  Loader {
+    id: mainScreenLoader
+
+    function load() {
+      sourceComponent = mainScreenComponent;
+    }
+
+    anchors.fill: parent
+
+    Component {
+      id: mainScreenComponent
+
+      MainScreen {
+        anchors.fill: parent
       }
     }
-  }
-
-  AlbumViewer {
-    id: albumViewer
-    
-    anchors.fill: parent
-    
-    visible: false
-    
-    onCloseRequested: {
-      if (!album) {
-        // TODO: this isn't quite right.  Not sure how this should look.
-        albumViewer.visible = false;
-        albumViewerTransition.dissolve(null, navStack.previous());
-      } else if (state == "gridView") {
-        albumViewerTransition.dissolve(albumViewer, navStack.previous());
-      } else {
-        navStack.goBack();
-
-        var thumbnailRect = overview.getRectOfAlbumPreview(album, albumViewerTransition);
-        if (thumbnailRect) {
-          overview.showAlbumPreview(album, false);
-          albumViewerTransition.transitionFromAlbumViewer(
-              album, thumbnailRect, stayOpen, viewingPage);
-        }
-      }
-    }
-  }
-
-  AlbumViewerTransition {
-    id: albumViewerTransition
-
-    anchors.fill: albumViewer
-
-    backgroundGlass: overview.glass
-    isPortrait: application.isPortrait
-
-    onTransitionToAlbumViewerCompleted: {
-      navStack.switchToAlbumViewer(album);
-      overview.showAlbumPreview(album, true);
-    }
-
-    onTransitionFromAlbumViewerCompleted: overview.showAlbumPreview(album, true)
-    
-    onDissolveCompleted: {
-      if (fadeInTarget == navStack.previous())
-        navStack.goBack();
-      else
-        navStack.switchToPage(fadeInTarget);
-    }
-  }
-  
-  NavStack {
-    id: navStack
-    
-    function switchToAlbumViewer(album) {
-      albumViewer.resetView(album);
-      
-      navStack.switchToPage(albumViewer);
-    }
-  }
-  
-  MouseArea {
-    id: transitionClickBlocker
-    
-    anchors.fill: parent
-    
-    visible: albumViewerTransition.animationRunning || albumViewer.animationRunning
   }
 }

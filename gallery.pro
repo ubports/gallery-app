@@ -60,7 +60,8 @@ SOURCES += \
 	src/util/resource.cpp \
 	src/util/imaging.cpp \
     src/photo/photo-edit-state.cpp \
-    src/photo/photo-caches.cpp
+    src/photo/photo-caches.cpp \
+    src/gallery-application.cpp
 
 HEADERS += \
 	src/album/album.h \
@@ -101,7 +102,8 @@ HEADERS += \
 	src/util/resource.h \
 	src/util/imaging.h \
     src/photo/photo-edit-state.h \
-    src/photo/photo-caches.h
+    src/photo/photo-caches.h \
+    src/gallery-application.h
 
 # Install
 
