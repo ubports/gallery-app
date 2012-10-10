@@ -48,7 +48,9 @@ QVariant QmlViewCollectionModel::for_collection() const {
 void QmlViewCollectionModel::set_for_collection(QVariant var) {
   QObject* obj = qvariant_cast<QObject*>(var);
   if (obj == NULL) {
-    if (var.isValid())
+    // Print a warning if we got an unexpected type.  If the type is QObject*,
+    // we assume it's uninitialized and nothing to worry about.
+    if (var.isValid() && ((QMetaType::Type) var.type()) != QMetaType::QObjectStar)
       qDebug("Unable to set collection of type %s", var.typeName());
     
     StopMonitoring();

@@ -25,7 +25,6 @@ Item {
   id: tab
   
   property alias title: title.text
-  property int fontPointSize: pointUnits(9) // From the reference wireframes.
 
   property url selectedBackgroundSource
   property url deselectedBackgroundSource
@@ -56,7 +55,7 @@ Item {
 
     anchors.centerIn: parent
     color: (tab.state == "selected" ? selectedTextColor : deselectedTextColor)
-    font.pointSize: fontPointSize
+    font.pointSize: pointUnits(9) // From the reference wireframes.
     font.italic: true
     font.family: "Ubuntu"
   }
