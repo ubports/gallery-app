@@ -1,3 +1,9 @@
+goodhope (0.0.18) precise; urgency=low
+
+  * New weekly build.
+
+ -- Charles Lindsay <chaz@yorba.org>  Wed, 10 Oct 2012 18:55:13 -0700
+
 goodhope (0.0.17.4) precise; urgency=low
 
   * Bump version for (finally) successful build.
