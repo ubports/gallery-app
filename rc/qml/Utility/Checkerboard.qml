@@ -167,7 +167,8 @@ Item {
     
     cellWidth: delegateWidth
     cellHeight: delegateHeight
-    
+    flickDeceleration: 800
+
     onMovementStarted: checkerboard.movementStarted()
     onMovementEnded: checkerboard.movementEnded()
     
