@@ -72,7 +72,7 @@ Checkerboard {
     id: eventCheckerboardDelegate
     
     checkerboard: eventCheckerboard
-    enabled: true
+    isEnabled: true
     
     // internal
     // Needed for getVisibleMediaSources() and getVisibleEvents() above.
@@ -87,10 +87,10 @@ Checkerboard {
         return;
       
       if (mediaSource) {
-        eventCheckerboardDelegate.enabled =
+        eventCheckerboardDelegate.isEnabled =
           !checkerboard.disableMediaInAlbum.containsMedia(modelData.mediaSource);
       } else {
-        eventCheckerboardDelegate.enabled = !disableMediaInAlbum.containsAll(event);
+        eventCheckerboardDelegate.isEnabled = !disableMediaInAlbum.containsAll(event);
       }
     }
     
@@ -118,7 +118,7 @@ Checkerboard {
       mediaSource: (modelData.typeName == "MediaSource") ? modelData.mediaSource : undefined
       event: (modelData.typeName == "Event") ? modelData.object : undefined
       isSelected: eventCheckerboardDelegate.isSelected && eventCheckerboardDelegate.enabled
-      opacity: eventCheckerboardDelegate.enabled ? 1 : 0.2
+      opacity: eventCheckerboardDelegate.isEnabled ? 1 : 0.2
     }
   }
 
