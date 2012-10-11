@@ -31,7 +31,8 @@ Item {
   
   signal cancelRequested()
   signal doneRequested(variant model)
-  
+  signal mediaCheckerboardHidden(int newScrollPos)
+
   property variant album
   
   // Read-only.
@@ -43,6 +44,10 @@ Item {
 
   function hide() {
     slider.slideOut();
+  }
+
+  function setCheckerboardScrollPos(newScrollPos) {
+      mediaCheckerboard.setScrollPos(newScrollPos);
   }
   
   SlidingPane {
@@ -72,6 +77,10 @@ Item {
       allowSelectionModeChange: false
       inSelectionMode: true
       disableMediaInAlbum: mediaSelector.album
+
+      onHidden: {
+        mediaCheckerboardHidden(currScrollPos)
+      }
     }
 
     ViewerChrome {

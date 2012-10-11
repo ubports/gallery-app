@@ -30,6 +30,7 @@ Item {
   id: albumEditor
 
   signal closeRequested(variant album, bool enterViewer)
+  signal mediaSelectorHidden(int newScrollPos)
 
   property Album album
   property real minimumCoverWidth: gu(32)
@@ -54,6 +55,10 @@ Item {
   function editAlbum(album) {
     albumEditor.album = album;
     coverMenu.state = "hidden"
+  }
+
+  function setMediaSelectorScrollPos(newScrollPos) {
+    mediaSelector.setCheckerboardScrollPos(newScrollPos);
   }
 
   // internal
@@ -169,6 +174,12 @@ Item {
     album: albumEditor.album
 
     onCancelRequested: hide()
+
+    // Notify the rest of the app about where the media selector
+    // was presently scrolled to when it was closed.
+    onMediaCheckerboardHidden: {
+      mediaSelectorHidden(newScrollPos);
+    }
 
     onDoneRequested: {
       album.addSelectedMediaSources(model);

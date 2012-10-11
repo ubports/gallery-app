@@ -30,7 +30,8 @@ Item {
   
   signal movementStarted()
   signal movementEnded()
-  
+  signal hidden(int currScrollPos)
+    
   property alias model: grid.model
   property alias delegate: grid.delegate
 
@@ -77,6 +78,10 @@ Item {
 
   function ensureIndexVisible(index, centered) {
     grid.positionViewAtIndex(index, centered ? GridView.Center : GridView.Visible);
+  }
+
+  function setScrollPos(newScrollPos) {
+      contentY = newScrollPos;
   }
 
   function scrollToTop() {
@@ -132,6 +137,15 @@ Item {
     });
   }
   
+  onVisibleChanged: {
+      if(!visible) {
+          // Tell other parts of the application how far we've scrolled;
+          // used in places where the contentY's of two or more checkerboards
+          // must stay in sync.
+          hidden(contentY);
+      }
+  }
+
   clip: true
   
   Image {

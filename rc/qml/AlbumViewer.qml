@@ -40,6 +40,7 @@ Rectangle {
   
   // When the user clicks the back button or pages back to the cover.
   signal closeRequested(bool stayOpen, int viewingPage)
+  signal mediaSelectorHidden(int newScrollPos)
 
   anchors.fill: parent
 
@@ -79,6 +80,10 @@ Rectangle {
     fadeOutAnimation.restart();
   }
   
+  function setMediaSelectorScrollPos(newScrollPos) {
+    mediaSelector.setCheckerboardScrollPos(newScrollPos);
+  }
+
   FadeOutAnimation {
     id: fadeOutAnimation
     
@@ -706,6 +711,12 @@ Rectangle {
     album: albumViewer.album
 
     onCancelRequested: hide()
+
+    // Notify the rest of the app about where the media selector
+    // was presently scrolled to when it was closed.
+    onMediaCheckerboardHidden: {
+      mediaSelectorHidden(newScrollPos);
+    }
 
     onDoneRequested: {
       var firstPhoto = album.addSelectedMediaSources(model);

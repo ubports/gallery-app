@@ -33,6 +33,8 @@ Rectangle {
   objectName: "overview"
 
   signal albumSelected(variant album, variant thumbnailRect)
+  signal eventsCheckerboardHidden(int currScrollPos)
+  signal albumEditorCheckerboardHidden(int currScrollPos)
 
   property Rectangle glass: overviewGlass
 
@@ -46,6 +48,14 @@ Rectangle {
     var delegate = albumsCheckerboard.getDelegateInstanceAt(albumsCheckerboard.model.indexOf(album));
     if (delegate)
       delegate.visible = show;
+  }
+
+  function setCheckerboardScrollPos(newScrollPos) {
+    eventsCheckerboard.setScrollPos(newScrollPos);
+  }
+
+  function setAlbumEditorScrollPos(newScrollPos) {
+    albumEditor.setMediaSelectorScrollPos(newScrollPos);
   }
 
   state: "eventView"
@@ -144,6 +154,12 @@ Rectangle {
           // orchestrator know this so it can keep its state consistent.
           scrollOrchestrator.viewScrolled(contentY);
         }
+      }
+
+      // Notify the rest of the app about where we were presently
+      // scrolled to when we got hidden.
+      onHidden: {
+        eventsCheckerboardHidden(currScrollPos);
       }
     }
 
@@ -572,6 +588,10 @@ Rectangle {
     anchors.fill: parent
 
     visible: false
+
+    onMediaSelectorHidden: {
+      albumEditorCheckerboardHidden(newScrollPos);
+    }
 
     onCloseRequested: {
       if (album) {

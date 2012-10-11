@@ -41,6 +41,17 @@ Item {
         albumViewerTransition.dissolve(overview, albumViewer);
       }
     }
+
+    onEventsCheckerboardHidden: {
+      // Re-sync the album viewer's media selector's checkerboard's
+      // scroll position (contentY) with the overview's scroll position.
+      albumViewer.setMediaSelectorScrollPos(currScrollPos);
+      overview.setAlbumEditorScrollPos(currScrollPos);
+    }
+
+    onAlbumEditorCheckerboardHidden: {
+      albumViewer.setMediaSelectorScrollPos(currScrollPos);
+    }
   }
 
   AlbumViewer {
@@ -67,6 +78,13 @@ Item {
               album, thumbnailRect, stayOpen, viewingPage);
         }
       }
+    }
+
+    onMediaSelectorHidden: {
+      // Re-sync the event overview checkerboard's scroll position (contentY)
+      // with the album viewer's media selector scroll position.
+      overview.setCheckerboardScrollPos(newScrollPos);
+      overview.setAlbumEditorScrollPos(newScrollPos);
     }
   }
 
