@@ -425,8 +425,11 @@ void Photo::append_edit_revision(QUrl* url) const {
   // add an arbitrary URL parameter to gallery_path and gallery_preview_path so
   // that loading the same image after an edit will go back to disk instead of
   // just hitting the cache.
-  if (edit_revision_ != 0)
-    url->addQueryItem("edit", QString::number(edit_revision_));
+  if (edit_revision_ != 0) {
+    QUrlQuery url_query;
+    url_query.addQueryItem("edit", QString::number(edit_revision_));
+    url->setQuery(url_query);
+  }
 }
 
 bool Photo::file_format_has_metadata() const {

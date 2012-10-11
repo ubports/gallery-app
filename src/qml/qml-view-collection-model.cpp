@@ -25,16 +25,14 @@ QmlViewCollectionModel::QmlViewCollectionModel(QObject* parent, const QString& o
   DataObjectComparator default_comparator)
   : QAbstractListModel(parent), view_(NULL), default_comparator_(default_comparator),
   head_(0), limit_(-1) {
-  QHash<int, QByteArray> roles;
-  roles.insert(ObjectRole, "object");
-  roles.insert(SelectionRole, "isSelected");
-  roles.insert(TypeNameRole, "typeName");
+  
+  roles_.insert(ObjectRole, "object");
+  roles_.insert(SelectionRole, "isSelected");
+  roles_.insert(TypeNameRole, "typeName");
   
   // allow for subclasses to give object a semantically-significant name
   if (!objectTypeName.isEmpty())
-    roles.insert(SubclassRole, objectTypeName.toAscii());
-  
-  setRoleNames(roles);
+    roles_.insert(SubclassRole, objectTypeName.toLatin1());
 }
 
 QmlViewCollectionModel::~QmlViewCollectionModel() {
@@ -437,6 +435,10 @@ void QmlViewCollectionModel::NotifySetAltered(const QSet<DataObject*>* list, int
 void QmlViewCollectionModel::NotifyReset() {
   beginResetModel();
   endResetModel();
+}
+
+QHash<int, QByteArray> QmlViewCollectionModel::roleNames() const {
+  return roles_;
 }
 
 void QmlViewCollectionModel::on_selection_altered(const QSet<DataObject*>* selected,

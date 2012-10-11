@@ -139,6 +139,8 @@ class QmlViewCollectionModel : public QAbstractListModel {
   // Tells model subscribers that everything has changed.
   void NotifyReset();
   
+  virtual QHash<int, QByteArray> roleNames() const;
+  
 private slots:
   void on_selection_altered(const QSet<DataObject*>* selected,
     const QSet<DataObject*>* unselected);
@@ -156,6 +158,7 @@ private slots:
   DataObjectComparator default_comparator_;
   int head_;
   int limit_;
+  QHash<int, QByteArray> roles_;
   
   static bool IntLessThan(int a, int b);
   static bool IntReverseLessThan(int a, int b);
