@@ -141,38 +141,10 @@ Rectangle {
     interactive: !chrome.popupActive && (currentItem != null) &&
                  (currentItem.state == "unzoomed") && cropper.state == "hidden"
 
-    AnimatedImage {
-      id: busySpinner
-
-      visible: false
-      anchors.centerIn: parent
-      source: "../img/spin.mng"
-    }
-
-    // Handles the Chrome overlay.  (The underlying PhotoViewer's MouseArea
-    // is where flicking and zooming are handled.)
-    MouseArea {
-      id: galleryPhotoViewerMouseArea
-
-      property bool wasPressed: false
-      
-      // Propagate the PhotoViewer's MouseArea
-      propagateComposedEvents: true
-      
-      anchors.fill: parent
-
-      Timer {
-        id: chromeFadeWaitClock
-
-        interval: 100
-        running: false
-
-        onTriggered: chrome.flipVisibility(true)
-      }
+    Connections {
+      target: mouseArea
 
       onClicked: {
-        mouse.accepted = false;
-
         // Trigger chrome if we aren't zoomed or we are but they didn't drag.
         if (galleryPhotoViewer.currentItem.state == "unzoomed" ||
             mouseArea.distance < 20)
@@ -180,11 +152,26 @@ Rectangle {
       }
 
       onDoubleClicked: {
-        mouse.accepted = false;
-
         chromeFadeWaitClock.stop();
         chrome.hide(true);
       }
+    }
+
+    Timer {
+      id: chromeFadeWaitClock
+
+      interval: 100
+      running: false
+
+      onTriggered: chrome.flipVisibility(true)
+    }
+
+    AnimatedImage {
+      id: busySpinner
+
+      visible: false
+      anchors.centerIn: parent
+      source: "../img/spin.mng"
     }
 
     ViewerChrome {

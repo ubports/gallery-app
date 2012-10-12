@@ -88,13 +88,6 @@ Pager {
     }
     
     onPressed: {
-      onPressedPublic(mouse);
-    }
-    
-    // This function makes it possible for overriding QML objects to use the
-    // onPressed() handler.  In the overriding MouseArea, simply call
-    // onPressedPublic and pass in the given mouse object.
-    function onPressedPublic(mouse) {
       if (photoViewer.currentItem.state == "unzoomed")
         return;
       
