@@ -46,8 +46,9 @@
 
 GalleryApplication::GalleryApplication(int& argc, char** argv) :
     QApplication(argc, argv), form_factor_("desktop"), is_portrait_(false),
-    bgu_size_(8), view_() {
-
+    bgu_size_(8), view_(), startup_timer_(false) {
+  
+  timer_.start();
   form_factors_.insert("desktop", QSize(160, 100)); // In BGU.
   form_factors_.insert("tablet", QSize(160, 100));
   form_factors_.insert("phone", QSize(71, 40));
@@ -112,7 +113,12 @@ void GalleryApplication::process_args() {
     bgu_size_ = args.takeAt(index + 1).toInt();
     args.removeAll("--bgu-size");
   }
-
+  
+  if (args.contains("--startup-timer")) {
+    args.removeAll("--startup-timer");
+    startup_timer_ = true;
+  }
+  
   if (args.count() > 1)
     pictures_dir_ = QDir(args.takeFirst());
 }
@@ -183,6 +189,9 @@ void GalleryApplication::init_collections() {
   qDebug("Opened %s", qPrintable(pictures_dir_.path()));
 
   emit media_loaded();
+  
+  if (startup_timer_)
+    qDebug() << "Startup took" << timer_.elapsed() << "milliseconds";
 }
 
 void GalleryApplication::start_init_collections() {

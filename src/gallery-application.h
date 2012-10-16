@@ -23,6 +23,7 @@
 #include <QApplication>
 #include <QDir>
 #include <QQuickView>
+#include <QElapsedTimer>
 
 class GalleryApplication : public QApplication
 {
@@ -48,6 +49,8 @@ class GalleryApplication : public QApplication
   int bgu_size_;
   QDir pictures_dir_;
   QQuickView view_;
+  bool startup_timer_;
+  QElapsedTimer timer_;
 
  private slots:
   void start_init_collections();
