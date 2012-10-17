@@ -53,7 +53,13 @@ Item {
     expandPhoto.height = parent.height - expandPhoto.y * 2;
     hidePhotoViewerAnimation.start();
   }
-
+  
+  // Hides the transition.
+  function hide() {
+    expandPhoto.visible = false;
+    fadeRectangle.visible = false;
+  }
+  
   // internal
   function adjustRectForPhotoMat(rect) {
     // The photo is actually slightly smaller than the delegate rect, due to
@@ -76,7 +82,7 @@ Item {
     id: fadeRectangle
 
     visible: false
-    color: "#444444"
+    color: "black"
     anchors.fill: parent
   }
 
@@ -122,9 +128,6 @@ Item {
       }
       FadeInAnimation { target: fadeRectangle; duration: 200; }
     }
-
-    PropertyAction { target: expandPhoto; property: "visible"; value: false; }
-    PropertyAction { target: fadeRectangle; property: "visible"; value: false; }
 
     onRunningChanged: {
       if (!running)

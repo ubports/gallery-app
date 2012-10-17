@@ -53,6 +53,7 @@ Item {
 
   function animateOpen(photo, thumbnailRect, adjustForPhotoMat) {
     opening();
+    viewer.openCompleted = false;
     viewer.setCurrentPhoto(photo);
     transition.transitionToPhotoViewer(photo, thumbnailRect, adjustForPhotoMat);
   }
@@ -79,13 +80,26 @@ Item {
   
   GalleryPhotoViewer {
     id: viewer
-
+    
+    property bool openCompleted: false
+    
     anchors.fill: parent
     visible: false
 
     onCloseRequested: popupPhotoViewer.closeRequested()
 
     onEditRequested: popupPhotoViewer.editRequested(photo)
+    
+    onIsReadyChanged: updateVisibility()
+    onOpenCompletedChanged: updateVisibility()
+    
+    // Internal
+    function updateVisibility() {
+      if (isReady && openCompleted) {
+        visible = true;
+        transition.hide();
+      }
+    }
   }
 
   PhotoViewerTransition {
@@ -94,7 +108,7 @@ Item {
     anchors.fill: parent
 
     onTransitionToPhotoViewerCompleted: {
-      viewer.visible = true;
+      viewer.openCompleted = true;
       opened();
     }
 

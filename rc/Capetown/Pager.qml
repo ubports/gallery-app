@@ -38,6 +38,9 @@ ListView {
   }
 
   function pageTo(pageIndex) {
+    if (currentIndex === pageIndex)
+      return;
+    
     currentIndex = pageIndex;
     positionViewAtIndex(currentIndex, ListView.Beginning);
   }

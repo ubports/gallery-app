@@ -37,6 +37,11 @@ Rectangle {
   
   // Set this when entering from an album.
   property variant album
+  
+  // Read-only
+  // Set to true when an image is loaded and displayed.
+  property bool isReady: galleryPhotoViewer.currentItem ? 
+    galleryPhotoViewer.currentItem.isLoaded : false
 
   signal closeRequested()
   signal editRequested(variant photo)
@@ -58,7 +63,7 @@ Rectangle {
   function goForward() {
     galleryPhotoViewer.goForward();
   }
-
+  
   anchors.fill: parent;
 
   color: "black";
