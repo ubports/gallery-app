@@ -29,7 +29,8 @@ Item {
   objectName: "photoViewerTransition"
   
   // Read-only
-  property bool animationRunning: showPhotoViewerAnimation.running || hidePhotoViewerAnimation.running
+  property bool animationRunning: showPhotoViewerAnimation.running ||
+    hidePhotoViewerAnimation.running || expandPhoto.visible || fadeRectangle.visible
   
   function transitionToPhotoViewer(photo, thumbnailRect, adjustForPhotoMat) {
     if (adjustForPhotoMat)
