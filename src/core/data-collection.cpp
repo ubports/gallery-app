@@ -54,9 +54,10 @@ void DataCollection::Add(DataObject* object) {
   
   notify_contents_to_be_altered(&to_add, NULL);
   
-  list_.append(object);
+  // Cheaper to binary insert single item than append it to list and do a
+  // complete re-sort
+  BinaryListInsert(object);
   set_.insert(object);
-  Resort(false);
   
   notify_contents_altered(&to_add, NULL);
   
@@ -78,21 +79,30 @@ void DataCollection::AddMany(const QSet<DataObject*>& objects) {
       to_add_list.append(object);
   }
   
-  if (to_add_list.count() == 0)
+  int add_count = to_add_list.count();
+  if (add_count == 0)
     return;
   
-  // The "contents" signals require a QSet as a parameter; also,
-  // can use this QSet for the unite() method; but avoid creating it if no
-  // objects were removed in above loop (which is quite likely in most use
-  // cases)
+  // The "contents" signals require a QSet as a parameter, however, avoid
+  // creating it if no objects were removed in above loop (which is quite likely
+  // in most use cases)
   QSet<DataObject*> to_add(
-    (objects.count() == to_add_list.count()) ? objects : to_add_list.toSet());
+    (objects.count() == add_count) ? objects : to_add_list.toSet());
   
   notify_contents_to_be_altered(&to_add, NULL);
   
-  list_.append(to_add_list);
-  set_.unite(to_add);
-  Resort(false);
+  // use binary insertion if only adding one object
+  if (add_count == 1) {
+    object = to_add_list[0];
+    
+    BinaryListInsert(object);
+    set_.insert(object);
+  } else {
+    list_.append(to_add_list);
+    set_.unite(to_add);
+    
+    Resort(false);
+  }
   
   notify_contents_altered(&to_add, NULL);
   
@@ -227,9 +237,40 @@ void DataCollection::Sanity() const {
   Q_ASSERT(list_.count() == set_.count());
 }
 
-// Big honkin' TODO: Much more efficient if small insertions were performed
-// via binary insertion and only quicksorting after large insertions, but this
-// will have to do for now
+void DataCollection::BinaryListInsert(DataObject* object) {
+  int index = -1;
+  
+  int low = 0;
+  int high = list_.count();
+  for (;;) {
+    if (low == high) {
+      index = low;
+      
+      break;
+    }
+    
+    int mid = low + ((high - low) / 2);
+    DataObject* midObject = list_[mid];
+    
+    if (comparator_(object, midObject)) {
+      // lowerThan
+      high = mid;
+    } else if (comparator_(midObject, object)) {
+      // higherThan
+      low = mid + 1;
+    } else {
+      // equalTo
+      index = mid;
+      
+      break;
+    }
+  }
+  
+  Q_ASSERT(index >= 0 && index <= list_.count());
+  
+  list_.insert(index, object);
+}
+
 void DataCollection::Resort(bool fire_signal) {
   if (Count() <= 1)
     return;

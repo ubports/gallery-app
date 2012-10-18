@@ -118,6 +118,7 @@ class DataCollection : public QObject {
   DataObjectComparator comparator_;
   
   void Sanity() const;
+  void BinaryListInsert(DataObject* object);
   void Resort(bool fire_signal);
 };
 
