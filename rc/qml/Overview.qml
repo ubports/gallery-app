@@ -22,7 +22,6 @@ import QtQuick 2.0
 import Gallery 1.0
 import "../Capetown"
 import "../Capetown/Widgets"
-import "../js/Gallery.js" as Gallery
 import "../js/GalleryUtility.js" as GalleryUtility
 import "Components"
 import "Utility"
@@ -110,10 +109,10 @@ Rectangle {
 
       anchors.fill: parent
 
-      topExtraGutter: navbar.height + Gallery.getDeviceSpecific("photoGridTopMargin")
+      topExtraGutter: navbar.height + getDeviceSpecific("photoGridTopMargin")
       bottomExtraGutter: gu(0)
-      leftExtraGutter: Gallery.getDeviceSpecific("photoGridLeftMargin")
-      rightExtraGutter: Gallery.getDeviceSpecific("photoGridRightMargin")
+      leftExtraGutter: getDeviceSpecific("photoGridLeftMargin")
+      rightExtraGutter: getDeviceSpecific("photoGridRightMargin")
 
       visible: (eventsSheet.state === "checkerboard")
       allowSelectionModeChange: true
@@ -213,15 +212,15 @@ Rectangle {
 
     anchors.fill: parent
 
-    topExtraGutter: navbar.height + Gallery.getDeviceSpecific("albumGridTopMargin")
-    bottomExtraGutter: Gallery.getDeviceSpecific("albumGridGutterHeight") / 2
-    leftExtraGutter: Gallery.getDeviceSpecific("albumGridLeftMargin")
-    rightExtraGutter: Gallery.getDeviceSpecific("albumGridRightMargin")
+    topExtraGutter: navbar.height + getDeviceSpecific("albumGridTopMargin")
+    bottomExtraGutter: getDeviceSpecific("albumGridGutterHeight") / 2
+    leftExtraGutter: getDeviceSpecific("albumGridLeftMargin")
+    rightExtraGutter: getDeviceSpecific("albumGridRightMargin")
 
-    itemWidth: Gallery.getDeviceSpecific("albumThumbnailWidth")
-    itemHeight: Gallery.getDeviceSpecific("albumThumbnailHeight")
-    minGutterWidth: Gallery.getDeviceSpecific("albumGridGutterWidth")
-    minGutterHeight: Gallery.getDeviceSpecific("albumGridGutterHeight")
+    itemWidth: getDeviceSpecific("albumThumbnailWidth")
+    itemHeight: getDeviceSpecific("albumThumbnailHeight")
+    minGutterWidth: getDeviceSpecific("albumGridGutterWidth")
+    minGutterHeight: getDeviceSpecific("albumGridGutterHeight")
 
     visible: false
     allowSelectionModeChange: false

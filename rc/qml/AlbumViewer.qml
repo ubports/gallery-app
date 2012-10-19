@@ -296,10 +296,10 @@ Rectangle {
     
     anchors.fill: parent
 
-    topExtraGutter: chrome.navbarHeight + Gallery.getDeviceSpecific("photoGridTopMargin")
+    topExtraGutter: chrome.navbarHeight + getDeviceSpecific("photoGridTopMargin")
     bottomExtraGutter: chrome.toolbarHeight
-    leftExtraGutter: Gallery.getDeviceSpecific("photoGridLeftMargin")
-    rightExtraGutter: Gallery.getDeviceSpecific("photoGridRightMargin")
+    leftExtraGutter: getDeviceSpecific("photoGridLeftMargin")
+    rightExtraGutter: getDeviceSpecific("photoGridRightMargin")
 
     visible: false
     

@@ -57,6 +57,8 @@ Item {
   
   height: childrenRect.height
   
+  state: "readOnly"
+  
   // Internal properties
   property int lastClickX
   property int lastClickY;
@@ -90,10 +92,7 @@ Item {
   
   Loader {
     id: loader
-  }
-  
-  Component.onCompleted: {
-    state = "readOnly"
+    sourceComponent: staticTextContainer
   }
   
   onStateChanged: {

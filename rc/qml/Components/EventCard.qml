@@ -45,8 +45,8 @@ Item {
     return count + ((count == 1) ? " photo" : " photos");
   }
   
-  width: Gallery.getDeviceSpecific("photoThumbnailWidth")
-  height: Gallery.getDeviceSpecific("photoThumbnailHeight")
+  width: getDeviceSpecific("photoThumbnailWidth")
+  height: getDeviceSpecific("photoThumbnailHeight")
 
   // TODO: we may want different graphical assets/font sizes here instead of
   // just scaling down the tablet-sized ones.

@@ -20,7 +20,6 @@
 
 import QtQuick 2.0
 import Gallery 1.0
-import "../js/Gallery.js" as Gallery
 import "../Capetown"
 import "Components"
 import "Utility"
@@ -69,10 +68,10 @@ Item {
 
       anchors.fill: parent
 
-      topExtraGutter: chrome.navbarHeight + Gallery.getDeviceSpecific("photoGridTopMargin")
+      topExtraGutter: chrome.navbarHeight + getDeviceSpecific("photoGridTopMargin")
       bottomExtraGutter: gu(0)
-      leftExtraGutter: Gallery.getDeviceSpecific("photoGridLeftMargin")
-      rightExtraGutter: Gallery.getDeviceSpecific("photoGridRightMargin")
+      leftExtraGutter: getDeviceSpecific("photoGridLeftMargin")
+      rightExtraGutter: getDeviceSpecific("photoGridRightMargin")
 
       allowSelectionModeChange: false
       inSelectionMode: true

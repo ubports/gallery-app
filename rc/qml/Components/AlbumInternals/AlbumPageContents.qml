@@ -153,9 +153,10 @@ Item {
     property alias outerMargin: albumPageContents.outerMargin
     property alias insideMargin: albumPageContents.insideMargin
     property alias isPreview: albumPageContents.isPreview
+    property bool isLoaded: false
 
     function reload() {
-      if (freeze)
+      if (freeze || !isLoaded)
         return;
       
       mediaSourceList = null;
@@ -178,7 +179,10 @@ Item {
 
     visible: (source != null)
 
-    Component.onCompleted: reload()
+    Component.onCompleted: {
+      isLoaded = true;
+      reload();
+    }
   }
   
   AlbumCover {

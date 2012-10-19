@@ -53,10 +53,10 @@ Item {
   // internal
   property EventOverviewModel model: EventOverviewModel {}
   property int xMax: width / delegateWidth
-  property int gridWidth: Gallery.getDeviceSpecific('photoThumbnailWidth')
-  property int gridHeight: Gallery.getDeviceSpecific('photoThumbnailHeight')
-  property int timelineWidth: Gallery.getDeviceSpecific('photoThumbnailWidthTimeline')
-  property int timelineHeight: Gallery.getDeviceSpecific('photoThumbnailHeightTimeline')
+  property int gridWidth: getDeviceSpecific('photoThumbnailWidth')
+  property int gridHeight: getDeviceSpecific('photoThumbnailHeight')
+  property int timelineWidth: getDeviceSpecific('photoThumbnailWidthTimeline')
+  property int timelineHeight: getDeviceSpecific('photoThumbnailHeightTimeline')
   property Event event
   property real endFraction
 

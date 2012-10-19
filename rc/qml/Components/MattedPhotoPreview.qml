@@ -44,8 +44,8 @@ Item {
   property alias photoWidth: photo.width
   property alias photoHeight: photo.height
 
-  width: Gallery.getDeviceSpecific("photoThumbnailWidth")
-  height: Gallery.getDeviceSpecific("photoThumbnailHeight")
+  width: getDeviceSpecific("photoThumbnailWidth")
+  height: getDeviceSpecific("photoThumbnailHeight")
 
   // TODO: we may want different graphical assets here instead of just scaling
   // down the tablet-sized ones.

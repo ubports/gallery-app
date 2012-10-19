@@ -34,8 +34,8 @@ Item {
   property alias model: list.model
   property alias contentY: list.contentY
   
-  property int elementWidth: Gallery.getDeviceSpecific('photoThumbnailWidthTimeline')
-  property int elementHeight: Gallery.getDeviceSpecific('photoThumbnailHeightTimeline')
+  property int elementWidth: getDeviceSpecific('photoThumbnailWidthTimeline')
+  property int elementHeight: getDeviceSpecific('photoThumbnailHeightTimeline')
   property int verticalGutter: gu(2)
   
   property real topExtraGutter: 0
@@ -169,9 +169,9 @@ Item {
           x: {
             var x = eventCard.x - elementWidth / 2;
             if (position < 2)
-              x -= Gallery.getDeviceSpecific('timelineFirstPhotoDistance');
+              x -= getDeviceSpecific('timelineFirstPhotoDistance');
             if (position < 1)
-              x -= Gallery.getDeviceSpecific('timelineSecondPhotoDistance');
+              x -= getDeviceSpecific('timelineSecondPhotoDistance');
             return x;
           }
           y: eventCard.y
@@ -201,9 +201,9 @@ Item {
           x: {
             var x = eventCard.x + elementWidth / 2;
             if (index > 0)
-              x += Gallery.getDeviceSpecific('timelineFirstPhotoDistance');
+              x += getDeviceSpecific('timelineFirstPhotoDistance');
             if (index > 1)
-              x += Gallery.getDeviceSpecific('timelineSecondPhotoDistance');
+              x += getDeviceSpecific('timelineSecondPhotoDistance');
             return x;
           }
           y: eventCard.y

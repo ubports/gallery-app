@@ -39,10 +39,10 @@ Item {
   property alias contentY: grid.contentY
   property alias footer: grid.footer
   
-  property real itemWidth: Gallery.getDeviceSpecific('photoThumbnailWidth')
-  property real itemHeight: Gallery.getDeviceSpecific('photoThumbnailHeight')
-  property real minGutterWidth: Gallery.getDeviceSpecific('photoGridGutterWidth')
-  property real minGutterHeight: Gallery.getDeviceSpecific('photoGridGutterHeight')
+  property real itemWidth: getDeviceSpecific('photoThumbnailWidth')
+  property real itemHeight: getDeviceSpecific('photoThumbnailHeight')
+  property real minGutterWidth: getDeviceSpecific('photoGridGutterWidth')
+  property real minGutterHeight: getDeviceSpecific('photoGridGutterHeight')
   property real topExtraGutter: 0
   property real bottomExtraGutter: 0
   property real leftExtraGutter: 0

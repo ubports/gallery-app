@@ -65,17 +65,17 @@ Flipable {
   property alias frameToContentWidth: frontContents.frameToContentWidth
   property alias frameToContentHeight: frontContents.frameToContentHeight
 
-  property real pageTopMargin: Gallery.getDeviceSpecific('albumPageTopMargin')
-  property real pageBottomMargin: Gallery.getDeviceSpecific('albumPageBottomMargin')
-  property real pageGutterMargin: Gallery.getDeviceSpecific('albumPageGutterMargin')
-  property real pageOuterMargin: Gallery.getDeviceSpecific('albumPageOuterMargin')
-  property real pageInsideMargin: Gallery.getDeviceSpecific('albumPageInsideMargin')
+  property real pageTopMargin: getDeviceSpecific('albumPageTopMargin')
+  property real pageBottomMargin: getDeviceSpecific('albumPageBottomMargin')
+  property real pageGutterMargin: getDeviceSpecific('albumPageGutterMargin')
+  property real pageOuterMargin: getDeviceSpecific('albumPageOuterMargin')
+  property real pageInsideMargin: getDeviceSpecific('albumPageInsideMargin')
 
-  property real previewTopMargin: Gallery.getDeviceSpecific('albumPreviewTopMargin')
-  property real previewBottomMargin: Gallery.getDeviceSpecific('albumPreviewBottomMargin')
-  property real previewGutterMargin: Gallery.getDeviceSpecific('albumPreviewGutterMargin')
-  property real previewOuterMargin: Gallery.getDeviceSpecific('albumPreviewOuterMargin')
-  property real previewInsideMargin: Gallery.getDeviceSpecific('albumPreviewInsideMargin')
+  property real previewTopMargin: getDeviceSpecific('albumPreviewTopMargin')
+  property real previewBottomMargin: getDeviceSpecific('albumPreviewBottomMargin')
+  property real previewGutterMargin: getDeviceSpecific('albumPreviewGutterMargin')
+  property real previewOuterMargin: getDeviceSpecific('albumPreviewOuterMargin')
+  property real previewInsideMargin: getDeviceSpecific('albumPreviewInsideMargin')
 
   // Returns the page number of the left page of the current "spread", denoted
   // by a currentPage number from an album.  This will go on the backPage.
