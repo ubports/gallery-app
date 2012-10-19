@@ -45,6 +45,7 @@ ListView {
     positionViewAtIndex(currentIndex, ListView.Beginning);
   }
 
+  spacing: gu(5)
   anchors.fill: parent
 
   orientation: ListView.Horizontal
