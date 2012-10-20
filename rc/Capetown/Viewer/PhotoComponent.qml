@@ -166,6 +166,15 @@ Rectangle {
     height: parent.height
     x: 0
     y: 0
+
+    // CRITICAL: when we moved to QT 5, we began to experience crashes when
+    //           drawing photos after editing operations (see Launchpad bug
+    //           #1065208). It turns out that, due to a bug in QT 5, in some
+    //           cases images can be added to the list of objects to be drawn
+    //           even though they're not yet loaded into memory. Of course,
+    //           this causes a segfault. This property binding is here to
+    //           prevent this segfault & crash from occurring.
+	visible: isLoaded;
     
     // By using a minimum sourceSize width, can reduce the amount of I/O
     // fetching the same image
@@ -184,6 +193,8 @@ Rectangle {
       if(image.status == Image.Ready) {
         isLoaded = true;
         loaded();
+      } else {
+        isLoaded = false;
       }
     }
   }
