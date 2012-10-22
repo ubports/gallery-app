@@ -55,6 +55,8 @@ Item {
   property variant startFrame
   property variant endFrame
   property variant startPhoto
+  property real referencePhotoWidth: -1
+  property real referencePhotoHeight: -1
   property real endPhotoX
   property real endPhotoY
   property real endPhotoWidth
@@ -76,6 +78,8 @@ Item {
       photoExtent.y = rectSet.photoExtentRect.y;
       photoExtent.width = rectSet.photoExtentRect.width;
       photoExtent.height = rectSet.photoExtentRect.height;
+      referencePhotoWidth = rectSet.photoPreviewRect.width;
+      referencePhotoHeight = rectSet.photoPreviewRect.height;
     }
   }
 
@@ -142,13 +146,13 @@ Item {
     }
 
     onWidthChanged: {
-        if (photo)
-          photo.scale = width / initialFrameWidth;
+        if (photo && referencePhotoWidth > 0)
+          photo.scale = width / referencePhotoWidth;
     }
 
     onHeightChanged: {
-      if (photo)
-        photo.scale = height / initialFrameHeight;
+      if (photo && referencePhotoHeight > 0)
+        photo.scale = height / referencePhotoHeight;
     }
   }
 
