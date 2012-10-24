@@ -32,8 +32,6 @@ Pager {
   
   property int currentIndexForHighlight: -1
   
-  property alias mouseArea: photoViewerMouseArea
-  
   // NOTE: These properties should be treated as read-only, as setting them
   // individually can lead to bogus results.  Use setCurrentIndex() to 
   // initialize the view.
@@ -72,53 +70,5 @@ Pager {
     
     z: -1000 //background
     color: "black"
-  }
-  
-  MouseArea {
-    id: photoViewerMouseArea
-    
-    anchors.fill: parent
-    
-    property bool isDragInProgress: false;
-    property int dragStartX: -1;
-    property int dragStartY: -1;
-    property int distance: 0
-    
-    onClicked: {
-      var deltaX = mouse.x - dragStartX;
-      var deltaY = mouse.y - dragStartY;
-      distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-    }
-    
-    onPressed: {
-      if (photoViewer.currentItem.state == "unzoomed")
-        return;
-      
-      isDragInProgress = true;
-      
-      dragStartX = mouse.x;
-      dragStartY = mouse.y;
-      
-      photoViewer.currentItem.setZoomFocus(
-        photoViewer.currentItem.getImageTranslation());
-    }
-    
-    onPositionChanged: {
-      if (isDragInProgress) {
-        var deltaX = mouse.x - dragStartX;
-        var deltaY = mouse.y - dragStartY;
-        
-        photoViewer.currentItem.pan(photoViewer.currentItem.zoomFocusX + deltaX,
-          photoViewer.currentItem.zoomFocusY + deltaY);
-      }
-    }
-    
-    onReleased: {
-      isDragInProgress = false;
-    }
-    
-    onDoubleClicked: {
-      photoViewer.currentItem.zoom(mouse.x, mouse.y);
-    }
   }
 }

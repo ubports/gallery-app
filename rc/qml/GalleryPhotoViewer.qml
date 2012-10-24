@@ -33,7 +33,6 @@ Rectangle {
   property alias index: galleryPhotoViewer.index
   property alias currentIndexForHighlight:
       galleryPhotoViewer.currentIndexForHighlight
-  property alias mouseArea: galleryPhotoViewer.mouseArea
   
   // Set this when entering from an album.
   property variant album
@@ -94,6 +93,8 @@ Rectangle {
       pageForward();
     }
 
+    anchors.fill: parent
+
     Connections {
       target: photo || null
       ignoreUnknownSignals: true
@@ -117,7 +118,7 @@ Rectangle {
         photo = model.getAt(currentIndex);
     }
 
-    delegate: GalleryPhotoComponent {
+    delegate: ZoomablePhotoComponent {
       id: galleryPhotoComponent
 
       width: galleryPhotoViewer.width
@@ -134,10 +135,18 @@ Rectangle {
         return 1.0 - Math.abs((galleryPhotoViewer.contentX - x) / width);
       }
 
-      isZoomable: true;
-
       mediaSource: model.mediaSource
       ownerName: "galleryPhotoViewer"
+
+      onClicked: chromeFadeWaitClock.restart();
+      onZoomed: {
+        chromeFadeWaitClock.stop();
+        chrome.hide(true);
+      }
+      onUnzoomed: {
+        chromeFadeWaitClock.stop();
+        chrome.hide(true);
+      }
     }
 
     // Don't allow flicking while the chrome is actively displaying a popup
@@ -145,22 +154,6 @@ Rectangle {
     // mouse drags should pan, not flick.
     interactive: !chrome.popupActive && (currentItem != null) &&
                  (currentItem.state == "unzoomed") && cropper.state == "hidden"
-
-    Connections {
-      target: mouseArea
-
-      onClicked: {
-        // Trigger chrome if we aren't zoomed or we are but they didn't drag.
-        if (galleryPhotoViewer.currentItem.state == "unzoomed" ||
-            mouseArea.distance < 20)
-          chromeFadeWaitClock.restart();
-      }
-
-      onDoubleClicked: {
-        chromeFadeWaitClock.stop();
-        chrome.hide(true);
-      }
-    }
 
     Timer {
       id: chromeFadeWaitClock
