@@ -145,7 +145,7 @@ Item {
     var portrait_key = key + 'Portrait';
     if (is_portrait && deviceSpecifics[form_factor][portrait_key] !== undefined)
       return deviceSpecifics[form_factor][portrait_key];
-    if (is_portrait && specifics['default'][portrait_key] !== undefined)
+    if (is_portrait && deviceSpecifics['default'][portrait_key] !== undefined)
       return deviceSpecifics['default'][portrait_key];
   
     if (deviceSpecifics[form_factor][key] !== undefined)
