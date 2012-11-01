@@ -89,8 +89,8 @@ void GalleryApplication::register_qml() {
   QmlStack::RegisterType();
 }
 
-void GalleryApplication::usage() {
-  QTextStream out(stdout);
+void GalleryApplication::usage(bool error) {
+  QTextStream out(error ? stderr : stdout);
   out << "Usage: gallery [options] [pictures_dir]" << endl;
   out << "Options:" << endl;
   out << "  --landscape   run in landscape orientation (default)" << endl;
@@ -100,13 +100,12 @@ void GalleryApplication::usage() {
     out << "  --" << form_factor << "   run in " << form_factor << " form factor" << endl;
   out << "  --startup-timer   debug-print startup time" << endl;
   out << "pictures_dir defaults to ~/Pictures" << endl;
+  std::exit(error ? 1 : 0);
 }
 
 void GalleryApplication::invalid_arg(QString arg) {
-  QTextStream out(stderr);
-  out << "Unknown argument '" << arg << "'" << endl;
-  usage();
-  std::exit(1);
+  QTextStream(stderr) << "Unknown argument '" << arg << "'" << endl;
+  usage(true);
 }
 
 void GalleryApplication::process_args() {
@@ -116,7 +115,9 @@ void GalleryApplication::process_args() {
     QString arg = args[i];
     QString value = (i + 1 < args.count() ? args[i + 1] : "");
 
-    if (arg == "--landscape") {
+    if (arg == "--help" || arg == "-h") {
+      usage();
+    } else if (arg == "--landscape") {
       is_portrait_ = false;
     } else if (arg == "--portrait") {
       is_portrait_ = true;

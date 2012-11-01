@@ -38,7 +38,7 @@ class GalleryApplication : public QApplication
 
  private:
   void register_qml();
-  void usage();
+  void usage(bool error = false);
   void invalid_arg(QString arg);
   void process_args();
   void init_common();
