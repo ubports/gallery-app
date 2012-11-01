@@ -38,6 +38,8 @@ class GalleryApplication : public QApplication
 
  private:
   void register_qml();
+  void usage();
+  void invalid_arg(QString arg);
   void process_args();
   void init_common();
   void create_view();
