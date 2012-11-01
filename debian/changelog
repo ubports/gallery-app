@@ -1,3 +1,9 @@
+goodhope (0.0.21.1) quantal; urgency=low
+
+  * Coordinated release with SDK
+
+ -- Charles Lindsay <chaz@yorba.org>  Thu, 01 Nov 2012 15:51:48 +0100
+
 goodhope (0.0.21) quantal; urgency=low
 
   * fix for LP: #1070593 
