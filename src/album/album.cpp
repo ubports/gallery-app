@@ -60,10 +60,7 @@ Album::Album(QObject * parent, AlbumTemplate* album_template, const QString& tit
 }
 
 Album::~Album() {
-  if (content_pages_ != NULL) {
-    content_pages_->DestroyAll(false, true);
-    delete content_pages_;
-  }
+  delete content_pages_;
 }
 
 void Album::RegisterType() {
