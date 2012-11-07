@@ -91,7 +91,9 @@ class Album : public ContainerSource {
   Album(QObject * parent = 0);
   explicit Album(QObject * parent, AlbumTemplate* album_template);
   Album(QObject * parent, AlbumTemplate* album_template, const QString &title,
-    const QString &subtitle);
+    const QString &subtitle, qint64 id, QDateTime creation_timestamp, bool closed,
+    int current_page, const QString &cover_nickname);
+
   virtual ~Album();
   
   static void RegisterType();

@@ -42,13 +42,8 @@ void AlbumTable::get_albums(QList<Album*>* album_list) {
     int current_page = query.value(5).toInt();
     QString cover_nickname = query.value(6).toString();
     
-    Album* a = new Album(this, AlbumDefaultTemplate::instance(), title, subtitle);
-    a->set_id(id);
-    a->set_creation_date_time(timestamp);
-    a->set_closed(is_closed);
-    a->set_current_page(current_page);
-    a->set_cover_nickname(cover_nickname);
-    
+    Album* a = new Album(this, AlbumDefaultTemplate::instance(), title, subtitle, id,
+                         timestamp, is_closed, current_page, cover_nickname);
     album_list->append(a);
   }
 }
