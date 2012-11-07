@@ -53,10 +53,18 @@ Album::Album(QObject * parent, AlbumTemplate* album_template)
 }
 
 Album::Album(QObject * parent, AlbumTemplate* album_template, const QString& title,
-  const QString& subtitle)
+  const QString& subtitle, qint64 id, QDateTime creation_timestamp, bool closed,
+  int current_page, const QString &cover_nickname)
   : ContainerSource(parent, title, MediaCollection::ExposureDateTimeAscendingComparator),
     album_template_(album_template), title_(title), subtitle_(subtitle) {
   InitInstance();
+
+  // replace defaults with what was read from DB
+  cover_nickname_ = cover_nickname;
+  creation_date_time_ = creation_timestamp;
+  current_page_ = current_page;
+  closed_ = closed;
+  id_ = id;
 }
 
 Album::~Album() {
