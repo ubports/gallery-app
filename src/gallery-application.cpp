@@ -99,12 +99,12 @@ void GalleryApplication::usage(bool error) {
   foreach (const QString& form_factor, form_factors_.keys())
     out << "  --" << form_factor << "   run in " << form_factor << " form factor" << endl;
   out << "  --startup-timer   debug-print startup time" << endl;
-  out << "pictures_dir defaults to ~/Pictures" << endl;
+  out << "pictures_dir defaults to ~/Pictures, and must exist prior to running gallery" << endl;
   std::exit(error ? 1 : 0);
 }
 
 void GalleryApplication::invalid_arg(QString arg) {
-  QTextStream(stderr) << "Unknown argument '" << arg << "'" << endl;
+  QTextStream(stderr) << "Invalid argument '" << arg << "'" << endl;
   usage(true);
 }
 
@@ -135,7 +135,7 @@ void GalleryApplication::process_args() {
 
       if (arg.startsWith("--") && form_factors_.keys().contains(form_factor)) {
         form_factor_ = form_factor;
-      } else if (i == args.count() - 1) {
+      } else if (i == args.count() - 1 && QDir(arg).exists()) {
         pictures_dir_ = QDir(arg);
       } else {
         invalid_arg(arg);
