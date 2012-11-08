@@ -19,6 +19,7 @@ OBJECTS_DIR = build
 RCC_DIR = build
 QMAKE_RESOURCE_FLAGS += -root /rc
 PKGCONFIG += exiv2
+DEFINES += QT_USE_QSTRINGBUILDER
 
 # Input
 
