@@ -23,6 +23,7 @@
 #include <QUrl>
 #include <QString>
 #include <QQuickItem>
+#include <cstdlib>
 
 #include "gallery-application.h"
 #include "album/album.h"
@@ -88,39 +89,59 @@ void GalleryApplication::register_qml() {
   QmlStack::RegisterType();
 }
 
+void GalleryApplication::usage(bool error) {
+  QTextStream out(error ? stderr : stdout);
+  out << "Usage: gallery [options] [pictures_dir]" << endl;
+  out << "Options:" << endl;
+  out << "  --landscape   run in landscape orientation (default)" << endl;
+  out << "  --portrait   run in portrait orientation" << endl;
+  out << "  --bgu-size X   set BGU size to X (default 8)" << endl;
+  foreach (const QString& form_factor, form_factors_.keys())
+    out << "  --" << form_factor << "   run in " << form_factor << " form factor" << endl;
+  out << "  --startup-timer   debug-print startup time" << endl;
+  out << "pictures_dir defaults to ~/Pictures, and must exist prior to running gallery" << endl;
+  std::exit(error ? 1 : 0);
+}
+
+void GalleryApplication::invalid_arg(QString arg) {
+  QTextStream(stderr) << "Invalid argument '" << arg << "'" << endl;
+  usage(true);
+}
+
 void GalleryApplication::process_args() {
   QStringList args = arguments();
 
-  foreach(const QString& test, form_factors_.keys()) {
-    QString arg_test = QString("--%1").arg(test);
-    if (args.contains(arg_test)) {
-      args.removeAll(arg_test);
-      form_factor_ = test;
+  for (int i = 1; i < args.count(); ++i) {
+    QString arg = args[i];
+    QString value = (i + 1 < args.count() ? args[i + 1] : "");
+
+    if (arg == "--help" || arg == "-h") {
+      usage();
+    } else if (arg == "--landscape") {
+      is_portrait_ = false;
+    } else if (arg == "--portrait") {
+      is_portrait_ = true;
+    } else if (arg == "--startup-timer") {
+      startup_timer_ = true;
+    } else if (arg == "--bgu-size") {
+      bool ok = false;
+      int bgu_size = value.toInt(&ok);
+
+      ++i; // Skip over value next iteration.
+      if (ok && bgu_size > 0)
+        bgu_size_ = bgu_size;
+    } else {
+      QString form_factor = arg.mid(2); // minus initial "--"
+
+      if (arg.startsWith("--") && form_factors_.keys().contains(form_factor)) {
+        form_factor_ = form_factor;
+      } else if (i == args.count() - 1 && QDir(arg).exists()) {
+        pictures_dir_ = QDir(arg);
+      } else {
+        invalid_arg(arg);
+      }
     }
   }
-
-  if (args.contains("--landscape")) {
-    args.removeAll("--landscape");
-    is_portrait_ = false;
-  }
-  if (args.contains("--portrait")) {
-    args.removeAll("--portrait");
-    is_portrait_ = true;
-  }
-
-  int index = args.indexOf("--bgu-size");
-  if (index >= 0 && args.count() > index + 1) {
-    bgu_size_ = args.takeAt(index + 1).toInt();
-    args.removeAll("--bgu-size");
-  }
-  
-  if (args.contains("--startup-timer")) {
-    args.removeAll("--startup-timer");
-    startup_timer_ = true;
-  }
-  
-  if (args.count() > 1)
-    pictures_dir_ = QDir(args.takeFirst());
 }
 
 void GalleryApplication::init_common() {
