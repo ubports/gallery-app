@@ -20,6 +20,7 @@
 
 import QtQuick 2.0
 import Gallery 1.0
+import Ubuntu.Components 0.1
 import "../Capetown"
 import "../Capetown/Widgets"
 import "../js/GalleryUtility.js" as GalleryUtility
@@ -308,6 +309,14 @@ Rectangle {
     }
   }
 
+  OrganicPhotosView {
+    id: organicView
+
+    anchors.fill: parent
+    anchors.topMargin: navbar.height
+    visible: organicViewButton.toggled
+  }
+
   NavbarScrollOrchestrator {
     id: scrollOrchestrator
 
@@ -374,6 +383,22 @@ Rectangle {
         scrollOrchestrator.reset();
         overview.state = "eventView"
       }
+    }
+
+    Button {
+      id: organicViewButton
+
+      property bool toggled: false
+
+      height: gu(4)
+      width: gu(20)
+      anchors.right: albumViewSwitcher.left
+      anchors.bottom: parent.bottom
+
+      text: "Organic View"
+      color: (toggled ? "gray" : "lightgray")
+
+      onClicked: toggled = !toggled
     }
   }
 
