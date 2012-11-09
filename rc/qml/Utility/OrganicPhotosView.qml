@@ -40,6 +40,9 @@ Item {
     anchors.fill: parent
     clip: true
 
+    // TODO: set cacheBuffer to some intelligent value so we cache the trays
+    // more predictably.
+
     model: EventCollectionModel {
     }
 
