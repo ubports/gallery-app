@@ -20,11 +20,14 @@
 import QtQuick 2.0
 import Gallery 1.0
 import "../Components"
+import "../../js/GalleryUtility.js" as GalleryUtility
 
 // An "organic" list of photos for a particular event.  Used as the "tray"
 // contents for each event in the OrganicPhotosView.
 Item {
   id: organicPhotosList
+
+  signal mediaSourcePressed(var mediaSource, var thumbnailRect)
 
   property var event
 
@@ -67,6 +70,8 @@ Item {
 
     // TODO: rounded corners.
     GalleryPhotoComponent {
+      id: photoComponent
+
       property int patternPhoto: index % photosPerPattern
       property int patternNumber: Math.floor(index / photosPerPattern)
 
@@ -79,6 +84,18 @@ Item {
       ownerName: "OrganicTrayView"
       isCropped: true
       isPreview: true
+
+      MouseArea {
+        anchors.fill: parent
+
+        // TODO: handle right clicks and long presses, and selection mode.
+
+        onClicked: {
+          var rect = GalleryUtility.getRectRelativeTo(photoComponent,
+                                                      organicPhotosList);
+          mediaSourcePressed(photoComponent.mediaSource, rect);
+        }
+      }
     }
   }
 }

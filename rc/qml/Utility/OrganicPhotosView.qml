@@ -19,11 +19,14 @@
 
 import QtQuick 2.0
 import Gallery 1.0
+import "../../js/GalleryUtility.js" as GalleryUtility
 
 // An "organic" vertically-scrollable view of all events, each containing a
 // horizontally-scrollable "tray" of photos.
 Item {
   id: organicPhotosView
+
+  signal mediaSourcePressed(var mediaSource, var thumbnailRect)
 
   property alias model: organicList.model
 
@@ -61,6 +64,12 @@ Item {
         id: photosList
 
         event: model.event
+
+        onMediaSourcePressed: {
+          var rect = GalleryUtility.translateRect(thumbnailRect, photosList,
+                                                  organicPhotosView);
+          organicPhotosView.mediaSourcePressed(mediaSource, rect);
+        }
       }
     }
   }

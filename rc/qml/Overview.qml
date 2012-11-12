@@ -315,6 +315,12 @@ Rectangle {
     anchors.fill: parent
     anchors.topMargin: navbar.height
     visible: organicViewButton.toggled
+
+    onMediaSourcePressed: {
+      var rect = GalleryUtility.translateRect(thumbnailRect, organicView, photoViewer);
+      photoViewer.model = eventsCheckerboard.photoViewerModel;
+      photoViewer.animateOpen(mediaSource, rect, false);
+    }
   }
 
   NavbarScrollOrchestrator {
