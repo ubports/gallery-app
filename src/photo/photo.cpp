@@ -326,6 +326,8 @@ void Photo::edit_file(const PhotoEditState& state) {
       state.orientation_ != PhotoEditState::ORIGINAL_ORIENTATION)
     metadata->set_orientation(state.orientation_);
 
+  bool is_cropped = ((!original_size_.isValid()) && (original_size_ != image.size()));
+
   if (file_format_has_orientation() &&
       metadata->orientation() != TOP_LEFT_ORIGIN)
     image = image.transformed(metadata->orientation_transform());
@@ -333,6 +335,14 @@ void Photo::edit_file(const PhotoEditState& state) {
       state.orientation_ != TOP_LEFT_ORIGIN)
     image = image.transformed(
         OrientationCorrection::FromOrientation(state.orientation_).to_transform());
+
+  // Is a rotate the only dimensions-changing operation that's happened to us?
+  if (!is_cropped && file_format_has_orientation()) {
+    // Do not re-encode the file, as it can lead to quality loss in JPEGs;
+    // just write out the rotate and exit.
+    metadata->save();
+    return;
+  }
 
   // Cache this here so we may be able to avoid another JPEG decode later just
   // to find the dimensions.
