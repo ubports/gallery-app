@@ -350,7 +350,7 @@ void Photo::edit_file(const PhotoEditState& state) {
       metadata->orientation() != TOP_LEFT_ORIGIN)
     image = image.transformed(metadata->orientation_transform().inverted());
 
-  bool saved = image.save(file().filePath(), file_format_.toStdString().c_str());
+  bool saved = image.save(file().filePath(), file_format_.toStdString().c_str(), 90);
   if (saved && file_format_has_metadata())
     saved = metadata->save();
   if (!saved)
