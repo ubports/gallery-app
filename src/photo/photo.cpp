@@ -372,20 +372,22 @@ void Photo::create_cached_enhanced() {
   QFileInfo to_enhance = caches_.enhanced_file();
   PhotoMetadata* metadata = PhotoMetadata::FromFile(to_enhance);
 
-  QImage sample_img(to_enhance.filePath(), file_format_.toStdString().c_str());
-  int width = sample_img.width();
-  int height = sample_img.height();
+  QImage unenhanced_img(to_enhance.filePath(), file_format_.toStdString().c_str());
+  QImage sample_img;
+  int width = unenhanced_img.width();
+  int height = unenhanced_img.height();
 
-  if (sample_img.width() > 400)
-    sample_img = sample_img.scaledToWidth(400);
+  if (unenhanced_img.width() > 400) {
+    sample_img = unenhanced_img.scaledToWidth(400);
+  } else {
+    sample_img = unenhanced_img.copy(0, 0, width, height);
+  }
+  
   AutoEnhanceTransformation enhance_txn = AutoEnhanceTransformation(sample_img);
 
   int pixels = 0;
   
-  // TODO: may be able to avoid doing another JPEG load here by creating the
-  // enhanced_image from scratch here with a different constructor.
-  QImage enhanced_image(to_enhance.filePath(),
-                        file_format_.toStdString().c_str());
+  QImage enhanced_image(width, height, unenhanced_img.format());
 
   // Can't write into indexed images, due to a limitation in Qt.
   if (enhanced_image.format() == QImage::Format_Indexed8)
@@ -394,7 +396,7 @@ void Photo::create_cached_enhanced() {
   for (int j = 0; j < height; j++) {
     for (int i = 0; i < width; i++) {
       QColor px = enhance_txn.transform_pixel(
-        QColor(enhanced_image.pixel(i, j)));
+        QColor(unenhanced_img.pixel(i, j)));
       enhanced_image.setPixel(i, j, px.rgb());
       
       // Spin the event loop every 50 pixels.
