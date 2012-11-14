@@ -42,6 +42,11 @@ MediaCollection::MediaCollection(const QDir& directory)
   QStringList filenames = directory_.entryList();
   QString filename;
   foreach (filename, filenames) {
+    // stat'ing and sync'ing file info over even several hundred photos is an
+    // expensive operation since it involves lots of I/O, so spin the event
+    // loop so that the UI remains responsive
+    QApplication::processEvents();
+    
     QFileInfo file(directory_, filename);
 
     if (!Photo::IsValid(file))
