@@ -19,6 +19,8 @@
 
 #include "media-table.h"
 
+#include <QApplication>
+
 MediaTable::MediaTable(Database* db, QObject* parent) : QObject(parent), db_(db)
 {
 }
@@ -32,6 +34,11 @@ void MediaTable::verify_files() {
   
   // Stat each file. Make a list of files that no longer exist.
   while (query.next()) {
+    // stat'ing and sync'ing file info over even several hundred photos is an
+    // expensive operation since it involves lots of I/O, so spin the event
+    // loop so that the UI remains responsive
+    QApplication::processEvents();
+
     qint64 id = query.value(0).toLongLong();
     QFile file(query.value(1).toString());
     
@@ -41,8 +48,12 @@ void MediaTable::verify_files() {
   
   // Delete any references to non-existent files.
   db_->get_db()->transaction();
-  foreach (qint64 id, to_delete)
+  foreach (qint64 id, to_delete) {
+    // spin the event loop so that the UI remains responsive
+    QApplication::processEvents();
+
     remove(id);
+  }
     
   db_->get_db()->commit();
 }
