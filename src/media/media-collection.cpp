@@ -52,24 +52,12 @@ MediaCollection::MediaCollection(const QDir& directory)
     if (!Photo::IsValid(file))
       continue;
     
-    Photo* p = new Photo(file);
-
-    qint64 id = Database::instance()->get_media_table()->get_id_for_media(
-          file.absoluteFilePath());
-    QSize size = Database::instance()->get_media_table()->get_media_size(id);
-
-    PhotoEditState edit_state =
-        Database::instance()->get_photo_edit_table()->get_edit_state(id);
-
-    // We set the id last so we don't save the info we just read in back out to
-    // the DB.
-    if (size.isValid())
-      p->set_size(size);
-    p->set_base_edit_state(edit_state);
-    p->set_id(id);
-
+    Photo *p = Photo::Load(file);
+    if (!p)
+      continue;
+    
     photos.insert(p);
-    id_map_.insert(id, p);
+    id_map_.insert(p->get_id(), p);
   }
   
   AddMany(photos);

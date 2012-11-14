@@ -82,6 +82,10 @@ class Photo : public MediaSource {
  public:
   static bool IsValid(const QFileInfo& file);
   
+  // Loads a photo object from the given file.  If it's not already
+  // present in the database, it will be added.
+  static Photo* Load(const QFileInfo& file);
+  
   explicit Photo(const QFileInfo& file);
   virtual ~Photo();
   
@@ -125,17 +129,23 @@ class Photo : public MediaSource {
   void append_edit_revision(QUrl* url) const;
   bool file_format_has_metadata() const;
   bool file_format_has_orientation() const;
+  void set_original_orientation(Orientation orientation);
+  void set_file_timestamp(const QDateTime& timestamp);
+  void set_exposure_date_time(const QDateTime& exposure_time);
+  PhotoMetadata* get_metadata();
 
   QString file_format_;
-  mutable QDateTime* exposure_date_time_;
+  QDateTime exposure_date_time_;
+  QDateTime file_timestamp_;
   int edit_revision_; // How many times the pixel data has been modified by us.
   EditStack edits_;
   PhotoEditState saved_state_; // A saved state separate from the undo stack.
   PhotoCaches caches_;
 
   // We cache this data to avoid an image read at various times.
-  PhotoMetadata* original_metadata_;
+  PhotoMetadata* original_metadata_; // Don't use directly, call get_metadata()
   QSize original_size_;
+  Orientation original_orientation_;
 };
 
 #endif  // GALLERY_PHOTO_H_
