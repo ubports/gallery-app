@@ -300,14 +300,18 @@ void Photo::handle_simple_metadata_rotation(const PhotoEditState& state) {
   delete(metadata);
 
   OrientationCorrection orig_correction = 
-    OrientationCorrection::FromOrientation(PhotoEditState::ORIGINAL_ORIENTATION);
+    original_metadata_->orientation_correction();
   OrientationCorrection dest_correction = 
     OrientationCorrection::FromOrientation(state.orientation_);
 
-  if (dest_correction.is_flipped_from(orig_correction)) {
-    QSize new_size = original_size_.transposed();
-    set_size(new_size);
+  QSize new_size = original_size_;
+  int angle = dest_correction.get_normalized_rotation_difference(orig_correction); 
+
+  if ((angle == 90) || (angle == 270)) {
+    new_size = original_size_.transposed();
   }
+
+  set_size(new_size);
 }
 
 void Photo::edit_file(const PhotoEditState& state) {
