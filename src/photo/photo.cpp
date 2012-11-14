@@ -287,6 +287,35 @@ void Photo::save(const PhotoEditState& state, Orientation old_orientation) {
   emit gallery_preview_path_altered();
 }
 
+// Handler for the case of an image whose only change is to its 
+// orientation; used to skip re-encoding of JPEGs.
+void Photo::handle_uncropped_rotation(const PhotoEditState& state) {
+  PhotoMetadata* metadata = PhotoMetadata::FromFile(file());
+
+  if (file_format_has_orientation() &&
+      state.orientation_ != PhotoEditState::ORIGINAL_ORIENTATION) {
+    metadata->set_orientation(state.orientation_);
+  }  
+  
+  metadata->save();
+  delete(metadata);
+
+  QSize new_size;
+
+  switch(state.orientation_) {
+    case TOP_RIGHT_ORIGIN:
+    case BOTTOM_LEFT_ORIGIN:
+    case RIGHT_TOP_ORIGIN:
+    case LEFT_BOTTOM_ORIGIN:
+      new_size = original_size_.transposed();
+      set_size(new_size);
+      break;
+
+    default:
+      break;
+  }
+}
+
 void Photo::edit_file(const PhotoEditState& state) {
   // As a special case, if editing to the original version, we simply restore
   // from the original and call it a day.
@@ -310,6 +339,13 @@ void Photo::edit_file(const PhotoEditState& state) {
 
   if (!caches_.overwrite_from_cache(state.is_enhanced_))
     qDebug("Error overwriting %s from cache", qPrintable(file().filePath()));
+
+  // Have we been rotated and _not_ cropped?
+  if (file_format_has_orientation() && (!state.crop_rectangle_.isValid())) { 
+    // Yes; skip out on decoding and re-encoding the image.
+    handle_uncropped_rotation(state);
+    return;
+  }
 
   // TODO: we might be able to avoid reading/writing pixel data (and other
   // more general optimizations) under certain conditions here.  Might be worth
