@@ -289,30 +289,24 @@ void Photo::save(const PhotoEditState& state, Orientation old_orientation) {
 
 // Handler for the case of an image whose only change is to its 
 // orientation; used to skip re-encoding of JPEGs.
-void Photo::handle_uncropped_rotation(const PhotoEditState& state) {
+void Photo::handle_simple_metadata_rotation(const PhotoEditState& state) {
   PhotoMetadata* metadata = PhotoMetadata::FromFile(file());
 
-  if (file_format_has_orientation() &&
-      state.orientation_ != PhotoEditState::ORIGINAL_ORIENTATION) {
+  if (state.orientation_ != PhotoEditState::ORIGINAL_ORIENTATION) {
     metadata->set_orientation(state.orientation_);
   }  
   
   metadata->save();
   delete(metadata);
 
-  QSize new_size;
+  OrientationCorrection orig_correction = 
+    OrientationCorrection::FromOrientation(PhotoEditState::ORIGINAL_ORIENTATION);
+  OrientationCorrection dest_correction = 
+    OrientationCorrection::FromOrientation(state.orientation_);
 
-  switch(state.orientation_) {
-    case TOP_RIGHT_ORIGIN:
-    case BOTTOM_LEFT_ORIGIN:
-    case RIGHT_TOP_ORIGIN:
-    case LEFT_BOTTOM_ORIGIN:
-      new_size = original_size_.transposed();
-      set_size(new_size);
-      break;
-
-    default:
-      break;
+  if (dest_correction.is_flipped_from(orig_correction)) {
+    QSize new_size = original_size_.transposed();
+    set_size(new_size);
   }
 }
 
@@ -343,13 +337,18 @@ void Photo::edit_file(const PhotoEditState& state) {
   // Have we been rotated and _not_ cropped?
   if (file_format_has_orientation() && (!state.crop_rectangle_.isValid())) { 
     // Yes; skip out on decoding and re-encoding the image.
-    handle_uncropped_rotation(state);
+    handle_simple_metadata_rotation(state);
     return;
   }
 
   // TODO: we might be able to avoid reading/writing pixel data (and other
   // more general optimizations) under certain conditions here.  Might be worth
   // doing if it doesn't make the code too much worse.
+  // 
+  // At the moment, we are skipping at least one decode and one encode in cases
+  // where a .jpeg file has been rotated, but not cropped, since rotation can be 
+  // controlled by manipulating its metadata without having to modify pixel data;
+  // please see the method handle_simple_metadata_rotation() for details.
 
   QImage image(file().filePath(), file_format_.toStdString().c_str());
   if (image.isNull()) {
