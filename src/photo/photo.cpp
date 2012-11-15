@@ -291,10 +291,7 @@ void Photo::save(const PhotoEditState& state, Orientation old_orientation) {
 // orientation; used to skip re-encoding of JPEGs.
 void Photo::handle_simple_metadata_rotation(const PhotoEditState& state) {
   PhotoMetadata* metadata = PhotoMetadata::FromFile(file());
-
-  if (state.orientation_ != PhotoEditState::ORIGINAL_ORIENTATION) {
-    metadata->set_orientation(state.orientation_);
-  }  
+  metadata->set_orientation(state.orientation_);
   
   metadata->save();
   delete(metadata);
@@ -341,7 +338,8 @@ void Photo::edit_file(const PhotoEditState& state) {
   // Have we been rotated and _not_ cropped?
   if (file_format_has_orientation() && (!state.crop_rectangle_.isValid())) { 
     // Yes; skip out on decoding and re-encoding the image.
-    handle_simple_metadata_rotation(state);
+    if (state.orientation_ != PhotoEditState::ORIGINAL_ORIENTATION)
+      handle_simple_metadata_rotation(state);
     return;
   }
 
