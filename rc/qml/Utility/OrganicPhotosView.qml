@@ -29,6 +29,7 @@ Item {
   signal mediaSourcePressed(var mediaSource, var thumbnailRect)
 
   property alias model: organicList.model
+  property OrganicSelectionState selection: OrganicSelectionState { }
 
   Image {
     anchors.fill: parent
@@ -50,8 +51,6 @@ Item {
     }
 
     delegate: Flickable {
-      id: flickableTray
-
       width: organicPhotosView.width
       height: photosList.height
       clip: true
@@ -64,8 +63,9 @@ Item {
         id: photosList
 
         event: model.event
+        selection: organicPhotosView.selection
 
-        onMediaSourcePressed: {
+        onPressed: {
           var rect = GalleryUtility.translateRect(thumbnailRect, photosList,
                                                   organicPhotosView);
           organicPhotosView.mediaSourcePressed(mediaSource, rect);

@@ -1,3 +1,9 @@
+goodhope (0.0.22) quantal; urgency=low
+
+  * New weekly build
+
+ -- Charles Lindsay <chaz@yorba.org>  Wed, 14 Nov 2012 18:10:42 -0800
+
 goodhope (0.0.21.1) quantal; urgency=low
 
   * Coordinated release with SDK
