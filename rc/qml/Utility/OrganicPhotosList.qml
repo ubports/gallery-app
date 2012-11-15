@@ -27,9 +27,11 @@ import "../../js/GalleryUtility.js" as GalleryUtility
 Item {
   id: organicPhotosList
 
-  signal mediaSourcePressed(var mediaSource, var thumbnailRect)
+  signal pressed(var mediaSource, var thumbnailRect)
 
   property var event
+  property alias mediaSources: photosRepeater.model
+  property OrganicSelectionState selection
 
   // internal
   // This assumes an internal margin of gu(3), and a particular pattern of
@@ -47,6 +49,8 @@ Item {
   height: childrenRect.height + gu(1.5) // half a margin on the bottom
 
   EventCard {
+    id: eventComponent
+
     x: gu(3)
     y: gu(1.5)
     width: gu(18)
@@ -55,13 +59,21 @@ Item {
     event: organicPhotosList.event
   }
 
+  // This should theoretically go inside the event card, but EventCard does
+  // weird scaling to draw correctly which messes this up if it's inside it.
+  OrganicItemInteraction {
+    anchors.fill: eventComponent
+    selectionItem: event
+    selection: organicPhotosList.selection
+  }
+
   // TODO: for performance, we may want to use something else here.  Repeaters
   // load all their delegates at once, which may cause slow scrolling in the
   // OrganicPhotosView.  Alternately, we may be able to pass in the visible
   // area from the parent Flickable and only set photos visible (and thus
   // trigger a load from disk) when they're in the visible area.
   Repeater {
-    id: repeater
+    id: photosRepeater
 
     model: MediaCollectionModel {
       forCollection: organicPhotosList.event
@@ -85,15 +97,14 @@ Item {
       isCropped: true
       isPreview: true
 
-      MouseArea {
-        anchors.fill: parent
+      OrganicItemInteraction {
+        selectionItem: photoComponent.mediaSource
+        selection: organicPhotosList.selection
 
-        // TODO: handle right clicks and long presses, and selection mode.
-
-        onClicked: {
+        onPressed: {
           var rect = GalleryUtility.getRectRelativeTo(photoComponent,
                                                       organicPhotosList);
-          mediaSourcePressed(photoComponent.mediaSource, rect);
+          organicPhotosList.pressed(photoComponent.mediaSource, rect);
         }
       }
     }

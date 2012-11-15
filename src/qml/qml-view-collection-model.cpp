@@ -156,7 +156,7 @@ void QmlViewCollectionModel::toggleSelection(QVariant var) {
 }
 
 bool QmlViewCollectionModel::isSelected(QVariant var) {
-  return (view_ != NULL
+  return (view_ != NULL && var.isValid()
     ? view_->IsSelected(VariantToObject<DataObject*>(var))
     : false);
 }
