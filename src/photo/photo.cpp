@@ -336,10 +336,10 @@ void Photo::edit_file(const PhotoEditState& state) {
     qDebug("Error overwriting %s from cache", qPrintable(file().filePath()));
 
   // Have we been rotated and _not_ cropped?
-  if (file_format_has_orientation() && (!state.crop_rectangle_.isValid())) { 
+  if (file_format_has_orientation() && (!state.crop_rectangle_.isValid()) &&
+      (state.orientation_ != PhotoEditState::ORIGINAL_ORIENTATION)) { 
     // Yes; skip out on decoding and re-encoding the image.
-    if (state.orientation_ != PhotoEditState::ORIGINAL_ORIENTATION)
-      handle_simple_metadata_rotation(state);
+    handle_simple_metadata_rotation(state);
     return;
   }
 
