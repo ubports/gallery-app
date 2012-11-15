@@ -373,25 +373,23 @@ void Photo::create_cached_enhanced() {
   PhotoMetadata* metadata = PhotoMetadata::FromFile(to_enhance);
 
   QImage unenhanced_img(to_enhance.filePath(), file_format_.toStdString().c_str());
-  QImage sample_img;
   int width = unenhanced_img.width();
   int height = unenhanced_img.height();
 
-  if (unenhanced_img.width() > 400) {
-    sample_img = unenhanced_img.scaledToWidth(400);
-  } else {
-    sample_img = unenhanced_img.copy(0, 0, width, height);
-  }
-  
+  QImage sample_img = (unenhanced_img.width() > 400) ? 
+      unenhanced_img.scaledToWidth(400) : unenhanced_img;
+ 
   AutoEnhanceTransformation enhance_txn = AutoEnhanceTransformation(sample_img);
 
   int pixels = 0;
   
-  QImage enhanced_image(width, height, unenhanced_img.format());
+  QImage::Format dest_format = unenhanced_img.format();
 
   // Can't write into indexed images, due to a limitation in Qt.
-  if (enhanced_image.format() == QImage::Format_Indexed8)
-    enhanced_image = enhanced_image.convertToFormat(QImage::Format_RGB32);
+  if (dest_format == QImage::Format_Indexed8)
+    dest_format = QImage::Format_RGB32;
+  
+  QImage enhanced_image(width, height, dest_format);
 
   for (int j = 0; j < height; j++) {
     for (int i = 0; i < width; i++) {
