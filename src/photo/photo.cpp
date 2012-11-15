@@ -51,6 +51,7 @@ Photo* Photo::Load(const QFileInfo& file) {
   Orientation orientation;
   
   Photo* p = new Photo(file);
+  PhotoMetadata* metadata = PhotoMetadata::FromFile(p->caches_.pristine_file());
   
   // Look for photo in the database.
   qint64 id = Database::instance()->get_media_table()->get_id_for_media(
@@ -64,12 +65,12 @@ Photo* Photo::Load(const QFileInfo& file) {
     // Get metadata from file.
     timestamp = file.lastModified();
     orientation = p->file_format_has_orientation()
-      ? p->get_metadata()->orientation() : TOP_LEFT_ORIGIN;
+      ? metadata->orientation() : TOP_LEFT_ORIGIN;
     
     // Add or update DB.
     if (id == INVALID_ID) {
-      exposure_time = p->get_metadata()->exposure_time().isValid() ?
-        QDateTime(p->get_metadata()->exposure_time()) : timestamp;
+      exposure_time = metadata->exposure_time().isValid() ?
+        QDateTime(metadata->exposure_time()) : timestamp;
       
       id = Database::instance()->get_media_table()->create_id_for_media(
         file.absoluteFilePath(), timestamp.toMSecsSinceEpoch(),
@@ -100,6 +101,7 @@ Photo* Photo::Load(const QFileInfo& file) {
   // the DB.
   p->set_id(id);
   
+  delete metadata;
   return p;
 }
 
@@ -110,7 +112,6 @@ Photo::Photo(const QFileInfo& file)
     edits_(),
     saved_state_(),
     caches_(file),
-    original_metadata_(NULL),
     original_size_(),
     original_orientation_(TOP_LEFT_ORIGIN) {
   QByteArray format = QImageReader(file.filePath()).format();
@@ -120,7 +121,6 @@ Photo::Photo(const QFileInfo& file)
 }
 
 Photo::~Photo() {
-  delete original_metadata_;
 }
 
 QImage Photo::Image(bool respect_orientation) {
@@ -294,7 +294,8 @@ QSize Photo::get_original_size(Orientation orientation) {
                     file_format_.toStdString().c_str());
     if (file_format_has_orientation())
       original =
-          original.transformed(get_metadata()->orientation_transform());
+          original.transformed(OrientationCorrection::FromOrientation(
+            original_orientation_).to_transform());
 
     original_size_ = original.size();
   }
@@ -304,7 +305,7 @@ QSize Photo::get_original_size(Orientation orientation) {
   if (orientation != PhotoEditState::ORIGINAL_ORIENTATION) {
     OrientationCorrection original_correction =
         OrientationCorrection::FromOrientation(file_format_has_orientation()
-                                               ? get_metadata()->orientation()
+                                               ? original_orientation_
                                                : TOP_LEFT_ORIGIN);
     OrientationCorrection out_correction =
         OrientationCorrection::FromOrientation(orientation);
@@ -503,11 +504,4 @@ void Photo::set_file_timestamp(const QDateTime& timestamp) {
 
 void Photo::set_exposure_date_time(const QDateTime& exposure_time) {
   exposure_date_time_ = exposure_time;
-}
-
-PhotoMetadata* Photo::get_metadata() {
-  if (!original_metadata_)
-    original_metadata_ = PhotoMetadata::FromFile(caches_.pristine_file());
-  
-  return original_metadata_;
 }

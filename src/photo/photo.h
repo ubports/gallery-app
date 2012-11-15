@@ -132,7 +132,6 @@ class Photo : public MediaSource {
   void set_original_orientation(Orientation orientation);
   void set_file_timestamp(const QDateTime& timestamp);
   void set_exposure_date_time(const QDateTime& exposure_time);
-  PhotoMetadata* get_metadata();
 
   QString file_format_;
   QDateTime exposure_date_time_;
@@ -143,7 +142,6 @@ class Photo : public MediaSource {
   PhotoCaches caches_;
 
   // We cache this data to avoid an image read at various times.
-  PhotoMetadata* original_metadata_; // Don't use directly, call get_metadata()
   QSize original_size_;
   Orientation original_orientation_;
 };
