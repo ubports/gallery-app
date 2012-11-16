@@ -90,6 +90,7 @@ Item {
       autoHideWait: 0
 
       navbarSelectionDoneButtonText: "Add to album"
+      navbarSelectionDoneButtonWidth: gu(18)
       navbarHasCancelSelectionButton: true
 
       toolbarHasMainIconsWhenSelecting: false

@@ -30,6 +30,7 @@ Toolbar {
   property alias deselectedStateButtonIconFilename: stateButton.deselectedIconFilename
   property bool hasSelectionDoneButton: false
   property alias selectionDoneButtonText: selectionDoneButton.text
+  property alias selectionDoneButtonWidth: selectionDoneButton.width
   property bool hasCancelSelectionButton: false
 
   signal returnButtonPressed()
