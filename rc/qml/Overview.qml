@@ -33,8 +33,6 @@ Rectangle {
   objectName: "overview"
 
   signal albumSelected(variant album, variant thumbnailRect)
-  signal eventsCheckerboardHidden(int currScrollPos)
-  signal albumEditorCheckerboardHidden(int currScrollPos)
 
   property Rectangle glass: overviewGlass
 
@@ -50,14 +48,6 @@ Rectangle {
       delegate.visible = show;
   }
 
-  function setCheckerboardScrollPos(newScrollPos) {
-    eventsCheckerboard.setScrollPos(newScrollPos);
-  }
-
-  function setAlbumEditorScrollPos(newScrollPos) {
-    albumEditor.setMediaSelectorScrollPos(newScrollPos);
-  }
-
   state: "eventView"
 
   states: [
@@ -67,143 +57,23 @@ Rectangle {
 
   transitions: [
     Transition { from: "eventView"; to: "albumView";
-      DissolveAnimation { fadeOutTarget: eventsSheet; fadeInTarget: albumsCheckerboard; }
+      DissolveAnimation { fadeOutTarget: eventView; fadeInTarget: albumsCheckerboard; }
     },
     Transition { from: "albumView"; to: "eventView";
-      DissolveAnimation { fadeOutTarget: albumsCheckerboard; fadeInTarget: eventsSheet; }
+      DissolveAnimation { fadeOutTarget: albumsCheckerboard; fadeInTarget: eventView; }
     }
   ]
 
-  Item {
-    id: eventsSheet
+  OrganicPhotosView {
+    id: eventView
 
     anchors.fill: parent
+    anchors.topMargin: navbar.height
+    visible: true
 
-    // if switched away from or to, always move back to checkerboard
-    onVisibleChanged: state = "checkerboard"
-
-    // HACK: these shouldn't strictly be necessary.  I want to key the
-    // visibility of the children checkerboard/timeline/transition on the
-    // transition's timelineFraction property, but when I did that, I was
-    // getting weird problems where it looked like the window wasn't refreshing
-    // after things' visibilities changed.  This is a little more code, and a
-    // little more procedural, but fixes the issue.
-    state: "checkerboard"
-    states: [
-      State { name: "checkerboard"; },
-      State { name: "transition"; },
-      State { name: "timeline"; }
-    ]
-
-    // The EventsCheckerboard has its own background paper, but this will be
-    // visible during the timeline and timeline transition.
-    Image {
-      anchors.fill: parent
-
-      source: "../img/background-paper.png"
-      fillMode: Image.Tile
-    }
-
-    EventCheckerboard {
-      id: eventsCheckerboard
-      objectName: "eventsCheckerboard"
-
-      anchors.fill: parent
-
-      topExtraGutter: navbar.height + getDeviceSpecific("photoGridTopMargin")
-      bottomExtraGutter: gu(0)
-      leftExtraGutter: getDeviceSpecific("photoGridLeftMargin")
-      rightExtraGutter: getDeviceSpecific("photoGridRightMargin")
-
-      visible: (eventsSheet.state === "checkerboard")
-      allowSelectionModeChange: true
-
-      property variant photoViewerModel: MediaCollectionModel {
-        monitored: true
-      }
-
-      onActivated: {
-        if (objectModel.typeName == "MediaSource") {
-          var photoRect = GalleryUtility.translateRect(activatedRect, eventsCheckerboard, photoViewer);
-          photoViewer.model = eventsCheckerboard.photoViewerModel;
-          photoViewer.animateOpen(object, photoRect, true);
-        } else {
-          // Event
-          eventTimelineTransition.prepare(object, true);
-          eventTimelineTransition.finish(true);
-          eventsSheet.state = "transition";
-        }
-      }
-
-      onMovementStarted: {
-        scrollOrchestrator.viewMovementStarted(contentY);
-      }
-
-      onContentYChanged: {
-        scrollOrchestrator.viewScrolled(contentY);
-      }
-
-      onMovementEnded: {
-        scrollOrchestrator.viewMovementEnded(contentY);
-      }
-
-      onVisibleChanged: {
-        if (visible) {
-          // If we just became visible, it's possible that our scroll position
-          // changed due to moving in/out of the timeline view. Let the scroll
-          // orchestrator know this so it can keep its state consistent.
-          scrollOrchestrator.viewScrolled(contentY);
-        }
-      }
-
-      // Notify the rest of the app about where we were presently
-      // scrolled to when we got hidden.
-      onHidden: {
-        eventsCheckerboardHidden(currScrollPos);
-      }
-    }
-
-    EventTimelineTransition {
-      id: eventTimelineTransition
-
-      anchors.fill: parent
-
-      visible: (eventsSheet.state === "transition")
-      clip: true
-
-      checkerboard: eventsCheckerboard
-      timeline: eventTimeline
-
-      onTransitionFinished: (eventsSheet.state = (toTimeline
-                                                  ? "timeline"
-                                                  : "checkerboard"))
-    }
-
-    EventTimeline {
-      id: eventTimeline
-
-      anchors.fill: parent
-
-      topExtraGutter: gu(0) + navbar.height
-      bottomExtraGutter: gu(0)
-      leftExtraGutter: gu(2)
-      rightExtraGutter: gu(2)
-
-      visible: (eventsSheet.state === "timeline")
-      clip: true
-
-      onActivated: {
-        // Event card activated
-        eventTimelineTransition.prepare(event, false);
-        eventTimelineTransition.finish(false);
-        eventsSheet.state = "transition";
-      }
-
-      onMovementStarted: scrollOrchestrator.viewMovementStarted(contentY)
-
-      onMovementEnded: scrollOrchestrator.viewMovementEnded(contentY)
-
-      onContentYChanged: scrollOrchestrator.viewScrolled(contentY)
+    onMediaSourcePressed: {
+      var rect = GalleryUtility.translateRect(thumbnailRect, eventView, photoViewer);
+      photoViewer.animateOpen(mediaSource, rect, false);
     }
   }
 
@@ -224,9 +94,11 @@ Rectangle {
     minGutterHeight: getDeviceSpecific("albumGridGutterHeight")
 
     visible: false
-    allowSelectionModeChange: false
-    singleSelectionOnly: true
-    allowActivation: false
+
+    selection: OrganicSelectionState {
+      allowSelectionModeChange: false
+      model: albumsCheckerboard.model
+    }
 
     model: AlbumCollectionModel {
     }
@@ -309,27 +181,12 @@ Rectangle {
     }
   }
 
-  OrganicPhotosView {
-    id: organicView
-
-    anchors.fill: parent
-    anchors.topMargin: navbar.height
-    visible: organicViewButton.toggled
-
-    onMediaSourcePressed: {
-      var rect = GalleryUtility.translateRect(thumbnailRect, organicView, photoViewer);
-      photoViewer.model = eventsCheckerboard.photoViewerModel;
-      photoViewer.animateOpen(mediaSource, rect, false);
-    }
-  }
-
   NavbarScrollOrchestrator {
     id: scrollOrchestrator
 
     navigationBar: navbar
 
     onInitialized: {
-      eventsCheckerboard.contentY = 0;
       albumsCheckerboard.contentY = 0;
     }
   }
@@ -342,7 +199,7 @@ Rectangle {
     anchors.left: parent.left
     anchors.right: parent.right
 
-    visible: !eventsCheckerboard.inSelectionMode
+    visible: !eventView.selection.inSelectionMode
 
     onAddCreateOperationButtonPressed: {
       if (albumViewSwitcher.isTab0Active) {
@@ -357,14 +214,8 @@ Rectangle {
       anchors.rightMargin: gu(10)
 
       onClicked: {
-        if (overview.state == "eventView") {
-          if (eventsCheckerboard.visible)
-            eventsCheckerboard.scrollToTop();
-          else if (eventTimeline.visible)
-            eventTimeline.scrollToTop();
-        } else {
+        if (overview.state != "eventView")
           albumsCheckerboard.scrollToTop();
-        }
       }
     }
 
@@ -390,22 +241,6 @@ Rectangle {
         overview.state = "eventView"
       }
     }
-
-    Button {
-      id: organicViewButton
-
-      property bool toggled: false
-
-      height: gu(4)
-      width: gu(20)
-      anchors.right: albumViewSwitcher.left
-      anchors.bottom: parent.bottom
-
-      text: "Organic View"
-      color: (toggled ? "gray" : "lightgray")
-
-      onClicked: toggled = !toggled
-    }
   }
 
   ViewerChrome {
@@ -416,11 +251,11 @@ Rectangle {
 
     autoHideWait: 0
 
-    hasSelectionOperationsButton: eventsCheckerboard.inSelectionMode
+    hasSelectionOperationsButton: eventView.selection.inSelectionMode
     toolbarHasAlbumOperationsButton: false
 
     inSelectionMode: true
-    visible: eventsCheckerboard.inSelectionMode
+    visible: eventView.selection.inSelectionMode
 
     popups: ([ selectionOperationsMenu, photoTrashDialog,
               selectionModeShareMenu, selectionModeOptionsMenu ])
@@ -429,15 +264,12 @@ Rectangle {
     onShareOperationsButtonPressed: cyclePopup(selectionModeShareMenu);
     onMoreOperationsButtonPressed: cyclePopup(selectionModeOptionsMenu);
 
-    onSelectionDoneButtonPressed: {
-      eventsCheckerboard.unselectAll();
-      eventsCheckerboard.inSelectionMode = false;
-    }
+    onSelectionDoneButtonPressed: eventView.selection.leaveSelectionMode()
 
     SelectionMenu {
       id: selectionOperationsMenu
 
-      checkerboard: eventsCheckerboard
+      selection: eventView.selection
 
       onPopupInteractionCompleted: chrome.hideAllPopups()
     }
@@ -448,18 +280,17 @@ Rectangle {
       popupOriginX: -gu(16.5)
       popupOriginY: -gu(6)
       
-      actionTitle: eventsCheckerboard.model.selectedCount > 1 ? 
+      actionTitle: eventView.selection.selectedCount > 1 ?
                      "Delete selected items" : "Delete photo"
       
       visible: false
 
       onDeleteRequested: {
-        eventsCheckerboard.model.destroySelectedMedia();
+        eventView.selection.model.destroySelectedMedia();
 
         chrome.hideAllPopups(); // Have to do here since our popup list changes
                                 // based on selection mode.
-        eventsCheckerboard.unselectAll();
-        eventsCheckerboard.inSelectionMode = false;
+        eventView.selection.leaveSelectionMode();
       }
 
       onPopupInteractionCompleted: chrome.hideAllPopups()
@@ -590,7 +421,7 @@ Rectangle {
       // Remove contents.
       var list = album.allMediaSources;
       for (var i = 0; i < list.length; i++)
-        eventsCheckerboard.model.destroyMedia(list[i]);
+        eventView.selection.model.destroyMedia(list[i]);
       
       // Remove album.
       albumsCheckerboard.model.destroyAlbum(album);
@@ -656,18 +487,14 @@ Rectangle {
     
     anchors.fill: parent
     z: 100
-    
-    onPhotoChanged: {
-      if (photo && eventsCheckerboard.model) {
-        eventsCheckerboard.ensureIndexVisible(eventsCheckerboard.model.indexOf(photo),
-          false);
-      }
+
+    model: MediaCollectionModel {
+      monitored: true
     }
 
     onCloseRequested: {
-      var thumbnailRect =
-        eventsCheckerboard.getRectOfItemAt(
-            eventsCheckerboard.model.indexOf(photo), photoViewer);
+      // TODO: get thumbnail rect from organic view.
+      var thumbnailRect = null;
       if (thumbnailRect)
         animateClosed(thumbnailRect, true);
       else

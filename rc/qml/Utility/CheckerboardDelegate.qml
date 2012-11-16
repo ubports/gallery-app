@@ -68,35 +68,14 @@ Item {
 
     // Long press/right click.
     function alternativePressed() {
-      if (checkerboard.inSelectionMode)
-        pressed();
-      else
-        checkerboardDelegate.longPressed(modelData.object);
-
-      if (checkerboard.allowSelectionModeChange &&
-          !checkerboard.inSelectionMode) {
-        checkerboard.inSelectionMode = true;
-
-        checkerboard.model.toggleSelection(modelData.object);
-
-        if (checkerboard.singleSelectionOnly)
-          checkerboard.singleSelectedItem = modelData.object;
-      }
+      checkerboard.selection.toggleSelection(modelData.object);
+      longPressed(modelData.object);
     }
 
     // Normal press/click.
     function pressed() {
-      if (checkerboard.inSelectionMode) {
-        if (checkerboard.singleSelectionOnly) {
-          checkerboard.unselectAll();
-          checkerboard.singleSelectedItem = modelData.object;
-        }
-
-        checkerboard.model.toggleSelection(modelData.object);
-      } else {
-        var rect = GalleryUtility.getRectRelativeTo(contentArea, checkerboard);
-        checkerboard.activated(modelData.object, modelData, rect);
-      }
+      var rect = GalleryUtility.getRectRelativeTo(contentArea, checkerboard);
+      checkerboard.activated(modelData.object, modelData, rect);
     }
 
     MouseArea {
@@ -110,7 +89,7 @@ Item {
 
       onPressAndHold: contentArea.alternativePressed()
       onClicked: {
-        if (mouse.button == Qt.RightButton)
+        if (mouse.button == Qt.RightButton || checkerboard.selection.inSelectionMode)
           contentArea.alternativePressed();
         else
           contentArea.pressed();
@@ -126,7 +105,7 @@ Item {
 
       onLongPressed: contentArea.alternativePressed()
       onTapped: {
-        if (rightButton)
+        if (rightButton || checkerboard.selection.inSelectionMode)
           contentArea.alternativePressed();
         else
           contentArea.pressed();
