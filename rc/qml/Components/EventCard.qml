@@ -19,26 +19,22 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 import "../../js/Gallery.js" as Gallery
 
 Item {
   id: eventCard
   
   property variant event
-  property color textColor: "#6e6046"
+  property color textColor: "#919191"
+  property color cardColor: "#dddddd"
   property bool isSelected
   
   // internal
-  property real cardWidth: gu(24)
+  property real cardWidth: gu(18)
   property real cardHeight: gu(18)
-  // Where the transparent shadow ends in the card image.
-  property real cardStartX: 2
-  property real cardStartY: 2
-  property real rightShadowWidth: eventCardImage.width - cardWidth - cardStartX
-  property real bottomShadowHeight: eventCardImage.height - cardHeight - cardStartY
-  // marks in corners of the card
-  property real cornersWidth: 14
-  property real cornersHeight: 14
+  property real cardSafeAreaWidth: gu(15)
+  property real cardSafeAreaHeight: gu(15)
   
   // TODO: Warning: internationalization issues ahead
   function photosLabel(count) {
@@ -55,80 +51,54 @@ Item {
     yScale: height / cardHeight
   }
 
-  Image {
-    id: eventCardImage
+  // TODO: replace with the official rounded rectangle widget once
+  // it lands in the SDK.
+  Rectangle {
+    id: eventCardRoundRect
     
-    x: -cardStartX
-    y: -cardStartY
+    x: 0
+    y: 0
+    width: cardWidth
+    height: cardHeight
+    color: cardColor
 
-    source: "img/event-card.png"
-    cache: true
-    
     Item {
-      // funky geometry produces an Item centered inside the card proper, not
-      // the card plus shadow and border, with some space on top and bottom
-      // to avoid the triangles in the corners
-      x: parent.x + (cardStartX * 3) + cornersWidth
-      y: parent.y + (cardStartY * 3) + cornersHeight
-      width: cardWidth - (cardStartX * 2) - (cornersWidth * 2)
-      height: cardHeight - (cardStartY * 2) - (cornersHeight * 2)
+      x: parent.x + ((cardWidth - cardSafeAreaWidth) / 2.0)
+      y: parent.y + ((cardHeight - cardSafeAreaHeight) / 2.0)
+      width: cardSafeAreaWidth
+      height: cardSafeAreaHeight
       
-      Text {
-        anchors.top: parent.top
+      TextCustom {
+        id: eventMonthYear
+        anchors.bottom: parent.bottom
         
         width: parent.width
         
         font.family: "Ubuntu"
-        font.pointSize: pointUnits(9)
+        fontSize: "small"
         color: textColor
 
         font.capitalization: Font.AllUppercase
         horizontalAlignment: Text.AlignHCenter
 
-        text: (event) ? Qt.formatDate(event.date, "MMMM yyyy") : ""
+        text: (event) ? Qt.formatDate(event.date, "MMM yyyy") : ""
       }
 
-      Text {
+      TextCustom {
+        id: eventDay
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         
         width: parent.width
 
         font.family: "Ubuntu"
-        font.pointSize: pointUnits(26)
+        fontSize: "x-large"
         color: textColor
 
         horizontalAlignment: Text.AlignHCenter
 
         text: (event) ? Qt.formatDate(event.date, "dd") : ""
       }
-      
-      Text {
-        anchors.bottom: parent.bottom
-        
-        width: parent.width
-        
-        font.family: "Ubuntu"
-        font.pointSize: pointUnits(7)
-        color: textColor
-        
-        font.capitalization: Font.AllUppercase
-        horizontalAlignment: Text.AlignHCenter
-        
-        text: (event) ? photosLabel(event.containedCount) : ""
-      }
-    }
-    
-    Image {
-      id: overlay
-      
-      anchors.right: parent.right
-      anchors.bottom: parent.bottom
-      
-      anchors.rightMargin: rightShadowWidth
-      anchors.bottomMargin: bottomShadowHeight
-      
-      source: isSelected ? "img/photo-preview-selected-overlay.png" : ""
     }
   }
 }
