@@ -347,6 +347,30 @@ void Photo::save(const PhotoEditState& state, Orientation old_orientation) {
   emit gallery_preview_path_altered();
 }
 
+// Handler for the case of an image whose only change is to its 
+// orientation; used to skip re-encoding of JPEGs.
+void Photo::handle_simple_metadata_rotation(const PhotoEditState& state) {
+  PhotoMetadata* metadata = PhotoMetadata::FromFile(file());
+  metadata->set_orientation(state.orientation_);
+  
+  metadata->save();
+  delete(metadata);
+
+  OrientationCorrection orig_correction = 
+    OrientationCorrection::FromOrientation(original_orientation_);
+  OrientationCorrection dest_correction = 
+    OrientationCorrection::FromOrientation(state.orientation_);
+
+  QSize new_size = original_size_;
+  int angle = dest_correction.get_normalized_rotation_difference(orig_correction); 
+
+  if ((angle == 90) || (angle == 270)) {
+    new_size = original_size_.transposed();
+  }
+
+  set_size(new_size);
+}
+
 void Photo::edit_file(const PhotoEditState& state) {
   // As a special case, if editing to the original version, we simply restore
   // from the original and call it a day.
@@ -371,9 +395,22 @@ void Photo::edit_file(const PhotoEditState& state) {
   if (!caches_.overwrite_from_cache(state.is_enhanced_))
     qDebug("Error overwriting %s from cache", qPrintable(file().filePath()));
 
+  // Have we been rotated and _not_ cropped?
+  if (file_format_has_orientation() && (!state.crop_rectangle_.isValid()) &&
+      (state.orientation_ != PhotoEditState::ORIGINAL_ORIENTATION)) { 
+    // Yes; skip out on decoding and re-encoding the image.
+    handle_simple_metadata_rotation(state);
+    return;
+  }
+
   // TODO: we might be able to avoid reading/writing pixel data (and other
   // more general optimizations) under certain conditions here.  Might be worth
   // doing if it doesn't make the code too much worse.
+  // 
+  // At the moment, we are skipping at least one decode and one encode in cases
+  // where a .jpeg file has been rotated, but not cropped, since rotation can be 
+  // controlled by manipulating its metadata without having to modify pixel data;
+  // please see the method handle_simple_metadata_rotation() for details.
 
   QImage image(file().filePath(), file_format_.toStdString().c_str());
   if (image.isNull()) {

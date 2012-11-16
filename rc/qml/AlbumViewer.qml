@@ -40,7 +40,6 @@ Rectangle {
   
   // When the user clicks the back button or pages back to the cover.
   signal closeRequested(bool stayOpen, int viewingPage)
-  signal mediaSelectorHidden(int newScrollPos)
 
   anchors.fill: parent
 
@@ -65,10 +64,8 @@ Rectangle {
   ]
   
   onStateChanged: {
-    if (state == "pageView") {
-      gridCheckerboard.unselectAll();
-      gridCheckerboard.inSelectionMode = false;
-    }
+    if (state == "pageView")
+      gridCheckerboard.selection.leaveSelectionMode();
   }
   
   function crossfadeRemove() {
@@ -78,10 +75,6 @@ Rectangle {
   function fadeOutAndFlipRemove(flipToPage) {
     fadeOutAnimation.flipToPage = flipToPage;
     fadeOutAnimation.restart();
-  }
-  
-  function setMediaSelectorScrollPos(newScrollPos) {
-    mediaSelector.setCheckerboardScrollPos(newScrollPos);
   }
 
   FadeOutAnimation {
@@ -221,8 +214,8 @@ Rectangle {
         if (!hit.mediaSource)
           return;
         
-        if (gridCheckerboard.inSelectionMode) {
-          gridCheckerboard.model.toggleSelection(hit.mediaSource);
+        if (gridCheckerboard.selection.inSelectionMode) {
+          gridCheckerboard.selection.toggleSelection(hit.mediaSource);
         } else {
           photoViewer.forGridView = false;
           photoViewer.fadeOpen(hit.mediaSource);
@@ -303,7 +296,9 @@ Rectangle {
 
     visible: false
     
-    allowSelectionModeChange: true
+    selection: OrganicSelectionState {
+      model: gridCheckerboard.model
+    }
     
     model: MediaCollectionModel {
       forCollection: album
@@ -384,9 +379,9 @@ Rectangle {
     pagesPerSpread: albumSpreadViewer.pagesPerSpread
     viewingPage: albumSpreadViewer.viewingPage
 
-    inSelectionMode: gridCheckerboard.inSelectionMode
+    inSelectionMode: gridCheckerboard.selection.inSelectionMode
 
-    hasSelectionOperationsButton: inSelectionMode
+    hasSelectionOperationsButton: gridCheckerboard.selection.inSelectionMode
     onSelectionOperationsButtonPressed: cyclePopup(selectionMenu)
 
     toolbarsAreTranslucent: (albumViewer.state == "gridView" ||
@@ -421,14 +416,10 @@ Rectangle {
       albumViewer.state = (albumViewer.state == "pageView" ? "gridView" : "pageView");
     }
 
-    onSelectionDoneButtonPressed: {
-      gridCheckerboard.unselectAll();
-      gridCheckerboard.inSelectionMode = false;
-    }
+    onSelectionDoneButtonPressed: gridCheckerboard.selection.leaveSelectionMode()
 
     onReturnButtonPressed: {
-      gridCheckerboard.unselectAll();
-      gridCheckerboard.inSelectionMode = false;
+      gridCheckerboard.selection.leaveSelectionMode();
 
       closeRequested(album.containedCount > 0, albumSpreadViewer.viewingPage);
     }
@@ -440,7 +431,9 @@ Rectangle {
     SelectionMenu {
       id: selectionMenu
 
-      checkerboard: gridCheckerboard
+      selection: OrganicSelectionState {
+        model: gridCheckerboard.model
+      }
 
       onPopupInteractionCompleted: chrome.hideAllPopups()
     }
@@ -487,8 +480,7 @@ Rectangle {
 
       // internal
       function finishRemove() {
-        gridCheckerboard.unselectAll();
-        gridCheckerboard.inSelectionMode = false;
+        gridCheckerboard.selection.leaveSelectionMode();
         
         // In the Album model, the last valid current page is the back cover.
         // However, in the UI, we want to stay on the content pages.
@@ -508,13 +500,13 @@ Rectangle {
       visible: false
 
       onRemoveRequested: {
-        album.removeSelectedMediaSources(gridCheckerboard.model);
+        album.removeSelectedMediaSources(gridCheckerboard.selection.model);
         
         finishRemove(false);
       }
 
       onDeleteRequested: {
-        gridCheckerboard.model.destroySelectedMedia();
+        gridCheckerboard.selection.model.destroySelectedMedia();
 
         finishRemove(false);
       }
@@ -711,12 +703,6 @@ Rectangle {
     album: albumViewer.album
 
     onCancelRequested: hide()
-
-    // Notify the rest of the app about where the media selector
-    // was presently scrolled to when it was closed.
-    onMediaCheckerboardHidden: {
-      mediaSelectorHidden(newScrollPos);
-    }
 
     onDoneRequested: {
       var firstPhoto = album.addSelectedMediaSources(model);
