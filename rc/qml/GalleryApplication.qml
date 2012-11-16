@@ -45,12 +45,6 @@ Item {
       photoGridGutterWidth: gu(2),
       photoGridGutterHeight: gu(2),
       
-      // Layout of thumbnails in event timeline.
-      photoThumbnailWidthTimeline: gu(24),
-      photoThumbnailHeightTimeline: gu(18),
-      timelineFirstPhotoDistance: gu(25), // width + 1
-      timelineSecondPhotoDistance: gu(25), // width + 1
-      
       // Size of thumbnails in album overview.
       albumThumbnailWidth: gu(28),
       albumThumbnailHeight: gu(33),
@@ -92,13 +86,6 @@ Item {
       photoGridGutterHeight: gu(4),
       photoGridGutterWidthPortrait: gu(2),
       photoGridGutterHeightPortrait: gu(2),
-      
-      photoThumbnailWidthTimeline: gu(13),
-      photoThumbnailHeightTimeline: gu(10),
-      timelineFirstPhotoDistance: gu(10.5),
-      timelineSecondPhotoDistance: gu(10),
-      timelineFirstPhotoDistancePortrait: gu(3),
-      timelineSecondPhotoDistancePortrait: gu(2),
       
       albumThumbnailWidth: gu(17),
       albumThumbnailHeight: gu(20),

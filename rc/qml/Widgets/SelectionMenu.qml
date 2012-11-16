@@ -18,12 +18,13 @@
  */
 
 import QtQuick 2.0
+import "../Utility"
 import "../../Capetown/Widgets"
 
 PopupMenu {
   id: selectionMenu
   
-  property variant checkerboard
+  property OrganicSelectionState selection
   
   // these are hardcoded to match the location of the Selection Button in the
   // chrome
@@ -38,14 +39,14 @@ PopupMenu {
     // a switch statement in QML.  The short version is: use braces always.
     switch (name) {
       case "SelectAll": {
-        if (checkerboard)
-          checkerboard.selectAll();
+        if (selection)
+          selection.selectAll();
         break;
       }
       
       case "SelectNone": {
-        if (checkerboard)
-          checkerboard.unselectAll();
+        if (selection)
+          selection.unselectAll();
         break;
       }
       
