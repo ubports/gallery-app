@@ -44,44 +44,53 @@ bool Photo::IsValid(const QFileInfo& file) {
 }
 
 Photo* Photo::Load(const QFileInfo& file) {
+  bool needs_update = false;
   PhotoEditState edit_state;
   QDateTime timestamp;
   QDateTime exposure_time;
   QSize size;
   Orientation orientation;
+  qint64 filesize;
   
   Photo* p = new Photo(file);
-  PhotoMetadata* metadata = PhotoMetadata::FromFile(p->caches_.pristine_file());
   
   // Look for photo in the database.
   qint64 id = Database::instance()->get_media_table()->get_id_for_media(
     file.absoluteFilePath());
   
-  // If we don't have the photo, or the file timestamp has changed since we
-  // last saw it, add or update the DB.
-  // Otherwise, load the photo metadata straight from the DB.
-  if (id == INVALID_ID || file.lastModified() !=
-    Database::instance()->get_media_table()->get_file_timestamp(id)) {
+  if (id == INVALID_ID && !IsValid(file)) {
+    delete p;
+    return NULL;
+  }
+  
+  // Check for legacy rows.
+  if (id != INVALID_ID)
+    needs_update = Database::instance()->get_media_table()->row_needs_update(id);
+  
+  // If we don't have the photo, add it to the DB.  If we have the photo but the
+  // row is from a previous version of the DB, update the row.
+  if (id == INVALID_ID || needs_update) {
     // Get metadata from file.
-    timestamp = file.lastModified();
+    const QFileInfo& file_info = needs_update ? p->caches_.pristine_file() : file;
+    PhotoMetadata* metadata = PhotoMetadata::FromFile(file_info);
+    timestamp = file_info.lastModified();
     orientation = p->file_format_has_orientation()
       ? metadata->orientation() : TOP_LEFT_ORIGIN;
+    filesize = file_info.size();
+    exposure_time = metadata->exposure_time().isValid() ?
+      QDateTime(metadata->exposure_time()) : timestamp;
     
-    // Add or update DB.
-    if (id == INVALID_ID) {
-      exposure_time = metadata->exposure_time().isValid() ?
-        QDateTime(metadata->exposure_time()) : timestamp;
-      
-      id = Database::instance()->get_media_table()->create_id_for_media(
-        file.absoluteFilePath(), timestamp.toMSecsSinceEpoch(),
-        exposure_time.toMSecsSinceEpoch(), orientation);
-    } else {
+    if (needs_update) {
+      // Update DB.
       Database::instance()->get_media_table()->update_media(id, 
-        file.absoluteFilePath(), timestamp.toMSecsSinceEpoch(), orientation);
-      
-      // Load exposure time from DB.
-      exposure_time = Database::instance()->get_media_table()->get_exposure_time(id);
+        file.absoluteFilePath(), timestamp, exposure_time, orientation, filesize);
+    } else {
+      // Add to DB.
+      id = Database::instance()->get_media_table()->create_id_for_media(
+        file.absoluteFilePath(), timestamp, exposure_time, orientation, filesize);
     }
+    
+    delete metadata;
   } else {
     // Load metadata from DB.
     Database::instance()->get_media_table()->get_row(id, size, orientation,
@@ -101,7 +110,7 @@ Photo* Photo::Load(const QFileInfo& file) {
   // the DB.
   p->set_id(id);
   
-  delete metadata;
+  
   return p;
 }
 
@@ -304,9 +313,7 @@ QSize Photo::get_original_size(Orientation orientation) {
 
   if (orientation != PhotoEditState::ORIGINAL_ORIENTATION) {
     OrientationCorrection original_correction =
-        OrientationCorrection::FromOrientation(file_format_has_orientation()
-                                               ? original_orientation_
-                                               : TOP_LEFT_ORIGIN);
+        OrientationCorrection::FromOrientation(original_orientation_);
     OrientationCorrection out_correction =
         OrientationCorrection::FromOrientation(orientation);
     int degrees_rotation =

@@ -38,15 +38,17 @@ class MediaTable : public QObject {
   
   // Returns the row ID for the given photo.  If none exists,
   // -1 will be returned.
-  qint64 get_id_for_media(QString filename);
+  qint64 get_id_for_media(const QString& filename);
   
   // Creates a row for the given photo and returns the new ID.
-  qint64 create_id_for_media(QString filename, qint64 timestamp,
-    qint64 exposure_time, Orientation original_orientation);
+  qint64 create_id_for_media(const QString& filename, const QDateTime& timestamp,
+    const QDateTime& exposure_time, Orientation original_orientation,
+    qint64 filesize);
   
-  // Updates an existing row.
-  void update_media(qint64 media_id, QString filename, qint64 timestamp,
-    Orientation original_orientation);
+  // Updates a given row.
+  void update_media(qint64 media_id, const QString& filename, 
+    const QDateTime& timestamp, const QDateTime& exposure_time,
+    Orientation original_orientation, qint64 filesize);
   
   // Gets a row that already exists.
   void get_row(qint64 media_id, QSize& size, Orientation& original_orientation,
@@ -63,6 +65,10 @@ class MediaTable : public QObject {
   QDateTime get_file_timestamp(qint64 media_id);
   
   QDateTime get_exposure_time(qint64 media_id);
+  
+  // Returns true if row is from an older schema.  In that case, update_media()
+  // should be called to repopulate the row.
+  bool row_needs_update(qint64 media_id);
   
  private:
   Database* db_;

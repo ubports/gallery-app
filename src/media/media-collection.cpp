@@ -48,9 +48,6 @@ MediaCollection::MediaCollection(const QDir& directory)
     QApplication::processEvents();
     
     QFileInfo file(directory_, filename);
-
-    if (!Photo::IsValid(file))
-      continue;
     
     Photo *p = Photo::Load(file);
     if (!p)

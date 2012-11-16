@@ -58,10 +58,10 @@ void MediaTable::verify_files() {
   db_->get_db()->commit();
 }
 
-qint64 MediaTable::get_id_for_media(QString filename) {
+qint64 MediaTable::get_id_for_media(const QString& filename) {
   // If there's a row for this file, return the ID.
   QSqlQuery query(*db_->get_db());
-  query.prepare("SELECT id FROM MediaTable WHERE filename = :filename");
+  query.prepare("SELECT id FROM MediaTable WHERE filename = :filename LIMIT 1");
   query.bindValue(":filename", filename);
   if (!query.exec())
     db_->log_sql_error(query);
@@ -73,33 +73,39 @@ qint64 MediaTable::get_id_for_media(QString filename) {
   return -1;
 }
 
-qint64 MediaTable::create_id_for_media(QString filename, qint64 timestamp,
-  qint64 exposure_time, Orientation original_orientation) {
+qint64 MediaTable::create_id_for_media(const QString& filename,
+  const QDateTime& timestamp, const QDateTime& exposure_time,
+  Orientation original_orientation, qint64 filesize) {
   // Add the row.
   QSqlQuery query(*db_->get_db());
   query.prepare("INSERT INTO MediaTable (filename, timestamp, exposure_time, "
-                "original_orientation) VALUES (:filename, :timestamp, "
-                ":exposure_time, :original_orientation)");
+                "original_orientation, filesize) VALUES (:filename, :timestamp, "
+                ":exposure_time, :original_orientation, :filesize)");
   query.bindValue(":filename", filename);
-  query.bindValue(":timestamp", timestamp);
-  query.bindValue(":exposure_time", exposure_time);
-  query.bindValue(":original_orientation", (qint64) original_orientation);
+  query.bindValue(":timestamp", timestamp.toMSecsSinceEpoch());
+  query.bindValue(":exposure_time", exposure_time.toMSecsSinceEpoch());
+  query.bindValue(":original_orientation", original_orientation);
+  query.bindValue(":filesize", filesize);
   if (!query.exec())
     db_->log_sql_error(query);
   
   return query.lastInsertId().toLongLong();
 }
 
-void MediaTable::update_media(qint64 media_id, QString filename, qint64 timestamp,
-  Orientation original_orientation) {
+void MediaTable::update_media(qint64 media_id, const QString& filename,
+  const QDateTime& timestamp, const QDateTime& exposure_time,
+  Orientation original_orientation, qint64 filesize) {
   // Add the row.
   QSqlQuery query(*db_->get_db());
   query.prepare("UPDATE MediaTable SET filename = :filename, "
-                "timestamp = :timestamp, "
-                "original_orientation = :original_orientation WHERE id = :id");
+                "timestamp = :timestamp, exposure_time = :exposure_time, "
+                "original_orientation = :original_orientation, "
+                "filesize = :filesize WHERE id = :id");
   query.bindValue(":filename", filename);
-  query.bindValue(":timestamp", timestamp);
-  query.bindValue(":original_orientation", (qint64) original_orientation);
+  query.bindValue(":timestamp", timestamp.toMSecsSinceEpoch());
+  query.bindValue(":exposure_time", exposure_time.toMSecsSinceEpoch());
+  query.bindValue(":original_orientation", original_orientation);
+  query.bindValue(":filesize", timestamp);
   query.bindValue(":id", media_id);
   if (!query.exec())
     db_->log_sql_error(query);
@@ -115,7 +121,7 @@ void MediaTable::remove(qint64 mediaId) {
 
 QSize MediaTable::get_media_size(qint64 media_id) {
   QSqlQuery query(*db_->get_db());
-  query.prepare("SELECT width, height FROM MediaTable WHERE id = :id");
+  query.prepare("SELECT width, height FROM MediaTable WHERE id = :id LIMIT 1");
   query.bindValue(":id", media_id);
   if (!query.exec())
     db_->log_sql_error(query);
@@ -184,8 +190,8 @@ QDateTime MediaTable::get_exposure_time(qint64 media_id) {
 void MediaTable::get_row(qint64 media_id, QSize& size, Orientation& 
   original_orientation, QDateTime& file_timestamp, QDateTime& exposure_date_time) {
   QSqlQuery query(*db_->get_db());
-  query.prepare("SELECT width, height, original_orientation, timestamp, "
-                "exposure_time FROM MediaTable WHERE id = :id");
+  query.prepare("SELECT width, height, timestamp, exposure_time, "
+                "original_orientation FROM MediaTable WHERE id = :id LIMIT 1");
   query.bindValue(":id", media_id);
   if (!query.exec())
     db_->log_sql_error(query);
@@ -197,8 +203,21 @@ void MediaTable::get_row(qint64 media_id, QSize& size, Orientation&
   int height = query.value(1).toInt();
   size = QSize(width, height);
   
-  original_orientation = static_cast<Orientation>(query.value(2).toInt());
+  file_timestamp.setMSecsSinceEpoch(query.value(2).toLongLong());
+  exposure_date_time.setMSecsSinceEpoch(query.value(3).toLongLong());
+  original_orientation = static_cast<Orientation>(query.value(4).toInt());
+}
+
+bool MediaTable::row_needs_update(qint64 media_id) {
+  QSqlQuery query(*db_->get_db());
+  query.prepare("SELECT 1 FROM MediaTable WHERE timestamp IS NULL "
+                "AND id = :id LIMIT 1");
+  query.bindValue(":id", media_id);
+  if (!query.exec())
+    db_->log_sql_error(query);
   
-  file_timestamp.setMSecsSinceEpoch(query.value(3).toLongLong());
-  exposure_date_time.setMSecsSinceEpoch(query.value(4).toLongLong());
+  if (!query.next())
+    return false;
+  
+  return true;
 }

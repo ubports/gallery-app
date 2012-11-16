@@ -83,7 +83,8 @@ class Photo : public MediaSource {
   static bool IsValid(const QFileInfo& file);
   
   // Loads a photo object from the given file.  If it's not already
-  // present in the database, it will be added.
+  // present in the database, it will be added.  If the file is not
+  // valid null is returned.
   static Photo* Load(const QFileInfo& file);
   
   explicit Photo(const QFileInfo& file);
