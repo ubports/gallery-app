@@ -16,89 +16,53 @@
  * Authors:
  * Jim Nelson <jim@yorba.org>
  * Charles Lindsay <chaz@yorba.org>
+ * Clint Rogers <clinton@yorba.org>
  */
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../../js/Gallery.js" as Gallery
 
-Item {
+Rectangle {
   id: eventCard
   
   property variant event
   property color textColor: "#919191"
   property color cardColor: "#dddddd"
-  property bool isSelected
   
-  // internal
-  property real cardWidth: gu(18)
-  property real cardHeight: gu(18)
-  property real cardSafeAreaWidth: gu(15)
-  property real cardSafeAreaHeight: gu(15)
-  
-  // TODO: Warning: internationalization issues ahead
-  function photosLabel(count) {
-    return count + ((count == 1) ? " photo" : " photos");
-  }
-  
-  width: getDeviceSpecific("photoThumbnailWidth")
-  height: getDeviceSpecific("photoThumbnailHeight")
-
-  // TODO: we may want different graphical assets/font sizes here instead of
-  // just scaling down the tablet-sized ones.
-  transform: Scale {
-    xScale: width / cardWidth
-    yScale: height / cardHeight
-  }
-
-  // TODO: replace with the official rounded rectangle widget once
-  // it lands in the SDK.
-  Rectangle {
-    id: eventCardRoundRect
+  color: cardColor
+  width: gu(18)
+  height: gu(18)
+ 
+  TextCustom {
+    id: eventMonthYear
+    anchors.bottom: parent.bottom
     
-    x: 0
-    y: 0
-    width: cardWidth
-    height: cardHeight
-    color: cardColor
+    width: parent.width
+    
+    font.family: "Ubuntu"
+    fontSize: "small"
+    color: textColor
+    
+    font.capitalization: Font.AllUppercase
+    horizontalAlignment: Text.AlignHCenter
+    
+    text: (event) ? Qt.formatDate(event.date, "MMM yyyy") : ""
+  }
 
-    Item {
-      x: parent.x + ((cardWidth - cardSafeAreaWidth) / 2.0)
-      y: parent.y + ((cardHeight - cardSafeAreaHeight) / 2.0)
-      width: cardSafeAreaWidth
-      height: cardSafeAreaHeight
-      
-      TextCustom {
-        id: eventMonthYear
-        anchors.bottom: parent.bottom
-        
-        width: parent.width
-        
-        font.family: "Ubuntu"
-        fontSize: "small"
-        color: textColor
+  TextCustom {
+    id: eventDay
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.verticalCenter: parent.verticalCenter
+    
+    width: parent.width
 
-        font.capitalization: Font.AllUppercase
-        horizontalAlignment: Text.AlignHCenter
+    font.family: "Ubuntu"
+    fontSize: "x-large"
+    color: textColor
 
-        text: (event) ? Qt.formatDate(event.date, "MMM yyyy") : ""
-      }
+    horizontalAlignment: Text.AlignHCenter
 
-      TextCustom {
-        id: eventDay
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
-        
-        width: parent.width
-
-        font.family: "Ubuntu"
-        fontSize: "x-large"
-        color: textColor
-
-        horizontalAlignment: Text.AlignHCenter
-
-        text: (event) ? Qt.formatDate(event.date, "dd") : ""
-      }
-    }
+    text: (event) ? Qt.formatDate(event.date, "dd") : ""
   }
 }
