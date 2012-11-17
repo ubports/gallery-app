@@ -52,16 +52,14 @@ Photo* Photo::Load(const QFileInfo& file) {
   Orientation orientation;
   qint64 filesize;
   
-  Photo* p = new Photo(file);
-  
   // Look for photo in the database.
   qint64 id = Database::instance()->get_media_table()->get_id_for_media(
     file.absoluteFilePath());
   
-  if (id == INVALID_ID && !IsValid(file)) {
-    delete p;
+  if (id == INVALID_ID && !IsValid(file))
     return NULL;
-  }
+  
+  Photo* p = new Photo(file);
   
   // Check for legacy rows.
   if (id != INVALID_ID)
@@ -71,12 +69,11 @@ Photo* Photo::Load(const QFileInfo& file) {
   // row is from a previous version of the DB, update the row.
   if (id == INVALID_ID || needs_update) {
     // Get metadata from file.
-    const QFileInfo& file_info = needs_update ? p->caches_.pristine_file() : file;
-    PhotoMetadata* metadata = PhotoMetadata::FromFile(file_info);
-    timestamp = file_info.lastModified();
+    PhotoMetadata* metadata = PhotoMetadata::FromFile(p->caches_.pristine_file());
+    timestamp = p->caches_.pristine_file().lastModified();
     orientation = p->file_format_has_orientation()
       ? metadata->orientation() : TOP_LEFT_ORIGIN;
-    filesize = file_info.size();
+    filesize = p->caches_.pristine_file().size();
     exposure_time = metadata->exposure_time().isValid() ?
       QDateTime(metadata->exposure_time()) : timestamp;
     
@@ -547,5 +544,9 @@ void Photo::set_file_timestamp(const QDateTime& timestamp) {
 }
 
 void Photo::set_exposure_date_time(const QDateTime& exposure_time) {
+  if (exposure_date_time_ == exposure_time)
+    return;
+  
   exposure_date_time_ = exposure_time;
+  emit exposure_date_time_altered();
 }

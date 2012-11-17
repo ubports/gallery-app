@@ -61,7 +61,7 @@ void MediaTable::verify_files() {
 qint64 MediaTable::get_id_for_media(const QString& filename) {
   // If there's a row for this file, return the ID.
   QSqlQuery query(*db_->get_db());
-  query.prepare("SELECT id FROM MediaTable WHERE filename = :filename LIMIT 1");
+  query.prepare("SELECT id FROM MediaTable WHERE filename = :filename");
   query.bindValue(":filename", filename);
   if (!query.exec())
     db_->log_sql_error(query);
