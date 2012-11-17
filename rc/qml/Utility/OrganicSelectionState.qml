@@ -31,6 +31,9 @@ Item {
     monitored: true
   }
 
+  // readonly
+  property int selectedCount: model.selectedCount
+
   //internal
   // HACK: this is used as a spurious extra QML condition in our isSelected
   // check so we can cause the function to be reevaluated whenever the
@@ -46,6 +49,15 @@ Item {
   function toggleSelection(item) {
     if (tryEnterSelectionMode())
       model.toggleSelection(item);
+  }
+
+  function selectAll() {
+    if (tryEnterSelectionMode())
+      model.selectAll();
+  }
+
+  function unselectAll() {
+    model.unselectAll();
   }
 
   function tryEnterSelectionMode() {

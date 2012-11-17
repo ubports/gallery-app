@@ -30,7 +30,6 @@ Item {
   
   signal cancelRequested()
   signal doneRequested(variant model)
-  signal mediaCheckerboardHidden(int newScrollPos)
 
   property variant album
   
@@ -45,10 +44,6 @@ Item {
     slider.slideOut();
   }
 
-  function setCheckerboardScrollPos(newScrollPos) {
-      mediaCheckerboard.setScrollPos(newScrollPos);
-  }
-  
   SlidingPane {
     id: slider
 
@@ -62,23 +57,16 @@ Item {
 
     visible: (y < parent.height)
 
-    EventCheckerboard {
-      id: mediaCheckerboard
-      objectName: "mediaCheckerboard"
+    OrganicPhotosView {
+      id: photos
 
       anchors.fill: parent
+      anchors.topMargin: chrome.navbarHeight
+      visible: true
 
-      topExtraGutter: chrome.navbarHeight + getDeviceSpecific("photoGridTopMargin")
-      bottomExtraGutter: gu(0)
-      leftExtraGutter: getDeviceSpecific("photoGridLeftMargin")
-      rightExtraGutter: getDeviceSpecific("photoGridRightMargin")
-
-      allowSelectionModeChange: false
-      inSelectionMode: true
-      disableMediaInAlbum: mediaSelector.album
-
-      onHidden: {
-        mediaCheckerboardHidden(currScrollPos)
+      selection: OrganicSelectionState {
+        inSelectionMode: true
+        allowSelectionModeChange: false
       }
     }
 
@@ -102,13 +90,12 @@ Item {
       onSelectionOperationsButtonPressed: cyclePopup(selectionMenu);
 
       onSelectionDoneButtonPressed: {
-        doneRequested(mediaCheckerboard.model);
-
-        mediaCheckerboard.unselectAll();
+        doneRequested(photos.selection.model);
+        photos.selection.unselectAll();
       }
 
       onCancelSelectionButtonPressed: {
-        mediaCheckerboard.unselectAll();
+        photos.selection.unselectAll();
         cancelRequested();
       }
 
@@ -117,7 +104,7 @@ Item {
       SelectionMenu {
         id: selectionMenu
 
-        checkerboard: mediaCheckerboard
+        selection: photos.selection
 
         onPopupInteractionCompleted: chrome.hideAllPopups()
       }

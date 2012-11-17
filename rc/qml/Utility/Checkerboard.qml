@@ -48,14 +48,9 @@ Item {
   property real leftExtraGutter: 0
   property real rightExtraGutter: 0
   
-  property bool allowActivation: true
-  property bool inSelectionMode: false
-  property bool allowSelectionModeChange: true
-  property bool singleSelectionOnly: false // Enforces always exactly one selected.
-  property int selectedCount: (model) ? model.selectedCount : 0
+  property OrganicSelectionState selection
   
   // readonly
-  property variant singleSelectedItem // Only if singleSelectionOnly is true.
   property real delegateWidth: itemWidth + gutterWidth
   property real delegateHeight: itemHeight + gutterHeight
 
@@ -66,16 +61,6 @@ Item {
   property real gutterWidth: Math.floor(itemAreaWidth / columns - itemWidth)
   property real gutterHeight: minGutterHeight
   
-  function selectAll() {
-    if (model)
-      model.selectAll();
-  }
-  
-  function unselectAll() {
-    if (model)
-      model.unselectAll();
-  }
-
   function ensureIndexVisible(index, centered) {
     grid.positionViewAtIndex(index, centered ? GridView.Center : GridView.Visible);
   }

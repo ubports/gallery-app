@@ -175,12 +175,6 @@ Item {
 
     onCancelRequested: hide()
 
-    // Notify the rest of the app about where the media selector
-    // was presently scrolled to when it was closed.
-    onMediaCheckerboardHidden: {
-      mediaSelectorHidden(newScrollPos);
-    }
-
     onDoneRequested: {
       album.addSelectedMediaSources(model);
       closeAlbum();

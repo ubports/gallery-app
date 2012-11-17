@@ -34,35 +34,35 @@ Rectangle {
   width: gu(18)
   height: gu(18)
  
-  TextCustom {
-    id: eventMonthYear
-    anchors.bottom: parent.bottom
-    
-    width: parent.width
-    
-    font.family: "Ubuntu"
-    fontSize: "small"
-    color: textColor
-    
-    font.capitalization: Font.AllUppercase
-    horizontalAlignment: Text.AlignHCenter
-    
-    text: (event) ? Qt.formatDate(event.date, "MMM yyyy") : ""
-  }
+  Column { 
+    anchors.centerIn: parent
+ 
+    TextCustom {
+      id: eventDay
+      
+      width: parent.parent.width
+  
+      font.family: "Ubuntu"
+      fontSize: "x-large"
+      color: textColor
+  
+      horizontalAlignment: Text.AlignHCenter
+  
+      text: (event) ? Qt.formatDate(event.date, "dd") : ""
+    }
 
-  TextCustom {
-    id: eventDay
-    anchors.horizontalCenter: parent.horizontalCenter
-    anchors.verticalCenter: parent.verticalCenter
-    
-    width: parent.width
-
-    font.family: "Ubuntu"
-    fontSize: "x-large"
-    color: textColor
-
-    horizontalAlignment: Text.AlignHCenter
-
-    text: (event) ? Qt.formatDate(event.date, "dd") : ""
+    TextCustom {
+      id: eventMonthYear
+      width: parent.parent.width
+      
+      font.family: "Ubuntu"
+      fontSize: "small"
+      color: textColor
+      
+      font.capitalization: Font.AllUppercase
+      horizontalAlignment: Text.AlignHCenter
+      
+      text: (event) ? Qt.formatDate(event.date, "MMM yyyy") : ""
+    }
   }
 }
