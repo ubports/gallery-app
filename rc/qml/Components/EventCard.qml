@@ -28,14 +28,14 @@ Rectangle {
   
   property variant event
   property color textColor: "#919191"
-  property color cardColor: "#dddddd"
   
-  color: cardColor
+  color: "#dddddd"
   width: gu(18)
   height: gu(18)
  
   Column { 
     anchors.centerIn: parent
+    width: parent.width
  
     TextCustom {
       id: eventDay
@@ -53,7 +53,7 @@ Rectangle {
 
     TextCustom {
       id: eventMonthYear
-      width: parent.parent.width
+      width: parent.width
       
       font.family: "Ubuntu"
       fontSize: "small"
