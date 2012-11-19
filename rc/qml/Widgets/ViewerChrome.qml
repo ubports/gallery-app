@@ -60,6 +60,7 @@ Item {
   property alias navbarSelectedStateButtonIconFilename: navbar.selectedStateButtonIconFilename
   property alias navbarDeselectedStateButtonIconFilename: navbar.deselectedStateButtonIconFilename
   property alias navbarSelectionDoneButtonText: navbar.selectionDoneButtonText
+  property alias navbarSelectionDoneButtonWidth: navbar.selectionDoneButtonWidth
   signal returnButtonPressed()
   signal stateButtonPressed()
   signal selectionDoneButtonPressed()
