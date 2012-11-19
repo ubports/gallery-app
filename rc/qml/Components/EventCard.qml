@@ -40,7 +40,7 @@ Rectangle {
     TextCustom {
       id: eventDay
       
-      width: parent.parent.width
+      width: parent.width
   
       font.family: "Ubuntu"
       fontSize: "x-large"
