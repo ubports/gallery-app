@@ -105,7 +105,7 @@ void MediaTable::update_media(qint64 media_id, const QString& filename,
   query.bindValue(":timestamp", timestamp.toMSecsSinceEpoch());
   query.bindValue(":exposure_time", exposure_time.toMSecsSinceEpoch());
   query.bindValue(":original_orientation", original_orientation);
-  query.bindValue(":filesize", timestamp);
+  query.bindValue(":filesize", filesize);
   query.bindValue(":id", media_id);
   if (!query.exec())
     db_->log_sql_error(query);
@@ -199,9 +199,7 @@ void MediaTable::get_row(qint64 media_id, QSize& size, Orientation&
   if (!query.next())
     db_->log_sql_error(query);
   
-  int width = query.value(0).toInt();
-  int height = query.value(1).toInt();
-  size = QSize(width, height);
+  size = QSize(query.value(0).toInt(), query.value(2).toInt());
   
   file_timestamp.setMSecsSinceEpoch(query.value(2).toLongLong());
   exposure_date_time.setMSecsSinceEpoch(query.value(3).toLongLong());
@@ -216,8 +214,5 @@ bool MediaTable::row_needs_update(qint64 media_id) {
   if (!query.exec())
     db_->log_sql_error(query);
   
-  if (!query.next())
-    return false;
-  
-  return true;
+  return query.next();
 }

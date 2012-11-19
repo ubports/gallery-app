@@ -107,7 +107,6 @@ Photo* Photo::Load(const QFileInfo& file) {
   // the DB.
   p->set_id(id);
   
-  
   return p;
 }
 
@@ -145,10 +144,8 @@ QImage Photo::Image(bool respect_orientation) {
 }
 
 Orientation Photo::orientation() const {
-  if (current_state().orientation_ == PhotoEditState::ORIGINAL_ORIENTATION)
-    return original_orientation_;
-  
-  return current_state().orientation_;
+  return (current_state().orientation_ == PhotoEditState::ORIGINAL_ORIENTATION) ? 
+    original_orientation_ : current_state().orientation_;
 }
 
 QDateTime Photo::exposure_date_time() const {
@@ -298,11 +295,12 @@ QSize Photo::get_original_size(Orientation orientation) {
   if (!original_size_.isValid()) {
     QImage original(caches_.pristine_file().filePath(),
                     file_format_.toStdString().c_str());
-    if (file_format_has_orientation())
+    if (file_format_has_orientation()) {
       original =
           original.transformed(OrientationCorrection::FromOrientation(
             original_orientation_).to_transform());
-
+    }
+    
     original_size_ = original.size();
   }
 
