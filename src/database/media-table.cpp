@@ -199,7 +199,7 @@ void MediaTable::get_row(qint64 media_id, QSize& size, Orientation&
   if (!query.next())
     db_->log_sql_error(query);
   
-  size = QSize(query.value(0).toInt(), query.value(2).toInt());
+  size = QSize(query.value(0).toInt(), query.value(1).toInt());
   
   file_timestamp.setMSecsSinceEpoch(query.value(2).toLongLong());
   exposure_date_time.setMSecsSinceEpoch(query.value(3).toLongLong());
