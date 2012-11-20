@@ -36,15 +36,39 @@ class MediaTable : public QObject {
   // that have been deleted from disk.
   void verify_files();
   
-  // Returns the row ID for a given photo.  If none exists,
-  // one will be created.
-  qint64 get_id_for_media(QString filename);
+  // Returns the row ID for the given photo.  If none exists,
+  // -1 will be returned.
+  qint64 get_id_for_media(const QString& filename);
+  
+  // Creates a row for the given photo and returns the new ID.
+  qint64 create_id_for_media(const QString& filename, const QDateTime& timestamp,
+    const QDateTime& exposure_time, Orientation original_orientation,
+    qint64 filesize);
+  
+  // Updates a given row.
+  void update_media(qint64 media_id, const QString& filename, 
+    const QDateTime& timestamp, const QDateTime& exposure_time,
+    Orientation original_orientation, qint64 filesize);
+  
+  // Gets a row that already exists.
+  void get_row(qint64 media_id, QSize& size, Orientation& original_orientation,
+    QDateTime& file_timestamp, QDateTime& exposure_date_time);
   
   // Removes a photo from the database.
   void remove(qint64 mediaId);
 
   QSize get_media_size(qint64 media_id);
   void set_media_size(qint64 media_id, const QSize& size);
+  
+  void set_original_orientation(qint64 media_id, const Orientation& orientation);
+  
+  QDateTime get_file_timestamp(qint64 media_id);
+  
+  QDateTime get_exposure_time(qint64 media_id);
+  
+  // Returns true if row is from an older schema.  In that case, update_media()
+  // should be called to repopulate the row.
+  bool row_needs_update(qint64 media_id);
   
  private:
   Database* db_;
