@@ -16,119 +16,53 @@
  * Authors:
  * Jim Nelson <jim@yorba.org>
  * Charles Lindsay <chaz@yorba.org>
+ * Clint Rogers <clinton@yorba.org>
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 import "../../js/Gallery.js" as Gallery
 
-Item {
+Rectangle {
   id: eventCard
   
   property variant event
-  property color textColor: "#6e6046"
-  property bool isSelected
+  property color textColor: "#919191"
   
-  // internal
-  property real cardWidth: gu(24)
-  property real cardHeight: gu(18)
-  // Where the transparent shadow ends in the card image.
-  property real cardStartX: 2
-  property real cardStartY: 2
-  property real rightShadowWidth: eventCardImage.width - cardWidth - cardStartX
-  property real bottomShadowHeight: eventCardImage.height - cardHeight - cardStartY
-  // marks in corners of the card
-  property real cornersWidth: 14
-  property real cornersHeight: 14
-  
-  // TODO: Warning: internationalization issues ahead
-  function photosLabel(count) {
-    return count + ((count == 1) ? " photo" : " photos");
-  }
-  
-  width: getDeviceSpecific("photoThumbnailWidth")
-  height: getDeviceSpecific("photoThumbnailHeight")
-
-  // TODO: we may want different graphical assets/font sizes here instead of
-  // just scaling down the tablet-sized ones.
-  transform: Scale {
-    xScale: width / cardWidth
-    yScale: height / cardHeight
-  }
-
-  Image {
-    id: eventCardImage
-    
-    x: -cardStartX
-    y: -cardStartY
-
-    source: "img/event-card.png"
-    cache: true
-    
-    Item {
-      // funky geometry produces an Item centered inside the card proper, not
-      // the card plus shadow and border, with some space on top and bottom
-      // to avoid the triangles in the corners
-      x: parent.x + (cardStartX * 3) + cornersWidth
-      y: parent.y + (cardStartY * 3) + cornersHeight
-      width: cardWidth - (cardStartX * 2) - (cornersWidth * 2)
-      height: cardHeight - (cardStartY * 2) - (cornersHeight * 2)
+  color: "#dddddd"
+  width: gu(18)
+  height: gu(18)
+ 
+  Column { 
+    anchors.centerIn: parent
+    width: parent.width
+ 
+    TextCustom {
+      id: eventDay
       
-      Text {
-        anchors.top: parent.top
-        
-        width: parent.width
-        
-        font.family: "Ubuntu"
-        font.pointSize: pointUnits(9)
-        color: textColor
-
-        font.capitalization: Font.AllUppercase
-        horizontalAlignment: Text.AlignHCenter
-
-        text: (event) ? Qt.formatDate(event.date, "MMMM yyyy") : ""
-      }
-
-      Text {
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
-        
-        width: parent.width
-
-        font.family: "Ubuntu"
-        font.pointSize: pointUnits(26)
-        color: textColor
-
-        horizontalAlignment: Text.AlignHCenter
-
-        text: (event) ? Qt.formatDate(event.date, "dd") : ""
-      }
-      
-      Text {
-        anchors.bottom: parent.bottom
-        
-        width: parent.width
-        
-        font.family: "Ubuntu"
-        font.pointSize: pointUnits(7)
-        color: textColor
-        
-        font.capitalization: Font.AllUppercase
-        horizontalAlignment: Text.AlignHCenter
-        
-        text: (event) ? photosLabel(event.containedCount) : ""
-      }
+      width: parent.width
+  
+      font.family: "Ubuntu"
+      fontSize: "x-large"
+      color: textColor
+  
+      horizontalAlignment: Text.AlignHCenter
+  
+      text: (event) ? Qt.formatDate(event.date, "dd") : ""
     }
-    
-    Image {
-      id: overlay
+
+    TextCustom {
+      id: eventMonthYear
+      width: parent.width
       
-      anchors.right: parent.right
-      anchors.bottom: parent.bottom
+      font.family: "Ubuntu"
+      fontSize: "small"
+      color: textColor
       
-      anchors.rightMargin: rightShadowWidth
-      anchors.bottomMargin: bottomShadowHeight
+      font.capitalization: Font.AllUppercase
+      horizontalAlignment: Text.AlignHCenter
       
-      source: isSelected ? "img/photo-preview-selected-overlay.png" : ""
+      text: (event) ? Qt.formatDate(event.date, "MMM yyyy") : ""
     }
   }
 }
