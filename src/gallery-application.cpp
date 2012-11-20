@@ -37,6 +37,7 @@
 #include "media/media-source.h"
 #include "media/preview-manager.h"
 #include "photo/photo-metadata.h"
+#include "photo/photo.h"
 #include "qml/gallery-standard-image-provider.h"
 #include "qml/qml-album-collection-model.h"
 #include "qml/qml-event-collection-model.h"
@@ -56,6 +57,9 @@ GalleryApplication::GalleryApplication(int& argc, char** argv) :
   form_factors_.insert("sidebar", QSize(71, 40));
 
   pictures_dir_ = QDir(QString("%1/Pictures").arg(QDir::homePath()));
+  monitor_ = new MediaMonitor(pictures_dir_.path());
+  QObject::connect(monitor_, SIGNAL(media_item_added(QFileInfo)), this,
+    SLOT(on_media_item_added(QFileInfo)));
 
   register_qml();
   process_args();
@@ -217,4 +221,10 @@ void GalleryApplication::init_collections() {
 
 void GalleryApplication::start_init_collections() {
   init_collections();
+}
+
+void GalleryApplication::on_media_item_added(QFileInfo item_info) {
+  Photo* new_photo = Photo::Load(item_info);
+  
+  MediaCollection::instance()->Add(new_photo);
 }
