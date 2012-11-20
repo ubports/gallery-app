@@ -39,16 +39,16 @@ Item {
   property alias contentY: grid.contentY
   property alias footer: grid.footer
   
-  property real itemWidth: getDeviceSpecific('photoThumbnailWidth')
-  property real itemHeight: getDeviceSpecific('photoThumbnailHeight')
-  property real minGutterWidth: getDeviceSpecific('photoGridGutterWidth')
-  property real minGutterHeight: getDeviceSpecific('photoGridGutterHeight')
+  property real itemWidth
+  property real itemHeight
+  property real minGutterWidth
+  property real minGutterHeight
   property real topExtraGutter: 0
   property real bottomExtraGutter: 0
   property real leftExtraGutter: 0
   property real rightExtraGutter: 0
   
-  property OrganicSelectionState selection
+  property SelectionState selection
   
   // readonly
   property real delegateWidth: itemWidth + gutterWidth
