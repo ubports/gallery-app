@@ -25,6 +25,9 @@
 
 const QString PreviewManager::PREVIEW_DIR = ".thumbs";
 
+const int PreviewManager::PREVIEW_WIDTH_MAX = 360;
+const int PreviewManager::PREVIEW_HEIGHT_MAX = 360;
+
 PreviewManager* PreviewManager::instance_ = NULL;
 
 PreviewManager::PreviewManager() {

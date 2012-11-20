@@ -52,7 +52,6 @@ ListView {
   snapMode: ListView.SnapOneItem
   highlightRangeMode: ListView.StrictlyEnforceRange
   highlightFollowsCurrentItem: true
-  cacheBuffer: width * pageCacheSize
   flickDeceleration: 50
   highlightMoveDuration: 200
   boundsBehavior: Flickable.DragOverBounds

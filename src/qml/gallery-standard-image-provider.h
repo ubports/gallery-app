@@ -25,6 +25,8 @@
 #include <QQuickImageProvider>
 #include <QFileInfo>
 #include <QImage>
+#include <QMap>
+#include <QMutex>
 #include <QSize>
 #include <QString>
 #include <QUrl>
@@ -49,7 +51,36 @@ class GalleryStandardImageProvider
     const QSize& requestedSize);
   
  private:
+  class CachedImage {
+   public:
+    const QString id_;
+    const QString file_;
+    QMutex imageMutex_;
+    
+    // these fields should only be accessed when imageMutex_ is locked
+    QImage image_;
+    QSize fullSize_;
+    
+    // this should only be accessed when cacheMutex_ is locked; this controls
+    // removing a CachedImage entry from the cache table
+    int inUseCount_;
+    
+    CachedImage(const QString& id);
+    
+    static QString idToFile(const QString& id);
+    
+    // the following should only be called when imageMutex_ is locked
+    bool isFullSized() const;
+    bool isReady() const;
+    bool isCacheHit(const QSize& requestedSize) const;
+  };
+  
   static GalleryStandardImageProvider* instance_;
+  
+  QMap<QString, CachedImage*> cache_;
+  QList<QString> fifo_;
+  QMutex cacheMutex_;
+  long cachedBytes_;
   
   GalleryStandardImageProvider();
 };
