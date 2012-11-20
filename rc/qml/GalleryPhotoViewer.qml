@@ -149,22 +149,18 @@ Rectangle {
       }
       
       Image {
-        id: previewOverlay;
+        id: previewOverlay
         
-        anchors.fill: parent;
+        anchors.fill: parent
         
-        fillMode: Image.PreserveAspectFit;
+        fillMode: Image.PreserveAspectFit
         
-        visible: false;
+        visible: !galleryPhotoComponent.isLoaded
       }
       
       onIsLoadedChanged: {
-        if (isLoaded) {
-          previewOverlay.visible = false;
+        if (isLoaded)
           previewOverlay.source = mediaSource.galleryPath;
-        } else {
-          previewOverlay.visible = true;
-        }
       }
     }
 
