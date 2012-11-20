@@ -147,6 +147,25 @@ Rectangle {
         chromeFadeWaitClock.stop();
         chrome.hide(true);
       }
+      
+      Image {
+        id: previewOverlay;
+        
+        anchors.fill: parent;
+        
+        fillMode: Image.PreserveAspectFit;
+        
+        visible: false;
+      }
+      
+      onIsLoadedChanged: {
+        if (isLoaded) {
+          previewOverlay.visible = false;
+          previewOverlay.source = mediaSource.galleryPath;
+        } else {
+          previewOverlay.visible = true;
+        }
+      }
     }
 
     // Don't allow flicking while the chrome is actively displaying a popup
