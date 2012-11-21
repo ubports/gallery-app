@@ -26,6 +26,10 @@ import "../../js/GalleryUtility.js" as GalleryUtility
 OrganicView {
   id: organicEventView
 
+  // Arbitrary extra amount of padding so that as you scroll the tray, the
+  // photos are already loaded by the time they're on screen.
+  property real trayLoadAreaPadding: gu(10)
+
   selection: SelectionState {
   }
 
@@ -46,12 +50,8 @@ OrganicView {
     OrganicMediaList {
       id: photosList
 
-      // Arbitrary extra amount of padding so that as you scroll, the photos
-      // are already loaded by the time they're on screen.
-      property real loadPadding: gu(10)
-
-      loadAreaLeft: tray.contentX - loadPadding
-      loadAreaRight: tray.contentX + tray.width + loadPadding
+      loadAreaLeft: tray.contentX - trayLoadAreaPadding
+      loadAreaRight: tray.contentX + tray.width + trayLoadAreaPadding
 
       event: model.event
       selection: organicEventView.selection
