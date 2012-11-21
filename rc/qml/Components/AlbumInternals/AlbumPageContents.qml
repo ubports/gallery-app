@@ -49,35 +49,46 @@ Item {
   // this component) and the content of that page (displayed slightly smaller,
   // within the frame), for if you need to match the contents but not the
   // frame.
-  property real frameToContentWidth: (frameWidth / frameContentWidth)
-  property real frameToContentHeight: (frameHeight / frameContentHeight)
+  property real frameToContentWidth: (pixelWidth / frameContentWidth)
+  property real frameToContentHeight: (pixelHeight / frameContentHeight)
 
   // internal
   // This might be able to be simplified some, as the components have changed.
   // The original idea was to scale the page up and down, but now the only
   // thing that actually gets scaled is the frame image.
   property bool isRight: (page % 2 == 0)
-  // Where the transparent shadow ends in the frame image.
-  property real frameStartX: (isRight ? 6 : 5)
-  property real frameStartY: 5
-  property real frameWidth: gu(28)
-  property real frameHeight: gu(33)
-  // Offset from frameStart* to the "page" inside the frame.
-  property real frameContentOffsetX: (isRight ? 0 : 5)
-  property real frameContentOffsetY: 5
-  property real frameContentWidth: 219
-  property real frameContentHeight: 254
+  
+  // Pixel width of preview frame
+  property real pixelWidth: 235
+  property real pixelHeight: 281
+  
+  // GU/pixel scale factor of preview frame
+  property real scaleFactorX: width / pixelWidth
+  property real scaleFactorY: height / pixelHeight
+  
+  property real frameHingeInset: frame.startX * scaleFactorX
+  
+  // Offset from frame.start* to the "page" inside the frame.
+  property real frameInsetMarginX: -3
+  property real frameInsetMarginY: 10
+  property real frameContentOffsetX: frame.startX + frameInsetMarginX
+  property real frameContentOffsetY: frameInsetMarginY
+  
+  // Frame dimensions
+  property real frameContentWidth: frame.contentWidth
+  property real frameContentHeight: frame.contentHeight
+  
   property real contentPageX: (contentHasPreviewFrame
-    ? frameContentOffsetX * (parent.width / frameWidth)
+    ? frameContentOffsetX * scaleFactorX
     : 0)
   property real contentPageY: (contentHasPreviewFrame
-    ? frameContentOffsetY * (parent.height / frameHeight)
+    ? frameContentOffsetY * scaleFactorY
     : 0)
   property real contentPageWidth: (contentHasPreviewFrame
-    ? frameContentWidth * (parent.width / frameWidth)
+    ? frameContentWidth * scaleFactorX
     : parent.width)
   property real contentPageHeight: (contentHasPreviewFrame
-    ? frameContentHeight * (parent.height / frameHeight)
+    ? frameContentHeight * scaleFactorY
     : parent.height)
   
   property variant mediaFrames: (loader.item) ? loader.item.mediaFrames : undefined
@@ -95,32 +106,82 @@ Item {
     onContentPagesAltered: loader.reload()
   }
   
-  Image {
+  // Album preview page frame.
+  Item {
     id: frame
-
-    x: -frameStartX
-    y: -frameStartY
-
+    
+    // Read-only
+    property int startX: isRight ? frameLeft.width : frameRight.width
+    property alias startY: frameTop.height
+    
+    property alias contentWidth: frameContents.width
+    property alias contentHeight: frameContents.height
+    
+    width: pixelWidth
+    height: pixelHeight
+    
     transform: Scale {
-      origin.x: frameStartX
-      origin.y: frameStartY
-      xScale: albumPageContents.width / frameWidth
-      yScale: albumPageContents.height / frameHeight
+      xScale: scaleFactorX
+      yScale: scaleFactorY
     }
-
-    source: "img/album-thumbnail-frame.png"
-    mirror: !isRight
+    
+    LayoutMirroring.enabled: !isRight
+    LayoutMirroring.childrenInherit: true
+    
     visible: (loader.visible && contentHasPreviewFrame)
+    
+    Image {
+      id: frameLeft
+      
+      source: "img/album-thumbnail-frame-left.png"
+      
+      mirror: !isRight
+      anchors.left: parent.left
+      anchors.top: parent.top
+    }
+    
+    Image {
+      id: frameTop
+      
+      source: "img/album-thumbnail-frame-top.png"
+      
+      mirror: !isRight
+      anchors.left: frameLeft.right
+      anchors.top: parent.top
+    }
+    
+    Rectangle {
+      id: frameContents
+      
+      color: "white"
+      
+      anchors.top: frameTop.bottom
+      anchors.bottom: frameBottom.top
+      anchors.left: frameLeft.right
+      anchors.right: frameRight.left
+    }
+    
+    Image {
+      id: frameBottom
+      
+      source: "img/album-thumbnail-frame-bottom.png"
+      
+      mirror: !isRight
+      anchors.left: frameLeft.right
+      anchors.bottom: parent.bottom
+    }
+    
+    Image {
+      id: frameRight
+      
+      source: "img/album-thumbnail-frame-right.png"
+      
+      mirror: !isRight
+      anchors.right: parent.right
+      anchors.top: parent.top
+    }
   }
-
-  Rectangle {
-    id: plainBackground
-
-    anchors.fill: parent
-
-    visible: (loader.visible && !contentHasPreviewFrame && isPreview)
-  }
-
+  
   Item {
     id: paperBackground
 
@@ -187,11 +248,15 @@ Item {
   
   AlbumCover {
     id: cover
-
-    anchors.fill: parent
-
+    
+    width: pixelWidth
+    height: pixelHeight
+    
+    xScale: scaleFactorX
+    yScale: scaleFactorY
+    
     visible: showCover && !freeze && (Boolean(album) && (page == 0 || page == album.totalPageCount - 1))
-
+    
     album: albumPageContents.album
     isBack: !isRight
     isPreview: albumPageContents.isPreview

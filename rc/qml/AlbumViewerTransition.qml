@@ -159,7 +159,7 @@ Item {
   SequentialAnimation {
     id: showAlbumViewerAnimation
 
-    property variant screenRect: {"x": 0, "y": 0, "width": 0, "height": 0}
+    property var screenRect: {"x": 0, "y": 0, "width": 0, "height": 0}
 
     PropertyAction { target: expandAlbum; property: "visible"; value: true; }
 

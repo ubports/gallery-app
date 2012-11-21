@@ -36,6 +36,9 @@ Item {
   property real titleOpacity: 1
   property int titleDateSpacing: gu(2) // (Preview-sized; will scale up)
   
+  property alias xScale: scale.xScale
+  property alias yScale: scale.yScale
+  
   // internal
   property real canonicalPreviewWidth: gu(28)
   property real canonicalPreviewHeight: gu(33)
@@ -43,11 +46,13 @@ Item {
   property real canonicalFullHeight: gu(80)
   property real canonicalWidth: (isPreview ? canonicalPreviewWidth : canonicalFullWidth)
   property real canonicalHeight: (isPreview ? canonicalPreviewHeight : canonicalFullHeight)
-  property real textScale: canonicalWidth / canonicalPreviewWidth
-  property real spacerScale: canonicalHeight / canonicalPreviewHeight
+  // Scale text and spacers by factor of cover size. 
+  property real textScale: isPreview || width <= 0 || cover.previewPixelWidth <= 0 
+    ? 1 : width / cover.previewPixelWidth
+  property real spacerScale: cover.height / canonicalPreviewHeight
   // Where the transparent shadow ends in the cover image.
-  property real coverStartX: 5
-  property real coverStartY: 5
+  property real coverStartX: width / 50
+  property real coverStartY: height / 50
   property variant coverElement: album !== null ?
     coverList.elementForActionName(album.coverNickname) : coverList.getDefault();
   
@@ -60,27 +65,54 @@ Item {
     subtitle.done();
   }
   
-  Image {
+  Item {
     id: cover
     
-    x: -coverStartX
-    y: -coverStartY
-
+    // Read-only
+    property int previewPixelWidth: coverImagePreviewLeft.width
+      + coverImagePreviewRight.width
+    
+    anchors.fill: parent
+    
     transform: Scale {
-      origin.x: coverStartX
-      origin.y: coverStartY
-      xScale: albumCover.width / canonicalWidth
-      yScale: albumCover.height / canonicalHeight
+      id: scale
     }
     
     AlbumCoverList {
       id: coverList
     }
     
-    source: isPreview ? coverElement.imagePreview : coverElement.imageFull;
+    Image {
+      id: coverImagePreviewLeft
+      
+      source: "img/album-cover-preview-left.png"
+      visible: isPreview
+          
+      anchors.left: parent.left
+      anchors.top: parent.top
+      cache: true
+    }
     
-    cache: true
-    mirror: isBack
+    Image {
+      id: coverImagePreviewRight
+      
+      source: coverElement.imagePreview
+      visible: isPreview
+      
+      anchors.left: coverImagePreviewLeft.right
+      anchors.top: parent.top
+      cache: true
+    }
+    
+    Image {
+      id: coverImageFull
+      
+      source: coverElement.imageFull
+      visible: !isPreview
+      
+      anchors.fill: parent
+      cache: true
+    }
     
     // Must be positioned before TextEdit elements to capture mouse events
     // underneath the album title.
@@ -95,15 +127,19 @@ Item {
     }
     
     Column {
-      x: coverStartX
-      y: coverStartY
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.leftMargin: coverStartX
+      anchors.rightMargin: coverStartX
+      anchors.top: parent.top
+      anchors.topMargin: coverStartY
 
       visible: !isBack && !isBlank
       
       // Spacer
       Item {
         width: 1
-        height: gu(6) * spacerScale
+        height: gu(5) * spacerScale
       }
 
       TextEditOnClick {
@@ -115,7 +151,7 @@ Item {
         editable: !isPreview
         
         anchors.horizontalCenter: parent.horizontalCenter
-        width: canonicalWidth
+        width: parent.width
         
         opacity: titleOpacity
         color: "#f5e8e0"
@@ -150,7 +186,7 @@ Item {
         editable: !isPreview
         
         anchors.horizontalCenter: parent.horizontalCenter
-        width: canonicalWidth
+        width: parent.width
         
         opacity: titleOpacity
         color: "#f5e8e0"

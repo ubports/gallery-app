@@ -81,7 +81,7 @@ Item {
   AlbumOpener {
     id: thumbnail
 
-    isPreview: false
+    isPreview: true
     contentHasPreviewFrame: true
 
     visible: false
