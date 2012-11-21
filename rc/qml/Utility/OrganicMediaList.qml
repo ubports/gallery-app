@@ -33,6 +33,11 @@ Item {
   property alias mediaModel: photosRepeater.model
   property SelectionState selection
 
+  // The left and right edges of the region in which to load photos; any
+  // outside this region are created as delegates, but the photo isn't loaded.
+  property real loadAreaLeft: 0
+  property real loadAreaRight: width
+
   // readonly
   property int mediaPerPattern: 6
   property real patternWidth: gu(72) // one big, two small, and margins
@@ -88,25 +93,27 @@ Item {
 
       property int patternPhoto: index % mediaPerPattern
       property int patternNumber: Math.floor(index / mediaPerPattern)
+      property var modelMediaSource: model.mediaSource
 
       x: photosLeftMargin + photoX[patternPhoto] + patternWidth * patternNumber
       y: photosTopMargin + photoY[patternPhoto]
       width: photoLength[patternPhoto]
       height: photoLength[patternPhoto]
 
-      mediaSource: model.mediaSource
+      mediaSource: (x <= loadAreaRight && x + width >= loadAreaLeft
+                    ? modelMediaSource : null)
       ownerName: "OrganicMediaList"
       isCropped: true
       isPreview: true
 
       OrganicItemInteraction {
-        selectionItem: photoComponent.mediaSource
+        selectionItem: photoComponent.modelMediaSource
         selection: organicMediaList.selection
 
         onPressed: {
           var rect = GalleryUtility.getRectRelativeTo(photoComponent,
                                                       organicMediaList);
-          organicMediaList.pressed(photoComponent.mediaSource, rect);
+          organicMediaList.pressed(photoComponent.modelMediaSource, rect);
         }
       }
     }

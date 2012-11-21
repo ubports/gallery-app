@@ -33,6 +33,8 @@ OrganicView {
   }
 
   delegate: Flickable {
+    id: tray
+
     width: organicEventView.width
     height: photosList.height
     clip: true
@@ -43,6 +45,13 @@ OrganicView {
 
     OrganicMediaList {
       id: photosList
+
+      // Arbitrary extra amount of padding so that as you scroll, the photos
+      // are already loaded by the time they're on screen.
+      property real loadPadding: gu(10)
+
+      loadAreaLeft: tray.contentX - loadPadding
+      loadAreaRight: tray.contentX + tray.width + loadPadding
 
       event: model.event
       selection: organicEventView.selection
