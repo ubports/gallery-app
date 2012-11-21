@@ -71,11 +71,7 @@ int GalleryApplication::exec() {
   return QApplication::exec();
 }
 
-int GalleryApplication::run_command(const QString &cmdline) {
-  return QProcess::execute(cmdline);
-}
-
-bool GalleryApplication::run_command_detached(const QString &cmdline) {
+bool GalleryApplication::run_command(const QString &cmdline) {
   return QProcess::startDetached(cmdline);
 }
 

@@ -216,6 +216,14 @@ Rectangle {
 
         popupOriginX: -gu(8.5)
         popupOriginY: -gu(6)
+        
+        onActionInvoked: {
+          switch (name) {
+            case "onQuickShare": {
+              GALLERY_APPLICATION.run_command("xdg-open " + photo.path);
+            }
+          }
+        }
 
         onPopupInteractionCompleted: {
           chrome.hideAllPopups();

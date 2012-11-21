@@ -33,8 +33,7 @@ class GalleryApplication : public QApplication
  public:
   explicit GalleryApplication(int& argc, char** argv);
   int exec();
-  static Q_INVOKABLE int run_command(const QString &cmdline);
-  static Q_INVOKABLE bool run_command_detached(const QString &cmdline);
+  static Q_INVOKABLE bool run_command(const QString &cmdline);
   
  signals:
   void media_loaded();
