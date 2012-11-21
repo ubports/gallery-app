@@ -324,7 +324,6 @@ Rectangle {
             }
             case "onCrop": {
               state = "hidden";
-              galleryPhotoViewer.visible = false
               cropper.show(photo);
               break;
             }
@@ -403,11 +402,17 @@ Rectangle {
     states: [
       State { name: "shown";
         PropertyChanges { target: cropper; visible: true; }
+        PropertyChanges { target: cropper; opacity: 1.0; }
       },
       State { name: "hidden";
         PropertyChanges { target: cropper; visible: false; }
+        PropertyChanges { target: cropper; opacity: 0.0; }
       }
     ]
+    
+    Behavior on opacity {
+      NumberAnimation { duration: 200 }
+    }
 
     anchors.fill: parent
 
@@ -431,6 +436,11 @@ Rectangle {
       photo.crop(qtRect);
       hide();
       galleryPhotoViewer.visible = true;
+    }
+    
+    onStateChanged: {
+      if (state == "shown")
+        galleryPhotoViewer.visible = false
     }
   }
 }
