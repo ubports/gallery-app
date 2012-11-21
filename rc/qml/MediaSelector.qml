@@ -57,14 +57,14 @@ Item {
 
     visible: (y < parent.height)
 
-    OrganicPhotosView {
+    OrganicEventView {
       id: photos
 
       anchors.fill: parent
       anchors.topMargin: chrome.navbarHeight
       visible: true
 
-      selection: OrganicSelectionState {
+      selection: SelectionState {
         inSelectionMode: true
         allowSelectionModeChange: false
       }

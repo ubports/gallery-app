@@ -20,14 +20,14 @@
 import QtQuick 2.0
 
 // The user interaction and selection handling for items in the
-// OrganicPhotosList.
+// OrganicMediaList.
 Item {
   id: organicItemInteraction
 
   signal pressed()
 
   property var selectionItem
-  property OrganicSelectionState selection
+  property SelectionState selection
 
   // readonly
   property bool isSelected: selection.isSelected(selectionItem)
@@ -45,7 +45,7 @@ Item {
 
     visible: isSelected
 
-    source: "../Components/img/photo-preview-selected-overlay.png"
+    source: "img/photo-preview-selected-overlay.png"
   }
 
   MouseArea {

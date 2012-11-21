@@ -22,61 +22,63 @@ import Gallery 1.0
 import "../Components"
 import "../../js/GalleryUtility.js" as GalleryUtility
 
-// An "organic" list of photos for a particular event.  Used as the "tray"
-// contents for each event in the OrganicPhotosView.
+// An "organic" list of photos.  Used as the "tray" contents for each event in
+// the OrganicEventView, and the layout of the OrganicAlbumView.
 Item {
-  id: organicPhotosList
+  id: organicMediaList
 
   signal pressed(var mediaSource, var thumbnailRect)
 
   property var event
-  property alias mediaSources: photosRepeater.model
-  property OrganicSelectionState selection
+  property alias mediaModel: photosRepeater.model
+  property SelectionState selection
+
+  // readonly
+  property int mediaPerPattern: 6
+  property real patternWidth: gu(72) // one big, two small, and margins
+  property real margin: gu(3)
 
   // internal
   // This assumes an internal margin of gu(3), and a particular pattern of
   // photos and event cards with sizes of gu(27) and gu(18) depending on
-  // placement.
-  property int photosPerPattern: 6
+  // placement.  I didn't want to actually put the math in the QML because it's
+  // complicated and I didn't want to slow down the binding.  It just means
+  // this will be a pain to update if they change the design.
   property var photoX: [gu(0), gu(0), gu(21), gu(30), gu(51), gu(42)]
   property var photoY: [gu(0), gu(30), gu(30), gu(0), gu(0), gu(21)]
   property var photoLength: [gu(27), gu(18), gu(18), gu(18), gu(18), gu(27)]
-  property real patternWidth: gu(72) // one big, two small, and margins
-  property real photosLeftMargin: gu(24) // one event card + 2 margins
-  property real photosTopMargin: gu(1.5) // half a margin
+  property real photosLeftMargin: (event ? gu(24) : margin) // optional event card + margins
+  property real photosTopMargin: margin / 2
 
-  width: childrenRect.width + gu(3) // full margin at the end
-  height: childrenRect.height + gu(1.5) // half a margin on the bottom
+  width: childrenRect.width + margin
+  height: childrenRect.height + margin / 2
 
   EventCard {
-    id: eventComponent
-
-    x: gu(3)
-    y: gu(1.5)
+    x: margin
+    y: photosTopMargin
     width: gu(18)
     height: gu(18)
 
-    event: organicPhotosList.event
-  }
+    visible: Boolean(event)
 
-  // This should theoretically go inside the event card, but EventCard does
-  // weird scaling to draw correctly which messes this up if it's inside it.
-  OrganicItemInteraction {
-    anchors.fill: eventComponent
-    selectionItem: event
-    selection: organicPhotosList.selection
+    event: organicMediaList.event
+
+    OrganicItemInteraction {
+      selectionItem: event
+      selection: organicMediaList.selection
+    }
   }
 
   // TODO: for performance, we may want to use something else here.  Repeaters
   // load all their delegates at once, which may cause slow scrolling in the
-  // OrganicPhotosView.  Alternately, we may be able to pass in the visible
+  // OrganicEventView.  Alternately, we may be able to pass in the visible
   // area from the parent Flickable and only set photos visible (and thus
   // trigger a load from disk) when they're in the visible area.
   Repeater {
     id: photosRepeater
 
     model: MediaCollectionModel {
-      forCollection: organicPhotosList.event
+      forCollection: organicMediaList.event
       monitored: true
     }
 
@@ -84,8 +86,8 @@ Item {
     GalleryPhotoComponent {
       id: photoComponent
 
-      property int patternPhoto: index % photosPerPattern
-      property int patternNumber: Math.floor(index / photosPerPattern)
+      property int patternPhoto: index % mediaPerPattern
+      property int patternNumber: Math.floor(index / mediaPerPattern)
 
       x: photosLeftMargin + photoX[patternPhoto] + patternWidth * patternNumber
       y: photosTopMargin + photoY[patternPhoto]
@@ -93,18 +95,18 @@ Item {
       height: photoLength[patternPhoto]
 
       mediaSource: model.mediaSource
-      ownerName: "OrganicTrayView"
+      ownerName: "OrganicMediaList"
       isCropped: true
       isPreview: true
 
       OrganicItemInteraction {
         selectionItem: photoComponent.mediaSource
-        selection: organicPhotosList.selection
+        selection: organicMediaList.selection
 
         onPressed: {
           var rect = GalleryUtility.getRectRelativeTo(photoComponent,
-                                                      organicPhotosList);
-          organicPhotosList.pressed(photoComponent.mediaSource, rect);
+                                                      organicMediaList);
+          organicMediaList.pressed(photoComponent.mediaSource, rect);
         }
       }
     }
