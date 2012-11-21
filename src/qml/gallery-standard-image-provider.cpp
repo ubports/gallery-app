@@ -69,7 +69,7 @@ QUrl GalleryStandardImageProvider::ToURL(const QFileInfo& file) {
 
 #if GALLERY_LOG_IMAGE
 #define LOG_IMAGE_STATUS(status) { \
-  resultStr += status; \
+  loggingStr += status; \
 }
 #else
 #define LOG_IMAGE_STATUS(status) { \
@@ -79,8 +79,42 @@ QUrl GalleryStandardImageProvider::ToURL(const QFileInfo& file) {
 QImage GalleryStandardImageProvider::requestImage(const QString& id,
   QSize* size, const QSize& requestedSize) {
   // for LOG_IMAGE_STATUS
-  QString resultStr = "";
+  QString loggingStr = "";
   
+  CachedImage* cachedImage = claim_cached_image_entry(id, loggingStr);
+  Q_ASSERT(cachedImage != NULL);
+  
+  uint bytesLoaded = 0;
+  QImage readyImage = fetch_cached_image(cachedImage, requestedSize, &bytesLoaded,
+    loggingStr);
+  if (readyImage.isNull())
+    LOG_IMAGE_STATUS("load-failure ");
+  
+  long currentCachedBytes = 0;
+  int currentCacheEntries = 0;
+  release_cached_image_entry(cachedImage, bytesLoaded, &currentCachedBytes,
+    &currentCacheEntries, loggingStr);
+  
+#if GALLERY_LOG_IMAGE
+  if (bytesLoaded > 0) {
+    qDebug("%s %s req:%dx%d ret:%dx%d cache:%ldb/%d loaded:%db", qPrintable(loggingStr),
+      qPrintable(id), requestedSize.width(), requestedSize.height(), readyImage.width(),
+      readyImage.height(), currentCachedBytes, currentCacheEntries, bytesLoaded);
+  } else {
+    qDebug("%s %s req:%dx%d ret:%dx%d cache:%ldb/%d", qPrintable(loggingStr),
+      qPrintable(id), requestedSize.width(), requestedSize.height(), readyImage.width(),
+      readyImage.height(), currentCachedBytes, currentCacheEntries);
+  }
+#endif
+  
+  if (size != NULL)
+    *size = readyImage.size();
+  
+  return readyImage;
+}
+
+GalleryStandardImageProvider::CachedImage* GalleryStandardImageProvider::claim_cached_image_entry(
+  const QString& id, QString& loggingStr) {
   // Note that even though id looks like a path at this point, it can contain
   // arbitrary "parameters" that came from the original URL.  We use these
   // parameters to ensure that we reload images from disk (skipping QML's
@@ -88,18 +122,16 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
   // but the path part of the "URL" (the ?edit=x part is simply ignored).
   QString file = CachedImage::idToFile(id);
   
-  CachedImage* cachedImage = NULL;
-  
   // lock the cache table and retrieve the element for the cached image; if
   // not found, create one as a placeholder
   cacheMutex_.lock();
   
-  cachedImage = cache_.value(file, NULL);
+  CachedImage* cachedImage = cache_.value(file, NULL);
   if (cachedImage != NULL) {
     // remove CachedImage before prepending to FIFO
     fifo_.removeOne(file);
   } else {
-    cachedImage = new CachedImage(id);
+    cachedImage = new CachedImage(id, file);
     cache_.insert(file, cachedImage);
     LOG_IMAGE_STATUS("new-cache-entry ");
   }
@@ -116,6 +148,13 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
   
   cacheMutex_.unlock();
   
+  return cachedImage;
+}
+
+QImage GalleryStandardImageProvider::fetch_cached_image(CachedImage *cachedImage,
+  const QSize& requestedSize, uint* bytesLoaded, QString& loggingStr) {
+  Q_ASSERT(cachedImage != NULL);
+  
   // the final image returned to the user
   QImage readyImage;
   Q_ASSERT(readyImage.isNull());
@@ -131,11 +170,12 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
     LOG_IMAGE_STATUS("cache-miss ");
   }
   
-  int bytesAdded = 0;
+  if (bytesLoaded != NULL)
+    *bytesLoaded = 0;
   
   // if not available, load now
   if (readyImage.isNull()) {
-    QImageReader reader(file);
+    QImageReader reader(cachedImage->file_);
     
     // load file's original size
     QSize fullSize = reader.size();
@@ -170,38 +210,44 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
       // apply orientation if necessary
       // TODO: Would be more efficient if the caller supplied a known orientation from the
       // media database or, if a thumbnail, a TOP LEFT orientation to skip checking anyway
-      std::auto_ptr<PhotoMetadata> metadata(PhotoMetadata::FromFile(file));
+      std::auto_ptr<PhotoMetadata> metadata(PhotoMetadata::FromFile(cachedImage->file_));
       if (metadata.get() != NULL && metadata->orientation() != TOP_LEFT_ORIGIN)
         readyImage = readyImage.transformed(metadata->orientation_transform());
       
       cachedImage->image_ = readyImage;
       cachedImage->fullSize_ = fullSize;
       
-      bytesAdded = readyImage.byteCount();
+      if (bytesLoaded != NULL)
+        *bytesLoaded = readyImage.byteCount();
     } else {
-      qDebug("Unable to load %s: %s", qPrintable(id), qPrintable(reader.errorString()));
+      qDebug("Unable to load %s: %s", qPrintable(cachedImage->id_),
+        qPrintable(reader.errorString()));
     }
   }
   
   cachedImage->imageMutex_.unlock();
   
-  if (readyImage.isNull())
-    LOG_IMAGE_STATUS("load-failure ");
-  
-#if GALLERY_LOG_IMAGE
-  long currentCachedBytes = -1;
-#endif
+  return readyImage;
+}
+
+void GalleryStandardImageProvider::release_cached_image_entry(
+  GalleryStandardImageProvider::CachedImage* cachedImage, uint bytesLoaded,
+  long *currentCachedBytes, int* currentCacheEntries, QString& loggingStr) {
+  Q_ASSERT(cachedImage != NULL);
   
   // update total cached bytes and remove excess bytes
   cacheMutex_.lock();
   
-  cachedBytes_ += bytesAdded;
+  cachedBytes_ += bytesLoaded;
   
-  // free the CachedImage use count inside of *cachedMutex_ lock*
+  // update the CachedImage use count and byte count inside of *cachedMutex_ lock*
   Q_ASSERT(cachedImage->inUseCount_ > 0);
   cachedImage->inUseCount_--;
+  if (bytesLoaded != 0)
+    cachedImage->byteCount_ = bytesLoaded;
   
   // trim the cache
+  QList<CachedImage*> dropList;
   while (cachedBytes_ > MAX_CACHE_BYTES && !fifo_.isEmpty()) {
     QString droppedFile = fifo_.takeLast();
     
@@ -211,7 +257,7 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
     // for simplicity, stop when dropped item is in use or doesn't contain
     // an image (which it won't for too long) ... will clean up next time
     // through
-    if (droppedCachedImage->inUseCount_ > 0 || !droppedCachedImage->isReady()) {
+    if (droppedCachedImage->inUseCount_ > 0) {
       fifo_.append(droppedFile);
       
       break;
@@ -221,38 +267,35 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
     cache_.remove(droppedFile);
     
     // decrement total cached size
-    cachedBytes_ -= droppedCachedImage->image_.byteCount();
+    cachedBytes_ -= droppedCachedImage->byteCount_;
     Q_ASSERT(cachedBytes_ >= 0);
     
-    delete droppedCachedImage;
+    dropList.append(droppedCachedImage);
   }
   
-#if GALLERY_LOG_IMAGE
-  currentCachedBytes = cachedBytes_;
-#endif
+  // coherency is good
+  Q_ASSERT(cache_.size() == fifo_.size());
+  
+  if (currentCachedBytes != NULL)
+    *currentCachedBytes = cachedBytes_;
+  
+  if (currentCacheEntries != NULL)
+    *currentCacheEntries = cache_.size();
   
   cacheMutex_.unlock();
   
-#if GALLERY_LOG_IMAGE
-  if (currentCachedBytes >= 0) {
-    qDebug("%s %s req:%dx%d ret:%dx%d cache:%ldb added:%db", qPrintable(resultStr),
-      qPrintable(id), requestedSize.width(), requestedSize.height(), readyImage.width(),
-      readyImage.height(), currentCachedBytes, bytesAdded);
-  } else {
-    qDebug("%s %s req:%dx%d ret:%dx%d", qPrintable(resultStr),
-      qPrintable(id), requestedSize.width(), requestedSize.height(), readyImage.width(),
-      readyImage.height());
-  }
-#endif
-  
-  if (size != NULL)
-    *size = readyImage.size();
-  
-  return readyImage;
+  // perform actual deletion outside of lock
+  while (!dropList.isEmpty())
+    delete dropList.takeFirst();
 }
 
-GalleryStandardImageProvider::CachedImage::CachedImage(const QString& id)
-  : id_(id), file_(idToFile(id)), inUseCount_(0) {
+/*
+ * GalleryStandardImageProvider::CachedImage
+ */
+
+GalleryStandardImageProvider::CachedImage::CachedImage(const QString& id,
+  const QString& file)
+  : id_(id), file_(file), inUseCount_(0), byteCount_(0) {
 }
 
 QString GalleryStandardImageProvider::CachedImage::idToFile(const QString& id) {

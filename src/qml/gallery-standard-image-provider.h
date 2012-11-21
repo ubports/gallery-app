@@ -61,11 +61,14 @@ class GalleryStandardImageProvider
     QImage image_;
     QSize fullSize_;
     
-    // this should only be accessed when cacheMutex_ is locked; this controls
-    // removing a CachedImage entry from the cache table
+    // the following should only be accessed when cacheMutex_ is locked; the
+    // counter controls removing a CachedImage entry from the cache table
     int inUseCount_;
+    uint byteCount_;
     
-    CachedImage(const QString& id);
+    // NOTE: It's presumed file comes from id via idToFile(); this is merely
+    // an optimization since file needs to be known before making this object
+    CachedImage(const QString& id, const QString& file);
     
     static QString idToFile(const QString& id);
     
@@ -83,6 +86,19 @@ class GalleryStandardImageProvider
   long cachedBytes_;
   
   GalleryStandardImageProvider();
+  
+  // Returns a CachedImage with an inUseCount > 0, meaning it cannot be
+  // removed from the cache until released
+  CachedImage* claim_cached_image_entry(const QString& id, QString& loggingStr);
+  
+  // Inspects and loads a proper image for this request into the CachedImage
+  QImage fetch_cached_image(CachedImage* cachedImage, const QSize& requestedSize,
+    uint* bytesLoaded, QString& loggingStr);
+  
+  // Releases a CachedImage to the cache; takes its bytes loaded (0 if nothing
+  // was loaded) and returns the current cached byte total
+  void release_cached_image_entry(CachedImage* cachedImage, uint bytesLoaded,
+    long* currentCachedBytes, int* currentCacheEntries, QString& loggingStr);
 };
 
 #endif // GALLERY_GALLERY_STANDARD_IMAGE_PROVIDER_H_
