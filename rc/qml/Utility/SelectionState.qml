@@ -20,7 +20,8 @@
 import QtQuick 2.0
 import Gallery 1.0
 
-// Holds all the state for selection between the Organic views.
+// Holds all the state for selection between the Organic views, and some other
+// places.
 Item {
   id: organicSelectionState
 

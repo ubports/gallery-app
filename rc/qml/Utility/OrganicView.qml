@@ -18,18 +18,22 @@
  */
 
 import QtQuick 2.0
-import Gallery 1.0
-import "../../js/GalleryUtility.js" as GalleryUtility
 
-// An "organic" vertically-scrollable view of all events, each containing a
-// horizontally-scrollable "tray" of photos.
+// A ListView meant to hold OrganicMediaLists in some form or another.
 Item {
-  id: organicPhotosView
+  id: organicView
 
   signal mediaSourcePressed(var mediaSource, var thumbnailRect)
 
   property alias model: organicList.model
-  property OrganicSelectionState selection: OrganicSelectionState { }
+  property alias delegate: organicList.delegate
+  property SelectionState selection
+
+  // readonly
+  // Some duplication from OrganicMediaList, to make certain things easier.
+  property int organicMediaListMediaPerPattern: 6 // OrganicMediaList.mediaPerPattern
+  property real organicMediaListPatternWidth: gu(72) // OrganicMediaList.patternWidth
+  property real organicMediaListMargin: gu(3) // OrganicMediaList.margin
 
   Image {
     anchors.fill: parent
@@ -47,30 +51,13 @@ Item {
     // TODO: set cacheBuffer to some intelligent value so we cache the trays
     // more predictably.
 
-    model: EventCollectionModel {
+    header: Item {
+      width: parent.width
+      height: organicMediaListMargin / 2
     }
-
-    delegate: Flickable {
-      width: organicPhotosView.width
-      height: photosList.height
-      clip: true
-
-      contentWidth: photosList.width
-      contentHeight: photosList.height
-      flickableDirection: Flickable.HorizontalFlick
-
-      OrganicPhotosList {
-        id: photosList
-
-        event: model.event
-        selection: organicPhotosView.selection
-
-        onPressed: {
-          var rect = GalleryUtility.translateRect(thumbnailRect, photosList,
-                                                  organicPhotosView);
-          organicPhotosView.mediaSourcePressed(mediaSource, rect);
-        }
-      }
+    footer: Item {
+      width: parent.width
+      height: organicMediaListMargin / 2
     }
   }
 }

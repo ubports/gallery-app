@@ -51,15 +51,15 @@ Item {
   signal closed() // The photo viewer's closing animation is finished.
   signal editRequested(variant photo) // The user wants to edit this photo.
 
-  function animateOpen(photo, thumbnailRect, adjustForPhotoMat) {
+  function animateOpen(photo, thumbnailRect) {
     opening();
     viewer.openCompleted = false;
     viewer.setCurrentPhoto(photo);
-    transition.transitionToPhotoViewer(photo, thumbnailRect, adjustForPhotoMat);
+    transition.transitionToPhotoViewer(photo, thumbnailRect);
   }
 
-  function animateClosed(thumbnailRect, adjustForPhotoMat) {
-    transition.transitionFromPhotoViewer(photo, thumbnailRect, adjustForPhotoMat);
+  function animateClosed(thumbnailRect) {
+    transition.transitionFromPhotoViewer(photo, thumbnailRect);
     viewer.visible = false;
   }
 

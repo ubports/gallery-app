@@ -53,19 +53,19 @@ Rectangle {
   transitions: [
     Transition { from: "pageView"; to: "gridView";
       ParallelAnimation {
-        DissolveAnimation { fadeOutTarget: albumSpreadViewer; fadeInTarget: gridCheckerboard; }
+        DissolveAnimation { fadeOutTarget: albumSpreadViewer; fadeInTarget: organicView; }
       }
     },
     Transition { from: "gridView"; to: "pageView";
       ParallelAnimation {
-        DissolveAnimation { fadeOutTarget: gridCheckerboard; fadeInTarget: albumSpreadViewer; }
+        DissolveAnimation { fadeOutTarget: organicView; fadeInTarget: albumSpreadViewer; }
       }
     }
   ]
   
   onStateChanged: {
     if (state == "pageView")
-      gridCheckerboard.selection.leaveSelectionMode();
+      organicView.selection.leaveSelectionMode();
   }
   
   function crossfadeRemove() {
@@ -130,7 +130,7 @@ Rectangle {
 
     albumSpreadViewer.visible = true;
     chrome.resetVisibility(!Gallery.isSmallFormFactor());
-    gridCheckerboard.visible = false;
+    organicView.visible = false;
 
     albumSpreadViewer.viewingPage = album.currentPage;
   }
@@ -214,8 +214,8 @@ Rectangle {
         if (!hit.mediaSource)
           return;
         
-        if (gridCheckerboard.selection.inSelectionMode) {
-          gridCheckerboard.selection.toggleSelection(hit.mediaSource);
+        if (organicView.selection.inSelectionMode) {
+          organicView.selection.toggleSelection(hit.mediaSource);
         } else {
           photoViewer.forGridView = false;
           photoViewer.fadeOpen(hit.mediaSource);
@@ -284,62 +284,32 @@ Rectangle {
     }
   }
   
-  Checkerboard {
-    id: gridCheckerboard
-    
-    anchors.fill: parent
+  OrganicAlbumView {
+    id: organicView
 
-    topExtraGutter: chrome.navbarHeight + getDeviceSpecific("photoGridTopMargin")
-    bottomExtraGutter: chrome.toolbarHeight
-    leftExtraGutter: getDeviceSpecific("photoGridLeftMargin")
-    rightExtraGutter: getDeviceSpecific("photoGridRightMargin")
+    anchors.fill: parent
+    anchors.topMargin: chrome.navbarHeight
+    anchors.bottomMargin: chrome.toolbarHeight
 
     visible: false
-    
-    selection: OrganicSelectionState {
-      model: gridCheckerboard.model
-    }
-    
-    model: MediaCollectionModel {
-      forCollection: album
-    }
-    
-    delegate: CheckerboardDelegate {
-      id: gridCheckerboardDelegate
-      
-      checkerboard: gridCheckerboard
-      
-      content: MattedPhotoPreview {
-        ownerName: "AlbumViewer grid"
-        mediaSource: modelData.mediaSource
-        isSelected: gridCheckerboardDelegate.isSelected
-      }
+
+    album: albumViewer.album
+
+    onMediaSourcePressed: {
+      var rect = GalleryUtility.translateRect(thumbnailRect, organicView, photoViewer);
+      photoViewer.forGridView = true;
+      photoViewer.animateOpen(mediaSource, rect);
     }
 
-    onActivated: {
-      var photoRect = GalleryUtility.translateRect(activatedRect, gridCheckerboard, photoViewer);
-      photoViewer.forGridView = true;
-      photoViewer.animateOpen(object, photoRect, true);
-    }
-    
-    onVisibleChanged: {
-      if (!visible && album) {
-        // When we hide this, we need to ensure the album is closed if it's empty.
-        if (album.containedCount == 0)
-          album.closed = true;
-      }
-    }
-    
-    // When album is empty, show the add button
-    MattedPhotoPreview {
+    Image {
+      id: plusButton
+
+      anchors.centerIn: parent
+
       visible: album !== null && album.containedCount == 0
-      
-      anchors.top: parent.top
-      anchors.left: parent.left
-      anchors.topMargin: gridCheckerboard.topExtraGutter
-      anchors.leftMargin: gridCheckerboard.leftExtraGutter
-      substituteSource: "Components/AlbumInternals/img/album-add.png"
-      
+
+      source: "Components/AlbumInternals/img/album-add.png"
+
       MouseArea {
         anchors.fill: parent
         onClicked: mediaSelector.show()
@@ -379,9 +349,9 @@ Rectangle {
     pagesPerSpread: albumSpreadViewer.pagesPerSpread
     viewingPage: albumSpreadViewer.viewingPage
 
-    inSelectionMode: gridCheckerboard.selection.inSelectionMode
+    inSelectionMode: organicView.selection.inSelectionMode
 
-    hasSelectionOperationsButton: gridCheckerboard.selection.inSelectionMode
+    hasSelectionOperationsButton: organicView.selection.inSelectionMode
     onSelectionOperationsButtonPressed: cyclePopup(selectionMenu)
 
     toolbarsAreTranslucent: (albumViewer.state == "gridView" ||
@@ -416,10 +386,10 @@ Rectangle {
       albumViewer.state = (albumViewer.state == "pageView" ? "gridView" : "pageView");
     }
 
-    onSelectionDoneButtonPressed: gridCheckerboard.selection.leaveSelectionMode()
+    onSelectionDoneButtonPressed: organicView.selection.leaveSelectionMode()
 
     onReturnButtonPressed: {
-      gridCheckerboard.selection.leaveSelectionMode();
+      organicView.selection.leaveSelectionMode();
 
       closeRequested(album.containedCount > 0, albumSpreadViewer.viewingPage);
     }
@@ -431,9 +401,7 @@ Rectangle {
     SelectionMenu {
       id: selectionMenu
 
-      selection: OrganicSelectionState {
-        model: gridCheckerboard.model
-      }
+      selection: organicView.selection
 
       onPopupInteractionCompleted: chrome.hideAllPopups()
     }
@@ -480,7 +448,7 @@ Rectangle {
 
       // internal
       function finishRemove() {
-        gridCheckerboard.selection.leaveSelectionMode();
+        organicView.selection.leaveSelectionMode();
         
         // In the Album model, the last valid current page is the back cover.
         // However, in the UI, we want to stay on the content pages.
@@ -500,13 +468,13 @@ Rectangle {
       visible: false
 
       onRemoveRequested: {
-        album.removeSelectedMediaSources(gridCheckerboard.selection.model);
+        album.removeSelectedMediaSources(organicView.selection.model);
         
         finishRemove(false);
       }
 
       onDeleteRequested: {
-        gridCheckerboard.selection.model.destroySelectedMedia();
+        organicView.selection.model.destroySelectedMedia();
 
         finishRemove(false);
       }
@@ -602,7 +570,7 @@ Rectangle {
         }
         
         if (deleteMedia)
-          gridCheckerboard.model.destroyMedia(media);
+          organicView.albumModel.destroyMedia(media);
       }
       
       onRemoveRequested: removeOrDelete(media, false)
@@ -637,7 +605,7 @@ Rectangle {
         // Remove contents.
         var list = albumViewer.album.allMediaSources;
         for (var i = 0; i < list.length; i++)
-          gridCheckerboard.model.destroyMedia(list[i]);
+          organicView.albumModel.destroyMedia(list[i]);
         
         // Remove album.
         albumCollectionModel.destroyAlbum(albumViewer.album);
@@ -667,12 +635,12 @@ Rectangle {
     onOpening: {
       // although this might be used by the page viewer, it too uses the grid's
       // models because you can walk the entire album from both
-      model = gridCheckerboard.model;
+      model = organicView.albumModel;
     }
 
     onIndexChanged: {
       if (forGridView) {
-        gridCheckerboard.ensureIndexVisible(index, false);
+        // TODO: position organicView.
       } else {
         var page = albumViewer.album.getPageForMediaSource(photo);
         if (page >= 0) {
@@ -684,9 +652,9 @@ Rectangle {
 
     onCloseRequested: {
       if (forGridView) {
-        var rect = gridCheckerboard.getRectOfItemAt(index, photoViewer);
+        var rect = null; // TODO: get rect from organicView.
         if (rect)
-          animateClosed(rect, false);
+          animateClosed(rect);
         else
           close();
       } else {
