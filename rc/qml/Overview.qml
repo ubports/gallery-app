@@ -306,6 +306,21 @@ Rectangle {
         chrome.hideAllPopups();
       }
 
+      onActionInvoked: {
+        switch (name) {
+          case "onQuickShare": {
+            for (var i = 0; i < eventView.selection.model.count; i++) {  
+              var img = eventView.selection.model.getAt(i);
+              
+              if (eventView.selection.model.isSelected(img)) {
+                APP.run_command("xdg-open", img.path);
+              }
+            }
+            break;
+          }
+        }
+      }
+
       visible: false
     }
 
@@ -377,7 +392,9 @@ Rectangle {
         }
         
         case "onShare": {
-          // TODO
+          for (var img in eventView.selection.model) {
+            APP.run_command("xdg-open" , img.path);
+          }
           break;
         }
         

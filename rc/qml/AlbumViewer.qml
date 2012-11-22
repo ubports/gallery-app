@@ -469,6 +469,23 @@ Rectangle {
       popupOriginX: -gu(9)
       popupOriginY: -gu(6)
 
+      onActionInvoked: {
+        switch (name) {
+          case "onQuickShare": {          
+          if (albumViewer.state == "gridView") {
+              for (var i = 0; i < gridCheckerboard.selection.model.count; i++) {
+                var img = gridCheckerboard.selection.model.getAt(i);
+                
+                if (gridCheckerboard.selection.model.isSelected(gridCheckerboard.selection.model.getAt(i))) {
+                  APP.run_command("xdg-open" , gridCheckerboard.selection.model.getAt(i).path);
+                }
+              }
+              break;
+            }
+          }
+        }
+      }
+
       onPopupInteractionCompleted: chrome.hideAllPopups()
 
       visible: false
@@ -554,7 +571,7 @@ Rectangle {
           }
           
           case "onShare": {
-            // TODO
+            APP.run_command("xdg-open" , mediaSource.path);
             break;
           }
           

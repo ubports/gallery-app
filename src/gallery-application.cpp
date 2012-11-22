@@ -71,8 +71,9 @@ int GalleryApplication::exec() {
   return QApplication::exec();
 }
 
-bool GalleryApplication::run_command(const QString &cmdline) {
-  return QProcess::startDetached(cmdline);
+bool GalleryApplication::run_command(const QString &cmd, const QString &arg) {
+  QString tmp = QString("\"" + arg + "\"");
+  return QProcess::startDetached(cmd + " " + tmp);
 }
 
 void GalleryApplication::register_qml() {
@@ -180,7 +181,7 @@ void GalleryApplication::create_view() {
   view_.engine()->rootContext()->setContextProperty("GRIDUNIT", QVariant(bgu_size_));
   
   // Set ourselves up to expose functionality to run external commands from QML...
-  view_.engine()->rootContext()->setContextProperty("GALLERY_APPLICATION", this);
+  view_.engine()->rootContext()->setContextProperty("APP", this);
 
   view_.engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
     GalleryStandardImageProvider::instance());
