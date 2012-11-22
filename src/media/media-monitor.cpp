@@ -25,15 +25,24 @@
 MediaMonitor::MediaMonitor(const QDir& target_directory)
   : target_directory_(target_directory),
     watcher_(QStringList(target_directory.path())),
-    manifest_(get_manifest(target_directory)) {
+    manifest_(get_manifest(target_directory)),
+    file_activity_timer_(this) {
   QObject::connect(&watcher_, SIGNAL(directoryChanged(const QString&)), this,
     SLOT(on_directory_event(const QString&)));
+
+  file_activity_timer_.setSingleShot(true);
+  QObject::connect(&file_activity_timer_, SIGNAL(timeout()), this,
+    SLOT(on_file_activity_ceased()));
 }
 
 MediaMonitor::~MediaMonitor() {
 }
 
 void MediaMonitor::on_directory_event(const QString& event_source) {
+  file_activity_timer_.start(100);
+}
+
+void MediaMonitor::on_file_activity_ceased() {
   QStringList new_manifest = get_manifest(target_directory_);
   
   QStringList difference;
@@ -46,7 +55,8 @@ void MediaMonitor::on_directory_event(const QString& event_source) {
   // more information.
   if (subtract_manifest(new_manifest, manifest_, difference)) {
     for (int i = 0; i < difference.size(); i++)
-      notify_media_item_added(event_source + "/" + difference.at(i));
+      notify_media_item_added(target_directory_.absolutePath() + "/" +
+        difference.at(i));
   }
 
   manifest_ = new_manifest;

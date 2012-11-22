@@ -24,6 +24,7 @@
 #include <QDir>
 #include <QFileSystemWatcher>
 #include <QStringList>
+#include <QTimer>
 
 class MediaMonitor : public QObject
 {
@@ -40,6 +41,7 @@ class MediaMonitor : public QObject
   const QDir target_directory_;
   const QFileSystemWatcher watcher_;
   QStringList manifest_;
+  QTimer file_activity_timer_;
   
   static QStringList get_manifest(const QDir& dir);
   static bool subtract_manifest(const QStringList& m1, const QStringList& m2,
@@ -49,6 +51,7 @@ class MediaMonitor : public QObject
 
  private slots:
   void on_directory_event(const QString& event_source);
+  void on_file_activity_ceased();
 };
 
 #endif // GALLERY_MEDIA_MONITOR_H_
