@@ -112,4 +112,6 @@ install_binary.path = $$PREFIX/bin/
 install_binary.files = gallery
 install_resources.path = $$PREFIX/share/gallery/
 install_resources.files = rc/
-INSTALLS = install_binary install_resources
+install_autopilot.path = $$PREFIX/share/gallery/tests/
+install_autopilot.files = tests/autopilot/
+INSTALLS = install_binary install_resources install_autopilot
