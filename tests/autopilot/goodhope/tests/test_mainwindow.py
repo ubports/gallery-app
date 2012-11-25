@@ -5,6 +5,7 @@
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
 
+
 """Tests for the Gallery App"""
 
 from __future__ import absolute_import
@@ -14,9 +15,7 @@ from autopilot.matchers import Eventually
 
 from goodhope.tests import GoodhopeTestCase
 
-import time
-import os
-from os import path
+from time import sleep
 
 class TestMainWindow(GoodhopeTestCase):
     """Tests the main gallery features"""
@@ -30,6 +29,85 @@ class TestMainWindow(GoodhopeTestCase):
     def tearDown(self):
         super(TestMainWindow, self).tearDown()
 
-    """Dummy Test *changeme* """
-    def test_dummy(self):
-        self.assertThat(True, Equals(True))
+    def click_albums_tab(self):
+        albums_tab = self.main_window.get_albums_tab()
+
+        self.mouse.move_to_object(albums_tab)
+        self.mouse.click()
+
+    def click_plus_icon(self):
+        add_icon = self.main_window.get_plus_icon()
+
+        self.mouse.move_to_object(add_icon)
+        self.mouse.click()
+
+    def test_events_tab_focus(self):
+        """When the app is started 'Events' tab must be selected."""
+        events_tab = self.main_window.get_events_tab()
+
+        self.assertThat(events_tab.state, Eventually(Equals("selected")))
+
+    def test_albums_tab_focus(self):
+        """When the 'Albums' tab is clicked it should be selected."""
+        albums_tab = self.main_window.get_albums_tab()
+
+        self.mouse.move_to_object(albums_tab)
+        self.mouse.click()
+
+        self.assertThat(albums_tab.state, Eventually(Equals("selected")))
+
+    def test_plus_icon_hover(self):
+        """Ensures that when the mouse is over the 'plus' icon it has the
+        hovered state.
+
+        """
+        add_icon = self.main_window.get_plus_icon()
+
+        self.mouse.move_to_object(add_icon)
+
+        self.assertThat(add_icon.hovered, Eventually(Equals(True)))
+
+    def test_camera_icon_hover(self):
+        """Ensures that when the mouse is over the camera icon it has the
+        hovered state.
+
+        """
+        camera_icon = self.main_window.get_camera_icon()
+
+        self.mouse.move_to_object(camera_icon)
+
+        self.assertThat(camera_icon.hovered, Eventually(Equals(True)))
+
+    def test_plus_icon_click(self):
+        """Clicking on the plus icon must open the album editor."""
+        album_editor = self.main_window.get_album_editor()
+
+        self.click_albums_tab()
+        self.click_plus_icon()
+
+        self.assertThat(album_editor.opacity, Eventually(Equals(1.0)))
+
+    def test_album_title_field_default_text(self):
+        """Ensures the default text of the title field is intact."""
+        album_editor = self.main_window.get_album_editor()
+
+        self.click_albums_tab()
+        self.click_plus_icon()
+
+        title_field = self.main_window.get_album_title_entry_field()
+
+        self.assertThat(title_field.text, Eventually(Equals("New Photo Album")))
+
+    def test_album_subtitle_field_default_text(self):
+        """Ensures the default text of the subtitle field is intact."""
+        album_editor = self.main_window.get_album_editor()
+
+        self.click_albums_tab()
+        self.click_plus_icon()
+
+        subtitle_field = self.main_window.get_album_subtitle_entry_field()
+
+        self.assertThat(subtitle_field.text, Eventually(Equals("Subtitle")))
+
+
+
