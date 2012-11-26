@@ -20,6 +20,7 @@
 import QtQuick 2.0
 import Gallery 1.0
 import "../Components"
+import "../../js/Gallery.js" as Gallery
 import "../../js/GalleryUtility.js" as GalleryUtility
 
 // An "organic" list of photos.  Used as the "tray" contents for each event in
@@ -37,6 +38,9 @@ Item {
   // outside this region are created as delegates, but the photo isn't loaded.
   property real loadAreaLeft: 0
   property real loadAreaRight: width
+
+  property int animationDuration: Gallery.FAST_DURATION
+  property int animationEasingType: Easing.InQuint
 
   // readonly
   property int mediaPerPattern: 6
@@ -114,6 +118,37 @@ Item {
           var rect = GalleryUtility.getRectRelativeTo(photoComponent,
                                                       organicMediaList);
           organicMediaList.pressed(photoComponent.modelMediaSource, rect);
+        }
+      }
+
+      // TODO: fade in photos being added, fade out ones being deleted?  This
+      // might entail using Repeater's onItemAdded/onItemRemoved signals and
+      // manually keeping around a list of thumbnails to animate, as we can't
+      // very well animate the thumbnails created as Repeater delegates since
+      // they'll be destroyed before the animation would finish.
+
+      Behavior on x {
+        NumberAnimation {
+          duration: animationDuration
+          easing.type: animationEasingType
+        }
+      }
+      Behavior on y {
+        NumberAnimation {
+          duration: animationDuration
+          easing.type: animationEasingType
+        }
+      }
+      Behavior on width {
+        NumberAnimation {
+          duration: animationDuration
+          easing.type: animationEasingType
+        }
+      }
+      Behavior on height {
+        NumberAnimation {
+          duration: animationDuration
+          easing.type: animationEasingType
         }
       }
     }
