@@ -18,19 +18,19 @@ class MainWindow(object):
 
     def get_events_tab(self):
         """Returns the 'Events' tab."""
-        return self.app.select_single("Tab", id=224)
+        return self.app.select_single("Tab", objectName="toolbarEventsTab")
 
     def get_albums_tab(self):
         """Returns the 'Albums' tab."""
-        return self.app.select_single("Tab", id=223)
+        return self.app.select_single("Tab", objectName="toolbarAlbumsTab")
 
     def get_plus_icon(self):
         """Returns the 'plus' icon of the main view."""
-        return self.app.select_single("StandardToolbarIconButton", id=49)
+        return self.app.select_single("StandardToolbarIconButton", objectName="toolbarPlusIcon")
 
     def get_camera_icon(self):
         """Returns the camera icon of the main view."""
-        return self.app.select_single("ToolbarIconButton", id=50)
+        return self.app.select_single("ToolbarIconButton", objectName="toolbarCameraIcon")
 
     def get_album_editor(self):
         """Returns the album editor."""
@@ -38,10 +38,10 @@ class MainWindow(object):
 
     def get_album_title_entry_field(self):
         """Returns the album title input box."""
-        return self.app.select_single("TextEditOnClick", id=1225)
+        return self.app.select_single("TextEditOnClick", objectName="albumTitleField", text='New Photo Album')
 
     def get_album_subtitle_entry_field(self):
         """Returns the album subtitle input box."""
-        return self.app.select_single("TextEditOnClick", id=1227)
+        return self.app.select_single("TextEditOnClick", objectName="albumSubtitleField", text='Subtitle')
 
 
