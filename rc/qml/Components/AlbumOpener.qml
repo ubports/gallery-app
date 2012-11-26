@@ -91,15 +91,14 @@ Item {
     id: shifter
     
     // Shift it over as it opens so the visuals stay centered.
-    x: (width * openFraction) - (rightPage.frameHingeInset * openFraction * 2)
-    y: 0
+    x: (width * openFraction)// - (rightPage.frameHingeInset * 2 * openFraction) - 5
+    y: -5
     width: parent.width
     height: parent.height
 
     AlbumPageComponent {
       id: rightPage
 
-      x: isPreview ? -frameHingeInset : 0
       anchors.fill: parent
       visible: (openFraction > 0 && openFraction < 1)
 
@@ -122,7 +121,6 @@ Item {
     AlbumPageComponent {
       id: leftPage
 
-      x: isPreview ? frameHingeInset : 0
       anchors.fill: parent
 
       album: albumOpener.album

@@ -92,15 +92,16 @@ Flipable {
 
   front: AlbumPageContents {
     id: frontContents
-
+    
+    x: isPreview ? -frontContents.frameHingeInset : 0
     width: albumPageComponent.width
     height: albumPageComponent.height
-
+    
     album: albumPageComponent.album
-
+    
     isPreview: albumPageComponent.isPreview
     contentHasPreviewFrame: albumPageComponent.contentHasPreviewFrame
-
+    
     topMargin: albumPageComponent.topMargin
     bottomMargin: albumPageComponent.bottomMargin
     gutterMargin: albumPageComponent.gutterMargin
@@ -113,15 +114,16 @@ Flipable {
 
   back: AlbumPageContents {
     id: backContents
-
+    
+    x: isPreview ? frontContents.frameHingeInset : 0
     width: albumPageComponent.width
     height: albumPageComponent.height
-
+    
     album: albumPageComponent.album
-
+    
     isPreview: albumPageComponent.isPreview
     contentHasPreviewFrame: albumPageComponent.contentHasPreviewFrame
-
+    
     topMargin: albumPageComponent.topMargin
     bottomMargin: albumPageComponent.bottomMargin
     gutterMargin: albumPageComponent.gutterMargin
@@ -135,7 +137,7 @@ Flipable {
   transform: Rotation {
     id: rotation
 
-    origin.x: isPreview ? frontContents.frameHingeInset : 0
+    origin.x: 0
     origin.y: albumPageComponent.height / 2
 
     axis.x: 0

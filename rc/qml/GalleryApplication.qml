@@ -21,6 +21,7 @@
 
 import QtQuick 2.0
 import "../js/Gallery.js" as Gallery
+import Ubuntu.Components 0.1
 
 Item {
   id: application

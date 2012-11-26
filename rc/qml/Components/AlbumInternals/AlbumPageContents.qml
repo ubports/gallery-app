@@ -42,6 +42,12 @@ Item {
   property bool freeze: false
   property bool showCover: true
   
+  // GU/pixel scale factor of preview frame
+  property real scaleFactorX: width / (pixelWidth - pixelWidthOffset)
+  property real scaleFactorY: height / (pixelHeight - pixelHeightOffset)
+  
+  property real frameHingeInset: frame.startX * scaleFactorX
+  
   // readonly
   property bool isCover: cover.visible
   // These constants (only useful when contentHasPreviewFrame is true) expose
@@ -49,9 +55,9 @@ Item {
   // this component) and the content of that page (displayed slightly smaller,
   // within the frame), for if you need to match the contents but not the
   // frame.
-  property real frameToContentWidth: (pixelWidth / frameContentWidth)
-  property real frameToContentHeight: (pixelHeight / frameContentHeight)
-
+  property real frameToContentWidth: ((pixelWidth - 10) / frameContentWidth)
+  property real frameToContentHeight: ((pixelHeight - 12) / frameContentHeight)
+  
   // internal
   // This might be able to be simplified some, as the components have changed.
   // The original idea was to scale the page up and down, but now the only
@@ -62,14 +68,12 @@ Item {
   property real pixelWidth: 235
   property real pixelHeight: 281
   
-  // GU/pixel scale factor of preview frame
-  property real scaleFactorX: width / pixelWidth
-  property real scaleFactorY: height / pixelHeight
-  
-  property real frameHingeInset: frame.startX * scaleFactorX
+  // Difference between desktop gu size and pixel size.
+  property real pixelWidthOffset: 11
+  property real pixelHeightOffset: 17
   
   // Offset from frame.start* to the "page" inside the frame.
-  property real frameInsetMarginX: -3
+  property real frameInsetMarginX: isRight ? 0 : -7
   property real frameInsetMarginY: 10
   property real frameContentOffsetX: frame.startX + frameInsetMarginX
   property real frameContentOffsetY: frameInsetMarginY
@@ -111,11 +115,13 @@ Item {
     id: frame
     
     // Read-only
-    property int startX: isRight ? frameLeft.width : frameRight.width
-    property alias startY: frameTop.height
+    // Start of content area
+    property int startX: isRight ? frameLeft.width : 18
+    property int startY: 6
     
-    property alias contentWidth: frameContents.width
-    property alias contentHeight: frameContents.height
+    // Dimensions of content area
+    property int contentWidth: frameContents.width - 10
+    property int contentHeight: frameContents.height - 27
     
     width: pixelWidth
     height: pixelHeight
@@ -135,50 +141,23 @@ Item {
       
       source: "img/album-thumbnail-frame-left.png"
       
+      width: 6
+      height: pixelHeight
       mirror: !isRight
       anchors.left: parent.left
       anchors.top: parent.top
     }
     
     Image {
-      id: frameTop
-      
-      source: "img/album-thumbnail-frame-top.png"
-      
-      mirror: !isRight
-      anchors.left: frameLeft.right
-      anchors.top: parent.top
-    }
-    
-    Rectangle {
       id: frameContents
-      
-      color: "white"
-      
-      anchors.top: frameTop.bottom
-      anchors.bottom: frameBottom.top
-      anchors.left: frameLeft.right
-      anchors.right: frameRight.left
-    }
-    
-    Image {
-      id: frameBottom
-      
-      source: "img/album-thumbnail-frame-bottom.png"
-      
-      mirror: !isRight
-      anchors.left: frameLeft.right
-      anchors.bottom: parent.bottom
-    }
-    
-    Image {
-      id: frameRight
       
       source: "img/album-thumbnail-frame-right.png"
       
+      width: pixelWidth - frameLeft.width
+      height: pixelHeight
       mirror: !isRight
-      anchors.right: parent.right
       anchors.top: parent.top
+      anchors.left: frameLeft.right
     }
   }
   

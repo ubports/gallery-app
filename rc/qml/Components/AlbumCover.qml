@@ -87,7 +87,10 @@ Item {
       
       source: "img/album-cover-preview-left.png"
       visible: isPreview
-          
+      
+      width: isPreview ? 6 : undefined
+      height: isPreview ? 281 : undefined
+      
       anchors.left: parent.left
       anchors.top: parent.top
       cache: true
@@ -98,6 +101,9 @@ Item {
       
       source: coverElement.imagePreview
       visible: isPreview
+      
+      width: isPreview ? 229 : undefined
+      height: isPreview ? 281 : undefined
       
       anchors.left: coverImagePreviewLeft.right
       anchors.top: parent.top
