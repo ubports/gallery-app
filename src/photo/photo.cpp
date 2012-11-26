@@ -23,6 +23,7 @@
 #include "photo/photo.h"
 #include "database/database.h"
 #include "util/imaging.h"
+#include "media/preview-manager.h"
 
 #include <QFileInfo>
 #include <QImage>
@@ -43,7 +44,7 @@ bool Photo::IsValid(const QFileInfo& file) {
       QImageWriter::supportedImageFormats().contains(reader.format());
 }
 
-Photo* Photo::Load(const QFileInfo& file) {
+Photo* Photo::Load(const QFileInfo& file, bool ensure_thumbnail) {
   bool needs_update = false;
   PhotoEditState edit_state;
   QDateTime timestamp;
@@ -106,6 +107,12 @@ Photo* Photo::Load(const QFileInfo& file) {
   // We set the id last so we don't save the info we just read in back out to
   // the DB.
   p->set_id(id);
+  
+  // ensure that the new photo has a thumbnail, if desired
+  if (ensure_thumbnail) {
+    bool generated_ok = PreviewManager::instance()->ensure_preview_for_media(p);
+    Q_ASSERT(generated_ok);
+  }
   
   return p;
 }

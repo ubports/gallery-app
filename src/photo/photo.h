@@ -84,8 +84,11 @@ class Photo : public MediaSource {
   
   // Loads a photo object from the given file.  If it's not already
   // present in the database, it will be added.  If the file is not
-  // valid null is returned.
-  static Photo* Load(const QFileInfo& file);
+  // valid return null. The optional ensure_thumbnail parameter will force
+  // a preview thumbnail for the new photo to be generated synchronously. If
+  // ensure_thumbnail is true, when this method returns a non-null value, a
+  // thumbnail preview for the new photo is guaranteed to exist.
+  static Photo* Load(const QFileInfo& file, bool ensure_thumbnail = false);
   
   explicit Photo(const QFileInfo& file);
   virtual ~Photo();
