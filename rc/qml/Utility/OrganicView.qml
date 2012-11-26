@@ -18,6 +18,7 @@
  */
 
 import QtQuick 2.0
+import "../../js/Gallery.js" as Gallery
 
 // A ListView meant to hold OrganicMediaLists in some form or another.
 Item {
@@ -28,6 +29,9 @@ Item {
   property alias model: organicList.model
   property alias delegate: organicList.delegate
   property SelectionState selection
+
+  property int animationDuration: Gallery.FAST_DURATION
+  property int animationEasingType: Easing.InQuint
 
   // readonly
   // Some duplication from OrganicMediaList, to make certain things easier.
@@ -51,6 +55,9 @@ Item {
     // TODO: set cacheBuffer to some intelligent value so we cache the trays
     // more predictably.
 
+    // The OrganicMediaList only has a half margin at the top and bottom, since
+    // when repeated that means a full margin between rows.  This pads it out
+    // so we also get a full row on top and bottom of the whole bunch.
     header: Item {
       width: parent.width
       height: organicMediaListMargin / 2
@@ -59,5 +66,15 @@ Item {
       width: parent.width
       height: organicMediaListMargin / 2
     }
+
+    displaced: Transition {
+      NumberAnimation {
+        properties: "x,y"
+        duration: animationDuration
+        easing.type: animationEasingType
+      }
+    }
+    // TODO: specify add and remove transitions here too.  When I tried
+    // initially, QML ignored it.
   }
 }
