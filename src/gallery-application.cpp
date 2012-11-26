@@ -229,5 +229,6 @@ void GalleryApplication::start_init_collections() {
 void GalleryApplication::on_media_item_added(QFileInfo item_info) {
   Photo* new_photo = Photo::Load(item_info, true);
   
-  MediaCollection::instance()->Add(new_photo);
+  if (new_photo)
+    MediaCollection::instance()->Add(new_photo);
 }

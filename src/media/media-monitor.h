@@ -44,8 +44,8 @@ class MediaMonitor : public QObject
   QTimer file_activity_timer_;
   
   static QStringList get_manifest(const QDir& dir);
-  static bool subtract_manifest(const QStringList& m1, const QStringList& m2,
-    QStringList& difference);
+  static QStringList subtract_manifest(const QStringList& m1,
+    const QStringList& m2);
   
   void notify_media_item_added(const QString& item_path);
 
