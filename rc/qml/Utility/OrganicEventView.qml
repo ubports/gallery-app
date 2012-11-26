@@ -53,6 +53,9 @@ OrganicView {
       loadAreaLeft: tray.contentX - trayLoadAreaPadding
       loadAreaRight: tray.contentX + tray.width + trayLoadAreaPadding
 
+      animationDuration: organicEventView.animationDuration
+      animationEasingType: organicEventView.animationEasingType
+
       event: model.event
       selection: organicEventView.selection
 
