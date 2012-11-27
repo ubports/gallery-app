@@ -24,3 +24,10 @@ class PhotoViewer(object):
     def get_photo_viewer_chrome(self):
         pv = self.get_photo_viewer()
         return pv.select_single("ViewerChrome", fadeDuration=175)
+
+    def get_viewer_chrome_trash_icon(self):
+        ov = self.get_overview()
+        return ov.select_many("StandardToolbarIconButton", iconName="trash", enabled=True)[0]
+
+    def get_overview(self):
+        return self.app.select_single("Overview", objectName='overview')

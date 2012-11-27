@@ -29,14 +29,27 @@ class TestPhotoViewer(GoodhopeTestCase):
         self.mouse.move_to_object(single_photo)
         self.mouse.click()
 
-    def test_photo_viewer_shows(self):
-        self.click_first_photo()
+    # def test_photo_viewer_shows(self):
+    #     self.click_first_photo()
 
+    #     photo_viewer = self.photo_viewer.get_photo_viewer()
+    #     photo_viewer_chrome = self.photo_viewer.get_photo_viewer_chrome()
+
+    #     self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
+    #     self.assertThat(photo_viewer_chrome.visible, Eventually(Equals(True)))
+
+    def test_delete_buttons_deletes_picture(self):
+        self.click_first_photo()
         photo_viewer = self.photo_viewer.get_photo_viewer()
-        photo_viewer_chrome = self.photo_viewer.get_photo_viewer_chrome()
+
 
         self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
-        self.assertThat(photo_viewer_chrome.visible, Eventually(Equals(True)))
+
+        trash_button = self.photo_viewer.get_viewer_chrome_trash_icon()
+
+        self.mouse.move_to_object(trash_button)
+
+        self.mouse.click()
 
 
 
