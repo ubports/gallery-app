@@ -25,6 +25,9 @@
 
 const QString PreviewManager::PREVIEW_DIR = ".thumbs";
 
+const int PreviewManager::PREVIEW_WIDTH_MAX = 360;
+const int PreviewManager::PREVIEW_HEIGHT_MAX = 360;
+
 PreviewManager* PreviewManager::instance_ = NULL;
 
 PreviewManager::PreviewManager() {
@@ -70,7 +73,7 @@ void PreviewManager::on_media_added_removed(const QSet<DataObject*>* added,
       QObject::connect(source, SIGNAL(data_altered()),
         this, SLOT(on_media_data_altered()), Qt::UniqueConnection);
 
-      VerifyPreview(source);
+      ensure_preview_for_media(source);
     }
   }
 
@@ -96,7 +99,7 @@ void PreviewManager::on_media_data_altered() {
   QObject* object = QObject::sender();
   MediaSource* source = qobject_cast<MediaSource*>(object);
 
-  VerifyPreview(source, true);
+  ensure_preview_for_media(source, true);
 }
 
 QFileInfo PreviewManager::PreviewFileFor(const MediaSource* media) const {
@@ -106,7 +109,7 @@ QFileInfo PreviewManager::PreviewFileFor(const MediaSource* media) const {
     PREVIEW_DIR + "/" + file.completeBaseName() + "_th." + file.completeSuffix());
 }
 
-bool PreviewManager::VerifyPreview(MediaSource* media, bool regen) {
+bool PreviewManager::ensure_preview_for_media(MediaSource* media, bool regen) {
   // create the thumbnail directory if not already present
   media->file().dir().mkdir(PREVIEW_DIR);
   
@@ -154,3 +157,4 @@ void PreviewManager::DestroyPreview(MediaSource* media) {
   if (!QFile::remove(filename))
     qDebug("Unable to remove preview %s", qPrintable(filename));
 }
+

@@ -27,7 +27,7 @@ import QtQuick 2.0
 Rectangle {
   id: photoComponent
   
-  property alias source: image.source
+  property url source
   
   property bool isCropped: false
   property bool isPreview: false
@@ -51,7 +51,9 @@ Rectangle {
     height: parent.height
     x: 0
     y: 0
-
+    
+    source: (width > 0 && height > 0) ? photoComponent.source : ""
+    
     // CRITICAL: when we moved to QT 5, we began to experience crashes when
     //           drawing photos after editing operations (see Launchpad bug
     //           #1065208). It turns out that, due to a bug in QT 5, in some
@@ -59,14 +61,10 @@ Rectangle {
     //           even though they're not yet loaded into memory. Of course,
     //           this causes a segfault. This property binding is here to
     //           prevent this segfault & crash from occurring.
-	visible: isLoaded;
+    visible: isLoaded;
     
-    // By using a minimum sourceSize width, can reduce the amount of I/O
-    // fetching the same image
-    // TODO: as we animate previews, since we're changing the sourceSize, it
-    // triggers a reload from disk at each step.  We should cap these previews'
-    // sourceSize so that stops happening.  (This might apply to more than
-    // previews at some point in time.)
+    // Although Gallery image handler does caching to prevent loads and decodes, still want to
+    // use old width and cache: !isAnimate settings for flicker-free animations and reflows
     sourceSize.width: (width <= 1024) ? 1024 : width
     
     asynchronous: !isAnimate

@@ -25,9 +25,13 @@
 #include <QQuickImageProvider>
 #include <QFileInfo>
 #include <QImage>
+#include <QMap>
+#include <QMutex>
 #include <QSize>
 #include <QString>
 #include <QUrl>
+
+#include "photo/photo-metadata.h"
 
 class GalleryStandardImageProvider
   : public QObject, public QQuickImageProvider {
@@ -49,9 +53,58 @@ class GalleryStandardImageProvider
     const QSize& requestedSize);
   
  private:
+  class CachedImage {
+   public:
+    const QString id_;
+    const QString file_;
+    QMutex imageMutex_;
+    
+    // these fields should only be accessed when imageMutex_ is locked
+    QImage image_;
+    QSize fullSize_;
+    Orientation orientation_;
+    
+    // the following should only be accessed when cacheMutex_ is locked; the
+    // counter controls removing a CachedImage entry from the cache table
+    int inUseCount_;
+    uint byteCount_;
+    
+    // NOTE: It's presumed file comes from id via idToFile(); this is merely
+    // an optimization since file needs to be known before making this object
+    CachedImage(const QString& id, const QString& file);
+    
+    static QString idToFile(const QString& id);
+    
+    // the following should only be called when imageMutex_ is locked
+    void storeImage(const QImage& image, const QSize& fullSize, Orientation orientation);
+    bool isFullSized() const;
+    bool isReady() const;
+    bool isCacheHit(const QSize& requestedSize) const;
+  };
+  
   static GalleryStandardImageProvider* instance_;
   
+  QMap<QString, CachedImage*> cache_;
+  QList<QString> fifo_;
+  QMutex cacheMutex_;
+  long cachedBytes_;
+  
+  static QSize orientSize(const QSize& size, Orientation orientation);
+  
   GalleryStandardImageProvider();
+  
+  // Returns a CachedImage with an inUseCount > 0, meaning it cannot be
+  // removed from the cache until released
+  CachedImage* claim_cached_image_entry(const QString& id, QString& loggingStr);
+  
+  // Inspects and loads a proper image for this request into the CachedImage
+  QImage fetch_cached_image(CachedImage* cachedImage, const QSize& requestedSize,
+    uint* bytesLoaded, QString& loggingStr);
+  
+  // Releases a CachedImage to the cache; takes its bytes loaded (0 if nothing
+  // was loaded) and returns the current cached byte total
+  void release_cached_image_entry(CachedImage* cachedImage, uint bytesLoaded,
+    long* currentCachedBytes, int* currentCacheEntries, QString& loggingStr);
 };
 
 #endif // GALLERY_GALLERY_STANDARD_IMAGE_PROVIDER_H_
