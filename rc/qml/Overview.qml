@@ -225,6 +225,7 @@ Rectangle {
 
       anchors.horizontalCenter: parent.horizontalCenter
       anchors.bottom: parent.bottom
+      maxWidth: navbar.width / 2
 
       tab0Title: "Albums"
       tab1Title: "Events"

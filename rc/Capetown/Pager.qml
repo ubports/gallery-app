@@ -20,6 +20,7 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 
 // A Pager is a ListView of screen-sized items whose currentIndex tracks which
 // page the user is currently on.

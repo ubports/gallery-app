@@ -18,6 +18,7 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 
 // The user interaction and selection handling for items in the
 // OrganicMediaList.

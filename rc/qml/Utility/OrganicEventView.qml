@@ -19,6 +19,7 @@
 
 import QtQuick 2.0
 import Gallery 1.0
+import Ubuntu.Components 0.1
 import "../../js/GalleryUtility.js" as GalleryUtility
 
 // An "organic" vertically-scrollable view of all events, each containing a

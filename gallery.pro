@@ -113,3 +113,6 @@ install_binary.files = gallery
 install_resources.path = $$PREFIX/share/gallery/
 install_resources.files = rc/
 INSTALLS = install_binary install_resources
+
+OTHER_FILES += \
+    rc/Capetown/Widgets/GalleryTab.qml

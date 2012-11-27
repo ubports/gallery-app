@@ -19,6 +19,7 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 
 // Because some QML components' natural swiping motion requires custom
 // event handling, this emulates it and allows for programmatic control
