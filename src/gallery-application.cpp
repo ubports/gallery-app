@@ -170,7 +170,6 @@ void GalleryApplication::create_view() {
   view_.engine()->rootContext()->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
   view_.engine()->rootContext()->setContextProperty("DEVICE_HEIGHT", QVariant(size.height()));
   view_.engine()->rootContext()->setContextProperty("FORM_FACTOR", QVariant(form_factor_));
-  view_.engine()->rootContext()->setContextProperty("GRIDUNIT", QVariant(bgu_size_));
 
   view_.engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
     GalleryStandardImageProvider::instance());
