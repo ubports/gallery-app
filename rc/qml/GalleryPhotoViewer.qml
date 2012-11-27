@@ -24,6 +24,7 @@ import "../Capetown"
 import "../Capetown/Viewer"
 import "Components"
 import "Widgets"
+import "../js/Gallery.js" as Gallery
 
 Rectangle {
   id: viewerWrapper
@@ -411,7 +412,7 @@ Rectangle {
     ]
     
     Behavior on opacity {
-      NumberAnimation { duration: 200 }
+      NumberAnimation { duration: Gallery.SLOW_DURATION }
     }
 
     anchors.fill: parent
@@ -438,8 +439,8 @@ Rectangle {
       galleryPhotoViewer.visible = true;
     }
     
-    onStateChanged: {
-      if (state == "shown")
+    onOpacityChanged: {
+      if (opacity == 1.0)
         galleryPhotoViewer.visible = false
     }
   }
