@@ -40,8 +40,8 @@ Item {
 
     anchors.right: parent.right
     anchors.bottom: parent.bottom
-    width: gu(10.5)
-    height: gu(10.5)
+    width: units.gu(10.5)
+    height: units.gu(10.5)
 
     visible: isSelected
 

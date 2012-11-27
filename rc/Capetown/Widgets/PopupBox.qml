@@ -40,7 +40,7 @@ Rectangle {
 
   // readonly
   property int cueArrowOffset: Math.floor(originCueWidth / 2)
-  property int boundingOffset: gu(0.5)
+  property int boundingOffset: units.gu(0.5)
 
   function flipVisibility() {
       state = (state == "shown" ? "hidden" : "shown");

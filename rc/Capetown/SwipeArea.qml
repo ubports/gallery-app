@@ -32,7 +32,7 @@ MouseArea {
   signal tapped(int x, int y, bool rightButton)
   signal longPressed(int x, int y)
   
-  property int requiredHorizMovement: gu(0)
+  property int requiredHorizMovement: units.gu(0)
   
   // internal
   property int startX: -1

@@ -37,8 +37,8 @@ Item {
   property alias isFlipping: albumPreview.isFlipping
 
   // internal
-  property real canonicalWidth: gu(28)
-  property real canonicalHeight: gu(33)
+  property real canonicalWidth: units.gu(28)
+  property real canonicalHeight: units.gu(33)
   property real widthRatio: width / canonicalWidth
   property real heightRatio: height / canonicalHeight
 
@@ -71,7 +71,7 @@ Item {
     // Spacer
     Item {
       width: 1
-      height: gu(1)
+      height: units.gu(1)
     }
     
     Text {

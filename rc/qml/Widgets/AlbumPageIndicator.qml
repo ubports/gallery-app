@@ -51,7 +51,7 @@ Rectangle {
   Row {
     anchors.centerIn: parent
 
-    spacing: gu(5)
+    spacing: units.gu(5)
     
     Repeater {
       id: pageIndicatorRepeater

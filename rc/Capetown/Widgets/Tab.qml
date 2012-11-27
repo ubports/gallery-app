@@ -34,8 +34,8 @@ Item {
 
   signal activated()
   
-  width: (background.source != "" ? background.width : gu(13.75))
-  height: (background.source != "" ? background.height : gu(5.5))
+  width: (background.source != "" ? background.width : units.gu(13.75))
+  height: (background.source != "" ? background.height : units.gu(5.5))
 
   state: "deselected"
   states: [

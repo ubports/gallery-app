@@ -28,8 +28,8 @@ PopupMenu {
   
   // these are hardcoded to match the location of the Selection Button in the
   // chrome
-  popupOriginX: gu(3.5)
-  popupOriginY: -gu(6)
+  popupOriginX: units.gu(3.5)
+  popupOriginY: -units.gu(6)
   
   visible: false
   state: "hidden"

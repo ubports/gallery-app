@@ -27,7 +27,7 @@ PopupBox {
 
   signal actionInvoked(string name);
 
-  width: gu(40)
+  width: units.gu(40)
   height: menuItemColumn.height + originCueHeight
 
   color: "transparent"

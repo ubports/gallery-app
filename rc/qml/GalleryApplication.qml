@@ -35,60 +35,60 @@ Item {
   property var deviceSpecifics: {
     'default': {
       // Size of thumbnails in album overview.
-      albumThumbnailWidth: gu(28),
-      albumThumbnailHeight: gu(33),
+      albumThumbnailWidth: units.gu(28),
+      albumThumbnailHeight: units.gu(33),
       
       // Whitespace around photos in album overview.
-      albumGridTopMargin: gu(2), // Plus half of albumGridGutterHeight.
-      albumGridLeftMargin: gu(2), // Plus half of albumGridGutterWidth.
-      albumGridRightMargin: gu(2), // Plus half of albumGridGutterWidth.
-      albumGridGutterWidth: gu(6),
-      albumGridGutterHeight: gu(8),
+      albumGridTopMargin: units.gu(2), // Plus half of albumGridGutterHeight.
+      albumGridLeftMargin: units.gu(2), // Plus half of albumGridGutterWidth.
+      albumGridRightMargin: units.gu(2), // Plus half of albumGridGutterWidth.
+      albumGridGutterWidth: units.gu(6),
+      albumGridGutterHeight: units.gu(8),
       
       // Whitespace around photos on album pages in the album viewer.
-      albumPageTopMargin: gu(6),
-      albumPageBottomMargin: gu(6),
-      albumPageGutterMargin: gu(2), // Between spine and photo.
-      albumPageOuterMargin: gu(3), // Between opposite edge and photo.
-      albumPageInsideMargin: gu(4), // Between photos on one page.
+      albumPageTopMargin: units.gu(6),
+      albumPageBottomMargin: units.gu(6),
+      albumPageGutterMargin: units.gu(2), // Between spine and photo.
+      albumPageOuterMargin: units.gu(3), // Between opposite edge and photo.
+      albumPageInsideMargin: units.gu(4), // Between photos on one page.
       
       // Whitespace around photos on album pages in preview thumbnails.
-      albumPreviewTopMargin: gu(2),
-      albumPreviewBottomMargin: gu(2),
-      albumPreviewGutterMargin: gu(1), // Between spine and photo.
-      albumPreviewOuterMargin: gu(1), // Between opposite edge and photo.
-      albumPreviewInsideMargin: gu(2), // Between photos on one page.
+      albumPreviewTopMargin: units.gu(2),
+      albumPreviewBottomMargin: units.gu(2),
+      albumPreviewGutterMargin: units.gu(1), // Between spine and photo.
+      albumPreviewOuterMargin: units.gu(1), // Between opposite edge and photo.
+      albumPreviewInsideMargin: units.gu(2), // Between photos on one page.
     },
     
     'phone': {
-      albumThumbnailWidth: gu(17),
-      albumThumbnailHeight: gu(20),
+      albumThumbnailWidth: units.gu(17),
+      albumThumbnailHeight: units.gu(20),
       
-      albumGridTopMargin: gu(1),
-      albumGridLeftMargin: gu(4),
-      albumGridRightMargin: gu(4),
-      albumGridTopMarginPortrait: -gu(1), // gets added to a bigger positive value
-      albumGridLeftMarginPortrait: gu(1),
-      albumGridRightMarginPortrait: gu(1),
+      albumGridTopMargin: units.gu(1),
+      albumGridLeftMargin: units.gu(4),
+      albumGridRightMargin: units.gu(4),
+      albumGridTopMarginPortrait: -units.gu(1), // gets added to a bigger positive value
+      albumGridLeftMarginPortrait: units.gu(1),
+      albumGridRightMarginPortrait: units.gu(1),
       
-      albumGridGutterWidth: gu(4),
-      albumGridGutterHeight: gu(6),
-      albumGridGutterWidthPortrait: gu(2),
-      albumGridGutterHeightPortrait: gu(6),
+      albumGridGutterWidth: units.gu(4),
+      albumGridGutterHeight: units.gu(6),
+      albumGridGutterWidthPortrait: units.gu(2),
+      albumGridGutterHeightPortrait: units.gu(6),
       
-      albumPageTopMargin: gu(1),
-      albumPageBottomMargin: gu(1),
-      albumPageGutterMargin: gu(0.5),
-      albumPageOuterMargin: gu(1),
-      albumPageInsideMargin: gu(2),
-      albumPageGutterMarginPortrait: gu(1),
-      albumPageInsideMarginPortrait: gu(3),
+      albumPageTopMargin: units.gu(1),
+      albumPageBottomMargin: units.gu(1),
+      albumPageGutterMargin: units.gu(0.5),
+      albumPageOuterMargin: units.gu(1),
+      albumPageInsideMargin: units.gu(2),
+      albumPageGutterMarginPortrait: units.gu(1),
+      albumPageInsideMarginPortrait: units.gu(3),
       
-      albumPreviewTopMargin: gu(1),
-      albumPreviewBottomMargin: gu(1),
-      albumPreviewGutterMargin: gu(1),
-      albumPreviewOuterMargin: gu(1),
-      albumPreviewInsideMargin: gu(1),
+      albumPreviewTopMargin: units.gu(1),
+      albumPreviewBottomMargin: units.gu(1),
+      albumPreviewGutterMargin: units.gu(1),
+      albumPreviewOuterMargin: units.gu(1),
+      albumPreviewInsideMargin: units.gu(1),
     },
   };
   
@@ -117,13 +117,8 @@ Item {
     console.debug("Invalid key '" + key + "' passed to getDeviceSpecific()");
     return undefined;
   }
-  
-  // Converts a grid-unit into a pixel value.
-  function gu(amt) {
-    return Math.floor(GRIDUNIT * amt);
-  }
 
-  // gu(), but for font point sizes.
+  // units.gu(), but for font point sizes.
   function pointUnits(amt) {
     // 1.6 is a hacky fudge-factor for now.
     return Math.round(1.6 * amt);
@@ -134,8 +129,8 @@ Item {
     loadingScreen.visible = false;
   }
   
-  width: gu(DEVICE_WIDTH)
-  height: gu(DEVICE_HEIGHT)
+  width: units.gu(DEVICE_WIDTH)
+  height: units.gu(DEVICE_HEIGHT)
 
   focus: true
   Keys.onPressed: {

@@ -60,8 +60,8 @@ Item {
   // Where the transparent shadow ends in the frame image.
   property real frameStartX: (isRight ? 6 : 5)
   property real frameStartY: 5
-  property real frameWidth: gu(28)
-  property real frameHeight: gu(33)
+  property real frameWidth: units.gu(28)
+  property real frameHeight: units.gu(33)
   // Offset from frameStart* to the "page" inside the frame.
   property real frameContentOffsetX: (isRight ? 0 : 5)
   property real frameContentOffsetY: 5

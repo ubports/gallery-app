@@ -28,14 +28,14 @@ PopupBox {
     id: explanatoryText
 
     anchors.top: parent.top
-    anchors.topMargin: gu(2)
+    anchors.topMargin: units.gu(2)
     anchors.left: parent.left
-    anchors.leftMargin: gu(2)
+    anchors.leftMargin: units.gu(2)
     anchors.right: parent.right
-    anchors.rightMargin: gu(2)
-    height: gu(7)
+    anchors.rightMargin: units.gu(2)
+    height: units.gu(7)
 
-    font.pixelSize: gu(2.25)
+    font.pixelSize: units.gu(2.25)
 
     color: "#818285"
 

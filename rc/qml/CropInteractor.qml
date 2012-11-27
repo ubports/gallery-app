@@ -99,14 +99,14 @@ Item {
     id: viewport
 
     anchors.fill: parent
-    anchors.margins: gu(8)
+    anchors.margins: units.gu(8)
     z: 1
   }
 
   CropOverlay {
     id: overlay
 
-    property real minSize: gu(4)
+    property real minSize: units.gu(4)
 
     anchors.fill: parent;
     visible: false;

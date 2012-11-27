@@ -44,10 +44,15 @@
 #include "qml/qml-media-collection-model.h"
 #include "qml/qml-stack.h"
 #include "util/resource.h"
+#include <QProcess>
 
 GalleryApplication::GalleryApplication(int& argc, char** argv) :
     QApplication(argc, argv), form_factor_("desktop"), is_portrait_(false),
-    bgu_size_(8), view_(), startup_timer_(false) {
+    view_(), startup_timer_(false) {
+  
+  bgu_size_ = QProcessEnvironment::systemEnvironment().value("GRID_UNIT_PX", "8").toInt();
+  if (bgu_size_ <= 0)
+    bgu_size_ = 8;
   
   timer_.start();
   form_factors_.insert("desktop", QSize(160, 100)); // In BGU.
@@ -95,7 +100,6 @@ void GalleryApplication::usage(bool error) {
   out << "Options:" << endl;
   out << "  --landscape   run in landscape orientation (default)" << endl;
   out << "  --portrait   run in portrait orientation" << endl;
-  out << "  --bgu-size X   set BGU size to X (default 8)" << endl;
   foreach (const QString& form_factor, form_factors_.keys())
     out << "  --" << form_factor << "   run in " << form_factor << " form factor" << endl;
   out << "  --startup-timer   debug-print startup time" << endl;
@@ -123,13 +127,6 @@ void GalleryApplication::process_args() {
       is_portrait_ = true;
     } else if (arg == "--startup-timer") {
       startup_timer_ = true;
-    } else if (arg == "--bgu-size") {
-      bool ok = false;
-      int bgu_size = value.toInt(&ok);
-
-      ++i; // Skip over value next iteration.
-      if (ok && bgu_size > 0)
-        bgu_size_ = bgu_size;
     } else {
       QString form_factor = arg.mid(2); // minus initial "--"
 

@@ -36,8 +36,8 @@ Item {
   // readonly
   // Some duplication from OrganicMediaList, to make certain things easier.
   property int organicMediaListMediaPerPattern: 6 // OrganicMediaList.mediaPerPattern
-  property real organicMediaListPatternWidth: gu(72) // OrganicMediaList.patternWidth
-  property real organicMediaListMargin: gu(3) // OrganicMediaList.margin
+  property real organicMediaListPatternWidth: units.gu(72) // OrganicMediaList.patternWidth
+  property real organicMediaListMargin: units.gu(3) // OrganicMediaList.margin
 
   Image {
     anchors.fill: parent

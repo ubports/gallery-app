@@ -33,19 +33,19 @@ Item {
   signal mediaSelectorHidden(int newScrollPos)
 
   property Album album
-  property real minimumCoverWidth: gu(32)
-  property real minimumCoverHeight: gu(38)
-  property real preferredCoverWidth: width - gu(8)
-  property real preferredCoverHeight: height - gu(8)
-  property real minimumTopMargin: gu(3)
+  property real minimumCoverWidth: units.gu(32)
+  property real minimumCoverHeight: units.gu(38)
+  property real preferredCoverWidth: width - units.gu(8)
+  property real preferredCoverHeight: height - units.gu(8)
+  property real minimumTopMargin: units.gu(3)
 
   // readonly
   property variant editorRect
   property alias animationRunning: mediaSelector.animationRunning
 
   // internal
-  property real canonicalWidth: gu(66)
-  property real canonicalHeight: gu(80)
+  property real canonicalWidth: units.gu(66)
+  property real canonicalHeight: units.gu(80)
 
   function editNewAlbum() {
     albumEditor.album = albumModel.createOrphan();
@@ -144,8 +144,8 @@ Item {
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        width: gu(14)
-        height: gu(14)
+        width: units.gu(14)
+        height: units.gu(14)
         onClicked: mediaSelector.show()
       }
     }
@@ -157,8 +157,8 @@ Item {
     
     visible: false
     state: "hidden"
-    popupOriginX: -gu(3)
-    popupOriginY: -gu(15)
+    popupOriginX: -units.gu(3)
+    popupOriginY: -units.gu(15)
     
     onActionInvoked: {
       albumEditor.album.coverNickname = name

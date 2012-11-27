@@ -31,24 +31,24 @@ Item {
   property bool isTop: true
   property color color: "black"
 
-  x: (isLeft ? -gu(3) : parent.width - gu(1))
-  y: (isTop ? -gu(3) : parent.height - gu(1))
-  width: gu(4)
-  height: gu(4)
+  x: (isLeft ? -units.gu(3) : parent.width - units.gu(1))
+  y: (isTop ? -units.gu(3) : parent.height - units.gu(1))
+  width: units.gu(4)
+  height: units.gu(4)
 
   Rectangle {
     x: 0
-    y: (isTop ? 0 : gu(3))
-    width: gu(4)
-    height: gu(1)
+    y: (isTop ? 0 : units.gu(3))
+    width: units.gu(4)
+    height: units.gu(1)
     color: cropCorner.color
   }
 
   Rectangle {
-    x: (isLeft ? 0 : gu(3))
-    y: (isTop ? gu(1) : 0)
-    width: gu(1)
-    height: gu(3)
+    x: (isLeft ? 0 : units.gu(3))
+    y: (isTop ? units.gu(1) : 0)
+    width: units.gu(1)
+    height: units.gu(3)
     color: cropCorner.color
   }
 

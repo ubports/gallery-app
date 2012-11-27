@@ -34,13 +34,13 @@ Item {
   property bool isBlank: false
   property bool isPreview: true
   property real titleOpacity: 1
-  property int titleDateSpacing: gu(2) // (Preview-sized; will scale up)
+  property int titleDateSpacing: units.gu(2) // (Preview-sized; will scale up)
   
   // internal
-  property real canonicalPreviewWidth: gu(28)
-  property real canonicalPreviewHeight: gu(33)
-  property real canonicalFullWidth: gu(66)
-  property real canonicalFullHeight: gu(80)
+  property real canonicalPreviewWidth: units.gu(28)
+  property real canonicalPreviewHeight: units.gu(33)
+  property real canonicalFullWidth: units.gu(66)
+  property real canonicalFullHeight: units.gu(80)
   property real canonicalWidth: (isPreview ? canonicalPreviewWidth : canonicalFullWidth)
   property real canonicalHeight: (isPreview ? canonicalPreviewHeight : canonicalFullHeight)
   property real textScale: canonicalWidth / canonicalPreviewWidth
@@ -103,7 +103,7 @@ Item {
       // Spacer
       Item {
         width: 1
-        height: gu(6) * spacerScale
+        height: units.gu(6) * spacerScale
       }
 
       TextEditOnClick {

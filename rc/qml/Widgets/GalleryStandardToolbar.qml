@@ -48,10 +48,10 @@ Toolbar {
   signal editOperationsButtonPressed()
 
   Row {
-    spacing: gu(2)
+    spacing: units.gu(2)
     anchors.verticalCenter: parent.verticalCenter
     anchors.left: parent.left
-    anchors.leftMargin: gu(2)
+    anchors.leftMargin: units.gu(2)
 
     SelectionOperationsToolbarButton {
       id: selectionToolbarButton
@@ -85,10 +85,10 @@ Toolbar {
   Row {
     id: iconGroup
 
-    spacing: gu(2)
+    spacing: units.gu(2)
     anchors.verticalCenter: parent.verticalCenter
     anchors.right: parent.right
-    anchors.rightMargin: gu(2)
+    anchors.rightMargin: units.gu(2)
 
     visible: hasMainIconSet
 
