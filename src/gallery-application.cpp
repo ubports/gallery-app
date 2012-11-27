@@ -72,8 +72,9 @@ int GalleryApplication::exec() {
 }
 
 bool GalleryApplication::run_command(const QString &cmd, const QString &arg) {
-  QString tmp = QString("\"" + arg + "\"");
-  return QProcess::startDetached(cmd + " " + tmp);
+  QStringList tmp = QStringList(arg);
+  
+  return QProcess::startDetached(cmd, tmp);
 }
 
 void GalleryApplication::register_qml() {
