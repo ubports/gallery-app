@@ -393,7 +393,7 @@ Rectangle {
         
         case "onShare": {
           for (var img in eventView.selection.model) {
-            APP.run_command("xdg-open" , img.path);
+            shareImage(img);
           }
           break;
         }

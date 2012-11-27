@@ -476,8 +476,8 @@ Rectangle {
               for (var i = 0; i < gridCheckerboard.selection.model.count; i++) {
                 var img = gridCheckerboard.selection.model.getAt(i);
                 
-                if (gridCheckerboard.selection.model.isSelected(gridCheckerboard.selection.model.getAt(i))) {
-                  APP.run_command("xdg-open" , gridCheckerboard.selection.model.getAt(i).path);
+                if (gridCheckerboard.selection.model.isSelected(img)) {
+                  shareImage(img);
                 }
               }
               break;

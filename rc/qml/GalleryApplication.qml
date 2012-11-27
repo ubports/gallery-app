@@ -160,6 +160,10 @@ Item {
     loadingScreen.visible = false;
   }
   
+  function shareImage(img) {
+    APP.run_command("xdg-open" , img.path);
+  }
+  
   width: gu(DEVICE_WIDTH)
   height: gu(DEVICE_HEIGHT)
 
