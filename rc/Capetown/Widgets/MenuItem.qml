@@ -172,7 +172,7 @@ Rectangle {
   MouseArea {
     anchors.fill: parent;
 
-    onPressed: {
+    onClicked: {
       if (!menuItem.isSeparator)
         menuItem.state = "highlight"
 

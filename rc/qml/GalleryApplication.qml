@@ -21,6 +21,7 @@
 
 import QtQuick 2.0
 import "../js/Gallery.js" as Gallery
+import Ubuntu.Components 0.1 // Necessary to make filename@GU.ext images load
 
 Item {
   id: application
@@ -34,17 +35,6 @@ Item {
   // the end of a key to make it portrait-mode specific.
   property var deviceSpecifics: {
     'default': {
-      // Size of thumbnails in event overview/media selector/etc.
-      photoThumbnailWidth: gu(24),
-      photoThumbnailHeight: gu(18),
-      
-      // Whitespace around photos in event overview/media selector/etc.
-      photoGridTopMargin: gu(2), // Plus half of photoGridGutterHeight.
-      photoGridLeftMargin: gu(2), // Plus half of photoGridGutterWidth.
-      photoGridRightMargin: gu(2), // Plus half of photoGridGutterWidth.
-      photoGridGutterWidth: gu(2),
-      photoGridGutterHeight: gu(2),
-      
       // Size of thumbnails in album overview.
       albumThumbnailWidth: gu(28),
       albumThumbnailHeight: gu(33),
@@ -72,21 +62,6 @@ Item {
     },
     
     'phone': {
-      photoThumbnailWidth: gu(17),
-      photoThumbnailHeight: gu(13),
-      
-      photoGridTopMargin: gu(2),
-      photoGridLeftMargin: gu(4),
-      photoGridRightMargin: gu(4),
-      photoGridTopMarginPortrait: gu(1),
-      photoGridLeftMarginPortrait: gu(1),
-      photoGridRightMarginPortrait: gu(1),
-      
-      photoGridGutterWidth: gu(4),
-      photoGridGutterHeight: gu(4),
-      photoGridGutterWidthPortrait: gu(2),
-      photoGridGutterHeightPortrait: gu(2),
-      
       albumThumbnailWidth: gu(17),
       albumThumbnailHeight: gu(20),
       

@@ -31,7 +31,6 @@ ParallelAnimation {
   property real endWidth: target.parent.width
   property real endHeight: target.parent.height
   property int easingType: Easing.InQuad
-  property real overshoot: 1.70
 
   property int duration: 200
 
@@ -41,7 +40,6 @@ ParallelAnimation {
     to: endX
     duration: expandAnimation.duration
     easing.type: easingType
-    easing.overshoot: overshoot
   }
 
   NumberAnimation {
@@ -50,7 +48,6 @@ ParallelAnimation {
     to: endY
     duration: expandAnimation.duration
     easing.type: easingType
-    easing.overshoot: overshoot
   }
 
   NumberAnimation {
@@ -59,7 +56,6 @@ ParallelAnimation {
     to: endWidth
     duration: expandAnimation.duration
     easing.type: easingType
-    easing.overshoot: overshoot
   }
 
   NumberAnimation {
@@ -68,6 +64,5 @@ ParallelAnimation {
     to: endHeight
     duration: expandAnimation.duration
     easing.type: easingType
-    easing.overshoot: overshoot
   }
 }

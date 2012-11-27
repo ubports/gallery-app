@@ -31,11 +31,8 @@ Item {
 
   property color selectedTextColor: "white"
   property color deselectedTextColor: "#747273"
-
-  signal activated()
   
-  width: (background.source != "" ? background.width : gu(13.75))
-  height: (background.source != "" ? background.height : gu(5.5))
+  signal activated()
 
   state: "deselected"
   states: [
@@ -46,6 +43,7 @@ Item {
   Image {
     id: background
 
+    width: parent.width
     source: (tab.state == "selected" ? selectedBackgroundSource : deselectedBackgroundSource)
     cache: true
   }
