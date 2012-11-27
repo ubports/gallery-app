@@ -34,7 +34,7 @@ class MainWindow(object):
 
     def get_album_editor(self):
         """Returns the album editor."""
-        return self.app.select_single("AlbumEditor", id=27)
+        return self.app.select_single("AlbumEditor", objectName="mainAlbumEditor")
 
     def get_album_title_entry_field(self):
         """Returns the album title input box."""
