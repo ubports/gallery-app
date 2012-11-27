@@ -571,7 +571,7 @@ Rectangle {
           }
           
           case "onShare": {
-            APP.run_command("xdg-open" , mediaSource.path);
+            shareImage(mediaSource);
             break;
           }
           

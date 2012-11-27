@@ -220,7 +220,7 @@ Rectangle {
         onActionInvoked: {
           switch (name) {
             case "onQuickShare": {
-              APP.run_command("xdg-open" , photo.path);
+              shareImage(photo);
             }
           }
         }

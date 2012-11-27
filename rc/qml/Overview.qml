@@ -313,7 +313,7 @@ Rectangle {
               var img = eventView.selection.model.getAt(i);
               
               if (eventView.selection.model.isSelected(img)) {
-                APP.run_command("xdg-open", img.path);
+                shareImage(img);
               }
             }
             break;
