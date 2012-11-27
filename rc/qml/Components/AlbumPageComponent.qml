@@ -93,7 +93,7 @@ Flipable {
   front: AlbumPageContents {
     id: frontContents
     
-    x: isPreview ? -frontContents.frameHingeInset : 0
+    x: isPreview ? -frontContents.frameHingeInset : 0 // origin offset
     width: albumPageComponent.width
     height: albumPageComponent.height
     
@@ -115,7 +115,7 @@ Flipable {
   back: AlbumPageContents {
     id: backContents
     
-    x: isPreview ? frontContents.frameHingeInset : 0
+    x: isPreview ? frontContents.frameHingeInset : 0 // origin offset
     width: albumPageComponent.width
     height: albumPageComponent.height
     

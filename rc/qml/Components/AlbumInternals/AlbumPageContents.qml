@@ -42,10 +42,6 @@ Item {
   property bool freeze: false
   property bool showCover: true
   
-  // GU/pixel scale factor of preview frame
-  property real scaleFactorX: width / (pixelWidth - pixelWidthOffset)
-  property real scaleFactorY: height / (pixelHeight - pixelHeightOffset)
-  
   property real frameHingeInset: frame.startX * scaleFactorX
   
   // readonly
@@ -77,6 +73,10 @@ Item {
   property real frameInsetMarginY: 10
   property real frameContentOffsetX: frame.startX + frameInsetMarginX
   property real frameContentOffsetY: frameInsetMarginY
+  
+  // GU/pixel scale factor of preview frame
+  property real scaleFactorX: width / (pixelWidth - pixelWidthOffset)
+  property real scaleFactorY: height / (pixelHeight - pixelHeightOffset)
   
   // Frame dimensions
   property real frameContentWidth: frame.contentWidth

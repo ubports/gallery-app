@@ -91,8 +91,8 @@ Item {
     id: shifter
     
     // Shift it over as it opens so the visuals stay centered.
-    x: (width * openFraction)// - (rightPage.frameHingeInset * 2 * openFraction) - 5
-    y: -5
+    x: (width * openFraction)
+    y: -5 // Top of page frame
     width: parent.width
     height: parent.height
 

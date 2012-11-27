@@ -40,18 +40,12 @@ Item {
   property alias yScale: scale.yScale
   
   // internal
-  property real canonicalPreviewWidth: gu(28)
-  property real canonicalPreviewHeight: gu(33)
-  property real canonicalFullWidth: gu(66)
-  property real canonicalFullHeight: gu(80)
-  property real canonicalWidth: (isPreview ? canonicalPreviewWidth : canonicalFullWidth)
-  property real canonicalHeight: (isPreview ? canonicalPreviewHeight : canonicalFullHeight)
   // Scale text and spacers by factor of cover size. 
   property real textScale: isPreview || width <= 0 || cover.previewPixelWidth <= 0 
     ? 1 : width / cover.previewPixelWidth
-  property real spacerScale: cover.height / canonicalPreviewHeight
-  // Where the transparent shadow ends in the cover image.
-  property real coverStartX: width / 50
+  property real spacerScale: cover.height / gu(33) // ratio of image height to canonical height
+  // Text margins.
+  property real coverStartX: width / 50 // Frame is ~1/50th of page width or height
   property real coverStartY: height / 50
   property variant coverElement: album !== null ?
     coverList.elementForActionName(album.coverNickname) : coverList.getDefault();
