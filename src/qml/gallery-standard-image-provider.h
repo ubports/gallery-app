@@ -31,6 +31,8 @@
 #include <QString>
 #include <QUrl>
 
+#include "photo/photo-metadata.h"
+
 class GalleryStandardImageProvider
   : public QObject, public QQuickImageProvider {
   Q_OBJECT
@@ -60,6 +62,7 @@ class GalleryStandardImageProvider
     // these fields should only be accessed when imageMutex_ is locked
     QImage image_;
     QSize fullSize_;
+    Orientation orientation_;
     
     // the following should only be accessed when cacheMutex_ is locked; the
     // counter controls removing a CachedImage entry from the cache table
@@ -73,6 +76,7 @@ class GalleryStandardImageProvider
     static QString idToFile(const QString& id);
     
     // the following should only be called when imageMutex_ is locked
+    void storeImage(const QImage& image, const QSize& fullSize, Orientation orientation);
     bool isFullSized() const;
     bool isReady() const;
     bool isCacheHit(const QSize& requestedSize) const;
@@ -84,6 +88,8 @@ class GalleryStandardImageProvider
   QList<QString> fifo_;
   QMutex cacheMutex_;
   long cachedBytes_;
+  
+  static QSize orientSize(const QSize& size, Orientation orientation);
   
   GalleryStandardImageProvider();
   

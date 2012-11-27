@@ -23,7 +23,6 @@
 #include <QImageReader>
 #include <QSize>
 
-#include "photo/photo-metadata.h"
 #include "media/preview-manager.h"
 
 // set to 1 to log image cache and loading status via qDebug
@@ -207,15 +206,20 @@ QImage GalleryStandardImageProvider::fetch_cached_image(CachedImage *cachedImage
       if (!fullSize.isValid())
         fullSize = readyImage.size();
       
+      Orientation orientation = TOP_LEFT_ORIGIN;
+      
       // apply orientation if necessary
       // TODO: Would be more efficient if the caller supplied a known orientation from the
       // media database or, if a thumbnail, a TOP LEFT orientation to skip checking anyway
       std::auto_ptr<PhotoMetadata> metadata(PhotoMetadata::FromFile(cachedImage->file_));
-      if (metadata.get() != NULL && metadata->orientation() != TOP_LEFT_ORIGIN)
-        readyImage = readyImage.transformed(metadata->orientation_transform());
+      if (metadata.get() != NULL) {
+        orientation = metadata->orientation();
+        
+        if (orientation != TOP_LEFT_ORIGIN)
+          readyImage = readyImage.transformed(metadata->orientation_transform());
+      }
       
-      cachedImage->image_ = readyImage;
-      cachedImage->fullSize_ = fullSize;
+      cachedImage->storeImage(readyImage, fullSize, orientation);
       
       if (bytesLoaded != NULL)
         *bytesLoaded = readyImage.byteCount();
@@ -289,17 +293,39 @@ void GalleryStandardImageProvider::release_cached_image_entry(
     delete dropList.takeFirst();
 }
 
+QSize GalleryStandardImageProvider::orientSize(const QSize& size, Orientation orientation) {
+  switch (orientation) {
+    case LEFT_TOP_ORIGIN:
+    case RIGHT_TOP_ORIGIN:
+    case RIGHT_BOTTOM_ORIGIN:
+    case LEFT_BOTTOM_ORIGIN:
+      return QSize(size.height(), size.width());
+    break;
+    
+    default:
+      // no change
+      return size;
+  }
+}
+
 /*
  * GalleryStandardImageProvider::CachedImage
  */
 
 GalleryStandardImageProvider::CachedImage::CachedImage(const QString& id,
   const QString& file)
-  : id_(id), file_(file), inUseCount_(0), byteCount_(0) {
+  : id_(id), file_(file), orientation_(TOP_LEFT_ORIGIN), inUseCount_(0), byteCount_(0) {
 }
 
 QString GalleryStandardImageProvider::CachedImage::idToFile(const QString& id) {
   return QUrl(id).path();
+}
+
+void GalleryStandardImageProvider::CachedImage::storeImage(const QImage& image,
+  const QSize& fullSize, Orientation orientation) {
+  image_ = image;
+  fullSize_ = orientSize(fullSize, orientation);
+  orientation_ = orientation;
 }
 
 bool GalleryStandardImageProvider::CachedImage::isReady() const {
@@ -317,8 +343,10 @@ bool GalleryStandardImageProvider::CachedImage::isCacheHit(const QSize& requeste
   if (isFullSized())
     return true;
   
-  if ((requestedSize.width() != 0 && image_.width() >= requestedSize.width())
-    || (requestedSize.height() != 0 && image_.height() >= requestedSize.height())) {
+  QSize properRequestedSize = orientSize(requestedSize, orientation_);
+  
+  if ((properRequestedSize.width() != 0 && image_.width() >= properRequestedSize.width())
+    || (properRequestedSize.height() != 0 && image_.height() >= properRequestedSize.height())) {
     return true;
   }
   

@@ -63,12 +63,12 @@ Rectangle {
     //           prevent this segfault & crash from occurring.
     visible: isLoaded;
     
-    sourceSize.width: width
-    sourceSize.height: height
+    // Although Gallery image handler does caching to prevent loads and decodes, still want to
+    // use old width and cache: !isAnimate settings for flicker-free animations and reflows
+    sourceSize.width: (width <= 1024) ? 1024 : width
     
     asynchronous: !isAnimate
-    // not cached because Gallery image handler does its own caching
-    cache: false
+    cache: !isAnimate
     smooth: !isAnimate
     fillMode: isCropped ? Image.PreserveAspectCrop : Image.PreserveAspectFit
     
