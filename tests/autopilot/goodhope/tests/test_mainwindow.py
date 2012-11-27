@@ -15,7 +15,6 @@ from autopilot.matchers import Eventually
 
 from goodhope.tests import GoodhopeTestCase
 
-from time import sleep
 
 class TestMainWindow(GoodhopeTestCase):
     """Tests the main gallery features"""
