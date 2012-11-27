@@ -86,12 +86,13 @@ Item {
     ignoreUnknownSignals: true
     onClosedAltered: openFraction = (album.closed ? 0 : 1)
   }
-
+  
   Item {
     id: shifter
-
-    x: width * openFraction // Shift it over as it opens so the visuals stay centered.
-    y: 0
+    
+    // Shift it over as it opens so the visuals stay centered.
+    x: (width * openFraction)
+    y: -5 // Top of page frame
     width: parent.width
     height: parent.height
 

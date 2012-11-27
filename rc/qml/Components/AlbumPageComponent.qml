@@ -64,6 +64,7 @@ Flipable {
   property alias backIsCover: backContents.isCover
   property alias frameToContentWidth: frontContents.frameToContentWidth
   property alias frameToContentHeight: frontContents.frameToContentHeight
+  property alias frameHingeInset: frontContents.frameHingeInset
 
   property real pageTopMargin: getDeviceSpecific('albumPageTopMargin')
   property real pageBottomMargin: getDeviceSpecific('albumPageBottomMargin')
@@ -76,7 +77,7 @@ Flipable {
   property real previewGutterMargin: getDeviceSpecific('albumPreviewGutterMargin')
   property real previewOuterMargin: getDeviceSpecific('albumPreviewOuterMargin')
   property real previewInsideMargin: getDeviceSpecific('albumPreviewInsideMargin')
-
+  
   // Returns the page number of the left page of the current "spread", denoted
   // by a currentPage number from an album.  This will go on the backPage.
   function leftPageForCurrent(currentPage) {
@@ -91,15 +92,16 @@ Flipable {
 
   front: AlbumPageContents {
     id: frontContents
-
+    
+    x: isPreview ? -frontContents.frameHingeInset : 0 // origin offset
     width: albumPageComponent.width
     height: albumPageComponent.height
-
+    
     album: albumPageComponent.album
-
+    
     isPreview: albumPageComponent.isPreview
     contentHasPreviewFrame: albumPageComponent.contentHasPreviewFrame
-
+    
     topMargin: albumPageComponent.topMargin
     bottomMargin: albumPageComponent.bottomMargin
     gutterMargin: albumPageComponent.gutterMargin
@@ -112,15 +114,16 @@ Flipable {
 
   back: AlbumPageContents {
     id: backContents
-
+    
+    x: isPreview ? frontContents.frameHingeInset : 0 // origin offset
     width: albumPageComponent.width
     height: albumPageComponent.height
-
+    
     album: albumPageComponent.album
-
+    
     isPreview: albumPageComponent.isPreview
     contentHasPreviewFrame: albumPageComponent.contentHasPreviewFrame
-
+    
     topMargin: albumPageComponent.topMargin
     bottomMargin: albumPageComponent.bottomMargin
     gutterMargin: albumPageComponent.gutterMargin
