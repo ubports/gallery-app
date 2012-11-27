@@ -57,6 +57,13 @@ Photo* Photo::Load(const QFileInfo& file, bool ensure_thumbnail) {
   qint64 id = Database::instance()->get_media_table()->get_id_for_media(
     file.absoluteFilePath());
   
+  // TODO: We check for the photo in the database but not in the
+  //       MediaCollection. We should check the MediaCollection and, if a
+  //       photo object with the same filename already exists in the
+  //       MediaCollection, we should return a pointer to this existing object
+  //       instead of creating a new one. While this isn't a problem right now,
+  //       it could become one if Photo::Load() is called elsewhere in the app.
+  
   if (id == INVALID_ID && !IsValid(file))
     return NULL;
   
@@ -111,7 +118,9 @@ Photo* Photo::Load(const QFileInfo& file, bool ensure_thumbnail) {
   // ensure that the new photo has a thumbnail, if desired
   if (ensure_thumbnail) {
     bool generated_ok = PreviewManager::instance()->ensure_preview_for_media(p);
-    Q_ASSERT(generated_ok);
+    if (!generated_ok)
+      qDebug() << "unable to ensure thumbnail exists for photo " <<
+        file.absoluteFilePath();
   }
   
   return p;
