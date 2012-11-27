@@ -26,6 +26,10 @@ import "../../js/GalleryUtility.js" as GalleryUtility
 OrganicView {
   id: organicEventView
 
+  // Arbitrary extra amount of padding so that as you scroll the tray, the
+  // photos are already loaded by the time they're on screen.
+  property real trayLoadAreaPadding: gu(10)
+
   selection: SelectionState {
   }
 
@@ -33,6 +37,8 @@ OrganicView {
   }
 
   delegate: Flickable {
+    id: tray
+
     width: organicEventView.width
     height: photosList.height
     clip: true
@@ -43,6 +49,12 @@ OrganicView {
 
     OrganicMediaList {
       id: photosList
+
+      loadAreaLeft: tray.contentX - trayLoadAreaPadding
+      loadAreaRight: tray.contentX + tray.width + trayLoadAreaPadding
+
+      animationDuration: organicEventView.animationDuration
+      animationEasingType: organicEventView.animationEasingType
 
       event: model.event
       selection: organicEventView.selection

@@ -20,6 +20,7 @@
 import QtQuick 2.0
 import Gallery 1.0
 import "../Components"
+import "../../js/Gallery.js" as Gallery
 import "../../js/GalleryUtility.js" as GalleryUtility
 
 // An "organic" list of photos.  Used as the "tray" contents for each event in
@@ -32,6 +33,14 @@ Item {
   property var event
   property alias mediaModel: photosRepeater.model
   property SelectionState selection
+
+  // The left and right edges of the region in which to load photos; any
+  // outside this region are created as delegates, but the photo isn't loaded.
+  property real loadAreaLeft: 0
+  property real loadAreaRight: width
+
+  property int animationDuration: Gallery.FAST_DURATION
+  property int animationEasingType: Easing.InQuint
 
   // readonly
   property int mediaPerPattern: 6
@@ -88,25 +97,58 @@ Item {
 
       property int patternPhoto: index % mediaPerPattern
       property int patternNumber: Math.floor(index / mediaPerPattern)
+      property var modelMediaSource: model.mediaSource
 
       x: photosLeftMargin + photoX[patternPhoto] + patternWidth * patternNumber
       y: photosTopMargin + photoY[patternPhoto]
       width: photoLength[patternPhoto]
       height: photoLength[patternPhoto]
 
-      mediaSource: model.mediaSource
+      mediaSource: (x <= loadAreaRight && x + width >= loadAreaLeft
+                    ? modelMediaSource : null)
       ownerName: "OrganicMediaList"
       isCropped: true
       isPreview: true
 
       OrganicItemInteraction {
-        selectionItem: photoComponent.mediaSource
+        selectionItem: photoComponent.modelMediaSource
         selection: organicMediaList.selection
 
         onPressed: {
           var rect = GalleryUtility.getRectRelativeTo(photoComponent,
                                                       organicMediaList);
-          organicMediaList.pressed(photoComponent.mediaSource, rect);
+          organicMediaList.pressed(photoComponent.modelMediaSource, rect);
+        }
+      }
+
+      // TODO: fade in photos being added, fade out ones being deleted?  This
+      // might entail using Repeater's onItemAdded/onItemRemoved signals and
+      // manually keeping around a list of thumbnails to animate, as we can't
+      // very well animate the thumbnails created as Repeater delegates since
+      // they'll be destroyed before the animation would finish.
+
+      Behavior on x {
+        NumberAnimation {
+          duration: animationDuration
+          easing.type: animationEasingType
+        }
+      }
+      Behavior on y {
+        NumberAnimation {
+          duration: animationDuration
+          easing.type: animationEasingType
+        }
+      }
+      Behavior on width {
+        NumberAnimation {
+          duration: animationDuration
+          easing.type: animationEasingType
+        }
+      }
+      Behavior on height {
+        NumberAnimation {
+          duration: animationDuration
+          easing.type: animationEasingType
         }
       }
     }

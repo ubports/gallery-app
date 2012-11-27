@@ -37,6 +37,7 @@
 #include "media/media-source.h"
 #include "media/preview-manager.h"
 #include "photo/photo-metadata.h"
+#include "photo/photo.h"
 #include "qml/gallery-standard-image-provider.h"
 #include "qml/qml-album-collection-model.h"
 #include "qml/qml-event-collection-model.h"
@@ -47,7 +48,7 @@
 
 GalleryApplication::GalleryApplication(int& argc, char** argv) :
     QApplication(argc, argv), form_factor_("desktop"), is_portrait_(false),
-    bgu_size_(8), view_(), startup_timer_(false) {
+    bgu_size_(8), view_(), startup_timer_(false), monitor_(NULL) {
   
   timer_.start();
   form_factors_.insert("desktop", QSize(160, 100)); // In BGU.
@@ -211,10 +212,23 @@ void GalleryApplication::init_collections() {
 
   emit media_loaded();
   
+  // start the file monitor so that the collection contents will be updated as
+  // new files arrive
+  monitor_ = new MediaMonitor(pictures_dir_.path());
+  QObject::connect(monitor_, SIGNAL(media_item_added(QFileInfo)), this,
+    SLOT(on_media_item_added(QFileInfo)));  
+  
   if (startup_timer_)
     qDebug() << "Startup took" << timer_.elapsed() << "milliseconds";
 }
 
 void GalleryApplication::start_init_collections() {
   init_collections();
+}
+
+void GalleryApplication::on_media_item_added(QFileInfo item_info) {
+  Photo* new_photo = Photo::Load(item_info, true);
+  
+  if (new_photo)
+    MediaCollection::instance()->Add(new_photo);
 }
