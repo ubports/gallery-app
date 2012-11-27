@@ -23,6 +23,7 @@
 #include "photo/photo.h"
 #include "database/database.h"
 #include "util/imaging.h"
+#include "media/preview-manager.h"
 
 #include <QFileInfo>
 #include <QImage>
@@ -43,7 +44,7 @@ bool Photo::IsValid(const QFileInfo& file) {
       QImageWriter::supportedImageFormats().contains(reader.format());
 }
 
-Photo* Photo::Load(const QFileInfo& file) {
+Photo* Photo::Load(const QFileInfo& file, bool ensure_thumbnail) {
   bool needs_update = false;
   PhotoEditState edit_state;
   QDateTime timestamp;
@@ -55,6 +56,13 @@ Photo* Photo::Load(const QFileInfo& file) {
   // Look for photo in the database.
   qint64 id = Database::instance()->get_media_table()->get_id_for_media(
     file.absoluteFilePath());
+  
+  // TODO: We check for the photo in the database but not in the
+  //       MediaCollection. We should check the MediaCollection and, if a
+  //       photo object with the same filename already exists in the
+  //       MediaCollection, we should return a pointer to this existing object
+  //       instead of creating a new one. While this isn't a problem right now,
+  //       it could become one if Photo::Load() is called elsewhere in the app.
   
   if (id == INVALID_ID && !IsValid(file))
     return NULL;
@@ -106,6 +114,14 @@ Photo* Photo::Load(const QFileInfo& file) {
   // We set the id last so we don't save the info we just read in back out to
   // the DB.
   p->set_id(id);
+  
+  // ensure that the new photo has a thumbnail, if desired
+  if (ensure_thumbnail) {
+    bool generated_ok = PreviewManager::instance()->ensure_preview_for_media(p);
+    if (!generated_ok)
+      qDebug() << "unable to ensure thumbnail exists for photo " <<
+        file.absoluteFilePath();
+  }
   
   return p;
 }

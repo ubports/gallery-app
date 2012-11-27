@@ -24,7 +24,7 @@ import "../../Capetown/Widgets"
 PopupMenu {
   id: selectionMenu
   
-  property OrganicSelectionState selection
+  property SelectionState selection
   
   // these are hardcoded to match the location of the Selection Button in the
   // chrome

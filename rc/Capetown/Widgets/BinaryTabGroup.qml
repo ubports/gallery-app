@@ -30,6 +30,9 @@ Item {
 
   property alias tab0Title: tab0.title
   property alias tab1Title: tab1.title
+  
+  // Max width of tabs
+  property int maxWidth: 1000
 
   // readonly
   property bool isTab0Active: state == "tab0_active"
@@ -57,6 +60,9 @@ Item {
 
       selectedBackgroundSource: "img/tab-left-active.png"
       deselectedBackgroundSource: "img/tab-left-inactive.png"
+      
+      width: Math.min(gu(15), maxWidth / 2)
+      height: gu(5)
 
       onActivated: {
         binary_tab_group.state = "tab0_active";
@@ -69,6 +75,9 @@ Item {
 
       selectedBackgroundSource: "img/tab-right-active.png"
       deselectedBackgroundSource: "img/tab-right-inactive.png"
+      
+      width: Math.min(gu(15), maxWidth / 2)
+      height: gu(5)
 
       onActivated: {
         binary_tab_group.state = "tab1_active";

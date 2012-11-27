@@ -64,7 +64,7 @@ Rectangle {
     }
   ]
 
-  OrganicPhotosView {
+  OrganicEventView {
     id: eventView
 
     anchors.fill: parent
@@ -73,7 +73,7 @@ Rectangle {
 
     onMediaSourcePressed: {
       var rect = GalleryUtility.translateRect(thumbnailRect, eventView, photoViewer);
-      photoViewer.animateOpen(mediaSource, rect, false);
+      photoViewer.animateOpen(mediaSource, rect);
     }
   }
 
@@ -95,7 +95,7 @@ Rectangle {
 
     visible: false
 
-    selection: OrganicSelectionState {
+    selection: SelectionState {
       allowSelectionModeChange: false
       model: albumsCheckerboard.model
     }
@@ -225,6 +225,7 @@ Rectangle {
 
       anchors.horizontalCenter: parent.horizontalCenter
       anchors.bottom: parent.bottom
+      maxWidth: navbar.width / 2
 
       tab0Title: "Albums"
       tab1Title: "Events"
@@ -513,7 +514,7 @@ Rectangle {
       // TODO: get thumbnail rect from organic view.
       var thumbnailRect = null;
       if (thumbnailRect)
-        animateClosed(thumbnailRect, true);
+        animateClosed(thumbnailRect);
       else
         close();
     }
