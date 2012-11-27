@@ -412,7 +412,7 @@ Rectangle {
     ]
     
     Behavior on opacity {
-      NumberAnimation { duration: Gallery.SLOW_DURATION }
+      NumberAnimation { duration: Gallery.FAST_DURATION }
     }
 
     anchors.fill: parent
