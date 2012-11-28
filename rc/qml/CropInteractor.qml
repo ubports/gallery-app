@@ -40,7 +40,7 @@ Item {
   signal canceled()
 
   // readonly
-  property variant photo // Set with enterCropper().
+  property variant photo // Set with enter().
 
   // internal
   property variant ratio_crop_rect
@@ -78,7 +78,7 @@ Item {
     return result;
   }
 
-  function enterCropper(photo, ratio_crop_rect) {
+  function enter(photo, ratio_crop_rect) {
     cropInteractor.photo = photo;
     original.mediaSource = photo;
     cropInteractor.ratio_crop_rect = ratio_crop_rect;
