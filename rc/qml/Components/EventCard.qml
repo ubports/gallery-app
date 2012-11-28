@@ -30,8 +30,8 @@ Rectangle {
   property color textColor: "#919191"
   
   color: "#dddddd"
-  width: gu(18)
-  height: gu(18)
+  width: units.gu(18)
+  height: units.gu(18)
  
   Column { 
     anchors.centerIn: parent

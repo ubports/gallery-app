@@ -28,8 +28,8 @@ Button {
   property url selectedIconFilename
   property url deselectedIconFilename
 
-  width: gu(6)
-  height: gu(4)
+  width: units.gu(6)
+  height: units.gu(4)
 
   iconSource: pressed ? selectedIconFilename : deselectedIconFilename
 }

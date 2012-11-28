@@ -45,10 +45,13 @@
 #include "qml/qml-media-collection-model.h"
 #include "qml/qml-stack.h"
 #include "util/resource.h"
+#include <QProcess>
+
+GalleryApplication* GalleryApplication::instance_ = NULL;
 
 GalleryApplication::GalleryApplication(int& argc, char** argv) :
     QApplication(argc, argv), form_factor_("desktop"), is_portrait_(false),
-    is_fullscreen_(false), bgu_size_(8), view_(), startup_timer_(false), monitor_(NULL) {
+    is_fullscreen_(false), view_(), startup_timer_(false), monitor_(NULL) {
   
   timer_.start();
   form_factors_.insert("desktop", QSize(160, 100)); // In BGU.
@@ -61,6 +64,15 @@ GalleryApplication::GalleryApplication(int& argc, char** argv) :
   register_qml();
   process_args();
   init_common();
+  
+  // only set instance_ variable at end of constructor, to ensure it's not
+  // accessed prior to full construction
+  Q_ASSERT(instance_ == NULL);
+  instance_ = this;
+}
+
+GalleryApplication::~GalleryApplication() {
+  delete monitor_;
 }
 
 int GalleryApplication::exec() {
@@ -97,7 +109,6 @@ void GalleryApplication::usage(bool error) {
   out << "  --landscape\trun in landscape orientation (default)" << endl;
   out << "  --portrait\trun in portrait orientation" << endl;
   out << "  --fullscreen\trun fullscreen" << endl;
-  out << "  --bgu-size X\tset BGU size to X (default 8)" << endl;
   foreach (const QString& form_factor, form_factors_.keys())
     out << "  --" << form_factor << "\trun in " << form_factor << " form factor" << endl;
   out << "  --startup-timer\n\t\tdebug-print startup time" << endl;
@@ -127,13 +138,6 @@ void GalleryApplication::process_args() {
       is_fullscreen_ = true;
     } else if (arg == "--startup-timer") {
       startup_timer_ = true;
-    } else if (arg == "--bgu-size") {
-      bool ok = false;
-      int bgu_size = value.toInt(&ok);
-
-      ++i; // Skip over value next iteration.
-      if (ok && bgu_size > 0)
-        bgu_size_ = bgu_size;
     } else {
       QString form_factor = arg.mid(2); // minus initial "--"
 
@@ -177,7 +181,6 @@ void GalleryApplication::create_view() {
   view_.engine()->rootContext()->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
   view_.engine()->rootContext()->setContextProperty("DEVICE_HEIGHT", QVariant(size.height()));
   view_.engine()->rootContext()->setContextProperty("FORM_FACTOR", QVariant(form_factor_));
-  view_.engine()->rootContext()->setContextProperty("GRIDUNIT", QVariant(bgu_size_));
 
   view_.engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
     GalleryStandardImageProvider::instance());
@@ -230,6 +233,14 @@ void GalleryApplication::init_collections() {
 
 void GalleryApplication::start_init_collections() {
   init_collections();
+}
+
+GalleryApplication* GalleryApplication::instance() {
+  return instance_;
+}
+
+void GalleryApplication::setObjectOwnership(QObject* object, QQmlEngine::ObjectOwnership ownership) {
+  view_.engine()->setObjectOwnership(object, ownership);
 }
 
 void GalleryApplication::on_media_item_added(QFileInfo item_info) {

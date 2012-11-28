@@ -19,8 +19,14 @@
 
 #include "core/data-collection.h"
 
+#include <QQmlEngine>
+
+#include "gallery-application.h"
+
 DataCollection::DataCollection(const QString& name)
   : name_(name.toUtf8()), comparator_(DefaultDataObjectComparator) {
+  // All DataCollections are registered as C++ ownership; QML should never GC them
+  GalleryApplication::instance()->setObjectOwnership(this, QQmlEngine::CppOwnership);
 }
 
 void DataCollection::notify_contents_to_be_altered(const QSet<DataObject*>* added,

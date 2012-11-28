@@ -69,9 +69,7 @@ class GalleryStandardImageProvider
     int inUseCount_;
     uint byteCount_;
     
-    // NOTE: It's presumed file comes from id via idToFile(); this is merely
-    // an optimization since file needs to be known before making this object
-    CachedImage(const QString& id, const QString& file);
+    CachedImage(const QString& id);
     
     static QString idToFile(const QString& id);
     

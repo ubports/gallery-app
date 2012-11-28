@@ -20,6 +20,7 @@
 
 import QtQuick 2.0
 import Gallery 1.0
+import Ubuntu.Components 0.1
 import "../../Capetown"
 import "../../js/Gallery.js" as Gallery
 
@@ -188,7 +189,7 @@ Item {
 
     visible: wrapper.hasLeftNavigationButton && !wrapper.inSelectionMode
 
-    anchors.leftMargin: gu(1.5)
+    anchors.leftMargin: units.gu(1.5)
     anchors.left: parent.left
     anchors.bottom: toolbar.top
 
@@ -205,7 +206,7 @@ Item {
 
     visible: wrapper.hasRightNavigationButton && !wrapper.inSelectionMode
 
-    anchors.rightMargin: gu(1.5)
+    anchors.rightMargin: units.gu(1.5)
     anchors.right: parent.right
     anchors.bottom: toolbar.top
 

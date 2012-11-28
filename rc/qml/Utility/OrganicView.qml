@@ -18,6 +18,7 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 import "../../js/Gallery.js" as Gallery
 
 // A ListView meant to hold OrganicMediaLists in some form or another.
@@ -36,8 +37,8 @@ Item {
   // readonly
   // Some duplication from OrganicMediaList, to make certain things easier.
   property int organicMediaListMediaPerPattern: 6 // OrganicMediaList.mediaPerPattern
-  property real organicMediaListPatternWidth: gu(72) // OrganicMediaList.patternWidth
-  property real organicMediaListMargin: gu(3) // OrganicMediaList.margin
+  property real organicMediaListPatternWidth: units.gu(72) // OrganicMediaList.patternWidth
+  property real organicMediaListMargin: units.gu(3) // OrganicMediaList.margin
 
   Image {
     anchors.fill: parent
