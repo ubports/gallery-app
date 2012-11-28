@@ -443,11 +443,10 @@ Rectangle {
           case "onQuickShare": {
             if (albumViewer.state == "gridView") {
               // Is anything selected?
-              if (organicView.selection.model.count < 1) {
+              if (!organicView.selection.inSelectionMode) {
                 // No - share all.
-                for (var index = 0; index < organicView.model.count; index++) {
-                  var img = organicView.model.getAt(index);
-                  shareImage(img);
+                for (var index = 0; index < album.allMediaSources.length; index++) {
+                  shareImage(album.allMediaSources[index]);
                 }
               } else {
                 // Yes. Only share the images that have been selected.
