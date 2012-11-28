@@ -19,7 +19,8 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-import QtQuick 2.0;
+import QtQuick 2.0
+import Ubuntu.Components 0.1
 
 Item {
   id: binary_tab_group
@@ -55,14 +56,14 @@ Item {
   state: "tab0_active"
   
   Row {
-    Tab {
+    GalleryTab {
       id: tab0;
 
       selectedBackgroundSource: "img/tab-left-active.png"
       deselectedBackgroundSource: "img/tab-left-inactive.png"
       
-      width: Math.min(gu(15), maxWidth / 2)
-      height: gu(5)
+      width: Math.min(units.gu(15), maxWidth / 2)
+      height: units.gu(5)
 
       onActivated: {
         binary_tab_group.state = "tab0_active";
@@ -70,14 +71,14 @@ Item {
       }
     }
 
-    Tab {
+    GalleryTab {
       id: tab1;
 
       selectedBackgroundSource: "img/tab-right-active.png"
       deselectedBackgroundSource: "img/tab-right-inactive.png"
       
-      width: Math.min(gu(15), maxWidth / 2)
-      height: gu(5)
+      width: Math.min(units.gu(15), maxWidth / 2)
+      height: units.gu(5)
 
       onActivated: {
         binary_tab_group.state = "tab1_active";

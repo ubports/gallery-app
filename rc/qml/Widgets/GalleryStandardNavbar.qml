@@ -41,14 +41,14 @@ Toolbar {
   Row {
     id: leftIconGroup
 
-    spacing: gu(2)
+    spacing: units.gu(2)
     anchors.verticalCenter: parent.verticalCenter
     anchors.left: parent.left
-    anchors.leftMargin: gu(2)
+    anchors.leftMargin: units.gu(2)
 
     Button {
-      height: gu(4)
-      width: gu(15)
+      height: units.gu(4)
+      width: units.gu(15)
 
       text: "Cancel"
 
@@ -76,15 +76,15 @@ Toolbar {
   Row {
     id: rightIconGroup
 
-    spacing: gu(2)
+    spacing: units.gu(2)
     anchors.verticalCenter: parent.verticalCenter
     anchors.right: parent.right
-    anchors.rightMargin: gu(2)
+    anchors.rightMargin: units.gu(2)
 
     Button {
       id: selectionDoneButton
-      height: gu(4)
-      width: gu(15)
+      height: units.gu(4)
+      width: units.gu(15)
 
       text: "Done"
 

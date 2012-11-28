@@ -20,6 +20,7 @@
 
 import QtQuick 2.0
 import Gallery 1.0
+import Ubuntu.Components 0.1
 import "../../Capetown/Widgets"
 import "../Components"
 import "../../js/Gallery.js" as Gallery
@@ -31,8 +32,8 @@ PopupBox {
 
   property alias albumModel: scroller.model
 
-  width: gu(40)
-  height: gu(80) + originCueHeight
+  width: units.gu(40)
+  height: units.gu(80) + originCueHeight
 
   Timer {
     id: interactionCompletedTimer
@@ -56,17 +57,17 @@ PopupBox {
   GridView {
     id: scroller
 
-    property int albumPreviewWidth: gu(14);
-    property int albumPreviewHeight: gu(16.5);
-    property int gutterWidth: gu(2)
-    property int gutterHeight: gu(4)
+    property int albumPreviewWidth: units.gu(14);
+    property int albumPreviewHeight: units.gu(16.5);
+    property int gutterWidth: units.gu(2)
+    property int gutterHeight: units.gu(4)
 
     clip: true
     anchors.top: titleTextFrame.bottom
     anchors.bottom: parent.bottom
-    anchors.bottomMargin: originCueHeight + gu(0.25)
+    anchors.bottomMargin: originCueHeight + units.gu(0.25)
     anchors.left: parent.left
-    anchors.leftMargin: gu(4)
+    anchors.leftMargin: units.gu(4)
     anchors.right: parent.right
 
     cellWidth: scroller.albumPreviewWidth + scroller.gutterWidth
@@ -74,7 +75,7 @@ PopupBox {
 
     header: Item {
       width: parent.width
-      height: gu(2);
+      height: units.gu(2);
     }
     footer: Item {
       width: parent.width
@@ -119,8 +120,8 @@ PopupBox {
           id: confirmCheck
 
           anchors.centerIn: parent;
-          width: gu(7);
-          height: gu(7);
+          width: units.gu(7);
+          height: units.gu(7);
 
           source: "img/confirm-check.png"
         }
@@ -155,21 +156,21 @@ PopupBox {
     anchors.right: parent.right
     anchors.top: parent.top
 
-    height: gu(3)
+    height: units.gu(3)
 
     border.color: "white"
-    border.width: gu(0.125);
+    border.width: units.gu(0.125);
     color: "transparent"
 
     Text {
       id: titleText
 
       anchors.fill: parent
-      anchors.leftMargin: gu(0.5)
-      anchors.topMargin: gu(0.5)
+      anchors.leftMargin: units.gu(0.5)
+      anchors.topMargin: units.gu(0.5)
 
       color: "white"
-      font.pixelSize: gu(2)
+      font.pixelSize: units.gu(2)
       font.italic: true
       font.weight: Font.Light
 
@@ -186,6 +187,6 @@ PopupBox {
     color: "transparent"
 
     border.color: "#a7a9ac"
-    border.width: gu(0.25)
+    border.width: units.gu(0.25)
   }
 }

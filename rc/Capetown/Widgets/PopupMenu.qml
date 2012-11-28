@@ -18,6 +18,7 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 
 PopupBox {
   id: popupMenu
@@ -27,7 +28,7 @@ PopupBox {
 
   signal actionInvoked(string name);
 
-  width: gu(40)
+  width: units.gu(40)
   height: menuItemColumn.height + originCueHeight
 
   color: "transparent"

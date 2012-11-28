@@ -32,8 +32,8 @@ UbuntuShape {
   color: "#dddddd"
   radius: "medium"
 
-  width: gu(18)
-  height: gu(18)
+  width: units.gu(18)
+  height: units.gu(18)
 
   Column {
     anchors.centerIn: parent

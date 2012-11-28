@@ -29,8 +29,8 @@ PopupBox {
   property alias action0Title: action0Button.text
   property alias action1Title: action1Button.text
 
-  width: gu(40);
-  height: gu(14) + originCueHeight;
+  width: units.gu(40);
+  height: units.gu(14) + originCueHeight;
 
   Button {
     id: action0Button
@@ -38,11 +38,11 @@ PopupBox {
     color: "#f15c22"
 
     anchors.left: parent.left
-    anchors.leftMargin: gu(2)
+    anchors.leftMargin: units.gu(2)
     anchors.right: parent.right
-    anchors.rightMargin: gu(2)
+    anchors.rightMargin: units.gu(2)
     anchors.bottom: parent.bottom
-    anchors.bottomMargin: gu(7.5) + originCueHeight
+    anchors.bottomMargin: units.gu(7.5) + originCueHeight
 
     onClicked: {
       popupActionChoiceDialog.action0Requested();
@@ -56,11 +56,11 @@ PopupBox {
     color: "#f15c22"
 
     anchors.left: parent.left
-    anchors.leftMargin: gu(2)
+    anchors.leftMargin: units.gu(2)
     anchors.right: parent.right
-    anchors.rightMargin: gu(2)
+    anchors.rightMargin: units.gu(2)
     anchors.bottom: parent.bottom
-    anchors.bottomMargin: gu(2) + originCueHeight
+    anchors.bottomMargin: units.gu(2) + originCueHeight
 
     onClicked: {
       popupActionChoiceDialog.action1Requested();

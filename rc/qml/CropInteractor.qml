@@ -20,6 +20,7 @@
 
 import QtQuick 2.0
 import Gallery 1.0
+import Ubuntu.Components 0.1
 import "../Capetown"
 import "../Capetown/Viewer"
 import "Components"
@@ -99,14 +100,14 @@ Item {
     id: viewport
 
     anchors.fill: parent
-    anchors.margins: gu(8)
+    anchors.margins: units.gu(8)
     z: 1
   }
 
   CropOverlay {
     id: overlay
 
-    property real minSize: gu(4)
+    property real minSize: units.gu(4)
 
     anchors.fill: parent;
     visible: false;
