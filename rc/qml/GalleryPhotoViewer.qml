@@ -24,6 +24,7 @@ import "../Capetown"
 import "../Capetown/Viewer"
 import "Components"
 import "Widgets"
+import "../js/Gallery.js" as Gallery
 
 Rectangle {
   id: viewerWrapper
@@ -324,7 +325,6 @@ Rectangle {
             }
             case "onCrop": {
               state = "hidden";
-              galleryPhotoViewer.visible = false
               cropper.show(photo);
               break;
             }
@@ -403,11 +403,17 @@ Rectangle {
     states: [
       State { name: "shown";
         PropertyChanges { target: cropper; visible: true; }
+        PropertyChanges { target: cropper; opacity: 1.0; }
       },
       State { name: "hidden";
         PropertyChanges { target: cropper; visible: false; }
+        PropertyChanges { target: cropper; opacity: 0.0; }
       }
     ]
+    
+    Behavior on opacity {
+      NumberAnimation { duration: Gallery.FAST_DURATION }
+    }
 
     anchors.fill: parent
 
@@ -431,6 +437,11 @@ Rectangle {
       photo.crop(qtRect);
       hide();
       galleryPhotoViewer.visible = true;
+    }
+    
+    onOpacityChanged: {
+      if (opacity == 1.0)
+        galleryPhotoViewer.visible = false
     }
   }
 }
