@@ -51,7 +51,7 @@ GalleryApplication* GalleryApplication::instance_ = NULL;
 
 GalleryApplication::GalleryApplication(int& argc, char** argv) :
     QApplication(argc, argv), form_factor_("desktop"), is_portrait_(false),
-    view_(), startup_timer_(false), monitor_(NULL) {
+    is_fullscreen_(false), view_(), startup_timer_(false), monitor_(NULL) {
   
   bgu_size_ = QProcessEnvironment::systemEnvironment().value("GRID_UNIT_PX", "8").toInt();
   if (bgu_size_ <= 0)
@@ -110,11 +110,12 @@ void GalleryApplication::usage(bool error) {
   QTextStream out(error ? stderr : stdout);
   out << "Usage: gallery [options] [pictures_dir]" << endl;
   out << "Options:" << endl;
-  out << "  --landscape   run in landscape orientation (default)" << endl;
-  out << "  --portrait   run in portrait orientation" << endl;
+  out << "  --landscape\trun in landscape orientation (default)" << endl;
+  out << "  --portrait\trun in portrait orientation" << endl;
+  out << "  --fullscreen\trun fullscreen" << endl;
   foreach (const QString& form_factor, form_factors_.keys())
-    out << "  --" << form_factor << "   run in " << form_factor << " form factor" << endl;
-  out << "  --startup-timer   debug-print startup time" << endl;
+    out << "  --" << form_factor << "\trun in " << form_factor << " form factor" << endl;
+  out << "  --startup-timer\n\t\tdebug-print startup time" << endl;
   out << "pictures_dir defaults to ~/Pictures, and must exist prior to running gallery" << endl;
   std::exit(error ? 1 : 0);
 }
@@ -137,6 +138,8 @@ void GalleryApplication::process_args() {
       is_portrait_ = false;
     } else if (arg == "--portrait") {
       is_portrait_ = true;
+    } else if (arg == "--fullscreen") {
+      is_fullscreen_ = true;
     } else if (arg == "--startup-timer") {
       startup_timer_ = true;
     } else {
@@ -178,7 +181,7 @@ void GalleryApplication::create_view() {
   } else {
     view_.setResizeMode(QQuickView::SizeViewToRootObject);
   }
-
+  
   view_.engine()->rootContext()->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
   view_.engine()->rootContext()->setContextProperty("DEVICE_HEIGHT", QVariant(size.height()));
   view_.engine()->rootContext()->setContextProperty("FORM_FACTOR", QVariant(form_factor_));
@@ -192,7 +195,10 @@ void GalleryApplication::create_view() {
   QObject* rootObject = dynamic_cast<QObject*>(view_.rootObject());
   QObject::connect(this, SIGNAL(media_loaded()), rootObject, SLOT(onLoaded()));
 
-  view_.show();
+  if (is_fullscreen_)
+    view_.showFullScreen();
+  else
+    view_.show();
 }
 
 void GalleryApplication::init_collections() {
