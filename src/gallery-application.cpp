@@ -46,6 +46,8 @@
 #include "qml/qml-stack.h"
 #include "util/resource.h"
 
+GalleryApplication* GalleryApplication::instance_ = NULL;
+
 GalleryApplication::GalleryApplication(int& argc, char** argv) :
     QApplication(argc, argv), form_factor_("desktop"), is_portrait_(false),
     bgu_size_(8), view_(), startup_timer_(false), monitor_(NULL) {
@@ -61,6 +63,11 @@ GalleryApplication::GalleryApplication(int& argc, char** argv) :
   register_qml();
   process_args();
   init_common();
+  
+  // only set instance_ variable at end of constructor, to ensure it's not
+  // accessed prior to full construction
+  Q_ASSERT(instance_ == NULL);
+  instance_ = this;
 }
 
 int GalleryApplication::exec() {
@@ -224,6 +231,14 @@ void GalleryApplication::init_collections() {
 
 void GalleryApplication::start_init_collections() {
   init_collections();
+}
+
+GalleryApplication* GalleryApplication::instance() {
+  return instance_;
+}
+
+void GalleryApplication::setObjectOwnership(QObject* object, QQmlEngine::ObjectOwnership ownership) {
+  view_.engine()->setObjectOwnership(object, ownership);
 }
 
 void GalleryApplication::on_media_item_added(QFileInfo item_info) {

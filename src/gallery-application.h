@@ -24,6 +24,7 @@
 
 #include <QApplication>
 #include <QDir>
+#include <QQmlEngine>
 #include <QQuickView>
 #include <QElapsedTimer>
 #include <QFileInfo>
@@ -36,6 +37,11 @@ class GalleryApplication : public QApplication
   explicit GalleryApplication(int& argc, char** argv);
   int exec();
   
+  static GalleryApplication* instance();
+  
+  // register objects' ownership (QML/Javascript vs. C++)
+  void setObjectOwnership(QObject* object, QQmlEngine::ObjectOwnership ownership);
+  
  signals:
   void media_loaded();
 
@@ -47,7 +53,9 @@ class GalleryApplication : public QApplication
   void init_common();
   void create_view();
   void init_collections();
-
+  
+  static GalleryApplication* instance_;
+  
   QHash<QString, QSize> form_factors_;
   QString form_factor_;
   bool is_portrait_;

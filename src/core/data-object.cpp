@@ -19,12 +19,17 @@
 
 #include "core/data-object.h"
 
+#include <QQmlEngine>
+
+#include "gallery-application.h"
 #include "util/variants.h"
 
 DataObjectNumber DataObject::next_number_ = 0;
 
 DataObject::DataObject(QObject * parent, const QString& name)
   : QObject(parent), name_(name.toUtf8()), number_(next_number_++) {
+  // All DataObjects are registered as C++ ownership; QML should never GC them
+  GalleryApplication::instance()->setObjectOwnership(this, QQmlEngine::CppOwnership);
 }
 
 DataObjectNumber DataObject::number() const {
