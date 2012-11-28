@@ -109,4 +109,3 @@ class TestMainWindow(GoodhopeTestCase):
         self.assertThat(subtitle_field.text, Eventually(Equals("Subtitle")))
 
 
-
