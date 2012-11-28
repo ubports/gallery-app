@@ -36,16 +36,19 @@ Rectangle {
   property string ownerName: "(not set)"
   
   // read-only
-  property real paintedWidth: image.paintedWidth
-  property real paintedHeight: image.paintedHeight
+  property real paintedWidth: imageComponent.paintedWidth
+  property real paintedHeight: imageComponent.paintedHeight
   property bool isLoaded: false
+
+  // internal
+  property Image image: imageComponent
   
   signal loaded()
   
   clip: true
 
   Image {
-    id: image
+    id: imageComponent
 
     width: parent.width
     height: parent.height
@@ -73,7 +76,7 @@ Rectangle {
     fillMode: isCropped ? Image.PreserveAspectCrop : Image.PreserveAspectFit
     
     onStatusChanged: {
-      if(image.status == Image.Ready) {
+      if(status == Image.Ready) {
         isLoaded = true;
         loaded();
       } else {

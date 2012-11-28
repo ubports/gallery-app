@@ -19,6 +19,7 @@
 
 import QtQuick 2.0
 import Gallery 1.0
+import Ubuntu.Components 0.1
 import "../Components"
 import "../../js/Gallery.js" as Gallery
 import "../../js/GalleryUtility.js" as GalleryUtility
@@ -91,10 +92,10 @@ Item {
       monitored: true
     }
 
-    // TODO: rounded corners.
-    GalleryPhotoComponent {
-      id: photoComponent
+    Item {
+      id: organicPhoto
 
+      property bool isInView: (x <= loadAreaRight && x + width >= loadAreaLeft)
       property int patternPhoto: index % mediaPerPattern
       property int patternNumber: Math.floor(index / mediaPerPattern)
       property var modelMediaSource: model.mediaSource
@@ -104,20 +105,28 @@ Item {
       width: photoLength[patternPhoto]
       height: photoLength[patternPhoto]
 
-      mediaSource: (x <= loadAreaRight && x + width >= loadAreaLeft
-                    ? modelMediaSource : null)
-      ownerName: "OrganicMediaList"
-      isCropped: true
-      isPreview: true
+      UbuntuShape {
+        anchors.fill: parent
+        image: photoComponent.image
+      }
+
+      GalleryPhotoComponent {
+        id: photoComponent
+
+        mediaSource: (organicPhoto.isInView ? organicPhoto.modelMediaSource : null)
+        ownerName: "OrganicMediaList"
+        isCropped: true
+        isPreview: true
+      }
 
       OrganicItemInteraction {
-        selectionItem: photoComponent.modelMediaSource
+        selectionItem: organicPhoto.modelMediaSource
         selection: organicMediaList.selection
 
         onPressed: {
-          var rect = GalleryUtility.getRectRelativeTo(photoComponent,
+          var rect = GalleryUtility.getRectRelativeTo(organicPhoto,
                                                       organicMediaList);
-          organicMediaList.pressed(photoComponent.modelMediaSource, rect);
+          organicMediaList.pressed(organicPhoto.modelMediaSource, rect);
         }
       }
 
