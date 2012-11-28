@@ -30,12 +30,13 @@
 #include <QElapsedTimer>
 #include <QFileInfo>
 
-class GalleryApplication : public QApplication
-{
+class GalleryApplication : public QApplication {
   Q_OBJECT
 
  public:
   explicit GalleryApplication(int& argc, char** argv);
+  virtual ~GalleryApplication();
+  
   int exec();
   
   static GalleryApplication* instance();
@@ -45,7 +46,7 @@ class GalleryApplication : public QApplication
 
   // Used for content sharing.
   Q_INVOKABLE bool run_command(const QString &cmd, const QString &arg);
-  
+
  signals:
   void media_loaded();
 

@@ -75,6 +75,10 @@ GalleryApplication::GalleryApplication(int& argc, char** argv) :
   instance_ = this;
 }
 
+GalleryApplication::~GalleryApplication() {
+  delete monitor_;
+}
+
 int GalleryApplication::exec() {
   create_view();
 

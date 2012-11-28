@@ -440,7 +440,7 @@ Rectangle {
 
       onActionInvoked: {
         switch (name) {
-        case "onQuickShare": {
+          case "onQuickShare": {
             if (albumViewer.state == "gridView") {
               // Is anything selected?
               if (organicView.selection.model.count < 1) {

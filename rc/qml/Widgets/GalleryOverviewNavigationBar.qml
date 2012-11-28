@@ -18,6 +18,7 @@
  */
  
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 import "../../Capetown/Widgets"
 
 Toolbar {
@@ -29,7 +30,7 @@ Toolbar {
 
     anchors.verticalCenter: parent.verticalCenter
     anchors.left: parent.left
-    anchors.leftMargin: gu(2)
+    anchors.leftMargin: units.gu(2)
 
     onClicked: parent.addCreateOperationButtonPressed()
   }
@@ -37,7 +38,7 @@ Toolbar {
   ToolbarIconButton {
     anchors.verticalCenter: parent.verticalCenter
     anchors.right: parent.right
-    anchors.rightMargin: gu(2)
+    anchors.rightMargin: units.gu(2)
 
     selectedIconFilename: "img/icon-camera-active.png"
     deselectedIconFilename: "img/icon-camera-inactive.png"

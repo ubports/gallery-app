@@ -20,6 +20,7 @@
 
 import QtQuick 2.0
 import Gallery 1.0
+import Ubuntu.Components 0.1
 import "../../Capetown"
 import "../../Capetown/Viewer"
 import "../Components"
@@ -275,7 +276,7 @@ Item {
     color: "transparent"
     opacity: 0.9
 
-    border.width: gu(1)
+    border.width: units.gu(1)
     border.color: "#a0a0a0"
 
     MouseArea {
@@ -413,10 +414,10 @@ Item {
 
     // Left drag bar.
     CropDragArea {
-      x: -gu(2)
-      width: gu(3)
+      x: -units.gu(2)
+      width: units.gu(3)
       anchors.verticalCenter: parent.center
-      height: parent.height - gu(2)
+      height: parent.height - units.gu(2)
 
       onDragged: {
         frame.resizedX(true, dx)
@@ -437,10 +438,10 @@ Item {
 
     // Top drag bar.
     CropDragArea {
-      y: -gu(2)
-      height: gu(3)
+      y: -units.gu(2)
+      height: units.gu(3)
       anchors.horizontalCenter: parent.center
-      width: parent.width - gu(2)
+      width: parent.width - units.gu(2)
 
       onDragged: {
         frame.resizedY(true, dy)
@@ -461,10 +462,10 @@ Item {
 
     // Right drag bar.
     CropDragArea {
-      x: parent.width - gu(1)
-      width: gu(3)
+      x: parent.width - units.gu(1)
+      width: units.gu(3)
       anchors.verticalCenter: parent.center
-      height: parent.height - gu(2)
+      height: parent.height - units.gu(2)
 
       onDragged: {
         frame.resizedX(false, dx)
@@ -485,10 +486,10 @@ Item {
 
     // Bottom drag bar.
     CropDragArea {
-      y: parent.height - gu(1)
-      height: gu(3)
+      y: parent.height - units.gu(1)
+      height: units.gu(3)
       anchors.horizontalCenter: parent.center
-      width: parent.width - gu(2)
+      width: parent.width - units.gu(2)
 
       onDragged: {
         frame.resizedY(false, dy)
