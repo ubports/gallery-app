@@ -51,6 +51,7 @@ class GalleryApplication : public QApplication
   QHash<QString, QSize> form_factors_;
   QString form_factor_;
   bool is_portrait_;
+  bool is_fullscreen_;
   int bgu_size_;
   QDir pictures_dir_;
   QQuickView view_;
