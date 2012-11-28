@@ -114,29 +114,22 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
 
 GalleryStandardImageProvider::CachedImage* GalleryStandardImageProvider::claim_cached_image_entry(
   const QString& id, QString& loggingStr) {
-  // Note that even though id looks like a path at this point, it can contain
-  // arbitrary "parameters" that came from the original URL.  We use these
-  // parameters to ensure that we reload images from disk (skipping QML's
-  // internal cache) when editing photos.  So, for now, we strip off everything
-  // but the path part of the "URL" (the ?edit=x part is simply ignored).
-  QString file = CachedImage::idToFile(id);
-  
   // lock the cache table and retrieve the element for the cached image; if
   // not found, create one as a placeholder
   cacheMutex_.lock();
   
-  CachedImage* cachedImage = cache_.value(file, NULL);
+  CachedImage* cachedImage = cache_.value(id, NULL);
   if (cachedImage != NULL) {
     // remove CachedImage before prepending to FIFO
-    fifo_.removeOne(file);
+    fifo_.removeOne(id);
   } else {
-    cachedImage = new CachedImage(id, file);
-    cache_.insert(file, cachedImage);
+    cachedImage = new CachedImage(id);
+    cache_.insert(id, cachedImage);
     LOG_IMAGE_STATUS("new-cache-entry ");
   }
   
   // add to front of FIFO
-  fifo_.prepend(file);
+  fifo_.prepend(id);
   
   // should be the same size, always
   Q_ASSERT(cache_.size() == fifo_.size());
@@ -312,9 +305,9 @@ QSize GalleryStandardImageProvider::orientSize(const QSize& size, Orientation or
  * GalleryStandardImageProvider::CachedImage
  */
 
-GalleryStandardImageProvider::CachedImage::CachedImage(const QString& id,
-  const QString& file)
-  : id_(id), file_(file), orientation_(TOP_LEFT_ORIGIN), inUseCount_(0), byteCount_(0) {
+GalleryStandardImageProvider::CachedImage::CachedImage(const QString& id)
+  : id_(id), file_(idToFile(id)), orientation_(TOP_LEFT_ORIGIN), inUseCount_(0),
+    byteCount_(0) {
 }
 
 QString GalleryStandardImageProvider::CachedImage::idToFile(const QString& id) {
