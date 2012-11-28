@@ -94,12 +94,13 @@ void GalleryApplication::usage(bool error) {
   QTextStream out(error ? stderr : stdout);
   out << "Usage: gallery [options] [pictures_dir]" << endl;
   out << "Options:" << endl;
-  out << "  --landscape   run in landscape orientation (default)" << endl;
-  out << "  --portrait   run in portrait orientation" << endl;
-  out << "  --bgu-size X   set BGU size to X (default 8)" << endl;
+  out << "  --landscape\trun in landscape orientation (default)" << endl;
+  out << "  --portrait\trun in portrait orientation" << endl;
+  out << "  --fullscreen\trun fullscreen" << endl;
+  out << "  --bgu-size X\tset BGU size to X (default 8)" << endl;
   foreach (const QString& form_factor, form_factors_.keys())
-    out << "  --" << form_factor << "   run in " << form_factor << " form factor" << endl;
-  out << "  --startup-timer   debug-print startup time" << endl;
+    out << "  --" << form_factor << "\trun in " << form_factor << " form factor" << endl;
+  out << "  --startup-timer\n\t\tdebug-print startup time" << endl;
   out << "pictures_dir defaults to ~/Pictures, and must exist prior to running gallery" << endl;
   std::exit(error ? 1 : 0);
 }
