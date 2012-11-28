@@ -388,7 +388,7 @@ Rectangle {
   CropInteractor {
     id: cropper
     
-    property var targetPhoto;
+    property var targetPhoto
 
     function show(photo) {
       chrome.hide(true);
@@ -400,6 +400,9 @@ Rectangle {
 
     function hide() {
       state = "hidden";
+      galleryPhotoViewer.opacity = 0.0;
+      galleryPhotoViewer.visible = true;
+      fadeInPhotoAnimation.running = true;      
     }
 
     state: "hidden"
@@ -434,10 +437,6 @@ Rectangle {
 
       hide();
 
-      galleryPhotoViewer.opacity = 0.0;
-      galleryPhotoViewer.visible = true;
-      fadeInPhotoAnimation.running = true;
-
       targetPhoto = null;
     }
 
@@ -446,10 +445,6 @@ Rectangle {
       photo.crop(qtRect);
 
       hide();
-
-      galleryPhotoViewer.opacity = 0.0;
-      galleryPhotoViewer.visible = true;
-      fadeInPhotoAnimation.running = true;
 
       targetPhoto = null;
     }
@@ -464,7 +459,7 @@ Rectangle {
       
       from: 1.0
       to: 0.0
-      target: galleryPhotoViewer;
+      target: galleryPhotoViewer
       property: "opacity"
       duration: Gallery.FAST_DURATION
       easing.type: Easing.InOutQuad
@@ -483,7 +478,7 @@ Rectangle {
       
       from: 0.0
       to: 1.0
-      target: galleryPhotoViewer;
+      target: galleryPhotoViewer
       property: "opacity"
       duration: Gallery.FAST_DURATION
       easing.type: Easing.InOutQuad    
