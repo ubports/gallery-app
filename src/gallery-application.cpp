@@ -53,6 +53,10 @@ GalleryApplication::GalleryApplication(int& argc, char** argv) :
     QApplication(argc, argv), form_factor_("desktop"), is_portrait_(false),
     is_fullscreen_(false), view_(), startup_timer_(false), monitor_(NULL) {
   
+  bgu_size_ = QProcessEnvironment::systemEnvironment().value("GRID_UNIT_PX", "8").toInt();
+  if (bgu_size_ <= 0)
+    bgu_size_ = 8;
+  
   timer_.start();
   form_factors_.insert("desktop", QSize(160, 100)); // In BGU.
   form_factors_.insert("tablet", QSize(160, 100));
