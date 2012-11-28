@@ -439,14 +439,22 @@ Rectangle {
 
       onActionInvoked: {
         switch (name) {
-          case "onQuickShare": {
-          if (albumViewer.state == "gridView") {
-              // Only share the images that have been selected...
-              for (var i = 0; i < organicView.selection.model.count; i++) {
-                var img = organicView.selection.model.getAt(i);
-                
-                if (organicView.selection.model.isSelected(img)) {
+        case "onQuickShare": {
+            if (albumViewer.state == "gridView") {
+              // Is anything selected?
+              if (organicView.selection.model.count < 1) {
+                // No - share all.
+                for (var index = 0; index < organicView.model.count; index++) {
+                  var img = organicView.model.getAt(index);
                   shareImage(img);
+                }
+              } else {
+                // Yes. Only share the images that have been selected.
+                for (index = 0; index < organicView.selection.model.count; index++) {
+                  img = organicView.selection.model.getAt(index);
+                  if (organicView.selection.model.isSelected(img)) {
+                    shareImage(img);
+                  }
                 }
               }
               organicView.selection.leaveSelectionMode();
@@ -454,7 +462,7 @@ Rectangle {
             } else {
               // We're in page view, so we should share all
               // images in the current album.
-              for (var index = 0; index < album.allMediaSources.length; index++) {
+              for (index = 0; index < album.allMediaSources.length; index++) {
                 shareImage(album.allMediaSources[index]);
               }
               break;

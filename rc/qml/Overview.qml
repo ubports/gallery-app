@@ -393,8 +393,9 @@ Rectangle {
         }
         
         case "onShare": {
-          for (var img in eventView.selection.model) {
-            shareImage(img);
+
+          for (var index = 0; index < album.allMediaSources.length; index++) {
+            shareImage(album.allMediaSources[index]);
           }
           break;
         }
