@@ -107,11 +107,16 @@ Item {
 
       UbuntuShape {
         anchors.fill: parent
+        visible: organicPhoto.isInView
+        radius: "medium"
         image: photoComponent.image
       }
 
       GalleryPhotoComponent {
         id: photoComponent
+
+        anchors.fill: parent
+        visible: false
 
         mediaSource: (organicPhoto.isInView ? organicPhoto.modelMediaSource : null)
         ownerName: "OrganicMediaList"
