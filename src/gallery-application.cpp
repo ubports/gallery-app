@@ -63,6 +63,10 @@ GalleryApplication::GalleryApplication(int& argc, char** argv) :
   init_common();
 }
 
+GalleryApplication::~GalleryApplication() {
+  delete monitor_;
+}
+
 int GalleryApplication::exec() {
   create_view();
 

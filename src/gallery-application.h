@@ -28,12 +28,13 @@
 #include <QElapsedTimer>
 #include <QFileInfo>
 
-class GalleryApplication : public QApplication
-{
+class GalleryApplication : public QApplication {
   Q_OBJECT
 
  public:
   explicit GalleryApplication(int& argc, char** argv);
+  virtual ~GalleryApplication();
+  
   int exec();
   
  signals:
