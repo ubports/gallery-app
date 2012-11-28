@@ -210,8 +210,8 @@ Rectangle {
 
     MouseArea {
       anchors.fill: parent
-      anchors.leftMargin: gu(10)
-      anchors.rightMargin: gu(10)
+      anchors.leftMargin: units.gu(10)
+      anchors.rightMargin: units.gu(10)
 
       onClicked: {
         if (overview.state != "eventView")
@@ -278,8 +278,8 @@ Rectangle {
     DeleteDialog {
       id: photoTrashDialog
 
-      popupOriginX: -gu(16.5)
-      popupOriginY: -gu(6)
+      popupOriginX: -units.gu(16.5)
+      popupOriginY: -units.gu(6)
       
       actionTitle: eventView.selection.selectedCount > 1 ?
                      "Delete selected items" : "Delete photo"
@@ -300,8 +300,8 @@ Rectangle {
     GenericShareMenu {
       id: selectionModeShareMenu
 
-      popupOriginX: -gu(8.5)
-      popupOriginY: -gu(6)
+      popupOriginX: -units.gu(8.5)
+      popupOriginY: -units.gu(6)
 
       onPopupInteractionCompleted: {
         chrome.hideAllPopups();
@@ -328,8 +328,8 @@ Rectangle {
     SelectionModeOptionsMenu {
       id: selectionModeOptionsMenu
 
-      popupOriginX: -gu(0.5)
-      popupOriginY: -gu(6)
+      popupOriginX: -units.gu(0.5)
+      popupOriginY: -units.gu(6)
 
       onPopupInteractionCompleted: {
         chrome.hideAllPopups();
@@ -360,7 +360,7 @@ Rectangle {
       album = a;
       var rect = getRectOfAlbumPreview(album, overview);
       if (rect.x <= overview.width / 2)
-        popupOriginX = rect.x + rect.width + gu(4);
+        popupOriginX = rect.x + rect.width + units.gu(4);
       else
         popupOriginX = rect.x - childrenRect.width;
       
@@ -427,7 +427,7 @@ Rectangle {
       
       var rect = getRectOfAlbumPreview(album, overview);
       if (rect.x <= overview.width / 2)
-        popupOriginX = rect.x + rect.width + gu(4);
+        popupOriginX = rect.x + rect.width + units.gu(4);
       else
         popupOriginX = rect.x - childrenRect.width;
       

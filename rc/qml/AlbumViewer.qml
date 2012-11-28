@@ -20,6 +20,7 @@
 
 import QtQuick 2.0
 import Gallery 1.0
+import Ubuntu.Components 0.1
 import "../Capetown"
 import "../js/Gallery.js" as Gallery
 import "../js/GalleryUtility.js" as GalleryUtility
@@ -409,8 +410,8 @@ Rectangle {
     AlbumViewerOptionsMenu {
       id: albumViewerOptionsMenu
 
-      popupOriginX: -gu(1.5)
-      popupOriginY: -gu(6)
+      popupOriginX: -units.gu(1.5)
+      popupOriginY: -units.gu(6)
 
       // a switch-case case statement instead of an if statement because we
       // soon hope to be able to respond to all six menu items
@@ -434,8 +435,8 @@ Rectangle {
     GenericShareMenu {
       id: albumViewerShareMenu
 
-      popupOriginX: -gu(9)
-      popupOriginY: -gu(6)
+      popupOriginX: -units.gu(9)
+      popupOriginY: -units.gu(6)
 
       onActionInvoked: {
         switch (name) {
@@ -496,8 +497,8 @@ Rectangle {
       action0Title: "Remove from album"
       action1Title: "Delete photo"
       
-      popupOriginX: -gu(16.5)
-      popupOriginY: -gu(6)
+      popupOriginX: -units.gu(16.5)
+      popupOriginY: -units.gu(6)
 
       visible: false
 
@@ -533,7 +534,7 @@ Rectangle {
         var rect = albumSpreadViewer.getRectOfMediaSource(mediaSource);
         rect = GalleryUtility.getRectRelativeTo(rect, photoViewer);
         if (rect.x <= overview.width / 2)
-          popupOriginX = rect.x + rect.width + gu(4);
+          popupOriginX = rect.x + rect.width + units.gu(4);
         else
           popupOriginX = rect.x - childrenRect.width;
         
@@ -627,8 +628,8 @@ Rectangle {
       deleteTitle: "Delete album"
       deleteWithContentsTitle: "Delete album + contents"
       
-      popupOriginX: -gu(2)
-      popupOriginY: -gu(6)
+      popupOriginX: -units.gu(2)
+      popupOriginY: -units.gu(6)
       
       onDeleteRequested: {
         albumCollectionModel.destroyAlbum(albumViewer.album);

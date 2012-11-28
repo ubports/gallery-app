@@ -21,6 +21,7 @@
 
 import QtQuick 2.0
 import Gallery 1.0
+import Ubuntu.Components 0.1
 import "../../Capetown"
 import "../Utility"
 
@@ -34,7 +35,7 @@ Item {
   property bool isBlank: false
   property bool isPreview: true
   property real titleOpacity: 1
-  property int titleDateSpacing: gu(2) // (Preview-sized; will scale up)
+  property int titleDateSpacing: units.gu(2) // (Preview-sized; will scale up)
   
   property alias xScale: scale.xScale
   property alias yScale: scale.yScale
@@ -43,7 +44,7 @@ Item {
   // Scale text and spacers by factor of cover size. 
   property real textScale: isPreview || width <= 0 || cover.previewPixelWidth <= 0 
     ? 1 : width / cover.previewPixelWidth
-  property real spacerScale: cover.height / gu(33) // ratio of image height to canonical height
+  property real spacerScale: cover.height / units.gu(33) // ratio of image height to canonical height
   // Text margins.
   property real coverStartX: width / 50 // Frame is ~1/50th of page width or height
   property real coverStartY: height / 50
@@ -139,7 +140,7 @@ Item {
       // Spacer
       Item {
         width: 1
-        height: gu(5) * spacerScale
+        height: units.gu(5) * spacerScale
       }
 
       TextEditOnClick {

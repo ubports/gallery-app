@@ -20,10 +20,12 @@
 
 import QtQuick 2.0
 import Gallery 1.0
+import Ubuntu.Components 0.1
 import "../Capetown"
 import "../Capetown/Viewer"
 import "Components"
 import "Widgets"
+import "../js/Gallery.js" as Gallery
 
 Rectangle {
   id: viewerWrapper
@@ -214,9 +216,9 @@ Rectangle {
       GenericShareMenu {
         id: photoViewerShareMenu
 
-        popupOriginX: -gu(8.5)
-        popupOriginY: -gu(6)
-        
+        popupOriginX: -units.gu(8.5)
+        popupOriginY: -units.gu(6)
+
         onActionInvoked: {
           switch (name) {
             case "onQuickShare": {
@@ -235,8 +237,8 @@ Rectangle {
       PhotoViewerOptionsMenu {
         id: photoViewerOptionsMenu
 
-        popupOriginX: -gu(0.5)
-        popupOriginY: -gu(6)
+        popupOriginX: -units.gu(0.5)
+        popupOriginY: -units.gu(6)
 
         onPopupInteractionCompleted: {
           chrome.hideAllPopups();
@@ -263,8 +265,8 @@ Rectangle {
         
         actionTitle: "Delete Photo"
         
-        popupOriginX: -gu(24.5)
-        popupOriginY: -gu(6)
+        popupOriginX: -units.gu(24.5)
+        popupOriginY: -units.gu(6)
 
         onPopupInteractionCompleted: {
           chrome.hideAllPopups();
@@ -293,8 +295,8 @@ Rectangle {
         action0Title: "Remove from album"
         action1Title: "Delete photo"
         
-        popupOriginX: -gu(24.5)
-        popupOriginY: -gu(6)
+        popupOriginX: -units.gu(24.5)
+        popupOriginY: -units.gu(6)
         
         visible: false
         
@@ -314,8 +316,8 @@ Rectangle {
       PhotoEditMenu {
         id: editMenu
 
-        popupOriginX: gu(3.5)
-        popupOriginY: -gu(6)
+        popupOriginX: units.gu(3.5)
+        popupOriginY: -units.gu(6)
 
         onPopupInteractionCompleted: chrome.hideAllPopups()
 
@@ -332,7 +334,6 @@ Rectangle {
             }
             case "onCrop": {
               state = "hidden";
-              galleryPhotoViewer.visible = false
               cropper.show(photo);
               break;
             }
@@ -363,8 +364,8 @@ Rectangle {
       PopupAlbumPicker {
         id: popupAlbumPicker
 
-        popupOriginX: -gu(17.5)
-        popupOriginY: -gu(6)
+        popupOriginX: -units.gu(17.5)
+        popupOriginY: -units.gu(6)
 
         onPopupInteractionCompleted: {
           chrome.hideAllPopups();
@@ -411,11 +412,17 @@ Rectangle {
     states: [
       State { name: "shown";
         PropertyChanges { target: cropper; visible: true; }
+        PropertyChanges { target: cropper; opacity: 1.0; }
       },
       State { name: "hidden";
         PropertyChanges { target: cropper; visible: false; }
+        PropertyChanges { target: cropper; opacity: 0.0; }
       }
     ]
+    
+    Behavior on opacity {
+      NumberAnimation { duration: Gallery.FAST_DURATION }
+    }
 
     anchors.fill: parent
 
@@ -439,6 +446,11 @@ Rectangle {
       photo.crop(qtRect);
       hide();
       galleryPhotoViewer.visible = true;
+    }
+    
+    onOpacityChanged: {
+      if (opacity == 1.0)
+        galleryPhotoViewer.visible = false
     }
   }
 }

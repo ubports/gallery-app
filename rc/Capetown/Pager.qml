@@ -20,6 +20,7 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 
 // A Pager is a ListView of screen-sized items whose currentIndex tracks which
 // page the user is currently on.
@@ -45,14 +46,13 @@ ListView {
     positionViewAtIndex(currentIndex, ListView.Beginning);
   }
 
-  spacing: gu(5)
+  spacing: units.gu(5)
   anchors.fill: parent
 
   orientation: ListView.Horizontal
   snapMode: ListView.SnapOneItem
   highlightRangeMode: ListView.StrictlyEnforceRange
   highlightFollowsCurrentItem: true
-  cacheBuffer: width * pageCacheSize
   flickDeceleration: 50
   highlightMoveDuration: 200
   boundsBehavior: Flickable.DragOverBounds

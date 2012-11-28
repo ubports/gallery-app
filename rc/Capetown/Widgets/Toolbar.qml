@@ -19,6 +19,7 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 
 Item {
   property bool isTextured: true
@@ -27,7 +28,7 @@ Item {
   property bool isBottom: false // vs. top; what part of the screen it's on.
 
   width: parent.width
-  height: gu(6)
+  height: units.gu(6)
 
   opacity: (isTranslucent ? (isDark ? 0.7 : 0.9) : 1.0)
 
