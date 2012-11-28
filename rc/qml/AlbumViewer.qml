@@ -439,14 +439,23 @@ Rectangle {
 
       onActionInvoked: {
         switch (name) {
-          case "onQuickShare": {          
+          case "onQuickShare": {
           if (albumViewer.state == "gridView") {
-              for (var i = 0; i < gridCheckerboard.selection.model.count; i++) {
-                var img = gridCheckerboard.selection.model.getAt(i);
+              // Only share the images that have been selected...
+              for (var i = 0; i < organicView.selection.model.count; i++) {
+                var img = organicView.selection.model.getAt(i);
                 
-                if (gridCheckerboard.selection.model.isSelected(img)) {
+                if (organicView.selection.model.isSelected(img)) {
                   shareImage(img);
                 }
+              }
+              organicView.selection.leaveSelectionMode();
+              break;
+            } else {
+              // We're in page view, so we should share all
+              // images in the current album.
+              for (var index = 0; index < album.allMediaSources.length; index++) {
+                shareImage(album.allMediaSources[index]);
               }
               break;
             }
