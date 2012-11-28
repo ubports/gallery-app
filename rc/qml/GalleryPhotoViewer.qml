@@ -387,17 +387,22 @@ Rectangle {
 
   CropInteractor {
     id: cropper
+    
+    property var targetPhoto
 
     function show(photo) {
       chrome.hide(true);
-
-      var ratio_crop_rect = photo.prepareForCropping();
-      enterCropper(photo, ratio_crop_rect);
-      state = "shown";
+      
+      targetPhoto = photo;
+      
+      fadeOutPhotoAnimation.running = true;
     }
 
     function hide() {
       state = "hidden";
+      galleryPhotoViewer.opacity = 0.0;
+      galleryPhotoViewer.visible = true;
+      fadeInPhotoAnimation.running = true;      
     }
 
     state: "hidden"
@@ -429,20 +434,54 @@ Rectangle {
 
     onCanceled: {
       photo.cancelCropping();
+
       hide();
-      galleryPhotoViewer.visible = true;
+
+      targetPhoto = null;
     }
 
     onCropped: {
       var qtRect = Qt.rect(rect.x, rect.y, rect.width, rect.height);
       photo.crop(qtRect);
+
       hide();
-      galleryPhotoViewer.visible = true;
+
+      targetPhoto = null;
     }
     
     onOpacityChanged: {
       if (opacity == 1.0)
         galleryPhotoViewer.visible = false
     }
-  }
+    
+    NumberAnimation {
+      id: fadeOutPhotoAnimation
+      
+      from: 1.0
+      to: 0.0
+      target: galleryPhotoViewer
+      property: "opacity"
+      duration: Gallery.FAST_DURATION
+      easing.type: Easing.InOutQuad
+      
+      onRunningChanged: {
+        if (running == false) {
+          var ratio_crop_rect = cropper.targetPhoto.prepareForCropping();
+          cropper.enter(cropper.targetPhoto, ratio_crop_rect);
+          cropper.state = "shown";
+        }
+      }
+    }
+
+    NumberAnimation {
+      id: fadeInPhotoAnimation
+      
+      from: 0.0
+      to: 1.0
+      target: galleryPhotoViewer
+      property: "opacity"
+      duration: Gallery.FAST_DURATION
+      easing.type: Easing.InOutQuad    
+    }
+  }  
 }
