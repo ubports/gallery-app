@@ -25,6 +25,20 @@ class PhotoViewer(object):
         ov_ppv = self.get_overview().get_children_by_type("PopupPhotoViewer")[0]
         return ov_ppv.get_children_by_type("GalleryPhotoViewer")[0].get_children_by_type("PhotoViewer")[0]
 
+    def get_crop_interactor(self):
+        ov_ppv = self.get_overview().get_children_by_type("PopupPhotoViewer")[0]
+        return ov_ppv.get_children_by_type("GalleryPhotoViewer")[0].get_children_by_type("CropInteractor")[0]
+
+    def get_viewer_chrome_toolbar_buttons(self):
+        mpv = self.get_main_photo_viewer()
+        gst = mpv.get_children_by_type("ViewerChrome")[0].get_children_by_type("GalleryStandardToolbar")[0]
+        return gst.get_children_by_type("QQuickRow")[1]
+
+    def get_viewer_chrome_toolbar_edit_button(self):
+        mpv = self.get_main_photo_viewer()
+        gst = mpv.get_children_by_type("ViewerChrome")[0].get_children_by_type("GalleryStandardToolbar")[0]
+        return gst.get_children_by_type("QQuickRow")[0].get_children_by_type("ToolbarIconButton")[1]
+
     def get_photo_viewer_chrome(self):
         pv = self.get_photo_viewer()
         return pv.select_single("ViewerChrome", fadeDuration=175)
@@ -39,13 +53,47 @@ class PhotoViewer(object):
         return qqr.get_children_by_type("StandardToolbarIconButton")[0]
 
     def get_viewer_chrome_trash_button(self):
-        mpv = self.get_main_photo_viewer()
-        gst = mpv.get_children_by_type("ViewerChrome")[0].get_children_by_type("GalleryStandardToolbar")[0]
-        qqr = gst.get_children_by_type("QQuickRow")[1]
+        qqr = self.get_viewer_chrome_toolbar_buttons()
         return qqr.get_children_by_type("StandardToolbarIconButton")[0]
+
+    def get_viewer_chrome_album_button(self):
+        qqr = self.get_viewer_chrome_toolbar_buttons()
+        return qqr.get_children_by_type("StandardToolbarIconButton")[1]
+
+    def get_viewer_chrome_share_button(self):
+        qqr = self.get_viewer_chrome_toolbar_buttons()
+        return qqr.get_children_by_type("StandardToolbarIconButton")[2]
+
+    def get_viewer_chrome_more_button(self):
+        qqr = self.get_viewer_chrome_toolbar_buttons()
+        return qqr.get_children_by_type("StandardToolbarIconButton")[3]
 
     def get_delete_dialog(self):
         mpv = self.get_main_photo_viewer()
-        vc_dd = mpv.get_children_by_type("ViewerChrome")[0].get_children_by_type("DeleteDialog")[0]
+        return mpv.get_children_by_type("ViewerChrome")[0].get_children_by_type("DeleteDialog")[0]
+
+    def get_popup_album_picker(self):
+        mpv = self.get_main_photo_viewer()
+        return mpv.get_children_by_type("ViewerChrome")[0].get_children_by_type("PopupAlbumPicker")[0]
+
+    def get_share_dialog(self):
+        mpv = self.get_main_photo_viewer()
+        return mpv.get_children_by_type("ViewerChrome")[0].get_children_by_type("PopupMenu")[0]
+
+    def get_more_dialog(self):
+        mpv = self.get_main_photo_viewer()
+        return mpv.get_children_by_type("ViewerChrome")[0].get_children_by_type("PopupMenu")[1]
+
+    def get_photo_edit_dialog(self):
+        mpv = self.get_main_photo_viewer()
+        return mpv.get_children_by_type("ViewerChrome")[0].get_children_by_type("PopupMenu")[2]
+
+    def get_photo_component(self):
+        mpv = self.get_main_photo_viewer()
+        return mpv.get_children_by_type("QQuickItem")[0].get_children_by_type("ZoomablePhotoComponent")[0]
+
+    def get_crop_menu_item(self):
+        edit_dialog = self.get_photo_edit_dialog()
+        return edit_dialog.get_children_by_type("QQuickColumn")[0].get_children_by_type("MenuItem")[1]
 
 
