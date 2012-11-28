@@ -32,8 +32,8 @@ class PreviewManager : public QObject {
   Q_OBJECT
   
  public:
-  static const int PREVIEW_WIDTH_MAX = 360;
-  static const int PREVIEW_HEIGHT_MAX = 360;
+  static const int PREVIEW_WIDTH_MAX;
+  static const int PREVIEW_HEIGHT_MAX;
   
   static const QString PREVIEW_DIR;
   
@@ -41,8 +41,8 @@ class PreviewManager : public QObject {
   static void Terminate();
   
   static PreviewManager* instance();
-  
   QFileInfo PreviewFileFor(const MediaSource* media) const;
+  bool ensure_preview_for_media(MediaSource* media, bool regen = false);
   
  private slots:
   void on_media_added_removed(const QSet<DataObject*>* added,
@@ -55,7 +55,6 @@ class PreviewManager : public QObject {
   
   PreviewManager();
   
-  bool VerifyPreview(MediaSource* media, bool regen = false);
   void DestroyPreview(MediaSource* media);
 };
 

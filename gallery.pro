@@ -62,6 +62,7 @@ SOURCES += \
 	src/util/imaging.cpp \
     src/photo/photo-edit-state.cpp \
     src/photo/photo-caches.cpp \
+    src/media/media-monitor.cpp \
     src/gallery-application.cpp
 
 HEADERS += \
@@ -104,6 +105,7 @@ HEADERS += \
 	src/util/imaging.h \
     src/photo/photo-edit-state.h \
     src/photo/photo-caches.h \
+    src/media/media-monitor.h \
     src/gallery-application.h
 
 # Install
@@ -113,6 +115,3 @@ install_binary.files = gallery
 install_resources.path = $$PREFIX/share/gallery/
 install_resources.files = rc/
 INSTALLS = install_binary install_resources
-
-OTHER_FILES += \
-    rc/Capetown/Widgets/GalleryTab.qml

@@ -20,10 +20,13 @@
 #ifndef GALLERYAPPLICATION_H
 #define GALLERYAPPLICATION_H
 
+#include "media/media-monitor.h"
+
 #include <QApplication>
 #include <QDir>
 #include <QQuickView>
 #include <QElapsedTimer>
+#include <QFileInfo>
 
 class GalleryApplication : public QApplication
 {
@@ -53,9 +56,11 @@ class GalleryApplication : public QApplication
   QQuickView view_;
   bool startup_timer_;
   QElapsedTimer timer_;
+  MediaMonitor* monitor_;
 
  private slots:
   void start_init_collections();
+  void on_media_item_added(QFileInfo item_info);
 };
 
 #endif // GALLERYAPPLICATION_H
