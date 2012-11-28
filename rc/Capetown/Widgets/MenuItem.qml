@@ -18,6 +18,7 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 
 Rectangle {
   id: menuItem
@@ -100,12 +101,12 @@ Rectangle {
 
   height: {
     if (isSeparator)
-      return (title != "") ? gu(3) : gu(1)
+      return (title != "") ? units.gu(3) : units.gu(1)
     else
-      return gu(6)
+      return units.gu(6)
   }
 
-  width: gu(40)
+  width: units.gu(40)
 
   clip: true;
 
@@ -120,17 +121,17 @@ Rectangle {
     height: 36
     anchors.left: parent.left
     anchors.verticalCenter: parent.verticalCenter
-    anchors.leftMargin: gu(1)
+    anchors.leftMargin: units.gu(1)
   }
 
   Rectangle {
     id: cueRectangle
 
-    width: gu(3);
-    height: gu(3);
+    width: units.gu(3);
+    height: units.gu(3);
 
     anchors.right: parent.right
-    anchors.rightMargin: gu(1.5)
+    anchors.rightMargin: units.gu(1.5)
     anchors.verticalCenter: parent.verticalCenter
 
     color: "#bcbdc0"
@@ -152,9 +153,9 @@ Rectangle {
     verticalAlignment: Text.AlignVCenter
     font.family: "Ubuntu"
     font.weight: (isSeparator) ? Font.Bold : Font.Normal
-    font.pixelSize: (isSeparator) ? gu(1.75) : gu(2)
+    font.pixelSize: (isSeparator) ? units.gu(1.75) : units.gu(2)
 
-    anchors.leftMargin: (isSeparator || iconFilename != "") ? gu(1) : 0
+    anchors.leftMargin: (isSeparator || iconFilename != "") ? units.gu(1) : 0
 
     visible: (text) ? true : false
   }

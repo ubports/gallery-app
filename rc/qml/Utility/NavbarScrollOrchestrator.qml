@@ -18,6 +18,7 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 import "../../Capetown"
 import "../Widgets"
 
@@ -30,7 +31,7 @@ Item {
   // public properties
   //
   property GalleryOverviewNavigationBar navigationBar
-  property int sweepThresholdPixels: gu(6)
+  property int sweepThresholdPixels: units.gu(6)
 
   //
   // private properties
@@ -50,7 +51,7 @@ Item {
   property bool isMovementInProgress: false
   property bool isSweepInProgress: false
   property bool isContentSweepingUp: false
-  property int topProximityPixels: navigationBar.height - gu(1);
+  property int topProximityPixels: navigationBar.height - units.gu(1);
 
   states: [
     State { name: "scrolledIn";
@@ -91,7 +92,7 @@ Item {
       // a sample and do a short-circuit return to prevent hysteresis
       var directionDelta =
           orchestrator.viewContentY - orchestrator.lastDirectionChangeY;
-      if (Math.abs(directionDelta) < gu(3)) {
+      if (Math.abs(directionDelta) < units.gu(3)) {
         orchestrator.lastSampleY = orchestrator.viewContentY;
         return;
       }

@@ -19,6 +19,7 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 
 // Because some QML components' natural swiping motion requires custom
 // event handling, this emulates it and allows for programmatic control
@@ -32,7 +33,7 @@ MouseArea {
   signal tapped(int x, int y, bool rightButton)
   signal longPressed(int x, int y)
   
-  property int requiredHorizMovement: gu(0)
+  property int requiredHorizMovement: units.gu(0)
   
   // internal
   property int startX: -1

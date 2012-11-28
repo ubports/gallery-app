@@ -20,6 +20,7 @@
 
 import QtQuick 2.0
 import Gallery 1.0
+import Ubuntu.Components 0.1
 import "../Capetown"
 import "../Capetown/Viewer"
 import "Components"
@@ -215,8 +216,8 @@ Rectangle {
       GenericShareMenu {
         id: photoViewerShareMenu
 
-        popupOriginX: -gu(8.5)
-        popupOriginY: -gu(6)
+        popupOriginX: -units.gu(8.5)
+        popupOriginY: -units.gu(6)
 
         onPopupInteractionCompleted: {
           chrome.hideAllPopups();
@@ -228,8 +229,8 @@ Rectangle {
       PhotoViewerOptionsMenu {
         id: photoViewerOptionsMenu
 
-        popupOriginX: -gu(0.5)
-        popupOriginY: -gu(6)
+        popupOriginX: -units.gu(0.5)
+        popupOriginY: -units.gu(6)
 
         onPopupInteractionCompleted: {
           chrome.hideAllPopups();
@@ -256,8 +257,8 @@ Rectangle {
         
         actionTitle: "Delete Photo"
         
-        popupOriginX: -gu(24.5)
-        popupOriginY: -gu(6)
+        popupOriginX: -units.gu(24.5)
+        popupOriginY: -units.gu(6)
 
         onPopupInteractionCompleted: {
           chrome.hideAllPopups();
@@ -286,8 +287,8 @@ Rectangle {
         action0Title: "Remove from album"
         action1Title: "Delete photo"
         
-        popupOriginX: -gu(24.5)
-        popupOriginY: -gu(6)
+        popupOriginX: -units.gu(24.5)
+        popupOriginY: -units.gu(6)
         
         visible: false
         
@@ -307,8 +308,8 @@ Rectangle {
       PhotoEditMenu {
         id: editMenu
 
-        popupOriginX: gu(3.5)
-        popupOriginY: -gu(6)
+        popupOriginX: units.gu(3.5)
+        popupOriginY: -units.gu(6)
 
         onPopupInteractionCompleted: chrome.hideAllPopups()
 
@@ -355,8 +356,8 @@ Rectangle {
       PopupAlbumPicker {
         id: popupAlbumPicker
 
-        popupOriginX: -gu(17.5)
-        popupOriginY: -gu(6)
+        popupOriginX: -units.gu(17.5)
+        popupOriginY: -units.gu(6)
 
         onPopupInteractionCompleted: {
           chrome.hideAllPopups();
