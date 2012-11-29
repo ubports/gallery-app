@@ -88,6 +88,10 @@ int GalleryApplication::exec() {
   return QApplication::exec();
 }
 
+bool GalleryApplication::run_command(const QString &cmd, const QString &arg) {
+  return QProcess::startDetached(cmd, QStringList(arg));
+}
+
 void GalleryApplication::register_qml() {
   //
   // QML Declarative types must be registered before use
@@ -185,6 +189,9 @@ void GalleryApplication::create_view() {
   view_.engine()->rootContext()->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
   view_.engine()->rootContext()->setContextProperty("DEVICE_HEIGHT", QVariant(size.height()));
   view_.engine()->rootContext()->setContextProperty("FORM_FACTOR", QVariant(form_factor_));
+  
+  // Set ourselves up to expose functionality to run external commands from QML...
+  view_.engine()->rootContext()->setContextProperty("APP", this);
 
   view_.engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
     GalleryStandardImageProvider::instance());

@@ -25,6 +25,7 @@
 #include <QApplication>
 #include <QDir>
 #include <QQmlEngine>
+#include <QProcess>
 #include <QQuickView>
 #include <QElapsedTimer>
 #include <QFileInfo>
@@ -42,7 +43,10 @@ class GalleryApplication : public QApplication {
   
   // register objects' ownership (QML/Javascript vs. C++)
   void setObjectOwnership(QObject* object, QQmlEngine::ObjectOwnership ownership);
-  
+
+  // Used for content sharing.
+  Q_INVOKABLE bool run_command(const QString &cmd, const QString &arg);
+
  signals:
   void media_loaded();
 
