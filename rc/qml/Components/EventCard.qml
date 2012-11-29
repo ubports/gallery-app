@@ -37,7 +37,7 @@ Rectangle {
     anchors.centerIn: parent
     width: parent.width
  
-    TextCustom {
+    Label {
       id: eventDay
       
       width: parent.width
@@ -51,7 +51,7 @@ Rectangle {
       text: (event) ? Qt.formatDate(event.date, "dd") : ""
     }
 
-    TextCustom {
+    Label {
       id: eventMonthYear
       width: parent.width
       
