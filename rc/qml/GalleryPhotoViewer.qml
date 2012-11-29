@@ -492,5 +492,32 @@ Rectangle {
       duration: Gallery.FAST_DURATION
       easing.type: Easing.InOutQuad    
     }
-  }  
+  }
+
+  // Used for supporting swiping from the bottom of the display upward;
+  // prevent the app from interpreting it as prev/next photo and force
+  // the toolbar to show.
+  MouseArea {
+    id: toolbarVertSwipeInteractor
+    visible: !(chrome.visible)
+    x: 0
+    y: parent.height - units.gu(1)
+    preventStealing: true
+    width: parent.width
+    height: units.gu(1)
+
+    // Stop the parent from getting this event...
+    onPressed: { }
+
+    // Swipe completed - display toolbar.
+    onReleased: {
+      chrome.visible = true;
+    }
+
+    // Replicate current functionality - click = bring up toolbar.
+    onClicked: {
+      if (!chrome.visible)
+        chrome.visible = true;
+    }
+  }
 }
