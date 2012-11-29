@@ -39,7 +39,7 @@ Item {
     isCropped: true
   }
 
-  MattedAlbumPagePhoto {
+  UbuntuPhotoComponent {
     anchors.fill: parent
 
     visible: !framePortrait.isPreview

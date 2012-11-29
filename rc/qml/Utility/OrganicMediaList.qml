@@ -92,7 +92,7 @@ Item {
       monitored: true
     }
 
-    Item {
+    UbuntuPhotoComponent {
       id: organicPhoto
 
       property bool isInView: (x <= loadAreaRight && x + width >= loadAreaLeft)
@@ -105,24 +105,14 @@ Item {
       width: photoLength[patternPhoto]
       height: photoLength[patternPhoto]
 
-      UbuntuShape {
-        anchors.fill: parent
-        visible: organicPhoto.isInView
-        radius: "medium"
-        image: photoComponent.image
-      }
+      visible: isInView
 
-      GalleryPhotoComponent {
-        id: photoComponent
+      radius: "medium"
 
-        anchors.fill: parent
-        visible: false
-
-        mediaSource: (organicPhoto.isInView ? organicPhoto.modelMediaSource : null)
-        ownerName: "OrganicMediaList"
-        isCropped: true
-        isPreview: true
-      }
+      mediaSource: (organicPhoto.isInView ? organicPhoto.modelMediaSource : null)
+      ownerName: "OrganicMediaList"
+      isCropped: true
+      isPreview: true
 
       OrganicItemInteraction {
         selectionItem: organicPhoto.modelMediaSource
