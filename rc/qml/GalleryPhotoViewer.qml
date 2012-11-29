@@ -511,13 +511,7 @@ Rectangle {
 
     // Swipe completed - display toolbar.
     onReleased: {
-      chrome.visible = true;
-    }
-
-    // Replicate current functionality - click = bring up toolbar.
-    onClicked: {
-      if (!chrome.visible)
-        chrome.visible = true;
+      chrome.show(true);
     }
   }
 }
