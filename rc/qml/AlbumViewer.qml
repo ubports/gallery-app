@@ -438,6 +438,37 @@ Rectangle {
       popupOriginX: -units.gu(9)
       popupOriginY: -units.gu(6)
 
+      onActionInvoked: {
+        switch (name) {
+          case "onQuickShare": {
+            // Are we in selection mode?
+            if (albumViewer.state == "gridView" && organicView.selection.inSelectionMode) {
+              // Yes. Only share the images that have been selected.
+              for (var index = 0; index < organicView.selection.model.count; index++) {
+                var img = organicView.selection.model.getAt(index);
+                if (organicView.selection.model.isSelected(img)) {
+                  shareImage(img);
+                }
+              }
+
+              // Only leave selection mode if we've actually shared
+              // something - the app shouldn't change modes if nothing
+              // happened...
+              if (organicView.selection.selectedCount > 0)
+                organicView.selection.leaveSelectionMode();
+            } else {
+              // We're either in page view, or in grid view, but not
+              // in selection mode, so we should share all images
+              // in the current album.
+              for (index = 0; index < album.allMediaSources.length; index++) {
+                shareImage(album.allMediaSources[index]);
+              }
+            }
+            break;
+          }
+        }
+      }
+
       onPopupInteractionCompleted: chrome.hideAllPopups()
 
       visible: false
@@ -523,7 +554,7 @@ Rectangle {
           }
           
           case "onShare": {
-            // TODO
+            shareImage(mediaSource);
             break;
           }
           

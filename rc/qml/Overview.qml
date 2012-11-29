@@ -307,6 +307,26 @@ Rectangle {
         chrome.hideAllPopups();
       }
 
+      onActionInvoked: {
+        switch (name) {
+        case "onQuickShare": {
+            for (var index = 0; index < eventView.selection.model.count; index++) {
+              var img = eventView.selection.model.getAt(index);
+              if (eventView.selection.model.isSelected(img)) {
+                shareImage(img);
+              }
+            }
+
+            // Only change modes if we've actually shared something -
+            // if nothing happened, the app shouldn't do anything here.
+            if (eventView.selection.selectedCount > 0) {
+              eventView.selection.leaveSelectionMode();
+            }
+            break;
+          }
+        }
+      }
+
       visible: false
     }
 
@@ -378,7 +398,10 @@ Rectangle {
         }
         
         case "onShare": {
-          // TODO
+
+          for (var index = 0; index < album.allMediaSources.length; index++) {
+            shareImage(album.allMediaSources[index]);
+          }
           break;
         }
         

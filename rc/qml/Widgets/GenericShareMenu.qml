@@ -29,6 +29,7 @@ PopupMenu {
 
     ListElement {
       title: "Quick Share"
+      action: "onQuickShare"
       hasBottomBorder: true
     }
 

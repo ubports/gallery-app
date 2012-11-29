@@ -219,6 +219,15 @@ Rectangle {
         popupOriginX: -units.gu(8.5)
         popupOriginY: -units.gu(6)
 
+        onActionInvoked: {
+          switch (name) {
+            case "onQuickShare": {
+              shareImage(photo);
+              break;
+            }
+          }
+        }
+
         onPopupInteractionCompleted: {
           chrome.hideAllPopups();
         }
