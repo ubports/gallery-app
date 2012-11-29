@@ -41,8 +41,8 @@ Rectangle {
   
   // Read-only
   // Set to true when an image is loaded and displayed.
-  property bool isReady: galleryPhotoViewer.currentItem ? 
-    galleryPhotoViewer.currentItem.isLoaded : false
+  property bool isReady: (model.count > 0) &&
+    (galleryPhotoViewer.currentItem ? galleryPhotoViewer.currentItem.isLoaded : false)
 
   signal closeRequested()
   signal editRequested(variant photo)
