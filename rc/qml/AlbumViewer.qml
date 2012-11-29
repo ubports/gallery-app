@@ -442,31 +442,34 @@ Rectangle {
         switch (name) {
           case "onQuickShare": {
             if (albumViewer.state == "gridView") {
-              // Is anything selected?
-              if (!organicView.selection.inSelectionMode) {
-                // No - share all.
-                for (var index = 0; index < album.allMediaSources.length; index++) {
-                  shareImage(album.allMediaSources[index]);
-                }
-              } else {
+              var leave_slcn = false;
+
+              // Are we in selection mode?
+              if (organicView.selection.inSelectionMode) {
                 // Yes. Only share the images that have been selected.
-                for (index = 0; index < organicView.selection.model.count; index++) {
-                  img = organicView.selection.model.getAt(index);
+                for (var index = 0; index < organicView.selection.model.count; index++) {
+                  var img = organicView.selection.model.getAt(index);
                   if (organicView.selection.model.isSelected(img)) {
                     shareImage(img);
+                    leave_slcn = true;
                   }
                 }
+
+                // Only leave selection mode if we've actually shared
+                // something - the app shouldn't change modes if nothing
+                // happened...
+                if (leave_slcn)
+                  organicView.selection.leaveSelectionMode();
               }
-              organicView.selection.leaveSelectionMode();
-              break;
             } else {
-              // We're in page view, so we should share all
-              // images in the current album.
+              // We're either in page view, or in grid view, but not
+              // in selection mode, so we should share all images
+              // in the current album.
               for (index = 0; index < album.allMediaSources.length; index++) {
                 shareImage(album.allMediaSources[index]);
               }
-              break;
             }
+            break;
           }
         }
       }

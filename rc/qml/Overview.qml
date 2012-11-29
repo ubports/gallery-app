@@ -309,13 +309,21 @@ Rectangle {
 
       onActionInvoked: {
         switch (name) {
-          case "onQuickShare": {
-            for (var i = 0; i < eventView.selection.model.count; i++) {  
-              var img = eventView.selection.model.getAt(i);
-              
+        case "onQuickShare": {
+            var leave_slcn = false;
+            for (var index = 0; index < eventView.selection.model.count; index++) {
+
+              var img = eventView.selection.model.getAt(index);
               if (eventView.selection.model.isSelected(img)) {
                 shareImage(img);
+                leave_slcn = true;
               }
+            }
+
+            // Only change modes if we've actually shared something -
+            // if nothing happened, the app shouldn't do anything here.
+            if (leave_slcn) {
+              eventView.selection.leaveSelectionMode();
             }
             break;
           }

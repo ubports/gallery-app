@@ -223,6 +223,7 @@ Rectangle {
           switch (name) {
             case "onQuickShare": {
               shareImage(photo);
+              break;
             }
           }
         }
