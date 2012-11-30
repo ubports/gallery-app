@@ -29,7 +29,7 @@ OrganicView {
 
   // Arbitrary extra amount of padding so that as you scroll the tray, the
   // photos are already loaded by the time they're on screen.
-  property real trayLoadAreaPadding: units.gu(10)
+  property real trayLoadAreaPadding: units.gu(20)
 
   selection: SelectionState {
   }
