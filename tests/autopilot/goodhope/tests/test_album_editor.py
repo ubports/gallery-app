@@ -46,36 +46,30 @@ class TestAlbumEditor(GoodhopeTestCase):
         self.mouse.click()
 
     def click_title_field(self):
-        album_editor = self.album_editor.get_album_editor()
         title_field = self.album_editor.get_album_title_entry_field()
 
         self.mouse.move_to_object(title_field)
         self.mouse.click()
 
     def click_subtitle_field(self):
-        album_editor = self.album_editor.get_album_editor()
-        subtitle_field = self.album_editor.get_album_title_entry_field()
+        subtitle_field = self.album_editor.get_album_subtitle_entry_field()
 
         self.mouse.move_to_object(subtitle_field)
         self.mouse.click()
 
     def test_album_title_field_default_text(self):
         """Ensures the default text of the title field is intact."""
-        album_editor = self.album_editor.get_album_editor()
         title_field = self.album_editor.get_album_title_entry_field()
 
         self.assertThat(title_field.text, Eventually(Equals("New Photo Album")))
 
     def test_album_subtitle_field_default_text(self):
         """Ensures the default text of the subtitle field is intact."""
-        album_editor = self.album_editor.get_album_editor()
-
         subtitle_field = self.album_editor.get_album_subtitle_entry_field()
 
         self.assertThat(subtitle_field.text, Eventually(Equals("Subtitle")))
 
     def test_album_title_entry_field(self):
-        album_editor = self.album_editor.get_album_editor()
         title_field = self.album_editor.get_album_title_entry_field()
         subtitle_field = self.album_editor.get_album_subtitle_entry_field()
 
@@ -91,7 +85,6 @@ class TestAlbumEditor(GoodhopeTestCase):
         self.assertThat(title_field.text, Eventually(Equals("")))
 
     def test_album_title_entry_input(self):
-        album_editor = self.album_editor.get_album_editor()
         title_field = self.album_editor.get_album_title_entry_field()
         subtitle_field = self.album_editor.get_album_subtitle_entry_field()
 
@@ -105,7 +98,6 @@ class TestAlbumEditor(GoodhopeTestCase):
         self.assertThat(title_field.text, Eventually(Equals("test")))
 
     def test_album_subtitle_entry_field(self):
-        album_editor = self.album_editor.get_album_editor()
         title_field = self.album_editor.get_album_title_entry_field()
         subtitle_field = self.album_editor.get_album_subtitle_entry_field()
 
@@ -119,7 +111,6 @@ class TestAlbumEditor(GoodhopeTestCase):
         self.assertThat(subtitle_field.text, Eventually(Equals("")))
 
     def test_album_subtitle_entry_input(self):
-        album_editor = self.album_editor.get_album_editor()
         title_field = self.album_editor.get_album_title_entry_field()
         subtitle_field = self.album_editor.get_album_subtitle_entry_field()
 
@@ -133,18 +124,18 @@ class TestAlbumEditor(GoodhopeTestCase):
         self.assertThat(subtitle_field.text, Eventually(Equals("test")))
 
     # def test_new_album_add(self):
-    #     album_editor = self.album_editor.get_album_editor()
+    #     #album_editor = self.album_editor.get_album_editor()
     #     title_field = self.album_editor.get_album_title_entry_field()
     #     subtitle_field = self.album_editor.get_album_subtitle_entry_field()
 
-    #     self.mouse.move_to_object(title_field)
-    #     self.mouse.click()
+    #     self.click_title_field()
 
     #     self.keyboard.press_and_release("Ctrl+a")
     #     self.keyboard.type("TheTitle")
 
-    #     self.mouse.move_to_object(subtitle_field)
-    #     self.mouse.click()
+    #     self.click_sub
+
+    #     title_field()
 
     #     self.keyboard.press_and_release("Ctrl+a")
     #     self.keyboard.type("TheSubtitle")
