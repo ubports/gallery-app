@@ -15,6 +15,8 @@ from autopilot.testcase import AutopilotTestCase
 
 from goodhope.emulators.main_window import MainWindow
 from goodhope.emulators.photo_viewer import PhotoViewer
+from goodhope.emulators.album_editor import AlbumEditor
+
 
 class GoodhopeTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
 
@@ -52,4 +54,8 @@ class GoodhopeTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
     @property
     def photo_viewer(self):
         return PhotoViewer(self.app)
+
+    @property
+    def album_editor(self):
+        return AlbumEditor(self.app)
 
