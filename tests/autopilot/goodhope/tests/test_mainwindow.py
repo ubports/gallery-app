@@ -86,26 +86,4 @@ class TestMainWindow(GoodhopeTestCase):
 
         self.assertThat(album_editor.opacity, Eventually(Equals(1.0)))
 
-    def test_album_title_field_default_text(self):
-        """Ensures the default text of the title field is intact."""
-        album_editor = self.main_window.get_album_editor()
-
-        self.click_albums_tab()
-        self.click_plus_icon()
-
-        title_field = self.main_window.get_album_title_entry_field()
-
-        self.assertThat(title_field.text, Eventually(Equals("New Photo Album")))
-
-    def test_album_subtitle_field_default_text(self):
-        """Ensures the default text of the subtitle field is intact."""
-        album_editor = self.main_window.get_album_editor()
-
-        self.click_albums_tab()
-        self.click_plus_icon()
-
-        subtitle_field = self.main_window.get_album_subtitle_entry_field()
-
-        self.assertThat(subtitle_field.text, Eventually(Equals("Subtitle")))
-
 
