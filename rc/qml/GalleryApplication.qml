@@ -159,6 +159,9 @@ Item {
   Loader {
     id: mainScreenLoader
 
+    // find the loader with autopilot:
+    objectName: "mainLoader"
+
     function load() {
       sourceComponent = mainScreenComponent;
     }

@@ -41,8 +41,16 @@ Rectangle {
   
   // Read-only
   // Set to true when an image is loaded and displayed.
-  property bool isReady: galleryPhotoViewer.currentItem ? 
-    galleryPhotoViewer.currentItem.isLoaded : false
+  //
+  // NOTE: The empty-model check does perform a useful function here and should NOT be
+  // removed; for whatever reason, it's possible to get here and have what would have
+  // been the current item be deleted, but not be null, and what it actually points to
+  // is no longer valid and will result in an immediate segfault if dereferenced.
+  //
+  // Since there is no current item if there are no more photo objects left in the model,
+  // the check catches this before we can inadvertently follow a stale pointer.
+  property bool isReady: (model.count > 0) &&
+    (galleryPhotoViewer.currentItem ? galleryPhotoViewer.currentItem.isLoaded : false)
 
   signal closeRequested()
   signal editRequested(variant photo)
