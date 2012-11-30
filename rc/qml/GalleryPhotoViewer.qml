@@ -211,8 +211,10 @@ Rectangle {
 
       toolbarHasEditOperationsButton: true
 
-      hasLeftNavigationButton: !galleryPhotoViewer.atXBeginning
-      hasRightNavigationButton: !galleryPhotoViewer.atXEnd
+      // TODO: re-enable navigation buttons; we've removed them here because
+      //       they're not desired for the CES phone demo
+      hasLeftNavigationButton: false
+      hasRightNavigationButton: false
 
       onLeftNavigationButtonPressed: galleryPhotoViewer.goBack()
       onRightNavigationButtonPressed: galleryPhotoViewer.goForward()
