@@ -45,6 +45,20 @@ class TestAlbumEditor(GoodhopeTestCase):
         self.mouse.move_to_object(add_icon)
         self.mouse.click()
 
+    def click_title_field(self):
+        album_editor = self.album_editor.get_album_editor()
+        title_field = self.album_editor.get_album_title_entry_field()
+
+        self.mouse.move_to_object(title_field)
+        self.mouse.click()
+
+    def click_subtitle_field(self):
+        album_editor = self.album_editor.get_album_editor()
+        subtitle_field = self.album_editor.get_album_title_entry_field()
+
+        self.mouse.move_to_object(subtitle_field)
+        self.mouse.click()
+
     def test_album_title_field_default_text(self):
         """Ensures the default text of the title field is intact."""
         album_editor = self.album_editor.get_album_editor()
@@ -65,16 +79,14 @@ class TestAlbumEditor(GoodhopeTestCase):
         title_field = self.album_editor.get_album_title_entry_field()
         subtitle_field = self.album_editor.get_album_subtitle_entry_field()
 
-        self.mouse.move_to_object(title_field)
-        self.mouse.click()
+        self.click_title_field()
 
         self.keyboard.press_and_release("Ctrl+a")
         self.keyboard.press_and_release("Delete")
 
         #due to some reason the album title is not updated unless it loses the focus
         #so we click on the subtitle field.
-        self.mouse.move_to_object(subtitle_field)
-        self.mouse.click()
+        self.click_subtitle_field()
 
         self.assertThat(title_field.text, Eventually(Equals("")))
 
@@ -83,14 +95,12 @@ class TestAlbumEditor(GoodhopeTestCase):
         title_field = self.album_editor.get_album_title_entry_field()
         subtitle_field = self.album_editor.get_album_subtitle_entry_field()
 
-        self.mouse.move_to_object(title_field)
-        self.mouse.click()
+        self.click_title_field()
 
         self.keyboard.press_and_release("Ctrl+a")
         self.keyboard.type("test")
 
-        self.mouse.move_to_object(subtitle_field)
-        self.mouse.click()
+        self.click_subtitle_field()
 
         self.assertThat(title_field.text, Eventually(Equals("test")))
 
@@ -99,14 +109,12 @@ class TestAlbumEditor(GoodhopeTestCase):
         title_field = self.album_editor.get_album_title_entry_field()
         subtitle_field = self.album_editor.get_album_subtitle_entry_field()
 
-        self.mouse.move_to_object(subtitle_field)
-        self.mouse.click()
+        self.click_subtitle_field()
 
         self.keyboard.press_and_release("Ctrl+a")
         self.keyboard.press_and_release("Delete")
 
-        self.mouse.move_to_object(title_field)
-        self.mouse.click()
+        self.click_title_field()
 
         self.assertThat(subtitle_field.text, Eventually(Equals("")))
 
@@ -115,14 +123,12 @@ class TestAlbumEditor(GoodhopeTestCase):
         title_field = self.album_editor.get_album_title_entry_field()
         subtitle_field = self.album_editor.get_album_subtitle_entry_field()
 
-        self.mouse.move_to_object(subtitle_field)
-        self.mouse.click()
+        self.click_subtitle_field()
 
         self.keyboard.press_and_release("Ctrl+a")
         self.keyboard.type("test")
 
-        self.mouse.move_to_object(title_field)
-        self.mouse.click()
+        self.click_title_field()
 
         self.assertThat(subtitle_field.text, Eventually(Equals("test")))
 
