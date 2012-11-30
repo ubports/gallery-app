@@ -123,22 +123,3 @@ class TestAlbumEditor(GoodhopeTestCase):
 
         self.assertThat(subtitle_field.text, Eventually(Equals("test")))
 
-    # def test_new_album_add(self):
-    #     #album_editor = self.album_editor.get_album_editor()
-    #     title_field = self.album_editor.get_album_title_entry_field()
-    #     subtitle_field = self.album_editor.get_album_subtitle_entry_field()
-
-    #     self.click_title_field()
-
-    #     self.keyboard.press_and_release("Ctrl+a")
-    #     self.keyboard.type("TheTitle")
-
-    #     self.click_sub
-
-    #     title_field()
-
-    #     self.keyboard.press_and_release("Ctrl+a")
-    #     self.keyboard.type("TheSubtitle")
-
-    #     self.assertThat(title_field.text, Eventually(Equals("test")))
-
