@@ -197,6 +197,20 @@ Rectangle {
       source: "../img/spin.mng"
     }
 
+    // Used for supporting swiping from the bottom of the display upward;
+    // prevent the app from interpreting it as prev/next photo and force
+    // the toolbar to show.
+    MouseArea {
+      enabled: !(chrome.visible)
+      preventStealing: true
+
+      anchors.bottom: parent.bottom
+      width: parent.width
+      height: units.gu(1)
+
+      onReleased: chrome.show(true)
+    }
+
     ViewerChrome {
       id: chrome
 
@@ -502,5 +516,5 @@ Rectangle {
       duration: Gallery.FAST_DURATION
       easing.type: Easing.InOutQuad    
     }
-  }  
+  }
 }
