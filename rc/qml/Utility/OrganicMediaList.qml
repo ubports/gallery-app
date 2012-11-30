@@ -51,12 +51,6 @@ Item {
   property real patternWidth: bigSize + smallSize * 2 + margin * 3
 
   // internal
-
-  // This assumes an internal margin of units.gu(3), and a particular pattern of
-  // photos and event cards with sizes of units.gu(27) and units.gu(18) depending on
-  // placement.  I didn't want to actually put the math in the QML because it's
-  // complicated and I didn't want to slow down the binding.  It just means
-  // this will be a pain to update if they change the design.
   property var photoX: [0, 0, smallSize + margin, bigSize + margin,
       bigSize + smallSize + margin * 2, smallSize * 2 + margin * 2]
   property var photoY: [0, bigSize + margin, bigSize + margin, 0, 0,
