@@ -49,7 +49,7 @@ Rectangle {
   //
   // Since there is no current item if there are no more photo objects left in the model,
   // the check catches this before we can inadvertently follow a stale pointer.
-  property bool isReady: (model != null) && (model.count > 0) &&
+  property bool isReady: model && model.count > 0 &&
     (galleryPhotoViewer.currentItem ? galleryPhotoViewer.currentItem.isLoaded : false)
 
   signal closeRequested()
