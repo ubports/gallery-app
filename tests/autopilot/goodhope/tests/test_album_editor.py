@@ -17,7 +17,7 @@ from goodhope.tests import GoodhopeTestCase
 
 
 class TestAlbumEditor(GoodhopeTestCase):
-    """Tests the main gallery features"""
+    """Tests the album editor of the gallery app"""
 
     """ This is needed to wait for the application to start.
         In the testfarm, the application may take some time to show up."""
@@ -70,6 +70,7 @@ class TestAlbumEditor(GoodhopeTestCase):
         self.assertThat(subtitle_field.text, Eventually(Equals("Subtitle")))
 
     def test_album_title_entry_field(self):
+        """Ensures text can be removed from the title input field."""
         title_field = self.album_editor.get_album_title_entry_field()
         subtitle_field = self.album_editor.get_album_subtitle_entry_field()
 
@@ -85,6 +86,7 @@ class TestAlbumEditor(GoodhopeTestCase):
         self.assertThat(title_field.text, Eventually(Equals("")))
 
     def test_album_title_entry_input(self):
+        """Ensures text can be inserted into the title input field."""
         title_field = self.album_editor.get_album_title_entry_field()
         subtitle_field = self.album_editor.get_album_subtitle_entry_field()
 
@@ -98,6 +100,7 @@ class TestAlbumEditor(GoodhopeTestCase):
         self.assertThat(title_field.text, Eventually(Equals("test")))
 
     def test_album_subtitle_entry_field(self):
+        """Ensures text can be removed from the subtitle input field."""
         title_field = self.album_editor.get_album_title_entry_field()
         subtitle_field = self.album_editor.get_album_subtitle_entry_field()
 
@@ -111,6 +114,7 @@ class TestAlbumEditor(GoodhopeTestCase):
         self.assertThat(subtitle_field.text, Eventually(Equals("")))
 
     def test_album_subtitle_entry_input(self):
+        """Ensures text can be inserted into the subtitle input field."""
         title_field = self.album_editor.get_album_title_entry_field()
         subtitle_field = self.album_editor.get_album_subtitle_entry_field()
 

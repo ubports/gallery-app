@@ -36,11 +36,16 @@ class TestPhotoViewer(GoodhopeTestCase):
         self.mouse.click()
 
     def test_photo_viewer_chrome(self):
+        """Opening a photo must show the viewer chrome e.g trash, share
+        buttons.
+
+        """
         photo_viewer_chrome = self.photo_viewer.get_photo_viewer_chrome()
 
         self.assertThat(photo_viewer_chrome.visible, Eventually(Equals(True)))
 
     def test_nav_bar_back_button(self):
+        """Clicking the back button must close the photo."""
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
         back_button = self.photo_viewer.get_viewer_chrome_back_button()
 
@@ -50,6 +55,7 @@ class TestPhotoViewer(GoodhopeTestCase):
         self.assertThat(photo_viewer.visible, Eventually(Equals(False)))
 
     def test_nav_bar_trash_button(self):
+        """Clicking the trash button must show the delete dialog."""
         trash_button = self.photo_viewer.get_viewer_chrome_trash_button()
         delete_dialog = self.photo_viewer.get_delete_dialog()
 
@@ -61,6 +67,7 @@ class TestPhotoViewer(GoodhopeTestCase):
         self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
 
     def test_nav_bar_album_picker_button(self):
+        """Clicking the album picker must show the picker dialog."""
         album_button = self.photo_viewer.get_viewer_chrome_album_button()
         album_picker = self.photo_viewer.get_popup_album_picker()
 
@@ -71,6 +78,7 @@ class TestPhotoViewer(GoodhopeTestCase):
         self.assertThat(album_picker.visible, Eventually(Equals(True)))
 
     def test_nav_bar_share_button(self):
+        """Clicking the share button must show the share dialog."""
         share_button = self.photo_viewer.get_viewer_chrome_share_button()
         share_menu = self.photo_viewer.get_share_dialog()
 
@@ -81,6 +89,7 @@ class TestPhotoViewer(GoodhopeTestCase):
         self.assertThat(share_menu.visible, Eventually(Equals(True)))
 
     def test_nav_bar_more_button(self):
+        """Click 'more' button must show more options."""
         more_button = self.photo_viewer.get_viewer_chrome_more_button()
         more_menu = self.photo_viewer.get_more_dialog()
 
@@ -91,6 +100,7 @@ class TestPhotoViewer(GoodhopeTestCase):
         self.assertThat(more_menu.visible, Eventually(Equals(True)))
 
     def test_nav_bar_edit_button(self):
+        """Clicking the edit button must show the edit dialog."""
         edit_button = self.photo_viewer.get_viewer_chrome_toolbar_edit_button()
         edit_dialog = self.photo_viewer.get_photo_edit_dialog()
 
@@ -101,6 +111,7 @@ class TestPhotoViewer(GoodhopeTestCase):
         self.assertThat(edit_dialog.visible, Eventually(Equals(True)))
 
     def test_double_click_zoom(self):
+        """Double clicking an opened photo must zoom it."""
         opened_photo = self.photo_viewer.get_photo_component()
 
         self.mouse.move_to_object(opened_photo)
@@ -115,6 +126,7 @@ class TestPhotoViewer(GoodhopeTestCase):
         self.assertThat(opened_photo.fullyUnzoomed, Eventually(Equals(True)))
 
     def test_photo_crop_box_shows(self):
+        """Clicking the crop item in the edit dialog must show crop interactor."""
         edit_button = self.photo_viewer.get_viewer_chrome_toolbar_edit_button()
         crop_item = self.photo_viewer.get_crop_menu_item()
         crop_box = self.photo_viewer.get_crop_interactor()
