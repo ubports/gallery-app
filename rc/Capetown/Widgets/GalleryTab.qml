@@ -43,7 +43,7 @@ Item {
   Image {
     id: background
 
-    width: parent.width
+    anchors.fill: parent
     source: (tab.state == "selected" ? selectedBackgroundSource : deselectedBackgroundSource)
     cache: true
   }
