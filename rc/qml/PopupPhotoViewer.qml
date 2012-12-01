@@ -74,6 +74,7 @@ Item {
   }
 
   function close() {
+    viewer.visible = false;
     closed();
   }
   

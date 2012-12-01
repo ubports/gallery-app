@@ -516,10 +516,7 @@ Rectangle {
       monitored: true
     }
 
-    onCloseRequested: {
-      fadeClosed();
-      close();
-    }
+    onCloseRequested: fadeClosed()
   }
   
   MouseArea {
