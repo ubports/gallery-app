@@ -46,7 +46,11 @@ class GalleryApplication : public QApplication {
 
   // Used for content sharing.
   Q_INVOKABLE bool run_command(const QString &cmd, const QString &arg);
-
+  
+  bool log_image_loading() {
+    return log_image_loading_;
+  }
+  
  signals:
   void media_loaded();
 
@@ -69,6 +73,7 @@ class GalleryApplication : public QApplication {
   QDir pictures_dir_;
   QQuickView view_;
   bool startup_timer_;
+  bool log_image_loading_;
   QElapsedTimer timer_;
   MediaMonitor* monitor_;
 

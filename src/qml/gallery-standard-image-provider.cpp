@@ -23,10 +23,8 @@
 #include <QImageReader>
 #include <QSize>
 
+#include "gallery-application.h"
 #include "media/preview-manager.h"
-
-// set to 1 to log image cache and loading status via qDebug
-#define GALLERY_LOG_IMAGE 0
 
 GalleryStandardImageProvider* GalleryStandardImageProvider::instance_ = NULL;
 
@@ -66,14 +64,10 @@ QUrl GalleryStandardImageProvider::ToURL(const QFileInfo& file) {
   return QUrl::fromUserInput(PROVIDER_ID_SCHEME + file.absoluteFilePath());
 }
 
-#if GALLERY_LOG_IMAGE
 #define LOG_IMAGE_STATUS(status) { \
-  loggingStr += status; \
+  if (GalleryApplication::instance()->log_image_loading()) \
+    loggingStr += status; \
 }
-#else
-#define LOG_IMAGE_STATUS(status) { \
-}
-#endif
 
 QImage GalleryStandardImageProvider::requestImage(const QString& id,
   QSize* size, const QSize& requestedSize) {
@@ -94,17 +88,17 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
   release_cached_image_entry(cachedImage, bytesLoaded, &currentCachedBytes,
     &currentCacheEntries, loggingStr);
   
-#if GALLERY_LOG_IMAGE
-  if (bytesLoaded > 0) {
-    qDebug("%s %s req:%dx%d ret:%dx%d cache:%ldb/%d loaded:%db", qPrintable(loggingStr),
-      qPrintable(id), requestedSize.width(), requestedSize.height(), readyImage.width(),
-      readyImage.height(), currentCachedBytes, currentCacheEntries, bytesLoaded);
-  } else {
-    qDebug("%s %s req:%dx%d ret:%dx%d cache:%ldb/%d", qPrintable(loggingStr),
-      qPrintable(id), requestedSize.width(), requestedSize.height(), readyImage.width(),
-      readyImage.height(), currentCachedBytes, currentCacheEntries);
+  if (GalleryApplication::instance()->log_image_loading()) {
+    if (bytesLoaded > 0) {
+      qDebug("%s %s req:%dx%d ret:%dx%d cache:%ldb/%d loaded:%db", qPrintable(loggingStr),
+        qPrintable(id), requestedSize.width(), requestedSize.height(), readyImage.width(),
+        readyImage.height(), currentCachedBytes, currentCacheEntries, bytesLoaded);
+    } else {
+      qDebug("%s %s req:%dx%d ret:%dx%d cache:%ldb/%d", qPrintable(loggingStr),
+        qPrintable(id), requestedSize.width(), requestedSize.height(), readyImage.width(),
+        readyImage.height(), currentCachedBytes, currentCacheEntries);
+    }
   }
-#endif
   
   if (size != NULL)
     *size = readyImage.size();
