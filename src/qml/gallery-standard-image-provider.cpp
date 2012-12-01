@@ -179,7 +179,7 @@ QImage GalleryStandardImageProvider::fetch_cached_image(CachedImage *cachedImage
       // whole thing once and be done with it
       if (fullSize.width() > SCALED_LOAD_FLOOR_DIM_PIXELS
         && fullSize.height() > SCALED_LOAD_FLOOR_DIM_PIXELS) {
-        loadSize.scale(requestedSize, Qt::KeepAspectRatioByExpanding);
+        loadSize.scale(requestedSize, Qt::KeepAspectRatio);
         if (loadSize.width() > fullSize.width() || loadSize.height() > fullSize.height())
           loadSize = fullSize;
       }
