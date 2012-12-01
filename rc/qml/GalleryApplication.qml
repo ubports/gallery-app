@@ -47,18 +47,19 @@ Item {
       albumGridGutterHeight: units.gu(8),
       
       // Whitespace around photos on album pages in the album viewer.
-      albumPageTopMargin: units.gu(6),
-      albumPageBottomMargin: units.gu(6),
-      albumPageGutterMargin: units.gu(2), // Between spine and photo.
-      albumPageOuterMargin: units.gu(3), // Between opposite edge and photo.
-      albumPageInsideMargin: units.gu(4), // Between photos on one page.
+      albumPageTopMargin: units.gu(2),
+      albumPageBottomMargin: units.gu(2),
+      albumPageGutterMargin: units.gu(1), // Between spine and photo.
+      albumPageGutterMarginPortrait: units.gu(2),
+      albumPageOuterMargin: units.gu(2), // Between opposite edge and photo.
+      albumPageInsideMargin: units.gu(2), // Between photos on one page.
       
       // Whitespace around photos on album pages in preview thumbnails.
-      albumPreviewTopMargin: units.gu(2),
-      albumPreviewBottomMargin: units.gu(2),
+      albumPreviewTopMargin: units.gu(1),
+      albumPreviewBottomMargin: units.gu(1),
       albumPreviewGutterMargin: units.gu(1), // Between spine and photo.
       albumPreviewOuterMargin: units.gu(1), // Between opposite edge and photo.
-      albumPreviewInsideMargin: units.gu(2), // Between photos on one page.
+      albumPreviewInsideMargin: units.gu(1), // Between photos on one page.
     },
     
     'phone': {
@@ -76,20 +77,6 @@ Item {
       albumGridGutterHeight: units.gu(6),
       albumGridGutterWidthPortrait: units.gu(2),
       albumGridGutterHeightPortrait: units.gu(6),
-      
-      albumPageTopMargin: units.gu(1),
-      albumPageBottomMargin: units.gu(1),
-      albumPageGutterMargin: units.gu(0.5),
-      albumPageOuterMargin: units.gu(1),
-      albumPageInsideMargin: units.gu(2),
-      albumPageGutterMarginPortrait: units.gu(1),
-      albumPageInsideMarginPortrait: units.gu(3),
-      
-      albumPreviewTopMargin: units.gu(1),
-      albumPreviewBottomMargin: units.gu(1),
-      albumPreviewGutterMargin: units.gu(1),
-      albumPreviewOuterMargin: units.gu(1),
-      albumPreviewInsideMargin: units.gu(1),
     },
   };
   
