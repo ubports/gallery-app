@@ -39,11 +39,17 @@ Rectangle {
   anchors.fill: parent
 
   function getRectOfAlbumPreview(album, relativeTo) {
-    return albumsCheckerboard.getRectOfItemAt(albumsCheckerboard.model.indexOf(album), relativeTo);
+    albumsCheckerboardLoader.load();
+      
+    var checkerboard = albumsCheckerboardLoader.item;
+    return checkerboard.getRectOfItemAt(checkerboard.model.indexOf(album), relativeTo);
   }
 
   function showAlbumPreview(album, show) {
-    var delegate = albumsCheckerboard.getDelegateInstanceAt(albumsCheckerboard.model.indexOf(album));
+    albumsCheckerboardLoader.load();
+    
+    var checkerboard = albumsCheckerboardLoader.item;
+    var delegate = checkerboard.getDelegateInstanceAt(checkerboard.model.indexOf(album));
     if (delegate)
       delegate.visible = show;
   }
@@ -57,12 +63,17 @@ Rectangle {
 
   transitions: [
     Transition { from: "eventView"; to: "albumView";
-      DissolveAnimation { fadeOutTarget: eventView; fadeInTarget: albumsCheckerboard; }
+      DissolveAnimation { fadeOutTarget: eventView; fadeInTarget: albumsCheckerboardLoader; }
     },
     Transition { from: "albumView"; to: "eventView";
-      DissolveAnimation { fadeOutTarget: albumsCheckerboard; fadeInTarget: eventView; }
+      DissolveAnimation { fadeOutTarget: albumsCheckerboardLoader; fadeInTarget: eventView; }
     }
   ]
+  
+  onStateChanged: {
+    if (state == "albumView")
+      albumsCheckerboardLoader.load();
+  }
 
   OrganicEventView {
     id: eventView
@@ -72,122 +83,138 @@ Rectangle {
     visible: true
 
     onMediaSourcePressed: {
-      var rect = GalleryUtility.translateRect(thumbnailRect, eventView, photoViewer);
-      photoViewer.animateOpen(mediaSource, rect);
+      photoViewerLoader.load();
+      
+      var rect = GalleryUtility.translateRect(thumbnailRect, eventView, photoViewerLoader);
+      photoViewerLoader.item.animateOpen(mediaSource, rect);
     }
   }
-
-  Checkerboard {
-    id: albumsCheckerboard
-    objectName: "albumsCheckerboard"
-
+  
+  Loader {
+    id: albumsCheckerboardLoader
+    objectName: "albumsCheckerboardLoader"
+    
     anchors.fill: parent
-
-    topExtraGutter: navbar.height + getDeviceSpecific("albumGridTopMargin")
-    bottomExtraGutter: getDeviceSpecific("albumGridGutterHeight") / 2
-    leftExtraGutter: getDeviceSpecific("albumGridLeftMargin")
-    rightExtraGutter: getDeviceSpecific("albumGridRightMargin")
-
-    itemWidth: getDeviceSpecific("albumThumbnailWidth")
-    itemHeight: getDeviceSpecific("albumThumbnailHeight")
-    minGutterWidth: getDeviceSpecific("albumGridGutterWidth")
-    minGutterHeight: getDeviceSpecific("albumGridGutterHeight")
-
-    visible: false
-
-    selection: SelectionState {
-      allowSelectionModeChange: false
-      model: albumsCheckerboard.model
-    }
-
-    model: AlbumCollectionModel {
-    }
-
-    delegate: CheckerboardDelegate {
-      property real commitFraction: 0.05
-
-      // internal
-      property bool validSwipe: false
-
-      z: (albumThumbnail.isFlipping ? 10 : 0)
-
-      checkerboard: albumsCheckerboard
-
-      contentIsSwipable: album.containedCount > 0
-
-      onSwipeStarted: {
-        validSwipe = ((leftToRight && !album.closed) || (!leftToRight && album.closed));
-      }
-
-      onSwiping: {
-        if (!validSwipe)
-          return;
-
-        var availableDistance = (leftToRight) ? (width - start) : start;
-        var fraction = Math.max(0, Math.min(1, distance / availableDistance));
-
-        albumThumbnail.openFraction = (leftToRight ? 1 - fraction : fraction);
-      }
-      
-      onLongPressed: {
-        albumMenu.show(album)
-      }
-      
-      onSwiped: {
-        if (!validSwipe)
-          return;
-
-        var fraction = (leftToRight
-          ? 1 - albumThumbnail.openFraction
-          : albumThumbnail.openFraction);
-        if ((leftToRight && fraction >= commitFraction)
-          || (!leftToRight && fraction < commitFraction))
-          albumThumbnail.close();
-        else
-          albumThumbnail.open();
-      }
-
-      content: AlbumPreviewComponent {
-        id: albumThumbnail
-
-        property real maxAddScale: 0.5
-
-        width: albumsCheckerboard.itemWidth
-        height: albumsCheckerboard.itemHeight
-
-        album: modelData.album
-
-        // Scale from 1 to 1 + maxAddScale and back to 1 as openFraction goes
-        // from 0 to 0.5 to 1.
-        scale: 1 + maxAddScale - Math.abs((openFraction - 0.5) * maxAddScale * 2)
-      }
+    
+    function load() {
+      if (!sourceComponent)
+        sourceComponent = albumsCheckerboardComponent;
     }
     
-    onActivated: {
-      var albumRect = GalleryUtility.translateRect(activatedRect, albumsCheckerboard, overview);
-      albumSelected(object, albumRect);
-    }
-
-    onMovementStarted: {
-      scrollOrchestrator.viewMovementStarted(contentY);
-    }
-
-    onContentYChanged: {
-      scrollOrchestrator.viewScrolled(contentY);
-    }
-
-    onMovementEnded: {
-      scrollOrchestrator.viewMovementEnded(contentY);
+    Component {
+      id: albumsCheckerboardComponent
+      
+      Checkerboard {
+        id: albumsCheckerboard
+        
+        topExtraGutter: navbar.height + getDeviceSpecific("albumGridTopMargin")
+        bottomExtraGutter: getDeviceSpecific("albumGridGutterHeight") / 2
+        leftExtraGutter: getDeviceSpecific("albumGridLeftMargin")
+        rightExtraGutter: getDeviceSpecific("albumGridRightMargin")
+    
+        itemWidth: getDeviceSpecific("albumThumbnailWidth")
+        itemHeight: getDeviceSpecific("albumThumbnailHeight")
+        minGutterWidth: getDeviceSpecific("albumGridGutterWidth")
+        minGutterHeight: getDeviceSpecific("albumGridGutterHeight")
+    
+        visible: albumsCheckerboardLoader.visible
+    
+        selection: SelectionState {
+          allowSelectionModeChange: false
+          model: albumsCheckerboard.model
+        }
+    
+        model: AlbumCollectionModel {
+        }
+    
+        delegate: CheckerboardDelegate {
+          property real commitFraction: 0.05
+    
+          // internal
+          property bool validSwipe: false
+    
+          z: (albumThumbnail.isFlipping ? 10 : 0)
+    
+          checkerboard: albumsCheckerboard
+    
+          contentIsSwipable: album.containedCount > 0
+    
+          onSwipeStarted: {
+            validSwipe = ((leftToRight && !album.closed) || (!leftToRight && album.closed));
+          }
+    
+          onSwiping: {
+            if (!validSwipe)
+              return;
+    
+            var availableDistance = (leftToRight) ? (width - start) : start;
+            var fraction = Math.max(0, Math.min(1, distance / availableDistance));
+    
+            albumThumbnail.openFraction = (leftToRight ? 1 - fraction : fraction);
+          }
+          
+          onLongPressed: {
+            albumMenu.show(album)
+          }
+          
+          onSwiped: {
+            if (!validSwipe)
+              return;
+    
+            var fraction = (leftToRight
+              ? 1 - albumThumbnail.openFraction
+              : albumThumbnail.openFraction);
+            if ((leftToRight && fraction >= commitFraction)
+              || (!leftToRight && fraction < commitFraction))
+              albumThumbnail.close();
+            else
+              albumThumbnail.open();
+          }
+    
+          content: AlbumPreviewComponent {
+            id: albumThumbnail
+    
+            property real maxAddScale: 0.5
+    
+            width: albumsCheckerboard.itemWidth
+            height: albumsCheckerboard.itemHeight
+    
+            album: modelData.album
+    
+            // Scale from 1 to 1 + maxAddScale and back to 1 as openFraction goes
+            // from 0 to 0.5 to 1.
+            scale: 1 + maxAddScale - Math.abs((openFraction - 0.5) * maxAddScale * 2)
+          }
+        }
+        
+        onActivated: {
+          var albumRect = GalleryUtility.translateRect(activatedRect, albumsCheckerboard, overview);
+          albumSelected(object, albumRect);
+        }
+    
+        onMovementStarted: {
+          scrollOrchestrator.viewMovementStarted(contentY);
+        }
+    
+        onContentYChanged: {
+          scrollOrchestrator.viewScrolled(contentY);
+        }
+    
+        onMovementEnded: {
+          scrollOrchestrator.viewMovementEnded(contentY);
+        }
+      }
     }
   }
-
+  
   NavbarScrollOrchestrator {
     id: scrollOrchestrator
 
     navigationBar: navbar
 
     onInitialized: {
-      albumsCheckerboard.contentY = 0;
+      if (albumsCheckerboardLoader.item)
+        albumsCheckerboardLoader.item.contentY = 0;
     }
   }
 
@@ -214,8 +241,8 @@ Rectangle {
       anchors.rightMargin: units.gu(10)
 
       onClicked: {
-        if (overview.state != "eventView")
-          albumsCheckerboard.scrollToTop();
+        if (overview.state != "eventView" && albumsCheckerboardLoader.item)
+          albumsCheckerboardLoader.item.scrollToTop();
       }
     }
 
@@ -439,7 +466,10 @@ Rectangle {
       popupOriginY = rect.y >= navbar.height ? rect.y : navbar.height;
     }
     
-    onDeleteRequested: albumsCheckerboard.model.destroyAlbum(album)
+    onDeleteRequested: {
+      albumsCheckerboardLoader.load();
+      albumsCheckerboardLoader.item.model.destroyAlbum(album)
+    }
     
     onDeleteWithContentsRequested: {
       // Remove contents.
@@ -448,7 +478,8 @@ Rectangle {
         eventView.selection.model.destroyMedia(list[i]);
       
       // Remove album.
-      albumsCheckerboard.model.destroyAlbum(album);
+      albumsCheckerboardLoader.load();
+      albumsCheckerboardLoader.item.model.destroyAlbum(album);
     }
     
     onPopupInteractionCompleted: state = "hidden"
@@ -494,7 +525,7 @@ Rectangle {
       }
     }
   }
-
+  
   AlbumEditorTransition {
     id: albumEditorTransition
 
@@ -506,23 +537,36 @@ Rectangle {
     onEditorExited: overview.showAlbumPreview(album, true)
   }
 
-  PopupPhotoViewer {
-    id: photoViewer
+  Loader {
+    id: photoViewerLoader
     
     anchors.fill: parent
     z: 100
-
-    model: MediaCollectionModel {
-      monitored: true
+    
+    function load() {
+      if (!sourceComponent)
+        sourceComponent = photoViewerComponent;
     }
-
-    onCloseRequested: {
-      // TODO: get thumbnail rect from organic view.
-      var thumbnailRect = null;
-      if (thumbnailRect)
-        animateClosed(thumbnailRect);
-      else
-        close();
+    
+    Component {
+      id: photoViewerComponent
+      
+      PopupPhotoViewer {
+        id: popupPhotoViewer
+        
+        model: MediaCollectionModel {
+          monitored: true
+        }
+        
+        onCloseRequested: {
+            // TODO: get thumbnail rect from organic view.
+          var thumbnailRect = null;
+          if (thumbnailRect)
+            animateClosed(thumbnailRect);
+          else
+            close();
+        }
+      }
     }
   }
   
@@ -531,7 +575,7 @@ Rectangle {
     
     anchors.fill: parent
     
-    visible: photoViewer.animationRunning || 
+    visible: (photoViewerLoader.item && photoViewerLoader.item.animationRunning) || 
       albumEditorTransition.animationRunning || albumEditor.animationRunning
   }
 }
