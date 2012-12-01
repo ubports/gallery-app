@@ -45,19 +45,19 @@ Item {
 
   // readonly
   property int mediaPerPattern: 6
-  property real patternWidth: units.gu(72) // one big, two small, and margins
-  property real margin: units.gu(3)
+  property var bigSize: units.gu(19)
+  property var smallSize: units.gu(12)
+  property real margin: units.gu(2)
+  property real patternWidth: bigSize + smallSize * 2 + margin * 3
 
   // internal
-  // This assumes an internal margin of units.gu(3), and a particular pattern of
-  // photos and event cards with sizes of units.gu(27) and units.gu(18) depending on
-  // placement.  I didn't want to actually put the math in the QML because it's
-  // complicated and I didn't want to slow down the binding.  It just means
-  // this will be a pain to update if they change the design.
-  property var photoX: [units.gu(0), units.gu(0), units.gu(21), units.gu(30), units.gu(51), units.gu(42)]
-  property var photoY: [units.gu(0), units.gu(30), units.gu(30), units.gu(0), units.gu(0), units.gu(21)]
-  property var photoLength: [units.gu(27), units.gu(18), units.gu(18), units.gu(18), units.gu(18), units.gu(27)]
-  property real photosLeftMargin: (event ? units.gu(24) : margin) // optional event card + margins
+  property var photoX: [0, 0, smallSize + margin, bigSize + margin,
+      bigSize + smallSize + margin * 2, smallSize * 2 + margin * 2]
+  property var photoY: [0, bigSize + margin, bigSize + margin, 0, 0,
+      smallSize + margin]
+  property var photoSize: [bigSize, smallSize, smallSize, smallSize, smallSize,
+      bigSize]
+  property real photosLeftMargin: margin + (event ? smallSize + margin : 0)
   property real photosTopMargin: margin / 2
 
   width: childrenRect.width + margin
@@ -66,8 +66,8 @@ Item {
   EventCard {
     x: margin
     y: photosTopMargin
-    width: units.gu(18)
-    height: units.gu(18)
+    width: smallSize
+    height: smallSize
 
     visible: Boolean(event)
 
@@ -102,8 +102,8 @@ Item {
 
       x: photosLeftMargin + photoX[patternPhoto] + patternWidth * patternNumber
       y: photosTopMargin + photoY[patternPhoto]
-      width: photoLength[patternPhoto]
-      height: photoLength[patternPhoto]
+      width: photoSize[patternPhoto]
+      height: photoSize[patternPhoto]
 
       mediaSource: (x <= loadAreaRight && x + width >= loadAreaLeft
                     ? modelMediaSource : null)
