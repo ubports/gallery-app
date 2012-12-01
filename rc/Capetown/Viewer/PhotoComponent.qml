@@ -63,10 +63,30 @@ Rectangle {
     //           prevent this segfault & crash from occurring.
     visible: isLoaded;
     
-    // Although Gallery image handler does caching to prevent loads and decodes, still want to
-    // use old width and cache: !isAnimate settings for flicker-free animations and reflows
-    sourceSize.width: (width <= 1024) ? 1024 : width
+    // NOTE: We cap image size at a maximum of 1280 pixels to prevent texture
+    //       memory exhaustion on the phone target device. This limit will be
+    //       able to be expanded once we fix the the image provider API bug
+    //       (see https://bugs.launchpad.net/goodhope/+bug/1085329).
+    //
+    //       We also want to keep using the source size determined below even
+    //       during scaling animations to prevent extraneous loads and decodes.
+    sourceSize.width: {
+      if (width < 1024)
+        return 1024;
+      else if (width > 1280)
+        return 1280;
+      return width;
+    }
+   
+    sourceSize.height: {
+      if (height < 1024)
+        return 1024;
+      else if (height > 1280)
+        return 1280;
+      return height;
+    }
     
+    // use cache: !isAnimate setting for flicker-free animations and reflows
     asynchronous: !isAnimate
     cache: !isAnimate
     smooth: !isAnimate
