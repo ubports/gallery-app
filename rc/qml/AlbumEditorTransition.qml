@@ -85,6 +85,7 @@ Item {
     contentHasPreviewFrame: true
 
     visible: false
+    load: visible
   }
 
   ParallelAnimation {

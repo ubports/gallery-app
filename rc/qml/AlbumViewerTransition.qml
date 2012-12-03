@@ -144,6 +144,7 @@ Item {
     contentHasPreviewFrame: true
 
     visible: false
+    load: visible
   }
   
   AlbumViewerTransitionPortraitPage {
@@ -154,6 +155,7 @@ Item {
     contentHasPreviewFrame: true
     
     visible: false
+    load: visible
   }
 
   SequentialAnimation {
