@@ -38,8 +38,8 @@ UbuntuShape {
   Column {
     anchors.centerIn: parent
     width: parent.width
-
-    TextCustom {
+ 
+    Label {
       id: eventDay
 
       width: parent.width
@@ -53,7 +53,7 @@ UbuntuShape {
       text: (event) ? Qt.formatDate(event.date, "dd") : ""
     }
 
-    TextCustom {
+    Label {
       id: eventMonthYear
       width: parent.width
 

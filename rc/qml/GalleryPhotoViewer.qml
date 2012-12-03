@@ -49,7 +49,7 @@ Rectangle {
   //
   // Since there is no current item if there are no more photo objects left in the model,
   // the check catches this before we can inadvertently follow a stale pointer.
-  property bool isReady: (model.count > 0) &&
+  property bool isReady: model != null && model.count > 0 &&
     (galleryPhotoViewer.currentItem ? galleryPhotoViewer.currentItem.isLoaded : false)
 
   signal closeRequested()
@@ -197,6 +197,20 @@ Rectangle {
       source: "../img/spin.mng"
     }
 
+    // Used for supporting swiping from the bottom of the display upward;
+    // prevent the app from interpreting it as prev/next photo and force
+    // the toolbar to show.
+    MouseArea {
+      enabled: !(chrome.visible)
+      preventStealing: true
+
+      anchors.bottom: parent.bottom
+      width: parent.width
+      height: units.gu(1)
+
+      onReleased: chrome.show(true)
+    }
+
     ViewerChrome {
       id: chrome
 
@@ -211,8 +225,10 @@ Rectangle {
 
       toolbarHasEditOperationsButton: true
 
-      hasLeftNavigationButton: !galleryPhotoViewer.atXBeginning
-      hasRightNavigationButton: !galleryPhotoViewer.atXEnd
+      // TODO: re-enable navigation buttons; we've removed them here because
+      //       they're not desired for the CES phone demo
+      hasLeftNavigationButton: false
+      hasRightNavigationButton: false
 
       onLeftNavigationButtonPressed: galleryPhotoViewer.goBack()
       onRightNavigationButtonPressed: galleryPhotoViewer.goForward()
@@ -500,5 +516,5 @@ Rectangle {
       duration: Gallery.FAST_DURATION
       easing.type: Easing.InOutQuad    
     }
-  }  
+  }
 }

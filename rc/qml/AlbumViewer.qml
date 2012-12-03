@@ -130,7 +130,7 @@ Rectangle {
     state = "pageView";
 
     albumSpreadViewer.visible = true;
-    chrome.resetVisibility(!Gallery.isSmallFormFactor());
+    chrome.resetVisibility(false);
     organicView.visible = false;
 
     albumSpreadViewer.viewingPage = album.currentPage;
@@ -171,15 +171,6 @@ Rectangle {
     focus: !photoViewer.isPoppedUp && visible
     
     showCover: !albumSpreadViewerForTransition.freeze
-    
-    onPageFlipped: {
-      if (!Gallery.isSmallFormFactor())
-        chrome.show(false);
-    }
-    onPageReleased: {
-      if (!Gallery.isSmallFormFactor())
-        chrome.show(false);
-    }
     
     Keys.onPressed: {
       if (event.key !== Qt.Key_Left && event.key !== Qt.Key_Right)
@@ -324,17 +315,15 @@ Rectangle {
     width: parent.width
     height: chrome.toolbarHeight
     anchors.bottom: parent.bottom
-    enabled: (Gallery.isSmallFormFactor() && albumViewer.state == "pageView" &&
-              chrome.state == "hidden")
-    onClicked: chrome.show(true)
+    enabled: (albumViewer.state == "pageView" && chrome.state == "hidden")
+    onReleased: chrome.show(true)
   }
   MouseArea {
     id: chromeHideArea
 
     anchors.fill: parent
-    enabled: (Gallery.isSmallFormFactor() && albumViewer.state == "pageView" &&
-              chrome.state == "shown")
-    onClicked: chrome.hide(true)
+    enabled: (albumViewer.state == "pageView" && chrome.state == "shown")
+    onReleased: chrome.hide(true)
   }
 
   ViewerChrome {
@@ -355,10 +344,8 @@ Rectangle {
     hasSelectionOperationsButton: organicView.selection.inSelectionMode
     onSelectionOperationsButtonPressed: cyclePopup(selectionMenu)
 
-    toolbarsAreTranslucent: (albumViewer.state == "gridView" ||
-                             Gallery.isSmallFormFactor())
-    toolbarsAreTextured: (albumViewer.state == "gridView" ||
-                          Gallery.isSmallFormFactor())
+    toolbarsAreTranslucent: true
+    toolbarsAreTextured: true
 
     navbarHasStateButton: true
     navbarSelectedStateButtonIconFilename: (albumViewer.state == "pageView"
