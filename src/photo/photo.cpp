@@ -28,8 +28,6 @@
 #include <QFileInfo>
 #include <QImage>
 
-QHash<QString, Photo *> Photo::already_loaded_ = QHash<QString, Photo *>();
-
 bool Photo::IsValid(const QFileInfo& file) {
   QImageReader reader(file.filePath());
   QByteArray format = reader.format();
@@ -46,7 +44,7 @@ bool Photo::IsValid(const QFileInfo& file) {
       QImageWriter::supportedImageFormats().contains(reader.format());
 }
 
-Photo* Photo::Load(const QFileInfo& file, bool ensure_thumbnail) {
+Photo* Photo::Load(const QFileInfo& file) {
   bool needs_update = false;
   PhotoEditState edit_state;
   QDateTime timestamp;
@@ -110,6 +108,21 @@ Photo* Photo::Load(const QFileInfo& file, bool ensure_thumbnail) {
   // the DB.
   p->set_id(id);
   
+  return p;
+}
+
+Photo* Photo::Fetch(const QFileInfo& file, bool ensure_thumbnail) {
+  Photo* p;
+
+  // Do we already have this file loaded?
+  if (MediaCollection::instance()->checkAlreadyLoaded(file)) {
+    // Yes; return the existing Photo object.
+    p = MediaCollection::instance()->fetchAlreadyLoaded(file);
+  } else {
+    // No; load it anew.
+    p = Load(file);
+  }
+
   // ensure that the new photo has a thumbnail, if desired
   if (ensure_thumbnail) {
     bool generated_ok = PreviewManager::instance()->ensure_preview_for_media(p);
@@ -117,21 +130,8 @@ Photo* Photo::Load(const QFileInfo& file, bool ensure_thumbnail) {
       qDebug() << "unable to ensure thumbnail exists for photo " <<
         file.absoluteFilePath();
   }
-  
-  Photo::already_loaded_.insert(file.absoluteFilePath(), p);
 
   return p;
-}
-
-Photo* Photo::Fetch(const QFileInfo& file) {
-  // Do we already have this file loaded?
-  if (Photo::already_loaded_.contains(file.absoluteFilePath())) {
-    // Yes; return the existing Photo object.
-    return Photo::already_loaded_.value(file.absoluteFilePath());
-  }
-
-  // No; load it anew.
-  return Load(file, true);
 }
 
 Photo::Photo(const QFileInfo& file)

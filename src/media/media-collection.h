@@ -28,6 +28,9 @@
 #include "core/data-object.h"
 #include "core/source-collection.h"
 #include "media-source.h"
+#include "photo/photo.h"
+
+class Photo;
 
 class MediaCollection : public SourceCollection {
   Q_OBJECT
@@ -44,6 +47,12 @@ public:
   
   // Returns a media object for a row id.
   MediaSource* mediaForId(qint64 id);
+
+  // Check whether we have already loaded this photo, and
+  // if not, do so. Used for preventing duplicates from appearing
+  // after an edit.
+  bool checkAlreadyLoaded(QFileInfo file_to_load);
+  Photo* fetchAlreadyLoaded(QFileInfo file_to_load);
   
 protected slots:
   virtual void notify_contents_altered(const QSet<DataObject*>* added,
@@ -51,12 +60,15 @@ protected slots:
   
 private:
   static MediaCollection* instance_;
-  
+
+  // Used to prevent ourselves from accidentally seeing a duplicate photo
+  // after an edit.
+  QHash<QString, Photo*> already_loaded_;
+
   QDir directory_;
   QHash<qint64, DataObject*> id_map_;
   
   MediaCollection(const QDir& directory);
-  
 };
 
 #endif  // GALLERY_MEDIA_COLLECTION_H_
