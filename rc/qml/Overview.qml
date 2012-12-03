@@ -558,14 +558,7 @@ Rectangle {
           monitored: true
         }
         
-        onCloseRequested: {
-            // TODO: get thumbnail rect from organic view.
-          var thumbnailRect = null;
-          if (thumbnailRect)
-            animateClosed(thumbnailRect);
-          else
-            close();
-        }
+        onCloseRequested: fadeClosed()
       }
     }
   }
