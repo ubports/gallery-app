@@ -90,6 +90,11 @@ class Photo : public MediaSource {
   // thumbnail preview for the new photo is guaranteed to exist.
   static Photo* Load(const QFileInfo& file, bool ensure_thumbnail = false);
   
+  // Loads a photo object from the given file if and only if it hasn't already
+  // been loaded; otherwise, it attempts to return the existing object instead.
+  // Uses Photo.Load() to do its work.
+  static Photo* Fetch(const QFileInfo& file);
+
   explicit Photo(const QFileInfo& file);
   virtual ~Photo();
   
@@ -145,6 +150,10 @@ class Photo : public MediaSource {
   EditStack edits_;
   PhotoEditState saved_state_; // A saved state separate from the undo stack.
   PhotoCaches caches_;
+
+  // Used to prevent ourselves from accidentally seeing a duplicate photo
+  // after an edit.
+  static QHash<QString, Photo *> already_loaded_;
 
   // We cache this data to avoid an image read at various times.
   QSize original_size_;

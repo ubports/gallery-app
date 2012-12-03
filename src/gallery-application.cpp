@@ -259,7 +259,7 @@ void GalleryApplication::setObjectOwnership(QObject* object, QQmlEngine::ObjectO
 }
 
 void GalleryApplication::on_media_item_added(QFileInfo item_info) {
-  Photo* new_photo = Photo::Load(item_info, true);
+  Photo* new_photo = Photo::Fetch(item_info);
   
   if (new_photo)
     MediaCollection::instance()->Add(new_photo);
