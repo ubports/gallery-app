@@ -93,32 +93,31 @@ Item {
     }
 
     // TODO: rounded corners.
-    GalleryPhotoComponent {
-      id: photoComponent
-
+    Image {
+      id: thumbnail
       property int patternPhoto: index % mediaPerPattern
       property int patternNumber: Math.floor(index / mediaPerPattern)
-      property var modelMediaSource: model.mediaSource
 
       x: photosLeftMargin + photoX[patternPhoto] + patternWidth * patternNumber
       y: photosTopMargin + photoY[patternPhoto]
       width: photoSize[patternPhoto]
       height: photoSize[patternPhoto]
 
-      mediaSource: (x <= loadAreaRight && x + width >= loadAreaLeft
-                    ? modelMediaSource : null)
-      ownerName: "OrganicMediaList"
-      isCropped: true
-      isPreview: true
+      source: (x <= loadAreaRight && x + width >= loadAreaLeft) ?
+                model.mediaSource.galleryPreviewPath : ""
+      sourceSize.width: bigSize
+      sourceSize.height: bigSize
+      fillMode: Image.PreserveAspectCrop
+      asynchronous: true
 
       OrganicItemInteraction {
-        selectionItem: photoComponent.modelMediaSource
+        selectionItem: model.mediaSource
         selection: organicMediaList.selection
 
         onPressed: {
-          var rect = GalleryUtility.getRectRelativeTo(photoComponent,
+          var rect = GalleryUtility.getRectRelativeTo(thumbnail,
                                                       organicMediaList);
-          organicMediaList.pressed(photoComponent.modelMediaSource, rect);
+          organicMediaList.pressed(selectionItem, rect);
         }
       }
 
