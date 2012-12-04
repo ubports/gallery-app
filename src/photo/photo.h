@@ -94,7 +94,7 @@ class Photo : public MediaSource {
   // a preview thumbnail for the new photo to be generated synchronously. If
   // ensure_thumbnail is true, when this method returns a non-null value, a
   // thumbnail preview for the new photo is guaranteed to exist.
-  static Photo* Fetch(const QFileInfo& file, bool ensure_thumbnail);
+  static Photo* Fetch(const QFileInfo& file);
 
   explicit Photo(const QFileInfo& file);
   virtual ~Photo();

@@ -48,11 +48,10 @@ public:
   // Returns a media object for a row id.
   MediaSource* mediaForId(qint64 id);
 
-  // Check whether we have already loaded this photo, and
-  // if not, do so. Used for preventing duplicates from appearing
-  // after an edit.
-  bool checkAlreadyLoaded(QFileInfo file_to_load);
-  Photo* fetchAlreadyLoaded(QFileInfo file_to_load);
+  // Returns an existing photo object if we've already loaded one
+  // for this file, or NULL otherwise. Used for preventing duplicates
+  // from appearing after an edit.
+  Photo* photoFromFileinfo(QFileInfo file_to_load);
   
 protected slots:
   virtual void notify_contents_altered(const QSet<DataObject*>* added,
@@ -61,9 +60,9 @@ protected slots:
 private:
   static MediaCollection* instance_;
 
-  // Used to prevent ourselves from accidentally seeing a duplicate photo
-  // after an edit.
-  QHash<QString, Photo*> already_loaded_;
+  // Used by photoFromFilename() to prevent ourselves from accidentally
+  // seeing a duplicate photo after an edit.
+  QHash<QString, Photo*> file_photo_map_;
 
   QDir directory_;
   QHash<qint64, DataObject*> id_map_;

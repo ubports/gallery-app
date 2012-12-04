@@ -105,8 +105,8 @@ void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
       id_map_.insert(qobject_cast<MediaSource*>(o)->get_id(), o);
 
       Photo* p = qobject_cast<Photo*>(o);
-      if ((p != NULL) && (!already_loaded_.contains(p->file().absoluteFilePath()))) {
-        already_loaded_.insert(p->file().absoluteFilePath(), p);
+      if (p != NULL) {
+        file_photo_map_.insert(p->file().absoluteFilePath(), p);
       }
     }
   }
@@ -118,8 +118,8 @@ void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
       MediaSource* media = qobject_cast<MediaSource*>(o);
 
       Photo* p = qobject_cast<Photo*>(o);
-      if ((p != NULL) && (already_loaded_.contains(p->file().absoluteFilePath()))) {
-        already_loaded_.remove(p->file().absoluteFilePath());
+      if (p != NULL) {
+        file_photo_map_.remove(p->file().absoluteFilePath());
       }
 
       id_map_.remove(media->get_id());
@@ -132,10 +132,11 @@ void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
   }
 }
 
-bool MediaCollection::checkAlreadyLoaded(QFileInfo file_to_load) {
-  return (already_loaded_.contains(file_to_load.absoluteFilePath()));
-}
 
-Photo* MediaCollection::fetchAlreadyLoaded(QFileInfo file_to_load) {
-  return already_loaded_.value(file_to_load.absoluteFilePath());
+Photo* MediaCollection::photoFromFileinfo(QFileInfo file_to_load) {
+  if (file_photo_map_.contains(file_to_load.absoluteFilePath())) {
+    return file_photo_map_.value(file_to_load.absoluteFilePath());
+  }
+
+  return NULL;
 }
