@@ -257,6 +257,8 @@ Rectangle {
             case "add": {
                 chromeBar.setBarShown(false);
                 popupAlbumPicker.visible = true;
+//                popupAlbumPicker.caller = button;
+//                popupAlbumPicker.show();
                 break;
             }
             case "edit": {
