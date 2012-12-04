@@ -30,6 +30,7 @@ import "../js/GraphicsRoutines.js" as GraphicsRoutines
 
 Item {
   id: cropInteractor
+  objectName: "cropInteractor"
 
   property string matteColor: "black"
   property real matteOpacity: 0.6

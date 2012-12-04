@@ -20,7 +20,8 @@ class PhotoViewer(object):
 
     def get_first_image_in_photo_viewer(self):
         """Returns the first photo of the gallery."""
-        return self.app.select_many("GalleryPhotoComponent", ownerName='OrganicMediaList')[0]
+        oml_oml = self.app.select_many("OrganicMediaList", objectName='organicMediaList')[0]
+        return oml_oml.get_children_by_type("UbuntuShape")[0]
 
     def get_main_photo_viewer(self):
         """Returns the PhotoViewer."""
@@ -52,7 +53,7 @@ class PhotoViewer(object):
 
     def get_viewer_chrome_back_button(self):
         """Returns the photo viewer back button."""
-        return self.app.select_single("StandardToolbarIconButton", objectName="navBackButton")
+        return self.app.select_many("StandardToolbarIconButton", objectName="navBackButton")[0]
 
     def get_viewer_chrome_trash_button(self):
         """Returns the photo viewer trash button."""
