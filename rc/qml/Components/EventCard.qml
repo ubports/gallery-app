@@ -27,44 +27,41 @@ UbuntuShape {
   id: eventCard
 
   property variant event
-  property color textColor: "#919191"
+  property color textColor: "#888888"
 
   color: "#dddddd"
-  radius: "medium"
 
-  width: units.gu(18)
-  height: units.gu(18)
+  width: units.gu(12)
+  height: units.gu(12)
 
-  Column {
-    anchors.centerIn: parent
+  Label {
+    id: eventDay
+
+    y: units.gu(0.5)
     width: parent.width
- 
-    Label {
-      id: eventDay
 
-      width: parent.width
+    font.family: "Ubuntu Regular"
+    font.pixelSize: units.dp(62)
+    color: textColor
 
-      font.family: "Ubuntu"
-      fontSize: "x-large"
-      color: textColor
+    horizontalAlignment: Text.AlignHCenter
 
-      horizontalAlignment: Text.AlignHCenter
+    text: (event) ? Qt.formatDate(event.date, "dd") : ""
+  }
 
-      text: (event) ? Qt.formatDate(event.date, "dd") : ""
-    }
+  Label {
+    id: eventMonthYear
 
-    Label {
-      id: eventMonthYear
-      width: parent.width
+    y: units.gu(8.5)
+    width: parent.width
 
-      font.family: "Ubuntu"
-      fontSize: "small"
-      color: textColor
+    font.family: "Ubuntu Regular"
+    fontSize: "medium"
+    color: textColor
 
-      font.capitalization: Font.AllUppercase
-      horizontalAlignment: Text.AlignHCenter
+    font.capitalization: Font.AllUppercase
+    horizontalAlignment: Text.AlignHCenter
 
-      text: (event) ? Qt.formatDate(event.date, "MMM yyyy") : ""
-    }
+    text: (event) ? Qt.formatDate(event.date, "MMM yyyy") : ""
   }
 }
