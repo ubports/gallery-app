@@ -216,22 +216,22 @@ Rectangle {
             ListElement {
                 label: "Edit"
                 name: "edit"
-                icon: "../img/chromebar_icon_back.png"
+                icon: "../img/edit.png"
             }
             ListElement {
                 label: "Add"
                 name: "add"
-                icon: "../img/chromebar_icon_back.png"
+                icon: "../img/add.png"
             }
             ListElement {
                 label: "Delete"
                 name: "delete"
-                icon: "../img/chromebar_icon_back.png"
+                icon: "../img/delete.png"
             }
             ListElement {
                 label: "Share"
                 name: "share"
-                icon: "../img/chromebar_icon_back.png"
+                icon: "../img/share.png"
             }
         }
         showChromeBar: true
