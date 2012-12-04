@@ -26,6 +26,7 @@ import "../Capetown/Viewer"
 import "Components"
 import "Widgets"
 import "../js/Gallery.js" as Gallery
+import "../external"
 
 Rectangle {
   id: viewerWrapper
@@ -201,208 +202,230 @@ Rectangle {
       onReleased: chrome.show(true)
     }
 
-    ViewerChrome {
-      id: chrome
-
-      z: 10
-      anchors.fill: parent
-
-      autoHideWait: 8000
-
-      toolbarsAreTextured: false
-      toolbarsAreTranslucent: true
-      toolbarsAreDark: true
-
-      toolbarHasEditOperationsButton: true
-
-      // TODO: re-enable navigation buttons; we've removed them here because
-      //       they're not desired for the CES phone demo
-      hasLeftNavigationButton: false
-      hasRightNavigationButton: false
-
-      onLeftNavigationButtonPressed: galleryPhotoViewer.goBack()
-      onRightNavigationButtonPressed: galleryPhotoViewer.goForward()
-
-      popups: [ photoViewerShareMenu, photoViewerOptionsMenu,
-        trashOperationDialog, trashOrRemoveOperationDialog, popupAlbumPicker,
-        editMenu ]
-
-      GenericShareMenu {
-        id: photoViewerShareMenu
-
-        popupOriginX: -units.gu(8.5)
-        popupOriginY: -units.gu(6)
-
-        onActionInvoked: {
-          switch (name) {
-            case "onQuickShare": {
-              shareImage(photo);
-              break;
+    ChromeBar {
+        z: 100
+        anchors {
+            bottom: parent.bottom
+            left: parent.left
+            right: parent.right
+        }
+        buttonsModel: ListModel {
+            ListElement {
+                label: "Test"
+                name: "test"
             }
-          }
-        }
-
-        onPopupInteractionCompleted: {
-          chrome.hideAllPopups();
-        }
-
-        visible: false
-      }
-
-      PhotoViewerOptionsMenu {
-        id: photoViewerOptionsMenu
-
-        popupOriginX: -units.gu(0.5)
-        popupOriginY: -units.gu(6)
-
-        onPopupInteractionCompleted: {
-          chrome.hideAllPopups();
-        }
-
-        visible: false
-
-        onActionInvoked: {
-          // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you
-          // edit a switch statement in QML.  The short version is: use braces
-          // always.
-          switch (name) {
-            case "onEdit": {
-              photoViewer.editRequested(photo);
-              break;
+            ListElement {
+                label: "Something"
+                name: "bla"
             }
-          }
         }
-      }
-      
-      // Shown when launched from event view.
-      DeleteDialog {
-        id: trashOperationDialog
-        
-        actionTitle: "Delete Photo"
-        
-        popupOriginX: -units.gu(24.5)
-        popupOriginY: -units.gu(6)
+        showChromeBar: true
 
-        onPopupInteractionCompleted: {
-          chrome.hideAllPopups();
-        }
-
-        visible: false
-
-        onDeleteRequested: {
-          model.destroyMedia(photo);
-
-          if (model.count == 0)
-            photoViewer.closeRequested();
-        }
-      }
-      
-      // Shown when launched from album view.
-      DeleteRemoveDialog {
-        id: trashOrRemoveOperationDialog
-        
-        // internal
-        function finishRemove() {
-          if (model.count === 0)
-            photoViewer.closeRequested();
-        }
-        
-        action0Title: "Remove from album"
-        action1Title: "Delete photo"
-        
-        popupOriginX: -units.gu(24.5)
-        popupOriginY: -units.gu(6)
-        
-        visible: false
-        
-        onRemoveRequested: {
-          viewerWrapper.album.removeMediaSource(photo);
-          finishRemove();
-        }
-        
-        onDeleteRequested: {
-          model.destroyMedia(photo);
-          finishRemove();
-        }
-        
-        onPopupInteractionCompleted: chrome.hideAllPopups()
-      }
-
-      PhotoEditMenu {
-        id: editMenu
-
-        popupOriginX: units.gu(3.5)
-        popupOriginY: -units.gu(6)
-
-        onPopupInteractionCompleted: chrome.hideAllPopups()
-
-        visible: false
-
-        onActionInvoked: {
-          // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you edit
-          // a switch statement in QML.  The short version is: use braces always.
-          switch (name) {
-            case "onRotate": {
-              state = "hidden";
-              photo.rotateRight();
-              break;
-            }
-            case "onCrop": {
-              state = "hidden";
-              cropper.show(photo);
-              break;
-            }
-            case "onAutoEnhance": {
-              state = "hidden";
-              photo.autoEnhance();
-              break;
-            }
-            case "onUndo": {
-              state = "hidden";
-              photo.undo();
-              break;
-            }
-            case "onRedo": {
-              state = "hidden";
-              photo.redo();
-              break;
-            }
-            case "onRevert": {
-              state = "hidden";
-              photo.revertToOriginal();
-              break;
-            }
-          }
-        }
-      }
-
-      PopupAlbumPicker {
-        id: popupAlbumPicker
-
-        popupOriginX: -units.gu(17.5)
-        popupOriginY: -units.gu(6)
-
-        onPopupInteractionCompleted: {
-          chrome.hideAllPopups();
-        }
-
-        onAlbumPicked: album.addMediaSource(photo)
-
-        visible: false
-      }
-
-      onReturnButtonPressed: {
-        resetVisibility(false);
-        galleryPhotoViewer.currentItem.state = "unzoomed";
-        closeRequested();
-      }
-
-      onShareOperationsButtonPressed: cyclePopup(photoViewerShareMenu)
-      onMoreOperationsButtonPressed: cyclePopup(photoViewerOptionsMenu)
-      onAlbumOperationsButtonPressed: cyclePopup(popupAlbumPicker)
-      onTrashOperationButtonPressed: cyclePopup(album ? trashOrRemoveOperationDialog : trashOperationDialog)
-      onEditOperationsButtonPressed: cyclePopup(editMenu)
     }
+
+//    ViewerChrome {
+//      id: chrome
+
+//      z: 10
+//      anchors.fill: parent
+
+//      autoHideWait: 8000
+
+//      toolbarsAreTextured: false
+//      toolbarsAreTranslucent: true
+//      toolbarsAreDark: true
+
+//      toolbarHasEditOperationsButton: true
+
+//      // TODO: re-enable navigation buttons; we've removed them here because
+//      //       they're not desired for the CES phone demo
+//      hasLeftNavigationButton: false
+//      hasRightNavigationButton: false
+
+//      onLeftNavigationButtonPressed: galleryPhotoViewer.goBack()
+//      onRightNavigationButtonPressed: galleryPhotoViewer.goForward()
+
+//        // XXX: TIM commented out. This list i s used for closing popups.
+////      popups: [ photoViewerShareMenu, photoViewerOptionsMenu,
+////        trashOperationDialog, trashOrRemoveOperationDialog, popupAlbumPicker,
+////        editMenu ]
+
+//      GenericShareMenu {
+//        id: photoViewerShareMenu
+
+//        popupOriginX: -units.gu(8.5)
+//        popupOriginY: -units.gu(6)
+
+//        onActionInvoked: {
+//          switch (name) {
+//            case "onQuickShare": {
+//              shareImage(photo);
+//              break;
+//            }
+//          }
+//        }
+
+//        onPopupInteractionCompleted: {
+//          chrome.hideAllPopups();
+//        }
+
+//        visible: false
+//      }
+
+//      PhotoViewerOptionsMenu {
+//        id: photoViewerOptionsMenu
+
+//        popupOriginX: -units.gu(0.5)
+//        popupOriginY: -units.gu(6)
+
+//        onPopupInteractionCompleted: {
+//          chrome.hideAllPopups();
+//        }
+
+//        visible: false
+
+//        onActionInvoked: {
+//          // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you
+//          // edit a switch statement in QML.  The short version is: use braces
+//          // always.
+//          switch (name) {
+//            case "onEdit": {
+//              photoViewer.editRequested(photo);
+//              break;
+//            }
+//          }
+//        }
+//      }
+
+//      // Shown when launched from event view.
+//      DeleteDialog {
+//        id: trashOperationDialog
+        
+//        actionTitle: "Delete Photo"
+        
+//        popupOriginX: -units.gu(24.5)
+//        popupOriginY: -units.gu(6)
+
+//        onPopupInteractionCompleted: {
+//          chrome.hideAllPopups();
+//        }
+
+//        visible: false
+
+//        onDeleteRequested: {
+//          model.destroyMedia(photo);
+
+//          if (model.count == 0)
+//            photoViewer.closeRequested();
+//        }
+//      }
+
+//      // Shown when launched from album view.
+//      DeleteRemoveDialog {
+//        id: trashOrRemoveOperationDialog
+        
+//        // internal
+//        function finishRemove() {
+//          if (model.count === 0)
+//            photoViewer.closeRequested();
+//        }
+        
+//        action0Title: "Remove from album"
+//        action1Title: "Delete photo"
+        
+//        popupOriginX: -units.gu(24.5)
+//        popupOriginY: -units.gu(6)
+        
+//        visible: false
+        
+//        onRemoveRequested: {
+//          viewerWrapper.album.removeMediaSource(photo);
+//          finishRemove();
+//        }
+        
+//        onDeleteRequested: {
+//          model.destroyMedia(photo);
+//          finishRemove();
+//        }
+        
+//        onPopupInteractionCompleted: chrome.hideAllPopups()
+//      }
+
+//      PhotoEditMenu {
+//        id: editMenu
+
+//        popupOriginX: units.gu(3.5)
+//        popupOriginY: -units.gu(6)
+
+//        onPopupInteractionCompleted: chrome.hideAllPopups()
+
+//        visible: false
+
+//        onActionInvoked: {
+//          // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you edit
+//          // a switch statement in QML.  The short version is: use braces always.
+//          switch (name) {
+//            case "onRotate": {
+//              state = "hidden";
+//              photo.rotateRight();
+//              break;
+//            }
+//            case "onCrop": {
+//              state = "hidden";
+//              cropper.show(photo);
+//              break;
+//            }
+//            case "onAutoEnhance": {
+//              state = "hidden";
+//              photo.autoEnhance();
+//              break;
+//            }
+//            case "onUndo": {
+//              state = "hidden";
+//              photo.undo();
+//              break;
+//            }
+//            case "onRedo": {
+//              state = "hidden";
+//              photo.redo();
+//              break;
+//            }
+//            case "onRevert": {
+//              state = "hidden";
+//              photo.revertToOriginal();
+//              break;
+//            }
+//          }
+//        }
+//      }
+
+//      PopupAlbumPicker {
+//        id: popupAlbumPicker
+
+//        popupOriginX: -units.gu(17.5)
+//        popupOriginY: -units.gu(6)
+
+//        onPopupInteractionCompleted: {
+//          chrome.hideAllPopups();
+//        }
+
+//        onAlbumPicked: album.addMediaSource(photo)
+
+//        visible: false
+//      }
+
+//      onReturnButtonPressed: {
+//        resetVisibility(false);
+//        galleryPhotoViewer.currentItem.state = "unzoomed";
+//        closeRequested();
+//      }
+
+//      onShareOperationsButtonPressed: cyclePopup(photoViewerShareMenu)
+//      onMoreOperationsButtonPressed: cyclePopup(photoViewerOptionsMenu)
+//      onAlbumOperationsButtonPressed: cyclePopup(popupAlbumPicker)
+//      onTrashOperationButtonPressed: cyclePopup(album ? trashOrRemoveOperationDialog : trashOperationDialog)
+//      onEditOperationsButtonPressed: cyclePopup(editMenu)
+//    }
 
     onCloseRequested: viewerWrapper.closeRequested()
     onEditRequested: viewerWrapper.editRequested(photo)
