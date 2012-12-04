@@ -29,11 +29,12 @@ class TestPhotoViewer(GoodhopeTestCase):
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
         self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
 
-        #Clicking inside the photo viewer so that the viewer chrome appears.
-        self.mouse.move_to_object(photo_viewer)
-        self.mouse.click()
-
         photo_viewer_chrome = self.photo_viewer.get_photo_viewer_chrome()
+
+        if photo_viewer_chrome.visible is not True:
+            self.mouse.move_to_object(photo_viewer)
+            self.mouse.click()
+
         self.assertThat(photo_viewer_chrome.visible, Eventually(Equals(True)))
 
     def click_first_photo(self):
