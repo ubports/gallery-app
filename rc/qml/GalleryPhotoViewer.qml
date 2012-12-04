@@ -288,21 +288,38 @@ Rectangle {
             id: deletePopover
             Popover {
                 id: thePopover
+
+                // internal
+                function finishRemove() {
+                    if (!viewerWrapper.album === undefined) return;
+                    if (model.count === 0) photoViewer.closeRequested();
+                }
+
                 Column {
                     anchors {
                         left: parent.left
                         right: parent.right
                         top: parent.top
                     }
+
                     ListItem.Standard {
                         text: "Delete photo"
                         onClicked: {
                             viewerWrapper.model.destroyMedia(viewerWrapper.photo);
+                            thePopover.finishRemove();
                             PopupUtils.close(thePopover);
                         }
                     }
-                    // TODO: When coming here from an album view, a remove from album option must
-                    //          be visible.
+
+                    ListItem.Standard {
+                        text: "Remove from album"
+                        onClicked: {
+                            viewerWrapper.album.removeMediaSource(viewerWrapper.photo);
+                            thePopover.finishRemove();
+                            PopupUtils.close(thePopover);
+                        }
+                        visible: (viewerWrapper.album !== undefined)
+                    }
                 }
             }
         }
