@@ -101,9 +101,12 @@ Item {
 
       x: photosLeftMargin + photoX[patternPhoto] + patternWidth * patternNumber
       y: photosTopMargin + photoY[patternPhoto]
+      
       width: photoSize[patternPhoto]
       height: photoSize[patternPhoto]
 
+      // Using a plain image instead of a GalleryPhotoComponent for performance
+      // reasons. Therefore some duplication might be needed
       image: Image {
         source: (thumbnail.isInLoadArea && model.mediaSource
                  ? model.mediaSource.galleryPreviewPath : "")

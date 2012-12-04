@@ -144,6 +144,7 @@ Rectangle {
     album: albumViewer.album
     z: 100
     visible: freeze
+    load: freeze && parent.state == "pageView"
     
     Connections {
       target: albumSpreadViewer
@@ -166,6 +167,7 @@ Rectangle {
     anchors.fill: parent
 
     album: albumViewer.album
+    load: parent.state == "pageView"
     
     // Keyboard focus while visible and viewer is not visible
     focus: !photoViewer.isPoppedUp && visible

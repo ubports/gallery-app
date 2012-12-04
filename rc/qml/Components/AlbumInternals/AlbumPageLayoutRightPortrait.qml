@@ -38,6 +38,7 @@ AlbumPageLayout {
     mediaSource: (albumPageLayoutRightPortrait.mediaSourceList
       ? albumPageLayoutRightPortrait.mediaSourceList[0]
       : null)
+    load: albumPageLayoutRightPortrait.load
     isPreview: albumPageLayoutRightPortrait.isPreview
   }
 }
