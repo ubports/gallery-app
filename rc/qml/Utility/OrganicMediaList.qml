@@ -92,23 +92,26 @@ Item {
       monitored: true
     }
 
-    // TODO: rounded corners.
-    Image {
+    UbuntuShape {
       id: thumbnail
+
       property int patternPhoto: index % mediaPerPattern
       property int patternNumber: Math.floor(index / mediaPerPattern)
+      property bool isInLoadArea: x <= loadAreaRight && x + width >= loadAreaLeft
 
       x: photosLeftMargin + photoX[patternPhoto] + patternWidth * patternNumber
       y: photosTopMargin + photoY[patternPhoto]
       width: photoSize[patternPhoto]
       height: photoSize[patternPhoto]
 
-      source: (x <= loadAreaRight && x + width >= loadAreaLeft) ?
-                model.mediaSource.galleryPreviewPath : ""
-      sourceSize.width: bigSize
-      sourceSize.height: bigSize
-      fillMode: Image.PreserveAspectCrop
-      asynchronous: true
+      image: Image {
+        source: (thumbnail.isInLoadArea && model.mediaSource
+                 ? model.mediaSource.galleryPreviewPath : "")
+        sourceSize.width: bigSize
+        sourceSize.height: bigSize
+        fillMode: Image.PreserveAspectCrop
+        asynchronous: true
+      }
 
       OrganicItemInteraction {
         selectionItem: model.mediaSource
