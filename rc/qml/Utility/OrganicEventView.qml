@@ -42,7 +42,6 @@ OrganicView {
 
     width: organicEventView.width
     height: photosList.height
-    clip: true
 
     contentWidth: photosList.width
     contentHeight: photosList.height
