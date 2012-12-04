@@ -32,38 +32,35 @@ Rectangle {
   color: "#dddddd"
   width: units.gu(12)
   height: units.gu(12)
- 
- 
-    Label {
-      id: eventDay
 
-      y: units.gu(0.5)
-      anchors.horizontalCenter: parent.horizontalCenter
-      width: parent.width
+  Label {
+    id: eventDay
 
-      font.family: "Ubuntu Regular"
-      font.pixelSize: units.dp(62)
-      color: textColor
-  
-      horizontalAlignment: Text.AlignHCenter
-  
-      text: (event) ? Qt.formatDate(event.date, "dd") : ""
-    }
+    y: units.gu(0.5)
+    width: parent.width
 
-    Label {
-      id: eventMonthYear
+    font.family: "Ubuntu Regular"
+    font.pixelSize: units.dp(62)
+    color: textColor
 
-      y: units.gu(8.5)
-      anchors.horizontalCenter: parent.horizontalCenter
-      width: parent.width
-      
-      font.family: "Ubuntu Regular"
-      fontSize: "medium"
-      color: textColor
-      
-      font.capitalization: Font.AllUppercase
-      horizontalAlignment: Text.AlignHCenter
-      
-      text: (event) ? Qt.formatDate(event.date, "MMM yyyy") : ""
-    }
+    horizontalAlignment: Text.AlignHCenter
+
+    text: (event) ? Qt.formatDate(event.date, "dd") : ""
+  }
+
+  Label {
+    id: eventMonthYear
+
+    y: units.gu(8.5)
+    width: parent.width
+
+    font.family: "Ubuntu Regular"
+    fontSize: "medium"
+    color: textColor
+
+    font.capitalization: Font.AllUppercase
+    horizontalAlignment: Text.AlignHCenter
+
+    text: (event) ? Qt.formatDate(event.date, "MMM yyyy") : ""
+  }
 }
