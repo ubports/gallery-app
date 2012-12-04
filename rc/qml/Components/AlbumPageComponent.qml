@@ -39,6 +39,7 @@ Flipable {
   property real flipFraction: 0
 
   property bool isPreview: false // Whether to load preview or normal images.
+  property bool load: false
   // These override the isPreview option if specified.
   property alias frontIsPreview: frontContents.isPreview
   property alias backIsPreview: backContents.isPreview
@@ -100,6 +101,7 @@ Flipable {
     album: albumPageComponent.album
     
     isPreview: albumPageComponent.isPreview
+    load: albumPageComponent.load
     contentHasPreviewFrame: albumPageComponent.contentHasPreviewFrame
     
     topMargin: albumPageComponent.topMargin
@@ -122,6 +124,7 @@ Flipable {
     album: albumPageComponent.album
     
     isPreview: albumPageComponent.isPreview
+    load: albumPageComponent.load
     contentHasPreviewFrame: albumPageComponent.contentHasPreviewFrame
     
     topMargin: albumPageComponent.topMargin

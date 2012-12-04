@@ -25,6 +25,7 @@ Item {
 
   property variant mediaSource
   property bool isPreview
+  property bool load: false
   
   visible: Boolean(mediaSource)
 
@@ -36,10 +37,11 @@ Item {
     ownerName: "FramePortrait"
     mediaSource: framePortrait.mediaSource
     isPreview: true
+    load: framePortrait.load
     isCropped: true
   }
 
-  MattedAlbumPagePhoto {
+  UbuntuPhotoComponent {
     anchors.fill: parent
 
     visible: !framePortrait.isPreview
@@ -47,5 +49,6 @@ Item {
     ownerName: "FramePortrait"
     mediaSource: framePortrait.mediaSource
     isPreview: false
+    load: framePortrait.load
   }
 }

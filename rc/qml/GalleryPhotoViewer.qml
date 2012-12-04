@@ -88,9 +88,12 @@ Rectangle {
     // individually can lead to bogus results.  Use setCurrentPhoto() or
     // setCurrentIndex() to initialize the view.
     property variant photo: null
-
+    
+    property bool load: false
+    
     function setCurrentPhoto(photo) {
       setCurrentIndex(model.indexOf(photo));
+      load = true; // Load on first usage
     }
 
     function goBack() {
@@ -144,8 +147,10 @@ Rectangle {
 
         return 1.0 - Math.abs((galleryPhotoViewer.contentX - x) / width);
       }
-
+      
       mediaSource: model.mediaSource
+      load: galleryPhotoViewer.load
+
       ownerName: "galleryPhotoViewer"
 
       onClicked: chromeFadeWaitClock.restart();
@@ -156,21 +161,6 @@ Rectangle {
       onUnzoomed: {
         chromeFadeWaitClock.stop();
         chrome.hide(true);
-      }
-      
-      Image {
-        id: previewOverlay
-        
-        anchors.fill: parent
-        
-        fillMode: Image.PreserveAspectFit
-        
-        visible: !galleryPhotoComponent.isLoaded
-      }
-      
-      onIsLoadedChanged: {
-        if (isLoaded)
-          previewOverlay.source = mediaSource.galleryPath;
       }
     }
 

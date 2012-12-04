@@ -180,6 +180,7 @@ Rectangle {
             height: albumsCheckerboard.itemHeight
     
             album: modelData.album
+            load: true
     
             // Scale from 1 to 1 + maxAddScale and back to 1 as openFraction goes
             // from 0 to 0.5 to 1.
@@ -558,14 +559,7 @@ Rectangle {
           monitored: true
         }
         
-        onCloseRequested: {
-            // TODO: get thumbnail rect from organic view.
-          var thumbnailRect = null;
-          if (thumbnailRect)
-            animateClosed(thumbnailRect);
-          else
-            close();
-        }
+        onCloseRequested: fadeClosed()
       }
     }
   }

@@ -26,6 +26,7 @@ Item {
   id: albumPreviewComponent
 
   property Album album
+  property alias load: albumPreview.load
   property alias openFraction: albumPreview.openFraction
 
   property alias topMargin: albumPreview.topMargin
