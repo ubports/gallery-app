@@ -88,12 +88,9 @@ class Photo : public MediaSource {
   // valid return null.
   static Photo* Load(const QFileInfo& file);
   
-  // Loads a photo object from the given file if and only if it hasn't already
-  // been loaded; otherwise, it attempts to return the existing object instead.
-  // Uses Photo.Load() to do its work. The ensure_thumbnail parameter will force
-  // a preview thumbnail for the new photo to be generated synchronously. If
-  // ensure_thumbnail is true, when this method returns a non-null value, a
-  // thumbnail preview for the new photo is guaranteed to exist.
+  // Loads a photo object from the given file and generates a thumbnail for it
+  // if and only if it hasn't already been loaded; otherwise, it attempts to
+  // return the existing object instead. Uses Photo.Load() to do its work.
   static Photo* Fetch(const QFileInfo& file);
 
   explicit Photo(const QFileInfo& file);

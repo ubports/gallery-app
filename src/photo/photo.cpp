@@ -112,18 +112,11 @@ Photo* Photo::Load(const QFileInfo& file) {
 }
 
 Photo* Photo::Fetch(const QFileInfo& file) {
-  Photo* p = MediaCollection::instance()->photoFromFileinfo(file);;
-
-  if (p == NULL) {
+  Photo* p = MediaCollection::instance()->photoFromFileinfo(file);
+  if (p == NULL)
     p = Load(file);
-  }
 
-  // ensure that the new photo has a thumbnail
-  bool generated_ok = PreviewManager::instance()->ensure_preview_for_media(p);
-  if (!generated_ok) {
-    qDebug() << "unable to ensure thumbnail exists for photo " <<
-      file.absoluteFilePath();
-  }
+  PreviewManager::instance()->ensure_preview_for_media(p);
 
   return p;
 }

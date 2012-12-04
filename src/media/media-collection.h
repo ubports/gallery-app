@@ -60,7 +60,7 @@ protected slots:
 private:
   static MediaCollection* instance_;
 
-  // Used by photoFromFilename() to prevent ourselves from accidentally
+  // Used by photoFromFileinfo() to prevent ourselves from accidentally
   // seeing a duplicate photo after an edit.
   QHash<QString, Photo*> file_photo_map_;
 
