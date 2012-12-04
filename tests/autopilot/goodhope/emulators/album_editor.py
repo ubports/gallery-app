@@ -18,7 +18,7 @@ class AlbumEditor(object):
 
     def get_albums_tab(self):
         """Returns the 'Albums' tab."""
-        return self.app.select_single("Tab", objectName="toolbarAlbumsTab")
+        return self.app.select_single("GalleryTab", objectName="toolbarAlbumsTab")
 
     def get_plus_icon(self):
         """Returns the 'plus' icon of the main view."""
@@ -30,12 +30,8 @@ class AlbumEditor(object):
 
     def get_album_title_entry_field(self):
         """Returns the album title input box."""
-        aa_qqr = self.get_album_editor().get_children_by_type("AspectArea")[0].get_children_by_type("QQuickItem")[0]
-        ac_qqi = aa_qqr.get_children_by_type("AlbumCover")[0].get_children_by_type("QQuickImage")[0]
-        return ac_qqi.get_children_by_type("QQuickColumn")[0].get_children_by_type("TextEditOnClick")[0]
+        return self.app.select_many("TextEditOnClick", objectName="albumTitleField")[0]
 
     def get_album_subtitle_entry_field(self):
         """Returns the album subtitle input box."""
-        aa_qqr = self.get_album_editor().get_children_by_type("AspectArea")[0].get_children_by_type("QQuickItem")[0]
-        ac_qqi = aa_qqr.get_children_by_type("AlbumCover")[0].get_children_by_type("QQuickImage")[0]
-        return ac_qqi.get_children_by_type("QQuickColumn")[0].get_children_by_type("TextEditOnClick")[1]
+        return self.app.select_many("TextEditOnClick", objectName="albumSubtitleField")[0]
