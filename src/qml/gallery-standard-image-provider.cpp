@@ -22,6 +22,7 @@
 
 #include <QImageReader>
 #include <QSize>
+#include <QElapsedTimer>
 
 #include "gallery-application.h"
 #include "media/preview-manager.h"
@@ -73,6 +74,8 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
   QSize* size, const QSize& requestedSize) {
   // for LOG_IMAGE_STATUS
   QString loggingStr = "";
+  QElapsedTimer timer;
+  timer.start();
   
   CachedImage* cachedImage = claim_cached_image_entry(id, loggingStr);
   Q_ASSERT(cachedImage != NULL);
@@ -90,13 +93,14 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
   
   if (GalleryApplication::instance()->log_image_loading()) {
     if (bytesLoaded > 0) {
-      qDebug("%s %s req:%dx%d ret:%dx%d cache:%ldb/%d loaded:%db", qPrintable(loggingStr),
-        qPrintable(id), requestedSize.width(), requestedSize.height(), readyImage.width(),
-        readyImage.height(), currentCachedBytes, currentCacheEntries, bytesLoaded);
+      qDebug("%s %s req:%dx%d ret:%dx%d cache:%ldb/%d loaded:%db time:%lldms", qPrintable(loggingStr),
+             qPrintable(id), requestedSize.width(), requestedSize.height(), readyImage.width(),
+             readyImage.height(), currentCachedBytes, currentCacheEntries, bytesLoaded,
+             timer.elapsed());
     } else {
-      qDebug("%s %s req:%dx%d ret:%dx%d cache:%ldb/%d", qPrintable(loggingStr),
-        qPrintable(id), requestedSize.width(), requestedSize.height(), readyImage.width(),
-        readyImage.height(), currentCachedBytes, currentCacheEntries);
+      qDebug("%s %s req:%dx%d ret:%dx%d cache:%ldb/%d time:%lldms", qPrintable(loggingStr),
+             qPrintable(id), requestedSize.width(), requestedSize.height(), readyImage.width(),
+             readyImage.height(), currentCachedBytes, currentCacheEntries, timer.elapsed());
     }
   }
   

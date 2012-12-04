@@ -64,7 +64,7 @@ GalleryApplication::GalleryApplication(int& argc, char** argv) :
   form_factors_.insert("phone", QSize(71, 40));
   form_factors_.insert("sidebar", QSize(71, 40));
 
-  pictures_dir_ = QDir(QString("%1/Pictures").arg(QDir::homePath()));
+  pictures_dir_ = QDir(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation));
 
   register_qml();
   process_args();

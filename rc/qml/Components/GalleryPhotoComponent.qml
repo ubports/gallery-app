@@ -28,8 +28,12 @@ PhotoComponent {
   id: galleryPhotoComponent
   
   property variant mediaSource
+  property bool load: false
   
   source: {
+    if (!load)
+      return source;
+    
     if (!mediaSource)
       return "";
     
