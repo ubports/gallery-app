@@ -107,6 +107,8 @@ Item {
       width: photoSize[patternPhoto]
       height: photoSize[patternPhoto]
 
+      visible: isInLoadArea
+
       image: Image {
         source: (thumbnail.isInLoadArea && model.mediaSource
                  ? model.mediaSource.galleryPreviewPath : "")
