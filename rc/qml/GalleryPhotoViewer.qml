@@ -205,6 +205,7 @@ Rectangle {
     }
 
     ChromeBar {
+        id: chromeBar
         z: 100
         anchors {
             bottom: parent.bottom
@@ -212,6 +213,12 @@ Rectangle {
             right: parent.right
         }
         buttonsModel: ListModel {
+            ListElement {
+                label: "Edit"
+                name: "edit"
+                icon: "../external/chromebar_icon_back.png"
+            }
+
             ListElement {
                 label: "Add"
                 name: "add"
@@ -231,17 +238,32 @@ Rectangle {
         showChromeBar: true
 
         onBackButtonClicked:  {
-        //onReturnButtonPressed: {
-//            resetVisibility(false);
             galleryPhotoViewer.currentItem.state = "unzoomed";
             closeRequested();
         }
 
         onButtonClicked: {
             print("clicked button "+buttonName);
-            if (buttonName === "share") PopupUtils.open(sharePopover, button);
-            else if (buttonName === "delete") PopupUtils.open(deletePopover, button);
-            else if (buttonName === "add") popupAlbumPicker.visible = true;
+            switch (buttonName) {
+            case "share": {
+                PopupUtils.open(sharePopover, button);
+                break;
+            }
+            case "delete": {
+                PopupUtils.open(deletePopover, button);
+                break;
+            }
+            case "add": {
+                chromeBar.setBarShown(false);
+                popupAlbumPicker.visible = true;
+                break;
+            }
+            case "edit": {
+                PopupUtils.open(editPopover, button);
+//                photoViewer.editRequested(photo);
+                break;
+            }
+            }
         }
 
         Component {
@@ -324,8 +346,61 @@ Rectangle {
             }
         }
 
-
-
+        Component {
+            id: editPopover
+            Popover {
+                id: thePopover
+                Column {
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        top: parent.top
+                    }
+                    ListItem.Standard {
+                        text: "Rotate"
+                        onClicked: {
+                            photo.rotateRight();
+                            PopupUtils.close(thePopover);
+                        }
+                    }
+                    ListItem.Standard {
+                        text: "Crop"
+                        onClicked: {
+                            cropper.show(photo);
+                            PopupUtils.close(thePopover);
+                        }
+                    }
+                    ListItem.Standard {
+                        text: "Auto enhance"
+                        onClicked: {
+                            photo.autoEnhance();
+                            PopupUtils.close(thePopover);
+                        }
+                    }
+                    ListItem.Standard {
+                        text: "Undo"
+                        onClicked: {
+                            photo.undo();
+                            PopupUtils.close(thePopover);
+                        }
+                    }
+                    ListItem.Standard {
+                        text: "Redo"
+                        onClicked: {
+                            photo.redo();
+                            PopupUtils.close(thePopover);
+                        }
+                    }
+                    ListItem.Standard {
+                        text: "Revert to original"
+                        onClicked: {
+                            photo.revertToOriginal();
+                            PopupUtils.close(thePopover);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     PopupAlbumPicker {
