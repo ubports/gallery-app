@@ -29,6 +29,7 @@ import "Widgets"
 
 Item {
   id: albumEditor
+  objectName: "mainAlbumEditor"
 
   signal closeRequested(variant album, bool enterViewer)
   signal mediaSelectorHidden(int newScrollPos)

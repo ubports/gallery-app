@@ -114,4 +114,6 @@ install_binary.path = $$PREFIX/bin/
 install_binary.files = gallery
 install_resources.path = $$PREFIX/share/gallery/
 install_resources.files = rc/
-INSTALLS = install_binary install_resources
+install_autopilot.path = $$PREFIX/lib/python2.7/dist-packages/
+install_autopilot.files = tests/autopilot/goodhope
+INSTALLS = install_binary install_resources install_autopilot
