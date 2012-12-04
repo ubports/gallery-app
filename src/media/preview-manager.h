@@ -34,7 +34,6 @@ class PreviewManager : public QObject {
  public:
   static const int PREVIEW_WIDTH_MAX;
   static const int PREVIEW_HEIGHT_MAX;
-  static const int PREVIEW_QUALITY;
   
   static const QString PREVIEW_DIR;
   
