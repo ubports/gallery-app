@@ -23,45 +23,47 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../../js/Gallery.js" as Gallery
 
-Rectangle {
+UbuntuShape {
   id: eventCard
-  
+
   property variant event
   property color textColor: "#919191"
-  
+
   color: "#dddddd"
+  radius: "medium"
+
   width: units.gu(18)
   height: units.gu(18)
- 
-  Column { 
+
+  Column {
     anchors.centerIn: parent
     width: parent.width
  
     Label {
       id: eventDay
-      
+
       width: parent.width
-  
+
       font.family: "Ubuntu"
       fontSize: "x-large"
       color: textColor
-  
+
       horizontalAlignment: Text.AlignHCenter
-  
+
       text: (event) ? Qt.formatDate(event.date, "dd") : ""
     }
 
     Label {
       id: eventMonthYear
       width: parent.width
-      
+
       font.family: "Ubuntu"
       fontSize: "small"
       color: textColor
-      
+
       font.capitalization: Font.AllUppercase
       horizontalAlignment: Text.AlignHCenter
-      
+
       text: (event) ? Qt.formatDate(event.date, "MMM yyyy") : ""
     }
   }
