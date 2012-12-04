@@ -29,8 +29,7 @@ class PhotoViewer(object):
 
     def get_crop_interactor(self):
         """Returns the crop interactor."""
-        ov_ppv = self.get_overview().get_children_by_type("PopupPhotoViewer")[0]
-        return ov_ppv.get_children_by_type("GalleryPhotoViewer")[0].get_children_by_type("CropInteractor")[0]
+        return self.app.select_single("CropInteractor", objectName="cropInteractor")
 
     def get_viewer_chrome_toolbar_buttons(self):
         """Returns the toolbar buttons."""
