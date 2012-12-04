@@ -216,22 +216,22 @@ Rectangle {
             ListElement {
                 label: "Edit"
                 name: "edit"
-                icon: "../external/chromebar_icon_back.png"
+                icon: "../img/chromebar_icon_back.png"
             }
             ListElement {
                 label: "Add"
                 name: "add"
-                icon: "../external/chromebar_icon_back.png"
+                icon: "../img/chromebar_icon_back.png"
             }
             ListElement {
                 label: "Delete"
                 name: "delete"
-                icon: "../external/chromebar_icon_back.png"
+                icon: "../img/chromebar_icon_back.png"
             }
             ListElement {
                 label: "Share"
                 name: "share"
-                icon: "../external/chromebar_icon_back.png"
+                icon: "../img/chromebar_icon_back.png"
             }
         }
         showChromeBar: true
@@ -257,8 +257,6 @@ Rectangle {
             case "add": {
                 chromeBar.setBarShown(false);
                 popupAlbumPicker.visible = true;
-//                popupAlbumPicker.caller = button;
-//                popupAlbumPicker.show();
                 break;
             }
             case "edit": {
