@@ -86,4 +86,3 @@ class TestMainWindow(GoodhopeTestCase):
 
         self.assertThat(album_editor.opacity, Eventually(Equals(1.0)))
 
-

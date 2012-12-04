@@ -18,11 +18,11 @@ class MainWindow(object):
 
     def get_events_tab(self):
         """Returns the 'Events' tab."""
-        return self.app.select_single("Tab", objectName="toolbarEventsTab")
+        return self.app.select_single("GalleryTab", objectName="toolbarEventsTab")
 
     def get_albums_tab(self):
         """Returns the 'Albums' tab."""
-        return self.app.select_single("Tab", objectName="toolbarAlbumsTab")
+        return self.app.select_single("GalleryTab", objectName="toolbarAlbumsTab")
 
     def get_plus_icon(self):
         """Returns the 'plus' icon of the main view."""

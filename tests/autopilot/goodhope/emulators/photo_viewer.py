@@ -20,12 +20,11 @@ class PhotoViewer(object):
 
     def get_first_image_in_photo_viewer(self):
         """Returns the first photo of the gallery."""
-        return self.app.select_many("GalleryPhotoComponent", ownerName='OrganicTrayView')[0]
+        return self.app.select_many("GalleryPhotoComponent", ownerName='OrganicMediaList')[0]
 
     def get_main_photo_viewer(self):
         """Returns the PhotoViewer."""
-        ov_ppv = self.get_overview().get_children_by_type("PopupPhotoViewer")[0]
-        return ov_ppv.get_children_by_type("GalleryPhotoViewer")[0].get_children_by_type("PhotoViewer")[0]
+        return self.app.select_single("PhotoViewer", objectName="photoViewer")
 
     def get_crop_interactor(self):
         """Returns the crop interactor."""
@@ -53,10 +52,7 @@ class PhotoViewer(object):
 
     def get_viewer_chrome_back_button(self):
         """Returns the photo viewer back button."""
-        ov = self.get_overview().get_children_by_type("ViewerChrome")[0]
-        gst = ov.get_children_by_type("GalleryStandardNavbar")[0]
-        qqr = gst.get_children_by_type("QQuickRow")[0]
-        return qqr.get_children_by_type("StandardToolbarIconButton")[0]
+        return self.app.select_single("StandardToolbarIconButton", objectName="navBackButton")
 
     def get_viewer_chrome_trash_button(self):
         """Returns the photo viewer trash button."""

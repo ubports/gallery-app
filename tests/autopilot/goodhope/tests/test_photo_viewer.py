@@ -41,6 +41,7 @@ class TestPhotoViewer(GoodhopeTestCase):
 
         """
         photo_viewer_chrome = self.photo_viewer.get_photo_viewer_chrome()
+        self.mouse.click()
 
         self.assertThat(photo_viewer_chrome.visible, Eventually(Equals(True)))
 
