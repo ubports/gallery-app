@@ -5,6 +5,7 @@ Item {
   id: ubuntuPhotoComponent
 
   property alias mediaSource: photoComponent.mediaSource
+  property alias load: photoComponent.load
   property alias ownerName: photoComponent.ownerName
   property alias isCropped: photoComponent.isCropped
   property alias isPreview: photoComponent.isPreview

@@ -92,6 +92,8 @@ Item {
       monitored: true
     }
 
+    // Using a plain UbuntuShape/Image instead of a UbuntuPhotoComponent for
+    // performance reasons. Therefore some duplication might be needed
     UbuntuShape {
       id: thumbnail
 
@@ -105,8 +107,6 @@ Item {
       width: photoSize[patternPhoto]
       height: photoSize[patternPhoto]
 
-      // Using a plain image instead of a GalleryPhotoComponent for performance
-      // reasons. Therefore some duplication might be needed
       image: Image {
         source: (thumbnail.isInLoadArea && model.mediaSource
                  ? model.mediaSource.galleryPreviewPath : "")
