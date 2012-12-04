@@ -102,11 +102,13 @@ Item {
 
       x: photosLeftMargin + photoX[patternPhoto] + patternWidth * patternNumber
       y: photosTopMargin + photoY[patternPhoto]
+      
       width: photoSize[patternPhoto]
       height: photoSize[patternPhoto]
-
-      mediaSource: (x <= loadAreaRight && x + width >= loadAreaLeft
-                    ? modelMediaSource : null)
+      
+      load: (x <= loadAreaRight) && (x + width >= loadAreaLeft)
+      mediaSource: modelMediaSource
+      
       ownerName: "OrganicMediaList"
       isCropped: true
       isPreview: true

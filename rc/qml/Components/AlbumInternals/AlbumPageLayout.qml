@@ -31,7 +31,8 @@ Item {
   property real gutterMargin: (parent ? parent.gutterMargin : 0)
   property real outerMargin: (parent ? parent.outerMargin : 0)
   property real insideMargin: (parent ? parent.insideMargin : 0)
-
+  
+  property bool load: (parent ? parent.load : false)
   property bool isPreview: (parent ? parent.isPreview : false)
   
   property variant mediaFrames: []
