@@ -36,6 +36,7 @@ Toolbar {
   }
 
   ToolbarIconButton {
+    objectName: "toolbarCameraIcon"
     anchors.verticalCenter: parent.verticalCenter
     anchors.right: parent.right
     anchors.rightMargin: units.gu(2)

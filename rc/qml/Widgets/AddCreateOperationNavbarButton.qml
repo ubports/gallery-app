@@ -21,4 +21,5 @@ import QtQuick 2.0
 
 StandardToolbarIconButton {
   iconName: "plus"
+  objectName: "toolbarPlusIcon"
 }
