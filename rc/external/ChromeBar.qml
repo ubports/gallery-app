@@ -97,7 +97,7 @@ Item {
                         anchors.left: parent.left
                         anchors.leftMargin: units.gu(1)
                         anchors.top: parent.top
-                        icon: "../assets/chromebar_icon_back.png"
+                        icon: "chromebar_icon_back.png"
                         text: "Back"
 
                         onClicked: {

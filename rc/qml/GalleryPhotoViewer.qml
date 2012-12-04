@@ -21,6 +21,8 @@
 import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 0.1
+import Ubuntu.Components.Popups 0.1
+import Ubuntu.Components.ListItems 0.1 as ListItem
 import "../Capetown"
 import "../Capetown/Viewer"
 import "Components"
@@ -211,16 +213,117 @@ Rectangle {
         }
         buttonsModel: ListModel {
             ListElement {
-                label: "Test"
-                name: "test"
+                label: "Add"
+                name: "add"
+                icon: "../external/chromebar_icon_back.png"
             }
             ListElement {
-                label: "Something"
-                name: "bla"
+                label: "Delete"
+                name: "delete"
+                icon: "../external/chromebar_icon_back.png"
+            }
+            ListElement {
+                label: "Share"
+                name: "share"
+                icon: "../external/chromebar_icon_back.png"
             }
         }
         showChromeBar: true
 
+        onBackButtonClicked:  {
+        //onReturnButtonPressed: {
+//            resetVisibility(false);
+            galleryPhotoViewer.currentItem.state = "unzoomed";
+            closeRequested();
+        }
+
+        onButtonClicked: {
+            print("clicked button "+buttonName);
+            if (buttonName === "share") PopupUtils.open(sharePopover, button);
+            else if (buttonName === "delete") PopupUtils.open(deletePopover, button);
+            else if (buttonName === "add") popupAlbumPicker.visible = true;
+        }
+
+        Component {
+            id: sharePopover
+            Popover {
+                id: thePopover
+                Column {
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        top: parent.top
+                    }
+                    ListItem.Header { text: "Dummy share menu" }
+                    ListItem.Subtitled {
+                        text: "Facebook"
+                        subText: "calumpringle"
+                        onClicked: PopupUtils.close(thePopover)
+                    }
+                    ListItem.Subtitled {
+                        text: "Twitter"
+                        subText: "@ckpringle"
+                        onClicked: PopupUtils.close(thePopover)
+                    }
+                    ListItem.Subtitled {
+                        text: "Ubuntu One"
+                        subText: "ckpringle"
+                        onClicked: PopupUtils.close(thePopover)
+                    }
+                    ListItem.Subtitled {
+                        text: "Gmail"
+                        subText: "calumpringle@gmail.com"
+                        onClicked: PopupUtils.close(thePopover)
+                    }
+                    ListItem.Subtitled {
+                        text: "Pinterest"
+                        subText: "ckpringle@yahoo.co.uk"
+                        onClicked: PopupUtils.close(thePopover)
+                    }
+                }
+            }
+        }
+
+        Component {
+            id: deletePopover
+            Popover {
+                id: thePopover
+                Column {
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        top: parent.top
+                    }
+                    ListItem.Standard {
+                        text: "Delete photo"
+                        onClicked: {
+                            viewerWrapper.model.destroyMedia(viewerWrapper.photo);
+                            PopupUtils.close(thePopover);
+                        }
+                    }
+                    // TODO: When coming here from an album view, a remove from album option must
+                    //          be visible.
+                }
+            }
+        }
+
+
+
+    }
+
+    PopupAlbumPicker {
+        id: popupAlbumPicker
+
+        popupOriginX: -units.gu(17.5)
+        popupOriginY: -units.gu(6)
+
+        onPopupInteractionCompleted: {
+            visible = false;
+        }
+
+        onAlbumPicked: album.addMediaSource(photo)
+
+        visible: false
     }
 
 //    ViewerChrome {
