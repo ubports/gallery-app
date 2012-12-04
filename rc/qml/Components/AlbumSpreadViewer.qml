@@ -40,6 +40,7 @@ Item {
   property alias destinationPage: flipper.destinationPage
   property alias duration: flipper.duration
   property alias flipFraction: flipper.flipFraction
+  property bool load: false
   property bool freeze: false   // See AlbumPageComponent
   property bool showCover: true // See AlbumPageComponent
 
@@ -159,6 +160,7 @@ Item {
       anchors.fill: parent
 
       visible: freeze || (backPage >= 0 && !isPortrait)
+      load: albumSpreadViewer.load
 
       album: albumSpreadViewer.album
 
@@ -177,6 +179,7 @@ Item {
       anchors.fill: parent
 
       visible: freeze || (Boolean(album) && frontPage < album.totalPageCount)
+      load: albumSpreadViewer.load
 
       album: albumSpreadViewer.album
 

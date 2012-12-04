@@ -27,6 +27,7 @@ Item {
 
   property alias ownerName: photo.ownerName
   property alias mediaSource: photo.mediaSource
+  property alias load: photo.load
   property alias isPreview: photo.isPreview
 
   property alias backingBorderImage: backing.source
@@ -69,9 +70,12 @@ Item {
         id: photo
 
         anchors.fill: parent
+        
+        ownerName: "CompositeMattedPhoto"
 
-        visible: (mediaSource) ? true : false
-
+        visible: Boolean(mediaSource)
+        load: true
+        
         isCropped: true
       }
 
