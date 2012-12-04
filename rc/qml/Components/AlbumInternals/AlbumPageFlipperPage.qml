@@ -59,6 +59,7 @@ AlbumPageComponent {
   z: flipFraction < 0.5 ? numPages - flipperPage : flipperPage
 
   visible: numPages > flipperPage
+  load: visible
 
   album: parent.album
 

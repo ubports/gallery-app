@@ -31,6 +31,7 @@ Rectangle {
   signal unzoomed()
 
   property var mediaSource
+  property bool load: false
   property bool isPreview
   property string ownerName
 
@@ -78,11 +79,34 @@ Rectangle {
 
   transitions: [
     Transition { from: "*"; to: "unzoomed";
-      NumberAnimation { properties: "zoomFactor"; easing.type: Easing.InQuad;
-                        duration: 350; } },
+      SequentialAnimation {
+        ScriptAction { script: {
+            transitionPhoto.visible = true;
+            zoomArea.visible = false;
+          }
+        }
+        NumberAnimation { properties: "zoomFactor"; easing.type: Easing.InQuad;
+          duration: 350; }
+        ScriptAction { script: transitionPhoto.visible = false; }
+      }
+    },
     Transition { from: "*"; to: "full_zoom";
-      NumberAnimation { properties: "zoomFactor"; easing.type: Easing.InQuad;
-                        duration: 350; } }
+      SequentialAnimation {
+        ScriptAction { script: {
+            transitionPhoto.visible = true;
+            zoomArea.visible = true;
+          }
+        }
+        NumberAnimation { properties: "zoomFactor"; easing.type: Easing.InQuad;
+          duration: 350; }
+        ScriptAction { script: {
+            zoomArea.placeZoomedImage();
+            if (zoomedPhoto.isLoaded)
+              transitionPhoto.visible = false; 
+          }
+        }
+      }
+    }
   ]
 
   state: "unzoomed"
@@ -93,7 +117,7 @@ Rectangle {
     else
       unzoomed();
   }
-
+  
   GalleryPhotoComponent {
     id: unzoomedPhoto
 
@@ -103,10 +127,11 @@ Rectangle {
     anchors.fill: parent
     visible: fullyUnzoomed
     color: zoomablePhotoComponent.color
-
+    
     mediaSource: zoomablePhotoComponent.mediaSource
+    load: zoomablePhotoComponent.load && zoomablePhotoComponent.fullyUnzoomed
     isPreview: zoomablePhotoComponent.isPreview
-    ownerName: zoomablePhotoComponent.ownerName
+    ownerName: zoomablePhotoComponent.ownerName + "unzoomedPhoto"
   }
 
   MouseArea {
@@ -148,13 +173,11 @@ Rectangle {
     property real contentFocusTop: contentFocusY - parent.height / 2
 
     anchors.fill: parent
-    visible: fullyZoomed
+    visible: false
 
-    onVisibleChanged: {
-      if (visible) {
-        contentX = contentFocusLeft;
-        contentY = contentFocusTop;
-      }
+    function placeZoomedImage() {
+      contentX = contentFocusLeft;
+      contentY = contentFocusTop;
     }
 
     onContentXChanged: {
@@ -183,10 +206,16 @@ Rectangle {
       anchors.fill: parent
       color: zoomablePhotoComponent.color
 
-      // TODO: load in the background but only for the photo being viewed.
       mediaSource: (visible ? zoomablePhotoComponent.mediaSource : "")
+      load: zoomablePhotoComponent.load
+      
       isPreview: zoomablePhotoComponent.isPreview
-      ownerName: zoomablePhotoComponent.ownerName
+      ownerName: zoomablePhotoComponent.ownerName + "zoomedPhoto"
+      onIsLoadedChanged: {
+        // Hide the transition when photo is loaded.
+        if (isLoaded && fullyZoomed)
+          transitionPhoto.visible = false;
+      }
 
       MouseArea {
         anchors.fill: parent
@@ -195,6 +224,12 @@ Rectangle {
         onDoubleClicked: unzoom()
       }
     }
+  }
+  
+  Rectangle {
+    color: "black"
+    anchors.fill: parent
+    visible: transitionPhoto.visible
   }
 
   GalleryPhotoComponent {
@@ -214,11 +249,12 @@ Rectangle {
     scale: zoomFactor
     transformOrigin: Item.TopLeft
 
-    visible: (!fullyUnzoomed && !zoomedPhoto.isLoaded)
+    visible: false
     color: zoomablePhotoComponent.color
 
     mediaSource: zoomablePhotoComponent.mediaSource
+    load: zoomablePhotoComponent.load
     isPreview: zoomablePhotoComponent.isPreview
-    ownerName: zoomablePhotoComponent.ownerName
+    ownerName: zoomablePhotoComponent.ownerName + "transitionPhoto"
   }
 }

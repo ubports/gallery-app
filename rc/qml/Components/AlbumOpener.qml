@@ -28,6 +28,7 @@ Item {
   // public
   property Album album
   property bool isPreview: false
+  property bool load: false
   property bool contentHasPreviewFrame: false
   property int duration: 1000
   property real openFraction: 0
@@ -101,6 +102,7 @@ Item {
 
       anchors.fill: parent
       visible: (openFraction > 0 && openFraction < 1)
+      load: albumOpener.load
 
       album: albumOpener.album
       frontPage: insideRightPage
@@ -122,6 +124,7 @@ Item {
       id: leftPage
 
       anchors.fill: parent
+      load: albumOpener.load
 
       album: albumOpener.album
       frontPage: (album ? rightPageForCurrent(album.firstValidCurrentPage) : -1)

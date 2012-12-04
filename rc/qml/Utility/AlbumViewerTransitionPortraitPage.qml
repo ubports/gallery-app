@@ -52,6 +52,8 @@ Item {
   property alias frameToContentWidth: page.frameToContentWidth
   property alias frameToContentHeight: page.frameToContentHeight
   
+  property alias load: page.load
+  
   property int defaultInsideLeftPage: page.leftPageForCurrent(currentOrFirstContentPage)
   property int defaultInsideRightPage: page.rightPageForCurrent(currentOrFirstContentPage)
 

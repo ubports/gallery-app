@@ -74,6 +74,7 @@ Item {
     isPreview: true
     isAnimate: true
     ownerName: "PhotoViewerTransition"
+    load: true
     
     color: "transparent"
 

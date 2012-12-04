@@ -143,6 +143,7 @@ Item {
 
     color: "black"
     visible: false
+    load: true
 
     mediaSource: cropInteractor.photo
     ownerName: "cropInteractor"

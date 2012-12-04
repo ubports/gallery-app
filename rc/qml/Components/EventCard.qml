@@ -23,13 +23,14 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../../js/Gallery.js" as Gallery
 
-Rectangle {
+UbuntuShape {
   id: eventCard
-  
+
   property variant event
   property color textColor: "#888888"
-  
+
   color: "#dddddd"
+
   width: units.gu(12)
   height: units.gu(12)
 
