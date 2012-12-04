@@ -218,7 +218,6 @@ Rectangle {
                 name: "edit"
                 icon: "../external/chromebar_icon_back.png"
             }
-
             ListElement {
                 label: "Add"
                 name: "add"
@@ -246,11 +245,13 @@ Rectangle {
             print("clicked button "+buttonName);
             switch (buttonName) {
             case "share": {
-                PopupUtils.open(sharePopover, button);
+                sharePopover.caller = button;
+                sharePopover.show();
                 break;
             }
             case "delete": {
-                PopupUtils.open(deletePopover, button);
+                deletePopover.caller = button;
+                deletePopover.show();
                 break;
             }
             case "add": {
@@ -259,147 +260,32 @@ Rectangle {
                 break;
             }
             case "edit": {
-                PopupUtils.open(editPopover, button);
-//                photoViewer.editRequested(photo);
+                editPopover.caller = button;
+                editPopover.show();
                 break;
             }
             }
         }
 
-        Component {
+        SharePopover {
             id: sharePopover
-            Popover {
-                id: thePopover
-                Column {
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                        top: parent.top
-                    }
-                    ListItem.Header { text: "Dummy share menu" }
-                    ListItem.Subtitled {
-                        text: "Facebook"
-                        subText: "calumpringle"
-                        onClicked: PopupUtils.close(thePopover)
-                    }
-                    ListItem.Subtitled {
-                        text: "Twitter"
-                        subText: "@ckpringle"
-                        onClicked: PopupUtils.close(thePopover)
-                    }
-                    ListItem.Subtitled {
-                        text: "Ubuntu One"
-                        subText: "ckpringle"
-                        onClicked: PopupUtils.close(thePopover)
-                    }
-                    ListItem.Subtitled {
-                        text: "Gmail"
-                        subText: "calumpringle@gmail.com"
-                        onClicked: PopupUtils.close(thePopover)
-                    }
-                    ListItem.Subtitled {
-                        text: "Pinterest"
-                        subText: "ckpringle@yahoo.co.uk"
-                        onClicked: PopupUtils.close(thePopover)
-                    }
-                }
-            }
+            visible: false
         }
 
-        Component {
+        DeletePopover {
+            visible: false
             id: deletePopover
-            Popover {
-                id: thePopover
-
-                // internal
-                function finishRemove() {
-                    if (!viewerWrapper.album === undefined) return;
-                    if (model.count === 0) photoViewer.closeRequested();
-                }
-
-                Column {
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                        top: parent.top
-                    }
-
-                    ListItem.Standard {
-                        text: "Delete photo"
-                        onClicked: {
-                            viewerWrapper.model.destroyMedia(viewerWrapper.photo);
-                            thePopover.finishRemove();
-                            PopupUtils.close(thePopover);
-                        }
-                    }
-
-                    ListItem.Standard {
-                        text: "Remove from album"
-                        onClicked: {
-                            viewerWrapper.album.removeMediaSource(viewerWrapper.photo);
-                            thePopover.finishRemove();
-                            PopupUtils.close(thePopover);
-                        }
-                        visible: (viewerWrapper.album !== undefined)
-                    }
-                }
-            }
+            album: viewerWrapper.album
+            photo: viewerWrapper.photo
+            model: viewerWrapper.model
+            photoViewer: galleryPhotoViewer
         }
 
-        Component {
+        EditPopover {
             id: editPopover
-            Popover {
-                id: thePopover
-                Column {
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                        top: parent.top
-                    }
-                    ListItem.Standard {
-                        text: "Rotate"
-                        onClicked: {
-                            photo.rotateRight();
-                            PopupUtils.close(thePopover);
-                        }
-                    }
-                    ListItem.Standard {
-                        text: "Crop"
-                        onClicked: {
-                            cropper.show(photo);
-                            PopupUtils.close(thePopover);
-                        }
-                    }
-                    ListItem.Standard {
-                        text: "Auto enhance"
-                        onClicked: {
-                            photo.autoEnhance();
-                            PopupUtils.close(thePopover);
-                        }
-                    }
-                    ListItem.Standard {
-                        text: "Undo"
-                        onClicked: {
-                            photo.undo();
-                            PopupUtils.close(thePopover);
-                        }
-                    }
-                    ListItem.Standard {
-                        text: "Redo"
-                        onClicked: {
-                            photo.redo();
-                            PopupUtils.close(thePopover);
-                        }
-                    }
-                    ListItem.Standard {
-                        text: "Revert to original"
-                        onClicked: {
-                            photo.revertToOriginal();
-                            PopupUtils.close(thePopover);
-                        }
-                    }
-                }
-            }
+            visible: false
+            photo: galleryPhotoViewer.photo
+            cropper: viewerWrapper.cropper
         }
     }
 
@@ -440,10 +326,9 @@ Rectangle {
 //      onLeftNavigationButtonPressed: galleryPhotoViewer.goBack()
 //      onRightNavigationButtonPressed: galleryPhotoViewer.goForward()
 
-//        // XXX: TIM commented out. This list i s used for closing popups.
-////      popups: [ photoViewerShareMenu, photoViewerOptionsMenu,
-////        trashOperationDialog, trashOrRemoveOperationDialog, popupAlbumPicker,
-////        editMenu ]
+//      popups: [ photoViewerShareMenu, photoViewerOptionsMenu,
+//        trashOperationDialog, trashOrRemoveOperationDialog, popupAlbumPicker,
+//        editMenu ]
 
 //      GenericShareMenu {
 //        id: photoViewerShareMenu
@@ -626,6 +511,7 @@ Rectangle {
     onEditRequested: viewerWrapper.editRequested(photo)
   }
 
+  property alias cropper: cropper
   CropInteractor {
     id: cropper
     
