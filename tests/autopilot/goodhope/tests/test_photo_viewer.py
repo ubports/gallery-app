@@ -31,7 +31,7 @@ class TestPhotoViewer(GoodhopeTestCase):
 
         photo_viewer_chrome = self.photo_viewer.get_photo_viewer_chrome()
 
-        if photo_viewer_chrome.visible is not True:
+        if photo_viewer_chrome.visible == False:
             self.mouse.move_to_object(photo_viewer)
             self.mouse.click()
 
