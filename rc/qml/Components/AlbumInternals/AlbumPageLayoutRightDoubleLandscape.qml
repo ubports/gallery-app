@@ -40,6 +40,7 @@ AlbumPageLayout {
     mediaSource: (albumPageLayoutLeftDoubleLandscape.mediaSourceList
       ? albumPageLayoutLeftDoubleLandscape.mediaSourceList[0]
       : null)
+    load: albumPageLayoutLeftDoubleLandscape.load
     isPreview: albumPageLayoutLeftDoubleLandscape.isPreview
   }
 
@@ -59,6 +60,7 @@ AlbumPageLayout {
     mediaSource: (albumPageLayoutLeftDoubleLandscape.mediaSourceList
       ? albumPageLayoutLeftDoubleLandscape.mediaSourceList[1]
       : null)
+    load: albumPageLayoutLeftDoubleLandscape.load
     isPreview: albumPageLayoutLeftDoubleLandscape.isPreview
   }
 }

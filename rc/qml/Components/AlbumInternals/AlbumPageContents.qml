@@ -30,6 +30,7 @@ Item {
   property Album album
   property int page: -1
   property bool isPreview: false
+  property bool load: false
   property bool contentHasPreviewFrame: false
 
   property real topMargin
@@ -193,6 +194,7 @@ Item {
     property alias outerMargin: albumPageContents.outerMargin
     property alias insideMargin: albumPageContents.insideMargin
     property alias isPreview: albumPageContents.isPreview
+    property alias load: albumPageContents.load
     property bool isLoaded: false
 
     function reload() {

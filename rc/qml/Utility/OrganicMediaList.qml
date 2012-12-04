@@ -93,6 +93,8 @@ Item {
     }
 
     // TODO: rounded corners.
+    // Using a plain image instead of a GalleryPhotoComponent for performance
+    // reasons. Therefore some duplication might be needed
     Image {
       id: thumbnail
       property int patternPhoto: index % mediaPerPattern
@@ -100,9 +102,9 @@ Item {
 
       x: photosLeftMargin + photoX[patternPhoto] + patternWidth * patternNumber
       y: photosTopMargin + photoY[patternPhoto]
+      
       width: photoSize[patternPhoto]
       height: photoSize[patternPhoto]
-
       source: (x <= loadAreaRight && x + width >= loadAreaLeft) ?
                 model.mediaSource.galleryPreviewPath : ""
       sourceSize.width: bigSize
