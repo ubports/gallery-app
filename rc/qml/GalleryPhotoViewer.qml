@@ -28,7 +28,6 @@ import "../Capetown/Viewer"
 import "Components"
 import "Widgets"
 import "../js/Gallery.js" as Gallery
-import "../external"
 
 Rectangle {
   id: viewerWrapper
@@ -242,7 +241,6 @@ Rectangle {
         }
 
         onButtonClicked: {
-            print("clicked button "+buttonName);
             switch (buttonName) {
             case "share": {
                 sharePopover.caller = button;
