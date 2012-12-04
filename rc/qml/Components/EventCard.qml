@@ -27,23 +27,22 @@ Rectangle {
   id: eventCard
   
   property variant event
-  property color textColor: "#919191"
+  property color textColor: "#888888"
   
   color: "#dddddd"
-  width: units.gu(18)
-  height: units.gu(18)
+  width: units.gu(12)
+  height: units.gu(12)
  
-  Column { 
-    anchors.centerIn: parent
-    width: parent.width
  
     Label {
       id: eventDay
-      
+
+      y: units.gu(0.5)
+      anchors.horizontalCenter: parent.horizontalCenter
       width: parent.width
-  
-      font.family: "Ubuntu"
-      fontSize: "x-large"
+
+      font.family: "Ubuntu Regular"
+      font.pixelSize: units.dp(62)
       color: textColor
   
       horizontalAlignment: Text.AlignHCenter
@@ -53,10 +52,13 @@ Rectangle {
 
     Label {
       id: eventMonthYear
+
+      y: units.gu(8.5)
+      anchors.horizontalCenter: parent.horizontalCenter
       width: parent.width
       
-      font.family: "Ubuntu"
-      fontSize: "small"
+      font.family: "Ubuntu Regular"
+      fontSize: "medium"
       color: textColor
       
       font.capitalization: Font.AllUppercase
@@ -64,5 +66,4 @@ Rectangle {
       
       text: (event) ? Qt.formatDate(event.date, "MMM yyyy") : ""
     }
-  }
 }
