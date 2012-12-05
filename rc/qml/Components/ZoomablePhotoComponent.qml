@@ -49,6 +49,10 @@ Rectangle {
   property real maxZoomFactor: 2.5
   property real photoFocusX: zoomFocusX - unzoomedPhoto.leftEdge
   property real photoFocusY: zoomFocusY - unzoomedPhoto.topEdge
+  property bool zoomedOnce: false
+  property var zoomArea
+  property var transitionPhoto
+  property var zoomedPhoto
 
   clip: true
 
@@ -94,13 +98,13 @@ Rectangle {
       SequentialAnimation {
         ScriptAction { script: {
             transitionPhoto.visible = true;
-            zoomArea.visible = true;
           }
         }
         NumberAnimation { properties: "zoomFactor"; easing.type: Easing.InQuad;
           duration: 350; }
         ScriptAction { script: {
             zoomArea.placeZoomedImage();
+            zoomArea.visible = true;
             if (zoomedPhoto.isLoaded)
               transitionPhoto.visible = false; 
           }
@@ -117,7 +121,19 @@ Rectangle {
     else
       unzoomed();
   }
+
+  onFullyZoomedChanged: {
+    if (fullyZoomed && !zoomedOnce)
+      zoomedOnce = true;
+  }
   
+  onFullyUnzoomedChanged: {
+    if (zoomedOnce && fullyUnzoomed) {
+      zoomAssemblyLoader.sourceComponent = undefined;
+      zoomAssemblyLoader.sourceComponent = zoomAssemblyComponent;
+    }
+  }
+
   GalleryPhotoComponent {
     id: unzoomedPhoto
 
@@ -150,111 +166,134 @@ Rectangle {
     }
   }
 
-  Flickable {
-    id: zoomArea
-
-    property real zoomAreaZoomFactor: maxZoomFactor
-    property real minContentFocusX: (contentWidth < parent.width
-                                     ? contentWidth : parent.width) / 2
-    property real maxContentFocusX: contentWidth - minContentFocusX
-    property real minContentFocusY: (contentHeight < parent.height
-                                     ? contentHeight : parent.height) / 2
-    property real maxContentFocusY: contentHeight - minContentFocusY
-    property real contentFocusX: GraphicsRoutines.clamp(
-                                   photoFocusX * zoomAreaZoomFactor,
-                                   minContentFocusX, maxContentFocusX)
-    property real contentFocusY: GraphicsRoutines.clamp(
-                                   photoFocusY * zoomAreaZoomFactor,
-                                   minContentFocusY, maxContentFocusY)
-    // Translate between focus point and top/left point.  Note: you might think
-    // that this should take into account the left and top margins, but
-    // apparently not.
-    property real contentFocusLeft: contentFocusX - parent.width / 2
-    property real contentFocusTop: contentFocusY - parent.height / 2
-
+  Loader {
+    id: zoomAssemblyLoader
+        
     anchors.fill: parent
-    visible: false
-
-    function placeZoomedImage() {
-      contentX = contentFocusLeft;
-      contentY = contentFocusTop;
+    
+    sourceComponent: zoomAssemblyComponent
+    
+    onLoaded: {
+      item.connectToContext();
     }
-
-    onContentXChanged: {
-      var contentFocusX = contentX + parent.width / 2;
-      var photoFocusX = contentFocusX / zoomAreaZoomFactor;
-      zoomFocusX = photoFocusX + unzoomedPhoto.leftEdge;
-    }
-    onContentYChanged: {
-      var contentFocusY = contentY + parent.height / 2;
-      var photoFocusY = contentFocusY / zoomAreaZoomFactor;
-      zoomFocusY = photoFocusY + unzoomedPhoto.topEdge;
-    }
-
-    flickableDirection: Flickable.HorizontalAndVerticalFlick
-    contentWidth: unzoomedPhoto.paintedWidth * zoomAreaZoomFactor
-    contentHeight: unzoomedPhoto.paintedHeight * zoomAreaZoomFactor
-
-    leftMargin: Math.max(0, (parent.width - contentWidth) / 2)
-    rightMargin: leftMargin
-    topMargin: Math.max(0, (parent.height - contentHeight) / 2)
-    bottomMargin: topMargin
-
-    GalleryPhotoComponent {
-      id: zoomedPhoto
-
-      anchors.fill: parent
-      color: zoomablePhotoComponent.color
-
-      mediaSource: (visible ? zoomablePhotoComponent.mediaSource : "")
-      load: zoomablePhotoComponent.load
+    
+    Component {
+      id: zoomAssemblyComponent
       
-      isPreview: zoomablePhotoComponent.isPreview
-      ownerName: zoomablePhotoComponent.ownerName + "zoomedPhoto"
-      onIsLoadedChanged: {
-        // Hide the transition when photo is loaded.
-        if (isLoaded && fullyZoomed)
-          transitionPhoto.visible = false;
-      }
-
-      MouseArea {
+      Item {
+        id: zoomAssembly
+        
+        function connectToContext() {
+          zoomablePhotoComponent.zoomArea = zoomArea;
+          zoomablePhotoComponent.transitionPhoto = transitionPhoto;
+          zoomablePhotoComponent.zoomedPhoto = zoomedPhoto;
+        }
+        
         anchors.fill: parent
 
-        onClicked: zoomablePhotoComponent.clicked()
-        onDoubleClicked: unzoom()
+        Flickable {
+          id: zoomArea
+      
+          property real zoomAreaZoomFactor: maxZoomFactor
+          property real minContentFocusX: (contentWidth < parent.width
+                                           ? contentWidth : parent.width) / 2
+          property real maxContentFocusX: contentWidth - minContentFocusX
+          property real minContentFocusY: (contentHeight < parent.height
+                                           ? contentHeight : parent.height) / 2
+          property real maxContentFocusY: contentHeight - minContentFocusY
+          property real contentFocusX: GraphicsRoutines.clamp(
+                                         photoFocusX * zoomAreaZoomFactor,
+                                         minContentFocusX, maxContentFocusX)
+          property real contentFocusY: GraphicsRoutines.clamp(
+                                         photoFocusY * zoomAreaZoomFactor,
+                                         minContentFocusY, maxContentFocusY)
+          // Translate between focus point and top/left point.  Note: you might think
+          // that this should take into account the left and top margins, but
+          // apparently not.
+          property real contentFocusLeft: contentFocusX - parent.width / 2
+          property real contentFocusTop: contentFocusY - parent.height / 2
+      
+          function placeZoomedImage() {
+            contentX = contentFocusLeft;
+            contentY = contentFocusTop;
+          }
+          
+          anchors.fill: parent
+          visible: false
+      
+          onContentXChanged: {
+            var contentFocusX = contentX + parent.width / 2;
+            var photoFocusX = contentFocusX / zoomAreaZoomFactor;
+            zoomFocusX = photoFocusX + unzoomedPhoto.leftEdge;
+          }
+          
+          onContentYChanged: {
+            var contentFocusY = contentY + parent.height / 2;
+            var photoFocusY = contentFocusY / zoomAreaZoomFactor;
+            zoomFocusY = photoFocusY + unzoomedPhoto.topEdge;
+          }
+      
+          flickableDirection: Flickable.HorizontalAndVerticalFlick
+          contentWidth: unzoomedPhoto.paintedWidth * zoomAreaZoomFactor
+          contentHeight: unzoomedPhoto.paintedHeight * zoomAreaZoomFactor
+      
+          leftMargin: Math.max(0, (parent.width - contentWidth) / 2)
+          rightMargin: leftMargin
+          topMargin: Math.max(0, (parent.height - contentHeight) / 2)
+          bottomMargin: topMargin
+      
+          GalleryPhotoComponent {
+            id: zoomedPhoto
+      
+            anchors.fill: parent
+            color: zoomablePhotoComponent.color
+      
+            mediaSource: (visible ? zoomablePhotoComponent.mediaSource : "")
+            load: zoomablePhotoComponent.load
+            
+            isPreview: zoomablePhotoComponent.isPreview
+            ownerName: zoomablePhotoComponent.ownerName + "zoomedPhoto"
+            onIsLoadedChanged: {
+              // Hide the transition when photo is loaded.
+              if (isLoaded && fullyZoomed)
+                transitionPhoto.visible = false;
+            }
+      
+            MouseArea {
+              anchors.fill: parent
+      
+              onClicked: zoomablePhotoComponent.clicked()
+              onDoubleClicked: unzoom()
+            }
+          }
+        }
+      
+        GalleryPhotoComponent {
+          id: transitionPhoto
+      
+          property real unzoomedX: unzoomedPhoto.leftEdge
+          property real unzoomedY: unzoomedPhoto.topEdge
+          property real zoomedX: -zoomArea.contentFocusLeft
+          property real zoomedY: -zoomArea.contentFocusTop
+      
+          property real zoomFraction: (zoomFactor - 1) / (maxZoomFactor - 1)
+      
+          x: GalleryUtility.interpolate(unzoomedX, zoomedX, zoomFraction)
+          y: GalleryUtility.interpolate(unzoomedY, zoomedY, zoomFraction)
+          width: unzoomedPhoto.paintedWidth
+          height: unzoomedPhoto.paintedHeight
+          scale: zoomFactor
+          transformOrigin: Item.TopLeft
+      
+          visible: false
+          color: zoomablePhotoComponent.color
+      
+          mediaSource: zoomablePhotoComponent.mediaSource
+          load: zoomablePhotoComponent.load
+          isPreview: zoomablePhotoComponent.isPreview
+          ownerName: zoomablePhotoComponent.ownerName + "transitionPhoto"
+        }
       }
     }
-  }
-  
-  Rectangle {
-    color: "black"
-    anchors.fill: parent
-    visible: transitionPhoto.visible
-  }
-
-  GalleryPhotoComponent {
-    id: transitionPhoto
-
-    property real unzoomedX: unzoomedPhoto.leftEdge
-    property real unzoomedY: unzoomedPhoto.topEdge
-    property real zoomedX: -zoomArea.contentFocusLeft
-    property real zoomedY: -zoomArea.contentFocusTop
-
-    property real zoomFraction: (zoomFactor - 1) / (maxZoomFactor - 1)
-
-    x: GalleryUtility.interpolate(unzoomedX, zoomedX, zoomFraction)
-    y: GalleryUtility.interpolate(unzoomedY, zoomedY, zoomFraction)
-    width: unzoomedPhoto.paintedWidth
-    height: unzoomedPhoto.paintedHeight
-    scale: zoomFactor
-    transformOrigin: Item.TopLeft
-
-    visible: false
-    color: zoomablePhotoComponent.color
-
-    mediaSource: zoomablePhotoComponent.mediaSource
-    load: zoomablePhotoComponent.load
-    isPreview: zoomablePhotoComponent.isPreview
-    ownerName: zoomablePhotoComponent.ownerName + "transitionPhoto"
   }
 }
