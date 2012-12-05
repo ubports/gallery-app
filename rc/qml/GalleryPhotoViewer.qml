@@ -59,12 +59,10 @@ Rectangle {
 
   function setCurrentIndex(index) {
     galleryPhotoViewer.setCurrentIndex(index);
-    chrome.resetVisibility(true);
   }
 
   function setCurrentPhoto(photo) {
     galleryPhotoViewer.setCurrentPhoto(photo);
-    chrome.resetVisibility(true);
   }
 
   function goBack() {
@@ -120,11 +118,8 @@ Rectangle {
     function updateBusy() {
       if (photo.busy) {
         busySpinner.visible = true;
-        // HACK: chrome.hide() doesn't work here for some reason.
-        chrome.visible = false;
       } else {
         busySpinner.visible = false;
-        chrome.visible = true;
       }
     }
 
@@ -154,32 +149,13 @@ Rectangle {
       load: galleryPhotoViewer.load
 
       ownerName: "galleryPhotoViewer"
-
-      onClicked: chromeFadeWaitClock.restart();
-      onZoomed: {
-        chromeFadeWaitClock.stop();
-        chrome.hide(true);
-      }
-      onUnzoomed: {
-        chromeFadeWaitClock.stop();
-        chrome.hide(true);
-      }
     }
 
     // Don't allow flicking while the chrome is actively displaying a popup
     // menu, or the image is zoomed, or we're cropping. When images are zoomed,
     // mouse drags should pan, not flick.
-    interactive: !chrome.popupActive && (currentItem != null) &&
+    interactive: (currentItem != null) &&
                  (currentItem.state == "unzoomed") && cropper.state == "hidden"
-
-    Timer {
-      id: chromeFadeWaitClock
-
-      interval: 100
-      running: false
-
-      onTriggered: chrome.flipVisibility(true)
-    }
 
     AnimatedImage {
       id: busySpinner
@@ -187,20 +163,6 @@ Rectangle {
       visible: false
       anchors.centerIn: parent
       source: "../img/spin.mng"
-    }
-
-    // Used for supporting swiping from the bottom of the display upward;
-    // prevent the app from interpreting it as prev/next photo and force
-    // the toolbar to show.
-    MouseArea {
-      enabled: !(chrome.visible)
-      preventStealing: true
-
-      anchors.bottom: parent.bottom
-      width: parent.width
-      height: units.gu(1)
-
-      onReleased: chrome.show(true)
     }
 
     ChromeBar {
@@ -313,8 +275,6 @@ Rectangle {
     property var targetPhoto
 
     function show(photo) {
-      chrome.hide(true);
-      
       targetPhoto = photo;
       
       fadeOutPhotoAnimation.running = true;
