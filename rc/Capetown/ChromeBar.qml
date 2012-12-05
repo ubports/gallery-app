@@ -47,6 +47,7 @@ Item {
         property int __pressedY
         onPressed: {
             __pressedY = mouse.y;
+            mouse.accepted = true;
         }
 
         onReleased: {
@@ -132,13 +133,4 @@ Item {
             } // Column
         } // Item - bar
     } // MouseArea
-
-//    Rectangle {
-//        id: orangeRect
-//        color: "#f37505"
-//        height: units.dp(3)
-//        anchors.left: parent.left
-//        anchors.right: parent.right
-//        anchors.bottom: parent.bottom
-//    }
 }
