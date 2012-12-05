@@ -64,7 +64,7 @@ GalleryApplication::GalleryApplication(int& argc, char** argv) :
   form_factors_.insert("phone", QSize(71, 40));
   form_factors_.insert("sidebar", QSize(71, 40));
 
-  pictures_dir_ = QDir(QString("%1/Pictures").arg(QDir::homePath()));
+  pictures_dir_ = QDir(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation));
 
   register_qml();
   process_args();
@@ -259,7 +259,7 @@ void GalleryApplication::setObjectOwnership(QObject* object, QQmlEngine::ObjectO
 }
 
 void GalleryApplication::on_media_item_added(QFileInfo item_info) {
-  Photo* new_photo = Photo::Load(item_info, true);
+  Photo* new_photo = Photo::Fetch(item_info);
   
   if (new_photo)
     MediaCollection::instance()->Add(new_photo);

@@ -92,35 +92,40 @@ Item {
       monitored: true
     }
 
-    // TODO: rounded corners.
-    GalleryPhotoComponent {
-      id: photoComponent
+    // Using a plain UbuntuShape/Image instead of a UbuntuPhotoComponent for
+    // performance reasons. Therefore some duplication might be needed
+    UbuntuShape {
+      id: thumbnail
 
       property int patternPhoto: index % mediaPerPattern
       property int patternNumber: Math.floor(index / mediaPerPattern)
-      property var modelMediaSource: model.mediaSource
+      property bool isInLoadArea: x <= loadAreaRight && x + width >= loadAreaLeft
 
       x: photosLeftMargin + photoX[patternPhoto] + patternWidth * patternNumber
       y: photosTopMargin + photoY[patternPhoto]
       
       width: photoSize[patternPhoto]
       height: photoSize[patternPhoto]
-      
-      load: (x <= loadAreaRight) && (x + width >= loadAreaLeft)
-      mediaSource: modelMediaSource
-      
-      ownerName: "OrganicMediaList"
-      isCropped: true
-      isPreview: true
+
+      visible: isInLoadArea
+
+      image: Image {
+        source: (thumbnail.isInLoadArea && model.mediaSource
+                 ? model.mediaSource.galleryPreviewPath : "")
+        sourceSize.width: bigSize
+        sourceSize.height: bigSize
+        fillMode: Image.PreserveAspectCrop
+        asynchronous: true
+      }
 
       OrganicItemInteraction {
-        selectionItem: photoComponent.modelMediaSource
+        selectionItem: model.mediaSource
         selection: organicMediaList.selection
 
         onPressed: {
-          var rect = GalleryUtility.getRectRelativeTo(photoComponent,
+          var rect = GalleryUtility.getRectRelativeTo(thumbnail,
                                                       organicMediaList);
-          organicMediaList.pressed(photoComponent.modelMediaSource, rect);
+          organicMediaList.pressed(selectionItem, rect);
         }
       }
 

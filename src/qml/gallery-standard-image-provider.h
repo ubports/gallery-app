@@ -33,6 +33,23 @@
 
 #include "photo/photo-metadata.h"
 
+/*
+ * Gallery uses a custom image provider for three reasons:
+ *
+ * 1. QML's image loader does not respect EXIF orientation.  This provider will
+ *    rotate and mirror the image as necessary.
+ *
+ * 2. QML's image caching appears to be directly related to image size (scaling)
+ *    which leads to thrashing when animating a thumbnail or loading images at
+ *    various sizes (such as in the album viewer versus the photo viewer).
+ *    The strategy here is to cache the largest requested size of the image
+ *    and allow QML to downscale it as necessary.  This minimizes expensive
+ *    JPEG load-and-decodes.
+ *
+ * 3. Logging (enabled with --log-image-loading) allows for monitoring of
+ *    all image I/O, useful when debugging and optimizing.
+ */
+
 class GalleryStandardImageProvider
   : public QObject, public QQuickImageProvider {
   Q_OBJECT
@@ -40,6 +57,9 @@ class GalleryStandardImageProvider
  public:
   static const char* PROVIDER_ID;
   static const char* PROVIDER_ID_SCHEME;
+  
+  static const char* REVISION_PARAM_NAME;
+  static const char* ORIENTATION_PARAM_NAME;
   
   virtual ~GalleryStandardImageProvider();
   
@@ -56,10 +76,12 @@ class GalleryStandardImageProvider
   class CachedImage {
    public:
     const QString id_;
+    const QUrl uri_;
     const QString file_;
     QMutex imageMutex_;
     
     // these fields should only be accessed when imageMutex_ is locked
+    bool hasOrientation_;
     QImage image_;
     QSize fullSize_;
     Orientation orientation_;
