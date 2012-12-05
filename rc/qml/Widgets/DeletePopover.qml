@@ -43,6 +43,7 @@ Popover {
             text: "Delete photo"
             onClicked: {
                 model.destroyMedia(photo);
+                photoViewer.currentIndexChanged();
                 deletePopover.finishRemove();
                 deletePopover.hide();
             }
