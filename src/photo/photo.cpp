@@ -115,7 +115,9 @@ Photo* Photo::Fetch(const QFileInfo& file) {
   Photo* p = MediaCollection::instance()->photoFromFileinfo(file);
   if (p == NULL) {
     p = Load(file);
-    PreviewManager::instance()->ensure_preview_for_media(p);
+
+    if (p != NULL)
+      PreviewManager::instance()->ensure_preview_for_media(p);
   }
 
   return p;

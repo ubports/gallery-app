@@ -133,5 +133,5 @@ void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
 }
 
 Photo* MediaCollection::photoFromFileinfo(QFileInfo file_to_load) {
-  return file_photo_map_.value(file_to_load.absoluteFilePath() ,NULL);
+  return file_photo_map_.value(file_to_load.absoluteFilePath(), NULL);
 }
