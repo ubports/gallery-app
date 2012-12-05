@@ -12,10 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- * Jim Nelson <jim@yorba.org>
- * Lucas Beeler <lucas@yorba.org>
  */
 
 import QtQuick 2.0
@@ -54,24 +50,10 @@ Rectangle {
             delegate.visible = show;
     }
 
-    // FIXME: If the state is not used anywhere, remove it.
-    state: "eventView"
-
-    states: [
-        State { name: "eventView"; },
-        State { name: "albumView"; }
-    ]
-
-//    onStateChanged: {
-//        if (state == "albumView")
-//            albumsCheckerboardLoader.load();
-//    }
-
     Tabs {
         anchors.fill: parent
         ItemStyle.class: "new-tabs"
         Component.onCompleted: ItemStyle.style.swipeToSwitchTabs = false
-//        ItemStyle.style.swipeToSwitchTabs: false
 
         selectedTabIndex: 1
         onSelectedTabIndexChanged: {
@@ -97,7 +79,6 @@ Rectangle {
                     Checkerboard {
                         id: albumsCheckerboard
 
-//                        topExtraGutter: navbar.height + getDeviceSpecific("albumGridTopMargin")
                         topExtraGutter: getDeviceSpecific("albumGridTopMargin")
                         bottomExtraGutter: getDeviceSpecific("albumGridGutterHeight") / 2
                         leftExtraGutter: getDeviceSpecific("albumGridLeftMargin")
@@ -183,18 +164,6 @@ Rectangle {
                             var albumRect = GalleryUtility.translateRect(activatedRect, albumsCheckerboard, overview);
                             albumSelected(object, albumRect);
                         }
-
-//                        onMovementStarted: {
-//                            scrollOrchestrator.viewMovementStarted(contentY);
-//                        }
-
-//                        onContentYChanged: {
-//                            scrollOrchestrator.viewScrolled(contentY);
-//                        }
-
-//                        onMovementEnded: {
-//                            scrollOrchestrator.viewMovementEnded(contentY);
-//                        }
                     }
                 }
             }
@@ -206,7 +175,6 @@ Rectangle {
                 id: eventView
 
                 anchors.fill: parent
-//                anchors.topMargin: navbar.height
                 visible: true
 
                 onMediaSourcePressed: {
