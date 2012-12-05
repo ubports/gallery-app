@@ -150,6 +150,16 @@ Rectangle {
       load: galleryPhotoViewer.load
 
       ownerName: "galleryPhotoViewer"
+
+      onClicked: chromeFadeWaitClock.restart()
+      onZoomed: {
+          chromeFadeWaitClock.stop();
+          chromeBar.setBarShown(false);
+      }
+      onUnzoomed: {
+          chromeFadeWaitClock.stop();
+          chromeBar.setBarShown(false);
+      }
     }
 
     // Don't allow flicking while the chrome is actively displaying a popup
@@ -157,6 +167,15 @@ Rectangle {
     // mouse drags should pan, not flick.
     interactive: (currentItem != null) &&
                  (currentItem.state == "unzoomed") && cropper.state == "hidden"
+
+    Timer {
+      id: chromeFadeWaitClock
+
+      interval: 100
+      running: false
+
+      onTriggered: chromeBar.setBarShown(!chromeBar.showChromeBar)
+    }
 
     AnimatedImage {
       id: busySpinner

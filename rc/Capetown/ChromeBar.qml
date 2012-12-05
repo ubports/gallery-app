@@ -5,13 +5,14 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 Item {
     id: chromeBar
     property alias buttonsModel: buttonsRepeater.model
-    property bool showChromeBar: true
+//    property bool showChromeBar: true
+    property alias showChromeBar: bar.shown
     property bool showBackButton: true
 
     signal buttonClicked(var buttonName, var button)
     signal backButtonClicked()
 
-    enabled: chromeBar.showChromeBar && (showBackButton || (buttonsRepeater.count > 0))
+    enabled: showBackButton || (buttonsRepeater.count > 0)
     anchors.left: parent.left
     anchors.right: parent.right
     height: bar.height - bar.y
