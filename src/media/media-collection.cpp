@@ -103,6 +103,11 @@ void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
     while (i.hasNext()) {
       DataObject* o = i.next();
       id_map_.insert(qobject_cast<MediaSource*>(o)->get_id(), o);
+
+      Photo* p = qobject_cast<Photo*>(o);
+      if (p != NULL) {
+        file_photo_map_.insert(p->file().absoluteFilePath(), p);
+      }
     }
   }
   
@@ -111,6 +116,12 @@ void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
     while (i.hasNext()) {
       DataObject* o = i.next();
       MediaSource* media = qobject_cast<MediaSource*>(o);
+
+      Photo* p = qobject_cast<Photo*>(o);
+      if (p != NULL) {
+        file_photo_map_.remove(p->file().absoluteFilePath());
+      }
+
       id_map_.remove(media->get_id());
       
       // TODO: In the future we may want to do this in the Destroy method
@@ -119,4 +130,8 @@ void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
       Database::instance()->get_media_table()->remove(media->get_id());
     }
   }
+}
+
+Photo* MediaCollection::photoFromFileinfo(QFileInfo file_to_load) {
+  return file_photo_map_.value(file_to_load.absoluteFilePath(), NULL);
 }
