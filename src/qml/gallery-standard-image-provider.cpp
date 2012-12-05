@@ -32,6 +32,9 @@ GalleryStandardImageProvider* GalleryStandardImageProvider::instance_ = NULL;
 const char* GalleryStandardImageProvider::PROVIDER_ID = "gallery-standard";
 const char* GalleryStandardImageProvider::PROVIDER_ID_SCHEME = "image://gallery-standard/";
 
+const char* GalleryStandardImageProvider::REVISION_PARAM_NAME = "edit";
+const char* GalleryStandardImageProvider::ORIENTATION_PARAM_NAME = "orientation";
+
 const long MAX_CACHE_BYTES = 80L * 1024L * 1024L;
 
 // fully load previews into memory when requested
@@ -197,17 +200,21 @@ QImage GalleryStandardImageProvider::fetch_cached_image(CachedImage *cachedImage
       if (!fullSize.isValid())
         fullSize = readyImage.size();
       
+      // If orientation not supplied in URI, load from file and save in cache
       Orientation orientation = TOP_LEFT_ORIGIN;
+      if (cachedImage->hasOrientation_) {
+        orientation = cachedImage->orientation_;
+      } else {
+        std::auto_ptr<PhotoMetadata> metadata(PhotoMetadata::FromFile(
+          cachedImage->file_));
+        if (metadata.get() != NULL)
+          orientation = metadata->orientation();
+      }
       
-      // apply orientation if necessary
-      // TODO: Would be more efficient if the caller supplied a known orientation from the
-      // media database or, if a thumbnail, a TOP LEFT orientation to skip checking anyway
-      std::auto_ptr<PhotoMetadata> metadata(PhotoMetadata::FromFile(cachedImage->file_));
-      if (metadata.get() != NULL) {
-        orientation = metadata->orientation();
-        
-        if (orientation != TOP_LEFT_ORIGIN)
-          readyImage = readyImage.transformed(metadata->orientation_transform());
+      // rotate image if not TOP LEFT
+      if (orientation != TOP_LEFT_ORIGIN)  {
+        readyImage = readyImage.transformed(
+          OrientationCorrection::FromOrientation(orientation).to_transform());
       }
       
       cachedImage->storeImage(readyImage, fullSize, orientation);
@@ -304,8 +311,20 @@ QSize GalleryStandardImageProvider::orientSize(const QSize& size, Orientation or
  */
 
 GalleryStandardImageProvider::CachedImage::CachedImage(const QString& id)
-  : id_(id), file_(idToFile(id)), orientation_(TOP_LEFT_ORIGIN), inUseCount_(0),
-    byteCount_(0) {
+  : id_(id), uri_(id), file_(idToFile(id)), hasOrientation_(false),
+  orientation_(TOP_LEFT_ORIGIN), inUseCount_(0), byteCount_(0) {
+  QUrlQuery query(uri_);
+  if (query.hasQueryItem(ORIENTATION_PARAM_NAME)) {
+    QString value = query.queryItemValue(ORIENTATION_PARAM_NAME);
+    if (!value.isEmpty()) {
+      bool ok = false;
+      int toInt = value.toInt(&ok);
+      if (ok && toInt >= MIN_ORIENTATION && toInt <= MAX_ORIENTATION) {
+        orientation_ = (Orientation) toInt;
+        hasOrientation_ = true;
+      }
+    }
+  }
 }
 
 QString GalleryStandardImageProvider::CachedImage::idToFile(const QString& id) {
@@ -316,6 +335,7 @@ void GalleryStandardImageProvider::CachedImage::storeImage(const QImage& image,
   const QSize& fullSize, Orientation orientation) {
   image_ = image;
   fullSize_ = orientSize(fullSize, orientation);
+  hasOrientation_ = true;
   orientation_ = orientation;
 }
 

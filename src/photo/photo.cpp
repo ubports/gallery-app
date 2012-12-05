@@ -21,9 +21,11 @@
  */
 
 #include "photo/photo.h"
+
 #include "database/database.h"
-#include "util/imaging.h"
 #include "media/preview-manager.h"
+#include "qml/gallery-standard-image-provider.h"
+#include "util/imaging.h"
 
 #include <QFileInfo>
 #include <QImage>
@@ -167,13 +169,16 @@ QDateTime Photo::exposure_date_time() const {
 
 QUrl Photo::gallery_path() const {
   QUrl url = MediaSource::gallery_path();
-  append_edit_revision(&url);
+  append_path_params(&url, orientation());
+  
   return url;
 }
 
 QUrl Photo::gallery_preview_path() const {
   QUrl url = MediaSource::gallery_preview_path();
-  append_edit_revision(&url);
+  // previews are always stored fully transformed
+  append_path_params(&url, TOP_LEFT_ORIGIN);
+  
   return url;
 }
 
@@ -525,16 +530,21 @@ void Photo::create_cached_enhanced() {
   delete metadata;
 }
 
-void Photo::append_edit_revision(QUrl* url) const {
+void Photo::append_path_params(QUrl* url, Orientation orientation) const {
+  QUrlQuery query;
+  query.addQueryItem(GalleryStandardImageProvider::ORIENTATION_PARAM_NAME,
+    QString::number(orientation));
+  
   // Because of QML's aggressive, opaque caching of loaded images, we need to
   // add an arbitrary URL parameter to gallery_path and gallery_preview_path so
   // that loading the same image after an edit will go back to disk instead of
   // just hitting the cache.
   if (edit_revision_ != 0) {
-    QUrlQuery url_query;
-    url_query.addQueryItem("edit", QString::number(edit_revision_));
-    url->setQuery(url_query);
+    query.addQueryItem(GalleryStandardImageProvider::REVISION_PARAM_NAME,
+      QString::number(edit_revision_));
   }
+  
+  url->setQuery(query);
 }
 
 bool Photo::file_format_has_metadata() const {

@@ -133,7 +133,7 @@ class Photo : public MediaSource {
   void save(const PhotoEditState& state, Orientation old_orientation);
   void edit_file(const PhotoEditState& state);
   void create_cached_enhanced();
-  void append_edit_revision(QUrl* url) const;
+  void append_path_params(QUrl* url, Orientation orientation) const;
   void handle_simple_metadata_rotation(const PhotoEditState& state);
   bool file_format_has_metadata() const;
   bool file_format_has_orientation() const;
