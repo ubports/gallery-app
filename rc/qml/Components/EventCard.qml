@@ -26,6 +26,7 @@ import "../../js/Gallery.js" as Gallery
 UbuntuShape {
   id: eventCard
 
+  radius: "medium"
   property variant event
   property color textColor: "#888888"
 
@@ -40,7 +41,9 @@ UbuntuShape {
     y: units.gu(0.5)
     width: parent.width
 
-    font.family: "Ubuntu Regular"
+    font.family: "Ubuntu"
+    font.weight: Font.DemiBold
+
     font.pixelSize: units.dp(62)
     color: textColor
 
