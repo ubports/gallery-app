@@ -24,6 +24,8 @@ Item {
 
     onButtonsModelChanged: setBarShown(false)
 
+    Component.onCompleted: setBarShown(false)
+
     function setBarShown(shown) {
         if (shown) {
             bar.y = 0;
