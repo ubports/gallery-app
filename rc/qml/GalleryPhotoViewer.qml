@@ -21,6 +21,8 @@
 import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 0.1
+import Ubuntu.Components.Popups 0.1
+import Ubuntu.Components.ListItems 0.1 as ListItem
 import "../Capetown"
 import "../Capetown/Viewer"
 import "Components"
@@ -57,12 +59,10 @@ Rectangle {
 
   function setCurrentIndex(index) {
     galleryPhotoViewer.setCurrentIndex(index);
-    chrome.resetVisibility(true);
   }
 
   function setCurrentPhoto(photo) {
     galleryPhotoViewer.setCurrentPhoto(photo);
-    chrome.resetVisibility(true);
   }
 
   function goBack() {
@@ -118,17 +118,15 @@ Rectangle {
     function updateBusy() {
       if (photo.busy) {
         busySpinner.visible = true;
-        // HACK: chrome.hide() doesn't work here for some reason.
-        chrome.visible = false;
       } else {
         busySpinner.visible = false;
-        chrome.visible = true;
       }
     }
 
     onCurrentIndexChanged: {
       if (model)
         photo = model.getAt(currentIndex);
+      chromeBar.setBarShown(false);
     }
 
     delegate: ZoomablePhotoComponent {
@@ -153,21 +151,21 @@ Rectangle {
 
       ownerName: "galleryPhotoViewer"
 
-      onClicked: chromeFadeWaitClock.restart();
+      onClicked: chromeFadeWaitClock.restart()
       onZoomed: {
-        chromeFadeWaitClock.stop();
-        chrome.hide(true);
+          chromeFadeWaitClock.stop();
+          chromeBar.setBarShown(false);
       }
       onUnzoomed: {
-        chromeFadeWaitClock.stop();
-        chrome.hide(true);
+          chromeFadeWaitClock.stop();
+          chromeBar.setBarShown(false);
       }
     }
 
     // Don't allow flicking while the chrome is actively displaying a popup
     // menu, or the image is zoomed, or we're cropping. When images are zoomed,
     // mouse drags should pan, not flick.
-    interactive: !chrome.popupActive && (currentItem != null) &&
+    interactive: (currentItem != null) &&
                  (currentItem.state == "unzoomed") && cropper.state == "hidden"
 
     Timer {
@@ -176,7 +174,7 @@ Rectangle {
       interval: 100
       running: false
 
-      onTriggered: chrome.flipVisibility(true)
+      onTriggered: chromeBar.setBarShown(!chromeBar.showChromeBar)
     }
 
     AnimatedImage {
@@ -187,235 +185,116 @@ Rectangle {
       source: "../img/spin.mng"
     }
 
-    // Used for supporting swiping from the bottom of the display upward;
-    // prevent the app from interpreting it as prev/next photo and force
-    // the toolbar to show.
-    MouseArea {
-      enabled: !(chrome.visible)
-      preventStealing: true
+    ChromeBar {
+        id: chromeBar
+        z: 100
+        anchors {
+            bottom: parent.bottom
+            left: parent.left
+            right: parent.right
+        }
+        buttonsModel: ListModel {
+            ListElement {
+                label: "Edit"
+                name: "edit"
+                icon: "../img/edit.png"
+            }
+            ListElement {
+                label: "Add"
+                name: "add"
+                icon: "../img/add.png"
+            }
+            ListElement {
+                label: "Delete"
+                name: "delete"
+                icon: "../img/delete.png"
+            }
+            ListElement {
+                label: "Share"
+                name: "share"
+                icon: "../img/share.png"
+            }
+        }
+        showChromeBar: true
 
-      anchors.bottom: parent.bottom
-      width: parent.width
-      height: units.gu(1)
+        onBackButtonClicked:  {
+            galleryPhotoViewer.currentItem.state = "unzoomed";
+            closeRequested();
+        }
 
-      onReleased: chrome.show(true)
+        onButtonClicked: {
+            switch (buttonName) {
+            case "share": {
+                sharePopover.caller = button;
+                sharePopover.show();
+                break;
+            }
+            case "delete": {
+                deletePopover.caller = button;
+                deletePopover.show();
+                break;
+            }
+            case "add": {
+                chromeBar.setBarShown(false);
+                popupAlbumPicker.visible = true;
+                break;
+            }
+            case "edit": {
+                editPopover.caller = button;
+                editPopover.show();
+                break;
+            }
+            }
+        }
+
+        SharePopover {
+            id: sharePopover
+            visible: false
+        }
+
+        DeletePopover {
+            visible: false
+            id: deletePopover
+            album: viewerWrapper.album
+            photo: viewerWrapper.photo
+            model: viewerWrapper.model
+            photoViewer: galleryPhotoViewer
+        }
+
+        EditPopover {
+            id: editPopover
+            visible: false
+            photo: galleryPhotoViewer.photo
+            cropper: viewerWrapper.cropper
+        }
     }
 
-    ViewerChrome {
-      id: chrome
-
-      z: 10
-      anchors.fill: parent
-
-      autoHideWait: 8000
-
-      toolbarsAreTextured: false
-      toolbarsAreTranslucent: true
-      toolbarsAreDark: true
-
-      toolbarHasEditOperationsButton: true
-
-      // TODO: re-enable navigation buttons; we've removed them here because
-      //       they're not desired for the CES phone demo
-      hasLeftNavigationButton: false
-      hasRightNavigationButton: false
-
-      onLeftNavigationButtonPressed: galleryPhotoViewer.goBack()
-      onRightNavigationButtonPressed: galleryPhotoViewer.goForward()
-
-      popups: [ photoViewerShareMenu, photoViewerOptionsMenu,
-        trashOperationDialog, trashOrRemoveOperationDialog, popupAlbumPicker,
-        editMenu ]
-
-      GenericShareMenu {
-        id: photoViewerShareMenu
-
-        popupOriginX: -units.gu(8.5)
-        popupOriginY: -units.gu(6)
-
-        onActionInvoked: {
-          switch (name) {
-            case "onQuickShare": {
-              shareImage(photo);
-              break;
-            }
-          }
-        }
-
-        onPopupInteractionCompleted: {
-          chrome.hideAllPopups();
-        }
-
-        visible: false
-      }
-
-      PhotoViewerOptionsMenu {
-        id: photoViewerOptionsMenu
-
-        popupOriginX: -units.gu(0.5)
-        popupOriginY: -units.gu(6)
-
-        onPopupInteractionCompleted: {
-          chrome.hideAllPopups();
-        }
-
-        visible: false
-
-        onActionInvoked: {
-          // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you
-          // edit a switch statement in QML.  The short version is: use braces
-          // always.
-          switch (name) {
-            case "onEdit": {
-              photoViewer.editRequested(photo);
-              break;
-            }
-          }
-        }
-      }
-      
-      // Shown when launched from event view.
-      DeleteDialog {
-        id: trashOperationDialog
-        
-        actionTitle: "Delete Photo"
-        
-        popupOriginX: -units.gu(24.5)
-        popupOriginY: -units.gu(6)
-
-        onPopupInteractionCompleted: {
-          chrome.hideAllPopups();
-        }
-
-        visible: false
-
-        onDeleteRequested: {
-          model.destroyMedia(photo);
-
-          if (model.count == 0)
-            photoViewer.closeRequested();
-        }
-      }
-      
-      // Shown when launched from album view.
-      DeleteRemoveDialog {
-        id: trashOrRemoveOperationDialog
-        
-        // internal
-        function finishRemove() {
-          if (model.count === 0)
-            photoViewer.closeRequested();
-        }
-        
-        action0Title: "Remove from album"
-        action1Title: "Delete photo"
-        
-        popupOriginX: -units.gu(24.5)
-        popupOriginY: -units.gu(6)
-        
-        visible: false
-        
-        onRemoveRequested: {
-          viewerWrapper.album.removeMediaSource(photo);
-          finishRemove();
-        }
-        
-        onDeleteRequested: {
-          model.destroyMedia(photo);
-          finishRemove();
-        }
-        
-        onPopupInteractionCompleted: chrome.hideAllPopups()
-      }
-
-      PhotoEditMenu {
-        id: editMenu
-
-        popupOriginX: units.gu(3.5)
-        popupOriginY: -units.gu(6)
-
-        onPopupInteractionCompleted: chrome.hideAllPopups()
-
-        visible: false
-
-        onActionInvoked: {
-          // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you edit
-          // a switch statement in QML.  The short version is: use braces always.
-          switch (name) {
-            case "onRotate": {
-              state = "hidden";
-              photo.rotateRight();
-              break;
-            }
-            case "onCrop": {
-              state = "hidden";
-              cropper.show(photo);
-              break;
-            }
-            case "onAutoEnhance": {
-              state = "hidden";
-              photo.autoEnhance();
-              break;
-            }
-            case "onUndo": {
-              state = "hidden";
-              photo.undo();
-              break;
-            }
-            case "onRedo": {
-              state = "hidden";
-              photo.redo();
-              break;
-            }
-            case "onRevert": {
-              state = "hidden";
-              photo.revertToOriginal();
-              break;
-            }
-          }
-        }
-      }
-
-      PopupAlbumPicker {
+    PopupAlbumPicker {
         id: popupAlbumPicker
 
         popupOriginX: -units.gu(17.5)
         popupOriginY: -units.gu(6)
 
         onPopupInteractionCompleted: {
-          chrome.hideAllPopups();
+            visible = false;
         }
 
         onAlbumPicked: album.addMediaSource(photo)
 
         visible: false
-      }
-
-      onReturnButtonPressed: {
-        resetVisibility(false);
-        galleryPhotoViewer.currentItem.state = "unzoomed";
-        closeRequested();
-      }
-
-      onShareOperationsButtonPressed: cyclePopup(photoViewerShareMenu)
-      onMoreOperationsButtonPressed: cyclePopup(photoViewerOptionsMenu)
-      onAlbumOperationsButtonPressed: cyclePopup(popupAlbumPicker)
-      onTrashOperationButtonPressed: cyclePopup(album ? trashOrRemoveOperationDialog : trashOperationDialog)
-      onEditOperationsButtonPressed: cyclePopup(editMenu)
     }
 
     onCloseRequested: viewerWrapper.closeRequested()
     onEditRequested: viewerWrapper.editRequested(photo)
   }
 
+  property alias cropper: cropper
   CropInteractor {
     id: cropper
     
     property var targetPhoto
 
     function show(photo) {
-      chrome.hide(true);
-      
       targetPhoto = photo;
       
       fadeOutPhotoAnimation.running = true;
