@@ -5,7 +5,6 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 Item {
     id: chromeBar
     property alias buttonsModel: buttonsRepeater.model
-//    property bool showChromeBar: true
     property alias showChromeBar: bar.shown
     property bool showBackButton: true
 
@@ -15,7 +14,8 @@ Item {
     enabled: showBackButton || (buttonsRepeater.count > 0)
     anchors.left: parent.left
     anchors.right: parent.right
-    height: bar.height - bar.y
+    anchors.bottom: parent.bottom
+    height: units.gu(6)
 
     onEnabledChanged: {
         if (!enabled) {
@@ -37,15 +37,12 @@ Item {
     }
 
     MouseArea {
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        height: bar.height
+        anchors.fill: parent
         drag.target: bar
         drag.axis: Drag.YAxis
         drag.minimumY: 0
         drag.maximumY: height + bar.height
-        propagateComposedEvents: true
+//        propagateComposedEvents: true
 
         property int __pressedY
         onPressed: {
@@ -67,7 +64,7 @@ Item {
             id: bar
 
             property bool shown: false
-            height: units.gu(6) + orangeRect.height
+            height: units.gu(6) //+ orangeRect.height
             anchors.left: parent.left
             anchors.right: parent.right
             y: parent.height
@@ -136,12 +133,12 @@ Item {
         } // Item - bar
     } // MouseArea
 
-    Rectangle {
-        id: orangeRect
-        color: "#f37505"
-        height: units.dp(3)
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-    }
+//    Rectangle {
+//        id: orangeRect
+//        color: "#f37505"
+//        height: units.dp(3)
+//        anchors.left: parent.left
+//        anchors.right: parent.right
+//        anchors.bottom: parent.bottom
+//    }
 }
