@@ -22,11 +22,15 @@ import "../../Capetown/Widgets"
 Popover {
     id: sharePopover
 
+    property var photo
+
     ShareMenu {
+        id: shareMenu
         anchors {
             left: parent.left
             right: parent.right
             top: parent.top
         }
+        picturePath: photo.path
     }
 }
