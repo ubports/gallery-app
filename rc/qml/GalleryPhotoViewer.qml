@@ -126,6 +126,7 @@ Rectangle {
     onCurrentIndexChanged: {
       if (model)
         photo = model.getAt(currentIndex);
+      chromeBar.setBarShown(false);
     }
 
     delegate: ZoomablePhotoComponent {
