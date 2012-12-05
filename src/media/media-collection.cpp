@@ -78,14 +78,17 @@ const QDir& MediaCollection::directory() const {
 
 bool MediaCollection::ExposureDateTimeAscendingComparator(DataObject* a,
   DataObject* b) {
-  return
-    qobject_cast<MediaSource*>(a)->exposure_date_time() < qobject_cast<MediaSource*>(b)->exposure_date_time();
+  if (qobject_cast<MediaSource*>(a)->exposure_date_time() ==
+    qobject_cast<MediaSource*>(b)->exposure_date_time())
+    return DataCollection::DefaultDataObjectComparator(a, b);
+  else
+    return qobject_cast<MediaSource*>(a)->exposure_date_time() <
+      qobject_cast<MediaSource*>(b)->exposure_date_time();
 }
 
 bool MediaCollection::ExposureDateTimeDescendingComparator(DataObject* a,
   DataObject* b) {
-  return
-    qobject_cast<MediaSource*>(a)->exposure_date_time() > qobject_cast<MediaSource*>(b)->exposure_date_time();
+  return !ExposureDateTimeAscendingComparator(a, b);
 }
 
 MediaSource* MediaCollection::mediaForId(qint64 id) {
