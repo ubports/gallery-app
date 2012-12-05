@@ -113,10 +113,10 @@ Photo* Photo::Load(const QFileInfo& file) {
 
 Photo* Photo::Fetch(const QFileInfo& file) {
   Photo* p = MediaCollection::instance()->photoFromFileinfo(file);
-  if (p == NULL)
+  if (p == NULL) {
     p = Load(file);
-
-  PreviewManager::instance()->ensure_preview_for_media(p);
+    PreviewManager::instance()->ensure_preview_for_media(p);
+  }
 
   return p;
 }
