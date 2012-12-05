@@ -184,17 +184,17 @@ Rectangle {
                             albumSelected(object, albumRect);
                         }
 
-                        onMovementStarted: {
-                            scrollOrchestrator.viewMovementStarted(contentY);
-                        }
+//                        onMovementStarted: {
+//                            scrollOrchestrator.viewMovementStarted(contentY);
+//                        }
 
-                        onContentYChanged: {
-                            scrollOrchestrator.viewScrolled(contentY);
-                        }
+//                        onContentYChanged: {
+//                            scrollOrchestrator.viewScrolled(contentY);
+//                        }
 
-                        onMovementEnded: {
-                            scrollOrchestrator.viewMovementEnded(contentY);
-                        }
+//                        onMovementEnded: {
+//                            scrollOrchestrator.viewMovementEnded(contentY);
+//                        }
                     }
                 }
             }
