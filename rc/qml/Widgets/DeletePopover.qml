@@ -43,8 +43,8 @@ Popover {
             text: "Delete photo"
             onClicked: {
                 model.destroyMedia(photo);
-                thePopover.finishRemove();
-                PopupUtils.close(thePopover);
+                deletePopover.finishRemove();
+                deletePopover.hide();
             }
         }
 
@@ -52,8 +52,8 @@ Popover {
             text: "Remove from album"
             onClicked: {
                 album.removeMediaSource(photo);
-                thePopover.finishRemove();
-                PopupUtils.close(thePopover);
+                deletePopover.finishRemove();
+                deletePopover.hide();
             }
             visible: (album !== undefined)
         }
