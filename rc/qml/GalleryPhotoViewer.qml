@@ -225,7 +225,7 @@ Rectangle {
         onButtonClicked: {
             switch (buttonName) {
             case "share": {
-                sharePopover.photo = viewerWrapper.photo;
+                sharePopover.picturePath = viewerWrapper.photo.path;
                 sharePopover.caller = button;
                 sharePopover.show();
                 break;

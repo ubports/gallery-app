@@ -22,7 +22,7 @@ import "../../Capetown/Widgets"
 Popover {
     id: sharePopover
 
-    property var photo
+    property alias picturePath: shareMenu.picturePath
 
     ShareMenu {
         id: shareMenu
@@ -31,6 +31,5 @@ Popover {
             right: parent.right
             top: parent.top
         }
-        picturePath: photo.path
     }
 }
