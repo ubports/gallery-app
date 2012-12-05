@@ -25,7 +25,6 @@ Item {
 
   Component.onCompleted: navStack.switchToPage(overview)
 
-//  Overview {
   TabView {
     id: overview
 
