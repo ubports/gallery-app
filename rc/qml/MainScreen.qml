@@ -25,7 +25,8 @@ Item {
 
   Component.onCompleted: navStack.switchToPage(overview)
 
-  Overview {
+//  Overview {
+  TabView {
     id: overview
 
     anchors.fill: parent
