@@ -31,6 +31,7 @@
 #include <QApplication>
 
 #include "media/media-source.h"
+#include "media/media-collection.h"
 #include "photo/photo-metadata.h"
 #include "photo/photo-edit-state.h"
 #include "photo/photo-caches.h"
@@ -84,12 +85,14 @@ class Photo : public MediaSource {
   
   // Loads a photo object from the given file.  If it's not already
   // present in the database, it will be added.  If the file is not
-  // valid return null. The optional ensure_thumbnail parameter will force
-  // a preview thumbnail for the new photo to be generated synchronously. If
-  // ensure_thumbnail is true, when this method returns a non-null value, a
-  // thumbnail preview for the new photo is guaranteed to exist.
-  static Photo* Load(const QFileInfo& file, bool ensure_thumbnail = false);
+  // valid return null.
+  static Photo* Load(const QFileInfo& file);
   
+  // Loads a photo object from the given file and generates a thumbnail for it
+  // if and only if it hasn't already been loaded; otherwise, it attempts to
+  // return the existing object instead. Uses Photo.Load() to do its work.
+  static Photo* Fetch(const QFileInfo& file);
+
   explicit Photo(const QFileInfo& file);
   virtual ~Photo();
   
