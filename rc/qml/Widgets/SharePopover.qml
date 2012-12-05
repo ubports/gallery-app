@@ -17,40 +17,16 @@
 import QtQuick 2.0
 import Ubuntu.Components.Popups 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
+import "../../Capetown/Widgets"
 
 Popover {
     id: sharePopover
-    Column {
+
+    ShareMenu {
         anchors {
             left: parent.left
             right: parent.right
             top: parent.top
-        }
-        ListItem.Header { text: "Dummy share menu" }
-        ListItem.Subtitled {
-            text: "Facebook"
-            subText: "calumpringle"
-            onClicked: hide()
-        }
-        ListItem.Subtitled {
-            text: "Twitter"
-            subText: "@ckpringle"
-            onClicked: hide()
-        }
-        ListItem.Subtitled {
-            text: "Ubuntu One"
-            subText: "ckpringle"
-            onClicked: hide()
-        }
-        ListItem.Subtitled {
-            text: "Gmail"
-            subText: "calumpringle@gmail.com"
-            onClicked: hide()
-        }
-        ListItem.Subtitled {
-            text: "Pinterest"
-            subText: "ckpringle@yahoo.co.uk"
-            onClicked: hide()
         }
     }
 }
