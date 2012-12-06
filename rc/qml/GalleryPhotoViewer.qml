@@ -199,7 +199,7 @@ Item {
             }
             ListElement {
                 label: "Add"
-                name: "add"
+                name: "disabled"
                 icon: "../img/add.png"
             }
             ListElement {
@@ -250,7 +250,7 @@ Item {
             visible: false
         }
 
-        DeletePopover {
+        DeleteSinglePhotoPopover {
             visible: false
             id: deletePopover
             album: viewerWrapper.album
