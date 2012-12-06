@@ -107,6 +107,8 @@ Rectangle {
       Checkerboard {
         id: albumsCheckerboard
         
+        property bool animationRunning: false
+        
         topExtraGutter: navbar.height + getDeviceSpecific("albumGridTopMargin")
         bottomExtraGutter: getDeviceSpecific("albumGridGutterHeight") / 2
         leftExtraGutter: getDeviceSpecific("albumGridLeftMargin")
@@ -160,7 +162,7 @@ Rectangle {
           onSwiped: {
             if (!validSwipe)
               return;
-    
+            
             var fraction = (leftToRight
               ? 1 - albumThumbnail.openFraction
               : albumThumbnail.openFraction);
@@ -181,7 +183,11 @@ Rectangle {
     
             album: modelData.album
             load: true
-    
+            
+            onIsFlippingChanged: {
+              animationRunning = isFlipping
+            }
+            
             // Scale from 1 to 1 + maxAddScale and back to 1 as openFraction goes
             // from 0 to 0.5 to 1.
             scale: 1 + maxAddScale - Math.abs((openFraction - 0.5) * maxAddScale * 2)
@@ -488,6 +494,7 @@ Rectangle {
     anchors.fill: parent
     
     visible: (photoViewerLoader.item && photoViewerLoader.item.animationRunning) || 
-      albumEditorTransition.animationRunning || albumEditor.animationRunning
+      albumEditorTransition.animationRunning || albumEditor.animationRunning ||
+      (albumsCheckerboardLoader.item && albumsCheckerboardLoader.item.animationRunning)
   }
 }
