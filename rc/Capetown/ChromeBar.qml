@@ -8,6 +8,9 @@ Item {
     property alias showChromeBar: bar.shown
     property bool showBackButton: true
 
+    property alias backButtonText: backButton.text
+    property alias backButtonIcon: backButton.icon
+
     signal buttonClicked(var buttonName, var button)
     signal backButtonClicked()
 
@@ -42,7 +45,7 @@ Item {
         drag.axis: Drag.YAxis
         drag.minimumY: 0
         drag.maximumY: height + bar.height
-//        propagateComposedEvents: true
+        propagateComposedEvents: true
 
         property int __pressedY
         onPressed: {
@@ -124,13 +127,14 @@ Item {
                                 text: model.label
                                 icon: model.icon
                                 objectName: model.name
+                                enabled: (objectName !== "disabled")
                                 anchors.top: parent.top
                                 onClicked: buttonClicked(model.name, chromeButton)
                             }
-                        } // Repeater
-                    } // Row
-                } // Item
-            } // Column
-        } // Item - bar
-    } // MouseArea
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
