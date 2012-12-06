@@ -235,6 +235,10 @@ DataObjectComparator DataCollection::comparator() const {
   return comparator_;
 }
 
+// NOTE: this comparator function expects the API contract of
+//       DataObject::number() to return the same value for the same logical
+//       data object across invocations of Gallery. Right now, this contract
+//       is tenuously maintained. See the TODO item in DataObject.h.
 bool DataCollection::DefaultDataObjectComparator(DataObject* a, DataObject* b) {
   return a->number() < b->number();
 }

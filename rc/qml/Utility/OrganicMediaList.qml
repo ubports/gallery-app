@@ -108,6 +108,8 @@ Item {
       width: photoSize[patternPhoto]
       height: photoSize[patternPhoto]
 
+      radius: "medium"
+
       visible: isInLoadArea
 
       image: Image {
