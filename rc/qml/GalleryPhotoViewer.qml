@@ -199,11 +199,11 @@ Rectangle {
                 name: "edit"
                 icon: "../img/edit.png"
             }
-            ListElement {
-                label: "Add"
-                name: "add"
-                icon: "../img/add.png"
-            }
+//            ListElement {
+//                label: "Add"
+//                name: "add"
+//                icon: "../img/add.png"
+//            }
             ListElement {
                 label: "Delete"
                 name: "delete"
@@ -269,20 +269,20 @@ Rectangle {
         }
     }
 
-    PopupAlbumPicker {
-        id: popupAlbumPicker
+//    PopupAlbumPicker {
+//        id: popupAlbumPicker
 
-        popupOriginX: -units.gu(17.5)
-        popupOriginY: -units.gu(6)
+//        popupOriginX: -units.gu(17.5)
+//        popupOriginY: -units.gu(6)
 
-        onPopupInteractionCompleted: {
-            visible = false;
-        }
+//        onPopupInteractionCompleted: {
+//            visible = false;
+//        }
 
-        onAlbumPicked: album.addMediaSource(photo)
+//        onAlbumPicked: album.addMediaSource(photo)
 
-        visible: false
-    }
+//        visible: false
+//    }
 
     onCloseRequested: viewerWrapper.closeRequested()
     onEditRequested: viewerWrapper.editRequested(photo)
