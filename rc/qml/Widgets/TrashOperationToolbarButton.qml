@@ -20,5 +20,6 @@
 import QtQuick 2.0
 
 StandardToolbarIconButton {
+  objectName: "toolbarTrashButton"
   iconName: "trash"
 }

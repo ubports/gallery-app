@@ -249,12 +249,14 @@ Rectangle {
 
         SharePopover {
             id: sharePopover
+            objectName: "sharePopover"
             visible: false
         }
 
         DeleteSinglePhotoPopover {
             visible: false
             id: deletePopover
+            objectName: "deletePopover"
             album: viewerWrapper.album
             photo: viewerWrapper.photo
             model: viewerWrapper.model
@@ -263,6 +265,7 @@ Rectangle {
 
         EditPopover {
             id: editPopover
+            objectName: "editPopover"
             visible: false
             photo: galleryPhotoViewer.photo
             cropper: viewerWrapper.cropper
@@ -271,6 +274,7 @@ Rectangle {
 
     PopupAlbumPicker {
         id: popupAlbumPicker
+        objectName: "popupAlbumPicker"
 
         popupOriginX: -units.gu(17.5)
         popupOriginY: -units.gu(6)

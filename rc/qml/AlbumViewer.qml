@@ -30,6 +30,7 @@ import "Widgets"
 
 Rectangle {
   id: albumViewer
+  objectName: "albumViewer"
 
   property Album album
   

@@ -145,6 +145,7 @@ Item {
 
       TextEditOnClick {
         id: title
+        objectName: "albumTitleField"
         
         text: (album) ? album.title : ""
         onTextUpdated: album.title = text
@@ -180,6 +181,7 @@ Item {
       
       TextEditOnClick {
         id: subtitle
+        objectName: "albumSubtitleField"
         
         text: (album) ? album.subtitle : ""
         onTextUpdated: album.subtitle = text

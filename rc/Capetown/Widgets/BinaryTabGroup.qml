@@ -58,6 +58,7 @@ Item {
   Row {
     GalleryTab {
       id: tab0;
+      objectName: "toolbarAlbumsTab"
 
       selectedBackgroundSource: "img/tab-left-active.png"
       deselectedBackgroundSource: "img/tab-left-inactive.png"
@@ -73,6 +74,7 @@ Item {
 
     GalleryTab {
       id: tab1;
+      objectName: "toolbarEventsTab"
 
       selectedBackgroundSource: "img/tab-right-active.png"
       deselectedBackgroundSource: "img/tab-right-inactive.png"
