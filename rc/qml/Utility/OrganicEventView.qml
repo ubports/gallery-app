@@ -21,50 +21,101 @@ import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 0.1
 import "../../js/GalleryUtility.js" as GalleryUtility
+import "../../../rc/Capetown"
+import "../../../rc/qml/Widgets"
 
 // An "organic" vertically-scrollable view of all events, each containing a
 // horizontally-scrollable "tray" of photos.
 OrganicView {
-  id: organicEventView
+    id: organicEventView
 
-  // Arbitrary extra amount of padding so that as you scroll the tray, the
-  // photos are already loaded by the time they're on screen.
-  property real trayLoadAreaPadding: units.gu(20)
+    // Arbitrary extra amount of padding so that as you scroll the tray, the
+    // photos are already loaded by the time they're on screen.
+    property real trayLoadAreaPadding: units.gu(20)
 
-  selection: SelectionState {
-  }
-
-  model: EventCollectionModel {
-  }
-
-  delegate: Flickable {
-    id: tray
-
-    width: organicEventView.width
-    height: photosList.height
-    clip: true
-
-    contentWidth: photosList.width
-    contentHeight: photosList.height
-    flickableDirection: Flickable.HorizontalFlick
-
-    OrganicMediaList {
-      id: photosList
-
-      loadAreaLeft: tray.contentX - trayLoadAreaPadding
-      loadAreaRight: tray.contentX + tray.width + trayLoadAreaPadding
-
-      animationDuration: organicEventView.animationDuration
-      animationEasingType: organicEventView.animationEasingType
-
-      event: model.event
-      selection: organicEventView.selection
-
-      onPressed: {
-        var rect = GalleryUtility.translateRect(thumbnailRect, photosList,
-                                                organicEventView);
-        organicEventView.mediaSourcePressed(mediaSource, rect);
-      }
+    selection: SelectionState {
     }
-  }
+
+    model: EventCollectionModel {
+    }
+
+    delegate: Flickable {
+        id: tray
+
+        width: organicEventView.width
+        height: photosList.height
+        clip: true
+
+        contentWidth: photosList.width
+        contentHeight: photosList.height
+        flickableDirection: Flickable.HorizontalFlick
+
+        OrganicMediaList {
+            id: photosList
+
+            loadAreaLeft: tray.contentX - trayLoadAreaPadding
+            loadAreaRight: tray.contentX + tray.width + trayLoadAreaPadding
+
+            animationDuration: organicEventView.animationDuration
+            animationEasingType: organicEventView.animationEasingType
+
+            event: model.event
+            selection: organicEventView.selection
+
+            onPressed: {
+                var rect = GalleryUtility.translateRect(thumbnailRect, photosList,
+                                                        organicEventView);
+                organicEventView.mediaSourcePressed(mediaSource, rect);
+            }
+        }
+    }
+
+    ChromeBar {
+        id: chromeBar
+        z: 100
+        anchors {
+            bottom: parent.bottom
+            left: parent.left
+            right: parent.right
+        }
+        showBackButton: false
+        buttonsModel: ListModel {
+            ListElement {
+                label: "Select"
+                name: "select"
+                icon: "../img/select.png"
+            }
+            ListElement {
+                label: "Import"
+                name: "import"
+                icon: "../img/import-image.png"
+            }
+            ListElement {
+                label: "Camera"
+                name: "camera"
+                icon: "../img/camera.png"
+            }
+        }
+        showChromeBar: true
+
+        onButtonClicked: {
+            switch (buttonName) {
+            case "select": {
+                print("not implemented yet");
+                break;
+            }
+            case "import": {
+                print("not implemented yet");
+                break;
+            }
+            case "camera": {
+                print("not implemented yet");
+                //applicationManager.focusFavoriteApplication(ApplicationManager.Share, argument);
+                break;
+            }
+            }
+        }
+
+    }
+
 }

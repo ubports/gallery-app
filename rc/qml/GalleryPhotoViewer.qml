@@ -156,7 +156,7 @@ Rectangle {
           chromeFadeWaitClock.stop();
           chromeBar.setBarShown(false);
       }
-      onUnzoomed: {
+      onUnzoomed: {omeba
           chromeFadeWaitClock.stop();
           chromeBar.setBarShown(false);
       }
