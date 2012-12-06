@@ -469,12 +469,14 @@ Rectangle {
         }
         
         onCloseRequested: {
+          // set eventView visible before closing so it's visible when during
+          // the animation
+          eventView.visible = true;
           fadeClosed();
         }
         
         onClosed: {
           photoViewerLoader.visible = false;
-          eventView.visible = true;
         }
       }
     }
