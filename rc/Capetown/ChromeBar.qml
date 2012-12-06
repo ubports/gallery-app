@@ -45,7 +45,7 @@ Item {
         drag.axis: Drag.YAxis
         drag.minimumY: 0
         drag.maximumY: height + bar.height
-//        propagateComposedEvents: true
+        propagateComposedEvents: true
 
         property int __pressedY
         onPressed: {
