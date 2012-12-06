@@ -171,7 +171,7 @@ Rectangle {
     Timer {
       id: chromeFadeWaitClock
 
-      interval: 200
+      interval: 250
       running: false
 
       onTriggered: chromeBar.setBarShown(!chromeBar.showChromeBar)
