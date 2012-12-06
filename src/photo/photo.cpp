@@ -42,7 +42,7 @@ bool Photo::IsValid(const QFileInfo& file) {
       return false;
   }
 
-  if (PhotoMetadata::FromFile(file.absoluteFilePath().toUtf8().data()) == NULL)
+  if (PhotoMetadata::FromFile(file) == NULL)
     return false;
 
   return reader.canRead() &&
@@ -74,26 +74,30 @@ Photo* Photo::Load(const QFileInfo& file) {
   // If we don't have the photo, add it to the DB.  If we have the photo but the
   // row is from a previous version of the DB, update the row.
   if (id == INVALID_ID || needs_update) {
-    // Get metadata from file.
     PhotoMetadata* metadata = PhotoMetadata::FromFile(p->caches_.pristine_file());
     timestamp = p->caches_.pristine_file().lastModified();
+    
+    if (metadata == NULL) 
+      return NULL;
+    
     orientation = p->file_format_has_orientation()
       ? metadata->orientation() : TOP_LEFT_ORIGIN;
     filesize = p->caches_.pristine_file().size();
     exposure_time = metadata->exposure_time().isValid() ?
       QDateTime(metadata->exposure_time()) : timestamp;
-    
+
     if (needs_update) {
       // Update DB.
-      Database::instance()->get_media_table()->update_media(id, 
+      Database::instance()->get_media_table()->update_media(id,
         file.absoluteFilePath(), timestamp, exposure_time, orientation, filesize);
     } else {
       // Add to DB.
       id = Database::instance()->get_media_table()->create_id_for_media(
         file.absoluteFilePath(), timestamp, exposure_time, orientation, filesize);
     }
-    
+
     delete metadata;
+  
   } else {
     // Load metadata from DB.
     Database::instance()->get_media_table()->get_row(id, size, orientation,
