@@ -4,6 +4,7 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 
 Item {
     id: chromeBar
+    objectName: "chromeBar"
     property alias buttonsModel: buttonsRepeater.model
     property alias showChromeBar: bar.shown
     property bool showBackButton: true
