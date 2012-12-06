@@ -29,6 +29,7 @@ UbuntuShape {
   property variant event
   property color textColor: "#888888"
 
+  radius: "medium"
   color: "#dddddd"
 
   width: units.gu(12)
@@ -40,7 +41,9 @@ UbuntuShape {
     y: units.gu(0.5)
     width: parent.width
 
-    font.family: "Ubuntu Regular"
+    font.family: "Ubuntu"
+    font.weight: Font.DemiBold
+
     font.pixelSize: units.dp(62)
     color: textColor
 
@@ -55,7 +58,7 @@ UbuntuShape {
     y: units.gu(8.5)
     width: parent.width
 
-    font.family: "Ubuntu Regular"
+    font.family: "Ubuntu"
     fontSize: "medium"
     color: textColor
 

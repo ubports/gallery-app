@@ -155,9 +155,9 @@ Item {
         width: parent.width
         
         opacity: titleOpacity
-        color: "#f5e8e0"
+        color: "#ffffff"
         
-        fontFamily: "Nimbus Roman No9 L"
+        fontFamily: "Ubuntu"
         fontPointSize: pointUnits(16) * textScale // From the spec.
         smooth: true
         textFormat: TextEdit.PlainText
@@ -190,9 +190,9 @@ Item {
         width: parent.width
         
         opacity: titleOpacity
-        color: "#f5e8e0"
+        color: "#ffffff"
         
-        fontFamily: "Nimbus Roman No9 L"
+        fontFamily: "Ubuntu"
         
         // The -1 is due to a slight mismatch in preview vs. full album
         // cover aspect ratios.

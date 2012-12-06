@@ -50,6 +50,10 @@ class DataObject : public QObject {
  public:
   DataObject(QObject * parent = 0, const QString& name = "");
   
+  // TODO: number() should return the same value for the same DataObject across
+  //       invocations of Gallery. Right now, this API contract is maintained
+  //       implicitly and in a particularly fragile way. We should fix this.
+  //       See https://bugs.launchpad.net/goodhope/+bug/1087084.
   DataObjectNumber number() const;
   void SetInternalName(const QString& name);
   
