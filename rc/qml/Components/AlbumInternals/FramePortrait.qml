@@ -49,6 +49,7 @@ Item {
     ownerName: "FramePortrait"
     mediaSource: framePortrait.mediaSource
     isPreview: false
+    isCropped: true
     load: framePortrait.load
   }
 }
