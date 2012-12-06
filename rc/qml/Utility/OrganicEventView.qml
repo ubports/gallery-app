@@ -143,31 +143,12 @@ OrganicView {
                 selection.inSelectionMode = true;
                 break;
             }
-            case "import": {
-                print("not implemented yet");
-                break;
-            }
-            case "camera": {
-                print("not implemented yet");
-                //applicationManager.focusFavoriteApplication(ApplicationManager.Share, argument);
-                break;
-            }
             case "delete": {
                 deletePopover.caller = button;
                 deletePopover.show();
                 break;
             }
-            case "share": {
-                sharePopover.caller = button;
-                sharePopover.show();
-                break;
             }
-            }
-        }
-
-        SharePopover {
-            id: sharePopover
-            visible: false
         }
 
         Popover {
