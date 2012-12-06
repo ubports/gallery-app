@@ -110,7 +110,12 @@ Item {
       }
       FadeInAnimation { target: fadeRectangle; duration: 200; }
     }
-
+    
+    // Don't attempt to simplify this by rewriting it as a handler in response
+    // to showPhotoViewerAnimation's onRunningChanged. Due to some timing
+    // subtleties between the event thread and the QML animation thread,
+    // emitting transitionToPhotoViewerCompleted() in response to 
+    // onRunningChanged can cause visual stuttering.
     ScriptAction {
       script: photoViewerTransition.transitionToPhotoViewerCompleted()
     }
