@@ -156,7 +156,7 @@ Rectangle {
           chromeFadeWaitClock.stop();
           chromeBar.setBarShown(false);
       }
-      onUnzoomed: {omeba
+      onUnzoomed: {
           chromeFadeWaitClock.stop();
           chromeBar.setBarShown(false);
       }
@@ -252,7 +252,7 @@ Rectangle {
             visible: false
         }
 
-        DeletePopover {
+        DeleteSinglePhotoPopover {
             visible: false
             id: deletePopover
             album: viewerWrapper.album

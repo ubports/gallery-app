@@ -284,7 +284,7 @@ Rectangle {
     toolbarHasAlbumOperationsButton: false
 
     inSelectionMode: true
-    visible: eventView.selection.inSelectionMode
+    visible: false //eventView.selection.inSelectionMode
 
     popups: ([ selectionOperationsMenu, photoTrashDialog,
               selectionModeShareMenu, selectionModeOptionsMenu ])

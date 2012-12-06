@@ -20,6 +20,8 @@
 import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 0.1
+import Ubuntu.Components.ListItems 0.1 as ListItem
+import Ubuntu.Components.Popups 0.1
 import "../../js/GalleryUtility.js" as GalleryUtility
 import "../../../rc/Capetown"
 import "../../../rc/qml/Widgets"
@@ -34,6 +36,8 @@ OrganicView {
     property real trayLoadAreaPadding: units.gu(20)
 
     selection: SelectionState {
+        // avoid entering selection mode by long-pressing on a photo:
+        allowSelectionModeChange: false
     }
 
     model: EventCollectionModel {
@@ -72,14 +76,47 @@ OrganicView {
 
     ChromeBar {
         id: chromeBar
-        z: 100
+        //        z: 100
         anchors {
             bottom: parent.bottom
             left: parent.left
             right: parent.right
         }
-        showBackButton: false
-        buttonsModel: ListModel {
+
+        property bool selectionMode: selection.inSelectionMode
+        showBackButton: selectionMode
+        backButtonIcon: Qt.resolvedUrl("../../img/cancel.png")
+        backButtonText: "Cancel"
+        onBackButtonClicked: leaveSelectionMode();
+
+        function leaveSelectionMode() {
+            // Set inSelectionMode instead of using leaveSelectionMode()
+            // because allowSelectionModeChange is false
+            selection.unselectAll();
+            selection.inSelectionMode = false;
+        }
+
+        buttonsModel: selectionMode ? selectionModel : overviewModel
+
+        property ListModel selectionModel: ListModel {
+            ListElement {
+                label: "Add"
+                name: "disabled"
+                icon: "../img/add.png"
+            }
+            ListElement {
+                label: "Delete"
+                name: "delete"
+                icon: "../img/delete.png"
+            }
+            ListElement {
+                label: "Share"
+                name: "disabled"
+                icon: "../img/share.png"
+            }
+        }
+
+        property ListModel overviewModel: ListModel {
             ListElement {
                 label: "Select"
                 name: "select"
@@ -87,12 +124,12 @@ OrganicView {
             }
             ListElement {
                 label: "Import"
-                name: "import"
+                name: "disabled"
                 icon: "../img/import-image.png"
             }
             ListElement {
                 label: "Camera"
-                name: "camera"
+                name: "disabled"
                 icon: "../img/camera.png"
             }
         }
@@ -101,7 +138,9 @@ OrganicView {
         onButtonClicked: {
             switch (buttonName) {
             case "select": {
-                print("not implemented yet");
+                // Set inSelectionMode instead of using tryEnterSelectionMode
+                // because allowSelectionModeChange is false.
+                selection.inSelectionMode = true;
                 break;
             }
             case "import": {
@@ -113,9 +152,48 @@ OrganicView {
                 //applicationManager.focusFavoriteApplication(ApplicationManager.Share, argument);
                 break;
             }
+            case "delete": {
+                deletePopover.caller = button;
+                deletePopover.show();
+                break;
+            }
+            case "share": {
+                sharePopover.caller = button;
+                sharePopover.show();
+                break;
+            }
             }
         }
 
-    }
+        SharePopover {
+            id: sharePopover
+            visible: false
+        }
 
+        Popover {
+            visible: false
+            id: deletePopover
+
+            Column {
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    top: parent.top
+                }
+
+                ListItem.SingleControl {
+                    control: Button {
+                        color: "red"
+                        text: "Delete selected items"
+                        anchors.fill: parent
+                        onClicked: {
+                            organicEventView.selection.model.destroySelectedMedia();
+                            deletePopover.hide();
+                            chromeBar.leaveSelectionMode();
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
