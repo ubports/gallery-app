@@ -543,6 +543,7 @@ Rectangle {
     
     anchors.fill: parent
     z: 100
+    visible: false
     
     function load() {
       if (!sourceComponent)
@@ -559,7 +560,22 @@ Rectangle {
           monitored: true
         }
         
-        onCloseRequested: fadeClosed()
+        onOpening: {
+          photoViewerLoader.visible = true;
+        }
+        
+        onOpened: {
+          eventView.visible = false;
+        }
+        
+        onCloseRequested: {
+          fadeClosed();
+        }
+        
+        onClosed: {
+          photoViewerLoader.visible = false;
+          eventView.visible = true;
+        }
       }
     }
   }

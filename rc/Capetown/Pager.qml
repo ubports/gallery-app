@@ -28,8 +28,6 @@ ListView {
   id: pager
   objectName: "pager"
   
-  property int pageCacheSize: 4
-  
   function pageForward() {
     incrementCurrentIndex();
   }

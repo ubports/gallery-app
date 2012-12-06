@@ -144,7 +144,7 @@ Rectangle {
     album: albumViewer.album
     z: 100
     visible: freeze
-    load: freeze && parent.state == "pageView"
+    load: parent.visible && freeze && parent.state == "pageView"
     
     Connections {
       target: albumSpreadViewer
@@ -167,7 +167,7 @@ Rectangle {
     anchors.fill: parent
 
     album: albumViewer.album
-    load: parent.state == "pageView"
+    load: parent.visible && parent.state == "pageView"
     
     // Keyboard focus while visible and viewer is not visible
     focus: !photoViewer.isPoppedUp && visible
@@ -658,8 +658,14 @@ Rectangle {
       // models because you can walk the entire album from both
       model = organicView.albumModel;
     }
-
-    onIndexChanged: {
+    
+    onOpened: {
+      visible = true;
+      albumSpreadViewer.visible = false;
+      organicView.visible = false;
+    }
+    
+    onCloseRequested: {
       if (forGridView) {
         // TODO: position organicView.
       } else {
@@ -669,9 +675,10 @@ Rectangle {
           albumSpreadViewer.viewingPage = isPortrait? page : albumViewer.album.currentPage;
         }
       }
-    }
-
-    onCloseRequested: {
+      
+      albumSpreadViewer.visible = (albumViewer.state == "pageView");
+      organicView.visible = (albumViewer.state == "gridView");
+      
       if (forGridView) {
         var rect = null; // TODO: get rect from organicView.
         if (rect)
@@ -681,6 +688,10 @@ Rectangle {
       } else {
         fadeClosed();
       }
+    }
+    
+    onClosed: {
+      visible = false;
     }
   }
   
