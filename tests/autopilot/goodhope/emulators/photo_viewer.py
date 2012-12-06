@@ -33,7 +33,7 @@ class PhotoViewer(object):
 
     def get_viewer_chrome_toolbar_buttons(self):
         """Returns the toolbar buttons."""
-        mpv = self.get_main_photo_viewer()
+        mpv = self.get_photo_viewer_chrome()
         gst = mpv.get_children_by_type("ViewerChrome")[0].get_children_by_type("GalleryStandardToolbar")[0]
         return gst.get_children_by_type("QQuickRow")[1]
 
@@ -45,7 +45,7 @@ class PhotoViewer(object):
 
     def get_photo_viewer_chrome(self):
         pv = self.get_photo_viewer()
-        return pv.select_single("ViewerChrome", fadeDuration=175)
+        return pv.select_single("ChromeBar", objectName="chromeBar")
 
     def get_photo_viewer(self):
         return self.app.select_single("PhotoViewer", objectName='photoViewer', currentIndex=0)

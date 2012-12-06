@@ -96,6 +96,7 @@ Item {
 
                     ChromeButton {
                         id: backButton
+                        objectName: "backButton"
                         anchors.left: parent.left
                         anchors.leftMargin: units.gu(1)
                         anchors.top: parent.top
@@ -112,6 +113,7 @@ Item {
 
                     Row {
                         id: chromeButtons
+                        objectName: "viewerChromeButtons"
                         anchors.top: parent.top
                         anchors.right: parent.right
                         anchors.rightMargin: units.gu(1)
