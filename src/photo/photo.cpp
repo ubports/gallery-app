@@ -42,6 +42,9 @@ bool Photo::IsValid(const QFileInfo& file) {
       return false;
   }
 
+  if (PhotoMetadata::FromFile(file.absoluteFilePath().toUtf8().data()) == NULL)
+    return false;
+
   return reader.canRead() &&
       QImageWriter::supportedImageFormats().contains(reader.format());
 }
