@@ -76,16 +76,23 @@ const QDir& MediaCollection::directory() const {
   return directory_;
 }
 
+// NOTE: this comparator function expects the API contract of
+//       DataObject::number() to return the same value for the same logical
+//       data object across invocations of Gallery. Right now, this contract
+//       is tenuously maintained. See the TODO item in DataObject.h.
 bool MediaCollection::ExposureDateTimeAscendingComparator(DataObject* a,
   DataObject* b) {
-  return
-    qobject_cast<MediaSource*>(a)->exposure_date_time() < qobject_cast<MediaSource*>(b)->exposure_date_time();
+  QDateTime exptime_a = qobject_cast<MediaSource*>(a)->exposure_date_time();
+  QDateTime exptime_b = qobject_cast<MediaSource*>(b)->exposure_date_time();
+
+  return (exptime_a == exptime_b) ?
+    (DataCollection::DefaultDataObjectComparator(a, b)) :
+    (exptime_a < exptime_b);
 }
 
 bool MediaCollection::ExposureDateTimeDescendingComparator(DataObject* a,
   DataObject* b) {
-  return
-    qobject_cast<MediaSource*>(a)->exposure_date_time() > qobject_cast<MediaSource*>(b)->exposure_date_time();
+  return !ExposureDateTimeAscendingComparator(a, b);
 }
 
 MediaSource* MediaCollection::mediaForId(qint64 id) {
