@@ -111,9 +111,8 @@ Item {
       FadeInAnimation { target: fadeRectangle; duration: 200; }
     }
 
-    onRunningChanged: {
-      if (!running)
-        transitionToPhotoViewerCompleted();
+    ScriptAction {
+      script: photoViewerTransition.transitionToPhotoViewerCompleted()
     }
   }
 
