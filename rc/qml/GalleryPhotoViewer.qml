@@ -201,7 +201,7 @@ Rectangle {
             }
             ListElement {
                 label: "Add"
-                name: "add"
+                name: "disabled"
                 icon: "../img/add.png"
             }
             ListElement {
@@ -252,7 +252,7 @@ Rectangle {
             visible: false
         }
 
-        DeletePopover {
+        DeleteSinglePhotoPopover {
             visible: false
             id: deletePopover
             album: viewerWrapper.album

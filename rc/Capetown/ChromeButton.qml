@@ -17,6 +17,7 @@ AbstractButton {
         anchors.horizontalCenter: parent.horizontalCenter
         height: units.gu(2)
         width: units.gu(2)
+        opacity: button.enabled ? 1.0 : 0.3
     }
 
     Label {
@@ -27,6 +28,7 @@ AbstractButton {
         fontSize: "x-small"
         color: "#888888"
         width: paintedWidth
+        opacity: button.enabled ? 1.0 : 0.3
     }
 
     Rectangle {
