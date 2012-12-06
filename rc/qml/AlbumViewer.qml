@@ -201,8 +201,7 @@ Rectangle {
       // treat it as a request to release the page and go back to idling.
       //
       // Per the convention used elsewhere, true for right, false for left.
-      property bool initialSwipeDirection: true
-      property bool lastSwipeDirection: true
+      property bool lastSwipeLeftToRight: true
       property int prevSwipingX: -1
 
       // Normal press/click.
@@ -250,7 +249,6 @@ Rectangle {
       
       onStartSwipe: {
         var direction = (leftToRight ? -1 : 1);
-        initialSwipeDirection = leftToRight;
         albumSpreadViewer.destinationPage =
             albumSpreadViewer.viewingPage +
             direction * albumSpreadViewer.pagesPerSpread;
@@ -268,7 +266,7 @@ Rectangle {
           return;
         }
 
-        lastSwipeDirection = (mouseX > prevSwipingX);
+        lastSwipeLeftToRight = (mouseX > prevSwipingX);
 
         var availableDistance = (leftToRight) ? (width - start) : start;
         // TODO: the 0.999 here is kind of a hack.  The AlbumPageFlipper
@@ -285,7 +283,7 @@ Rectangle {
       onSwiped: {
         // Can turn toward the cover, but never close the album in the viewer
         if (albumSpreadViewer.flipFraction >= commitTurnFraction &&
-            initialSwipeDirection === lastSwipeDirection &&
+            leftToRight === lastSwipeLeftToRight &&
             albumSpreadViewer.destinationPage > album.firstValidCurrentPage &&
             albumSpreadViewer.destinationPage < album.lastValidCurrentPage)
           albumSpreadViewer.flip();
