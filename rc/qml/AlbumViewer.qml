@@ -196,6 +196,15 @@ Rectangle {
     SwipeArea {
       property real commitTurnFraction: 0.05
 
+      // Should be treated as internal to this SwipeArea. Used for
+      // tracking the last swipe direction; if the user moves a page
+      // past the 'commit' point, then back, we'll track that here,
+      // treat it as a request to release the page and go back to idling.
+      //
+      // Per the convention used elsewhere, true for right, false for left.
+      property bool lastSwipeLeftToRight: true
+      property int prevSwipingX: -1
+
       // Normal press/click.
       function pressed(x, y) {
         var hit = albumSpreadViewer.hitTestFrame(x, y, parent);
@@ -245,6 +254,8 @@ Rectangle {
             albumSpreadViewer.viewingPage +
             direction * albumSpreadViewer.pagesPerSpread;
 
+        prevSwipingX = mouseX;
+
         // turn off chrome, allow the page flipper full screen
         chrome.hide(true);
       }
@@ -256,6 +267,8 @@ Rectangle {
           return;
         }
 
+        lastSwipeLeftToRight = (mouseX > prevSwipingX);
+
         var availableDistance = (leftToRight) ? (width - start) : start;
         // TODO: the 0.999 here is kind of a hack.  The AlbumPageFlipper
         // can't tell the difference between its flipFraction being set to 1
@@ -265,11 +278,13 @@ Rectangle {
         var flipFraction =
             Math.max(0, Math.min(0.999, distance / availableDistance));
         albumSpreadViewer.flipFraction = flipFraction;
+        prevSwipingX = mouseX;
       }
 
       onSwiped: {
         // Can turn toward the cover, but never close the album in the viewer
         if (albumSpreadViewer.flipFraction >= commitTurnFraction &&
+            leftToRight === lastSwipeLeftToRight &&
             albumSpreadViewer.destinationPage > album.firstValidCurrentPage &&
             albumSpreadViewer.destinationPage < album.lastValidCurrentPage)
           albumSpreadViewer.flip();
