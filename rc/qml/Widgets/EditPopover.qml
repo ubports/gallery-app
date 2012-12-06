@@ -31,6 +31,7 @@ Popover {
         }
         ListItem.Standard {
             text: "Rotate"
+            objectName: "rotateListItem"
             onClicked: {
                 photo.rotateRight();
                 hide();
@@ -38,6 +39,7 @@ Popover {
         }
         ListItem.Standard {
             text: "Crop"
+            objectName: "cropListItem"
             onClicked: {
                 cropper.show(photo);
                 hide();
@@ -45,6 +47,7 @@ Popover {
         }
         ListItem.Standard {
             text: "Auto enhance"
+            objectName: "enhanceListItem"
             onClicked: {
                 photo.autoEnhance();
                 hide();
@@ -52,6 +55,7 @@ Popover {
         }
         ListItem.Standard {
             text: "Undo"
+            objectName: "undoListItem"
             onClicked: {
                 photo.undo();
                 hide();
@@ -59,6 +63,7 @@ Popover {
         }
         ListItem.Standard {
             text: "Redo"
+            objectName: "redoListItem"
             onClicked: {
                 photo.redo();
                 hide();
@@ -66,6 +71,7 @@ Popover {
         }
         ListItem.Standard {
             text: "Revert to original"
+            objectName: "revertListItem"
             onClicked: {
                 photo.revertToOriginal();
                 hide();

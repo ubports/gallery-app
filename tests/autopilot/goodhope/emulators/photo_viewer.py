@@ -53,10 +53,6 @@ class PhotoViewer(object):
         """Returns the photo viewer back button."""
         return self.app.select_single("ChromeButton", objectName="backButton")
 
-    # def get_viewer_chrome_buttons_row(self):
-    #     """Returns a list of buttons in the Chrome."""
-    #     return self.app.select_single("QQuickRow", objectName="viewerChromeButtons")
-
     def get_viewer_chrome_trash_button(self):
         """Returns the photo viewer trash button."""
         qqr = self.app.select_single("QQuickRow", objectName="viewerChromeButtons")
@@ -89,11 +85,6 @@ class PhotoViewer(object):
         """Returns the photo viewer share dialog."""
         return self.app.select_single("Popover", objectName="sharePopover")
 
-    # def get_more_dialog(self):
-    #     """Returns the photo viewer more items dialog."""
-    #     mpv = self.get_main_photo_viewer()
-    #     return mpv.get_children_by_type("ViewerChrome")[0].get_children_by_type("PopupMenu")[1]
-
     def get_photo_edit_dialog(self):
         """Returns the photo edit dialog."""
         return self.app.select_single("EditPopover", objectName="editPopover")
@@ -104,7 +95,6 @@ class PhotoViewer(object):
 
     def get_crop_menu_item(self):
         """Returns the crop item of the edit dialog."""
-        edit_dialog = self.get_photo_edit_dialog()
-        return edit_dialog.get_children_by_type("QQuickColumn")[0].get_children_by_type("MenuItem")[1]
+        return self.app.select_single("Standard", objectName="cropListItem")
 
 

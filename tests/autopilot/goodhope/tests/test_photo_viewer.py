@@ -113,19 +113,19 @@ class TestPhotoViewer(GoodhopeTestCase):
 
         self.assertThat(opened_photo.fullyUnzoomed, Eventually(Equals(True)))
 
-    # def test_photo_crop_box_shows(self):
-    #     """Clicking the crop item in the edit dialog must show crop interactor."""
-    #     edit_button = self.photo_viewer.get_viewer_chrome_toolbar_edit_button()
-    #     crop_item = self.photo_viewer.get_crop_menu_item()
-    #     crop_box = self.photo_viewer.get_crop_interactor()
+    def test_photo_crop_box_shows(self):
+        """Clicking the crop item in the edit dialog must show crop interactor."""
+        edit_button = self.photo_viewer.get_viewer_chrome_toolbar_edit_button()
+        crop_item = self.photo_viewer.get_crop_menu_item()
+        crop_box = self.photo_viewer.get_crop_interactor()
 
-    #     self.mouse.move_to_object(edit_button)
-    #     self.mouse.click()
+        self.mouse.move_to_object(edit_button)
+        self.mouse.click()
 
-    #     self.mouse.move_to_object(crop_item)
-    #     self.mouse.click()
+        self.mouse.move_to_object(crop_item)
+        self.mouse.click()
 
-    #     self.assertThat(crop_box.visible, Eventually(Equals(True)))
+        self.assertThat(crop_box.visible, Eventually(Equals(True)))
 
 
 
