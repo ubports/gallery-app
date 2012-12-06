@@ -34,14 +34,13 @@ class PhotoViewer(object):
     def get_viewer_chrome_toolbar_buttons(self):
         """Returns the toolbar buttons."""
         mpv = self.get_photo_viewer_chrome()
-        gst = mpv.get_children_by_type("ViewerChrome")[0].get_children_by_type("GalleryStandardToolbar")[0]
-        return gst.get_children_by_type("QQuickRow")[1]
+        gst = mpv.get_children_by_type("QQuickMouseArea")[0].get_children_by_type("QQuickItem")[0]
+        return gst.get_children_by_type("QQuickColumn")[0].get_children_by_type("QQuickItem")[0]
 
     def get_viewer_chrome_toolbar_edit_button(self):
         """Returns the edit button of the photo viewer toolbar."""
-        mpv = self.get_main_photo_viewer()
-        gst = mpv.get_children_by_type("ViewerChrome")[0].get_children_by_type("GalleryStandardToolbar")[0]
-        return gst.get_children_by_type("QQuickRow")[0].get_children_by_type("ToolbarIconButton")[1]
+        qqr = self.app.select_single("QQuickRow", objectName="viewerChromeButtons")
+        return qqr.get_children_by_type("ChromeButton")[2]
 
     def get_photo_viewer_chrome(self):
         pv = self.get_photo_viewer()
@@ -52,27 +51,31 @@ class PhotoViewer(object):
 
     def get_viewer_chrome_back_button(self):
         """Returns the photo viewer back button."""
-        return self.app.select_many("StandardToolbarIconButton", objectName="navBackButton")[0]
+        return self.app.select_single("ChromeButton", objectName="backButton")
+
+    # def get_viewer_chrome_buttons_row(self):
+    #     """Returns a list of buttons in the Chrome."""
+    #     return self.app.select_single("QQuickRow", objectName="viewerChromeButtons")
 
     def get_viewer_chrome_trash_button(self):
         """Returns the photo viewer trash button."""
-        qqr = self.get_viewer_chrome_toolbar_buttons()
-        return qqr.get_children_by_type("StandardToolbarIconButton")[0]
+        qqr = self.app.select_single("QQuickRow", objectName="viewerChromeButtons")
+        return qqr.get_children_by_type("ChromeButton")[2]
 
     def get_viewer_chrome_album_button(self):
         """Returns the photo viewer album button."""
-        qqr = self.get_viewer_chrome_toolbar_buttons()
-        return qqr.get_children_by_type("StandardToolbarIconButton")[1]
+        qqr = self.app.select_single("QQuickRow", objectName="viewerChromeButtons")
+        return qqr.get_children_by_type("ChromeButton")[1]
 
     def get_viewer_chrome_share_button(self):
         """Returns the photo viewer share button."""
-        qqr = self.get_viewer_chrome_toolbar_buttons()
-        return qqr.get_children_by_type("StandardToolbarIconButton")[2]
+        qqr = self.app.select_single("QQuickRow", objectName="viewerChromeButtons")
+        return qqr.get_children_by_type("ChromeButton")[3]
 
     def get_viewer_chrome_more_button(self):
         """Returns the photo viewer 'more items' button."""
-        qqr = self.get_viewer_chrome_toolbar_buttons()
-        return qqr.get_children_by_type("StandardToolbarIconButton")[3]
+        qqr = self.app.select_single("QQuickRow", objectName="viewerChromeButtons")
+        return qqr.get_children_by_type("ChromeButton")[2]
 
     def get_delete_dialog(self):
         """Returns the photo viewer delete dialog."""
