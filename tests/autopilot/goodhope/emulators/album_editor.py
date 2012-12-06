@@ -35,3 +35,4 @@ class AlbumEditor(object):
     def get_album_subtitle_entry_field(self):
         """Returns the album subtitle input box."""
         return self.app.select_many("TextEditOnClick", objectName="albumSubtitleField")[0]
+

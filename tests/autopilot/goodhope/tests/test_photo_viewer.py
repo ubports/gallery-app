@@ -127,11 +127,3 @@ class TestPhotoViewer(GoodhopeTestCase):
 
         self.assertThat(crop_box.visible, Eventually(Equals(True)))
 
-
-
-
-
-
-
-
-
