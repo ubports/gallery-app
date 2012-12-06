@@ -443,6 +443,7 @@ Rectangle {
     
     anchors.fill: parent
     z: 100
+    visible: false
     
     function load() {
       if (!sourceComponent)
@@ -459,7 +460,24 @@ Rectangle {
           monitored: true
         }
         
-        onCloseRequested: fadeClosed()
+        onOpening: {
+          photoViewerLoader.visible = true;
+        }
+        
+        onOpened: {
+          eventView.visible = false;
+        }
+        
+        onCloseRequested: {
+          // set eventView visible before closing so it's visible when during
+          // the animation
+          eventView.visible = true;
+          fadeClosed();
+        }
+        
+        onClosed: {
+          photoViewerLoader.visible = false;
+        }
       }
     }
   }

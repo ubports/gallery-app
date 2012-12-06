@@ -248,8 +248,8 @@ Rectangle {
             anchors.fill: parent
             color: zoomablePhotoComponent.color
       
-            mediaSource: (visible ? zoomablePhotoComponent.mediaSource : "")
-            load: zoomablePhotoComponent.load
+            mediaSource: zoomablePhotoComponent.mediaSource
+            load: zoomablePhotoComponent.load && fullyZoomed
             
             isPreview: zoomablePhotoComponent.isPreview
             ownerName: zoomablePhotoComponent.ownerName + "zoomedPhoto"
@@ -289,8 +289,9 @@ Rectangle {
           color: zoomablePhotoComponent.color
       
           mediaSource: zoomablePhotoComponent.mediaSource
-          load: zoomablePhotoComponent.load
+          load: zoomablePhotoComponent.load && visible
           isPreview: zoomablePhotoComponent.isPreview
+          isAnimate: true
           ownerName: zoomablePhotoComponent.ownerName + "transitionPhoto"
         }
       }

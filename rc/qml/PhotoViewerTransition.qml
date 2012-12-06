@@ -31,6 +31,7 @@ Item {
   // Read-only
   property bool animationRunning: showPhotoViewerAnimation.running ||
     hidePhotoViewerAnimation.running || expandPhoto.visible || fadeRectangle.visible
+  property alias forMediaSource: expandPhoto.mediaSource
   
   function transitionToPhotoViewer(photo, thumbnailRect) {
     expandPhoto.setOverThumbnail(photo, thumbnailRect);

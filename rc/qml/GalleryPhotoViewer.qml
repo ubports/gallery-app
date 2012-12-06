@@ -29,7 +29,7 @@ import "Components"
 import "Widgets"
 import "../js/Gallery.js" as Gallery
 
-Rectangle {
+Item {
   id: viewerWrapper
 
   property alias photo: galleryPhotoViewer.photo
@@ -74,8 +74,6 @@ Rectangle {
   }
   
   anchors.fill: parent;
-
-  color: "black";
 
   PhotoViewer {
     id: galleryPhotoViewer
