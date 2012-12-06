@@ -40,7 +40,7 @@ class PhotoViewer(object):
     def get_viewer_chrome_toolbar_edit_button(self):
         """Returns the edit button of the photo viewer toolbar."""
         qqr = self.app.select_single("QQuickRow", objectName="viewerChromeButtons")
-        return qqr.get_children_by_type("ChromeButton")[2]
+        return qqr.get_children_by_type("ChromeButton")[0]
 
     def get_photo_viewer_chrome(self):
         pv = self.get_photo_viewer()
@@ -79,28 +79,24 @@ class PhotoViewer(object):
 
     def get_delete_dialog(self):
         """Returns the photo viewer delete dialog."""
-        mpv = self.get_main_photo_viewer()
-        return mpv.get_children_by_type("ViewerChrome")[0].get_children_by_type("DeleteDialog")[0]
+        return self.app.select_single("DeletePopover", objectName="deletePopover")
 
     def get_popup_album_picker(self):
         """Returns the photo viewer album pickers."""
-        mpv = self.get_main_photo_viewer()
-        return mpv.get_children_by_type("ViewerChrome")[0].get_children_by_type("PopupAlbumPicker")[0]
+        return self.app.select_single("PopupAlbumPicker", objectName="popupAlbumPicker")
 
     def get_share_dialog(self):
         """Returns the photo viewer share dialog."""
-        mpv = self.get_main_photo_viewer()
-        return mpv.get_children_by_type("ViewerChrome")[0].get_children_by_type("PopupMenu")[0]
+        return self.app.select_single("Popover", objectName="sharePopover")
 
-    def get_more_dialog(self):
-        """Returns the photo viewer more items dialog."""
-        mpv = self.get_main_photo_viewer()
-        return mpv.get_children_by_type("ViewerChrome")[0].get_children_by_type("PopupMenu")[1]
+    # def get_more_dialog(self):
+    #     """Returns the photo viewer more items dialog."""
+    #     mpv = self.get_main_photo_viewer()
+    #     return mpv.get_children_by_type("ViewerChrome")[0].get_children_by_type("PopupMenu")[1]
 
     def get_photo_edit_dialog(self):
         """Returns the photo edit dialog."""
-        mpv = self.get_main_photo_viewer()
-        return mpv.get_children_by_type("ViewerChrome")[0].get_children_by_type("PopupMenu")[2]
+        return self.app.select_single("EditPopover", objectName="editPopover")
 
     def get_photo_component(self):
         mpv = self.get_main_photo_viewer()

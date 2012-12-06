@@ -56,58 +56,47 @@ class TestPhotoViewer(GoodhopeTestCase):
     def test_nav_bar_trash_button(self):
         """Clicking the trash button must show the delete dialog."""
         trash_button = self.photo_viewer.get_viewer_chrome_trash_button()
-        #delete_dialog = self.photo_viewer.get_delete_dialog()
+        delete_dialog = self.photo_viewer.get_delete_dialog()
 
         self.mouse.move_to_object(trash_button)
         self.assertThat(trash_button.hovered, Eventually(Equals(True)))
         self.mouse.click()
 
         # we are not testing actual deletion due to a crash (lp:1083958)
-        #self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
+        self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
 
     def test_nav_bar_album_picker_button(self):
         """Clicking the album picker must show the picker dialog."""
         album_button = self.photo_viewer.get_viewer_chrome_album_button()
-        #album_picker = self.photo_viewer.get_popup_album_picker()
+        album_picker = self.photo_viewer.get_popup_album_picker()
 
         self.mouse.move_to_object(album_button)
         self.assertThat(album_button.hovered, Eventually(Equals(True)))
         self.mouse.click()
 
-        #self.assertThat(album_picker.visible, Eventually(Equals(True)))
+        self.assertThat(album_picker.visible, Eventually(Equals(True)))
 
     def test_nav_bar_share_button(self):
         """Clicking the share button must show the share dialog."""
         share_button = self.photo_viewer.get_viewer_chrome_share_button()
-        #share_menu = self.photo_viewer.get_share_dialog()
+        share_menu = self.photo_viewer.get_share_dialog()
 
         self.mouse.move_to_object(share_button)
         self.assertThat(share_button.hovered, Eventually(Equals(True)))
         self.mouse.click()
 
-        #self.assertThat(share_menu.visible, Eventually(Equals(True)))
-
-    def test_nav_bar_more_button(self):
-        """Click 'more' button must show more options."""
-        more_button = self.photo_viewer.get_viewer_chrome_more_button()
-        #more_menu = self.photo_viewer.get_more_dialog()
-
-        self.mouse.move_to_object(more_button)
-        self.assertThat(more_button.hovered, Eventually(Equals(True)))
-        self.mouse.click()
-
-        #self.assertThat(more_menu.visible, Eventually(Equals(True)))
+        self.assertThat(share_menu.visible, Eventually(Equals(True)))
 
     def test_nav_bar_edit_button(self):
         """Clicking the edit button must show the edit dialog."""
         edit_button = self.photo_viewer.get_viewer_chrome_toolbar_edit_button()
-        #edit_dialog = self.photo_viewer.get_photo_edit_dialog()
+        edit_dialog = self.photo_viewer.get_photo_edit_dialog()
 
         self.mouse.move_to_object(edit_button)
         self.assertThat(edit_button.hovered, Eventually(Equals(True)))
         self.mouse.click()
 
-        #self.assertThat(edit_dialog.visible, Eventually(Equals(True)))
+        self.assertThat(edit_dialog.visible, Eventually(Equals(True)))
 
     def test_double_click_zoom(self):
         """Double clicking an opened photo must zoom it."""
