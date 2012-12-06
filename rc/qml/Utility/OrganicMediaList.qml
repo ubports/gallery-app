@@ -97,7 +97,6 @@ Item {
     UbuntuShape {
       id: thumbnail
 
-      radius: "medium"
       property int patternPhoto: index % mediaPerPattern
       property int patternNumber: Math.floor(index / mediaPerPattern)
       property bool isInLoadArea: x <= loadAreaRight && x + width >= loadAreaLeft
@@ -107,6 +106,8 @@ Item {
       
       width: photoSize[patternPhoto]
       height: photoSize[patternPhoto]
+
+      radius: "medium"
 
       visible: isInLoadArea
 
