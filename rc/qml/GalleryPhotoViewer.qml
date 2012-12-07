@@ -75,6 +75,11 @@ Item {
   
   anchors.fill: parent;
 
+  Rectangle{
+    color: "black"
+    anchors.fill: parent
+  }
+
   PhotoViewer {
     id: galleryPhotoViewer
 
