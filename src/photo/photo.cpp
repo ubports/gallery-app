@@ -18,6 +18,7 @@
  * Lucas Beeler <lucas@yorba.org>
  * Charles Lindsay <chaz@yorba.org>
  * Eric Gregory <eric@yorba.org>
+ * Clint Rogers <clinton@yorba.org>
  */
 
 #include "photo/photo.h"
@@ -42,9 +43,11 @@ bool Photo::IsValid(const QFileInfo& file) {
       return false;
   }
 
-  if (PhotoMetadata::FromFile(file) == NULL)
+  PhotoMetadata* tmp = PhotoMetadata::FromFile(file);
+  if (tmp == NULL)
     return false;
 
+  delete tmp;
   return reader.canRead() &&
       QImageWriter::supportedImageFormats().contains(reader.format());
 }
@@ -75,11 +78,12 @@ Photo* Photo::Load(const QFileInfo& file) {
   // row is from a previous version of the DB, update the row.
   if (id == INVALID_ID || needs_update) {
     PhotoMetadata* metadata = PhotoMetadata::FromFile(p->caches_.pristine_file());
-    timestamp = p->caches_.pristine_file().lastModified();
-    
-    if (metadata == NULL) 
+    if (metadata == NULL) {
+      delete p;
       return NULL;
-    
+    }
+
+    timestamp = p->caches_.pristine_file().lastModified();
     orientation = p->file_format_has_orientation()
       ? metadata->orientation() : TOP_LEFT_ORIGIN;
     filesize = p->caches_.pristine_file().size();
@@ -97,7 +101,6 @@ Photo* Photo::Load(const QFileInfo& file) {
     }
 
     delete metadata;
-  
   } else {
     // Load metadata from DB.
     Database::instance()->get_media_table()->get_row(id, size, orientation,
