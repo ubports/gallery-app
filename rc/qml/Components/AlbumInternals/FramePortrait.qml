@@ -15,7 +15,6 @@
  *
  * Authors:
  * Jim Nelson <jim@yorba.org>
- * Lucas Beeler <lucas@yorba.org>
  */
 
 import QtQuick 2.0
@@ -25,4 +24,6 @@ UbuntuPhotoComponent {
   id: framePortrait
  
   visible: Boolean(mediaSource)
+  ownerName: "FramePortrait"
+  isCropped: true
 }
