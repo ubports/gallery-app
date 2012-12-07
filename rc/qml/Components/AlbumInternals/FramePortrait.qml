@@ -29,7 +29,7 @@ Item {
   
   visible: Boolean(mediaSource)
 
-  GalleryPhotoComponent {
+  UbuntuPhotoComponent {
     anchors.fill: parent
 
     visible: framePortrait.isPreview
