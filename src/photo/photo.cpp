@@ -18,6 +18,7 @@
  * Lucas Beeler <lucas@yorba.org>
  * Charles Lindsay <chaz@yorba.org>
  * Eric Gregory <eric@yorba.org>
+ * Clint Rogers <clinton@yorba.org>
  */
 
 #include "photo/photo.h"
@@ -42,6 +43,11 @@ bool Photo::IsValid(const QFileInfo& file) {
       return false;
   }
 
+  PhotoMetadata* tmp = PhotoMetadata::FromFile(file);
+  if (tmp == NULL)
+    return false;
+
+  delete tmp;
   return reader.canRead() &&
       QImageWriter::supportedImageFormats().contains(reader.format());
 }
@@ -71,25 +77,29 @@ Photo* Photo::Load(const QFileInfo& file) {
   // If we don't have the photo, add it to the DB.  If we have the photo but the
   // row is from a previous version of the DB, update the row.
   if (id == INVALID_ID || needs_update) {
-    // Get metadata from file.
     PhotoMetadata* metadata = PhotoMetadata::FromFile(p->caches_.pristine_file());
+    if (metadata == NULL) {
+      delete p;
+      return NULL;
+    }
+
     timestamp = p->caches_.pristine_file().lastModified();
     orientation = p->file_format_has_orientation()
       ? metadata->orientation() : TOP_LEFT_ORIGIN;
     filesize = p->caches_.pristine_file().size();
     exposure_time = metadata->exposure_time().isValid() ?
       QDateTime(metadata->exposure_time()) : timestamp;
-    
+
     if (needs_update) {
       // Update DB.
-      Database::instance()->get_media_table()->update_media(id, 
+      Database::instance()->get_media_table()->update_media(id,
         file.absoluteFilePath(), timestamp, exposure_time, orientation, filesize);
     } else {
       // Add to DB.
       id = Database::instance()->get_media_table()->create_id_for_media(
         file.absoluteFilePath(), timestamp, exposure_time, orientation, filesize);
     }
-    
+
     delete metadata;
   } else {
     // Load metadata from DB.
