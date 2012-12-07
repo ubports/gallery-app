@@ -28,6 +28,8 @@ const QString PreviewManager::PREVIEW_DIR = ".thumbs";
 const int PreviewManager::PREVIEW_WIDTH_MAX = 360;
 const int PreviewManager::PREVIEW_HEIGHT_MAX = 360;
 const int PreviewManager::PREVIEW_QUALITY = 70;
+const char* PreviewManager::PREVIEW_FILE_FORMAT = "JPEG";
+const char* PreviewManager::PREVIEW_FILE_EXT = "JPG";
 
 PreviewManager* PreviewManager::instance_ = NULL;
 
@@ -107,7 +109,7 @@ QFileInfo PreviewManager::PreviewFileFor(const MediaSource* media) const {
   QFileInfo file = media->file();
   
   return QFileInfo(file.dir(),
-    PREVIEW_DIR + "/" + file.completeBaseName() + "_th." + file.completeSuffix());
+    PREVIEW_DIR + "/" + file.completeBaseName() + "_th." + PREVIEW_FILE_EXT);
 }
 
 bool PreviewManager::ensure_preview_for_media(MediaSource* media, bool regen) {
@@ -140,7 +142,7 @@ bool PreviewManager::ensure_preview_for_media(MediaSource* media, bool regen) {
     return false;
   }
   
-  if (!scaled.save(preview.filePath(), "JPEG", PREVIEW_QUALITY)) {
+  if (!scaled.save(preview.filePath(), PREVIEW_FILE_FORMAT, PREVIEW_QUALITY)) {
     qDebug("Unable to save preview %s", qPrintable(preview.filePath()));
     
     return false;
