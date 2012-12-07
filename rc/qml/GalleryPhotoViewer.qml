@@ -77,8 +77,7 @@ Item {
 
   Rectangle{
     color: "black"
-    border.color: "black"
-    anchors.fill: parent;
+    anchors.fill: parent
   }
 
   PhotoViewer {
