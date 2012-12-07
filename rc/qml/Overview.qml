@@ -107,6 +107,8 @@ Rectangle {
       Checkerboard {
         id: albumsCheckerboard
         
+        property bool animationRunning: false
+        
         topExtraGutter: navbar.height + getDeviceSpecific("albumGridTopMargin")
         bottomExtraGutter: getDeviceSpecific("albumGridGutterHeight") / 2
         leftExtraGutter: getDeviceSpecific("albumGridLeftMargin")
@@ -160,7 +162,7 @@ Rectangle {
           onSwiped: {
             if (!validSwipe)
               return;
-    
+            
             var fraction = (leftToRight
               ? 1 - albumThumbnail.openFraction
               : albumThumbnail.openFraction);
@@ -181,7 +183,11 @@ Rectangle {
     
             album: modelData.album
             load: true
-    
+            
+            onIsFlippingChanged: {
+              animationRunning = isFlipping
+            }
+            
             // Scale from 1 to 1 + maxAddScale and back to 1 as openFraction goes
             // from 0 to 0.5 to 1.
             scale: 1 + maxAddScale - Math.abs((openFraction - 0.5) * maxAddScale * 2)
@@ -269,106 +275,6 @@ Rectangle {
         scrollOrchestrator.reset();
         overview.state = "eventView"
       }
-    }
-  }
-
-  ViewerChrome {
-    id: chrome
-
-    z: 10
-    anchors.fill: parent
-
-    autoHideWait: 0
-
-    hasSelectionOperationsButton: eventView.selection.inSelectionMode
-    toolbarHasAlbumOperationsButton: false
-
-    inSelectionMode: true
-    visible: eventView.selection.inSelectionMode
-
-    popups: ([ selectionOperationsMenu, photoTrashDialog,
-              selectionModeShareMenu, selectionModeOptionsMenu ])
-    onSelectionOperationsButtonPressed: cyclePopup(selectionOperationsMenu);
-    onTrashOperationButtonPressed: cyclePopup(photoTrashDialog);
-    onShareOperationsButtonPressed: cyclePopup(selectionModeShareMenu);
-    onMoreOperationsButtonPressed: cyclePopup(selectionModeOptionsMenu);
-
-    onSelectionDoneButtonPressed: eventView.selection.leaveSelectionMode()
-
-    SelectionMenu {
-      id: selectionOperationsMenu
-
-      selection: eventView.selection
-
-      onPopupInteractionCompleted: chrome.hideAllPopups()
-    }
-    
-    DeleteDialog {
-      id: photoTrashDialog
-
-      popupOriginX: -units.gu(16.5)
-      popupOriginY: -units.gu(6)
-      
-      actionTitle: eventView.selection.selectedCount > 1 ?
-                     "Delete selected items" : "Delete photo"
-      
-      visible: false
-
-      onDeleteRequested: {
-        eventView.selection.model.destroySelectedMedia();
-
-        chrome.hideAllPopups(); // Have to do here since our popup list changes
-                                // based on selection mode.
-        eventView.selection.leaveSelectionMode();
-      }
-
-      onPopupInteractionCompleted: chrome.hideAllPopups()
-    }
-
-    GenericShareMenu {
-      id: selectionModeShareMenu
-
-      popupOriginX: -units.gu(8.5)
-      popupOriginY: -units.gu(6)
-
-      onPopupInteractionCompleted: {
-        chrome.hideAllPopups();
-      }
-
-      onActionInvoked: {
-        switch (name) {
-        case "onQuickShare": {
-            for (var index = 0; index < eventView.selection.model.count; index++) {
-              var img = eventView.selection.model.getAt(index);
-              if (eventView.selection.model.isSelected(img)) {
-                shareImage(img);
-              }
-            }
-
-            // Only change modes if we've actually shared something -
-            // if nothing happened, the app shouldn't do anything here.
-            if (eventView.selection.selectedCount > 0) {
-              eventView.selection.leaveSelectionMode();
-            }
-            break;
-          }
-        }
-      }
-
-      visible: false
-    }
-
-    SelectionModeOptionsMenu {
-      id: selectionModeOptionsMenu
-
-      popupOriginX: -units.gu(0.5)
-      popupOriginY: -units.gu(6)
-
-      onPopupInteractionCompleted: {
-        chrome.hideAllPopups();
-      }
-
-      visible: false
     }
   }
 
@@ -543,6 +449,7 @@ Rectangle {
     
     anchors.fill: parent
     z: 100
+    visible: false
     
     function load() {
       if (!sourceComponent)
@@ -559,7 +466,24 @@ Rectangle {
           monitored: true
         }
         
-        onCloseRequested: fadeClosed()
+        onOpening: {
+          photoViewerLoader.visible = true;
+        }
+        
+        onOpened: {
+          eventView.visible = false;
+        }
+        
+        onCloseRequested: {
+          // set eventView visible before closing so it's visible when during
+          // the animation
+          eventView.visible = true;
+          fadeClosed();
+        }
+        
+        onClosed: {
+          photoViewerLoader.visible = false;
+        }
       }
     }
   }
@@ -570,6 +494,7 @@ Rectangle {
     anchors.fill: parent
     
     visible: (photoViewerLoader.item && photoViewerLoader.item.animationRunning) || 
-      albumEditorTransition.animationRunning || albumEditor.animationRunning
+      albumEditorTransition.animationRunning || albumEditor.animationRunning ||
+      (albumsCheckerboardLoader.item && albumsCheckerboardLoader.item.animationRunning)
   }
 }

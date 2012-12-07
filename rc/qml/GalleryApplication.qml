@@ -36,15 +36,15 @@ Item {
   property var deviceSpecifics: {
     'default': {
       // Size of thumbnails in album overview.
-      albumThumbnailWidth: units.gu(28),
-      albumThumbnailHeight: units.gu(33),
+      albumThumbnailWidth: units.gu(17),
+      albumThumbnailHeight: units.gu(20),
       
       // Whitespace around photos in album overview.
-      albumGridTopMargin: units.gu(2), // Plus half of albumGridGutterHeight.
-      albumGridLeftMargin: units.gu(2), // Plus half of albumGridGutterWidth.
-      albumGridRightMargin: units.gu(2), // Plus half of albumGridGutterWidth.
-      albumGridGutterWidth: units.gu(6),
-      albumGridGutterHeight: units.gu(8),
+      albumGridTopMargin: units.gu(1), // Plus half of albumGridGutterHeight.
+      albumGridLeftMargin: units.gu(1), // Plus half of albumGridGutterWidth.
+      albumGridRightMargin: units.gu(1), // Plus half of albumGridGutterWidth.
+      albumGridGutterWidth: units.gu(2),
+      albumGridGutterHeight: units.gu(2),
       
       // Whitespace around photos on album pages in the album viewer.
       albumPageTopMargin: units.gu(2),
@@ -63,20 +63,6 @@ Item {
     },
     
     'phone': {
-      albumThumbnailWidth: units.gu(17),
-      albumThumbnailHeight: units.gu(20),
-      
-      albumGridTopMargin: units.gu(1),
-      albumGridLeftMargin: units.gu(4),
-      albumGridRightMargin: units.gu(4),
-      albumGridTopMarginPortrait: -units.gu(1), // gets added to a bigger positive value
-      albumGridLeftMarginPortrait: units.gu(1),
-      albumGridRightMarginPortrait: units.gu(1),
-      
-      albumGridGutterWidth: units.gu(4),
-      albumGridGutterHeight: units.gu(6),
-      albumGridGutterWidthPortrait: units.gu(2),
-      albumGridGutterHeightPortrait: units.gu(6),
     },
   };
   

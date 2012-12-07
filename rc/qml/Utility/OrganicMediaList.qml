@@ -28,6 +28,7 @@ import "../../js/GalleryUtility.js" as GalleryUtility
 // the OrganicEventView, and the layout of the OrganicAlbumView.
 Item {
   id: organicMediaList
+  objectName: "organicMediaList"
 
   signal pressed(var mediaSource, var thumbnailRect)
 
@@ -118,6 +119,8 @@ Item {
           y: photosTopMargin + photoY[patternPhoto]
           width: photoSize[patternPhoto]
           height: photoSize[patternPhoto]
+
+          radius: "medium"
 
           image: Image {
             source: (tItem.isInLoadArea && model.mediaSource

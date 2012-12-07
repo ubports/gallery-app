@@ -20,35 +20,10 @@
 import QtQuick 2.0
 import ".."
 
-Item {
+UbuntuPhotoComponent {
   id: framePortrait
-
-  property variant mediaSource
-  property bool isPreview
-  property bool load: false
-  
+ 
   visible: Boolean(mediaSource)
-
-  GalleryPhotoComponent {
-    anchors.fill: parent
-
-    visible: framePortrait.isPreview
-
-    ownerName: "FramePortrait"
-    mediaSource: framePortrait.mediaSource
-    isPreview: true
-    load: framePortrait.load
-    isCropped: true
-  }
-
-  UbuntuPhotoComponent {
-    anchors.fill: parent
-
-    visible: !framePortrait.isPreview
-
-    ownerName: "FramePortrait"
-    mediaSource: framePortrait.mediaSource
-    isPreview: false
-    load: framePortrait.load
-  }
+  ownerName: "FramePortrait"
+  isCropped: true
 }

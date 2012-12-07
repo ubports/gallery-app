@@ -20,50 +20,160 @@
 import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 0.1
+import Ubuntu.Components.ListItems 0.1 as ListItem
+import Ubuntu.Components.Popups 0.1
 import "../../js/GalleryUtility.js" as GalleryUtility
+import "../../../rc/Capetown"
+import "../../../rc/qml/Widgets"
 
 // An "organic" vertically-scrollable view of all events, each containing a
 // horizontally-scrollable "tray" of photos.
 OrganicView {
-  id: organicEventView
+    id: organicEventView
 
-  // Arbitrary extra amount of padding so that as you scroll the tray, the
-  // photos are already loaded by the time they're on screen.
-  property real trayLoadAreaPadding: units.gu(20)
+    // Arbitrary extra amount of padding so that as you scroll the tray, the
+    // photos are already loaded by the time they're on screen.
+    property real trayLoadAreaPadding: units.gu(20)
 
-  selection: SelectionState {
-  }
-
-  model: EventCollectionModel {
-  }
-
-  delegate: Flickable {
-    id: tray
-
-    width: organicEventView.width
-    height: photosList.height
-
-    contentWidth: photosList.width
-    contentHeight: photosList.height
-    flickableDirection: Flickable.HorizontalFlick
-
-    OrganicMediaList {
-      id: photosList
-
-      loadAreaLeft: tray.contentX - trayLoadAreaPadding
-      loadAreaRight: tray.contentX + tray.width + trayLoadAreaPadding
-
-      animationDuration: organicEventView.animationDuration
-      animationEasingType: organicEventView.animationEasingType
-
-      event: model.event
-      selection: organicEventView.selection
-
-      onPressed: {
-        var rect = GalleryUtility.translateRect(thumbnailRect, photosList,
-                                                organicEventView);
-        organicEventView.mediaSourcePressed(mediaSource, rect);
-      }
+    selection: SelectionState {
+        // avoid entering selection mode by long-pressing on a photo:
+        allowSelectionModeChange: false
     }
-  }
+
+    model: EventCollectionModel {
+    }
+
+    delegate: Flickable {
+        id: tray
+
+        width: organicEventView.width
+        height: photosList.height
+
+        contentWidth: photosList.width
+        contentHeight: photosList.height
+        flickableDirection: Flickable.HorizontalFlick
+
+        OrganicMediaList {
+            id: photosList
+
+            loadAreaLeft: tray.contentX - trayLoadAreaPadding
+            loadAreaRight: tray.contentX + tray.width + trayLoadAreaPadding
+
+            animationDuration: organicEventView.animationDuration
+            animationEasingType: organicEventView.animationEasingType
+
+            event: model.event
+            selection: organicEventView.selection
+
+            onPressed: {
+                var rect = GalleryUtility.translateRect(thumbnailRect, photosList,
+                                                        organicEventView);
+                organicEventView.mediaSourcePressed(mediaSource, rect);
+            }
+        }
+    }
+
+    ChromeBar {
+        id: chromeBar
+        //        z: 100
+        anchors {
+            bottom: parent.bottom
+            left: parent.left
+            right: parent.right
+        }
+
+        property bool selectionMode: selection.inSelectionMode
+        showBackButton: selectionMode
+        backButtonIcon: Qt.resolvedUrl("../../img/cancel.png")
+        backButtonText: "Cancel"
+        onBackButtonClicked: leaveSelectionMode();
+
+        function leaveSelectionMode() {
+            // Set inSelectionMode instead of using leaveSelectionMode()
+            // because allowSelectionModeChange is false
+            selection.unselectAll();
+            selection.inSelectionMode = false;
+        }
+
+        buttonsModel: selectionMode ? selectionModel : overviewModel
+
+        property ListModel selectionModel: ListModel {
+            ListElement {
+                label: "Add"
+                name: "disabled"
+                icon: "../img/add.png"
+            }
+            ListElement {
+                label: "Delete"
+                name: "delete"
+                icon: "../img/delete.png"
+            }
+            ListElement {
+                label: "Share"
+                name: "disabled"
+                icon: "../img/share.png"
+            }
+        }
+
+        property ListModel overviewModel: ListModel {
+            ListElement {
+                label: "Select"
+                name: "select"
+                icon: "../img/select.png"
+            }
+            ListElement {
+                label: "Import"
+                name: "disabled"
+                icon: "../img/import-image.png"
+            }
+            ListElement {
+                label: "Camera"
+                name: "disabled"
+                icon: "../img/camera.png"
+            }
+        }
+        showChromeBar: true
+
+        onButtonClicked: {
+            switch (buttonName) {
+            case "select": {
+                // Set inSelectionMode instead of using tryEnterSelectionMode
+                // because allowSelectionModeChange is false.
+                selection.inSelectionMode = true;
+                break;
+            }
+            case "delete": {
+                deletePopover.caller = button;
+                deletePopover.show();
+                break;
+            }
+            }
+        }
+
+        Popover {
+            visible: false
+            id: deletePopover
+
+            Column {
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    top: parent.top
+                }
+
+                ListItem.SingleControl {
+                    control: Button {
+                        color: "red"
+                        text: "Delete selected items"
+                        anchors.fill: parent
+                        onClicked: {
+                            organicEventView.selection.model.destroySelectedMedia();
+                            deletePopover.hide();
+                            chromeBar.leaveSelectionMode();
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

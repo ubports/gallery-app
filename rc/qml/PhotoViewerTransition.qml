@@ -31,6 +31,7 @@ Item {
   // Read-only
   property bool animationRunning: showPhotoViewerAnimation.running ||
     hidePhotoViewerAnimation.running || expandPhoto.visible || fadeRectangle.visible
+  property alias forMediaSource: expandPhoto.mediaSource
   
   function transitionToPhotoViewer(photo, thumbnailRect) {
     expandPhoto.setOverThumbnail(photo, thumbnailRect);
@@ -109,10 +110,14 @@ Item {
       }
       FadeInAnimation { target: fadeRectangle; duration: 200; }
     }
-
-    onRunningChanged: {
-      if (!running)
-        transitionToPhotoViewerCompleted();
+    
+    // Don't attempt to simplify this by rewriting it as a handler in response
+    // to showPhotoViewerAnimation's onRunningChanged. Due to some timing
+    // subtleties between the event thread and the QML animation thread,
+    // emitting transitionToPhotoViewerCompleted() in response to 
+    // onRunningChanged can cause visual stuttering.
+    ScriptAction {
+      script: photoViewerTransition.transitionToPhotoViewerCompleted()
     }
   }
 

@@ -54,7 +54,6 @@ Item {
   function animateOpen(photo, thumbnailRect) {
     opening();
     viewer.openCompleted = false;
-    viewer.setCurrentPhoto(photo);
     transition.transitionToPhotoViewer(photo, thumbnailRect);
   }
 
@@ -108,6 +107,7 @@ Item {
     anchors.fill: parent
 
     onTransitionToPhotoViewerCompleted: {
+      setCurrentPhoto(forMediaSource);
       viewer.openCompleted = true;
       opened();
     }
