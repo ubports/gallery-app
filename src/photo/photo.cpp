@@ -18,12 +18,15 @@
  * Lucas Beeler <lucas@yorba.org>
  * Charles Lindsay <chaz@yorba.org>
  * Eric Gregory <eric@yorba.org>
+ * Clint Rogers <clinton@yorba.org>
  */
 
 #include "photo/photo.h"
+
 #include "database/database.h"
-#include "util/imaging.h"
 #include "media/preview-manager.h"
+#include "qml/gallery-standard-image-provider.h"
+#include "util/imaging.h"
 
 #include <QFileInfo>
 #include <QImage>
@@ -40,11 +43,16 @@ bool Photo::IsValid(const QFileInfo& file) {
       return false;
   }
 
+  PhotoMetadata* tmp = PhotoMetadata::FromFile(file);
+  if (tmp == NULL)
+    return false;
+
+  delete tmp;
   return reader.canRead() &&
       QImageWriter::supportedImageFormats().contains(reader.format());
 }
 
-Photo* Photo::Load(const QFileInfo& file, bool ensure_thumbnail) {
+Photo* Photo::Load(const QFileInfo& file) {
   bool needs_update = false;
   PhotoEditState edit_state;
   QDateTime timestamp;
@@ -56,14 +64,7 @@ Photo* Photo::Load(const QFileInfo& file, bool ensure_thumbnail) {
   // Look for photo in the database.
   qint64 id = Database::instance()->get_media_table()->get_id_for_media(
     file.absoluteFilePath());
-  
-  // TODO: We check for the photo in the database but not in the
-  //       MediaCollection. We should check the MediaCollection and, if a
-  //       photo object with the same filename already exists in the
-  //       MediaCollection, we should return a pointer to this existing object
-  //       instead of creating a new one. While this isn't a problem right now,
-  //       it could become one if Photo::Load() is called elsewhere in the app.
-  
+
   if (id == INVALID_ID && !IsValid(file))
     return NULL;
   
@@ -76,25 +77,29 @@ Photo* Photo::Load(const QFileInfo& file, bool ensure_thumbnail) {
   // If we don't have the photo, add it to the DB.  If we have the photo but the
   // row is from a previous version of the DB, update the row.
   if (id == INVALID_ID || needs_update) {
-    // Get metadata from file.
     PhotoMetadata* metadata = PhotoMetadata::FromFile(p->caches_.pristine_file());
+    if (metadata == NULL) {
+      delete p;
+      return NULL;
+    }
+
     timestamp = p->caches_.pristine_file().lastModified();
     orientation = p->file_format_has_orientation()
       ? metadata->orientation() : TOP_LEFT_ORIGIN;
     filesize = p->caches_.pristine_file().size();
     exposure_time = metadata->exposure_time().isValid() ?
       QDateTime(metadata->exposure_time()) : timestamp;
-    
+
     if (needs_update) {
       // Update DB.
-      Database::instance()->get_media_table()->update_media(id, 
+      Database::instance()->get_media_table()->update_media(id,
         file.absoluteFilePath(), timestamp, exposure_time, orientation, filesize);
     } else {
       // Add to DB.
       id = Database::instance()->get_media_table()->create_id_for_media(
         file.absoluteFilePath(), timestamp, exposure_time, orientation, filesize);
     }
-    
+
     delete metadata;
   } else {
     // Load metadata from DB.
@@ -115,14 +120,18 @@ Photo* Photo::Load(const QFileInfo& file, bool ensure_thumbnail) {
   // the DB.
   p->set_id(id);
   
-  // ensure that the new photo has a thumbnail, if desired
-  if (ensure_thumbnail) {
-    bool generated_ok = PreviewManager::instance()->ensure_preview_for_media(p);
-    if (!generated_ok)
-      qDebug() << "unable to ensure thumbnail exists for photo " <<
-        file.absoluteFilePath();
+  return p;
+}
+
+Photo* Photo::Fetch(const QFileInfo& file) {
+  Photo* p = MediaCollection::instance()->photoFromFileinfo(file);
+  if (p == NULL) {
+    p = Load(file);
+
+    if (p != NULL)
+      PreviewManager::instance()->ensure_preview_for_media(p);
   }
-  
+
   return p;
 }
 
@@ -170,13 +179,16 @@ QDateTime Photo::exposure_date_time() const {
 
 QUrl Photo::gallery_path() const {
   QUrl url = MediaSource::gallery_path();
-  append_edit_revision(&url);
+  append_path_params(&url, orientation());
+  
   return url;
 }
 
 QUrl Photo::gallery_preview_path() const {
   QUrl url = MediaSource::gallery_preview_path();
-  append_edit_revision(&url);
+  // previews are always stored fully transformed
+  append_path_params(&url, TOP_LEFT_ORIGIN);
+  
   return url;
 }
 
@@ -528,16 +540,21 @@ void Photo::create_cached_enhanced() {
   delete metadata;
 }
 
-void Photo::append_edit_revision(QUrl* url) const {
+void Photo::append_path_params(QUrl* url, Orientation orientation) const {
+  QUrlQuery query;
+  query.addQueryItem(GalleryStandardImageProvider::ORIENTATION_PARAM_NAME,
+    QString::number(orientation));
+  
   // Because of QML's aggressive, opaque caching of loaded images, we need to
   // add an arbitrary URL parameter to gallery_path and gallery_preview_path so
   // that loading the same image after an edit will go back to disk instead of
   // just hitting the cache.
   if (edit_revision_ != 0) {
-    QUrlQuery url_query;
-    url_query.addQueryItem("edit", QString::number(edit_revision_));
-    url->setQuery(url_query);
+    query.addQueryItem(GalleryStandardImageProvider::REVISION_PARAM_NAME,
+      QString::number(edit_revision_));
   }
+  
+  url->setQuery(query);
 }
 
 bool Photo::file_format_has_metadata() const {

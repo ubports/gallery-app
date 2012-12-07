@@ -28,6 +28,7 @@ import "../../js/GalleryUtility.js" as GalleryUtility
 // the OrganicEventView, and the layout of the OrganicAlbumView.
 Item {
   id: organicMediaList
+  objectName: "organicMediaList"
 
   signal pressed(var mediaSource, var thumbnailRect)
 
@@ -49,6 +50,8 @@ Item {
   property var smallSize: units.gu(12)
   property real margin: units.gu(2)
   property real patternWidth: bigSize + smallSize * 2 + margin * 3
+  property var patternLeftWidth: [0, bigSize, bigSize, smallSize * 2 + margin,
+      bigSize + margin + smallSize, bigSize + 2 * margin + 2 * smallSize ]
 
   // internal
   property var photoX: [0, 0, smallSize + margin, bigSize + margin,
@@ -60,8 +63,13 @@ Item {
   property real photosLeftMargin: margin + (event ? smallSize + margin : 0)
   property real photosTopMargin: margin / 2
 
-  width: childrenRect.width + margin
-  height: childrenRect.height + margin / 2
+  width: photosLeftMargin +
+         Math.floor(mediaModel.count / mediaPerPattern) * patternWidth +
+         patternLeftWidth[mediaModel.count % mediaPerPattern] +
+         margin
+  height: (mediaModel.count > 1) ?
+              (bigSize + smallSize + photosTopMargin + margin + margin/2) :
+              (bigSize + photosTopMargin + margin / 2)
 
   EventCard {
     x: margin
@@ -92,66 +100,84 @@ Item {
       monitored: true
     }
 
-    // TODO: rounded corners.
-    // Using a plain image instead of a GalleryPhotoComponent for performance
-    // reasons. Therefore some duplication might be needed
-    Image {
-      id: thumbnail
+    Item {
+      id: tItem
       property int patternPhoto: index % mediaPerPattern
       property int patternNumber: Math.floor(index / mediaPerPattern)
+      property bool isInLoadArea: x <= loadAreaRight && x + bigSize >= loadAreaLeft
 
       x: photosLeftMargin + photoX[patternPhoto] + patternWidth * patternNumber
-      y: photosTopMargin + photoY[patternPhoto]
-      
-      width: photoSize[patternPhoto]
-      height: photoSize[patternPhoto]
-      source: (x <= loadAreaRight && x + width >= loadAreaLeft) ?
-                model.mediaSource.galleryPreviewPath : ""
-      sourceSize.width: bigSize
-      sourceSize.height: bigSize
-      fillMode: Image.PreserveAspectCrop
-      asynchronous: true
+      visible: isInLoadArea
 
-      OrganicItemInteraction {
-        selectionItem: model.mediaSource
-        selection: organicMediaList.selection
+      Component {
+        id: component_thumbnail
+        // Using a plain UbuntuShape/Image instead of a UbuntuPhotoComponent for
+        // performance reasons. Therefore some duplication might be needed
+        UbuntuShape {
+          id: thumbnail
 
-        onPressed: {
-          var rect = GalleryUtility.getRectRelativeTo(thumbnail,
-                                                      organicMediaList);
-          organicMediaList.pressed(selectionItem, rect);
+          y: photosTopMargin + photoY[patternPhoto]
+          width: photoSize[patternPhoto]
+          height: photoSize[patternPhoto]
+
+          radius: "medium"
+
+          image: Image {
+            source: (tItem.isInLoadArea && model.mediaSource
+                     ? model.mediaSource.galleryPreviewPath : "")
+            sourceSize.width: bigSize
+            sourceSize.height: bigSize
+            fillMode: Image.PreserveAspectCrop
+            asynchronous: true
+          }
+
+          OrganicItemInteraction {
+            selectionItem: model.mediaSource
+            selection: organicMediaList.selection
+
+            onPressed: {
+              var rect = GalleryUtility.getRectRelativeTo(thumbnail,
+                                                          organicMediaList);
+              organicMediaList.pressed(selectionItem, rect);
+            }
+          }
+
+          // TODO: fade in photos being added, fade out ones being deleted?  This
+          // might entail using Repeater's onItemAdded/onItemRemoved signals and
+          // manually keeping around a list of thumbnails to animate, as we can't
+          // very well animate the thumbnails created as Repeater delegates since
+          // they'll be destroyed before the animation would finish.
+
+          Behavior on x {
+            NumberAnimation {
+              duration: animationDuration
+              easing.type: animationEasingType
+            }
+          }
+          Behavior on y {
+            NumberAnimation {
+              duration: animationDuration
+              easing.type: animationEasingType
+            }
+          }
+          Behavior on width {
+            NumberAnimation {
+              duration: animationDuration
+              easing.type: animationEasingType
+            }
+          }
+          Behavior on height {
+            NumberAnimation {
+              duration: animationDuration
+              easing.type: animationEasingType
+            }
+          }
         }
       }
-
-      // TODO: fade in photos being added, fade out ones being deleted?  This
-      // might entail using Repeater's onItemAdded/onItemRemoved signals and
-      // manually keeping around a list of thumbnails to animate, as we can't
-      // very well animate the thumbnails created as Repeater delegates since
-      // they'll be destroyed before the animation would finish.
-
-      Behavior on x {
-        NumberAnimation {
-          duration: animationDuration
-          easing.type: animationEasingType
-        }
-      }
-      Behavior on y {
-        NumberAnimation {
-          duration: animationDuration
-          easing.type: animationEasingType
-        }
-      }
-      Behavior on width {
-        NumberAnimation {
-          duration: animationDuration
-          easing.type: animationEasingType
-        }
-      }
-      Behavior on height {
-        NumberAnimation {
-          duration: animationDuration
-          easing.type: animationEasingType
-        }
+      Loader {
+        id: loader_thumbnail
+        sourceComponent: tItem.isInLoadArea ? component_thumbnail : undefined
+        asynchronous: true
       }
     }
   }

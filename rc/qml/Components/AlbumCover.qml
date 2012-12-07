@@ -145,6 +145,7 @@ Item {
 
       TextEditOnClick {
         id: title
+        objectName: "albumTitleField"
         
         text: (album) ? album.title : ""
         onTextUpdated: album.title = text
@@ -155,9 +156,9 @@ Item {
         width: parent.width
         
         opacity: titleOpacity
-        color: "#f5e8e0"
+        color: "#ffffff"
         
-        fontFamily: "Nimbus Roman No9 L"
+        fontFamily: "Ubuntu"
         fontPointSize: pointUnits(16) * textScale // From the spec.
         smooth: true
         textFormat: TextEdit.PlainText
@@ -180,6 +181,7 @@ Item {
       
       TextEditOnClick {
         id: subtitle
+        objectName: "albumSubtitleField"
         
         text: (album) ? album.subtitle : ""
         onTextUpdated: album.subtitle = text
@@ -190,9 +192,9 @@ Item {
         width: parent.width
         
         opacity: titleOpacity
-        color: "#f5e8e0"
+        color: "#ffffff"
         
-        fontFamily: "Nimbus Roman No9 L"
+        fontFamily: "Ubuntu"
         
         // The -1 is due to a slight mismatch in preview vs. full album
         // cover aspect ratios.
