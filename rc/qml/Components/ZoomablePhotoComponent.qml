@@ -53,6 +53,7 @@ Rectangle {
   property var zoomArea
   property var transitionPhoto
   property var zoomedPhoto
+  property bool isPinching: pinchArea.pinch.active
 
   clip: true
 
@@ -78,11 +79,15 @@ Rectangle {
       PropertyChanges { target: zoomablePhotoComponent; zoomFactor: 1; } },
 
     State { name: "full_zoom";
-      PropertyChanges { target: zoomablePhotoComponent; zoomFactor: maxZoomFactor; } }
+      PropertyChanges { target: zoomablePhotoComponent; zoomFactor: maxZoomFactor; } 
+    },
+    
+    State { name: "pinch"; }
   ]
 
   transitions: [
-    Transition { from: "*"; to: "unzoomed";
+    // Double-click transitions.
+    Transition { from: "full_zoom"; to: "unzoomed";
       SequentialAnimation {
         ScriptAction { script: {
             transitionPhoto.visible = true;
@@ -94,7 +99,7 @@ Rectangle {
         ScriptAction { script: transitionPhoto.visible = false; }
       }
     },
-    Transition { from: "*"; to: "full_zoom";
+    Transition { from: "unzoomed"; to: "full_zoom";
       SequentialAnimation {
         ScriptAction { script: {
             transitionPhoto.visible = true;
@@ -110,15 +115,37 @@ Rectangle {
           }
         }
       }
+    },
+    
+    // Pinch transitions.
+    Transition { from: "pinch"; to: "unzoomed";
+      SequentialAnimation {
+        NumberAnimation { properties: "zoomFactor"; easing.type: Easing.Linear;
+          duration: 100; }
+        ScriptAction { script: transitionPhoto.visible = false; }
+      }
+    },
+    Transition { from: "pinch"; to: "full_zoom";
+      SequentialAnimation {
+        NumberAnimation { properties: "zoomFactor"; easing.type: Easing.Linear;
+          duration: 100; }
+        ScriptAction { script: {
+            zoomArea.placeZoomedImage();
+            zoomArea.visible = true;
+            if (zoomedPhoto.isLoaded)
+              transitionPhoto.visible = false; 
+          }
+        }
+      }
     }
   ]
 
   state: "unzoomed"
 
   onStateChanged: {
-    if (state === "zoomed")
+    if (state === "full_zoom")
       zoomed();
-    else
+    else if (state === "unzoomed")
       unzoomed();
   }
 
@@ -149,7 +176,66 @@ Rectangle {
     isPreview: zoomablePhotoComponent.isPreview
     ownerName: zoomablePhotoComponent.ownerName + "unzoomedPhoto"
   }
-
+  
+  PinchArea {
+    id: pinchArea
+    
+    // True if we were zooming in previously, else false.
+    property bool zoomIn: false
+    
+    // Set to true once zoom has started, then immediately set to false.
+    property bool zoomStarted: false
+    
+    // Normalizes the pinch area's scale, which always starts at 1, to the
+    // actual zoom factor used by the photo component.
+    function pinchAreaScaleToZoomFactor(scaleFactor) {
+      return zoomIn ? scaleFactor : scaleFactor * maxZoomFactor;
+    }
+    
+    anchors.fill: parent
+    enabled: true
+    
+    onPinchStarted: {
+      zoomStarted = true;
+      zoomIn = false;
+    }
+    
+    onPinchUpdated: {
+      // Determine if we're still zooming in or out.  Allow for a small
+      // variance to account for touch noise.
+      zoomIn = (pinch.scale > pinch.previousScale + (zoomIn ? -0.001 : 0.001));
+      
+      // Prevent zooming in on full photo or zooming out of unzoomed photo.
+      if ((zoomIn && zoomFactor === maxZoomFactor) ||
+          (!zoomIn && zoomFactor === 1.0))
+        return;
+      
+      // Setup params after a successful pinch has begun.
+      if (zoomStarted) {
+        zoomablePhotoComponent.state = "pinch";
+        transitionPhoto.visible = true;
+        zoomArea.visible = false;
+        zoomStarted = false;
+        
+        if (zoomIn) {
+          zoomFocusX = pinch.center.x;
+          zoomFocusY = pinch.center.y;
+        }
+      }
+      
+      // Set the zoom factor appropriately.
+      // Don't allow user to scale all the way up 
+      zoomFactor = GraphicsRoutines.clamp(pinchAreaScaleToZoomFactor(pinch.scale),
+        1.0, maxZoomFactor - 0.01);
+    }
+    
+    onPinchFinished: {
+      // Fire a state change to complete the zoom.
+      zoomablePhotoComponent.state = zoomIn ? "full_zoom" :
+        zoomablePhotoComponent.state = "unzoomed";
+    }
+  }
+  
   MouseArea {
     anchors.fill: parent
     enabled: fullyUnzoomed
@@ -285,7 +371,7 @@ Rectangle {
           scale: zoomFactor
           transformOrigin: Item.TopLeft
       
-          visible: false
+          visible: isPinching
           color: zoomablePhotoComponent.color
       
           mediaSource: zoomablePhotoComponent.mediaSource
