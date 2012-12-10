@@ -182,12 +182,9 @@ void GalleryApplication::create_view() {
   if (is_portrait_)
     size.transpose();
 
-  // Only the desktop is resizable.
+  view_.setResizeMode(QQuickView::SizeRootObjectToView);
   if (form_factor_ == "desktop") {
-    view_.setResizeMode(QQuickView::SizeRootObjectToView);
     view_.setMinimumSize(QSize(60 * bgu_size_, 60 * bgu_size_));
-  } else {
-    view_.setResizeMode(QQuickView::SizeViewToRootObject);
   }
   
   view_.engine()->rootContext()->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
