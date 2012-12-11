@@ -215,13 +215,15 @@ Rectangle {
               id: photosOverviewComponent
               
               PhotosOverview {
+                id: photosOverview
+                
                 anchors.fill: parent
                 
                 onMediaSourcePressed: {
                   photoViewerLoader.load();
                   
                   var rect = GalleryUtility.translateRect(thumbnailRect,
-                    photosOverviewLoader, photoViewerLoader);
+                    photosOverview, photoViewerLoader);
                   photoViewerLoader.item.animateOpen(mediaSource, rect);
                 }
               }
