@@ -24,7 +24,7 @@ class GoodhopeTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
 
     def setUp(self):
         super(GoodhopeTestCase, self).setUp()
-        os.system("cp goodhope/data/sample.jpg ~/Pictures/")
+        os.system("cp /usr/lib/python2.7/dist-packages/goodhope/data/sample.jpg ~/Pictures/")
 
         sample_location = os.path.expanduser("~/Pictures/sample.jpg")
 

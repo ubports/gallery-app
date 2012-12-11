@@ -35,7 +35,6 @@ Item {
   signal mediaSelectorHidden(int newScrollPos)
 
   property Album album
-  property AlbumCollectionModel albCollectionModel: albumModel
   property real minimumCoverWidth: units.gu(32)
   property real minimumCoverHeight: units.gu(38)
   property real preferredCoverWidth: width - units.gu(8)

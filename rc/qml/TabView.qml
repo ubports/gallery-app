@@ -57,7 +57,17 @@ Rectangle {
 
         selectedTabIndex: 1
         onSelectedTabIndexChanged: {
-            if (selectedTabIndex === 0) albumsCheckerboardLoader.load();
+          switch (selectedTabIndex) {
+            case 0: {
+              albumsCheckerboardLoader.load();
+              break;
+            }
+            
+            case 2: {
+              photosOverviewLoader.load();
+              break;
+            }
+          }
         }
 
         Tab {
@@ -185,6 +195,31 @@ Rectangle {
                 }
             }
         }
+        
+        Tab {
+          title: "Photos"
+          // TODO: Loaders don't play well with Tabs, they prevent the tab bar
+          // from sliding upward when scrolling:
+          // https://bugs.launchpad.net/goodhope/+bug/1088740
+          page: Loader {
+            id: photosOverviewLoader
+            
+            anchors.fill: parent
+            
+            function load() {
+              if (!sourceComponent)
+                sourceComponent = photosOverviewComponent;
+            }
+            
+            Component {
+              id: photosOverviewComponent
+              
+              PhotosOverview {
+                anchors.fill: parent
+              }
+            }
+          }
+        }
     }
 
     Rectangle {
@@ -212,7 +247,7 @@ Rectangle {
             else
                 popupOriginX = rect.x - childrenRect.width;
 
-            popupOriginY = rect.y >= navbar.height ? rect.y : navbar.height;
+            popupOriginY = rect.y >= units.gu(6) ? rect.y : units.gu(6);
             state = "shown"
         }
 
@@ -279,7 +314,7 @@ Rectangle {
             else
                 popupOriginX = rect.x - childrenRect.width;
 
-            popupOriginY = rect.y >= navbar.height ? rect.y : navbar.height;
+            popupOriginY = rect.y >= units.gu(6) ? rect.y : units.gu(6);
         }
 
         onDeleteRequested: {
