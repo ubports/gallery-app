@@ -49,7 +49,7 @@ Item {
             
     anchors.fill: parent
     
-    visible: state != "zoomed"
+    visible: photoViewerDelegate.state == "unzoomed"
     
     fillMode: Image.PreserveAspectFit
     
