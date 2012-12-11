@@ -212,7 +212,7 @@ Rectangle {
             else
                 popupOriginX = rect.x - childrenRect.width;
 
-            popupOriginY = rect.y >= navbar.height ? rect.y : navbar.height;
+            popupOriginY = rect.y >= units.gu(6) ? rect.y : units.gu(6);
             state = "shown"
         }
 
@@ -279,7 +279,7 @@ Rectangle {
             else
                 popupOriginX = rect.x - childrenRect.width;
 
-            popupOriginY = rect.y >= navbar.height ? rect.y : navbar.height;
+            popupOriginY = rect.y >= units.gu(6) ? rect.y : units.gu(6);
         }
 
         onDeleteRequested: {
