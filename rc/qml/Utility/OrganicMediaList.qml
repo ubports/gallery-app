@@ -39,7 +39,7 @@ Item {
   // The left and right edges of the region in which to load photos; any
   // outside this region are created as delegates, but the photo isn't loaded.
   property real loadAreaLeft: 0
-  property real loadAreaRight: width
+  property real loadAreaWidth: width
 
   property int animationDuration: Gallery.FAST_DURATION
   property int animationEasingType: Easing.InQuint
@@ -104,31 +104,32 @@ Item {
       id: tItem
       property int patternPhoto: index % mediaPerPattern
       property int patternNumber: Math.floor(index / mediaPerPattern)
-      property bool isInLoadArea: x <= loadAreaRight && x + bigSize >= loadAreaLeft
+      property bool isInLoadArea: xw <= loadAreaLeft && x >= loadAreaLeft
 
       x: photosLeftMargin + photoX[patternPhoto] + patternWidth * patternNumber
+      // transform th right end to the left, for easier comparison for isInLoadArea
+      property int xw: x - loadAreaWidth
       visible: isInLoadArea
 
       Component {
         id: component_thumbnail
         // Using a plain UbuntuShape/Image instead of a UbuntuPhotoComponent for
         // performance reasons. Therefore some duplication might be needed
-        UbuntuShape {
+//        UbuntuShape {
+//          radius: "medium"
+        // This is a hack, as UbuntuShape is slow on first drawing
+        RoundCornerShape {
           id: thumbnail
 
           y: photosTopMargin + photoY[patternPhoto]
           width: photoSize[patternPhoto]
           height: photoSize[patternPhoto]
 
-          radius: "medium"
-
           image: Image {
-            source: (tItem.isInLoadArea && model.mediaSource
-                     ? model.mediaSource.galleryPreviewPath : "")
+            source: model.mediaSource ? model.mediaSource.galleryPreviewPath : ""
             sourceSize.width: bigSize
             sourceSize.height: bigSize
             fillMode: Image.PreserveAspectCrop
-            asynchronous: true
           }
 
           OrganicItemInteraction {

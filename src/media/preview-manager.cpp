@@ -107,7 +107,7 @@ QFileInfo PreviewManager::PreviewFileFor(const MediaSource* media) const {
   QFileInfo file = media->file();
   
   return QFileInfo(file.dir(),
-    PREVIEW_DIR + "/" + file.completeBaseName() + "_th." + file.completeSuffix());
+    PREVIEW_DIR + "/" + file.completeBaseName() + "_th.jpg");
 }
 
 bool PreviewManager::ensure_preview_for_media(MediaSource* media, bool regen) {
