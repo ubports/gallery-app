@@ -36,7 +36,7 @@ OrganicView {
     property real trayLoadAreaPadding: units.gu(1)
 
     AlbumCollectionModel {
-      id: albCollectionMdl;
+      id: albumCollectionModel;
     }
 
     selection: SelectionState {
@@ -155,14 +155,14 @@ OrganicView {
                     break;
                 }
                 case "add": {
-                    var tmp = albCollectionMdl.createOrphan();
-                    tmp.addSelectedMediaSources(selection.model);
-                    albCollectionMdl.addOrphan(tmp);
+                    var album = albumCollectionModel.createOrphan();
+                    album.addSelectedMediaSources(selection.model);
+                    albumCollectionModel.addOrphan(album);
 
-                    var old_mode_change = selection.allowSelectionModeChange;
-                    selection.allowSelectionModeChange = true;
-                    selection.leaveSelectionMode();
-                    selection.allowSelectionModeChange = old_mode_change;
+                    // We can't use leaveSelectionMode() here, due to the fact that
+                    // we're skirting around the proper use of the selection object.
+                    selection.unselectAll();
+                    selection.inSelectionMode = false;
                     break;
                 }
             }
