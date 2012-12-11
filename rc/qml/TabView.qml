@@ -57,7 +57,15 @@ Rectangle {
 
         selectedTabIndex: 1
         onSelectedTabIndexChanged: {
-            if (selectedTabIndex === 0) albumsCheckerboardLoader.load();
+          switch (selectedTabIndex) {
+            case 0: {
+              albumsCheckerboardLoader.load();
+            } break;
+            
+            case 2: {
+              photosOverviewLoader.load();
+            } break;
+          }
         }
 
         Tab {
@@ -184,6 +192,31 @@ Rectangle {
                     photoViewerLoader.item.animateOpen(mediaSource, rect);
                 }
             }
+        }
+        
+        Tab {
+          title: "Photos"
+          // TODO: Loaders don't play well with Tabs, they prevent the tab bar
+          // from sliding upward when scrolling:
+          // https://bugs.launchpad.net/goodhope/+bug/1088740
+          page: Loader {
+            id: photosOverviewLoader
+            
+            anchors.fill: parent
+            
+            function load() {
+              if (!sourceComponent)
+                sourceComponent = photosOverviewComponent;
+            }
+            
+            Component {
+              id: photosOverviewComponent
+              
+              PhotosOverview {
+                anchors.fill: parent
+              }
+            }
+          }
         }
     }
 
