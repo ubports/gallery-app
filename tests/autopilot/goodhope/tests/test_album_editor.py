@@ -34,28 +34,28 @@ class TestAlbumEditor(GoodhopeTestCase):
     def click_albums_tab(self):
         albums_tab = self.album_editor.get_albums_tab()
 
-        self.mouse.move_to_object(albums_tab)
-        self.mouse.click()
+        self.pointing_device.move_to_object(albums_tab)
+        self.pointing_device.click()
 
         self.assertThat(albums_tab.state, Eventually(Equals("selected")))
 
     def click_plus_icon(self):
         add_icon = self.album_editor.get_plus_icon()
 
-        self.mouse.move_to_object(add_icon)
-        self.mouse.click()
+        self.pointing_device.move_to_object(add_icon)
+        self.pointing_device.click()
 
     def click_title_field(self):
         title_field = self.album_editor.get_album_title_entry_field()
 
-        self.mouse.move_to_object(title_field)
-        self.mouse.click()
+        self.pointing_device.move_to_object(title_field)
+        self.pointing_device.click()
 
     def click_subtitle_field(self):
         subtitle_field = self.album_editor.get_album_subtitle_entry_field()
 
-        self.mouse.move_to_object(subtitle_field)
-        self.mouse.click()
+        self.pointing_device.move_to_object(subtitle_field)
+        self.pointing_device.click()
 
     def test_album_title_field_default_text(self):
         """Ensures the default text of the title field is intact."""
