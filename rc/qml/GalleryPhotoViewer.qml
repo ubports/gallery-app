@@ -228,6 +228,7 @@ Item {
         onButtonClicked: {
             switch (buttonName) {
             case "share": {
+                sharePopover.picturePath = viewerWrapper.photo.path;
                 sharePopover.caller = button;
                 sharePopover.show();
                 break;

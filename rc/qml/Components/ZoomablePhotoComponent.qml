@@ -18,6 +18,7 @@
  */
 
 import QtQuick 2.0
+import "../../js/Gallery.js" as Gallery
 import "../../js/GalleryUtility.js" as GalleryUtility
 import "../../js/GraphicsRoutines.js" as GraphicsRoutines
 
@@ -49,10 +50,6 @@ Rectangle {
   property real maxZoomFactor: 2.5
   property real photoFocusX: zoomFocusX - unzoomedPhoto.leftEdge
   property real photoFocusY: zoomFocusY - unzoomedPhoto.topEdge
-  property bool zoomedOnce: false
-  property var zoomArea
-  property var transitionPhoto
-  property var zoomedPhoto
 
   clip: true
 
@@ -75,63 +72,48 @@ Rectangle {
 
   states: [
     State { name: "unzoomed";
-      PropertyChanges { target: zoomablePhotoComponent; zoomFactor: 1; } },
-
+      PropertyChanges { target: zoomablePhotoComponent; zoomFactor: 1; }
+    },
     State { name: "full_zoom";
-      PropertyChanges { target: zoomablePhotoComponent; zoomFactor: maxZoomFactor; } }
+      PropertyChanges { target: zoomablePhotoComponent; zoomFactor: maxZoomFactor; }
+    },
+    State { name: "pinching";
+      // Setting the zoom factor to itself seems odd, but it's necessary to
+      // prevent zoomFactor from jumping when you start pinching.
+      PropertyChanges { target: zoomablePhotoComponent; zoomFactor: zoomFactor;
+        explicit: true; }
+    }
   ]
 
   transitions: [
-    Transition { from: "*"; to: "unzoomed";
-      SequentialAnimation {
-        ScriptAction { script: {
-            transitionPhoto.visible = true;
-            zoomArea.visible = false;
-          }
-        }
-        NumberAnimation { properties: "zoomFactor"; easing.type: Easing.InQuad;
-          duration: 350; }
-        ScriptAction { script: transitionPhoto.visible = false; }
-      }
+    // Double-click transitions.
+    Transition { from: "full_zoom"; to: "unzoomed";
+      NumberAnimation { properties: "zoomFactor"; easing.type: Easing.InQuad;
+        duration: Gallery.FAST_DURATION; }
     },
-    Transition { from: "*"; to: "full_zoom";
-      SequentialAnimation {
-        ScriptAction { script: {
-            transitionPhoto.visible = true;
-          }
-        }
-        NumberAnimation { properties: "zoomFactor"; easing.type: Easing.InQuad;
-          duration: 350; }
-        ScriptAction { script: {
-            zoomArea.placeZoomedImage();
-            zoomArea.visible = true;
-            if (zoomedPhoto.isLoaded)
-              transitionPhoto.visible = false; 
-          }
-        }
-      }
+    Transition { from: "unzoomed"; to: "full_zoom";
+      NumberAnimation { properties: "zoomFactor"; easing.type: Easing.InQuad;
+        duration: Gallery.FAST_DURATION; }
+    },
+    
+    // Pinch transitions.
+    Transition { from: "pinching"; to: "unzoomed";
+      NumberAnimation { properties: "zoomFactor"; easing.type: Easing.Linear;
+        duration: Gallery.SNAP_DURATION; }
+    },
+    Transition { from: "pinching"; to: "full_zoom";
+      NumberAnimation { properties: "zoomFactor"; easing.type: Easing.Linear;
+        duration: Gallery.SNAP_DURATION; }
     }
   ]
 
   state: "unzoomed"
 
   onStateChanged: {
-    if (state === "zoomed")
+    if (state === "full_zoom")
       zoomed();
-    else
+    else if (state === "unzoomed")
       unzoomed();
-  }
-
-  onFullyZoomedChanged: {
-    if (fullyZoomed && !zoomedOnce)
-      zoomedOnce = true;
-  }
-  
-  onFullyUnzoomedChanged: {
-    if (zoomedOnce && fullyUnzoomed) {
-      zoomAssemblyLoader.sourceComponent = undefined;
-      zoomAssemblyLoader.sourceComponent = zoomAssemblyComponent;
-    }
   }
 
   GalleryPhotoComponent {
@@ -139,6 +121,11 @@ Rectangle {
 
     property real leftEdge: (parent.width - paintedWidth) / 2
     property real topEdge: (parent.height - paintedHeight) / 2
+
+    function isInsidePhoto(x, y) {
+      return (x >= leftEdge && x < leftEdge + paintedWidth &&
+              y >= topEdge && y < topEdge + paintedHeight);
+    }
 
     anchors.fill: parent
     visible: fullyUnzoomed
@@ -149,17 +136,61 @@ Rectangle {
     isPreview: zoomablePhotoComponent.isPreview
     ownerName: zoomablePhotoComponent.ownerName + "unzoomedPhoto"
   }
+  
+  PinchArea {
+    id: pinchArea
 
+    property bool zoomingIn // Splaying to zoom in, vs. pinching to zoom out.
+    property real initialZoomFactor
+    
+    anchors.fill: parent
+    
+    // QML seems to ignore these, so we have to manually keep scale in check
+    // inside onPinchUpdated.  The 0.9 and 1.1 are just fudge factors to give
+    // us a little bounce when you go past the zoom limit.
+    pinch.minimumScale: 1 / initialZoomFactor * 0.9
+    pinch.maximumScale: maxZoomFactor / initialZoomFactor * 1.1
+
+    onPinchStarted: {
+      zoomingIn = false;
+      initialZoomFactor = zoomFactor;
+
+      if (fullyUnzoomed) {
+        if (unzoomedPhoto.isInsidePhoto(pinch.center.x, pinch.center.y)) {
+          zoomFocusX = pinch.center.x;
+          zoomFocusY = pinch.center.y;
+        } else {
+          zoomFocusX = parent.width / 2;
+          zoomFocusY = parent.height / 2;
+        }
+      }
+
+      zoomablePhotoComponent.state = "pinching";
+    }
+
+    onPinchUpdated: {
+      // Determine if we're still zooming in or out.  Allow for a small
+      // variance to account for touch noise.
+      if (Math.abs(pinch.scale - pinch.previousScale) > 0.001)
+        zoomingIn = (pinch.scale > pinch.previousScale);
+      
+      // For some reason, the PinchArea ignores these settings.
+      var scale = GraphicsRoutines.clamp(pinch.scale,
+          pinchArea.pinch.minimumScale, pinchArea.pinch.maximumScale);
+
+      zoomFactor = initialZoomFactor * scale;
+    }
+    
+    onPinchFinished: zoomablePhotoComponent.state = (zoomingIn ? "full_zoom" : "unzoomed")
+  }
+  
   MouseArea {
     anchors.fill: parent
     enabled: fullyUnzoomed
 
     onClicked: zoomablePhotoComponent.clicked()
     onDoubleClicked: {
-      if (mouse.x >= unzoomedPhoto.leftEdge &&
-          mouse.x < unzoomedPhoto.leftEdge + unzoomedPhoto.paintedWidth &&
-          mouse.y >= unzoomedPhoto.topEdge &&
-          mouse.y < unzoomedPhoto.topEdge + unzoomedPhoto.paintedHeight)
+      if (unzoomedPhoto.isInsidePhoto(mouse.x, mouse.y))
         zoom(mouse.x, mouse.y);
       else
         zoomablePhotoComponent.clicked();
@@ -168,32 +199,20 @@ Rectangle {
 
   Loader {
     id: zoomAssemblyLoader
-        
+
     anchors.fill: parent
     
-    sourceComponent: zoomAssemblyComponent
-    
-    onLoaded: {
-      item.connectToContext();
-    }
+    sourceComponent: (fullyUnzoomed ? undefined : zoomAssemblyComponent)
     
     Component {
       id: zoomAssemblyComponent
       
       Item {
-        id: zoomAssembly
-        
-        function connectToContext() {
-          zoomablePhotoComponent.zoomArea = zoomArea;
-          zoomablePhotoComponent.transitionPhoto = transitionPhoto;
-          zoomablePhotoComponent.zoomedPhoto = zoomedPhoto;
-        }
-        
         anchors.fill: parent
 
         Flickable {
           id: zoomArea
-      
+
           property real zoomAreaZoomFactor: maxZoomFactor
           property real minContentFocusX: (contentWidth < parent.width
                                            ? contentWidth : parent.width) / 2
@@ -212,82 +231,79 @@ Rectangle {
           // apparently not.
           property real contentFocusLeft: contentFocusX - parent.width / 2
           property real contentFocusTop: contentFocusY - parent.height / 2
-      
-          function placeZoomedImage() {
-            contentX = contentFocusLeft;
-            contentY = contentFocusTop;
-          }
           
           anchors.fill: parent
-          visible: false
-      
+          visible: fullyZoomed
+
+          onVisibleChanged: {
+            if (visible) {
+              contentX = contentFocusLeft;
+              contentY = contentFocusTop;
+            }
+          }
+
           onContentXChanged: {
-            var contentFocusX = contentX + parent.width / 2;
+            var contentFocusX = contentX + width / 2;
             var photoFocusX = contentFocusX / zoomAreaZoomFactor;
             zoomFocusX = photoFocusX + unzoomedPhoto.leftEdge;
           }
           
           onContentYChanged: {
-            var contentFocusY = contentY + parent.height / 2;
+            var contentFocusY = contentY + height / 2;
             var photoFocusY = contentFocusY / zoomAreaZoomFactor;
             zoomFocusY = photoFocusY + unzoomedPhoto.topEdge;
           }
-      
+
           flickableDirection: Flickable.HorizontalAndVerticalFlick
           contentWidth: unzoomedPhoto.paintedWidth * zoomAreaZoomFactor
           contentHeight: unzoomedPhoto.paintedHeight * zoomAreaZoomFactor
-      
+
           leftMargin: Math.max(0, (parent.width - contentWidth) / 2)
           rightMargin: leftMargin
           topMargin: Math.max(0, (parent.height - contentHeight) / 2)
           bottomMargin: topMargin
-      
+
           GalleryPhotoComponent {
             id: zoomedPhoto
-      
+
             anchors.fill: parent
             color: zoomablePhotoComponent.color
-      
+
             mediaSource: zoomablePhotoComponent.mediaSource
             load: zoomablePhotoComponent.load && fullyZoomed
             
             isPreview: zoomablePhotoComponent.isPreview
             ownerName: zoomablePhotoComponent.ownerName + "zoomedPhoto"
-            onIsLoadedChanged: {
-              // Hide the transition when photo is loaded.
-              if (isLoaded && fullyZoomed)
-                transitionPhoto.visible = false;
-            }
-      
+
             MouseArea {
               anchors.fill: parent
-      
+
               onClicked: zoomablePhotoComponent.clicked()
               onDoubleClicked: unzoom()
             }
           }
         }
-      
+
         GalleryPhotoComponent {
           id: transitionPhoto
-      
+
           property real unzoomedX: unzoomedPhoto.leftEdge
           property real unzoomedY: unzoomedPhoto.topEdge
           property real zoomedX: -zoomArea.contentFocusLeft
           property real zoomedY: -zoomArea.contentFocusTop
-      
+
           property real zoomFraction: (zoomFactor - 1) / (maxZoomFactor - 1)
-      
+
           x: GalleryUtility.interpolate(unzoomedX, zoomedX, zoomFraction)
           y: GalleryUtility.interpolate(unzoomedY, zoomedY, zoomFraction)
           width: unzoomedPhoto.paintedWidth
           height: unzoomedPhoto.paintedHeight
           scale: zoomFactor
           transformOrigin: Item.TopLeft
-      
-          visible: false
+
+          visible: !fullyUnzoomed && !(fullyZoomed && zoomedPhoto.isLoaded)
           color: zoomablePhotoComponent.color
-      
+
           mediaSource: zoomablePhotoComponent.mediaSource
           load: zoomablePhotoComponent.load && visible
           isPreview: zoomablePhotoComponent.isPreview
