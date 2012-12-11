@@ -75,6 +75,11 @@ Item {
   
   anchors.fill: parent;
 
+  Rectangle{
+    color: "black"
+    anchors.fill: parent
+  }
+
   PhotoViewer {
     id: galleryPhotoViewer
 
@@ -223,6 +228,7 @@ Item {
         onButtonClicked: {
             switch (buttonName) {
             case "share": {
+                sharePopover.picturePath = viewerWrapper.photo.path;
                 sharePopover.caller = button;
                 sharePopover.show();
                 break;
