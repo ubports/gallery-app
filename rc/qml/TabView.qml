@@ -60,11 +60,13 @@ Rectangle {
           switch (selectedTabIndex) {
             case 0: {
               albumsCheckerboardLoader.load();
-            } break;
+              break;
+            }
             
             case 2: {
               photosOverviewLoader.load();
-            } break;
+              break;
+            }
           }
         }
 

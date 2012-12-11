@@ -24,7 +24,6 @@ import Ubuntu.Components 0.1
 GridView {
   id: photosOverview
   
-  anchors.topMargin: units.gu(1)
   anchors.leftMargin: units.gu(1)
   anchors.rightMargin: units.gu(1)
   
@@ -35,6 +34,15 @@ GridView {
   
   model: MediaCollectionModel {
     monitored: true
+  }
+  
+  // Use this rather than anchors.topMargin to prevent delegates from being
+  // unloade while scrolling out of view but still partially visible
+  header: Item {
+    x: 0
+    y: 0
+    width: parent.width
+    height: units.gu(1)
   }
   
   delegate: Item {
