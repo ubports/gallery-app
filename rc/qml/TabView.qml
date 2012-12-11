@@ -54,6 +54,8 @@ Rectangle {
         anchors.fill: parent
         ItemStyle.class: "new-tabs"
         Component.onCompleted: ItemStyle.style.swipeToSwitchTabs = false
+        
+        visible: !(photoViewerLoader.item && photoViewerLoader.item.isPoppedUp)
 
         selectedTabIndex: 1
         onSelectedTabIndexChanged: {

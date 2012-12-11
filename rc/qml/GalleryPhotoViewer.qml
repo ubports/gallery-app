@@ -132,14 +132,14 @@ Item {
       chromeBar.setBarShown(false);
     }
 
-    delegate: ZoomablePhotoComponent {
-      id: galleryPhotoComponent
+    delegate: PhotoViewerDelegate {
+      id: viewerDelegate
 
       width: galleryPhotoViewer.width
       height: galleryPhotoViewer.height
+      useInteractivePreview: galleryPhotoViewer.moving
 
       visible: true
-      color: "black"
 
       opacity: {
         if (!galleryPhotoViewer.moving || galleryPhotoViewer.contentX < 0
@@ -150,9 +150,6 @@ Item {
       }
       
       mediaSource: model.mediaSource
-      load: galleryPhotoViewer.load
-
-      ownerName: "galleryPhotoViewer"
 
       onClicked: chromeFadeWaitClock.restart()
       onZoomed: {
