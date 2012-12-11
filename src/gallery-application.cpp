@@ -155,6 +155,8 @@ void GalleryApplication::process_args() {
 
       if (arg.startsWith("--") && form_factors_.keys().contains(form_factor)) {
         form_factor_ = form_factor;
+      } else if (arg.startsWith("--desktop_file_hint")) {
+        // ignore this command line switch, hybris uses it to get application info
       } else if (i == args.count() - 1 && QDir(arg).exists()) {
         pictures_dir_ = QDir(arg);
       } else {
