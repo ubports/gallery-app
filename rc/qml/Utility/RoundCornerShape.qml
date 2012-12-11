@@ -18,6 +18,7 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1 as Theming
 
 /*!
 Faster replacement for UbuntuShape
@@ -30,6 +31,20 @@ Item {
     width: 216
     height: 216
 
+    Theming.ItemStyle.class: "UbuntuShape-radius-" + radius
+    /*!
+      The size of the corners among: "small" (default) and "medium".
+    */
+    property string radius: "medium"
+
+    /*!
+      The image used as a border.
+    */
+    property url borderSource: Theming.ComponentUtils.style(root, "borderIdle", "")
+
+    /*!
+      The image used to fill the shape.
+    */
     property Image image
 
     /*! \internal */
@@ -51,7 +66,7 @@ Item {
         visible: root.image
 
         property Image mask: Image {
-            source: root.size < 280 ? "../../img/small-round-corner-mask.png"
+            source: root.width < 280 ? "../../img/small-round-corner-mask.png"
                       : "../../img/big-round-corner-mask.png"
             visible: false
         }
@@ -109,5 +124,12 @@ Item {
                 gl_FragColor = imageColor * maskColor.a * qt_Opacity;
             }
             "
+    }
+
+    BorderImage {
+        id: border
+
+        anchors.fill: parent
+        source: root.borderSource
     }
 }

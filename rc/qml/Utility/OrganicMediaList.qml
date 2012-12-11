@@ -116,7 +116,6 @@ Item {
         // Using a plain UbuntuShape/Image instead of a UbuntuPhotoComponent for
         // performance reasons. Therefore some duplication might be needed
 //        UbuntuShape {
-//          radius: "medium"
         // This is a hack, as UbuntuShape is slow on first drawing
         RoundCornerShape {
           id: thumbnail
@@ -124,6 +123,8 @@ Item {
           y: photosTopMargin + photoY[patternPhoto]
           width: photoSize[patternPhoto]
           height: photoSize[patternPhoto]
+
+          radius: "medium"
 
           image: Image {
             source: model.mediaSource ? model.mediaSource.galleryPreviewPath : ""
