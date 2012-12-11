@@ -36,7 +36,7 @@ OrganicView {
     property real trayLoadAreaPadding: units.gu(1)
 
     AlbumCollectionModel {
-      id: albumCollectionModel;
+      id: albumCollectionModel
     }
 
     selection: SelectionState {
