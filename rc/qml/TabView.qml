@@ -216,6 +216,14 @@ Rectangle {
               
               PhotosOverview {
                 anchors.fill: parent
+                
+                onMediaSourcePressed: {
+                  photoViewerLoader.load();
+                  
+                  var rect = GalleryUtility.translateRect(thumbnailRect,
+                    photosOverviewLoader, photoViewerLoader);
+                  photoViewerLoader.item.animateOpen(mediaSource, rect);
+                }
               }
             }
           }
