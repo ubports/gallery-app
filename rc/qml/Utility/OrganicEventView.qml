@@ -74,7 +74,8 @@ OrganicView {
     }
 
     ChromeBar {
-        id: chromeBar
+
+      id: chromeBar
         //        z: 100
         anchors {
             bottom: parent.bottom
@@ -100,7 +101,7 @@ OrganicView {
         property ListModel selectionModel: ListModel {
             ListElement {
                 label: "Add"
-                name: "disabled"
+                name: "add"
                 icon: "../img/add.png"
             }
             ListElement {
@@ -146,6 +147,14 @@ OrganicView {
                 deletePopover.caller = button;
                 deletePopover.show();
                 break;
+            }
+            case "add": {
+              albumEditor.editNewAlbum();
+              albumEditor.album.addSelectedMediaSources(selection.model);
+              albumEditor.albCollectionModel.addOrphan(albumEditor.album);
+              selection.unselectAll();
+              selection.inSelectionMode = false;
+              break;
             }
             }
         }
