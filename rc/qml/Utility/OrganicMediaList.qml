@@ -150,12 +150,6 @@ Item {
           // very well animate the thumbnails created as Repeater delegates since
           // they'll be destroyed before the animation would finish.
 
-          Behavior on x {
-            NumberAnimation {
-              duration: animationDuration
-              easing.type: animationEasingType
-            }
-          }
           Behavior on y {
             NumberAnimation {
               duration: animationDuration
@@ -180,6 +174,13 @@ Item {
         id: loader_thumbnail
         sourceComponent: tItem.isInLoadArea ? component_thumbnail : undefined
         asynchronous: true
+      }
+
+      Behavior on x {
+        NumberAnimation {
+          duration: animationDuration
+          easing.type: animationEasingType
+        }
       }
     }
   }
