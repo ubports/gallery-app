@@ -28,6 +28,7 @@ Item {
     }
 
     onButtonsModelChanged: setBarShown(false)
+
     Component.onCompleted: setBarShown(false)
 
     // do not allow hiding of the toolbar
