@@ -59,19 +59,13 @@ Rectangle {
 
         selectedTabIndex: 1
         onSelectedTabIndexChanged: {
-          switch (selectedTabIndex) {
-            case 0: {
-              albumsCheckerboardLoader.load();
-              break;
-            }
-            
-            case 2: {
-              photosOverviewLoader.load();
-              break;
-            }
-          }
+          if (selectedTabIndex == 0)
+            albumsCheckerboardLoader.load();
         }
 
+        // TODO: Loaders don't play well with Tabs, they prevent the tab bar
+        // from sliding upward when scrolling:
+        // https://bugs.launchpad.net/goodhope/+bug/1088740
         Tab {
             title: "Albums"
             page: Loader {
@@ -198,37 +192,22 @@ Rectangle {
             }
         }
         
+        // TODO: Although not using a Loader for the Photo Overview today
+        // (see above TODO), will make sense in future when component becomes
+        // more heavyweight and causes a longer startup time
         Tab {
           title: "Photos"
-          // TODO: Loaders don't play well with Tabs, they prevent the tab bar
-          // from sliding upward when scrolling:
-          // https://bugs.launchpad.net/goodhope/+bug/1088740
-          page: Loader {
-            id: photosOverviewLoader
+          page: PhotosOverview {
+            id: photosOverview
             
             anchors.fill: parent
             
-            function load() {
-              if (!sourceComponent)
-                sourceComponent = photosOverviewComponent;
-            }
-            
-            Component {
-              id: photosOverviewComponent
+            onMediaSourcePressed: {
+              photoViewerLoader.load();
               
-              PhotosOverview {
-                id: photosOverview
-                
-                anchors.fill: parent
-                
-                onMediaSourcePressed: {
-                  photoViewerLoader.load();
-                  
-                  var rect = GalleryUtility.translateRect(thumbnailRect,
-                    photosOverview, photoViewerLoader);
-                  photoViewerLoader.item.animateOpen(mediaSource, rect);
-                }
-              }
+              var rect = GalleryUtility.translateRect(thumbnailRect,
+                photosOverview, photoViewerLoader);
+              photoViewerLoader.item.animateOpen(mediaSource, rect);
             }
           }
         }
