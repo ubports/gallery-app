@@ -20,9 +20,12 @@
 import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 0.1
+import "../js/GalleryUtility.js" as GalleryUtility
 
 GridView {
   id: photosOverview
+  
+  signal mediaSourcePressed(var mediaSource, var thumbnailRect)
   
   anchors.leftMargin: units.gu(1)
   anchors.rightMargin: units.gu(1)
@@ -50,6 +53,8 @@ GridView {
     height: photosOverview.cellHeight
     
     Image {
+      id: image
+      
       width: units.gu(12)
       height: units.gu(12)
       
@@ -64,6 +69,15 @@ GridView {
       asynchronous: true
       cache: true
       smooth: true
+      
+      MouseArea {
+        anchors.fill: parent
+        
+        onClicked: {
+          mediaSourcePressed(mediaSource, GalleryUtility.getRectRelativeTo(
+            image, photosOverview));
+        }
+      }
     }
   }
 }
