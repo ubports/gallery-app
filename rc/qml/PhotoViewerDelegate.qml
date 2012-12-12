@@ -40,14 +40,16 @@ Item {
   signal unzoomed()
   
   function unzoom() {
-    console.log("unzooming....");
-    
     if (!isLoaded)
       return;
 
     fullPhotoComponentLoader.item.unzoom();
   }
   
+  // Note that we haven't defined a state set in this component, even though
+  // we bind the "state" property here. This is intentional and is necessary
+  // to work around a binding issue on Qt 5.0 beta 1. Given a later version
+  // of Qt, this treatment might not be necessary.
   state: (fullPhotoComponentLoader.item &&
     !fullPhotoComponentLoader.item.fullyUnzoomed) ? "zoomed" : 
     "unzoomed";
