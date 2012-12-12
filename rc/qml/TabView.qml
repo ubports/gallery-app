@@ -54,6 +54,8 @@ Rectangle {
         anchors.fill: parent
         ItemStyle.class: "new-tabs"
         Component.onCompleted: ItemStyle.style.swipeToSwitchTabs = false
+        
+        visible: !(photoViewerLoader.item && photoViewerLoader.item.isPoppedUp)
 
         selectedTabIndex: 1
         onSelectedTabIndexChanged: {
@@ -215,7 +217,17 @@ Rectangle {
               id: photosOverviewComponent
               
               PhotosOverview {
+                id: photosOverview
+                
                 anchors.fill: parent
+                
+                onMediaSourcePressed: {
+                  photoViewerLoader.load();
+                  
+                  var rect = GalleryUtility.translateRect(thumbnailRect,
+                    photosOverview, photoViewerLoader);
+                  photoViewerLoader.item.animateOpen(mediaSource, rect);
+                }
               }
             }
           }
@@ -247,7 +259,7 @@ Rectangle {
             else
                 popupOriginX = rect.x - childrenRect.width;
 
-            popupOriginY = rect.y >= navbar.height ? rect.y : navbar.height;
+            popupOriginY = rect.y >= units.gu(6) ? rect.y : units.gu(6);
             state = "shown"
         }
 
@@ -314,7 +326,7 @@ Rectangle {
             else
                 popupOriginX = rect.x - childrenRect.width;
 
-            popupOriginY = rect.y >= navbar.height ? rect.y : navbar.height;
+            popupOriginY = rect.y >= units.gu(6) ? rect.y : units.gu(6);
         }
 
         onDeleteRequested: {

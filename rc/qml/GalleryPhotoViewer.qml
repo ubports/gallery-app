@@ -100,12 +100,12 @@ Item {
     }
 
     function goBack() {
-      galleryPhotoViewer.currentItem.state = "unzoomed";
+      galleryPhotoViewer.currentItem.unzoom();
       pageBack();
     }
 
     function goForward() {
-      galleryPhotoViewer.currentItem.state = "unzoomed";
+      galleryPhotoViewer.currentItem.unzoom();
       pageForward();
     }
 
@@ -132,14 +132,14 @@ Item {
       chromeBar.setBarShown(false);
     }
 
-    delegate: ZoomablePhotoComponent {
-      id: galleryPhotoComponent
+    delegate: PhotoViewerDelegate {
+      id: viewerDelegate
 
       width: galleryPhotoViewer.width
       height: galleryPhotoViewer.height
+      useInteractivePreview: galleryPhotoViewer.moving
 
       visible: true
-      color: "black"
 
       opacity: {
         if (!galleryPhotoViewer.moving || galleryPhotoViewer.contentX < 0
@@ -150,9 +150,6 @@ Item {
       }
       
       mediaSource: model.mediaSource
-      load: galleryPhotoViewer.load
-
-      ownerName: "galleryPhotoViewer"
 
       onClicked: chromeFadeWaitClock.restart()
       onZoomed: {
@@ -221,7 +218,7 @@ Item {
         showChromeBar: true
 
         onBackButtonClicked:  {
-            galleryPhotoViewer.currentItem.state = "unzoomed";
+            galleryPhotoViewer.currentItem.unzoom();
             closeRequested();
         }
 

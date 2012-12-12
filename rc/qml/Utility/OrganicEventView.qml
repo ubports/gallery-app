@@ -33,7 +33,11 @@ OrganicView {
 
     // Arbitrary extra amount of padding so that as you scroll the tray, the
     // photos are already loaded by the time they're on screen.
-    property real trayLoadAreaPadding: units.gu(20)
+    property real trayLoadAreaPadding: units.gu(1)
+
+    AlbumCollectionModel {
+      id: albumCollectionModel
+    }
 
     selection: SelectionState {
         // avoid entering selection mode by long-pressing on a photo:
@@ -53,11 +57,14 @@ OrganicView {
         contentHeight: photosList.height
         flickableDirection: Flickable.HorizontalFlick
 
+        onMovementStarted: trayLoadAreaPadding = units.gu(20)
+
         OrganicMediaList {
             id: photosList
 
             loadAreaLeft: tray.contentX - trayLoadAreaPadding
-            loadAreaRight: tray.contentX + tray.width + trayLoadAreaPadding
+            // size + one big thumbnail
+            loadAreaWidth: tray.width + 2 * trayLoadAreaPadding + bigSize
 
             animationDuration: organicEventView.animationDuration
             animationEasingType: organicEventView.animationEasingType
@@ -100,7 +107,7 @@ OrganicView {
         property ListModel selectionModel: ListModel {
             ListElement {
                 label: "Add"
-                name: "disabled"
+                name: "add"
                 icon: "../img/add.png"
             }
             ListElement {
@@ -136,17 +143,28 @@ OrganicView {
 
         onButtonClicked: {
             switch (buttonName) {
-            case "select": {
-                // Set inSelectionMode instead of using tryEnterSelectionMode
-                // because allowSelectionModeChange is false.
-                selection.inSelectionMode = true;
-                break;
-            }
-            case "delete": {
-                deletePopover.caller = button;
-                deletePopover.show();
-                break;
-            }
+                case "select": {
+                    // Set inSelectionMode instead of using tryEnterSelectionMode
+                    // because allowSelectionModeChange is false.
+                    selection.inSelectionMode = true;
+                    break;
+                }
+                case "delete": {
+                    deletePopover.caller = button;
+                    deletePopover.show();
+                    break;
+                }
+                case "add": {
+                    var album = albumCollectionModel.createOrphan();
+                    album.addSelectedMediaSources(selection.model);
+                    albumCollectionModel.addOrphan(album);
+
+                    // We can't use leaveSelectionMode() here, due to the fact that
+                    // we're skirting around the proper use of the selection object.
+                    selection.unselectAll();
+                    selection.inSelectionMode = false;
+                    break;
+                }
             }
         }
 
