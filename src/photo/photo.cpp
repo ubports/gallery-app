@@ -179,7 +179,10 @@ QDateTime Photo::exposure_date_time() const {
 
 QUrl Photo::gallery_path() const {
   QUrl url = MediaSource::gallery_path();
-  append_path_params(&url, orientation());
+  // We don't pass the orientation in if we saved the file already rotated,
+  // which is the case if the file format can't store rotation metadata.
+  append_path_params(&url, (file_format_has_orientation() ?
+                            orientation() : TOP_LEFT_ORIGIN));
   
   return url;
 }
