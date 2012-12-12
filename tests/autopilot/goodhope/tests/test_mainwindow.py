@@ -31,14 +31,14 @@ class TestMainWindow(GoodhopeTestCase):
     def click_albums_tab(self):
         albums_tab = self.main_window.get_albums_tab()
 
-        self.mouse.move_to_object(albums_tab)
-        self.mouse.click()
+        self.pointing_device.move_to_object(albums_tab)
+        self.pointing_device.click()
 
     def click_plus_icon(self):
         add_icon = self.main_window.get_plus_icon()
 
-        self.mouse.move_to_object(add_icon)
-        self.mouse.click()
+        self.pointing_device.move_to_object(add_icon)
+        self.pointing_device.click()
 
     def test_events_tab_focus(self):
         """When the app is started 'Events' tab must be selected."""
@@ -50,8 +50,8 @@ class TestMainWindow(GoodhopeTestCase):
         """When the 'Albums' tab is clicked it should be selected."""
         albums_tab = self.main_window.get_albums_tab()
 
-        self.mouse.move_to_object(albums_tab)
-        self.mouse.click()
+        self.pointing_device.move_to_object(albums_tab)
+        self.pointing_device.click()
 
         self.assertThat(albums_tab.state, Eventually(Equals("selected")))
 
@@ -62,7 +62,7 @@ class TestMainWindow(GoodhopeTestCase):
         """
         add_icon = self.main_window.get_plus_icon()
 
-        self.mouse.move_to_object(add_icon)
+        self.pointing_device.move_to_object(add_icon)
 
         self.assertThat(add_icon.hovered, Eventually(Equals(True)))
 
@@ -73,7 +73,7 @@ class TestMainWindow(GoodhopeTestCase):
         """
         camera_icon = self.main_window.get_camera_icon()
 
-        self.mouse.move_to_object(camera_icon)
+        self.pointing_device.move_to_object(camera_icon)
 
         self.assertThat(camera_icon.hovered, Eventually(Equals(True)))
 
