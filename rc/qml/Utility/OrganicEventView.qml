@@ -35,6 +35,10 @@ OrganicView {
     // photos are already loaded by the time they're on screen.
     property real trayLoadAreaPadding: units.gu(1)
 
+    AlbumCollectionModel {
+      id: albumCollectionModel
+    }
+
     selection: SelectionState {
         // avoid entering selection mode by long-pressing on a photo:
         allowSelectionModeChange: false
@@ -103,7 +107,7 @@ OrganicView {
         property ListModel selectionModel: ListModel {
             ListElement {
                 label: "Add"
-                name: "disabled"
+                name: "add"
                 icon: "../img/add.png"
             }
             ListElement {
@@ -139,17 +143,28 @@ OrganicView {
 
         onButtonClicked: {
             switch (buttonName) {
-            case "select": {
-                // Set inSelectionMode instead of using tryEnterSelectionMode
-                // because allowSelectionModeChange is false.
-                selection.inSelectionMode = true;
-                break;
-            }
-            case "delete": {
-                deletePopover.caller = button;
-                deletePopover.show();
-                break;
-            }
+                case "select": {
+                    // Set inSelectionMode instead of using tryEnterSelectionMode
+                    // because allowSelectionModeChange is false.
+                    selection.inSelectionMode = true;
+                    break;
+                }
+                case "delete": {
+                    deletePopover.caller = button;
+                    deletePopover.show();
+                    break;
+                }
+                case "add": {
+                    var album = albumCollectionModel.createOrphan();
+                    album.addSelectedMediaSources(selection.model);
+                    albumCollectionModel.addOrphan(album);
+
+                    // We can't use leaveSelectionMode() here, due to the fact that
+                    // we're skirting around the proper use of the selection object.
+                    selection.unselectAll();
+                    selection.inSelectionMode = false;
+                    break;
+                }
             }
         }
 

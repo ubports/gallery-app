@@ -29,13 +29,14 @@ Item {
   id: albumCover
   
   signal pressed(variant mouse)
+  signal addPhotos()
   
   property Album album
   property bool isBack: false
   property bool isBlank: false
   property bool isPreview: true
   property real titleOpacity: 1
-  property int titleDateSpacing: units.gu(2) // (Preview-sized; will scale up)
+  property int titleDateSpacing: units.gu(2) // (Preview-sized; will scale up))
   
   property alias xScale: scale.xScale
   property alias yScale: scale.yScale
@@ -105,16 +106,6 @@ Item {
       cache: true
     }
     
-    Image {
-      id: coverImageFull
-      
-      source: coverElement.imageFull
-      visible: !isPreview
-      
-      anchors.fill: parent
-      cache: true
-    }
-    
     // Must be positioned before TextEdit elements to capture mouse events
     // underneath the album title.
     MouseArea {
@@ -124,6 +115,40 @@ Item {
       onPressed: {
         mouse.accepted = false;
         albumCover.pressed(mouse); 
+      }
+    }
+    
+    Image {
+      id: coverImageFull
+      
+      source: coverElement.imageFull
+      visible: !isPreview
+      
+      anchors.fill: parent
+      cache: true
+      
+      Image {
+        id: addPhotosImage
+        
+        // Size ratio of image to screen space.
+        property real sizeRatio: coverImageFull.parent.width / coverImageFull.sourceSize.width
+        
+        source: coverElement.addFilename
+        visible: !isPreview
+        
+        // Eyeballed in GIMP
+        x: 543 * sizeRatio
+        y: 0
+        width: sourceSize.width * sizeRatio
+        height: sourceSize.height * sizeRatio
+        
+        MouseArea {
+          id: addPhotosButton
+          
+          acceptedButtons: Qt.LeftButton | Qt.RightButton
+          anchors.fill: parent
+          onClicked: addPhotos()
+        }
       }
     }
     

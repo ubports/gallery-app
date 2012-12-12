@@ -139,17 +139,8 @@ Item {
         if (isTextEditing && coverMenu.state !== "hidden")
           coverMenu.state = "hidden";
       }
-
-      MouseArea {
-        id: addPhotosButton
-        
-        acceptedButtons: Qt.LeftButton | Qt.RightButton
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        width: units.gu(14)
-        height: units.gu(14)
-        onClicked: mediaSelector.show()
-      }
+      
+      onAddPhotos: mediaSelector.show();
     }
   }
   

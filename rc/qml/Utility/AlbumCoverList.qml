@@ -96,7 +96,7 @@ ListModel {
     imageFull: "img/album-cover-red-large.png"
     imagePreview: "img/album-cover-red.png"
     iconFilename: "../../img/album-cover-red-icon.png"
-    addFilename: "img/album-red-default.png"
+    addFilename: "img/album-add-red.png"
     hasBottomBorder: true
   }
 }
