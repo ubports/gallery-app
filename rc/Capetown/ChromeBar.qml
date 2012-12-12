@@ -28,8 +28,11 @@ Item {
     }
 
     onButtonsModelChanged: setBarShown(false)
-
     Component.onCompleted: setBarShown(false)
+
+    // do not allow hiding of the toolbar
+    property bool alwaysVisible: false
+    onAlwaysVisibleChanged: setBarShown(alwaysVisible)
 
     function setBarShown(shown) {
         if (shown) {
@@ -41,6 +44,7 @@ Item {
     }
 
     MouseArea {
+        enabled: !chromeBar.alwaysVisible
         anchors.fill: parent
         drag.target: bar
         drag.axis: Drag.YAxis
