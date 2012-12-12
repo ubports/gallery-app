@@ -100,12 +100,12 @@ Item {
     }
 
     function goBack() {
-      galleryPhotoViewer.currentItem.state = "unzoomed";
+      galleryPhotoViewer.currentItem.unzoom();
       pageBack();
     }
 
     function goForward() {
-      galleryPhotoViewer.currentItem.state = "unzoomed";
+      galleryPhotoViewer.currentItem.unzoom();
       pageForward();
     }
 
@@ -218,7 +218,7 @@ Item {
         showChromeBar: true
 
         onBackButtonClicked:  {
-            galleryPhotoViewer.currentItem.state = "unzoomed";
+            galleryPhotoViewer.currentItem.unzoom();
             closeRequested();
         }
 

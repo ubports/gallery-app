@@ -39,7 +39,17 @@ Item {
   signal zoomed()
   signal unzoomed()
   
-  state: (fullPhotoComponentLoader.item) ? fullPhotoComponentLoader.item.state :
+  function unzoom() {
+    console.log("unzooming....");
+    
+    if (!isLoaded)
+      return;
+
+    fullPhotoComponentLoader.item.unzoom();
+  }
+  
+  state: (fullPhotoComponentLoader.item &&
+    !fullPhotoComponentLoader.item.fullyUnzoomed) ? "zoomed" : 
     "unzoomed";
         
   Image {
