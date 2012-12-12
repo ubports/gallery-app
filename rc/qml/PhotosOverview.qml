@@ -20,6 +20,7 @@
 import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 0.1
+import "Utility"
 import "../js/GalleryUtility.js" as GalleryUtility
 
 GridView {
@@ -52,30 +53,33 @@ GridView {
     width: photosOverview.cellWidth
     height: photosOverview.cellHeight
     
-    Image {
-      id: image
+    RoundCornerShape {
+      id: roundedThumbnail
+      
+      anchors.centerIn: parent
       
       width: units.gu(12)
       height: units.gu(12)
       
-      anchors.centerIn: parent
+      radius: "medium"
       
-      source: mediaSource.galleryPreviewPath
-      
-      sourceSize.width: photosOverview.delegateWidth
-      sourceSize.height: photosOverview.delegateHeight
-      
-      fillMode: Image.PreserveAspectCrop
-      asynchronous: true
-      cache: true
-      smooth: true
+      image: Image {
+        source: mediaSource.galleryPreviewPath
+        
+        sourceSize.width: photosOverview.delegateWidth
+        sourceSize.height: photosOverview.delegateHeight
+        
+        fillMode: Image.PreserveAspectCrop
+        cache: true
+        smooth: true
+      }
       
       MouseArea {
         anchors.fill: parent
         
         onClicked: {
           mediaSourcePressed(mediaSource, GalleryUtility.getRectRelativeTo(
-            image, photosOverview));
+            roundedThumbnail, photosOverview));
         }
       }
     }
