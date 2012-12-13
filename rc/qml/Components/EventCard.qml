@@ -44,7 +44,6 @@ UbuntuShape {
     width: parent.width
 
     font.family: "Ubuntu"
-    font.weight: Font.Normal;
 
     font.pixelSize: units.dp(62)
     color: textColor
