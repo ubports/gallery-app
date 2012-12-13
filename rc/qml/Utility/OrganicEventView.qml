@@ -120,12 +120,12 @@ OrganicView {
         property ListModel selectionModel: ListModel {
             ListElement {
                 label: "Add"
-                name: "add"
+                name: "disabled"
                 icon: "../img/add.png"
             }
             ListElement {
                 label: "Delete"
-                name: "delete"
+                name: "disabled"
                 icon: "../img/delete.png"
             }
             ListElement {
@@ -153,18 +153,6 @@ OrganicView {
             }
         }
         showChromeBar: true
-
-        onSelectionModeChanged: {
-            if (selectionMode) {
-                if (selection.selectedCount < 1) {
-                    selectionModel.setProperty(0, "name", "disabled");
-                    selectionModel.setProperty(1, "name", "disabled");
-                } else {
-                    selectionModel.setProperty(0, "name", "add");
-                    selectionModel.setProperty(1, "name", "delete");
-                }
-            }
-        }
 
         onButtonClicked: {
             switch (buttonName) {
