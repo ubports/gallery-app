@@ -34,7 +34,8 @@ GridView {
   cellWidth: units.gu(12) + units.gu(0.75)
   cellHeight: units.gu(12) + units.gu(0.75)
   
-  flickDeceleration: 800
+  maximumFlickVelocity: units.gu(800)
+  flickDeceleration: maximumFlickVelocity * 0.5
   
   model: MediaCollectionModel {
     monitored: true

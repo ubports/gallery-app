@@ -20,7 +20,7 @@
 import QtQuick 2.0
 import ".."
 
-UbuntuPhotoComponent {
+GalleryPhotoComponent {
   id: framePortrait
  
   visible: Boolean(mediaSource)

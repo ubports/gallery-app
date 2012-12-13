@@ -70,7 +70,7 @@ Item {
   property real pixelHeightOffset: 17
   
   // Offset from frame.start* to the "page" inside the frame.
-  property real frameInsetMarginX: isRight ? 0 : -7
+  property real frameInsetMarginX: isRight ? 0 : -9
   property real frameInsetMarginY: 10
   property real frameContentOffsetX: frame.startX + frameInsetMarginX
   property real frameContentOffsetY: frameInsetMarginY
