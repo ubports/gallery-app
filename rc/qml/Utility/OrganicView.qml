@@ -52,6 +52,8 @@ Item {
 
     anchors.fill: parent
     clip: true
+    maximumFlickVelocity: units.gu(250)
+    flickDeceleration: maximumFlickVelocity * 0.667
 
     // TODO: set cacheBuffer to some intelligent value so we cache the trays
     // more predictably.
