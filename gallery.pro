@@ -60,6 +60,7 @@ SOURCES += \
 	src/util/time.cpp \
 	src/util/resource.cpp \
 	src/util/imaging.cpp \
+        src/util/sharefile.cpp \
     src/photo/photo-edit-state.cpp \
     src/photo/photo-caches.cpp \
     src/media/media-monitor.cpp \
@@ -103,6 +104,7 @@ HEADERS += \
 	src/util/variants.h \
 	src/util/resource.h \
 	src/util/imaging.h \
+        src/util/sharefile.h \
     src/photo/photo-edit-state.h \
     src/photo/photo-caches.h \
     src/media/media-monitor.h \

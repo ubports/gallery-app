@@ -45,6 +45,7 @@
 #include "qml/qml-media-collection-model.h"
 #include "qml/qml-stack.h"
 #include "util/resource.h"
+#include "util/sharefile.h"
 #include <QProcess>
 
 GalleryApplication* GalleryApplication::instance_ = NULL;
@@ -109,6 +110,7 @@ void GalleryApplication::register_qml() {
   QmlEventOverviewModel::RegisterType();
   QmlMediaCollectionModel::RegisterType();
   QmlStack::RegisterType();
+  ShareFile::RegisterType();
 }
 
 void GalleryApplication::usage(bool error) {
