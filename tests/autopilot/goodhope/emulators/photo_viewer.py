@@ -20,8 +20,10 @@ class PhotoViewer(object):
 
     def get_first_image_in_photo_viewer(self):
         """Returns the first photo of the gallery."""
-        oml_oml = self.app.select_many("OrganicMediaList", objectName='organicMediaList')[0]
-        return oml_oml.get_children_by_type("UbuntuShape")[0]
+        # oml_oml = self.app.select_many("OrganicMediaList", objectName='organicMediaList')[2]
+        # qqi_qql = oml_oml.get_children_by_type("QQuickItem")[0].get_children_by_type("QQuickLoader")[0]
+        # return qqi_qql.get_children_by_type("RoundCornerShape")[0]
+        return self.app.select_single("OrganicMediaList", objectName="eventViewPhoto0", visible=True)
 
     def get_main_photo_viewer(self):
         """Returns the PhotoViewer."""
@@ -39,34 +41,38 @@ class PhotoViewer(object):
 
     def get_viewer_chrome_toolbar_edit_button(self):
         """Returns the edit button of the photo viewer toolbar."""
-        qqr = self.app.select_single("QQuickRow", objectName="viewerChromeButtons")
-        return qqr.get_children_by_type("ChromeButton")[0]
+        # qqr = self.app.select_single("QQuickRow", objectName="viewerChromeButtons")
+        # return qqr.get_children_by_type("ChromeButton")[0]
+        return self.app.select_single("ChromeButton", objectName="edit", visible=True)
 
     def get_photo_viewer_chrome(self):
-        pv = self.get_photo_viewer()
-        return pv.select_single("ChromeBar", objectName="chromeBar")
+        #pv = self.get_photo_viewer()
+        return self.app.select_single("ChromeBar", objectName="photoViewerChrome")
 
     def get_photo_viewer(self):
         return self.app.select_single("PhotoViewer", objectName='photoViewer', currentIndex=0)
 
     def get_viewer_chrome_back_button(self):
         """Returns the photo viewer back button."""
-        return self.app.select_single("ChromeButton", objectName="backButton")
+        return self.app.select_single("ChromeButton", objectName="backButton0", visible=True)
 
     def get_viewer_chrome_trash_button(self):
         """Returns the photo viewer trash button."""
-        qqr = self.app.select_single("QQuickRow", objectName="viewerChromeButtons")
-        return qqr.get_children_by_type("ChromeButton")[2]
+        return self.app.select_single("ChromeButton", objectName='delete', visible=True)
+        # qqr = self.app.select_single("QQuickRow", objectName="viewerChromeButtons")
+        # return qqr.get_children_by_type("ChromeButton")[2]
 
     def get_viewer_chrome_album_button(self):
         """Returns the photo viewer album button."""
-        qqr = self.app.select_single("QQuickRow", objectName="viewerChromeButtons")
-        return qqr.get_children_by_type("ChromeButton")[1]
+        return self.app.select_single("ChromeButton", objectName='disabled', visible=True)
+        # qqr = self.app.select_single("QQuickRow", objectName="viewerChromeButtons")
+        # return qqr.get_children_by_type("ChromeButton")[1]
 
     def get_viewer_chrome_share_button(self):
         """Returns the photo viewer share button."""
-        qqr = self.app.select_single("QQuickRow", objectName="viewerChromeButtons")
-        return qqr.get_children_by_type("ChromeButton")[3]
+        return self.app.select_single("ChromeButton", objectName='share', visible=True)
+        # qqr = self.app.select_single("QQuickRow", objectName="viewerChromeButtons")
+        # return qqr.get_children_by_type("ChromeButton")[3]
 
     def get_viewer_chrome_more_button(self):
         """Returns the photo viewer 'more items' button."""
@@ -90,8 +96,7 @@ class PhotoViewer(object):
         return self.app.select_single("EditPopover", objectName="editPopover")
 
     def get_photo_component(self):
-        mpv = self.get_main_photo_viewer()
-        return mpv.get_children_by_type("QQuickItem")[0].get_children_by_type("ZoomablePhotoComponent")[0]
+        return self.app.select_many("ZoomablePhotoComponent", ownerName="photoViewerDelegate")[0]
 
     def get_crop_menu_item(self):
         """Returns the crop item of the edit dialog."""

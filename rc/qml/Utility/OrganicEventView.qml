@@ -61,6 +61,7 @@ OrganicView {
 
         OrganicMediaList {
             id: photosList
+            objectName: "eventViewPhoto" + index
 
             loadAreaLeft: tray.contentX - trayLoadAreaPadding
             // size + one big thumbnail
