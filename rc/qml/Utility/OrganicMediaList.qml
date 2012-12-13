@@ -134,6 +134,7 @@ Item {
           }
 
           OrganicItemInteraction {
+            objectName: "eventsViewPhoto"
             selectionItem: model.mediaSource
             selection: organicMediaList.selection
 

@@ -187,6 +187,7 @@ Item {
 
     ChromeBar {
         id: chromeBar
+        objectName: "photoViewerChrome"
         z: 100
         anchors {
             bottom: parent.bottom

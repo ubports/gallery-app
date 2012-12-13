@@ -43,6 +43,9 @@ class TestPhotoViewer(GoodhopeTestCase):
         self.pointing_device.move_to_object(single_photo)
         self.pointing_device.click()
 
+
+    #This test is disabled because it turns out now we are getting wrong
+    #cordinates for the back button hence the mouse would move out of the app.
     def test_nav_bar_back_button(self):
         """Clicking the back button must close the photo."""
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
