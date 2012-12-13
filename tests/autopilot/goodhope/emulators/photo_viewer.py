@@ -20,9 +20,6 @@ class PhotoViewer(object):
 
     def get_first_image_in_photo_viewer(self):
         """Returns the first photo of the gallery."""
-        # oml_oml = self.app.select_many("OrganicMediaList", objectName='organicMediaList')[2]
-        # qqi_qql = oml_oml.get_children_by_type("QQuickItem")[0].get_children_by_type("QQuickLoader")[0]
-        # return qqi_qql.get_children_by_type("RoundCornerShape")[0]
         return self.app.select_single("OrganicMediaList", objectName="eventViewPhoto0", visible=True)
 
     def get_main_photo_viewer(self):
@@ -41,12 +38,9 @@ class PhotoViewer(object):
 
     def get_viewer_chrome_toolbar_edit_button(self):
         """Returns the edit button of the photo viewer toolbar."""
-        # qqr = self.app.select_single("QQuickRow", objectName="viewerChromeButtons")
-        # return qqr.get_children_by_type("ChromeButton")[0]
         return self.app.select_single("ChromeButton", objectName="edit", visible=True)
 
     def get_photo_viewer_chrome(self):
-        #pv = self.get_photo_viewer()
         return self.app.select_single("ChromeBar", objectName="photoViewerChrome")
 
     def get_photo_viewer(self):
@@ -59,20 +53,14 @@ class PhotoViewer(object):
     def get_viewer_chrome_trash_button(self):
         """Returns the photo viewer trash button."""
         return self.app.select_single("ChromeButton", objectName='delete', visible=True)
-        # qqr = self.app.select_single("QQuickRow", objectName="viewerChromeButtons")
-        # return qqr.get_children_by_type("ChromeButton")[2]
 
     def get_viewer_chrome_album_button(self):
         """Returns the photo viewer album button."""
         return self.app.select_single("ChromeButton", objectName='disabled', visible=True)
-        # qqr = self.app.select_single("QQuickRow", objectName="viewerChromeButtons")
-        # return qqr.get_children_by_type("ChromeButton")[1]
 
     def get_viewer_chrome_share_button(self):
         """Returns the photo viewer share button."""
         return self.app.select_single("ChromeButton", objectName='share', visible=True)
-        # qqr = self.app.select_single("QQuickRow", objectName="viewerChromeButtons")
-        # return qqr.get_children_by_type("ChromeButton")[3]
 
     def get_viewer_chrome_more_button(self):
         """Returns the photo viewer 'more items' button."""
@@ -81,7 +69,7 @@ class PhotoViewer(object):
 
     def get_delete_dialog(self):
         """Returns the photo viewer delete dialog."""
-        return self.app.select_single("DeletePopover", objectName="deletePopover")
+        return self.app.select_single("DeleteSinglePhotoPopover", objectName="deletePopover")
 
     def get_popup_album_picker(self):
         """Returns the photo viewer album pickers."""
@@ -89,7 +77,7 @@ class PhotoViewer(object):
 
     def get_share_dialog(self):
         """Returns the photo viewer share dialog."""
-        return self.app.select_single("Popover", objectName="sharePopover")
+        return self.app.select_single("SharePopover", objectName="sharePopover")
 
     def get_photo_edit_dialog(self):
         """Returns the photo edit dialog."""

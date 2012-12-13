@@ -54,17 +54,17 @@ class TestPhotoViewer(GoodhopeTestCase):
 
         self.assertThat(photo_viewer.visible, Eventually(Equals(False)))
 
-    # def test_nav_bar_trash_button(self):
-    #     """Clicking the trash button must show the delete dialog."""
-    #     trash_button = self.photo_viewer.get_viewer_chrome_trash_button()
-    #     delete_dialog = self.photo_viewer.get_delete_dialog()
+    def test_nav_bar_trash_button(self):
+        """Clicking the trash button must show the delete dialog."""
+        trash_button = self.photo_viewer.get_viewer_chrome_trash_button()
+        delete_dialog = self.photo_viewer.get_delete_dialog()
 
-    #     self.pointing_device.move_to_object(trash_button)
-    #     self.assertThat(trash_button.hovered, Eventually(Equals(True)))
-    #     self.pointing_device.click()
+        self.pointing_device.move_to_object(trash_button)
+        self.assertThat(trash_button.hovered, Eventually(Equals(True)))
+        self.pointing_device.click()
 
-    #     # we are not testing actual deletion due to a crash (lp:1083958)
-    #     self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
+        # we are not testing actual deletion due to a crash (lp:1083958)
+        self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
 
     # def test_nav_bar_album_picker_button(self):
     #     """Clicking the album picker must show the picker dialog."""
@@ -77,54 +77,54 @@ class TestPhotoViewer(GoodhopeTestCase):
 
     #     self.assertThat(album_picker.visible, Eventually(Equals(True)))
 
-    # def test_nav_bar_share_button(self):
-    #     """Clicking the share button must show the share dialog."""
-    #     share_button = self.photo_viewer.get_viewer_chrome_share_button()
-    #     share_menu = self.photo_viewer.get_share_dialog()
+    def test_nav_bar_share_button(self):
+        """Clicking the share button must show the share dialog."""
+        share_button = self.photo_viewer.get_viewer_chrome_share_button()
+        share_menu = self.photo_viewer.get_share_dialog()
 
-    #     self.pointing_device.move_to_object(share_button)
-    #     self.assertThat(share_button.hovered, Eventually(Equals(True)))
-    #     self.pointing_device.click()
+        self.pointing_device.move_to_object(share_button)
+        self.assertThat(share_button.hovered, Eventually(Equals(True)))
+        self.pointing_device.click()
 
-    #     self.assertThat(share_menu.visible, Eventually(Equals(True)))
+        self.assertThat(share_menu.visible, Eventually(Equals(True)))
 
-    # def test_nav_bar_edit_button(self):
-    #     """Clicking the edit button must show the edit dialog."""
-    #     edit_button = self.photo_viewer.get_viewer_chrome_toolbar_edit_button()
-    #     edit_dialog = self.photo_viewer.get_photo_edit_dialog()
+    def test_nav_bar_edit_button(self):
+        """Clicking the edit button must show the edit dialog."""
+        edit_button = self.photo_viewer.get_viewer_chrome_toolbar_edit_button()
+        edit_dialog = self.photo_viewer.get_photo_edit_dialog()
 
-    #     self.pointing_device.move_to_object(edit_button)
-    #     self.assertThat(edit_button.hovered, Eventually(Equals(True)))
-    #     self.pointing_device.click()
+        self.pointing_device.move_to_object(edit_button)
+        self.assertThat(edit_button.hovered, Eventually(Equals(True)))
+        self.pointing_device.click()
 
-    #     self.assertThat(edit_dialog.visible, Eventually(Equals(True)))
+        self.assertThat(edit_dialog.visible, Eventually(Equals(True)))
 
-    # def test_double_click_zoom(self):
-    #     """Double clicking an opened photo must zoom it."""
-    #     opened_photo = self.photo_viewer.get_photo_component()
+    def test_double_click_zoom(self):
+        """Double clicking an opened photo must zoom it."""
+        opened_photo = self.photo_viewer.get_photo_component()
 
-    #     self.pointing_device.move_to_object(opened_photo)
-    #     self.pointing_device.click()
-    #     self.pointing_device.click()
+        self.pointing_device.move_to_object(opened_photo)
+        self.pointing_device.click()
+        self.pointing_device.click()
 
-    #     self.assertThat(opened_photo.fullyZoomed, Eventually(Equals(True)))
+        self.assertThat(opened_photo.fullyZoomed, Eventually(Equals(True)))
 
-    #     self.pointing_device.click()
-    #     self.pointing_device.click()
+        self.pointing_device.click()
+        self.pointing_device.click()
 
-    #     self.assertThat(opened_photo.fullyUnzoomed, Eventually(Equals(True)))
+        self.assertThat(opened_photo.fullyUnzoomed, Eventually(Equals(True)))
 
-    # def test_photo_crop_box_shows(self):
-    #     """Clicking the crop item in the edit dialog must show crop interactor."""
-    #     edit_button = self.photo_viewer.get_viewer_chrome_toolbar_edit_button()
-    #     crop_item = self.photo_viewer.get_crop_menu_item()
-    #     crop_box = self.photo_viewer.get_crop_interactor()
+    def test_photo_crop_box_shows(self):
+        """Clicking the crop item in the edit dialog must show crop interactor."""
+        edit_button = self.photo_viewer.get_viewer_chrome_toolbar_edit_button()
+        crop_item = self.photo_viewer.get_crop_menu_item()
+        crop_box = self.photo_viewer.get_crop_interactor()
 
-    #     self.pointing_device.move_to_object(edit_button)
-    #     self.pointing_device.click()
+        self.pointing_device.move_to_object(edit_button)
+        self.pointing_device.click()
 
-    #     self.pointing_device.move_to_object(crop_item)
-    #     self.pointing_device.click()
+        self.pointing_device.move_to_object(crop_item)
+        self.pointing_device.click()
 
-    #     self.assertThat(crop_box.visible, Eventually(Equals(True)))
+        self.assertThat(crop_box.visible, Eventually(Equals(True)))
 
