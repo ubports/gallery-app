@@ -42,6 +42,15 @@ OrganicView {
     selection: SelectionState {
         // avoid entering selection mode by long-pressing on a photo:
         allowSelectionModeChange: false
+        onSelectedCountChanged: {
+            if (selection.selectedCount < 1) {
+                chromeBar.selectionModel.setProperty(0, "name", "disabled");
+                chromeBar.selectionModel.setProperty(1, "name", "disabled");
+            } else {
+                chromeBar.selectionModel.setProperty(0, "name", "add");
+                chromeBar.selectionModel.setProperty(1, "name", "delete");
+            }
+        }
     }
 
     model: EventCollectionModel {
@@ -111,12 +120,12 @@ OrganicView {
         property ListModel selectionModel: ListModel {
             ListElement {
                 label: "Add"
-                name: "add"
+                name: "disabled"
                 icon: "../img/add.png"
             }
             ListElement {
                 label: "Delete"
-                name: "delete"
+                name: "disabled"
                 icon: "../img/delete.png"
             }
             ListElement {
