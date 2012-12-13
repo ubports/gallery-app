@@ -46,6 +46,9 @@ class TestPhotoViewer(GoodhopeTestCase):
     def test_nav_bar_back_button(self):
         """Clicking the back button must close the photo."""
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
+ 
+        self.assertThat(self.photo_viewer.get_photo_viewer_chrome().showChromeBar, Eventually(Equals(True)))
+
         back_button = self.photo_viewer.get_viewer_chrome_back_button()
 
         self.pointing_device.move_to_object(back_button)
