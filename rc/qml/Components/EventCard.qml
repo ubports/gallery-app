@@ -17,6 +17,7 @@
  * Jim Nelson <jim@yorba.org>
  * Charles Lindsay <chaz@yorba.org>
  * Clint Rogers <clinton@yorba.org>
+ * Lucas Beeler <lucas@yorba.org>
  */
 
 import QtQuick 2.0
@@ -31,6 +32,7 @@ UbuntuShape {
 
   radius: "medium"
   color: "#dddddd"
+  opacity: 0.8
 
   width: units.gu(12)
   height: units.gu(12)
@@ -42,7 +44,6 @@ UbuntuShape {
     width: parent.width
 
     font.family: "Ubuntu"
-    font.weight: Font.DemiBold
 
     font.pixelSize: units.dp(62)
     color: textColor
