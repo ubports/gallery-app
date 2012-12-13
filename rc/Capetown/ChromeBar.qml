@@ -99,7 +99,7 @@ Item {
 
                     ChromeButton {
                         id: backButton
-                        objectName: "backButton"
+                        objectName: "backButton" + index
                         anchors.left: parent.left
                         anchors.leftMargin: units.gu(1)
                         anchors.top: parent.top

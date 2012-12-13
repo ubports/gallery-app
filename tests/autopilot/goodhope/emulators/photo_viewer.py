@@ -20,9 +20,10 @@ class PhotoViewer(object):
 
     def get_first_image_in_photo_viewer(self):
         """Returns the first photo of the gallery."""
-        oml_oml = self.app.select_many("OrganicMediaList", objectName='organicMediaList')[2]
-        qqi_qql = oml_oml.get_children_by_type("QQuickItem")[0].get_children_by_type("QQuickLoader")[0]
-        return qqi_qql.get_children_by_type("RoundCornerShape")[0]
+        # oml_oml = self.app.select_many("OrganicMediaList", objectName='organicMediaList')[2]
+        # qqi_qql = oml_oml.get_children_by_type("QQuickItem")[0].get_children_by_type("QQuickLoader")[0]
+        # return qqi_qql.get_children_by_type("RoundCornerShape")[0]
+        return self.app.select_single("OrganicMediaList", objectName="eventViewPhoto0", visible=True)
 
     def get_main_photo_viewer(self):
         """Returns the PhotoViewer."""
@@ -53,7 +54,7 @@ class PhotoViewer(object):
 
     def get_viewer_chrome_back_button(self):
         """Returns the photo viewer back button."""
-        return self.app.select_single("Chr`meButton", objectName="backButton", visible=True)
+        return self.app.select_single("ChromeButton", objectName="backButton0", visible=True)
 
     def get_viewer_chrome_trash_button(self):
         """Returns the photo viewer trash button."""
