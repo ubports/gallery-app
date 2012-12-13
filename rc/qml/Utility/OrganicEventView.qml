@@ -56,6 +56,8 @@ OrganicView {
         contentWidth: photosList.width
         contentHeight: photosList.height
         flickableDirection: Flickable.HorizontalFlick
+        maximumFlickVelocity: units.gu(300)
+        flickDeceleration: maximumFlickVelocity / 3
 
         onMovementStarted: trayLoadAreaPadding = units.gu(20)
 
