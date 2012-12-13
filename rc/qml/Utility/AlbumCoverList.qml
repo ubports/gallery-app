@@ -56,60 +56,47 @@ ListModel {
     imageFull: "img/album-cover-default-large.png"
     imagePreview: "img/album-cover-default.png"
     iconFilename: "../../img/album-cover-default-icon.png"
+    addFilename: "img/album-add-default.png"
     hasBottomBorder: true
   }
   
   ListElement {
-    title: "Alligator"
-    action: "alligator"
-    imageFull: "img/album-cover-alligator-large.png"
-    imagePreview: "img/album-cover-alligator.png"
-    iconFilename: "../../img/album-cover-alligator-icon.png"
+    title: "Blue"
+    action: "blue"
+    imageFull: "img/album-cover-blue-large.png"
+    imagePreview: "img/album-cover-blue.png"
+    iconFilename: "../../img/album-cover-blue-icon.png"
+    addFilename: "img/album-add-blue.png"
     hasBottomBorder: true
   }
   
   ListElement {
-    title: "Army"
-    action: "army"
-    imageFull: "img/album-cover-army-large.png"
-    imagePreview: "img/album-cover-army.png"
-    iconFilename: "../../img/album-cover-army-icon.png"
+    title: "Green"
+    action: "green"
+    imageFull: "img/album-cover-green-large.png"
+    imagePreview: "img/album-cover-green.png"
+    iconFilename: "../../img/album-cover-green-icon.png"
+    addFilename: "img/album-add-green.png"
     hasBottomBorder: true
   }
   
   ListElement {
-    title: "Floral"
-    action: "floral"
-    imageFull: "img/album-cover-floral-large.png"
-    imagePreview: "img/album-cover-floral.png"
-    iconFilename: "../../img/album-cover-floral-icon.png"
+    title: "Pattern"
+    action: "pattern"
+    imageFull: "img/album-cover-pattern-large.png"
+    imagePreview: "img/album-cover-pattern.png"
+    iconFilename: "../../img/album-cover-pattern-icon.png"
+    addFilename: "img/album-add-pattern.png"
     hasBottomBorder: true
   }
   
   ListElement {
-    title: "Leather"
-    action: "leather"
-    imageFull: "img/album-cover-leather-large.png"
-    imagePreview: "img/album-cover-leather.png"
-    iconFilename: "../../img/album-cover-leather-icon.png"
-    hasBottomBorder: true
-  }
-  
-  ListElement {
-    title: "Leopard"
-    action: "leopard"
-    imageFull: "img/album-cover-leopard-large.png"
-    imagePreview: "img/album-cover-leopard.png"
-    iconFilename: "../../img/album-cover-leopard-icon.png"
-    hasBottomBorder: true
-  }
-  
-  ListElement {
-    title: "Rave"
-    action: "rave"
-    imageFull: "img/album-cover-rave-large.png"
-    imagePreview: "img/album-cover-rave.png"
-    iconFilename: "../../img/album-cover-rave-icon.png"
+    title: "Red"
+    action: "red"
+    imageFull: "img/album-cover-red-large.png"
+    imagePreview: "img/album-cover-red.png"
+    iconFilename: "../../img/album-cover-red-icon.png"
+    addFilename: "img/album-add-red.png"
     hasBottomBorder: true
   }
 }

@@ -29,24 +29,51 @@ Item {
   id: albumCover
   
   signal pressed(variant mouse)
+  signal addPhotos()
   
   property Album album
   property bool isBack: false
   property bool isBlank: false
   property bool isPreview: true
   property real titleOpacity: 1
-  property int titleDateSpacing: units.gu(2) // (Preview-sized; will scale up)
+  property int titleDateSpacing: units.gu(2) // (Preview-sized; will scale up))
   
   property alias xScale: scale.xScale
   property alias yScale: scale.yScale
   
+  // Read-only.
+  // Represents the fully scaled border of the cover (without shadows.)
+  // Numerical values are based on image pixels.
+  property var internalRect: isPreview ? internalRectPreview : internalRectFull
+  
+  Item {
+    id: internalRectPreview
+    
+    visible: false
+    x : 9 * xScale
+    y : 0
+    width: xScale * (coverImagePreviewLeft.width + coverImagePreviewRight.width - 9 - 12)
+    height : yScale * (coverImagePreviewLeft.height - 13)
+  }
+  
+  Item {
+    id: internalRectFull
+    
+    visible: false
+    x : 18 * xScale
+    y : 0
+    width: xScale * (coverImageFull.width - 18 - 11)
+    height : xScale * (coverImageFull.height - 14)
+  }
+  
   // internal
   // Scale text and spacers by factor of cover size. 
   property real textScale: isPreview || width <= 0 || cover.previewPixelWidth <= 0 
-    ? 1 : width / cover.previewPixelWidth
+    ? 1 : coverImageFull.sourceSize.width / cover.previewPixelWidth
   property real spacerScale: cover.height / units.gu(33) // ratio of image height to canonical height
-  // Text margins.
-  property real coverStartX: width / 50 // Frame is ~1/50th of page width or height
+  // Text margins.  Specified as fractions of cover width for scaling (eyeballed)
+  property real coverMarginLeft: width / 7
+  property real coverMarginRight: width / 26
   property real coverStartY: height / 50
   property variant coverElement: album !== null ?
     coverList.elementForActionName(album.coverNickname) : coverList.getDefault();
@@ -105,16 +132,6 @@ Item {
       cache: true
     }
     
-    Image {
-      id: coverImageFull
-      
-      source: coverElement.imageFull
-      visible: !isPreview
-      
-      anchors.fill: parent
-      cache: true
-    }
-    
     // Must be positioned before TextEdit elements to capture mouse events
     // underneath the album title.
     MouseArea {
@@ -127,11 +144,45 @@ Item {
       }
     }
     
+    Image {
+      id: coverImageFull
+      
+      source: coverElement.imageFull
+      visible: !isPreview
+      
+      anchors.fill: parent
+      cache: true
+      
+      Image {
+        id: addPhotosImage
+        
+        // Size ratio of image to screen space.
+        property real sizeRatio: coverImageFull.parent.width / coverImageFull.sourceSize.width
+        
+        source: coverElement.addFilename
+        visible: !isPreview
+        
+        // Eyeballed in GIMP
+        x: 543 * sizeRatio
+        y: 0
+        width: sourceSize.width * sizeRatio
+        height: sourceSize.height * sizeRatio
+        
+        MouseArea {
+          id: addPhotosButton
+          
+          acceptedButtons: Qt.LeftButton | Qt.RightButton
+          anchors.fill: parent
+          onClicked: addPhotos()
+        }
+      }
+    }
+    
     Column {
       anchors.left: parent.left
       anchors.right: parent.right
-      anchors.leftMargin: coverStartX
-      anchors.rightMargin: coverStartX
+      anchors.leftMargin: coverMarginLeft
+      anchors.rightMargin: coverMarginRight
       anchors.top: parent.top
       anchors.topMargin: coverStartY
 
@@ -139,37 +190,60 @@ Item {
       
       // Spacer
       Item {
+        id: spacerTop
+        
         width: 1
         height: units.gu(5) * spacerScale
       }
-
-      TextEditOnClick {
-        id: title
-        objectName: "albumTitleField"
-        
-        text: (album) ? album.title : ""
-        onTextUpdated: album.title = text
-        
-        editable: !isPreview
-        
-        anchors.horizontalCenter: parent.horizontalCenter
+      
+      Item {
+        id: titleContainer 
+        height: title.height
         width: parent.width
         
-        opacity: titleOpacity
-        color: "#ffffff"
+        Rectangle {
+          id: titleBackground
+          
+          color: "black"
+          opacity: 0.5
+          visible: !isPreview
+          
+          anchors.top: titleContainer.top
+          height: title.height
+          width: parent.width
+        }
         
-        fontFamily: "Ubuntu"
-        fontPointSize: pointUnits(16) * textScale // From the spec.
-        smooth: true
-        textFormat: TextEdit.PlainText
-        
-        wrapMode: Text.Wrap
-        horizontalAlignment: Text.AlignHCenter
-        
-        onEnterPressed: {
-          // If the user hits enter, start editing the subtitle.
-          done();
-          subtitle.start(-1, -1);
+        TextEditOnClick {
+          id: title
+          objectName: "albumTitleField"
+          
+          text: (album) ? album.title : ""
+          onTextUpdated: album.title = text
+          
+          editable: !isPreview
+          
+          anchors.top: titleContainer.top
+          anchors.horizontalCenter: parent.horizontalCenter
+          width: parent.width
+          
+          opacity: titleOpacity
+          color: "#ffffff"
+          
+          fontFamily: "Ubuntu"
+          // Subtract small amount due to a slight mismatch in preview vs. 
+          // full album cover aspect ratios.
+          fontPointSize: (pointUnits(16) * textScale) - (isPreview ? 2 : 0)
+          smooth: true
+          textFormat: TextEdit.PlainText
+          
+          wrapMode: Text.Wrap
+          horizontalAlignment: Text.AlignHCenter
+          
+          onEnterPressed: {
+            // If the user hits enter, start editing the subtitle.
+            done();
+            subtitle.start(-1, -1);
+          }
         }
       }
       
@@ -179,31 +253,50 @@ Item {
         height: titleDateSpacing * spacerScale
       }
       
-      TextEditOnClick {
-        id: subtitle
-        objectName: "albumSubtitleField"
-        
-        text: (album) ? album.subtitle : ""
-        onTextUpdated: album.subtitle = text
-        
-        editable: !isPreview
-        
-        anchors.horizontalCenter: parent.horizontalCenter
+      Item {
+        id: subtitleContainer 
+        height: title.height
         width: parent.width
         
-        opacity: titleOpacity
-        color: "#ffffff"
+        Rectangle {
+          id: subtitleBackground
+          
+          color: "black"
+          opacity: 0.5
+          visible: !isPreview
+          
+          anchors.top: subtitleContainer.top
+          height: subtitle.height
+          width: parent.width
+        }
         
-        fontFamily: "Ubuntu"
-        
-        // The -1 is due to a slight mismatch in preview vs. full album
-        // cover aspect ratios.
-        fontPointSize: pointUnits(10) * textScale - 1
-        smooth: true
-        textFormat: TextEdit.PlainText
-        
-        wrapMode: Text.Wrap
-        horizontalAlignment: Text.AlignHCenter
+        TextEditOnClick {
+          id: subtitle
+          objectName: "albumSubtitleField"
+          
+          text: (album) ? album.subtitle : ""
+          onTextUpdated: album.subtitle = text
+          
+          editable: !isPreview
+          
+          anchors.top: subtitleContainer.top
+          anchors.horizontalCenter: parent.horizontalCenter
+          width: parent.width
+          
+          opacity: titleOpacity
+          color: "#ffffff"
+          
+          fontFamily: "Ubuntu"
+          
+          // Subtract small amount due to a slight mismatch in preview vs. 
+          // full album cover aspect ratios.
+          fontPointSize: (pointUnits(10) * textScale) - (isPreview ? 1 : 0)
+          smooth: true
+          textFormat: TextEdit.PlainText
+          
+          wrapMode: Text.Wrap
+          horizontalAlignment: Text.AlignHCenter
+        }
       }
     }
   }
