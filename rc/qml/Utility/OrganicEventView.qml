@@ -90,6 +90,7 @@ OrganicView {
         }
 
         property bool selectionMode: selection.inSelectionMode
+        alwaysVisible: selectionMode
         showBackButton: selectionMode
         backButtonIcon: Qt.resolvedUrl("../../img/cancel.png")
         backButtonText: "Cancel"

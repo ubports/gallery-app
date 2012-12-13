@@ -78,7 +78,7 @@ Item {
 
   // internal
   function resetEditorRect() {
-    editorRect = GalleryUtility.getRectRelativeTo(cover, albumEditor);
+    editorRect = GalleryUtility.getRectRelativeTo(cover.internalRect, albumEditor);
   }
 
   onAlbumChanged: resetEditorRect() // HACK: works, but not conceptually correct.
@@ -139,17 +139,8 @@ Item {
         if (isTextEditing && coverMenu.state !== "hidden")
           coverMenu.state = "hidden";
       }
-
-      MouseArea {
-        id: addPhotosButton
-        
-        acceptedButtons: Qt.LeftButton | Qt.RightButton
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        width: units.gu(14)
-        height: units.gu(14)
-        onClicked: mediaSelector.show()
-      }
+      
+      onAddPhotos: mediaSelector.show();
     }
   }
   

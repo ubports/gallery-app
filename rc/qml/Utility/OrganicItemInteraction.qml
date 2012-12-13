@@ -40,9 +40,9 @@ Item {
     id: selectionTick
 
     anchors.right: parent.right
-    anchors.bottom: parent.bottom
-    width: units.gu(10.5)
-    height: units.gu(10.5)
+    anchors.top: parent.top
+    width: units.gu(5)
+    height: units.gu(5)
 
     visible: isSelected
 

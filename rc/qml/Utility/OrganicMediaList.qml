@@ -150,12 +150,7 @@ Item {
           // very well animate the thumbnails created as Repeater delegates since
           // they'll be destroyed before the animation would finish.
 
-          Behavior on x {
-            NumberAnimation {
-              duration: animationDuration
-              easing.type: animationEasingType
-            }
-          }
+          // x is intentionally missing here -- see below.
           Behavior on y {
             NumberAnimation {
               duration: animationDuration
@@ -180,6 +175,16 @@ Item {
         id: loader_thumbnail
         sourceComponent: tItem.isInLoadArea ? component_thumbnail : undefined
         asynchronous: true
+      }
+
+      // This is alone down here because the containing component only
+      // specifies the x of the Loader; the loaded component specifies the y,
+      // width, and height so they're above.
+      Behavior on x {
+        NumberAnimation {
+          duration: animationDuration
+          easing.type: animationEasingType
+        }
       }
     }
   }
