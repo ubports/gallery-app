@@ -41,6 +41,31 @@ Item {
   property alias xScale: scale.xScale
   property alias yScale: scale.yScale
   
+  // Read-only.
+  // Represents the fully scaled border of the cover (without shadows.)
+  // Numerical values are based on image pixels.
+  property var internalRect: isPreview ? internalRectPreview : internalRectFull
+  
+  Item {
+    id: internalRectPreview
+    
+    visible: false
+    x : 9 * xScale
+    y : 0
+    width: xScale * (coverImagePreviewLeft.width + coverImagePreviewRight.width - 9 - 12)
+    height : yScale * (coverImagePreviewLeft.height - 13)
+  }
+  
+  Item {
+    id: internalRectFull
+    
+    visible: false
+    x : 18 * xScale
+    y : 0
+    width: xScale * (coverImageFull.width - 18 - 11)
+    height : xScale * (coverImageFull.height - 14)
+  }
+  
   // internal
   // Scale text and spacers by factor of cover size. 
   property real textScale: isPreview || width <= 0 || cover.previewPixelWidth <= 0 
@@ -181,6 +206,7 @@ Item {
           
           color: "black"
           opacity: 0.5
+          visible: !isPreview
           
           anchors.top: titleContainer.top
           height: title.height
@@ -237,6 +263,7 @@ Item {
           
           color: "black"
           opacity: 0.5
+          visible: !isPreview
           
           anchors.top: subtitleContainer.top
           height: subtitle.height

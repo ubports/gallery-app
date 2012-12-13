@@ -78,7 +78,7 @@ Item {
 
   // internal
   function resetEditorRect() {
-    editorRect = GalleryUtility.getRectRelativeTo(cover, albumEditor);
+    editorRect = GalleryUtility.getRectRelativeTo(cover.internalRect, albumEditor);
   }
 
   onAlbumChanged: resetEditorRect() // HACK: works, but not conceptually correct.
