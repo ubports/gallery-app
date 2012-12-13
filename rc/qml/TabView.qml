@@ -51,8 +51,6 @@ Rectangle {
     }
 
     Tabs {
-        id: tabs
-
         anchors.fill: parent
         ItemStyle.class: "new-tabs"
         Component.onCompleted: ItemStyle.style.swipeToSwitchTabs = false
