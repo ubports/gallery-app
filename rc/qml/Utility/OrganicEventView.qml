@@ -24,7 +24,7 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 import Ubuntu.Components.Popups 0.1
 import "../../js/GalleryUtility.js" as GalleryUtility
 import "../../../rc/Capetown"
-import "../../../rc/qml/Widgets"
+import "../../../rc/Capetown/Widgets"
 
 // An "organic" vertically-scrollable view of all events, each containing a
 // horizontally-scrollable "tray" of photos.
@@ -148,11 +148,16 @@ OrganicView {
             }
             ListElement {
                 label: "Camera"
-                name: "disabled"
+                name: "camera"
                 icon: "../img/camera.png"
             }
         }
         showChromeBar: true
+
+        Loader {
+            id: appManager
+            source: "../../../rc/Capetown/Widgets/UbuntuApplicationWrapper.qml"
+        }
 
         onButtonClicked: {
             switch (buttonName) {
@@ -176,6 +181,11 @@ OrganicView {
                     // we're skirting around the proper use of the selection object.
                     selection.unselectAll();
                     selection.inSelectionMode = false;
+                    break;
+                }
+                case "camera": {
+                    if (appManager.status == Loader.Ready) appManager.item.switchToCameraApplication();
+                    else console.log("Switching applications is not supported on this platform.");
                     break;
                 }
             }
