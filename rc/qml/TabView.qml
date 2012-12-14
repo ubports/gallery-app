@@ -34,6 +34,8 @@ Rectangle {
 
     anchors.fill: parent
 
+    /* Album functionality is disabled temporarily for the demo.
+
     function getRectOfAlbumPreview(album, relativeTo) {
         albumsCheckerboardLoader.load();
 
@@ -50,6 +52,8 @@ Rectangle {
             delegate.visible = show;
     }
 
+    */
+
     Tabs {
         anchors.fill: parent
         ItemStyle.class: "new-tabs"
@@ -57,7 +61,10 @@ Rectangle {
         
         visible: !(photoViewerLoader.item && photoViewerLoader.item.isPoppedUp)
 
-        selectedTabIndex: 1
+        selectedTabIndex: 0
+
+        /* Album functionality is disabled temporarily for the demo.
+
         onSelectedTabIndexChanged: {
           if (selectedTabIndex == 0)
             albumsCheckerboardLoader.load();
@@ -175,6 +182,8 @@ Rectangle {
             }
         }
 
+        */
+
         Tab {
             title: "Events"
             page: OrganicEventView {
@@ -221,6 +230,8 @@ Rectangle {
         color: "black"
         opacity: 0.0
     }
+
+    /* Album functionality is disabled temporarily for the demo.
 
     AlbumEditMenu {
         id: albumMenu
@@ -379,6 +390,8 @@ Rectangle {
         onEditorExited: overview.showAlbumPreview(album, true)
     }
 
+    */
+
     Loader {
         id: photoViewerLoader
 
@@ -410,7 +423,9 @@ Rectangle {
 
         anchors.fill: parent
 
-        visible: (photoViewerLoader.item && photoViewerLoader.item.animationRunning) ||
-                 albumEditorTransition.animationRunning || albumEditor.animationRunning
+        visible: (photoViewerLoader.item && photoViewerLoader.item.animationRunning)
+                  /* Album functionality is disabled temporarily for the demo.
+                 || albumEditorTransition.animationRunning || albumEditor.animationRunning
+                 */
     }
 }
