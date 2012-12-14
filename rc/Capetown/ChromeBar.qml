@@ -104,7 +104,7 @@ Item {
 
                     ChromeButton {
                         id: backButton
-                        objectName: "backButton" + index
+                        objectName: typeof index == 'undefined' ? "backButton" : "backButton" + index
                         anchors.left: parent.left
                         anchors.leftMargin: units.gu(1)
                         anchors.top: parent.top
