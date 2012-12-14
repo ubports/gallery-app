@@ -236,8 +236,17 @@ void Photo::rotateRight() {
       PhotoMetadata::rotate_orientation(orientation(), false);
 
   QSize size = get_original_size(orientation());
-  PhotoEditState next_state =
-      current_state().rotate(new_orientation, size.width(), size.height());
+  
+  // A PhotoEditState object with an invalid orientation value (i.e. <
+  // MIN_ORIENTATION) means "use the existing (original) orientation", so
+  // set the current edit state's orientation to this photo object's
+  // orientation
+  PhotoEditState curr_state = current_state();
+  if (curr_state.orientation_ < MIN_ORIENTATION)
+    curr_state.orientation_ = orientation();
+  
+  PhotoEditState next_state = curr_state.rotate(new_orientation, size.width(),
+    size.height());
 
   make_undoable_edit(next_state);
 }

@@ -22,6 +22,16 @@
 QRect PhotoEditState::rotate_crop_rectangle(Orientation new_orientation,
                                             int image_width,
                                             int image_height) const {
+  
+  // TODO: this code could be significantly simplified since
+  //       OrientationCorrection objects can be asked to provide a QTransform
+  //       encoding the required correction transformation. Since QTransform
+  //       objects can act directly on QRects and QRectFs, this function
+  //       doesn't really need the image_width and image_height. It should
+  //       be possible to simply invert the QTransform associated with the
+  //       old correction, apply it to the crop_rectangle_ QRect and then
+  //       apply the QTransform associated with new_correction to the result.
+  
   OrientationCorrection old_correction =
       OrientationCorrection::FromOrientation(orientation_);
   OrientationCorrection new_correction =
