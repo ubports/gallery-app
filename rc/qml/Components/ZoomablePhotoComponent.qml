@@ -15,6 +15,7 @@
  *
  * Authors:
  * Charles Lindsay <chaz@yorba.org>
+ * Lucas Beeler <lucas@yorba.org>
  */
 
 import QtQuick 2.0
@@ -45,11 +46,30 @@ Rectangle {
   property real zoomFactor: 1
   property bool fullyUnzoomed: (state === "unzoomed" && zoomFactor === 1)
   property bool fullyZoomed: (state === "full_zoom" && zoomFactor === maxZoomFactor)
+  
+  // Though little documented, Qt has a dedicated background thread, separate
+  // from the main GUI thread, in which it renders on-screen objects (see
+  // http://blog.qt.digia.com/blog/2012/08/20/render-thread-animations-in-qt-quick-2-0/
+  // for a discussion of this topic). Unfortunately, animation ticks are timed
+  // by the main GUI thread, but actual drawing in response to these ticks
+  // is done in the separate rendering thread. Because of this, you can get
+  // into a situation in which an animation reports that it has completed but
+  // the separate rendering thread still has a frame to draw. In all of my
+  // testing, I've never seen this timing mismatch exceed 1/30th of a second,
+  // which makes sense because the QML animation clock ticks every 1/60th of a
+  // second, according to the docs (see http://qt-project.org/doc/qt-5.0/qtqml/qml-qtquick2-timer.html),
+  // though implementations appear to be free to drop to half this rate
+  // (see https://bugreports.qt-project.org/browse/QTBUG-28487). So we define
+  // an animation frame as 1/30th of a second and wait this long before doing
+  // more drawing in response to the completion of an animation to prevent
+  // stuttering.
+  property int oneFrame: Math.ceil(1000 / 30);
 
   // internal
   property real maxZoomFactor: 2.5
   property real photoFocusX: zoomFocusX - unzoomedPhoto.leftEdge
   property real photoFocusY: zoomFocusY - unzoomedPhoto.topEdge
+  property bool isZoomAnimationInProgress: false
 
   clip: true
 
@@ -88,22 +108,63 @@ Rectangle {
   transitions: [
     // Double-click transitions.
     Transition { from: "full_zoom"; to: "unzoomed";
-      NumberAnimation { properties: "zoomFactor"; easing.type: Easing.InQuad;
-        duration: Gallery.FAST_DURATION; }
+      SequentialAnimation {
+        ScriptAction { script: isZoomAnimationInProgress = true; }
+
+        PauseAnimation { duration: oneFrame }
+
+        NumberAnimation { properties: "zoomFactor"; easing.type: Easing.InQuad;
+          duration: Gallery.FAST_DURATION; }
+      
+        PauseAnimation { duration: oneFrame }
+      
+        ScriptAction { script: isZoomAnimationInProgress = false; }
+      }
     },
+    
     Transition { from: "unzoomed"; to: "full_zoom";
-      NumberAnimation { properties: "zoomFactor"; easing.type: Easing.InQuad;
-        duration: Gallery.FAST_DURATION; }
+      SequentialAnimation {
+        ScriptAction { script: isZoomAnimationInProgress = true; }
+
+        PauseAnimation { duration: oneFrame }
+
+        NumberAnimation { properties: "zoomFactor"; easing.type: Easing.InQuad;
+          duration: Gallery.FAST_DURATION; }
+        
+        PauseAnimation { duration: oneFrame }
+        
+        ScriptAction { script: isZoomAnimationInProgress = false; }
+      }
     },
     
     // Pinch transitions.
     Transition { from: "pinching"; to: "unzoomed";
-      NumberAnimation { properties: "zoomFactor"; easing.type: Easing.Linear;
-        duration: Gallery.SNAP_DURATION; }
+      SequentialAnimation {
+        ScriptAction { script: isZoomAnimationInProgress = true; }
+
+        PauseAnimation { duration: oneFrame }
+
+        NumberAnimation { properties: "zoomFactor"; easing.type: Easing.Linear;
+          duration: Gallery.SNAP_DURATION; }
+
+        PauseAnimation { duration: oneFrame }
+      
+        ScriptAction { script: isZoomAnimationInProgress = false; }
+      }
     },
+    
     Transition { from: "pinching"; to: "full_zoom";
-      NumberAnimation { properties: "zoomFactor"; easing.type: Easing.Linear;
-        duration: Gallery.SNAP_DURATION; }
+      SequentialAnimation {
+        ScriptAction { script: isZoomAnimationInProgress = true; }
+
+        PauseAnimation { duration: oneFrame }
+
+        NumberAnimation { properties: "zoomFactor"; easing.type: Easing.Linear;
+          duration: Gallery.SNAP_DURATION; }
+        PauseAnimation { duration: oneFrame }
+    
+        ScriptAction { script: isZoomAnimationInProgress = false; }
+      }
     }
   ]
 
@@ -233,7 +294,7 @@ Rectangle {
           property real contentFocusTop: contentFocusY - parent.height / 2
           
           anchors.fill: parent
-          visible: fullyZoomed
+          visible: fullyZoomed && !isZoomAnimationInProgress
 
           onVisibleChanged: {
             if (visible) {
@@ -301,11 +362,13 @@ Rectangle {
           scale: zoomFactor
           transformOrigin: Item.TopLeft
 
-          visible: !fullyUnzoomed && !(fullyZoomed && zoomedPhoto.isLoaded)
+          visible: zoomablePhotoComponent.isZoomAnimationInProgress ||
+            zoomablePhotoComponent.state == "pinching"
+
           color: zoomablePhotoComponent.color
 
           mediaSource: zoomablePhotoComponent.mediaSource
-          load: zoomablePhotoComponent.load && visible
+          load: zoomablePhotoComponent.load
           isPreview: zoomablePhotoComponent.isPreview
           isAnimate: true
           ownerName: zoomablePhotoComponent.ownerName + "transitionPhoto"
