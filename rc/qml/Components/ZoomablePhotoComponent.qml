@@ -110,14 +110,9 @@ Rectangle {
     Transition { from: "full_zoom"; to: "unzoomed";
       SequentialAnimation {
         ScriptAction { script: isZoomAnimationInProgress = true; }
-
-        PauseAnimation { duration: oneFrame }
-
         NumberAnimation { properties: "zoomFactor"; easing.type: Easing.InQuad;
-          duration: Gallery.FAST_DURATION; }
-      
-        PauseAnimation { duration: oneFrame }
-      
+          duration: Gallery.FAST_DURATION; }      
+        PauseAnimation { duration: oneFrame }      
         ScriptAction { script: isZoomAnimationInProgress = false; }
       }
     },
@@ -125,14 +120,9 @@ Rectangle {
     Transition { from: "unzoomed"; to: "full_zoom";
       SequentialAnimation {
         ScriptAction { script: isZoomAnimationInProgress = true; }
-
-        PauseAnimation { duration: oneFrame }
-
         NumberAnimation { properties: "zoomFactor"; easing.type: Easing.InQuad;
-          duration: Gallery.FAST_DURATION; }
-        
+          duration: Gallery.FAST_DURATION; }       
         PauseAnimation { duration: oneFrame }
-        
         ScriptAction { script: isZoomAnimationInProgress = false; }
       }
     },
@@ -141,14 +131,9 @@ Rectangle {
     Transition { from: "pinching"; to: "unzoomed";
       SequentialAnimation {
         ScriptAction { script: isZoomAnimationInProgress = true; }
-
-        PauseAnimation { duration: oneFrame }
-
         NumberAnimation { properties: "zoomFactor"; easing.type: Easing.Linear;
           duration: Gallery.SNAP_DURATION; }
-
         PauseAnimation { duration: oneFrame }
-      
         ScriptAction { script: isZoomAnimationInProgress = false; }
       }
     },
@@ -156,13 +141,9 @@ Rectangle {
     Transition { from: "pinching"; to: "full_zoom";
       SequentialAnimation {
         ScriptAction { script: isZoomAnimationInProgress = true; }
-
-        PauseAnimation { duration: oneFrame }
-
         NumberAnimation { properties: "zoomFactor"; easing.type: Easing.Linear;
           duration: Gallery.SNAP_DURATION; }
         PauseAnimation { duration: oneFrame }
-    
         ScriptAction { script: isZoomAnimationInProgress = false; }
       }
     }
