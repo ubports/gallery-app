@@ -197,6 +197,9 @@ Item {
       id: flipper
       
       // Read only.
+      // Used instead of isFlipping to enforce the proper order of operations;
+      // isFlipping will be set to false before the page number is updated in
+      // onFlipFinished, resulting in an extraneous page reload.
       property bool isFlipInProgress: false
 
       anchors.fill: parent
