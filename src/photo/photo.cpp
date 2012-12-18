@@ -26,6 +26,7 @@
 #include "database/database.h"
 #include "media/preview-manager.h"
 #include "qml/gallery-standard-image-provider.h"
+#include "qml/gallery-thumbnail-image-provider.h"
 #include "util/imaging.h"
 
 #include <QFileInfo>
@@ -192,6 +193,19 @@ QUrl Photo::gallery_preview_path() const {
   // previews are always stored fully transformed
   append_path_params(&url, TOP_LEFT_ORIGIN);
   
+  return url;
+}
+
+QUrl Photo::gallery_thumbnail_path() const {
+  QUrl url = MediaSource::gallery_thumbnail_path();
+  // same as in append_path_params() this is needed to trigger an update of the image in QML
+  // so the URL is changed by adding/chageing the edit parameter
+  QUrlQuery query;
+  if (edit_revision_ != 0) {
+    query.addQueryItem(GalleryThumbnailImageProvider::REVISION_PARAM_NAME,
+      QString::number(edit_revision_));
+  }
+  url.setQuery(query);
   return url;
 }
 
@@ -380,6 +394,7 @@ void Photo::save(const PhotoEditState& state, Orientation old_orientation) {
 
   emit gallery_path_altered();
   emit gallery_preview_path_altered();
+  emit gallery_thumbnail_path_altered();
 }
 
 // Handler for the case of an image whose only change is to its 
