@@ -13,7 +13,7 @@ Homepage: https://launchpad.net/goodhope
 
 Package: goodhope
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, qtbase, qtjsbackend, qtdeclarative, qtxmlpatterns, qtscript, qtimageformats, qtmultimedia, qt-components-ubuntu, qtsvg
+Depends: ${shlibs:Depends}, ${misc:Depends}, qtbase, qtjsbackend, qtdeclarative, qtxmlpatterns, qtscript, qtimageformats, qtmultimedia, qt-components-ubuntu, qtsvg, qthybris
 Description: Photo gallery for the Ubuntu tablet
  Good Hope is a photo gallery for the Ubuntu tablet.
 
