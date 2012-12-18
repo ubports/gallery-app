@@ -74,14 +74,7 @@ Item {
         radius: "medium"
 
         image: Image {
-          source: mediaSource.galleryPreviewPath
-
-          sourceSize.width: roundedThumbnail.width
-          sourceSize.height: roundedThumbnail.height
-
-          fillMode: Image.PreserveAspectCrop
-          cache: true
-          smooth: true
+          source: mediaSource.thumbnailPath
         }
 
         MouseArea {

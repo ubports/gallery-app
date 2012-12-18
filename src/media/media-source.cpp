@@ -23,6 +23,7 @@
 #include "media/media-collection.h"
 #include "media/preview-manager.h"
 #include "qml/gallery-standard-image-provider.h"
+#include "qml/gallery-thumbnail-image-provider.h"
 #include "database/database.h"
 
 MediaSource::MediaSource() : id_(INVALID_ID) {
@@ -60,6 +61,18 @@ QUrl MediaSource::preview_path() const {
 
 QUrl MediaSource::gallery_preview_path() const {
   return GalleryStandardImageProvider::ToURL(preview_file());
+}
+
+QFileInfo MediaSource::thumbnail_file() const {
+  return PreviewManager::instance()->ThumbnailFileFor(this);
+}
+
+QUrl MediaSource::thumbnail_path() const {
+  return QUrl::fromLocalFile(thumbnail_file().absoluteFilePath());
+}
+
+QUrl MediaSource::gallery_thumbnail_path() const{
+  return GalleryThumbnailImageProvider::ToURL(thumbnail_file());
 }
 
 QImage MediaSource::Image(bool respect_orientation) {

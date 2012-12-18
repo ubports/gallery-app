@@ -28,12 +28,15 @@
 #include "core/data-object.h"
 #include "media/media-source.h"
 
+class QImage;
+
 class PreviewManager : public QObject {
   Q_OBJECT
   
  public:
   static const int PREVIEW_WIDTH_MAX;
   static const int PREVIEW_HEIGHT_MAX;
+  static const int THUMBNAIL_SIZE;
   static const int PREVIEW_QUALITY;
   static const char* PREVIEW_FILE_FORMAT;
   static const char* PREVIEW_FILE_EXT;
@@ -45,6 +48,7 @@ class PreviewManager : public QObject {
   
   static PreviewManager* instance();
   QFileInfo PreviewFileFor(const MediaSource* media) const;
+  QFileInfo ThumbnailFileFor(const MediaSource* media) const;
   bool ensure_preview_for_media(MediaSource* media, bool regen = false);
   
  private slots:
@@ -59,6 +63,7 @@ class PreviewManager : public QObject {
   PreviewManager();
   
   void DestroyPreview(MediaSource* media);
+  QImage generate_Thumbnail(const QImage& master) const;
 };
 
 #endif  // GALLERY_PREVIEW_MANAGER_H_

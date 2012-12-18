@@ -68,7 +68,8 @@ bool SelectableViewCollection::Unselect(DataObject* object) {
   
   bool removed = selected_.remove(object);
   Q_ASSERT(removed);
-  
+  Q_UNUSED(removed);
+
   QSet<DataObject*> singleton;
   singleton.insert(object);
   

@@ -102,6 +102,7 @@ class Photo : public MediaSource {
 
   virtual QUrl gallery_path() const;
   virtual QUrl gallery_preview_path() const;
+  virtual QUrl gallery_thumbnail_path() const;
 
   // The "base state" is the PhotoEditState of the file when Gallery starts.
   // It's the bottom of the undo stack.  Comes from the DB.
