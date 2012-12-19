@@ -5,6 +5,7 @@ import Gallery 1.0
 Item {
     id: sharemenu
     property string picturePath
+    signal selected()
 
     height: childrenRect.height
 
@@ -33,6 +34,7 @@ Item {
             __iconWidth: units.gu(5)
 
             onClicked: {
+                sharemenu.selected()
                 if (service == "Facebook") {
                     shareFile.writeShareFile(shareMenu.picturePath);
                     if (loader.status != Loader.Ready) console.log("Application launching not available on this platform");
