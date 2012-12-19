@@ -136,17 +136,9 @@ Item {
     objectName: "mainLoader"
 
     function load() {
-      sourceComponent = mainScreenComponent;
+        source = "MainScreen.qml"
     }
 
     anchors.fill: parent
-
-    Component {
-      id: mainScreenComponent
-
-      MainScreen {
-        anchors.fill: parent
-      }
-    }
   }
 }
