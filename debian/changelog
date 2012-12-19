@@ -1,3 +1,9 @@
+goodhope (0.0.35) quantal; urgency=low
+
+  * Use smaller square thumbnails in event and photos overview
+
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Wed, 19 Dec 2012 15:00:28 +0100
+
 goodhope (0.0.34) quantal; urgency=low
 
   * New daily build
