@@ -96,13 +96,18 @@ Rectangle {
     },
     State { name: "full_zoom";
       PropertyChanges { target: zoomablePhotoComponent; zoomFactor: maxZoomFactor; }
-    },
+    } 
+    
+    /*
+     * Pinch-to-zoom removed for demo: https://bugs.launchpad.net/goodhope/+bug/1092239
+     *
+    ,
     State { name: "pinching";
       // Setting the zoom factor to itself seems odd, but it's necessary to
       // prevent zoomFactor from jumping when you start pinching.
       PropertyChanges { target: zoomablePhotoComponent; zoomFactor: zoomFactor;
         explicit: true; }
-    }
+    } */
   ]
 
   transitions: [
@@ -111,8 +116,8 @@ Rectangle {
       SequentialAnimation {
         ScriptAction { script: isZoomAnimationInProgress = true; }
         NumberAnimation { properties: "zoomFactor"; easing.type: Easing.InQuad;
-          duration: Gallery.FAST_DURATION; }      
-        PauseAnimation { duration: oneFrame }      
+          duration: Gallery.FAST_DURATION; }
+        PauseAnimation { duration: oneFrame }
         ScriptAction { script: isZoomAnimationInProgress = false; }
       }
     },
@@ -121,13 +126,16 @@ Rectangle {
       SequentialAnimation {
         ScriptAction { script: isZoomAnimationInProgress = true; }
         NumberAnimation { properties: "zoomFactor"; easing.type: Easing.InQuad;
-          duration: Gallery.FAST_DURATION; }       
+          duration: Gallery.FAST_DURATION; }
         PauseAnimation { duration: oneFrame }
         ScriptAction { script: isZoomAnimationInProgress = false; }
       }
-    },
+    }
     
-    // Pinch transitions.
+    /*
+     * Pinch-to-zoom removed for demo: https://bugs.launchpad.net/goodhope/+bug/1092239
+     *
+    ,
     Transition { from: "pinching"; to: "unzoomed";
       SequentialAnimation {
         ScriptAction { script: isZoomAnimationInProgress = true; }
@@ -146,7 +154,7 @@ Rectangle {
         PauseAnimation { duration: oneFrame }
         ScriptAction { script: isZoomAnimationInProgress = false; }
       }
-    }
+    } */
   ]
 
   state: "unzoomed"
@@ -179,6 +187,9 @@ Rectangle {
     ownerName: zoomablePhotoComponent.ownerName + "unzoomedPhoto"
   }
   
+  /*
+   * Pinch-to-zoom removed for demo: https://bugs.launchpad.net/goodhope/+bug/1092239
+   *
   PinchArea {
     id: pinchArea
 
@@ -225,6 +236,7 @@ Rectangle {
     
     onPinchFinished: zoomablePhotoComponent.state = (zoomingIn ? "full_zoom" : "unzoomed")
   }
+  */
   
   MouseArea {
     anchors.fill: parent
