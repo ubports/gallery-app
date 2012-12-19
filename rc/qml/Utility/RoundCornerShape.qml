@@ -38,6 +38,19 @@ Item {
     property string radius: "medium"
 
     /*!
+      The top color of the gradient used to fill the shape. Setting only this
+      one is enough to set the overall color the shape.
+    */
+    property color color: Qt.rgba(0, 0, 0, 0)
+
+    /*!
+      The bottom color of the gradient used for the overlay blending of the
+      color that fills the shape. It is optional to set this one as setting
+      \l color is enough to set the overall color of the shape.
+    */
+    property color gradientColor: Theming.ComponentUtils.style(root, "gradientColor", Qt.rgba(0, 0, 0, 0))
+
+    /*!
       The image used as a border.
     */
     property url borderSource: Theming.ComponentUtils.style(root, "borderIdle", "")
@@ -63,7 +76,7 @@ Item {
 
     ShaderEffect {
         anchors.fill: parent
-        visible: root.image
+        visible: root.image || root.color.a != 0.0
 
         property Image mask: Image {
             source: root.width < 280 ? "../../img/small-round-corner-mask.png"
@@ -107,8 +120,40 @@ Item {
         }
 
         property Image image: root.image && root.image.status == Image.Ready ? root.image : null
+        property color baseColor: root.color
+        property color gradientColor: root.gradientColor
 
-        fragmentShader:
+        property string colorShader:
+            "
+            varying highp vec2 qt_TexCoord0;
+            uniform lowp float qt_Opacity;
+            uniform sampler2D mask;
+            uniform lowp vec4 baseColor;
+            uniform lowp vec4 gradientColor;
+
+            lowp vec3 blendOverlay(lowp vec3 base, lowp vec3 blend)
+            {
+                lowp vec3 comparison = clamp(sign(base.rgb - vec3(0.5)), vec3(0.0), vec3(1.0));
+                return mix(2.0 * base * blend, 1.0 - 2.0 * (1.0 - base) * (1.0 - blend), comparison);
+            }
+
+            void main(void)
+            {
+                lowp vec4 maskColor = texture2D(mask, qt_TexCoord0.st);
+
+                // this is equivalent to using a vertical linear gradient texture going from vec3(0.0) to vec3(1.0)
+                lowp vec4 gradient = gradientColor * qt_TexCoord0.t;
+
+                // FIXME: Because blendOverlay gives incorrect results when we use pre-multiplied alpha,
+                // we remove the pre-multiplication before calling blendOverlay, and multiply again afterwards.
+                // It works, but is not very elegant.
+                lowp vec4 result = vec4(blendOverlay(baseColor.rgb/max(1.0/256.0, baseColor.a), gradient.rgb/max(1.0/256.0, gradient.a)), 1.0);
+                result *= baseColor.a;
+                gl_FragColor = mix(baseColor, result, gradient.a) * maskColor.a * qt_Opacity;
+            }
+            "
+
+        property string imageMaskingShader:
             "
             varying highp vec2 qt_TexCoord0;
             uniform lowp float qt_Opacity;
@@ -124,6 +169,8 @@ Item {
                 gl_FragColor = imageColor * maskColor.a * qt_Opacity;
             }
             "
+
+        fragmentShader: image ? imageMaskingShader : colorShader
     }
 
     BorderImage {
