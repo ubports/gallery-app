@@ -19,12 +19,11 @@
 
 import QtQuick 2.0
 import Gallery 1.0
-import Ubuntu.Components 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
-import Ubuntu.Components.Popups 0.1
 import "../../js/GalleryUtility.js" as GalleryUtility
 import "../../../rc/Capetown"
 import "../../../rc/Capetown/Widgets"
+import "../Widgets"
+
 
 // An "organic" vertically-scrollable view of all events, each containing a
 // horizontally-scrollable "tray" of photos.
@@ -36,7 +35,7 @@ OrganicView {
     property real trayLoadAreaPadding: units.gu(1)
 
     AlbumCollectionModel {
-      id: albumCollectionModel
+        id: albumCollectionModel
     }
 
     selection: SelectionState {
@@ -163,59 +162,43 @@ OrganicView {
 
         onButtonClicked: {
             switch (buttonName) {
-                case "select": {
-                    // Set inSelectionMode instead of using tryEnterSelectionMode
-                    // because allowSelectionModeChange is false.
-                    selection.inSelectionMode = true;
-                    break;
-                }
-                case "delete": {
-                    deletePopover.caller = button;
-                    deletePopover.show();
-                    break;
-                }
-                case "add": {
-                    var album = albumCollectionModel.createOrphan();
-                    album.addSelectedMediaSources(selection.model);
-                    albumCollectionModel.addOrphan(album);
+            case "select": {
+                // Set inSelectionMode instead of using tryEnterSelectionMode
+                // because allowSelectionModeChange is false.
+                selection.inSelectionMode = true;
+                break;
+            }
+            case "delete": {
+                deletePopover.caller = button;
+                deletePopover.show();
+                break;
+            }
+            case "add": {
+                var album = albumCollectionModel.createOrphan();
+                album.addSelectedMediaSources(selection.model);
+                albumCollectionModel.addOrphan(album);
 
-                    // We can't use leaveSelectionMode() here, due to the fact that
-                    // we're skirting around the proper use of the selection object.
-                    selection.unselectAll();
-                    selection.inSelectionMode = false;
-                    break;
-                }
-                case "camera": {
-                    if (appManager.status == Loader.Ready) appManager.item.switchToCameraApplication();
-                    else console.log("Switching applications is not supported on this platform.");
-                    break;
-                }
+                // We can't use leaveSelectionMode() here, due to the fact that
+                // we're skirting around the proper use of the selection object.
+                selection.unselectAll();
+                selection.inSelectionMode = false;
+                break;
+            }
+            case "camera": {
+                if (appManager.status == Loader.Ready) appManager.item.switchToCameraApplication();
+                else console.log("Switching applications is not supported on this platform.");
+                break;
+            }
             }
         }
 
-        Popover {
+        DeletePopover {
             visible: false
             id: deletePopover
-
-            Column {
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                    top: parent.top
-                }
-
-                ListItem.SingleControl {
-                    control: Button {
-                        color: "red"
-                        text: "Delete selected items"
-                        anchors.fill: parent
-                        onClicked: {
-                            organicEventView.selection.model.destroySelectedMedia();
-                            deletePopover.hide();
-                            chromeBar.leaveSelectionMode();
-                        }
-                    }
-                }
+            onDeleteClicked: {
+                organicEventView.selection.model.destroySelectedMedia();
+                deletePopover.hide();
+                chromeBar.leaveSelectionMode();
             }
         }
     }
