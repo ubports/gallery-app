@@ -22,16 +22,7 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 Popover {
     id: deletePopover
 
-    property var model
-    property var album
-    property var photo
-    property var photoViewer
-
-    // internal
-    function finishRemove() {
-        if (!album === undefined) return;
-        if (model.count === 0) photoViewer.closeRequested();
-    }
+    signal deleteClicked
 
     height: units.gu(6)
 
@@ -60,7 +51,6 @@ Popover {
                 }
                 spacing: units.gu(2)
 
-
                 Button {
                     height: units.gu(4)
                     width: units.gu(17)
@@ -74,12 +64,7 @@ Popover {
                     width: units.gu(17)
                     color: "#c94212"
                     text: "Delete"
-                    onClicked: {
-                        model.destroyMedia(photo);
-                        photoViewer.currentIndexChanged();
-                        deletePopover.finishRemove();
-                        deletePopover.hide();
-                    }
+                    onClicked: deletePopover.deleteClicked()
                 }
             }
         }

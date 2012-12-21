@@ -19,12 +19,11 @@
 
 import QtQuick 2.0
 import Gallery 1.0
-import Ubuntu.Components 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
-import Ubuntu.Components.Popups 0.1
 import "../../js/GalleryUtility.js" as GalleryUtility
 import "../../../rc/Capetown"
 import "../../../rc/Capetown/Widgets"
+import "../Widgets"
+
 
 // An "organic" vertically-scrollable view of all events, each containing a
 // horizontally-scrollable "tray" of photos.
@@ -193,58 +192,13 @@ OrganicView {
             }
         }
 
-        Popover {
+        DeletePopover {
             visible: false
             id: deletePopover
-            height: units.gu(6)
-
-            Column {
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                    top: parent.top
-                }
-                height: units.gu(6)
-
-                ListItem.Empty {
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                    }
-                    height: units.gu(6)
-
-                    Row {
-                        anchors {
-                            fill: parent
-                            leftMargin: units.gu(2)
-                            rightMargin: units.gu(2)
-                            topMargin: units.gu(1)
-                            bottomMargin: units.gu(1)
-                        }
-                        spacing: units.gu(2)
-
-
-                        Button {
-                            height: units.gu(4)
-                            width: units.gu(17)
-                            color: "grey"
-                            text: "Cancel"
-                            onClicked: deletePopover.hide()
-                        }
-
-                        Button {
-                            height: units.gu(4)
-                            width: units.gu(17)
-                            color: "#c94212"
-                            text: "Delete"
-                            onClicked: {
-                                organicEventView.selection.model.destroySelectedMedia();
-                                deletePopover.hide();
-                                chromeBar.leaveSelectionMode();
-                            }
-                        }
-                    }
-                }
+            onDeleteClicked: {
+                organicEventView.selection.model.destroySelectedMedia();
+                deletePopover.hide();
+                chromeBar.leaveSelectionMode();
             }
         }
     }
