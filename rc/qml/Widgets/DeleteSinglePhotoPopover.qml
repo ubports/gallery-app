@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 
@@ -32,31 +33,66 @@ Popover {
         if (model.count === 0) photoViewer.closeRequested();
     }
 
+    height: units.gu(6)
+
     Column {
         anchors {
             left: parent.left
             right: parent.right
             top: parent.top
         }
+        height: units.gu(6)
 
-        ListItem.Standard {
-            text: "Delete photo"
-            onClicked: {
-                model.destroyMedia(photo);
-                photoViewer.currentIndexChanged();
-                deletePopover.finishRemove();
-                deletePopover.hide();
+        ListItem.Empty {
+            anchors {
+                left: parent.left
+                right: parent.right
             }
-        }
+            height: units.gu(6)
 
-        ListItem.Standard {
-            text: "Remove from album"
-            onClicked: {
-                album.removeMediaSource(photo);
-                deletePopover.finishRemove();
-                deletePopover.hide();
+            Row {
+                anchors {
+                    fill: parent
+                    leftMargin: units.gu(2)
+                    rightMargin: units.gu(2)
+                    topMargin: units.gu(1)
+                    bottomMargin: units.gu(1)
+                }
+                spacing: units.gu(2)
+
+
+                Button {
+                    height: units.gu(4)
+                    width: units.gu(17)
+                    color: "grey"
+                    text: "Cancel"
+                    onClicked: deletePopover.hide()
+                }
+
+                Button {
+                    height: units.gu(4)
+                    width: units.gu(17)
+                    color: "#c94212"
+                    text: "Delete"
+                    onClicked: {
+                        model.destroyMedia(photo);
+                        photoViewer.currentIndexChanged();
+                        deletePopover.finishRemove();
+                        deletePopover.hide();
+                    }
+                }
             }
-            visible: (album !== undefined)
         }
     }
 }
+
+// TODO: Re-use this code when the albums are functional again
+//        ListItem.Standard {
+//            text: "Remove from album"
+//            onClicked: {
+//                album.removeMediaSource(photo);
+//                deletePopover.finishRemove();
+//                deletePopover.hide();
+//            }
+//            visible: (album !== undefined)
+//        }

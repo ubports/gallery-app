@@ -36,7 +36,7 @@ OrganicView {
     property real trayLoadAreaPadding: units.gu(1)
 
     AlbumCollectionModel {
-      id: albumCollectionModel
+        id: albumCollectionModel
     }
 
     selection: SelectionState {
@@ -163,39 +163,40 @@ OrganicView {
 
         onButtonClicked: {
             switch (buttonName) {
-                case "select": {
-                    // Set inSelectionMode instead of using tryEnterSelectionMode
-                    // because allowSelectionModeChange is false.
-                    selection.inSelectionMode = true;
-                    break;
-                }
-                case "delete": {
-                    deletePopover.caller = button;
-                    deletePopover.show();
-                    break;
-                }
-                case "add": {
-                    var album = albumCollectionModel.createOrphan();
-                    album.addSelectedMediaSources(selection.model);
-                    albumCollectionModel.addOrphan(album);
+            case "select": {
+                // Set inSelectionMode instead of using tryEnterSelectionMode
+                // because allowSelectionModeChange is false.
+                selection.inSelectionMode = true;
+                break;
+            }
+            case "delete": {
+                deletePopover.caller = button;
+                deletePopover.show();
+                break;
+            }
+            case "add": {
+                var album = albumCollectionModel.createOrphan();
+                album.addSelectedMediaSources(selection.model);
+                albumCollectionModel.addOrphan(album);
 
-                    // We can't use leaveSelectionMode() here, due to the fact that
-                    // we're skirting around the proper use of the selection object.
-                    selection.unselectAll();
-                    selection.inSelectionMode = false;
-                    break;
-                }
-                case "camera": {
-                    if (appManager.status == Loader.Ready) appManager.item.switchToCameraApplication();
-                    else console.log("Switching applications is not supported on this platform.");
-                    break;
-                }
+                // We can't use leaveSelectionMode() here, due to the fact that
+                // we're skirting around the proper use of the selection object.
+                selection.unselectAll();
+                selection.inSelectionMode = false;
+                break;
+            }
+            case "camera": {
+                if (appManager.status == Loader.Ready) appManager.item.switchToCameraApplication();
+                else console.log("Switching applications is not supported on this platform.");
+                break;
+            }
             }
         }
 
         Popover {
             visible: false
             id: deletePopover
+            height: units.gu(6)
 
             Column {
                 anchors {
@@ -203,16 +204,44 @@ OrganicView {
                     right: parent.right
                     top: parent.top
                 }
+                height: units.gu(6)
 
-                ListItem.SingleControl {
-                    control: Button {
-                        color: "red"
-                        text: "Delete selected items"
-                        anchors.fill: parent
-                        onClicked: {
-                            organicEventView.selection.model.destroySelectedMedia();
-                            deletePopover.hide();
-                            chromeBar.leaveSelectionMode();
+                ListItem.Empty {
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                    }
+                    height: units.gu(6)
+
+                    Row {
+                        anchors {
+                            fill: parent
+                            leftMargin: units.gu(2)
+                            rightMargin: units.gu(2)
+                            topMargin: units.gu(1)
+                            bottomMargin: units.gu(1)
+                        }
+                        spacing: units.gu(2)
+
+
+                        Button {
+                            height: units.gu(4)
+                            width: units.gu(17)
+                            color: "grey"
+                            text: "Cancel"
+                            onClicked: deletePopover.hide()
+                        }
+
+                        Button {
+                            height: units.gu(4)
+                            width: units.gu(17)
+                            color: "#c94212"
+                            text: "Delete"
+                            onClicked: {
+                                organicEventView.selection.model.destroySelectedMedia();
+                                deletePopover.hide();
+                                chromeBar.leaveSelectionMode();
+                            }
                         }
                     }
                 }
