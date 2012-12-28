@@ -1,9 +1,10 @@
 #!/usr/bin/make -f
 
 # Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
-export CMAKE_MODULE_PATH=/opt/qt5/lib/cmake/
+export DH_VERBOSE=1
 PATH := /opt/qt5/bin:$(PATH)
+export QT_QPA_PLATFORM = minimal
 
 %:
-	dh $@
+	dh $@ --parallel --buildsystem=qmake
+

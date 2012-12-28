@@ -130,6 +130,7 @@ void DataCollection::Remove(DataObject* object) {
   Q_ASSERT(removed);
   removed = list_.removeOne(object);
   Q_ASSERT(removed);
+  Q_UNUSED(removed);
   
   notify_contents_altered(NULL, &to_remove);
   
@@ -161,6 +162,7 @@ void DataCollection::RemoveMany(const QSet<DataObject *> &objects) {
   foreach (object, to_remove) {
     bool removed = list_.removeOne(object);
     Q_ASSERT(removed);
+    Q_UNUSED(removed);
   }
   
   set_.subtract(to_remove);

@@ -187,6 +187,7 @@ Item {
 
     ChromeBar {
         id: chromeBar
+        objectName: "photoViewerChrome"
         z: 100
         anchors {
             bottom: parent.bottom
@@ -254,14 +255,22 @@ Item {
             visible: false
         }
 
-        DeleteSinglePhotoPopover {
+        DeletePopover {
+            function finishRemove() {
+                if (!album === undefined) return;
+                if (model.count === 0) photoViewer.closeRequested();
+            }
+
             visible: false
             id: deletePopover
             objectName: "deletePopover"
-            album: viewerWrapper.album
-            photo: viewerWrapper.photo
-            model: viewerWrapper.model
-            photoViewer: galleryPhotoViewer
+
+            onDeleteClicked: {
+                viewerWrapper.model.destroyMedia(photo);
+                galleryPhotoViewer.currentIndexChanged();
+                deletePopover.finishRemove();
+                deletePopover.hide();
+            }
         }
 
         EditPopover {

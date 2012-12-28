@@ -31,5 +31,6 @@ Popover {
             right: parent.right
             top: parent.top
         }
+        onSelected: sharePopover.hide()
     }
 }

@@ -41,8 +41,10 @@ class MediaSource : public DataSource {
   Q_OBJECT
   Q_PROPERTY(QUrl path READ path NOTIFY path_altered)
   Q_PROPERTY(QUrl previewPath READ preview_path NOTIFY preview_path_altered)
+  Q_PROPERTY(QUrl thumbnailPath READ thumbnail_path NOTIFY thumbnail_path_altered)
   Q_PROPERTY(QUrl galleryPath READ gallery_path NOTIFY gallery_path_altered)
   Q_PROPERTY(QUrl galleryPreviewPath READ gallery_preview_path NOTIFY gallery_preview_path_altered)
+  Q_PROPERTY(QUrl galleryThumbnailPath READ gallery_thumbnail_path NOTIFY gallery_thumbnail_path_altered)
   Q_PROPERTY(int orientation READ orientation NOTIFY orientation_altered)
   Q_PROPERTY(QDate exposureDate READ exposure_date NOTIFY exposure_date_time_altered)
   Q_PROPERTY(QTime exposureTimeOfDay READ exposure_time_of_day NOTIFY exposure_date_time_altered)
@@ -55,8 +57,10 @@ class MediaSource : public DataSource {
  signals:
   void path_altered();
   void preview_path_altered();
+  void thumbnail_path_altered();
   void gallery_path_altered();
   void gallery_preview_path_altered();
+  void gallery_thumbnail_path_altered();
   void orientation_altered();
   void exposure_date_time_altered();
   void event_changed();
@@ -78,6 +82,10 @@ class MediaSource : public DataSource {
   QUrl preview_path() const;
   virtual QUrl gallery_preview_path() const;
   
+  QFileInfo thumbnail_file() const;
+  QUrl thumbnail_path() const;
+  virtual QUrl gallery_thumbnail_path() const;
+
   virtual QImage Image(bool respect_orientation = true);
   virtual Orientation orientation() const;
   virtual QDateTime exposure_date_time() const;

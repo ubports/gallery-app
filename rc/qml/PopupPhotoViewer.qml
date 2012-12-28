@@ -35,7 +35,7 @@ Item {
   // Read-only
   property bool animationRunning: transition.animationRunning || 
     fadeIn.running || fadeOut.running
-  property alias isPoppedUp: viewer.visible
+  property bool isPoppedUp: viewer.visible && !animationRunning
   
   function setCurrentPhoto(photo) {
     viewer.setCurrentPhoto(photo);

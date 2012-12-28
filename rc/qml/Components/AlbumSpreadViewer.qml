@@ -164,7 +164,7 @@ Item {
 
       album: albumSpreadViewer.album
 
-      backPage: leftPageForCurrent(flipper.isFlipping
+      backPage: leftPageForCurrent(flipper.isFlipInProgress
                                    ? flipper.firstPage
                                    : viewingPage)
 
@@ -184,7 +184,7 @@ Item {
       album: albumSpreadViewer.album
 
       frontPage: {
-        var page = (flipper.isFlipping ? flipper.lastPage : viewingPage);
+        var page = (flipper.isFlipInProgress ? flipper.lastPage : viewingPage);
         return (isPortrait ? page : rightPageForCurrent(page));
       }
 
@@ -195,16 +195,27 @@ Item {
 
     AlbumPageFlipper {
       id: flipper
+      
+      // Read only.
+      // Used instead of isFlipping to enforce the proper order of operations;
+      // isFlipping will be set to false before the page number is updated in
+      // onFlipFinished, resulting in an extraneous page reload.
+      property bool isFlipInProgress: false
 
       anchors.fill: parent
 
-      visible: isFlipping
+      visible: isFlipInProgress
 
       album: albumSpreadViewer.album
       currentPage: viewingPage
       isPortrait: albumSpreadViewer.isPortrait
       pagesPerSpread: albumSpreadViewer.pagesPerSpread
-
+      
+      onIsFlippingChanged: {
+        if (isFlipping)
+          isFlipInProgress = true;
+      }
+      
       onFlipFinished: {
         if (!album)
           return;
@@ -217,6 +228,7 @@ Item {
             album.closed = false;
           }
           viewingPage = destinationPage;
+          isFlipInProgress = false; // must be set AFTER viewingPage!
           pageFlipped();
         } else {
           pageReleased();

@@ -1,4 +1,4 @@
 goodhope.svg /usr/share/icons/hicolor/scalable/apps/
 goodhope.desktop /usr/share/applications
-gallery /usr/bin/
+src/gallery /usr/bin/
 rc/ /usr/share/gallery/

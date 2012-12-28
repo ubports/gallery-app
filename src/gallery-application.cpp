@@ -39,12 +39,14 @@
 #include "photo/photo-metadata.h"
 #include "photo/photo.h"
 #include "qml/gallery-standard-image-provider.h"
+#include "qml/gallery-thumbnail-image-provider.h"
 #include "qml/qml-album-collection-model.h"
 #include "qml/qml-event-collection-model.h"
 #include "qml/qml-event-overview-model.h"
 #include "qml/qml-media-collection-model.h"
 #include "qml/qml-stack.h"
 #include "util/resource.h"
+#include "util/sharefile.h"
 #include <QProcess>
 
 GalleryApplication* GalleryApplication::instance_ = NULL;
@@ -109,6 +111,7 @@ void GalleryApplication::register_qml() {
   QmlEventOverviewModel::RegisterType();
   QmlMediaCollectionModel::RegisterType();
   QmlStack::RegisterType();
+  ShareFile::RegisterType();
 }
 
 void GalleryApplication::usage(bool error) {
@@ -170,6 +173,7 @@ void GalleryApplication::init_common() {
   // These need to be initialized before create_view() or init_collections().
   Resource::Init(applicationDirPath(), INSTALL_PREFIX);
   GalleryStandardImageProvider::Init();
+  GalleryThumbnailImageProvider::Init();
 }
 
 void GalleryApplication::create_view() {
@@ -198,6 +202,8 @@ void GalleryApplication::create_view() {
 
   view_.engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
     GalleryStandardImageProvider::instance());
+  view_.engine()->addImageProvider(GalleryThumbnailImageProvider::PROVIDER_ID,
+    GalleryThumbnailImageProvider::instance());
   view_.setSource(Resource::instance()->get_rc_url("qml/GalleryApplication.qml"));
   QObject::connect(view_.engine(), SIGNAL(quit()), this, SLOT(quit()));
 

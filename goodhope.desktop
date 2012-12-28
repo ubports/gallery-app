@@ -1,8 +1,8 @@
 [Desktop Entry]
 Version=1.0
-Name=Goodhope
+Name=Gallery
 GenericName=Photo Viewer
-X-GNOME-Fullname=Goodhope Photo Viewer
+X-GNOME-Fullname=Photo Viewer
 Comment=Browse your photographs
 TryExec=gallery
 Exec=gallery

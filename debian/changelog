@@ -1,3 +1,34 @@
+goodhope (0.0.36) quantal; urgency=low
+
+  * Dismissable share popover
+  * Pinch to zoom disabled
+
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Thu, 20 Dec 2012 15:47:03 +0100
+
+goodhope (0.0.35) quantal; urgency=low
+
+  * Use smaller square thumbnails in event and photos overview
+
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Wed, 19 Dec 2012 15:00:28 +0100
+
+goodhope (0.0.34) quantal; urgency=low
+
+  * New daily build
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Tue, 18 Dec 2012 01:56:34 +0000
+
+goodhope (0.0.33) quantal; urgency=low
+
+  * New daily build
+
+ -- Charles Lindsay <chaz@yorba.org>  Fri, 14 Dec 2012 15:06:44 -0800
+
+goodhope (0.0.32) quantal; urgency=low
+
+  * New daily build
+
+ -- Charles Lindsay <chaz@yorba.org>  Thu, 13 Dec 2012 17:46:35 -0800
+
 goodhope (0.0.31) quantal; urgency=low
 
   * New daily build

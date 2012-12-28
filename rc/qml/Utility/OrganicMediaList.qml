@@ -127,13 +127,11 @@ Item {
           radius: "medium"
 
           image: Image {
-            source: model.mediaSource ? model.mediaSource.galleryPreviewPath : ""
-            sourceSize.width: bigSize
-            sourceSize.height: bigSize
-            fillMode: Image.PreserveAspectCrop
+            source: model.mediaSource.galleryThumbnailPath
           }
 
           OrganicItemInteraction {
+            objectName: "eventsViewPhoto"
             selectionItem: model.mediaSource
             selection: organicMediaList.selection
 

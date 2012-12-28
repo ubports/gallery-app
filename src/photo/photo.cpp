@@ -26,6 +26,7 @@
 #include "database/database.h"
 #include "media/preview-manager.h"
 #include "qml/gallery-standard-image-provider.h"
+#include "qml/gallery-thumbnail-image-provider.h"
 #include "util/imaging.h"
 
 #include <QFileInfo>
@@ -195,6 +196,19 @@ QUrl Photo::gallery_preview_path() const {
   return url;
 }
 
+QUrl Photo::gallery_thumbnail_path() const {
+  QUrl url = MediaSource::gallery_thumbnail_path();
+  // same as in append_path_params() this is needed to trigger an update of the image in QML
+  // so the URL is changed by adding/chageing the edit parameter
+  QUrlQuery query;
+  if (edit_revision_ != 0) {
+    query.addQueryItem(GalleryThumbnailImageProvider::REVISION_PARAM_NAME,
+      QString::number(edit_revision_));
+  }
+  url.setQuery(query);
+  return url;
+}
+
 void Photo::set_base_edit_state(const PhotoEditState& base) {
   edits_.set_base(base);
 }
@@ -236,8 +250,17 @@ void Photo::rotateRight() {
       PhotoMetadata::rotate_orientation(orientation(), false);
 
   QSize size = get_original_size(orientation());
-  PhotoEditState next_state =
-      current_state().rotate(new_orientation, size.width(), size.height());
+  
+  // A PhotoEditState object with an invalid orientation value (i.e. <
+  // MIN_ORIENTATION) means "use the existing (original) orientation", so
+  // set the current edit state's orientation to this photo object's
+  // orientation
+  PhotoEditState curr_state = current_state();
+  if (curr_state.orientation_ < MIN_ORIENTATION)
+    curr_state.orientation_ = orientation();
+  
+  PhotoEditState next_state = curr_state.rotate(new_orientation, size.width(),
+    size.height());
 
   make_undoable_edit(next_state);
 }
@@ -371,6 +394,7 @@ void Photo::save(const PhotoEditState& state, Orientation old_orientation) {
 
   emit gallery_path_altered();
   emit gallery_preview_path_altered();
+  emit gallery_thumbnail_path_altered();
 }
 
 // Handler for the case of an image whose only change is to its 

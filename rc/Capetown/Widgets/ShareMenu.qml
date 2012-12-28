@@ -1,9 +1,11 @@
 import QtQuick 2.0
 import Ubuntu.Components.ListItems 0.1 as ListItem
+import Gallery 1.0
 
 Item {
     id: sharemenu
     property string picturePath
+    signal selected()
 
     height: childrenRect.height
 
@@ -32,14 +34,20 @@ Item {
             __iconWidth: units.gu(5)
 
             onClicked: {
+                sharemenu.selected()
                 if (service == "Facebook") {
+                    shareFile.writeShareFile(shareMenu.picturePath);
                     if (loader.status != Loader.Ready) console.log("Application launching not available on this platform");
-                    else loader.item.switchToShareApplication(sharemenu.picturePath)
+                    else loader.item.switchToShareApplication();
                 } else {
                     console.log("Sharing to this service is not supported yet.")
                 }
             }
         }
+    }
+
+    ShareFile {
+        id: shareFile
     }
 
     Loader {

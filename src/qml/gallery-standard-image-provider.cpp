@@ -35,7 +35,7 @@ const char* GalleryStandardImageProvider::PROVIDER_ID_SCHEME = "image://gallery-
 const char* GalleryStandardImageProvider::REVISION_PARAM_NAME = "edit";
 const char* GalleryStandardImageProvider::ORIENTATION_PARAM_NAME = "orientation";
 
-const long MAX_CACHE_BYTES = 80L * 1024L * 1024L;
+const long MAX_CACHE_BYTES = 20L * 1024L * 1024L;
 
 // fully load previews into memory when requested
 const int SCALED_LOAD_FLOOR_DIM_PIXELS =
