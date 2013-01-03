@@ -69,7 +69,7 @@ class PhotoViewer(object):
 
     def get_delete_dialog(self):
         """Returns the photo viewer delete dialog."""
-        return self.app.select_single("DeleteSinglePhotoPopover", objectName="deletePopover")
+        return self.app.select_single("DeletePopover", objectName="deletePopover")
 
     def get_popup_album_picker(self):
         """Returns the photo viewer album pickers."""
