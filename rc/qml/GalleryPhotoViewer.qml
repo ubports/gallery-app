@@ -177,12 +177,11 @@ Item {
       onTriggered: chromeBar.setBarShown(!chromeBar.showChromeBar)
     }
 
-    AnimatedImage {
-      id: busySpinner
-
-      visible: false
-      anchors.centerIn: parent
-      source: "../img/spin.mng"
+    ActivityIndicator {
+        id: busySpinner
+        anchors.centerIn: parent
+        visible: false
+        running: visible
     }
 
     ChromeBar {
