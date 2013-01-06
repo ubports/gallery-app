@@ -22,3 +22,7 @@ class PhotosView(object):
     def get_photos_tab(self):
         """Returns the photos tab."""
         return self.app.select_single("AbstractButton", buttonIndex=3)
+
+    def get_photos_view(self):
+        """Returns the photos view."""
+        return self.app.select_single("Tab", objectName="photosView")

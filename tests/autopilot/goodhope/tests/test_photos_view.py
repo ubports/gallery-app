@@ -15,8 +15,6 @@ from autopilot.matchers import Eventually
 
 from goodhope.tests import GoodhopeTestCase
 
-from time import sleep
-
 
 class TestPhotosView(GoodhopeTestCase):
 
@@ -28,9 +26,19 @@ class TestPhotosView(GoodhopeTestCase):
         self.mouse.move_to_object(tabs_bar)
         self.mouse.click()
 
+        photos_tab_button = self.app.select_single("AbstractButton", buttonIndex=3)
+
+        #Due to some timing issues sometimes mouse moves to the location a bit earlier
+        #even though the tab item is not fully visible, hence the tab does not activate.
+        self.assertTrue(photos_tab_button.opacity, Eventually(Equals("=<0.2")))
+
         photos_tab = self.photos_view.get_photos_tab()
         self.mouse.move_to_object(photos_tab)
         self.mouse.click()
 
+        photos_view = self.photos_view.get_photos_view()
+
+        self.assertThat(photos_view.focus, Eventually(Equals(True)))
+
     def test_this(self):
-        print "yo"
+        pass

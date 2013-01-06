@@ -206,6 +206,7 @@ Rectangle {
         // more heavyweight and causes a longer startup time
         Tab {
           title: "Photos"
+          objectName: "photosView"
           page: PhotosOverview {
             id: photosOverview
             
