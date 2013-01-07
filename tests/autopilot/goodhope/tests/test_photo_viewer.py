@@ -63,8 +63,13 @@ class TestPhotoViewer(GoodhopeTestCase):
         self.assertThat(trash_button.hovered, Eventually(Equals(True)))
         self.pointing_device.click()
 
-        # we are not testing actual deletion due to a crash (lp:1083958)
         self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
+
+        cancel_item = self.photo_viewer.get_delete_popover_cancel_item()
+        self.pointing_device.move_to_object(cancel_item)
+        self.pointing_device.click()
+
+        self.assertThat(delete_dialog.visible, Eventually(Equals(False)))
 
     # def test_nav_bar_album_picker_button(self):
     #     """Clicking the album picker must show the picker dialog."""
