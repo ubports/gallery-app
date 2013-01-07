@@ -52,6 +52,7 @@ Popover {
                 spacing: units.gu(2)
 
                 Button {
+                    objectName: "deletePopoverCancel"
                     height: units.gu(4)
                     width: units.gu(17)
                     color: "grey"
@@ -60,6 +61,7 @@ Popover {
                 }
 
                 Button {
+                    objectName: "deletePopoverDelete"
                     height: units.gu(4)
                     width: units.gu(17)
                     color: "#c94212"
