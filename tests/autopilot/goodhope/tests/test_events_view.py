@@ -44,14 +44,14 @@ class TestMainWindow(GoodhopeTestCase):
 
         self.assertThat(chromebar.showChromeBar, Eventually(Equals(True)))
 
-    def test_camera_icon_hover(self):
-        """Ensures that when the mouse is over the camera icon it has the
-        hovered state.
+    # def test_camera_icon_hover(self):
+    #     """Ensures that when the mouse is over the camera icon it has the
+    #     hovered state.
 
-        """
-        camera_icon = self.main_window.get_camera_icon()
+    #     """
+    #     camera_icon = self.main_window.get_camera_icon()
 
-        self.pointing_device.move_to_object(camera_icon)
+    #     self.pointing_device.move_to_object(camera_icon)
 
-        self.assertThat(camera_icon.hovered, Eventually(Equals(True)))
+    #     self.assertThat(camera_icon.hovered, Eventually(Equals(True)))
 
