@@ -33,14 +33,6 @@ class TestPhotosView(GoodhopeTestCase):
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
         self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
 
-        photo_viewer_chrome = self.photo_viewer.get_photo_viewer_chrome()
-
-        if photo_viewer_chrome.showChromeBar == False:
-            self.pointing_device.move_to_object(photo_viewer)
-            self.pointing_device.click()
-
-        self.assertThat(photo_viewer_chrome.showChromeBar, Eventually(Equals(True)))
-
     def click_tabs_bar(self):
         tabs_bar = self.photos_view.get_tabs_bar()
         self.pointing_device.move_to_object(tabs_bar)
@@ -63,7 +55,31 @@ class TestPhotosView(GoodhopeTestCase):
         self.pointing_device.move_to_object(photo)
         self.pointing_device.click()
 
+    def test_chromebar_reveals_on_click(self):
+        """Makes sure the photo viewer chrome appears when you click over the photo."""
+        photo_viewer = self.photo_viewer.get_main_photo_viewer()
+        photo_viewer_chrome = self.photo_viewer.get_photo_viewer_chrome()
 
-    def test_this(self):
-        pass
+        if photo_viewer_chrome.showChromeBar == False:
+            self.pointing_device.move_to_object(photo_viewer)
+            self.pointing_device.click()
+
+        self.assertThat(photo_viewer_chrome.showChromeBar, Eventually(Equals(True)))
+
+    def test_chromebar_reveals_on_drag(self):
+        """Makes sure the photo viewer chrome appears when you drag from bottom to
+        upwards.
+
+        """
+        chromebar = self.app.select_single("ChromeBar", objectName="photoViewerChrome")
+        self.pointing_device.move_to_object(chromebar)
+
+        x, y, w, h = chromebar.globalRect
+
+        self.pointing_device.press()
+        self.pointing_device.move(x + (w/2), y + (h/2 - 50))
+        self.pointing_device.release()
+
+        self.assertThat(chromebar.showChromeBar, Eventually(Equals(True)))
+
 
