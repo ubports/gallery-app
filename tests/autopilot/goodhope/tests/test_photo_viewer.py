@@ -22,7 +22,7 @@ class TestPhotoViewer(GoodhopeTestCase):
 
     def setUp(self):
         super(TestPhotoViewer, self).setUp()
-        self.assertThat(self.main_window.get_qml_view().visible, Eventually(Equals(True)))
+        self.assertThat(self.events_view.get_qml_view().visible, Eventually(Equals(True)))
 
         self.click_first_photo()
 

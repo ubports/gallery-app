@@ -20,7 +20,7 @@ class TestPhotosView(GoodhopeTestCase):
 
     def setUp(self):
         super(TestPhotosView, self).setUp()
-        self.assertThat(self.main_window.get_qml_view().visible, Eventually(Equals(True)))
+        self.assertThat(self.events_view.get_qml_view().visible, Eventually(Equals(True)))
 
         self.click_tabs_bar()
         self.click_photos_tab_button()
