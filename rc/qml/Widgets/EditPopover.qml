@@ -33,48 +33,48 @@ Popover {
             text: "Rotate"
             objectName: "rotateListItem"
             onClicked: {
-                photo.rotateRight();
                 hide();
+                photo.rotateRight();
             }
         }
         ListItem.Standard {
             text: "Crop"
             objectName: "cropListItem"
             onClicked: {
-                cropper.show(photo);
                 hide();
+                cropper.show(photo);
             }
         }
         ListItem.Standard {
             text: "Auto enhance"
             objectName: "enhanceListItem"
             onClicked: {
-                photo.autoEnhance();
                 hide();
+                photo.autoEnhance();
             }
         }
         ListItem.Standard {
             text: "Undo"
             objectName: "undoListItem"
             onClicked: {
-                photo.undo();
                 hide();
+                photo.undo();
             }
         }
         ListItem.Standard {
             text: "Redo"
             objectName: "redoListItem"
             onClicked: {
-                photo.redo();
                 hide();
+                photo.redo();
             }
         }
         ListItem.Standard {
             text: "Revert to original"
             objectName: "revertListItem"
             onClicked: {
-                photo.revertToOriginal();
                 hide();
+                photo.revertToOriginal();
             }
         }
     }
