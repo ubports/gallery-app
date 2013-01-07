@@ -16,17 +16,17 @@ from autopilot.matchers import Eventually
 from goodhope.tests import GoodhopeTestCase
 
 
-class TestMainWindow(GoodhopeTestCase):
+class TestEventsView(GoodhopeTestCase):
     """Tests the main gallery features"""
 
     """ This is needed to wait for the application to start.
         In the testfarm, the application may take some time to show up."""
     def setUp(self):
-        super(TestMainWindow, self).setUp()
-        self.assertThat(self.main_window.get_qml_view().visible, Eventually(Equals(True)))
+        super(TestEventsView, self).setUp()
+        self.assertThat(self.events_view.get_qml_view().visible, Eventually(Equals(True)))
 
     def tearDown(self):
-        super(TestMainWindow, self).tearDown()
+        super(TestEventsView, self).tearDown()
 
     def test_chrome_bar_reveals_main_view(self):
         """Makes sure the chromebar at the bottom is revealed when its dragged
