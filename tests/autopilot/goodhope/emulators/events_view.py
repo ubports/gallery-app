@@ -30,10 +30,26 @@ class EventsView(object):
 
     def get_camera_icon(self):
         """Returns the camera icon of the main view."""
-        return self.app.select_single("ToolbarIconButton", objectName="toolbarCameraIcon")
+        return self.app.select_single("ChromeButton", objectName="camera")
+
+    def get_select_icon(self):
+        """Returns the select icon of the events view."""
+        return self.app.select_single("ChromeButton", objectName="select")
+
+    def get_cancel_icon(self):
+        """Returns the cancel icon of the events view."""
+        return self.app.select_single("ChromeButton", objectName="backButton")
 
     def get_album_editor(self):
         """Returns the album editor."""
         return self.app.select_single("AlbumEditor", objectName="mainAlbumEditor")
+
+    def get_events_view_chrome_bar(self):
+        """Returns the chromebar in the main events view."""
+        return self.app.select_single("ChromeBar", objectName="chromeBar")
+
+    def get_events_view_delete_dialog(self):
+        """Returns the delete dialog in the events view."""
+        return self.app.select_single("DeletePopover", objectName="eventsViewDeletePopover")
 
 

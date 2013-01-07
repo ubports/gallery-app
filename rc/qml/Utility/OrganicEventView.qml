@@ -193,6 +193,7 @@ OrganicView {
         }
 
         DeletePopover {
+            objectName: "eventsViewDeletePopover"
             visible: false
             id: deletePopover
             onDeleteClicked: {
