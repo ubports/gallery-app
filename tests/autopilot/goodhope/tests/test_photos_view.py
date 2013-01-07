@@ -22,10 +22,31 @@ class TestPhotosView(GoodhopeTestCase):
         super(TestPhotosView, self).setUp()
         self.assertThat(self.main_window.get_qml_view().visible, Eventually(Equals(True)))
 
-        tabs_bar = self.photos_view.get_tabs_bar()
-        self.mouse.move_to_object(tabs_bar)
-        self.mouse.click()
+        self.click_tabs_bar()
+        self.click_photos_tab_button()
 
+        photos_view = self.photos_view.get_photos_view()
+        self.assertThat(photos_view.focus, Eventually(Equals(True)))
+
+        self.click_first_photo()
+
+        photo_viewer = self.photo_viewer.get_main_photo_viewer()
+        self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
+
+        photo_viewer_chrome = self.photo_viewer.get_photo_viewer_chrome()
+
+        if photo_viewer_chrome.showChromeBar == False:
+            self.pointing_device.move_to_object(photo_viewer)
+            self.pointing_device.click()
+
+        self.assertThat(photo_viewer_chrome.showChromeBar, Eventually(Equals(True)))
+
+    def click_tabs_bar(self):
+        tabs_bar = self.photos_view.get_tabs_bar()
+        self.pointing_device.move_to_object(tabs_bar)
+        self.pointing_device.click()
+
+    def click_photos_tab_button(self):
         photos_tab_button = self.app.select_single("AbstractButton", buttonIndex=3)
 
         #Due to some timing issues sometimes mouse moves to the location a bit earlier
@@ -33,12 +54,16 @@ class TestPhotosView(GoodhopeTestCase):
         self.assertTrue(photos_tab_button.opacity, Eventually(Equals("=<0.2")))
 
         photos_tab = self.photos_view.get_photos_tab()
-        self.mouse.move_to_object(photos_tab)
-        self.mouse.click()
+        self.pointing_device.move_to_object(photos_tab)
+        self.pointing_device.click()
 
-        photos_view = self.photos_view.get_photos_view()
+    def click_first_photo(self):
+        photo = self.photos_view.get_first_photo_in_photos_view()
 
-        self.assertThat(photos_view.focus, Eventually(Equals(True)))
+        self.pointing_device.move_to_object(photo)
+        self.pointing_device.click()
+
 
     def test_this(self):
         pass
+

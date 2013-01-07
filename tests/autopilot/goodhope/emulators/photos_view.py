@@ -26,3 +26,7 @@ class PhotosView(object):
     def get_photos_view(self):
         """Returns the photos view."""
         return self.app.select_single("Tab", objectName="photosView")
+
+    def get_first_photo_in_photos_view(self):
+        """Returns the very first photo in the photos view."""
+        return self.get_photos_view().select_single("QQuickItem", focus=True)
