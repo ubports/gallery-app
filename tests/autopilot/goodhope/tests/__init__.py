@@ -13,9 +13,10 @@ import os.path
 from autopilot.introspection.qt import QtIntrospectionTestMixin
 from autopilot.testcase import AutopilotTestCase
 
-from goodhope.emulators.main_window import MainWindow
+from goodhope.emulators.events_view import EventsView
 from goodhope.emulators.photo_viewer import PhotoViewer
 from goodhope.emulators.album_editor import AlbumEditor
+from goodhope.emulators.photos_view import PhotosView
 
 
 class GoodhopeTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
@@ -49,8 +50,8 @@ class GoodhopeTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
            )
 
     @property
-    def main_window(self):
-        return MainWindow(self.app)
+    def events_view(self):
+        return EventsView(self.app)
 
     @property
     def photo_viewer(self):
@@ -60,3 +61,6 @@ class GoodhopeTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
     def album_editor(self):
         return AlbumEditor(self.app)
 
+    @property
+    def photos_view(self):
+        return PhotosView(self.app)

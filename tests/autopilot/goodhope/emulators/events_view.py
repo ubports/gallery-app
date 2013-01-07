@@ -6,7 +6,7 @@
 # by the Free Software Foundation.
 
 
-class MainWindow(object):
+class EventsView(object):
     """An emulator class that makes it easy to interact with the gallery app."""
 
     def __init__(self, app):
