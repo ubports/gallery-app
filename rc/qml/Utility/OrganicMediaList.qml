@@ -113,11 +113,7 @@ Item {
 
       Component {
         id: component_thumbnail
-        // Using a plain UbuntuShape/Image instead of a UbuntuPhotoComponent for
-        // performance reasons. Therefore some duplication might be needed
-//        UbuntuShape {
-        // This is a hack, as UbuntuShape is slow on first drawing
-        RoundCornerShape {
+        UbuntuShape {
           id: thumbnail
 
           y: photosTopMargin + photoY[patternPhoto]
