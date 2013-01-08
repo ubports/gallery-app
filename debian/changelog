@@ -1,3 +1,9 @@
+goodhope (0.0.37) quantal; urgency=low
+
+  * New release
+
+ -- Florian Boucault <florian.boucault@canonical.com>  Tue, 08 Jan 2013 19:18:51 +0000
+
 goodhope (0.0.36) quantal; urgency=low
 
   * Dismissable share popover
