@@ -15,6 +15,8 @@ from autopilot.matchers import Eventually
 
 from goodhope.tests import GoodhopeTestCase
 
+from time import sleep
+
 
 class TestPhotosView(GoodhopeTestCase):
 
@@ -28,6 +30,7 @@ class TestPhotosView(GoodhopeTestCase):
         photos_view = self.photos_view.get_photos_view()
         self.assertThat(photos_view.focus, Eventually(Equals(True)))
 
+        sleep(1)
         self.click_first_photo()
 
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
