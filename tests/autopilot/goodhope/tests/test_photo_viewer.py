@@ -97,7 +97,6 @@ class TestPhotoViewer(GoodhopeTestCase):
         self.assertThat(lambda: exists(expanduser("~/Pictures/sample.jpg")),
                                                     Eventually(Equals(True)))
 
-
     # def test_nav_bar_album_picker_button(self):
     #     """Clicking the album picker must show the picker dialog."""
     #     album_button = self.photo_viewer.get_viewer_chrome_album_button()
