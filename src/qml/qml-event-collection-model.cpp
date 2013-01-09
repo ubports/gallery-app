@@ -18,14 +18,14 @@
  */
 
 #include "qml/qml-event-collection-model.h"
-
 #include "event/event.h"
 #include "event/event-collection.h"
 #include "util/variants.h"
+#include "core/gallery-manager.h"
 
 QmlEventCollectionModel::QmlEventCollectionModel(QObject* parent)
   : QmlViewCollectionModel(parent, "event", NULL) {
-  MonitorSourceCollection(EventCollection::instance());
+    MonitorSourceCollection(GalleryManager::GetInstance()->GetEventCollection());
 }
 
 void QmlEventCollectionModel::RegisterType() {

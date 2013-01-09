@@ -34,10 +34,8 @@ class AlbumCollection : public ContainerSourceCollection {
   
  public:
   friend class Album;
-  
-  static void Init();
-  
-  static AlbumCollection* instance();
+
+  AlbumCollection();
   
   static bool CreationDateTimeAscendingComparator(DataObject* a, DataObject* b);
   static bool CreationDateTimeDescendingComparator(DataObject* a, DataObject* b);
@@ -51,11 +49,6 @@ class AlbumCollection : public ContainerSourceCollection {
  private slots:
   void on_media_added_removed(const QSet<DataObject*>* added,
     const QSet<DataObject*>* removed);
-  
- private:
-  static AlbumCollection* instance_;
-  
-  AlbumCollection();
 };
 
 #endif  // GALLERY_ALBUM_COLLECTION_H_

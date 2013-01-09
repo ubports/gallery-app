@@ -22,28 +22,21 @@
 #include <QUrl>
 
 #include "gallery-application.h"
-#include "gallery-thumbnail-image-provider.h"
 
 GalleryApplication* GalleryApplication::instance_ = 0;
+GalleryThumbnailImageProvider gallery_thumbnail_image_provider;
 
 class tst_GalleryThumbnailImageProvider : public QObject
 {
   Q_OBJECT
 private slots:
-  void initTestCase();
   void ToURL();
 };
 
-void tst_GalleryThumbnailImageProvider::initTestCase()
-{
-  GalleryThumbnailImageProvider::Init();
-}
-
 void tst_GalleryThumbnailImageProvider::ToURL()
 {
-  GalleryThumbnailImageProvider* provider = GalleryThumbnailImageProvider::instance();
   QFileInfo fi("/tmp/test.jpg");
-  QUrl url = provider->ToURL(fi);
+  QUrl url = gallery_thumbnail_image_provider.ToURL(fi);
   QUrl expect("image://gallery-thumbnail//tmp/test.jpg");
   QCOMPARE(url, expect);
 }

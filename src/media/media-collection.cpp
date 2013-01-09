@@ -27,8 +27,7 @@
 #include "util/collections.h"
 #include "database/database.h"
 #include "database/media-table.h"
-
-MediaCollection* MediaCollection::instance_ = NULL;
+#include "core/gallery-manager.h"
 
 MediaCollection::MediaCollection(const QDir& directory)
   : SourceCollection("MediaCollection"), directory_(directory) {
@@ -58,18 +57,6 @@ MediaCollection::MediaCollection(const QDir& directory)
   }
   
   AddMany(photos);
-}
-
-void MediaCollection::Init(const QDir& directory) {
-  Q_ASSERT(instance_ == NULL);
-  
-  instance_ = new MediaCollection(directory);
-}
-
-MediaCollection* MediaCollection::instance() {
-  Q_ASSERT(instance_ != NULL);
-  
-  return instance_;
 }
 
 const QDir& MediaCollection::directory() const {
@@ -134,7 +121,7 @@ void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
       // TODO: In the future we may want to do this in the Destroy method
       // (as defined in DataSource) if we want to differentiate between
       // removing the photo and "deleting the backing file."
-      Database::instance()->get_media_table()->remove(media->get_id());
+      GalleryManager::GetInstance()->GetDatabase()->get_media_table()->remove(media->get_id());
     }
   }
 }

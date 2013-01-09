@@ -18,10 +18,9 @@
  */
 
 #include "media/preview-manager.h"
-
 #include "media/media-collection.h"
-
 #include <QApplication>
+#include "core/gallery-manager.h"
 
 const QString PreviewManager::PREVIEW_DIR = ".thumbs";
 
@@ -33,39 +32,20 @@ const int PreviewManager::PREVIEW_QUALITY = 70;
 const char* PreviewManager::PREVIEW_FILE_FORMAT = "JPEG";
 const char* PreviewManager::PREVIEW_FILE_EXT = "JPG";
 
-PreviewManager* PreviewManager::instance_ = NULL;
-
 PreviewManager::PreviewManager() {
   // Monitor MediaCollection for all new MediaSources
-  QObject::connect(MediaCollection::instance(),
+  QObject::connect(GalleryManager::GetInstance()->GetMediaCollection(),
   SIGNAL(contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
   this,
   SLOT(on_media_added_removed(const QSet<DataObject*>*,const QSet<DataObject*>*)));
   
-  QObject::connect(MediaCollection::instance(),
+  QObject::connect(GalleryManager::GetInstance()->GetMediaCollection(),
   SIGNAL(destroying(const QSet<DataObject*>*)),
   this,
   SLOT(on_media_destroying(const QSet<DataObject*>*)));
 
   // Verify previews for all existing added MediaSources
-  on_media_added_removed(&MediaCollection::instance()->GetAsSet(), NULL);
-}
-
-void PreviewManager::Init() {
-  Q_ASSERT(instance_ == NULL);
-  
-  instance_ = new PreviewManager();
-}
-
-void PreviewManager::Terminate() {
-  delete instance_;
-  instance_ = NULL;
-}
-
-PreviewManager* PreviewManager::instance() {
-  Q_ASSERT(instance_ != NULL);
-  
-  return instance_;
+  on_media_added_removed(&GalleryManager::GetInstance()->GetMediaCollection()->GetAsSet(), NULL);
 }
 
 void PreviewManager::on_media_added_removed(const QSet<DataObject*>* added,

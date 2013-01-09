@@ -27,8 +27,6 @@
 #include "gallery-application.h"
 #include "media/preview-manager.h"
 
-GalleryStandardImageProvider* GalleryStandardImageProvider::instance_ = NULL;
-
 const char* GalleryStandardImageProvider::PROVIDER_ID = "gallery-standard";
 const char* GalleryStandardImageProvider::PROVIDER_ID_SCHEME = "image://gallery-standard/";
 
@@ -50,18 +48,6 @@ GalleryStandardImageProvider::~GalleryStandardImageProvider() {
   // NOTE: This assumes that the GSIP is not receiving any requests any longer
   while (!fifo_.isEmpty())
     delete cache_.value(fifo_.takeFirst());
-}
-
-void GalleryStandardImageProvider::Init() {
-  Q_ASSERT(instance_ == NULL);
-  
-  instance_ = new GalleryStandardImageProvider();
-}
-
-GalleryStandardImageProvider* GalleryStandardImageProvider::instance() {
-  Q_ASSERT(instance_ != NULL);
-  
-  return instance_;
 }
 
 QUrl GalleryStandardImageProvider::ToURL(const QFileInfo& file) {

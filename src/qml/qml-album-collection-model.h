@@ -28,6 +28,8 @@
 #include "core/data-object.h"
 #include "qml/qml-view-collection-model.h"
 
+class GalleryManager;
+
 class QmlAlbumCollectionModel : public QmlViewCollectionModel {
   Q_OBJECT
   
@@ -45,6 +47,8 @@ class QmlAlbumCollectionModel : public QmlViewCollectionModel {
  protected:
   virtual QVariant VariantFor(DataObject* object) const;
   virtual DataObject* FromVariant(QVariant var) const;
+
+  GalleryManager* gallery_mgr;
   
  private slots:
   void on_album_current_page_contents_altered(Album* album);

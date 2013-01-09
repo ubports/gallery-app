@@ -18,12 +18,12 @@
  */
 
 #include "qml/qml-event-overview-model.h"
-
 #include "core/data-collection.h"
 #include "event/event.h"
 #include "event/event-collection.h"
 #include "media/media-source.h"
 #include "util/variants.h"
+#include "core/gallery-manager.h"
 
 QmlEventOverviewModel::QmlEventOverviewModel(QObject* parent)
   : QmlMediaCollectionModel(parent, DescendingComparator),
@@ -34,7 +34,7 @@ QmlEventOverviewModel::QmlEventOverviewModel(QObject* parent)
   // We need to know when events get removed from the system so we can remove
   // them too.
   QObject::connect(
-    EventCollection::instance(),
+    GalleryManager::GetInstance()->GetEventCollection(),
     SIGNAL(contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
     this,
     SLOT(on_events_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)));
@@ -128,7 +128,7 @@ void QmlEventOverviewModel::on_event_overview_contents_altered(
         continue;
       
       QDate source_date = source->exposure_date_time().date();
-      Event* event = EventCollection::instance()->EventForDate(source_date);
+      Event* event = GalleryManager::GetInstance()->GetEventCollection()->EventForDate(source_date);
       Q_ASSERT(event != NULL);
       
       if (!view->Contains(event))

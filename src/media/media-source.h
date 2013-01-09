@@ -34,6 +34,7 @@
 #include "photo/photo-metadata.h"
 
 class Event;
+class GalleryManager;
 
 typedef DataObjectNumber MediaNumber;
 

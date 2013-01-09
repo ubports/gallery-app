@@ -18,14 +18,12 @@
  */
 
 #include "event/event-collection.h"
-
 #include "event/event.h"
 #include "media/media-collection.h"
 #include "media/media-source.h"
 #include "util/collections.h"
 #include "util/time.h"
-
-EventCollection* EventCollection::instance_ = NULL;
+#include "core/gallery-manager.h"
 
 EventCollection::EventCollection()
   : SourceCollection("EventCollection") {
@@ -34,25 +32,13 @@ EventCollection::EventCollection()
   // Monitor MediaCollection to create/destroy Events, one for each day of
   // media found
   QObject::connect(
-    MediaCollection::instance(),
+    GalleryManager::GetInstance()->GetMediaCollection(),
     SIGNAL(contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
     this,
     SLOT(on_media_added_removed(const QSet<DataObject*>*,const QSet<DataObject*>*)));
   
   // seed what's already present
-  on_media_added_removed(&MediaCollection::instance()->GetAsSet(), NULL);
-}
-
-void EventCollection::Init() {
-  Q_ASSERT(instance_ == NULL);
-  
-  instance_ = new EventCollection();
-}
-
-EventCollection* EventCollection::instance() {
-  Q_ASSERT(instance_ != NULL);
-  
-  return instance_;
+  on_media_added_removed(&GalleryManager::GetInstance()->GetMediaCollection()->GetAsSet(), NULL);
 }
 
 Event* EventCollection::EventForDate(const QDate& date) const {

@@ -25,6 +25,7 @@
 #include "qml/gallery-standard-image-provider.h"
 #include "qml/gallery-thumbnail-image-provider.h"
 #include "database/database.h"
+#include "core/gallery-manager.h"
 
 MediaSource::MediaSource() : id_(INVALID_ID) {
 }
@@ -52,7 +53,7 @@ QUrl MediaSource::gallery_path() const {
 }
 
 QFileInfo MediaSource::preview_file() const {
-  return PreviewManager::instance()->PreviewFileFor(this);
+  return GalleryManager::GetInstance()->GetPreviewManager()->PreviewFileFor(this);
 }
 
 QUrl MediaSource::preview_path() const {
@@ -64,7 +65,7 @@ QUrl MediaSource::gallery_preview_path() const {
 }
 
 QFileInfo MediaSource::thumbnail_file() const {
-  return PreviewManager::instance()->ThumbnailFileFor(this);
+  return GalleryManager::GetInstance()->GetPreviewManager()->ThumbnailFileFor(this);
 }
 
 QUrl MediaSource::thumbnail_path() const {
@@ -126,7 +127,7 @@ int MediaSource::exposure_time_t() const {
 }
 
 Event* MediaSource::FindEvent() {
-  return EventCollection::instance()->EventForMediaSource(this);
+  return GalleryManager::GetInstance()->GetEventCollection()->EventForMediaSource(this);
 }
 
 QVariant MediaSource::QmlFindEvent() {
@@ -169,5 +170,5 @@ void MediaSource::notify_size_altered() {
   emit size_altered();
 
   if (id_ != INVALID_ID)
-    Database::instance()->get_media_table()->set_media_size(id_, size_);
+    GalleryManager::GetInstance()->GetDatabase()->get_media_table()->set_media_size(id_, size_);
 }

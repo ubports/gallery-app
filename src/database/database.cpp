@@ -19,25 +19,10 @@
  */
 
 #include "database.h"
-
+#include "core/gallery-manager.h"
 #include "util/resource.h"
 
 const QString Database::DATABASE_DIR = ".database";
-
-Database* Database::instance_ = NULL;
-
-
-void Database::Init(const QDir& pictures_dir, QObject* parent) {
-  Q_ASSERT(instance_ == NULL);
-  
-  instance_ = new Database(pictures_dir, parent);
-}
-
-Database* Database::instance() {
-  Q_ASSERT(instance_ != NULL);
-  
-  return instance_;
-}
 
 Database::Database(const QDir& pictures_dir, QObject* parent) :
     QObject(parent) {
@@ -187,7 +172,7 @@ QSqlDatabase* Database::get_db() {
 }
 
 QDir Database::get_sql_dir() {
-  return QDir(Resource::instance()->get_rc_url("sql").path());
+  return QDir(GalleryManager::GetInstance()->GetResource()->get_rc_url("sql").path());
 }
 
 void Database::restore_from_backup() {

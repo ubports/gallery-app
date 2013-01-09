@@ -19,6 +19,7 @@
 
 #include "album-table.h"
 #include "album/album-default-template.h"
+#include "core/gallery-manager.h"
 
 AlbumTable::AlbumTable(Database* db, QObject* parent) : QObject(parent), db_(db)
 {
@@ -42,7 +43,7 @@ void AlbumTable::get_albums(QList<Album*>* album_list) {
     int current_page = query.value(5).toInt();
     QString cover_nickname = query.value(6).toString();
     
-    Album* a = new Album(this, AlbumDefaultTemplate::instance(), title, subtitle, id,
+    Album* a = new Album(this, GalleryManager::GetInstance()->GetAlbumDefaultTemplate(), title, subtitle, id,
                          timestamp, is_closed, current_page, cover_nickname);
     album_list->append(a);
   }

@@ -23,12 +23,13 @@
 #include "media/media-monitor.h"
 
 #include <QApplication>
-#include <QDir>
 #include <QQmlEngine>
 #include <QProcess>
 #include <QQuickView>
 #include <QElapsedTimer>
 #include <QFileInfo>
+
+class GalleryManager;
 
 class GalleryApplication : public QApplication {
   Q_OBJECT
@@ -50,32 +51,33 @@ class GalleryApplication : public QApplication {
   bool log_image_loading() {
     return log_image_loading_;
   }
+
+  QDir& GetPicturesDir()  { return pictures_dir_; }
   
  signals:
   void media_loaded();
 
  private:
   void register_qml();
-  void usage(bool error = false);
-  void invalid_arg(QString arg);
   void process_args();
-  void init_common();
   void create_view();
   void init_collections();
+  void invalid_arg(QString arg);
+  void usage(bool error = false);
   
-  static GalleryApplication* instance_;
+  static GalleryManager* gallery_mgr;
   
   QHash<QString, QSize> form_factors_;
   QString form_factor_;
   bool is_portrait_;
   bool is_fullscreen_;
   int bgu_size_;
-  QDir pictures_dir_;
   QQuickView view_;
   bool startup_timer_;
   bool log_image_loading_;
   QElapsedTimer timer_;
   MediaMonitor* monitor_;
+  QDir pictures_dir_;
 
  private slots:
   void start_init_collections();

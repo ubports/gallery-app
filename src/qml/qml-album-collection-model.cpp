@@ -25,11 +25,12 @@
 #include "media/media-source.h"
 #include "qml/qml-media-collection-model.h"
 #include "util/variants.h"
+#include "core/gallery-manager.h"
 
 QmlAlbumCollectionModel::QmlAlbumCollectionModel(QObject* parent)
-  : QmlViewCollectionModel(parent, "album", NULL) {
-  MonitorSourceCollection(AlbumCollection::instance());
-  QObject::connect(AlbumCollection::instance(),
+    : QmlViewCollectionModel(parent, "album", NULL) {
+  MonitorSourceCollection(GalleryManager::GetInstance()->GetAlbumCollection());
+  QObject::connect(GalleryManager::GetInstance()->GetAlbumCollection(),
     SIGNAL(album_current_page_contents_altered(Album*)),
     this,
     SLOT(on_album_current_page_contents_altered(Album*)));
@@ -40,21 +41,21 @@ void QmlAlbumCollectionModel::RegisterType() {
 }
 
 void QmlAlbumCollectionModel::createAlbum(QVariant vmedia) {
-  Album* album = new Album(AlbumDefaultTemplate::instance());
+  Album* album = new Album(GalleryManager::GetInstance()->GetAlbumDefaultTemplate());
   album->Attach(VariantToObject<MediaSource*>(vmedia));
   
-  AlbumCollection::instance()->Add(album);
+  gallery_mgr->GetAlbumCollection()->Add(album);
 }
 
 void QmlAlbumCollectionModel::destroyAlbum(QVariant valbum) {
   Album* album = VariantToObject<Album*>(valbum);
 
   if (album != NULL)
-    AlbumCollection::instance()->Destroy(album, true, true);
+    gallery_mgr->GetAlbumCollection()->Destroy(album, true, true);
 }
 
 QVariant QmlAlbumCollectionModel::createOrphan() {
-  return QVariant::fromValue(new Album(AlbumDefaultTemplate::instance()));
+  return QVariant::fromValue(new Album(GalleryManager::GetInstance()->GetAlbumDefaultTemplate()));
 }
 
 void QmlAlbumCollectionModel::destroyOrphan(QVariant valbum) {
@@ -70,7 +71,7 @@ void QmlAlbumCollectionModel::addOrphan(QVariant valbum) {
   Album* album = VariantToObject<Album*>(valbum);
 
   if (album != NULL)
-    AlbumCollection::instance()->Add(album);
+    gallery_mgr->GetAlbumCollection()->Add(album);
 }
 
 QVariant QmlAlbumCollectionModel::VariantFor(DataObject* object) const {

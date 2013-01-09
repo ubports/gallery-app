@@ -27,15 +27,10 @@
 
 #include "gallery-application.h"
 #include "album/album.h"
-#include "album/album-collection.h"
-#include "album/album-default-template.h"
 #include "album/album-page.h"
 #include "database/database.h"
 #include "event/event.h"
-#include "event/event-collection.h"
-#include "media/media-collection.h"
 #include "media/media-source.h"
-#include "media/preview-manager.h"
 #include "photo/photo-metadata.h"
 #include "photo/photo.h"
 #include "qml/gallery-standard-image-provider.h"
@@ -48,8 +43,7 @@
 #include "util/resource.h"
 #include "util/sharefile.h"
 #include <QProcess>
-
-GalleryApplication* GalleryApplication::instance_ = NULL;
+#include "core/gallery-manager.h"
 
 GalleryApplication::GalleryApplication(int& argc, char** argv) :
     QApplication(argc, argv), form_factor_("desktop"), is_portrait_(false),
@@ -70,12 +64,8 @@ GalleryApplication::GalleryApplication(int& argc, char** argv) :
 
   register_qml();
   process_args();
-  init_common();
-  
-  // only set instance_ variable at end of constructor, to ensure it's not
-  // accessed prior to full construction
-  Q_ASSERT(instance_ == NULL);
-  instance_ = this;
+
+  GalleryManager::GetInstance();
 }
 
 GalleryApplication::~GalleryApplication() {
@@ -114,6 +104,91 @@ void GalleryApplication::register_qml() {
   ShareFile::RegisterType();
 }
 
+void GalleryApplication::create_view() {
+  //
+  // Create the master QDeclarativeView that all the pages will operate within
+  // using the OpenGL backing and load the root container
+  //
+
+  view_.setWindowTitle("Gallery");
+
+  QSize size = form_factors_[form_factor_];
+  if (is_portrait_)
+    size.transpose();
+
+  view_.setResizeMode(QQuickView::SizeRootObjectToView);
+  if (form_factor_ == "desktop") {
+    view_.setMinimumSize(QSize(60 * bgu_size_, 60 * bgu_size_));
+  }
+  
+  view_.engine()->rootContext()->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
+  view_.engine()->rootContext()->setContextProperty("DEVICE_HEIGHT", QVariant(size.height()));
+  view_.engine()->rootContext()->setContextProperty("FORM_FACTOR", QVariant(form_factor_));
+  
+  // Set ourselves up to expose functionality to run external commands from QML...
+  view_.engine()->rootContext()->setContextProperty("APP", this);
+
+  view_.engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
+    GalleryManager::GetInstance()->GetGalleryStandardImageProvider());
+  view_.engine()->addImageProvider(GalleryThumbnailImageProvider::PROVIDER_ID,
+    GalleryManager::GetInstance()->GetGalleryThumbnailImageProvider());
+  view_.setSource(GalleryManager::GetInstance()->GetResource()->get_rc_url("qml/GalleryApplication.qml"));
+  QObject::connect(view_.engine(), SIGNAL(quit()), this, SLOT(quit()));
+
+  // Hook up our media_loaded signal to GalleryApplication's onLoaded function.
+  QObject* rootObject = dynamic_cast<QObject*>(view_.rootObject());
+  QObject::connect(this, SIGNAL(media_loaded()), rootObject, SLOT(onLoaded()));
+
+  if (is_fullscreen_)
+    view_.showFullScreen();
+  else
+    view_.show();
+}
+
+void GalleryApplication::init_collections() {
+
+  qDebug("Opening %s...", qPrintable(pictures_dir_.path()));
+
+  GalleryManager::GetInstance()->PostInit();
+
+  qDebug("Opened %s", qPrintable(pictures_dir_.path()));
+
+  emit media_loaded();
+  
+  // start the file monitor so that the collection contents will be updated as
+  // new files arrive
+  monitor_ = new MediaMonitor(pictures_dir_.path());
+  QObject::connect(monitor_, SIGNAL(media_item_added(QFileInfo)), this,
+    SLOT(on_media_item_added(QFileInfo)));
+  
+  if (startup_timer_)
+    qDebug() << "Startup took" << timer_.elapsed() << "milliseconds";
+}
+
+void GalleryApplication::start_init_collections() {
+  init_collections();
+}
+
+GalleryApplication* GalleryApplication::instance() {
+    return static_cast<GalleryApplication*>(qApp);
+}
+
+void GalleryApplication::setObjectOwnership(QObject* object, QQmlEngine::ObjectOwnership ownership) {
+  view_.engine()->setObjectOwnership(object, ownership);
+}
+
+void GalleryApplication::on_media_item_added(QFileInfo item_info) {
+  Photo* new_photo = Photo::Fetch(item_info);
+  
+  if (new_photo)
+    GalleryManager::GetInstance()->GetMediaCollection()->Add(new_photo);
+}
+
+void GalleryApplication::invalid_arg(QString arg) {
+  QTextStream(stderr) << "Invalid argument '" << arg << "'" << endl;
+  usage(true);
+}
+
 void GalleryApplication::usage(bool error) {
   QTextStream out(error ? stderr : stdout);
   out << "Usage: gallery [options] [pictures_dir]" << endl;
@@ -127,11 +202,6 @@ void GalleryApplication::usage(bool error) {
   out << "  --log-image-loading\n\t\tlog image loading" << endl;
   out << "pictures_dir defaults to ~/Pictures, and must exist prior to running gallery" << endl;
   std::exit(error ? 1 : 0);
-}
-
-void GalleryApplication::invalid_arg(QString arg) {
-  QTextStream(stderr) << "Invalid argument '" << arg << "'" << endl;
-  usage(true);
 }
 
 void GalleryApplication::process_args() {
@@ -167,105 +237,4 @@ void GalleryApplication::process_args() {
       }
     }
   }
-}
-
-void GalleryApplication::init_common() {
-  // These need to be initialized before create_view() or init_collections().
-  Resource::Init(applicationDirPath(), INSTALL_PREFIX);
-  GalleryStandardImageProvider::Init();
-  GalleryThumbnailImageProvider::Init();
-}
-
-void GalleryApplication::create_view() {
-  //
-  // Create the master QDeclarativeView that all the pages will operate within
-  // using the OpenGL backing and load the root container
-  //
-
-  view_.setWindowTitle("Gallery");
-
-  QSize size = form_factors_[form_factor_];
-  if (is_portrait_)
-    size.transpose();
-
-  view_.setResizeMode(QQuickView::SizeRootObjectToView);
-  if (form_factor_ == "desktop") {
-    view_.setMinimumSize(QSize(60 * bgu_size_, 60 * bgu_size_));
-  }
-  
-  view_.engine()->rootContext()->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
-  view_.engine()->rootContext()->setContextProperty("DEVICE_HEIGHT", QVariant(size.height()));
-  view_.engine()->rootContext()->setContextProperty("FORM_FACTOR", QVariant(form_factor_));
-  
-  // Set ourselves up to expose functionality to run external commands from QML...
-  view_.engine()->rootContext()->setContextProperty("APP", this);
-
-  view_.engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
-    GalleryStandardImageProvider::instance());
-  view_.engine()->addImageProvider(GalleryThumbnailImageProvider::PROVIDER_ID,
-    GalleryThumbnailImageProvider::instance());
-  view_.setSource(Resource::instance()->get_rc_url("qml/GalleryApplication.qml"));
-  QObject::connect(view_.engine(), SIGNAL(quit()), this, SLOT(quit()));
-
-  // Hook up our media_loaded signal to GalleryApplication's onLoaded function.
-  QObject* rootObject = dynamic_cast<QObject*>(view_.rootObject());
-  QObject::connect(this, SIGNAL(media_loaded()), rootObject, SLOT(onLoaded()));
-
-  if (is_fullscreen_)
-    view_.showFullScreen();
-  else
-    view_.show();
-}
-
-void GalleryApplication::init_collections() {
-  //
-  // Library is currently only loaded from pictures_dir_ (default ~/Pictures),
-  // no subdirectory traversal)
-  //
-
-  qDebug("Opening %s...", qPrintable(pictures_dir_.path()));
-
-  // Not in alpha-order because initialization order is important here
-  // TODO: Need to use an initialization system that deals with init order
-  // issues
-  PhotoMetadata::Init(); // must init before loading photos
-  Database::Init(pictures_dir_, this);
-  Database::instance()->get_media_table()->verify_files();
-  AlbumDefaultTemplate::Init();
-  MediaCollection::Init(pictures_dir_); // only init after db
-  AlbumCollection::Init(); // only init after media collection
-  EventCollection::Init();
-  PreviewManager::Init();
-
-  qDebug("Opened %s", qPrintable(pictures_dir_.path()));
-
-  emit media_loaded();
-  
-  // start the file monitor so that the collection contents will be updated as
-  // new files arrive
-  monitor_ = new MediaMonitor(pictures_dir_.path());
-  QObject::connect(monitor_, SIGNAL(media_item_added(QFileInfo)), this,
-    SLOT(on_media_item_added(QFileInfo)));  
-  
-  if (startup_timer_)
-    qDebug() << "Startup took" << timer_.elapsed() << "milliseconds";
-}
-
-void GalleryApplication::start_init_collections() {
-  init_collections();
-}
-
-GalleryApplication* GalleryApplication::instance() {
-  return instance_;
-}
-
-void GalleryApplication::setObjectOwnership(QObject* object, QQmlEngine::ObjectOwnership ownership) {
-  view_.engine()->setObjectOwnership(object, ownership);
-}
-
-void GalleryApplication::on_media_item_added(QFileInfo item_info) {
-  Photo* new_photo = Photo::Fetch(item_info);
-  
-  if (new_photo)
-    MediaCollection::instance()->Add(new_photo);
 }
