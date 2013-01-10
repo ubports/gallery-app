@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * Authors:
  *  Nicolas d'Offay <nicolas.doffay@canonical.com>

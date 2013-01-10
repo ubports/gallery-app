@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * Authors:
  *  Nicolas d'Offay <nicolas.doffay@canonical.com>
@@ -37,6 +37,21 @@ class PreviewManager;
 
 class GalleryManager
 {
+public:
+    static GalleryManager* GetInstance();
+    void PostInit();
+
+    //PhotoMetadata* GetPhotoMetaData() { return photo_meta_data_; }
+    Database* GetDatabase() { return database_; }
+    AlbumDefaultTemplate* GetAlbumDefaultTemplate() { return default_template_; }
+    MediaCollection* GetMediaCollection() { return media_collection_; }
+    AlbumCollection* GetAlbumCollection() { return album_collection_; }
+    EventCollection* GetEventCollection() { return event_collection_; }
+    PreviewManager* GetPreviewManager() { return preview_manager_; }
+    Resource* GetResource() { return resource_; }
+    GalleryStandardImageProvider* GetGalleryStandardImageProvider() { return gallery_standard_image_provider_; }
+    GalleryThumbnailImageProvider* GetGalleryThumbnailImageProvider() { return gallery_thumbnail_image_provider; }
+
 private:
     GalleryManager();
     ~GalleryManager();
@@ -58,21 +73,6 @@ private:
     Resource* resource_;
     GalleryStandardImageProvider* gallery_standard_image_provider_;
     GalleryThumbnailImageProvider* gallery_thumbnail_image_provider;
-
-public:
-    static GalleryManager* GetInstance();
-    void PostInit();
-
-    //PhotoMetadata* GetPhotoMetaData() { return photo_meta_data_; }
-    Database* GetDatabase() { return database_; }
-    AlbumDefaultTemplate* GetAlbumDefaultTemplate() { return default_template_; }
-    MediaCollection* GetMediaCollection() { return media_collection_; }
-    AlbumCollection* GetAlbumCollection() { return album_collection_; }
-    EventCollection* GetEventCollection() { return event_collection_; }
-    PreviewManager* GetPreviewManager() { return preview_manager_; }
-    Resource* GetResource() { return resource_; }
-    GalleryStandardImageProvider* GetGalleryStandardImageProvider() { return gallery_standard_image_provider_; }
-    GalleryThumbnailImageProvider* GetGalleryThumbnailImageProvider() { return gallery_thumbnail_image_provider; }
 };
 
 #endif // GALLERYMANAGER_H
