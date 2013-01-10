@@ -53,7 +53,7 @@ AlbumTemplatePage* AlbumPage::template_page() const {
 }
 
 QUrl AlbumPage::qml_rc() const {
-  return GalleryManager::GetInstance()->GetResource()->get_rc_url(template_page_->qml_rc());
+  return GalleryManager::GetInstance()->resource()->get_rc_url(template_page_->qml_rc());
 }
 
 QQmlListProperty<MediaSource> AlbumPage::qml_media_source_list() {

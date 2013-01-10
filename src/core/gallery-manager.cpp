@@ -1,3 +1,9 @@
+/*!
+ * gallerymanager.cpp
+ *
+ * Simple class which encapsulates instantiates objects which require only one instance.
+*/
+
 /*
  * Copyright (C) 2013 Canonical, Ltd.
  *
@@ -15,10 +21,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * gallerymanager.cpp4
- *
- * Simple class which encapsulates instantiates objects which require only one instance.
  *
  */
 
@@ -52,7 +54,7 @@ GalleryManager::GalleryManager() : collections_initialised(false)
 {
     resource_ = new Resource(GalleryApplication::instance()->applicationDirPath(), INSTALL_PREFIX);
     gallery_standard_image_provider_ = new GalleryStandardImageProvider();
-    gallery_thumbnail_image_provider = new GalleryThumbnailImageProvider();
+    gallery_thumbnail_image_provider_ = new GalleryThumbnailImageProvider();
 }
 
 void GalleryManager::PostInit()
@@ -80,5 +82,53 @@ GalleryManager::~GalleryManager()
     {
         delete resource_;
         resource_ = NULL;
+    }
+
+    if (gallery_standard_image_provider_)
+    {
+        delete gallery_standard_image_provider_;
+        gallery_standard_image_provider_ = NULL;
+    }
+
+    if (gallery_thumbnail_image_provider_)
+    {
+        delete gallery_thumbnail_image_provider_;
+        gallery_thumbnail_image_provider_ = NULL;
+    }
+
+    if (database_)
+    {
+        delete database_;
+        database_ = NULL;
+    }
+
+    if (default_template_)
+    {
+        delete default_template_;
+        default_template_ = NULL;
+    }
+
+    if (media_collection_)
+    {
+        delete media_collection_;
+        media_collection_ = NULL;
+    }
+
+    if (album_collection_)
+    {
+        delete album_collection_;
+        album_collection_ = NULL;
+    }
+
+    if (event_collection_)
+    {
+        delete event_collection_;
+        event_collection_ = NULL;
+    }
+
+    if (preview_manager_)
+    {
+        delete preview_manager_;
+        preview_manager_ = NULL;
     }
 }

@@ -34,18 +34,18 @@ const char* PreviewManager::PREVIEW_FILE_EXT = "JPG";
 
 PreviewManager::PreviewManager() {
   // Monitor MediaCollection for all new MediaSources
-  QObject::connect(GalleryManager::GetInstance()->GetMediaCollection(),
+  QObject::connect(GalleryManager::GetInstance()->media_collection(),
   SIGNAL(contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
   this,
   SLOT(on_media_added_removed(const QSet<DataObject*>*,const QSet<DataObject*>*)));
   
-  QObject::connect(GalleryManager::GetInstance()->GetMediaCollection(),
+  QObject::connect(GalleryManager::GetInstance()->media_collection(),
   SIGNAL(destroying(const QSet<DataObject*>*)),
   this,
   SLOT(on_media_destroying(const QSet<DataObject*>*)));
 
   // Verify previews for all existing added MediaSources
-  on_media_added_removed(&GalleryManager::GetInstance()->GetMediaCollection()->GetAsSet(), NULL);
+  on_media_added_removed(&GalleryManager::GetInstance()->media_collection()->GetAsSet(), NULL);
 }
 
 void PreviewManager::on_media_added_removed(const QSet<DataObject*>* added,

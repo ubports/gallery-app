@@ -53,7 +53,7 @@ QUrl MediaSource::gallery_path() const {
 }
 
 QFileInfo MediaSource::preview_file() const {
-  return GalleryManager::GetInstance()->GetPreviewManager()->PreviewFileFor(this);
+  return GalleryManager::GetInstance()->preview_manager()->PreviewFileFor(this);
 }
 
 QUrl MediaSource::preview_path() const {
@@ -65,7 +65,7 @@ QUrl MediaSource::gallery_preview_path() const {
 }
 
 QFileInfo MediaSource::thumbnail_file() const {
-  return GalleryManager::GetInstance()->GetPreviewManager()->ThumbnailFileFor(this);
+  return GalleryManager::GetInstance()->preview_manager()->ThumbnailFileFor(this);
 }
 
 QUrl MediaSource::thumbnail_path() const {
@@ -127,7 +127,7 @@ int MediaSource::exposure_time_t() const {
 }
 
 Event* MediaSource::FindEvent() {
-  return GalleryManager::GetInstance()->GetEventCollection()->EventForMediaSource(this);
+  return GalleryManager::GetInstance()->event_collection()->EventForMediaSource(this);
 }
 
 QVariant MediaSource::QmlFindEvent() {
@@ -170,5 +170,5 @@ void MediaSource::notify_size_altered() {
   emit size_altered();
 
   if (id_ != INVALID_ID)
-    GalleryManager::GetInstance()->GetDatabase()->get_media_table()->set_media_size(id_, size_);
+    GalleryManager::GetInstance()->database()->get_media_table()->set_media_size(id_, size_);
 }

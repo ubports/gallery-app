@@ -1,3 +1,9 @@
+/*!
+ * gallerymanager.h
+ *
+ * Simple class which encapsulates instantiates objects which require only one instance.
+*/
+
 /*
  * Copyright (C) 2013 Canonical, Ltd.
  *
@@ -15,10 +21,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * gallerymanager.h
- *
- * Simple class which encapsulates instantiates objects which require only one instance.
  *
  */
 #ifndef GALLERYMANAGER_H
@@ -39,18 +41,22 @@ class GalleryManager
 {
 public:
     static GalleryManager* GetInstance();
+
+    /*!
+     * Called after main loop is initialised. See GalleryApplication::exec() comments.
+    */
     void PostInit();
 
     //PhotoMetadata* GetPhotoMetaData() { return photo_meta_data_; }
-    Database* GetDatabase() { return database_; }
-    AlbumDefaultTemplate* GetAlbumDefaultTemplate() { return default_template_; }
-    MediaCollection* GetMediaCollection() { return media_collection_; }
-    AlbumCollection* GetAlbumCollection() { return album_collection_; }
-    EventCollection* GetEventCollection() { return event_collection_; }
-    PreviewManager* GetPreviewManager() { return preview_manager_; }
-    Resource* GetResource() { return resource_; }
-    GalleryStandardImageProvider* GetGalleryStandardImageProvider() { return gallery_standard_image_provider_; }
-    GalleryThumbnailImageProvider* GetGalleryThumbnailImageProvider() { return gallery_thumbnail_image_provider; }
+    Database* database() { return database_; }
+    AlbumDefaultTemplate* album_default_template() { return default_template_; }
+    MediaCollection* media_collection() { return media_collection_; }
+    AlbumCollection* album_collection() { return album_collection_; }
+    EventCollection* event_collection() { return event_collection_; }
+    PreviewManager* preview_manager() { return preview_manager_; }
+    Resource* resource() { return resource_; }
+    GalleryStandardImageProvider* gallery_standard_image_provider() { return gallery_standard_image_provider_; }
+    GalleryThumbnailImageProvider* gallery_thumbnail_image_provider() { return gallery_thumbnail_image_provider_; }
 
 private:
     GalleryManager();
@@ -72,7 +78,7 @@ private:
     PreviewManager* preview_manager_;
     Resource* resource_;
     GalleryStandardImageProvider* gallery_standard_image_provider_;
-    GalleryThumbnailImageProvider* gallery_thumbnail_image_provider;
+    GalleryThumbnailImageProvider* gallery_thumbnail_image_provider_;
 };
 
 #endif // GALLERYMANAGER_H

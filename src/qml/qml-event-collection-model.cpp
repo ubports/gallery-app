@@ -25,7 +25,7 @@
 
 QmlEventCollectionModel::QmlEventCollectionModel(QObject* parent)
   : QmlViewCollectionModel(parent, "event", NULL) {
-    MonitorSourceCollection(GalleryManager::GetInstance()->GetEventCollection());
+    MonitorSourceCollection(GalleryManager::GetInstance()->event_collection());
 }
 
 void QmlEventCollectionModel::RegisterType() {

@@ -27,16 +27,16 @@ AlbumCollection::AlbumCollection()
   : ContainerSourceCollection("AlbumCollection", CreationDateTimeDescendingComparator) {
   // Load existing albums from database.
   QList<Album*> album_list;
-  GalleryManager::GetInstance()->GetDatabase()->get_album_table()->get_albums(&album_list);
+  GalleryManager::GetInstance()->database()->get_album_table()->get_albums(&album_list);
   foreach (Album* a, album_list) {
     Add(a);
     int saved_current_page = a->current_page();
     
     // Link each album up with its photos.
     QList<qint64> photo_list;
-    GalleryManager::GetInstance()->GetDatabase()->get_album_table()->media_for_album(a->get_id(), &photo_list);
+    GalleryManager::GetInstance()->database()->get_album_table()->media_for_album(a->get_id(), &photo_list);
     foreach (qint64 mediaId, photo_list)
-      a->Attach(GalleryManager::GetInstance()->GetMediaCollection()->mediaForId(mediaId));
+      a->Attach(GalleryManager::GetInstance()->media_collection()->mediaForId(mediaId));
     
     // After photos are attached, restore the current page.
     a->set_current_page(saved_current_page);
@@ -51,7 +51,7 @@ AlbumCollection::AlbumCollection()
   // We need to monitor the media collection so that when photos get removed
   // from the system, they also get removed from all albums.
   QObject::connect(
-    GalleryManager::GetInstance()->GetMediaCollection(),
+    GalleryManager::GetInstance()->media_collection(),
     SIGNAL(contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
     this,
     SLOT(on_media_added_removed(const QSet<DataObject*>*,const QSet<DataObject*>*)));
@@ -100,13 +100,13 @@ void AlbumCollection::notify_contents_altered(const QSet<DataObject*>* added,
       Q_ASSERT(album != NULL);
       
       // Add the album.
-      GalleryManager::GetInstance()->GetDatabase()->get_album_table()->add_album(album);
+      GalleryManager::GetInstance()->database()->get_album_table()->add_album(album);
       
       // Add initial photos.
       foreach(DataObject* o, album->contained()->GetAll()) {
         MediaSource* media = qobject_cast<MediaSource*>(o);
         Q_ASSERT(media != NULL);
-        GalleryManager::GetInstance()->GetDatabase()->get_album_table()->attach_to_album(album->get_id(), media->get_id());
+        GalleryManager::GetInstance()->database()->get_album_table()->attach_to_album(album->get_id(), media->get_id());
       }
     }
   }
@@ -116,7 +116,7 @@ void AlbumCollection::notify_contents_altered(const QSet<DataObject*>* added,
       Album* album = qobject_cast<Album*>(object);
       Q_ASSERT(album != NULL);
       
-      GalleryManager::GetInstance()->GetDatabase()->get_album_table()->remove_album(album);
+      GalleryManager::GetInstance()->database()->get_album_table()->remove_album(album);
     }
   }
 }

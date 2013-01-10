@@ -129,10 +129,10 @@ void GalleryApplication::create_view() {
   view_.engine()->rootContext()->setContextProperty("APP", this);
 
   view_.engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
-    GalleryManager::GetInstance()->GetGalleryStandardImageProvider());
+    GalleryManager::GetInstance()->gallery_standard_image_provider());
   view_.engine()->addImageProvider(GalleryThumbnailImageProvider::PROVIDER_ID,
-    GalleryManager::GetInstance()->GetGalleryThumbnailImageProvider());
-  view_.setSource(GalleryManager::GetInstance()->GetResource()->get_rc_url("qml/GalleryApplication.qml"));
+    GalleryManager::GetInstance()->gallery_thumbnail_image_provider());
+  view_.setSource(GalleryManager::GetInstance()->resource()->get_rc_url("qml/GalleryApplication.qml"));
   QObject::connect(view_.engine(), SIGNAL(quit()), this, SLOT(quit()));
 
   // Hook up our media_loaded signal to GalleryApplication's onLoaded function.
@@ -181,7 +181,7 @@ void GalleryApplication::on_media_item_added(QFileInfo item_info) {
   Photo* new_photo = Photo::Fetch(item_info);
   
   if (new_photo)
-    GalleryManager::GetInstance()->GetMediaCollection()->Add(new_photo);
+    GalleryManager::GetInstance()->media_collection()->Add(new_photo);
 }
 
 void GalleryApplication::invalid_arg(QString arg) {

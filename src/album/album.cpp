@@ -42,7 +42,7 @@ const int Album::FIRST_VALID_CURRENT_PAGE = -1;
 
 Album::Album(QObject * parent)
   : ContainerSource(parent, DEFAULT_TITLE, MediaCollection::ExposureDateTimeAscendingComparator),
-    album_template_(GalleryManager::GetInstance()->GetAlbumDefaultTemplate()), title_(DEFAULT_TITLE),
+    album_template_(GalleryManager::GetInstance()->album_default_template()), title_(DEFAULT_TITLE),
     subtitle_(DEFAULT_SUBTITLE) {
   InitInstance();
 }
@@ -188,7 +188,7 @@ void Album::set_title(QString title) {
   title_ = title;
   
   if (signal) {
-    GalleryManager::GetInstance()->GetDatabase()->get_album_table()->set_title(id_, title_);
+    GalleryManager::GetInstance()->database()->get_album_table()->set_title(id_, title_);
     emit title_altered();
   }
 }
@@ -202,7 +202,7 @@ void Album::set_subtitle(QString subtitle) {
   subtitle_ = subtitle;
   
   if (signal) {
-    GalleryManager::GetInstance()->GetDatabase()->get_album_table()->set_subtitle(id_, subtitle_);
+    GalleryManager::GetInstance()->database()->get_album_table()->set_subtitle(id_, subtitle_);
     emit subtitle_altered();
   }
 }
@@ -295,7 +295,7 @@ void Album::set_cover_nickname(QString name) {
   cover_nickname_ = name;
   
   if (signal) {
-    GalleryManager::GetInstance()->GetDatabase()->get_album_table()->set_cover_nickname(id_, cover_nickname_);
+    GalleryManager::GetInstance()->database()->get_album_table()->set_cover_nickname(id_, cover_nickname_);
     emit coverNicknameAltered();
   }
 }
@@ -320,14 +320,14 @@ QQmlListProperty<AlbumPage> Album::qml_pages() {
 void Album::notify_current_page_altered() {
   if (!refreshing_container_) {
     emit current_page_altered();
-    GalleryManager::GetInstance()->GetDatabase()->get_album_table()->set_current_page(id_, current_page_);
+    GalleryManager::GetInstance()->database()->get_album_table()->set_current_page(id_, current_page_);
   }
 }
 
 void Album::notify_closed_altered() {
   if (!refreshing_container_) {
     emit closedAltered();
-    GalleryManager::GetInstance()->GetDatabase()->get_album_table()->set_is_closed(id_, closed_);
+    GalleryManager::GetInstance()->database()->get_album_table()->set_is_closed(id_, closed_);
   }
 }
 
@@ -375,7 +375,7 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
       while (i.hasNext()) {
         MediaSource* media = qobject_cast<MediaSource*>(i.next());
         Q_ASSERT(media != NULL);
-        GalleryManager::GetInstance()->GetDatabase()->get_album_table()->attach_to_album(get_id(), media->get_id());
+        GalleryManager::GetInstance()->database()->get_album_table()->attach_to_album(get_id(), media->get_id());
       }
     }
     
@@ -384,7 +384,7 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
       while (i.hasNext()) {
         MediaSource* media = qobject_cast<MediaSource*>(i.next());
         Q_ASSERT(media != NULL);
-       GalleryManager::GetInstance()->GetDatabase()->get_album_table()->detach_from_album(get_id(), media->get_id());
+       GalleryManager::GetInstance()->database()->get_album_table()->detach_from_album(get_id(), media->get_id());
       }
     }
   }
