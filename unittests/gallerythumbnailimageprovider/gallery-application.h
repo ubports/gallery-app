@@ -20,6 +20,8 @@
 #ifndef GALLERYAPPLICATION_H
 #define GALLERYAPPLICATION_H
 
+#include "gallery-thumbnail-image-provider.h"
+
 class GalleryApplication {
 public:
   static GalleryApplication* instance() {
@@ -35,6 +37,7 @@ public:
 private:
   GalleryApplication() {}
   static GalleryApplication* instance_;
+
 };
 
 #endif // GALLERYAPPLICATION_H

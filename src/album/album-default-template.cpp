@@ -22,8 +22,6 @@
 
 #include "album/album.h"
 
-AlbumDefaultTemplate* AlbumDefaultTemplate::instance_ = NULL;
-
 AlbumDefaultTemplate::AlbumDefaultTemplate()
   : AlbumTemplate("Default Album Template"),
     next_decision_page_type_(LANDSCAPE) {
@@ -39,18 +37,6 @@ AlbumDefaultTemplate::AlbumDefaultTemplate()
   AddPage(new AlbumTemplatePage("Template B Right",
       "qml/Components/AlbumInternals/AlbumPageLayoutRightDoubleLandscape.qml",
       false, 2, LANDSCAPE, LANDSCAPE));
-}
-
-void AlbumDefaultTemplate::Init() {
-  Q_ASSERT(instance_ == NULL);
-  
-  instance_ = new AlbumDefaultTemplate();
-}
-
-AlbumDefaultTemplate* AlbumDefaultTemplate::instance() {
-  Q_ASSERT(instance_ != NULL);
-  
-  return instance_;
 }
 
 void AlbumDefaultTemplate::reset_best_fit_data() {

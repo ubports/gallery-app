@@ -23,8 +23,6 @@
 #include <QDebug>
 #include <QElapsedTimer>
 
-GalleryThumbnailImageProvider* GalleryThumbnailImageProvider::instance_ = NULL;
-
 const char* GalleryThumbnailImageProvider::PROVIDER_ID = "gallery-thumbnail";
 const char* GalleryThumbnailImageProvider::PROVIDER_ID_SCHEME = "image://gallery-thumbnail/";
 
@@ -35,24 +33,6 @@ const char* GalleryThumbnailImageProvider::REVISION_PARAM_NAME = "edit";
  */
 GalleryThumbnailImageProvider::GalleryThumbnailImageProvider()
   : QQuickImageProvider(QQuickImageProvider::Image) {
-}
-
-/*!
- * @brief GalleryThumbnailImageProvider::Init needs to be called once befoe any other method of this
- * class
- */
-void GalleryThumbnailImageProvider::Init() {
-  Q_ASSERT(instance_ == NULL);
-  instance_ = new GalleryThumbnailImageProvider();
-}
-
-/*!
- * @brief GalleryThumbnailImageProvider::instance returns the on instanc that exists in the app
- * @return instance of this class to use
- */
-GalleryThumbnailImageProvider* GalleryThumbnailImageProvider::instance() {
-  Q_ASSERT(instance_ != NULL);
-  return instance_;
 }
 
 /*!

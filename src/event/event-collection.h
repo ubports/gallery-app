@@ -39,10 +39,6 @@ class EventCollection : public SourceCollection {
  public:
   EventCollection();
   
-  static void Init();
-  
-  static EventCollection* instance();
-  
   Event* EventForDate(const QDate& date) const;
   Event* EventForMediaSource(MediaSource* media) const;
   
@@ -55,8 +51,6 @@ class EventCollection : public SourceCollection {
     const QSet<DataObject*>* removed);
   
  private:
-  static EventCollection* instance_;
-  
   QHash<QDate, Event*> date_map_;
   
   static bool Comparator(DataObject* a, DataObject* b);

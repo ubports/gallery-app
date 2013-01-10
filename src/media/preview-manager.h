@@ -42,11 +42,9 @@ class PreviewManager : public QObject {
   static const char* PREVIEW_FILE_EXT;
   
   static const QString PREVIEW_DIR;
+
+  PreviewManager();
   
-  static void Init();
-  static void Terminate();
-  
-  static PreviewManager* instance();
   QFileInfo PreviewFileFor(const MediaSource* media) const;
   QFileInfo ThumbnailFileFor(const MediaSource* media) const;
   bool ensure_preview_for_media(MediaSource* media, bool regen = false);
@@ -58,10 +56,6 @@ class PreviewManager : public QObject {
   void on_media_data_altered();
   
  private:
-  static PreviewManager* instance_;
-  
-  PreviewManager();
-  
   void DestroyPreview(MediaSource* media);
   QImage generate_Thumbnail(const QImage& master) const;
 };

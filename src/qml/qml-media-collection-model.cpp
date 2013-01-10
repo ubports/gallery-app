@@ -27,6 +27,7 @@
 #include "media/media-collection.h"
 #include "util/collections.h"
 #include "util/variants.h"
+#include "core/gallery-manager.h"
 
 QmlMediaCollectionModel::QmlMediaCollectionModel(QObject* parent)
   : QmlViewCollectionModel(parent, "mediaSource", NULL) {
@@ -46,12 +47,12 @@ QVariant QmlMediaCollectionModel::createAlbumFromSelected() {
   if (view->SelectedCount() == 0)
     return QVariant();
   
-  Album* album = new Album(AlbumDefaultTemplate::instance());
+  Album* album = new Album(GalleryManager::GetInstance()->album_default_template());
   
   // Attach only the MediaSources in the backing collection
   album->AttachMany(FilterSetOnlyType<DataObject*, MediaSource*>(view->GetSelected()));
   
-  AlbumCollection::instance()->Add(album);
+  GalleryManager::GetInstance()->album_collection()->Add(album);
   
   return QVariant::fromValue(album);
 }
@@ -61,7 +62,7 @@ void QmlMediaCollectionModel::destroySelectedMedia() {
   if (view->SelectedCount() == 0)
     return;
 
-  MediaCollection::instance()->DestroyMany(
+  GalleryManager::GetInstance()->media_collection()->DestroyMany(
     FilterSetOnlyType<DataObject*, MediaSource*>(view->GetSelected()),
     true, true);
 }
@@ -70,7 +71,7 @@ void QmlMediaCollectionModel::destroyMedia(QVariant vmedia) {
   MediaSource* media = VariantToObject<MediaSource*>(vmedia);
 
   if (media != NULL)
-    MediaCollection::instance()->Destroy(media, true, true);
+    GalleryManager::GetInstance()->media_collection()->Destroy(media, true, true);
 }
 
 bool QmlMediaCollectionModel::monitored() const {
@@ -82,7 +83,7 @@ void QmlMediaCollectionModel::set_monitored(bool monitor) {
     return;
   
   if (monitor)
-    MonitorSourceCollection(MediaCollection::instance());
+    MonitorSourceCollection(GalleryManager::GetInstance()->media_collection());
   else
     StopMonitoring();
   

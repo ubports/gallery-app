@@ -24,10 +24,8 @@
 #include <QSize>
 #include <QElapsedTimer>
 
-#include "gallery-application.h"
 #include "media/preview-manager.h"
-
-GalleryStandardImageProvider* GalleryStandardImageProvider::instance_ = NULL;
+#include "gallery-application.h"
 
 const char* GalleryStandardImageProvider::PROVIDER_ID = "gallery-standard";
 const char* GalleryStandardImageProvider::PROVIDER_ID_SCHEME = "image://gallery-standard/";
@@ -52,24 +50,12 @@ GalleryStandardImageProvider::~GalleryStandardImageProvider() {
     delete cache_.value(fifo_.takeFirst());
 }
 
-void GalleryStandardImageProvider::Init() {
-  Q_ASSERT(instance_ == NULL);
-  
-  instance_ = new GalleryStandardImageProvider();
-}
-
-GalleryStandardImageProvider* GalleryStandardImageProvider::instance() {
-  Q_ASSERT(instance_ != NULL);
-  
-  return instance_;
-}
-
 QUrl GalleryStandardImageProvider::ToURL(const QFileInfo& file) {
   return QUrl::fromUserInput(PROVIDER_ID_SCHEME + file.absoluteFilePath());
 }
 
 #define LOG_IMAGE_STATUS(status) { \
-  if (GalleryApplication::instance()->log_image_loading()) \
+    if (GalleryApplication::instance()->log_image_loading()) \
     loggingStr += status; \
 }
 
