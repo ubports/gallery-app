@@ -28,7 +28,6 @@
 
 #include <QDir>
 
-//class PhotoMetadata;
 class Resource;
 class GalleryStandardImageProvider;
 class GalleryThumbnailImageProvider;
@@ -49,7 +48,6 @@ public:
     */
     void post_init();
 
-    //PhotoMetadata* GetPhotoMetaData() { return photo_meta_data_; }
     Database* database() { return database_; }
     AlbumDefaultTemplate* album_default_template() { return default_template_; }
     MediaCollection* media_collection() { return media_collection_; }
@@ -92,7 +90,6 @@ private:
     GalleryStandardImageProvider* gallery_standard_image_provider_;
     GalleryThumbnailImageProvider* gallery_thumbnail_image_provider_;
 
-    //PhotoMetadata* photo_meta_data_;
     Database* database_;
     AlbumDefaultTemplate* default_template_;
     MediaCollection* media_collection_;

@@ -25,7 +25,6 @@
  */
 
 #include "gallery-manager.h"
-//#include "photo/photo-metadata.h"
 #include "database/database.h"
 #include "gallery-application.h"
 #include "util/resource.h"
@@ -83,7 +82,6 @@ void GalleryManager::post_init()
         qDebug("Opening %s...", qPrintable(pictures_dir_.path()));
 
         Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute);
-        //photo_meta_data_ = new PhotoMetadata();
 
         database_ = new Database(pictures_dir_, GalleryApplication::instance());
         database_->get_media_table()->verify_files();
