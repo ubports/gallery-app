@@ -54,6 +54,7 @@ class MediaSource : public DataSource {
   Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
   Q_PROPERTY(int width READ width NOTIFY size_altered)
   Q_PROPERTY(int height READ height NOTIFY size_altered)
+  Q_PROPERTY(int maxSize READ maxSize NOTIFY maxSizeChanged)
 
  signals:
   void path_altered();
@@ -68,6 +69,7 @@ class MediaSource : public DataSource {
   void data_altered();
   void size_altered();
   void busyChanged();
+  void maxSizeChanged();
   
  public:
   MediaSource();
@@ -107,6 +109,8 @@ class MediaSource : public DataSource {
   bool busy();
   void set_busy(bool busy);
   
+  int maxSize();
+
  protected:
   virtual void DestroySource(bool delete_backing, bool as_orphan);
 
@@ -126,6 +130,8 @@ class MediaSource : public DataSource {
   qint64 id_;
   QSize size_;
   bool busy_;
+
+  int _maxTextureSize;
 };
 
 QML_DECLARE_TYPE(MediaSource)

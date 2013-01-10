@@ -66,26 +66,23 @@ Rectangle {
     //           prevent this segfault & crash from occurring.
     visible: isLoaded;
     
-    // NOTE: We cap image size at a maximum of 1280 pixels to prevent texture
-    //       memory exhaustion on the phone target device. This limit will be
-    //       able to be expanded once we fix the the image provider API bug
-    //       (see https://bugs.launchpad.net/goodhope/+bug/1085329).
-    //
-    //       We also want to keep using the source size determined below even
+    //       Note: the max size is limited by OpenGL max. texture size
+
+    //       Note: We want to keep using the source size determined below even
     //       during scaling animations to prevent extraneous loads and decodes.
     sourceSize.width: {
       if (width < 1024)
         return 1024;
-      else if (width > 1280)
-        return 1280;
+      else if (width > photo.maxSize)
+        return photo.maxSize;
       return width;
     }
    
     sourceSize.height: {
       if (height < 1024)
         return 1024;
-      else if (height > 1280)
-        return 1280;
+      else if (height > photo.maxSize)
+        return photo.maxSize;
       return height;
     }
     
