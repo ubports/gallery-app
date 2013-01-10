@@ -47,41 +47,34 @@ class GalleryApplication : public QApplication {
 
   // Used for content sharing.
   Q_INVOKABLE bool run_command(const QString &cmd, const QString &arg);
-  
-  bool log_image_loading() {
-    return log_image_loading_;
-  }
 
-  QDir& GetPicturesDir()  { return pictures_dir_; }
-  
- signals:
-  void media_loaded();
+  QHash<QString, QSize>& form_factors() { return form_factors_; }
+  QString& form_factor() { return form_factor_; }
+
+  bool log_image_loading() const { return log_image_loading_; }
 
  private:
   void register_qml();
   void process_args();
   void create_view();
   void init_collections();
-  void invalid_arg(QString arg);
-  void usage(bool error = false);
   
   static GalleryManager* gallery_mgr;
   
   QHash<QString, QSize> form_factors_;
   QString form_factor_;
-  bool is_portrait_;
-  bool is_fullscreen_;
   int bgu_size_;
-  QQuickView view_;
-  bool startup_timer_;
   bool log_image_loading_;
+  QQuickView view_;
   QElapsedTimer timer_;
   MediaMonitor* monitor_;
-  QDir pictures_dir_;
 
  private slots:
   void start_init_collections();
   void on_media_item_added(QFileInfo item_info);
+
+signals:
+  void media_loaded();
 };
 
 #endif // GALLERYAPPLICATION_H

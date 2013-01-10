@@ -16,14 +16,13 @@
  * Authors:
  * Charles Lindsay <chaz@yorba.org>
  */
-
-#include <QDir>
 #include <QGLWidget>
 #include <QString>
 #include <QUrl>
 #include <QString>
 #include <QQuickItem>
 #include <cstdlib>
+#include <QProcess>
 
 #include "gallery-application.h"
 #include "album/album.h"
@@ -42,14 +41,15 @@
 #include "qml/qml-stack.h"
 #include "util/resource.h"
 #include "util/sharefile.h"
-#include <QProcess>
 #include "core/gallery-manager.h"
 
-GalleryApplication::GalleryApplication(int& argc, char** argv) :
-    QApplication(argc, argv), form_factor_("desktop"), is_portrait_(false),
-    is_fullscreen_(false), view_(), startup_timer_(false), log_image_loading_(false),
+GalleryApplication::GalleryApplication(int& argc, char** argv)
+  : QApplication(argc, argv),
+    form_factor_("desktop"),
+    log_image_loading_(false),
+    view_(),
     monitor_(NULL) {
-  
+
   bgu_size_ = QProcessEnvironment::systemEnvironment().value("GRID_UNIT_PX", "8").toInt();
   if (bgu_size_ <= 0)
     bgu_size_ = 8;
@@ -60,10 +60,7 @@ GalleryApplication::GalleryApplication(int& argc, char** argv) :
   form_factors_.insert("phone", QSize(71, 40));
   form_factors_.insert("sidebar", QSize(71, 40));
 
-  pictures_dir_ = QDir(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation));
-
   register_qml();
-  process_args();
 
   GalleryManager::GetInstance();
 }
@@ -113,7 +110,7 @@ void GalleryApplication::create_view() {
   view_.setWindowTitle("Gallery");
 
   QSize size = form_factors_[form_factor_];
-  if (is_portrait_)
+  if (GalleryManager::GetInstance()->is_portrait())
     size.transpose();
 
   view_.setResizeMode(QQuickView::SizeRootObjectToView);
@@ -139,29 +136,24 @@ void GalleryApplication::create_view() {
   QObject* rootObject = dynamic_cast<QObject*>(view_.rootObject());
   QObject::connect(this, SIGNAL(media_loaded()), rootObject, SLOT(onLoaded()));
 
-  if (is_fullscreen_)
+  if (GalleryManager::GetInstance()->is_fullscreen())
     view_.showFullScreen();
   else
     view_.show();
 }
 
 void GalleryApplication::init_collections() {
-
-  qDebug("Opening %s...", qPrintable(pictures_dir_.path()));
-
-  GalleryManager::GetInstance()->PostInit();
-
-  qDebug("Opened %s", qPrintable(pictures_dir_.path()));
+  GalleryManager::GetInstance()->post_init();
 
   emit media_loaded();
-  
+
   // start the file monitor so that the collection contents will be updated as
   // new files arrive
-  monitor_ = new MediaMonitor(pictures_dir_.path());
+  monitor_ = new MediaMonitor(GalleryManager::GetInstance()->pictures_dir().path());
   QObject::connect(monitor_, SIGNAL(media_item_added(QFileInfo)), this,
     SLOT(on_media_item_added(QFileInfo)));
-  
-  if (startup_timer_)
+
+  if (GalleryManager::GetInstance()->startup_timer())
     qDebug() << "Startup took" << timer_.elapsed() << "milliseconds";
 }
 
@@ -182,59 +174,4 @@ void GalleryApplication::on_media_item_added(QFileInfo item_info) {
   
   if (new_photo)
     GalleryManager::GetInstance()->media_collection()->Add(new_photo);
-}
-
-void GalleryApplication::invalid_arg(QString arg) {
-  QTextStream(stderr) << "Invalid argument '" << arg << "'" << endl;
-  usage(true);
-}
-
-void GalleryApplication::usage(bool error) {
-  QTextStream out(error ? stderr : stdout);
-  out << "Usage: gallery [options] [pictures_dir]" << endl;
-  out << "Options:" << endl;
-  out << "  --landscape\trun in landscape orientation (default)" << endl;
-  out << "  --portrait\trun in portrait orientation" << endl;
-  out << "  --fullscreen\trun fullscreen" << endl;
-  foreach (const QString& form_factor, form_factors_.keys())
-    out << "  --" << form_factor << "\trun in " << form_factor << " form factor" << endl;
-  out << "  --startup-timer\n\t\tdebug-print startup time" << endl;
-  out << "  --log-image-loading\n\t\tlog image loading" << endl;
-  out << "pictures_dir defaults to ~/Pictures, and must exist prior to running gallery" << endl;
-  std::exit(error ? 1 : 0);
-}
-
-void GalleryApplication::process_args() {
-  QStringList args = arguments();
-
-  for (int i = 1; i < args.count(); ++i) {
-    QString arg = args[i];
-    QString value = (i + 1 < args.count() ? args[i + 1] : "");
-
-    if (arg == "--help" || arg == "-h") {
-      usage();
-    } else if (arg == "--landscape") {
-      is_portrait_ = false;
-    } else if (arg == "--portrait") {
-      is_portrait_ = true;
-    } else if (arg == "--fullscreen") {
-      is_fullscreen_ = true;
-    } else if (arg == "--startup-timer") {
-      startup_timer_ = true;
-    } else if (arg == "--log-image-loading") {
-      log_image_loading_ = true;
-    } else {
-      QString form_factor = arg.mid(2); // minus initial "--"
-
-      if (arg.startsWith("--") && form_factors_.keys().contains(form_factor)) {
-        form_factor_ = form_factor;
-      } else if (arg.startsWith("--desktop_file_hint")) {
-        // ignore this command line switch, hybris uses it to get application info
-      } else if (i == args.count() - 1 && QDir(arg).exists()) {
-        pictures_dir_ = QDir(arg);
-      } else {
-        invalid_arg(arg);
-      }
-    }
-  }
 }

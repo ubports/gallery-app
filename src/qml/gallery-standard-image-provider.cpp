@@ -24,8 +24,8 @@
 #include <QSize>
 #include <QElapsedTimer>
 
-#include "gallery-application.h"
 #include "media/preview-manager.h"
+#include "gallery-application.h"
 
 const char* GalleryStandardImageProvider::PROVIDER_ID = "gallery-standard";
 const char* GalleryStandardImageProvider::PROVIDER_ID_SCHEME = "image://gallery-standard/";
@@ -55,7 +55,7 @@ QUrl GalleryStandardImageProvider::ToURL(const QFileInfo& file) {
 }
 
 #define LOG_IMAGE_STATUS(status) { \
-  if (GalleryApplication::instance()->log_image_loading()) \
+    if (GalleryApplication::instance()->log_image_loading()) \
     loggingStr += status; \
 }
 

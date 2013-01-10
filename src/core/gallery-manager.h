@@ -26,7 +26,9 @@
 #ifndef GALLERYMANAGER_H
 #define GALLERYMANAGER_H
 
-class PhotoMetadata;
+#include <QDir>
+
+//class PhotoMetadata;
 class Resource;
 class GalleryStandardImageProvider;
 class GalleryThumbnailImageProvider;
@@ -45,7 +47,7 @@ public:
     /*!
      * Called after main loop is initialised. See GalleryApplication::exec() comments.
     */
-    void PostInit();
+    void post_init();
 
     //PhotoMetadata* GetPhotoMetaData() { return photo_meta_data_; }
     Database* database() { return database_; }
@@ -58,6 +60,11 @@ public:
     GalleryStandardImageProvider* gallery_standard_image_provider() { return gallery_standard_image_provider_; }
     GalleryThumbnailImageProvider* gallery_thumbnail_image_provider() { return gallery_thumbnail_image_provider_; }
 
+    QDir& pictures_dir()  { return pictures_dir_; }
+    bool is_portrait() { return is_portrait_; }
+    bool is_fullscreen() { return is_fullscreen_; }
+    bool startup_timer() { return startup_timer_; }
+
 private:
     GalleryManager();
     ~GalleryManager();
@@ -65,20 +72,33 @@ private:
     GalleryManager(GalleryManager const&);
     void operator=(GalleryManager const&);
 
+    void process_args();
+    void usage(bool error = false);
+    void invalid_arg(QString arg);
+
     static GalleryManager* gallery_mgr_;
 
     bool collections_initialised;
+    bool startup_timer_;
+    bool is_fullscreen_;
+    bool is_portrait_;
+    QDir pictures_dir_;
 
-    PhotoMetadata* photo_meta_data_;
+    QHash<QString, QSize>& form_factors_;
+    QString& form_factor_;
+    bool log_image_loading_;
+
+    Resource* resource_;
+    GalleryStandardImageProvider* gallery_standard_image_provider_;
+    GalleryThumbnailImageProvider* gallery_thumbnail_image_provider_;
+
+    //PhotoMetadata* photo_meta_data_;
     Database* database_;
     AlbumDefaultTemplate* default_template_;
     MediaCollection* media_collection_;
     AlbumCollection* album_collection_;
     EventCollection* event_collection_;
     PreviewManager* preview_manager_;
-    Resource* resource_;
-    GalleryStandardImageProvider* gallery_standard_image_provider_;
-    GalleryThumbnailImageProvider* gallery_thumbnail_image_provider_;
 };
 
 #endif // GALLERYMANAGER_H
