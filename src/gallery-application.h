@@ -59,8 +59,6 @@ class GalleryApplication : public QApplication {
   void create_view();
   void init_collections();
   
-  static GalleryManager* gallery_mgr;
-  
   QHash<QString, QSize> form_factors_;
   QString form_factor_;
   int bgu_size_;
