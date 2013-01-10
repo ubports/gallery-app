@@ -24,11 +24,12 @@
 #include "gallery-application.h"
 
 GalleryApplication* GalleryApplication::instance_ = 0;
-GalleryThumbnailImageProvider gallery_thumbnail_image_provider;
 
 class tst_GalleryThumbnailImageProvider : public QObject
 {
   Q_OBJECT
+  GalleryThumbnailImageProvider gallery_thumbnail_image_provider;
+
 private slots:
   void ToURL();
 };
