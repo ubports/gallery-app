@@ -180,6 +180,7 @@ Rectangle {
             title: "Events"
             page: OrganicEventView {
                 id: eventView
+                objectName: "organicEventView"
 
                 anchors.fill: parent
                 visible: true
