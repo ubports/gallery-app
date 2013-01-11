@@ -305,6 +305,7 @@ Item {
     }
 
     Image {
+      objectName: "centerCropIcon"
       source: "../../img/icon-crop.png"
 
       anchors.centerIn: parent;
@@ -318,6 +319,7 @@ Item {
 
     // Top-left corner.
     CropCorner {
+      objectName: "topLeftCropCorner"
       isLeft: true
       isTop: true
       color: frame.border.color
@@ -342,6 +344,7 @@ Item {
 
     // Top-right corner.
     CropCorner {
+      objectName: "topRightCropCorner"
       isLeft: false
       isTop: true
       color: frame.border.color
@@ -366,6 +369,7 @@ Item {
 
     // Bottom-left corner.
     CropCorner {
+      objectName: "bottonLeftCropCorner"
       isLeft: true
       isTop: false
       color: frame.border.color
@@ -390,6 +394,7 @@ Item {
 
     // Bottom-right corner.
     CropCorner {
+      objectName: "bottomRightCropCorner"
       isLeft: false
       isTop: false
       color: frame.border.color

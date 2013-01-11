@@ -90,6 +90,22 @@ class PhotoViewer(object):
         """Returns the crop item of the edit dialog."""
         return self.app.select_single("Standard", objectName="cropListItem")
 
+    def get_rotate_menu_item(self):
+        """Returns the rotate item of the edit dialog."""
+        return self.app.select_single("Standard", objectName="rotateListItem")
+
+    def get_undo_menu_item(self):
+        """Returns the undo item of the edit dialog."""
+        return self.app.select_single("Standard", objectName="undoListItem")
+
+    def get_redo_menu_item(self):
+        """Returns the redo item of the edit dialog."""
+        return self.app.select_single("Standard", objectName="redoListItem")
+
+    def get_revert_menu_item(self):
+        """Returns the revert to original menu item in the edit dialog."""
+        return self.app.select_single("Standard", objectName="revertListItem")
+
     def get_delete_popover_delete_item(self):
         """Returns the delete button of the delete popover."""
         return self.app.select_single("Button", objectName="deletePopoverDelete", visible=True)
@@ -97,5 +113,17 @@ class PhotoViewer(object):
     def get_delete_popover_cancel_item(self):
         """Returns the cancel button of the delete popover."""
         return self.app.select_single("Button", objectName="deletePopoverCancel", visible=True)
+
+    def get_opened_photo(self):
+        """Returns the first opened photo."""
+        return self.app.select_single("ZoomablePhotoComponent", objectName="openedPhoto0")
+
+    def get_top_left_crop_corner(self):
+        """Returns the top left corner of the crop overlay for dragging."""
+        return self.app.select_single("CropCorner", objectName="topLeftCropCorner")
+
+    def get_crop_overlays_crop_icon(self):
+        """Returns the crop icon of the crop overlay."""
+        return self.app.select_single("QQuickImage", objectName="centerCropIcon", visible=True)
 
 
