@@ -20,15 +20,14 @@
  */
 
 import QtQuick 2.0
-import ".."
+import Ubuntu.Components 0.1
 
 // Displays a flickable photo stream.
 //
 // When implementing this, override onCurrentIndexChanged to load the 
 // appropriate photo for the index.
-Pager {
+ListView {
   id: photoViewer
-  objectName: "photoViewer"
   
   property int currentIndexForHighlight: -1
   
@@ -36,11 +35,24 @@ Pager {
   // individually can lead to bogus results.  Use setCurrentIndex() to 
   // initialize the view.
   property alias index: photoViewer.currentIndex
-  
+
   function setCurrentIndex(index) {
-    photoViewer.pageTo(index);
+      if (currentIndex === index)
+        return;
+
+      currentIndex = index;
+      positionViewAtIndex(currentIndex, ListView.Beginning);
   }
   
+  spacing: units.gu(5)
+  orientation: ListView.Horizontal
+  snapMode: ListView.SnapOneItem
+  highlightRangeMode: ListView.StrictlyEnforceRange
+  highlightFollowsCurrentItem: true
+  flickDeceleration: 50
+  highlightMoveDuration: 200
+  boundsBehavior: Flickable.DragOverBounds
+
   onMovingChanged: {
     // TODO: if you scroll through a number of pages without stopping, this
     // never gets updated, so the highlighting stops working.
@@ -56,19 +68,11 @@ Pager {
   
   Keys.onPressed: {
     if (event.key === Qt.Key_Left) {
-      pageBack();
+      decrementCurrentIndex();
       event.accepted = true;
     } else if (event.key === Qt.Key_Right) {
-      pageForward();
+      incrementCurrentIndex();
       event.accepted = true;
     }
-  }
-  
-  // Background color fill.
-  Rectangle {
-    anchors.fill: parent
-    
-    z: -1000 //background
-    color: "black"
   }
 }

@@ -42,7 +42,7 @@ class TestPhotosView(GoodhopeTestCase):
         self.pointing_device.click()
 
     def click_photos_tab_button(self):
-        photos_tab_button = self.app.select_single("AbstractButton", buttonIndex=3)
+        photos_tab_button = self.app.select_single("AbstractButton", buttonIndex=5)
 
         #Due to some timing issues sometimes mouse moves to the location a bit earlier
         #even though the tab item is not fully visible, hence the tab does not activate.

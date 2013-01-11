@@ -22,27 +22,100 @@
 import QtQuick 2.0
 import "../../Capetown/Viewer"
 
-// The GalleryPhotoComponent adds a MediaSource object to a PhotoComponent.
-// The PhotoComponent's source is updated automatically from the MediaSource.
-PhotoComponent {
-  id: galleryPhotoComponent
-  
-  property variant mediaSource
-  property bool load: false
-  
-  source: {
-    if (!load)
-      return source;
-    
-    if (!mediaSource)
-      return "";
-    
-    // TODO: If MediaSource could return dimensions of both original image
-    // and its preview, could dynamically determine if the display dimensions
-    // are smaller than preview's and automatically use that instead of a
-    // full image load
-    
-    // Load image using the Gallery image provider to ensure EXIF orientation
-    return isPreview ? mediaSource.galleryPreviewPath : mediaSource.galleryPath
-  }
+// Basic photo component.  Can be used on its own, or as a delegate
+// for PhotoViewer.
+Rectangle {
+    id: photoComponent
+
+    property variant mediaSource
+    property bool load: false
+
+    property url source: {
+        if (!load)
+            return source;
+
+        if (!mediaSource)
+            return "";
+
+        // TODO: If MediaSource could return dimensions of both original image
+        // and its preview, could dynamically determine if the display dimensions
+        // are smaller than preview's and automatically use that instead of a
+        // full image load
+
+        // Load image using the Gallery image provider to ensure EXIF orientation
+        return isPreview ? mediaSource.galleryPreviewPath : mediaSource.galleryPath
+    }
+
+    property bool isCropped: false
+    property bool isPreview: false
+    property bool isZoomable: false
+    property bool isAnimate: false
+    property string ownerName: "(not set)"
+
+    // read-only
+    property real paintedWidth: imageComponent.paintedWidth
+    property real paintedHeight: imageComponent.paintedHeight
+    property bool isLoaded: false
+
+    // internal
+    property Image image: imageComponent
+
+    signal loaded()
+
+    clip: true
+
+    Image {
+        id: imageComponent
+
+        width: parent.width
+        height: parent.height
+        x: 0
+        y: 0
+
+        source: (width > 0 && height > 0) ? photoComponent.source : ""
+
+        // CRITICAL: when we moved to QT 5, we began to experience crashes when
+        //           drawing photos after editing operations (see Launchpad bug
+        //           #1065208). It turns out that, due to a bug in QT 5, in some
+        //           cases images can be added to the list of objects to be drawn
+        //           even though they're not yet loaded into memory. Of course,
+        //           this causes a segfault. This property binding is here to
+        //           prevent this segfault & crash from occurring.
+        visible: isLoaded;
+
+        //       Note: the max size is limited by OpenGL max. texture size
+
+        //       Note: We want to keep using the source size determined below even
+        //       during scaling animations to prevent extraneous loads and decodes.
+        sourceSize.width: {
+            if (width < 1024)
+                return 1024;
+            else if (mediaSource && width > mediaSource.maxSize)
+                return mediaSource.maxSize;
+            return width;
+        }
+
+        sourceSize.height: {
+            if (height < 1024)
+                return 1024;
+            else if (mediaSource && height > mediaSource.maxSize)
+                return mediaSource.maxSize;
+            return height;
+        }
+
+        // use cache: !isAnimate setting for flicker-free animations and reflows
+        asynchronous: !isAnimate
+        cache: !isAnimate
+        smooth: !isAnimate
+        fillMode: isCropped ? Image.PreserveAspectCrop : Image.PreserveAspectFit
+
+        onStatusChanged: {
+            if(status == Image.Ready) {
+                isLoaded = true;
+                loaded();
+            } else {
+                isLoaded = false;
+            }
+        }
+    }
 }

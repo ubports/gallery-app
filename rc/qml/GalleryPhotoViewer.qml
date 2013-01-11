@@ -72,8 +72,6 @@ Item {
   function goForward() {
     galleryPhotoViewer.goForward();
   }
-  
-  anchors.fill: parent;
 
   Rectangle{
     color: "black"
@@ -82,6 +80,7 @@ Item {
 
   PhotoViewer {
     id: galleryPhotoViewer
+    objectName: "photoViewer"
 
     // When the user clicks the back button.
     signal closeRequested()

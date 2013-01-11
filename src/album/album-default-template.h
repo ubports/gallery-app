@@ -29,19 +29,13 @@ class AlbumDefaultTemplate : public AlbumTemplate {
   Q_OBJECT
   
  public:
-  static void Init();
-  
-  static AlbumDefaultTemplate* instance();
+  AlbumDefaultTemplate();
   
   virtual void reset_best_fit_data();
   virtual AlbumTemplatePage* get_best_fit_page(bool is_left, int num_photos,
       PageOrientation photo_orientations[]);
 
  private:
-  static AlbumDefaultTemplate* instance_;
-  
-  AlbumDefaultTemplate();
-
   // Used internally in get_best_fit_page().
   PageOrientation next_decision_page_type_;
 };

@@ -27,9 +27,8 @@ class Resource : public QObject {
   Q_OBJECT
   
  public:
-  static void Init(const QString& application_dir, const QString& install_dir);
-  static Resource* instance();
-  
+  explicit Resource(const QString& application_dir, const QString& install_dir, QObject* parent = 0);
+
   // Returns true if we're installed, false if we're running locally.
   bool is_installed();
   
@@ -39,17 +38,19 @@ class Resource : public QObject {
   
   // Same as get_rc_url(), but returns a QDir.
   QDir get_rc_dir(const QString& path);
+
+  /**
+   * @brief maxTextureSize
+   * @return
+   * returns max texture size provided by OpenGL
+   */
+  int maxTextureSize() const;
   
  private:
-  explicit Resource(const QString& application_dir, const QString& install_dir, 
-                    QObject* parent = 0);
-  
   QString trailing_slash(QString path);
   
   QDir app_dir_;
   QDir install_dir_;
-  
-  static Resource* instance_;
 };
 
 #endif // RESOURCE_H

@@ -23,6 +23,7 @@
 #include "media/media-collection.h"
 #include "util/collections.h"
 #include "util/resource.h"
+#include "core/gallery-manager.h"
 
 AlbumPage::AlbumPage(QObject * parent)
   : ContainerSource(parent, "AlbumPage", MediaCollection::ExposureDateTimeAscendingComparator),
@@ -52,7 +53,7 @@ AlbumTemplatePage* AlbumPage::template_page() const {
 }
 
 QUrl AlbumPage::qml_rc() const {
-  return Resource::instance()->get_rc_url(template_page_->qml_rc());
+  return GalleryManager::GetInstance()->resource()->get_rc_url(template_page_->qml_rc());
 }
 
 QQmlListProperty<MediaSource> AlbumPage::qml_media_source_list() {
