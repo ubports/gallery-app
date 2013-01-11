@@ -38,14 +38,19 @@ class Resource : public QObject {
   
   // Same as get_rc_url(), but returns a QDir.
   QDir get_rc_dir(const QString& path);
+
+  /**
+   * @brief maxTextureSize
+   * @return
+   * returns max texture size provided by OpenGL
+   */
+  int maxTextureSize() const;
   
  private:
   QString trailing_slash(QString path);
   
   QDir app_dir_;
   QDir install_dir_;
-  
-  static Resource* instance_;
 };
 
 #endif // RESOURCE_H

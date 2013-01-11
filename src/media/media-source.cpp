@@ -25,12 +25,15 @@
 #include "qml/gallery-standard-image-provider.h"
 #include "qml/gallery-thumbnail-image-provider.h"
 #include "database/database.h"
+#include "util/resource.h"
 #include "core/gallery-manager.h"
 
-MediaSource::MediaSource() : id_(INVALID_ID) {
+MediaSource::MediaSource()  : id_(INVALID_ID)
+{
 }
 
-MediaSource::MediaSource(const QFileInfo& file) : id_(INVALID_ID) {
+MediaSource::MediaSource(const QFileInfo& file)  : id_(INVALID_ID)
+{
   file_ = file;
   
   SetInternalName(file_.completeBaseName());
@@ -154,6 +157,10 @@ void MediaSource::set_busy(bool busy) {
   emit busyChanged();
 }
 
+int MediaSource::maxSize() const
+{
+    return GalleryManager::GetInstance()->resource()->maxTextureSize();
+}
 
 void MediaSource::DestroySource(bool delete_backing, bool as_orphan) {
   if (delete_backing) {
