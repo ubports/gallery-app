@@ -28,12 +28,8 @@ class TestEventsView(GoodhopeTestCase):
     def tearDown(self):
         super(TestEventsView, self).tearDown()
 
-    def test_chrome_bar_reveals_main_view(self):
-        """Makes sure the chromebar at the bottom is revealed when its dragged
-        upwards.
-
-        """
-        chromebar = self.app.select_single("ChromeBar", objectName="chromeBar")
+    def reveal_chrome_bar(self):
+        chromebar = self.events_view.get_events_view_chrome_bar()
         self.pointing_device.move_to_object(chromebar)
 
         x, y, w, h = chromebar.globalRect
@@ -44,14 +40,53 @@ class TestEventsView(GoodhopeTestCase):
 
         self.assertThat(chromebar.showChromeBar, Eventually(Equals(True)))
 
-    # def test_camera_icon_hover(self):
-    #     """Ensures that when the mouse is over the camera icon it has the
-    #     hovered state.
+    def click_select_icon(self):
+        select_icon = self.events_view.get_select_icon()
+        self.pointing_device.move_to_object(select_icon)
+        self.pointing_device.click()
 
-    #     """
-    #     camera_icon = self.main_window.get_camera_icon()
+    def test_camera_icon_hover(self):
+        """Ensures that when the mouse is over the camera icon it has the
+        hovered state.
 
-    #     self.pointing_device.move_to_object(camera_icon)
+        """
+        self.reveal_chrome_bar()
 
-    #     self.assertThat(camera_icon.hovered, Eventually(Equals(True)))
+        camera_icon = self.events_view.get_camera_icon()
+        self.pointing_device.move_to_object(camera_icon)
+
+        self.assertThat(camera_icon.hovered, Eventually(Equals(True)))
+
+    def test_select_button_cancel(self):
+        """Clicking the cancel button after clicking the select button must
+        hide the chromebar automatically.
+
+        """
+        self.reveal_chrome_bar()
+        self.click_select_icon()
+
+        cancel_icon = self.events_view.get_cancel_icon()
+        self.pointing_device.move_to_object(cancel_icon)
+        self.pointing_device.click()
+
+        chromebar = self.events_view.get_events_view_chrome_bar()
+        self.assertThat(chromebar.showChromeBar, Eventually(Equals(False)))
+
+    def test_delete_glows_on_selecting_a_photo(self):
+        """Selecting a photo must make the delete button clickable."""
+        self.reveal_chrome_bar()
+        self.click_select_icon()
+
+        first_photo = self.photo_viewer.get_first_image_in_photo_viewer()
+        self.pointing_device.move_to_object(first_photo)
+        self.pointing_device.click()
+
+        trash_button = self.photo_viewer.get_viewer_chrome_trash_button()
+        delete_dialog = self.events_view.get_events_view_delete_dialog()
+
+        self.pointing_device.move_to_object(trash_button)
+        self.pointing_device.click()
+
+        self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
+
 

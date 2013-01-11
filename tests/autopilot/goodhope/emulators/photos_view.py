@@ -17,11 +17,11 @@ class PhotosView(object):
 
     def get_events_tab(self):
         """Returns the events tab."""
-        return self.app.select_single("AbstractButton", buttonIndex=2)
+        return self.app.select_single("AbstractButton", buttonIndex=4)
 
     def get_photos_tab(self):
         """Returns the photos tab."""
-        return self.app.select_single("AbstractButton", buttonIndex=3)
+        return self.app.select_single("AbstractButton", buttonIndex=5)
 
     def get_photos_view(self):
         """Returns the photos view."""

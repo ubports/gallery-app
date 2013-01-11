@@ -23,16 +23,12 @@ import "Utility"
 Item {
   id: mainScreen
 
-  /* Album functionality is disabled temporarily for the demo.
   Component.onCompleted: navStack.switchToPage(overview)
-  */
 
   TabView {
     id: overview
 
     anchors.fill: parent
-
-    /* Album functionality is disabled temporarily for the demo.
 
     visible: false
 
@@ -47,11 +43,7 @@ Item {
         albumViewerTransition.dissolve(overview, albumViewerLoader);
       }
     }
-
-    */
   }
-
-  /* Album functionality is disabled temporarily for the demo.
 
   Loader {
     id: albumViewerLoader
@@ -135,6 +127,4 @@ Item {
     visible: albumViewerTransition.animationRunning
       || (albumViewerLoader.item && albumViewerLoader.item.animationRunning)
   }
-
-  */
 }

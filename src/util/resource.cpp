@@ -19,20 +19,6 @@
 
 #include "resource.h"
 
-Resource* Resource::instance_ = NULL;
-
-void Resource::Init(const QString& application_dir, const QString& install_dir) {
-  Q_ASSERT(instance_ == NULL);
-  
-  instance_ = new Resource(application_dir, install_dir, NULL);
-}
-
-Resource* Resource::instance() {
-  Q_ASSERT(instance_ != NULL);
-  
-  return instance_;
-}
-
 bool Resource::is_installed() {
   return app_dir_ == install_dir_;
 }
@@ -58,4 +44,11 @@ QUrl Resource::get_rc_url(const QString& path) {
 
 QDir Resource::get_rc_dir(const QString& path) {
   return QDir(get_rc_url(path).path());
+}
+
+int Resource::maxTextureSize() const
+{
+    // FIXME tm: OpenGL query to get
+    // max texture size returns 0 if not in render thread
+    return 2048;
 }

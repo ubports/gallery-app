@@ -36,9 +36,7 @@ class MediaCollection : public SourceCollection {
   Q_OBJECT
   
 public:
-  static void Init(const QDir& directory);
-  
-  static MediaCollection* instance();
+  MediaCollection(const QDir& directory);
   
   static bool ExposureDateTimeAscendingComparator(DataObject* a, DataObject* b);
   static bool ExposureDateTimeDescendingComparator(DataObject* a, DataObject* b);
@@ -58,16 +56,12 @@ protected slots:
     const QSet<DataObject*>* removed);
   
 private:
-  static MediaCollection* instance_;
-
   // Used by photoFromFileinfo() to prevent ourselves from accidentally
   // seeing a duplicate photo after an edit.
   QHash<QString, Photo*> file_photo_map_;
 
   QDir directory_;
   QHash<qint64, DataObject*> id_map_;
-  
-  MediaCollection(const QDir& directory);
 };
 
 #endif  // GALLERY_MEDIA_COLLECTION_H_

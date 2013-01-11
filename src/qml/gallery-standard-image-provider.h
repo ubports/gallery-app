@@ -63,12 +63,10 @@ class GalleryStandardImageProvider
   
   virtual ~GalleryStandardImageProvider();
   
-  static void Init();
-  
-  static GalleryStandardImageProvider* instance();
-  
   static QUrl ToURL(const QFileInfo& file);
   
+  GalleryStandardImageProvider();
+
   virtual QImage requestImage(const QString& id, QSize* size,
     const QSize& requestedSize);
   
@@ -102,16 +100,12 @@ class GalleryStandardImageProvider
     bool isCacheHit(const QSize& requestedSize) const;
   };
   
-  static GalleryStandardImageProvider* instance_;
-  
   QMap<QString, CachedImage*> cache_;
   QList<QString> fifo_;
   QMutex cacheMutex_;
   long cachedBytes_;
   
   static QSize orientSize(const QSize& size, Orientation orientation);
-  
-  GalleryStandardImageProvider();
   
   // Returns a CachedImage with an inUseCount > 0, meaning it cannot be
   // removed from the cache until released

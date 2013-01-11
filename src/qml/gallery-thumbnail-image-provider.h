@@ -37,18 +37,12 @@ public:
   static const char* PROVIDER_ID_SCHEME;
   static const char* REVISION_PARAM_NAME;
 
-  static void Init();
-
-  static GalleryThumbnailImageProvider* instance();
+  GalleryThumbnailImageProvider();
 
   static QUrl ToURL(const QFileInfo& file);
 
   virtual QImage requestImage(const QString& id, QSize* size,
     const QSize& requestedSize);
-
-private:
-  static GalleryThumbnailImageProvider* instance_;
-  GalleryThumbnailImageProvider();
 };
 
 #endif // GALLERYTHUMBNAILIMAGEPROVIDER_H

@@ -15,6 +15,8 @@ from autopilot.matchers import Eventually
 
 from goodhope.tests import GoodhopeTestCase
 
+from time import sleep
+
 
 class TestPhotosView(GoodhopeTestCase):
 
@@ -28,6 +30,7 @@ class TestPhotosView(GoodhopeTestCase):
         photos_view = self.photos_view.get_photos_view()
         self.assertThat(photos_view.focus, Eventually(Equals(True)))
 
+        sleep(1)
         self.click_first_photo()
 
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
@@ -39,7 +42,7 @@ class TestPhotosView(GoodhopeTestCase):
         self.pointing_device.click()
 
     def click_photos_tab_button(self):
-        photos_tab_button = self.app.select_single("AbstractButton", buttonIndex=3)
+        photos_tab_button = self.app.select_single("AbstractButton", buttonIndex=5)
 
         #Due to some timing issues sometimes mouse moves to the location a bit earlier
         #even though the tab item is not fully visible, hence the tab does not activate.

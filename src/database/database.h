@@ -43,10 +43,9 @@ class Database : public QObject {
  public:
   // Path to database, relative to pictures path.
   static const QString DATABASE_DIR;
-
-  static void Init(const QDir& pictures_dir, QObject* parent);
-  static Database* instance();
   
+  Database(const QDir& pictures_dir, QObject* parent = 0);
+
   ~Database();
   
   // Logs a SQL error.
@@ -58,8 +57,6 @@ class Database : public QObject {
   PhotoEditTable* get_photo_edit_table() const;
   
  private:
-  Database(const QDir& pictures_dir, QObject* parent = 0);
-  
   // Open the SQLite database.
   bool open_db();
   
@@ -90,7 +87,6 @@ class Database : public QObject {
   // Creates the auto-backup.
   void create_backup();
   
-  static Database* instance_;
   QSqlDatabase db_;
   QDir db_dir_;
   

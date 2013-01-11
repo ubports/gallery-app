@@ -46,9 +46,7 @@ OrganicView {
                 chromeBar.selectionModel.setProperty(0, "name", "disabled");
                 chromeBar.selectionModel.setProperty(1, "name", "disabled");
             } else {
-                /* Album functionality is disabled temporarily for the demo.
                 chromeBar.selectionModel.setProperty(0, "name", "add");
-                */
                 chromeBar.selectionModel.setProperty(1, "name", "delete");
             }
         }
@@ -193,6 +191,7 @@ OrganicView {
         }
 
         DeletePopover {
+            objectName: "eventsViewDeletePopover"
             visible: false
             id: deletePopover
             onDeleteClicked: {
