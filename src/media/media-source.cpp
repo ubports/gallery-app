@@ -25,20 +25,14 @@
 #include "qml/gallery-standard-image-provider.h"
 #include "qml/gallery-thumbnail-image-provider.h"
 #include "database/database.h"
+#include "util/resource.h"
 #include "core/gallery-manager.h"
 
-// FIXME tm: OpenGL query to get max texture size returns 0 if not in render thread
-static const int s_maxTextureSize = 2048;
-
-MediaSource::MediaSource()
-    : id_(INVALID_ID),
-    _maxTextureSize(s_maxTextureSize)
+MediaSource::MediaSource()  : id_(INVALID_ID)
 {
 }
 
-MediaSource::MediaSource(const QFileInfo& file)
-    : id_(INVALID_ID) ,
-      _maxTextureSize(s_maxTextureSize)
+MediaSource::MediaSource(const QFileInfo& file)  : id_(INVALID_ID)
 {
   file_ = file;
   
@@ -163,9 +157,9 @@ void MediaSource::set_busy(bool busy) {
   emit busyChanged();
 }
 
-int MediaSource::maxSize()
+int MediaSource::maxSize() const
 {
-    return _maxTextureSize;
+    return GalleryManager::GetInstance()->resource()->maxTextureSize();
 }
 
 void MediaSource::DestroySource(bool delete_backing, bool as_orphan) {

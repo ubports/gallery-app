@@ -109,7 +109,7 @@ class MediaSource : public DataSource {
   bool busy();
   void set_busy(bool busy);
   
-  int maxSize();
+  int maxSize() const;
 
  protected:
   virtual void DestroySource(bool delete_backing, bool as_orphan);
@@ -130,8 +130,6 @@ class MediaSource : public DataSource {
   qint64 id_;
   QSize size_;
   bool busy_;
-
-  int _maxTextureSize;
 };
 
 QML_DECLARE_TYPE(MediaSource)
