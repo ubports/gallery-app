@@ -17,6 +17,6 @@ SOURCES += tst_gallerythumbnailimageprovider.cpp \
 INCLUDEPATH += ../../src/qml \
                ../../src
 
-HEADERS += ../../src/core/gallery-manager-h \
+HEADERS += ../../src/core/gallery-manager.h \
            ../../src/media/preview-manager.h
 
