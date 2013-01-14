@@ -55,7 +55,7 @@ GalleryManager::GalleryManager()
       is_portrait_(false),
       form_factors_(GalleryApplication::instance()->form_factors()),
       form_factor_(GalleryApplication::instance()->form_factor()),
-      log_image_loading_(GalleryApplication::instance()->log_image_loading()),
+      log_image_loading_(false),
       resource_(NULL),
       gallery_standard_image_provider_(NULL),
       gallery_thumbnail_image_provider_(NULL),
@@ -150,8 +150,8 @@ void GalleryManager::process_args()
     } else {
       QString form_factor = arg.mid(2); // minus initial "--"
 
-      if (arg.startsWith("--") && form_factors_.keys().contains(form_factor)) {
-        form_factor_ = form_factor;
+      if (arg.startsWith("--") && form_factors_->keys().contains(form_factor)) {
+        *form_factor_ = form_factor;
       } else if (arg.startsWith("--desktop_file_hint")) {
         // ignore this command line switch, hybris uses it to get application info
       } else if (i == args.count() - 1 && QDir(arg).exists()) {
@@ -171,7 +171,7 @@ void GalleryManager::usage(bool error)
   out << "  --landscape\trun in landscape orientation (default)" << endl;
   out << "  --portrait\trun in portrait orientation" << endl;
   out << "  --fullscreen\trun fullscreen" << endl;
-  foreach (const QString& form_factor, form_factors_.keys())
+  foreach (const QString& form_factor, form_factors_->keys())
     out << "  --" << form_factor << "\trun in " << form_factor << " form factor" << endl;
   out << "  --startup-timer\n\t\tdebug-print startup time" << endl;
   out << "  --log-image-loading\n\t\tlog image loading" << endl;

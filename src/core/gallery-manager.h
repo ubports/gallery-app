@@ -58,10 +58,11 @@ public:
     GalleryStandardImageProvider* gallery_standard_image_provider() { return gallery_standard_image_provider_; }
     GalleryThumbnailImageProvider* gallery_thumbnail_image_provider() { return gallery_thumbnail_image_provider_; }
 
-    QDir& pictures_dir()  { return pictures_dir_; }
-    bool is_portrait() { return is_portrait_; }
-    bool is_fullscreen() { return is_fullscreen_; }
-    bool startup_timer() { return startup_timer_; }
+    QDir& pictures_dir() { return pictures_dir_; }
+    bool is_portrait() const { return is_portrait_; }
+    bool is_fullscreen() const { return is_fullscreen_; }
+    bool startup_timer() const { return startup_timer_; }
+    bool log_image_loading() { return log_image_loading_; }
 
 private:
     GalleryManager();
@@ -82,8 +83,8 @@ private:
     bool is_portrait_;
     QDir pictures_dir_;
 
-    QHash<QString, QSize>& form_factors_;
-    QString& form_factor_;
+    QHash<QString, QSize>* form_factors_;
+    QString* form_factor_;
     bool log_image_loading_;
 
     Resource* resource_;

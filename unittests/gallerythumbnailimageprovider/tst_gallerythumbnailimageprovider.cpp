@@ -21,9 +21,11 @@
 #include <QFileInfo>
 #include <QUrl>
 
-#include "gallery-application.h"
+#include "qml/gallery-thumbnail-image-provider.h"
 
-GalleryApplication* GalleryApplication::instance_ = 0;
+//#include "gallery-application.h"
+
+//GalleryApplication* GalleryApplication::instance_ = 0;
 
 class tst_GalleryThumbnailImageProvider : public QObject
 {

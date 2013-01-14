@@ -26,6 +26,7 @@
 
 #include "media/preview-manager.h"
 #include "gallery-application.h"
+#include "core/gallery-manager.h"
 
 const char* GalleryStandardImageProvider::PROVIDER_ID = "gallery-standard";
 const char* GalleryStandardImageProvider::PROVIDER_ID_SCHEME = "image://gallery-standard/";
@@ -55,7 +56,7 @@ QUrl GalleryStandardImageProvider::ToURL(const QFileInfo& file) {
 }
 
 #define LOG_IMAGE_STATUS(status) { \
-    if (GalleryApplication::instance()->log_image_loading()) \
+    if (GalleryManager::GetInstance()->log_image_loading()) \
     loggingStr += status; \
 }
 
@@ -66,6 +67,8 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
   QElapsedTimer timer;
   timer.start();
   
+  GalleryManager::GetInstance()->preview_manager()->ensure_preview_for_media(QFileInfo(id));
+
   CachedImage* cachedImage = claim_cached_image_entry(id, loggingStr);
   Q_ASSERT(cachedImage != NULL);
   
@@ -80,7 +83,7 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
   release_cached_image_entry(cachedImage, bytesLoaded, &currentCachedBytes,
     &currentCacheEntries, loggingStr);
   
-  if (GalleryApplication::instance()->log_image_loading()) {
+  if (GalleryManager::GetInstance()->log_image_loading()) {
     if (bytesLoaded > 0) {
       qDebug("%s %s req:%dx%d ret:%dx%d cache:%ldb/%d loaded:%db time:%lldms", qPrintable(loggingStr),
              qPrintable(id), requestedSize.width(), requestedSize.height(), readyImage.width(),

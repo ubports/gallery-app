@@ -18,7 +18,6 @@
 */
 
 #include "gallery-thumbnail-image-provider.h"
-#include "gallery-application.h"
 #include "core/gallery-manager.h"
 #include "media/preview-manager.h"
 
@@ -74,7 +73,7 @@ QImage GalleryThumbnailImageProvider::requestImage(const QString &id, QSize *siz
   if (size != NULL)
     *size = thumbnail.size();
 
-  if (GalleryApplication::instance()->log_image_loading()) {
+  if (GalleryManager::GetInstance()->log_image_loading()) {
       qDebug() << id << thumbnail.size() << "time:" << timer.elapsed() << "ms";
   }
 

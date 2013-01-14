@@ -107,8 +107,7 @@ bool PreviewManager::ensure_preview_for_media(QFileInfo file, bool regen) {
   if (!preview.exists() || regen) {
       QImage fullsized(file.fileName());
     if (fullsized.isNull()) {
-      qDebug("Unable to generate fullsized image for %s, not generating preview",
-        file.fileName().toStdString().c_str());
+      qDebug() << "Unable to generate fullsized image for " << file.fileName() << "not generating preview";
       return false;
     }
   
@@ -120,7 +119,7 @@ bool PreviewManager::ensure_preview_for_media(QFileInfo file, bool regen) {
       : fullsized.scaledToHeight(PREVIEW_HEIGHT_MAX, Qt::SmoothTransformation);
   
     if (scaled.isNull()) {
-      qDebug("Unable to scale %s for preview", file.fileName().toStdString().c_str());
+        qDebug() << "Unable to scale " << file.fileName() << "for preview";
       return false;
     }
   

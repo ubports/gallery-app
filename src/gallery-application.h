@@ -48,10 +48,8 @@ class GalleryApplication : public QApplication {
   // Used for content sharing.
   Q_INVOKABLE bool run_command(const QString &cmd, const QString &arg);
 
-  QHash<QString, QSize>& form_factors() { return form_factors_; }
-  QString& form_factor() { return form_factor_; }
-
-  bool log_image_loading() const { return log_image_loading_; }
+  QHash<QString, QSize>* form_factors() { return &form_factors_; }
+  QString* form_factor() { return &form_factor_; }
 
  private:
   void register_qml();
@@ -62,7 +60,6 @@ class GalleryApplication : public QApplication {
   QHash<QString, QSize> form_factors_;
   QString form_factor_;
   int bgu_size_;
-  bool log_image_loading_;
   QQuickView view_;
   QElapsedTimer timer_;
   MediaMonitor* monitor_;
