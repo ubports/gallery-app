@@ -53,7 +53,7 @@ QUrl MediaSource::gallery_path() const {
 }
 
 QFileInfo MediaSource::preview_file() const {
-  return GalleryManager::GetInstance()->preview_manager()->PreviewFileFor(this);
+  return GalleryManager::GetInstance()->preview_manager()->PreviewFileFor(file_);
 }
 
 QUrl MediaSource::preview_path() const {
@@ -65,7 +65,7 @@ QUrl MediaSource::gallery_preview_path() const {
 }
 
 QFileInfo MediaSource::thumbnail_file() const {
-  return GalleryManager::GetInstance()->preview_manager()->ThumbnailFileFor(this);
+  return GalleryManager::GetInstance()->preview_manager()->ThumbnailFileFor(file_);
 }
 
 QUrl MediaSource::thumbnail_path() const {

@@ -133,7 +133,7 @@ Photo* Photo::Fetch(const QFileInfo& file) {
     p = Load(file);
 
     if (p != NULL)
-      gallery_mgr->preview_manager()->ensure_preview_for_media(p);
+      gallery_mgr->preview_manager()->ensure_preview_for_media(file);
   }
 
   return p;
