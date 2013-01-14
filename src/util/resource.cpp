@@ -45,3 +45,10 @@ QUrl Resource::get_rc_url(const QString& path) {
 QDir Resource::get_rc_dir(const QString& path) {
   return QDir(get_rc_url(path).path());
 }
+
+int Resource::maxTextureSize() const
+{
+    // FIXME tm: OpenGL query to get
+    // max texture size returns 0 if not in render thread
+    return 2048;
+}

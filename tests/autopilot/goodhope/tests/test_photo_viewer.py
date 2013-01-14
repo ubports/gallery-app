@@ -15,14 +15,15 @@ from autopilot.matchers import Eventually
 
 from goodhope.tests import GoodhopeTestCase
 
-from time import sleep
+from os.path import exists, expanduser
+import os
 
 
 class TestPhotoViewer(GoodhopeTestCase):
 
     def setUp(self):
         super(TestPhotoViewer, self).setUp()
-        self.assertThat(self.main_window.get_qml_view().visible, Eventually(Equals(True)))
+        self.assertThat(self.events_view.get_qml_view().visible, Eventually(Equals(True)))
 
         self.click_first_photo()
 
@@ -63,8 +64,38 @@ class TestPhotoViewer(GoodhopeTestCase):
         self.assertThat(trash_button.hovered, Eventually(Equals(True)))
         self.pointing_device.click()
 
-        # we are not testing actual deletion due to a crash (lp:1083958)
         self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
+
+        cancel_item = self.photo_viewer.get_delete_popover_cancel_item()
+        self.pointing_device.move_to_object(cancel_item)
+        self.pointing_device.click()
+
+        self.assertThat(delete_dialog.visible, Eventually(Equals(False)))
+
+        self.pointing_device.move_to_object(trash_button)
+        self.assertThat(trash_button.hovered, Eventually(Equals(True)))
+        self.pointing_device.click()
+
+        self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
+
+        delete_item = self.photo_viewer.get_delete_popover_delete_item()
+        self.pointing_device.move_to_object(delete_item)
+        self.pointing_device.click()
+
+        self.assertThat(lambda: exists(expanduser("~/Pictures/sample.jpg")),
+                                                    Eventually(Equals(False)))
+
+        #Up until the last line above we are testing if the file got delete, now here we
+        #are re-copying the sample.jpg file because it seems the addCleanup method in __init__
+        #tries to remove the sample.jpg but if it does not find it the test fails. So this
+        #"hack" saves us from that. --om26er
+        if exists(expanduser("/usr/lib/python2.7/dist-packages/goodhope/data/sample.jpg")):
+            os.system("cp /usr/lib/python2.7/dist-packages/goodhope/data/sample.jpg ~/Pictures/")
+        else:
+            os.system("cp goodhope/data/sample.jpg ~/Pictures/")
+
+        self.assertThat(lambda: exists(expanduser("~/Pictures/sample.jpg")),
+                                                    Eventually(Equals(True)))
 
     # def test_nav_bar_album_picker_button(self):
     #     """Clicking the album picker must show the picker dialog."""

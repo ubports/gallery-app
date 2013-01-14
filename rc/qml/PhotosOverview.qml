@@ -63,7 +63,7 @@ Item {
       width: photosGrid.cellWidth
       height: photosGrid.cellHeight
 
-      RoundCornerShape {
+      UbuntuShape {
         id: roundedThumbnail
 
         anchors.centerIn: parent

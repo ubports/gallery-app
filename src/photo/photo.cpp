@@ -531,8 +531,6 @@ void Photo::create_cached_enhanced() {
  
   AutoEnhanceTransformation enhance_txn = AutoEnhanceTransformation(sample_img);
 
-  int pixels = 0;
-  
   QImage::Format dest_format = unenhanced_img.format();
 
   // Can't write into indexed images, due to a limitation in Qt.
@@ -542,17 +540,11 @@ void Photo::create_cached_enhanced() {
   QImage enhanced_image(width, height, dest_format);
 
   for (int j = 0; j < height; j++) {
+    QApplication::processEvents();
     for (int i = 0; i < width; i++) {
       QColor px = enhance_txn.transform_pixel(
         QColor(unenhanced_img.pixel(i, j)));
       enhanced_image.setPixel(i, j, px.rgb());
-      
-      // Spin the event loop every 50 pixels.
-      pixels++;
-      if (pixels > 50) {
-        QApplication::processEvents();
-        pixels = 0;
-      }
     }
   }
 

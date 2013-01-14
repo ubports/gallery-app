@@ -90,4 +90,12 @@ class PhotoViewer(object):
         """Returns the crop item of the edit dialog."""
         return self.app.select_single("Standard", objectName="cropListItem")
 
+    def get_delete_popover_delete_item(self):
+        """Returns the delete button of the delete popover."""
+        return self.app.select_single("Button", objectName="deletePopoverDelete", visible=True)
+
+    def get_delete_popover_cancel_item(self):
+        """Returns the cancel button of the delete popover."""
+        return self.app.select_single("Button", objectName="deletePopoverCancel", visible=True)
+
 
