@@ -105,7 +105,7 @@ bool PreviewManager::ensure_preview_for_media(QFileInfo file, bool regen) {
 
   QImage thumbMaster;
   if (!preview.exists() || regen) {
-      QImage fullsized(file.fileName());
+      QImage fullsized(file.filePath());
     if (fullsized.isNull()) {
       qDebug() << "Unable to generate fullsized image for " << file.fileName() << "not generating preview";
       return false;
