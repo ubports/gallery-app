@@ -182,8 +182,7 @@ QUrl Photo::gallery_path() const {
   QUrl url = MediaSource::gallery_path();
   // We don't pass the orientation in if we saved the file already rotated,
   // which is the case if the file format can't store rotation metadata.
-  append_path_params(&url, (file_format_has_orientation() ?
-                            orientation() : TOP_LEFT_ORIGIN));
+  append_path_params(&url, (file_format_has_orientation() ? orientation() : TOP_LEFT_ORIGIN), QString::number(0));
   
   return url;
 }
@@ -191,7 +190,8 @@ QUrl Photo::gallery_path() const {
 QUrl Photo::gallery_preview_path() const {
   QUrl url = MediaSource::gallery_preview_path();
   // previews are always stored fully transformed
-  append_path_params(&url, TOP_LEFT_ORIGIN);
+
+  append_path_params(&url, TOP_LEFT_ORIGIN, QString::number(1));
   
   return url;
 }
@@ -559,10 +559,10 @@ void Photo::create_cached_enhanced() {
   delete metadata;
 }
 
-void Photo::append_path_params(QUrl* url, Orientation orientation) const {
+void Photo::append_path_params(QUrl* url, Orientation orientation, const QString size_level) const {
   QUrlQuery query;
-  query.addQueryItem(GalleryStandardImageProvider::ORIENTATION_PARAM_NAME,
-    QString::number(orientation));
+  query.setQuery(size_level);
+  query.addQueryItem(GalleryStandardImageProvider::ORIENTATION_PARAM_NAME, QString::number(orientation));
   
   // Because of QML's aggressive, opaque caching of loaded images, we need to
   // add an arbitrary URL parameter to gallery_path and gallery_preview_path so
