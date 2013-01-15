@@ -107,6 +107,7 @@ Item {
 
   CropOverlay {
     id: overlay
+    objectName: "cropOverlay"
 
     property real minSize: units.gu(4)
 
