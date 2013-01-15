@@ -559,9 +559,16 @@ void Photo::create_cached_enhanced() {
   delete metadata;
 }
 
+/*!
+ * \brief GalleryThumbnailImageProvider::ToURL return the URL to this image provider for a local file
+ * \param url is the picture's url.
+ * \param orientation of the image.
+ * \param size_level dictates whether or not the image is a full sized picture or a thumbnail. 0 == full sized, 1 == preview.
+ */
+
 void Photo::append_path_params(QUrl* url, Orientation orientation, const QString size_level) const {
   QUrlQuery query;
-  query.setQuery(size_level);
+  query.addQueryItem("size_level", size_level);
   query.addQueryItem(GalleryStandardImageProvider::ORIENTATION_PARAM_NAME, QString::number(orientation));
   
   // Because of QML's aggressive, opaque caching of loaded images, we need to

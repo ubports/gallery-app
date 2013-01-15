@@ -23,10 +23,6 @@
 
 #include "qml/gallery-thumbnail-image-provider.h"
 
-//#include "gallery-application.h"
-
-//GalleryApplication* GalleryApplication::instance_ = 0;
-
 class tst_GalleryThumbnailImageProvider : public QObject
 {
   Q_OBJECT

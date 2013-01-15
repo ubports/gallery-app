@@ -317,15 +317,10 @@ GalleryStandardImageProvider::CachedImage::CachedImage(const QString& id)
 }
 
 QString GalleryStandardImageProvider::CachedImage::idToFile(const QString& id) {
-  QString fileName;
+  QString fileName = QUrl(id).path();
   QUrlQuery url_query(id);
 
-  if (url_query.query() == "0")
-  {
-    fileName = QUrl(id).path();
-  }
-
-  else if (url_query.query() == "1")
+  if (url_query.query() == "1")
   {
     QUrl url(id);
     QString photoName = url.path();
