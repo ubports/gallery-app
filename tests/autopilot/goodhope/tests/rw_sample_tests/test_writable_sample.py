@@ -10,7 +10,7 @@ from __future__ import absolute_import
 from testtools.matchers import Equals, NotEquals
 from autopilot.matchers import Eventually
 
-from goodhope.tests.writable_sample_tests import GoodhopeTestCase
+from goodhope.tests.rw_sample_tests import GoodhopeTestCase
 
 from os.path import exists
 import os
@@ -124,5 +124,4 @@ class TestPhotoViewer(GoodhopeTestCase):
         self.pointing_device.click()
 
         new_file_size = os.path.getsize(sample_location)
-
         self.assertThat(lambda: old_file_size > new_file_size, Eventually(Equals(True)))
