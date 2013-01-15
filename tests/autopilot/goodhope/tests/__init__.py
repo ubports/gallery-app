@@ -28,25 +28,17 @@ class GoodhopeTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
         # Lets assume we are installed system wide if this file is somewhere in /usr
         if os.path.realpath(__file__).startswith("/usr/"):
             self.launch_test_installed()
-            os.system("cp /usr/lib/python2.7/dist-packages/goodhope/data/sample.jpg ~/Pictures/")
         else:
             self.launch_test_local()
-            os.system("cp goodhope/data/sample.jpg ~/Pictures/")
-
-        sample_location = os.path.expanduser("~/Pictures/sample.jpg")
-
-        self.assertTrue(os.path.exists(sample_location))
-        self.addCleanup(os.remove, sample_location)
-
 
     def launch_test_local(self):
         self.app = self.launch_test_application(
-            "../../src/gallery"
+            "../../src/gallery", "../../tests/autopilot/goodhope/data/"
             )
 
     def launch_test_installed(self):
         self.app = self.launch_test_application(
-           "gallery",
+           "gallery", "/usr/lib/python2.7/dist-packages/goodhope/data/"
            )
 
     @property
