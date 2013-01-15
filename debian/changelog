@@ -1,3 +1,12 @@
+goodhope (0.0.38) quantal; urgency=low
+
+  * Release or 0.0.38
+  * albums re-enabled
+  * all singletons now centralized in one class
+  * "full" photo now uses all the space inside the 2048x2048 texture
+
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Tue, 15 Jan 2013 17:45:03 +0100
+
 goodhope (0.0.37) quantal; urgency=low
 
   * New release
