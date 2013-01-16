@@ -119,6 +119,9 @@ class GalleryStandardImageProvider
   // was loaded) and returns the current cached byte total
   void release_cached_image_entry(CachedImage* cachedImage, uint bytesLoaded,
   long* currentCachedBytes, int* currentCacheEntries);
+
+  //Allow our test access to private variables.
+  friend class tst_GalleryStandardImageProvider;
 };
 
 #endif // GALLERY_GALLERY_STANDARD_IMAGE_PROVIDER_H_

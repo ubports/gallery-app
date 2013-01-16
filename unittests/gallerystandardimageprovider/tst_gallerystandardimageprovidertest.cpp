@@ -46,7 +46,10 @@ void tst_GalleryStandardImageProvider::ToURL()
 
 void tst_GalleryStandardImageProvider::ToFile()
 {
+  QString id = "/home/uraniumslug/Pictures/logo.jpg?size_level=0&orientation=1";
+  QString fileName = "/home/uraniumslug/Pictures/logo.jpg";
 
+  QCOMPARE(GalleryStandardImageProvider::CachedImage::idToFile(id), fileName);
 }
 
 QTEST_MAIN(tst_GalleryStandardImageProvider);
