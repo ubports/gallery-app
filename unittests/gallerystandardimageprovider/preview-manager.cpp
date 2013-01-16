@@ -18,28 +18,35 @@
  *
  */
 
-#include <QString>
-#include <QtTest>
+#include "media/preview-manager.h"
 
-#include "qml/gallery-standard-image-provider.h"
+const int PreviewManager::PREVIEW_WIDTH_MAX = 360;
+const int PreviewManager::PREVIEW_HEIGHT_MAX = 360;
 
-class tst_GalleryStandardImageProvider : public QObject
+bool PreviewManager::ensure_preview_for_media(QFileInfo file, bool regen)
 {
-  Q_OBJECT
-  GalleryStandardImageProvider gallery_standard_image_provider;
+    file = QFileInfo();
+    regen = false;
 
-private slots:
-  void ToURL();
-};
-
-void tst_GalleryStandardImageProvider::ToURL()
-{
-  QFileInfo fi("/tmp/test.jpg");
-  QUrl url;// = gallery_standard_image_provider
-  QUrl expect("image://gallery-thumbnail//tmp/test.jpg");
-  QCOMPARE(url, expect);
+    return regen;
 }
 
-QTEST_MAIN(tst_GalleryStandardImageProvider);
+void PreviewManager::on_media_added_removed(const QSet<DataObject *> *, const QSet<DataObject *> *)
+{
 
-#include "tst_gallerystandardimageprovidertest.moc"
+}
+
+void PreviewManager::on_media_destroying(const QSet<DataObject *> *)
+{
+
+}
+
+void PreviewManager::on_media_data_altered()
+{
+
+}
+
+QFileInfo PreviewManager::PreviewFileFor(const QFileInfo &file) const
+{
+    return file;
+}

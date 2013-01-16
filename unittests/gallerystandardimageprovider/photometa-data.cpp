@@ -18,28 +18,27 @@
  *
  */
 
-#include <QString>
-#include <QtTest>
+#include "photo/photo-metadata.h"
 
-#include "qml/gallery-standard-image-provider.h"
-
-class tst_GalleryStandardImageProvider : public QObject
+Orientation PhotoMetadata::orientation() const
 {
-  Q_OBJECT
-  GalleryStandardImageProvider gallery_standard_image_provider;
-
-private slots:
-  void ToURL();
-};
-
-void tst_GalleryStandardImageProvider::ToURL()
-{
-  QFileInfo fi("/tmp/test.jpg");
-  QUrl url;// = gallery_standard_image_provider
-  QUrl expect("image://gallery-thumbnail//tmp/test.jpg");
-  QCOMPARE(url, expect);
+    return Orientation();
 }
 
-QTEST_MAIN(tst_GalleryStandardImageProvider);
+PhotoMetadata* PhotoMetadata::FromFile(const QFileInfo &file)
+{
+    QFileInfo test = file;
+    return NULL;
+}
 
-#include "tst_gallerystandardimageprovidertest.moc"
+OrientationCorrection OrientationCorrection::FromOrientation(Orientation o)
+{
+    OrientationCorrection test = OrientationCorrection::FromOrientation(o);
+    return test;
+}
+
+QTransform OrientationCorrection::to_transform() const
+{
+  QTransform result;
+  return result;
+}

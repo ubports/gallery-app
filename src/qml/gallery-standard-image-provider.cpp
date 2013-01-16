@@ -25,7 +25,6 @@
 #include <QElapsedTimer>
 
 #include "media/preview-manager.h"
-#include "gallery-application.h"
 #include "core/gallery-manager.h"
 
 const char* GalleryStandardImageProvider::PROVIDER_ID = "gallery-standard";
@@ -223,7 +222,7 @@ QImage GalleryStandardImageProvider::fetch_cached_image(CachedImage *cachedImage
 
 void GalleryStandardImageProvider::release_cached_image_entry(
   GalleryStandardImageProvider::CachedImage* cachedImage, uint bytesLoaded,
-  long *currentCachedBytes, int* currentCacheEntries, QString& loggingStr) {
+  long *currentCachedBytes, int* currentCacheEntries, QString&) {
   Q_ASSERT(cachedImage != NULL);
   
   // update total cached bytes and remove excess bytes

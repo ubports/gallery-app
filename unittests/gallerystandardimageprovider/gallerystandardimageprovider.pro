@@ -1,19 +1,25 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2013-01-15T16:27:12
-#
-#-------------------------------------------------
+include(../../coverage.pri)
 
-QT       += testlib
+CONFIG += testcase
+TARGET = tst_gallerystandardimageprovider
 
-QT       -= gui
+QT += testlib quick
 
-TARGET = tst_gallerystandardimageprovidertest
-CONFIG   += console
-CONFIG   -= app_bundle
+MOC_DIR = build
+OBJECTS_DIR = build
+RCC_DIR = build
 
-TEMPLATE = app
+INCLUDEPATH += ../../src/qml \
+               ../../src
 
+SOURCES += \
+    tst_gallerystandardimageprovidertest.cpp \
+    ../../src/qml/gallery-standard-image-provider.cpp \
+    gallery-manager.cpp \
+    preview-manager.cpp \
+    photometa-data.cpp
 
-SOURCES += tst_gallerystandardimageprovidertest.cpp
-DEFINES += SRCDIR=\\\"$$PWD/\\\"
+HEADERS += \
+    ../../src/qml/gallery-standard-image-provider.h \
+    ../../src/core/gallery-manager.h \
+    ../../src/media/preview-manager.h
