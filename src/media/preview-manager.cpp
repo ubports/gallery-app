@@ -17,10 +17,11 @@
  * Jim Nelson <jim@yorba.org>
  */
 
+#include <QMutexLocker>
+
 #include "media/preview-manager.h"
-#include "media/media-collection.h"
-#include <QApplication>
 #include "core/gallery-manager.h"
+#include "media/media-collection.h"
 
 const int PreviewManager::PREVIEW_WIDTH_MAX = 360;
 const int PreviewManager::PREVIEW_HEIGHT_MAX = 360;
@@ -28,8 +29,9 @@ const int PreviewManager::THUMBNAIL_SIZE = 216;
 const int PreviewManager::PREVIEW_QUALITY = 70;
 const char* PreviewManager::PREVIEW_FILE_FORMAT = "JPEG";
 const char* PreviewManager::PREVIEW_FILE_EXT = "JPG";
-
 const QString PreviewManager::PREVIEW_DIR = ".thumbs";
+
+QMutex PreviewManager::createMutex_;
 
 PreviewManager::PreviewManager() {
   // Monitor MediaCollection for all new MediaSources
@@ -95,6 +97,8 @@ QFileInfo PreviewManager::ThumbnailFileFor(const QFileInfo& file) const {
 }
 
 bool PreviewManager::ensure_preview_for_media(QFileInfo file, bool regen) {
+  QMutexLocker locker(&createMutex_);
+
   // create the thumbnail directory if not already present
   file.dir().mkdir(PREVIEW_DIR);
   
@@ -106,7 +110,7 @@ bool PreviewManager::ensure_preview_for_media(QFileInfo file, bool regen) {
   if (!preview.exists() || regen) {
       QImage fullsized(file.filePath());
     if (fullsized.isNull()) {
-      qDebug() << "Unable to generate fullsized image for " << file.fileName() << "not generating preview";
+      qDebug() << "Unable to generate fullsized image for " << file.filePath() << "not generating preview";
       return false;
     }
   
@@ -118,7 +122,7 @@ bool PreviewManager::ensure_preview_for_media(QFileInfo file, bool regen) {
       : fullsized.scaledToHeight(PREVIEW_HEIGHT_MAX, Qt::SmoothTransformation);
   
     if (scaled.isNull()) {
-        qDebug() << "Unable to scale " << file.fileName() << "for preview";
+        qDebug() << "Unable to scale " << file.filePath() << "for preview";
       return false;
     }
   
@@ -145,9 +149,6 @@ bool PreviewManager::ensure_preview_for_media(QFileInfo file, bool regen) {
       return false;
     }
   }
-
-  // Spin the event loop so we don't hang the app if we do lots of this.
-  QApplication::processEvents();
 
   return true;
 }

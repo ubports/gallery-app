@@ -124,6 +124,7 @@ Item {
 
           image: Image {
             source: model.mediaSource.galleryThumbnailPath
+            asynchronous: true
           }
 
           OrganicItemInteraction {
