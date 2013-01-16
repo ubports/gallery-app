@@ -65,7 +65,7 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
   QString loggingStr = "";
   QElapsedTimer timer;
   timer.start();
-  
+
   GalleryManager::GetInstance()->preview_manager()->ensure_preview_for_media(QFileInfo(id));
 
   CachedImage* cachedImage = claim_cached_image_entry(id, loggingStr);

@@ -20,8 +20,9 @@
 #ifndef GALLERY_PREVIEW_MANAGER_H_
 #define GALLERY_PREVIEW_MANAGER_H_
 
-#include <QObject>
 #include <QFileInfo>
+#include <QMutex>
+#include <QObject>
 #include <QSet>
 #include <QString>
 
@@ -59,6 +60,8 @@ class PreviewManager : public QObject {
  private:
   void DestroyPreview(MediaSource* media);
   QImage generate_Thumbnail(const QImage& master) const;
+
+  static QMutex createMutex_;
 };
 
 #endif  // GALLERY_PREVIEW_MANAGER_H_

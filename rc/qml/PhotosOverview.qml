@@ -75,6 +75,7 @@ Item {
 
         image: Image {
           source: mediaSource.galleryThumbnailPath
+          asynchronous: true
         }
 
         MouseArea {

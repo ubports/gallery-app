@@ -18,7 +18,16 @@
  *
  */
 
+//#include <QLatin1String>
+
 #include "media/preview-manager.h"
+
+/*const QString PreviewManager::PREVIEW_DIR = ".thumbs";
+const char* PreviewManager::PREVIEW_FILE_EXT = "JPG";
+
+QFileInfo PreviewManager::ThumbnailFileFor(const QFileInfo& file) const{
+  return QFileInfo(file.dir(), PREVIEW_DIR + "/" + file.completeBaseName() + "_th_s." + PREVIEW_FILE_EXT);
+}*/
 
 bool PreviewManager::ensure_preview_for_media(QFileInfo file, bool regen)
 {
