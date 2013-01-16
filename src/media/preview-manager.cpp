@@ -25,6 +25,7 @@
 
 const int PreviewManager::PREVIEW_WIDTH_MAX = 360;
 const int PreviewManager::PREVIEW_HEIGHT_MAX = 360;
+// FIXME adapt to different sizes. This is fixed size for the demo device
 const int PreviewManager::THUMBNAIL_SIZE = 216;
 const int PreviewManager::PREVIEW_QUALITY = 70;
 const char* PreviewManager::PREVIEW_FILE_FORMAT = "JPEG";
@@ -58,8 +59,6 @@ void PreviewManager::on_media_added_removed(const QSet<DataObject*>* added,
 
       QObject::connect(source, SIGNAL(data_altered()),
         this, SLOT(on_media_data_altered()), Qt::UniqueConnection);
-
-      //ensure_preview_for_media(source);
     }
   }
 

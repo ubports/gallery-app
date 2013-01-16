@@ -3,7 +3,7 @@ include(../../coverage.pri)
 CONFIG += testcase
 TARGET = tst_gallerythumbnailimageprovider
 
-QT += testlib quick gui
+QT += testlib quick
 
 MOC_DIR = build
 OBJECTS_DIR = build

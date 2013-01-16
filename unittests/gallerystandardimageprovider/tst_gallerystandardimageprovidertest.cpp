@@ -18,10 +18,13 @@
  *
  */
 
-#include <QString>
-#include <QtTest>
+#include <QtTest/QtTest>
+#include <QFileInfo>
+#include <QUrl>
 
 #include "qml/gallery-standard-image-provider.h"
+#include "core/gallery-manager.h"
+#include "media/preview-manager.h"
 
 class tst_GalleryStandardImageProvider : public QObject
 {
@@ -30,14 +33,20 @@ class tst_GalleryStandardImageProvider : public QObject
 
 private slots:
   void ToURL();
+  void ToFile();
 };
 
 void tst_GalleryStandardImageProvider::ToURL()
 {
   QFileInfo fi("/tmp/test.jpg");
-  QUrl url;// = gallery_standard_image_provider
-  QUrl expect("image://gallery-thumbnail//tmp/test.jpg");
+  QUrl url = gallery_standard_image_provider.ToURL(fi);
+  QUrl expect("image://gallery-standard//tmp/test.jpg");
   QCOMPARE(url, expect);
+}
+
+void tst_GalleryStandardImageProvider::ToFile()
+{
+
 }
 
 QTEST_MAIN(tst_GalleryStandardImageProvider);

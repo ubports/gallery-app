@@ -33,6 +33,8 @@
 #include <QFileInfo>
 #include <QImage>
 
+const char* Photo::SIZE_KEY = "size_level";
+
 bool Photo::IsValid(const QFileInfo& file) {
   QImageReader reader(file.filePath());
   QByteArray format = reader.format();
@@ -182,7 +184,7 @@ QUrl Photo::gallery_path() const {
   QUrl url = MediaSource::gallery_path();
   // We don't pass the orientation in if we saved the file already rotated,
   // which is the case if the file format can't store rotation metadata.
-  append_path_params(&url, (file_format_has_orientation() ? orientation() : TOP_LEFT_ORIGIN), QString::number(0));
+  append_path_params(&url, (file_format_has_orientation() ? orientation() : TOP_LEFT_ORIGIN), 0);
   
   return url;
 }
@@ -191,7 +193,7 @@ QUrl Photo::gallery_preview_path() const {
   QUrl url = MediaSource::gallery_preview_path();
   // previews are always stored fully transformed
 
-  append_path_params(&url, TOP_LEFT_ORIGIN, QString::number(1));
+  append_path_params(&url, TOP_LEFT_ORIGIN, 1);
   
   return url;
 }
@@ -566,9 +568,9 @@ void Photo::create_cached_enhanced() {
  * \param size_level dictates whether or not the image is a full sized picture or a thumbnail. 0 == full sized, 1 == preview.
  */
 
-void Photo::append_path_params(QUrl* url, Orientation orientation, const QString size_level) const {
+void Photo::append_path_params(QUrl* url, Orientation orientation, const int size_level) const {
   QUrlQuery query;
-  query.addQueryItem("size_level", size_level);
+  query.addQueryItem(SIZE_KEY, QString::number(size_level));
   query.addQueryItem(GalleryStandardImageProvider::ORIENTATION_PARAM_NAME, QString::number(orientation));
   
   // Because of QML's aggressive, opaque caching of loaded images, we need to

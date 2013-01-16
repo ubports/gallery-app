@@ -40,7 +40,6 @@ void tst_GalleryThumbnailImageProvider::ToURL()
   QCOMPARE(url, expect);
 }
 
-
 QTEST_MAIN(tst_GalleryThumbnailImageProvider);
 
 #include "tst_gallerythumbnailimageprovider.moc"

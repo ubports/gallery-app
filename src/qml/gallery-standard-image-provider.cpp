@@ -79,8 +79,7 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
   
   long currentCachedBytes = 0;
   int currentCacheEntries = 0;
-  release_cached_image_entry(cachedImage, bytesLoaded, &currentCachedBytes,
-    &currentCacheEntries, loggingStr);
+  release_cached_image_entry(cachedImage, bytesLoaded, &currentCachedBytes, &currentCacheEntries);
   
   if (GalleryManager::GetInstance()->log_image_loading()) {
     if (bytesLoaded > 0) {
@@ -220,9 +219,9 @@ QImage GalleryStandardImageProvider::fetch_cached_image(CachedImage *cachedImage
   return readyImage;
 }
 
-void GalleryStandardImageProvider::release_cached_image_entry(
-  GalleryStandardImageProvider::CachedImage* cachedImage, uint bytesLoaded,
-  long *currentCachedBytes, int* currentCacheEntries, QString&) {
+void GalleryStandardImageProvider::release_cached_image_entry
+(CachedImage *cachedImage, uint bytesLoaded,
+ long *currentCachedBytes, int *currentCacheEntries) {
   Q_ASSERT(cachedImage != NULL);
   
   // update total cached bytes and remove excess bytes
@@ -323,8 +322,7 @@ QString GalleryStandardImageProvider::CachedImage::idToFile(const QString& id) {
   {
     QUrl url(id);
     QString photoName = url.path();
-    QFileInfo photoFile(photoName);
-    QFileInfo thumbnailFile = GalleryManager::GetInstance()->preview_manager()->PreviewFileFor(photoFile);
+    QFileInfo thumbnailFile = GalleryManager::GetInstance()->preview_manager()->PreviewFileFor(fileName);
     fileName = thumbnailFile.absoluteFilePath();
   }
 
