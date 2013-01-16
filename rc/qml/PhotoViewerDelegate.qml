@@ -86,6 +86,7 @@ Item {
     
       ZoomablePhotoComponent {                
         id: galleryPhotoComponent
+        objectName: "openedPhoto" + index
         
         anchors.fill: parent
         color: "transparent"
