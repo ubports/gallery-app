@@ -321,7 +321,7 @@ QString GalleryStandardImageProvider::CachedImage::idToFile(const QString& id) {
   if (url_query.query() == "1")
   {
     QUrl url(id);
-    QFileInfo thumbnailFile = GalleryManager::GetInstance()->preview_manager()->PreviewFileFor(fileName);
+    QFileInfo thumbnailFile = GalleryManager::GetInstance()->preview_manager()->ThumbnailFileFor(fileName);
     fileName = thumbnailFile.absoluteFilePath();
   }
 

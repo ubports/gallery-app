@@ -50,15 +50,15 @@ void tst_GalleryStandardImageProvider::ToURL()
 
 void tst_GalleryStandardImageProvider::Fullsize()
 {
-    QString id = "/home/test/Pictures/logo.jpg?size_level=0&orientation=1";
-    QString fileName = "/home/test/Pictures/logo.jpg";
+    QString id = "/home/user/Pictures/logo.jpg?size_level=0&orientation=1";
+    QString fileName = "/home/user/Pictures/logo.jpg";
     QCOMPARE(GalleryStandardImageProvider::CachedImage::idToFile(id), fileName);
 }
 
 void tst_GalleryStandardImageProvider::Thumbnail()
 {
-    QString id = "/home/test/Pictures/logo.jpg?size_level=1&orientation=1";
-    QString fileName = "/home/test/Pictures/-thumbs/logo_th.jpg";
+    QString id = "/home/user/Pictures/logo.jpg?size_level=1&orientation=1";
+    QString fileName = "/home/user/Pictures/-thumbs/logo_th.jpg";
     QCOMPARE(GalleryStandardImageProvider::CachedImage::idToFile(id), fileName);
 }
 

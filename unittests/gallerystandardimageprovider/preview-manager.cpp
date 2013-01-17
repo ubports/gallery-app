@@ -46,7 +46,7 @@ void PreviewManager::on_media_data_altered()
 
 }
 
-QFileInfo PreviewManager::PreviewFileFor(const QFileInfo &file) const
+QFileInfo PreviewManager::ThumbnailFileFor(const QFileInfo &file) const
 {
     return QFileInfo(file.dir(), PREVIEW_DIR + "/" + file.completeBaseName() + "_th_s." + PREVIEW_FILE_EXT);
 }
