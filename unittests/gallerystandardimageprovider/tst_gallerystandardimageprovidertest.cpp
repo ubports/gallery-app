@@ -37,9 +37,6 @@ private slots:
     void Thumbnail();
 };
 
-const QString PreviewManager::PREVIEW_DIR = ".thumbs";
-const char* PreviewManager::PREVIEW_FILE_EXT = "JPG";
-
 void tst_GalleryStandardImageProvider::ToURL()
 {
     QFileInfo fi("/tmp/test.jpg");

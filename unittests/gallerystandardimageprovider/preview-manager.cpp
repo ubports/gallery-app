@@ -23,6 +23,9 @@
 const int PreviewManager::PREVIEW_WIDTH_MAX = 360;
 const int PreviewManager::PREVIEW_HEIGHT_MAX = 360;
 
+const QString PreviewManager::PREVIEW_DIR = ".thumbs";
+const char* PreviewManager::PREVIEW_FILE_EXT = "JPG";
+
 bool PreviewManager::ensure_preview_for_media(QFileInfo file, bool regen)
 {
     file = QFileInfo();
