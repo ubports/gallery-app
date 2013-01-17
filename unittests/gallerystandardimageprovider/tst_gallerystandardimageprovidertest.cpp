@@ -32,32 +32,34 @@ class tst_GalleryStandardImageProvider : public QObject
     GalleryStandardImageProvider gallery_standard_image_provider;
 
 private slots:
-    void Test();
+    void ToURL();
+    void Fullsize();
+    void Thumbnail();
 };
 
-void tst_GalleryStandardImageProvider::Test()
+const QString PreviewManager::PREVIEW_DIR = ".thumbs";
+const char* PreviewManager::PREVIEW_FILE_EXT = "JPG";
+
+void tst_GalleryStandardImageProvider::ToURL()
 {
-    {
-        //ToURL
-        QFileInfo fi("/tmp/test.jpg");
-        QUrl url = gallery_standard_image_provider.ToURL(fi);
-        QUrl expect("image://gallery-standard//tmp/test.jpg");
-        QCOMPARE(url, expect);
-    }
+    QFileInfo fi("/tmp/test.jpg");
+    QUrl url = gallery_standard_image_provider.ToURL(fi);
+    QUrl expect("image://gallery-standard//tmp/test.jpg");
+    QCOMPARE(url, expect);
+}
 
-    {
-        //idToFile with size_level 0.
-        QString id = "/home/user/Pictures/logo.jpg?size_level=0&orientation=1";
-        QString fileName = "/home/user/Pictures/logo.jpg";
-        QCOMPARE(GalleryStandardImageProvider::CachedImage::idToFile(id), fileName);
-    }
+void tst_GalleryStandardImageProvider::Fullsize()
+{
+    QString id = "/home/user/Pictures/logo.jpg?size_level=0&orientation=1";
+    QString fileName = "/home/user/Pictures/logo.jpg";
+    QCOMPARE(GalleryStandardImageProvider::CachedImage::idToFile(id), fileName);
+}
 
-    {
-        //idToFile with size_level 1.
-        QString id = "/home/user/Pictures/logo.jpg?size_level=1&orientation=1";
-        QString fileName = "/home/user/Pictures/logo.jpg";
-        QCOMPARE(GalleryStandardImageProvider::CachedImage::idToFile(id), fileName);
-    }
+void tst_GalleryStandardImageProvider::Thumbnail()
+{
+    QString id = "/home/user/Pictures/logo.jpg?size_level=1&orientation=1";
+    QString fileName = "/home/user/Pictures/-thumbs/logo_th.jpg";
+    QCOMPARE(GalleryStandardImageProvider::CachedImage::idToFile(id), fileName);
 }
 
 QTEST_MAIN(tst_GalleryStandardImageProvider);
