@@ -317,15 +317,14 @@ GalleryStandardImageProvider::CachedImage::CachedImage(const QString& id)
 QString GalleryStandardImageProvider::CachedImage::idToFile(const QString& id) {
   QString fileName = QUrl(id).path();
   QUrlQuery url_query(id);
+  QFileInfo thumbnailFile;
 
   if (url_query.query() == "1")
   {
-    QUrl url(id);
-    QFileInfo thumbnailFile = GalleryManager::GetInstance()->preview_manager()->ThumbnailFileFor(fileName);
-    fileName = thumbnailFile.absoluteFilePath();
+    thumbnailFile = GalleryManager::GetInstance()->preview_manager()->PreviewFileFor(fileName);
   }
 
-  return fileName;
+  return thumbnailFile.path();
 }
 
 void GalleryStandardImageProvider::CachedImage::storeImage(const QImage& image,
