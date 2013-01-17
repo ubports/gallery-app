@@ -317,10 +317,12 @@ GalleryStandardImageProvider::CachedImage::CachedImage(const QString& id)
 }
 
 QString GalleryStandardImageProvider::CachedImage::idToFile(const QString& id) {
-  QString fileName = QUrl(id).path();
+  QUrl url = QUrl(id);
+  QString fileName = url.path();
 
   //Get our item value from our query by it's key.
-  QUrlQuery url_query(id);
+  QUrlQuery url_query(url);
+
   url_query.hasQueryItem(GalleryStandardImageProvider::SIZE_KEY);
   QString value = url_query.queryItemValue(GalleryStandardImageProvider::SIZE_KEY);
 
