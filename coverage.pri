@@ -10,8 +10,8 @@ CONFIG(coverage) {
 
     QMAKE_EXTRA_TARGETS += coverage cov
     QMAKE_EXTRA_TARGETS += clean-gcno clean-gcda coverage-html \
-        generate-coverage-html clean-coverage-html coverage-gcovr \
-        generate-gcovr generate-coverage-gcovr clean-coverage-gcovr
+        generate-coverage-html clean-coverage-html coverage-xml \
+        generate-gcovr generate-coverage-xml clean-coverage-xml
 
     clean-gcno.commands = \
         "@echo Removing old coverage instrumentation"; \
@@ -35,14 +35,14 @@ CONFIG(coverage) {
         "lcov --directory $${TOP_SRC_DIR} -z"; \
         "rm -rf coverage.info coverage-html"
 
-    coverage-gcovr.depends = clean-gcda check generate-coverage-gcovr
+    coverage-xml.depends = clean-gcda check generate-coverage-xml
 
-    generate-coverage-gcovr.commands = \
+    generate-coverage-xml.commands = \
         "@echo Generating coverage GCOVR report"; \
         "gcovr -x -r $${TOP_SRC_DIR} -o $${TOP_SRC_DIR}/coverage.xml -e \".*/moc_.*\" -e \"unittests/.*\" -e \".*\\.h\""
 
-    clean-coverage-gcovr.depends = clean-gcda
-    clean-coverage-gcovr.commands = \
+    clean-coverage-xml.depends = clean-gcda
+    clean-coverage-xml.commands = \
         "rm -rf $${TOP_SRC_DIR}/coverage.xml"
 
     QMAKE_CLEAN += *.gcda *.gcno coverage.info coverage.xml
