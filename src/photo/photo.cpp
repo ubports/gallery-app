@@ -562,7 +562,8 @@ void Photo::create_cached_enhanced() {
 }
 
 /*!
- * \brief GalleryThumbnailImageProvider::ToURL return the URL to this image provider for a local file
+ * \brief Photo::append_path_params is called by either gallery_path or gallery_preview_path depending on what kind of photo.
+ * \brief This sets our size_level parameter which will dictate what sort of image is eventually created.
  * \param url is the picture's url.
  * \param orientation of the image.
  * \param size_level dictates whether or not the image is a full sized picture or a thumbnail. 0 == full sized, 1 == preview.
