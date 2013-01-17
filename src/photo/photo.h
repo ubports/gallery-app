@@ -153,8 +153,6 @@ class Photo : public MediaSource {
   // We cache this data to avoid an image read at various times.
   QSize original_size_;
   Orientation original_orientation_;
-
-  static const char* SIZE_KEY;
 };
 
 #endif  // GALLERY_PHOTO_H_

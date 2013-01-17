@@ -33,8 +33,6 @@
 #include <QFileInfo>
 #include <QImage>
 
-const char* Photo::SIZE_KEY = "size_level";
-
 bool Photo::IsValid(const QFileInfo& file) {
   QImageReader reader(file.filePath());
   QByteArray format = reader.format();
@@ -571,7 +569,7 @@ void Photo::create_cached_enhanced() {
 
 void Photo::append_path_params(QUrl* url, Orientation orientation, const int size_level) const {
   QUrlQuery query;
-  query.addQueryItem(SIZE_KEY, QString::number(size_level));
+  query.addQueryItem(GalleryStandardImageProvider::SIZE_KEY, QString::number(size_level));
   query.addQueryItem(GalleryStandardImageProvider::ORIENTATION_PARAM_NAME, QString::number(orientation));
   
   // Because of QML's aggressive, opaque caching of loaded images, we need to

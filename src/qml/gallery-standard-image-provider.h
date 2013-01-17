@@ -60,6 +60,8 @@ class GalleryStandardImageProvider
   
   static const char* REVISION_PARAM_NAME;
   static const char* ORIENTATION_PARAM_NAME;
+
+  static const char* SIZE_KEY;
   
   virtual ~GalleryStandardImageProvider();
   

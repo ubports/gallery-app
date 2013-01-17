@@ -33,6 +33,8 @@ const char* GalleryStandardImageProvider::PROVIDER_ID_SCHEME = "image://gallery-
 const char* GalleryStandardImageProvider::REVISION_PARAM_NAME = "edit";
 const char* GalleryStandardImageProvider::ORIENTATION_PARAM_NAME = "orientation";
 
+const char* GalleryStandardImageProvider::SIZE_KEY = "size_level";
+
 const long MAX_CACHE_BYTES = 20L * 1024L * 1024L;
 
 // fully load previews into memory when requested
@@ -316,15 +318,19 @@ GalleryStandardImageProvider::CachedImage::CachedImage(const QString& id)
 
 QString GalleryStandardImageProvider::CachedImage::idToFile(const QString& id) {
   QString fileName = QUrl(id).path();
-  QUrlQuery url_query(id);
-  QFileInfo thumbnailFile;
 
-  if (url_query.query() == "1")
+  //Get our item value from our query by it's key.
+  QUrlQuery url_query(id);
+  url_query.hasQueryItem(GalleryStandardImageProvider::SIZE_KEY);
+  QString value = url_query.queryItemValue(GalleryStandardImageProvider::SIZE_KEY);
+
+  if (value == "1")
   {
-    thumbnailFile = GalleryManager::GetInstance()->preview_manager()->PreviewFileFor(fileName);
+    QFileInfo thumbnailFile = GalleryManager::GetInstance()->preview_manager()->PreviewFileFor(fileName);
+    fileName = thumbnailFile.path();
   }
 
-  return thumbnailFile.path();
+  return fileName;
 }
 
 void GalleryStandardImageProvider::CachedImage::storeImage(const QImage& image,
