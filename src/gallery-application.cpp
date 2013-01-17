@@ -107,7 +107,7 @@ void GalleryApplication::create_view() {
   // using the OpenGL backing and load the root container
   //
 
-  view_.setWindowTitle("Gallery");
+  view_.setTitle("Gallery");
 
   QSize size = form_factors_[form_factor_];
   if (GalleryManager::GetInstance()->is_portrait())
