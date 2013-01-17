@@ -55,7 +55,7 @@ void tst_GalleryStandardImageProvider::Fullsize()
 void tst_GalleryStandardImageProvider::Thumbnail()
 {
     QString id = "/home/user/Pictures/logo.jpg?size_level=1&orientation=1";
-    QString fileName = "/home/user/Pictures/.thumbs/logo_th.jpg";
+    QString fileName = "/home/user/Pictures/.thumbs/logo.jpg";
     QCOMPARE(GalleryStandardImageProvider::CachedImage::idToFile(id), fileName);
 }
 
