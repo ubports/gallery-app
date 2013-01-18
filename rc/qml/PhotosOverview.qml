@@ -74,7 +74,8 @@ Item {
         radius: "medium"
 
         image: Image {
-          source: mediaSource.thumbnailPath
+          source: mediaSource.galleryThumbnailPath
+          asynchronous: true
         }
 
         MouseArea {

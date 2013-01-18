@@ -18,7 +18,8 @@
 */
 
 #include "gallery-thumbnail-image-provider.h"
-#include "gallery-application.h"
+#include "core/gallery-manager.h"
+#include "media/preview-manager.h"
 
 #include <QDebug>
 #include <QElapsedTimer>
@@ -58,8 +59,13 @@ QImage GalleryThumbnailImageProvider::requestImage(const QString &id, QSize *siz
   QElapsedTimer timer;
   timer.start();
 
+  GalleryManager::GetInstance()->preview_manager()->ensure_preview_for_media(QFileInfo(id));
+
   QUrl url(id);
-  QString fileName = url.path();
+  QString photoName = url.path();
+  QFileInfo photoFile(photoName);
+  QFileInfo thumbnailFile = GalleryManager::GetInstance()->preview_manager()->ThumbnailFileFor(photoFile);
+  QString fileName = thumbnailFile.absoluteFilePath();
 
   QImage thumbnail;
   thumbnail.load(fileName);
@@ -70,7 +76,7 @@ QImage GalleryThumbnailImageProvider::requestImage(const QString &id, QSize *siz
   if (size != NULL)
     *size = thumbnail.size();
 
-  if (GalleryApplication::instance()->log_image_loading()) {
+  if (GalleryManager::GetInstance()->log_image_loading()) {
       qDebug() << id << thumbnail.size() << "time:" << timer.elapsed() << "ms";
   }
 

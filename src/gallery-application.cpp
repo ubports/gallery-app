@@ -46,7 +46,6 @@
 GalleryApplication::GalleryApplication(int& argc, char** argv)
   : QApplication(argc, argv),
     form_factor_("desktop"),
-    log_image_loading_(false),
     view_(),
     monitor_(NULL) {
 

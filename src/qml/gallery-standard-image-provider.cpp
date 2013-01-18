@@ -25,13 +25,15 @@
 #include <QElapsedTimer>
 
 #include "media/preview-manager.h"
-#include "gallery-application.h"
+#include "core/gallery-manager.h"
 
 const char* GalleryStandardImageProvider::PROVIDER_ID = "gallery-standard";
 const char* GalleryStandardImageProvider::PROVIDER_ID_SCHEME = "image://gallery-standard/";
 
 const char* GalleryStandardImageProvider::REVISION_PARAM_NAME = "edit";
 const char* GalleryStandardImageProvider::ORIENTATION_PARAM_NAME = "orientation";
+
+const char* GalleryStandardImageProvider::SIZE_KEY = "size_level";
 
 const long MAX_CACHE_BYTES = 20L * 1024L * 1024L;
 
@@ -55,7 +57,7 @@ QUrl GalleryStandardImageProvider::ToURL(const QFileInfo& file) {
 }
 
 #define LOG_IMAGE_STATUS(status) { \
-    if (GalleryApplication::instance()->log_image_loading()) \
+    if (GalleryManager::GetInstance()->log_image_loading()) \
     loggingStr += status; \
 }
 
@@ -65,7 +67,9 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
   QString loggingStr = "";
   QElapsedTimer timer;
   timer.start();
-  
+
+  GalleryManager::GetInstance()->preview_manager()->ensure_preview_for_media(QFileInfo(id));
+
   CachedImage* cachedImage = claim_cached_image_entry(id, loggingStr);
   Q_ASSERT(cachedImage != NULL);
   
@@ -77,10 +81,9 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
   
   long currentCachedBytes = 0;
   int currentCacheEntries = 0;
-  release_cached_image_entry(cachedImage, bytesLoaded, &currentCachedBytes,
-    &currentCacheEntries, loggingStr);
+  release_cached_image_entry(cachedImage, bytesLoaded, &currentCachedBytes, &currentCacheEntries);
   
-  if (GalleryApplication::instance()->log_image_loading()) {
+  if (GalleryManager::GetInstance()->log_image_loading()) {
     if (bytesLoaded > 0) {
       qDebug("%s %s req:%dx%d ret:%dx%d cache:%ldb/%d loaded:%db time:%lldms", qPrintable(loggingStr),
              qPrintable(id), requestedSize.width(), requestedSize.height(), readyImage.width(),
@@ -218,9 +221,9 @@ QImage GalleryStandardImageProvider::fetch_cached_image(CachedImage *cachedImage
   return readyImage;
 }
 
-void GalleryStandardImageProvider::release_cached_image_entry(
-  GalleryStandardImageProvider::CachedImage* cachedImage, uint bytesLoaded,
-  long *currentCachedBytes, int* currentCacheEntries, QString& loggingStr) {
+void GalleryStandardImageProvider::release_cached_image_entry
+(CachedImage *cachedImage, uint bytesLoaded,
+ long *currentCachedBytes, int *currentCacheEntries) {
   Q_ASSERT(cachedImage != NULL);
   
   // update total cached bytes and remove excess bytes
@@ -314,7 +317,21 @@ GalleryStandardImageProvider::CachedImage::CachedImage(const QString& id)
 }
 
 QString GalleryStandardImageProvider::CachedImage::idToFile(const QString& id) {
-  return QUrl(id).path();
+  QUrl url = QUrl(id);
+  QString fileName = url.path();
+
+  //Get our item value from our query by it's key.
+  QUrlQuery url_query(url);
+  url_query.hasQueryItem(GalleryStandardImageProvider::SIZE_KEY);
+  QString value = url_query.queryItemValue(GalleryStandardImageProvider::SIZE_KEY);
+
+  if (value == "1")
+  {
+    QFileInfo thumbnailFile = GalleryManager::GetInstance()->preview_manager()->PreviewFileFor(fileName);
+    fileName = thumbnailFile.absoluteFilePath();
+  }
+
+  return fileName;
 }
 
 void GalleryStandardImageProvider::CachedImage::storeImage(const QImage& image,

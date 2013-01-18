@@ -60,6 +60,8 @@ class GalleryStandardImageProvider
   
   static const char* REVISION_PARAM_NAME;
   static const char* ORIENTATION_PARAM_NAME;
+
+  static const char* SIZE_KEY;
   
   virtual ~GalleryStandardImageProvider();
   
@@ -118,7 +120,10 @@ class GalleryStandardImageProvider
   // Releases a CachedImage to the cache; takes its bytes loaded (0 if nothing
   // was loaded) and returns the current cached byte total
   void release_cached_image_entry(CachedImage* cachedImage, uint bytesLoaded,
-    long* currentCachedBytes, int* currentCacheEntries, QString& loggingStr);
+  long* currentCachedBytes, int* currentCacheEntries);
+
+  //Allow our test access to private variables.
+  friend class tst_GalleryStandardImageProvider;
 };
 
 #endif // GALLERY_GALLERY_STANDARD_IMAGE_PROVIDER_H_

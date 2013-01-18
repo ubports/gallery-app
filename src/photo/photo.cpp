@@ -131,9 +131,6 @@ Photo* Photo::Fetch(const QFileInfo& file) {
   Photo* p = gallery_mgr->media_collection()->photoFromFileinfo(file);
   if (p == NULL) {
     p = Load(file);
-
-    if (p != NULL)
-      gallery_mgr->preview_manager()->ensure_preview_for_media(p);
   }
 
   return p;
@@ -185,8 +182,7 @@ QUrl Photo::gallery_path() const {
   QUrl url = MediaSource::gallery_path();
   // We don't pass the orientation in if we saved the file already rotated,
   // which is the case if the file format can't store rotation metadata.
-  append_path_params(&url, (file_format_has_orientation() ?
-                            orientation() : TOP_LEFT_ORIGIN));
+  append_path_params(&url, (file_format_has_orientation() ? orientation() : TOP_LEFT_ORIGIN), 0);
   
   return url;
 }
@@ -194,7 +190,8 @@ QUrl Photo::gallery_path() const {
 QUrl Photo::gallery_preview_path() const {
   QUrl url = MediaSource::gallery_preview_path();
   // previews are always stored fully transformed
-  append_path_params(&url, TOP_LEFT_ORIGIN);
+
+  append_path_params(&url, TOP_LEFT_ORIGIN, 1);
   
   return url;
 }
@@ -562,10 +559,18 @@ void Photo::create_cached_enhanced() {
   delete metadata;
 }
 
-void Photo::append_path_params(QUrl* url, Orientation orientation) const {
+/*!
+ * \brief Photo::append_path_params is called by either gallery_path or gallery_preview_path depending on what kind of photo.
+ * \brief This sets our size_level parameter which will dictate what sort of image is eventually created.
+ * \param url is the picture's url.
+ * \param orientation of the image.
+ * \param size_level dictates whether or not the image is a full sized picture or a thumbnail. 0 == full sized, 1 == preview.
+ */
+
+void Photo::append_path_params(QUrl* url, Orientation orientation, const int size_level) const {
   QUrlQuery query;
-  query.addQueryItem(GalleryStandardImageProvider::ORIENTATION_PARAM_NAME,
-    QString::number(orientation));
+  query.addQueryItem(GalleryStandardImageProvider::SIZE_KEY, QString::number(size_level));
+  query.addQueryItem(GalleryStandardImageProvider::ORIENTATION_PARAM_NAME, QString::number(orientation));
   
   // Because of QML's aggressive, opaque caching of loaded images, we need to
   // add an arbitrary URL parameter to gallery_path and gallery_preview_path so

@@ -56,7 +56,7 @@ QUrl MediaSource::gallery_path() const {
 }
 
 QFileInfo MediaSource::preview_file() const {
-  return GalleryManager::GetInstance()->preview_manager()->PreviewFileFor(this);
+  return GalleryManager::GetInstance()->preview_manager()->PreviewFileFor(file_);
 }
 
 QUrl MediaSource::preview_path() const {
@@ -64,11 +64,11 @@ QUrl MediaSource::preview_path() const {
 }
 
 QUrl MediaSource::gallery_preview_path() const {
-  return GalleryStandardImageProvider::ToURL(preview_file());
+  return GalleryStandardImageProvider::ToURL(file_);
 }
 
 QFileInfo MediaSource::thumbnail_file() const {
-  return GalleryManager::GetInstance()->preview_manager()->ThumbnailFileFor(this);
+  return GalleryManager::GetInstance()->preview_manager()->ThumbnailFileFor(file_);
 }
 
 QUrl MediaSource::thumbnail_path() const {
@@ -76,7 +76,7 @@ QUrl MediaSource::thumbnail_path() const {
 }
 
 QUrl MediaSource::gallery_thumbnail_path() const{
-  return GalleryThumbnailImageProvider::ToURL(thumbnail_file());
+  return GalleryThumbnailImageProvider::ToURL(file_);
 }
 
 QImage MediaSource::Image(bool respect_orientation) {

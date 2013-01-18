@@ -1,8 +1,8 @@
 /*
- * Copyright (C) 2012 Canonical, Ltd.
+ * Copyright (C) 2013 Canonical, Ltd.
  *
  * Authors:
- *  Guenter Schwann <guenter.schwann@canonical.com>
+ *  Nicolas d'Offay <nicolas.doffay@canonical.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,29 +15,30 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-#ifndef GALLERYAPPLICATION_H
-#define GALLERYAPPLICATION_H
+#include "photo/photo-metadata.h"
 
-#include "gallery-thumbnail-image-provider.h"
+Orientation PhotoMetadata::orientation() const
+{
+    return Orientation();
+}
 
-class GalleryApplication {
-public:
-  static GalleryApplication* instance() {
-    if (instance_ == 0)
-      instance_ = new GalleryApplication();
-    return instance_;
-  }
+PhotoMetadata* PhotoMetadata::FromFile(const QFileInfo &file)
+{
+    QFileInfo test = file;
+    return NULL;
+}
 
-  bool log_image_loading() {
-    return false;
-  }
+OrientationCorrection OrientationCorrection::FromOrientation(Orientation o)
+{
+    OrientationCorrection test = OrientationCorrection::FromOrientation(o);
+    return test;
+}
 
-private:
-  GalleryApplication() {}
-  static GalleryApplication* instance_;
-
-};
-
-#endif // GALLERYAPPLICATION_H
+QTransform OrientationCorrection::to_transform() const
+{
+  QTransform result;
+  return result;
+}

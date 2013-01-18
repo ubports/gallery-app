@@ -20,8 +20,9 @@
 #ifndef GALLERY_PREVIEW_MANAGER_H_
 #define GALLERY_PREVIEW_MANAGER_H_
 
-#include <QObject>
 #include <QFileInfo>
+#include <QMutex>
+#include <QObject>
 #include <QSet>
 #include <QString>
 
@@ -45,10 +46,11 @@ class PreviewManager : public QObject {
 
   PreviewManager();
   
-  QFileInfo PreviewFileFor(const MediaSource* media) const;
-  QFileInfo ThumbnailFileFor(const MediaSource* media) const;
-  bool ensure_preview_for_media(MediaSource* media, bool regen = false);
-  
+  QFileInfo PreviewFileFor(const QFileInfo& file) const;
+  QFileInfo ThumbnailFileFor(const QFileInfo& file) const;
+
+  bool ensure_preview_for_media(QFileInfo file, bool regen = false);
+
  private slots:
   void on_media_added_removed(const QSet<DataObject*>* added,
     const QSet<DataObject*>* removed);
@@ -58,6 +60,8 @@ class PreviewManager : public QObject {
  private:
   void DestroyPreview(MediaSource* media);
   QImage generate_Thumbnail(const QImage& master) const;
+
+  static QMutex createMutex_;
 };
 
 #endif  // GALLERY_PREVIEW_MANAGER_H_
