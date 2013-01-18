@@ -322,14 +322,13 @@ QString GalleryStandardImageProvider::CachedImage::idToFile(const QString& id) {
 
   //Get our item value from our query by it's key.
   QUrlQuery url_query(url);
-
   url_query.hasQueryItem(GalleryStandardImageProvider::SIZE_KEY);
   QString value = url_query.queryItemValue(GalleryStandardImageProvider::SIZE_KEY);
 
   if (value == "1")
   {
     QFileInfo thumbnailFile = GalleryManager::GetInstance()->preview_manager()->PreviewFileFor(fileName);
-    fileName = thumbnailFile.path();
+    fileName = thumbnailFile.absoluteFilePath();
   }
 
   return fileName;
