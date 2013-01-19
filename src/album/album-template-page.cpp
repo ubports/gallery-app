@@ -19,8 +19,6 @@
 
 #include "album/album-template-page.h"
 
-#include <cstdarg>
-
 AlbumTemplatePage::AlbumTemplatePage(const char* name, const char* qml_rc,
                                      bool is_left, int frame_count, ...)
   : name_(name), is_left_(is_left) {

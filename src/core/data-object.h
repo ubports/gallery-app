@@ -38,9 +38,6 @@
 #define GALLERY_DATA_OBJECT_H_
 
 #include <QObject>
-#include <QByteArray>
-#include <QString>
-#include <QVariant>
 
 typedef int DataObjectNumber;
 
@@ -48,23 +45,17 @@ class DataObject : public QObject {
   Q_OBJECT
   
  public:
-  DataObject(QObject * parent = 0, const QString& name = "");
+  DataObject(QObject * parent = 0);
   
   // TODO: number() should return the same value for the same DataObject across
   //       invocations of Gallery. Right now, this API contract is maintained
   //       implicitly and in a particularly fragile way. We should fix this.
   //       See https://bugs.launchpad.net/goodhope/+bug/1087084.
   DataObjectNumber number() const;
-  void SetInternalName(const QString& name);
-  
-  Q_INVOKABLE bool equals(QVariant vobject) const;
-  
-  virtual const char* ToString() const;
   
  private:
   static DataObjectNumber next_number_;
   
-  QByteArray name_;
   DataObjectNumber number_;
 };
 

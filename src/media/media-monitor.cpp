@@ -21,8 +21,6 @@
 
 #include <QSet>
 #include <QString>
-#include <QStringList>
-#include <iostream>
 
 MediaMonitor::MediaMonitor(const QDir& target_directory)
   : target_directory_(target_directory),

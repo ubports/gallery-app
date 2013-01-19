@@ -17,10 +17,10 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "core/data-collection.h"
-
 #include <QQmlEngine>
 
+#include "data-collection.h"
+#include "core/data-object.h"
 #include "gallery-application.h"
 
 DataCollection::DataCollection(const QString& name)

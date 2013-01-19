@@ -21,15 +21,9 @@
 #define DATABASE_H
 
 #include <QObject>
-
-#include <QtSql>
 #include <QSqlTableModel>
 #include <QString>
-#include <QFile>
-
-#include "album-table.h"
-#include "media-table.h"
-#include "photo-edit-table.h"
+#include <QtSql>
 
 class AlbumTable;
 class MediaTable;

@@ -27,10 +27,12 @@
 #include <QModelIndex>
 #include <QVariant>
 
-#include "core/container-source.h"
-#include "core/data-object.h"
-#include "core/selectable-view-collection.h"
-#include "core/source-collection.h"
+#include <core/data-collection.h>
+
+class DataObject;
+class ContainerSource;
+class SelectableViewCollection;
+class SourceCollection;
 
 class QmlViewCollectionModel : public QAbstractListModel {
   Q_OBJECT

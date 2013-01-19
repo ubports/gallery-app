@@ -21,18 +21,14 @@
 #ifndef GALLERY_ALBUM_H_
 #define GALLERY_ALBUM_H_
 
-#include <QObject>
 #include <QDateTime>
 #include <QQmlListProperty>
 #include <QString>
-#include <QUrl>
 #include <QVariant>
-#include <QtQml>
 
 #include "album/album-page.h"
 #include "album/album-template.h"
 #include "core/container-source.h"
-#include "core/source-collection.h"
 #include "media/media-source.h"
 
 // Note about page numbers: the first page (number 0) is the front cover.  It

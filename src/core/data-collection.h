@@ -34,8 +34,9 @@
 #include <QSet>
 #include <QString>
 
-#include "core/data-object.h"
 #include "util/collections.h"
+
+class DataObject;
 
 // Defined as a LessThan comparator (return true if a is less than b)
 typedef bool (*DataObjectComparator)(DataObject* a, DataObject* b);

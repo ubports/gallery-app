@@ -18,7 +18,7 @@
  *
  */
 
-//#include <QLatin1String>
+#include <QDir>
 
 #include "media/preview-manager.h"
 

@@ -26,10 +26,9 @@
 #include <QSet>
 #include <QString>
 
-#include "core/data-object.h"
-#include "media/media-source.h"
-
 class QImage;
+class DataObject;
+class MediaSource;
 
 class PreviewManager : public QObject {
   Q_OBJECT

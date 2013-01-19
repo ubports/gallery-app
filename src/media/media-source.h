@@ -20,7 +20,6 @@
 #ifndef GALLERY_MEDIA_SOURCE_H_
 #define GALLERY_MEDIA_SOURCE_H_
 
-#include <QObject>
 #include <QDate>
 #include <QDateTime>
 #include <QFileInfo>
@@ -35,8 +34,6 @@
 
 class Event;
 class GalleryManager;
-
-typedef DataObjectNumber MediaNumber;
 
 class MediaSource : public DataSource {
   Q_OBJECT

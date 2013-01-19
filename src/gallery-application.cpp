@@ -16,21 +16,19 @@
  * Authors:
  * Charles Lindsay <chaz@yorba.org>
  */
-#include <QGLWidget>
+
+#include <QQuickItem>
 #include <QString>
 #include <QUrl>
-#include <QString>
-#include <QQuickItem>
-#include <cstdlib>
-#include <QProcess>
 
 #include "gallery-application.h"
 #include "album/album.h"
 #include "album/album-page.h"
-#include "database/database.h"
+#include "core/gallery-manager.h"
 #include "event/event.h"
+#include "media/media-collection.h"
+#include "media/media-monitor.h"
 #include "media/media-source.h"
-#include "photo/photo-metadata.h"
 #include "photo/photo.h"
 #include "qml/gallery-standard-image-provider.h"
 #include "qml/gallery-thumbnail-image-provider.h"
@@ -41,7 +39,6 @@
 #include "qml/qml-stack.h"
 #include "util/resource.h"
 #include "util/sharefile.h"
-#include "core/gallery-manager.h"
 
 GalleryApplication::GalleryApplication(int& argc, char** argv)
   : QApplication(argc, argv),

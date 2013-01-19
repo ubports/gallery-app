@@ -20,16 +20,14 @@
 #ifndef GALLERYAPPLICATION_H
 #define GALLERYAPPLICATION_H
 
-#include "media/media-monitor.h"
-
 #include <QApplication>
 #include <QQmlEngine>
-#include <QProcess>
 #include <QQuickView>
 #include <QElapsedTimer>
 #include <QFileInfo>
 
 class GalleryManager;
+class MediaMonitor;
 
 class GalleryApplication : public QApplication {
   Q_OBJECT

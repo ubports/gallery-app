@@ -20,7 +20,6 @@
 #ifndef GALLERY_UTIL_IMAGING_H_
 #define GALLERY_UTIL_IMAGING_H_
 
-#include <QObject>
 #include <QImage>
 #include <QColor>
 

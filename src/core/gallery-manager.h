@@ -1,9 +1,3 @@
-/*!
- * gallerymanager.h
- *
- * Simple class which encapsulates instantiates objects which require only one instance.
-*/
-
 /*
  * Copyright (C) 2013 Canonical, Ltd.
  *
@@ -37,6 +31,10 @@ class MediaCollection;
 class AlbumCollection;
 class EventCollection;
 class PreviewManager;
+
+/*!
+ * Simple class which encapsulates instantiates objects which require only one instance.
+*/
 
 class GalleryManager
 {

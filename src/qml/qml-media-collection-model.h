@@ -25,9 +25,9 @@
 #include <QVariant>
 #include <QtQml>
 
-#include "core/data-object.h"
-#include "core/selectable-view-collection.h"
 #include "qml/qml-view-collection-model.h"
+
+class DataObject;
 
 class QmlMediaCollectionModel : public QmlViewCollectionModel {
   Q_OBJECT

@@ -17,13 +17,12 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "event/event-collection.h"
+#include "event-collection.h"
+#include "core/data-object.h"
+#include "core/gallery-manager.h"
 #include "event/event.h"
 #include "media/media-collection.h"
 #include "media/media-source.h"
-#include "util/collections.h"
-#include "util/time.h"
-#include "core/gallery-manager.h"
 
 EventCollection::EventCollection()
   : SourceCollection("EventCollection") {

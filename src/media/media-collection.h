@@ -20,16 +20,14 @@
 #ifndef GALLERY_MEDIA_COLLECTION_H_
 #define GALLERY_MEDIA_COLLECTION_H_
 
-#include <QObject>
 #include <QDir>
-#include <QMap>
+#include <QHash>
 #include <QSet>
 
-#include "core/data-object.h"
 #include "core/source-collection.h"
-#include "media-source.h"
-#include "photo/photo.h"
 
+class DataObject;
+class MediaSource;
 class Photo;
 
 class MediaCollection : public SourceCollection {

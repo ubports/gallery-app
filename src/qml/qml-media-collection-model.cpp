@@ -23,11 +23,12 @@
 #include "album/album.h"
 #include "album/album-collection.h"
 #include "album/album-default-template.h"
+#include "core/data-object.h"
+#include "core/gallery-manager.h"
+#include "core/selectable-view-collection.h"
 #include "media/media-source.h"
 #include "media/media-collection.h"
-#include "util/collections.h"
 #include "util/variants.h"
-#include "core/gallery-manager.h"
 
 QmlMediaCollectionModel::QmlMediaCollectionModel(QObject* parent)
   : QmlViewCollectionModel(parent, "mediaSource", NULL) {

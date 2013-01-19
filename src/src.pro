@@ -60,7 +60,6 @@ SOURCES += \
   util/imaging.cpp \
   util/resource.cpp \
   util/sharefile.cpp \
-  util/time.cpp \
   core/gallery-manager.cpp
 
 HEADERS += \
@@ -105,7 +104,6 @@ HEADERS += \
   util/imaging.h \
   util/resource.h \
   util/sharefile.h \
-  util/time.h \
   util/variants.h \
   core/gallery-manager.h
 

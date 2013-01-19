@@ -23,9 +23,6 @@
 #include <QObject>
 #include <QDate>
 #include <QDateTime>
-#include <QQmlListProperty>
-#include <QList>
-#include <QtQml>
 
 #include "core/container-source.h"
 #include "media/media-source.h"

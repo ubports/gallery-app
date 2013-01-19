@@ -23,9 +23,7 @@
 #include <QObject>
 #include <QList>
 
-#include "album/album.h"
-#include "database.h"
-
+class Album;
 class Database;
 
 class AlbumTable : public QObject {

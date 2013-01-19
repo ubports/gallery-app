@@ -22,16 +22,10 @@
 #ifndef GALLERY_PHOTO_H_
 #define GALLERY_PHOTO_H_
 
-#include <QObject>
 #include <QDateTime>
-#include <QFileInfo>
 #include <QStack>
-#include <QImageReader>
-#include <QImageWriter>
-#include <QApplication>
 
 #include "media/media-source.h"
-#include "media/media-collection.h"
 #include "photo/photo-metadata.h"
 #include "photo/photo-edit-state.h"
 #include "photo/photo-caches.h"

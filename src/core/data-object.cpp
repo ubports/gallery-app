@@ -17,34 +17,19 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "core/data-object.h"
-
 #include <QQmlEngine>
 
+#include "data-object.h"
 #include "gallery-application.h"
-#include "util/variants.h"
 
 DataObjectNumber DataObject::next_number_ = 0;
 
-DataObject::DataObject(QObject * parent, const QString& name)
-  : QObject(parent), name_(name.toUtf8()), number_(next_number_++) {
+DataObject::DataObject(QObject * parent)
+  : QObject(parent), number_(next_number_++) {
   // All DataObjects are registered as C++ ownership; QML should never GC them
   GalleryApplication::instance()->setObjectOwnership(this, QQmlEngine::CppOwnership);
 }
 
 DataObjectNumber DataObject::number() const {
   return number_;
-}
-
-void DataObject::SetInternalName(const QString& name) {
-  name_ = name.toUtf8();
-}
-
-bool DataObject::equals(QVariant vobject) const {
-  // DataObjects are unique and can be compared through identity alone
-  return UncheckedVariantToObject<DataObject*>(vobject) == this;
-}
-
-const char* DataObject::ToString() const {
-  return name_.data();
 }
