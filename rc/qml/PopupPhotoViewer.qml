@@ -121,9 +121,8 @@ Item {
     id: fadeIn
 
     target: viewer
-    onRunningChanged: {
-      if (!running)
-        opened();
+    onStopped: {
+      opened();
     }
   }
 
@@ -131,9 +130,8 @@ Item {
     id: fadeOut
 
     target: viewer
-    onRunningChanged: {
-      if (!running)
-        closed();
+    onStopped: {
+      closed();
     }
   }
 }

@@ -26,12 +26,12 @@
 #include "util/variants.h"
 
 QmlAlbumCollectionModel::QmlAlbumCollectionModel(QObject* parent)
-    : QmlViewCollectionModel(parent, "album", NULL) {
-  MonitorSourceCollection(GalleryManager::GetInstance()->album_collection());
-  QObject::connect(GalleryManager::GetInstance()->album_collection(),
-    SIGNAL(album_current_page_contents_altered(Album*)),
-    this,
-    SLOT(on_album_current_page_contents_altered(Album*)));
+    : QmlViewCollectionModel(parent, "album", NULL)
+{
+    MonitorSourceCollection(GalleryManager::GetInstance()->album_collection());
+    QObject::connect(GalleryManager::GetInstance()->album_collection(),
+        SIGNAL(album_current_page_contents_altered(Album*)),
+        this, SLOT(on_album_current_page_contents_altered(Album*)));
 }
 
 void QmlAlbumCollectionModel::RegisterType() {
@@ -41,7 +41,7 @@ void QmlAlbumCollectionModel::RegisterType() {
 void QmlAlbumCollectionModel::createAlbum(QVariant vmedia) {
   Album* album = new Album(GalleryManager::GetInstance()->album_default_template());
   album->Attach(VariantToObject<MediaSource*>(vmedia));
-  
+
   GalleryManager::GetInstance()->album_collection()->Add(album);
 }
 
@@ -74,7 +74,7 @@ void QmlAlbumCollectionModel::addOrphan(QVariant valbum) {
 
 QVariant QmlAlbumCollectionModel::VariantFor(DataObject* object) const {
   Album* album = qobject_cast<Album*>(object);
-  
+
   return (album != NULL) ? QVariant::fromValue(album) : QVariant();
 }
 
