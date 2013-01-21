@@ -48,10 +48,9 @@
 #ifndef GALLERY_DATA_SOURCE_H_
 #define GALLERY_DATA_SOURCE_H_
 
-#include <QObject>
-
 #include "core/data-object.h"
-#include "core/source-collection.h"
+
+class SourceCollection;
 
 class DataSource : public DataObject {
   Q_OBJECT
@@ -61,7 +60,7 @@ class DataSource : public DataObject {
   void destroyed(bool destroyed_backing, bool as_orphan);
   
  public:
-  DataSource(QObject * parent = 0, const QString& name = "");
+  DataSource(QObject * parent = 0);
   
   friend class SourceCollection;
   

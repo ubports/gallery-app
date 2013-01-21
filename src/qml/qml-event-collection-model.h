@@ -24,8 +24,9 @@
 #include <QVariant>
 #include <QtQml>
 
-#include "core/data-object.h"
 #include "qml/qml-view-collection-model.h"
+
+class DataObject;
 
 class QmlEventCollectionModel : public QmlViewCollectionModel {
   Q_OBJECT

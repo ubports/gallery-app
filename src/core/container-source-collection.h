@@ -29,7 +29,6 @@
 #ifndef GALLERY_CONTAINER_SOURCE_COLLECTION_H_
 #define GALLERY_CONTAINER_SOURCE_COLLECTION_H_
 
-#include <QObject>
 #include <QString>
 
 #include "core/data-object.h"

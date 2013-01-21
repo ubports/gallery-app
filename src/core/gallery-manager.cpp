@@ -1,9 +1,3 @@
-/*!
- * gallerymanager.cpp
- *
- * Simple class which encapsulates instantiates objects which require only one instance.
-*/
-
 /*
  * Copyright (C) 2013 Canonical, Ltd.
  *
@@ -25,18 +19,17 @@
  */
 
 #include "gallery-manager.h"
-#include "database/database.h"
 #include "gallery-application.h"
-#include "util/resource.h"
-#include "event/event-collection.h"
 #include "album/album-collection.h"
-#include "media/media-collection.h"
 #include "album/album-default-template.h"
+#include "database/database.h"
+#include "database/media-table.h"
+#include "event/event-collection.h"
+#include "media/media-collection.h"
 #include "media/preview-manager.h"
-#include "album/album-default-template.h"
-#include "media/media-collection.h"
 #include "qml/gallery-standard-image-provider.h"
 #include "qml/gallery-thumbnail-image-provider.h"
+#include "util/resource.h"
 
 GalleryManager* GalleryManager::gallery_mgr_ = NULL;
 

@@ -18,12 +18,12 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "qml/gallery-standard-image-provider.h"
-
 #include <QImageReader>
 #include <QSize>
 #include <QElapsedTimer>
+#include <QUrlQuery>
 
+#include "gallery-standard-image-provider.h"
 #include "media/preview-manager.h"
 #include "core/gallery-manager.h"
 

@@ -18,20 +18,17 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-#include "album/album.h"
 
-#include <QQueue>
-
+#include "album.h"
 #include "album/album-collection.h"
 #include "album/album-default-template.h"
-#include "core/data-collection.h"
-#include "media/media-source.h"
+#include "core/gallery-manager.h"
+#include "core/selectable-view-collection.h"
+#include "database/album-table.h"
+#include "database/database.h"
 #include "media/media-collection.h"
 #include "qml/qml-media-collection-model.h"
-#include "util/collections.h"
 #include "util/variants.h"
-#include "database/database.h"
-#include "core/gallery-manager.h"
 
 const char *Album::DEFAULT_TITLE = "New Photo Album";
 const char *Album::DEFAULT_SUBTITLE = "Subtitle";

@@ -24,9 +24,10 @@
 #include <QVariant>
 #include <QtQml>
 
-#include "album/album.h"
-#include "core/data-object.h"
 #include "qml/qml-view-collection-model.h"
+
+class Album;
+class DataObject;
 
 class QmlAlbumCollectionModel : public QmlViewCollectionModel {
   Q_OBJECT

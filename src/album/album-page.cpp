@@ -17,8 +17,7 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "album/album-page.h"
-
+#include "album-page.h"
 #include "album/album.h"
 #include "media/media-collection.h"
 #include "util/collections.h"

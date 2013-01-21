@@ -20,12 +20,8 @@
 #ifndef GALLERY_UTIL_COLLECTIONS_H_
 #define GALLERY_UTIL_COLLECTIONS_H_
 
-#include <QObject>
 #include <QList>
 #include <QSet>
-
-#include "core/data-collection.h"
-#include "core/data-object.h"
 
 template <class F, class T>
 QList<T> CastListToType(const QList<F>& from) {

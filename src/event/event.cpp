@@ -17,12 +17,10 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "event/event.h"
-
 #include <QString>
 
+#include "event.h"
 #include "media/media-collection.h"
-#include "util/collections.h"
 
 Event::Event(QObject* parent)
   : ContainerSource(parent, "Event (undated)", MediaCollection::ExposureDateTimeDescendingComparator) {

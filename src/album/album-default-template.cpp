@@ -20,8 +20,6 @@
 
 #include "album/album-default-template.h"
 
-#include "album/album.h"
-
 AlbumDefaultTemplate::AlbumDefaultTemplate()
   : AlbumTemplate("Default Album Template"),
     next_decision_page_type_(LANDSCAPE) {

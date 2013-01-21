@@ -17,11 +17,9 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-#include "photo/photo-metadata.h"
-
 #include <cstdio>
 
-#include <QDate>
+#include "photo-metadata.h"
 
 namespace {
   const Orientation DEFAULT_ORIENTATION = TOP_LEFT_ORIGIN;

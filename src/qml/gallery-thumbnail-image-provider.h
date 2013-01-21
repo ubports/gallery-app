@@ -22,6 +22,8 @@
 
 #include <QFileInfo>
 #include <QQuickImageProvider>
+#include <QSize>
+#include <QString>
 
 /*!
  * @brief The GalleryThumbailImageProvider class is used to load the small square thumbnails

@@ -17,17 +17,16 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "media/media-collection.h"
-
+#include <QApplication>
+#include <QFileInfo>
 #include <QStringList>
 #include <QString>
 
+#include "media-collection.h"
+#include "core/gallery-manager.h"
 #include "photo/photo.h"
-#include "photo/photo-edit-state.h"
-#include "util/collections.h"
 #include "database/database.h"
 #include "database/media-table.h"
-#include "core/gallery-manager.h"
 
 MediaCollection::MediaCollection(const QDir& directory)
   : SourceCollection("MediaCollection"), directory_(directory) {
@@ -45,7 +44,7 @@ MediaCollection::MediaCollection(const QDir& directory)
     // expensive operation since it involves lots of I/O, so spin the event
     // loop so that the UI remains responsive
     QApplication::processEvents();
-    
+
     QFileInfo file(directory_, filename);
     
     Photo *p = Photo::Load(file);

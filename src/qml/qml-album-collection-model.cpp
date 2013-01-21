@@ -17,15 +17,13 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "qml/qml-album-collection-model.h"
-
+#include "qml-album-collection-model.h"
 #include "album/album.h"
 #include "album/album-collection.h"
 #include "album/album-default-template.h"
-#include "media/media-source.h"
-#include "qml/qml-media-collection-model.h"
-#include "util/variants.h"
 #include "core/gallery-manager.h"
+#include "core/selectable-view-collection.h"
+#include "util/variants.h"
 
 QmlAlbumCollectionModel::QmlAlbumCollectionModel(QObject* parent)
     : QmlViewCollectionModel(parent, "album", NULL) {

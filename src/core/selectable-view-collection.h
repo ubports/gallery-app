@@ -26,13 +26,10 @@
 #ifndef GALLERY_SELECTABLE_VIEW_COLLECTION_H_
 #define GALLERY_SELECTABLE_VIEW_COLLECTION_H_
 
-#include <QObject>
 #include <QSet>
-#include <QList>
 
 #include "core/data-object.h"
 #include "core/view-collection.h"
-#include "util/collections.h"
 
 class SelectableViewCollection : public ViewCollection {
   Q_OBJECT

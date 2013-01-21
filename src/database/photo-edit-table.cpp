@@ -20,6 +20,8 @@
 #include <QSqlQuery>
 
 #include "photo-edit-table.h"
+#include "database/database.h"
+#include "photo/photo-edit-state.h"
 
 PhotoEditTable::PhotoEditTable(Database* db, QObject* parent)
     : QObject(parent), db_(db) {

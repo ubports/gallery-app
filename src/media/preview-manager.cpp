@@ -17,11 +17,13 @@
  * Jim Nelson <jim@yorba.org>
  */
 
+#include <QDir>
 #include <QMutexLocker>
 
-#include "media/preview-manager.h"
+#include "preview-manager.h"
 #include "core/gallery-manager.h"
 #include "media/media-collection.h"
+#include "photo/photo.h"
 
 const int PreviewManager::PREVIEW_WIDTH_MAX = 360;
 const int PreviewManager::PREVIEW_HEIGHT_MAX = 360;

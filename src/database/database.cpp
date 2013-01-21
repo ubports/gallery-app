@@ -19,8 +19,13 @@
  */
 
 #include "database.h"
+#include "album-table.h"
+#include "media-table.h"
+#include "photo-edit-table.h"
 #include "core/gallery-manager.h"
 #include "util/resource.h"
+
+#include <QFile>
 
 const QString Database::DATABASE_DIR = ".database";
 

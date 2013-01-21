@@ -21,9 +21,7 @@
 #define GALLERY_ALBUM_PAGE_H_
 
 #include <QObject>
-#include <QQmlListProperty>
 #include <QUrl>
-#include <QtQml>
 
 #include "album/album-template-page.h"
 #include "core/container-source.h"

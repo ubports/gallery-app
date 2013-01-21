@@ -19,14 +19,15 @@
 
 #include "media/media-source.h"
 
+#include "core/gallery-manager.h"
+#include "database/database.h"
+#include "database/media-table.h"
+#include "event/event.h"
 #include "event/event-collection.h"
-#include "media/media-collection.h"
 #include "media/preview-manager.h"
 #include "qml/gallery-standard-image-provider.h"
 #include "qml/gallery-thumbnail-image-provider.h"
-#include "database/database.h"
 #include "util/resource.h"
-#include "core/gallery-manager.h"
 
 MediaSource::MediaSource()  : id_(INVALID_ID)
 {
@@ -35,8 +36,6 @@ MediaSource::MediaSource()  : id_(INVALID_ID)
 MediaSource::MediaSource(const QFileInfo& file)  : id_(INVALID_ID)
 {
   file_ = file;
-  
-  SetInternalName(file_.completeBaseName());
 }
 
 void MediaSource::RegisterType() {

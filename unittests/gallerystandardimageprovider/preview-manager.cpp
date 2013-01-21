@@ -18,6 +18,8 @@
  *
  */
 
+#include <QDir>
+
 #include "media/preview-manager.h"
 
 const int PreviewManager::PREVIEW_WIDTH_MAX = 360;

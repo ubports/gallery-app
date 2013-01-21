@@ -21,17 +21,21 @@
  * Clint Rogers <clinton@yorba.org>
  */
 
-#include "photo/photo.h"
+#include <QApplication>
+#include <QFileInfo>
+#include <QImage>
+#include <QImageReader>
+#include <QImageWriter>
 
+#include "photo.h"
+#include "core/gallery-manager.h"
 #include "database/database.h"
-#include "media/preview-manager.h"
+#include "database/media-table.h"
+#include "database/photo-edit-table.h"
+#include "media/media-collection.h"
 #include "qml/gallery-standard-image-provider.h"
 #include "qml/gallery-thumbnail-image-provider.h"
 #include "util/imaging.h"
-#include "core/gallery-manager.h"
-
-#include <QFileInfo>
-#include <QImage>
 
 bool Photo::IsValid(const QFileInfo& file) {
   QImageReader reader(file.filePath());
@@ -144,7 +148,8 @@ Photo::Photo(const QFileInfo& file)
     saved_state_(),
     caches_(file),
     original_size_(),
-    original_orientation_(TOP_LEFT_ORIGIN) {
+    original_orientation_(TOP_LEFT_ORIGIN)
+{
   QByteArray format = QImageReader(file.filePath()).format();
   file_format_ = QString(format).toLower();
   if (file_format_ == "jpg") // Why does Qt expose two different names here?

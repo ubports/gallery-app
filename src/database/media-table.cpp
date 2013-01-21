@@ -17,11 +17,13 @@
  * Eric Gregory <eric@yorba.org>
  */
 
-#include "media-table.h"
-
 #include <QApplication>
 
-MediaTable::MediaTable(Database* db, QObject* parent) : QObject(parent), db_(db)
+#include "media-table.h"
+#include "database.h"
+
+MediaTable::MediaTable(Database* db, QObject* parent)
+    : QObject(parent), db_(db)
 {
 }
 

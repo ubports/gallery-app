@@ -41,7 +41,7 @@ class ContainerSource : public DataSource {
     const QSet<DataObject*>* removed);
   
  public:
-  ContainerSource(QObject * parent, const QString& name, DataObjectComparator comparator);
+  ContainerSource(QObject * parent, const QString &name, DataObjectComparator comparator);
   
   void Attach(DataObject* object);
   void AttachMany(const QSet<DataObject*>& objects);

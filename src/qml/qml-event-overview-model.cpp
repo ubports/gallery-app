@@ -17,13 +17,13 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "qml/qml-event-overview-model.h"
-#include "core/data-collection.h"
+#include "qml-event-overview-model.h"
+#include "core/data-object.h"
+#include "core/gallery-manager.h"
+#include "core/selectable-view-collection.h"
 #include "event/event.h"
 #include "event/event-collection.h"
-#include "media/media-source.h"
 #include "util/variants.h"
-#include "core/gallery-manager.h"
 
 QmlEventOverviewModel::QmlEventOverviewModel(QObject* parent)
   : QmlMediaCollectionModel(parent, DescendingComparator),

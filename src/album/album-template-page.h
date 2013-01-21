@@ -24,7 +24,6 @@
 #include <QObject>
 #include <QList>
 #include <QString>
-#include <QUrl>
 
 enum PageOrientation {
   PORTRAIT,

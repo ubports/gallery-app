@@ -17,8 +17,10 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "qml/qml-view-collection-model.h"
-
+#include "qml-view-collection-model.h"
+#include "core/container-source.h"
+#include "core/data-object.h"
+#include "core/selectable-view-collection.h"
 #include "util/variants.h"
 
 QmlViewCollectionModel::QmlViewCollectionModel(QObject* parent, const QString& objectTypeName,
