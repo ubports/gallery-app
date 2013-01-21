@@ -36,7 +36,6 @@
 #include "qml/qml-event-collection-model.h"
 #include "qml/qml-event-overview-model.h"
 #include "qml/qml-media-collection-model.h"
-#include "qml/qml-stack.h"
 #include "util/resource.h"
 #include "util/sharefile.h"
 
@@ -93,7 +92,6 @@ void GalleryApplication::register_qml() {
   QmlEventCollectionModel::RegisterType();
   QmlEventOverviewModel::RegisterType();
   QmlMediaCollectionModel::RegisterType();
-  QmlStack::RegisterType();
   ShareFile::RegisterType();
 }
 
