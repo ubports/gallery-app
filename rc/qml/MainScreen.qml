@@ -28,8 +28,6 @@ Item {
 
     signal albumSelected(variant album, variant thumbnailRect)
 
-    property Rectangle glass: overviewGlass
-
     anchors.fill: parent
 
     Tabs {
