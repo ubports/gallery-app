@@ -16,7 +16,7 @@
  * Authors:
  * Charles Lindsay <chaz@yorba.org>
  */
-#include <QGLWidget>
+
 #include <QString>
 #include <QUrl>
 #include <QString>
