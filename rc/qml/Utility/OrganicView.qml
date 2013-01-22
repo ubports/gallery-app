@@ -55,10 +55,6 @@ Item {
     maximumFlickVelocity: units.gu(250)
     flickDeceleration: maximumFlickVelocity * 0.667
 
-    // TODO: set cacheBuffer to some intelligent value so we cache the trays
-    // more predictably.
-    cacheBuffer: 6400
-
     // The OrganicMediaList only has a half margin at the top and bottom, since
     // when repeated that means a full margin between rows.  This pads it out
     // so we also get a full row on top and bottom of the whole bunch.

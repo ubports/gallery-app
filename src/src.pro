@@ -55,7 +55,6 @@ SOURCES += \
   qml/qml-event-collection-model.cpp \
   qml/qml-event-overview-model.cpp \
   qml/qml-media-collection-model.cpp \
-  qml/qml-stack.cpp \
   qml/qml-view-collection-model.cpp \
   util/imaging.cpp \
   util/resource.cpp \
@@ -98,7 +97,6 @@ HEADERS += \
   qml/qml-event-collection-model.h \
   qml/qml-event-overview-model.h \
   qml/qml-media-collection-model.h \
-  qml/qml-stack.h \
   qml/qml-view-collection-model.h \
   util/collections.h \
   util/imaging.h \

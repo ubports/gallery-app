@@ -91,11 +91,8 @@ Item {
     // setCurrentIndex() to initialize the view.
     property variant photo: null
     
-    property bool load: false
-    
     function setCurrentPhoto(photo) {
       setCurrentIndex(model.indexOf(photo));
-      load = true; // Load on first usage
     }
 
     function goBack() {
