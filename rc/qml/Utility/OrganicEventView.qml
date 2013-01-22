@@ -12,9 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- * Charles Lindsay <chaz@yorba.org>
  */
 
 import QtQuick 2.0
@@ -41,15 +38,6 @@ OrganicView {
     selection: SelectionState {
         // avoid entering selection mode by long-pressing on a photo:
         allowSelectionModeChange: false
-        onSelectedCountChanged: {
-            if (selection.selectedCount < 1) {
-                chromeBar.selectionModel.setProperty(0, "name", "disabled");
-                chromeBar.selectionModel.setProperty(1, "name", "disabled");
-            } else {
-                chromeBar.selectionModel.setProperty(0, "name", "add");
-                chromeBar.selectionModel.setProperty(1, "name", "delete");
-            }
-        }
     }
 
     model: EventCollectionModel {
@@ -91,118 +79,6 @@ OrganicView {
         }
     }
 
-    ChromeBar {
-        id: chromeBar
-        enabled: false
-        //        z: 100
-        anchors {
-            bottom: parent.bottom
-            left: parent.left
-            right: parent.right
-        }
-
-        property bool selectionMode: selection.inSelectionMode
-        alwaysVisible: selectionMode
-        showBackButton: selectionMode
-        backButtonIcon: Qt.resolvedUrl("../../img/cancel.png")
-        backButtonText: "Cancel"
-        onBackButtonClicked: leaveSelectionMode();
-
-        function leaveSelectionMode() {
-            // Set inSelectionMode instead of using leaveSelectionMode()
-            // because allowSelectionModeChange is false
-            selection.unselectAll();
-            selection.inSelectionMode = false;
-        }
-
-        buttonsModel: selectionMode ? selectionModel : overviewModel
-
-        property ListModel selectionModel: ListModel {
-            ListElement {
-                label: "Add"
-                name: "disabled"
-                icon: "../img/add.png"
-            }
-            ListElement {
-                label: "Delete"
-                name: "disabled"
-                icon: "../img/delete.png"
-            }
-            ListElement {
-                label: "Share"
-                name: "disabled"
-                icon: "../img/share.png"
-            }
-        }
-
-        property ListModel overviewModel: ListModel {
-            ListElement {
-                label: "Select"
-                name: "select"
-                icon: "../img/select.png"
-            }
-            ListElement {
-                label: "Import"
-                name: "disabled"
-                icon: "../img/import-image.png"
-            }
-            ListElement {
-                label: "Camera"
-                name: "camera"
-                icon: "../img/camera.png"
-            }
-        }
-        showChromeBar: true
-
-        Loader {
-            id: appManager
-            source: "../../../rc/Capetown/Widgets/UbuntuApplicationWrapper.qml"
-        }
-
-        onButtonClicked: {
-            switch (buttonName) {
-            case "select": {
-                // Set inSelectionMode instead of using tryEnterSelectionMode
-                // because allowSelectionModeChange is false.
-                selection.inSelectionMode = true;
-                break;
-            }
-            case "delete": {
-                deletePopover.caller = button;
-                deletePopover.show();
-                break;
-            }
-            case "add": {
-                var album = albumCollectionModel.createOrphan();
-                album.addSelectedMediaSources(selection.model);
-                albumCollectionModel.addOrphan(album);
-
-                // We can't use leaveSelectionMode() here, due to the fact that
-                // we're skirting around the proper use of the selection object.
-                selection.unselectAll();
-                selection.inSelectionMode = false;
-                break;
-            }
-            case "camera": {
-                if (appManager.status == Loader.Ready) appManager.item.switchToCameraApplication();
-                else console.log("Switching applications is not supported on this platform.");
-                break;
-            }
-            }
-        }
-
-        DeletePopover {
-            objectName: "eventsViewDeletePopover"
-            visible: false
-            id: deletePopover
-            onDeleteClicked: {
-                organicEventView.selection.model.destroySelectedMedia();
-                deletePopover.hide();
-                chromeBar.leaveSelectionMode();
-            }
-        }
-    }
-
     property Item overviewTools: Row {
         ChromeButton {
             text: "Select"
@@ -226,18 +102,60 @@ OrganicView {
                 else console.log("Switching applications is not supported on this platform.");
             }
         }
+        Loader {
+            id: appManager
+            source: "../../../rc/Capetown/Widgets/UbuntuApplicationWrapper.qml"
+        }
+    }
+
+    DeletePopover {
+        objectName: "eventsViewDeletePopover"
+        visible: false
+        id: deletePopover
+        onDeleteClicked: {
+            organicEventView.selection.model.destroySelectedMedia();
+            deletePopover.hide();
+            selectionTools.leaveSelectionMode();
+        }
     }
 
     property Item selectionTools: Row {
+        function leaveSelectionMode() {
+            // Set inSelectionMode instead of using leaveSelectionMode()
+            // because allowSelectionModeChange is false
+            selection.unselectAll();
+            selection.inSelectionMode = false;
+        }
+        ChromeButton { // TODO: This special button should go on the left
+            text: "Cancel"
+            icon: Qt.resolvedUrl("../../img/cancel.png")
+            onClicked: selectionTools.leaveSelectionMode()
+        }
         ChromeButton {
             text: "Add"
             icon: Qt.resolvedUrl("../../img/add.png")
-            enabled: false
+            enabled: selection.selectedCount > 0
+            onClicked: {
+                var album = albumCollectionModel.createOrphan();
+                album.addSelectedMediaSources(selection.model);
+                albumCollectionModel.addOrphan(album);
+
+                // We can't use leaveSelectionMode() here, due to the fact that
+                // we're skirting around the proper use of the selection object.
+                selection.unselectAll();
+                selection.inSelectionMode = false;
+            }
+
         }
         ChromeButton {
+            id: deleteButton
             text: "Delete"
             icon: Qt.resolvedUrl("../../img/delete.png")
-            enabled: false
+            enabled: selection.selectedCount > 0
+            onClicked: {
+                deletePopover.caller = deleteButton;
+                deletePopover.show();
+            }
         }
         ChromeButton {
             text: "Share"
@@ -252,8 +170,8 @@ OrganicView {
     onToolsChanged: print("tools changed to "+tools)
 
     Ubuntu.Toolbar {
+        id: toolbar
         page: organicEventView
         tools: organicEventView.tools
     }
-
 }
