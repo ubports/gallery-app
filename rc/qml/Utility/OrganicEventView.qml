@@ -126,11 +126,6 @@ OrganicView {
             selection.unselectAll();
             selection.inSelectionMode = false;
         }
-        ChromeButton { // TODO: This special button should go on the left
-            text: "Cancel"
-            icon: Qt.resolvedUrl("../../img/cancel.png")
-            onClicked: selectionTools.leaveSelectionMode()
-        }
         ChromeButton {
             text: "Add"
             icon: Qt.resolvedUrl("../../img/add.png")
@@ -173,5 +168,13 @@ OrganicView {
         id: toolbar
         page: organicEventView
         tools: organicEventView.tools
+
+        backButton: organicEventView.selectionMode ? cancelButton : null
+
+        property Item cancelButton: ChromeButton {
+            text: "Cancel"
+            icon: Qt.resolvedUrl("../../img/cancel.png")
+            onClicked: selectionTools.leaveSelectionMode()
+        }
     }
 }
