@@ -17,6 +17,7 @@ from goodhope.tests import GoodhopeTestCase
 
 from os.path import exists, expanduser
 import os
+import shutil
 
 from time import sleep
 
@@ -84,18 +85,18 @@ class TestPhotoViewer(GoodhopeTestCase):
         self.pointing_device.move_to_object(delete_item)
         self.pointing_device.click()
 
-        self.assertThat(lambda: exists("/var/crash/sample.jpg"), Eventually(Equals(False)))
+        self.assertThat(lambda: exists(self.sample_file), Eventually(Equals(False)))
 
         #Up until the last line above we are testing if the file got delete, now here we
         #are re-copying the sample.jpg file because it seems the addCleanup method in __init__
         #tries to remove the sample.jpg but if it does not find it the test fails. So this
         #"hack" saves us from that. --om26er
-        if exists("/usr/lib/python2.7/dist-packages/goodhope/data/sample.jpg"):
-            os.system("cp /usr/lib/python2.7/dist-packages/goodhope/data/sample.jpg /var/crash/")
+        if os.path.realpath(__file__).startswith("/usr/"):
+            shutil.copy(self.installed_sample_file, self.sample_dir)
         else:
-            os.system("cp goodhope/data/sample.jpg /var/crash/")
+            shutil.copy(self.local_sample_file, self.sample_dir)
 
-        self.assertThat(lambda: exists("/var/crash/sample.jpg"), Eventually(Equals(True)))
+        self.assertThat(lambda: exists(self.sample_file), Eventually(Equals(True)))
 
     # def test_nav_bar_album_picker_button(self):
     #     """Clicking the album picker must show the picker dialog."""
@@ -216,8 +217,7 @@ class TestPhotoEditor(GoodhopeTestCase):
 
         self.assertThat(crop_box.state, Eventually(Equals("shown")))
 
-        sample_location = os.path.expanduser("/var/crash/sample.jpg")
-        old_file_size = os.path.getsize(sample_location)
+        old_file_size = os.path.getsize(self.sample_file)
 
         crop_corner = self.photo_viewer.get_top_left_crop_corner()
 
@@ -235,7 +235,8 @@ class TestPhotoEditor(GoodhopeTestCase):
         self.pointing_device.move_to_object(crop_icon)
         self.pointing_device.click()
 
-        new_file_size = os.path.getsize(sample_location)
+        new_file_size = os.path.getsize(self.sample_file)
+
         self.assertThat(lambda: old_file_size > new_file_size, Eventually(Equals(True)))
 
     def test_photo_editor_case_1(self):
