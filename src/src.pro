@@ -1,5 +1,3 @@
-include(../coverage.pri)
-
 isEmpty(PREFIX) {
 	PREFIX = /usr/local
 }
@@ -15,6 +13,8 @@ OBJECTS_DIR = build
 RCC_DIR = build
 PKGCONFIG += exiv2
 DEFINES += QT_USE_QSTRINGBUILDER
+
+include(../coverage.pri)
 
 # Input
 
