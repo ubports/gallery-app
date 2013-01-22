@@ -8,6 +8,7 @@ Build-Depends: debhelper (>= 8.0.0),
                qt5-default,
                qtbase5-dev,
                qtdeclarative5-dev,
+               libqt5opengl5-dev,
                libgl-dev,
                libgles2-mesa-dev
 Standards-Version: 3.9.2
