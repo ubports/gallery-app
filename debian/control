@@ -17,7 +17,7 @@ Homepage: https://launchpad.net/goodhope
 Package: goodhope
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, 
-         qtdeclarative5-qtquick2-plugin
+         qtdeclarative5-qtquick2-plugin,
          libqt5sql5-sqlite,
          qt-components-ubuntu,
          qthybris [armel armhf]
