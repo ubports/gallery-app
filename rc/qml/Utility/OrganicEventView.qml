@@ -23,7 +23,7 @@ import "../../js/GalleryUtility.js" as GalleryUtility
 import "../../../rc/Capetown"
 import "../../../rc/Capetown/Widgets"
 import "../Widgets"
-
+import Ubuntu.Components 0.1 as Ubuntu // avoid name conflict until ChromeBar is deleted
 
 // An "organic" vertically-scrollable view of all events, each containing a
 // horizontally-scrollable "tray" of photos.
@@ -93,6 +93,7 @@ OrganicView {
 
     ChromeBar {
         id: chromeBar
+        enabled: false
         //        z: 100
         anchors {
             bottom: parent.bottom
@@ -201,4 +202,58 @@ OrganicView {
             }
         }
     }
+
+    property Item overviewTools: Row {
+        ChromeButton {
+            text: "Select"
+            icon: Qt.resolvedUrl("../../img/select.png")
+            onClicked: {
+                // Set inSelectionMode instead of using tryEnterSelectionMode
+                // because allowSelectionModeChange is false.
+                selection.inSelectionMode = true;
+            }
+        }
+        ChromeButton {
+            text: "Import"
+            icon: Qt.resolvedUrl("../../img/import-image.png")
+            enabled: false
+        }
+        ChromeButton {
+            text: "Camera"
+            icon: Qt.resolvedUrl("../../img/camera.png")
+            onClicked: {
+                if (appManager.status == Loader.Ready) appManager.item.switchToCameraApplication();
+                else console.log("Switching applications is not supported on this platform.");
+            }
+        }
+    }
+
+    property Item selectionTools: Row {
+        ChromeButton {
+            text: "Add"
+            icon: Qt.resolvedUrl("../../img/add.png")
+            enabled: false
+        }
+        ChromeButton {
+            text: "Delete"
+            icon: Qt.resolvedUrl("../../img/delete.png")
+            enabled: false
+        }
+        ChromeButton {
+            text: "Share"
+            icon: Qt.resolvedUrl("../../img/share.png")
+            enabled: false
+        }
+    }
+
+    property bool selectionMode: selection.inSelectionMode
+
+    property Item tools: selectionMode ? selectionTools : overviewTools
+    onToolsChanged: print("tools changed to "+tools)
+
+    Ubuntu.Toolbar {
+        page: organicEventView
+        tools: organicEventView.tools
+    }
+
 }
