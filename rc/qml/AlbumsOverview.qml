@@ -111,7 +111,8 @@ Checkerboard {
 
     onActivated: {
         albumViewer.album = object
-        albumViewerTransition.transitionToAlbumViewer(object, activatedRect);
+        albumViewer.origin = root.getRectOfAlbumPreview(object, albumViewer)
+        albumViewer.open()
     }
 
     Rectangle {
@@ -162,9 +163,9 @@ Checkerboard {
             // always.
             switch (name) {
             case "onEdit": {
-                albumEditor.editAlbum(album);
-                var thumbnailRect = root.getRectOfAlbumPreview(album, overview);
-                albumEditorTransition.enterEditor(album, thumbnailRect);
+                albumEditor.album = album
+                albumEditor.origin = root.getRectOfAlbumPreview(album, albumEditor)
+                albumEditor.open()
                 break;
             }
             case "onExport": break // TODO
@@ -227,75 +228,5 @@ Checkerboard {
         }
 
         onPopupInteractionCompleted: state = "hidden"
-    }
-
-    AlbumViewer {
-        id: albumViewer
-
-        anchors.fill: parent
-        visible: false
-
-        onCloseRequested: {
-            var thumbnailRect = root.getRectOfAlbumPreview(album, albumViewerTransition);
-            if (thumbnailRect) {
-                albumViewer.visible = false
-                albumViewerTransition.transitionFromAlbumViewer(
-                    album, thumbnailRect, stayOpen, viewingPage);
-            }
-        }
-    }
-
-    AlbumViewerTransition {
-        id: albumViewerTransition
-
-        anchors.fill: albumViewer
-        backgroundGlass: overviewGlass
-        isPortrait: application.isPortrait
-
-        onTransitionToAlbumViewerCompleted: {
-            albumViewer.visible = true
-        }
-    }
-
-    AlbumEditor {
-        id: albumEditor
-
-        anchors.fill: parent
-
-        visible: false
-
-        onMediaSelectorHidden: {
-            albumEditorCheckerboardHidden(newScrollPos);
-        }
-
-        onCloseRequested: {
-            if (album) {
-                if (enterViewer) {
-                    overview.albumSelected(album, null);
-                    albumEditorTransition.exitEditor(null, null);
-                } else {
-                    var thumbnailRect = root.getRectOfAlbumPreview(album, albumEditorTransition);
-                    albumEditorTransition.exitEditor(album, thumbnailRect);
-                }
-            } else {
-                albumEditorTransition.exitEditor(null, null);
-            }
-        }
-    }
-
-    AlbumEditorTransition {
-        id: albumEditorTransition
-
-        anchors.fill: parent
-
-        backgroundGlass: overviewGlass
-        editor: albumEditor
-    }
-
-    MouseArea {
-      id: transitionClickBlocker
-      anchors.fill: parent
-      enabled: albumViewerTransition.animationRunning || albumViewer.animationRunning
-                || albumEditorTransition.animationRunning || albumEditor.animationRunning
     }
 }
