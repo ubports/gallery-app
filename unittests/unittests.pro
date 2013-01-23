@@ -3,5 +3,5 @@ include(../coverage.pri)
 TEMPLATE = subdirs
 SUBDIRS += \
     gallerythumbnailimageprovider \
-    gallerystandardimageprovider
-
+    gallerystandardimageprovider \
+    resource
