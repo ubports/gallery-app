@@ -27,8 +27,6 @@ Item {
     id: overview
     objectName: "overview"
 
-    signal albumSelected(variant album, variant thumbnailRect)
-
     anchors.fill: parent
 
     Tabs {
@@ -54,6 +52,7 @@ Item {
                 id: albumsCheckerboardLoader
                 objectName: "albumsCheckerboardLoader"
                 anchors.fill: parent
+                asynchronous: true
                 function load() {
                     if (source == "")
                         source = "AlbumsOverview.qml"
@@ -99,6 +98,16 @@ Item {
             }
           }
         }
+    }
+
+    AlbumViewerAnimated {
+        id: albumViewer
+        anchors.fill: parent
+    }
+
+    AlbumEditorAnimated {
+        id: albumEditor
+        anchors.fill: parent
     }
 
     Loader {
