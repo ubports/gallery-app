@@ -19,19 +19,30 @@
 
 #include "photo/photo-edit-state.h"
 
+/*!
+ * \brief PhotoEditState::rotate_crop_rectangle
+ * Returns a new crop rectangle oriented with the new_orientation.  Note that
+ * image_width/height must be specified in this PhotoEditState's orientation,
+ * not the new_orientation.
+ *
+ * TODO: this code could be significantly simplified since
+ *       OrientationCorrection objects can be asked to provide a QTransform
+ *       encoding the required correction transformation. Since QTransform
+ *       objects can act directly on QRects and QRectFs, this function
+ *       doesn't really need the image_width and image_height. It should
+ *       be possible to simply invert the QTransform associated with the
+ *       old correction, apply it to the crop_rectangle_ QRect and then
+ *       apply the QTransform associated with new_correction to the result.
+ * \param new_orientation
+ * \param image_width
+ * \param image_height
+ * \return
+ */
 QRect PhotoEditState::rotate_crop_rectangle(Orientation new_orientation,
                                             int image_width,
-                                            int image_height) const {
-  
-  // TODO: this code could be significantly simplified since
-  //       OrientationCorrection objects can be asked to provide a QTransform
-  //       encoding the required correction transformation. Since QTransform
-  //       objects can act directly on QRects and QRectFs, this function
-  //       doesn't really need the image_width and image_height. It should
-  //       be possible to simply invert the QTransform associated with the
-  //       old correction, apply it to the crop_rectangle_ QRect and then
-  //       apply the QTransform associated with new_correction to the result.
-  
+                                            int image_height) const
+{
+
   OrientationCorrection old_correction =
       OrientationCorrection::FromOrientation(orientation_);
   OrientationCorrection new_correction =

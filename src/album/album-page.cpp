@@ -24,50 +24,108 @@
 #include "util/resource.h"
 #include "core/gallery-manager.h"
 
+/*!
+ * \brief AlbumPage::AlbumPage
+ * \param parent
+ */
 AlbumPage::AlbumPage(QObject * parent)
   : ContainerSource(parent, "AlbumPage", MediaCollection::ExposureDateTimeAscendingComparator),
-   owner_(NULL), page_number_(-1), template_page_(NULL) {
+   owner_(NULL), page_number_(-1), template_page_(NULL)
+{
 }
 
+/*!
+ * \brief AlbumPage::AlbumPage
+ * \param owner
+ */
 AlbumPage::AlbumPage(Album* owner)
   : ContainerSource(owner, "AlbumPage", MediaCollection::ExposureDateTimeAscendingComparator),
-  owner_(owner), page_number_(-1), template_page_(NULL) {
+  owner_(owner), page_number_(-1), template_page_(NULL)
+{
 }
 
+/*!
+ * \brief AlbumPage::AlbumPage
+ * \param owner
+ * \param page_number
+ * \param template_page
+ */
 AlbumPage::AlbumPage(Album* owner, int page_number, AlbumTemplatePage* template_page)
   : ContainerSource(owner, "AlbumPage", MediaCollection::ExposureDateTimeAscendingComparator),
-  owner_(owner), page_number_(page_number), template_page_(template_page) {
+  owner_(owner), page_number_(page_number), template_page_(template_page)
+{
 }
 
-void AlbumPage::RegisterType() {
+/*!
+ * \brief AlbumPage::RegisterType
+ */
+void AlbumPage::RegisterType()
+{
   qmlRegisterType<AlbumPage>("Gallery", 1, 0, "AlbumPage");
 }
 
-int AlbumPage::page_number() const {
+/*!
+ * \brief AlbumPage::page_number
+ * \return
+ */
+int AlbumPage::page_number() const
+{
   return page_number_;
 }
 
-AlbumTemplatePage* AlbumPage::template_page() const {
+/*!
+ * \brief AlbumPage::template_page
+ * \return
+ */
+AlbumTemplatePage* AlbumPage::template_page() const
+{
   return template_page_;
 }
 
-QUrl AlbumPage::qml_rc() const {
+/*!
+ * \brief AlbumPage::qml_rc
+ * \return
+ */
+QUrl AlbumPage::qml_rc() const
+{
   return GalleryManager::GetInstance()->resource()->get_rc_url(template_page_->qml_rc());
 }
 
-QQmlListProperty<MediaSource> AlbumPage::qml_media_source_list() {
+/*!
+ * \brief AlbumPage::qml_media_source_list
+ * \return
+ */
+QQmlListProperty<MediaSource> AlbumPage::qml_media_source_list()
+{
   return QQmlListProperty<MediaSource>(this, source_list_);
 }
 
-QVariant AlbumPage::qml_owner() const {
+/*!
+ * \brief AlbumPage::qml_owner
+ * \return
+ */
+QVariant AlbumPage::qml_owner() const
+{
   return QVariant::fromValue(owner_);
 }
 
-void AlbumPage::DestroySource(bool destroy_backing, bool as_orphan) {
+/*!
+ * \brief AlbumPage::DestroySource \reimp
+ * \param destroy_backing
+ * \param as_orphan
+ */
+void AlbumPage::DestroySource(bool destroy_backing, bool as_orphan)
+{
 }
 
+/*!
+ * \brief AlbumPage::notify_container_contents_altered
+ * \param added
+ * \param removed
+ */
 void AlbumPage::notify_container_contents_altered(const QSet<DataObject *> *added,
-  const QSet<DataObject *> *removed) {
+  const QSet<DataObject *> *removed)
+{
   ContainerSource::notify_container_contents_altered(added, removed);
   
   // TODO: Can be done smarter using the added and removed; this will do for now

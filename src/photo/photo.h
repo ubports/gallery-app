@@ -30,7 +30,11 @@
 #include "photo/photo-edit-state.h"
 #include "photo/photo-caches.h"
 
-class Photo : public MediaSource {
+/*!
+ * \brief The Photo class
+ */
+class Photo : public MediaSource
+{
   Q_OBJECT
 
   // A simple class for dealing with an undo-/redo-able stack of applied edits.
@@ -77,14 +81,8 @@ class Photo : public MediaSource {
  public:
   static bool IsValid(const QFileInfo& file);
   
-  // Loads a photo object from the given file.  If it's not already
-  // present in the database, it will be added.  If the file is not
-  // valid return null.
   static Photo* Load(const QFileInfo& file);
   
-  // Loads a photo object from the given file and generates a thumbnail for it
-  // if and only if it hasn't already been loaded; otherwise, it attempts to
-  // return the existing object instead. Uses Photo.Load() to do its work.
   static Photo* Fetch(const QFileInfo& file);
 
   explicit Photo(const QFileInfo& file);
@@ -98,8 +96,6 @@ class Photo : public MediaSource {
   virtual QUrl gallery_preview_path() const;
   virtual QUrl gallery_thumbnail_path() const;
 
-  // The "base state" is the PhotoEditState of the file when Gallery starts.
-  // It's the bottom of the undo stack.  Comes from the DB.
   void set_base_edit_state(const PhotoEditState& base);
 
   Q_INVOKABLE void saveState();
@@ -109,12 +105,8 @@ class Photo : public MediaSource {
   Q_INVOKABLE void redo();
   Q_INVOKABLE void rotateRight();
   Q_INVOKABLE void autoEnhance();
-  // Edits the image to original size so you can recrop it.  Returns crop
-  // coords in [0,1].  Should be followed by either cancelCropping() or crop().
   Q_INVOKABLE QVariant prepareForCropping();
   Q_INVOKABLE void cancelCropping();
-  // You should call prepareForCropping() before calling this.  Specify all
-  // coords in [0,1].
   Q_INVOKABLE void crop(QVariant vrect);
 
  protected:
@@ -122,7 +114,6 @@ class Photo : public MediaSource {
   
  private:
   const PhotoEditState& current_state() const;
-  // Returns the original image size translated to the desired orientation.
   QSize get_original_size(Orientation orientation);
   void make_undoable_edit(const PhotoEditState& state);
   void save(const PhotoEditState& state, Orientation old_orientation);

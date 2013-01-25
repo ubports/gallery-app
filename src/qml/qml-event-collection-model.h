@@ -28,7 +28,11 @@
 
 class DataObject;
 
-class QmlEventCollectionModel : public QmlViewCollectionModel {
+/*!
+ * \brief The QmlEventCollectionModel class
+ */
+class QmlEventCollectionModel : public QmlViewCollectionModel
+{
   Q_OBJECT
   
  public:

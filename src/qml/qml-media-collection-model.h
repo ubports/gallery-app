@@ -29,7 +29,11 @@
 
 class DataObject;
 
-class QmlMediaCollectionModel : public QmlViewCollectionModel {
+/*!
+ * \brief The QmlMediaCollectionModel class
+ */
+class QmlMediaCollectionModel : public QmlViewCollectionModel
+{
   Q_OBJECT
   Q_PROPERTY(bool monitored READ monitored WRITE set_monitored
     NOTIFY monitoring_changed)

@@ -31,18 +31,23 @@
 #include "core/container-source.h"
 #include "media/media-source.h"
 
-// Note about page numbers: the first page (number 0) is the front cover.  It
-// always shows up on the right side of the spread.  The first "content" page
-// is number 1, and it shows up on the left.  There are always an even number
-// of content pages.  The last page (after the last content page) is the back
-// cover, which always shows up on the left.  You can use first/lastContentPage
-// and total/contentPageCount to avoid off-by-one errors.
-//
-// Note about "current page number": the current page is the page on the left
-// of the current spread.  This means that when the album is closed,
-// currentPage is actually -1 (since the cover on the right is page 0).
-// You can use first/lastValidCurrentPage to avoid off-by-one errors.
-class Album : public ContainerSource {
+/*!
+ * \brief The AlbumTemplate class
+
+ Note about page numbers: the first page (number 0) is the front cover.  It
+ always shows up on the right side of the spread.  The first "content" page
+ is number 1, and it shows up on the left.  There are always an even number
+ of content pages.  The last page (after the last content page) is the back
+ cover, which always shows up on the left.  You can use first/lastContentPage
+ and total/contentPageCount to avoid off-by-one errors.
+
+ Note about "current page number": the current page is the page on the left
+ of the current spread.  This means that when the album is closed,
+ currentPage is actually -1 (since the cover on the right is page 0).
+ You can use first/lastValidCurrentPage to avoid off-by-one errors.
+ */
+class Album : public ContainerSource
+{
   Q_OBJECT
   Q_PROPERTY(QString title READ title WRITE set_title NOTIFY title_altered)
   Q_PROPERTY(QString subtitle READ subtitle WRITE set_subtitle NOTIFY subtitle_altered)
@@ -127,10 +132,8 @@ class Album : public ContainerSource {
   QString cover_nickname() const;
   void set_cover_nickname(QString name);
   
-  // Returns a SourceCollection representing all AlbumPages held by this Album
   SourceCollection* content_pages();
   
-  // Returns NULL if page number is beyond bounds
   AlbumPage* GetPage(int page) const;
   
   QQmlListProperty<AlbumPage> qml_pages();
@@ -150,9 +153,6 @@ class Album : public ContainerSource {
   int content_to_absolute_page(int content_page) const;
   int absolute_to_content_page(int absolute_page) const;
   
-  // Creates the "add photos" pages for an empty album
-  // Note: make sure the album is empty before calling this.  No page count
-  // alterated signal is fired by this function.
   void create_add_photos_page();
   
  private slots:

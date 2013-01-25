@@ -19,36 +19,76 @@
 
 #include "core/selectable-view-collection.h"
 
+/*!
+ * \brief SelectableViewCollection::SelectableViewCollection
+ * \param name
+ */
 SelectableViewCollection::SelectableViewCollection(const QString& name)
-  : ViewCollection(name), monitoring_selection_(NULL) {
+  : ViewCollection(name), monitoring_selection_(NULL)
+{
 }
 
+/*!
+ * \brief SelectableViewCollection::notify_contents_to_be_altered
+ * \param added
+ * \param removed
+ */
 void SelectableViewCollection::notify_contents_to_be_altered(const QSet<DataObject*>* added,
-  const QSet<DataObject*>* removed) {
+  const QSet<DataObject*>* removed)
+{
   if (removed != NULL)
     UnselectMany(*removed);
 
   ViewCollection::notify_contents_to_be_altered(added, removed);
 }
 
+/*!
+ * \brief SelectableViewCollection::notify_selection_altered
+ * \param selected
+ * \param unselected
+ */
 void SelectableViewCollection::notify_selection_altered(QSet<DataObject*>* selected,
-  QSet<DataObject*>* unselected) {
+  QSet<DataObject*>* unselected)
+{
   emit selection_altered(selected, unselected);
 }
 
-bool SelectableViewCollection::IsSelected(DataObject* object) const {
+/*!
+ * \brief SelectableViewCollection::IsSelected
+ * \param object
+ * \return
+ */
+bool SelectableViewCollection::IsSelected(DataObject* object) const
+{
   return selected_.contains(object);
 }
 
-const QSet<DataObject*>& SelectableViewCollection::GetSelected() const {
+/*!
+ * \brief SelectableViewCollection::GetSelected
+ * \return
+ */
+const QSet<DataObject*>& SelectableViewCollection::GetSelected() const
+{
   return selected_;
 }
 
-int SelectableViewCollection::SelectedCount() const {
+/*!
+ * \brief SelectableViewCollection::SelectedCount
+ * \return
+ */
+int SelectableViewCollection::SelectedCount() const
+{
   return selected_.count();
 }
 
-bool SelectableViewCollection::Select(DataObject* object) {
+/*!
+ * \brief SelectableViewCollection::Select
+ * \param object
+ * \return Returns true if the selection state of the DataObject changed, false if already
+ * selected or not in collection.
+ */
+bool SelectableViewCollection::Select(DataObject* object)
+{
   if (!Contains(object) || selected_.contains(object))
     return false;
   
@@ -62,7 +102,14 @@ bool SelectableViewCollection::Select(DataObject* object) {
   return true;
 }
 
-bool SelectableViewCollection::Unselect(DataObject* object) {
+/*!
+ * \brief SelectableViewCollection::Unselect
+ * \param object
+ * \return Returns true if the selection state of the DataObject changed, false if already selected
+ * or not in collection.
+ */
+bool SelectableViewCollection::Unselect(DataObject* object)
+{
   if (!Contains(object) || !selected_.contains(object))
     return false;
   
@@ -78,15 +125,32 @@ bool SelectableViewCollection::Unselect(DataObject* object) {
   return true;
 }
 
-bool SelectableViewCollection::ToggleSelect(DataObject* object) {
+/*!
+ * \brief SelectableViewCollection::ToggleSelect
+ * \param object
+ * \return Returns false if not in collection
+ */
+bool SelectableViewCollection::ToggleSelect(DataObject* object)
+{
   return IsSelected(object) ? Unselect(object) : Select(object);
 }
 
-int SelectableViewCollection::SelectAll() {
+/*!
+ * \brief SelectableViewCollection::SelectAll
+ * \return Returns the number of items selected (that weren't selected before)
+ */
+int SelectableViewCollection::SelectAll()
+{
   return SelectMany(GetAsSet());
 }
 
-int SelectableViewCollection::SelectMany(const QSet<DataObject*>& select) {
+/*!
+ * \brief SelectableViewCollection::SelectMany
+ * \param select
+ * \return Returns the number of items selected (that weren't selected before)
+ */
+int SelectableViewCollection::SelectMany(const QSet<DataObject*>& select)
+{
   // Only select objects not already selected
   QSet<DataObject*> selected;
   DataObject* object;
@@ -103,7 +167,12 @@ int SelectableViewCollection::SelectMany(const QSet<DataObject*>& select) {
   return selected.count();
 }
 
-int SelectableViewCollection::UnselectAll() {
+/*!
+ * \brief SelectableViewCollection::UnselectAll
+ * \return Returns the number of items unselected (that weren't unselected before)
+ */
+int SelectableViewCollection::UnselectAll()
+{
   if (selected_.count() == 0)
     return 0;
   
@@ -118,7 +187,13 @@ int SelectableViewCollection::UnselectAll() {
   return unselected.count();
 }
 
-int SelectableViewCollection::UnselectMany(const QSet<DataObject*>& unselect) {
+/*!
+ * \brief SelectableViewCollection::UnselectMany
+ * \param unselect
+ * \return Returns the number of items unselected (that weren't unselected before)
+ */
+int SelectableViewCollection::UnselectMany(const QSet<DataObject*>& unselect)
+{
   QSet<DataObject*> unselected;
   DataObject* object;
   foreach (object, unselect) {
@@ -134,7 +209,12 @@ int SelectableViewCollection::UnselectMany(const QSet<DataObject*>& unselect) {
   return unselected.count();
 }
 
-void SelectableViewCollection::MonitorSelectionState(SelectableViewCollection* view) {
+/*!
+ * \brief SelectableViewCollection::MonitorSelectionState
+ * \param view
+ */
+void SelectableViewCollection::MonitorSelectionState(SelectableViewCollection* view)
+{
   StopMonitoringSelectionState();
 
   if (view == NULL)
@@ -148,7 +228,11 @@ void SelectableViewCollection::MonitorSelectionState(SelectableViewCollection* v
     SLOT(on_monitoring_selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)));
 }
 
-void SelectableViewCollection::StopMonitoringSelectionState() {
+/*!
+ * \brief SelectableViewCollection::StopMonitoringSelectionState
+ */
+void SelectableViewCollection::StopMonitoringSelectionState()
+{
   if (monitoring_selection_ == NULL)
     return;
 
@@ -160,12 +244,23 @@ void SelectableViewCollection::StopMonitoringSelectionState() {
   monitoring_selection_ = NULL;
 }
 
-bool SelectableViewCollection::isMonitoringSelectionState() {
+/*!
+ * \brief SelectableViewCollection::isMonitoringSelectionState
+ * \return
+ */
+bool SelectableViewCollection::isMonitoringSelectionState()
+{
   return (monitoring_selection_ != NULL);
 }
 
+/*!
+ * \brief SelectableViewCollection::on_monitoring_selection_altered
+ * \param selected
+ * \param unselected
+ */
 void SelectableViewCollection::on_monitoring_selection_altered(
-  const QSet<DataObject*>* selected, const QSet<DataObject*>* unselected) {
+  const QSet<DataObject*>* selected, const QSet<DataObject*>* unselected)
+{
   if (selected != NULL)
     SelectMany(*selected);
 

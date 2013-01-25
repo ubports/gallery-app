@@ -28,8 +28,13 @@
 #include "database/database.h"
 #include "database/media-table.h"
 
+/*!
+ * \brief MediaCollection::MediaCollection
+ * \param directory
+ */
 MediaCollection::MediaCollection(const QDir& directory)
-  : SourceCollection("MediaCollection"), directory_(directory) {
+  : SourceCollection("MediaCollection"), directory_(directory)
+{
   directory_.setFilter(QDir::Files);
   directory_.setSorting(QDir::Name);
   
@@ -58,16 +63,28 @@ MediaCollection::MediaCollection(const QDir& directory)
   AddMany(photos);
 }
 
-const QDir& MediaCollection::directory() const {
+/*!
+ * \brief MediaCollection::directory
+ * \return
+ */
+const QDir& MediaCollection::directory() const
+{
   return directory_;
 }
 
-// NOTE: this comparator function expects the API contract of
-//       DataObject::number() to return the same value for the same logical
-//       data object across invocations of Gallery. Right now, this contract
-//       is tenuously maintained. See the TODO item in DataObject.h.
+/*!
+ * \brief MediaCollection::ExposureDateTimeAscendingComparator
+ * NOTE: this comparator function expects the API contract of
+ *       DataObject::number() to return the same value for the same logical
+ *       data object across invocations of Gallery. Right now, this contract
+ *       is tenuously maintained. See the TODO item in DataObject.h.
+ * \param a
+ * \param b
+ * \return
+ */
 bool MediaCollection::ExposureDateTimeAscendingComparator(DataObject* a,
-  DataObject* b) {
+  DataObject* b)
+{
   QDateTime exptime_a = qobject_cast<MediaSource*>(a)->exposure_date_time();
   QDateTime exptime_b = qobject_cast<MediaSource*>(b)->exposure_date_time();
 
@@ -76,18 +93,36 @@ bool MediaCollection::ExposureDateTimeAscendingComparator(DataObject* a,
     (exptime_a < exptime_b);
 }
 
+/*!
+ * \brief MediaCollection::ExposureDateTimeDescendingComparator
+ * \param a
+ * \param b
+ * \return
+ */
 bool MediaCollection::ExposureDateTimeDescendingComparator(DataObject* a,
-  DataObject* b) {
+  DataObject* b)
+{
   return !ExposureDateTimeAscendingComparator(a, b);
 }
 
-MediaSource* MediaCollection::mediaForId(qint64 id) {
+/*!
+ * \brief MediaCollection::mediaForId Returns a media object for a row id.
+ * \param id
+ * \return Returns a media object for a row id.
+ */
+MediaSource* MediaCollection::mediaForId(qint64 id)
+{
   return id_map_.contains(id) ? qobject_cast<MediaSource*>(id_map_[id]) : NULL;
 }
 
+/*!
+ * \brief MediaCollection::notify_contents_altered
+ * \param added
+ * \param removed
+ */
 void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
-  const QSet<DataObject*>* removed) {
-  
+  const QSet<DataObject*>* removed)
+{
   SourceCollection::notify_contents_altered(added, removed);
   
   // Track IDs of objects as they're added and removed.
@@ -125,6 +160,15 @@ void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
   }
 }
 
-Photo* MediaCollection::photoFromFileinfo(QFileInfo file_to_load) {
+/*!
+ * \brief MediaCollection::photoFromFileinfo
+ * Returns an existing photo object if we've already loaded one
+ * for this file, or NULL otherwise. Used for preventing duplicates
+ * from appearing after an edit.
+ * \param file_to_load
+ * \return
+ */
+Photo* MediaCollection::photoFromFileinfo(QFileInfo file_to_load)
+{
   return file_photo_map_.value(file_to_load.absoluteFilePath(), NULL);
 }

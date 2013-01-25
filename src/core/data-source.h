@@ -17,6 +17,13 @@
  * Jim Nelson <jim@yorba.org>
  */
 
+#ifndef GALLERY_DATA_SOURCE_H_
+#define GALLERY_DATA_SOURCE_H_
+
+#include "core/data-object.h"
+
+class SourceCollection;
+
 /**
   * A DataSource represents a primary source of a valued resource, content,
   * or organizational structure in the application.  In general, DataSources
@@ -44,15 +51,8 @@
   * the system, but the representations may come and go as the user operates
   * the application.
   */
-
-#ifndef GALLERY_DATA_SOURCE_H_
-#define GALLERY_DATA_SOURCE_H_
-
-#include "core/data-object.h"
-
-class SourceCollection;
-
-class DataSource : public DataObject {
+class DataSource : public DataObject
+{
   Q_OBJECT
   
  signals:
@@ -64,32 +64,24 @@ class DataSource : public DataObject {
   
   friend class SourceCollection;
   
-  // Returns NULL if not a member of any SourceCollection (i.e. is orphaned).
   SourceCollection* member_of() const;
   
-  // Used to destroy a DataSource that is not a member of a SourceCollection;
-  // use SourceCollection.Destroy() / DestroyAll() for DataSources attached
-  // to one.
   virtual void DestroyOrphan(bool destroy_backing);
   
  protected:
   virtual void notify_destroying(bool destroying_backing, bool as_orphan);
   virtual void notify_destroyed(bool destroyed_backing, bool as_orphan);
   
-  // This is only called by SourceCollection.
   virtual void Destroy(bool destroy_backing);
   
-  // DataSource subclasses need to implement this by performing clean-up
-  // work prior to being removed from the system ... if destroy_backing is
-  // true, the backing (file, database row, etc.) should be erased as well.
+  /// DataSource subclasses need to implement this by performing clean-up
+  /// work prior to being removed from the system ... if destroy_backing is
+  /// true, the backing (file, database row, etc.) should be erased as well.
   virtual void DestroySource(bool destroy_backing, bool as_orphan) = 0;
   
  private:
   SourceCollection *membership_;
   
-  // Set to NULL if no longer a member of a DataCollection.  Will assert if
-  // membership to a non-null DataCollection is set while already a member of
-  // another collection.
   void set_membership(SourceCollection* collection);
 };
 

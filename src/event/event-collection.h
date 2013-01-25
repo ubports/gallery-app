@@ -30,7 +30,11 @@ class DataObject;
 class Event;
 class MediaSource;
 
-class EventCollection : public SourceCollection {
+/*!
+ * \brief The EventCollection class
+ */
+class EventCollection : public SourceCollection
+{
   Q_OBJECT
   
  signals:

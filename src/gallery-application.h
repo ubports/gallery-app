@@ -29,7 +29,11 @@
 class GalleryManager;
 class MediaMonitor;
 
-class GalleryApplication : public QApplication {
+/*!
+ * \brief The GalleryApplication class
+ */
+class GalleryApplication : public QApplication
+{
   Q_OBJECT
 
  public:
@@ -40,10 +44,8 @@ class GalleryApplication : public QApplication {
   
   static GalleryApplication* instance();
   
-  // register objects' ownership (QML/Javascript vs. C++)
   void setObjectOwnership(QObject* object, QQmlEngine::ObjectOwnership ownership);
 
-  // Used for content sharing.
   Q_INVOKABLE bool run_command(const QString &cmd, const QString &arg);
 
   QHash<QString, QSize>* form_factors() { return &form_factors_; }

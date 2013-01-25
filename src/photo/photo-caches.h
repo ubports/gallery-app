@@ -24,11 +24,16 @@
 #include <QFileInfo>
 #include <QFile>
 
-// An abstraction around the various files we keep in addition to the photo
-// file itself: the original, the pristine version of the file without any
-// applied edits; and the enhanced, a version of the original with auto-enhance
-// applied to it (necessary because of how slow auto-enhance is).
-class PhotoCaches {
+/*!
+ * \brief The PhotoCaches class
+ *
+ * An abstraction around the various files we keep in addition to the photo
+ * file itself: the original, the pristine version of the file without any
+ * applied edits; and the enhanced, a version of the original with auto-enhance
+ * applied to it (necessary because of how slow auto-enhance is).
+ */
+class PhotoCaches
+{
  public:
   static const QString ORIGINAL_DIR;
   static const QString ENHANCED_DIR;
@@ -41,23 +46,11 @@ class PhotoCaches {
   const QFileInfo& original_file() const;
   const QFileInfo& enhanced_file() const;
 
-  // Returns original_file() if it exists; otherwise, returns the file passed
-  // to the constructor.
   const QFileInfo& pristine_file() const;
 
-  // Moves the pristine file into .original so we don't mess it up.  Note that
-  // this potentially removes the main file, so it must be followed by a copy
-  // from original (or elsewhere) back to the file.
   bool cache_original();
-
-  // Moves the file out of .original, overwriting the main file.  Note that
-  // this removes the .original file.
   bool restore_original();
-
-  // Copies the file in .original to .enhanced so it can then be enhanced.
   bool cache_enhanced_from_original();
-
-  // Tries to overwrite the file from one of its cached versions.
   bool overwrite_from_cache(bool prefer_enhanced);
 
   void discard_cached_original();

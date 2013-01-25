@@ -19,12 +19,24 @@
 
 #include "core/view-collection.h"
 
+/*!
+ * \brief ViewCollection::ViewCollection
+ * \param name
+ */
 ViewCollection::ViewCollection(const QString& name)
-  : DataCollection(name), monitoring_(NULL), monitor_filter_(NULL), monitor_ordering_(false) {
+  : DataCollection(name), monitoring_(NULL), monitor_filter_(NULL), monitor_ordering_(false)
+{
 }
 
+/*!
+ * \brief ViewCollection::MonitorDataCollection
+ * \param collection
+ * \param filter
+ * \param monitor_ordering
+ */
 void ViewCollection::MonitorDataCollection(const DataCollection* collection,
-  SourceFilter filter, bool monitor_ordering) {
+  SourceFilter filter, bool monitor_ordering)
+{
   Q_ASSERT(collection != NULL);
   
   // TODO: Allow for monitoring to be halted
@@ -56,11 +68,20 @@ void ViewCollection::MonitorDataCollection(const DataCollection* collection,
   on_monitored_contents_altered(&all, NULL);
 }
 
-bool ViewCollection::IsMonitoring() const {
+/*!
+ * \brief ViewCollection::IsMonitoring
+ * \return
+ */
+bool ViewCollection::IsMonitoring() const
+{
   return monitoring_ != NULL;
 }
 
-void ViewCollection::notify_ordering_altered() {
+/*!
+ * \brief ViewCollection::notify_ordering_altered
+ */
+void ViewCollection::notify_ordering_altered()
+{
   if (monitor_ordering_)
     qWarning("ViewCollection monitoring a DataCollection's ordering changed "
       "its own comparator: this is unstable");
@@ -68,8 +89,14 @@ void ViewCollection::notify_ordering_altered() {
   DataCollection::notify_ordering_altered();
 }
 
+/*!
+ * \brief ViewCollection::on_monitored_contents_altered
+ * \param added
+ * \param removed
+ */
 void ViewCollection::on_monitored_contents_altered(const QSet<DataObject*>* added,
-  const QSet<DataObject*>* removed) {
+  const QSet<DataObject*>* removed)
+{
   if (added != NULL) {
     // if no filter, add everything, otherwise run everything through the filter
     if (monitor_filter_ == NULL) {
@@ -90,7 +117,11 @@ void ViewCollection::on_monitored_contents_altered(const QSet<DataObject*>* adde
     RemoveMany(*removed);
 }
 
-void ViewCollection::on_monitored_ordering_altered() {
+/*!
+ * \brief ViewCollection::on_monitored_ordering_altered
+ */
+void ViewCollection::on_monitored_ordering_altered()
+{
   // simply re-sort the local collection with the monitored collection's new
   // comparator
   SetComparator(monitoring_->comparator());

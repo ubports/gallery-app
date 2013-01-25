@@ -24,38 +24,78 @@
 const QString PhotoCaches::ORIGINAL_DIR = ".original";
 const QString PhotoCaches::ENHANCED_DIR = ".enhanced";
 
+/*!
+ * \brief PhotoCaches::PhotoCaches
+ * \param file
+ */
 PhotoCaches::PhotoCaches(const QFileInfo& file) : file_(file),
     original_file_(file.dir(),
                    QString("%1/%2").arg(ORIGINAL_DIR).arg(file.fileName())),
     enhanced_file_(file.dir(),
-                   QString("%1/%2").arg(ENHANCED_DIR).arg(file.fileName())) {
+                   QString("%1/%2").arg(ENHANCED_DIR).arg(file.fileName()))
+{
   // We always want our file checks to hit the disk.
   file_.setCaching(false);
   original_file_.setCaching(false);
   enhanced_file_.setCaching(false);
 }
 
-bool PhotoCaches::has_cached_original() const {
+/*!
+ * \brief PhotoCaches::has_cached_original
+ * \return
+ */
+bool PhotoCaches::has_cached_original() const
+{
   return original_file_.exists();
 }
 
-bool PhotoCaches::has_cached_enhanced() const {
+/*!
+ * \brief PhotoCaches::has_cached_enhanced
+ * \return
+ */
+bool PhotoCaches::has_cached_enhanced() const
+{
   return enhanced_file_.exists();
 }
 
-const QFileInfo& PhotoCaches::original_file() const {
+/*!
+ * \brief PhotoCaches::original_file
+ * \return
+ */
+const QFileInfo& PhotoCaches::original_file() const
+{
   return original_file_;
 }
 
-const QFileInfo& PhotoCaches::enhanced_file() const {
+/*!
+ * \brief PhotoCaches::enhanced_file
+ * \return
+ */
+const QFileInfo& PhotoCaches::enhanced_file() const
+{
   return enhanced_file_;
 }
 
-const QFileInfo& PhotoCaches::pristine_file() const {
+/*!
+ * \brief PhotoCaches::pristine_file
+ * Returns original_file() if it exists; otherwise, returns the file passed
+ * to the constructor.
+ * \return
+ */
+const QFileInfo& PhotoCaches::pristine_file() const
+{
   return (has_cached_original() ? original_file_ : file_);
 }
 
-bool PhotoCaches::cache_original() {
+/*!
+ * \brief PhotoCaches::cache_original
+ * Moves the pristine file into .original so we don't mess it up.  Note that
+ * this potentially removes the main file, so it must be followed by a copy
+ * from original (or elsewhere) back to the file.
+ * \return
+ */
+bool PhotoCaches::cache_original()
+{
   if (has_cached_original()) {
     return true;
   }
@@ -65,7 +105,14 @@ bool PhotoCaches::cache_original() {
   return rename(file_, original_file_);
 }
 
-bool PhotoCaches::restore_original() {
+/*!
+ * \brief PhotoCaches::restore_original
+ * Moves the file out of .original, overwriting the main file.  Note that
+ * this removes the .original file.
+ * \return
+ */
+bool PhotoCaches::restore_original()
+{
   if (!has_cached_original()) {
     return true;
   }
@@ -74,7 +121,13 @@ bool PhotoCaches::restore_original() {
   return rename(original_file_, file_);
 }
 
-bool PhotoCaches::cache_enhanced_from_original() {
+/*!
+ * \brief PhotoCaches::cache_enhanced_from_original
+ * Copies the file in .original to .enhanced so it can then be enhanced.
+ * \return
+ */
+bool PhotoCaches::cache_enhanced_from_original()
+{
   file_.dir().mkdir(ENHANCED_DIR);
 
   // If called subsequently, the previously cached version is replaced.
@@ -82,7 +135,14 @@ bool PhotoCaches::cache_enhanced_from_original() {
   return copy(pristine_file(), enhanced_file_);
 }
 
-bool PhotoCaches::overwrite_from_cache(bool prefer_enhanced) {
+/*!
+ * \brief PhotoCaches::overwrite_from_cache
+ * Tries to overwrite the file from one of its cached versions.
+ * \param prefer_enhanced
+ * \return
+ */
+bool PhotoCaches::overwrite_from_cache(bool prefer_enhanced)
+{
   if (prefer_enhanced && has_cached_enhanced()) {
     remove(file_);
     return copy(enhanced_file_, file_);
@@ -94,15 +154,27 @@ bool PhotoCaches::overwrite_from_cache(bool prefer_enhanced) {
   }
 }
 
-void PhotoCaches::discard_cached_original() {
+/*!
+ * \brief PhotoCaches::discard_cached_original
+ */
+void PhotoCaches::discard_cached_original()
+{
   remove(original_file_);
 }
 
-void PhotoCaches::discard_cached_enhanced() {
+/*!
+ * \brief PhotoCaches::discard_cached_enhanced
+ */
+void PhotoCaches::discard_cached_enhanced()
+{
   remove(enhanced_file_);
 }
 
-void PhotoCaches::discard_all() {
+/*!
+ * \brief PhotoCaches::discard_all
+ */
+void PhotoCaches::discard_all()
+{
   discard_cached_original();
   discard_cached_enhanced();
 }

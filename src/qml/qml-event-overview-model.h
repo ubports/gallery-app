@@ -30,7 +30,11 @@
 
 class DataObject;
 
-class QmlEventOverviewModel : public QmlMediaCollectionModel {
+/*!
+ * \brief The QmlEventOverviewModel class
+ */
+class QmlEventOverviewModel : public QmlMediaCollectionModel
+{
   Q_OBJECT
   Q_PROPERTY(bool ascending READ ascending_order WRITE set_ascending_order
     NOTIFY ordering_altered)

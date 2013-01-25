@@ -17,12 +17,6 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-/**
-  * SelectableViewCollection adds the notion of selection to a ViewCollection.
-  * It's primarily of use in grid or checkerboard views when the user may want
-  * to perform an operation on a number of DataSources all at once.
-  */
-
 #ifndef GALLERY_SELECTABLE_VIEW_COLLECTION_H_
 #define GALLERY_SELECTABLE_VIEW_COLLECTION_H_
 
@@ -31,7 +25,13 @@
 #include "core/data-object.h"
 #include "core/view-collection.h"
 
-class SelectableViewCollection : public ViewCollection {
+/**
+  * SelectableViewCollection adds the notion of selection to a ViewCollection.
+  * It's primarily of use in grid or checkerboard views when the user may want
+  * to perform an operation on a number of DataSources all at once.
+  */
+class SelectableViewCollection : public ViewCollection
+{
   Q_OBJECT
   
  signals:
@@ -51,27 +51,12 @@ class SelectableViewCollection : public ViewCollection {
     return CastSetToType<DataObject*, T>(GetSelected());
   }
   
-  // Returns true if the selection state of the DataObject changed, false if
-  // already selected or not in collection.
   bool Select(DataObject* object);
-  
-  // Returns true if the selection state of the DataObject changed, false if
-  // already selected or not in collection.
   bool Unselect(DataObject* object);
-  
-  // Returns false if not in collection.
   bool ToggleSelect(DataObject* object);
-  
-  // Returns the number of items selected (that weren't selected before)
   int SelectAll();
-  
-  // Returns the number of items selected (that weren't selected before)
   int SelectMany(const QSet<DataObject*>& select);
-  
-  // Returns the number of items unselected (that weren't unselected before)
   int UnselectAll();
-  
-  // Returns the number of items unselected (that weren't unselected before)
   int UnselectMany(const QSet<DataObject*>& unselect);
   
   // One SelectableViewCollection may monitor the selection status of another ...
