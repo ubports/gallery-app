@@ -17,6 +17,13 @@
  * Jim Nelson <jim@yorba.org>
  */
 
+#ifndef GALLERY_SOURCE_COLLECTION_H_
+#define GALLERY_SOURCE_COLLECTION_H_
+
+#include "core/data-collection.h"
+
+class DataSource;
+
 /**
   * A SourceCollection is a collection of DataSources of a particular finalized
   * type.  In general (but with notable exceptions) a SourceCollection holds
@@ -26,15 +33,8 @@
   * the system.  This is similar in intent (but not in implementation or design)
   * to Smalltalk's allInstances keyword.
   */
-
-#ifndef GALLERY_SOURCE_COLLECTION_H_
-#define GALLERY_SOURCE_COLLECTION_H_
-
-#include "core/data-collection.h"
-
-class DataSource;
-
-class SourceCollection : public DataCollection {
+class SourceCollection : public DataCollection
+{
   Q_OBJECT
   
  signals:

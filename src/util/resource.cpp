@@ -19,6 +19,11 @@
 
 #include "resource.h"
 
+/*!
+ * \brief Resource::Resource
+ * \param application_dir
+ * \param install_dir
+ */
 Resource::Resource(const QString& application_dir, const QString& install_dir)
 {
     app_dir_ = QDir(application_dir);
@@ -28,16 +33,33 @@ Resource::Resource(const QString& application_dir, const QString& install_dir)
     install_dir_ = QDir(install_dir);
 }
 
+/*!
+ * \brief Resource::is_installed
+ * Return if the is run from an installed appl or from a local place.
+ * \return Returns true if we're installed, false if we're running locally.
+ */
 bool Resource::is_installed() const
 {
     return app_dir_ == install_dir_;
 }
 
+/*!
+ * \brief Resource::trailing_slash
+ * \param path
+ * \return
+ */
 QString Resource::trailing_slash(QString path) const
 {
     return path.endsWith("/") ? path : path + "/";
 }
 
+/*!
+ * \brief Resource::get_rc_url
+ * Converts a relative path in the resource folder to a fully-qualified URL.
+ * Do NOT use this function if you need an absolute path.
+ * \param path
+ * \return
+ */
 QUrl Resource::get_rc_url(const QString& path) const
 {
     return is_installed() ?
@@ -45,6 +67,11 @@ QUrl Resource::get_rc_url(const QString& path) const
         QUrl::fromLocalFile(trailing_slash(app_dir_.path()) + "../rc/" + path);
 }
 
+/*!
+ * @brief maxTextureSize
+ * @return
+ * returns max texture size provided by OpenGL
+ */
 int Resource::maxTextureSize() const
 {
     // FIXME tm: OpenGL query to get

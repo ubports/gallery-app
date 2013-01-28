@@ -31,13 +31,14 @@ enum PageOrientation {
   SQUARE
 };
 
-class AlbumTemplatePage : public QObject {
+/*!
+ * \brief The AlbumTemplatePage class
+ */
+class AlbumTemplatePage : public QObject
+{
   Q_OBJECT
   
  public:
-  // is_left determines whether the page is meant to be displayed on the right
-  // or left of a spread.  Final arguments are a list of PageOrientation enums
-  // that describe the page's frames (slots) from top to bottom, left to right.
   AlbumTemplatePage(const char* name, const char* qml_rc, bool is_left,
                     int frame_count, ...);
   

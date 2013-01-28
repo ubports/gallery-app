@@ -19,9 +19,18 @@
 
 #include "album/album-template-page.h"
 
+/*!
+ * \brief AlbumTemplatePage::AlbumTemplatePage
+ * \param name
+ * \param qml_rc
+ * \param is_left determines whether the page is meant to be displayed on the right or left of a spread.
+ * \param frame_count
+ * Final arguments are a list of PageOrientation enums that describe the page's frames (slots) from top to bottom, left to right.
+ */
 AlbumTemplatePage::AlbumTemplatePage(const char* name, const char* qml_rc,
                                      bool is_left, int frame_count, ...)
-  : name_(name), is_left_(is_left) {
+  : name_(name), is_left_(is_left)
+{
   Q_ASSERT(frame_count >= 0);
   
   va_list valist;
@@ -33,23 +42,49 @@ AlbumTemplatePage::AlbumTemplatePage(const char* name, const char* qml_rc,
   qml_rc_ = QString(qml_rc);
 }
 
-const QString& AlbumTemplatePage::name() const {
+/*!
+ * \brief AlbumTemplatePage::name
+ * \return
+ */
+const QString& AlbumTemplatePage::name() const
+{
   return name_;
 }
 
-const QString& AlbumTemplatePage::qml_rc() const {
+/*!
+ * \brief AlbumTemplatePage::qml_rc
+ * \return
+ */
+const QString& AlbumTemplatePage::qml_rc() const
+{
   return qml_rc_;
 }
 
-bool AlbumTemplatePage::is_left() const {
+/*!
+ * \brief AlbumTemplatePage::is_left
+ * \return
+ */
+bool AlbumTemplatePage::is_left() const
+{
   return is_left_;
 }
 
-int AlbumTemplatePage::FrameCount() const {
+/*!
+ * \brief AlbumTemplatePage::FrameCount
+ * \return
+ */
+int AlbumTemplatePage::FrameCount() const
+{
   return layout_.count();
 }
 
-int AlbumTemplatePage::FramesFor(PageOrientation orientation) const {
+/*!
+ * \brief AlbumTemplatePage::FramesFor
+ * \param orientation
+ * \return
+ */
+int AlbumTemplatePage::FramesFor(PageOrientation orientation) const
+{
   int count = 0;
   PageOrientation o;
   foreach (o, layout_) {
@@ -60,6 +95,11 @@ int AlbumTemplatePage::FramesFor(PageOrientation orientation) const {
   return count;
 }
 
-const QList<PageOrientation>& AlbumTemplatePage::Layout() const {
+/*!
+ * \brief AlbumTemplatePage::Layout
+ * \return
+ */
+const QList<PageOrientation>& AlbumTemplatePage::Layout() const
+{
   return layout_;
 }

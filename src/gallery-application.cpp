@@ -39,12 +39,17 @@
 #include "util/resource.h"
 #include "util/sharefile.h"
 
+/*!
+ * \brief GalleryApplication::GalleryApplication
+ * \param argc
+ * \param argv
+ */
 GalleryApplication::GalleryApplication(int& argc, char** argv)
   : QApplication(argc, argv),
     form_factor_("desktop"),
     view_(),
-    monitor_(NULL) {
-
+    monitor_(NULL)
+{
   bgu_size_ = QProcessEnvironment::systemEnvironment().value("GRID_UNIT_PX", "8").toInt();
   if (bgu_size_ <= 0)
     bgu_size_ = 8;
@@ -60,11 +65,20 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
   GalleryManager::GetInstance();
 }
 
-GalleryApplication::~GalleryApplication() {
+/*!
+ * \brief GalleryApplication::~GalleryApplication
+ */
+GalleryApplication::~GalleryApplication()
+{
   delete monitor_;
 }
 
-int GalleryApplication::exec() {
+/*!
+ * \brief GalleryApplication::exec
+ * \return
+ */
+int GalleryApplication::exec()
+{
   create_view();
 
   // Delay init_collections() so the main loop is running before it kicks off.
@@ -73,11 +87,22 @@ int GalleryApplication::exec() {
   return QApplication::exec();
 }
 
-bool GalleryApplication::run_command(const QString &cmd, const QString &arg) {
+/*!
+ * \brief GalleryApplication::run_command is used for content sharing.
+ * \param cmd
+ * \param arg
+ * \return
+ */
+bool GalleryApplication::run_command(const QString &cmd, const QString &arg)
+{
   return QProcess::startDetached(cmd, QStringList(arg));
 }
 
-void GalleryApplication::register_qml() {
+/*!
+ * \brief GalleryApplication::register_qml
+ */
+void GalleryApplication::register_qml()
+{
   //
   // QML Declarative types must be registered before use
   //
@@ -95,12 +120,12 @@ void GalleryApplication::register_qml() {
   ShareFile::RegisterType();
 }
 
-void GalleryApplication::create_view() {
-  //
-  // Create the master QDeclarativeView that all the pages will operate within
-  // using the OpenGL backing and load the root container
-  //
-
+/*!
+ * \brief GalleryApplication::create_view
+ * Create the master QDeclarativeView that all the pages will operate within
+ */
+void GalleryApplication::create_view()
+{
   view_.setWindowTitle("Gallery");
 
   QSize size = form_factors_[form_factor_];
@@ -136,7 +161,11 @@ void GalleryApplication::create_view() {
     view_.show();
 }
 
-void GalleryApplication::init_collections() {
+/*!
+ * \brief GalleryApplication::init_collections
+ */
+void GalleryApplication::init_collections()
+{
   GalleryManager::GetInstance()->post_init();
 
   emit media_loaded();
@@ -151,18 +180,36 @@ void GalleryApplication::init_collections() {
     qDebug() << "Startup took" << timer_.elapsed() << "milliseconds";
 }
 
-void GalleryApplication::start_init_collections() {
+/*!
+ * \brief GalleryApplication::start_init_collections
+ */
+void GalleryApplication::start_init_collections()
+{
   init_collections();
 }
 
-GalleryApplication* GalleryApplication::instance() {
+/*!
+ * \brief GalleryApplication::instance
+ * \return
+ */
+GalleryApplication* GalleryApplication::instance()
+{
     return static_cast<GalleryApplication*>(qApp);
 }
 
+/*!
+ * \brief GalleryApplication::setObjectOwnership register objects' ownership (QML/Javascript vs. C++)
+ * \param object
+ * \param ownership
+ */
 void GalleryApplication::setObjectOwnership(QObject* object, QQmlEngine::ObjectOwnership ownership) {
   view_.engine()->setObjectOwnership(object, ownership);
 }
 
+/*!
+ * \brief GalleryApplication::on_media_item_added
+ * \param item_info
+ */
 void GalleryApplication::on_media_item_added(QFileInfo item_info) {
   Photo* new_photo = Photo::Fetch(item_info);
   

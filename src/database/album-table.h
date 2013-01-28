@@ -26,43 +26,32 @@
 class Album;
 class Database;
 
-class AlbumTable : public QObject {
+/*!
+ * \brief The AlbumTable class
+ */
+class AlbumTable : public QObject
+{
   Q_OBJECT
   
  public:
   explicit AlbumTable(Database* db, QObject* parent = 0);
   
-  // Returns a set of all albums.
   void get_albums(QList<Album*>* album_set);
-  
-  // Adds an album to the DB.
+
   void add_album(Album* album);
-  
-  // Removes an album from the DB.
   void remove_album(Album* album);
-  
-  // Adds a photo to an album.
+
   void attach_to_album(qint64 album_id, qint64 media_id);
-  
-  // Removes a photo from an album.
   void detach_from_album(qint64 album_id, qint64 media_id);
   
-  // Returns a list of photos for an album.
   void media_for_album(qint64 album_id, QList<qint64>* list) const;
   
-  // Sets whether or not an album is open.
   void set_is_closed(qint64 album_id, bool is_closed);
   
-  // Sets the current page of the album.
   void set_current_page(qint64 album_id, int page);
   
-  // Sets the cover style for the album.
   void set_cover_nickname(qint64 album_id, QString cover_nickname);
-  
-  // Sets the title of the album.
   void set_title(qint64 album_id, QString title);
-  
-  // Sets the subtitle of the album.
   void set_subtitle(qint64 album_id, QString subtitle);
   
  private:

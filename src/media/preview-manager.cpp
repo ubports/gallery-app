@@ -36,7 +36,11 @@ const QString PreviewManager::PREVIEW_DIR = ".thumbs";
 
 QMutex PreviewManager::createMutex_;
 
-PreviewManager::PreviewManager() {
+/*!
+ * \brief PreviewManager::PreviewManager
+ */
+PreviewManager::PreviewManager()
+{
   // Monitor MediaCollection for all new MediaSources
   QObject::connect(GalleryManager::GetInstance()->media_collection(),
   SIGNAL(contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
@@ -52,8 +56,14 @@ PreviewManager::PreviewManager() {
   on_media_added_removed(&GalleryManager::GetInstance()->media_collection()->GetAsSet(), NULL);
 }
 
+/*!
+ * \brief PreviewManager::on_media_added_removed
+ * \param added
+ * \param removed
+ */
 void PreviewManager::on_media_added_removed(const QSet<DataObject*>* added,
-  const QSet<DataObject*>* removed) {
+  const QSet<DataObject*>* removed)
+{
   if (added != NULL) {
     DataObject* object;
     foreach (object, *added) {
@@ -74,7 +84,12 @@ void PreviewManager::on_media_added_removed(const QSet<DataObject*>* added,
   }
 }
 
-void PreviewManager::on_media_destroying(const QSet<DataObject*>* destroying) {
+/*!
+ * \brief PreviewManager::on_media_destroying
+ * \param destroying
+ */
+void PreviewManager::on_media_destroying(const QSet<DataObject*>* destroying)
+{
   if (destroying != NULL) {
     DataObject* object;
     foreach (object, *destroying)
@@ -82,22 +97,45 @@ void PreviewManager::on_media_destroying(const QSet<DataObject*>* destroying) {
   }
 }
 
-void PreviewManager::on_media_data_altered() {
+/*!
+ * \brief PreviewManager::on_media_data_altered
+ */
+void PreviewManager::on_media_data_altered()
+{
   QObject* object = QObject::sender();
   MediaSource* source = qobject_cast<MediaSource*>(object);
 
   ensure_preview_for_media(source->file(), true);
 }
 
-QFileInfo PreviewManager::PreviewFileFor(const QFileInfo& file) const {
+/*!
+ * \brief PreviewManager::PreviewFileFor
+ * \param file
+ * \return
+ */
+QFileInfo PreviewManager::PreviewFileFor(const QFileInfo& file) const
+{
   return QFileInfo(file.dir(), PREVIEW_DIR + "/" + file.completeBaseName() + "_th." + PREVIEW_FILE_EXT);
 }
 
-QFileInfo PreviewManager::ThumbnailFileFor(const QFileInfo& file) const {
+/*!
+ * \brief PreviewManager::ThumbnailFileFor
+ * \param file
+ * \return
+ */
+QFileInfo PreviewManager::ThumbnailFileFor(const QFileInfo& file) const
+{
   return QFileInfo(file.dir(), PREVIEW_DIR + "/" + file.completeBaseName() + "_th_s." + PREVIEW_FILE_EXT);
 }
 
-bool PreviewManager::ensure_preview_for_media(QFileInfo file, bool regen) {
+/*!
+ * \brief PreviewManager::ensure_preview_for_media
+ * \param file
+ * \param regen
+ * \return
+ */
+bool PreviewManager::ensure_preview_for_media(QFileInfo file, bool regen)
+{
   QMutexLocker locker(&createMutex_);
 
   // create the thumbnail directory if not already present
@@ -155,7 +193,12 @@ bool PreviewManager::ensure_preview_for_media(QFileInfo file, bool regen) {
   return true;
 }
 
-void PreviewManager::DestroyPreview(MediaSource* media) {
+/*!
+ * \brief PreviewManager::DestroyPreview
+ * \param media
+ */
+void PreviewManager::DestroyPreview(MediaSource* media)
+{
   QString filename = PreviewFileFor(media->file()).filePath();
   if (!QFile::remove(filename))
     qDebug("Unable to remove preview %s", qPrintable(filename));
@@ -164,7 +207,13 @@ void PreviewManager::DestroyPreview(MediaSource* media) {
     qDebug("Unable to remove thumbnail %s", qPrintable(filename));
 }
 
-QImage PreviewManager::generate_Thumbnail(const QImage &master) const {
+/*!
+ * \brief PreviewManager::generate_Thumbnail
+ * \param master
+ * \return
+ */
+QImage PreviewManager::generate_Thumbnail(const QImage &master) const
+{
   int xOffset = 0;
   int yOffset = 0;
   int size = 0;

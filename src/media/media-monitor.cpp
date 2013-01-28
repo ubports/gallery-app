@@ -22,11 +22,16 @@
 #include <QSet>
 #include <QString>
 
+/*!
+ * \brief MediaMonitor::MediaMonitor
+ * \param target_directory
+ */
 MediaMonitor::MediaMonitor(const QDir& target_directory)
   : target_directory_(target_directory),
     watcher_(QStringList(target_directory.path())),
     manifest_(get_manifest(target_directory)),
-    file_activity_timer_(this) {
+    file_activity_timer_(this)
+{
   QObject::connect(&watcher_, SIGNAL(directoryChanged(const QString&)), this,
     SLOT(on_directory_event(const QString&)));
 
@@ -35,14 +40,27 @@ MediaMonitor::MediaMonitor(const QDir& target_directory)
     SLOT(on_file_activity_ceased()));
 }
 
-MediaMonitor::~MediaMonitor() {
+/*!
+ * \brief MediaMonitor::~MediaMonitor
+ */
+MediaMonitor::~MediaMonitor()
+{
 }
 
-void MediaMonitor::on_directory_event(const QString& event_source) {
+/*!
+ * \brief MediaMonitor::on_directory_event
+ * \param event_source
+ */
+void MediaMonitor::on_directory_event(const QString& event_source)
+{
   file_activity_timer_.start(100);
 }
 
-void MediaMonitor::on_file_activity_ceased() {
+/*!
+ * \brief MediaMonitor::on_file_activity_ceased
+ */
+void MediaMonitor::on_file_activity_ceased()
+{
   QStringList new_manifest = get_manifest(target_directory_);
    
   QStringList difference = subtract_manifest(new_manifest, manifest_);
@@ -53,12 +71,25 @@ void MediaMonitor::on_file_activity_ceased() {
   manifest_ = new_manifest;
 }
 
-QStringList MediaMonitor::get_manifest(const QDir& dir) {
+/*!
+ * \brief MediaMonitor::get_manifest
+ * \param dir
+ * \return
+ */
+QStringList MediaMonitor::get_manifest(const QDir& dir)
+{
   return dir.entryList(QDir::Files, QDir::Time);
 }
 
+/*!
+ * \brief MediaMonitor::subtract_manifest
+ * \param m1
+ * \param m2
+ * \return
+ */
 QStringList MediaMonitor::subtract_manifest(const QStringList& m1,
-  const QStringList& m2) {
+  const QStringList& m2)
+{
   QSet<QString> result = QSet<QString>::fromList(m1);
   
   result.subtract(QSet<QString>::fromList(m2));
@@ -66,7 +97,12 @@ QStringList MediaMonitor::subtract_manifest(const QStringList& m1,
   return QStringList(result.toList());
 }
 
-void MediaMonitor::notify_media_item_added(const QString& item_path) {
+/*!
+ * \brief MediaMonitor::notify_media_item_added
+ * \param item_path
+ */
+void MediaMonitor::notify_media_item_added(const QString& item_path)
+{
   QFileInfo item_info(item_path);
 
   emit media_item_added(item_info);

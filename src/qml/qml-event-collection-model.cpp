@@ -23,21 +23,42 @@
 #include "event/event-collection.h"
 #include "util/variants.h"
 
+/*!
+ * \brief QmlEventCollectionModel::QmlEventCollectionModel
+ * \param parent
+ */
 QmlEventCollectionModel::QmlEventCollectionModel(QObject* parent)
-  : QmlViewCollectionModel(parent, "event", NULL) {
+  : QmlViewCollectionModel(parent, "event", NULL)
+{
     MonitorSourceCollection(GalleryManager::GetInstance()->event_collection());
 }
 
-void QmlEventCollectionModel::RegisterType() {
+/*!
+ * \brief QmlEventCollectionModel::RegisterType
+ */
+void QmlEventCollectionModel::RegisterType()
+{
   qmlRegisterType<QmlEventCollectionModel>("Gallery", 1, 0, "EventCollectionModel");
 }
 
-QVariant QmlEventCollectionModel::VariantFor(DataObject *object) const {
+/*!
+ * \brief QmlEventCollectionModel::VariantFor
+ * \param object
+ * \return
+ */
+QVariant QmlEventCollectionModel::VariantFor(DataObject *object) const
+{
   Event* event = qobject_cast<Event*>(object);
   
   return (event != NULL) ? QVariant::fromValue(event) : QVariant();
 }
 
-DataObject* QmlEventCollectionModel::FromVariant(QVariant var) const {
+/*!
+ * \brief QmlEventCollectionModel::FromVariant
+ * \param var
+ * \return
+ */
+DataObject* QmlEventCollectionModel::FromVariant(QVariant var) const
+{
   return UncheckedVariantToObject<Event*>(var);
 }

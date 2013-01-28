@@ -29,7 +29,11 @@
 class Album;
 class DataObject;
 
-class QmlAlbumCollectionModel : public QmlViewCollectionModel {
+/*!
+ * \brief The QmlAlbumCollectionModel class
+ */
+class QmlAlbumCollectionModel : public QmlViewCollectionModel
+{
   Q_OBJECT
   
  public:

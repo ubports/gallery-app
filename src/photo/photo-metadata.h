@@ -42,7 +42,11 @@ enum Orientation {
   MAX_ORIENTATION = 8
 };
 
-struct OrientationCorrection {
+/*!
+ * \brief The OrientationCorrection struct
+ */
+class OrientationCorrection
+{
  public:
   static OrientationCorrection FromOrientation(Orientation o);
   static OrientationCorrection Identity();
@@ -50,14 +54,9 @@ struct OrientationCorrection {
   const double rotation_angle_;
   const double horizontal_scale_factor_;
 
-  // Returns the correction as a QTransform.
   QTransform to_transform() const;
 
-  // Returns whether the two orientations are flipped relative to each other.
-  // Ignores rotation_angle; only checks horizontal_scale_factor_.
   bool is_flipped_from(const OrientationCorrection& other) const;
-  // Returns the rotation difference in degrees (this - other), normalized to
-  // 0, 90, 180, or 270.  Ignores the horizontal_scale_factor_.
   int get_normalized_rotation_difference(const OrientationCorrection& other) const;
 
  private:
@@ -66,7 +65,11 @@ struct OrientationCorrection {
       horizontal_scale_factor_(horizontal_scale_factor) { }
 };
 
-class PhotoMetadata : public QObject {
+/*!
+ * \brief The PhotoMetadata class
+ */
+class PhotoMetadata : public QObject
+{
   Q_OBJECT
   
  public:
