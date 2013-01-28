@@ -25,19 +25,35 @@ import "../../js/Gallery.js" as Gallery
 Item {
   id: organicView
 
+  /*!
+  */
   signal mediaSourcePressed(var mediaSource, var thumbnailRect)
 
+  /*!
+  */
   property alias model: organicList.model
+  /*!
+  */
   property alias delegate: organicList.delegate
+  /*!
+  */
   property SelectionState selection
 
+  /*!
+  */
   property int animationDuration: Gallery.FAST_DURATION
+  /*!
+  */
   property int animationEasingType: Easing.InQuint
 
   // readonly
   // Some duplication from OrganicMediaList, to make certain things easier.
   property int organicMediaListMediaPerPattern: 6 // OrganicMediaList.mediaPerPattern
+  /*!
+  */
   property real organicMediaListPatternWidth: units.gu(49) // OrganicMediaList.patternWidth
+  /*!
+  */
   property real organicMediaListMargin: units.gu(2) // OrganicMediaList.margin
 
   Image {

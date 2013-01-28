@@ -21,6 +21,8 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
+/*!
+*/
 Image {
   id: viewer_nav_image
   objectName: "viewer_nav_image"
@@ -29,8 +31,12 @@ Image {
   height: units.gu(6)
   opacity: 0.7
   
+  /*!
+  */
   signal pressed()
   
+  /*!
+  */
   property bool is_forward: true
   
   source: (is_forward) ? "img/viewer-forward.png" : "img/viewer-back.png"

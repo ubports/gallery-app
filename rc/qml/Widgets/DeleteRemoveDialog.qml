@@ -20,10 +20,16 @@
 import QtQuick 2.0
 import "../../Capetown/Widgets"
 
+/*!
+*/
 PopupActionChoiceDialog {
   id: popupActionChoiceDialog
 
+  /*!
+  */
   signal removeRequested();
+  /*!
+  */
   signal deleteRequested();
 
   visible: false

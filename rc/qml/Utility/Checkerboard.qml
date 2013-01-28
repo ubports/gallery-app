@@ -23,52 +23,110 @@ import QtQuick 2.0
 import "../../js/Gallery.js" as Gallery
 import "../../js/GalleryUtility.js" as GalleryUtility
 
+/*!
+*/
 Item {
   id: checkerboard
   
+  /*!
+  */
   signal activated(variant object, variant objectModel, variant activatedRect)
   
+  /*!
+  */
   signal movementStarted()
+  /*!
+  */
   signal movementEnded()
+  /*!
+  */
   signal hidden(int currScrollPos)
     
+  /*!
+  */
   property alias model: grid.model
+  /*!
+  */
   property alias delegate: grid.delegate
 
+  /*!
+  */
   property alias contentX: grid.contentX
+  /*!
+  */
   property alias contentY: grid.contentY
+  /*!
+  */
   property alias footer: grid.footer
   
+  /*!
+  */
   property real itemWidth
+  /*!
+  */
   property real itemHeight
+  /*!
+  */
   property real minGutterWidth
+  /*!
+  */
   property real minGutterHeight
+  /*!
+  */
   property real topExtraGutter: 0
+  /*!
+  */
   property real bottomExtraGutter: 0
+  /*!
+  */
   property real leftExtraGutter: 0
+  /*!
+  */
   property real rightExtraGutter: 0
   
+  /*!
+  */
   property SelectionState selection
   
   // readonly
+  /*!
+  */
   property real delegateWidth: itemWidth + gutterWidth
+  /*!
+  */
   property real delegateHeight: itemHeight + gutterHeight
 
   // internal
+  /*!
+  */
   property real itemAreaWidth: width - leftExtraGutter - rightExtraGutter
+  /*!
+  */
   property real minDelegateWidth: itemWidth + minGutterWidth
+  /*!
+  */
   property int columns: Math.max(1, Math.floor(itemAreaWidth / minDelegateWidth))
+  /*!
+  */
   property real gutterWidth: Math.floor(itemAreaWidth / columns - itemWidth)
+  /*!
+  */
   property real gutterHeight: minGutterHeight
   
+  /*!
+  */
   function ensureIndexVisible(index, centered) {
     grid.positionViewAtIndex(index, centered ? GridView.Center : GridView.Visible);
   }
 
+  /*!
+  */
   function setScrollPos(newScrollPos) {
       contentY = newScrollPos;
   }
 
+  /*!
+  */
   function scrollToTop() {
     gridScroller.restart();
   }
@@ -94,6 +152,8 @@ Item {
     return undefined;
   }
   
+  /*!
+  */
   function getRectOfItem(item, relativeTo, adjustForGutter) {
     var rect = GalleryUtility.getRectRelativeTo(item, relativeTo);
     
@@ -116,6 +176,8 @@ Item {
     return (item) ? getRectOfItem(item, relativeTo, true) : undefined;
   }
   
+  /*!
+  */
   function getVisibleDelegates() {
     return GalleryUtility.getVisibleItems(grid, grid, function(child) {
       return child.objectName == "checkerboardDelegate"

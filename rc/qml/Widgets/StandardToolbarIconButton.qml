@@ -20,13 +20,21 @@
 import QtQuick 2.0
 import "../../Capetown/Widgets"
 
+/*!
+*/
 ToolbarIconButton {
   id: standardToolbarIconButton
 
+  /*!
+  */
   property bool isWhite
+  /*!
+  */
   property string iconName
 
   // internal
+  /*!
+  */
   property string prefix: (isWhite ? "icon-white-" : "icon-")
 
   selectedIconFilename: "../../img/" + prefix + iconName + "-active.png"

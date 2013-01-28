@@ -26,6 +26,8 @@ import "Widgets"
 Checkerboard {
     id: root
 
+    /*!
+    */
     function getRectOfAlbumPreview(album, relativeTo) {
         return getRectOfItemAt(model.indexOf(album), relativeTo);
     }

@@ -27,43 +27,77 @@ import "../js/GraphicsRoutines.js" as GraphicsRoutines
 import "Components"
 import "Widgets"
 
+/*!
+*/
 Item {
   id: albumEditor
   objectName: "mainAlbumEditor"
 
+  /*!
+  */
   signal closeRequested(variant album, bool enterViewer)
+  /*!
+  */
   signal mediaSelectorHidden(int newScrollPos)
 
+  /*!
+  */
   property Album album
+  /*!
+  */
   property real minimumCoverWidth: units.gu(32)
+  /*!
+  */
   property real minimumCoverHeight: units.gu(38)
+  /*!
+  */
   property real preferredCoverWidth: width - units.gu(8)
+  /*!
+  */
   property real preferredCoverHeight: height - units.gu(8)
+  /*!
+  */
   property real minimumTopMargin: units.gu(3)
 
   // readonly
+  /*!
+  */
   property variant editorRect
+  /*!
+  */
   property alias animationRunning: mediaSelector.animationRunning
 
   // internal
+  /*!
+  */
   property real canonicalWidth: units.gu(66)
+  /*!
+  */
   property real canonicalHeight: units.gu(80)
 
+  /*!
+  */
   function editNewAlbum() {
     albumEditor.album = albumModel.createOrphan();
     coverMenu.state = "hidden"
   }
 
+  /*!
+  */
   function editAlbum(album) {
     albumEditor.album = album;
     coverMenu.state = "hidden"
   }
 
+  /*!
+  */
   function setMediaSelectorScrollPos(newScrollPos) {
     mediaSelector.setCheckerboardScrollPos(newScrollPos);
   }
 
   // internal
+  /*!
+  */
   function closeAlbum() {
     if (album.populatedContentPageCount > 0) {
       albumModel.addOrphan(album);
@@ -77,6 +111,8 @@ Item {
   }
 
   // internal
+  /*!
+  */
   function resetEditorRect() {
     editorRect = GalleryUtility.getRectRelativeTo(cover.internalRect, albumEditor);
   }

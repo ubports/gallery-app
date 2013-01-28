@@ -30,46 +30,100 @@ Item {
 
   // public
   property Album album
+  /*!
+  */
   property bool isPreview: false
+  /*!
+  */
   property bool contentHasPreviewFrame: false
+  /*!
+  */
   property int viewingPage
   
+  /*!
+  */
   property int insideLeftPage: defaultInsideLeftPage
+  /*!
+  */
   property int insideRightPage: defaultInsideRightPage
   
   // Here, openFraction refers to how "flipped" the page is, rather than
   // how open the album is.
   property real openFraction: 0
 
+  /*!
+  */
   property real topMargin: previewTopMargin
+  /*!
+  */
   property real bottomMargin: previewBottomMargin
+  /*!
+  */
   property real gutterMargin: previewGutterMargin
+  /*!
+  */
   property real outerMargin: previewOuterMargin
+  /*!
+  */
   property real insideMargin: previewInsideMargin
 
   // readonly
+  /*!
+  */
   property bool isFlipping: (openFraction != 0 && openFraction != 1)
+  /*!
+  */
   property alias frameToContentWidth: page.frameToContentWidth
+  /*!
+  */
   property alias frameToContentHeight: page.frameToContentHeight
   
+  /*!
+  */
   property alias load: page.load
   
+  /*!
+  */
   property int defaultInsideLeftPage: page.leftPageForCurrent(currentOrFirstContentPage)
+  /*!
+  */
   property int defaultInsideRightPage: page.rightPageForCurrent(currentOrFirstContentPage)
 
+  /*!
+  */
   property alias pageTopMargin: page.pageTopMargin
+  /*!
+  */
   property alias pageBottomMargin: page.pageBottomMargin
+  /*!
+  */
   property alias pageGutterMargin: page.pageGutterMargin
+  /*!
+  */
   property alias pageOuterMargin: page.pageOuterMargin
+  /*!
+  */
   property alias pageInsideMargin: page.pageInsideMargin
 
+  /*!
+  */
   property alias previewTopMargin: page.previewTopMargin
+  /*!
+  */
   property alias previewBottomMargin: page.previewBottomMargin
+  /*!
+  */
   property alias previewGutterMargin: page.previewGutterMargin
+  /*!
+  */
   property alias previewOuterMargin: page.previewOuterMargin
+  /*!
+  */
   property alias previewInsideMargin: page.previewInsideMargin
 
   // internal
+  /*!
+  */
   property int currentOrFirstContentPage: (!album
     ? -1
     : (album.currentPage == album.firstValidCurrentPage

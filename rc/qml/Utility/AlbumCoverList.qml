@@ -20,6 +20,8 @@
 import QtQuick 2.0
 import Gallery 1.0
 
+/*!
+*/
 ListModel {
   id: albumCoverList
   
@@ -34,6 +36,8 @@ ListModel {
     return albumCoverList.get(0); // default
   }
   
+  /*!
+  */
   function getDefault() {
     return albumCoverList.get(0);
   }

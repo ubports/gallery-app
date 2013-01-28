@@ -23,6 +23,8 @@ import Gallery 1.0
 import "../js/GalleryUtility.js" as GalleryUtility
 import "Utility"
 
+/*!
+*/
 Item {
     id: overview
     objectName: "overview"

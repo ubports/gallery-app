@@ -24,10 +24,20 @@ import QtQuick 2.0
 SequentialAnimation {
   id: fadeOutAnimation
   
+  /*!
+  */
   property Item target
+  /*!
+  */
   property real startOpacity: 1
+  /*!
+  */
   property real endOpacity: 0
+  /*!
+  */
   property int duration: 200
+  /*!
+  */
   property int easingType: Easing.OutQuad
 
   PropertyAction {

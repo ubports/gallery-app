@@ -25,20 +25,42 @@ import Ubuntu.Components 0.1
 import "../../Capetown"
 import "../Utility"
 
+/*!
+*/
 Item {
   id: albumCover
   
+  /*!
+  */
   signal pressed(variant mouse)
+  /*!
+  */
   signal addPhotos()
   
+  /*!
+  */
   property Album album
+  /*!
+  */
   property bool isBack: false
+  /*!
+  */
   property bool isBlank: false
+  /*!
+  */
   property bool isPreview: true
+  /*!
+  */
   property real titleOpacity: 1
+  /*!
+  */
   property int titleDateSpacing: units.gu(2) // (Preview-sized; will scale up))
   
+  /*!
+  */
   property alias xScale: scale.xScale
+  /*!
+  */
   property alias yScale: scale.yScale
   
   // Read-only.
@@ -70,11 +92,19 @@ Item {
   // Scale text and spacers by factor of cover size. 
   property real textScale: isPreview || width <= 0 || cover.previewPixelWidth <= 0 
     ? 1 : coverImageFull.sourceSize.width / cover.previewPixelWidth
+  /*!
+  */
   property real spacerScale: cover.height / units.gu(33) // ratio of image height to canonical height
   // Text margins.  Specified as fractions of cover width for scaling (eyeballed)
   property real coverMarginLeft: width / 7
+  /*!
+  */
   property real coverMarginRight: width / 26
+  /*!
+  */
   property real coverStartY: height / 50
+  /*!
+  */
   property variant coverElement: album !== null ?
     coverList.elementForActionName(album.coverNickname) : coverList.getDefault();
   

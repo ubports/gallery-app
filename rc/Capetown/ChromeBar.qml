@@ -19,17 +19,33 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 
+/*!
+*/
 Item {
     id: chromeBar
     objectName: "chromeBar"
+    /*!
+    */
     property alias buttonsModel: buttonsRepeater.model
+    /*!
+    */
     property alias showChromeBar: bar.shown
+    /*!
+    */
     property bool showBackButton: true
 
+    /*!
+    */
     property alias backButtonText: backButton.text
+    /*!
+    */
     property alias backButtonIcon: backButton.icon
 
+    /*!
+    */
     signal buttonClicked(var buttonName, var button)
+    /*!
+    */
     signal backButtonClicked()
 
     enabled: showBackButton || (buttonsRepeater.count > 0)
@@ -49,9 +65,13 @@ Item {
     Component.onCompleted: setBarShown(false)
 
     // do not allow hiding of the toolbar
+    /*!
+    */
     property bool alwaysVisible: false
     onAlwaysVisibleChanged: setBarShown(alwaysVisible)
 
+    /*!
+    */
     function setBarShown(shown) {
         if (shown) {
             bar.y = 0;
