@@ -29,12 +29,22 @@ import "Components"
 import "Widgets"
 import "../js/Gallery.js" as Gallery
 
+/*!
+*/
 Item {
   id: viewerWrapper
 
+  /*!
+  */
   property alias photo: galleryPhotoViewer.photo
+  /*!
+  */
   property alias model: galleryPhotoViewer.model
+  /*!
+  */
   property alias index: galleryPhotoViewer.index
+  /*!
+  */
   property alias currentIndexForHighlight:
       galleryPhotoViewer.currentIndexForHighlight
   
@@ -54,21 +64,33 @@ Item {
   property bool isReady: model != null && model.count > 0 &&
     (galleryPhotoViewer.currentItem ? galleryPhotoViewer.currentItem.isLoaded : false)
 
+  /*!
+  */
   signal closeRequested()
+  /*!
+  */
   signal editRequested(variant photo)
 
+  /*!
+  */
   function setCurrentIndex(index) {
     galleryPhotoViewer.setCurrentIndex(index);
   }
 
+  /*!
+  */
   function setCurrentPhoto(photo) {
     galleryPhotoViewer.setCurrentPhoto(photo);
   }
 
+  /*!
+  */
   function goBack() {
     galleryPhotoViewer.goBack();
   }
 
+  /*!
+  */
   function goForward() {
     galleryPhotoViewer.goForward();
   }

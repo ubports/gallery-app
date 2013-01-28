@@ -26,21 +26,35 @@ import "Components"
 import "Utility"
 import "Widgets"
 
+/*!
+*/
 Item {
   id: mediaSelector
   
+  /*!
+  */
   signal cancelRequested()
+  /*!
+  */
   signal doneRequested(variant model)
 
+  /*!
+  */
   property variant album
   
   // Read-only.
+  /*!
+  */
   property bool animationRunning: slider.animationRunning
   
+  /*!
+  */
   function show() {
     slider.slideIn();
   }
 
+  /*!
+  */
   function hide() {
     slider.slideOut();
   }

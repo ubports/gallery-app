@@ -23,10 +23,20 @@ import QtQuick 2.0
 SequentialAnimation {
   id: fadeInAnimation
   
+  /*!
+  */
   property Item target
+  /*!
+  */
   property real startOpacity: 0
+  /*!
+  */
   property real endOpacity: 1
+  /*!
+  */
   property int duration: 200
+  /*!
+  */
   property int easingType: Easing.InQuad
 
   PropertyAction {

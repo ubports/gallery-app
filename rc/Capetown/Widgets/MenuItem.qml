@@ -20,18 +20,38 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
+/*!
+*/
 Rectangle {
   id: menuItem
 
+  /*!
+  */
   property bool isSeparator: false
+  /*!
+  */
   property alias title: menuItemCaption.text
+  /*!
+  */
   property bool hasBottomBorder: true
+  /*!
+  */
   property alias iconFilename: iconImage.source
+  /*!
+  */
   property alias hasCueRectangle: cueRectangle.visible
+  /*!
+  */
   property string action: ""
+  /*!
+  */
   property Item hostMenu
 
+  /*!
+  */
   signal actionInvoked(string name)
+  /*!
+  */
   signal popupInteractionCompleted()
 
   states: [
@@ -64,6 +84,8 @@ Rectangle {
 
   state: "normal"
   
+  /*!
+  */
   function dispatchAction() {
     acknowledgeItemPressTimer.restart();
     clearHighlightTimer.restart();

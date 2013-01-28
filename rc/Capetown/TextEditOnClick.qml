@@ -25,7 +25,6 @@ import QtQuick 2.0
 //
 // Note that this will switch between a Text and TextEdit for performance
 // reasons, as TextEdit's performance is quite sluggish.
-
 Item {
   id: textEditOnClick
   
@@ -36,12 +35,26 @@ Item {
   signal textUpdated(string text)
   
   // Text properties.
+  /*!
+  */
   property string text
+  /*!
+  */
   property int textFormat: Text.AutoText
+  /*!
+  */
   property int horizontalAlignment
+  /*!
+  */
   property int wrapMode: Text.NoWrap
+  /*!
+  */
   property variant color: "#000000"
+  /*!
+  */
   property real fontPointSize: 12.0
+  /*!
+  */
   property string fontFamily: "sans-serif"
   
   // Set this to false if you don't want this field to become

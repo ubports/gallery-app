@@ -19,6 +19,8 @@
 
 import QtQuick 2.0
 
+/*!
+*/
 StandardToolbarIconButton {
   iconName: "back"
   objectName: typeof index == 'undefined' ? "navBackButton" : "navBackButton" + index

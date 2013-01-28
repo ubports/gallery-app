@@ -27,25 +27,51 @@ import ".."
 Item {
   id: albumPageContents
 
+  /*!
+  */
   property Album album
+  /*!
+  */
   property int page: -1
+  /*!
+  */
   property bool isPreview: false
+  /*!
+  */
   property bool load: false
+  /*!
+  */
   property bool contentHasPreviewFrame: false
 
+  /*!
+  */
   property real topMargin
+  /*!
+  */
   property real bottomMargin
+  /*!
+  */
   property real gutterMargin
+  /*!
+  */
   property real outerMargin
+  /*!
+  */
   property real insideMargin
   
   // See AlbumPageComponent for descriptions of these properties
   property bool freeze: false
+  /*!
+  */
   property bool showCover: true
   
+  /*!
+  */
   property real frameHingeInset: frame.startX * scaleFactorX
   
   // readonly
+  /*!
+  */
   property bool isCover: cover.visible
   // These constants (only useful when contentHasPreviewFrame is true) expose
   // the ratio of size between the whole framed page (displayed at the size of
@@ -53,6 +79,8 @@ Item {
   // within the frame), for if you need to match the contents but not the
   // frame.
   property real frameToContentWidth: ((pixelWidth - 10) / frameContentWidth)
+  /*!
+  */
   property real frameToContentHeight: ((pixelHeight - 12) / frameContentHeight)
   
   // internal
@@ -63,39 +91,63 @@ Item {
   
   // Pixel width of preview frame
   property real pixelWidth: 235
+  /*!
+  */
   property real pixelHeight: 281
   
   // Difference between desktop gu size and pixel size.
   property real pixelWidthOffset: 11
+  /*!
+  */
   property real pixelHeightOffset: 17
   
   // Offset from frame.start* to the "page" inside the frame.
   property real frameInsetMarginX: isRight ? 0 : -9
+  /*!
+  */
   property real frameInsetMarginY: 10
+  /*!
+  */
   property real frameContentOffsetX: frame.startX + frameInsetMarginX
+  /*!
+  */
   property real frameContentOffsetY: frameInsetMarginY
   
   // GU/pixel scale factor of preview frame
   property real scaleFactorX: width / (pixelWidth - pixelWidthOffset)
+  /*!
+  */
   property real scaleFactorY: height / (pixelHeight - pixelHeightOffset)
   
   // Frame dimensions
   property real frameContentWidth: frame.contentWidth
+  /*!
+  */
   property real frameContentHeight: frame.contentHeight
   
+  /*!
+  */
   property real contentPageX: (contentHasPreviewFrame
     ? frameContentOffsetX * scaleFactorX
     : 0)
+  /*!
+  */
   property real contentPageY: (contentHasPreviewFrame
     ? frameContentOffsetY * scaleFactorY
     : 0)
+  /*!
+  */
   property real contentPageWidth: (contentHasPreviewFrame
     ? frameContentWidth * scaleFactorX
     : parent.width)
+  /*!
+  */
   property real contentPageHeight: (contentHasPreviewFrame
     ? frameContentHeight * scaleFactorY
     : parent.height)
   
+  /*!
+  */
   property variant mediaFrames: (loader.item) ? loader.item.mediaFrames : undefined
   
   onAlbumChanged: loader.reload()

@@ -21,6 +21,8 @@ import QtQuick 2.0
 import "../../Capetown/Widgets"
 import "../Utility"
 
+/*!
+*/
 PopupMenu {
   id: albumCoverMenu
   

@@ -25,10 +25,16 @@ import Ubuntu.Components 0.1
 import "../../js/Gallery.js" as Gallery
 import "../Utility"
 
+/*!
+*/
 UbuntuShape {
   id: eventCard
 
+  /*!
+  */
   property variant event
+  /*!
+  */
   property color textColor: "#888888"
 
   radius: "medium"

@@ -27,21 +27,41 @@ import Ubuntu.Components 0.1
 //
 // TODO: Currently no support for vertical swiping
 MouseArea {
+    /*!
+    */
   signal startSwipe(bool leftToRight, int start)
+    /*!
+    */
   signal swiping(bool leftToRight, int start, int distance)
+    /*!
+    */
   signal swiped(bool leftToRight)
+    /*!
+    */
   signal tapped(int x, int y, bool rightButton)
+    /*!
+    */
   signal longPressed(int x, int y)
   
   property int requiredHorizMovement: units.gu(0)
   
   // internal
+    /*!
+    */
   property int startX: -1
+    /*!
+    */
   property bool leftToRight: true
+    /*!
+    */
   property bool swipeStarted: false
+    /*!
+    */
   property bool longPress: false
 
   // internal
+    /*!
+    */
   function reset() {
     startX = -1;
     leftToRight = true;

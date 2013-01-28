@@ -27,24 +27,56 @@ import "../../js/GraphicsRoutines.js" as GraphicsRoutines
 Rectangle {
   id: zoomablePhotoComponent
 
+  /*!
+  */
   signal loaded()
+  /*!
+  */
   signal clicked()
+  /*!
+  */
   signal zoomed()
+  /*!
+  */
   signal unzoomed()
 
+  /*!
+  */
   property var mediaSource
+  /*!
+  */
   property bool load: false
+  /*!
+  */
   property bool isPreview
+  /*!
+  */
   property string ownerName
 
   // read-only
+  /*!
+  */
   property alias paintedWidth: unzoomedPhoto.paintedWidth
+  /*!
+  */
   property alias paintedHeight: unzoomedPhoto.paintedHeight
+  /*!
+  */
   property alias isLoaded: unzoomedPhoto.isLoaded
+  /*!
+  */
   property int zoomFocusX: 0 // Relative to zoomablePhotoComponent.
+  /*!
+  */
   property int zoomFocusY: 0
+  /*!
+  */
   property real zoomFactor: 1
+  /*!
+  */
   property bool fullyUnzoomed: (state === "unzoomed" && zoomFactor === 1)
+  /*!
+  */
   property bool fullyZoomed: (state === "full_zoom" && zoomFactor === maxZoomFactor)
   
   // Though little documented, Qt has a dedicated background thread, separate
@@ -66,23 +98,37 @@ Rectangle {
   property int oneFrame: Math.ceil(1000 / 30);
 
   // internal
+  /*!
+  */
   property real maxZoomFactor: 2.5
+  /*!
+  */
   property real photoFocusX: zoomFocusX - unzoomedPhoto.leftEdge
+  /*!
+  */
   property real photoFocusY: zoomFocusY - unzoomedPhoto.topEdge
+  /*!
+  */
   property bool isZoomAnimationInProgress: false
 
   clip: true
 
+  /*!
+  */
   function zoom(x, y) {
     zoomFocusX = x;
     zoomFocusY = y;
     state = "full_zoom";
   }
 
+  /*!
+  */
   function unzoom() {
     state = "unzoomed";
   }
 
+  /*!
+  */
   function toggleZoom(x, y) {
     if (state === "unzoomed")
       zoom(x, y);

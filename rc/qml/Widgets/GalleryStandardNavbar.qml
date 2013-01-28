@@ -21,21 +21,47 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../../Capetown/Widgets"
 
+/*!
+*/
 Toolbar {
   id: wrapper
 
+  /*!
+  */
   property bool hasReturnButton: true
+  /*!
+  */
   property bool hasStateButton: false
+  /*!
+  */
   property alias selectedStateButtonIconFilename: stateButton.selectedIconFilename
+  /*!
+  */
   property alias deselectedStateButtonIconFilename: stateButton.deselectedIconFilename
+  /*!
+  */
   property bool hasSelectionDoneButton: false
+  /*!
+  */
   property alias selectionDoneButtonText: selectionDoneButton.text
+  /*!
+  */
   property alias selectionDoneButtonWidth: selectionDoneButton.width
+  /*!
+  */
   property bool hasCancelSelectionButton: false
 
+  /*!
+  */
   signal returnButtonPressed()
+  /*!
+  */
   signal stateButtonPressed()
+  /*!
+  */
   signal selectionDoneButtonPressed()
+  /*!
+  */
   signal cancelSelectionButtonPressed()
 
   Row {

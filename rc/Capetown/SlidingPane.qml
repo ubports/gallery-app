@@ -25,18 +25,32 @@ import QtQuick 2.0
 Item {
   id: slidingPane
 
+  /*!
+  */
   property real inX
+  /*!
+  */
   property real inY
+  /*!
+  */
   property int duration: 200
 
   // readonly
+  /*!
+  */
   property bool isIn: (state == "in")
+  /*!
+  */
   property bool animationRunning: slideX.running || slideY.running
 
+  /*!
+  */
   function slideIn() {
     state = "in";
   }
 
+  /*!
+  */
   function slideOut() {
     state = "";
   }

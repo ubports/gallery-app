@@ -20,18 +20,34 @@
 import QtQuick 2.0
 
 // Moves the position and size of the target to the end values.
+/*!
+*/
 ParallelAnimation {
   id: expandAnimation
   objectName: "expandAnimation"
 
+  /*!
+  */
   property variant target
 
+  /*!
+  */
   property real endX: 0
+  /*!
+  */
   property real endY: 0
+  /*!
+  */
   property real endWidth: target.parent.width
+  /*!
+  */
   property real endHeight: target.parent.height
+  /*!
+  */
   property int easingType: Easing.InQuad
 
+  /*!
+  */
   property int duration: 200
 
   NumberAnimation {

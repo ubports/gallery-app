@@ -42,32 +42,76 @@ Item {
   id: cropOverlay
 
   // public properties
+  /*!
+  */
   property Item viewport
+  /*!
+  */
   property GalleryPhotoComponent photo
+  /*!
+  */
   property string matteColor: "red"
+  /*!
+  */
   property real matteOpacity: 0.85
+  /*!
+  */
   property int initialFrameX: -1
+  /*!
+  */
   property int initialFrameY: -1
+  /*!
+  */
   property int initialFrameWidth: -1
+  /*!
+  */
   property int initialFrameHeight: -1
 
   // private properties -- Frame Fit Animation parameters
   property real interpolationFactor: 1.0
+  /*!
+  */
   property variant startFrame
+  /*!
+  */
   property variant endFrame
+  /*!
+  */
   property variant startPhoto
+  /*!
+  */
   property real referencePhotoWidth: -1
+  /*!
+  */
   property real referencePhotoHeight: -1
+  /*!
+  */
   property real endPhotoX
+  /*!
+  */
   property real endPhotoY
+  /*!
+  */
   property real endPhotoWidth
+  /*!
+  */
   property real endPhotoHeight
 
+  /*!
+  */
   signal userAlteredFrame()
+  /*!
+  */
   signal runFrameFitAnimation()
+  /*!
+  */
   signal matteRegionPressed()
+  /*!
+  */
   signal cropButtonPressed()
 
+  /*!
+  */
   function resetFor(rectSet) {
     if (initialFrameX != -1 && initialFrameY != -1 && initialFrameWidth != -1 &&
         initialFrameHeight != -1) {
@@ -98,6 +142,8 @@ Item {
     return GraphicsRoutines.cloneRect(photoExtent);
   }
 
+  /*!
+  */
   function getRelativeFrameRect() {
     return GraphicsRoutines.getRelativeRect(frame.getExtentRect(),
       getPhotoExtentRect());
