@@ -43,7 +43,9 @@ MouseArea {
     */
   signal longPressed(int x, int y)
   
-  property int requiredHorizMovement: units.gu(0)
+    /*!
+     */
+  property int requiredHorizMovement: units.gu(1)
   
   // internal
     /*!
