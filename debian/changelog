@@ -1,3 +1,9 @@
+goodhope (0.0.45) quantal; urgency=low
+
+  * Fixes for Qt5 final release packages
+
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Tue, 29 Jan 2013 21:28:25 +0000
+
 goodhope (0.0.44) quantal; urgency=low
 
   * some internal album code reshuffling

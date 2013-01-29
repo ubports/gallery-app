@@ -17,6 +17,7 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
+#include <QQuickItem>
 #include <QString>
 #include <QUrl>
 
