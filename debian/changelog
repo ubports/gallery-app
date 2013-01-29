@@ -1,3 +1,10 @@
+goodhope (0.0.44) quantal; urgency=low
+
+  * some internal album code reshuffling
+  * fixing to open an album on touch devices
+
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Tue, 29 Jan 2013 18:45:03 +0000
+
 goodhope (0.0.43) quantal; urgency=low
 
   * Fixes for Qt5 final release packages
