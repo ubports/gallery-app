@@ -20,17 +20,21 @@
 #ifndef GALLERY_EVENT_COLLECTION_H_
 #define GALLERY_EVENT_COLLECTION_H_
 
-#include <QObject>
 #include <QDate>
 #include <QHash>
 #include <QSet>
 
-#include "core/data-object.h"
 #include "core/source-collection.h"
-#include "event/event.h"
-#include "media/media-source.h"
 
-class EventCollection : public SourceCollection {
+class DataObject;
+class Event;
+class MediaSource;
+
+/*!
+ * \brief The EventCollection class
+ */
+class EventCollection : public SourceCollection
+{
   Q_OBJECT
   
  signals:

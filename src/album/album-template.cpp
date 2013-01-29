@@ -19,18 +19,40 @@
 
 #include "album/album-template.h"
 
+/*!
+ * \brief AlbumTemplate::AlbumTemplate
+ * \param name
+ */
 AlbumTemplate::AlbumTemplate(const char* name)
-  : name_(name) {
+  : name_(name)
+{
 }
 
-int AlbumTemplate::page_count() const {
+/*!
+ * \brief AlbumTemplate::page_count
+ * \return
+ */
+int AlbumTemplate::page_count() const
+{
   return pages_.count();
 }
 
-const QList<AlbumTemplatePage*>& AlbumTemplate::pages() const {
+/*!
+ * \brief AlbumTemplate::pages
+ * \return
+ */
+const QList<AlbumTemplatePage*>& AlbumTemplate::pages() const
+{
   return pages_;
 }
 
-void AlbumTemplate::AddPage(AlbumTemplatePage* page) {
+/*!
+ * \brief AlbumTemplate::AddPage
+ * AlbumTemplate assumes ownership of the AlbumTemplatePage at this point
+ * and will delete it when destroyed
+ * \param page
+ */
+void AlbumTemplate::AddPage(AlbumTemplatePage* page)
+{
   pages_.append(page);
 }

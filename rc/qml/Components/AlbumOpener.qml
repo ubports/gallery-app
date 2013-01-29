@@ -26,54 +26,116 @@ Item {
   id: albumOpener
 
   // public
+  /*!
+  */
   property Album album
+  /*!
+  */
   property bool isPreview: false
+  /*!
+  */
   property bool load: false
+  /*!
+  */
   property bool contentHasPreviewFrame: false
+  /*!
+  */
   property int duration: 1000
+  /*!
+  */
   property real openFraction: 0
+  /*!
+  */
   property int insideLeftPage: defaultInsideLeftPage
+  /*!
+  */
   property int insideRightPage: defaultInsideRightPage
 
+  /*!
+  */
   property real topMargin: previewTopMargin
+  /*!
+  */
   property real bottomMargin: previewBottomMargin
+  /*!
+  */
   property real gutterMargin: previewGutterMargin
+  /*!
+  */
   property real outerMargin: previewOuterMargin
+  /*!
+  */
   property real insideMargin: previewInsideMargin
 
   // readonly
+  /*!
+  */
   property bool isFlipping: (openFraction != 0 && openFraction != 1)
+  /*!
+  */
   property alias frameToContentWidth: rightPage.frameToContentWidth
+  /*!
+  */
   property alias frameToContentHeight: rightPage.frameToContentHeight
 
+  /*!
+  */
   property int defaultInsideLeftPage: leftPage.leftPageForCurrent(currentOrFirstContentPage)
+  /*!
+  */
   property int defaultInsideRightPage: rightPage.rightPageForCurrent(currentOrFirstContentPage)
 
+  /*!
+  */
   property alias pageTopMargin: rightPage.pageTopMargin
+  /*!
+  */
   property alias pageBottomMargin: rightPage.pageBottomMargin
+  /*!
+  */
   property alias pageGutterMargin: rightPage.pageGutterMargin
+  /*!
+  */
   property alias pageOuterMargin: rightPage.pageOuterMargin
+  /*!
+  */
   property alias pageInsideMargin: rightPage.pageInsideMargin
 
+  /*!
+  */
   property alias previewTopMargin: rightPage.previewTopMargin
+  /*!
+  */
   property alias previewBottomMargin: rightPage.previewBottomMargin
+  /*!
+  */
   property alias previewGutterMargin: rightPage.previewGutterMargin
+  /*!
+  */
   property alias previewOuterMargin: rightPage.previewOuterMargin
+  /*!
+  */
   property alias previewInsideMargin: rightPage.previewInsideMargin
 
   // internal
+  /*!
+  */
   property int currentOrFirstContentPage: (!album
     ? -1
     : (album.currentPage == album.firstValidCurrentPage
       ? album.firstContentPage
       : album.currentPage))
 
+  /*!
+  */
   function open() {
     animator.to = 1;
     animator.duration = (1 - openFraction) * duration;
     animator.restart();
   }
 
+  /*!
+  */
   function close() {
     animator.to = 0;
     animator.duration = openFraction * duration;

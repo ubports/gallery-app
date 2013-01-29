@@ -20,13 +20,23 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
+/*!
+*/
 PopupBox {
   id: popupActionChoiceDialog
 
+  /*!
+  */
   signal action0Requested()
+  /*!
+  */
   signal action1Requested()
 
+  /*!
+  */
   property alias action0Title: action0Button.text
+  /*!
+  */
   property alias action1Title: action1Button.text
 
   width: units.gu(40);

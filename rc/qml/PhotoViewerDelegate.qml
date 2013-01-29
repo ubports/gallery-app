@@ -28,17 +28,33 @@ import "Components"
 import "Widgets"
 import "../js/Gallery.js" as Gallery
 
+/*!
+*/
 Item {
   id: photoViewerDelegate
   
+  /*!
+  */
   property var mediaSource
+  /*!
+  */
   property bool useInteractivePreview
+  /*!
+  */
   property alias isLoaded: fullPhotoComponentLoader.isLoaded
   
+  /*!
+  */
   signal clicked()
+  /*!
+  */
   signal zoomed()
+  /*!
+  */
   signal unzoomed()
   
+  /*!
+  */
   function unzoom() {
     if (!isLoaded)
       return;
@@ -86,6 +102,7 @@ Item {
     
       ZoomablePhotoComponent {                
         id: galleryPhotoComponent
+        objectName: "openedPhoto" + index
         
         anchors.fill: parent
         color: "transparent"

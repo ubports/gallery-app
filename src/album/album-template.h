@@ -26,7 +26,11 @@
 
 #include "album/album-template-page.h"
 
-class AlbumTemplate : public QObject {
+/*!
+ * \brief The AlbumTemplate class
+ */
+class AlbumTemplate : public QObject
+{
   Q_OBJECT
   
  public:
@@ -40,8 +44,6 @@ class AlbumTemplate : public QObject {
  protected:
   explicit AlbumTemplate(const char* name);
   
-  // AlbumTemplate assumes ownership of the AlbumTemplatePage at this point
-  // and will delete it when destroyed
   void AddPage(AlbumTemplatePage* page);
   
  private:

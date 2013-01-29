@@ -25,7 +25,11 @@
 
 #include "album/album-template.h"
 
-class AlbumDefaultTemplate : public AlbumTemplate {
+/*!
+ * \brief The AlbumDefaultTemplate class
+ */
+class AlbumDefaultTemplate : public AlbumTemplate
+{
   Q_OBJECT
   
  public:

@@ -24,10 +24,15 @@
 #include <QVariant>
 #include <QtQml>
 
-#include "core/data-object.h"
 #include "qml/qml-view-collection-model.h"
 
-class QmlEventCollectionModel : public QmlViewCollectionModel {
+class DataObject;
+
+/*!
+ * \brief The QmlEventCollectionModel class
+ */
+class QmlEventCollectionModel : public QmlViewCollectionModel
+{
   Q_OBJECT
   
  public:

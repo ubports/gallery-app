@@ -17,6 +17,14 @@
  * Jim Nelson <jim@yorba.org>
  */
 
+#ifndef GALLERY_CONTAINER_SOURCE_COLLECTION_H_
+#define GALLERY_CONTAINER_SOURCE_COLLECTION_H_
+
+#include <QString>
+
+#include "core/data-object.h"
+#include "core/source-collection.h"
+
 /**
   * ContainerSourceCollection is a SourceCollection that holds ContainerSources.
   * That is, it represents all active ContainerSources of a particular finalized
@@ -25,17 +33,8 @@
   * ContainerSources hold DataSources, and ContainerSourceCollections hold
   * ContainerSources that hold DataSources.
   */
-
-#ifndef GALLERY_CONTAINER_SOURCE_COLLECTION_H_
-#define GALLERY_CONTAINER_SOURCE_COLLECTION_H_
-
-#include <QObject>
-#include <QString>
-
-#include "core/data-object.h"
-#include "core/source-collection.h"
-
-class ContainerSourceCollection : public SourceCollection {
+class ContainerSourceCollection : public SourceCollection
+{
   Q_OBJECT
   
 public:

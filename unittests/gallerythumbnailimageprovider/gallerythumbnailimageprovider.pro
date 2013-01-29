@@ -1,5 +1,3 @@
-include(../../coverage.pri)
-
 CONFIG += testcase
 TARGET = tst_gallerythumbnailimageprovider
 
@@ -9,11 +7,16 @@ MOC_DIR = build
 OBJECTS_DIR = build
 RCC_DIR = build
 
+include(../../coverage.pri)
+
 SOURCES += tst_gallerythumbnailimageprovider.cpp \
-    ../../src/qml/gallery-thumbnail-image-provider.cpp
+    ../../src/qml/gallery-thumbnail-image-provider.cpp \
+    gallery-manager.cpp \
+    preview-manager.cpp
 
-INCLUDEPATH += ../../src/qml
+INCLUDEPATH += ../../src/qml \
+               ../../src
 
-HEADERS += \
-    gallery-application.h
+HEADERS += ../../src/core/gallery-manager.h \
+           ../../src/media/preview-manager.h
 

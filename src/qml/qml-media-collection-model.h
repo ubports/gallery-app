@@ -25,11 +25,15 @@
 #include <QVariant>
 #include <QtQml>
 
-#include "core/data-object.h"
-#include "core/selectable-view-collection.h"
 #include "qml/qml-view-collection-model.h"
 
-class QmlMediaCollectionModel : public QmlViewCollectionModel {
+class DataObject;
+
+/*!
+ * \brief The QmlMediaCollectionModel class
+ */
+class QmlMediaCollectionModel : public QmlViewCollectionModel
+{
   Q_OBJECT
   Q_PROPERTY(bool monitored READ monitored WRITE set_monitored
     NOTIFY monitoring_changed)

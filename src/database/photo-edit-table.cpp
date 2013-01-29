@@ -20,12 +20,26 @@
 #include <QSqlQuery>
 
 #include "photo-edit-table.h"
+#include "database/database.h"
+#include "photo/photo-edit-state.h"
 
+/*!
+ * \brief PhotoEditTable::PhotoEditTable
+ * \param db
+ * \param parent
+ */
 PhotoEditTable::PhotoEditTable(Database* db, QObject* parent)
-    : QObject(parent), db_(db) {
+    : QObject(parent), db_(db)
+{
 }
 
-PhotoEditState PhotoEditTable::get_edit_state(qint64 media_id) const {
+/*!
+ * \brief PhotoEditTable::get_edit_state
+ * \param media_id
+ * \return
+ */
+PhotoEditState PhotoEditTable::get_edit_state(qint64 media_id) const
+{
   PhotoEditState edit_state;
 
   QSqlQuery query(*db_->get_db());
@@ -55,8 +69,14 @@ PhotoEditState PhotoEditTable::get_edit_state(qint64 media_id) const {
   return edit_state;
 }
 
+/*!
+ * \brief PhotoEditTable::set_edit_state
+ * \param media_id
+ * \param edit_state
+ */
 void PhotoEditTable::set_edit_state(qint64 media_id,
-                                    const PhotoEditState& edit_state) {
+                                    const PhotoEditState& edit_state)
+{
   if (media_id == INVALID_ID)
     return;
 
@@ -84,7 +104,12 @@ void PhotoEditTable::set_edit_state(qint64 media_id,
     db_->log_sql_error(query);
 }
 
-void PhotoEditTable::prepare_row(qint64 media_id) {
+/*!
+ * \brief PhotoEditTable::prepare_row
+ * \param media_id
+ */
+void PhotoEditTable::prepare_row(qint64 media_id)
+{
   QSqlQuery query(*db_->get_db());
   query.prepare("INSERT OR IGNORE INTO PhotoEditTable "
                 "(media_id) VALUES (:media_id)");

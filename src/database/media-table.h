@@ -22,39 +22,35 @@
 
 #include <QObject>
 
-#include "database.h"
+#include "photo/photo-metadata.h"
 
 class Database;
 
-class MediaTable : public QObject {
+/*!
+ * \brief The MediaTable class
+ */
+class MediaTable : public QObject
+{
   Q_OBJECT
   
  public:
   explicit MediaTable(Database* db, QObject *parent = 0);
   
-  // Runs though the table, removes references to files
-  // that have been deleted from disk.
   void verify_files();
   
-  // Returns the row ID for the given photo.  If none exists,
-  // -1 will be returned.
   qint64 get_id_for_media(const QString& filename);
   
-  // Creates a row for the given photo and returns the new ID.
   qint64 create_id_for_media(const QString& filename, const QDateTime& timestamp,
     const QDateTime& exposure_time, Orientation original_orientation,
     qint64 filesize);
   
-  // Updates a given row.
   void update_media(qint64 media_id, const QString& filename, 
     const QDateTime& timestamp, const QDateTime& exposure_time,
     Orientation original_orientation, qint64 filesize);
   
-  // Gets a row that already exists.
   void get_row(qint64 media_id, QSize& size, Orientation& original_orientation,
     QDateTime& file_timestamp, QDateTime& exposure_date_time);
   
-  // Removes a photo from the database.
   void remove(qint64 mediaId);
 
   QSize get_media_size(qint64 media_id);
@@ -66,8 +62,6 @@ class MediaTable : public QObject {
   
   QDateTime get_exposure_time(qint64 media_id);
   
-  // Returns true if row is from an older schema.  In that case, update_media()
-  // should be called to repopulate the row.
   bool row_needs_update(qint64 media_id);
   
  private:

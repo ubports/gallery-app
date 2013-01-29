@@ -1,5 +1,3 @@
-include(../coverage.pri)
-
 isEmpty(PREFIX) {
 	PREFIX = /usr/local
 }
@@ -15,6 +13,8 @@ OBJECTS_DIR = build
 RCC_DIR = build
 PKGCONFIG += exiv2
 DEFINES += QT_USE_QSTRINGBUILDER
+
+include(../coverage.pri)
 
 # Input
 
@@ -55,12 +55,10 @@ SOURCES += \
   qml/qml-event-collection-model.cpp \
   qml/qml-event-overview-model.cpp \
   qml/qml-media-collection-model.cpp \
-  qml/qml-stack.cpp \
   qml/qml-view-collection-model.cpp \
   util/imaging.cpp \
   util/resource.cpp \
   util/sharefile.cpp \
-  util/time.cpp \
   core/gallery-manager.cpp
 
 HEADERS += \
@@ -99,13 +97,11 @@ HEADERS += \
   qml/qml-event-collection-model.h \
   qml/qml-event-overview-model.h \
   qml/qml-media-collection-model.h \
-  qml/qml-stack.h \
   qml/qml-view-collection-model.h \
   util/collections.h \
   util/imaging.h \
   util/resource.h \
   util/sharefile.h \
-  util/time.h \
   util/variants.h \
   core/gallery-manager.h
 

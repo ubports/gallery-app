@@ -17,16 +17,19 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "event/event-collection.h"
+#include "event-collection.h"
+#include "core/data-object.h"
+#include "core/gallery-manager.h"
 #include "event/event.h"
 #include "media/media-collection.h"
 #include "media/media-source.h"
-#include "util/collections.h"
-#include "util/time.h"
-#include "core/gallery-manager.h"
 
+/*!
+ * \brief EventCollection::EventCollection
+ */
 EventCollection::EventCollection()
-  : SourceCollection("EventCollection") {
+  : SourceCollection("EventCollection")
+{
   SetComparator(Comparator);
   
   // Monitor MediaCollection to create/destroy Events, one for each day of
@@ -41,11 +44,23 @@ EventCollection::EventCollection()
   on_media_added_removed(&GalleryManager::GetInstance()->media_collection()->GetAsSet(), NULL);
 }
 
-Event* EventCollection::EventForDate(const QDate& date) const {
+/*!
+ * \brief EventCollection::EventForDate
+ * \param date
+ * \return
+ */
+Event* EventCollection::EventForDate(const QDate& date) const
+{
   return date_map_.value(date);
 }
 
-Event* EventCollection::EventForMediaSource(MediaSource* media) const {
+/*!
+ * \brief EventCollection::EventForMediaSource
+ * \param media
+ * \return
+ */
+Event* EventCollection::EventForMediaSource(MediaSource* media) const
+{
   // TODO: Could use lookup table here, but this is fine for now
   Event* event;
   foreach (event, GetAllAsType<Event*>()) {
@@ -56,8 +71,14 @@ Event* EventCollection::EventForMediaSource(MediaSource* media) const {
   return NULL;
 }
 
-// Sorts Events in reverse chronological order
-bool EventCollection::Comparator(DataObject* a, DataObject* b) {
+/*!
+ * \brief EventCollection::Comparator sorts Events in reverse chronological order
+ * \param a
+ * \param b
+ * \return
+ */
+bool EventCollection::Comparator(DataObject* a, DataObject* b)
+{
   Event* eventa = qobject_cast<Event*>(a);
   Q_ASSERT(eventa != NULL);
   
@@ -67,8 +88,14 @@ bool EventCollection::Comparator(DataObject* a, DataObject* b) {
   return eventa->date() > eventb->date();
 }
 
+/*!
+ * \brief EventCollection::on_media_added_removed
+ * \param added
+ * \param removed
+ */
 void EventCollection::on_media_added_removed(const QSet<DataObject *> *added,
-  const QSet<DataObject *> *removed) {
+  const QSet<DataObject *> *removed)
+{
   if (added != NULL) {
     DataObject* object;
     foreach (object, *added) {
@@ -103,8 +130,14 @@ void EventCollection::on_media_added_removed(const QSet<DataObject *> *added,
   }
 }
 
+/*!
+ * \brief EventCollection::notify_contents_altered
+ * \param added
+ * \param removed
+ */
 void EventCollection::notify_contents_altered(const QSet<DataObject *> *added,
-  const QSet<DataObject *> *removed) {
+  const QSet<DataObject *> *removed)
+{
   if (added != NULL) {
     DataObject* object;
     foreach (object, *added) {

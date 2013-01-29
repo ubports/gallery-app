@@ -23,14 +23,15 @@
 #include <QObject>
 #include <QDate>
 #include <QDateTime>
-#include <QQmlListProperty>
-#include <QList>
-#include <QtQml>
 
 #include "core/container-source.h"
 #include "media/media-source.h"
 
-class Event : public ContainerSource {
+/*!
+ * \brief The Event class
+ */
+class Event : public ContainerSource
+{
   Q_OBJECT
   Q_PROPERTY(QDate date READ date NOTIFY date_altered)
   Q_PROPERTY(QDateTime startDateTime READ start_date_time NOTIFY date_altered)

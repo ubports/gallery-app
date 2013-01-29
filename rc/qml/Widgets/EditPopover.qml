@@ -19,8 +19,14 @@ import Ubuntu.Components.Popups 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import ".."
 
+/*!
+*/
 Popover {
+    /*!
+    */
     property variant photo: null
+    /*!
+    */
     property CropInteractor cropper
 
     Column {

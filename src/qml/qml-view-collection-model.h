@@ -27,12 +27,18 @@
 #include <QModelIndex>
 #include <QVariant>
 
-#include "core/container-source.h"
-#include "core/data-object.h"
-#include "core/selectable-view-collection.h"
-#include "core/source-collection.h"
+#include <core/data-collection.h>
 
-class QmlViewCollectionModel : public QAbstractListModel {
+class DataObject;
+class ContainerSource;
+class SelectableViewCollection;
+class SourceCollection;
+
+/*!
+ * \brief The QmlViewCollectionModel class
+ */
+class QmlViewCollectionModel : public QAbstractListModel
+{
   Q_OBJECT
   Q_PROPERTY(int count READ count NOTIFY count_changed)
   Q_PROPERTY(int rawCount READ raw_count NOTIFY raw_count_changed)
@@ -122,21 +128,9 @@ class QmlViewCollectionModel : public QAbstractListModel {
   // subclass.  Return null if unknown type
   virtual DataObject* FromVariant(QVariant var) const = 0;
   
-  // This notifies model subscribers that the element has been added at the
-  // particular index ... note that QmlViewCollectionModel monitors
-  // the SelectableViewCollections "contents-altered" signal already
   void NotifyElementAdded(int index);
-  
-  // This notifies model subscribers that the element at this index was
-  // removed ... note that QmlViewCollectionModel monitors the
-  // SelectableViewCollections' "contents-altered" signal already
   void NotifyElementRemoved(int index);
-  
-    // This notifies model subscribers that the element at the particular index
-  // has been altered in some way.
   void NotifyElementAltered(int index, int role);
-
-  // Tells model subscribers that everything has changed.
   void NotifyReset();
   
   virtual QHash<int, QByteArray> roleNames() const;

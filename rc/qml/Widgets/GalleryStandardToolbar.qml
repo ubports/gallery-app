@@ -21,31 +21,67 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import "../../Capetown/Widgets"
 
+/*!
+*/
 Toolbar {
   id: wrapper
 
+  /*!
+  */
   property bool hasPageIndicator: false
+  /*!
+  */
   property alias pageIndicatorAlbum: pageIndicator.album
+  /*!
+  */
   property bool hasMainIconSet: true
+  /*!
+  */
   property bool hasFullIconSet: true
+  /*!
+  */
   property bool hasAlbumOperationsButton: true
+  /*!
+  */
   property alias hasSelectionOperationsButton: selectionToolbarButton.visible
+  /*!
+  */
   property alias hasEditOperationsButton: editToolbarButton.visible
+  /*!
+  */
   property alias albumPagesPerSpread: pageIndicator.pagesPerSpread
+  /*!
+  */
   property alias albumViewingPage: pageIndicator.viewingPage
 
   /* read only properties */
   property int albumOperationsPopupX: albumOperationsToolbarButton.x +
     iconGroup.x + 34;
+  /*!
+  */
   property int moreOperationsPopupX: moreOperationsToolbarButton.x +
     iconGroup.x + 34;
 
+  /*!
+  */
   signal pageIndicatorPageSelected(int page)
+  /*!
+  */
   signal albumOperationsButtonPressed()
+  /*!
+  */
   signal trashOperationButtonPressed()
+  /*!
+  */
   signal shareOperationsButtonPressed()
+  /*!
+  */
   signal moreOperationsButtonPressed()
+  /*!
+  */
   signal selectionOperationsButtonPressed(variant button)
+  /*!
+  */
   signal editOperationsButtonPressed()
 
   Row {

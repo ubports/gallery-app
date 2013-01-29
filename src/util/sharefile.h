@@ -18,7 +18,11 @@
 #define SHAREFILE_H
 
 #include <QObject>
+#include <QString>
 
+/*!
+ * \brief The ShareFile class
+ */
 class ShareFile : public QObject
 {
     Q_OBJECT

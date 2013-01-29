@@ -7,8 +7,9 @@
 
 """goodhope autopilot tests."""
 
-from os import remove
+from os import remove, system
 import os.path
+import shutil
 
 from autopilot.introspection.qt import QtIntrospectionTestMixin
 from autopilot.testcase import AutopilotTestCase
@@ -23,30 +24,36 @@ class GoodhopeTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
 
     """A common test case class that provides several useful methods for goodhope tests."""
 
+    sample_dir = "/tmp/goodhope_ap"
+    sample_file = "/tmp/goodhope_ap/sample.jpg"
+    installed_sample_file = "/usr/lib/python2.7/dist-packages/goodhope/data/sample.jpg"
+    local_sample_file = "goodhope/data/sample.jpg"
+
     def setUp(self):
         super(GoodhopeTestCase, self).setUp()
+
+        os.makedirs(self.sample_dir)
+        self.assertTrue(os.path.exists(self.sample_dir))
         # Lets assume we are installed system wide if this file is somewhere in /usr
         if os.path.realpath(__file__).startswith("/usr/"):
+            shutil.copy(self.installed_sample_file, self.sample_dir)
+            self.assertTrue(os.path.isfile(self.sample_file))
             self.launch_test_installed()
-            os.system("cp /usr/lib/python2.7/dist-packages/goodhope/data/sample.jpg ~/Pictures/")
         else:
+            shutil.copy(self.local_sample_file, self.sample_dir)
+            self.assertTrue(os.path.isfile(self.sample_file))
             self.launch_test_local()
-            os.system("cp goodhope/data/sample.jpg ~/Pictures/")
 
-        sample_location = os.path.expanduser("~/Pictures/sample.jpg")
-
-        self.assertTrue(os.path.exists(sample_location))
-        self.addCleanup(os.remove, sample_location)
-
+        self.addCleanup(shutil.rmtree, self.sample_dir)
 
     def launch_test_local(self):
         self.app = self.launch_test_application(
-            "../../src/gallery"
+            "../../src/gallery", self.sample_dir
             )
 
     def launch_test_installed(self):
         self.app = self.launch_test_application(
-           "gallery",
+           "gallery", self.sample_dir
            )
 
     @property

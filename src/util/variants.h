@@ -20,6 +20,9 @@
 #ifndef GALLERY_UTIL_VARIANTS_H_
 #define GALLERY_UTIL_VARIANTS_H_
 
+#include <QObject>
+#include <QVariant>
+
 // For casting a QVariant to a QObject-based object.
 //
 // NOTE: This uses Q_ASSERT to verify that the QVariant properly casts.

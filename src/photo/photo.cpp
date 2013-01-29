@@ -21,19 +21,29 @@
  * Clint Rogers <clinton@yorba.org>
  */
 
-#include "photo/photo.h"
+#include <QApplication>
+#include <QFileInfo>
+#include <QImage>
+#include <QImageReader>
+#include <QImageWriter>
 
+#include "photo.h"
+#include "core/gallery-manager.h"
 #include "database/database.h"
-#include "media/preview-manager.h"
+#include "database/media-table.h"
+#include "database/photo-edit-table.h"
+#include "media/media-collection.h"
 #include "qml/gallery-standard-image-provider.h"
 #include "qml/gallery-thumbnail-image-provider.h"
 #include "util/imaging.h"
-#include "core/gallery-manager.h"
 
-#include <QFileInfo>
-#include <QImage>
-
-bool Photo::IsValid(const QFileInfo& file) {
+/*!
+ * \brief Photo::IsValid
+ * \param file
+ * \return
+ */
+bool Photo::IsValid(const QFileInfo& file)
+{
   QImageReader reader(file.filePath());
   QByteArray format = reader.format();
 
@@ -54,7 +64,16 @@ bool Photo::IsValid(const QFileInfo& file) {
       QImageWriter::supportedImageFormats().contains(reader.format());
 }
 
-Photo* Photo::Load(const QFileInfo& file) {
+/*!
+ * \brief Photo::Load Loads a photo object from the given file
+ * Loads a photo object from the given file.  If it's not already
+ * present in the database, it will be added.  If the file is not
+ * valid return null.
+ * \param file
+ * \return
+ */
+Photo* Photo::Load(const QFileInfo& file)
+{
   bool needs_update = false;
   PhotoEditState edit_state;
   QDateTime timestamp;
@@ -125,20 +144,30 @@ Photo* Photo::Load(const QFileInfo& file) {
   return p;
 }
 
-Photo* Photo::Fetch(const QFileInfo& file) {
+/*!
+ * \brief Photo::Fetch Loads a photo object from the given file and generates a thumbnail for it
+ * Loads a photo object from the given file and generates a thumbnail for it
+ * if and only if it hasn't already been loaded; otherwise, it attempts to
+ * return the existing object instead. Uses Photo.Load() to do its work.
+ * \param file
+ * \return
+ */
+Photo* Photo::Fetch(const QFileInfo& file)
+{
   GalleryManager* gallery_mgr = GalleryManager::GetInstance();
 
   Photo* p = gallery_mgr->media_collection()->photoFromFileinfo(file);
   if (p == NULL) {
     p = Load(file);
-
-    if (p != NULL)
-      gallery_mgr->preview_manager()->ensure_preview_for_media(p);
   }
 
   return p;
 }
 
+/*!
+ * \brief Photo::Photo
+ * \param file
+ */
 Photo::Photo(const QFileInfo& file)
   : MediaSource(file),
     exposure_date_time_(),
@@ -147,17 +176,28 @@ Photo::Photo(const QFileInfo& file)
     saved_state_(),
     caches_(file),
     original_size_(),
-    original_orientation_(TOP_LEFT_ORIGIN) {
+    original_orientation_(TOP_LEFT_ORIGIN)
+{
   QByteArray format = QImageReader(file.filePath()).format();
   file_format_ = QString(format).toLower();
   if (file_format_ == "jpg") // Why does Qt expose two different names here?
     file_format_ = "jpeg";
 }
 
-Photo::~Photo() {
+/*!
+ * \brief Photo::~Photo
+ */
+Photo::~Photo()
+{
 }
 
-QImage Photo::Image(bool respect_orientation) {
+/*!
+ * \brief Photo::Image
+ * \param respect_orientation
+ * \return
+ */
+QImage Photo::Image(bool respect_orientation)
+{
   QImage image(file().filePath(), file_format_.toStdString().c_str());
   if (!image.isNull() && respect_orientation && file_format_has_orientation()) {
     image = image.transformed(
@@ -172,34 +212,59 @@ QImage Photo::Image(bool respect_orientation) {
   return image;
 }
 
-Orientation Photo::orientation() const {
+/*!
+ * \brief Photo::orientation
+ * \return
+ */
+Orientation Photo::orientation() const
+{
   return (current_state().orientation_ == PhotoEditState::ORIGINAL_ORIENTATION) ? 
     original_orientation_ : current_state().orientation_;
 }
 
-QDateTime Photo::exposure_date_time() const {
+/*!
+ * \brief Photo::exposure_date_time
+ * \return
+ */
+QDateTime Photo::exposure_date_time() const
+{
   return exposure_date_time_;
 }
 
-QUrl Photo::gallery_path() const {
+/*!
+ * \brief Photo::gallery_path
+ * \return
+ */
+QUrl Photo::gallery_path() const
+{
   QUrl url = MediaSource::gallery_path();
   // We don't pass the orientation in if we saved the file already rotated,
   // which is the case if the file format can't store rotation metadata.
-  append_path_params(&url, (file_format_has_orientation() ?
-                            orientation() : TOP_LEFT_ORIGIN));
+  append_path_params(&url, (file_format_has_orientation() ? orientation() : TOP_LEFT_ORIGIN), 0);
   
   return url;
 }
 
-QUrl Photo::gallery_preview_path() const {
+/*!
+ * \brief Photo::gallery_preview_path
+ * \return
+ */
+QUrl Photo::gallery_preview_path() const
+{
   QUrl url = MediaSource::gallery_preview_path();
   // previews are always stored fully transformed
-  append_path_params(&url, TOP_LEFT_ORIGIN);
+
+  append_path_params(&url, TOP_LEFT_ORIGIN, 1);
   
   return url;
 }
 
-QUrl Photo::gallery_thumbnail_path() const {
+/*!
+ * \brief Photo::gallery_thumbnail_path
+ * \return
+ */
+QUrl Photo::gallery_thumbnail_path() const
+{
   QUrl url = MediaSource::gallery_thumbnail_path();
   // same as in append_path_params() this is needed to trigger an update of the image in QML
   // so the URL is changed by adding/chageing the edit parameter
@@ -212,25 +277,48 @@ QUrl Photo::gallery_thumbnail_path() const {
   return url;
 }
 
-void Photo::set_base_edit_state(const PhotoEditState& base) {
+/*!
+ * \brief Photo::set_base_edit_state
+ * The "base state" is the PhotoEditState of the file when Gallery starts.
+ * It's the bottom of the undo stack.  Comes from the DB.
+ * \param base
+ */
+void Photo::set_base_edit_state(const PhotoEditState& base)
+{
   edits_.set_base(base);
 }
 
-void Photo::saveState() {
+/*!
+ * \brief Photo::saveState
+ */
+void Photo::saveState()
+{
   saved_state_ = current_state();
 }
 
-void Photo::revertToSavedState() {
+/*!
+ * \brief Photo::revertToSavedState
+ */
+void Photo::revertToSavedState()
+{
   if (saved_state_ != current_state())
     make_undoable_edit(saved_state_);
 }
 
-void Photo::revertToOriginal() {
+/*!
+ * \brief Photo::revertToOriginal
+ */
+void Photo::revertToOriginal()
+{
   if (!current_state().is_original())
     make_undoable_edit(PhotoEditState());
 }
 
-void Photo::undo() {
+/*!
+ * \brief Photo::undo
+ */
+void Photo::undo()
+{
   Orientation old_orientation = orientation();
 
   PhotoEditState prev = edits_.current();
@@ -239,7 +327,11 @@ void Photo::undo() {
     save(next, old_orientation);
 }
 
-void Photo::redo() {
+/*!
+ * \brief Photo::redo
+ */
+void Photo::redo()
+{
   Orientation old_orientation = orientation();
 
   PhotoEditState prev = edits_.current();
@@ -248,7 +340,11 @@ void Photo::redo() {
     save(next, old_orientation);
 }
 
-void Photo::rotateRight() {
+/*!
+ * \brief Photo::rotateRight
+ */
+void Photo::rotateRight()
+{
   Orientation new_orientation =
       PhotoMetadata::rotate_orientation(orientation(), false);
 
@@ -268,7 +364,11 @@ void Photo::rotateRight() {
   make_undoable_edit(next_state);
 }
 
-void Photo::autoEnhance() {
+/*!
+ * \brief Photo::autoEnhance
+ */
+void Photo::autoEnhance()
+{
   if (current_state().is_enhanced_)
     return;
 
@@ -278,11 +378,18 @@ void Photo::autoEnhance() {
   make_undoable_edit(next_state);
 }
 
-QVariant Photo::prepareForCropping() {
-  // We COULD optimize this out if it hasn't been cropped yet, but I rely on
-  // this creating an undoable edit (to make the cancel button in the crop tool
-  // function correctly) so we do an edit anyway.
-
+/*!
+ * \brief Photo::prepareForCropping
+ * Edits the image to original size so you can recrop it.  Returns crop
+ * coords in [0,1].  Should be followed by either cancelCropping() or crop().
+ *
+ * TODO: We COULD optimize this out if it hasn't been cropped yet, but I rely on
+ *      this creating an undoable edit (to make the cancel button in the crop tool
+ *      function correctly) so we do an edit anyway.
+ * \return
+ */
+QVariant Photo::prepareForCropping()
+{
   QRectF ratio_crop_rect(0.0, 0.0, 1.0, 1.0);
   if (current_state().crop_rectangle_.isValid()) {
     QSize image_size = get_original_size(current_state().orientation_);
@@ -306,12 +413,23 @@ QVariant Photo::prepareForCropping() {
   return QVariant::fromValue(ratio_crop_rect);
 }
 
-void Photo::cancelCropping() {
+/*!
+ * \brief Photo::cancelCropping
+ */
+void Photo::cancelCropping()
+{
   undo();
   edits_.clear_redos();
 }
 
-void Photo::crop(QVariant vrect) {
+/*!
+ * \brief Photo::crop
+ * You should call prepareForCropping() before calling this.  Specify all
+ * coords in [0,1].
+ * \param vrect
+ */
+void Photo::crop(QVariant vrect)
+{
   QRectF ratio_crop_rect = vrect.toRectF();
 
   QSize image_size = get_original_size(current_state().orientation_);
@@ -338,17 +456,34 @@ void Photo::crop(QVariant vrect) {
   make_undoable_edit(next_state);
 }
 
-void Photo::DestroySource(bool destroy_backing, bool as_orphan) {
+/*!
+ * \brief Photo::DestroySource
+ * \param destroy_backing
+ * \param as_orphan
+ */
+void Photo::DestroySource(bool destroy_backing, bool as_orphan)
+{
   MediaSource::DestroySource(destroy_backing, as_orphan);
 
   caches_.discard_all();
 }
 
-const PhotoEditState& Photo::current_state() const {
+/*!
+ * \brief Photo::current_state
+ * \return
+ */
+const PhotoEditState& Photo::current_state() const
+{
   return edits_.current();
 }
 
-QSize Photo::get_original_size(Orientation orientation) {
+/*!
+ * \brief Photo::get_original_size Returns the original image size translated to the desired orientation
+ * \param orientation
+ * \return Returns the original image size translated to the desired orientation
+ */
+QSize Photo::get_original_size(Orientation orientation)
+{
   if (!original_size_.isValid()) {
     QImage original(caches_.pristine_file().filePath(),
                     file_format_.toStdString().c_str());
@@ -378,14 +513,25 @@ QSize Photo::get_original_size(Orientation orientation) {
   return rotated_size;
 }
 
-void Photo::make_undoable_edit(const PhotoEditState& state) {
+/*!
+ * \brief Photo::make_undoable_edit
+ * \param state
+ */
+void Photo::make_undoable_edit(const PhotoEditState& state)
+{
   Orientation old_orientation = orientation();
 
   edits_.push_edit(state);
   save(state, old_orientation);
 }
 
-void Photo::save(const PhotoEditState& state, Orientation old_orientation) {
+/*!
+ * \brief Photo::save
+ * \param state
+ * \param old_orientation
+ */
+void Photo::save(const PhotoEditState& state, Orientation old_orientation)
+{
   edit_file(state);
  GalleryManager::GetInstance()->database()->get_photo_edit_table()->set_edit_state(get_id(), state);
 
@@ -400,9 +546,14 @@ void Photo::save(const PhotoEditState& state, Orientation old_orientation) {
   emit gallery_thumbnail_path_altered();
 }
 
-// Handler for the case of an image whose only change is to its 
-// orientation; used to skip re-encoding of JPEGs.
-void Photo::handle_simple_metadata_rotation(const PhotoEditState& state) {
+/*!
+ * \brief Photo::handle_simple_metadata_rotation
+ * Handler for the case of an image whose only change is to its
+ * orientation; used to skip re-encoding of JPEGs.
+ * \param state
+ */
+void Photo::handle_simple_metadata_rotation(const PhotoEditState& state)
+{
   PhotoMetadata* metadata = PhotoMetadata::FromFile(file());
   metadata->set_orientation(state.orientation_);
   
@@ -424,7 +575,12 @@ void Photo::handle_simple_metadata_rotation(const PhotoEditState& state) {
   set_size(new_size);
 }
 
-void Photo::edit_file(const PhotoEditState& state) {
+/*!
+ * \brief Photo::edit_file
+ * \param state
+ */
+void Photo::edit_file(const PhotoEditState& state)
+{
   // As a special case, if editing to the original version, we simply restore
   // from the original and call it a day.
   if (state.is_original()) {
@@ -511,7 +667,11 @@ void Photo::edit_file(const PhotoEditState& state) {
   set_size(new_size);
 }
 
-void Photo::create_cached_enhanced() {
+/*!
+ * \brief Photo::create_cached_enhanced
+ */
+void Photo::create_cached_enhanced()
+{
   if (!caches_.cache_enhanced_from_original()) {
     qDebug("Error creating enhanced file for %s", qPrintable(file().filePath()));
     return;
@@ -562,10 +722,18 @@ void Photo::create_cached_enhanced() {
   delete metadata;
 }
 
-void Photo::append_path_params(QUrl* url, Orientation orientation) const {
+/*!
+ * \brief Photo::append_path_params is called by either gallery_path or gallery_preview_path depending on what kind of photo.
+ * \brief This sets our size_level parameter which will dictate what sort of image is eventually created.
+ * \param url is the picture's url.
+ * \param orientation of the image.
+ * \param size_level dictates whether or not the image is a full sized picture or a thumbnail. 0 == full sized, 1 == preview.
+ */
+void Photo::append_path_params(QUrl* url, Orientation orientation, const int size_level) const
+{
   QUrlQuery query;
-  query.addQueryItem(GalleryStandardImageProvider::ORIENTATION_PARAM_NAME,
-    QString::number(orientation));
+  query.addQueryItem(GalleryStandardImageProvider::SIZE_KEY, QString::number(size_level));
+  query.addQueryItem(GalleryStandardImageProvider::ORIENTATION_PARAM_NAME, QString::number(orientation));
   
   // Because of QML's aggressive, opaque caching of loaded images, we need to
   // add an arbitrary URL parameter to gallery_path and gallery_preview_path so
@@ -579,24 +747,49 @@ void Photo::append_path_params(QUrl* url, Orientation orientation) const {
   url->setQuery(query);
 }
 
-bool Photo::file_format_has_metadata() const {
+/*!
+ * \brief Photo::file_format_has_metadata
+ * \return
+ */
+bool Photo::file_format_has_metadata() const
+{
   return (file_format_ == "jpeg" || file_format_ == "tiff" ||
           file_format_ == "png");
 }
 
-bool Photo::file_format_has_orientation() const {
+/*!
+ * \brief Photo::file_format_has_orientation
+ * \return
+ */
+bool Photo::file_format_has_orientation() const
+{
   return (file_format_ == "jpeg");
 }
 
-void Photo::set_original_orientation(Orientation orientation) {
+/*!
+ * \brief Photo::set_original_orientation
+ * \param orientation
+ */
+void Photo::set_original_orientation(Orientation orientation)
+{
   original_orientation_ = orientation;
 }
 
-void Photo::set_file_timestamp(const QDateTime& timestamp) {
+/*!
+ * \brief Photo::set_file_timestamp
+ * \param timestamp
+ */
+void Photo::set_file_timestamp(const QDateTime& timestamp)
+{
   file_timestamp_ = timestamp;
 }
 
-void Photo::set_exposure_date_time(const QDateTime& exposure_time) {
+/*!
+ * \brief Photo::set_exposure_date_time
+ * \param exposure_time
+ */
+void Photo::set_exposure_date_time(const QDateTime& exposure_time)
+{
   if (exposure_date_time_ == exposure_time)
     return;
   

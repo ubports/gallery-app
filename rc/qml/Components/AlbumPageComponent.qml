@@ -29,28 +29,50 @@ import "../../js/Gallery.js" as Gallery
 Flipable {
   id: albumPageComponent
 
+  /*!
+  */
   property Album album // The album this page is in.
 
+  /*!
+  */
   property alias frontPage: frontContents.page // On the right when viewed like in a book.
+  /*!
+  */
   property alias backPage: backContents.page // On the left when viewed like in a book.
 
   // [0,2]: 0 = flat right page, 1 = flat left page, 2 = back to right page.
   // The page turns 360 degrees from 0-2 in a normal "book" fashion.
   property real flipFraction: 0
 
+  /*!
+  */
   property bool isPreview: false // Whether to load preview or normal images.
+  /*!
+  */
   property bool load: false
   // These override the isPreview option if specified.
   property alias frontIsPreview: frontContents.isPreview
+  /*!
+  */
   property alias backIsPreview: backContents.isPreview
 
   // Whether to draw a frame around the page, if it's a content page.
   property bool contentHasPreviewFrame: false
 
+  /*!
+  */
   property real topMargin: pageTopMargin
+  /*!
+  */
   property real bottomMargin: pageBottomMargin
+  /*!
+  */
   property real gutterMargin: pageGutterMargin
+  /*!
+  */
   property real outerMargin: pageOuterMargin
+  /*!
+  */
   property real insideMargin: pageInsideMargin
   
   // Prevent the page from reflecting the album as its modified
@@ -61,22 +83,52 @@ Flipable {
   property bool showCover: true
 
   // readonly
+  /*!
+  */
   property alias frontIsCover: frontContents.isCover
+  /*!
+  */
   property alias backIsCover: backContents.isCover
+  /*!
+  */
   property alias frameToContentWidth: frontContents.frameToContentWidth
+  /*!
+  */
   property alias frameToContentHeight: frontContents.frameToContentHeight
+  /*!
+  */
   property alias frameHingeInset: frontContents.frameHingeInset
 
+  /*!
+  */
   property real pageTopMargin: getDeviceSpecific('albumPageTopMargin')
+  /*!
+  */
   property real pageBottomMargin: getDeviceSpecific('albumPageBottomMargin')
+  /*!
+  */
   property real pageGutterMargin: getDeviceSpecific('albumPageGutterMargin')
+  /*!
+  */
   property real pageOuterMargin: getDeviceSpecific('albumPageOuterMargin')
+  /*!
+  */
   property real pageInsideMargin: getDeviceSpecific('albumPageInsideMargin')
 
+  /*!
+  */
   property real previewTopMargin: getDeviceSpecific('albumPreviewTopMargin')
+  /*!
+  */
   property real previewBottomMargin: getDeviceSpecific('albumPreviewBottomMargin')
+  /*!
+  */
   property real previewGutterMargin: getDeviceSpecific('albumPreviewGutterMargin')
+  /*!
+  */
   property real previewOuterMargin: getDeviceSpecific('albumPreviewOuterMargin')
+  /*!
+  */
   property real previewInsideMargin: getDeviceSpecific('albumPreviewInsideMargin')
   
   // Returns the page number of the left page of the current "spread", denoted

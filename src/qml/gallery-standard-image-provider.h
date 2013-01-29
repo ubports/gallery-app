@@ -33,7 +33,7 @@
 
 #include "photo/photo-metadata.h"
 
-/*
+/*!
  * Gallery uses a custom image provider for three reasons:
  *
  * 1. QML's image loader does not respect EXIF orientation.  This provider will
@@ -49,9 +49,8 @@
  * 3. Logging (enabled with --log-image-loading) allows for monitoring of
  *    all image I/O, useful when debugging and optimizing.
  */
-
-class GalleryStandardImageProvider
-  : public QObject, public QQuickImageProvider {
+class GalleryStandardImageProvider : public QObject, public QQuickImageProvider
+{
   Q_OBJECT
   
  public:
@@ -60,6 +59,8 @@ class GalleryStandardImageProvider
   
   static const char* REVISION_PARAM_NAME;
   static const char* ORIENTATION_PARAM_NAME;
+
+  static const char* SIZE_KEY;
   
   virtual ~GalleryStandardImageProvider();
   
@@ -93,7 +94,6 @@ class GalleryStandardImageProvider
     
     static QString idToFile(const QString& id);
     
-    // the following should only be called when imageMutex_ is locked
     void storeImage(const QImage& image, const QSize& fullSize, Orientation orientation);
     bool isFullSized() const;
     bool isReady() const;
@@ -107,18 +107,16 @@ class GalleryStandardImageProvider
   
   static QSize orientSize(const QSize& size, Orientation orientation);
   
-  // Returns a CachedImage with an inUseCount > 0, meaning it cannot be
-  // removed from the cache until released
   CachedImage* claim_cached_image_entry(const QString& id, QString& loggingStr);
   
-  // Inspects and loads a proper image for this request into the CachedImage
   QImage fetch_cached_image(CachedImage* cachedImage, const QSize& requestedSize,
     uint* bytesLoaded, QString& loggingStr);
   
-  // Releases a CachedImage to the cache; takes its bytes loaded (0 if nothing
-  // was loaded) and returns the current cached byte total
   void release_cached_image_entry(CachedImage* cachedImage, uint bytesLoaded,
-    long* currentCachedBytes, int* currentCacheEntries, QString& loggingStr);
+  long* currentCachedBytes, int* currentCacheEntries);
+
+  //Allow our test access to private variables.
+  friend class tst_GalleryStandardImageProvider;
 };
 
 #endif // GALLERY_GALLERY_STANDARD_IMAGE_PROVIDER_H_

@@ -20,18 +20,34 @@
 #ifndef GALLERY_UTIL_IMAGING_H_
 #define GALLERY_UTIL_IMAGING_H_
 
-#include <QObject>
 #include <QImage>
 #include <QColor>
 
+/*!
+ * \brief clampi
+ * \param i
+ * \param min
+ * \param max
+ * \return
+ */
 inline int clampi(int i, int min, int max) {
   return (i < min) ? min : ((i > max) ? max : i);
 }
 
+/*!
+ * \brief clampf
+ * \param x
+ * \param min
+ * \param max
+ * \return
+ */
 inline float clampf(float x, float min, float max) {
   return (x < min) ? min : ((x > max) ? max : x);
 }
 
+/*!
+ * \brief The HSVTransformation class
+ */
 class HSVTransformation {
  public:
   HSVTransformation() { }
@@ -44,6 +60,9 @@ class HSVTransformation {
   int remap_table_[256];
 };
 
+/*!
+ * \brief The IntensityHistogram class
+ */
 class IntensityHistogram {
  public:
   IntensityHistogram(const QImage& basis_image);
@@ -57,6 +76,9 @@ class IntensityHistogram {
   float cumulative_probabilities_[256];
 };
 
+/*!
+ * \brief The ToneExpansionTransformation class
+ */
 class ToneExpansionTransformation : public virtual HSVTransformation {
   static const float DEFAULT_LOW_DISCARD_MASS;
   static const float DEFAULT_HIGH_DISCARD_MASS;
@@ -80,6 +102,9 @@ class ToneExpansionTransformation : public virtual HSVTransformation {
   float high_discard_mass_;
 };
 
+/*!
+ * \brief The HermiteGammaApproximationFunction class
+ */
 class HermiteGammaApproximationFunction {
  public:
   HermiteGammaApproximationFunction(float user_interval_upper);
@@ -92,6 +117,9 @@ class HermiteGammaApproximationFunction {
   float nonzero_interval_upper_;
 };
 
+/*!
+ * \brief The ShadowDetailTransformation class
+ */
 class ShadowDetailTransformation : public virtual HSVTransformation {
   static const float MAX_EFFECT_SHIFT;
   static const float MIN_TONAL_WIDTH;
@@ -107,6 +135,9 @@ class ShadowDetailTransformation : public virtual HSVTransformation {
   float intensity_;
 };
 
+/*!
+ * \brief The AutoEnhanceTransformation class
+ */
 class AutoEnhanceTransformation : public virtual HSVTransformation {
   static const int SHADOW_DETECT_MIN_INTENSITY;
   static const int SHADOW_DETECT_MAX_INTENSITY;

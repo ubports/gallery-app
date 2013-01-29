@@ -21,18 +21,20 @@
 #define GALLERY_QML_EVENT_OVERVIEW_MODEL_H_
 
 #include <QObject>
-#include <QDate>
 #include <QDateTime>
 #include <QSet>
 #include <QVariant>
 #include <QtQml>
 
-#include "core/data-object.h"
-#include "core/data-source.h"
-#include "core/source-collection.h"
 #include "qml/qml-media-collection-model.h"
 
-class QmlEventOverviewModel : public QmlMediaCollectionModel {
+class DataObject;
+
+/*!
+ * \brief The QmlEventOverviewModel class
+ */
+class QmlEventOverviewModel : public QmlMediaCollectionModel
+{
   Q_OBJECT
   Q_PROPERTY(bool ascending READ ascending_order WRITE set_ascending_order
     NOTIFY ordering_altered)

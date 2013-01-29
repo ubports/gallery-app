@@ -18,14 +18,14 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "qml/gallery-standard-image-provider.h"
-
 #include <QImageReader>
 #include <QSize>
 #include <QElapsedTimer>
+#include <QUrlQuery>
 
+#include "gallery-standard-image-provider.h"
 #include "media/preview-manager.h"
-#include "gallery-application.h"
+#include "core/gallery-manager.h"
 
 const char* GalleryStandardImageProvider::PROVIDER_ID = "gallery-standard";
 const char* GalleryStandardImageProvider::PROVIDER_ID_SCHEME = "image://gallery-standard/";
@@ -33,39 +33,65 @@ const char* GalleryStandardImageProvider::PROVIDER_ID_SCHEME = "image://gallery-
 const char* GalleryStandardImageProvider::REVISION_PARAM_NAME = "edit";
 const char* GalleryStandardImageProvider::ORIENTATION_PARAM_NAME = "orientation";
 
+const char* GalleryStandardImageProvider::SIZE_KEY = "size_level";
+
 const long MAX_CACHE_BYTES = 20L * 1024L * 1024L;
 
 // fully load previews into memory when requested
 const int SCALED_LOAD_FLOOR_DIM_PIXELS =
   qMax(PreviewManager::PREVIEW_WIDTH_MAX, PreviewManager::PREVIEW_HEIGHT_MAX);
 
+/*!
+ * \brief GalleryStandardImageProvider::GalleryStandardImageProvider
+ */
 GalleryStandardImageProvider::GalleryStandardImageProvider()
   : QQuickImageProvider(QQuickImageProvider::Image),
-  cachedBytes_(0) {
+  cachedBytes_(0)
+{
 }
 
-GalleryStandardImageProvider::~GalleryStandardImageProvider() {
+/*!
+ * \brief GalleryStandardImageProvider::~GalleryStandardImageProvider
+ */
+GalleryStandardImageProvider::~GalleryStandardImageProvider()
+{
   // NOTE: This assumes that the GSIP is not receiving any requests any longer
   while (!fifo_.isEmpty())
     delete cache_.value(fifo_.takeFirst());
 }
 
-QUrl GalleryStandardImageProvider::ToURL(const QFileInfo& file) {
+/*!
+ * \brief GalleryStandardImageProvider::ToURL
+ * \param file
+ * \return
+ */
+QUrl GalleryStandardImageProvider::ToURL(const QFileInfo& file)
+{
   return QUrl::fromUserInput(PROVIDER_ID_SCHEME + file.absoluteFilePath());
 }
 
 #define LOG_IMAGE_STATUS(status) { \
-    if (GalleryApplication::instance()->log_image_loading()) \
+    if (GalleryManager::GetInstance()->log_image_loading()) \
     loggingStr += status; \
 }
 
+/*!
+ * \brief GalleryStandardImageProvider::requestImage
+ * \param id
+ * \param size
+ * \param requestedSize
+ * \return
+ */
 QImage GalleryStandardImageProvider::requestImage(const QString& id,
-  QSize* size, const QSize& requestedSize) {
+  QSize* size, const QSize& requestedSize)
+{
   // for LOG_IMAGE_STATUS
   QString loggingStr = "";
   QElapsedTimer timer;
   timer.start();
-  
+
+  GalleryManager::GetInstance()->preview_manager()->ensure_preview_for_media(QFileInfo(id));
+
   CachedImage* cachedImage = claim_cached_image_entry(id, loggingStr);
   Q_ASSERT(cachedImage != NULL);
   
@@ -77,10 +103,9 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
   
   long currentCachedBytes = 0;
   int currentCacheEntries = 0;
-  release_cached_image_entry(cachedImage, bytesLoaded, &currentCachedBytes,
-    &currentCacheEntries, loggingStr);
+  release_cached_image_entry(cachedImage, bytesLoaded, &currentCachedBytes, &currentCacheEntries);
   
-  if (GalleryApplication::instance()->log_image_loading()) {
+  if (GalleryManager::GetInstance()->log_image_loading()) {
     if (bytesLoaded > 0) {
       qDebug("%s %s req:%dx%d ret:%dx%d cache:%ldb/%d loaded:%db time:%lldms", qPrintable(loggingStr),
              qPrintable(id), requestedSize.width(), requestedSize.height(), readyImage.width(),
@@ -99,8 +124,17 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
   return readyImage;
 }
 
+/*!
+ * \brief GalleryStandardImageProvider::claim_cached_image_entry
+ * Returns a CachedImage with an inUseCount > 0, meaning it cannot be
+ * removed from the cache until released
+ * \param id
+ * \param loggingStr
+ * \return
+ */
 GalleryStandardImageProvider::CachedImage* GalleryStandardImageProvider::claim_cached_image_entry(
-  const QString& id, QString& loggingStr) {
+  const QString& id, QString& loggingStr)
+{
   // lock the cache table and retrieve the element for the cached image; if
   // not found, create one as a placeholder
   cacheMutex_.lock();
@@ -130,8 +164,18 @@ GalleryStandardImageProvider::CachedImage* GalleryStandardImageProvider::claim_c
   return cachedImage;
 }
 
+/*!
+ * \brief GalleryStandardImageProvider::fetch_cached_image Inspects and loads a proper image
+ * Inspects and loads a proper image for this request into the CachedImage
+ * \param cachedImage
+ * \param requestedSize
+ * \param bytesLoaded
+ * \param loggingStr
+ * \return
+ */
 QImage GalleryStandardImageProvider::fetch_cached_image(CachedImage *cachedImage,
-  const QSize& requestedSize, uint* bytesLoaded, QString& loggingStr) {
+  const QSize& requestedSize, uint* bytesLoaded, QString& loggingStr)
+{
   Q_ASSERT(cachedImage != NULL);
   
   // the final image returned to the user
@@ -218,9 +262,19 @@ QImage GalleryStandardImageProvider::fetch_cached_image(CachedImage *cachedImage
   return readyImage;
 }
 
-void GalleryStandardImageProvider::release_cached_image_entry(
-  GalleryStandardImageProvider::CachedImage* cachedImage, uint bytesLoaded,
-  long *currentCachedBytes, int* currentCacheEntries, QString& loggingStr) {
+/*!
+ * \brief GalleryStandardImageProvider::release_cached_image_entry
+ * Releases a CachedImage to the cache; takes its bytes loaded (0 if nothing
+ * was loaded) and returns the current cached byte total
+ * \param cachedImage
+ * \param bytesLoaded
+ * \param currentCachedBytes
+ * \param currentCacheEntries
+ */
+void GalleryStandardImageProvider::release_cached_image_entry
+(CachedImage *cachedImage, uint bytesLoaded,
+ long *currentCachedBytes, int *currentCacheEntries)
+{
   Q_ASSERT(cachedImage != NULL);
   
   // update total cached bytes and remove excess bytes
@@ -277,7 +331,14 @@ void GalleryStandardImageProvider::release_cached_image_entry(
     delete dropList.takeFirst();
 }
 
-QSize GalleryStandardImageProvider::orientSize(const QSize& size, Orientation orientation) {
+/*!
+ * \brief GalleryStandardImageProvider::orientSize
+ * \param size
+ * \param orientation
+ * \return
+ */
+QSize GalleryStandardImageProvider::orientSize(const QSize& size, Orientation orientation)
+{
   switch (orientation) {
     case LEFT_TOP_ORIGIN:
     case RIGHT_TOP_ORIGIN:
@@ -292,13 +353,14 @@ QSize GalleryStandardImageProvider::orientSize(const QSize& size, Orientation or
   }
 }
 
-/*
- * GalleryStandardImageProvider::CachedImage
+/*!
+ * \brief GalleryStandardImageProvider::CachedImage::CachedImage
+ * \param id
  */
-
 GalleryStandardImageProvider::CachedImage::CachedImage(const QString& id)
   : id_(id), uri_(id), file_(idToFile(id)), hasOrientation_(false),
-  orientation_(TOP_LEFT_ORIGIN), inUseCount_(0), byteCount_(0) {
+  orientation_(TOP_LEFT_ORIGIN), inUseCount_(0), byteCount_(0)
+{
   QUrlQuery query(uri_);
   if (query.hasQueryItem(ORIENTATION_PARAM_NAME)) {
     QString value = query.queryItemValue(ORIENTATION_PARAM_NAME);
@@ -313,27 +375,71 @@ GalleryStandardImageProvider::CachedImage::CachedImage(const QString& id)
   }
 }
 
-QString GalleryStandardImageProvider::CachedImage::idToFile(const QString& id) {
-  return QUrl(id).path();
+/*!
+ * \brief GalleryStandardImageProvider::CachedImage::idToFile
+ * \param id
+ * \return
+ */
+QString GalleryStandardImageProvider::CachedImage::idToFile(const QString& id)
+{
+  QUrl url = QUrl(id);
+  QString fileName = url.path();
+
+  //Get our item value from our query by it's key.
+  QUrlQuery url_query(url);
+  url_query.hasQueryItem(GalleryStandardImageProvider::SIZE_KEY);
+  QString value = url_query.queryItemValue(GalleryStandardImageProvider::SIZE_KEY);
+
+  if (value == "1")
+  {
+    QFileInfo thumbnailFile = GalleryManager::GetInstance()->preview_manager()->PreviewFileFor(fileName);
+    fileName = thumbnailFile.absoluteFilePath();
+  }
+
+  return fileName;
 }
 
+/*!
+ * \brief GalleryStandardImageProvider::CachedImage::storeImage
+ * Importand: the following should only be called when imageMutex_ is locked
+ * \param image
+ * \param fullSize
+ * \param orientation
+ */
 void GalleryStandardImageProvider::CachedImage::storeImage(const QImage& image,
-  const QSize& fullSize, Orientation orientation) {
+  const QSize& fullSize, Orientation orientation)
+{
   image_ = image;
   fullSize_ = orientSize(fullSize, orientation);
   hasOrientation_ = true;
   orientation_ = orientation;
 }
 
-bool GalleryStandardImageProvider::CachedImage::isReady() const {
+/*!
+ * \brief GalleryStandardImageProvider::CachedImage::isReady
+ * \return
+ */
+bool GalleryStandardImageProvider::CachedImage::isReady() const
+{
   return !image_.isNull();
 }
 
-bool GalleryStandardImageProvider::CachedImage::isFullSized() const {
+/*!
+ * \brief GalleryStandardImageProvider::CachedImage::isFullSized
+ * \return
+ */
+bool GalleryStandardImageProvider::CachedImage::isFullSized() const
+{
   return isReady() && (image_.size() == fullSize_);
 }
 
-bool GalleryStandardImageProvider::CachedImage::isCacheHit(const QSize& requestedSize) const {
+/*!
+ * \brief GalleryStandardImageProvider::CachedImage::isCacheHit
+ * \param requestedSize
+ * \return
+ */
+bool GalleryStandardImageProvider::CachedImage::isCacheHit(const QSize& requestedSize) const
+{
   if (!isReady())
     return false;
   

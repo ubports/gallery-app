@@ -17,11 +17,9 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-#include "photo/photo-metadata.h"
-
 #include <cstdio>
 
-#include <QDate>
+#include "photo-metadata.h"
 
 namespace {
   const Orientation DEFAULT_ORIENTATION = TOP_LEFT_ORIGIN;
@@ -94,13 +92,24 @@ namespace {
   }
 } // namespace
 
+/*!
+ * \brief PhotoMetadata::PhotoMetadata
+ * \param filepath
+ */
 PhotoMetadata::PhotoMetadata(const char* filepath)
-  : file_source_info_(filepath) {
+  : file_source_info_(filepath)
+{
   image_ = Exiv2::ImageFactory::open(filepath);
   image_->readMetadata();
 }
 
-PhotoMetadata* PhotoMetadata::FromFile(const char* filepath) {
+/*!
+ * \brief PhotoMetadata::FromFile
+ * \param filepath
+ * \return
+ */
+PhotoMetadata* PhotoMetadata::FromFile(const char* filepath)
+{
   PhotoMetadata* result = NULL;
   try {
     result = new PhotoMetadata(filepath);
@@ -129,11 +138,24 @@ PhotoMetadata* PhotoMetadata::FromFile(const char* filepath) {
   }
 }
 
-PhotoMetadata* PhotoMetadata::FromFile(const QFileInfo &file) {
+/*!
+ * \brief PhotoMetadata::FromFile
+ * \param file
+ * \return
+ */
+PhotoMetadata* PhotoMetadata::FromFile(const QFileInfo &file)
+{
   return PhotoMetadata::FromFile(file.absoluteFilePath().toStdString().c_str());
 }
 
-Orientation PhotoMetadata::rotate_orientation(Orientation orientation, bool left) {
+/*!
+ * \brief PhotoMetadata::rotate_orientation
+ * \param orientation
+ * \param left
+ * \return
+ */
+Orientation PhotoMetadata::rotate_orientation(Orientation orientation, bool left)
+{
   QVector<Orientation> sequence_a;
   QVector<Orientation> sequence_b;
   sequence_a <<
@@ -151,7 +173,12 @@ Orientation PhotoMetadata::rotate_orientation(Orientation orientation, bool left
   return sequence[next];
 }
 
-Orientation PhotoMetadata::orientation() const {
+/*!
+ * \brief PhotoMetadata::orientation
+ * \return
+ */
+Orientation PhotoMetadata::orientation() const
+{
   Exiv2::ExifData& exif_data = image_->exifData();
   
   if (exif_data.empty())
@@ -167,7 +194,12 @@ Orientation PhotoMetadata::orientation() const {
   return static_cast<Orientation>(orientation_code);
 }
 
-QDateTime PhotoMetadata::exposure_time() const { 
+/*!
+ * \brief PhotoMetadata::exposure_time
+ * \return
+ */
+QDateTime PhotoMetadata::exposure_time() const
+{
   const char* matched = get_first_matched(EXPOSURE_TIME_KEYS,
     NUM_EXPOSURE_TIME_KEYS, keys_present_);
   if (matched == NULL)
@@ -183,15 +215,30 @@ QDateTime PhotoMetadata::exposure_time() const {
   return QDateTime();
 }
 
-OrientationCorrection PhotoMetadata::orientation_correction() const {
+/*!
+ * \brief PhotoMetadata::orientation_correction
+ * \return
+ */
+OrientationCorrection PhotoMetadata::orientation_correction() const
+{
   return OrientationCorrection::FromOrientation(orientation());
 }
 
-QTransform PhotoMetadata::orientation_transform() const {
+/*!
+ * \brief PhotoMetadata::orientation_transform
+ * \return
+ */
+QTransform PhotoMetadata::orientation_transform() const
+{
   return orientation_correction().to_transform();
 }
 
-void PhotoMetadata::set_orientation(Orientation orientation) {
+/*!
+ * \brief PhotoMetadata::set_orientation
+ * \param orientation
+ */
+void PhotoMetadata::set_orientation(Orientation orientation)
+{
   Exiv2::ExifData& exif_data = image_->exifData();
 
   exif_data[EXIF_ORIENTATION_KEY] = orientation;
@@ -200,7 +247,12 @@ void PhotoMetadata::set_orientation(Orientation orientation) {
     keys_present_.insert(EXIF_ORIENTATION_KEY);
 }
 
-bool PhotoMetadata::save() const {
+/*!
+ * \brief PhotoMetadata::save
+ * \return
+ */
+bool PhotoMetadata::save() const
+{
   try {
     image_->writeMetadata();
     return true;
@@ -209,7 +261,13 @@ bool PhotoMetadata::save() const {
   }
 }
 
-OrientationCorrection OrientationCorrection::FromOrientation(Orientation o) {
+/*!
+ * \brief OrientationCorrection::FromOrientation
+ * \param o
+ * \return
+ */
+OrientationCorrection OrientationCorrection::FromOrientation(Orientation o)
+{
   double rotation_angle = 0.0;
   double horizontal_scale_factor = 1.0;
 
@@ -253,11 +311,22 @@ OrientationCorrection OrientationCorrection::FromOrientation(Orientation o) {
   return OrientationCorrection(rotation_angle, horizontal_scale_factor);
 }
 
-OrientationCorrection OrientationCorrection::Identity() {
+/*!
+ * \brief OrientationCorrection::Identity
+ * \return
+ */
+OrientationCorrection OrientationCorrection::Identity()
+{
   return OrientationCorrection(0.0, 1.0);
 }
 
-QTransform OrientationCorrection::to_transform() const {
+/*!
+ * \brief OrientationCorrection::to_transform
+ * Returns the correction as a QTransform.
+ * \return Returns the correction as a QTransform.
+ */
+QTransform OrientationCorrection::to_transform() const
+{
   QTransform result;
   result.scale(horizontal_scale_factor_, 1.0);
   result.rotate(rotation_angle_);
@@ -265,13 +334,29 @@ QTransform OrientationCorrection::to_transform() const {
   return result;
 }
 
+/*!
+ * \brief OrientationCorrection::is_flipped_from
+ * Returns whether the two orientations are flipped relative to each other.
+ * Ignores rotation_angle; only checks horizontal_scale_factor_.
+ * \param other
+ * \return
+ */
 bool OrientationCorrection::is_flipped_from(
-    const OrientationCorrection& other) const {
+    const OrientationCorrection& other) const
+{
   return (horizontal_scale_factor_ != other.horizontal_scale_factor_);
 }
 
+/*!
+ * \brief OrientationCorrection::get_normalized_rotation_difference
+ * Returns the rotation difference in degrees (this - other), normalized to
+ * 0, 90, 180, or 270.  Ignores the horizontal_scale_factor_.
+ * \param other
+ * \return
+ */
 int OrientationCorrection::get_normalized_rotation_difference(
-    const OrientationCorrection& other) const {
+    const OrientationCorrection& other) const
+{
   int degrees_rotation = (int)rotation_angle_ - (int)other.rotation_angle_;
   if (degrees_rotation < 0)
     degrees_rotation += 360;

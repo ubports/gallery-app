@@ -17,34 +17,33 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "core/data-object.h"
-
 #include <QQmlEngine>
 
+#include "data-object.h"
 #include "gallery-application.h"
-#include "util/variants.h"
 
 DataObjectNumber DataObject::next_number_ = 0;
 
-DataObject::DataObject(QObject * parent, const QString& name)
-  : QObject(parent), name_(name.toUtf8()), number_(next_number_++) {
+/*!
+ * \brief DataObject::DataObject
+ * \param parent
+ */
+DataObject::DataObject(QObject * parent)
+  : QObject(parent), number_(next_number_++)
+{
   // All DataObjects are registered as C++ ownership; QML should never GC them
   GalleryApplication::instance()->setObjectOwnership(this, QQmlEngine::CppOwnership);
 }
 
-DataObjectNumber DataObject::number() const {
+/*!
+ * \brief DataObject::number
+ * TODO: number() should return the same value for the same DataObject across
+ *       invocations of Gallery. Right now, this API contract is maintained
+ *       implicitly and in a particularly fragile way. We should fix this.
+ *       See https://bugs.launchpad.net/goodhope/+bug/1087084.
+ * \return
+ */
+DataObjectNumber DataObject::number() const
+{
   return number_;
-}
-
-void DataObject::SetInternalName(const QString& name) {
-  name_ = name.toUtf8();
-}
-
-bool DataObject::equals(QVariant vobject) const {
-  // DataObjects are unique and can be compared through identity alone
-  return UncheckedVariantToObject<DataObject*>(vobject) == this;
-}
-
-const char* DataObject::ToString() const {
-  return name_.data();
 }

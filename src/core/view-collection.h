@@ -17,6 +17,14 @@
  * Jim Nelson <jim@yorba.org>
  */
 
+#ifndef GALLERY_VIEW_COLLECTION_H_
+#define GALLERY_VIEW_COLLECTION_H_
+
+#include "core/data-collection.h"
+#include "core/source-collection.h"
+
+typedef bool (*SourceFilter)(DataObject* object);
+
 /**
   * A ViewCollection is the logical complement to a SourceCollection.  Where
   * there is only one SourceCollection for each finalized DataSource type,
@@ -35,16 +43,8 @@
   * should be thought of a table view in database parlance -- a slice of a
   * larger table that maintains coherence as the larger table mutates.
   */
-
-#ifndef GALLERY_VIEW_COLLECTION_H_
-#define GALLERY_VIEW_COLLECTION_H_
-
-#include "core/data-collection.h"
-#include "core/source-collection.h"
-
-typedef bool (*SourceFilter)(DataObject* object);
-
-class ViewCollection : public DataCollection {
+class ViewCollection : public DataCollection
+{
   Q_OBJECT
   
 public:

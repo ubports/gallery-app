@@ -17,15 +17,28 @@
  * Eric Gregory <eric@yorba.org>
  */
 
-#include "media-table.h"
-
 #include <QApplication>
 
-MediaTable::MediaTable(Database* db, QObject* parent) : QObject(parent), db_(db)
+#include "media-table.h"
+#include "database.h"
+
+/*!
+ * \brief MediaTable::MediaTable
+ * \param db
+ * \param parent
+ */
+MediaTable::MediaTable(Database* db, QObject* parent)
+    : QObject(parent), db_(db)
 {
 }
 
-void MediaTable::verify_files() {
+/*!
+ * \brief MediaTable::verify_files
+ * Runs though the table, removes references to files
+ * that have been deleted from disk.
+ */
+void MediaTable::verify_files()
+{
   QSqlQuery query(*db_->get_db());
   QList<qint64> to_delete;
   query.prepare("SELECT id, filename FROM MediaTable");
@@ -58,7 +71,13 @@ void MediaTable::verify_files() {
   db_->get_db()->commit();
 }
 
-qint64 MediaTable::get_id_for_media(const QString& filename) {
+/*!
+ * \brief MediaTable::get_id_for_media Returns the row ID for the given photo.
+ * \param filename
+ * \return Returns the row ID for the given photo. If none exists, -1 will be returned.
+ */
+qint64 MediaTable::get_id_for_media(const QString& filename)
+{
   // If there's a row for this file, return the ID.
   QSqlQuery query(*db_->get_db());
   query.prepare("SELECT id FROM MediaTable WHERE filename = :filename");
@@ -73,9 +92,19 @@ qint64 MediaTable::get_id_for_media(const QString& filename) {
   return -1;
 }
 
+/*!
+ * \brief MediaTable::create_id_for_media Creates a row for the given photo and returns the new ID
+ * \param filename
+ * \param timestamp
+ * \param exposure_time
+ * \param original_orientation
+ * \param filesize
+ * \return
+ */
 qint64 MediaTable::create_id_for_media(const QString& filename,
   const QDateTime& timestamp, const QDateTime& exposure_time,
-  Orientation original_orientation, qint64 filesize) {
+  Orientation original_orientation, qint64 filesize)
+{
   // Add the row.
   QSqlQuery query(*db_->get_db());
   query.prepare("INSERT INTO MediaTable (filename, timestamp, exposure_time, "
@@ -92,9 +121,19 @@ qint64 MediaTable::create_id_for_media(const QString& filename,
   return query.lastInsertId().toLongLong();
 }
 
+/*!
+ * \brief MediaTable::update_media Updates a given row
+ * \param media_id
+ * \param filename
+ * \param timestamp
+ * \param exposure_time
+ * \param original_orientation
+ * \param filesize
+ */
 void MediaTable::update_media(qint64 media_id, const QString& filename,
   const QDateTime& timestamp, const QDateTime& exposure_time,
-  Orientation original_orientation, qint64 filesize) {
+  Orientation original_orientation, qint64 filesize)
+{
   // Add the row.
   QSqlQuery query(*db_->get_db());
   query.prepare("UPDATE MediaTable SET filename = :filename, "
@@ -111,7 +150,12 @@ void MediaTable::update_media(qint64 media_id, const QString& filename,
     db_->log_sql_error(query);
 }
 
-void MediaTable::remove(qint64 mediaId) {
+/*!
+ * \brief MediaTable::remove Removes a photo from the database.
+ * \param mediaId
+ */
+void MediaTable::remove(qint64 mediaId)
+{
   QSqlQuery query(*db_->get_db());
   query.prepare("DELETE FROM MediaTable WHERE id = :id");
   query.bindValue(":id", mediaId);
@@ -119,7 +163,13 @@ void MediaTable::remove(qint64 mediaId) {
     db_->log_sql_error(query);
 }
 
-QSize MediaTable::get_media_size(qint64 media_id) {
+/*!
+ * \brief MediaTable::get_media_size
+ * \param media_id
+ * \return
+ */
+QSize MediaTable::get_media_size(qint64 media_id)
+{
   QSqlQuery query(*db_->get_db());
   query.prepare("SELECT width, height FROM MediaTable WHERE id = :id LIMIT 1");
   query.bindValue(":id", media_id);
@@ -137,7 +187,13 @@ QSize MediaTable::get_media_size(qint64 media_id) {
   return size;
 }
 
-void MediaTable::set_media_size(qint64 media_id, const QSize& size) {
+/*!
+ * \brief MediaTable::set_media_size
+ * \param media_id
+ * \param size
+ */
+void MediaTable::set_media_size(qint64 media_id, const QSize& size)
+{
   QSqlQuery query(*db_->get_db());
   query.prepare("UPDATE MediaTable SET width = :width, height = :height "
                 "WHERE id = :id");
@@ -148,7 +204,13 @@ void MediaTable::set_media_size(qint64 media_id, const QSize& size) {
     db_->log_sql_error(query);
 }
 
-void MediaTable::set_original_orientation(qint64 media_id, const Orientation& orientation) {
+/*!
+ * \brief MediaTable::set_original_orientation
+ * \param media_id
+ * \param orientation
+ */
+void MediaTable::set_original_orientation(qint64 media_id, const Orientation& orientation)
+{
   QSqlQuery query(*db_->get_db());
   query.prepare("UPDATE MediaTable SET orientation = :orientation WHERE id = :id");
   query.bindValue(":id", media_id);
@@ -157,7 +219,13 @@ void MediaTable::set_original_orientation(qint64 media_id, const Orientation& or
     db_->log_sql_error(query);
 }
 
-QDateTime MediaTable::get_file_timestamp(qint64 media_id) {
+/*!
+ * \brief MediaTable::get_file_timestamp
+ * \param media_id
+ * \return
+ */
+QDateTime MediaTable::get_file_timestamp(qint64 media_id)
+{
   QSqlQuery query(*db_->get_db());
   query.prepare("SELECT timestamp FROM MediaTable WHERE id = :id");
   query.bindValue(":id", media_id);
@@ -172,7 +240,13 @@ QDateTime MediaTable::get_file_timestamp(qint64 media_id) {
   return timestamp;
 }
 
-QDateTime MediaTable::get_exposure_time(qint64 media_id) {
+/*!
+ * \brief MediaTable::get_exposure_time
+ * \param media_id
+ * \return
+ */
+QDateTime MediaTable::get_exposure_time(qint64 media_id)
+{
   QSqlQuery query(*db_->get_db());
   query.prepare("SELECT exposure_time FROM MediaTable WHERE id = :id");
   query.bindValue(":id", media_id);
@@ -187,8 +261,17 @@ QDateTime MediaTable::get_exposure_time(qint64 media_id) {
   return exposure_time;
 }
 
+/*!
+ * \brief MediaTable::get_row Gets a row that already exists
+ * \param media_id
+ * \param size
+ * \param original_orientation
+ * \param file_timestamp
+ * \param exposure_date_time
+ */
 void MediaTable::get_row(qint64 media_id, QSize& size, Orientation& 
-  original_orientation, QDateTime& file_timestamp, QDateTime& exposure_date_time) {
+  original_orientation, QDateTime& file_timestamp, QDateTime& exposure_date_time)
+{
   QSqlQuery query(*db_->get_db());
   query.prepare("SELECT width, height, timestamp, exposure_time, "
                 "original_orientation FROM MediaTable WHERE id = :id LIMIT 1");
@@ -206,7 +289,15 @@ void MediaTable::get_row(qint64 media_id, QSize& size, Orientation&
   original_orientation = static_cast<Orientation>(query.value(4).toInt());
 }
 
-bool MediaTable::row_needs_update(qint64 media_id) {
+/*!
+ * \brief MediaTable::row_needs_update
+ * Returns true if row is from an older schema.  In that case, update_media()
+ * should be called to repopulate the row.
+ * \param media_id
+ * \return
+ */
+bool MediaTable::row_needs_update(qint64 media_id)
+{
   QSqlQuery query(*db_->get_db());
   query.prepare("SELECT 1 FROM MediaTable WHERE timestamp IS NULL "
                 "AND id = :id LIMIT 1");

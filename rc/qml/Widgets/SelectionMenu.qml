@@ -22,9 +22,13 @@ import Ubuntu.Components 0.1
 import "../Utility"
 import "../../Capetown/Widgets"
 
+/*!
+*/
 PopupMenu {
   id: selectionMenu
   
+  /*!
+  */
   property SelectionState selection
   
   // these are hardcoded to match the location of the Selection Button in the

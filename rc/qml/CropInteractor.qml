@@ -28,24 +28,38 @@ import "Widgets"
 import "Utility"
 import "../js/GraphicsRoutines.js" as GraphicsRoutines
 
+/*!
+*/
 Item {
   id: cropInteractor
   objectName: "cropInteractor"
 
+  /*!
+  */
   property string matteColor: "black"
+  /*!
+  */
   property real matteOpacity: 0.6
 
   // Note: each element of the cropped rect will be in the range [0,1], since
   // in the UI we aren't using direct photo pixel values.
   signal cropped(variant rect)
+  /*!
+  */
   signal canceled()
 
   // readonly
+  /*!
+  */
   property variant photo // Set with enter().
 
   // internal
+  /*!
+  */
   property variant ratio_crop_rect
 
+  /*!
+  */
   function computeRectSet(photo, relativeCropRect) {
     var result = { };
 
@@ -79,6 +93,8 @@ Item {
     return result;
   }
 
+  /*!
+  */
   function enter(photo, ratio_crop_rect) {
     cropInteractor.photo = photo;
     original.mediaSource = photo;
@@ -107,6 +123,7 @@ Item {
 
   CropOverlay {
     id: overlay
+    objectName: "cropOverlay"
 
     property real minSize: units.gu(4)
 

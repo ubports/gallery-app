@@ -25,9 +25,13 @@ import ".."
 AlbumPageComponent {
   id: albumPageFlipperPage
 
+  /*!
+  */
   property int flipperPage
 
   // internal
+  /*!
+  */
   property int page // For some reason QML chokes unless this is broken up onto
   page: {           // two lines like so.
     // Last page's number is one spread back from lastPage.
@@ -46,13 +50,29 @@ AlbumPageComponent {
       -flipSlope * flipperPage * gapBetweenPages
 
   // These are from AlbumPageFlipper.
+  /*!
+  */
   property int numPages: parent.numPages
+  /*!
+  */
   property int firstPage: parent.firstPage
+  /*!
+  */
   property int lastPage: parent.lastPage
+  /*!
+  */
   property real gapBetweenPages: parent.gapBetweenPages
+  /*!
+  */
   property real pageFlipFraction: parent.pageFlipFraction
+  /*!
+  */
   property real flipSlope: parent.flipSlope
+  /*!
+  */
   property bool isPortrait: parent.isPortrait
+  /*!
+  */
   property int pagesPerSpread: parent.pagesPerSpread
 
   anchors.fill: parent

@@ -19,9 +19,13 @@ import Ubuntu.Components.Popups 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import "../../Capetown/Widgets"
 
+/*!
+*/
 Popover {
     id: sharePopover
 
+    /*!
+    */
     property alias picturePath: shareMenu.picturePath
 
     ShareMenu {

@@ -20,6 +20,8 @@
 
 import QtQuick 2.0
 
+/*!
+*/
 AlbumOpener {
   id: albumPreviewComponent
 

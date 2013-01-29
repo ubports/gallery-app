@@ -29,25 +29,51 @@ import "../js/Gallery.js" as Gallery
 Item {
   id: albumViewerTransition
   
+  /*!
+  */
   signal transitionToAlbumViewerCompleted()
+  /*!
+  */
   signal transitionFromAlbumViewerCompleted()
+  /*!
+  */
   signal dissolveCompleted(variant fadeOutTarget, variant fadeInTarget)
 
+  /*!
+  */
   property Album album
+  /*!
+  */
   property Rectangle backgroundGlass
+  /*!
+  */
   property int duration: Gallery.SLOW_DURATION
+  /*!
+  */
   property int easing: Easing.InQuint
+  /*!
+  */
   property bool isPortrait
   
   // Read-only
+  /*!
+  */
   property bool animationRunning: showAlbumViewerAnimation.running ||
     hideAlbumViewerAnimation.running || dissolveAlbumViewerTransition.running
   
   // internal
+  /*!
+  */
   property bool hideStayingOpen
+  /*!
+  */
   property variant expandAlbum: albumOpenerLandscape
+  /*!
+  */
   property bool flipOnClose: isPortrait
   
+  /*!
+  */
   function transitionToAlbumViewer(album, thumbnailRect) {
     albumViewerTransition.album = album;
     expandAlbum = albumOpenerLandscape;
@@ -68,6 +94,8 @@ Item {
     showAlbumViewerAnimation.start();
   }
 
+  /*!
+  */
   function transitionFromAlbumViewer(album, thumbnailRect, stayOpen, viewingPage) {
     // Set up portrait mode even-numbered page close transition.
     albumOpenerPortrait.viewingPage = viewingPage;
@@ -94,6 +122,8 @@ Item {
     hideAlbumViewerAnimation.start();
   }
 
+  /*!
+  */
   function dissolve(fadeOutTarget, fadeInTarget) {
     dissolveAlbumViewerTransition.fadeOutTarget = fadeOutTarget || dissolveDummy;
     dissolveAlbumViewerTransition.fadeInTarget = fadeInTarget || dissolveDummy;

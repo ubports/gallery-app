@@ -20,19 +20,21 @@
 #ifndef GALLERY_MEDIA_COLLECTION_H_
 #define GALLERY_MEDIA_COLLECTION_H_
 
-#include <QObject>
 #include <QDir>
-#include <QMap>
+#include <QHash>
 #include <QSet>
 
-#include "core/data-object.h"
 #include "core/source-collection.h"
-#include "media-source.h"
-#include "photo/photo.h"
 
+class DataObject;
+class MediaSource;
 class Photo;
 
-class MediaCollection : public SourceCollection {
+/*!
+ * \brief The MediaCollection class
+ */
+class MediaCollection : public SourceCollection
+{
   Q_OBJECT
   
 public:
@@ -43,12 +45,8 @@ public:
   
   const QDir& directory() const;
   
-  // Returns a media object for a row id.
   MediaSource* mediaForId(qint64 id);
 
-  // Returns an existing photo object if we've already loaded one
-  // for this file, or NULL otherwise. Used for preventing duplicates
-  // from appearing after an edit.
   Photo* photoFromFileinfo(QFileInfo file_to_load);
   
 protected slots:

@@ -21,9 +21,7 @@
 #define GALLERY_ALBUM_PAGE_H_
 
 #include <QObject>
-#include <QQmlListProperty>
 #include <QUrl>
-#include <QtQml>
 
 #include "album/album-template-page.h"
 #include "core/container-source.h"
@@ -31,7 +29,11 @@
 
 class Album;
 
-class AlbumPage : public ContainerSource {
+/*!
+ * \brief The AlbumPage class
+ */
+class AlbumPage : public ContainerSource
+{
   Q_OBJECT
   Q_PROPERTY(int pageNumber READ page_number NOTIFY page_number_changed);
   Q_PROPERTY(QUrl qmlRc READ qml_rc NOTIFY qml_rc_changed);

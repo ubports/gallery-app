@@ -17,14 +17,6 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-/**
-  * A DataCollection is a heavyweight, fully signalled collection class.  It is
-  * not intended for general use but rather to hold core data structures that
-  * are monitored and widely used throughout the system.  Those data structures
-  * must inherit from DataObject, which is the only kind of object DataCollection
-  * will hold.
-  */
-
 #ifndef GALLERY_DATA_COLLECTION_H_
 #define GALLERY_DATA_COLLECTION_H_
 
@@ -34,13 +26,22 @@
 #include <QSet>
 #include <QString>
 
-#include "core/data-object.h"
 #include "util/collections.h"
+
+class DataObject;
 
 // Defined as a LessThan comparator (return true if a is less than b)
 typedef bool (*DataObjectComparator)(DataObject* a, DataObject* b);
 
-class DataCollection : public QObject {
+/**
+  * A DataCollection is a heavyweight, fully signalled collection class.  It is
+  * not intended for general use but rather to hold core data structures that
+  * are monitored and widely used throughout the system.  Those data structures
+  * must inherit from DataObject, which is the only kind of object DataCollection
+  * will hold.
+  */
+class DataCollection : public QObject
+{
   Q_OBJECT
   
  signals:
@@ -58,7 +59,6 @@ class DataCollection : public QObject {
   void ordering_altered();
   
  public:
-  // Default comparator uses DataObjectNumber
   static bool DefaultDataObjectComparator(DataObject* a, DataObject* b);
   
   DataCollection(const QString& name);

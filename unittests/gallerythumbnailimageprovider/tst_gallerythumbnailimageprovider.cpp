@@ -21,9 +21,7 @@
 #include <QFileInfo>
 #include <QUrl>
 
-#include "gallery-application.h"
-
-GalleryApplication* GalleryApplication::instance_ = 0;
+#include "qml/gallery-thumbnail-image-provider.h"
 
 class tst_GalleryThumbnailImageProvider : public QObject
 {
@@ -41,7 +39,6 @@ void tst_GalleryThumbnailImageProvider::ToURL()
   QUrl expect("image://gallery-thumbnail//tmp/test.jpg");
   QCOMPARE(url, expect);
 }
-
 
 QTEST_MAIN(tst_GalleryThumbnailImageProvider);
 

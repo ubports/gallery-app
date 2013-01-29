@@ -17,37 +17,68 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "core/data-collection.h"
-
 #include <QQmlEngine>
 
+#include "data-collection.h"
+#include "core/data-object.h"
 #include "gallery-application.h"
 
+/*!
+ * \brief DataCollection::DataCollection
+ * \param name
+ */
 DataCollection::DataCollection(const QString& name)
-  : name_(name.toUtf8()), comparator_(DefaultDataObjectComparator) {
+  : name_(name.toUtf8()), comparator_(DefaultDataObjectComparator)
+{
   // All DataCollections are registered as C++ ownership; QML should never GC them
   GalleryApplication::instance()->setObjectOwnership(this, QQmlEngine::CppOwnership);
 }
 
+/*!
+ * \brief DataCollection::notify_contents_to_be_altered
+ * \param added
+ * \param removed
+ */
 void DataCollection::notify_contents_to_be_altered(const QSet<DataObject*>* added,
-  const QSet<DataObject*>* removed) {
+  const QSet<DataObject*>* removed)
+{
   emit contents_to_be_altered(added, removed);
 }
 
+/*!
+ * \brief DataCollection::notify_contents_altered
+ * \param added
+ * \param removed
+ */
 void DataCollection::notify_contents_altered(const QSet<DataObject*>* added,
-  const QSet<DataObject*>* removed) {
+  const QSet<DataObject*>* removed)
+{
   emit contents_altered(added, removed);
 }
 
-void DataCollection::notify_ordering_altered() {
+/*!
+ * \brief DataCollection::notify_ordering_altered
+ */
+void DataCollection::notify_ordering_altered()
+{
   emit ordering_altered();
 }
 
-int DataCollection::Count() const {
+/*!
+ * \brief DataCollection::Count
+ * \return
+ */
+int DataCollection::Count() const
+{
   return list_.size();
 }
 
-void DataCollection::Add(DataObject* object) {
+/*!
+ * \brief DataCollection::Add
+ * \param object
+ */
+void DataCollection::Add(DataObject* object)
+{
   Q_ASSERT(object != NULL);
   
   // Silently prevent double-adds
@@ -70,7 +101,12 @@ void DataCollection::Add(DataObject* object) {
   Sanity();
 }
 
-void DataCollection::AddMany(const QSet<DataObject*>& objects) {
+/*!
+ * \brief DataCollection::AddMany
+ * \param objects
+ */
+void DataCollection::AddMany(const QSet<DataObject*>& objects)
+{
   if (objects.count() == 0)
     return;
   
@@ -115,7 +151,12 @@ void DataCollection::AddMany(const QSet<DataObject*>& objects) {
   Sanity();
 }
 
-void DataCollection::Remove(DataObject* object) {
+/*!
+ * \brief DataCollection::Remove
+ * \param object
+ */
+void DataCollection::Remove(DataObject* object)
+{
   // Silently exit on bad removes
   if (object == NULL || !set_.contains(object))
     return;
@@ -137,12 +178,22 @@ void DataCollection::Remove(DataObject* object) {
   Sanity();
 }
 
-void DataCollection::RemoveAt(int index) {
+/*!
+ * \brief DataCollection::RemoveAt
+ * \param index
+ */
+void DataCollection::RemoveAt(int index)
+{
   if (index >= 0 && index < Count())
     Remove(GetAt(index));
 }
 
-void DataCollection::RemoveMany(const QSet<DataObject *> &objects) {
+/*!
+ * \brief DataCollection::RemoveMany
+ * \param objects
+ */
+void DataCollection::RemoveMany(const QSet<DataObject *> &objects)
+{
   if (objects.count() == 0)
     return;
   
@@ -172,7 +223,11 @@ void DataCollection::RemoveMany(const QSet<DataObject *> &objects) {
   Sanity();
 }
 
-void DataCollection::Clear() {
+/*!
+ * \brief DataCollection::Clear
+ */
+void DataCollection::Clear()
+{
   if (list_.count() == 0) {
     Q_ASSERT(set_.count() == 0);
     
@@ -192,19 +247,41 @@ void DataCollection::Clear() {
   Sanity();
 }
 
-const QList<DataObject*>& DataCollection::GetAll() const {
+/*!
+ * \brief DataCollection::GetAll
+ * \return
+ */
+const QList<DataObject*>& DataCollection::GetAll() const
+{
   return list_;
 }
 
-const QSet<DataObject*>& DataCollection::GetAsSet() const {
+/*!
+ * \brief DataCollection::GetAsSet
+ * \return
+ */
+const QSet<DataObject*>& DataCollection::GetAsSet() const
+{
   return set_;
 }
 
-bool DataCollection::Contains(DataObject* object) const {
+/*!
+ * \brief DataCollection::Contains
+ * \param object
+ * \return
+ */
+bool DataCollection::Contains(DataObject* object) const
+{
   return set_.contains(object);
 }
 
-bool DataCollection::ContainsAll(DataCollection* collection) const {
+/*!
+ * \brief DataCollection::ContainsAll
+ * \param collection
+ * \return
+ */
+bool DataCollection::ContainsAll(DataCollection* collection) const
+{
   return set_.contains(collection->set_);
 }
 
@@ -212,7 +289,13 @@ DataObject* DataCollection::GetAt(int index) const {
   return (index >= 0 && index < list_.size()) ? list_[index] : NULL;
 }
 
-int DataCollection::IndexOf(DataObject* object) const {
+/*!
+ * \brief DataCollection::IndexOf
+ * \param object
+ * \return
+ */
+int DataCollection::IndexOf(DataObject* object) const
+{
   if (!set_.contains(object))
     return -1;
   
@@ -224,7 +307,12 @@ int DataCollection::IndexOf(DataObject* object) const {
   return index;
 }
 
-void DataCollection::SetComparator(DataObjectComparator comparator) {
+/*!
+ * \brief DataCollection::SetComparator
+ * \param comparator
+ */
+void DataCollection::SetComparator(DataObjectComparator comparator)
+{
   if (comparator_ == comparator)
     return;
   
@@ -233,23 +321,45 @@ void DataCollection::SetComparator(DataObjectComparator comparator) {
   Resort(true);
 }
 
-DataObjectComparator DataCollection::comparator() const {
+/*!
+ * \brief DataCollection::comparator
+ * \return
+ */
+DataObjectComparator DataCollection::comparator() const
+{
   return comparator_;
 }
 
-// NOTE: this comparator function expects the API contract of
-//       DataObject::number() to return the same value for the same logical
-//       data object across invocations of Gallery. Right now, this contract
-//       is tenuously maintained. See the TODO item in DataObject.h.
-bool DataCollection::DefaultDataObjectComparator(DataObject* a, DataObject* b) {
+/*!
+ * \brief DataCollection::DefaultDataObjectComparator
+ * Default comparator uses DataObjectNumber
+ * NOTE: this comparator function expects the API contract of
+ *       DataObject::number() to return the same value for the same logical
+ *       data object across invocations of Gallery. Right now, this contract
+ *       is tenuously maintained. See the TODO item in DataObject.h.
+ * \param a
+ * \param b
+ * \return
+ */
+bool DataCollection::DefaultDataObjectComparator(DataObject* a, DataObject* b)
+{
   return a->number() < b->number();
 }
 
-void DataCollection::Sanity() const {
+/*!
+ * \brief DataCollection::Sanity
+ */
+void DataCollection::Sanity() const
+{
   Q_ASSERT(list_.count() == set_.count());
 }
 
-void DataCollection::BinaryListInsert(DataObject* object) {
+/*!
+ * \brief DataCollection::BinaryListInsert
+ * \param object
+ */
+void DataCollection::BinaryListInsert(DataObject* object)
+{
   int index = -1;
   
   int low = 0;
@@ -283,7 +393,11 @@ void DataCollection::BinaryListInsert(DataObject* object) {
   list_.insert(index, object);
 }
 
-void DataCollection::Resort(bool fire_signal) {
+/*!
+ * \brief DataCollection::Resort
+ * \param fire_signal
+ */
+void DataCollection::Resort(bool fire_signal){
   if (Count() <= 1)
     return;
   
@@ -293,10 +407,19 @@ void DataCollection::Resort(bool fire_signal) {
     notify_ordering_altered();
 }
 
-void DataCollection::SetInternalName(const QString& name) {
+/*!
+ * \brief DataCollection::SetInternalName
+ * \param name
+ */
+void DataCollection::SetInternalName(const QString& name)
+{
   name_ = name.toUtf8();
 }
 
-const char* DataCollection::ToString() const {
+/*!
+ * \brief DataCollection::ToString
+ * \return
+ */
+const char* DataCollection::ToString() const{
   return name_.data();
 }

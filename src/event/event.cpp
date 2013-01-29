@@ -17,39 +17,73 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "event/event.h"
-
 #include <QString>
 
+#include "event.h"
 #include "media/media-collection.h"
-#include "util/collections.h"
 
+/*!
+ * \brief Event::Event
+ * \param parent
+ */
 Event::Event(QObject* parent)
-  : ContainerSource(parent, "Event (undated)", MediaCollection::ExposureDateTimeDescendingComparator) {
+  : ContainerSource(parent, "Event (undated)", MediaCollection::ExposureDateTimeDescendingComparator)
+{
 }
 
+/*!
+ * \brief Event::Event
+ * \param parent
+ * \param date
+ */
 Event::Event(QObject* parent, const QDate& date)
   : ContainerSource(parent, QString("Event for ") + date.toString(),
-  MediaCollection::ExposureDateTimeDescendingComparator), date_(date) {
+  MediaCollection::ExposureDateTimeDescendingComparator), date_(date)
+{
 }
 
-void Event::RegisterType() {
+/*!
+ * \brief Event::RegisterType
+ */
+void Event::RegisterType()
+{
   qmlRegisterType<Event>("Gallery", 1, 0, "Event");
 }
 
-const QDate& Event::date() const {
+/*!
+ * \brief Event::date
+ * \return
+ */
+const QDate& Event::date() const
+{
   return date_;
 }
 
-QDateTime Event::start_date_time() const {
+/*!
+ * \brief Event::start_date_time
+ * \return
+ */
+QDateTime Event::start_date_time() const
+{
   return QDateTime(date());
 }
 
-QDateTime Event::end_date_time() const {
+/*!
+ * \brief Event::end_date_time
+ * \return
+ */
+QDateTime Event::end_date_time() const
+{
   return QDateTime(date(), QTime(23, 59, 59, 999));
 }
 
-void Event::DestroySource(bool destroy_backing, bool as_orphan) {
+/*!
+ * \brief Event::DestroySource \reimp
+ * \param destroy_backing
+ * \param as_orphan
+ */
+void Event::DestroySource(bool destroy_backing, bool as_orphan)
+{
   // Event is a virtual DataSource generated as a result of MediaSources added
   // and removed from the system, so nothing to destroy
 }

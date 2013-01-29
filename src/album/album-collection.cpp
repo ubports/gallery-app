@@ -23,8 +23,12 @@
 #include "database/album-table.h"
 #include "core/gallery-manager.h"
 
+/*!
+ * \brief AlbumCollection::AlbumCollection
+ */
 AlbumCollection::AlbumCollection()
-  : ContainerSourceCollection("AlbumCollection", CreationDateTimeDescendingComparator) {
+  : ContainerSourceCollection("AlbumCollection", CreationDateTimeDescendingComparator)
+{
   // Load existing albums from database.
   QList<Album*> album_list;
   GalleryManager::GetInstance()->database()->get_album_table()->get_albums(&album_list);
@@ -57,20 +61,45 @@ AlbumCollection::AlbumCollection()
     SLOT(on_media_added_removed(const QSet<DataObject*>*,const QSet<DataObject*>*)));
 }
 
-bool AlbumCollection::CreationDateTimeAscendingComparator(DataObject* a, DataObject* b) {
+/*!
+ * \brief AlbumCollection::CreationDateTimeAscendingComparator
+ * \param a
+ * \param b
+ * \return
+ */
+bool AlbumCollection::CreationDateTimeAscendingComparator(DataObject* a, DataObject* b)
+{
   return qobject_cast<Album*>(a)->creation_date_time() < qobject_cast<Album*>(b)->creation_date_time();
 }
 
-bool AlbumCollection::CreationDateTimeDescendingComparator(DataObject* a, DataObject* b) {
+/*!
+ * \brief AlbumCollection::CreationDateTimeDescendingComparator
+ * \param a
+ * \param b
+ * \return
+ */
+bool AlbumCollection::CreationDateTimeDescendingComparator(DataObject* a, DataObject* b)
+{
   return CreationDateTimeAscendingComparator(b, a);
 }
 
-void AlbumCollection::notify_album_current_page_contents_altered(Album* album) {
+/*!
+ * \brief AlbumCollection::notify_album_current_page_contents_altered
+ * \param album
+ */
+void AlbumCollection::notify_album_current_page_contents_altered(Album* album)
+{
   emit album_current_page_contents_altered(album);
 }
 
+/*!
+ * \brief AlbumCollection::on_media_added_removed
+ * \param added
+ * \param removed
+ */
 void AlbumCollection::on_media_added_removed(const QSet<DataObject *> *added,
-  const QSet<DataObject *> *removed) {
+  const QSet<DataObject *> *removed)
+{
   if (removed != NULL) {
     // TODO: this could maybe be optimized.  Many albums might not care about
     // the particular photo being added.
@@ -90,8 +119,14 @@ void AlbumCollection::on_media_added_removed(const QSet<DataObject *> *added,
   }
 }
 
+/*!
+ * \brief AlbumCollection::notify_contents_altered
+ * \param added
+ * \param removed
+ */
 void AlbumCollection::notify_contents_altered(const QSet<DataObject*>* added,
-  const QSet<DataObject*>* removed) {
+  const QSet<DataObject*>* removed)
+{
   ContainerSourceCollection::notify_contents_altered(added, removed);
   
   if (added != NULL) {

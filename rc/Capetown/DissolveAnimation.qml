@@ -20,12 +20,22 @@
 import QtQuick 2.0
 
 // Fades in the fadeInTarget while fading out the fadeOutTarget.
+/*!
+*/
 SequentialAnimation {
   id: dissolveAnimation
 
+  /*!
+  */
   property Item fadeInTarget
+  /*!
+  */
   property Item fadeOutTarget
+  /*!
+  */
   property int duration: 200
+  /*!
+  */
   property int easingType: Easing.InQuad
 
   ParallelAnimation {

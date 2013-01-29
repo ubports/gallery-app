@@ -20,11 +20,13 @@
 
 #include "album/album-default-template.h"
 
-#include "album/album.h"
-
+/*!
+ * \brief AlbumDefaultTemplate::AlbumDefaultTemplate
+ */
 AlbumDefaultTemplate::AlbumDefaultTemplate()
   : AlbumTemplate("Default Album Template"),
-    next_decision_page_type_(LANDSCAPE) {
+    next_decision_page_type_(LANDSCAPE)
+{
   AddPage(new AlbumTemplatePage("Template A Left",
       "qml/Components/AlbumInternals/AlbumPageLayoutLeftPortrait.qml",
       true, 1, PORTRAIT));
@@ -39,12 +41,24 @@ AlbumDefaultTemplate::AlbumDefaultTemplate()
       false, 2, LANDSCAPE, LANDSCAPE));
 }
 
-void AlbumDefaultTemplate::reset_best_fit_data() {
+/*!
+ * \brief AlbumDefaultTemplate::reset_best_fit_data
+ */
+void AlbumDefaultTemplate::reset_best_fit_data()
+{
   next_decision_page_type_ = LANDSCAPE;
 }
 
+/*!
+ * \brief AlbumDefaultTemplate::get_best_fit_page
+ * \param is_left
+ * \param num_photos
+ * \param photo_orientations
+ * \return
+ */
 AlbumTemplatePage* AlbumDefaultTemplate::get_best_fit_page(bool is_left,
-    int num_photos, PageOrientation photo_orientations[]) {
+    int num_photos, PageOrientation photo_orientations[])
+{
 
   QList<AlbumTemplatePage*> candidates;
   foreach(AlbumTemplatePage* page, pages()) {

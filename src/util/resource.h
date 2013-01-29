@@ -19,38 +19,31 @@
 #ifndef RESOURCE_H
 #define RESOURCE_H
 
-#include <QObject>
 #include <QDir>
+#include <QString>
 #include <QUrl>
 
-class Resource : public QObject {
-  Q_OBJECT
-  
+/*!
+ * \brief The Resource class
+ */
+class Resource
+{
  public:
-  explicit Resource(const QString& application_dir, const QString& install_dir, QObject* parent = 0);
+  explicit Resource(const QString& application_dir, const QString& install_dir);
 
-  // Returns true if we're installed, false if we're running locally.
-  bool is_installed();
-  
-  // Converts a relative path in the resource folder to a fully-qualified URL.
-  // Do NOT use this function if you need an absolute path.
-  QUrl get_rc_url(const QString& path);
-  
-  // Same as get_rc_url(), but returns a QDir.
-  QDir get_rc_dir(const QString& path);
+  bool is_installed() const;
 
-  /**
-   * @brief maxTextureSize
-   * @return
-   * returns max texture size provided by OpenGL
-   */
+  QUrl get_rc_url(const QString& path) const;
+  
   int maxTextureSize() const;
   
  private:
-  QString trailing_slash(QString path);
+  QString trailing_slash(QString path) const;
   
   QDir app_dir_;
   QDir install_dir_;
+
+  friend class tst_Resource;
 };
 
 #endif // RESOURCE_H
