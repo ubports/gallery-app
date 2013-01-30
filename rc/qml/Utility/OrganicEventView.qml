@@ -164,17 +164,17 @@ OrganicView {
     property Item tools: selectionMode ? selectionTools : overviewTools
     onToolsChanged: print("tools changed to "+tools)
 
-    Ubuntu.Toolbar {
-        id: toolbar
-        page: organicEventView
-        tools: organicEventView.tools
+//    Ubuntu.Toolbar {
+//        id: toolbar
+//        page: organicEventView
+//        tools: organicEventView.tools
 
-        backButton: organicEventView.selectionMode ? cancelButton : null
+////        backButton: organicEventView.selectionMode ? cancelButton : null
 
-        property Item cancelButton: ChromeButton {
-            text: "Cancel"
-            icon: Qt.resolvedUrl("../../img/cancel.png")
-            onClicked: selectionTools.leaveSelectionMode()
-        }
-    }
+//        property Item cancelButton: ChromeButton {
+//            text: "Cancel"
+//            icon: Qt.resolvedUrl("../../img/cancel.png")
+//            onClicked: selectionTools.leaveSelectionMode()
+//        }
+//    }
 }
