@@ -30,64 +30,146 @@ import "../../js/Gallery.js" as Gallery
 Item {
   id: wrapper
 
+  /*!
+  */
   property alias autoHideWait: autoHideTimer.interval // 0 to disable auto-hide.
 
+  /*!
+  */
   property variant popups: [ ]
 
+  /*!
+  */
   property bool hasLeftNavigationButton: false
+  /*!
+  */
   property bool hasRightNavigationButton: false
 
+  /*!
+  */
   property bool toolbarsAreTextured: true
+  /*!
+  */
   property bool toolbarsAreTranslucent: true
+  /*!
+  */
   property bool toolbarsAreDark: false
 
+  /*!
+  */
   property bool navbarHasStateButton: false
+  /*!
+  */
   property bool navbarHasCancelSelectionButton: false
 
+  /*!
+  */
   property bool toolbarHasFullIconSet: true
+  /*!
+  */
   property bool toolbarHasMainIconsWhenSelecting: true
 
+  /*!
+  */
   property bool inSelectionMode: false
+  /*!
+  */
   property alias hasSelectionOperationsButton: toolbar.hasSelectionOperationsButton
   
+  /*!
+  */
   property alias pagesPerSpread: toolbar.albumPagesPerSpread
+  /*!
+  */
   property alias viewingPage: toolbar.albumViewingPage
 
   // signals sent from the entire chrome ensemble
   signal hidePopups();
 
   // Pass-throughs from the navbar.
+  /*!
+  */
   property alias navbarHeight: navbar.height
+  /*!
+  */
   property alias navbarSelectedStateButtonIconFilename: navbar.selectedStateButtonIconFilename
+  /*!
+  */
   property alias navbarDeselectedStateButtonIconFilename: navbar.deselectedStateButtonIconFilename
+  /*!
+  */
   property alias navbarSelectionDoneButtonText: navbar.selectionDoneButtonText
+  /*!
+  */
   property alias navbarSelectionDoneButtonWidth: navbar.selectionDoneButtonWidth
+  /*!
+  */
   signal returnButtonPressed()
+  /*!
+  */
   signal stateButtonPressed()
+  /*!
+  */
   signal selectionDoneButtonPressed()
+  /*!
+  */
   signal cancelSelectionButtonPressed()
 
   // Pass-throughs from the toolbar.
+  /*!
+  */
   property alias toolbarHeight: toolbar.height
+  /*!
+  */
   property alias toolbarHasPageIndicator: toolbar.hasPageIndicator
+  /*!
+  */
   property alias toolbarHasAlbumOperationsButton: toolbar.hasAlbumOperationsButton
+  /*!
+  */
   property alias toolbarPageIndicatorAlbum: toolbar.pageIndicatorAlbum
+  /*!
+  */
   property alias toolbarHasEditOperationsButton: toolbar.hasEditOperationsButton
+  /*!
+  */
   signal pageIndicatorPageSelected(int page)
+  /*!
+  */
   signal moreOperationsButtonPressed()
+  /*!
+  */
   signal shareOperationsButtonPressed()
+  /*!
+  */
   signal albumOperationsButtonPressed()
+  /*!
+  */
   signal trashOperationButtonPressed()
+  /*!
+  */
   signal selectionOperationsButtonPressed(variant button)
+  /*!
+  */
   signal editOperationsButtonPressed()
 
   // Pass-throughs from the left/right nav buttons.
+  /*!
+  */
   signal leftNavigationButtonPressed()
+  /*!
+  */
   signal rightNavigationButtonPressed()
 
   // internal
+  /*!
+  */
   property bool popupActive: false
+  /*!
+  */
   property int fadeDuration
+  /*!
+  */
   property int fadeEasing
 
   visible: false
@@ -109,27 +191,37 @@ Item {
     }
   ]
 
+  /*!
+  */
   function flipVisibility(fromUserAction) {
     setFadeParams(fromUserAction);
     state = (state == "shown" ? "hidden" : "shown");
   }
 
+  /*!
+  */
   function resetVisibility(visibility) {
     state = ""; // To prevent animation.
     visible = visibility;
     state = (visibility ? "shown" : "hidden");
   }
 
+  /*!
+  */
   function show(fromUserAction) {
     setFadeParams(fromUserAction);
     state = "shown";
   }
 
+  /*!
+  */
   function hide(fromUserAction) {
     setFadeParams(fromUserAction);
     state = "hidden";
   }
 
+  /*!
+  */
   function cyclePopup(target) {
     if (!target.visible)
       hideAllPopups();
@@ -138,6 +230,8 @@ Item {
     popupActive = target.visible;
   }
 
+  /*!
+  */
   function hideAllPopups() {
     for (var i = 0; i < popups.length; i++)
       popups[i].state = "hidden";
@@ -146,6 +240,8 @@ Item {
   }
 
   // internal
+  /*!
+  */
   function setFadeParams(fromUserAction) {
     fadeDuration = (fromUserAction ? Gallery.SNAP_DURATION : Gallery.SLOW_DURATION);
     fadeEasing = (fromUserAction ? Easing.InQuint : Easing.InOutQuint);
@@ -165,6 +261,8 @@ Item {
       autoHideTimer.startAutoHide();
   }
 
+  /*!
+  */
   function cancelActivity() {
     hideAllPopups();
   }

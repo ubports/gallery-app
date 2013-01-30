@@ -22,11 +22,19 @@ import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 0.1
 
+/*!
+*/
 Rectangle {
   id: pageIndicator
   
+  /*!
+  */
   property Album album
+  /*!
+  */
   property bool isPortrait: false
+  /*!
+  */
   property int pagesPerSpread: 2
   
   // Set this to the viewing page of the album spread.
@@ -35,6 +43,8 @@ Rectangle {
   // Read-only
   property int indicatorDotCount: 0
   
+  /*!
+  */
   signal selected(int page)
   
   onAlbumChanged: pageIndicatorRepeater.filterModel()

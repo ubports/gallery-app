@@ -19,9 +19,16 @@ import QtQuick 2.0
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import Gallery 1.0
 
+/*!
+*/
 Item {
     id: sharemenu
+
+    /*!
+    */
     property string picturePath
+    /*!
+    */
     signal selected()
 
     height: childrenRect.height

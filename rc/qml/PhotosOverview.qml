@@ -23,9 +23,13 @@ import Ubuntu.Components 0.1
 import "Utility"
 import "../js/GalleryUtility.js" as GalleryUtility
 
+/*!
+*/
 Item {
   id: photosOverview
 
+  /*!
+  */
   signal mediaSourcePressed(var mediaSource, var thumbnailRect)
 
   Image {

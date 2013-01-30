@@ -21,28 +21,58 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import ".."
 
+/*!
+*/
 Rectangle {
   id: popupBox
 
+  /*!
+  */
   signal popupInteractionCompleted();
 
+  /*!
+  */
   property int contentLeft: 1
+  /*!
+  */
   property int contentTop: 1
+  /*!
+  */
   property alias contentWidth: contentArea.width
+  /*!
+  */
   property alias contentHeight: contentArea.height
 
+  /*!
+  */
   property int originCueX
+  /*!
+  */
   property alias originCueHeight: originCueImage.height
+  /*!
+  */
   property alias originCueWidth: originCueImage.width
 
+  /*!
+  */
   property int popupOriginX: 0
+  /*!
+  */
   property int popupOriginY: 0
+  /*!
+  */
   property int fadeDuration: 300
 
   // readonly
+  /*!
+  */
   property int cueArrowOffset: Math.floor(originCueWidth / 2)
+  /*!
+  */
   property int boundingOffset: units.gu(0.5)
 
+  /*!
+  */
   function flipVisibility() {
       state = (state == "shown" ? "hidden" : "shown");
   }

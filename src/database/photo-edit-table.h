@@ -25,7 +25,11 @@
 class Database;
 class PhotoEditState;
 
-class PhotoEditTable : public QObject {
+/*!
+ * \brief The PhotoEditTable class
+ */
+class PhotoEditTable : public QObject
+{
   Q_OBJECT
 
  public:

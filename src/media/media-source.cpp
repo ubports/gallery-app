@@ -29,71 +29,150 @@
 #include "qml/gallery-thumbnail-image-provider.h"
 #include "util/resource.h"
 
-MediaSource::MediaSource()  : id_(INVALID_ID)
+/*!
+ * \brief MediaSource::MediaSource
+ */
+MediaSource::MediaSource()
+    : id_(INVALID_ID)
 {
 }
 
-MediaSource::MediaSource(const QFileInfo& file)  : id_(INVALID_ID)
+/*!
+ * \brief MediaSource::MediaSource
+ * \param file
+ */
+MediaSource::MediaSource(const QFileInfo& file)
+    : id_(INVALID_ID)
 {
   file_ = file;
 }
 
-void MediaSource::RegisterType() {
+/*!
+ * \brief MediaSource::RegisterType
+ */
+void MediaSource::RegisterType()
+{
   qmlRegisterType<MediaSource>("Gallery", 1, 0, "MediaSource");
 }
 
-QFileInfo MediaSource::file() const {
+/*!
+ * \brief MediaSource::file
+ * \return
+ */
+QFileInfo MediaSource::file() const
+{
   return file_;
 }
 
-QUrl MediaSource::path() const {
+/*!
+ * \brief MediaSource::path
+ * \return
+ */
+QUrl MediaSource::path() const
+{
   return QUrl::fromLocalFile(file_.absoluteFilePath());
 }
 
-QUrl MediaSource::gallery_path() const {
+/*!
+ * \brief MediaSource::gallery_path
+ * \return
+ */
+QUrl MediaSource::gallery_path() const
+{
   return GalleryStandardImageProvider::ToURL(file_);
 }
 
-QFileInfo MediaSource::preview_file() const {
+/*!
+ * \brief MediaSource::preview_file
+ * \return
+ */
+QFileInfo MediaSource::preview_file() const
+{
   return GalleryManager::GetInstance()->preview_manager()->PreviewFileFor(file_);
 }
 
-QUrl MediaSource::preview_path() const {
+/*!
+ * \brief MediaSource::preview_path
+ * \return
+ */
+QUrl MediaSource::preview_path() const
+{
   return QUrl::fromLocalFile(preview_file().absoluteFilePath());
 }
 
-QUrl MediaSource::gallery_preview_path() const {
+/*!
+ * \brief MediaSource::gallery_preview_path
+ * \return
+ */
+QUrl MediaSource::gallery_preview_path() const
+{
   return GalleryStandardImageProvider::ToURL(file_);
 }
 
-QFileInfo MediaSource::thumbnail_file() const {
+/*!
+ * \brief MediaSource::thumbnail_file
+ * \return
+ */
+QFileInfo MediaSource::thumbnail_file() const
+{
   return GalleryManager::GetInstance()->preview_manager()->ThumbnailFileFor(file_);
 }
 
-QUrl MediaSource::thumbnail_path() const {
+/*!
+ * \brief MediaSource::thumbnail_path
+ * \return
+ */
+QUrl MediaSource::thumbnail_path() const
+{
   return QUrl::fromLocalFile(thumbnail_file().absoluteFilePath());
 }
 
-QUrl MediaSource::gallery_thumbnail_path() const{
+/*!
+ * \brief MediaSource::gallery_thumbnail_path
+ * \return
+ */
+QUrl MediaSource::gallery_thumbnail_path() const
+{
   return GalleryThumbnailImageProvider::ToURL(file_);
 }
 
-QImage MediaSource::Image(bool respect_orientation) {
+/*!
+ * \brief MediaSource::Image
+ * \param respect_orientation
+ * \return
+ */
+QImage MediaSource::Image(bool respect_orientation)
+{
   // QML data types cannot be abstract, so return a null image
   return QImage();
 }
 
-Orientation MediaSource::orientation() const {
+/*!
+ * \brief MediaSource::orientation
+ * \return
+ */
+Orientation MediaSource::orientation() const
+{
   // Default is identity orientation; subclasses should parse source's metadata
   // and return proper value
   return TOP_LEFT_ORIGIN;
 }
 
-QDateTime MediaSource::exposure_date_time() const {
+/*!
+ * \brief MediaSource::exposure_date_time
+ * \return
+ */
+QDateTime MediaSource::exposure_date_time() const
+{
   return QDateTime();
 }
 
-const QSize& MediaSource::size() {
+/*!
+ * \brief MediaSource::size
+ * \return
+ */
+const QSize& MediaSource::size()
+{
   if (!is_size_set()) {
     // This is potentially very slow, so you should set the size as early as
     // possible to avoid this.
@@ -104,7 +183,12 @@ const QSize& MediaSource::size() {
   return size_;
 }
 
-void MediaSource::set_size(const QSize& size) {
+/*!
+ * \brief MediaSource::set_size
+ * \param size
+ */
+void MediaSource::set_size(const QSize& size)
+{
   if (size_ == size)
     return;
 
@@ -112,43 +196,93 @@ void MediaSource::set_size(const QSize& size) {
   notify_size_altered();
 }
 
-bool MediaSource::is_size_set() const {
+/*!
+ * \brief MediaSource::is_size_set
+ * \return
+ */
+bool MediaSource::is_size_set() const
+{
   return size_.isValid();
 }
 
-QDate MediaSource::exposure_date() const {
+/*!
+ * \brief MediaSource::exposure_date
+ * \return
+ */
+QDate MediaSource::exposure_date() const
+{
   return exposure_date_time().date();
 }
 
-QTime MediaSource::exposure_time_of_day() const {
+/*!
+ * \brief MediaSource::exposure_time_of_day
+ * \return
+ */
+QTime MediaSource::exposure_time_of_day() const
+{
   return exposure_date_time().time();
 }
 
-int MediaSource::exposure_time_t() const {
+/*!
+ * \brief MediaSource::exposure_time_t
+ * \return
+ */
+int MediaSource::exposure_time_t() const
+{
   return (int) exposure_date_time().toTime_t();
 }
 
-Event* MediaSource::FindEvent() {
+/*!
+ * \brief MediaSource::FindEvent
+ * \return
+ */
+Event* MediaSource::FindEvent()
+{
   return GalleryManager::GetInstance()->event_collection()->EventForMediaSource(this);
 }
 
-QVariant MediaSource::QmlFindEvent() {
+/*!
+ * \brief MediaSource::QmlFindEvent
+ * \return
+ */
+QVariant MediaSource::QmlFindEvent()
+{
   return QVariant::fromValue(FindEvent());
 }
 
-bool MediaSource::busy() {
+/*!
+ * \brief MediaSource::busy
+ * \return
+ */
+bool MediaSource::busy()
+{
   return busy_;
 }
 
-void MediaSource::set_id(qint64 id) {
+/*!
+ * \brief MediaSource::set_id
+ * \param id
+ */
+void MediaSource::set_id(qint64 id)
+{
   id_ = id;
 }
 
-qint64 MediaSource::get_id() {
+/*!
+ * \brief MediaSource::get_id
+ * \return
+ */
+qint64 MediaSource::get_id()
+{
   return id_;
 }
 
-void MediaSource::set_busy(bool busy) {
+/*!
+ * \brief MediaSource::set_busy
+ * \param busy
+ */
+void MediaSource::set_busy(bool busy)
+{
   if (busy == busy_)
     return;
   
@@ -156,23 +290,41 @@ void MediaSource::set_busy(bool busy) {
   emit busyChanged();
 }
 
+/*!
+ * \brief MediaSource::maxSize
+ * \return
+ */
 int MediaSource::maxSize() const
 {
     return GalleryManager::GetInstance()->resource()->maxTextureSize();
 }
 
-void MediaSource::DestroySource(bool delete_backing, bool as_orphan) {
+/*!
+ * \brief MediaSource::DestroySource \reimp
+ * \param delete_backing
+ * \param as_orphan
+ */
+void MediaSource::DestroySource(bool delete_backing, bool as_orphan)
+{
   if (delete_backing) {
     if (!QFile::remove(file_.absoluteFilePath()))
       qDebug("Unable to delete media file %s", qPrintable(file_.absoluteFilePath()));
   }
 }
 
-void MediaSource::notify_data_altered() {
+/*!
+ * \brief MediaSource::notify_data_altered
+ */
+void MediaSource::notify_data_altered()
+{
   emit data_altered();
 }
 
-void MediaSource::notify_size_altered() {
+/*!
+ * \brief MediaSource::notify_size_altered
+ */
+void MediaSource::notify_size_altered()
+{
   emit size_altered();
 
   if (id_ != INVALID_ID)

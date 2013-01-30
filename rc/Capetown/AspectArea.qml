@@ -25,7 +25,11 @@ import QtQuick 2.0
 Item {
   id: aspectArea
 
+  /*!
+  */
   property real aspectWidth
+  /*!
+  */
   property real aspectHeight
 
   // The item to place inside (and reparent to) the aspectItem.
@@ -36,7 +40,11 @@ Item {
   property Item aspectItem: aspectItem
 
   // internal
+  /*!
+  */
   property real aspectRatio: aspectWidth / aspectHeight
+  /*!
+  */
   property bool isWidthConstrained: (height * aspectRatio > width)
 
   Component.onCompleted: {

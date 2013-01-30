@@ -19,14 +19,21 @@
 
 import QtQuick 2.0
 import "../Capetown"
+import Ubuntu.Components 0.1
 
 // A PhotoViewer that is opened and closed with the PhotoViewerTransition.
 Item {
   id: popupPhotoViewer
 
+  /*!
+  */
   property alias model: viewer.model
 
+  /*!
+  */
   property alias photo: viewer.photo
+  /*!
+  */
   property alias index: viewer.index
   
   // Optional: set this when launching from an album view
@@ -35,48 +42,75 @@ Item {
   // Read-only
   property bool animationRunning: transition.animationRunning || 
     fadeIn.running || fadeOut.running
+  /*!
+  */
   property bool isPoppedUp: viewer.visible && !animationRunning
   
+  /*!
+  */
   function setCurrentPhoto(photo) {
     viewer.setCurrentPhoto(photo);
   }
 
+  /*!
+  */
   function setCurrentIndex(index) {
     viewer.setCurrentIndex(index);
   }
   
+  /*!
+  */
   signal opening()
+  /*!
+  */
   signal opened() // The photo viewer's opening animation is finished.
+  /*!
+  */
   signal closeRequested() // The user pressed the back button.  Call animateClosed() or close().
+  /*!
+  */
   signal closed() // The photo viewer's closing animation is finished.
+  /*!
+  */
   signal editRequested(variant photo) // The user wants to edit this photo.
 
+  /*!
+  */
   function animateOpen(photo, thumbnailRect) {
     opening();
     viewer.openCompleted = false;
     transition.transitionToPhotoViewer(photo, thumbnailRect);
   }
 
+  /*!
+  */
   function animateClosed(thumbnailRect) {
     transition.transitionFromPhotoViewer(photo, thumbnailRect);
     viewer.visible = false;
   }
 
+  /*!
+  */
   function fadeOpen(photo) {
     opening();
     viewer.setCurrentPhoto(photo);
     fadeIn.restart();
   }
 
+  /*!
+  */
   function fadeClosed() {
     fadeOut.restart();
   }
 
+  /*!
+  */
   function close() {
     viewer.visible = false;
     closed();
   }
   
+  property alias tools: viewer.tools
   GalleryPhotoViewer {
     id: viewer
     
@@ -121,9 +155,8 @@ Item {
     id: fadeIn
 
     target: viewer
-    onRunningChanged: {
-      if (!running)
-        opened();
+    onStopped: {
+      opened();
     }
   }
 
@@ -131,9 +164,8 @@ Item {
     id: fadeOut
 
     target: viewer
-    onRunningChanged: {
-      if (!running)
-        closed();
+    onStopped: {
+      closed();
     }
   }
 }

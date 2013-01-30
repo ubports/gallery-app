@@ -25,9 +25,15 @@ import Ubuntu.Components 0.1
 Item {
   id: organicItemInteraction
 
+  /*!
+  */
   signal pressed()
 
+  /*!
+  */
   property var selectionItem
+  /*!
+  */
   property SelectionState selection
 
   // readonly

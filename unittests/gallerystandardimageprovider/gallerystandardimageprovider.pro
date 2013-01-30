@@ -1,5 +1,3 @@
-include(../../coverage.pri)
-
 CONFIG += testcase
 TARGET = tst_gallerystandardimageprovider
 
@@ -8,6 +6,8 @@ QT += testlib quick gui
 MOC_DIR = build
 OBJECTS_DIR = build
 RCC_DIR = build
+
+include(../../coverage.pri)
 
 INCLUDEPATH += ../../src/qml \
                ../../src

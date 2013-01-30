@@ -20,12 +20,18 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
+/*!
+*/
 PopupBox {
   id: popupMenu
 
   // public
+  /*!
+  */
   property alias model: menuItemList.model
 
+  /*!
+  */
   signal actionInvoked(string name);
 
   width: units.gu(40)

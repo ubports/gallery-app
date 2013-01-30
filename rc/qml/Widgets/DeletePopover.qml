@@ -19,9 +19,13 @@ import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 
+/*!
+*/
 Popover {
     id: deletePopover
 
+    /*!
+    */
     signal deleteClicked
 
     height: units.gu(6)

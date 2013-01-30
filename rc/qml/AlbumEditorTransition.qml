@@ -25,21 +25,37 @@ import "Components"
 Item {
   id: albumEditorTransition
 
+  /*!
+  */
   signal editorEntered(variant album)
+  /*!
+  */
   signal editorExited(variant album)
 
+  /*!
+  */
   property alias album: thumbnail.album
 
+  /*!
+  */
   property Rectangle backgroundGlass
+  /*!
+  */
   property AlbumEditor editor
 
+  /*!
+  */
   property int duration: 500
   
   // Read-only
+  /*!
+  */
   property bool animationRunning: enterFadeAnimation.running ||
     exitFadeAnimation.running || enterExpandAnimation.running ||
     exitExpandAnimation.running;
   
+  /*!
+  */
   function enterEditor(album, thumbnailRect) {
     albumEditorTransition.album = album || null;
 
@@ -55,6 +71,8 @@ Item {
     }
   }
 
+  /*!
+  */
   function exitEditor(album, thumbnailRect) {
     albumEditorTransition.album = album || null;
 
@@ -73,6 +91,8 @@ Item {
   }
 
   // internal
+  /*!
+  */
   function onExitFinished() {
     editorExited(album);
     album = null;

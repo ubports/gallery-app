@@ -6,7 +6,7 @@
 # by the Free Software Foundation.
 
 
-"""Tests the Album editor of the gallery app."""
+"""Tests the Photo editor of the gallery app."""
 
 from __future__ import absolute_import
 
@@ -17,6 +17,9 @@ from goodhope.tests import GoodhopeTestCase
 
 from os.path import exists, expanduser
 import os
+import shutil
+
+from time import sleep
 
 
 class TestPhotoViewer(GoodhopeTestCase):
@@ -55,7 +58,7 @@ class TestPhotoViewer(GoodhopeTestCase):
 
         self.assertThat(photo_viewer.visible, Eventually(Equals(False)))
 
-    def test_nav_bar_trash_button(self):
+    def test_photo_delete_works(self):
         """Clicking the trash button must show the delete dialog."""
         trash_button = self.photo_viewer.get_viewer_chrome_trash_button()
         delete_dialog = self.photo_viewer.get_delete_dialog()
@@ -82,20 +85,18 @@ class TestPhotoViewer(GoodhopeTestCase):
         self.pointing_device.move_to_object(delete_item)
         self.pointing_device.click()
 
-        self.assertThat(lambda: exists(expanduser("~/Pictures/sample.jpg")),
-                                                    Eventually(Equals(False)))
+        self.assertThat(lambda: exists(self.sample_file), Eventually(Equals(False)))
 
         #Up until the last line above we are testing if the file got delete, now here we
         #are re-copying the sample.jpg file because it seems the addCleanup method in __init__
         #tries to remove the sample.jpg but if it does not find it the test fails. So this
         #"hack" saves us from that. --om26er
-        if exists(expanduser("/usr/lib/python2.7/dist-packages/goodhope/data/sample.jpg")):
-            os.system("cp /usr/lib/python2.7/dist-packages/goodhope/data/sample.jpg ~/Pictures/")
+        if os.path.realpath(__file__).startswith("/usr/"):
+            shutil.copy(self.installed_sample_file, self.sample_dir)
         else:
-            os.system("cp goodhope/data/sample.jpg ~/Pictures/")
+            shutil.copy(self.local_sample_file, self.sample_dir)
 
-        self.assertThat(lambda: exists(expanduser("~/Pictures/sample.jpg")),
-                                                    Eventually(Equals(True)))
+        self.assertThat(lambda: exists(self.sample_file), Eventually(Equals(True)))
 
     # def test_nav_bar_album_picker_button(self):
     #     """Clicking the album picker must show the picker dialog."""
@@ -145,17 +146,151 @@ class TestPhotoViewer(GoodhopeTestCase):
 
         self.assertThat(opened_photo.fullyUnzoomed, Eventually(Equals(True)))
 
-    def test_photo_crop_box_shows(self):
-        """Clicking the crop item in the edit dialog must show crop interactor."""
+
+class TestPhotoEditor(GoodhopeTestCase):
+
+    def setUp(self):
+        super(TestPhotoEditor, self).setUp()
+        self.assertThat(self.events_view.get_qml_view().visible, Eventually(Equals(True)))
+
+        self.click_first_photo()
+
+        photo_viewer = self.photo_viewer.get_main_photo_viewer()
+        self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
+
+        photo_viewer_chrome = self.photo_viewer.get_photo_viewer_chrome()
+        if photo_viewer_chrome.showChromeBar == False:
+            self.pointing_device.move_to_object(photo_viewer)
+            self.pointing_device.click()
+
+        self.assertThat(photo_viewer_chrome.showChromeBar, Eventually(Equals(True)))
+
+        self.click_edit_button()
+
+    def click_first_photo(self):
+        single_photo = self.photo_viewer.get_first_image_in_photo_viewer()
+
+        self.pointing_device.move_to_object(single_photo)
+        self.pointing_device.click()
+
+    def click_edit_button(self):
         edit_button = self.photo_viewer.get_viewer_chrome_toolbar_edit_button()
-        crop_item = self.photo_viewer.get_crop_menu_item()
-        crop_box = self.photo_viewer.get_crop_interactor()
 
         self.pointing_device.move_to_object(edit_button)
         self.pointing_device.click()
 
+    def click_rotate_item(self):
+        rotate_item = self.photo_viewer.get_rotate_menu_item()
+
+        self.pointing_device.move_to_object(rotate_item)
+        self.pointing_device.click()
+
+    def click_crop_item(self):
+        crop_item = self.photo_viewer.get_crop_menu_item()
+
         self.pointing_device.move_to_object(crop_item)
         self.pointing_device.click()
 
-        self.assertThat(crop_box.visible, Eventually(Equals(True)))
+    def click_undo_item(self):
+        undo_item = self.photo_viewer.get_undo_menu_item()
 
+        self.pointing_device.move_to_object(undo_item)
+        self.pointing_device.click()
+
+    def click_redo_item(self):
+        redo_item = self.photo_viewer.get_redo_menu_item()
+
+        self.pointing_device.move_to_object(redo_item)
+        self.pointing_device.click()
+
+    def click_revert_item(self):
+        revert_item = self.photo_viewer.get_revert_menu_item()
+
+        self.pointing_device.move_to_object(revert_item)
+        self.pointing_device.click()
+
+    def test_photo_cropping_works(self):
+        """Cropping a photo must crop it."""
+        crop_box = self.photo_viewer.get_crop_interactor()
+
+        self.click_crop_item()
+
+        self.assertThat(crop_box.state, Eventually(Equals("shown")))
+
+        old_file_size = os.path.getsize(self.sample_file)
+
+        crop_corner = self.photo_viewer.get_top_left_crop_corner()
+
+        self.pointing_device.move_to_object(crop_corner)
+
+        x, y, h, w = crop_corner.globalRect
+
+        self.pointing_device.press()
+        self.pointing_device.move(x + (w/2 + 400), y + (h/2 +300))
+        self.pointing_device.release()
+
+        sleep(1)
+
+        crop_icon = self.photo_viewer.get_crop_overlays_crop_icon()
+        self.pointing_device.move_to_object(crop_icon)
+        self.pointing_device.click()
+
+        new_file_size = os.path.getsize(self.sample_file)
+
+        self.assertThat(lambda: old_file_size > new_file_size, Eventually(Equals(True)))
+
+    def test_photo_editor_case_1(self):
+        """Makes sure that the photo editor inside the photo viewer works"""
+        opened_photo = self.photo_viewer.get_opened_photo()
+
+        if opened_photo.paintedHeight == 800:
+            self.skipTest("Wrong photo height for this test")
+
+        self.click_rotate_item()
+
+        self.assertThat(opened_photo.paintedHeight, Eventually(Equals(800)))
+
+        self.click_edit_button()
+        self.click_undo_item()
+
+        self.assertThat(opened_photo.paintedHeight, Eventually(NotEquals(800)))
+
+        self.click_edit_button()
+        self.click_redo_item()
+
+        self.assertThat(opened_photo.paintedHeight, Eventually(Equals(800)))
+
+        self.click_edit_button()
+        self.click_rotate_item()
+        self.click_edit_button()
+        self.click_revert_item()
+
+        self.assertThat(opened_photo.paintedHeight, Eventually(NotEquals(800)))
+
+    def test_photo_editor_case_2(self):
+        """Makes sure that the photo editor inside the photo viewer works"""
+        opened_photo = self.photo_viewer.get_opened_photo()
+
+        if opened_photo.paintedHeight != 800:
+            self.skipTest("Wrong photo height for this test")
+
+        self.click_rotate_item()
+
+        self.assertThat(opened_photo.paintedHeight, Eventually(NotEquals(800)))
+
+        self.click_edit_button()
+        self.click_undo_item()
+
+        self.assertThat(opened_photo.paintedHeight, Eventually(Equals(800)))
+
+        self.click_edit_button()
+        self.click_redo_item()
+
+        self.assertThat(opened_photo.paintedHeight, Eventually(NotEquals(800)))
+
+        self.click_edit_button()
+        self.click_rotate_item()
+        self.click_edit_button()
+        self.click_revert_item()
+
+        self.assertThat(opened_photo.paintedHeight, Eventually(Equals(800)))

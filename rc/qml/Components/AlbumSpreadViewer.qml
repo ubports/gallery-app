@@ -32,37 +32,71 @@ import "AlbumInternals"
 Item {
   id: albumSpreadViewer
   
+  /*!
+  */
   signal pageReleased()
+  /*!
+  */
   signal pageFlipped()
   
   // public
+  /*!
+  */
   property Album album
+  /*!
+  */
   property alias destinationPage: flipper.destinationPage
+  /*!
+  */
   property alias duration: flipper.duration
+  /*!
+  */
   property alias flipFraction: flipper.flipFraction
+  /*!
+  */
   property bool load: false
+  /*!
+  */
   property bool freeze: false   // See AlbumPageComponent
+  /*!
+  */
   property bool showCover: true // See AlbumPageComponent
 
   // readonly
+  /*!
+  */
   property alias isFlipping: flipper.isFlipping
+  /*!
+  */
   property alias isRunning: flipper.isRunning
+  /*!
+  */
   property bool isPortrait: application.isPortrait
   // Same as album.currentPage, unless we're in portrait mode in which case it
   // can be either the left OR right page.
   property int viewingPage: -1
+  /*!
+  */
   property int pagesPerSpread: (isPortrait ? 1 : 2)
+  /*!
+  */
   property alias leftPageComponent: left
+  /*!
+  */
   property alias rightPageComponent: right
 
   function flip() {
     flipper.flipToDestination();
   }
 
+  /*!
+  */
   function release() {
     flipper.flipToOrigin();
   }
 
+  /*!
+  */
   function flipTo(page) {
     destinationPage = page;
     flipFraction = 0;
@@ -88,6 +122,8 @@ Item {
   }
   
   // public
+  /*!
+  */
   function hitTestFrame(x, y, relativeTo) {
     // current visible photos are on the back of the left page and the front
     // of the right page
@@ -99,6 +135,8 @@ Item {
   }
   
   // internal
+  /*!
+  */
   function hitTestPage(page, x, y, relativeTo) {
     if (!page.mediaFrames)
       return undefined;
@@ -114,6 +152,8 @@ Item {
   }
   
   // public
+  /*!
+  */
   function getRectOfMediaSource(media) {
     // current visible photos are on the back of the left page and the front of
     // the right page
@@ -125,6 +165,8 @@ Item {
   }
   
   // private
+  /*!
+  */
   function searchPageForMedia(page, media) {
     if (!page.mediaFrames)
       return undefined;

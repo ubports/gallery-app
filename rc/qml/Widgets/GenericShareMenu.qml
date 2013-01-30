@@ -20,6 +20,8 @@
 import QtQuick 2.0
 import "../../Capetown/Widgets"
 
+/*!
+*/
 PopupMenu {
   model: ListModel {
     ListElement {

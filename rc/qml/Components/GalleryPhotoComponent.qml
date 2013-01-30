@@ -27,9 +27,15 @@ import "../../Capetown/Viewer"
 Rectangle {
     id: photoComponent
 
+    /*!
+    */
     property variant mediaSource
+    /*!
+    */
     property bool load: false
 
+    /*!
+    */
     property url source: {
         if (!load)
             return source;
@@ -46,20 +52,40 @@ Rectangle {
         return isPreview ? mediaSource.galleryPreviewPath : mediaSource.galleryPath
     }
 
+    /*!
+    */
     property bool isCropped: false
+    /*!
+    */
     property bool isPreview: false
+    /*!
+    */
     property bool isZoomable: false
+    /*!
+    */
     property bool isAnimate: false
+    /*!
+    */
     property string ownerName: "(not set)"
 
     // read-only
+    /*!
+    */
     property real paintedWidth: imageComponent.paintedWidth
+    /*!
+    */
     property real paintedHeight: imageComponent.paintedHeight
+    /*!
+    */
     property bool isLoaded: false
 
     // internal
+    /*!
+    */
     property Image image: imageComponent
 
+    /*!
+    */
     signal loaded()
 
     clip: true

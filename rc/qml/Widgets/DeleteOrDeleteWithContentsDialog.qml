@@ -20,14 +20,26 @@
 import QtQuick 2.0
 import "../../Capetown/Widgets"
 
+/*!
+*/
 PopupActionChoiceDialog {
   id: deleteOrDeleteWithContentsDialog
   
+  /*!
+  */
   property variant album
+  /*!
+  */
   property alias deleteTitle: deleteOrDeleteWithContentsDialog.action0Title
+  /*!
+  */
   property alias deleteWithContentsTitle: deleteOrDeleteWithContentsDialog.action1Title
   
+  /*!
+  */
   signal deleteRequested();
+  /*!
+  */
   signal deleteWithContentsRequested();
   
   visible: false

@@ -29,9 +29,14 @@
 
 const QString Database::DATABASE_DIR = ".database";
 
+/*!
+ * \brief Database::Database
+ * \param pictures_dir
+ * \param parent
+ */
 Database::Database(const QDir& pictures_dir, QObject* parent) :
-    QObject(parent) {
-  
+    QObject(parent)
+{
   QDir db_dir(pictures_dir);
   db_dir.mkdir(DATABASE_DIR);
   db_dir.cd(DATABASE_DIR);
@@ -69,7 +74,11 @@ Database::Database(const QDir& pictures_dir, QObject* parent) :
   upgrade_schema(get_schema_version());
 }
 
-Database::~Database() {
+/*!
+ * \brief Database::~Database
+ */
+Database::~Database()
+{
   delete album_table_;
   delete media_table_;
   delete photo_edit_table_;
@@ -77,12 +86,22 @@ Database::~Database() {
   create_backup();
 }
 
-void Database::log_sql_error(QSqlQuery& q) const {
+/*!
+ * \brief Database::log_sql_error Logs a SQL error
+ * \param q
+ */
+void Database::log_sql_error(QSqlQuery& q) const
+{
   qDebug() << "SQLite error: " << q.lastError();
   qDebug() << "SQLite string: " << q.lastQuery();
 }
 
-bool Database::open_db() {
+/*!
+ * \brief Database::open_db Open the SQLite database
+ * \return
+ */
+bool Database::open_db()
+{
   db_ = QSqlDatabase::addDatabase("QSQLITE");
   db_.setDatabaseName(get_db_name());
   if (!db_.open()) {
@@ -93,7 +112,12 @@ bool Database::open_db() {
   return true;
 }
 
-int Database::get_schema_version() const {
+/*!
+ * \brief Database::get_schema_version Get schema version
+ * \return
+ */
+int Database::get_schema_version() const
+{
   QSqlQuery query(db_);
   if (!query.exec("PRAGMA user_version") || !query.next()) {
     log_sql_error(query);
@@ -103,7 +127,12 @@ int Database::get_schema_version() const {
   return query.value(0).toInt();
 }
 
-void Database::set_schema_version(int version) {
+/*!
+ * \brief Database::set_schema_version Set schema version
+ * \param version
+ */
+void Database::set_schema_version(int version)
+{
   // Must use string concats here since prepared statements
   // appear not to work with PRAGMAs.
   QSqlQuery query(db_);
@@ -111,7 +140,12 @@ void Database::set_schema_version(int version) {
     log_sql_error(query);
 }
 
-void Database::upgrade_schema(int current_version) {
+/*!
+ * \brief Database::upgrade_schema Upgrades the schema from current_version to the latest & greatest
+ * \param current_version
+ */
+void Database::upgrade_schema(int current_version)
+{
   int version = current_version + 1;
   for (;; version++) {
     // Check for the existence of an updated db file.
@@ -128,7 +162,13 @@ void Database::upgrade_schema(int current_version) {
   }
 }
 
-bool Database::execute_sql_file(QFile& file) {
+/*!
+ * \brief Database::execute_sql_file Executes a text file containing SQL commands
+ * \param file
+ * \return
+ */
+bool Database::execute_sql_file(QFile& file)
+{
   if (!file.open(QIODevice::ReadOnly)) {
     qDebug() << "Could not open file: " << file.fileName();
     return false;
@@ -160,27 +200,56 @@ bool Database::execute_sql_file(QFile& file) {
   return true;
 }
 
-AlbumTable* Database::get_album_table() const {
+/*!
+ * \brief Database::get_album_table
+ * \return
+ */
+AlbumTable* Database::get_album_table() const
+{
   return album_table_;
 }
 
-MediaTable* Database::get_media_table() const {
+/*!
+ * \brief Database::get_media_table
+ * \return
+ */
+MediaTable* Database::get_media_table() const
+{
   return media_table_;
 }
 
-PhotoEditTable* Database::get_photo_edit_table() const {
+/*!
+ * \brief Database::get_photo_edit_table
+ * \return
+ */
+PhotoEditTable* Database::get_photo_edit_table() const
+{
   return photo_edit_table_;
 }
 
-QSqlDatabase* Database::get_db() {
+/*!
+ * \brief Database::get_db
+ * \return
+ */
+QSqlDatabase* Database::get_db()
+{
   return &db_;
 }
 
-QDir Database::get_sql_dir() {
+/*!
+ * \brief Database::get_sql_dir Returns the directory where the .sql files live
+ * \return
+ */
+QDir Database::get_sql_dir()
+{
   return QDir(GalleryManager::GetInstance()->resource()->get_rc_url("sql").path());
 }
 
-void Database::restore_from_backup() {
+/*!
+ * \brief Database::restore_from_backup Restores the database from the auto-backup, if possible
+ */
+void Database::restore_from_backup()
+{
   db_.close();
   
   // Remove existing DB.
@@ -198,7 +267,11 @@ void Database::restore_from_backup() {
   open_db();
 }
 
-void Database::create_backup() {
+/*!
+ * \brief Database::create_backup Creates the auto-backup
+ */
+void Database::create_backup()
+{
   QFile old_backup(get_db_backup_name());
   if (!old_backup.remove())
     qDebug() << "Could not remove existing backup.";

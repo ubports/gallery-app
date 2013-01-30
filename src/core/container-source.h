@@ -17,11 +17,6 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-/**
-  * A ContainerSource is a DataSource that holds other DataSources.  Generally
-  * these are used for organizational features.
-  */
-
 #ifndef GALLERY_CONTAINER_SOURCE_H_
 #define GALLERY_CONTAINER_SOURCE_H_
 
@@ -32,7 +27,12 @@
 #include "core/data-source.h"
 #include "core/view-collection.h"
 
-class ContainerSource : public DataSource {
+/**
+  * A ContainerSource is a DataSource that holds other DataSources.  Generally
+  * these are used for organizational features.
+  */
+class ContainerSource : public DataSource
+{
   Q_OBJECT
   Q_PROPERTY(int containedCount READ ContainedCount NOTIFY container_contents_altered)
   

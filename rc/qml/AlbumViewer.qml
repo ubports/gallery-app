@@ -28,14 +28,22 @@ import "Components"
 import "Utility"
 import "Widgets"
 
+/*!
+*/
 Rectangle {
   id: albumViewer
   objectName: "albumViewer"
 
+  /*!
+  */
   property Album album
   
   // Read-only
+  /*!
+  */
   property alias pagesPerSpread: albumSpreadViewer.pagesPerSpread
+  /*!
+  */
   property bool animationRunning: photoViewer.animationRunning ||
     albumSpreadViewer.isFlipping || removeCrossfadeAnimation.running ||
     albumSpreadViewerForTransition.freeze

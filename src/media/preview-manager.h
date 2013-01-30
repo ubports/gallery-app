@@ -30,7 +30,11 @@ class QImage;
 class DataObject;
 class MediaSource;
 
-class PreviewManager : public QObject {
+/*!
+ * \brief The PreviewManager class
+ */
+class PreviewManager : public QObject
+{
   Q_OBJECT
   
  public:

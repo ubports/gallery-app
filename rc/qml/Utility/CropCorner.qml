@@ -24,12 +24,24 @@ import Ubuntu.Components 0.1
 Item {
   id: cropCorner
 
+  /*!
+  */
   signal dragged(real dx, real dy)
+  /*!
+  */
   signal dragStarted()
+  /*!
+  */
   signal dragCompleted()
 
+  /*!
+  */
   property bool isLeft: true
+  /*!
+  */
   property bool isTop: true
+  /*!
+  */
   property color color: "black"
 
   x: (isLeft ? -units.gu(3) : parent.width - units.gu(1))

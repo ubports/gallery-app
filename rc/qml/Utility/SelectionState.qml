@@ -25,14 +25,22 @@ import Gallery 1.0
 Item {
   id: organicSelectionState
 
+  /*!
+  */
   property bool inSelectionMode: false
+  /*!
+  */
   property bool allowSelectionModeChange: true
 
+  /*!
+  */
   property var model: EventOverviewModel {
     monitored: true
   }
 
   // readonly
+  /*!
+  */
   property int selectedCount: model.selectedCount
 
   //internal
@@ -43,30 +51,42 @@ Item {
   // selection state changes.
   property int refresh: 1
 
+  /*!
+  */
   function isSelected(item) {
     return refresh > 0 && model.isSelected(item);
   }
 
+  /*!
+  */
   function toggleSelection(item) {
     if (tryEnterSelectionMode())
       model.toggleSelection(item);
   }
 
+  /*!
+  */
   function selectAll() {
     if (tryEnterSelectionMode())
       model.selectAll();
   }
 
+  /*!
+  */
   function unselectAll() {
     model.unselectAll();
   }
 
+  /*!
+  */
   function tryEnterSelectionMode() {
     if (allowSelectionModeChange)
       inSelectionMode = true;
     return inSelectionMode;
   }
 
+  /*!
+  */
   function leaveSelectionMode() {
     if (allowSelectionModeChange) {
       inSelectionMode = false;

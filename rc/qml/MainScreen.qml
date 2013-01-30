@@ -18,113 +18,134 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
+import Gallery 1.0
+import "../js/GalleryUtility.js" as GalleryUtility
 import "Utility"
 
-Item {
-  id: mainScreen
-
-  Component.onCompleted: navStack.switchToPage(overview)
-
-  TabView {
+/*!
+*/
+MainView {
     id: overview
+    objectName: "overview"
 
     anchors.fill: parent
 
-    visible: false
+    tools: photoViewerLoader.item && photoViewerLoader.item.isPoppedUp ? photoViewerLoader.item.tools
+            : tabs.selectedTab.page.hasOwnProperty("tools") ? tabs.selectedTab.page.tools : null
 
-    onAlbumSelected: {
-      albumViewerLoader.load();
-      
-      if (thumbnailRect) {
-        showAlbumPreview(album, false);
-        albumViewerTransition.transitionToAlbumViewer(album, thumbnailRect);
-      } else {
-        albumViewerLoader.item.resetView(album);
-        albumViewerTransition.dissolve(overview, albumViewerLoader);
-      }
-    }
-  }
+    Tabs {
+        id: tabs
+        anchors.fill: parent
+        ItemStyle.class: "new-tabs"
+        Component.onCompleted: ItemStyle.style.swipeToSwitchTabs = false
 
-  Loader {
-    id: albumViewerLoader
-    
-    anchors.fill: parent
-    
-    visible: false
-    
-    function load() {
-      if (!sourceComponent)
-        sourceComponent = albumViewerComponent
-    }
-    
-    Component {
-      id: albumViewerComponent
-      
-      AlbumViewer {
-        id: albumViewer
-        
-        onCloseRequested: {
-          if (!album) {
-            // TODO: this isn't quite right.  Not sure how this should look.
-            albumViewerLoader.visible = false;
-            albumViewerTransition.dissolve(null, navStack.previous());
-          } else if (state == "gridView") {
-            albumViewerTransition.dissolve(albumViewerLoader, navStack.previous());
-          } else {
-            navStack.goBack();
-            
-            var thumbnailRect = overview.getRectOfAlbumPreview(album, albumViewerTransition);
-            if (thumbnailRect) {
-              overview.showAlbumPreview(album, false);
-              albumViewerTransition.transitionFromAlbumViewer(
-                  album, thumbnailRect, stayOpen, viewingPage);
+        visible: !(photoViewerLoader.item && photoViewerLoader.item.isPoppedUp)
+
+        selectedTabIndex: 1
+
+        onSelectedTabIndexChanged: {
+          if (selectedTabIndex == 0)
+            albumsCheckerboardLoader.load();
+        }
+
+        // TODO: Loaders don't play well with Tabs, they prevent the tab bar
+        // from sliding upward when scrolling:
+        // https://bugs.launchpad.net/goodhope/+bug/1088740
+        Tab {
+            title: "Albums"
+            page: Loader {
+                id: albumsCheckerboardLoader
+                objectName: "albumsCheckerboardLoader"
+                anchors.fill: parent
+                asynchronous: true
+                function load() {
+                    if (source == "")
+                        source = "AlbumsOverview.qml"
+                }
+            }
+        }
+
+        Tab {
+            title: "Events"
+            page: OrganicEventView {
+                id: eventView
+                objectName: "organicEventView"
+
+                anchors.fill: parent
+                visible: true
+
+                onMediaSourcePressed: {
+                    photoViewerLoader.load();
+
+                    var rect = GalleryUtility.translateRect(thumbnailRect, eventView, photoViewerLoader);
+                    photoViewerLoader.item.animateOpen(mediaSource, rect);
+                }
+            }
+        }
+
+        // TODO: Although not using a Loader for the Photo Overview today
+        // (see above TODO), will make sense in future when component becomes
+        // more heavyweight and causes a longer startup time
+        Tab {
+          title: "Photos"
+          objectName: "photosView"
+          page: PhotosOverview {
+            id: photosOverview
+
+            anchors.fill: parent
+
+            onMediaSourcePressed: {
+              photoViewerLoader.load();
+
+              var rect = GalleryUtility.translateRect(thumbnailRect,
+                photosOverview, photoViewerLoader);
+              photoViewerLoader.item.animateOpen(mediaSource, rect);
             }
           }
         }
-      }
-    }
-  }
-  
-  AlbumViewerTransition {
-    id: albumViewerTransition
-
-    anchors.fill: albumViewerLoader
-
-    backgroundGlass: overview.glass
-    isPortrait: application.isPortrait
-
-    onTransitionToAlbumViewerCompleted: {
-      navStack.switchToAlbumViewer(album);
-      overview.showAlbumPreview(album, true);
     }
 
-    onTransitionFromAlbumViewerCompleted: overview.showAlbumPreview(album, true)
-
-    onDissolveCompleted: {
-      if (fadeInTarget == navStack.previous())
-        navStack.goBack();
-      else
-        navStack.switchToPage(fadeInTarget);
+    AlbumViewerAnimated {
+        id: albumViewer
+        anchors.fill: parent
     }
-  }
-  
-  NavStack {
-    id: navStack
 
-    function switchToAlbumViewer(album) {
-      albumViewerLoader.load();
-      albumViewerLoader.item.resetView(album);
-
-      navStack.switchToPage(albumViewerLoader);
+    AlbumEditorAnimated {
+        id: albumEditor
+        anchors.fill: parent
     }
-  }
 
-  MouseArea {
-    id: transitionClickBlocker
+    Loader {
+        id: photoViewerLoader
 
-    anchors.fill: parent
+        anchors.fill: parent
+        z: 100
 
-    visible: albumViewerTransition.animationRunning
-      || (albumViewerLoader.item && albumViewerLoader.item.animationRunning)
-  }
+        function load() {
+            if (!sourceComponent)
+                sourceComponent = photoViewerComponent;
+        }
+
+        onItemChanged: print("ITEM = "+item)
+        Component {
+            id: photoViewerComponent
+
+            PopupPhotoViewer {
+                id: popupPhotoViewer
+
+                model: MediaCollectionModel {
+                    monitored: true
+                }
+
+                onCloseRequested: fadeClosed()
+            }
+        }
+    }
+
+    MouseArea {
+        id: blocker
+        anchors.fill: parent
+        enabled: photoViewerLoader.item && photoViewerLoader.item.animationRunning
+    }
 }

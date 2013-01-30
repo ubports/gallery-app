@@ -26,6 +26,9 @@
 #include <QStringList>
 #include <QTimer>
 
+/*!
+ * \brief The MediaMonitor class
+ */
 class MediaMonitor : public QObject
 {
  Q_OBJECT

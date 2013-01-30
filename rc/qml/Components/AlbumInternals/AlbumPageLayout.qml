@@ -24,17 +24,35 @@ import QtQuick 2.0
 Item {
   id: albumPageLayout
 
+  /*!
+  */
   property variant mediaSourceList: (parent ? parent.mediaSourceList : null)
 
+  /*!
+  */
   property real topMargin: (parent ? parent.topMargin : 0)
+  /*!
+  */
   property real bottomMargin: (parent ? parent.bottomMargin : 0)
+  /*!
+  */
   property real gutterMargin: (parent ? parent.gutterMargin : 0)
+  /*!
+  */
   property real outerMargin: (parent ? parent.outerMargin : 0)
+  /*!
+  */
   property real insideMargin: (parent ? parent.insideMargin : 0)
   
+  /*!
+  */
   property bool load: (parent ? parent.load : false)
+  /*!
+  */
   property bool isPreview: (parent ? parent.isPreview : false)
   
+  /*!
+  */
   property variant mediaFrames: []
   
   width: (parent ? parent.width : 0)

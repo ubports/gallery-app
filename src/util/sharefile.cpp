@@ -22,15 +22,26 @@
 #include <QtQuick/QtQuick>
 #include <QDebug>
 
+/*!
+ * \brief ShareFile::ShareFile
+ * \param parent
+ */
 ShareFile::ShareFile(QObject *parent) :
     QObject(parent)
 {
 }
 
+/*!
+ * \brief ShareFile::RegisterType
+ */
 void ShareFile::RegisterType() {
   qmlRegisterType<ShareFile>("Gallery", 1, 0, "ShareFile");
 }
 
+/*!
+ * \brief ShareFile::writeShareFile
+ * \param path
+ */
 void ShareFile::writeShareFile(const QString &path)
 {
     QFileInfo imageFilePath(QDir::tempPath() + QDir::separator() + "sharelocation");

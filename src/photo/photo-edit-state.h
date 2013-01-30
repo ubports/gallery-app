@@ -24,10 +24,16 @@
 
 #include "photo/photo-metadata.h"
 
-// Edits that can be applied to a photo.  The default-constructed
-// PhotoEditState is considered the "original" edit state, which we use to mean
-// that the photo has no edits applied to it.
-struct PhotoEditState {
+/*!
+ * \brief The PhotoEditState class
+ *
+ * Edits that can be applied to a photo.  The default-constructed
+ * PhotoEditState is considered the "original" edit state, which we use to mean
+ * that the photo has no edits applied to it.
+ */
+class PhotoEditState
+{
+public:
   // An orientation outside the range [MIN_ORIENTATION,MAX_ORIENTATION] (also,
   // must match the DB's default orientation).
   static const Orientation ORIGINAL_ORIENTATION = (Orientation)0;
@@ -66,10 +72,7 @@ struct PhotoEditState {
   }
   bool operator!=(const PhotoEditState& other) { return !(*this == other); }
 
- private:
-  // Returns a new crop rectangle oriented with the new_orientation.  Note that
-  // image_width/height must be specified in this PhotoEditState's orientation,
-  // not the new_orientation.
+private:
   QRect rotate_crop_rectangle(Orientation new_orientation,
                               int image_width, int image_height) const;
 };

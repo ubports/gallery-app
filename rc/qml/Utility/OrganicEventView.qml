@@ -20,7 +20,7 @@ import "../../js/GalleryUtility.js" as GalleryUtility
 import "../../../rc/Capetown"
 import "../../../rc/Capetown/Widgets"
 import "../Widgets"
-import Ubuntu.Components 0.1 as Ubuntu // avoid name conflict until ChromeBar is deleted
+import Ubuntu.Components 0.1 //as Ubuntu // avoid name conflict until ChromeBar is deleted
 
 // An "organic" vertically-scrollable view of all events, each containing a
 // horizontally-scrollable "tray" of photos.
@@ -79,34 +79,35 @@ OrganicView {
         }
     }
 
-    property Item overviewTools: Row {
-        ChromeButton {
+    property ActionList overviewTools: ActionList {
+        Action {
             text: "Select"
-            icon: Qt.resolvedUrl("../../img/select.png")
-            onClicked: {
+            iconSource: Qt.resolvedUrl("../../img/select.png")
+            onTriggered: {
                 // Set inSelectionMode instead of using tryEnterSelectionMode
                 // because allowSelectionModeChange is false.
                 selection.inSelectionMode = true;
             }
         }
-        ChromeButton {
+        Action {
             text: "Import"
-            icon: Qt.resolvedUrl("../../img/import-image.png")
+            iconSource: Qt.resolvedUrl("../../img/import-image.png")
             enabled: false
         }
-        ChromeButton {
+        Action {
             text: "Camera"
-            icon: Qt.resolvedUrl("../../img/camera.png")
-            onClicked: {
+            iconSource: Qt.resolvedUrl("../../img/camera.png")
+            onTriggered: {
                 if (appManager.status == Loader.Ready) appManager.item.switchToCameraApplication();
                 else console.log("Switching applications is not supported on this platform.");
             }
         }
-        Loader {
-            id: appManager
-            source: "../../../rc/Capetown/Widgets/UbuntuApplicationWrapper.qml"
-        }
     }
+    Loader {
+        id: appManager
+        source: "../../../rc/Capetown/Widgets/UbuntuApplicationWrapper.qml"
+    }
+
 
     DeletePopover {
         objectName: "eventsViewDeletePopover"
@@ -119,18 +120,18 @@ OrganicView {
         }
     }
 
-    property Item selectionTools: Row {
+    property ActionList selectionTools: ActionList {
         function leaveSelectionMode() {
             // Set inSelectionMode instead of using leaveSelectionMode()
             // because allowSelectionModeChange is false
             selection.unselectAll();
             selection.inSelectionMode = false;
         }
-        ChromeButton {
+        Action {
             text: "Add"
-            icon: Qt.resolvedUrl("../../img/add.png")
+            iconSource: Qt.resolvedUrl("../../img/add.png")
             enabled: selection.selectedCount > 0
-            onClicked: {
+            onTriggered: {
                 var album = albumCollectionModel.createOrphan();
                 album.addSelectedMediaSources(selection.model);
                 albumCollectionModel.addOrphan(album);
@@ -140,41 +141,29 @@ OrganicView {
                 selection.unselectAll();
                 selection.inSelectionMode = false;
             }
-
         }
-        ChromeButton {
-            id: deleteButton
+        Action {
             text: "Delete"
-            icon: Qt.resolvedUrl("../../img/delete.png")
+            iconSource: Qt.resolvedUrl("../../img/delete.png")
             enabled: selection.selectedCount > 0
-            onClicked: {
-                deletePopover.caller = deleteButton;
+            onTriggered: {
+                deletePopover.caller = caller;
                 deletePopover.show();
             }
         }
-        ChromeButton {
+        Action {
             text: "Share"
-            icon: Qt.resolvedUrl("../../img/share.png")
+            iconSource: Qt.resolvedUrl("../../img/share.png")
             enabled: false
+        }
+
+        back: Action {
+            text: "Cancel"
+            iconSource: Qt.resolvedUrl("../../img/cancel.png")
+            onTriggered: selectionTools.leaveSelectionMode()
         }
     }
 
     property bool selectionMode: selection.inSelectionMode
-
-    property Item tools: selectionMode ? selectionTools : overviewTools
-    onToolsChanged: print("tools changed to "+tools)
-
-//    Ubuntu.Toolbar {
-//        id: toolbar
-//        page: organicEventView
-//        tools: organicEventView.tools
-
-////        backButton: organicEventView.selectionMode ? cancelButton : null
-
-//        property Item cancelButton: ChromeButton {
-//            text: "Cancel"
-//            icon: Qt.resolvedUrl("../../img/cancel.png")
-//            onClicked: selectionTools.leaveSelectionMode()
-//        }
-//    }
+    property ActionList tools: selectionMode ? selectionTools : overviewTools
 }

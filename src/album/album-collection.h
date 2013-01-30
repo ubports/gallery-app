@@ -26,7 +26,11 @@
 #include "core/container-source-collection.h"
 #include "core/data-object.h"
 
-class AlbumCollection : public ContainerSourceCollection {
+/*!
+ * \brief The AlbumCollection class
+ */
+class AlbumCollection : public ContainerSourceCollection
+{
   Q_OBJECT
   
  signals:

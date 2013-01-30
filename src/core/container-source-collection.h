@@ -17,15 +17,6 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-/**
-  * ContainerSourceCollection is a SourceCollection that holds ContainerSources.
-  * That is, it represents all active ContainerSources of a particular finalized
-  * type.  It (will have) a more complicated set of signals than other
-  * DataCollection classes because of the layering issues involved;
-  * ContainerSources hold DataSources, and ContainerSourceCollections hold
-  * ContainerSources that hold DataSources.
-  */
-
 #ifndef GALLERY_CONTAINER_SOURCE_COLLECTION_H_
 #define GALLERY_CONTAINER_SOURCE_COLLECTION_H_
 
@@ -34,7 +25,16 @@
 #include "core/data-object.h"
 #include "core/source-collection.h"
 
-class ContainerSourceCollection : public SourceCollection {
+/**
+  * ContainerSourceCollection is a SourceCollection that holds ContainerSources.
+  * That is, it represents all active ContainerSources of a particular finalized
+  * type.  It (will have) a more complicated set of signals than other
+  * DataCollection classes because of the layering issues involved;
+  * ContainerSources hold DataSources, and ContainerSourceCollections hold
+  * ContainerSources that hold DataSources.
+  */
+class ContainerSourceCollection : public SourceCollection
+{
   Q_OBJECT
   
 public:

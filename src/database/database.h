@@ -31,7 +31,11 @@ class PhotoEditTable;
 
 const qint64 INVALID_ID = -1;
 
-class Database : public QObject {
+/*!
+ * \brief The Database class
+ */
+class Database : public QObject
+{
   Q_OBJECT
   
  public:
@@ -42,7 +46,6 @@ class Database : public QObject {
 
   ~Database();
   
-  // Logs a SQL error.
   void log_sql_error(QSqlQuery& q) const;
   QSqlDatabase* get_db();
   
@@ -51,34 +54,34 @@ class Database : public QObject {
   PhotoEditTable* get_photo_edit_table() const;
   
  private:
-  // Open the SQLite database.
   bool open_db();
   
-  // Get/set schema version.
   int get_schema_version() const;
   void set_schema_version(int version);
-  
-  // Upgrades the schema from current_version to the latest & greatest.
   void upgrade_schema(int current_version);
   
-  // Executes a text file containing SQL commands.
   bool execute_sql_file(QFile& file);
   
-  // Returns the directory where the .sql files live.
   QDir get_sql_dir();
   
+  /*!
+   * \brief get_db_name
+   * \return
+   */
   inline QString get_db_name() {
     return db_dir_.path() + "/gallery.sqlite";
   }
   
+  /*!
+   * \brief get_db_backup_name
+   * \return
+   */
   inline QString get_db_backup_name() {
     return db_dir_.path() + "/gallery.sqlite.bak";
   }
   
-  // Restores the database from the auto-backup, if possible.
   void restore_from_backup();
   
-  // Creates the auto-backup.
   void create_backup();
   
   QSqlDatabase db_;

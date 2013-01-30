@@ -26,15 +26,25 @@ import "../../js/GalleryUtility.js" as GalleryUtility
 OrganicView {
   id: organicAlbumView
 
+  /*!
+  */
   property var album
+  /*!
+  */
   property var albumModel: MediaCollectionModel {
     forCollection: album
   }
 
   // internal
+  /*!
+  */
   property int patternsPerRow: Math.max(1, Math.floor(
       (width - organicMediaListMargin) / organicMediaListPatternWidth))
+  /*!
+  */
   property int photosPerRow: organicMediaListMediaPerPattern * patternsPerRow
+  /*!
+  */
   property real photosWidth: organicMediaListPatternWidth * patternsPerRow +
       organicMediaListMargin
 

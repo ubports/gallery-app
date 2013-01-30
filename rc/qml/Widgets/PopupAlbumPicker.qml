@@ -25,11 +25,17 @@ import "../../Capetown/Widgets"
 import "../Components"
 import "../../js/Gallery.js" as Gallery
 
+/*!
+*/
 PopupBox {
   id: popupAlbumPicker
 
+  /*!
+  */
   signal albumPicked(variant album);
 
+  /*!
+  */
   property alias albumModel: scroller.model
 
   width: units.gu(40)

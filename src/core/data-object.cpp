@@ -24,12 +24,26 @@
 
 DataObjectNumber DataObject::next_number_ = 0;
 
+/*!
+ * \brief DataObject::DataObject
+ * \param parent
+ */
 DataObject::DataObject(QObject * parent)
-  : QObject(parent), number_(next_number_++) {
+  : QObject(parent), number_(next_number_++)
+{
   // All DataObjects are registered as C++ ownership; QML should never GC them
   GalleryApplication::instance()->setObjectOwnership(this, QQmlEngine::CppOwnership);
 }
 
-DataObjectNumber DataObject::number() const {
+/*!
+ * \brief DataObject::number
+ * TODO: number() should return the same value for the same DataObject across
+ *       invocations of Gallery. Right now, this API contract is maintained
+ *       implicitly and in a particularly fragile way. We should fix this.
+ *       See https://bugs.launchpad.net/goodhope/+bug/1087084.
+ * \return
+ */
+DataObjectNumber DataObject::number() const
+{
   return number_;
 }

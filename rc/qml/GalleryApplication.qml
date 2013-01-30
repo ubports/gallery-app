@@ -23,10 +23,14 @@ import QtQuick 2.0
 import "../js/Gallery.js" as Gallery
 import Ubuntu.Components 0.1 // Necessary to make filename@GU.ext images load
 
+/*!
+*/
 Item {
   id: application
   
   // readonly
+  /*!
+  */
   property bool isPortrait: (height > width)
   
   // Big list of form factor-specific values.  'default' is used if the key
@@ -98,11 +102,15 @@ Item {
     return Math.round(1.6 * amt);
   }
 
+  /*!
+  */
   function onLoaded() {
     mainScreenLoader.load();
     loadingScreen.visible = false;
   }
   
+  /*!
+  */
   function shareImage(img) {
     APP.run_command("xdg-open" , img.path);
   }

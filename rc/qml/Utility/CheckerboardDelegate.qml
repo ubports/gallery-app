@@ -30,25 +30,43 @@ Item {
   // don't modify it.
   objectName: "checkerboardDelegate"
 
+  /*!
+  */
   signal swipeStarted(bool leftToRight, int start)
+  /*!
+  */
   signal swiping(bool leftToRight, int start, int distance)
+  /*!
+  */
   signal swiped(bool leftToRight)
+  /*!
+  */
   signal longPressed(variant object)
 
+  /*!
+  */
   property variant checkerboard // The owning Checkerboard.
   // This delegate encompasses the content + the gutter.  content is the item
   // (sized checkerboard.itemWidth/Height) inside the gutter.  It will be
   // reparented internally so it's positioned correctly.
   property Item content
+  /*!
+  */
   property bool contentIsSwipable: false
   // Whether to apply the default selection highlighting internally.
   property bool useInternalSelectionHighlight: true
+  /*!
+  */
   property bool isEnabled: true
 
   // readonly
+  /*!
+  */
   property variant modelData: model
   // Also needed for Checkerboard.getDelegateInstanceAt().
   property int index: modelData.index
+  /*!
+  */
   property bool isSelected: modelData.isSelected
 
   width: checkerboard.delegateWidth

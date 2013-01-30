@@ -29,15 +29,23 @@ Item {
   objectName: "photoViewerTransition"
   
   // Read-only
+  /*!
+  */
   property bool animationRunning: showPhotoViewerAnimation.running ||
     hidePhotoViewerAnimation.running || expandPhoto.visible || fadeRectangle.visible
+  /*!
+  */
   property alias forMediaSource: expandPhoto.mediaSource
   
+  /*!
+  */
   function transitionToPhotoViewer(photo, thumbnailRect) {
     expandPhoto.setOverThumbnail(photo, thumbnailRect);
     showPhotoViewerAnimation.start();
   }
 
+  /*!
+  */
   function transitionFromPhotoViewer(photo, thumbnailRect) {
     expandPhoto.setOverThumbnail(photo, thumbnailRect);
     hidePhotoViewerAnimation.thumbnailRect = GraphicsRoutines.cloneRect(expandPhoto);
@@ -51,12 +59,18 @@ Item {
   }
   
   // Hides the transition.
+  /*!
+  */
   function hide() {
     expandPhoto.visible = false;
     fadeRectangle.visible = false;
   }
 
+  /*!
+  */
   signal transitionToPhotoViewerCompleted()
+  /*!
+  */
   signal transitionFromPhotoViewerCompleted()
 
   Rectangle {

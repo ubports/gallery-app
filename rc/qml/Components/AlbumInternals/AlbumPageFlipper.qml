@@ -30,38 +30,78 @@ import "../../../js/Gallery.js" as Gallery
 Item {
   id: albumPageFlipper
 
+  /*!
+  */
   signal flipFinished(bool toDestination)
 
+  /*!
+  */
   property Album album
+  /*!
+  */
   property int currentPage
+  /*!
+  */
   property int destinationPage
+  /*!
+  */
   property int duration: Gallery.SLOW_DURATION
+  /*!
+  */
   property real flipFraction
+  /*!
+  */
   property bool isPortrait
+  /*!
+  */
   property int pagesPerSpread
 
   // readonly
+  /*!
+  */
   property bool isFlipping: (flipFraction != 0 && flipFraction != 1)
+  /*!
+  */
   property bool isForward: (destinationPage > currentPage)
+  /*!
+  */
   property int firstPage: (isForward ? currentPage : destinationPage)
+  /*!
+  */
   property int lastPage: (isForward ? destinationPage : currentPage)
+  /*!
+  */
   property alias isRunning: animator.running
 
   // internal
+  /*!
+  */
   property int maxPages: 5
+  /*!
+  */
   property int numPages: Math.min(maxPages,
                                   Math.abs(destinationPage - currentPage) /
                                   pagesPerSpread)
+  /*!
+  */
   property real pageFlipFraction: (isForward ? flipFraction : 1 - flipFraction)
+  /*!
+  */
   property real gapBetweenPages: (isPortrait ? 0.12 : 0.1) // Eyeballed.
+  /*!
+  */
   property real flipSlope: 1 / (1 - gapBetweenPages * (numPages - 1))
 
+  /*!
+  */
   function flipToDestination() {
     animator.to = 1;
     animator.duration = (1 - flipFraction) * duration;
     animator.restart();
   }
 
+  /*!
+  */
   function flipToOrigin() {
     animator.to = 0;
     animator.duration = flipFraction * duration;

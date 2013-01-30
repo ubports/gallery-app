@@ -30,37 +30,73 @@ Item {
   id: organicMediaList
   objectName: "organicMediaList"
 
+  /*!
+  */
   signal pressed(var mediaSource, var thumbnailRect)
 
+  /*!
+  */
   property var event
+  /*!
+  */
   property alias mediaModel: photosRepeater.model
+  /*!
+  */
   property SelectionState selection
 
   // The left and right edges of the region in which to load photos; any
   // outside this region are created as delegates, but the photo isn't loaded.
   property real loadAreaLeft: 0
+  /*!
+  */
   property real loadAreaWidth: width
 
+  /*!
+  */
   property int animationDuration: Gallery.FAST_DURATION
+  /*!
+  */
   property int animationEasingType: Easing.InQuint
 
   // readonly
+  /*!
+  */
   property int mediaPerPattern: 6
+  /*!
+  */
   property var bigSize: units.gu(19)
+  /*!
+  */
   property var smallSize: units.gu(12)
+  /*!
+  */
   property real margin: units.gu(2)
+  /*!
+  */
   property real patternWidth: bigSize + smallSize * 2 + margin * 3
+  /*!
+  */
   property var patternLeftWidth: [0, bigSize, bigSize, smallSize * 2 + margin,
       bigSize + margin + smallSize, bigSize + 2 * margin + 2 * smallSize ]
 
   // internal
+  /*!
+  */
   property var photoX: [0, 0, smallSize + margin, bigSize + margin,
       bigSize + smallSize + margin * 2, smallSize * 2 + margin * 2]
+  /*!
+  */
   property var photoY: [0, bigSize + margin, bigSize + margin, 0, 0,
       smallSize + margin]
+  /*!
+  */
   property var photoSize: [bigSize, smallSize, smallSize, smallSize, smallSize,
       bigSize]
+  /*!
+  */
   property real photosLeftMargin: margin + (event ? smallSize + margin : 0)
+  /*!
+  */
   property real photosTopMargin: margin / 2
 
   width: photosLeftMargin +

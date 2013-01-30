@@ -21,7 +21,13 @@
 
 #include "util/imaging.h"
 
-QColor HSVTransformation::transform_pixel(const QColor &pixel_color) const {
+/*!
+ * \brief HSVTransformation::transform_pixel
+ * \param pixel_color
+ * \return
+ */
+QColor HSVTransformation::transform_pixel(const QColor &pixel_color) const
+{
   QColor result;
 
   int h, s, v;
@@ -34,7 +40,12 @@ QColor HSVTransformation::transform_pixel(const QColor &pixel_color) const {
   return result;
 }
 
-IntensityHistogram::IntensityHistogram(const QImage& basis_image) {
+/*!
+ * \brief IntensityHistogram::IntensityHistogram
+ * \param basis_image
+ */
+IntensityHistogram::IntensityHistogram(const QImage& basis_image)
+{
   for (int i = 0; i < 256; i++)
     counts_[i] = 0;
 
@@ -60,13 +71,25 @@ IntensityHistogram::IntensityHistogram(const QImage& basis_image) {
   }
 }
 
-float IntensityHistogram::get_cumulative_probability(int level) {
+/*!
+ * \brief IntensityHistogram::get_cumulative_probability
+ * \param level
+ * \return
+ */
+float IntensityHistogram::get_cumulative_probability(int level)
+{
   return cumulative_probabilities_[level];
 }
 
+
 const float ToneExpansionTransformation::DEFAULT_LOW_DISCARD_MASS = 0.02f;
 const float ToneExpansionTransformation::DEFAULT_HIGH_DISCARD_MASS = 0.98f;
-
+/*!
+ * \brief ToneExpansionTransformation::ToneExpansionTransformation
+ * \param h
+ * \param low_discard_mass
+ * \param high_discard_mass
+ */
 ToneExpansionTransformation::ToneExpansionTransformation(IntensityHistogram h,
   float low_discard_mass, float high_discard_mass) {
   if (low_discard_mass == -1.0f)
@@ -92,11 +115,20 @@ ToneExpansionTransformation::ToneExpansionTransformation(IntensityHistogram h,
   build_remap_table();
 }
 
-bool ToneExpansionTransformation::is_identity() const {
+/*!
+ * \brief ToneExpansionTransformation::is_identity
+ * \return
+ */
+bool ToneExpansionTransformation::is_identity() const
+{
   return ((low_kink_ == 0) && (high_kink_ == 255));
 }
 
-void ToneExpansionTransformation::build_remap_table() {
+/*!
+ * \brief ToneExpansionTransformation::build_remap_table
+ */
+void ToneExpansionTransformation::build_remap_table()
+{
   float low_kink_f = ((float) low_kink_) / 255.0f;
   float high_kink_f = ((float) high_kink_) / 255.0f;
 
@@ -115,21 +147,43 @@ void ToneExpansionTransformation::build_remap_table() {
       remap_table_[i] = 255;
 }
 
-float ToneExpansionTransformation::low_discard_mass() const {
+/*!
+ * \brief ToneExpansionTransformation::low_discard_mass
+ * \return
+ */
+float ToneExpansionTransformation::low_discard_mass() const
+{
   return low_discard_mass_;
 }
 
-float ToneExpansionTransformation::high_discard_mass() const {
+/*!
+ * \brief ToneExpansionTransformation::high_discard_mass
+ * \return
+ */
+float ToneExpansionTransformation::high_discard_mass() const
+{
   return high_discard_mass_;
 }
 
+
+/*!
+ * \brief HermiteGammaApproximationFunction::HermiteGammaApproximationFunction
+ * \param user_interval_upper
+ */
 HermiteGammaApproximationFunction::HermiteGammaApproximationFunction(
-  float user_interval_upper) {
+  float user_interval_upper)
+{
   nonzero_interval_upper_ = clampf(user_interval_upper, 0.1f, 1.0f);
   x_scale_ = 1.0f / nonzero_interval_upper_;
 }
 
-float HermiteGammaApproximationFunction::evaluate(float x) {
+/*!
+ * \brief HermiteGammaApproximationFunction::evaluate
+ * \param x
+ * \return
+ */
+float HermiteGammaApproximationFunction::evaluate(float x)
+{
   if (x < 0.0f)
     return 0.0f;
   else if (x > nonzero_interval_upper_)
@@ -144,12 +198,17 @@ float HermiteGammaApproximationFunction::evaluate(float x) {
   }
 }
 
+
 const float ShadowDetailTransformation::MAX_EFFECT_SHIFT = 0.5f;
 const float ShadowDetailTransformation::MIN_TONAL_WIDTH = 0.1f;
 const float ShadowDetailTransformation::MAX_TONAL_WIDTH = 1.0f;
 const float ShadowDetailTransformation::TONAL_WIDTH = 1.0f;
-
-ShadowDetailTransformation::ShadowDetailTransformation(float intensity) {
+/*!
+ * \brief ShadowDetailTransformation::ShadowDetailTransformation
+ * \param intensity
+ */
+ShadowDetailTransformation::ShadowDetailTransformation(float intensity)
+{
   intensity_ = intensity;
   float effect_shift = MAX_EFFECT_SHIFT * intensity;
 
@@ -166,9 +225,15 @@ ShadowDetailTransformation::ShadowDetailTransformation(float intensity) {
   }
 }
 
-bool ShadowDetailTransformation::is_identity() const {
+/*!
+ * \brief ShadowDetailTransformation::is_identity
+ * \return
+ */
+bool ShadowDetailTransformation::is_identity() const
+{
   return (intensity_ == 0.0f);
 }
+
 
 const int AutoEnhanceTransformation::SHADOW_DETECT_MIN_INTENSITY = 2;
 const int AutoEnhanceTransformation::SHADOW_DETECT_MAX_INTENSITY = 90;
@@ -177,9 +242,13 @@ const int AutoEnhanceTransformation::SHADOW_DETECT_INTENSITY_RANGE =
   AutoEnhanceTransformation::SHADOW_DETECT_MIN_INTENSITY;
 const int AutoEnhanceTransformation::EMPIRICAL_DARK = 40;
 const float AutoEnhanceTransformation::SHADOW_AGGRESSIVENESS_MUL = 0.45f;
-
+/*!
+ * \brief AutoEnhanceTransformation::AutoEnhanceTransformation
+ * \param basis
+ */
 AutoEnhanceTransformation::AutoEnhanceTransformation(const QImage& basis)
-  : shadow_transform_(0), tone_expansion_transform_(0) {
+  : shadow_transform_(0), tone_expansion_transform_(0)
+{
   IntensityHistogram histogram = IntensityHistogram(basis);
 
   /* compute the percentage of pixels in the image that fall into the
@@ -242,15 +311,24 @@ AutoEnhanceTransformation::AutoEnhanceTransformation(const QImage& basis)
   }
 }
 
-AutoEnhanceTransformation::~AutoEnhanceTransformation() {
+/*!
+ * \brief AutoEnhanceTransformation::~AutoEnhanceTransformation
+ */
+AutoEnhanceTransformation::~AutoEnhanceTransformation()
+{
   if (shadow_transform_)
     delete shadow_transform_;
   delete tone_expansion_transform_;
 }
 
-
+/*!
+ * \brief AutoEnhanceTransformation::transform_pixel
+ * \param pixel_color
+ * \return
+ */
 QColor AutoEnhanceTransformation::transform_pixel(
-  const QColor& pixel_color) const {
+  const QColor& pixel_color) const
+{
   QColor px = pixel_color;
   
   if (shadow_transform_)

@@ -29,6 +29,8 @@ import Ubuntu.Components 0.1
 ListView {
   id: photoViewer
   
+  /*!
+  */
   property int currentIndexForHighlight: -1
   
   // NOTE: These properties should be treated as read-only, as setting them
@@ -36,6 +38,8 @@ ListView {
   // initialize the view.
   property alias index: photoViewer.currentIndex
 
+  /*!
+  */
   function setCurrentIndex(index) {
       if (currentIndex === index)
         return;
