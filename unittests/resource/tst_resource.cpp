@@ -20,7 +20,7 @@
 #include <QtTest/QtTest>
 #include <QString>
 
-#include "resource.h"
+#include "util/resource.h"
 
 class tst_Resource : public QObject
 {
