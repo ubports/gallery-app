@@ -127,7 +127,6 @@ MainView {
                 sourceComponent = photoViewerComponent;
         }
 
-        onItemChanged: print("ITEM = "+item)
         Component {
             id: photoViewerComponent
 

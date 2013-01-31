@@ -20,7 +20,7 @@ import "../../js/GalleryUtility.js" as GalleryUtility
 import "../../../rc/Capetown"
 import "../../../rc/Capetown/Widgets"
 import "../Widgets"
-import Ubuntu.Components 0.1 //as Ubuntu // avoid name conflict until ChromeBar is deleted
+import Ubuntu.Components 0.1
 
 // An "organic" vertically-scrollable view of all events, each containing a
 // horizontally-scrollable "tray" of photos.

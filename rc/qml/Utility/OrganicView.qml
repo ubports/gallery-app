@@ -23,7 +23,6 @@ import "../../js/Gallery.js" as Gallery
 
 // A ListView meant to hold OrganicMediaLists in some form or another.
 Item {
-//Page {
   id: organicView
 
   /*!
