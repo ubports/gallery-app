@@ -22,6 +22,7 @@ Depends: ${shlibs:Depends}, ${misc:Depends},
          qtimageformats,
          qtmultimedia,
          qt-components-ubuntu,
+         libhud-qt-qml,
          qtsvg,
          qthybris [armel armhf]
 Description: Photo gallery for the Ubuntu tablet

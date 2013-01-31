@@ -26,6 +26,7 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 import "../Capetown"
 import "../Capetown/Viewer"
 import "Components"
+import "Utility"
 import "Widgets"
 import "../js/Gallery.js" as Gallery
 
@@ -317,6 +318,10 @@ Item {
 
     onCloseRequested: viewerWrapper.closeRequested()
     onEditRequested: viewerWrapper.editRequested(photo)
+
+    EditingHUD {
+        photo: galleryPhotoViewer.photo
+    }
   }
 
   property alias cropper: cropper
