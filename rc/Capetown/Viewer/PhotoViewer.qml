@@ -53,8 +53,9 @@ ListView {
   snapMode: ListView.SnapOneItem
   highlightRangeMode: ListView.StrictlyEnforceRange
   highlightFollowsCurrentItem: true
-  flickDeceleration: 50
-  highlightMoveDuration: 200
+  flickDeceleration: units.gu(3)
+  maximumFlickVelocity: units.gu(500)
+  highlightMoveDuration: units.gu(11)
   boundsBehavior: Flickable.DragOverBounds
 
   onMovingChanged: {
