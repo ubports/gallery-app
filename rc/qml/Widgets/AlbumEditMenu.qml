@@ -22,6 +22,7 @@ import Ubuntu.Components.Popups 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 
 /*!
+  Popover to show the context menu for an album
 */
 Popover {
     id: albumEditMenu
