@@ -19,6 +19,7 @@
 
 import QtQuick 2.0
 import "../Capetown"
+import Ubuntu.Components 0.1
 
 // A PhotoViewer that is opened and closed with the PhotoViewerTransition.
 Item {
@@ -109,6 +110,7 @@ Item {
     closed();
   }
   
+  property alias tools: viewer.tools
   GalleryPhotoViewer {
     id: viewer
     

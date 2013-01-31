@@ -12,9 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- * Charles Lindsay <chaz@yorba.org>
  */
 
 import QtQuick 2.0
@@ -23,7 +20,7 @@ import "../../js/GalleryUtility.js" as GalleryUtility
 import "../../../rc/Capetown"
 import "../../../rc/Capetown/Widgets"
 import "../Widgets"
-
+import Ubuntu.Components 0.1
 
 // An "organic" vertically-scrollable view of all events, each containing a
 // horizontally-scrollable "tray" of photos.
@@ -41,15 +38,6 @@ OrganicView {
     selection: SelectionState {
         // avoid entering selection mode by long-pressing on a photo:
         allowSelectionModeChange: false
-        onSelectedCountChanged: {
-            if (selection.selectedCount < 1) {
-                chromeBar.selectionModel.setProperty(0, "name", "disabled");
-                chromeBar.selectionModel.setProperty(1, "name", "disabled");
-            } else {
-                chromeBar.selectionModel.setProperty(0, "name", "add");
-                chromeBar.selectionModel.setProperty(1, "name", "delete");
-            }
-        }
     }
 
     model: EventCollectionModel {
@@ -91,87 +79,59 @@ OrganicView {
         }
     }
 
-    ChromeBar {
-        id: chromeBar
-        //        z: 100
-        anchors {
-            bottom: parent.bottom
-            left: parent.left
-            right: parent.right
+    property ActionList overviewTools: ActionList {
+        Action {
+            text: "Select"
+            iconSource: Qt.resolvedUrl("../../img/select.png")
+            onTriggered: {
+                // Set inSelectionMode instead of using tryEnterSelectionMode
+                // because allowSelectionModeChange is false.
+                selection.inSelectionMode = true;
+            }
         }
+        Action {
+            text: "Import"
+            iconSource: Qt.resolvedUrl("../../img/import-image.png")
+            enabled: false
+        }
+        Action {
+            text: "Camera"
+            iconSource: Qt.resolvedUrl("../../img/camera.png")
+            onTriggered: {
+                if (appManager.status == Loader.Ready) appManager.item.switchToCameraApplication();
+                else console.log("Switching applications is not supported on this platform.");
+            }
+        }
+    }
+    Loader {
+        id: appManager
+        source: "../../../rc/Capetown/Widgets/UbuntuApplicationWrapper.qml"
+    }
 
-        property bool selectionMode: selection.inSelectionMode
-        alwaysVisible: selectionMode
-        showBackButton: selectionMode
-        backButtonIcon: Qt.resolvedUrl("../../img/cancel.png")
-        backButtonText: "Cancel"
-        onBackButtonClicked: leaveSelectionMode();
 
+    DeletePopover {
+        objectName: "eventsViewDeletePopover"
+        visible: false
+        id: deletePopover
+        onDeleteClicked: {
+            organicEventView.selection.model.destroySelectedMedia();
+            deletePopover.hide();
+            selectionTools.leaveSelectionMode();
+        }
+    }
+
+    property ActionList selectionTools: ActionList {
         function leaveSelectionMode() {
             // Set inSelectionMode instead of using leaveSelectionMode()
             // because allowSelectionModeChange is false
             selection.unselectAll();
             selection.inSelectionMode = false;
         }
-
-        buttonsModel: selectionMode ? selectionModel : overviewModel
-
-        property ListModel selectionModel: ListModel {
-            ListElement {
-                label: "Add"
-                name: "disabled"
-                icon: "../img/add.png"
-            }
-            ListElement {
-                label: "Delete"
-                name: "disabled"
-                icon: "../img/delete.png"
-            }
-            ListElement {
-                label: "Share"
-                name: "disabled"
-                icon: "../img/share.png"
-            }
-        }
-
-        property ListModel overviewModel: ListModel {
-            ListElement {
-                label: "Select"
-                name: "select"
-                icon: "../img/select.png"
-            }
-            ListElement {
-                label: "Import"
-                name: "disabled"
-                icon: "../img/import-image.png"
-            }
-            ListElement {
-                label: "Camera"
-                name: "camera"
-                icon: "../img/camera.png"
-            }
-        }
-        showChromeBar: true
-
-        Loader {
-            id: appManager
-            source: "../../../rc/Capetown/Widgets/UbuntuApplicationWrapper.qml"
-        }
-
-        onButtonClicked: {
-            switch (buttonName) {
-            case "select": {
-                // Set inSelectionMode instead of using tryEnterSelectionMode
-                // because allowSelectionModeChange is false.
-                selection.inSelectionMode = true;
-                break;
-            }
-            case "delete": {
-                deletePopover.caller = button;
-                deletePopover.show();
-                break;
-            }
-            case "add": {
+        Action {
+            text: "Add"
+            iconSource: Qt.resolvedUrl("../../img/add.png")
+            enabled: selection.selectedCount > 0
+            onTriggered: {
                 var album = albumCollectionModel.createOrphan();
                 album.addSelectedMediaSources(selection.model);
                 albumCollectionModel.addOrphan(album);
@@ -180,25 +140,30 @@ OrganicView {
                 // we're skirting around the proper use of the selection object.
                 selection.unselectAll();
                 selection.inSelectionMode = false;
-                break;
             }
-            case "camera": {
-                if (appManager.status == Loader.Ready) appManager.item.switchToCameraApplication();
-                else console.log("Switching applications is not supported on this platform.");
-                break;
+        }
+        Action {
+            text: "Delete"
+            iconSource: Qt.resolvedUrl("../../img/delete.png")
+            enabled: selection.selectedCount > 0
+            onTriggered: {
+                deletePopover.caller = caller;
+                deletePopover.show();
             }
-            }
+        }
+        Action {
+            text: "Share"
+            iconSource: Qt.resolvedUrl("../../img/share.png")
+            enabled: false
         }
 
-        DeletePopover {
-            objectName: "eventsViewDeletePopover"
-            visible: false
-            id: deletePopover
-            onDeleteClicked: {
-                organicEventView.selection.model.destroySelectedMedia();
-                deletePopover.hide();
-                chromeBar.leaveSelectionMode();
-            }
+        back: Action {
+            text: "Cancel"
+            iconSource: Qt.resolvedUrl("../../img/cancel.png")
+            onTriggered: selectionTools.leaveSelectionMode()
         }
     }
+
+    property bool selectionMode: selection.inSelectionMode
+    property ActionList tools: selectionMode ? selectionTools : overviewTools
 }

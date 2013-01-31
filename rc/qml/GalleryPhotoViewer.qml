@@ -100,6 +100,7 @@ Item {
     anchors.fill: parent
   }
 
+  property alias tools: galleryPhotoViewer.tools
   PhotoViewer {
     id: galleryPhotoViewer
     objectName: "photoViewer"
@@ -147,7 +148,7 @@ Item {
     onCurrentIndexChanged: {
       if (model)
         photo = model.getAt(currentIndex);
-      chromeBar.setBarShown(false);
+      //chromeBar.setBarShown(false); // TODO: hide toolbar
     }
 
     delegate: PhotoViewerDelegate {
@@ -176,7 +177,7 @@ Item {
       }
       onUnzoomed: {
           chromeFadeWaitClock.stop();
-          chromeBar.setBarShown(false);
+          //chromeBar.setBarShown(false);
       }
     }
 
@@ -192,7 +193,7 @@ Item {
       interval: 250
       running: false
 
-      onTriggered: chromeBar.setBarShown(!chromeBar.showChromeBar)
+      //onTriggered: chromeBar.setBarShown(!chromeBar.showChromeBar)
     }
 
     ActivityIndicator {
@@ -202,69 +203,49 @@ Item {
         running: visible
     }
 
-    ChromeBar {
-        id: chromeBar
-        objectName: "photoViewerChrome"
-        z: 100
-        anchors {
-            bottom: parent.bottom
-            left: parent.left
-            right: parent.right
-        }
-        buttonsModel: ListModel {
-            ListElement {
-                label: "Edit"
-                name: "edit"
-                icon: "../img/edit.png"
-            }
-            ListElement {
-                label: "Add"
-                name: "disabled"
-                icon: "../img/add.png"
-            }
-            ListElement {
-                label: "Delete"
-                name: "delete"
-                icon: "../img/delete.png"
-            }
-            ListElement {
-                label: "Share"
-                name: "share"
-                icon: "../img/share.png"
-            }
-        }
-        showChromeBar: true
-
-        onBackButtonClicked:  {
-            galleryPhotoViewer.currentItem.unzoom();
-            closeRequested();
-        }
-
-        onButtonClicked: {
-            switch (buttonName) {
-            case "share": {
-                sharePopover.picturePath = viewerWrapper.photo.path;
-                sharePopover.caller = button;
-                sharePopover.show();
-                break;
-            }
-            case "delete": {
-                deletePopover.caller = button;
-                deletePopover.show();
-                break;
-            }
-            case "add": {
-                chromeBar.setBarShown(false);
-                popupAlbumPicker.visible = true;
-                break;
-            }
-            case "edit": {
-                editPopover.caller = button;
+    property ActionList tools: ActionList {
+        Action {
+            text: "Edit"
+            iconSource: "../img/edit.png"
+            onTriggered: {
+                editPopover.caller = caller;
                 editPopover.show();
-                break;
-            }
             }
         }
+        Action {
+            text: "Add"
+            enabled: false
+            iconSource: "../img/add.png"
+            //chromeBar.setBarShown(false);
+            //popupAlbumPicker.visible = true;
+        }
+        Action {
+            text: "Delete"
+            iconSource: "../img/delete.png"
+            onTriggered: {
+                deletePopover.caller = caller;
+                deletePopover.show();
+            }
+        }
+        Action {
+            text: "Share"
+            iconSource: "../img/share.png"
+            onTriggered: {
+                sharePopover.picturePath = viewerWrapper.photo.path;
+                sharePopover.caller = caller;
+                sharePopover.show();
+            }
+        }
+
+        back: Action {
+            text: "Back"
+            iconSource: "../img/back.png"
+            onTriggered: {
+                galleryPhotoViewer.currentItem.unzoom();
+                closeRequested();
+            }
+        }
+    }
 
         SharePopover {
             id: sharePopover
@@ -297,7 +278,6 @@ Item {
             photo: galleryPhotoViewer.photo
             cropper: viewerWrapper.cropper
         }
-    }
 
     PopupAlbumPicker {
         id: popupAlbumPicker

@@ -25,13 +25,17 @@ import "Utility"
 
 /*!
 */
-Item {
+MainView {
     id: overview
     objectName: "overview"
 
     anchors.fill: parent
 
+    tools: photoViewerLoader.item && photoViewerLoader.item.isPoppedUp ? photoViewerLoader.item.tools
+            : tabs.selectedTab.page.hasOwnProperty("tools") ? tabs.selectedTab.page.tools : null
+
     Tabs {
+        id: tabs
         anchors.fill: parent
         ItemStyle.class: "new-tabs"
         Component.onCompleted: ItemStyle.style.swipeToSwitchTabs = false
