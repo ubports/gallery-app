@@ -1,9 +1,45 @@
-goodhope (0.0.39) quantal; urgency=low
+goodhope (0.0.45) quantal; urgency=low
+
+  * Fixes for Qt5 final release packages
+
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Tue, 29 Jan 2013 21:28:25 +0000
+
+goodhope (0.0.44) quantal; urgency=low
 
   * some internal album code reshuffling
   * fixing to open an album on touch devices
 
  -- Guenter Schwann <guenter.schwann@canonical.com>  Tue, 29 Jan 2013 18:45:03 +0000
+
+goodhope (0.0.43) quantal; urgency=low
+
+  * Fixes for Qt5 final release packages
+
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Tue, 22 Jan 2013 21:28:25 +0100
+
+goodhope (0.0.42) quantal; urgency=low
+
+  * Fixes for Qt5 final release packages
+
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Tue, 22 Jan 2013 20:56:25 +0100
+
+goodhope (0.0.41) quantal; urgency=low
+
+  * Fixes for Qt5 final release packages
+
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Tue, 22 Jan 2013 20:19:25 +0100
+
+goodhope (0.0.40) quantal; urgency=low
+
+  * Fixes for Qt5 final release packages
+
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Tue, 22 Jan 2013 20:02:25 +0100
+
+goodhope (0.0.39) quantal; urgency=low
+
+  * Fixes for Qt5 final release packages
+
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Tue, 22 Jan 2013 19:38:25 +0100
 
 goodhope (0.0.38) quantal; urgency=low
 

@@ -126,7 +126,7 @@ void GalleryApplication::register_qml()
  */
 void GalleryApplication::create_view()
 {
-  view_.setWindowTitle("Gallery");
+  view_.setTitle("Gallery");
 
   QSize size = form_factors_[form_factor_];
   if (GalleryManager::GetInstance()->is_portrait())
