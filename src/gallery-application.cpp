@@ -63,7 +63,7 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
   cmd_line_parser_ = new CommandLineParser(&form_factors_);
   bool ok = cmd_line_parser_->process_args(arguments());
   if (!ok)
-      std::exit(0);
+      QApplication::quit();
 
   register_qml();
 
@@ -152,9 +152,9 @@ void GalleryApplication::create_view()
   view_.engine()->rootContext()->setContextProperty("APP", this);
 
   view_.engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
-    GalleryManager::instance()->gallery_standard_image_provider());
+                                   GalleryManager::instance()->gallery_standard_image_provider());
   view_.engine()->addImageProvider(GalleryThumbnailImageProvider::PROVIDER_ID,
-    GalleryManager::instance()->gallery_thumbnail_image_provider());
+                                   GalleryManager::instance()->gallery_thumbnail_image_provider());
 
   view_.setSource(GalleryManager::instance()->resource()->get_rc_url("qml/GalleryApplication.qml"));
   QObject::connect(view_.engine(), SIGNAL(quit()), this, SLOT(quit()));

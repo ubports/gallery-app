@@ -34,7 +34,7 @@ class CommandLineParser
 public:
     CommandLineParser(QHash<QString, QSize>* form_factors);
 
-    bool process_args(QStringList args);
+    bool process_args(const QStringList& args);
 
     QDir pictures_dir() const { return pictures_dir_; }
     bool is_portrait() const { return is_portrait_; }
@@ -42,7 +42,7 @@ public:
     bool startup_timer() const { return startup_timer_; }
     bool log_image_loading() const { return log_image_loading_; }
 
-    QString& form_factor() { return form_factor_; }
+    QString form_factor() { return form_factor_; }
 
 private:
     bool invalid_arg(QString arg);

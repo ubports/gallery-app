@@ -41,7 +41,7 @@ CommandLineParser::CommandLineParser(QHash<QString, QSize>* form_factors)
  * @param QStringList of commandline args to parse and set attributes.
  * @return false if invalid parameter is input or -h/--help is called.
  */
-bool CommandLineParser::process_args(QStringList args)
+bool CommandLineParser::process_args(const QStringList& args)
 {
   bool valid_args = true;
 
@@ -120,8 +120,12 @@ void CommandLineParser::usage()
   out << "  --landscape\trun in landscape orientation (default)" << endl;
   out << "  --portrait\trun in portrait orientation" << endl;
   out << "  --fullscreen\trun fullscreen" << endl;
+
   foreach (const QString& form_factor, form_factors_->keys())
-  out << "  --" << form_factor << "\trun in " << form_factor << " form factor" << endl;
+  {
+    out << "  --" << form_factor << "\trun in " << form_factor << " form factor" << endl;
+  }
+
   out << "  --startup-timer\n\t\tdebug-print startup time" << endl;
   out << "  --log-image-loading\n\t\tlog image loading" << endl;
   out << "pictures_dir defaults to ~/Pictures, and must exist prior to running gallery" << endl;
