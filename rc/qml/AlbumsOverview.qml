@@ -77,7 +77,9 @@ Checkerboard {
         }
 
         onLongPressed: {
-            albumMenu.show(album)
+            albumMenu.album = album
+            albumMenu.caller = content
+            albumMenu.show()
         }
 
         onSwiped: {
@@ -126,109 +128,36 @@ Checkerboard {
         opacity: 0.0
     }
 
-    // Cancel out of menus if user clicks outside the menu area.
-    MouseArea {
-        id: menuCancelArea
-
-        anchors.fill: parent
-        visible: albumMenu.state === "shown" || albumTrashDialog.state === "shown"
-        acceptedButtons: Qt.LeftButton | Qt.RightButton
-        onPressed: {
-            albumMenu.state = "hidden";
-            albumTrashDialog.state = "hidden";
-        }
-    }
-
     AlbumEditMenu {
         id: albumMenu
 
-        visible: false
-        state: "hidden"
-
         property Album album
 
-        function show(a) {
-            album = a;
-            var rect = root.getRectOfAlbumPreview(album, root);
-            if (rect.x <= root.width / 2)
-                popupOriginX = rect.x + rect.width + units.gu(4);
-            else
-                popupOriginX = rect.x - childrenRect.width;
+        visible: false
 
-            popupOriginY = rect.y >= units.gu(6) ? rect.y : units.gu(6);
-            state = "shown"
+        onEditClicked: {
+            albumEditor.album = album
+            albumEditor.origin = root.getRectOfAlbumPreview(album, albumEditor)
+            albumEditor.open()
         }
 
-        onActionInvoked: {
-            // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you
-            // edit a switch statement in QML.  The short version is: use braces
-            // always.
-            switch (name) {
-            case "onEdit": {
-                albumEditor.album = album
-                albumEditor.origin = root.getRectOfAlbumPreview(album, albumEditor)
-                albumEditor.open()
-                break;
-            }
-            case "onExport": break // TODO
-            case "onPrint": break // TODO
-            case "onShare": {
-                for (var index = 0; index < album.allMediaSources.length; index++) {
-                    shareImage(album.allMediaSources[index]);
-                }
-                break;
-            }
-            case "onDelete": {
-                albumTrashDialog.show(album)
-                break;
-            }
+        onShareClicked: {
+            for (var index = 0; index < album.allMediaSources.length; index++) {
+                shareImage(album.allMediaSources[index]);
             }
         }
 
-        onPopupInteractionCompleted: state = "hidden"
+        onDeleteClicked: {
+            albumTrashDialog.album = album
+            albumTrashDialog.caller = caller
+            albumTrashDialog.show()
+        }
     }
 
     // Dialog for deleting albums.
     DeleteOrDeleteWithContentsDialog {
         id: albumTrashDialog
 
-        property variant album: null
-
         visible: false
-
-        deleteTitle: "Delete album"
-        deleteWithContentsTitle: "Delete album + contents"
-
-        function show(albumToShow) {
-            album = albumToShow;
-            state = "shown"
-
-            var rect = root.getRectOfAlbumPreview(album, root);
-            if (rect.x <= root.width / 2)
-                popupOriginX = rect.x + rect.width + units.gu(4);
-            else
-                popupOriginX = rect.x - childrenRect.width;
-
-            popupOriginY = rect.y >= units.gu(6) ? rect.y : units.gu(6);
-        }
-
-        property AlbumCollectionModel albumCollection: AlbumCollectionModel {}
-        property MediaCollectionModel mediaCollection: MediaCollectionModel {}
-
-        onDeleteRequested: {
-            albumCollection.destroyAlbum(album)
-        }
-
-        onDeleteWithContentsRequested: {
-            // Remove contents.
-            var list = album.allMediaSources;
-            for (var i = 0; i < list.length; i++)
-                mediaCollection.destroyMedia(list[i]);
-
-            // Remove album.
-            albumCollection.destroyAlbum(album);
-        }
-
-        onPopupInteractionCompleted: state = "hidden"
     }
 }

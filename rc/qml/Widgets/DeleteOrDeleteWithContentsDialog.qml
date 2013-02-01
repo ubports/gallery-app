@@ -18,35 +18,57 @@
  */
 
 import QtQuick 2.0
-import "../../Capetown/Widgets"
+import Ubuntu.Components 0.1
+import Ubuntu.Components.Popups 0.1
+import Ubuntu.Components.ListItems 0.1 as ListItem
+import Gallery 1.0
 
 /*!
+  Popover dialog to delete an album.
+  Don't forget to set the album property
 */
-PopupActionChoiceDialog {
-  id: deleteOrDeleteWithContentsDialog
-  
-  /*!
-  */
-  property variant album
-  /*!
-  */
-  property alias deleteTitle: deleteOrDeleteWithContentsDialog.action0Title
-  /*!
-  */
-  property alias deleteWithContentsTitle: deleteOrDeleteWithContentsDialog.action1Title
-  
-  /*!
-  */
-  signal deleteRequested();
-  /*!
-  */
-  signal deleteWithContentsRequested();
-  
-  visible: false
-  
-  action0Title: "Delete"
-  onAction0Requested: deleteRequested()
+Popover {
+    /// The album that is to be deleted
+    property variant album: null
 
-  action1Title: "Delete with contents"
-  onAction1Requested: deleteWithContentsRequested()
+    /// The delete album button was clicked
+    signal deleteClicked()
+    /// The delete album + contntents was clicked
+    signal deleteWithContentsClicked()
+
+    /// Used internally to delete the album
+    property AlbumCollectionModel __albumCollection: AlbumCollectionModel {}
+    /// Used internally to delete the content of the album
+    property MediaCollectionModel __mediaCollection: MediaCollectionModel {}
+
+    Column {
+        anchors {
+            left: parent.left
+            top: parent.top
+            right: parent.right
+        }
+        ListItem.Standard {
+            text: "Delete album"
+            selected: false
+            onClicked: {
+                hide()
+                __albumCollection.destroyAlbum(album)
+            }
+        }
+        ListItem.Standard {
+            text: "Delete album + contents"
+            selected: false
+            onClicked: {
+                hide()
+
+                // Remove contents.
+                var list = album.allMediaSources;
+                for (var i = 0; i < list.length; i++)
+                    __mediaCollection.destroyMedia(list[i]);
+
+                // Remove album.
+                __albumCollection.destroyAlbum(album);
+            }
+        }
+    }
 }
