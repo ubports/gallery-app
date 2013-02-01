@@ -20,6 +20,7 @@
 #ifndef GALLERYMANAGER_H
 #define GALLERYMANAGER_H
 
+#include <cstddef>
 #include <QDir>
 
 class Resource;
@@ -31,15 +32,17 @@ class MediaCollection;
 class AlbumCollection;
 class EventCollection;
 class PreviewManager;
+class GalleryManager;
 
 /*!
  * Simple class which encapsulates instantiates objects which require only one instance.
-*/
-
+ */
 class GalleryManager
 {
 public:
-    static GalleryManager* GetInstance();
+    static GalleryManager* instance(const QString& application_path_dir = QString(),
+                                    const QDir& pictures_dir = QDir(),
+                                    const bool log_image_loading = false);
 
     /*!
      * Called after main loop is initialised. See GalleryApplication::exec() comments.
@@ -56,34 +59,16 @@ public:
     GalleryStandardImageProvider* gallery_standard_image_provider() { return gallery_standard_image_provider_; }
     GalleryThumbnailImageProvider* gallery_thumbnail_image_provider() { return gallery_thumbnail_image_provider_; }
 
-    QDir pictures_dir() const { return pictures_dir_; }
-    bool is_portrait() const { return is_portrait_; }
-    bool is_fullscreen() const { return is_fullscreen_; }
-    bool startup_timer() const { return startup_timer_; }
-    bool log_image_loading() const { return log_image_loading_; }
-
 private:
-    GalleryManager();
+    GalleryManager(const QString& application_path_dir, const QDir& pictures_dir, const bool log_image_loading);
     ~GalleryManager();
 
-    GalleryManager(GalleryManager const&);
-    void operator=(GalleryManager const&);
-
-    void process_args();
-    void usage(bool error = false);
-    void invalid_arg(QString arg);
+    GalleryManager(const GalleryManager&);
+    void operator=(const GalleryManager&);
 
     static GalleryManager* gallery_mgr_;
 
     bool collections_initialised;
-    bool startup_timer_;
-    bool is_fullscreen_;
-    bool is_portrait_;
-    QDir pictures_dir_;
-
-    QHash<QString, QSize>* form_factors_;
-    QString* form_factor_;
-    bool log_image_loading_;
 
     Resource* resource_;
     GalleryStandardImageProvider* gallery_standard_image_provider_;
@@ -95,6 +80,8 @@ private:
     AlbumCollection* album_collection_;
     EventCollection* event_collection_;
     PreviewManager* preview_manager_;
+
+    const QDir pictures_dir_;
 };
 
 #endif // GALLERYMANAGER_H

@@ -39,7 +39,7 @@ QmlEventOverviewModel::QmlEventOverviewModel(QObject* parent)
   // We need to know when events get removed from the system so we can remove
   // them too.
   QObject::connect(
-    GalleryManager::GetInstance()->event_collection(),
+    GalleryManager::instance()->event_collection(),
     SIGNAL(contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
     this,
     SLOT(on_events_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)));
@@ -179,7 +179,7 @@ void QmlEventOverviewModel::on_event_overview_contents_altered(
         continue;
       
       QDate source_date = source->exposure_date_time().date();
-      Event* event = GalleryManager::GetInstance()->event_collection()->EventForDate(source_date);
+      Event* event = GalleryManager::instance()->event_collection()->EventForDate(source_date);
       Q_ASSERT(event != NULL);
       
       if (!view->Contains(event))

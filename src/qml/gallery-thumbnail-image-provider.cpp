@@ -32,8 +32,10 @@ const char* GalleryThumbnailImageProvider::REVISION_PARAM_NAME = "edit";
 /*!
  * @brief GalleryThumbnailImageProvider::GalleryThumbnailImageProvider
  */
-GalleryThumbnailImageProvider::GalleryThumbnailImageProvider()
-  : QQuickImageProvider(QQuickImageProvider::Image) {
+GalleryThumbnailImageProvider::GalleryThumbnailImageProvider(const bool log_image_loading)
+  : QQuickImageProvider(QQuickImageProvider::Image),
+    log_image_loading_(log_image_loading)
+{
 }
 
 /*!
@@ -59,12 +61,12 @@ QImage GalleryThumbnailImageProvider::requestImage(const QString &id, QSize *siz
   QElapsedTimer timer;
   timer.start();
 
-  GalleryManager::GetInstance()->preview_manager()->ensure_preview_for_media(QFileInfo(id));
+  GalleryManager::instance()->preview_manager()->ensure_preview_for_media(QFileInfo(id));
 
   QUrl url(id);
   QString photoName = url.path();
   QFileInfo photoFile(photoName);
-  QFileInfo thumbnailFile = GalleryManager::GetInstance()->preview_manager()->ThumbnailFileFor(photoFile);
+  QFileInfo thumbnailFile = GalleryManager::instance()->preview_manager()->ThumbnailFileFor(photoFile);
   QString fileName = thumbnailFile.absoluteFilePath();
 
   QImage thumbnail;
@@ -76,7 +78,7 @@ QImage GalleryThumbnailImageProvider::requestImage(const QString &id, QSize *siz
   if (size != NULL)
     *size = thumbnail.size();
 
-  if (GalleryManager::GetInstance()->log_image_loading()) {
+  if (log_image_loading_) {
       qDebug() << id << thumbnail.size() << "time:" << timer.elapsed() << "ms";
   }
 

@@ -42,18 +42,18 @@ QMutex PreviewManager::createMutex_;
 PreviewManager::PreviewManager()
 {
   // Monitor MediaCollection for all new MediaSources
-  QObject::connect(GalleryManager::GetInstance()->media_collection(),
+  QObject::connect(GalleryManager::instance()->media_collection(),
   SIGNAL(contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
   this,
   SLOT(on_media_added_removed(const QSet<DataObject*>*,const QSet<DataObject*>*)));
   
-  QObject::connect(GalleryManager::GetInstance()->media_collection(),
+  QObject::connect(GalleryManager::instance()->media_collection(),
   SIGNAL(destroying(const QSet<DataObject*>*)),
   this,
   SLOT(on_media_destroying(const QSet<DataObject*>*)));
 
   // Verify previews for all existing added MediaSources
-  on_media_added_removed(&GalleryManager::GetInstance()->media_collection()->GetAsSet(), NULL);
+  on_media_added_removed(&GalleryManager::instance()->media_collection()->GetAsSet(), NULL);
 }
 
 /*!
@@ -147,7 +147,7 @@ bool PreviewManager::ensure_preview_for_media(QFileInfo file, bool regen)
 
   QImage thumbMaster;
   if (!preview.exists() || regen) {
-      Photo* photo = GalleryManager::GetInstance()->media_collection()->photoFromFileinfo(file);
+      Photo* photo = GalleryManager::instance()->media_collection()->photoFromFileinfo(file);
       QImage fullsized(photo->Image(true));
     if (fullsized.isNull()) {
       qDebug() << "Unable to generate fullsized image for " << file.filePath() << "not generating preview";

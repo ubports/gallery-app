@@ -242,7 +242,7 @@ QSqlDatabase* Database::get_db()
  */
 QDir Database::get_sql_dir()
 {
-  return QDir(GalleryManager::GetInstance()->resource()->get_rc_url("sql").path());
+  return QDir(GalleryManager::instance()->resource()->get_rc_url("sql").path());
 }
 
 /*!

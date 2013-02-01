@@ -88,7 +88,7 @@ AlbumTemplatePage* AlbumPage::template_page() const
  */
 QUrl AlbumPage::qml_rc() const
 {
-  return GalleryManager::GetInstance()->resource()->get_rc_url(template_page_->qml_rc());
+  return GalleryManager::instance()->resource()->get_rc_url(template_page_->qml_rc());
 }
 
 /*!

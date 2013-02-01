@@ -27,11 +27,13 @@ SOURCES += \
   album/album-page.cpp \
   album/album-template.cpp \
   album/album-template-page.cpp \
+  core/command-line-parser.cpp \
   core/container-source.cpp \
   core/container-source-collection.cpp \
   core/data-collection.cpp \
   core/data-object.cpp \
   core/data-source.cpp \
+  core/gallery-manager.cpp \
   core/selectable-view-collection.cpp \
   core/source-collection.cpp \
   core/view-collection.cpp \
@@ -58,8 +60,7 @@ SOURCES += \
   qml/qml-view-collection-model.cpp \
   util/imaging.cpp \
   util/resource.cpp \
-  util/sharefile.cpp \
-  core/gallery-manager.cpp
+  util/sharefile.cpp
 
 HEADERS += \
   gallery-application.h \
@@ -69,11 +70,13 @@ HEADERS += \
   album/album-page.h \
   album/album-template.h \
   album/album-template-page.h \
+  core/command-line-parser.h \
   core/container-source.h \
   core/container-source-collection.h \
   core/data-collection.h \
   core/data-object.h \
   core/data-source.h \
+  core/gallery-manager.h \
   core/selectable-view-collection.h \
   core/source-collection.h \
   core/view-collection.h \
@@ -102,8 +105,7 @@ HEADERS += \
   util/imaging.h \
   util/resource.h \
   util/sharefile.h \
-  util/variants.h \
-  core/gallery-manager.h
+  util/variants.h
 
 # Install
 

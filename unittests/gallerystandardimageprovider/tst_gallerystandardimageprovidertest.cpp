@@ -29,13 +29,23 @@
 class tst_GalleryStandardImageProvider : public QObject
 {
     Q_OBJECT
-    GalleryStandardImageProvider gallery_standard_image_provider;
+public:
+    tst_GalleryStandardImageProvider();
 
 private slots:
     void ToURL();
     void Fullsize();
     void Thumbnail();
+
+private:
+    GalleryStandardImageProvider gallery_standard_image_provider;
 };
+
+tst_GalleryStandardImageProvider::tst_GalleryStandardImageProvider()
+    : gallery_standard_image_provider(false)
+{
+}
+
 
 void tst_GalleryStandardImageProvider::ToURL()
 {

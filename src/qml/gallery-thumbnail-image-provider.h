@@ -39,12 +39,15 @@ public:
   static const char* PROVIDER_ID_SCHEME;
   static const char* REVISION_PARAM_NAME;
 
-  GalleryThumbnailImageProvider();
+  GalleryThumbnailImageProvider(const bool log_image_loading);
 
   static QUrl ToURL(const QFileInfo& file);
 
   virtual QImage requestImage(const QString& id, QSize* size,
     const QSize& requestedSize);
+
+private:
+  bool log_image_loading_;
 };
 
 #endif // GALLERYTHUMBNAILIMAGEPROVIDER_H
