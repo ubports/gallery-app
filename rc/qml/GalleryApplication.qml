@@ -68,6 +68,34 @@ Item {
     
     'phone': {
     },
+
+      'tablet': {
+        // Size of thumbnails in album overview.
+        albumThumbnailWidth: units.gu(25),
+        albumThumbnailHeight: units.gu(30),
+
+        // Whitespace around photos in album overview.
+        albumGridTopMargin: units.gu(1), // Plus half of albumGridGutterHeight.
+        albumGridLeftMargin: units.gu(1), // Plus half of albumGridGutterWidth.
+        albumGridRightMargin: units.gu(1), // Plus half of albumGridGutterWidth.
+        albumGridGutterWidth: units.gu(3),
+        albumGridGutterHeight: units.gu(3),
+
+        // Whitespace around photos on album pages in the album viewer.
+        albumPageTopMargin: units.gu(2),
+        albumPageBottomMargin: units.gu(2),
+        albumPageGutterMargin: units.gu(1), // Between spine and photo.
+        albumPageGutterMarginPortrait: units.gu(2),
+        albumPageOuterMargin: units.gu(2), // Between opposite edge and photo.
+        albumPageInsideMargin: units.gu(2), // Between photos on one page.
+
+        // Whitespace around photos on album pages in preview thumbnails.
+        albumPreviewTopMargin: units.gu(1.5),
+        albumPreviewBottomMargin: units.gu(1.5),
+        albumPreviewGutterMargin: units.gu(1.5), // Between spine and photo.
+        albumPreviewOuterMargin: units.gu(1.5), // Between opposite edge and photo.
+        albumPreviewInsideMargin: units.gu(1.5), // Between photos on one page.
+      },
   };
   
   function getDeviceSpecific(key, form_factor, is_portrait) {
