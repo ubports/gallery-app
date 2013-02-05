@@ -46,8 +46,25 @@ Item {
     anchors.leftMargin: units.gu(1)
     anchors.rightMargin: units.gu(1)
 
-    cellWidth: units.gu(12) + units.gu(0.75)
-    cellHeight: units.gu(12) + units.gu(0.75)
+    /// Size of the thumbnails
+    property real thumbnailSize: units.gu(12)
+    /// Minimum space between the tumbnails
+    property real minimumSpace: units.gu(0.6)
+    /// Stores the spacing between 2 images in pixel
+    property real spacing: calculateSpacing(width)
+
+    /*!
+      Calculates the spacing that should be used, to fit the fotos horizontally nicely
+      */
+    function calculateSpacing(viewWidth) {
+        var itemSize = thumbnailSize + minimumSpace
+        var itemCount = Math.floor(viewWidth / itemSize)
+        var spareSpace = viewWidth - itemCount * itemSize
+        return (minimumSpace + spareSpace / itemCount)
+    }
+
+    cellWidth: thumbnailSize + spacing
+    cellHeight: thumbnailSize + spacing
 
     maximumFlickVelocity: units.gu(800)
     flickDeceleration: maximumFlickVelocity * 0.5
@@ -72,8 +89,8 @@ Item {
 
         anchors.centerIn: parent
 
-        width: units.gu(12)
-        height: units.gu(12)
+        width: photosGrid.thumbnailSize
+        height: photosGrid.thumbnailSize
 
         radius: "medium"
 

@@ -435,7 +435,8 @@ Rectangle {
           break;
           
           case "onDeleteAlbum":
-            chrome.cyclePopup(albumTrashDialog);
+              albumTrashDialog.album = albumViewer.album
+              albumTrashDialog.show()
           break;
         }
       }
@@ -632,36 +633,7 @@ Rectangle {
     // Delete album from album view.
     DeleteOrDeleteWithContentsDialog {
       id: albumTrashDialog
-      
       visible: false
-      
-      deleteTitle: "Delete album"
-      deleteWithContentsTitle: "Delete album + contents"
-      
-      popupOriginX: -units.gu(2)
-      popupOriginY: -units.gu(6)
-      
-      onDeleteRequested: {
-        albumCollectionModel.destroyAlbum(albumViewer.album);
-        albumViewer.closeRequested(true, -1);
-      }
-      
-      onDeleteWithContentsRequested: {
-        // Remove contents.
-        var list = albumViewer.album.allMediaSources;
-        for (var i = 0; i < list.length; i++)
-          organicView.albumModel.destroyMedia(list[i]);
-        
-        // Remove album.
-        albumCollectionModel.destroyAlbum(albumViewer.album);
-        albumViewer.closeRequested(true, -1);
-      }
-      
-      AlbumCollectionModel {
-        id: albumCollectionModel
-      }
-      
-      onPopupInteractionCompleted: state = "hidden"
     }
   }
   
