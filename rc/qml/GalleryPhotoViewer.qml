@@ -26,6 +26,7 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 import "../Capetown"
 import "../Capetown/Viewer"
 import "Components"
+import "Utility"
 import "Widgets"
 import "../js/Gallery.js" as Gallery
 
@@ -297,6 +298,11 @@ Item {
 
     onCloseRequested: viewerWrapper.closeRequested()
     onEditRequested: viewerWrapper.editRequested(photo)
+
+    EditingHUD {
+        id: editHUD
+        photo: galleryPhotoViewer.photo
+    }
   }
 
   property alias cropper: cropper
@@ -347,18 +353,14 @@ Item {
 
     onCanceled: {
       photo.cancelCropping();
-
       hide();
-
       targetPhoto = null;
     }
 
     onCropped: {
       var qtRect = Qt.rect(rect.x, rect.y, rect.width, rect.height);
       photo.crop(qtRect);
-
       hide();
-
       targetPhoto = null;
     }
     
@@ -397,4 +399,12 @@ Item {
       easing.type: Easing.InOutQuad    
     }
   }
+
+  EditPreview {
+      id: editPreview
+      anchors.fill: parent
+      visible: editHUD.actionActive
+      exposure: editHUD.exposureValue
+  }
+
 }

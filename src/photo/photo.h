@@ -105,6 +105,7 @@ class Photo : public MediaSource
   Q_INVOKABLE void redo();
   Q_INVOKABLE void rotateRight();
   Q_INVOKABLE void autoEnhance();
+  Q_INVOKABLE void exposureCompensation(qreal value);
   Q_INVOKABLE QVariant prepareForCropping();
   Q_INVOKABLE void cancelCropping();
   Q_INVOKABLE void crop(QVariant vrect);
@@ -119,6 +120,7 @@ class Photo : public MediaSource
   void save(const PhotoEditState& state, Orientation old_orientation);
   void edit_file(const PhotoEditState& state);
   void create_cached_enhanced();
+  QImage compensateExposure(const QImage& image, qreal compansation);
   void append_path_params(QUrl* url, Orientation orientation, const int size_level) const;
   void handle_simple_metadata_rotation(const PhotoEditState& state);
   bool file_format_has_metadata() const;
