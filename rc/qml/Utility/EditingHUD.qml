@@ -60,6 +60,140 @@ Item {
                     photo.rotateRight()
                 }
             }
+
+            HUD.Action {
+                id: exposureAction
+                label: "Exposure"
+                description: "lorem ipsum"
+                hasLivePreview: true
+                confirm: "Confirm" // string to show in the confirm button
+
+                HUD.SliderParameter {
+                    id: compensationParam
+                    label: "Compensation"
+
+                    minimumValue: 0.0
+                    maximumValue: 100.0
+                    value: 50.0
+                    live: true
+
+                    onValueChanged: {
+                        // update the preview
+                        console.debug("Compensation: " + value)
+                    }
+                }
+
+                onStarted: {
+                    // this gets triggered when the user selects the action from the HUD
+                    // and the parameter view is opened / preview begins
+                    // this is probably a good place to reset the parameters to initial values
+                }
+
+                onResetted: {
+                    // this gets triggered when user presses the reset button
+                    // NOT ON THE SCRIPT
+                }
+
+                onCancelled: {
+                    // this gets triggered when user leaves the parameter view / preview
+                    // without confirming the action
+                }
+
+                onTriggered: {
+                    // this get triggered when user presses the "confirm" button
+                    // and the action should be carried out permanently
+                }
+            }
+
+
+            HUD.Action {
+                id: colorBalanceAction
+                label: "Color Balance"
+                description: "lorem ipsum"
+                hasLivePreview: true
+                confirm: "Confirm"
+
+                HUD.SliderParameter {
+                    id: brightnessParam
+                    label: "Brightness"
+
+                    minimumValue: 0.0
+                    maximumValue: 100.0
+                    value: 50.0
+                    live: true
+
+                    onValueChanged: {
+                        // update the preview
+                        console.debug("Brightness: " + value)
+                    }
+                }
+
+                HUD.SliderParameter {
+                    id: contrastParam
+                    label: "Contrast"
+
+                    minimumValue: 0.0
+                    maximumValue: 100.0
+                    value: 50.0
+                    live: true
+
+                    onValueChanged: {
+                        // update the preview
+                        console.debug("Contrast: " + value)
+                    }
+                }
+
+                HUD.SliderParameter {
+                    id: saturationParam
+                    label: "Saturation"
+
+                    minimumValue: 0.0
+                    maximumValue: 100.0
+                    value: 50.0
+                    live: true
+
+                    onValueChanged: {
+                        // update the preview
+                        console.debug("Saturation: " + value)
+                    }
+                }
+
+                HUD.SliderParameter {
+                    id: hueParam
+                    label: "Hue"
+
+                    minimumValue: 0.0
+                    maximumValue: 100.0
+                    value: 50.0
+                    live: true
+
+                    onValueChanged: {
+                        // update the preview
+                        console.debug("Hue: " + value)
+                    }
+                }
+
+                onStarted: {
+                    // this gets triggered when the user selects the action from the HUD
+                    // and the parameter view is opened / preview begins
+                    // this is probably a good place to reset the parameters to initial values
+                }
+
+                onResetted: {
+                    // this gets triggered when user presses the reset button
+                    // NOT ON THE SCRIPT
+                }
+
+                onCancelled: {
+                    // this gets triggered when user leaves the parameter view / preview
+                    // without confirming the action
+                }
+
+                onTriggered: {
+                    // this get triggered when user presses the "confirm" button
+                    // and the action should be carried out permanently
+                }
+            }
         }
     }
 }
