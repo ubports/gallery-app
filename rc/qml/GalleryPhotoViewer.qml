@@ -352,18 +352,14 @@ Item {
 
     onCanceled: {
       photo.cancelCropping();
-
       hide();
-
       targetPhoto = null;
     }
 
     onCropped: {
       var qtRect = Qt.rect(rect.x, rect.y, rect.width, rect.height);
       photo.crop(qtRect);
-
       hide();
-
       targetPhoto = null;
     }
     
@@ -402,4 +398,11 @@ Item {
       easing.type: Easing.InOutQuad    
     }
   }
+
+  EditPreview {
+      id: editPreview
+      anchors.fill: parent
+      visible: false
+  }
+
 }
