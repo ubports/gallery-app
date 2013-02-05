@@ -21,8 +21,6 @@ Depends: ${shlibs:Depends}, ${misc:Depends},
          libqt5sql5-sqlite,
          qt-components-ubuntu,
          libhud-qt-qml,
-         qtsvg,
-         qthybris [armel armhf]
 Description: Photo gallery for the Ubuntu tablet
  Good Hope is a photo gallery for the Ubuntu tablet.
 
