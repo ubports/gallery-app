@@ -66,7 +66,7 @@ Item {
                 label: "Exposure"
                 description: "lorem ipsum"
                 hasLivePreview: true
-                confirm: "Confirm" // string to show in the confirm button
+                commitLabel: "Confirm" // string to show in the confirm button
 
                 HUD.SliderParameter {
                     id: compensationParam
@@ -87,21 +87,25 @@ Item {
                     // this gets triggered when the user selects the action from the HUD
                     // and the parameter view is opened / preview begins
                     // this is probably a good place to reset the parameters to initial values
+                    console.debug("exposure started")
                 }
 
                 onResetted: {
                     // this gets triggered when user presses the reset button
                     // NOT ON THE SCRIPT
+                    console.debug("exposure resetted")
                 }
 
                 onCancelled: {
                     // this gets triggered when user leaves the parameter view / preview
                     // without confirming the action
+                    console.debug("exposure cancelled")
                 }
 
                 onTriggered: {
                     // this get triggered when user presses the "confirm" button
                     // and the action should be carried out permanently
+                    console.debug("exposure triggered")
                 }
             }
 
@@ -111,7 +115,7 @@ Item {
                 label: "Color Balance"
                 description: "lorem ipsum"
                 hasLivePreview: true
-                confirm: "Confirm"
+                commitLabel: "Confirm"
 
                 HUD.SliderParameter {
                     id: brightnessParam
@@ -177,21 +181,25 @@ Item {
                     // this gets triggered when the user selects the action from the HUD
                     // and the parameter view is opened / preview begins
                     // this is probably a good place to reset the parameters to initial values
+                    console.debug("color balance started")
                 }
 
                 onResetted: {
                     // this gets triggered when user presses the reset button
                     // NOT ON THE SCRIPT
+                    console.debug("color balance resetted")
                 }
 
                 onCancelled: {
                     // this gets triggered when user leaves the parameter view / preview
                     // without confirming the action
+                    console.debug("color balance cancelled")
                 }
 
                 onTriggered: {
                     // this get triggered when user presses the "confirm" button
                     // and the action should be carried out permanently
+                    console.debug("color balance triggreed")
                 }
             }
         }
