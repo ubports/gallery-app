@@ -64,7 +64,7 @@ Item {
             HUD.Action {
                 id: exposureAction
                 label: "Exposure"
-                description: "lorem ipsum"
+                description: "Adjust the exposure"
                 hasLivePreview: true
                 commitLabel: "Confirm" // string to show in the confirm button
 
@@ -92,7 +92,6 @@ Item {
 
                 onResetted: {
                     // this gets triggered when user presses the reset button
-                    // NOT ON THE SCRIPT
                     console.debug("exposure resetted")
                 }
 
@@ -113,7 +112,7 @@ Item {
             HUD.Action {
                 id: colorBalanceAction
                 label: "Color Balance"
-                description: "lorem ipsum"
+                description: "Adjust color balance"
                 hasLivePreview: true
                 commitLabel: "Confirm"
 
@@ -186,7 +185,6 @@ Item {
 
                 onResetted: {
                     // this gets triggered when user presses the reset button
-                    // NOT ON THE SCRIPT
                     console.debug("color balance resetted")
                 }
 
