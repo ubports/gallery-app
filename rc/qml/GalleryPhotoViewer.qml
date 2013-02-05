@@ -300,6 +300,7 @@ Item {
     onEditRequested: viewerWrapper.editRequested(photo)
 
     EditingHUD {
+        id: editHUD
         photo: galleryPhotoViewer.photo
     }
   }
@@ -402,7 +403,8 @@ Item {
   EditPreview {
       id: editPreview
       anchors.fill: parent
-      visible: false
+      visible: editHUD.actionActive
+      exposure: editHUD.exposureValue
   }
 
 }

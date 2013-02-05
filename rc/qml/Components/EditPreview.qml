@@ -26,7 +26,7 @@ Item {
     /// URL to the image that is edited
     property alias source: previewImage.source
     /// Value of the exposure
-    property alias exposure:effectItem.exposure
+    property alias exposure: effectItem.exposure
 
     Image {
         id: previewImage
