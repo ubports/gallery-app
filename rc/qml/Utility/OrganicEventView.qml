@@ -79,7 +79,7 @@ OrganicView {
         }
     }
 
-    property ActionList overviewTools: ActionList {
+    property ActionList overviewTools: ToolbarActions {
         Action {
             text: "Select"
             iconSource: Qt.resolvedUrl("../../img/select.png")
@@ -120,7 +120,7 @@ OrganicView {
         }
     }
 
-    property ActionList selectionTools: ActionList {
+    property ActionList selectionTools: ToolbarActions {
         function leaveSelectionMode() {
             // Set inSelectionMode instead of using leaveSelectionMode()
             // because allowSelectionModeChange is false
@@ -165,5 +165,5 @@ OrganicView {
     }
 
     property bool selectionMode: selection.inSelectionMode
-    property ActionList tools: selectionMode ? selectionTools : overviewTools
+    property ToolbarActions tools: selectionMode ? selectionTools : overviewTools
 }

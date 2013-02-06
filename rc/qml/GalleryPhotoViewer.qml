@@ -204,7 +204,7 @@ Item {
         running: visible
     }
 
-    property ActionList tools: ActionList {
+    property ToolbarActions tools: ToolbarActions {
         Action {
             text: "Edit"
             iconSource: "../img/edit.png"
@@ -299,10 +299,10 @@ Item {
     onCloseRequested: viewerWrapper.closeRequested()
     onEditRequested: viewerWrapper.editRequested(photo)
 
-    EditingHUD {
-        id: editHUD
-        photo: galleryPhotoViewer.photo
-    }
+//    EditingHUD {
+//        id: editHUD
+//        photo: galleryPhotoViewer.photo
+//    }
   }
 
   property alias cropper: cropper

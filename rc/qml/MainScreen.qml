@@ -32,7 +32,7 @@ MainView {
     anchors.fill: parent
 
     tools: photoViewerLoader.item && photoViewerLoader.item.isPoppedUp ? photoViewerLoader.item.tools
-            : tabs.selectedTab.page.hasOwnProperty("tools") ? tabs.selectedTab.page.tools : null
+            : tabs.tools
 
     Tabs {
         id: tabs
