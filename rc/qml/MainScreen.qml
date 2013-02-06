@@ -47,6 +47,9 @@ MainView {
         onSelectedTabIndexChanged: {
           if (selectedTabIndex == 0)
             albumsCheckerboardLoader.load();
+          // prevent entering the event view in selection mode
+          else if (selectedTabIndex == 1)
+            eventView.selection.inSelectionMode = false;
         }
 
         // TODO: Loaders don't play well with Tabs, they prevent the tab bar

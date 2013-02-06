@@ -108,7 +108,6 @@ OrganicView {
         source: "../../../rc/Capetown/Widgets/UbuntuApplicationWrapper.qml"
     }
 
-
     DeletePopover {
         objectName: "eventsViewDeletePopover"
         visible: false
@@ -127,6 +126,11 @@ OrganicView {
             selection.unselectAll();
             selection.inSelectionMode = false;
         }
+
+        // in selection mode, never hide the toolbar:
+        active: true
+        lock: true
+
         Action {
             text: "Add"
             iconSource: Qt.resolvedUrl("../../img/add.png")
@@ -166,4 +170,5 @@ OrganicView {
 
     property bool selectionMode: selection.inSelectionMode
     property ToolbarActions tools: selectionMode ? selectionTools : overviewTools
+    onSelectionModeChanged: if (selectionMode) tools.active = true
 }
