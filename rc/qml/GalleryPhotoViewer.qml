@@ -299,10 +299,10 @@ Item {
     onCloseRequested: viewerWrapper.closeRequested()
     onEditRequested: viewerWrapper.editRequested(photo)
 
-//    EditingHUD {
-//        id: editHUD
-//        photo: galleryPhotoViewer.photo
-//    }
+    EditingHUD {
+        id: editHUD
+        photo: galleryPhotoViewer.photo
+    }
   }
 
   property alias cropper: cropper
