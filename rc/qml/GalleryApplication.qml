@@ -20,6 +20,7 @@
  */
 
 import QtQuick 2.0
+import QtQuick.Window 2.0
 import "../js/Gallery.js" as Gallery
 import Ubuntu.Components 0.1 // Necessary to make filename@GU.ext images load
 
@@ -107,7 +108,7 @@ Item {
     if (form_factor === 'sidebar')
       form_factor = 'phone'; // Equivalent; saves typing above.
     if (deviceSpecifics[form_factor] === undefined) {
-        if (width > 1280)
+        if (Screen.primaryOrientation === Qt.LandscapeOrientation)
             form_factor = 'tablet';
         else
             form_factor = 'default';
@@ -162,7 +163,7 @@ Item {
       height = temp;
     }
   }
-  
+
   LoadingScreen {
     id: loadingScreen
 
