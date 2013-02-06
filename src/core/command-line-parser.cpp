@@ -24,7 +24,7 @@
 #include <QStandardPaths>
 #include <QDebug>
 
-CommandLineParser::CommandLineParser(QHash<QString, QSize>* form_factors)
+CommandLineParser::CommandLineParser(const QHash<QString, QSize>& form_factors)
     : startup_timer_(false),
       is_fullscreen_(false),
       is_portrait_(false),
@@ -33,7 +33,6 @@ CommandLineParser::CommandLineParser(QHash<QString, QSize>* form_factors)
       form_factors_(form_factors),
       form_factor_("desktop")
 {
-    Q_ASSERT(form_factors);
 }
 
 /*!
@@ -84,7 +83,7 @@ bool CommandLineParser::process_args(const QStringList& args)
     {
       QString form_factor = args[i].mid(2); // minus initial "--"
 
-      if (args[i].startsWith("--") && form_factors_->keys().contains(form_factor))
+      if (args[i].startsWith("--") && form_factors_.keys().contains(form_factor))
       {
         form_factor_ = form_factor;
       }
@@ -121,7 +120,7 @@ void CommandLineParser::usage()
   out << "  --portrait\trun in portrait orientation" << endl;
   out << "  --fullscreen\trun fullscreen" << endl;
 
-  foreach (const QString& form_factor, form_factors_->keys())
+  foreach (const QString& form_factor, form_factors_.keys())
   {
     out << "  --" << form_factor << "\trun in " << form_factor << " form factor" << endl;
   }

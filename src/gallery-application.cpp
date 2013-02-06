@@ -60,7 +60,7 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
   form_factors_.insert("phone", QSize(71, 40));
   form_factors_.insert("sidebar", QSize(71, 40));
 
-  cmd_line_parser_ = new CommandLineParser(&form_factors_);
+  cmd_line_parser_ = new CommandLineParser(form_factors_);
   bool ok = cmd_line_parser_->process_args(arguments());
   if (!ok)
       QApplication::quit();

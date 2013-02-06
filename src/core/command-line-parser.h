@@ -32,7 +32,7 @@
 class CommandLineParser
 {
 public:
-    CommandLineParser(QHash<QString, QSize>* form_factors);
+    CommandLineParser(const QHash<QString, QSize>& form_factors);
 
     bool process_args(const QStringList& args);
 
@@ -55,10 +55,8 @@ private:
 
     bool log_image_loading_;
 
-    QHash<QString, QSize>* form_factors_;
+    const QHash<QString, QSize>& form_factors_;
     QString form_factor_;
-
-    friend class tst_CommandLineParser;
 };
 
 #endif // COMMANDLINEPARSER_H

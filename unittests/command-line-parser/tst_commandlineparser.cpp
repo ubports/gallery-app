@@ -27,6 +27,7 @@ class tst_CommandLineParser : public QObject
 {
     Q_OBJECT
     CommandLineParser cmd_line_parser_;
+    QHash<QString, QSize> form_factors_;
 
 public:
     tst_CommandLineParser();
@@ -42,17 +43,13 @@ private slots:
     void process_args_test_data();
 };
 
-tst_CommandLineParser::tst_CommandLineParser() : cmd_line_parser_(new QHash<QString, QSize>())
+tst_CommandLineParser::tst_CommandLineParser() : cmd_line_parser_(form_factors_)
 {
-    cmd_line_parser_.form_factors_->insert("desktop", QSize(160, 100)); // In BGU.
-    cmd_line_parser_.form_factors_->insert("tablet", QSize(160, 100));
-    cmd_line_parser_.form_factors_->insert("phone", QSize(71, 40));
-    cmd_line_parser_.form_factors_->insert("sidebar", QSize(71, 40));
 }
 
 tst_CommandLineParser::~tst_CommandLineParser()
 {
-    delete cmd_line_parser_.form_factors_;
+
 }
 
 void tst_CommandLineParser::is_portrait_test()
@@ -117,7 +114,7 @@ void tst_CommandLineParser::process_args_test()
 {
     QHash<QString, QSize> form_factors;
 
-    CommandLineParser test(&form_factors);
+    CommandLineParser test(form_factors);
 
     QFETCH(QStringList, process_args);
     QFETCH(bool, is_portrait);
