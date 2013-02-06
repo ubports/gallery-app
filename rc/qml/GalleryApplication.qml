@@ -106,9 +106,13 @@ Item {
       form_factor = FORM_FACTOR; // From C++.
     if (form_factor === 'sidebar')
       form_factor = 'phone'; // Equivalent; saves typing above.
-    if (deviceSpecifics[form_factor] === undefined)
-      form_factor = 'default';
-  
+    if (deviceSpecifics[form_factor] === undefined) {
+        if (width > 1280)
+            form_factor = 'tablet';
+        else
+            form_factor = 'default';
+    }
+
     var portrait_key = key + 'Portrait';
     if (is_portrait && deviceSpecifics[form_factor][portrait_key] !== undefined)
       return deviceSpecifics[form_factor][portrait_key];
