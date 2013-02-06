@@ -170,5 +170,4 @@ OrganicView {
 
     property bool selectionMode: selection.inSelectionMode
     property ToolbarActions tools: selectionMode ? selectionTools : overviewTools
-    onSelectionModeChanged: if (selectionMode) tools.active = true
 }
