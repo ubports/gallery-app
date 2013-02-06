@@ -204,7 +204,7 @@ Item {
         running: visible
     }
 
-    property ActionList tools: ActionList {
+    property ToolbarActions tools: ToolbarActions {
         Action {
             text: "Edit"
             iconSource: "../img/edit.png"

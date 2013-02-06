@@ -79,7 +79,7 @@ OrganicView {
         }
     }
 
-    property ActionList overviewTools: ActionList {
+    property ActionList overviewTools: ToolbarActions {
         Action {
             text: "Select"
             iconSource: Qt.resolvedUrl("../../img/select.png")
@@ -108,7 +108,6 @@ OrganicView {
         source: "../../../rc/Capetown/Widgets/UbuntuApplicationWrapper.qml"
     }
 
-
     DeletePopover {
         objectName: "eventsViewDeletePopover"
         visible: false
@@ -120,13 +119,18 @@ OrganicView {
         }
     }
 
-    property ActionList selectionTools: ActionList {
+    property ActionList selectionTools: ToolbarActions {
         function leaveSelectionMode() {
             // Set inSelectionMode instead of using leaveSelectionMode()
             // because allowSelectionModeChange is false
             selection.unselectAll();
             selection.inSelectionMode = false;
         }
+
+        // in selection mode, never hide the toolbar:
+        active: true
+        lock: true
+
         Action {
             text: "Add"
             iconSource: Qt.resolvedUrl("../../img/add.png")
@@ -165,5 +169,5 @@ OrganicView {
     }
 
     property bool selectionMode: selection.inSelectionMode
-    property ActionList tools: selectionMode ? selectionTools : overviewTools
+    property ToolbarActions tools: selectionMode ? selectionTools : overviewTools
 }
