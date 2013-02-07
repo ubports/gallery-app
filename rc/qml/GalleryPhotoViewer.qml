@@ -298,11 +298,6 @@ Item {
 
     onCloseRequested: viewerWrapper.closeRequested()
     onEditRequested: viewerWrapper.editRequested(photo)
-
-    EditingHUD {
-        id: editHUD
-        photo: galleryPhotoViewer.photo
-    }
   }
 
   property alias cropper: cropper
@@ -400,11 +395,14 @@ Item {
     }
   }
 
+  EditingHUD {
+      id: editHUD
+      photo: galleryPhotoViewer.photo
+  }
   EditPreview {
       id: editPreview
       anchors.fill: parent
       visible: editHUD.actionActive
       exposure: editHUD.exposureValue
   }
-
 }
