@@ -21,7 +21,7 @@ Depends: ${shlibs:Depends},
          libqt5sql5-sqlite,
          qt-components-ubuntu,
          libhud-qt-qml,
-Description: Photo gallery for the Ubuntu
+Description: Photo gallery for Ubuntu
  Good Hope is a photo gallery for the Ubuntu platform.
 
 Package: goodhope-autopilot
@@ -30,5 +30,5 @@ Depends: ${shlibs:Depends},
          ${misc:Depends},
          goodhope (= ${source:Version}),
          autopilot-qt5
-Description: Autopilot tests for the Photo gallery for the Ubuntu
+Description: Autopilot tests for the Photo gallery for Ubuntu
  Good Hope is a photo gallery for the Ubuntu platform. This package contains autopilot tests for it.

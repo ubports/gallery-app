@@ -3,11 +3,11 @@ Upstream-Name: goodhope
 Source: https://launchpad.net/goodhope
 
 Files: *
-Copyright: 2011 2012 2013 Canonical Ltd
+Copyright: 2011, 2012, 2013 Canonical Ltd
 License: GPL-3.0+
 
 Files: debian/*
-Copyright: 2011 2012 2013 Canonical Ltd
+Copyright: 2011, 2012, 2013 Canonical Ltd
 License: GPL-3.0+
 
 License: GPL-3.0+
