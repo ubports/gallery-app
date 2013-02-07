@@ -641,7 +641,7 @@ Rectangle {
     id: photoViewer
     
     // true if the grid view component is using the photo viewer, false if the
-    // album spread viewer is using it ... this should be set prior to
+    // album spread viewer is using it ... this should be set prior to 
     // opening the viewer
     property bool forGridView
     
