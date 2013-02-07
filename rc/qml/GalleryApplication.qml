@@ -142,12 +142,6 @@ Item {
     loadingScreen.visible = false;
   }
   
-  /*!
-  */
-  function shareImage(img) {
-    APP.run_command("xdg-open" , img.path);
-  }
-
   width: units.gu(DEVICE_WIDTH)
   height: units.gu(DEVICE_HEIGHT)
 

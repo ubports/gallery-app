@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 import Gallery 1.0
 import "Components"
 import "Utility"
@@ -25,6 +26,9 @@ import "Widgets"
  */
 Checkerboard {
     id: root
+
+    /// Contains the actions for the toolbar in the albums tab
+    property ActionList tools: albumsToolBar
 
     /*!
     */
@@ -143,7 +147,8 @@ Checkerboard {
 
         onShareClicked: {
             for (var index = 0; index < album.allMediaSources.length; index++) {
-                shareImage(album.allMediaSources[index]);
+                // FIXME once the share component can handle more than one image
+                //shareImage(album.allMediaSources[index]);
             }
         }
 
@@ -159,5 +164,29 @@ Checkerboard {
         id: albumTrashDialog
 
         visible: false
+    }
+
+    ToolbarActions {
+        id: albumsToolBar
+        Action {
+            text: "Add"
+            iconSource: Qt.resolvedUrl("../img/add.png")
+            enabled: false
+        }
+        Action {
+            text: "Camera"
+            iconSource: Qt.resolvedUrl("../img/camera.png")
+            onTriggered: {
+                if (appManager.status === Loader.Ready)
+                    appManager.item.switchToCameraApplication();
+                else
+                    console.log("Switching applications is not supported on this platform.");
+            }
+        }
+    }
+
+    Loader {
+        id: appManager
+        source: "../../rc/Capetown/Widgets/UbuntuApplicationWrapper.qml"
     }
 }

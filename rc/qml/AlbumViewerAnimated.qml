@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 import Gallery 1.0
 
 /*! @brief AlbumViewerAnimated shows an album, and performs animations when opening and closing
@@ -36,6 +37,10 @@ Item {
                                         loader_albumViewer.item.albumViewerTransition.animationRunning ||
                                         loader_albumViewer.item.albumViewer.animationRunning
                                       : false
+    /// Indicates if this view is open
+    property bool isOpen: false
+    /// Contains the actions for the toolbar in the album view
+    property ActionList tools: loader_albumViewer.status === Loader.Ready ? loader_albumViewer.item.albumViewer.tools : null
 
     /// Opens the album. If the origin is set, an animation is performed
     function open() {
@@ -45,6 +50,7 @@ Item {
             loader_albumViewer.item.albumViewerTransition.transitionToAlbumViewer(root.album, root.origin);
         else
             loader_albumViewer.item.albumViewer.visible = true
+        isOpen = true
     }
 
     Component {
@@ -72,6 +78,7 @@ Item {
                                     album, root.origin, stayOpen, viewingPage);
                     }
                     inner_albumViewer.visible = false
+                    isOpen = false
                 }
             }
 
