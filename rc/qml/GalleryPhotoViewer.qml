@@ -302,6 +302,8 @@ Item {
     EditingHUD {
         id: editHUD
         photo: galleryPhotoViewer.photo
+        onExposureActivated: editPreview.useExposure()
+        onColorBalanceActivated: editPreview.useColorBalance()
     }
   }
 
@@ -404,7 +406,13 @@ Item {
       id: editPreview
       anchors.fill: parent
       visible: editHUD.actionActive
+
       exposure: editHUD.exposureValue
+
+      brightness: editHUD.brightness
+      contrast: editHUD.contrast
+      saturation: editHUD.saturation
+      hue: editHUD.hue
   }
 
 }

@@ -24,18 +24,27 @@ import Ubuntu.HUD 0.1 as HUD
 Item {
     id: root
 
-    /*!
-      The current photo to be edited
-    */
+    /// The current photo to be edited
     property variant photo: null
-    /*!
-      Is true when a HUD action with parameters is active
-      */
+    /// Is true when a HUD action with parameters is active
     property bool actionActive: false
-    /*!
-      Exposure compensation from -1.0 (dark) to +1.0 (bright)
-      */
+
+    /// Exposure compensation from -1.0 (dark) to +1.0 (bright)
     property double exposureValue: 0.0
+
+    /// Brightnes value of the color balance
+    property double brightness: 0.0
+    /// Contrast value of the color balance
+    property double contrast: 0.0
+    /// Saturation value of the color balance
+    property double saturation: 0.0
+    /// Hue value of the color balance
+    property double hue: 0.0
+
+    /// Emitted when the exposure action is started
+    signal exposureActivated()
+    /// Emitted when the color balance action is started
+    signal colorBalanceActivated()
 
     HUD.HUD {
         id: hud
@@ -48,30 +57,21 @@ Item {
                 id: cropAction
                 label: "Crop"
                 description: "Crop the image"
-                onTriggered: {
-                    console.log(description)
-                    photo.crop()
-                }
+                onTriggered: cropper.show(photo)
             }
 
             HUD.Action {
                 id: autoAdjustAction
                 label: "Auto Adjust"
                 description: "Adjust the image automatically"
-                onTriggered: {
-                    console.log(description)
-                    photo.autoEnhance()
-                }
+                onTriggered: photo.autoEnhance()
             }
 
             HUD.Action {
                 id: rotateAction
                 label: "Rotate"
                 description: "Rotate the image clockwise"
-                onTriggered: {
-                    console.log(description)
-                    photo.rotateRight()
-                }
+                onTriggered: photo.rotateRight()
             }
 
             HUD.Action {
@@ -90,41 +90,24 @@ Item {
                     value: 50.0
                     live: true
 
-                    onValueChanged: {
-                        // update the preview
-                        console.debug("Compensation: " + value)
-                        root.exposureValue = (value / 50.0) - 1.0
-                    }
+                    onValueChanged: root.exposureValue = (value / 50.0) - 1.0
                 }
 
                 onStarted: {
-                    // this gets triggered when the user selects the action from the HUD
-                    // and the parameter view is opened / preview begins
-                    // this is probably a good place to reset the parameters to initial values
-                    console.debug("exposure started")
-                    compensationParam = 50
+                    root.exposureActivated()
+                    compensationParam.value = 50
                     root.exposureValue = 0.0
                     root.actionActive = true
                 }
 
-                onResetted: {
-                    // this gets triggered when user presses the reset button
-                    console.debug("exposure resetted")
-                    compensationParam = 50
-                }
+                onResetted: compensationParam.value = 50
 
                 onCancelled: {
-                    // this gets triggered when user leaves the parameter view / preview
-                    // without confirming the action
-                    console.debug("exposure cancelled")
                     root.exposureValue = 0.0
                     root.actionActive = false
                 }
 
                 onTriggered: {
-                    // this get triggered when user presses the "confirm" button
-                    // and the action should be carried out permanently
-                    console.debug("exposure triggered")
                     root.actionActive = false
                     photo.exposureCompensation(root.exposureValue)
                 }
@@ -147,10 +130,7 @@ Item {
                     value: 50.0
                     live: true
 
-                    onValueChanged: {
-                        // update the preview
-                        console.debug("Brightness: " + value)
-                    }
+                    onValueChanged: root.brightness = (value / 50.0) - 1.0
                 }
 
                 HUD.SliderParameter {
@@ -162,10 +142,7 @@ Item {
                     value: 50.0
                     live: true
 
-                    onValueChanged: {
-                        // update the preview
-                        console.debug("Contrast: " + value)
-                    }
+                    onValueChanged: root.contrast = (value / 50.0) - 1.0
                 }
 
                 HUD.SliderParameter {
@@ -177,10 +154,7 @@ Item {
                     value: 50.0
                     live: true
 
-                    onValueChanged: {
-                        // update the preview
-                        console.debug("Saturation: " + value)
-                    }
+                    onValueChanged: root.saturation = (value / 50.0) - 1.0
                 }
 
                 HUD.SliderParameter {
@@ -192,37 +166,26 @@ Item {
                     value: 50.0
                     live: true
 
-                    onValueChanged: {
-                        // update the preview
-                        console.debug("Hue: " + value)
-                    }
+                    onValueChanged: root.hue = (value / 50.0) - 1.0
                 }
 
                 onStarted: {
-                    // this gets triggered when the user selects the action from the HUD
-                    // and the parameter view is opened / preview begins
-                    // this is probably a good place to reset the parameters to initial values
-                    console.debug("color balance started")
+                    root.colorBalanceActivated()
                     root.actionActive = true
                 }
 
                 onResetted: {
-                    // this gets triggered when user presses the reset button
-                    console.debug("color balance resetted")
+                    brightnessParam.value = 50
+                    contrastParam.value = 50
+                    saturationParam.value = 50
+                    hueParam.value = 50
                 }
 
-                onCancelled: {
-                    // this gets triggered when user leaves the parameter view / preview
-                    // without confirming the action
-                    console.debug("color balance cancelled")
-                    root.actionActive = false
-                }
+                onCancelled: root.actionActive = false
 
                 onTriggered: {
-                    // this get triggered when user presses the "confirm" button
-                    // and the action should be carried out permanently
-                    console.debug("color balance triggreed")
                     root.actionActive = false
+                    // FIXME trigger the color balance for the photo
                 }
             }
         }
