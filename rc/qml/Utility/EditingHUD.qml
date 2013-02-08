@@ -39,7 +39,7 @@ Item {
 
     HUD.HUD {
         id: hud
-        applicationIdentifier: "gallery"
+        applicationIdentifier: "goodhope"
 
         HUD.Context {
             id: ctx
