@@ -51,6 +51,7 @@ Popover {
             text: "Delete album"
             selected: false
             onClicked: {
+                deleteClicked()
                 hide()
                 __albumCollection.destroyAlbum(album)
             }
@@ -59,6 +60,7 @@ Popover {
             text: "Delete album + contents"
             selected: false
             onClicked: {
+                deleteWithContentsClicked()
                 hide()
 
                 // Remove contents.

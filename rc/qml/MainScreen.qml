@@ -31,8 +31,9 @@ MainView {
 
     anchors.fill: parent
 
-    tools: photoViewerLoader.item && photoViewerLoader.item.isPoppedUp ? photoViewerLoader.item.tools
-            : tabs.selectedTab.page.hasOwnProperty("tools") ? tabs.selectedTab.page.tools : null
+    tools: __isPhotoViewerOpen ? photoViewerLoader.item.tools
+            : (albumViewer.isOpen ? albumViewer.tools
+            : tabs.tools)
 
     Tabs {
         id: tabs
@@ -47,6 +48,9 @@ MainView {
         onSelectedTabIndexChanged: {
           if (selectedTabIndex == 0)
             albumsCheckerboardLoader.load();
+          // prevent entering the event view in selection mode
+          else if (selectedTabIndex == 1)
+            eventView.selection.inSelectionMode = false;
         }
 
         // TODO: Loaders don't play well with Tabs, they prevent the tab bar
@@ -59,6 +63,8 @@ MainView {
                 objectName: "albumsCheckerboardLoader"
                 anchors.fill: parent
                 asynchronous: true
+                property ToolbarActions tools: status === Loader.Ready ? item.tools : null
+
                 function load() {
                     if (source == "")
                         source = "AlbumsOverview.qml"
@@ -116,6 +122,8 @@ MainView {
         anchors.fill: parent
     }
 
+    /// Indicates if the photo viewer is currently open (shown to the user)
+    property bool __isPhotoViewerOpen: photoViewerLoader.item && photoViewerLoader.item.isPoppedUp
     Loader {
         id: photoViewerLoader
 

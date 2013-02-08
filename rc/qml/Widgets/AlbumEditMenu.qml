@@ -49,7 +49,6 @@ Popover {
         }
         ListItem.Standard {
             text: "Share"
-            icon: Qt.resolvedUrl("../../img/icon-share-active.png")
             onClicked: {
                 hide()
                 shareClicked()
@@ -57,7 +56,6 @@ Popover {
         }
         ListItem.Standard {
             text: "Delete"
-            icon: Qt.resolvedUrl("../../img/icon-trash-active.png")
             onClicked: {
                 hide()
                 deleteClicked()
