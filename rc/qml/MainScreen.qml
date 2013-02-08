@@ -31,8 +31,9 @@ MainView {
 
     anchors.fill: parent
 
-    tools: photoViewerLoader.item && photoViewerLoader.item.isPoppedUp ? photoViewerLoader.item.tools
-            : tabs.tools
+    tools: __isPhotoViewerOpen ? photoViewerLoader.item.tools
+            : (albumViewer.isOpen ? albumViewer.tools
+            : tabs.tools)
 
     Tabs {
         id: tabs
@@ -62,6 +63,8 @@ MainView {
                 objectName: "albumsCheckerboardLoader"
                 anchors.fill: parent
                 asynchronous: true
+                property ToolbarActions tools: status === Loader.Ready ? item.tools : null
+
                 function load() {
                     if (source == "")
                         source = "AlbumsOverview.qml"
@@ -119,6 +122,8 @@ MainView {
         anchors.fill: parent
     }
 
+    /// Indicates if the photo viewer is currently open (shown to the user)
+    property bool __isPhotoViewerOpen: photoViewerLoader.item && photoViewerLoader.item.isPoppedUp
     Loader {
         id: photoViewerLoader
 
