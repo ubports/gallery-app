@@ -228,7 +228,7 @@ Rectangle {
         
         // Handle add button.
         if (hit.objectName === "addButton")
-          mediaSelector.show();
+          loader_mediaSelector.show();
         
         if (!hit.mediaSource)
           return;
@@ -331,7 +331,7 @@ Rectangle {
 
       MouseArea {
         anchors.fill: parent
-        onClicked: mediaSelector.show()
+        onClicked: loader_mediaSelector.show()
       }
     }
   }
@@ -395,29 +395,39 @@ Rectangle {
     }
   }
   
-  MediaSelector {
-    id: mediaSelector
+  Component {
+      id: component_mediaSelector
+      MediaSelector {
+          id: mediaSelector
 
-    anchors.fill: parent
+          album: albumViewer.album
 
-    album: albumViewer.album
+          onCancelRequested: hide()
 
-    onCancelRequested: hide()
+          onDoneRequested: {
+              var firstPhoto = album.addSelectedMediaSources(model);
 
-    onDoneRequested: {
-      var firstPhoto = album.addSelectedMediaSources(model);
+              hide();
 
-      hide();
+              if (firstPhoto && albumViewer.state == "pageView") {
+                  var firstChangedPage = album.getPageForMediaSource(firstPhoto);
+                  var firstChangedSpread = albumSpreadViewer.getLeftHandPageNumber(firstChangedPage);
 
-      if (firstPhoto && albumViewer.state == "pageView") {
-        var firstChangedPage = album.getPageForMediaSource(firstPhoto);
-        var firstChangedSpread = albumSpreadViewer.getLeftHandPageNumber(firstChangedPage);
-
-        chrome.hide(true);
-        albumSpreadViewer.flipTo(firstChangedSpread);
+                  chrome.hide(true);
+                  albumSpreadViewer.flipTo(firstChangedSpread);
+              }
+          }
       }
-    }
   }
+  Loader {
+      id: loader_mediaSelector
+      anchors.fill: parent
+      function show() {
+          sourceComponent = component_mediaSelector
+          item.show()
+      }
+  }
+
 
   DeleteOrDeleteWithContentsDialog {
       id: albumTrashDialog
@@ -438,7 +448,7 @@ Rectangle {
           text: "Add"
           iconSource: Qt.resolvedUrl("../img/add.png")
           onTriggered: {
-              mediaSelector.show()
+              loader_mediaSelector.show()
           }
       }
       Action {
@@ -453,12 +463,12 @@ Rectangle {
       }
       Action {
           text: "Share"
-          iconSource: "../img/share.png"
+          iconSource: Qt.resolvedUrl("../img/share.png")
           enabled: false
       }
       back: Action {
           text: "Back"
-          iconSource: "../img/back.png"
+          iconSource: Qt.resolvedUrl("../img/back.png")
           onTriggered: {
               __close()
           }
