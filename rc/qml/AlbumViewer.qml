@@ -48,7 +48,7 @@ Rectangle {
     albumSpreadViewerForTransition.freeze
 
   /// Contains the actions for the toolbar in the album view
-  property ActionList tools: albumToolBar
+  property ActionList tools: albumTools
 
   // When the user clicks the back button or pages back to the cover.
   signal closeRequested(bool stayOpen, int viewingPage)
@@ -387,7 +387,7 @@ Rectangle {
       } else {
         fadeClosed();
       }
-      albumViewer.tools = albumToolBar
+      albumViewer.tools = albumTools
     }
     
     onClosed: {
@@ -433,7 +433,7 @@ Rectangle {
   }
 
   ToolbarActions {
-      id: albumToolBar
+      id: albumTools
       Action {
           text: "Add"
           iconSource: Qt.resolvedUrl("../img/add.png")

@@ -28,7 +28,7 @@ Checkerboard {
     id: root
 
     /// Contains the actions for the toolbar in the albums tab
-    property ActionList tools: albumsToolBar
+    property ActionList tools: albumOverviewTools
 
     /*!
     */
@@ -167,7 +167,7 @@ Checkerboard {
     }
 
     ToolbarActions {
-        id: albumsToolBar
+        id: albumOverviewTools
         Action {
             text: "Add"
             iconSource: Qt.resolvedUrl("../img/add.png")
