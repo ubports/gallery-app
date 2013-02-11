@@ -298,13 +298,6 @@ Item {
 
     onCloseRequested: viewerWrapper.closeRequested()
     onEditRequested: viewerWrapper.editRequested(photo)
-
-    EditingHUD {
-        id: editHUD
-        photo: galleryPhotoViewer.photo
-        onExposureActivated: editPreview.useExposure()
-        onColorBalanceActivated: editPreview.useColorBalance()
-    }
   }
 
   property alias cropper: cropper
@@ -402,17 +395,15 @@ Item {
     }
   }
 
-  EditPreview {
-      id: editPreview
+  Loader {
+      id: hudPreview_loader
       anchors.fill: parent
-      visible: editHUD.actionActive
-
-      exposure: editHUD.exposureValue
-
-      brightness: editHUD.brightness
-      contrast: editHUD.contrast
-      saturation: editHUD.saturation
-      hue: editHUD.hue
   }
 
+  Component.onCompleted: {
+      if (hudPreview_loader.status === Loader.Null) {
+          hudPreview_loader.setSource(Qt.resolvedUrl("Components/EditHUDPreview.qml"),
+                                      {photo: viewerWrapper.photo})
+      }
+  }
 }
