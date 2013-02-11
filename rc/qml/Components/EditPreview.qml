@@ -128,6 +128,8 @@ Item {
                 coord = qt_MultiTexCoord0;
                 gl_Position = qt_Matrix * qt_Vertex;
             }"
+
+        fragmentShader: root.exposureShader
     }
 
     property string exposureShader: "

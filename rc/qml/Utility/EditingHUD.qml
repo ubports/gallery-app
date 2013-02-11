@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import Gallery 1.0
 import Ubuntu.HUD 0.1 as HUD
 
 /*!
