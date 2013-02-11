@@ -48,7 +48,7 @@ Item {
 
     HUD.HUD {
         id: hud
-        applicationIdentifier: "ubuntu_gallery"
+        applicationIdentifier: "ubuntu-gallery"
 
         HUD.Context {
             id: ctx
