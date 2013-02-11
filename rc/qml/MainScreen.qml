@@ -55,7 +55,6 @@ MainView {
 
         // TODO: Loaders don't play well with Tabs, they prevent the tab bar
         // from sliding upward when scrolling:
-        // https://bugs.launchpad.net/goodhope/+bug/1088740
         Tab {
             title: "Albums"
             page: Loader {

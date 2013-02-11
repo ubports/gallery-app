@@ -5,4 +5,4 @@
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
 
-"""Autopilot tests and emulators for goodhope - top level package."""
+"""Autopilot tests and emulators for gallery - top level package."""
