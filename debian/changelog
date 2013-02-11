@@ -1,3 +1,9 @@
+ubuntu-gallery (0.0.51) quantal; urgency=low
+
+  * Renamed to ubuntu-gallery
+
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Tue, 12 Jan 2013 00:18:25 +0100
+
 ubuntu-gallery (0.0.50) quantal; urgency=low
 
   * Use SDK toolbar for album(s) view
