@@ -49,7 +49,7 @@ Item {
 
     HUD.HUD {
         id: hud
-        applicationIdentifier: "goodhope"
+        applicationIdentifier: "ubuntu-gallery"
 
         HUD.Context {
             id: ctx

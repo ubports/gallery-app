@@ -7,4 +7,3 @@ export QT_QPA_PLATFORM = minimal
 
 %:
 	dh $@ --parallel --buildsystem=qmake
-

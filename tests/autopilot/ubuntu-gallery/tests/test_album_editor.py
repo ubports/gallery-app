@@ -13,10 +13,10 @@
 # from testtools.matchers import Equals, NotEquals
 # from autopilot.matchers import Eventually
 
-# from goodhope.tests import GoodhopeTestCase
+# from gallery.tests import GalleryTestCase
 
 
-# class TestAlbumEditor(GoodhopeTestCase):
+# class TestAlbumEditor(GalleryTestCase):
 #     """Tests the album editor of the gallery app"""
 
 #     """ This is needed to wait for the application to start.

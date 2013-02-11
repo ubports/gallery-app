@@ -5,7 +5,7 @@
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
 
-"""goodhope autopilot tests."""
+"""gallery autopilot tests."""
 
 from os import remove, system
 import os.path
@@ -14,23 +14,23 @@ import shutil
 from autopilot.introspection.qt import QtIntrospectionTestMixin
 from autopilot.testcase import AutopilotTestCase
 
-from goodhope.emulators.events_view import EventsView
-from goodhope.emulators.photo_viewer import PhotoViewer
-from goodhope.emulators.album_editor import AlbumEditor
-from goodhope.emulators.photos_view import PhotosView
+from gallery.emulators.events_view import EventsView
+from gallery.emulators.photo_viewer import PhotoViewer
+from gallery.emulators.album_editor import AlbumEditor
+from gallery.emulators.photos_view import PhotosView
 
 
-class GoodhopeTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
+class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
 
-    """A common test case class that provides several useful methods for goodhope tests."""
+    """A common test case class that provides several useful methods for gallery tests."""
 
-    sample_dir = "/tmp/goodhope_ap"
-    sample_file = "/tmp/goodhope_ap/sample.jpg"
-    installed_sample_file = "/usr/lib/python2.7/dist-packages/goodhope/data/sample.jpg"
-    local_sample_file = "goodhope/data/sample.jpg"
+    sample_dir = "/tmp/ubuntu-gallery_ap"
+    sample_file = "/tmp/ubuntu-gallery/sample.jpg"
+    installed_sample_file = "/usr/lib/python2.7/dist-packages/ubuntu-gallery/data/sample.jpg"
+    local_sample_file = "gallery/data/sample.jpg"
 
     def setUp(self):
-        super(GoodhopeTestCase, self).setUp()
+        super(GalleryTestCase, self).setUp()
 
         os.makedirs(self.sample_dir)
         self.assertTrue(os.path.exists(self.sample_dir))
@@ -48,12 +48,12 @@ class GoodhopeTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
 
     def launch_test_local(self):
         self.app = self.launch_test_application(
-            "../../src/gallery", self.sample_dir
+            "../../src/ubuntu-gallery", self.sample_dir
             )
 
     def launch_test_installed(self):
         self.app = self.launch_test_application(
-           "gallery", self.sample_dir
+           "ubuntu-gallery", self.sample_dir
            )
 
     @property

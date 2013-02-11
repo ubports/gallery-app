@@ -1,4 +1,4 @@
-Source: goodhope
+Source: ubuntu-gallery
 Section: graphics
 Priority: extra
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
@@ -11,8 +11,9 @@ Build-Depends: debhelper (>= 9.0),
                libgl-dev,
                libgles2-mesa-dev,
 Standards-Version: 3.9.2
+Vcs-Bzr: lp:ubuntu-gallery
 
-Package: goodhope
+Package: ubuntu-gallery
 Architecture: any
 Depends: ${shlibs:Depends},
          ${misc:Depends}, 
@@ -22,13 +23,13 @@ Depends: ${shlibs:Depends},
          qt-components-ubuntu,
          libhud-qt-qml,
 Description: Photo gallery for Ubuntu
- Good Hope is a photo gallery for the Ubuntu platform.
+ Ubuntu-gallery is a photo gallery for the Ubuntu platform.
 
-Package: goodhope-autopilot
+Package: ubuntu-gallery-autopilot
 Architecture: all
 Depends: ${shlibs:Depends},
          ${misc:Depends},
-         goodhope (= ${source:Version}),
+         ubuntu-gallery (= ${source:Version}),
          autopilot-qt5
-Description: Autopilot tests for the Photo gallery for Ubuntu
- Good Hope is a photo gallery for the Ubuntu platform. This package contains autopilot tests for it.
+Description: Autopilot tests for the photo gallery for Ubuntu
+ Ubuntu-gallery is a photo gallery for the Ubuntu platform. This package contains autopilot tests for it.
