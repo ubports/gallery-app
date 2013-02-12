@@ -205,7 +205,7 @@ Item {
     }
 
     property ToolbarActions tools: ToolbarActions {
-        Action {
+       Action {
             text: "Edit"
             iconSource: "../img/edit.png"
             onTriggered: {

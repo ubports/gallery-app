@@ -162,7 +162,7 @@ Item {
         void main(void) {
             mediump vec4 tmp1;
             mediump vec4 tmp2;
-            tmp1 = texture2D(tex, coord);
+            tmp1 = texture2D(src, coord);
             tmp2 = vec4(dot(h1, tmp1), dot(h2, tmp1), dot(h3, tmp1), 1.0);
             tmp1 = vec4(dot(s1, tmp2), dot(s2, tmp2), dot(s3, tmp2), 1.0);
             tmp2 = vec4(dot(b1, tmp1), dot(b2, tmp1), dot(b3, tmp1), 1.0);
