@@ -49,11 +49,11 @@ Item {
 
 
     Component.onCompleted: {
-        hudCtx.addAction(cropAction);
-        hudCtx.addAction(autoAdjustAction);
-        hudCtx.addAction(rotateAction);
         hudCtx.addAction(exposureAction);
         hudCtx.addAction(colorBalanceAction);
+        hudCtx.addAction(autoAdjustAction);
+        hudCtx.addAction(rotateAction);
+        hudCtx.addAction(cropAction);
     }
 
     HUD.Action {

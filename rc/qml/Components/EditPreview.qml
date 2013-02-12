@@ -123,7 +123,7 @@ Item {
             uniform mat4 qt_Matrix;
             attribute vec4 qt_Vertex;
             attribute vec2 qt_MultiTexCoord0;
-            varying vec2 coord;
+            varying mediump vec2 coord;
             void main() {
                 coord = qt_MultiTexCoord0;
                 gl_Position = qt_Matrix * qt_Vertex;
@@ -133,13 +133,13 @@ Item {
     }
 
     property string exposureShader: "
-        varying vec2 coord;
+        varying mediump vec2 coord;
         uniform sampler2D src;
-        uniform float exposure;
-        uniform float qt_Opacity;
+        uniform mediump float exposure;
+        uniform mediump float qt_Opacity;
         void main() {
-            float exp = clamp(exposure, -1.0, 1.0);
-            vec4 tex = texture2D(src, coord);
+            mediump float exp = clamp(exposure, -1.0, 1.0);
+            mediump vec4 tex = texture2D(src, coord);
             tex.rgb += exp;
             gl_FragColor = tex * qt_Opacity;
         }"

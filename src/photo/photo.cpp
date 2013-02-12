@@ -618,6 +618,7 @@ void Photo::edit_file(const PhotoEditState& state)
 
   // Have we been rotated and _not_ cropped?
   if (file_format_has_orientation() && (!state.crop_rectangle_.isValid()) &&
+      state.exposureCompensation_ == 0 &&
       (state.orientation_ != PhotoEditState::ORIGINAL_ORIENTATION)) { 
     // Yes; skip out on decoding and re-encoding the image.
     handle_simple_metadata_rotation(state);

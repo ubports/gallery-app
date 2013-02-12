@@ -69,7 +69,8 @@ public:
   bool operator==(const PhotoEditState& other) {
     return (orientation_ == other.orientation_ &&
             crop_rectangle_ == other.crop_rectangle_ &&
-            is_enhanced_ == other.is_enhanced_);
+            is_enhanced_ == other.is_enhanced_ &&
+            exposureCompensation_ == other.exposureCompensation_);
   }
   bool operator!=(const PhotoEditState& other) { return !(*this == other); }
 
