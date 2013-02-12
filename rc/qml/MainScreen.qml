@@ -103,19 +103,21 @@ MainView {
         // (see above TODO), will make sense in future when component becomes
         // more heavyweight and causes a longer startup time
         Tab {
-            title: "Photos"
-            objectName: "photosView"
-            page: PhotosOverview {
-                id: photosOverview
-                anchors.fill: parent
+          title: "Photos"
+          objectName: "photosView"
+          page: PhotosOverview {
+            id: photosOverview
 
-                onMediaSourcePressed: {
-                    photoViewerLoader.load();
-                    var rect = GalleryUtility.translateRect(thumbnailRect,
-                                photosOverview, photoViewerLoader);
-                    photoViewerLoader.item.animateOpen(mediaSource, rect);
-                }
+            anchors.fill: parent
+
+            onMediaSourcePressed: {
+              photoViewerLoader.load();
+
+              var rect = GalleryUtility.translateRect(thumbnailRect,
+                photosOverview, photoViewerLoader);
+              photoViewerLoader.item.animateOpen(mediaSource, rect);
             }
+          }
         }
     }
 
