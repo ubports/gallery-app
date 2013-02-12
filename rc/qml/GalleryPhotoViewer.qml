@@ -205,7 +205,7 @@ Item {
     }
 
     property ToolbarActions tools: ToolbarActions {
-        Action {
+       Action {
             text: "Edit"
             iconSource: "../img/edit.png"
             onTriggered: {
@@ -395,17 +395,25 @@ Item {
     }
   }
 
-  Loader {
-      id: hudPreview_loader
+  EditPreview {
+      id: editPreview
       anchors.fill: parent
+      source: galleryPhotoViewer.photo.galleryPreviewPath
+
+      visible: editHUD.actionActive
+
+      exposure: editHUD.exposureValue
+
+      brightness: editHUD.brightness
+      contrast: editHUD.contrast
+      saturation: editHUD.saturation
+      hue: editHUD.hue
   }
 
-  onPhotoChanged: hudPreview_loader.item.photo = photo
-
-  Component.onCompleted: {
-      if (hudPreview_loader.status === Loader.Null) {
-          hudPreview_loader.setSource(Qt.resolvedUrl("Components/EditHUDPreview.qml"),
-                                      {photo: viewerWrapper.photo})
-      }
+  EditingHUD {
+      id: editHUD
+      photo: galleryPhotoViewer.photo
+      onExposureActivated: editPreview.useExposure()
+      onColorBalanceActivated: editPreview.useColorBalance()
   }
 }

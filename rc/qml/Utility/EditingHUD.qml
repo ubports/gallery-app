@@ -47,13 +47,12 @@ Item {
     /// Emitted when the color balance action is started
     signal colorBalanceActivated()
 
-
     Component.onCompleted: {
-        hudCtx.addAction(cropAction);
-        hudCtx.addAction(autoAdjustAction);
-        hudCtx.addAction(rotateAction);
         hudCtx.addAction(exposureAction);
         hudCtx.addAction(colorBalanceAction);
+        hudCtx.addAction(autoAdjustAction);
+        hudCtx.addAction(rotateAction);
+        hudCtx.addAction(cropAction);
     }
 
     HUD.Action {
@@ -98,16 +97,20 @@ Item {
 
         onStarted: {
             root.exposureActivated()
-            compensationParam.value = 50
-            root.exposureValue = 0.0
+            resetValues()
             root.actionActive = true
         }
 
         onResetted: compensationParam.value = 50
 
         onCancelled: {
-            root.exposureValue = 0.0
+            compensationParam.value = 50
             root.actionActive = false
+        }
+
+        function resetValues() {
+            root.exposureValue = 0.0
+            resetValues()
         }
 
         onTriggered: {
@@ -130,10 +133,10 @@ Item {
 
             minimumValue: 0.0
             maximumValue: 100.0
-            value: 50.0
+            value: 20.0
             live: true
 
-            onValueChanged: root.brightness = (value / 50.0) - 1.0
+            onValueChanged: root.brightness = value / 20.0
         }
 
         HUD.SliderParameter {
@@ -142,10 +145,10 @@ Item {
 
             minimumValue: 0.0
             maximumValue: 100.0
-            value: 50.0
+            value: 20.0
             live: true
 
-            onValueChanged: root.contrast = (value / 50.0) - 1.0
+            onValueChanged: root.contrast = value / 20.0
         }
 
         HUD.SliderParameter {
@@ -154,10 +157,10 @@ Item {
 
             minimumValue: 0.0
             maximumValue: 100.0
-            value: 50.0
+            value: 20.0
             live: true
 
-            onValueChanged: root.saturation = (value / 50.0) - 1.0
+            onValueChanged: root.saturation = value / 20.0
         }
 
         HUD.SliderParameter {
@@ -166,22 +169,31 @@ Item {
 
             minimumValue: 0.0
             maximumValue: 100.0
-            value: 50.0
+            value: 0.0
             live: true
 
-            onValueChanged: root.hue = (value / 50.0) - 1.0
+            onValueChanged: root.hue = value * 3.6
         }
 
         onStarted: {
             root.colorBalanceActivated()
+            resetValues()
             root.actionActive = true
         }
 
         onResetted: {
-            brightnessParam.value = 50
-            contrastParam.value = 50
-            saturationParam.value = 50
-            hueParam.value = 50
+            resetValues()
+        }
+
+        function resetValues() {
+            brightnessParam.value = 20
+            root.brightness = 1.0
+            contrastParam.value = 20
+            root.contrast = 1.0
+            saturationParam.value = 20
+            saturation = 1.0
+            hueParam.value = 0
+            root.hue = 0.0
         }
 
         onCancelled: root.actionActive = false
