@@ -47,148 +47,148 @@ Item {
     /// Emitted when the color balance action is started
     signal colorBalanceActivated()
 
-    HUD.HUD {
-        id: hud
-        applicationIdentifier: "ubuntu-gallery"
 
-        HUD.Context {
-            id: ctx
+    Component.onCompleted: {
+        hudCtx.addAction(cropAction);
+        hudCtx.addAction(autoAdjustAction);
+        hudCtx.addAction(rotateAction);
+        hudCtx.addAction(exposureAction);
+        hudCtx.addAction(colorBalanceAction);
+    }
 
-            HUD.Action {
-                id: cropAction
-                label: "Crop"
-                description: "Crop the image"
-                onTriggered: cropper.show(photo)
-            }
+    HUD.Action {
+        id: cropAction
+        label: "Crop"
+        description: "Crop the image"
+        onTriggered: cropper.show(photo)
+    }
 
-            HUD.Action {
-                id: autoAdjustAction
-                label: "Auto Adjust"
-                description: "Adjust the image automatically"
-                onTriggered: photo.autoEnhance()
-            }
+    HUD.Action {
+        id: autoAdjustAction
+        label: "Auto Adjust"
+        description: "Adjust the image automatically"
+        onTriggered: photo.autoEnhance()
+    }
 
-            HUD.Action {
-                id: rotateAction
-                label: "Rotate"
-                description: "Rotate the image clockwise"
-                onTriggered: photo.rotateRight()
-            }
+    HUD.Action {
+        id: rotateAction
+        label: "Rotate"
+        description: "Rotate the image clockwise"
+        onTriggered: photo.rotateRight()
+    }
 
-            HUD.Action {
-                id: exposureAction
-                label: "Exposure"
-                description: "Adjust the exposure"
-                hasLivePreview: true
-                commitLabel: "Confirm" // string to show in the confirm button
+    HUD.Action {
+        id: exposureAction
+        label: "Exposure"
+        description: "Adjust the exposure"
+        hasLivePreview: true
+        commitLabel: "Confirm" // string to show in the confirm button
 
-                HUD.SliderParameter {
-                    id: compensationParam
-                    label: "Compensation"
+        HUD.SliderParameter {
+            id: compensationParam
+            label: "Compensation"
 
-                    minimumValue: 0.0
-                    maximumValue: 100.0
-                    value: 50.0
-                    live: true
+            minimumValue: 0.0
+            maximumValue: 100.0
+            value: 50.0
+            live: true
 
-                    onValueChanged: root.exposureValue = (value / 50.0) - 1.0
-                }
+            onValueChanged: root.exposureValue = (value / 50.0) - 1.0
+        }
 
-                onStarted: {
-                    root.exposureActivated()
-                    compensationParam.value = 50
-                    root.exposureValue = 0.0
-                    root.actionActive = true
-                }
+        onStarted: {
+            root.exposureActivated()
+            compensationParam.value = 50
+            root.exposureValue = 0.0
+            root.actionActive = true
+        }
 
-                onResetted: compensationParam.value = 50
+        onResetted: compensationParam.value = 50
 
-                onCancelled: {
-                    root.exposureValue = 0.0
-                    root.actionActive = false
-                }
+        onCancelled: {
+            root.exposureValue = 0.0
+            root.actionActive = false
+        }
 
-                onTriggered: {
-                    root.actionActive = false
-                    photo.exposureCompensation(root.exposureValue)
-                }
-            }
+        onTriggered: {
+            root.actionActive = false
+            photo.exposureCompensation(root.exposureValue)
+        }
+    }
 
 
-            HUD.Action {
-                id: colorBalanceAction
-                label: "Color Balance"
-                description: "Adjust color balance"
-                hasLivePreview: true
-                commitLabel: "Confirm"
+    HUD.Action {
+        id: colorBalanceAction
+        label: "Color Balance"
+        description: "Adjust color balance"
+        hasLivePreview: true
+        commitLabel: "Confirm"
 
-                HUD.SliderParameter {
-                    id: brightnessParam
-                    label: "Brightness"
+        HUD.SliderParameter {
+            id: brightnessParam
+            label: "Brightness"
 
-                    minimumValue: 0.0
-                    maximumValue: 100.0
-                    value: 50.0
-                    live: true
+            minimumValue: 0.0
+            maximumValue: 100.0
+            value: 50.0
+            live: true
 
-                    onValueChanged: root.brightness = (value / 50.0) - 1.0
-                }
+            onValueChanged: root.brightness = (value / 50.0) - 1.0
+        }
 
-                HUD.SliderParameter {
-                    id: contrastParam
-                    label: "Contrast"
+        HUD.SliderParameter {
+            id: contrastParam
+            label: "Contrast"
 
-                    minimumValue: 0.0
-                    maximumValue: 100.0
-                    value: 50.0
-                    live: true
+            minimumValue: 0.0
+            maximumValue: 100.0
+            value: 50.0
+            live: true
 
-                    onValueChanged: root.contrast = (value / 50.0) - 1.0
-                }
+            onValueChanged: root.contrast = (value / 50.0) - 1.0
+        }
 
-                HUD.SliderParameter {
-                    id: saturationParam
-                    label: "Saturation"
+        HUD.SliderParameter {
+            id: saturationParam
+            label: "Saturation"
 
-                    minimumValue: 0.0
-                    maximumValue: 100.0
-                    value: 50.0
-                    live: true
+            minimumValue: 0.0
+            maximumValue: 100.0
+            value: 50.0
+            live: true
 
-                    onValueChanged: root.saturation = (value / 50.0) - 1.0
-                }
+            onValueChanged: root.saturation = (value / 50.0) - 1.0
+        }
 
-                HUD.SliderParameter {
-                    id: hueParam
-                    label: "Hue"
+        HUD.SliderParameter {
+            id: hueParam
+            label: "Hue"
 
-                    minimumValue: 0.0
-                    maximumValue: 100.0
-                    value: 50.0
-                    live: true
+            minimumValue: 0.0
+            maximumValue: 100.0
+            value: 50.0
+            live: true
 
-                    onValueChanged: root.hue = (value / 50.0) - 1.0
-                }
+            onValueChanged: root.hue = (value / 50.0) - 1.0
+        }
 
-                onStarted: {
-                    root.colorBalanceActivated()
-                    root.actionActive = true
-                }
+        onStarted: {
+            root.colorBalanceActivated()
+            root.actionActive = true
+        }
 
-                onResetted: {
-                    brightnessParam.value = 50
-                    contrastParam.value = 50
-                    saturationParam.value = 50
-                    hueParam.value = 50
-                }
+        onResetted: {
+            brightnessParam.value = 50
+            contrastParam.value = 50
+            saturationParam.value = 50
+            hueParam.value = 50
+        }
 
-                onCancelled: root.actionActive = false
+        onCancelled: root.actionActive = false
 
-                onTriggered: {
-                    root.actionActive = false
-                    // FIXME trigger the color balance for the photo
-                }
-            }
+        onTriggered: {
+            root.actionActive = false
+            // FIXME trigger the color balance for the photo
         }
     }
 }
