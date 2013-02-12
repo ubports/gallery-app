@@ -31,6 +31,9 @@ OrganicView {
     // photos are already loaded by the time they're on screen.
     property real trayLoadAreaPadding: units.gu(1)
 
+    /// True if in the selection mode
+    property bool inSelectMode: selection.inSelectionMode
+
     AlbumCollectionModel {
         id: albumCollectionModel
     }

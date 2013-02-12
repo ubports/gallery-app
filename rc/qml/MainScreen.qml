@@ -72,6 +72,7 @@ MainView {
         }
 
         Tab {
+            id: eventTab
             title: "Events"
             page: OrganicEventView {
                 id: eventView
@@ -86,6 +87,15 @@ MainView {
                     var rect = GalleryUtility.translateRect(thumbnailRect, eventView, photoViewerLoader);
                     photoViewerLoader.item.animateOpen(mediaSource, rect);
                 }
+
+                // setting the title via a binding has wrong text placement at startup
+                // so it is done here
+                onInSelectModeChanged: {
+                    if (inSelectMode)
+                        eventTab.title = "Select"
+                    else
+                        eventTab.title = "Events"
+                }
             }
         }
 
@@ -93,22 +103,28 @@ MainView {
         // (see above TODO), will make sense in future when component becomes
         // more heavyweight and causes a longer startup time
         Tab {
-          title: "Photos"
-          objectName: "photosView"
-          page: PhotosOverview {
-            id: photosOverview
+            title: "Photos"
+            objectName: "photosView"
+            page: PhotosOverview {
+                id: photosOverview
+                anchors.fill: parent
 
-            anchors.fill: parent
-
-            onMediaSourcePressed: {
-              photoViewerLoader.load();
-
-              var rect = GalleryUtility.translateRect(thumbnailRect,
-                photosOverview, photoViewerLoader);
-              photoViewerLoader.item.animateOpen(mediaSource, rect);
+                onMediaSourcePressed: {
+                    photoViewerLoader.load();
+                    var rect = GalleryUtility.translateRect(thumbnailRect,
+                                photosOverview, photoViewerLoader);
+                    photoViewerLoader.item.animateOpen(mediaSource, rect);
+                }
             }
-          }
         }
+    }
+
+    MouseArea {
+        id: selectBlocker
+        anchors { left: parent.left; top: parent.top; right: parent.right }
+        height: units.gu(9)
+        visible: eventView.selection.inSelectionMode
+        onClicked: {}
     }
 
     AlbumViewerAnimated {
