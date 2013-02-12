@@ -45,6 +45,8 @@ Item {
     /// Opens the album. If the origin is set, an animation is performed
     function open() {
         loader_albumViewer.load()
+        if (album.currentPage < 0)
+            album.currentPage = 1
         loader_albumViewer.item.albumViewer.album = album
         if (root.origin)
             loader_albumViewer.item.albumViewerTransition.transitionToAlbumViewer(root.album, root.origin);
