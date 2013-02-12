@@ -40,7 +40,6 @@ DataObject::DataObject(QObject * parent)
  * TODO: number() should return the same value for the same DataObject across
  *       invocations of Gallery. Right now, this API contract is maintained
  *       implicitly and in a particularly fragile way. We should fix this.
- *       See https://bugs.launchpad.net/goodhope/+bug/1087084.
  * \return
  */
 DataObjectNumber DataObject::number() const

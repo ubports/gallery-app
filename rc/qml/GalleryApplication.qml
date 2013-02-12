@@ -180,7 +180,7 @@ Item {
 
   HUD.HUD {
       id: hud
-      applicationIdentifier: "goodhope" // this must match the .desktop file!
+      applicationIdentifier: "ubuntu-gallery" // this must match the .desktop file!
 
       HUD.Context {
           id: hudCtx

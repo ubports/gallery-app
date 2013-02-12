@@ -13,12 +13,12 @@ from __future__ import absolute_import
 from testtools.matchers import Equals, NotEquals
 from autopilot.matchers import Eventually
 
-from goodhope.tests import GoodhopeTestCase
+from gallery.tests import GalleryTestCase
 
 from time import sleep
 
 
-class TestPhotosView(GoodhopeTestCase):
+class TestPhotosView(GalleryTestCase):
 
     def setUp(self):
         super(TestPhotosView, self).setUp()

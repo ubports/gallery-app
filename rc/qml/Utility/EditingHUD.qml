@@ -47,6 +47,7 @@ Item {
     /// Emitted when the color balance action is started
     signal colorBalanceActivated()
 
+
     Component.onCompleted: {
         hudCtx.addAction(cropAction);
         hudCtx.addAction(autoAdjustAction);
