@@ -43,9 +43,11 @@ Rectangle {
   property alias pagesPerSpread: albumSpreadViewer.pagesPerSpread
   /*!
   */
-  property bool animationRunning: photoViewer.animationRunning ||
-    albumSpreadViewer.isFlipping || removeCrossfadeAnimation.running ||
-    albumSpreadViewerForTransition.freeze
+  property bool animationRunning: albumSpreadViewer.isFlipping ||
+                                  removeCrossfadeAnimation.running ||
+                                  albumSpreadViewerForTransition.freeze// ||
+                                  // disabled, as it currently sometimes crashes
+                                  //photoViewer.animationRunning
 
   /// Contains the actions for the toolbar in the album view
   property ActionList tools: albumTools
@@ -186,7 +188,7 @@ Rectangle {
     load: parent.visible && parent.state == "pageView"
     
     // Keyboard focus while visible and viewer is not visible
-    focus: !photoViewer.isPoppedUp && visible
+    focus: visible //&& !photoViewer.isPoppedUp
     
     showCover: !albumSpreadViewerForTransition.freeze
     
@@ -236,8 +238,9 @@ Rectangle {
         if (organicView.selection.inSelectionMode) {
           organicView.selection.toggleSelection(hit.mediaSource);
         } else {
-          photoViewer.forGridView = false;
-          photoViewer.fadeOpen(hit.mediaSource);
+//      disabled, as it currently sometimes crashes
+//          photoViewer.forGridView = false;
+//          photoViewer.fadeOpen(hit.mediaSource);
         }
       }
 
@@ -315,9 +318,10 @@ Rectangle {
     album: albumViewer.album
 
     onMediaSourcePressed: {
-      var rect = GalleryUtility.translateRect(thumbnailRect, organicView, photoViewer);
-      photoViewer.forGridView = true;
-      photoViewer.animateOpen(mediaSource, rect);
+//    disabled, as it currently sometimes crashes
+//      var rect = GalleryUtility.translateRect(thumbnailRect, organicView, photoViewer);
+//      photoViewer.forGridView = true;
+//      photoViewer.animateOpen(mediaSource, rect);
     }
 
     Image {
@@ -335,65 +339,66 @@ Rectangle {
       }
     }
   }
-  
-  PopupPhotoViewer {
-    id: photoViewer
-    
-    // true if the grid view component is using the photo viewer, false if the
-    // album spread viewer is using it ... this should be set prior to
-    // opening the viewer
-    property bool forGridView
-    property var albumModel: MediaCollectionModel {
-      forCollection: albumViewer.album
-    }
 
-    album: albumViewer.album
+// disabled for now, as it sometimes crashes
+//  PopupPhotoViewer {
+//    id: photoViewer
     
-    anchors.fill: parent
+//    // true if the grid view component is using the photo viewer, false if the
+//    // album spread viewer is using it ... this should be set prior to
+//    // opening the viewer
+//    property bool forGridView
+//    property var albumModel: MediaCollectionModel {
+//      forCollection: albumViewer.album
+//    }
 
-    onOpening: {
-      // although this might be used by the page viewer, it too uses the grid's
-      // models because you can walk the entire album from both
-      model = albumModel
-    }
+//    album: albumViewer.album
     
-    onOpened: {
-      visible = true;
-      albumSpreadViewer.visible = false;
-      organicView.visible = false;
-      albumViewer.tools = photoViewer.tools
-    }
+//    anchors.fill: parent
+
+//    onOpening: {
+//      // although this might be used by the page viewer, it too uses the grid's
+//      // models because you can walk the entire album from both
+//      model = albumModel
+//    }
     
-    onCloseRequested: {
-      if (forGridView) {
-        // TODO: position organicView.
-      } else {
-        var page = albumViewer.album.getPageForMediaSource(photo);
-        if (page >= 0) {
-          albumViewer.album.currentPage = albumSpreadViewer.getLeftHandPageNumber(page);
-          albumSpreadViewer.viewingPage = isPortrait? page : albumViewer.album.currentPage;
-        }
-      }
+//    onOpened: {
+//      visible = true;
+//      albumSpreadViewer.visible = false;
+//      organicView.visible = false;
+//      albumViewer.tools = photoViewer.tools
+//    }
+    
+//    onCloseRequested: {
+//      if (forGridView) {
+//        // TODO: position organicView.
+//      } else {
+//        var page = albumViewer.album.getPageForMediaSource(photo);
+//        if (page >= 0) {
+//          albumViewer.album.currentPage = albumSpreadViewer.getLeftHandPageNumber(page);
+//          albumSpreadViewer.viewingPage = isPortrait? page : albumViewer.album.currentPage;
+//        }
+//      }
       
-      albumSpreadViewer.visible = (albumViewer.state == "pageView");
-      organicView.visible = (albumViewer.state == "gridView");
+//      albumSpreadViewer.visible = (albumViewer.state == "pageView");
+//      organicView.visible = (albumViewer.state == "gridView");
       
-      if (forGridView) {
-        var rect = null; // TODO: get rect from organicView.
-        if (rect)
-          animateClosed(rect);
-        else
-          close();
-      } else {
-        fadeClosed();
-      }
-      albumViewer.tools = albumTools
-    }
+//      if (forGridView) {
+//        var rect = null; // TODO: get rect from organicView.
+//        if (rect)
+//          animateClosed(rect);
+//        else
+//          close();
+//      } else {
+//        fadeClosed();
+//      }
+//      albumViewer.tools = albumTools
+//    }
     
-    onClosed: {
-      visible = false;
-    }
-  }
+//    onClosed: {
+//      visible = false;
+//    }
+//  }
   
   Component {
       id: component_mediaSelector
@@ -447,6 +452,7 @@ Rectangle {
       Action {
           text: "Add"
           iconSource: Qt.resolvedUrl("../img/add.png")
+          enabled: false
           onTriggered: {
               loader_mediaSelector.show()
           }
