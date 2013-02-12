@@ -23,6 +23,7 @@ import QtQuick 2.0
 import QtQuick.Window 2.0
 import "../js/Gallery.js" as Gallery
 import Ubuntu.Components 0.1 // Necessary to make filename@GU.ext images load
+import Ubuntu.HUD 0.1 as HUD
 
 /*!
 */
@@ -175,5 +176,15 @@ Item {
     }
 
     anchors.fill: parent
+  }
+
+  HUD.HUD {
+      id: hud
+      applicationIdentifier: "goodhope" // this must match the .desktop file!
+
+      HUD.Context {
+          id: hudCtx
+          toolbar.quitAction.onTriggered: Qt.quit()
+      }
   }
 }

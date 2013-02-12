@@ -400,6 +400,8 @@ Item {
       anchors.fill: parent
   }
 
+  onPhotoChanged: hudPreview_loader.item.photo = photo
+
   Component.onCompleted: {
       if (hudPreview_loader.status === Loader.Null) {
           hudPreview_loader.setSource(Qt.resolvedUrl("Components/EditHUDPreview.qml"),
