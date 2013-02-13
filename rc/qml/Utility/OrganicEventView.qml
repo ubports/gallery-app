@@ -32,13 +32,20 @@ OrganicView {
     property real trayLoadAreaPadding: units.gu(1)
 
     /// True if in the selection mode
-    property bool inSelectMode: selection.inSelectionMode
+    property alias inSelectionMode: select.inSelectionMode
+
+    /// Quit selection mode, and unselect all photos
+    function leaveSelectionMode() {
+        selection.unselectAll()
+        selection.inSelectionMode = false
+    }
 
     AlbumCollectionModel {
         id: albumCollectionModel
     }
 
     selection: SelectionState {
+        id: select
         // avoid entering selection mode by long-pressing on a photo:
         allowSelectionModeChange: false
     }
@@ -123,13 +130,6 @@ OrganicView {
     }
 
     property ActionList selectionTools: ToolbarActions {
-        function leaveSelectionMode() {
-            // Set inSelectionMode instead of using leaveSelectionMode()
-            // because allowSelectionModeChange is false
-            selection.unselectAll();
-            selection.inSelectionMode = false;
-        }
-
         // in selection mode, never hide the toolbar:
         active: true
         lock: true
@@ -142,11 +142,7 @@ OrganicView {
                 var album = albumCollectionModel.createOrphan();
                 album.addSelectedMediaSources(selection.model);
                 albumCollectionModel.addOrphan(album);
-
-                // We can't use leaveSelectionMode() here, due to the fact that
-                // we're skirting around the proper use of the selection object.
-                selection.unselectAll();
-                selection.inSelectionMode = false;
+                organicEventView.leaveSelectionMode()
             }
         }
         Action {
@@ -167,7 +163,7 @@ OrganicView {
         back: Action {
             text: "Cancel"
             iconSource: Qt.resolvedUrl("../../img/cancel.png")
-            onTriggered: selectionTools.leaveSelectionMode()
+            onTriggered: organicEventView.leaveSelectionMode()
         }
     }
 
