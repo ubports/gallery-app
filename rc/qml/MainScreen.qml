@@ -48,9 +48,8 @@ MainView {
         onSelectedTabIndexChanged: {
           if (selectedTabIndex == 0)
             albumsCheckerboardLoader.load();
-          // prevent entering the event view in selection mode
-          else if (selectedTabIndex == 1)
-            eventView.selection.inSelectionMode = false;
+          // prevent leaving the event view in selection mode
+          eventView.leaveSelectionMode()
         }
 
         // TODO: Loaders don't play well with Tabs, they prevent the tab bar
@@ -72,6 +71,7 @@ MainView {
         }
 
         Tab {
+            id: eventTab
             title: "Events"
             page: OrganicEventView {
                 id: eventView
@@ -85,6 +85,16 @@ MainView {
 
                     var rect = GalleryUtility.translateRect(thumbnailRect, eventView, photoViewerLoader);
                     photoViewerLoader.item.animateOpen(mediaSource, rect);
+                }
+
+                // FIXME setting the title via a binding has wrong text placement at startup
+                // so it is done here as a workaround.
+                // The new implementation of the Tab header will hopefully fix this
+                onInSelectionModeChanged: {
+                    if (inSelectionMode)
+                        eventTab.title = "Select"
+                    else
+                        eventTab.title = "Events"
                 }
             }
         }
