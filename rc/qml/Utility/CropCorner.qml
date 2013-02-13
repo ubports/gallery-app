@@ -40,29 +40,16 @@ Item {
   /*!
   */
   property bool isTop: true
-  /*!
-  */
-  property color color: "black"
 
-  x: (isLeft ? -units.gu(3) : parent.width - units.gu(1))
-  y: (isTop ? -units.gu(3) : parent.height - units.gu(1))
-  width: units.gu(4)
-  height: units.gu(4)
+  x: isLeft ? -(width/2) : parent.width - (width/2)
+  y: isTop ? -(width/2) : parent.height - (width/2)
+  width: handle.width
+  height: handle.height
 
-  Rectangle {
-    x: 0
-    y: (isTop ? 0 : units.gu(3))
-    width: units.gu(4)
-    height: units.gu(1)
-    color: cropCorner.color
-  }
-
-  Rectangle {
-    x: (isLeft ? 0 : units.gu(3))
-    y: (isTop ? units.gu(1) : 0)
-    width: units.gu(1)
-    height: units.gu(3)
-    color: cropCorner.color
+  Image {
+      id: handle
+      anchors.centerIn: parent
+      source: Qt.resolvedUrl("../../img/crop-handle.png")
   }
 
   CropDragArea {
