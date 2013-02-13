@@ -94,8 +94,8 @@ Item {
         // Whitespace around photos on album pages in preview thumbnails.
         albumPreviewTopMargin: units.gu(1.5),
         albumPreviewBottomMargin: units.gu(1.5),
-        albumPreviewGutterMargin: units.gu(1.5), // Between spine and photo.
-        albumPreviewOuterMargin: units.gu(1.5), // Between opposite edge and photo.
+        albumPreviewGutterMargin: units.gu(2.5), // Between spine and photo.
+        albumPreviewOuterMargin: units.gu(2.5), // Between opposite edge and photo.
         albumPreviewInsideMargin: units.gu(1.5), // Between photos on one page.
       },
   };
