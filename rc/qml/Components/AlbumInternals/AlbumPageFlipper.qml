@@ -45,7 +45,7 @@ Item {
   property int destinationPage
   /*!
   */
-  property int duration: Gallery.SLOW_DURATION
+  property int duration: Gallery.FAST_DURATION
   /*!
   */
   property real flipFraction
