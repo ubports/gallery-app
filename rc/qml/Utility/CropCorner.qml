@@ -53,7 +53,9 @@ Item {
   }
 
   CropDragArea {
-    anchors.fill: parent
+    anchors.centerIn: parent
+    width: handle.width + units.gu(2)
+    height: handle.height + units.gu(2)
 
     onDragged: cropCorner.dragged(dx, dy)
 
