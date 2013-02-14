@@ -55,6 +55,7 @@ Checkerboard {
     }
 
     delegate: CheckerboardDelegate {
+        id: thisDelegate
         property real commitFraction: 0.05
 
         // internal
@@ -83,6 +84,7 @@ Checkerboard {
         onLongPressed: {
             albumMenu.album = album
             albumMenu.caller = content
+            albumEditor.previewItem = thisDelegate
             albumMenu.show()
         }
 
@@ -120,6 +122,7 @@ Checkerboard {
     onActivated: {
         albumViewer.album = object
         albumViewer.origin = root.getRectOfAlbumPreview(object, albumViewer)
+        albumViewer.previewItem = activatingItem
         albumViewer.open()
     }
 

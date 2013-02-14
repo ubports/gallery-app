@@ -32,6 +32,9 @@ Item {
     /// Origin (rectangle) where this view is animated from when calling open()
     /// And where it is animated to when this view is closed
     property variant origin
+    /// The preview item that was used to open the view, or null, if it was opend another way
+    /// This item will be hidden when this view is opened. And shown again after closing this view
+    property Item previewItem: null
     /// Is true if the opne or close animation is running
     property bool animationRunning: loader_albumViewer.status === Loader.Ready ?
                                         loader_albumViewer.item.albumViewerTransition.animationRunning ||
@@ -53,6 +56,8 @@ Item {
         else
             loader_albumViewer.item.albumViewer.visible = true
         isOpen = true
+        if (previewItem)
+            previewItem.visible = false
     }
 
     Component {
@@ -95,6 +100,8 @@ Item {
                     inner_albumViewer.visible = true
                 }
                 onTransitionFromAlbumViewerCompleted: {
+                    if (previewItem)
+                        previewItem.visible = true
                     loader_albumViewer.unload()
                 }
             }

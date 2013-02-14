@@ -90,6 +90,8 @@ Item {
     expandAlbum.width = thumbnailRect.width;
     expandAlbum.height = thumbnailRect.height;
 
+    expandAlbum.showCover = album.closed
+
     showAlbumViewerAnimation.screenRect = getFullscreenRect(album.closed);
     showAlbumViewerAnimation.start();
   }
@@ -118,6 +120,8 @@ Item {
     expandAlbum.height = rect.height;
 
     hideStayingOpen = stayOpen;
+    expandAlbum.showCover = !stayOpen
+
     hideAlbumViewerAnimation.thumbnailRect = thumbnailRect;
     hideAlbumViewerAnimation.start();
   }

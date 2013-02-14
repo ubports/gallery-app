@@ -44,6 +44,9 @@ Item {
   /*!
   */
   property real openFraction: 0
+  // Whether to draw the cover (defaults to true)
+  // This is used to prevent the cover from being drawn during certain transitions.
+  property bool showCover: true
   /*!
   */
   property int insideLeftPage: defaultInsideLeftPage
@@ -180,6 +183,7 @@ Item {
       gutterMargin: albumOpener.gutterMargin
       outerMargin: albumOpener.outerMargin
       insideMargin: albumOpener.insideMargin
+      showCover: albumOpener.showCover
     }
 
     AlbumPageComponent {
@@ -202,6 +206,7 @@ Item {
       gutterMargin: albumOpener.gutterMargin
       outerMargin: albumOpener.outerMargin
       insideMargin: albumOpener.insideMargin
+      showCover: albumOpener.showCover
     }
   }
 
