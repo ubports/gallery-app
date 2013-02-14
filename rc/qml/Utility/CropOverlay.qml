@@ -320,10 +320,9 @@ Item {
     height: cropOverlay.initialFrameHeight
 
     color: "transparent"
-    opacity: 0.9
 
-    border.width: units.gu(1)
-    border.color: "#a0a0a0"
+    border.width: units.gu(0.2)
+    border.color: "#19B6EE"
 
     MouseArea {
       id: panArea
@@ -350,17 +349,13 @@ Item {
       }
     }
 
-    Image {
-      objectName: "centerCropIcon"
-      source: "../../img/icon-crop.png"
-
-      anchors.centerIn: parent;
-
-      MouseArea {
-        anchors.fill: parent
-
-        onPressed: cropOverlay.cropButtonPressed();
-      }
+    Button {
+        objectName: "centerCropIcon"
+        anchors.centerIn: parent
+        text: "Crop"
+        color: frame.border.color
+        opacity: 0.9
+        onClicked: cropOverlay.cropButtonPressed()
     }
 
     // Top-left corner.
@@ -368,7 +363,6 @@ Item {
       objectName: "topLeftCropCorner"
       isLeft: true
       isTop: true
-      color: frame.border.color
 
       onDragged: {
         frame.resizedX(isLeft, dx);
@@ -393,7 +387,6 @@ Item {
       objectName: "topRightCropCorner"
       isLeft: false
       isTop: true
-      color: frame.border.color
 
       onDragged: {
         frame.resizedX(isLeft, dx);
@@ -418,7 +411,6 @@ Item {
       objectName: "bottonLeftCropCorner"
       isLeft: true
       isTop: false
-      color: frame.border.color
 
       onDragged: {
         frame.resizedX(isLeft, dx);
@@ -443,7 +435,6 @@ Item {
       objectName: "bottomRightCropCorner"
       isLeft: false
       isTop: false
-      color: frame.border.color
 
       onDragged: {
         frame.resizedX(isLeft, dx);
