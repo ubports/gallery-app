@@ -288,21 +288,36 @@ Image {
         var flipFraction =
             Math.max(0, Math.min(0.999, distance / availableDistance));
         if (!albumSpreadViewer.isPopulatedContentPage(albumSpreadViewer.destinationPage)) {
-            flipFraction = Math.min(0.425, flipFraction)
+            var maxFraction = 0.425
+            if (isPortrait) {
+                if (albumSpreadViewer.destinationPage === 0)
+                    maxFraction = 0.15 // for the front
+                else
+                    maxFraction = 0.75 // for the back
+            }
+
+            flipFraction = Math.min(maxFraction, flipFraction)
         }
         albumSpreadViewer.flipFraction = flipFraction;
         prevSwipingX = mouseX;
       }
 
       onSwiped: {
-        // Can turn toward the cover, but never close the album in the viewer
-        if (albumSpreadViewer.flipFraction >= commitTurnFraction &&
-            leftToRight === lastSwipeLeftToRight &&
-            albumSpreadViewer.destinationPage > album.firstValidCurrentPage &&
-            albumSpreadViewer.destinationPage < album.lastValidCurrentPage)
-          albumSpreadViewer.flip();
-        else
-          albumSpreadViewer.release();
+          // Can turn toward the cover, but never close the album in the viewer
+          var minValidPage = album.firstValidCurrentPage
+          var maxValidPage = album.lastValidCurrentPage
+          if (isPortrait) {
+              minValidPage += 1
+              maxValidPage -= 1
+          }
+          if (albumSpreadViewer.flipFraction >= commitTurnFraction &&
+                  leftToRight === lastSwipeLeftToRight &&
+                  albumSpreadViewer.destinationPage > minValidPage &&
+                  albumSpreadViewer.destinationPage < maxValidPage) {
+              albumSpreadViewer.flip();
+          }
+          else
+              albumSpreadViewer.release();
       }
     }
   }
