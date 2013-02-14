@@ -110,7 +110,6 @@ Item {
 
         function resetValues() {
             root.exposureValue = 0.0
-            resetValues()
         }
 
         onTriggered: {
