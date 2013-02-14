@@ -1,3 +1,10 @@
+ubuntu-gallery (0.0.55) quantal; urgency=low
+
+  * Show ActivityIndicator when loading thumbnails in event view
+  * Polished album open animation
+
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Thu, 14 Jan 2013 21:35:25 +0100
+
 ubuntu-gallery (0.0.54) quantal; urgency=low
 
   * Fix crash when opening the second album
