@@ -93,7 +93,7 @@ Item {
     // Normal press/click.
     function pressed() {
       var rect = GalleryUtility.getRectRelativeTo(contentArea, checkerboard);
-      checkerboard.activated(modelData.object, modelData, rect);
+      checkerboard.activated(modelData.object, modelData, rect, checkerboardDelegate);
     }
 
     MouseArea {

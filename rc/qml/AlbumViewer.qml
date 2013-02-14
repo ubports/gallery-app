@@ -191,7 +191,7 @@ Rectangle {
     focus: visible //&& !photoViewer.isPoppedUp
     
     showCover: !albumSpreadViewerForTransition.freeze
-    
+
     Keys.onPressed: {
       if (event.key !== Qt.Key_Left && event.key !== Qt.Key_Right)
         return;

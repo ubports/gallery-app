@@ -32,6 +32,9 @@ Item {
     /// Origin (rectangle) where this view is animated from when calling open()
     /// And where it is animated to when this view is closed
     property variant origin
+    /// The preview item that was used to open the view, or null, if it was opend another way
+    /// This item will be hidden when this view is opened. And shown again after closing this view
+    property Item previewItem: null
     /// Is true if the opne or close animation is running
     property bool animationRunning: loader_albumEditor.status === Loader.Ready ?
                                         loader_albumEditor.item.albumEditorTransition.animationRunning ||
@@ -44,6 +47,8 @@ Item {
         loader_albumEditor.item.albumEditor.album = album
         if (root.origin)
             loader_albumEditor.item.albumEditorTransition.enterEditor(root.album, root.origin)
+        if (previewItem)
+            previewItem.visible = false
     }
 
     Component {
@@ -82,6 +87,10 @@ Item {
                 anchors.fill: parent
                 backgroundGlass: overviewGlass
                 editor: inner_albumEditor
+                onEditorExited: {
+                    if (previewItem)
+                        previewItem.visible = true
+                }
             }
         }
     }
