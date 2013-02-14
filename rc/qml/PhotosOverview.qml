@@ -32,6 +32,16 @@ Item {
   */
   signal mediaSourcePressed(var mediaSource, var thumbnailRect)
 
+  ///
+  function initModel() {
+      if (!photosGrid.model)
+          photosGrid.model = __model
+  }
+
+  property MediaCollectionModel __model: MediaCollectionModel {
+      monitored: true
+  }
+
   Image {
     anchors.fill: parent
 
@@ -68,10 +78,6 @@ Item {
 
     maximumFlickVelocity: units.gu(800)
     flickDeceleration: maximumFlickVelocity * 0.5
-
-    model: MediaCollectionModel {
-      monitored: true
-    }
 
     // Use this rather than anchors.topMargin to prevent delegates from being
     // unloade while scrolling out of view but still partially visible

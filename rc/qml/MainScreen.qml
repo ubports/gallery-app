@@ -46,10 +46,12 @@ MainView {
         selectedTabIndex: 1
 
         onSelectedTabIndexChanged: {
-          if (selectedTabIndex == 0)
-            albumsCheckerboardLoader.load();
-          // prevent leaving the event view in selection mode
-          eventView.leaveSelectionMode()
+            if (selectedTabIndex == 0)
+                albumsCheckerboardLoader.load();
+            if (selectedTabIndex == 2)
+                photosOverview.initModel()
+            // prevent leaving the event view in selection mode
+            eventView.leaveSelectionMode()
         }
 
         // TODO: Loaders don't play well with Tabs, they prevent the tab bar
