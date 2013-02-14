@@ -187,6 +187,9 @@ Item {
     // mouse drags should pan, not flick.
     interactive: (currentItem != null) &&
                  (currentItem.state == "unzoomed") && cropper.state == "hidden"
+                 && !editHUD.actionActive  // this is a hack for preventing zoom from happening when tapping on HUD
+                                           // as currently the events get through to gallery also
+
 
     Timer {
       id: chromeFadeWaitClock
