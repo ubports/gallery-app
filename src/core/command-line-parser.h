@@ -55,7 +55,7 @@ private:
 
     bool log_image_loading_;
 
-    const QHash<QString, QSize>& form_factors_;
+    const QHash<QString, QSize> form_factors_;
     QString form_factor_;
 };
 
