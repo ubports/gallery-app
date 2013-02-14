@@ -161,17 +161,13 @@ Item {
         id: component_thumbnail
         UbuntuShape {
           id: thumbnail
-          visible: false
+          visible: image.status === Image.Ready
 
           radius: "medium"
 
           image: Image {
             source: model.mediaSource.galleryThumbnailPath
             asynchronous: true
-            onStatusChanged: {
-                if (status===Image.Ready)
-                    thumbnail.visible = true
-            }
           }
 
           OrganicItemInteraction {
