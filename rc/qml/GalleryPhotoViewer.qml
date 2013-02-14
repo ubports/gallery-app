@@ -106,10 +106,6 @@ Item {
     id: galleryPhotoViewer
     objectName: "photoViewer"
 
-    // this is a hack for preventing zoom from happening when tapping on HUD
-    // as currently the events get through to gallery also
-    enabled: !editHUD.actionActive
-
     // When the user clicks the back button.
     signal closeRequested()
     signal editRequested(variant photo) // The user wants to edit this photo.
@@ -188,10 +184,11 @@ Item {
 
     // Don't allow flicking while the chrome is actively displaying a popup
     // menu, or the image is zoomed, or we're cropping. When images are zoomed,
-    // mouse drags should pan, not flick.
+    // mouse drags should pan, not flick. Also don't flick during parameterized
+    // HUD action to prevent photo from changing during the action
     interactive: (currentItem != null) &&
-                 (currentItem.state == "unzoomed") && cropper.state == "hidden"
-
+                 (currentItem.state == "unzoomed") && cropper.state == "hidden" &&
+                 !editHUD.actionActive
 
     Timer {
       id: chromeFadeWaitClock
