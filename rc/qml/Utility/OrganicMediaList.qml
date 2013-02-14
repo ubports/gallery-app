@@ -160,7 +160,7 @@ Item {
 
           image: Image {
             source: model.mediaSource.galleryThumbnailPath
-            asynchronous: true
+            asynchronous: false
           }
 
           OrganicItemInteraction {

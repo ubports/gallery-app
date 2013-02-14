@@ -19,8 +19,8 @@
  */
 
 import QtQuick 2.0
-import Gallery 1.0
 import Ubuntu.Components 0.1
+import Gallery 1.0
 import "../Capetown"
 import "../js/Gallery.js" as Gallery
 import "../js/GalleryUtility.js" as GalleryUtility
@@ -34,8 +34,7 @@ Rectangle {
   id: albumViewer
   objectName: "albumViewer"
 
-  /*!
-  */
+  /// The album that is shown by this viewer
   property Album album
   
   // Read-only
@@ -44,10 +43,15 @@ Rectangle {
   property alias pagesPerSpread: albumSpreadViewer.pagesPerSpread
   /*!
   */
-  property bool animationRunning: photoViewer.animationRunning ||
-    albumSpreadViewer.isFlipping || removeCrossfadeAnimation.running ||
-    albumSpreadViewerForTransition.freeze
-  
+  property bool animationRunning: albumSpreadViewer.isFlipping ||
+                                  removeCrossfadeAnimation.running ||
+                                  albumSpreadViewerForTransition.freeze// ||
+                                  // disabled, as it currently sometimes crashes
+                                  //photoViewer.animationRunning
+
+  /// Contains the actions for the toolbar in the album view
+  property ActionList tools: albumTools
+
   // When the user clicks the back button or pages back to the cover.
   signal closeRequested(bool stayOpen, int viewingPage)
 
@@ -85,6 +89,11 @@ Rectangle {
   function fadeOutAndFlipRemove(flipToPage) {
     fadeOutAnimation.flipToPage = flipToPage;
     fadeOutAnimation.restart();
+  }
+
+  /// Closes the view as stores the page number the page number currently viewed
+  function __close() {
+      closeRequested(album.containedCount > 0, albumSpreadViewer.viewingPage)
   }
 
   FadeOutAnimation {
@@ -179,10 +188,10 @@ Rectangle {
     load: parent.visible && parent.state == "pageView"
     
     // Keyboard focus while visible and viewer is not visible
-    focus: !photoViewer.isPoppedUp && visible
+    focus: visible //&& !photoViewer.isPoppedUp
     
     showCover: !albumSpreadViewerForTransition.freeze
-    
+
     Keys.onPressed: {
       if (event.key !== Qt.Key_Left && event.key !== Qt.Key_Right)
         return;
@@ -221,7 +230,7 @@ Rectangle {
         
         // Handle add button.
         if (hit.objectName === "addButton")
-          mediaSelector.show();
+          loader_mediaSelector.show();
         
         if (!hit.mediaSource)
           return;
@@ -229,8 +238,9 @@ Rectangle {
         if (organicView.selection.inSelectionMode) {
           organicView.selection.toggleSelection(hit.mediaSource);
         } else {
-          photoViewer.forGridView = false;
-          photoViewer.fadeOpen(hit.mediaSource);
+//      disabled, as it currently sometimes crashes
+//          photoViewer.forGridView = false;
+//          photoViewer.fadeOpen(hit.mediaSource);
         }
       }
 
@@ -240,8 +250,7 @@ Rectangle {
         if (!hit || !hit.mediaSource)
           return;
 
-        albumPagePhotoMenu.positionRelativeTo(hit.mediaSource);
-        chrome.cyclePopup(albumPagePhotoMenu);
+        // FIXME show a popover menu for that photo
       }
 
       anchors.fill: parent
@@ -263,9 +272,6 @@ Rectangle {
             direction * albumSpreadViewer.pagesPerSpread;
 
         prevSwipingX = mouseX;
-
-        // turn off chrome, allow the page flipper full screen
-        chrome.hide(true);
       }
 
       onSwiping: {
@@ -306,17 +312,16 @@ Rectangle {
     id: organicView
 
     anchors.fill: parent
-    anchors.topMargin: chrome.navbarHeight
-    anchors.bottomMargin: chrome.toolbarHeight
 
     visible: false
 
     album: albumViewer.album
 
     onMediaSourcePressed: {
-      var rect = GalleryUtility.translateRect(thumbnailRect, organicView, photoViewer);
-      photoViewer.forGridView = true;
-      photoViewer.animateOpen(mediaSource, rect);
+//    disabled, as it currently sometimes crashes
+//      var rect = GalleryUtility.translateRect(thumbnailRect, organicView, photoViewer);
+//      photoViewer.forGridView = true;
+//      photoViewer.animateOpen(mediaSource, rect);
     }
 
     Image {
@@ -330,416 +335,149 @@ Rectangle {
 
       MouseArea {
         anchors.fill: parent
-        onClicked: mediaSelector.show()
+        onClicked: loader_mediaSelector.show()
       }
     }
   }
 
-  MouseArea {
-    id: chromeShowArea
-
-    width: parent.width
-    height: chrome.toolbarHeight
-    anchors.bottom: parent.bottom
-    enabled: (albumViewer.state == "pageView" && chrome.state == "hidden")
-    onReleased: chrome.show(true)
-  }
-  MouseArea {
-    id: chromeHideArea
-
-    anchors.fill: parent
-    enabled: (albumViewer.state == "pageView" && chrome.state == "shown")
-    onReleased: chrome.hide(true)
-  }
-
-  ViewerChrome {
-    id: chrome
-
-    anchors.fill: parent
-
-    state: "hidden"
-    visible: false
-
-    autoHideWait: 0
+// disabled for now, as it sometimes crashes
+//  PopupPhotoViewer {
+//    id: photoViewer
     
-    pagesPerSpread: albumSpreadViewer.pagesPerSpread
-    viewingPage: albumSpreadViewer.viewingPage
+//    // true if the grid view component is using the photo viewer, false if the
+//    // album spread viewer is using it ... this should be set prior to
+//    // opening the viewer
+//    property bool forGridView
+//    property var albumModel: MediaCollectionModel {
+//      forCollection: albumViewer.album
+//    }
 
-    inSelectionMode: organicView.selection.inSelectionMode
+//    album: albumViewer.album
+    
+//    anchors.fill: parent
 
-    hasSelectionOperationsButton: organicView.selection.inSelectionMode
-    onSelectionOperationsButtonPressed: cyclePopup(selectionMenu)
+//    onOpening: {
+//      // although this might be used by the page viewer, it too uses the grid's
+//      // models because you can walk the entire album from both
+//      model = albumModel
+//    }
+    
+//    onOpened: {
+//      visible = true;
+//      albumSpreadViewer.visible = false;
+//      organicView.visible = false;
+//      albumViewer.tools = photoViewer.tools
+//    }
+    
+//    onCloseRequested: {
+//      if (forGridView) {
+//        // TODO: position organicView.
+//      } else {
+//        var page = albumViewer.album.getPageForMediaSource(photo);
+//        if (page >= 0) {
+//          albumViewer.album.currentPage = albumSpreadViewer.getLeftHandPageNumber(page);
+//          albumSpreadViewer.viewingPage = isPortrait? page : albumViewer.album.currentPage;
+//        }
+//      }
+      
+//      albumSpreadViewer.visible = (albumViewer.state == "pageView");
+//      organicView.visible = (albumViewer.state == "gridView");
+      
+//      if (forGridView) {
+//        var rect = null; // TODO: get rect from organicView.
+//        if (rect)
+//          animateClosed(rect);
+//        else
+//          close();
+//      } else {
+//        fadeClosed();
+//      }
+//      albumViewer.tools = albumTools
+//    }
+    
+//    onClosed: {
+//      visible = false;
+//    }
+//  }
+  
+  Component {
+      id: component_mediaSelector
+      MediaSelector {
+          id: mediaSelector
 
-    toolbarsAreTranslucent: true
-    toolbarsAreTextured: true
+          album: albumViewer.album
 
-    navbarHasStateButton: true
-    navbarSelectedStateButtonIconFilename: (albumViewer.state == "pageView"
-      ? "../img/icon-grid-view-active.png"
-      : "../img/icon-album-view-active.png")
-    navbarDeselectedStateButtonIconFilename: (albumViewer.state == "pageView"
-      ? "../img/icon-grid-view-inactive.png"
-      : "../img/icon-album-view-inactive.png")
+          onCancelRequested: hide()
 
-    toolbarHasFullIconSet: false
-    toolbarHasAlbumOperationsButton: false
-    toolbarHasPageIndicator: (albumViewer.state == "pageView" &&
-                              !Gallery.isSmallFormFactor())
-    toolbarPageIndicatorAlbum: albumViewer.album
+          onDoneRequested: {
+              var firstPhoto = album.addSelectedMediaSources(model);
 
-    popups: [ albumViewerOptionsMenu, albumViewerShareMenu,
-      selectionMenu, trashDialog, albumPagePhotoMenu, trashFromAlbumPageDialog,
-      albumTrashDialog ]
+              hide();
 
-    onPageIndicatorPageSelected: {
-      chrome.hide(true);
-      albumSpreadViewer.flipTo(page);
-    }
+              if (firstPhoto && albumViewer.state == "pageView") {
+                  var firstChangedPage = album.getPageForMediaSource(firstPhoto);
+                  var firstChangedSpread = albumSpreadViewer.getLeftHandPageNumber(firstChangedPage);
 
-    onStateButtonPressed: {
-      albumViewer.state = (albumViewer.state == "pageView" ? "gridView" : "pageView");
-    }
-
-    onSelectionDoneButtonPressed: organicView.selection.leaveSelectionMode()
-
-    onReturnButtonPressed: {
-      organicView.selection.leaveSelectionMode();
-
-      closeRequested(album.containedCount > 0, albumSpreadViewer.viewingPage);
-    }
-
-    onMoreOperationsButtonPressed: cyclePopup(albumViewerOptionsMenu)
-    onShareOperationsButtonPressed: cyclePopup(albumViewerShareMenu)
-    onTrashOperationButtonPressed: cyclePopup(trashDialog)
-
-    SelectionMenu {
-      id: selectionMenu
-
-      selection: organicView.selection
-
-      onPopupInteractionCompleted: chrome.hideAllPopups()
-    }
-
-    AlbumViewerOptionsMenu {
-      id: albumViewerOptionsMenu
-
-      popupOriginX: -units.gu(1.5)
-      popupOriginY: -units.gu(6)
-
-      // a switch-case case statement instead of an if statement because we
-      // soon hope to be able to respond to all six menu items
-      onActionInvoked: {
-        switch (name) {
-          case "onAddPhotos":
-            mediaSelector.show();
-          break;
-          
-          case "onDeleteAlbum":
-            chrome.cyclePopup(albumTrashDialog);
-          break;
-        }
-      }
-
-      onPopupInteractionCompleted: chrome.hideAllPopups()
-
-      visible: false;
-    }
-
-    GenericShareMenu {
-      id: albumViewerShareMenu
-
-      popupOriginX: -units.gu(9)
-      popupOriginY: -units.gu(6)
-
-      onActionInvoked: {
-        switch (name) {
-          case "onQuickShare": {
-            // Are we in selection mode?
-            if (albumViewer.state == "gridView" && organicView.selection.inSelectionMode) {
-              // Yes. Only share the images that have been selected.
-              for (var index = 0; index < organicView.selection.model.count; index++) {
-                var img = organicView.selection.model.getAt(index);
-                if (organicView.selection.model.isSelected(img)) {
-                  shareImage(img);
-                }
+                  chrome.hide(true);
+                  albumSpreadViewer.flipTo(firstChangedSpread);
               }
-
-              // Only leave selection mode if we've actually shared
-              // something - the app shouldn't change modes if nothing
-              // happened...
-              if (organicView.selection.selectedCount > 0)
-                organicView.selection.leaveSelectionMode();
-            } else {
-              // We're either in page view, or in grid view, but not
-              // in selection mode, so we should share all images
-              // in the current album.
-              for (index = 0; index < album.allMediaSources.length; index++) {
-                shareImage(album.allMediaSources[index]);
-              }
-            }
-            break;
           }
-        }
       }
-
-      onPopupInteractionCompleted: chrome.hideAllPopups()
-
-      visible: false
-    }
-    
-    // When delete is invoked from grid view
-    DeleteRemoveDialog {
-      id: trashDialog
-
-      // internal
-      function finishRemove() {
-        organicView.selection.leaveSelectionMode();
-        
-        // In the Album model, the last valid current page is the back cover.
-        // However, in the UI, we want to stay on the content pages.
-        if (album.currentPage > album.lastPopulatedContentPage - 1) {
-          album.currentPage = albumSpreadViewer.getLeftHandPageNumber(
-                album.lastPopulatedContentPage);
-          albumSpreadViewer.viewingPage = album.lastPopulatedContentPage;
-        }
+  }
+  Loader {
+      id: loader_mediaSelector
+      anchors.fill: parent
+      function show() {
+          sourceComponent = component_mediaSelector
+          item.show()
       }
-      
-      action0Title: "Remove from album"
-      action1Title: "Delete photo"
-      
-      popupOriginX: -units.gu(16.5)
-      popupOriginY: -units.gu(6)
+  }
 
-      visible: false
 
-      onRemoveRequested: {
-        album.removeSelectedMediaSources(organicView.selection.model);
-        
-        finishRemove(false);
-      }
-
-      onDeleteRequested: {
-        organicView.selection.model.destroySelectedMedia();
-
-        finishRemove(false);
-      }
-
-      onPopupInteractionCompleted: chrome.hideAllPopups()
-
-      AlbumCollectionModel {
-        id: trashModel
-      }
-    }
-    
-    AlbumPagePhotoMenu {
-      id: albumPagePhotoMenu
-      
-      visible: false
-      state: "hidden"
-      
-      property MediaSource mediaSource
-      
-      function positionRelativeTo(m) {
-        mediaSource = m;
-        var rect = albumSpreadViewer.getRectOfMediaSource(mediaSource);
-        rect = GalleryUtility.getRectRelativeTo(rect, photoViewer);
-        if (rect.x <= overview.width / 2)
-          popupOriginX = rect.x + rect.width + units.gu(4);
-        else
-          popupOriginX = rect.x - childrenRect.width;
-        
-        popupOriginY = rect.y;
-      }
-      
-      onActionInvoked: {
-        // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you
-        // edit a switch statement in QML.  The short version is: use braces
-        // always.
-        switch (name) {
-          case "onExport": {
-            // TODO
-            break;
-          }
-          
-          case "onPrint": {
-            // TODO
-            break;
-          }
-          
-          case "onShare": {
-            shareImage(mediaSource);
-            break;
-          }
-          
-          case "onDelete": {
-            trashFromAlbumPageDialog.popupOriginX = popupOriginX;
-            trashFromAlbumPageDialog.popupOriginY = popupOriginY;
-            trashFromAlbumPageDialog.media = mediaSource;
-            chrome.cyclePopup(trashFromAlbumPageDialog);
-            
-            break;
-          }
-        }
-      }
-      
-      onPopupInteractionCompleted: chrome.hideAllPopups()
-    }
-    
-    // When delete is invoked from an album page
-    DeleteRemoveDialog {
-      id: trashFromAlbumPageDialog
-      
-      property MediaSource media
-      
-      visible: false
-      
-      action0Title: "Remove from album"
-      action1Title: "Delete photo"
-      
-      // internal
-      // media: photo to remove/delete
-      // deleteMedia: if true, the backing file will be deleted
-      function removeOrDelete(media, deleteMedia) {
-        albumSpreadViewerForTransition.freeze = true;
-        album.removeMediaSource(media);
-        
-        // Display the proper animation for this case.
-        if (albumSpreadViewer.viewingPage > album.lastPopulatedContentPage) {
-          // In the Album model, the last valid current page is the back cover.
-          // However, in the UI, we want to stay on the content pages.
-          fadeOutAndFlipRemove(isPortrait ? album.lastPopulatedContentPage :
-                                            album.lastPopulatedContentPage - 1);
-        } else {
-          // For most album situations, just fade the old page into the new one.
-          crossfadeRemove();
-        }
-        
-        if (deleteMedia)
-          organicView.albumModel.destroyMedia(media);
-      }
-      
-      onRemoveRequested: removeOrDelete(media, false)
-      
-      onDeleteRequested: removeOrDelete(media, true)
-      
-      onPopupInteractionCompleted: chrome.hideAllPopups()
-      
-      AlbumCollectionModel {
-        id: trashFromAlbumPageModel
-      }
-    }
-    
-    // Delete album from album view.
-    DeleteOrDeleteWithContentsDialog {
+  DeleteOrDeleteWithContentsDialog {
       id: albumTrashDialog
-      
       visible: false
-      
-      deleteTitle: "Delete album"
-      deleteWithContentsTitle: "Delete album + contents"
-      
-      popupOriginX: -units.gu(2)
-      popupOriginY: -units.gu(6)
-      
-      onDeleteRequested: {
-        albumCollectionModel.destroyAlbum(albumViewer.album);
-        albumViewer.closeRequested(true, -1);
+      onDeleteClicked: {
+          // FIXME do not show the close animation
+          __close()
       }
-      
-      onDeleteWithContentsRequested: {
-        // Remove contents.
-        var list = albumViewer.album.allMediaSources;
-        for (var i = 0; i < list.length; i++)
-          organicView.albumModel.destroyMedia(list[i]);
-        
-        // Remove album.
-        albumCollectionModel.destroyAlbum(albumViewer.album);
-        albumViewer.closeRequested(true, -1);
+      onDeleteWithContentsClicked: {
+          // FIXME do not show the close animation
+          __close()
       }
-      
-      AlbumCollectionModel {
-        id: albumCollectionModel
-      }
-      
-      onPopupInteractionCompleted: state = "hidden"
-    }
   }
-  
-  PopupPhotoViewer {
-    id: photoViewer
-    
-    // true if the grid view component is using the photo viewer, false if the
-    // album spread viewer is using it ... this should be set prior to 
-    // opening the viewer
-    property bool forGridView
-    
-    album: albumViewer.album
-    
-    anchors.fill: parent
 
-    onOpening: {
-      // although this might be used by the page viewer, it too uses the grid's
-      // models because you can walk the entire album from both
-      model = organicView.albumModel;
-    }
-    
-    onOpened: {
-      visible = true;
-      albumSpreadViewer.visible = false;
-      organicView.visible = false;
-    }
-    
-    onCloseRequested: {
-      if (forGridView) {
-        // TODO: position organicView.
-      } else {
-        var page = albumViewer.album.getPageForMediaSource(photo);
-        if (page >= 0) {
-          albumViewer.album.currentPage = albumSpreadViewer.getLeftHandPageNumber(page);
-          albumSpreadViewer.viewingPage = isPortrait? page : albumViewer.album.currentPage;
-        }
+  ToolbarActions {
+      id: albumTools
+      Action {
+          text: "Add"
+          iconSource: Qt.resolvedUrl("../img/add.png")
+          enabled: false
+          onTriggered: {
+              loader_mediaSelector.show()
+          }
       }
-      
-      albumSpreadViewer.visible = (albumViewer.state == "pageView");
-      organicView.visible = (albumViewer.state == "gridView");
-      
-      if (forGridView) {
-        var rect = null; // TODO: get rect from organicView.
-        if (rect)
-          animateClosed(rect);
-        else
-          close();
-      } else {
-        fadeClosed();
+      Action {
+          text: "Delete"
+          iconSource: Qt.resolvedUrl("../img/delete.png")
+          onTriggered: {
+              albumTrashDialog.album = album
+              albumTrashDialog.caller = caller
+              albumTrashDialog.show()
+          }
+          enabled: false // FIXME enable once the close animation is not shown anymore
       }
-    }
-    
-    onClosed: {
-      visible = false;
-    }
-  }
-  
-  MediaSelector {
-    id: mediaSelector
-
-    anchors.fill: parent
-
-    album: albumViewer.album
-
-    onCancelRequested: hide()
-
-    onDoneRequested: {
-      var firstPhoto = album.addSelectedMediaSources(model);
-
-      hide();
-
-      if (firstPhoto && albumViewer.state == "pageView") {
-        var firstChangedPage = album.getPageForMediaSource(firstPhoto);
-        var firstChangedSpread = albumSpreadViewer.getLeftHandPageNumber(firstChangedPage);
-
-        chrome.hide(true);
-        albumSpreadViewer.flipTo(firstChangedSpread);
+      Action {
+          text: "Share"
+          iconSource: Qt.resolvedUrl("../img/share.png")
+          enabled: false
       }
-    }
+      back: Action {
+          text: "Back"
+          iconSource: Qt.resolvedUrl("../img/back.png")
+          onTriggered: {
+              __close()
+          }
+      }
   }
 }

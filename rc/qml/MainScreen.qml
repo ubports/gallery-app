@@ -31,8 +31,9 @@ MainView {
 
     anchors.fill: parent
 
-    tools: photoViewerLoader.item && photoViewerLoader.item.isPoppedUp ? photoViewerLoader.item.tools
-            : tabs.selectedTab.page.hasOwnProperty("tools") ? tabs.selectedTab.page.tools : null
+    tools: __isPhotoViewerOpen ? photoViewerLoader.item.tools
+            : (albumViewer.isOpen ? albumViewer.tools
+            : tabs.tools)
 
     Tabs {
         id: tabs
@@ -47,11 +48,12 @@ MainView {
         onSelectedTabIndexChanged: {
           if (selectedTabIndex == 0)
             albumsCheckerboardLoader.load();
+          // prevent leaving the event view in selection mode
+          eventView.leaveSelectionMode()
         }
 
         // TODO: Loaders don't play well with Tabs, they prevent the tab bar
         // from sliding upward when scrolling:
-        // https://bugs.launchpad.net/goodhope/+bug/1088740
         Tab {
             title: "Albums"
             page: Loader {
@@ -59,6 +61,8 @@ MainView {
                 objectName: "albumsCheckerboardLoader"
                 anchors.fill: parent
                 asynchronous: true
+                property ToolbarActions tools: status === Loader.Ready ? item.tools : null
+
                 function load() {
                     if (source == "")
                         source = "AlbumsOverview.qml"
@@ -67,6 +71,7 @@ MainView {
         }
 
         Tab {
+            id: eventTab
             title: "Events"
             page: OrganicEventView {
                 id: eventView
@@ -80,6 +85,16 @@ MainView {
 
                     var rect = GalleryUtility.translateRect(thumbnailRect, eventView, photoViewerLoader);
                     photoViewerLoader.item.animateOpen(mediaSource, rect);
+                }
+
+                // FIXME setting the title via a binding has wrong text placement at startup
+                // so it is done here as a workaround.
+                // The new implementation of the Tab header will hopefully fix this
+                onInSelectionModeChanged: {
+                    if (inSelectionMode)
+                        eventTab.title = "Select"
+                    else
+                        eventTab.title = "Events"
                 }
             }
         }
@@ -116,6 +131,8 @@ MainView {
         anchors.fill: parent
     }
 
+    /// Indicates if the photo viewer is currently open (shown to the user)
+    property bool __isPhotoViewerOpen: photoViewerLoader.item && photoViewerLoader.item.isPoppedUp
     Loader {
         id: photoViewerLoader
 

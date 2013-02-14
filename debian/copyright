@@ -1,13 +1,13 @@
 Format: http://dep.debian.net/deps/dep5
-Upstream-Name: goodhope
-Source: https://launchpad.net/goodhope
+Upstream-Name: ubuntu-gallery
+Source: https://launchpad.net/ubuntu-gallery
 
 Files: *
-Copyright: 2011 Canonical Ltd
+Copyright: 2011, 2012, 2013 Canonical Ltd
 License: GPL-3.0+
 
 Files: debian/*
-Copyright: 2011 Canonical Ltd
+Copyright: 2011, 2012, 2013 Canonical Ltd
 License: GPL-3.0+
 
 License: GPL-3.0+

@@ -379,6 +379,18 @@ void Photo::autoEnhance()
 }
 
 /*!
+ * \brief Photo::exposureCompensation Changes the brightnes of the image
+ * \param value Value for the compensation. -1.0 moves the image into total black.
+ * +1.0 to total white. 0.0 leaves it as it is.
+ */
+void Photo::exposureCompensation(qreal value)
+{
+    PhotoEditState next_state = current_state();
+    next_state.exposureCompensation_ = value;
+    make_undoable_edit(next_state);
+}
+
+/*!
  * \brief Photo::prepareForCropping
  * Edits the image to original size so you can recrop it.  Returns crop
  * coords in [0,1].  Should be followed by either cancelCropping() or crop().
@@ -606,6 +618,7 @@ void Photo::edit_file(const PhotoEditState& state)
 
   // Have we been rotated and _not_ cropped?
   if (file_format_has_orientation() && (!state.crop_rectangle_.isValid()) &&
+      state.exposureCompensation_ == 0 &&
       (state.orientation_ != PhotoEditState::ORIGINAL_ORIENTATION)) { 
     // Yes; skip out on decoding and re-encoding the image.
     handle_simple_metadata_rotation(state);
@@ -647,6 +660,11 @@ void Photo::edit_file(const PhotoEditState& state)
 
   if (state.crop_rectangle_.isValid())
     image = image.copy(state.crop_rectangle_);
+
+  // exposure compensation
+  if (state.exposureCompensation_ != 0.0) {
+      image = compensateExposure(image, state.exposureCompensation_);
+  }
 
   QSize new_size = image.size();
 
@@ -720,6 +738,36 @@ void Photo::create_cached_enhanced()
   set_busy(false);
   
   delete metadata;
+}
+
+/*!
+ * \brief Photo::compensateExposure Compensates the exposure
+ * Compensating the exposure is a change in brightnes
+ * \param image Image to change the brightnes
+ * \param compansation -1.0 is total dark, +1.0 is total bright
+ * \return The image with adjusted brightnes
+ */
+QImage Photo::compensateExposure(const QImage &image, qreal compansation)
+{
+    set_busy(true);
+
+    int shift = qBound(-255, (int)(255*compansation), 255);
+    QImage result(image.width(), image.height(), image.format());
+
+    for (int j = 0; j < image.height(); j++) {
+        QApplication::processEvents();
+        for (int i = 0; i <image.width(); i++) {
+            QColor px = image.pixel(i, j);
+            int red = qBound(0, px.red() + shift, 255);
+            int green = qBound(0, px.green() + shift, 255);
+            int blue = qBound(0, px.blue() + shift, 255);
+            result.setPixel(i, j, qRgb(red, green, blue));
+        }
+    }
+
+    set_busy(false);
+
+    return result;
 }
 
 /*!

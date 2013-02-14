@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 import Gallery 1.0
 
 /*! @brief AlbumViewerAnimated shows an album, and performs animations when opening and closing
@@ -31,20 +32,32 @@ Item {
     /// Origin (rectangle) where this view is animated from when calling open()
     /// And where it is animated to when this view is closed
     property variant origin
+    /// The preview item that was used to open the view, or null, if it was opend another way
+    /// This item will be hidden when this view is opened. And shown again after closing this view
+    property Item previewItem: null
     /// Is true if the opne or close animation is running
     property bool animationRunning: loader_albumViewer.status === Loader.Ready ?
                                         loader_albumViewer.item.albumViewerTransition.animationRunning ||
                                         loader_albumViewer.item.albumViewer.animationRunning
                                       : false
+    /// Indicates if this view is open
+    property bool isOpen: false
+    /// Contains the actions for the toolbar in the album view
+    property ActionList tools: loader_albumViewer.status === Loader.Ready ? loader_albumViewer.item.albumViewer.tools : null
 
     /// Opens the album. If the origin is set, an animation is performed
     function open() {
         loader_albumViewer.load()
+        if (album.currentPage < 0)
+            album.currentPage = 1
         loader_albumViewer.item.albumViewer.album = album
         if (root.origin)
             loader_albumViewer.item.albumViewerTransition.transitionToAlbumViewer(root.album, root.origin);
         else
             loader_albumViewer.item.albumViewer.visible = true
+        isOpen = true
+        if (previewItem)
+            previewItem.visible = false
     }
 
     Component {
@@ -72,6 +85,7 @@ Item {
                                     album, root.origin, stayOpen, viewingPage);
                     }
                     inner_albumViewer.visible = false
+                    isOpen = false
                 }
             }
 
@@ -85,6 +99,11 @@ Item {
                 onTransitionToAlbumViewerCompleted: {
                     inner_albumViewer.visible = true
                 }
+                onTransitionFromAlbumViewerCompleted: {
+                    if (previewItem)
+                        previewItem.visible = true
+                    loader_albumViewer.unload()
+                }
             }
         }
     }
@@ -96,6 +115,9 @@ Item {
             if (sourceComponent == undefined) {
                 sourceComponent = component_ViewerItem
             }
+        }
+        function unload() {
+            sourceComponent = undefined
         }
     }
 

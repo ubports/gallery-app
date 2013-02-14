@@ -91,7 +91,9 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
   QElapsedTimer timer;
   timer.start();
 
-  GalleryManager::instance()->preview_manager()->ensure_preview_for_media(QFileInfo(id));
+  QUrl url(id);
+  QFileInfo photoFile(url.path());
+  GalleryManager::instance()->preview_manager()->ensure_preview_for_media(photoFile);
 
   CachedImage* cachedImage = claim_cached_image_entry(id, loggingStr);
   Q_ASSERT(cachedImage != NULL);

@@ -13,7 +13,7 @@ from __future__ import absolute_import
 from testtools.matchers import Equals, NotEquals
 from autopilot.matchers import Eventually
 
-from goodhope.tests import GoodhopeTestCase
+from gallery.tests import GalleryTestCase
 
 from os.path import exists, expanduser
 import os
@@ -22,7 +22,7 @@ import shutil
 from time import sleep
 
 
-class TestPhotoViewer(GoodhopeTestCase):
+class TestPhotoViewer(GalleryTestCase):
 
     def setUp(self):
         super(TestPhotoViewer, self).setUp()
@@ -147,7 +147,7 @@ class TestPhotoViewer(GoodhopeTestCase):
         self.assertThat(opened_photo.fullyUnzoomed, Eventually(Equals(True)))
 
 
-class TestPhotoEditor(GoodhopeTestCase):
+class TestPhotoEditor(GalleryTestCase):
 
     def setUp(self):
         super(TestPhotoEditor, self).setUp()

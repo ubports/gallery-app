@@ -30,7 +30,7 @@ Item {
   
   /*!
   */
-  signal activated(variant object, variant objectModel, variant activatedRect)
+  signal activated(variant object, variant objectModel, variant activatedRect, Item activatingItem)
   
   /*!
   */

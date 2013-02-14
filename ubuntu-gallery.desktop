@@ -1,0 +1,15 @@
+[Desktop Entry]
+Version=1.0
+Name=Ubuntu Gallery
+GenericName=Ubuntu Photo Viewer
+X-GNOME-Fullname=Ubuntu Photo Viewer
+Comment=Browse your photographs
+TryExec=ubuntu-gallery
+Exec=ubuntu-gallery
+Icon=ubuntu-gallery
+StartupNotify=true
+Terminal=false
+Type=Application
+MimeType=image/jpg;image/jpeg
+Categories=Graphics;Photography;RasterGraphics;Viewer
+X-Ayatana-Appmenu-Show-Stubs=false

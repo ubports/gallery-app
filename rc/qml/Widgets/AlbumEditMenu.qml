@@ -18,53 +18,48 @@
  */
 
 import QtQuick 2.0
-import "../../Capetown/Widgets"
+import Ubuntu.Components.Popups 0.1
+import Ubuntu.Components.ListItems 0.1 as ListItem
 
 /*!
+  Popover to show the context menu for an album
 */
-PopupMenu {
-  id: albumEditMenu
-  
-  visible: false
-  
-  model: albumEditList
-  
-  ListModel {
-    id: albumEditList
-    
-    ListElement {
-      title: "Edit album"
-      action: "onEdit"
-      hasBottomBorder: true
+Popover {
+    id: albumEditMenu
+
+    /// The user clicked on the edit button
+    signal editClicked()
+    /// The user clicked on the share button
+    signal shareClicked()
+    /// The user clicked on the delete button
+    signal deleteClicked()
+
+    Column {
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: parent.top
+        }
+        ListItem.Standard {
+            text: "Edit album"
+            onClicked: {
+                hide()
+                editClicked()
+            }
+        }
+        ListItem.Standard {
+            text: "Share"
+            onClicked: {
+                hide()
+                shareClicked()
+            }
+        }
+        ListItem.Standard {
+            text: "Delete"
+            onClicked: {
+                hide()
+                deleteClicked()
+            }
+        }
     }
-    
-    ListElement {
-      title: "Export to Device"
-      action: "onExport"
-      hasBottomBorder: true
-    }
-    
-    ListElement {
-      title: "Print album"
-      action: "onPrint"
-      hasBottomBorder: true
-    }
-    
-    ListElement {
-      isSeparator: true
-    }
-    
-    ListElement {
-      title: "Share"
-      action: "onShare"
-      hasBottomBorder: true
-      iconFilename: "../../img/icon-share-active.png"
-    }
-    
-    ListElement {
-      title: "Delete"
-      action: "onDelete"
-      iconFilename: "../../img/icon-trash-active.png"
-    }
-  }
 }

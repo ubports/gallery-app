@@ -26,6 +26,7 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 import "../Capetown"
 import "../Capetown/Viewer"
 import "Components"
+import "Utility"
 import "Widgets"
 import "../js/Gallery.js" as Gallery
 
@@ -183,9 +184,11 @@ Item {
 
     // Don't allow flicking while the chrome is actively displaying a popup
     // menu, or the image is zoomed, or we're cropping. When images are zoomed,
-    // mouse drags should pan, not flick.
+    // mouse drags should pan, not flick. Also don't flick during parameterized
+    // HUD action to prevent photo from changing during the action
     interactive: (currentItem != null) &&
-                 (currentItem.state == "unzoomed") && cropper.state == "hidden"
+                 (currentItem.state == "unzoomed") && cropper.state == "hidden" &&
+                 !editHUD.actionActive
 
     Timer {
       id: chromeFadeWaitClock
@@ -203,8 +206,8 @@ Item {
         running: visible
     }
 
-    property ActionList tools: ActionList {
-        Action {
+    property ToolbarActions tools: ToolbarActions {
+       Action {
             text: "Edit"
             iconSource: "../img/edit.png"
             onTriggered: {
@@ -347,18 +350,14 @@ Item {
 
     onCanceled: {
       photo.cancelCropping();
-
       hide();
-
       targetPhoto = null;
     }
 
     onCropped: {
       var qtRect = Qt.rect(rect.x, rect.y, rect.width, rect.height);
       photo.crop(qtRect);
-
       hide();
-
       targetPhoto = null;
     }
     
@@ -396,5 +395,27 @@ Item {
       duration: Gallery.FAST_DURATION
       easing.type: Easing.InOutQuad    
     }
+  }
+
+  EditPreview {
+      id: editPreview
+      anchors.fill: parent
+      source: galleryPhotoViewer.photo.galleryPreviewPath
+
+      visible: editHUD.actionActive
+
+      exposure: editHUD.exposureValue
+
+      brightness: editHUD.brightness
+      contrast: editHUD.contrast
+      saturation: editHUD.saturation
+      hue: editHUD.hue
+  }
+
+  EditingHUD {
+      id: editHUD
+      photo: galleryPhotoViewer.photo
+      onExposureActivated: editPreview.useExposure()
+      onColorBalanceActivated: editPreview.useColorBalance()
   }
 }

@@ -145,7 +145,7 @@ Rectangle {
     } 
     
     /*
-     * Pinch-to-zoom removed for demo: https://bugs.launchpad.net/goodhope/+bug/1092239
+     * Pinch-to-zoom removed for demo
      *
     ,
     State { name: "pinching";
@@ -179,7 +179,7 @@ Rectangle {
     }
     
     /*
-     * Pinch-to-zoom removed for demo: https://bugs.launchpad.net/goodhope/+bug/1092239
+     * Pinch-to-zoom removed for demo
      *
     ,
     Transition { from: "pinching"; to: "unzoomed";
@@ -234,7 +234,7 @@ Rectangle {
   }
   
   /*
-   * Pinch-to-zoom removed for demo: https://bugs.launchpad.net/goodhope/+bug/1092239
+   * Pinch-to-zoom removed for demo
    *
   PinchArea {
     id: pinchArea

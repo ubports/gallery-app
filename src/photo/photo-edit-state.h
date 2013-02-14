@@ -41,14 +41,15 @@ public:
   Orientation orientation_;
   QRect crop_rectangle_;
   bool is_enhanced_;
+  qreal exposureCompensation_;
 
   PhotoEditState() : orientation_(ORIGINAL_ORIENTATION), crop_rectangle_(),
-      is_enhanced_(false) {
+      is_enhanced_(false), exposureCompensation_(0.0) {
   }
 
   bool is_original() const {
     return (orientation_ < MIN_ORIENTATION && !crop_rectangle_.isValid() &&
-            !is_enhanced_);
+            !is_enhanced_ && exposureCompensation_ == 0.0);
   }
 
   // Returns a new PhotoEditState the same as this one but rotated.  Needed
@@ -68,7 +69,8 @@ public:
   bool operator==(const PhotoEditState& other) {
     return (orientation_ == other.orientation_ &&
             crop_rectangle_ == other.crop_rectangle_ &&
-            is_enhanced_ == other.is_enhanced_);
+            is_enhanced_ == other.is_enhanced_ &&
+            exposureCompensation_ == other.exposureCompensation_);
   }
   bool operator!=(const PhotoEditState& other) { return !(*this == other); }
 

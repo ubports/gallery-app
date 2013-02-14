@@ -15,6 +15,7 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 import Gallery 1.0
 import "Components"
 import "Utility"
@@ -25,6 +26,9 @@ import "Widgets"
  */
 Checkerboard {
     id: root
+
+    /// Contains the actions for the toolbar in the albums tab
+    property ActionList tools: albumOverviewTools
 
     /*!
     */
@@ -51,6 +55,7 @@ Checkerboard {
     }
 
     delegate: CheckerboardDelegate {
+        id: thisDelegate
         property real commitFraction: 0.05
 
         // internal
@@ -77,7 +82,10 @@ Checkerboard {
         }
 
         onLongPressed: {
-            albumMenu.show(album)
+            albumMenu.album = album
+            albumMenu.caller = content
+            albumEditor.previewItem = thisDelegate
+            albumMenu.show()
         }
 
         onSwiped: {
@@ -114,6 +122,7 @@ Checkerboard {
     onActivated: {
         albumViewer.album = object
         albumViewer.origin = root.getRectOfAlbumPreview(object, albumViewer)
+        albumViewer.previewItem = activatingItem
         albumViewer.open()
     }
 
@@ -126,109 +135,61 @@ Checkerboard {
         opacity: 0.0
     }
 
-    // Cancel out of menus if user clicks outside the menu area.
-    MouseArea {
-        id: menuCancelArea
-
-        anchors.fill: parent
-        visible: albumMenu.state === "shown" || albumTrashDialog.state === "shown"
-        acceptedButtons: Qt.LeftButton | Qt.RightButton
-        onPressed: {
-            albumMenu.state = "hidden";
-            albumTrashDialog.state = "hidden";
-        }
-    }
-
     AlbumEditMenu {
         id: albumMenu
 
-        visible: false
-        state: "hidden"
-
         property Album album
 
-        function show(a) {
-            album = a;
-            var rect = root.getRectOfAlbumPreview(album, root);
-            if (rect.x <= root.width / 2)
-                popupOriginX = rect.x + rect.width + units.gu(4);
-            else
-                popupOriginX = rect.x - childrenRect.width;
+        visible: false
 
-            popupOriginY = rect.y >= units.gu(6) ? rect.y : units.gu(6);
-            state = "shown"
+        onEditClicked: {
+            albumEditor.album = album
+            albumEditor.origin = root.getRectOfAlbumPreview(album, albumEditor)
+            albumEditor.open()
         }
 
-        onActionInvoked: {
-            // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you
-            // edit a switch statement in QML.  The short version is: use braces
-            // always.
-            switch (name) {
-            case "onEdit": {
-                albumEditor.album = album
-                albumEditor.origin = root.getRectOfAlbumPreview(album, albumEditor)
-                albumEditor.open()
-                break;
-            }
-            case "onExport": break // TODO
-            case "onPrint": break // TODO
-            case "onShare": {
-                for (var index = 0; index < album.allMediaSources.length; index++) {
-                    shareImage(album.allMediaSources[index]);
-                }
-                break;
-            }
-            case "onDelete": {
-                albumTrashDialog.show(album)
-                break;
-            }
+        onShareClicked: {
+            for (var index = 0; index < album.allMediaSources.length; index++) {
+                // FIXME once the share component can handle more than one image
+                //shareImage(album.allMediaSources[index]);
             }
         }
 
-        onPopupInteractionCompleted: state = "hidden"
+        onDeleteClicked: {
+            albumTrashDialog.album = album
+            albumTrashDialog.caller = caller
+            albumTrashDialog.show()
+        }
     }
 
     // Dialog for deleting albums.
     DeleteOrDeleteWithContentsDialog {
         id: albumTrashDialog
 
-        property variant album: null
-
         visible: false
+    }
 
-        deleteTitle: "Delete album"
-        deleteWithContentsTitle: "Delete album + contents"
-
-        function show(albumToShow) {
-            album = albumToShow;
-            state = "shown"
-
-            var rect = root.getRectOfAlbumPreview(album, root);
-            if (rect.x <= root.width / 2)
-                popupOriginX = rect.x + rect.width + units.gu(4);
-            else
-                popupOriginX = rect.x - childrenRect.width;
-
-            popupOriginY = rect.y >= units.gu(6) ? rect.y : units.gu(6);
+    ToolbarActions {
+        id: albumOverviewTools
+        Action {
+            text: "Add"
+            iconSource: Qt.resolvedUrl("../img/add.png")
+            enabled: false
         }
-
-        property AlbumCollectionModel albumCollection: AlbumCollectionModel {}
-        property MediaCollectionModel mediaCollection: MediaCollectionModel {}
-
-        onDeleteRequested: {
-            albumCollection.destroyAlbum(album)
+        Action {
+            text: "Camera"
+            iconSource: Qt.resolvedUrl("../img/camera.png")
+            onTriggered: {
+                if (appManager.status === Loader.Ready)
+                    appManager.item.switchToCameraApplication();
+                else
+                    console.log("Switching applications is not supported on this platform.");
+            }
         }
+    }
 
-        onDeleteWithContentsRequested: {
-            // Remove contents.
-            var list = album.allMediaSources;
-            for (var i = 0; i < list.length; i++)
-                mediaCollection.destroyMedia(list[i]);
-
-            // Remove album.
-            albumCollection.destroyAlbum(album);
-        }
-
-        onPopupInteractionCompleted: state = "hidden"
+    Loader {
+        id: appManager
+        source: "../../rc/Capetown/Widgets/UbuntuApplicationWrapper.qml"
     }
 }
