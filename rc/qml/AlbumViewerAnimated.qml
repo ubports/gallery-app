@@ -94,6 +94,9 @@ Item {
                 onTransitionToAlbumViewerCompleted: {
                     inner_albumViewer.visible = true
                 }
+                onTransitionFromAlbumViewerCompleted: {
+                    loader_albumViewer.unload()
+                }
             }
         }
     }
@@ -105,6 +108,9 @@ Item {
             if (sourceComponent == undefined) {
                 sourceComponent = component_ViewerItem
             }
+        }
+        function unload() {
+            sourceComponent = undefined
         }
     }
 
