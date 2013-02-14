@@ -223,15 +223,12 @@ Item {
 
     clip: true
 
-    Image {
+    Rectangle {
       x: (isRight ? -parent.width : 0)
       y: 0
       width: (isRight ? parent.width * 2 : parent.width)
       height: parent.height
-
-      source: "../../../img/background-paper.png"
-
-      fillMode: Image.Tile
+      color: "white"
     }
   }
 

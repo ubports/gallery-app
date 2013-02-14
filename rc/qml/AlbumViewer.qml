@@ -30,13 +30,13 @@ import "Widgets"
 
 /*!
 */
-Rectangle {
+Image {
   id: albumViewer
   objectName: "albumViewer"
 
   /// The album that is shown by this viewer
   property Album album
-  
+
   // Read-only
   /*!
   */
@@ -56,6 +56,8 @@ Rectangle {
   signal closeRequested(bool stayOpen, int viewingPage)
 
   anchors.fill: parent
+  source: "../img/background-paper.png"
+
 
   state: "pageView"
 
@@ -275,12 +277,6 @@ Rectangle {
       }
 
       onSwiping: {
-        if (!albumSpreadViewer.isPopulatedContentPage(
-            albumSpreadViewer.destinationPage)) {
-          closeRequested(false, albumSpreadViewer.viewingPage);
-          return;
-        }
-
         lastSwipeLeftToRight = (mouseX > prevSwipingX);
 
         var availableDistance = (leftToRight) ? (width - start) : start;
@@ -291,6 +287,9 @@ Rectangle {
         // the AlbumPageFlipper, but this is fine for now.
         var flipFraction =
             Math.max(0, Math.min(0.999, distance / availableDistance));
+        if (!albumSpreadViewer.isPopulatedContentPage(albumSpreadViewer.destinationPage)) {
+            flipFraction = Math.min(0.425, flipFraction)
+        }
         albumSpreadViewer.flipFraction = flipFraction;
         prevSwipingX = mouseX;
       }
