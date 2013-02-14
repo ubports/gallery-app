@@ -30,13 +30,13 @@ import "Widgets"
 
 /*!
 */
-Rectangle {
+Image {
   id: albumViewer
   objectName: "albumViewer"
 
   /// The album that is shown by this viewer
   property Album album
-  
+
   // Read-only
   /*!
   */
@@ -56,6 +56,8 @@ Rectangle {
   signal closeRequested(bool stayOpen, int viewingPage)
 
   anchors.fill: parent
+  source: "../img/background-paper.png"
+
 
   state: "pageView"
 
@@ -275,12 +277,6 @@ Rectangle {
       }
 
       onSwiping: {
-        if (!albumSpreadViewer.isPopulatedContentPage(
-            albumSpreadViewer.destinationPage)) {
-          closeRequested(false, albumSpreadViewer.viewingPage);
-          return;
-        }
-
         lastSwipeLeftToRight = (mouseX > prevSwipingX);
 
         var availableDistance = (leftToRight) ? (width - start) : start;
@@ -291,19 +287,37 @@ Rectangle {
         // the AlbumPageFlipper, but this is fine for now.
         var flipFraction =
             Math.max(0, Math.min(0.999, distance / availableDistance));
+        if (!albumSpreadViewer.isPopulatedContentPage(albumSpreadViewer.destinationPage)) {
+            var maxFraction = 0.425
+            if (isPortrait) {
+                if (albumSpreadViewer.destinationPage === 0)
+                    maxFraction = 0.15 // for the front
+                else
+                    maxFraction = 0.75 // for the back
+            }
+
+            flipFraction = Math.min(maxFraction, flipFraction)
+        }
         albumSpreadViewer.flipFraction = flipFraction;
         prevSwipingX = mouseX;
       }
 
       onSwiped: {
-        // Can turn toward the cover, but never close the album in the viewer
-        if (albumSpreadViewer.flipFraction >= commitTurnFraction &&
-            leftToRight === lastSwipeLeftToRight &&
-            albumSpreadViewer.destinationPage > album.firstValidCurrentPage &&
-            albumSpreadViewer.destinationPage < album.lastValidCurrentPage)
-          albumSpreadViewer.flip();
-        else
-          albumSpreadViewer.release();
+          // Can turn toward the cover, but never close the album in the viewer
+          var minValidPage = album.firstValidCurrentPage
+          var maxValidPage = album.lastValidCurrentPage
+          if (isPortrait) {
+              minValidPage += 1
+              maxValidPage -= 1
+          }
+          if (albumSpreadViewer.flipFraction >= commitTurnFraction &&
+                  leftToRight === lastSwipeLeftToRight &&
+                  albumSpreadViewer.destinationPage > minValidPage &&
+                  albumSpreadViewer.destinationPage < maxValidPage) {
+              albumSpreadViewer.flip();
+          }
+          else
+              albumSpreadViewer.release();
       }
     }
   }
