@@ -1,3 +1,11 @@
+ubuntu-gallery (0.0.54) quantal; urgency=low
+
+  * Fix crash when opening the second album
+  * fix HUD and exposure functionality
+  * New theme/assets for crop
+
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Thu, 14 Jan 2013 12:45:25 +0100
+
 ubuntu-gallery (0.0.53) quantal; urgency=low
 
   * Visual tweaks
