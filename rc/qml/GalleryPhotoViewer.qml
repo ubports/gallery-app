@@ -106,6 +106,10 @@ Item {
     id: galleryPhotoViewer
     objectName: "photoViewer"
 
+    // this is a hack for preventing zoom from happening when tapping on HUD
+    // as currently the events get through to gallery also
+    enabled: !editHUD.actionActive
+
     // When the user clicks the back button.
     signal closeRequested()
     signal editRequested(variant photo) // The user wants to edit this photo.
@@ -187,8 +191,6 @@ Item {
     // mouse drags should pan, not flick.
     interactive: (currentItem != null) &&
                  (currentItem.state == "unzoomed") && cropper.state == "hidden"
-                 && !editHUD.actionActive  // this is a hack for preventing zoom from happening when tapping on HUD
-                                           // as currently the events get through to gallery also
 
 
     Timer {
