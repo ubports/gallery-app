@@ -146,21 +146,28 @@ Item {
       // transform th right end to the left, for easier comparison for isInLoadArea
       property int xw: x - loadAreaWidth
       visible: isInLoadArea
+      y: photosTopMargin + photoY[patternPhoto]
+      width: photoSize[patternPhoto]
+      height: photoSize[patternPhoto]
+
+      ActivityIndicator {
+          id: loadIndicator
+          anchors.centerIn: parent
+          visible: loader_thumbnail && loader_thumbnail.item && !loader_thumbnail.item.visible
+          running: visible
+      }
 
       Component {
         id: component_thumbnail
         UbuntuShape {
           id: thumbnail
-
-          y: photosTopMargin + photoY[patternPhoto]
-          width: photoSize[patternPhoto]
-          height: photoSize[patternPhoto]
+          visible: image.status === Image.Ready
 
           radius: "medium"
 
           image: Image {
             source: model.mediaSource.galleryThumbnailPath
-            asynchronous: false
+            asynchronous: true
           }
 
           OrganicItemInteraction {
@@ -204,6 +211,7 @@ Item {
       }
       Loader {
         id: loader_thumbnail
+        anchors.fill: parent
         sourceComponent: tItem.isInLoadArea ? component_thumbnail : undefined
         asynchronous: true
       }
