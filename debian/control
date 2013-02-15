@@ -15,8 +15,6 @@ Vcs-Bzr: lp:ubuntu-gallery
 
 Package: ubuntu-gallery
 Architecture: any
-Breaks: goodhope
-Replaces: goodhope
 Depends: ${shlibs:Depends},
          ${misc:Depends}, 
          qtdeclarative5-qtquick2-plugin,
@@ -29,8 +27,6 @@ Description: Photo gallery for Ubuntu
 
 Package: ubuntu-gallery-autopilot
 Architecture: all
-Breaks: goodhope-autopilot
-Replaces: goodhope-autopilot
 Depends: ${shlibs:Depends},
          ${misc:Depends},
          ubuntu-gallery (= ${source:Version}),

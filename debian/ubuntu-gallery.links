@@ -1,5 +1,0 @@
-# links for a smooth transition
-# once all other projects use the new name, this file (link) will be removed
-usr/bin/ubuntu-gallery usr/bin/gallery
-usr/share/ubuntu-gallery usr/share/gallery
-usr/share/applications/ubuntu-gallery.desktop usr/share/applications/goodhope.desktop
