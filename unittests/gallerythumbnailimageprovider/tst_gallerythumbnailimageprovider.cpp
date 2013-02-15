@@ -26,18 +26,27 @@
 class tst_GalleryThumbnailImageProvider : public QObject
 {
   Q_OBJECT
-  GalleryThumbnailImageProvider gallery_thumbnail_image_provider;
+public:
+    tst_GalleryThumbnailImageProvider();
 
 private slots:
-  void ToURL();
+    void ToURL();
+
+private:
+    GalleryThumbnailImageProvider gallery_thumbnail_image_provider;
 };
+
+tst_GalleryThumbnailImageProvider::tst_GalleryThumbnailImageProvider()
+    : gallery_thumbnail_image_provider(false)
+{
+}
 
 void tst_GalleryThumbnailImageProvider::ToURL()
 {
-  QFileInfo fi("/tmp/test.jpg");
-  QUrl url = gallery_thumbnail_image_provider.ToURL(fi);
-  QUrl expect("image://gallery-thumbnail//tmp/test.jpg");
-  QCOMPARE(url, expect);
+    QFileInfo fi("/tmp/test.jpg");
+    QUrl url = gallery_thumbnail_image_provider.ToURL(fi);
+    QUrl expect("image://gallery-thumbnail//tmp/test.jpg");
+    QCOMPARE(url, expect);
 }
 
 QTEST_MAIN(tst_GalleryThumbnailImageProvider);

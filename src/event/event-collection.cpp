@@ -35,13 +35,13 @@ EventCollection::EventCollection()
   // Monitor MediaCollection to create/destroy Events, one for each day of
   // media found
   QObject::connect(
-    GalleryManager::GetInstance()->media_collection(),
+    GalleryManager::instance()->media_collection(),
     SIGNAL(contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
     this,
     SLOT(on_media_added_removed(const QSet<DataObject*>*,const QSet<DataObject*>*)));
   
   // seed what's already present
-  on_media_added_removed(&GalleryManager::GetInstance()->media_collection()->GetAsSet(), NULL);
+  on_media_added_removed(&GalleryManager::instance()->media_collection()->GetAsSet(), NULL);
 }
 
 /*!

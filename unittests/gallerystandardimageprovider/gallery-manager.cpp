@@ -19,17 +19,12 @@
  */
 
 #include "core/gallery-manager.h"
+#include "core/command-line-parser.h"
 
 GalleryManager* GalleryManager::gallery_mgr_ = NULL;
 
-GalleryManager::GalleryManager()
+GalleryManager::GalleryManager(const QString&, const QDir& pictures_dir, const bool)
     : collections_initialised(false),
-      startup_timer_(false),
-      is_fullscreen_(false),
-      is_portrait_(false),
-      form_factors_(NULL),
-      form_factor_(NULL),
-      log_image_loading_(false),
       resource_(NULL),
       gallery_standard_image_provider_(NULL),
       gallery_thumbnail_image_provider_(NULL),
@@ -38,9 +33,9 @@ GalleryManager::GalleryManager()
       media_collection_(NULL),
       album_collection_(NULL),
       event_collection_(NULL),
-      preview_manager_(NULL)
+      preview_manager_(NULL),
+      pictures_dir_(pictures_dir)
 {
-
 }
 
 GalleryManager::~GalleryManager()
@@ -49,10 +44,10 @@ GalleryManager::~GalleryManager()
     gallery_mgr_ = NULL;
 }
 
-GalleryManager* GalleryManager::GetInstance()
+GalleryManager* GalleryManager::instance(const QString& application_path_dir, const QDir& pictures_dir, const bool)
 {
     if (!gallery_mgr_)
-        gallery_mgr_ = new GalleryManager();
+        gallery_mgr_ = new GalleryManager(application_path_dir, pictures_dir, false);
 
     return gallery_mgr_;
 }
