@@ -26,14 +26,13 @@
 class tst_CommandLineParser : public QObject
 {
     Q_OBJECT
-    CommandLineParser cmd_line_parser_;
     QHash<QString, QSize> form_factors_;
-
-public:
-    tst_CommandLineParser();
-    ~tst_CommandLineParser();
+    CommandLineParser* cmd_line_parser_;
 
 private slots:
+    void initTestCase();
+    void cleanupTestCase();
+
     void is_portrait_test();
     void is_fullscreen_test();
     void startup_timer_test();
@@ -43,41 +42,42 @@ private slots:
     void process_args_test_data();
 };
 
-tst_CommandLineParser::tst_CommandLineParser() : cmd_line_parser_(form_factors_)
+void tst_CommandLineParser::initTestCase()
 {
+    cmd_line_parser_ = new CommandLineParser(form_factors_);
 }
 
-tst_CommandLineParser::~tst_CommandLineParser()
+void tst_CommandLineParser::cleanupTestCase()
 {
-
+    delete cmd_line_parser_;
 }
 
 void tst_CommandLineParser::is_portrait_test()
 {
     bool expect = false;
 
-    QCOMPARE(cmd_line_parser_.is_portrait(), expect);
+    QCOMPARE(cmd_line_parser_->is_portrait(), expect);
 }
 
 void tst_CommandLineParser::is_fullscreen_test()
 {
     bool expect = false;
 
-    QCOMPARE(cmd_line_parser_.is_fullscreen(), expect);
+    QCOMPARE(cmd_line_parser_->is_fullscreen(), expect);
 }
 
 void tst_CommandLineParser::startup_timer_test()
 {
     bool expect = false;
 
-    QCOMPARE(cmd_line_parser_.startup_timer(), expect);
+    QCOMPARE(cmd_line_parser_->startup_timer(), expect);
 }
 
 void tst_CommandLineParser::log_image_loading_test()
 {
     bool expect = false;
 
-    QCOMPARE(cmd_line_parser_.log_image_loading(), expect);
+    QCOMPARE(cmd_line_parser_->log_image_loading(), expect);
 }
 
 void tst_CommandLineParser::process_args_test_data()
