@@ -24,6 +24,7 @@
 #include "gallery-application.h"
 #include "album/album.h"
 #include "album/album-page.h"
+#include "core/command-line-parser.h"
 #include "core/gallery-manager.h"
 #include "event/event.h"
 #include "media/media-collection.h"
@@ -46,7 +47,6 @@
  */
 GalleryApplication::GalleryApplication(int& argc, char** argv)
   : QApplication(argc, argv),
-    form_factor_("desktop"),
     view_(),
     monitor_(NULL)
 {
@@ -60,9 +60,15 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
   form_factors_.insert("phone", QSize(71, 40));
   form_factors_.insert("sidebar", QSize(71, 40));
 
+  cmd_line_parser_ = new CommandLineParser(form_factors_);
+  bool ok = cmd_line_parser_->process_args(arguments());
+  if (!ok)
+      QApplication::quit();
+
   register_qml();
 
-  GalleryManager::GetInstance();
+  GalleryManager::instance(applicationDirPath(), cmd_line_parser()->pictures_dir(),
+                           cmd_line_parser()->log_image_loading());
 }
 
 /*!
@@ -128,34 +134,36 @@ void GalleryApplication::create_view()
 {
   view_.setTitle("Gallery");
 
-  QSize size = form_factors_[form_factor_];
-  if (GalleryManager::GetInstance()->is_portrait())
+  QSize size = form_factors_[cmd_line_parser()->form_factor()];
+
+  if (cmd_line_parser_->is_portrait())
     size.transpose();
 
   view_.setResizeMode(QQuickView::SizeRootObjectToView);
-  if (form_factor_ == "desktop") {
+  if (cmd_line_parser()->form_factor() == "desktop") {
     view_.setMinimumSize(QSize(60 * bgu_size_, 60 * bgu_size_));
   }
   
   view_.engine()->rootContext()->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
   view_.engine()->rootContext()->setContextProperty("DEVICE_HEIGHT", QVariant(size.height()));
-  view_.engine()->rootContext()->setContextProperty("FORM_FACTOR", QVariant(form_factor_));
+  view_.engine()->rootContext()->setContextProperty("FORM_FACTOR", QVariant(cmd_line_parser()->form_factor()));
   
   // Set ourselves up to expose functionality to run external commands from QML...
   view_.engine()->rootContext()->setContextProperty("APP", this);
 
   view_.engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
-    GalleryManager::GetInstance()->gallery_standard_image_provider());
+                                   GalleryManager::instance()->gallery_standard_image_provider());
   view_.engine()->addImageProvider(GalleryThumbnailImageProvider::PROVIDER_ID,
-    GalleryManager::GetInstance()->gallery_thumbnail_image_provider());
-  view_.setSource(GalleryManager::GetInstance()->resource()->get_rc_url("qml/GalleryApplication.qml"));
+                                   GalleryManager::instance()->gallery_thumbnail_image_provider());
+
+  view_.setSource(GalleryManager::instance()->resource()->get_rc_url("qml/GalleryApplication.qml"));
   QObject::connect(view_.engine(), SIGNAL(quit()), this, SLOT(quit()));
 
   // Hook up our media_loaded signal to GalleryApplication's onLoaded function.
   QObject* rootObject = dynamic_cast<QObject*>(view_.rootObject());
   QObject::connect(this, SIGNAL(media_loaded()), rootObject, SLOT(onLoaded()));
 
-  if (GalleryManager::GetInstance()->is_fullscreen())
+  if (cmd_line_parser()->is_fullscreen())
     view_.showFullScreen();
   else
     view_.show();
@@ -166,17 +174,17 @@ void GalleryApplication::create_view()
  */
 void GalleryApplication::init_collections()
 {
-  GalleryManager::GetInstance()->post_init();
+  GalleryManager::instance()->post_init();
 
   emit media_loaded();
 
   // start the file monitor so that the collection contents will be updated as
   // new files arrive
-  monitor_ = new MediaMonitor(GalleryManager::GetInstance()->pictures_dir().path());
+  monitor_ = new MediaMonitor(cmd_line_parser()->pictures_dir().path());
   QObject::connect(monitor_, SIGNAL(media_item_added(QFileInfo)), this,
     SLOT(on_media_item_added(QFileInfo)));
 
-  if (GalleryManager::GetInstance()->startup_timer())
+  if (cmd_line_parser()->startup_timer())
     qDebug() << "Startup took" << timer_.elapsed() << "milliseconds";
 }
 
@@ -214,5 +222,5 @@ void GalleryApplication::on_media_item_added(QFileInfo item_info) {
   Photo* new_photo = Photo::Fetch(item_info);
   
   if (new_photo)
-    GalleryManager::GetInstance()->media_collection()->Add(new_photo);
+    GalleryManager::instance()->media_collection()->Add(new_photo);
 }

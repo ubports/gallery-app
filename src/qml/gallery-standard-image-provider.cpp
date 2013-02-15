@@ -45,9 +45,11 @@ const int SCALED_LOAD_FLOOR_DIM_PIXELS =
 /*!
  * \brief GalleryStandardImageProvider::GalleryStandardImageProvider
  */
-GalleryStandardImageProvider::GalleryStandardImageProvider()
+GalleryStandardImageProvider::GalleryStandardImageProvider(const bool log_image_loading)
   : QQuickImageProvider(QQuickImageProvider::Image),
-    cachedBytes_(0), maxLoadResolution_(INT_MAX)
+    cachedBytes_(0),
+    log_image_loading_(log_image_loading),
+    maxLoadResolution_(INT_MAX)
 {
 }
 
@@ -72,7 +74,7 @@ QUrl GalleryStandardImageProvider::ToURL(const QFileInfo& file)
 }
 
 #define LOG_IMAGE_STATUS(status) { \
-    if (GalleryManager::GetInstance()->log_image_loading()) \
+    if (log_image_loading_) \
     loggingStr += status; \
 }
 
@@ -93,7 +95,7 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
 
   QUrl url(id);
   QFileInfo photoFile(url.path());
-  GalleryManager::GetInstance()->preview_manager()->ensure_preview_for_media(photoFile);
+  GalleryManager::instance()->preview_manager()->ensure_preview_for_media(photoFile);
 
   CachedImage* cachedImage = claim_cached_image_entry(id, loggingStr);
   Q_ASSERT(cachedImage != NULL);
@@ -108,7 +110,7 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
   int currentCacheEntries = 0;
   release_cached_image_entry(cachedImage, bytesLoaded, &currentCachedBytes, &currentCacheEntries);
   
-  if (GalleryManager::GetInstance()->log_image_loading()) {
+  if (log_image_loading_) {
     if (bytesLoaded > 0) {
       qDebug("%s %s req:%dx%d ret:%dx%d cache:%ldb/%d loaded:%db time:%lldms", qPrintable(loggingStr),
              qPrintable(id), requestedSize.width(), requestedSize.height(), readyImage.width(),
@@ -413,7 +415,7 @@ QString GalleryStandardImageProvider::CachedImage::idToFile(const QString& id)
 
   if (value == "1")
   {
-    QFileInfo thumbnailFile = GalleryManager::GetInstance()->preview_manager()->PreviewFileFor(fileName);
+    QFileInfo thumbnailFile = GalleryManager::instance()->preview_manager()->PreviewFileFor(fileName);
     fileName = thumbnailFile.absoluteFilePath();
   }
 

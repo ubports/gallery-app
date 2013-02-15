@@ -88,7 +88,7 @@ QUrl MediaSource::gallery_path() const
  */
 QFileInfo MediaSource::preview_file() const
 {
-  return GalleryManager::GetInstance()->preview_manager()->PreviewFileFor(file_);
+  return GalleryManager::instance()->preview_manager()->PreviewFileFor(file_);
 }
 
 /*!
@@ -115,7 +115,7 @@ QUrl MediaSource::gallery_preview_path() const
  */
 QFileInfo MediaSource::thumbnail_file() const
 {
-  return GalleryManager::GetInstance()->preview_manager()->ThumbnailFileFor(file_);
+  return GalleryManager::instance()->preview_manager()->ThumbnailFileFor(file_);
 }
 
 /*!
@@ -238,7 +238,7 @@ int MediaSource::exposure_time_t() const
  */
 Event* MediaSource::FindEvent()
 {
-  return GalleryManager::GetInstance()->event_collection()->EventForMediaSource(this);
+  return GalleryManager::instance()->event_collection()->EventForMediaSource(this);
 }
 
 /*!
@@ -296,7 +296,7 @@ void MediaSource::set_busy(bool busy)
  */
 int MediaSource::maxSize() const
 {
-    return GalleryManager::GetInstance()->resource()->maxTextureSize();
+    return GalleryManager::instance()->resource()->maxTextureSize();
 }
 
 /*!
@@ -328,5 +328,5 @@ void MediaSource::notify_size_altered()
   emit size_altered();
 
   if (id_ != INVALID_ID)
-    GalleryManager::GetInstance()->database()->get_media_table()->set_media_size(id_, size_);
+    GalleryManager::instance()->database()->get_media_table()->set_media_size(id_, size_);
 }

@@ -68,12 +68,12 @@ QVariant QmlMediaCollectionModel::createAlbumFromSelected()
   if (view->SelectedCount() == 0)
     return QVariant();
   
-  Album* album = new Album(GalleryManager::GetInstance()->album_default_template());
+  Album* album = new Album(GalleryManager::instance()->album_default_template());
   
   // Attach only the MediaSources in the backing collection
   album->AttachMany(FilterSetOnlyType<DataObject*, MediaSource*>(view->GetSelected()));
   
-  GalleryManager::GetInstance()->album_collection()->Add(album);
+  GalleryManager::instance()->album_collection()->Add(album);
   
   return QVariant::fromValue(album);
 }
@@ -87,7 +87,7 @@ void QmlMediaCollectionModel::destroySelectedMedia()
   if (view->SelectedCount() == 0)
     return;
 
-  GalleryManager::GetInstance()->media_collection()->DestroyMany(
+  GalleryManager::instance()->media_collection()->DestroyMany(
     FilterSetOnlyType<DataObject*, MediaSource*>(view->GetSelected()),
     true, true);
 }
@@ -101,7 +101,7 @@ void QmlMediaCollectionModel::destroyMedia(QVariant vmedia)
   MediaSource* media = VariantToObject<MediaSource*>(vmedia);
 
   if (media != NULL)
-    GalleryManager::GetInstance()->media_collection()->Destroy(media, true, true);
+    GalleryManager::instance()->media_collection()->Destroy(media, true, true);
 }
 
 /*!
@@ -123,7 +123,7 @@ void QmlMediaCollectionModel::set_monitored(bool monitor)
     return;
   
   if (monitor)
-    MonitorSourceCollection(GalleryManager::GetInstance()->media_collection());
+    MonitorSourceCollection(GalleryManager::instance()->media_collection());
   else
     StopMonitoring();
   

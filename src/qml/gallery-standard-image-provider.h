@@ -62,7 +62,7 @@ class GalleryStandardImageProvider : public QObject, public QQuickImageProvider
 
   static const char* SIZE_KEY;
   
-  GalleryStandardImageProvider();
+  GalleryStandardImageProvider(const bool log_image_loading);
   virtual ~GalleryStandardImageProvider();
   
   static QUrl ToURL(const QFileInfo& file);
@@ -105,6 +105,7 @@ class GalleryStandardImageProvider : public QObject, public QQuickImageProvider
   QList<QString> fifo_;
   QMutex cacheMutex_;
   long cachedBytes_;
+  bool log_image_loading_;
   int maxLoadResolution_;
   
   static QSize orientSize(const QSize& size, Orientation orientation);

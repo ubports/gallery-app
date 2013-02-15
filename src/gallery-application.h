@@ -20,14 +20,16 @@
 #ifndef GALLERYAPPLICATION_H
 #define GALLERYAPPLICATION_H
 
+#include "media/media-monitor.h"
+
 #include <QApplication>
 #include <QQmlEngine>
 #include <QQuickView>
 #include <QElapsedTimer>
 #include <QFileInfo>
 
+class CommandLineParser;
 class GalleryManager;
-class MediaMonitor;
 
 /*!
  * \brief The GalleryApplication class
@@ -48,21 +50,22 @@ class GalleryApplication : public QApplication
 
   Q_INVOKABLE bool run_command(const QString &cmd, const QString &arg);
 
-  QHash<QString, QSize>* form_factors() { return &form_factors_; }
-  QString* form_factor() { return &form_factor_; }
+  QHash<QString, QSize>& form_factors() { return form_factors_; }
+
+  CommandLineParser* cmd_line_parser() { return cmd_line_parser_; }
 
  private:
   void register_qml();
-  void process_args();
   void create_view();
   void init_collections();
   
   QHash<QString, QSize> form_factors_;
-  QString form_factor_;
   int bgu_size_;
   QQuickView view_;
   QElapsedTimer timer_;
   MediaMonitor* monitor_;
+
+  CommandLineParser* cmd_line_parser_;
 
  private slots:
   void start_init_collections();

@@ -32,8 +32,8 @@
 QmlAlbumCollectionModel::QmlAlbumCollectionModel(QObject* parent)
     : QmlViewCollectionModel(parent, "album", NULL)
 {
-    MonitorSourceCollection(GalleryManager::GetInstance()->album_collection());
-    QObject::connect(GalleryManager::GetInstance()->album_collection(),
+    MonitorSourceCollection(GalleryManager::instance()->album_collection());
+    QObject::connect(GalleryManager::instance()->album_collection(),
         SIGNAL(album_current_page_contents_altered(Album*)),
         this, SLOT(on_album_current_page_contents_altered(Album*)));
 }
@@ -52,10 +52,10 @@ void QmlAlbumCollectionModel::RegisterType()
  */
 void QmlAlbumCollectionModel::createAlbum(QVariant vmedia)
 {
-  Album* album = new Album(GalleryManager::GetInstance()->album_default_template());
+  Album* album = new Album(GalleryManager::instance()->album_default_template());
   album->Attach(VariantToObject<MediaSource*>(vmedia));
 
-  GalleryManager::GetInstance()->album_collection()->Add(album);
+  GalleryManager::instance()->album_collection()->Add(album);
 }
 
 /*!
@@ -67,7 +67,7 @@ void QmlAlbumCollectionModel::destroyAlbum(QVariant valbum)
   Album* album = VariantToObject<Album*>(valbum);
 
   if (album != NULL)
-    GalleryManager::GetInstance()->album_collection()->Destroy(album, true, true);
+    GalleryManager::instance()->album_collection()->Destroy(album, true, true);
 }
 
 /*!
@@ -76,7 +76,7 @@ void QmlAlbumCollectionModel::destroyAlbum(QVariant valbum)
  */
 QVariant QmlAlbumCollectionModel::createOrphan()
 {
-  return QVariant::fromValue(new Album(GalleryManager::GetInstance()->album_default_template()));
+  return QVariant::fromValue(new Album(GalleryManager::instance()->album_default_template()));
 }
 
 /*!
@@ -102,7 +102,7 @@ void QmlAlbumCollectionModel::addOrphan(QVariant valbum)
   Album* album = VariantToObject<Album*>(valbum);
 
   if (album != NULL)
-    GalleryManager::GetInstance()->album_collection()->Add(album);
+    GalleryManager::instance()->album_collection()->Add(album);
 }
 
 /*!
