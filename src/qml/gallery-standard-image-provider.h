@@ -62,14 +62,15 @@ class GalleryStandardImageProvider : public QObject, public QQuickImageProvider
 
   static const char* SIZE_KEY;
   
+  GalleryStandardImageProvider();
   virtual ~GalleryStandardImageProvider();
   
   static QUrl ToURL(const QFileInfo& file);
-  
-  GalleryStandardImageProvider();
 
   virtual QImage requestImage(const QString& id, QSize* size,
     const QSize& requestedSize);
+
+  void setMaxLoadResolution(int resolution);
   
  private:
   class CachedImage {
@@ -104,6 +105,7 @@ class GalleryStandardImageProvider : public QObject, public QQuickImageProvider
   QList<QString> fifo_;
   QMutex cacheMutex_;
   long cachedBytes_;
+  int maxLoadResolution_;
   
   static QSize orientSize(const QSize& size, Orientation orientation);
   

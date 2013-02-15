@@ -65,6 +65,8 @@ GalleryManager::GalleryManager()
 
     resource_ = new Resource(GalleryApplication::instance()->applicationDirPath(), INSTALL_PREFIX);
     gallery_standard_image_provider_ = new GalleryStandardImageProvider();
+    const int maxTextureSize = resource_->maxTextureSize();
+    gallery_standard_image_provider_->setMaxLoadResolution(maxTextureSize);
     gallery_thumbnail_image_provider_ = new GalleryThumbnailImageProvider();
 }
 

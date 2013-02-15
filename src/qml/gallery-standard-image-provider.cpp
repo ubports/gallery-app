@@ -22,6 +22,7 @@
 #include <QSize>
 #include <QElapsedTimer>
 #include <QUrlQuery>
+#include <QDebug>
 
 #include "gallery-standard-image-provider.h"
 #include "media/preview-manager.h"
@@ -46,7 +47,7 @@ const int SCALED_LOAD_FLOOR_DIM_PIXELS =
  */
 GalleryStandardImageProvider::GalleryStandardImageProvider()
   : QQuickImageProvider(QQuickImageProvider::Image),
-  cachedBytes_(0)
+    cachedBytes_(0), maxLoadResolution_(INT_MAX)
 {
 }
 
@@ -124,6 +125,20 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
     *size = readyImage.size();
   
   return readyImage;
+}
+
+/*!
+ * \brief GalleryStandardImageProvider::setMaxLoadResolution sets the maximal size of the loaded
+ * images. Images loaded are limited to a max width/height, but keep their aspect ratio.
+ * Limiting the size is useful to not exceed the texture size limit of the GPU. Or to limit for
+ * performance reasons.
+ * Default is to have no limit (INT_MAX).
+ * \param resolution maxiaml length in pixel
+ */
+void GalleryStandardImageProvider::setMaxLoadResolution(int resolution)
+{
+    if (resolution > 0)
+        maxLoadResolution_ = resolution;
 }
 
 /*!
@@ -216,6 +231,10 @@ QImage GalleryStandardImageProvider::fetch_cached_image(CachedImage *cachedImage
         if (loadSize.width() > fullSize.width() || loadSize.height() > fullSize.height())
           loadSize = fullSize;
       }
+    }
+
+    if (loadSize.width() > maxLoadResolution_ || loadSize.height() > maxLoadResolution_) {
+        loadSize.scale(maxLoadResolution_, maxLoadResolution_, Qt::KeepAspectRatio);
     }
     
     if (loadSize != fullSize) {
