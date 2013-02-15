@@ -53,6 +53,8 @@ GalleryManager::GalleryManager(const QString& application_path_dir, const QDir& 
       preview_manager_(NULL),
       pictures_dir_(pictures_dir)
 {
+    const int maxTextureSize = resource_->maxTextureSize();
+    gallery_standard_image_provider_->setMaxLoadResolution(maxTextureSize);
 }
 
 void GalleryManager::post_init()

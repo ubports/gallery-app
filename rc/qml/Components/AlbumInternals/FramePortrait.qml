@@ -18,14 +18,46 @@
  */
 
 import QtQuick 2.0
-import ".."
+import "../../../js/Gallery.js" as Gallery
 
 /*!
+  Item to show a photo. It first loads very fast a preview of the photo. Afterwards a bigger version
+  is loaded (max. size of the screen). This way a blank screen is avoided.
+  If the isPreview property is true, only the preview is loaded.
+  All image loading is done asynchronous.
 */
-GalleryPhotoComponent {
-  id: framePortrait
- 
-  visible: Boolean(mediaSource)
-  ownerName: "FramePortrait"
-  isCropped: true
+Item {
+    id: root
+
+    /// Link to the media to be shown
+    property variant mediaSource
+    /// Limit the view to show the preview version only, if set to true
+    property bool isPreview: false
+    /// As long as this load property is false, the loading of the images is not triggered
+    property bool load: false
+
+    Image {
+        id: preview
+        anchors.fill: parent
+        asynchronous: true
+        visible: fullImage.opacity < 1
+        source: load && mediaSource ? mediaSource.galleryPreviewPath : ""
+        fillMode: fullImage.fillMode
+    }
+    Image {
+        id: fullImage
+        anchors.fill: parent
+        asynchronous: true
+        fillMode: Image.PreserveAspectCrop
+        source: (preview.status === Image.Ready && !isPreview) ? mediaSource.galleryPath : ""
+
+        property int maxSize: Math.max(width, height)
+        sourceSize.width: maxSize
+        sourceSize.height: maxSize
+
+        opacity: status === Image.Ready ? 1 : 0
+        Behavior on opacity {
+            NumberAnimation { duration: Gallery.SNAP_DURATION }
+        }
+    }
 }

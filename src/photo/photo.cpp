@@ -192,9 +192,9 @@ Photo::~Photo()
 }
 
 /*!
- * \brief Photo::Image
- * \param respect_orientation
- * \return
+ * \brief Photo::Image Returns the photo in full size.
+ * \param respect_orientation if set to true, the photo is rotated according to the EXIF information
+ * \return The image in full size
  */
 QImage Photo::Image(bool respect_orientation)
 {
