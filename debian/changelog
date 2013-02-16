@@ -1,3 +1,10 @@
+ubuntu-gallery (0.0.56) quantal; urgency=low
+
+  * Improve album page flipping performance (flickering etc.)
+  * Don't close on first/last album page flip
+
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Fri, 15 Jan 2013 21:01:25 +0100
+
 ubuntu-gallery (0.0.55) quantal; urgency=low
 
   * Show ActivityIndicator when loading thumbnails in event view
