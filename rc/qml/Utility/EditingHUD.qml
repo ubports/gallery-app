@@ -48,38 +48,76 @@ Item {
     signal colorBalanceActivated()
 
     Component.onCompleted: {
-        hudCtx.addAction(exposureAction);
-        hudCtx.addAction(colorBalanceAction);
-        hudCtx.addAction(autoAdjustAction);
+        hudCtx.addAction(deleteAction);
+        hudCtx.addAction(shareAction);
+        hudCtx.addAction(addAction);
+        hudCtx.addAction(undoAction);
+        hudCtx.addAction(redoAction);
+        hudCtx.addAction(autoEnhanceAction);
         hudCtx.addAction(rotateAction);
         hudCtx.addAction(cropAction);
+        hudCtx.addAction(revertAction);
+        hudCtx.addAction(exposureAction);
+        hudCtx.addAction(colorBalanceAction);
     }
 
     HUD.Action {
-        id: cropAction
-        label: "Crop"
-        description: "Crop the image"
-        onTriggered: cropper.show(photo)
+        id: deleteAction
+        label: "Delete"
+        keywords: "Trash;Erase"
     }
-
     HUD.Action {
-        id: autoAdjustAction
-        label: "Auto Adjust"
+        id: shareAction
+        label: "Share"
+        keywords: "Post;Upload;Attach"
+    }
+    HUD.Action {
+        id: addAction
+        label: "Add"
+        keywords: "Add Photo to Album"
+    }
+    HUD.Action {
+        id: undoAction
+        label: "Undo"
+        keywords: "Cancel Action;Backstep"
+    }
+    HUD.Action {
+        id: redoAction
+        label: "Redo"
+        keywords: "Reapply;Make Again"
+    }
+    HUD.Action {
+        id: autoEnhanceAction
+        label: "Auto Enhance"
         description: "Adjust the image automatically"
+        keywords: "Automatically Adjust Photo"
         onTriggered: photo.autoEnhance()
     }
-
     HUD.Action {
         id: rotateAction
         label: "Rotate"
+        keywords: "Turn Clockwise"
         description: "Rotate the image clockwise"
         onTriggered: photo.rotateRight()
     }
-
+    HUD.Action {
+        id: cropAction
+        label: "Crop"
+        keywords: "Trim;Cut"
+        description: "Crop the image"
+        onTriggered: cropper.show(photo)
+    }
+    HUD.Action {
+        id: revertAction
+        label: "Revert to Original"
+        keywords: "Discard Changes"
+        description: "Discard all changes"
+    }
     HUD.Action {
         id: exposureAction
         label: "Exposure"
         description: "Adjust the exposure"
+        keywords: "Underexposed;Overexposed"
         hasLivePreview: true
         commitLabel: "Confirm" // string to show in the confirm button
 
@@ -117,12 +155,11 @@ Item {
             photo.exposureCompensation(root.exposureValue)
         }
     }
-
-
     HUD.Action {
         id: colorBalanceAction
         label: "Color Balance"
         description: "Adjust color balance"
+        keywords: "Saturation;Hue"
         hasLivePreview: true
         commitLabel: "Confirm"
 
