@@ -21,6 +21,7 @@
 #define GALLERY_PHOTO_EDIT_STATE_H_
 
 #include <QRect>
+#include <QVector4D>
 
 #include "photo/photo-metadata.h"
 
@@ -42,6 +43,9 @@ public:
   QRect crop_rectangle_;
   bool is_enhanced_;
   qreal exposureCompensation_;
+  /// The color balance parameters are stored here in the order:
+  /// brightness (x), contrast(y), saturation(z), hue(w)
+  QVector4D colorBalance_;
 
   PhotoEditState() : orientation_(ORIGINAL_ORIENTATION), crop_rectangle_(),
       is_enhanced_(false), exposureCompensation_(0.0) {
@@ -49,7 +53,8 @@ public:
 
   bool is_original() const {
     return (orientation_ < MIN_ORIENTATION && !crop_rectangle_.isValid() &&
-            !is_enhanced_ && exposureCompensation_ == 0.0);
+            !is_enhanced_ && exposureCompensation_ == 0.0 &&
+            colorBalance_.isNull());
   }
 
   // Returns a new PhotoEditState the same as this one but rotated.  Needed
@@ -70,7 +75,8 @@ public:
     return (orientation_ == other.orientation_ &&
             crop_rectangle_ == other.crop_rectangle_ &&
             is_enhanced_ == other.is_enhanced_ &&
-            exposureCompensation_ == other.exposureCompensation_);
+            exposureCompensation_ == other.exposureCompensation_ &&
+            colorBalance_ == other.colorBalance_);
   }
   bool operator!=(const PhotoEditState& other) { return !(*this == other); }
 

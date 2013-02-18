@@ -236,7 +236,7 @@ Item {
 
         onTriggered: {
             root.actionActive = false
-            // FIXME trigger the color balance for the photo
+            photo.colorBalance(root.brightness, root.contrast, root.saturation, root.hue)
         }
     }
 }
