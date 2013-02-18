@@ -1,3 +1,10 @@
+ubuntu-gallery (0.0.57) quantal; urgency=low
+
+  * Change name in desktop file to suit dash on phablet. Fixes: https://bugs.launchpad.net/bugs/1126482
+  * Add HUD dummy Actions. Fixes: https://bugs.launchpad.net/bugs/1125656
+
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Mon, 18 Jan 2013 21:23:25 +0100
+
 ubuntu-gallery (0.0.56) quantal; urgency=low
 
   * Improve album page flipping performance (flickering etc.)
