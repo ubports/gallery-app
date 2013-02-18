@@ -161,6 +161,8 @@ class AutoEnhanceTransformation : public virtual HSVTransformation {
 /*!
  * \brief The ColorBalance class changes the colors in one go.
  * The brightnes, contrast saturation and hue value can be changed through one function.
+ *
+ * This implementation is a port of the one used in EditPreview.qml in the shader.
  */
 class ColorBalance
 {
