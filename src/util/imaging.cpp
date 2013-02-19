@@ -17,9 +17,9 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-#include <cmath>
 
 #include <QApplication>
+#include <qmath.h>
 
 #include "util/imaging.h"
 
@@ -370,8 +370,8 @@ bool AutoEnhanceTransformation::is_identity() const {
  */
 ColorBalance::ColorBalance(qreal brightness, qreal contrast, qreal saturation, qreal hue)
 {
-    qreal cos_h = cos(hue * (3.1415926 / 180.0));
-    qreal sin_h = sin(hue * (3.1415926 / 180.0));
+    qreal cos_h = qCos(hue * (M_PI / 180.0));
+    qreal sin_h = qSin(hue * (M_PI / 180.0));
     h1 = QVector4D(0.333333 * (1.0 - cos_h) + cos_h,
                    0.333333 * (1.0 - cos_h) + 0.57735 * sin_h,
                    0.333333 * (1.0 - cos_h) - 0.57735 * sin_h,
