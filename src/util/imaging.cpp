@@ -427,7 +427,7 @@ QColor ColorBalance::transform_pixel(const QColor &pixel_color) const
 }
 
 /*!
- * \brief ColorBalance::transformBrightnes transform the brightness
+ * \brief ColorBalance::transformBrightness transform the brightness
  * \param pixel the color in a 4D vector with (R, G, B, 1.0)
  * \return the brightness hue transformed color again as 4D vector
  */
