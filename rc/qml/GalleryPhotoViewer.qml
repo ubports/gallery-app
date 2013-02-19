@@ -199,13 +199,6 @@ Item {
       //onTriggered: chromeBar.setBarShown(!chromeBar.showChromeBar)
     }
 
-    ActivityIndicator {
-        id: busySpinner
-        anchors.centerIn: parent
-        visible: false
-        running: visible
-    }
-
     property ToolbarActions tools: ToolbarActions {
        Action {
             text: "Edit"
@@ -410,6 +403,13 @@ Item {
       contrast: editHUD.contrast
       saturation: editHUD.saturation
       hue: editHUD.hue
+  }
+
+  ActivityIndicator {
+      id: busySpinner
+      anchors.centerIn: parent
+      visible: false
+      running: visible
   }
 
   EditingHUD {
