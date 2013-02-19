@@ -172,7 +172,7 @@ public:
     QColor transform_pixel(const QColor& pixel_color) const;
 
 private:
-    QVector4D transformBrightnes(const QVector4D& pixel) const;
+    QVector4D transformBrightness(const QVector4D& pixel) const;
     QVector4D transformContrast(const QVector4D& pixel) const;
     QVector4D transformSaturation(const QVector4D& pixel) const;
     QVector4D transformHue(const QVector4D& pixel) const;

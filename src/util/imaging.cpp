@@ -418,7 +418,7 @@ QColor ColorBalance::transform_pixel(const QColor &pixel_color) const
     QVector4D pixel(pixel_color.red()/255.0, pixel_color.green()/255.0, pixel_color.blue()/255.0, 0.0);
     QVector4D tmp1 = transformHue(pixel);
     QVector4D tmp2 = transformSaturation(tmp1);
-    QVector4D tmp3 = transformBrightnes(tmp2);
+    QVector4D tmp3 = transformBrightness(tmp2);
     QVector4D result = transformContrast(tmp3);
     int red = qBound(0, (int)(result.x()*255), 255);
     int green = qBound(0, (int)(result.y()*255), 255);
@@ -431,7 +431,7 @@ QColor ColorBalance::transform_pixel(const QColor &pixel_color) const
  * \param pixel the color in a 4D vector with (R, G, B, 1.0)
  * \return the brightness hue transformed color again as 4D vector
  */
-QVector4D ColorBalance::transformBrightnes(const QVector4D &pixel) const
+QVector4D ColorBalance::transformBrightness(const QVector4D &pixel) const
 {
     return QVector4D(QVector4D::dotProduct(b1, pixel), QVector4D::dotProduct(b2, pixel),
                   QVector4D::dotProduct(b3, pixel), 1.0);
