@@ -1,3 +1,9 @@
+ubuntu-gallery (0.0.58) quantal; urgency=low
+
+  * Do the color balance transformation on the final image (LP: #1128571)
+
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Tue, 19 Jan 2013 22:12:25 +0100
+
 ubuntu-gallery (0.0.57) quantal; urgency=low
 
   * Change name in desktop file to suit dash on phablet. Fixes: https://bugs.launchpad.net/bugs/1126482
