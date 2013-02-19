@@ -39,15 +39,15 @@ void tst_Imaging::transform_pixel_data()
     QTest::addColumn<QColor>("result");
 
     QTest::newRow("Unchanged") <<
-        QColor(255, 0, 0) << 1.0 << 1.0 << 1.0 << 0.0 << QColor(255, 0, 0);
+        QColor(255, 0, 0) << (qreal)1.0 << (qreal)1.0 << (qreal)1.0 << (qreal)0.0 << QColor(255, 0, 0);
     QTest::newRow("Brightness0.5") <<
-        QColor(255, 128, 64) << 0.5 << 1.0 << 1.0 << 0.0 << QColor(127, 64, 32);
+        QColor(255, 128, 64) << (qreal)0.5 << (qreal)1.0 << (qreal)1.0 << (qreal)0.0 << QColor(127, 64, 32);
     QTest::newRow("Contrast0.5") <<
-        QColor(0, 255, 0) << 1.0 << 0.5 << 1.0 << 0.0 << QColor(63, 191, 63);
+        QColor(0, 255, 0) << (qreal)1.0 << (qreal)0.5 << (qreal)1.0 << (qreal)0.0 << QColor(63, 191, 63);
     QTest::newRow("Saturation0.5") <<
-        QColor(0, 0, 255) << 1.0 << 1.0 << 0.5 << 0.0 << QColor(10, 10, 137);
+        QColor(0, 0, 255) << (qreal)1.0 << (qreal)1.0 << (qreal)0.5 << (qreal)0.0 << QColor(10, 10, 137);
     QTest::newRow("Hue180") <<
-        QColor(255, 0, 0) << 1.0 << 1.0 << 1.0 << 180.0 << QColor(0, 169, 169);
+        QColor(255, 0, 0) << (qreal)1.0 << (qreal)1.0 << (qreal)1.0 << (qreal)180.0 << QColor(0, 169, 169);
 }
 
 void tst_Imaging::transform_pixel()
