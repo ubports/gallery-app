@@ -416,13 +416,13 @@ ColorBalance::ColorBalance(qreal brightness, qreal contrast, qreal saturation, q
 QColor ColorBalance::transform_pixel(const QColor &pixel_color) const
 {
     QVector4D pixel(pixel_color.red()/255.0, pixel_color.green()/255.0, pixel_color.blue()/255.0, 0.0);
-    QVector4D tmp1 = transformHue(pixel);
-    QVector4D tmp2 = transformSaturation(tmp1);
-    QVector4D tmp3 = transformBrightness(tmp2);
-    QVector4D result = transformContrast(tmp3);
-    int red = qBound(0, (int)(result.x()*255), 255);
-    int green = qBound(0, (int)(result.y()*255), 255);
-    int blue = qBound(0, (int)(result.z()*255), 255);
+    pixel = transformHue(pixel);
+    pixel = transformSaturation(pixel);
+    pixel = transformBrightness(pixel);
+    pixel = transformContrast(pixel);
+    int red = qBound(0, (int)(pixel.x()*255), 255);
+    int green = qBound(0, (int)(pixel.y()*255), 255);
+    int blue = qBound(0, (int)(pixel.z()*255), 255);
     return QColor(red, green, blue);
 }
 
