@@ -151,8 +151,8 @@ Item {
         }
 
         onTriggered: {
-            root.actionActive = false
             photo.exposureCompensation(root.exposureValue)
+            root.actionActive = false
         }
     }
     HUD.Action {
@@ -235,8 +235,8 @@ Item {
         onCancelled: root.actionActive = false
 
         onTriggered: {
+            photo.colorBalance(root.brightness, root.contrast, root.saturation, root.hue)
             root.actionActive = false
-            // FIXME trigger the color balance for the photo
         }
     }
 }

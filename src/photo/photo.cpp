@@ -391,6 +391,20 @@ void Photo::exposureCompensation(qreal value)
 }
 
 /*!
+ * \brief Photo::colorBalance adjusts the colors
+ * \param brightness 0 is total dark, 1 is as the original, grater than 1 is brigther
+ * \param contrast from 0 maybe 5. 1 is as the original
+ * \param saturation from 0 maybe 5. 1 is as the original
+ * \param hue from 0 to 360. 0 and 360 is as the original
+ */
+void Photo::colorBalance(qreal brightness, qreal contrast, qreal saturation, qreal hue)
+{
+    PhotoEditState next_state = current_state();
+    next_state.colorBalance_ = QVector4D(brightness, contrast, saturation, hue);
+    make_undoable_edit(next_state);
+}
+
+/*!
  * \brief Photo::prepareForCropping
  * Edits the image to original size so you can recrop it.  Returns crop
  * coords in [0,1].  Should be followed by either cancelCropping() or crop().
@@ -545,7 +559,7 @@ void Photo::make_undoable_edit(const PhotoEditState& state)
 void Photo::save(const PhotoEditState& state, Orientation old_orientation)
 {
   edit_file(state);
- GalleryManager::instance()->database()->get_photo_edit_table()->set_edit_state(get_id(), state);
+  GalleryManager::instance()->database()->get_photo_edit_table()->set_edit_state(get_id(), state);
 
   if (orientation() != old_orientation)
     emit orientation_altered();
@@ -666,6 +680,12 @@ void Photo::edit_file(const PhotoEditState& state)
       image = compensateExposure(image, state.exposureCompensation_);
   }
 
+  // exposure compensation
+  if (!state.colorBalance_.isNull()) {
+      const QVector4D &v = state.colorBalance_;
+      image = doColorBalance(image, v.x(), v.y(), v.z(), v.w());
+  }
+
   QSize new_size = image.size();
 
   // We need to apply the reverse transformation so that when we reload the
@@ -766,7 +786,35 @@ QImage Photo::compensateExposure(const QImage &image, qreal compansation)
     }
 
     set_busy(false);
+    return result;
+}
 
+/*!
+ * \brief Photo::colorBalance
+ * \param image
+ * \param brightness 0 is total dark, 1 is as the original, grater than 1 is brigther
+ * \param contrast from 0 maybe 5. 1 is as the original
+ * \param saturation from 0 maybe 5. 1 is as the original
+ * \param hue from 0 to 360. 0 and 360 is as the original
+ * \return
+ */
+QImage Photo::doColorBalance(const QImage &image, qreal brightness, qreal contrast, qreal saturation, qreal hue)
+{
+    set_busy(true);
+    QImage result(image.width(), image.height(), image.format());
+
+    ColorBalance cb(brightness, contrast, saturation, hue);
+
+    for (int j = 0; j < image.height(); j++) {
+        QApplication::processEvents();
+        for (int i = 0; i <image.width(); i++) {
+            QColor px = image.pixel(i, j);
+            QColor tpx = cb.transform_pixel(px);
+            result.setPixel(i, j, tpx.rgb());
+        }
+    }
+
+    set_busy(false);
     return result;
 }
 

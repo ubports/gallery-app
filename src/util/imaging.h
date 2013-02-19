@@ -20,8 +20,9 @@
 #ifndef GALLERY_UTIL_IMAGING_H_
 #define GALLERY_UTIL_IMAGING_H_
 
-#include <QImage>
 #include <QColor>
+#include <QImage>
+#include <QVector4D>
 
 /*!
  * \brief clampi
@@ -155,6 +156,39 @@ class AutoEnhanceTransformation : public virtual HSVTransformation {
  private:
   ShadowDetailTransformation* shadow_transform_;
   ToneExpansionTransformation* tone_expansion_transform_;
+};
+
+/*!
+ * \brief The ColorBalance class changes the colors in one go.
+ * The brightnes, contrast saturation and hue value can be changed through one function.
+ *
+ * This implementation is a port of the one used in EditPreview.qml in the shader.
+ */
+class ColorBalance
+{
+public:
+    ColorBalance(qreal brightness, qreal contrast, qreal saturation, qreal hue);
+
+    QColor transform_pixel(const QColor& pixel_color) const;
+
+private:
+    QVector4D transformBrightness(const QVector4D& pixel) const;
+    QVector4D transformContrast(const QVector4D& pixel) const;
+    QVector4D transformSaturation(const QVector4D& pixel) const;
+    QVector4D transformHue(const QVector4D& pixel) const;
+
+    QVector4D h1;
+    QVector4D h2;
+    QVector4D h3;
+    QVector4D s1;
+    QVector4D s2;
+    QVector4D s3;
+    QVector4D b1;
+    QVector4D b2;
+    QVector4D b3;
+    QVector4D c1;
+    QVector4D c2;
+    QVector4D c3;
 };
 
 #endif  // GALLERY_UTIL_IMAGING_H_
