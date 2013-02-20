@@ -1,3 +1,11 @@
+ubuntu-gallery (0.0.59) UNRELEASED; urgency=low
+
+  * Use Ubuntu.OnlineAccounts to create share list
+  * debian/control
+    - added a depends for qtdeclarative5-accounts-plugin
+
+ -- Ken VanDine <ken.vandine@canonical.com>  Wed, 20 Feb 2013 14:34:59 +0000
+
 ubuntu-gallery (0.0.58) quantal; urgency=low
 
   * Do the color balance transformation on the final image (LP: #1128571)
