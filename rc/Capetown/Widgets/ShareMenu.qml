@@ -67,9 +67,9 @@ Item {
                 onClicked: {
                     sharemenu.selected()
                     if (accts.provider.displayName == "Facebook") {
-                        shareFile.writeShareFile(shareMenu.picturePath);
+                        shareFile.writeShareFile(accountId, shareMenu.picturePath);
                         if (loader.status != Loader.Ready) console.log("Application launching not available on this platform");
-                        else loader.item.switchToShareApplication();
+                        else loader.item.switchToShareApplication(accountId);
                     } else {
                         console.log("Sharing to this service is not supported yet.")
                     }
