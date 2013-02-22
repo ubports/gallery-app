@@ -358,102 +358,6 @@ Item {
         onClicked: cropOverlay.cropButtonPressed()
     }
 
-    // Top-left corner.
-    CropCorner {
-      objectName: "topLeftCropCorner"
-      isLeft: true
-      isTop: true
-
-      onDragged: {
-        frame.resizedX(isLeft, dx);
-        frame.resizedY(isTop, dy);
-      }
-
-      onDragStarted: {
-        frame.dragStartRect = frame.getExtentRect();
-      }
-
-      onDragCompleted: {
-        if (!GraphicsRoutines.areEqual(frame.getExtentRect(),
-            frame.dragStartRect)) {
-          cropOverlay.userAlteredFrame();
-          cropOverlay.runFrameFitAnimation();
-        }
-      }
-    }
-
-    // Top-right corner.
-    CropCorner {
-      objectName: "topRightCropCorner"
-      isLeft: false
-      isTop: true
-
-      onDragged: {
-        frame.resizedX(isLeft, dx);
-        frame.resizedY(isTop, dy);
-      }
-
-      onDragStarted: {
-        frame.dragStartRect = frame.getExtentRect();
-      }
-
-      onDragCompleted: {
-        if (!GraphicsRoutines.areEqual(frame.getExtentRect(),
-            frame.dragStartRect)) {
-          cropOverlay.userAlteredFrame();
-          cropOverlay.runFrameFitAnimation();
-        }
-      }
-    }
-
-    // Bottom-left corner.
-    CropCorner {
-      objectName: "bottonLeftCropCorner"
-      isLeft: true
-      isTop: false
-
-      onDragged: {
-        frame.resizedX(isLeft, dx);
-        frame.resizedY(isTop, dy);
-      }
-
-      onDragStarted: {
-        frame.dragStartRect = frame.getExtentRect();
-      }
-
-      onDragCompleted: {
-        if (!GraphicsRoutines.areEqual(frame.getExtentRect(),
-            frame.dragStartRect)) {
-          cropOverlay.userAlteredFrame();
-          cropOverlay.runFrameFitAnimation();
-        }
-      }
-    }
-
-    // Bottom-right corner.
-    CropCorner {
-      objectName: "bottomRightCropCorner"
-      isLeft: false
-      isTop: false
-
-      onDragged: {
-        frame.resizedX(isLeft, dx);
-        frame.resizedY(isTop, dy);
-      }
-
-      onDragStarted: {
-        frame.dragStartRect = frame.getExtentRect();
-      }
-
-      onDragCompleted: {
-        if (!GraphicsRoutines.areEqual(frame.getExtentRect(),
-            frame.dragStartRect)) {
-          cropOverlay.userAlteredFrame();
-          cropOverlay.runFrameFitAnimation();
-        }
-      }
-    }
-
     // Left drag bar.
     CropDragArea {
       x: -units.gu(2)
@@ -535,6 +439,103 @@ Item {
 
       onDragged: {
         frame.resizedY(false, dy)
+      }
+
+      onDragStarted: {
+        frame.dragStartRect = frame.getExtentRect();
+      }
+
+      onDragCompleted: {
+        if (!GraphicsRoutines.areEqual(frame.getExtentRect(),
+            frame.dragStartRect)) {
+          cropOverlay.userAlteredFrame();
+          cropOverlay.runFrameFitAnimation();
+        }
+      }
+    }
+
+    // Top-left corner.
+    CropCorner {
+      objectName: "topLeftCropCorner"
+      isLeft: true
+      isTop: true
+
+      onDragged: {
+        frame.resizedX(isLeft, dx);
+        frame.resizedY(isTop, dy);
+      }
+
+      onDragStarted: {
+        frame.dragStartRect = frame.getExtentRect();
+      }
+
+      onDragCompleted: {
+        if (!GraphicsRoutines.areEqual(frame.getExtentRect(),
+            frame.dragStartRect)) {
+          cropOverlay.userAlteredFrame();
+          cropOverlay.runFrameFitAnimation();
+        }
+      }
+    }
+
+    // Top-right corner.
+    CropCorner {
+      objectName: "topRightCropCorner"
+      isLeft: false
+      isTop: true
+
+      onDragged: {
+        frame.resizedX(isLeft, dx);
+        frame.resizedY(isTop, dy);
+      }
+
+      onDragStarted: {
+        frame.dragStartRect = frame.getExtentRect();
+      }
+
+      onDragCompleted: {
+        if (!GraphicsRoutines.areEqual(frame.getExtentRect(),
+            frame.dragStartRect)) {
+          cropOverlay.userAlteredFrame();
+          cropOverlay.runFrameFitAnimation();
+        }
+      }
+    }
+
+    // Bottom-left corner.
+    CropCorner {
+      objectName: "bottonLeftCropCorner"
+      isLeft: true
+      isTop: false
+
+      onDragged: {
+        frame.resizedX(isLeft, dx);
+        frame.resizedY(isTop, dy);
+      }
+
+      onDragStarted: {
+        frame.dragStartRect = frame.getExtentRect();
+      }
+
+      onDragCompleted: {
+        if (!GraphicsRoutines.areEqual(frame.getExtentRect(),
+            frame.dragStartRect)) {
+          cropOverlay.userAlteredFrame();
+          cropOverlay.runFrameFitAnimation();
+        }
+      }
+    }
+
+    // Bottom-right corner.
+    CropCorner {
+        id: bottomRightCrop
+      objectName: "bottomRightCropCorner"
+      isLeft: false
+      isTop: false
+
+      onDragged: {
+        frame.resizedX(isLeft, dx);
+        frame.resizedY(isTop, dy);
       }
 
       onDragStarted: {
