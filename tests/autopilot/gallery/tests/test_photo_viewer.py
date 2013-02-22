@@ -186,96 +186,74 @@ class TestPhotoEditor(GalleryTestCase):
         revert_item = self.photo_viewer.get_revert_menu_item()
         self.click_item(revert_item)
 
-    #def test_photo_cropping_works(self):
-        #"""Cropping a photo must crop it."""
-        #crop_box = self.photo_viewer.get_crop_interactor()
+    def test_photo_editor_crop(self):
+        """Cropping a photo must crop it."""
+        crop_box = self.photo_viewer.get_crop_interactor()
+        item_width = crop_box.width
+        item_height = crop_box.height
 
-        #self.click_crop_item()
+        self.click_crop_item()
 
-        #self.assertThat(crop_box.state, Eventually(Equals("shown")))
+        self.assertThat(crop_box.state, Eventually(Equals("shown")))
 
-        #old_file_size = os.path.getsize(self.sample_file)
+        old_file_size = os.path.getsize(self.sample_file)
 
-        #crop_corner = self.photo_viewer.get_top_left_crop_corner()
+        crop_corner = self.photo_viewer.get_top_left_crop_corner()
 
-        #self.pointing_device.move_to_object(crop_corner)
+        self.pointing_device.move_to_object(crop_corner)
 
-        #x, y, h, w = crop_corner.globalRect
+        x, y, h, w = crop_corner.globalRect
 
-        #self.pointing_device.press()
-        #self.pointing_device.move(x + (w/2 + 400), y + (h/2 +300))
-        #self.pointing_device.release()
+        self.pointing_device.press()
+        self.pointing_device.move(x + (w/2 + item_width/2), y + (h/2 +item_height/2))
+        self.pointing_device.release()
 
-        #sleep(1)
+        sleep(1)
 
-        #crop_icon = self.photo_viewer.get_crop_overlays_crop_icon()
-        #self.pointing_device.move_to_object(crop_icon)
-        #self.pointing_device.click()
+        crop_button = self.photo_viewer.get_crop_overlays_crop_icon()
+        self.click_item(crop_button)
 
-        #new_file_size = os.path.getsize(self.sample_file)
+        sleep(0.5)
+        new_file_size = os.path.getsize(self.sample_file)
+        self.assertThat(old_file_size > new_file_size, Equals(True))
 
-        #self.assertThat(lambda: old_file_size > new_file_size, Eventually(Equals(True)))
+    def test_photo_editor_rotate(self):
+        """Makes sure that the photo editor inside the photo viewer works using the rotate function"""
+        opened_photo = self.photo_viewer.get_opened_photo()
+        item_height = opened_photo.height
 
-    #def test_photo_editor_case_1(self):
-        #"""Makes sure that the photo editor inside the photo viewer works"""
-        #opened_photo = self.photo_viewer.get_opened_photo()
+        is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
+        self.assertThat(is_landscape, Equals(True))
 
-        #if opened_photo.paintedHeight == 800:
-            #self.skipTest("Wrong photo height for this test")
+        self.click_rotate_item()
 
-        #self.click_rotate_item()
+        self.assertThat(opened_photo.paintedHeight, Eventually(Equals(item_height)))
+        is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
+        self.assertThat(is_landscape, Equals(False))
 
-        #self.assertThat(opened_photo.paintedHeight, Eventually(Equals(800)))
+        self.reveal_tool_bar()
+        self.click_edit_button()
+        self.click_undo_item()
 
-        #self.reveal_tool_bar()
-        #self.click_edit_button()
-        #self.click_undo_item()
+        self.assertThat(opened_photo.paintedHeight, Eventually(NotEquals(item_height)))
+        is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
+        self.assertThat(is_landscape, Equals(True))
 
-        #self.assertThat(opened_photo.paintedHeight, Eventually(NotEquals(800)))
+        self.reveal_tool_bar()
+        self.click_edit_button()
+        self.click_redo_item()
 
-        #self.reveal_tool_bar()
-        #self.click_edit_button()
-        #self.click_redo_item()
+        self.assertThat(opened_photo.paintedHeight, Eventually(Equals(item_height)))
+        is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
+        self.assertThat(is_landscape, Equals(False))
 
-        #self.assertThat(opened_photo.paintedHeight, Eventually(Equals(800)))
+        self.reveal_tool_bar()
+        self.click_edit_button()
+        self.click_rotate_item()
+        self.reveal_tool_bar()
+        self.click_edit_button()
+        self.click_revert_item()
 
-        #self.reveal_tool_bar()
-        #self.click_edit_button()
-        #self.click_rotate_item()
-        #self.reveal_tool_bar()
-        #self.click_edit_button()
-        #self.click_revert_item()
-
-        #self.assertThat(opened_photo.paintedHeight, Eventually(NotEquals(800)))
-
-    #def test_photo_editor_case_2(self):
-        #"""Makes sure that the photo editor inside the photo viewer works"""
-        #opened_photo = self.photo_viewer.get_opened_photo()
-
-        #if opened_photo.paintedHeight != 800:
-            #self.skipTest("Wrong photo height for this test")
-
-        #self.click_rotate_item()
-
-        #self.assertThat(opened_photo.paintedHeight, Eventually(NotEquals(800)))
-
-        #self.reveal_tool_bar()
-        #self.click_edit_button()
-        #self.click_undo_item()
-
-        #self.assertThat(opened_photo.paintedHeight, Eventually(Equals(800)))
-
-        #self.reveal_tool_bar()
-        #self.click_edit_button()
-        #self.click_redo_item()
-
-        #self.assertThat(opened_photo.paintedHeight, Eventually(NotEquals(800)))
-
-        #self.reveal_tool_bar()
-        #self.click_edit_button()
-        #self.click_rotate_item()
-        #self.reveal_tool_bar()
-        #self.click_edit_button()
-        #self.click_revert_item()
-
-        #self.assertThat(opened_photo.paintedHeight, Eventually(Equals(800)))
+        self.assertThat(opened_photo.paintedHeight, Eventually(NotEquals(item_height)))
+        is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
+        self.assertThat(is_landscape, Equals(True))
