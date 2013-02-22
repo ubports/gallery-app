@@ -28,7 +28,7 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
 
     sample_dir = "/tmp/ubuntu-gallery_ap"
     sample_file = sample_dir + "/sample.jpg"
-    installed_sample_file = "/usr/lib/python2.7/dist-packages/ubuntu-gallery/data/sample.jpg"
+    installed_sample_file = "/usr/lib/python2.7/dist-packages/gallery/data/sample.jpg"
     local_sample_file = "gallery/data/sample.jpg"
 
     def setUp(self):
