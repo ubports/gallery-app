@@ -13,10 +13,12 @@ import shutil
 
 from autopilot.introspection.qt import QtIntrospectionTestMixin
 from autopilot.testcase import AutopilotTestCase
+from testtools.matchers import Equals, NotEquals
+from autopilot.matchers import Eventually
 
+from gallery.emulators.album_editor import AlbumEditor
 from gallery.emulators.events_view import EventsView
 from gallery.emulators.photo_viewer import PhotoViewer
-from gallery.emulators.album_editor import AlbumEditor
 from gallery.emulators.photos_view import PhotosView
 
 
@@ -25,7 +27,7 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
     """A common test case class that provides several useful methods for gallery tests."""
 
     sample_dir = "/tmp/ubuntu-gallery_ap"
-    sample_file = "/tmp/ubuntu-gallery/sample.jpg"
+    sample_file = "/tmp/ubuntu-gallery_ap/sample.jpg"
     installed_sample_file = "/usr/lib/python2.7/dist-packages/ubuntu-gallery/data/sample.jpg"
     local_sample_file = "gallery/data/sample.jpg"
 
@@ -55,6 +57,17 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
         self.app = self.launch_test_application(
            "ubuntu-gallery", self.sample_dir
            )
+
+    def click_item(self, item):
+        """Does a mouse click on the passed item, and moved the mouse there before"""
+        self.events_view.click_item(item, self.pointing_device)
+
+    def reveal_tool_bar(self):
+        toolbar = self.events_view.get_tool_bar()
+        self.assertThat(toolbar.active, Eventually(Equals(False)))
+        x, y, w, h = toolbar.globalRect
+        self.pointing_device.drag(x+(w/2), y+h-2, x+(w/2), y-2*h)
+        self.assertThat(toolbar.active, Eventually(Equals(True)))
 
     @property
     def events_view(self):
