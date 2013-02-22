@@ -5,8 +5,9 @@
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
 
+from gallery_utils import GalleryUtils
 
-class PhotosView(object):
+class PhotosView(GalleryUtils):
 
     def __init__(self, app):
         self.app = app

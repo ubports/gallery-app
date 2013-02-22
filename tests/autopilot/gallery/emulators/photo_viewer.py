@@ -5,67 +5,42 @@
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
 
+from gallery_utils import GalleryUtils
 
-class PhotoViewer(object):
+class PhotoViewer(GalleryUtils):
 
     def __init__(self, app):
         self.app = app
-
-    def get_qml_view(self):
-        """Get the main QML view"""
-        return self.app.select_single("QQuickView")
-
-    def get_overview(self):
-        return self.app.select_single("Overview", objectName='overview')
 
     def get_first_image_in_photo_viewer(self):
         """Returns the first photo of the gallery."""
         return self.app.select_single("OrganicMediaList", objectName="eventViewPhoto0", visible=True)
 
-    def get_main_photo_viewer(self):
-        """Returns the PhotoViewer."""
-        return self.app.select_single("PhotoViewer", objectName="photoViewer")
-
     def get_crop_interactor(self):
         """Returns the crop interactor."""
         return self.app.select_single("CropInteractor", objectName="cropInteractor")
 
-    def get_viewer_chrome_toolbar_buttons(self):
-        """Returns the toolbar buttons."""
-        mpv = self.get_photo_viewer_chrome()
-        gst = mpv.get_children_by_type("QQuickMouseArea")[0].get_children_by_type("QQuickItem")[0]
-        return gst.get_children_by_type("QQuickColumn")[0].get_children_by_type("QQuickItem")[0]
-
-    def get_viewer_chrome_toolbar_edit_button(self):
-        """Returns the edit button of the photo viewer toolbar."""
-        return self.app.select_single("ChromeButton", objectName="edit", visible=True)
-
-    def get_photo_viewer_chrome(self):
-        return self.app.select_single("ChromeBar", objectName="photoViewerChrome")
-
-    def get_photo_viewer(self):
-        return self.app.select_single("PhotoViewer", objectName='photoViewer', currentIndex=0)
-
-    def get_viewer_chrome_back_button(self):
-        """Returns the photo viewer back button."""
-        return self.app.select_single("ChromeButton", objectName="backButton0", visible=True)
-
-    def get_viewer_chrome_trash_button(self):
-        """Returns the photo viewer trash button."""
-        return self.app.select_single("ChromeButton", objectName='delete', visible=True)
+    def get_viewer_chrome_toolbar_edit_button(self, tool_bar):
+        """Return the edit button of the toolbar when photo viewer is shown"""
+        item = tool_bar.get_children_by_type("QQuickItem")[0]
+        row = item.get_children_by_type("QQuickRow")[0]
+        return row.get_children_by_type("Button")[0]
 
     def get_viewer_chrome_album_button(self):
         """Returns the photo viewer album button."""
         return self.app.select_single("ChromeButton", objectName='disabled', visible=True)
 
-    def get_viewer_chrome_share_button(self):
-        """Returns the photo viewer share button."""
-        return self.app.select_single("ChromeButton", objectName='share', visible=True)
+    def get_delete_icon(self, tool_bar):
+        """Return the delete button of the toolbar when photo viewer is shown"""
+        item = tool_bar.get_children_by_type("QQuickItem")[0]
+        row = item.get_children_by_type("QQuickRow")[0]
+        return row.get_children_by_type("Button")[2]
 
-    def get_viewer_chrome_more_button(self):
-        """Returns the photo viewer 'more items' button."""
-        qqr = self.app.select_single("QQuickRow", objectName="viewerChromeButtons")
-        return qqr.get_children_by_type("ChromeButton")[2]
+    def get_viewer_chrome_share_button(self, tool_bar):
+        """Return the share button of the toolbar when photo viewer is shown"""
+        item = tool_bar.get_children_by_type("QQuickItem")[0]
+        row = item.get_children_by_type("QQuickRow")[0]
+        return row.get_children_by_type("Button")[3]
 
     def get_delete_dialog(self):
         """Returns the photo viewer delete dialog."""
@@ -124,6 +99,4 @@ class PhotoViewer(object):
 
     def get_crop_overlays_crop_icon(self):
         """Returns the crop icon of the crop overlay."""
-        return self.app.select_single("QQuickImage", objectName="centerCropIcon", visible=True)
-
-
+        return self.app.select_single("Button", objectName="centerCropIcon", visible=True)

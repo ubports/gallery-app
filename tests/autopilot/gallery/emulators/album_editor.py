@@ -5,20 +5,13 @@
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
 
+from gallery_utils import GalleryUtils
 
-class AlbumEditor(object):
+class AlbumEditor(GalleryUtils):
     """An emulator class that makes it easy to interact with the gallery app."""
 
     def __init__(self, app):
         self.app = app
-
-    def get_qml_view(self):
-        """Get the main QML view"""
-        return self.app.select_single("QQuickView")
-
-    def get_albums_tab(self):
-        """Returns the 'Albums' tab."""
-        return self.app.select_single("GalleryTab", objectName="toolbarAlbumsTab")
 
     def get_plus_icon(self):
         """Returns the 'plus' icon of the main view."""
