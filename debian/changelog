@@ -1,3 +1,9 @@
+ubuntu-gallery (0.0.59) UNRELEASED; urgency=low
+
+  * Add Homepage Field
+
+ -- Benjamin Kerensa <bkerensa@ubuntu.com>  Sun, 24 Feb 2013 04:44:46 -0800
+
 ubuntu-gallery (0.0.59) quantal; urgency=low
 
   * fix license in package
