@@ -137,14 +137,18 @@ MainView {
     property bool __isPhotoViewerOpen: photoViewerLoader.item && photoViewerLoader.item.isPoppedUp
     Loader {
         id: photoViewerLoader
+        objectName: "photoViewerLoader"
 
-        anchors.fill: parent
-        z: 100
+        /// is true, if the photoviewer is currently loaded
+        property bool loaded: photoViewerLoader.status === Loader.Ready
 
         function load() {
             if (!sourceComponent)
                 sourceComponent = photoViewerComponent;
         }
+
+        anchors.fill: parent
+        z: 100
 
         Component {
             id: photoViewerComponent

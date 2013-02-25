@@ -21,14 +21,17 @@ import shutil
 
 from time import sleep
 
-
-class TestPhotoViewer(GalleryTestCase):
-
+"""
+Class for common functionality of the phot viewing and photo editing
+"""
+class TestPhotoViewerBase(GalleryTestCase):
     def setUp(self):
-        super(TestPhotoViewer, self).setUp()
+        super(TestPhotoViewerBase, self).setUp()
         self.assertThat(self.photo_viewer.get_qml_view().visible, Eventually(Equals(True)))
 
         self.click_first_photo()
+        photo_viewer_loader = self.photo_viewer.get_main_photo_viewer_loader()
+        self.assertThat(photo_viewer_loader.loaded, Eventually(Equals(True)))
 
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
         self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
@@ -38,6 +41,12 @@ class TestPhotoViewer(GalleryTestCase):
     def click_first_photo(self):
         single_photo = self.photo_viewer.get_first_image_in_photo_viewer()
         self.click_item(single_photo)
+
+
+class TestPhotoViewer(TestPhotoViewerBase):
+
+    def setUp(self):
+        super(TestPhotoViewer, self).setUp()
 
     def test_nav_bar_back_button(self):
         """Clicking the back button must close the photo."""
@@ -139,27 +148,11 @@ class TestPhotoViewer(GalleryTestCase):
         self.assertThat(opened_photo.fullyUnzoomed, Eventually(Equals(True)))
 
 
-class TestPhotoEditor(GalleryTestCase):
+class TestPhotoEditor(TestPhotoViewerBase):
 
     def setUp(self):
         super(TestPhotoEditor, self).setUp()
-        self.assertThat(self.photo_viewer.get_qml_view().visible, Eventually(Equals(True)))
-
-        self.click_first_photo()
-
-        photo_viewer = self.photo_viewer.get_main_photo_viewer()
-        self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
-
-        self.reveal_tool_bar()
-        tool_bar = self.photo_viewer.get_tool_bar()
-
-        self.assertThat(tool_bar.active, Eventually(Equals(True)))
-
         self.click_edit_button()
-
-    def click_first_photo(self):
-        single_photo = self.photo_viewer.get_first_image_in_photo_viewer()
-        self.click_item(single_photo)
 
     def click_edit_button(self):
         tool_bar = self.photo_viewer.get_tool_bar()
