@@ -21,7 +21,8 @@
 
 #include "gallery-application.h"
 
-int main(int argc, char *argv[]) {
-  GalleryApplication app(argc, argv);
-  return app.exec();
+int main(int argc, char *argv[])
+{
+    GalleryApplication app(argc, argv);
+    return app.exec();
 }

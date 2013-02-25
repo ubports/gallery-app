@@ -34,8 +34,8 @@ QmlAlbumCollectionModel::QmlAlbumCollectionModel(QObject* parent)
 {
     MonitorSourceCollection(GalleryManager::instance()->album_collection());
     QObject::connect(GalleryManager::instance()->album_collection(),
-        SIGNAL(album_current_page_contents_altered(Album*)),
-        this, SLOT(on_album_current_page_contents_altered(Album*)));
+                     SIGNAL(album_current_page_contents_altered(Album*)),
+                     this, SLOT(on_album_current_page_contents_altered(Album*)));
 }
 
 /*!
@@ -43,7 +43,7 @@ QmlAlbumCollectionModel::QmlAlbumCollectionModel(QObject* parent)
  */
 void QmlAlbumCollectionModel::RegisterType()
 {
-  qmlRegisterType<QmlAlbumCollectionModel>("Gallery", 1, 0, "AlbumCollectionModel");
+    qmlRegisterType<QmlAlbumCollectionModel>("Gallery", 1, 0, "AlbumCollectionModel");
 }
 
 /*!
@@ -52,10 +52,10 @@ void QmlAlbumCollectionModel::RegisterType()
  */
 void QmlAlbumCollectionModel::createAlbum(QVariant vmedia)
 {
-  Album* album = new Album(GalleryManager::instance()->album_default_template());
-  album->Attach(VariantToObject<MediaSource*>(vmedia));
+    Album* album = new Album(GalleryManager::instance()->album_default_template());
+    album->Attach(VariantToObject<MediaSource*>(vmedia));
 
-  GalleryManager::instance()->album_collection()->Add(album);
+    GalleryManager::instance()->album_collection()->Add(album);
 }
 
 /*!
@@ -64,10 +64,10 @@ void QmlAlbumCollectionModel::createAlbum(QVariant vmedia)
  */
 void QmlAlbumCollectionModel::destroyAlbum(QVariant valbum)
 {
-  Album* album = VariantToObject<Album*>(valbum);
+    Album* album = VariantToObject<Album*>(valbum);
 
-  if (album != NULL)
-    GalleryManager::instance()->album_collection()->Destroy(album, true, true);
+    if (album != NULL)
+        GalleryManager::instance()->album_collection()->Destroy(album, true, true);
 }
 
 /*!
@@ -76,7 +76,7 @@ void QmlAlbumCollectionModel::destroyAlbum(QVariant valbum)
  */
 QVariant QmlAlbumCollectionModel::createOrphan()
 {
-  return QVariant::fromValue(new Album(GalleryManager::instance()->album_default_template()));
+    return QVariant::fromValue(new Album(GalleryManager::instance()->album_default_template()));
 }
 
 /*!
@@ -85,12 +85,12 @@ QVariant QmlAlbumCollectionModel::createOrphan()
  */
 void QmlAlbumCollectionModel::destroyOrphan(QVariant valbum)
 {
-  Album* album = VariantToObject<Album*>(valbum);
+    Album* album = VariantToObject<Album*>(valbum);
 
-  if (album != NULL) {
-    album->DestroyOrphan(true);
-    delete album;
-  }
+    if (album != NULL) {
+        album->DestroyOrphan(true);
+        delete album;
+    }
 }
 
 /*!
@@ -99,10 +99,10 @@ void QmlAlbumCollectionModel::destroyOrphan(QVariant valbum)
  */
 void QmlAlbumCollectionModel::addOrphan(QVariant valbum)
 {
-  Album* album = VariantToObject<Album*>(valbum);
+    Album* album = VariantToObject<Album*>(valbum);
 
-  if (album != NULL)
-    GalleryManager::instance()->album_collection()->Add(album);
+    if (album != NULL)
+        GalleryManager::instance()->album_collection()->Add(album);
 }
 
 /*!
@@ -112,9 +112,9 @@ void QmlAlbumCollectionModel::addOrphan(QVariant valbum)
  */
 QVariant QmlAlbumCollectionModel::VariantFor(DataObject* object) const
 {
-  Album* album = qobject_cast<Album*>(object);
+    Album* album = qobject_cast<Album*>(object);
 
-  return (album != NULL) ? QVariant::fromValue(album) : QVariant();
+    return (album != NULL) ? QVariant::fromValue(album) : QVariant();
 }
 
 /*!
@@ -124,7 +124,7 @@ QVariant QmlAlbumCollectionModel::VariantFor(DataObject* object) const
  */
 DataObject* QmlAlbumCollectionModel::FromVariant(QVariant var) const
 {
-  return UncheckedVariantToObject<Album*>(var);
+    return UncheckedVariantToObject<Album*>(var);
 }
 
 /*!
@@ -133,5 +133,5 @@ DataObject* QmlAlbumCollectionModel::FromVariant(QVariant var) const
  */
 void QmlAlbumCollectionModel::on_album_current_page_contents_altered(Album* album)
 {
-  NotifyElementAltered(BackingViewCollection()->IndexOf(album), SubclassRole);
+    NotifyElementAltered(BackingViewCollection()->IndexOf(album), SubclassRole);
 }

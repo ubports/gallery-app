@@ -53,36 +53,36 @@ class SourceCollection;
   */
 class DataSource : public DataObject
 {
-  Q_OBJECT
-  
- signals:
-  void destroying(bool destroying_backing, bool as_orphan);
-  void destroyed(bool destroyed_backing, bool as_orphan);
-  
- public:
-  DataSource(QObject * parent = 0);
-  
-  friend class SourceCollection;
-  
-  SourceCollection* member_of() const;
-  
-  virtual void DestroyOrphan(bool destroy_backing);
-  
- protected:
-  virtual void notify_destroying(bool destroying_backing, bool as_orphan);
-  virtual void notify_destroyed(bool destroyed_backing, bool as_orphan);
-  
-  virtual void Destroy(bool destroy_backing);
-  
-  /// DataSource subclasses need to implement this by performing clean-up
-  /// work prior to being removed from the system ... if destroy_backing is
-  /// true, the backing (file, database row, etc.) should be erased as well.
-  virtual void DestroySource(bool destroy_backing, bool as_orphan) = 0;
-  
- private:
-  SourceCollection *membership_;
-  
-  void set_membership(SourceCollection* collection);
+    Q_OBJECT
+
+signals:
+    void destroying(bool destroying_backing, bool as_orphan);
+    void destroyed(bool destroyed_backing, bool as_orphan);
+
+public:
+    DataSource(QObject * parent = 0);
+
+    friend class SourceCollection;
+
+    SourceCollection* member_of() const;
+
+    virtual void DestroyOrphan(bool destroy_backing);
+
+protected:
+    virtual void notify_destroying(bool destroying_backing, bool as_orphan);
+    virtual void notify_destroyed(bool destroyed_backing, bool as_orphan);
+
+    virtual void Destroy(bool destroy_backing);
+
+    /// DataSource subclasses need to implement this by performing clean-up
+    /// work prior to being removed from the system ... if destroy_backing is
+    /// true, the backing (file, database row, etc.) should be erased as well.
+    virtual void DestroySource(bool destroy_backing, bool as_orphan) = 0;
+
+private:
+    SourceCollection *membership_;
+
+    void set_membership(SourceCollection* collection);
 };
 
 #endif  // GALLERY_DATA_SOURCE_H_

@@ -32,29 +32,29 @@
  */
 class Event : public ContainerSource
 {
-  Q_OBJECT
-  Q_PROPERTY(QDate date READ date NOTIFY date_altered)
-  Q_PROPERTY(QDateTime startDateTime READ start_date_time NOTIFY date_altered)
-  Q_PROPERTY(QDateTime endDateTime READ end_date_time NOTIFY date_altered)
-  
- signals:
-  void date_altered();
-  
- public:
-  Event(QObject* parent = 0);
-  explicit Event(QObject* parent, const QDate &date);
-  
-  static void RegisterType();
-  
-  const QDate& date() const;
-  QDateTime start_date_time() const;
-  QDateTime end_date_time() const;
-  
- protected:
-  virtual void DestroySource(bool destroy_backing, bool as_orphan);
-  
- private:
-  QDate date_;
+    Q_OBJECT
+    Q_PROPERTY(QDate date READ date NOTIFY date_altered)
+    Q_PROPERTY(QDateTime startDateTime READ start_date_time NOTIFY date_altered)
+    Q_PROPERTY(QDateTime endDateTime READ end_date_time NOTIFY date_altered)
+
+signals:
+    void date_altered();
+
+public:
+    Event(QObject* parent = 0);
+    explicit Event(QObject* parent, const QDate &date);
+
+    static void RegisterType();
+
+    const QDate& date() const;
+    QDateTime start_date_time() const;
+    QDateTime end_date_time() const;
+
+protected:
+    virtual void DestroySource(bool destroy_backing, bool as_orphan);
+
+private:
+    QDate date_;
 };
 
 QML_DECLARE_TYPE(Event)

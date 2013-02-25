@@ -35,36 +35,36 @@ class MediaSource;
  */
 class PreviewManager : public QObject
 {
-  Q_OBJECT
-  
- public:
-  static const int PREVIEW_WIDTH_MAX;
-  static const int PREVIEW_HEIGHT_MAX;
-  static const int THUMBNAIL_SIZE;
-  static const int PREVIEW_QUALITY;
-  static const char* PREVIEW_FILE_FORMAT;
-  static const char* PREVIEW_FILE_EXT;
-  
-  static const QString PREVIEW_DIR;
+    Q_OBJECT
 
-  PreviewManager();
-  
-  QFileInfo PreviewFileFor(const QFileInfo& file) const;
-  QFileInfo ThumbnailFileFor(const QFileInfo& file) const;
+public:
+    static const int PREVIEW_WIDTH_MAX;
+    static const int PREVIEW_HEIGHT_MAX;
+    static const int THUMBNAIL_SIZE;
+    static const int PREVIEW_QUALITY;
+    static const char* PREVIEW_FILE_FORMAT;
+    static const char* PREVIEW_FILE_EXT;
 
-  bool ensure_preview_for_media(QFileInfo file, bool regen = false);
+    static const QString PREVIEW_DIR;
 
- private slots:
-  void on_media_added_removed(const QSet<DataObject*>* added,
-    const QSet<DataObject*>* removed);
-  void on_media_destroying(const QSet<DataObject*>* destroying);
-  void on_media_data_altered();
-  
- private:
-  void DestroyPreview(MediaSource* media);
-  QImage generate_Thumbnail(const QImage& master) const;
+    PreviewManager();
 
-  static QMutex createMutex_;
+    QFileInfo PreviewFileFor(const QFileInfo& file) const;
+    QFileInfo ThumbnailFileFor(const QFileInfo& file) const;
+
+    bool ensure_preview_for_media(QFileInfo file, bool regen = false);
+
+private slots:
+    void on_media_added_removed(const QSet<DataObject*>* added,
+                                const QSet<DataObject*>* removed);
+    void on_media_destroying(const QSet<DataObject*>* destroying);
+    void on_media_data_altered();
+
+private:
+    void DestroyPreview(MediaSource* media);
+    QImage generate_Thumbnail(const QImage& master) const;
+
+    static QMutex createMutex_;
 };
 
 #endif  // GALLERY_PREVIEW_MANAGER_H_

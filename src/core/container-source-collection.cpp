@@ -25,8 +25,8 @@
  * \param comparator
  */
 ContainerSourceCollection::ContainerSourceCollection(const QString& name,
-  DataObjectComparator comparator)
-  : SourceCollection(name)
+                                                     DataObjectComparator comparator)
+    : SourceCollection(name)
 {
-  SetComparator(comparator);
+    SetComparator(comparator);
 }

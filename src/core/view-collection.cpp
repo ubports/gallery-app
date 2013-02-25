@@ -24,7 +24,7 @@
  * \param name
  */
 ViewCollection::ViewCollection(const QString& name)
-  : DataCollection(name), monitoring_(NULL), monitor_filter_(NULL), monitor_ordering_(false)
+    : DataCollection(name), monitoring_(NULL), monitor_filter_(NULL), monitor_ordering_(false)
 {
 }
 
@@ -35,37 +35,37 @@ ViewCollection::ViewCollection(const QString& name)
  * \param monitor_ordering
  */
 void ViewCollection::MonitorDataCollection(const DataCollection* collection,
-  SourceFilter filter, bool monitor_ordering)
+                                           SourceFilter filter, bool monitor_ordering)
 {
-  Q_ASSERT(collection != NULL);
-  
-  // TODO: Allow for monitoring to be halted
-  Q_ASSERT(monitoring_ == NULL);
-  
-  monitoring_ = collection;
-  monitor_filter_ = filter;
-  monitor_ordering_ = monitor_ordering;
-  
-  // monitor DataCollection for added/removed DataObjects and add them to this
-  // ViewCollection according to the filter
-  QObject::connect(monitoring_,
-    SIGNAL(contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
-    this,
-    SLOT(on_monitored_contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
-  
-  // If monitoring the ordering, prime the local comparator with the monitored
-  // and make sure it's continually reflected
-  if (monitor_ordering_) {
-    SetComparator(monitoring_->comparator());
-    
-    QObject::connect(monitoring_, SIGNAL(ordering_altered()), this,
-      SLOT(on_monitored_ordering_altered()));
-  }
-  
-  // prime the local ViewCollection with what's already in the monitored
-  // DataCollection
-  QSet<DataObject*> all(collection->GetAsSet());
-  on_monitored_contents_altered(&all, NULL);
+    Q_ASSERT(collection != NULL);
+
+    // TODO: Allow for monitoring to be halted
+    Q_ASSERT(monitoring_ == NULL);
+
+    monitoring_ = collection;
+    monitor_filter_ = filter;
+    monitor_ordering_ = monitor_ordering;
+
+    // monitor DataCollection for added/removed DataObjects and add them to this
+    // ViewCollection according to the filter
+    QObject::connect(monitoring_,
+                     SIGNAL(contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
+                     this,
+                     SLOT(on_monitored_contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
+
+    // If monitoring the ordering, prime the local comparator with the monitored
+    // and make sure it's continually reflected
+    if (monitor_ordering_) {
+        SetComparator(monitoring_->comparator());
+
+        QObject::connect(monitoring_, SIGNAL(ordering_altered()), this,
+                         SLOT(on_monitored_ordering_altered()));
+    }
+
+    // prime the local ViewCollection with what's already in the monitored
+    // DataCollection
+    QSet<DataObject*> all(collection->GetAsSet());
+    on_monitored_contents_altered(&all, NULL);
 }
 
 /*!
@@ -74,7 +74,7 @@ void ViewCollection::MonitorDataCollection(const DataCollection* collection,
  */
 bool ViewCollection::IsMonitoring() const
 {
-  return monitoring_ != NULL;
+    return monitoring_ != NULL;
 }
 
 /*!
@@ -82,11 +82,11 @@ bool ViewCollection::IsMonitoring() const
  */
 void ViewCollection::notify_ordering_altered()
 {
-  if (monitor_ordering_)
-    qWarning("ViewCollection monitoring a DataCollection's ordering changed "
-      "its own comparator: this is unstable");
-  
-  DataCollection::notify_ordering_altered();
+    if (monitor_ordering_)
+        qWarning("ViewCollection monitoring a DataCollection's ordering changed "
+                 "its own comparator: this is unstable");
+
+    DataCollection::notify_ordering_altered();
 }
 
 /*!
@@ -95,26 +95,26 @@ void ViewCollection::notify_ordering_altered()
  * \param removed
  */
 void ViewCollection::on_monitored_contents_altered(const QSet<DataObject*>* added,
-  const QSet<DataObject*>* removed)
+                                                   const QSet<DataObject*>* removed)
 {
-  if (added != NULL) {
-    // if no filter, add everything, otherwise run everything through the filter
-    if (monitor_filter_ == NULL) {
-      AddMany(*added);
-    } else {
-      QSet<DataObject*> to_add;
-      DataObject* object;
-      foreach (object, *added) {
-        if (monitor_filter_(object))
-          to_add.insert(object);
-      }
-      
-      AddMany(to_add);
+    if (added != NULL) {
+        // if no filter, add everything, otherwise run everything through the filter
+        if (monitor_filter_ == NULL) {
+            AddMany(*added);
+        } else {
+            QSet<DataObject*> to_add;
+            DataObject* object;
+            foreach (object, *added) {
+                if (monitor_filter_(object))
+                    to_add.insert(object);
+            }
+
+            AddMany(to_add);
+        }
     }
-  }
-  
-  if (removed != NULL)
-    RemoveMany(*removed);
+
+    if (removed != NULL)
+        RemoveMany(*removed);
 }
 
 /*!
@@ -122,7 +122,7 @@ void ViewCollection::on_monitored_contents_altered(const QSet<DataObject*>* adde
  */
 void ViewCollection::on_monitored_ordering_altered()
 {
-  // simply re-sort the local collection with the monitored collection's new
-  // comparator
-  SetComparator(monitoring_->comparator());
+    // simply re-sort the local collection with the monitored collection's new
+    // comparator
+    SetComparator(monitoring_->comparator());
 }

@@ -35,31 +35,31 @@ class Photo;
  */
 class MediaCollection : public SourceCollection
 {
-  Q_OBJECT
-  
+    Q_OBJECT
+
 public:
-  MediaCollection(const QDir& directory);
-  
-  static bool ExposureDateTimeAscendingComparator(DataObject* a, DataObject* b);
-  static bool ExposureDateTimeDescendingComparator(DataObject* a, DataObject* b);
-  
-  const QDir& directory() const;
-  
-  MediaSource* mediaForId(qint64 id);
+    MediaCollection(const QDir& directory);
 
-  Photo* photoFromFileinfo(QFileInfo file_to_load);
-  
+    static bool ExposureDateTimeAscendingComparator(DataObject* a, DataObject* b);
+    static bool ExposureDateTimeDescendingComparator(DataObject* a, DataObject* b);
+
+    const QDir& directory() const;
+
+    MediaSource* mediaForId(qint64 id);
+
+    Photo* photoFromFileinfo(QFileInfo file_to_load);
+
 protected slots:
-  virtual void notify_contents_altered(const QSet<DataObject*>* added,
-    const QSet<DataObject*>* removed);
-  
-private:
-  // Used by photoFromFileinfo() to prevent ourselves from accidentally
-  // seeing a duplicate photo after an edit.
-  QHash<QString, Photo*> file_photo_map_;
+    virtual void notify_contents_altered(const QSet<DataObject*>* added,
+                                         const QSet<DataObject*>* removed);
 
-  QDir directory_;
-  QHash<qint64, DataObject*> id_map_;
+private:
+    // Used by photoFromFileinfo() to prevent ourselves from accidentally
+    // seeing a duplicate photo after an edit.
+    QHash<QString, Photo*> file_photo_map_;
+
+    QDir directory_;
+    QHash<qint64, DataObject*> id_map_;
 };
 
 #endif  // GALLERY_MEDIA_COLLECTION_H_

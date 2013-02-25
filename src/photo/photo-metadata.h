@@ -30,16 +30,16 @@
 #include <exiv2/exiv2.hpp>
 
 enum Orientation {
-  MIN_ORIENTATION = 1,
-  TOP_LEFT_ORIGIN = 1,
-  TOP_RIGHT_ORIGIN = 2,
-  BOTTOM_RIGHT_ORIGIN = 3,
-  BOTTOM_LEFT_ORIGIN = 4,
-  LEFT_TOP_ORIGIN = 5,
-  RIGHT_TOP_ORIGIN = 6,
-  RIGHT_BOTTOM_ORIGIN = 7,
-  LEFT_BOTTOM_ORIGIN = 8,
-  MAX_ORIENTATION = 8
+    MIN_ORIENTATION = 1,
+    TOP_LEFT_ORIGIN = 1,
+    TOP_RIGHT_ORIGIN = 2,
+    BOTTOM_RIGHT_ORIGIN = 3,
+    BOTTOM_LEFT_ORIGIN = 4,
+    LEFT_TOP_ORIGIN = 5,
+    RIGHT_TOP_ORIGIN = 6,
+    RIGHT_BOTTOM_ORIGIN = 7,
+    LEFT_BOTTOM_ORIGIN = 8,
+    MAX_ORIENTATION = 8
 };
 
 /*!
@@ -47,22 +47,22 @@ enum Orientation {
  */
 class OrientationCorrection
 {
- public:
-  static OrientationCorrection FromOrientation(Orientation o);
-  static OrientationCorrection Identity();
+public:
+    static OrientationCorrection FromOrientation(Orientation o);
+    static OrientationCorrection Identity();
 
-  const double rotation_angle_;
-  const double horizontal_scale_factor_;
+    const double rotation_angle_;
+    const double horizontal_scale_factor_;
 
-  QTransform to_transform() const;
+    QTransform to_transform() const;
 
-  bool is_flipped_from(const OrientationCorrection& other) const;
-  int get_normalized_rotation_difference(const OrientationCorrection& other) const;
+    bool is_flipped_from(const OrientationCorrection& other) const;
+    int get_normalized_rotation_difference(const OrientationCorrection& other) const;
 
- private:
-  OrientationCorrection(double rotation_angle, double horizontal_scale_factor)
-    : rotation_angle_(rotation_angle),
-      horizontal_scale_factor_(horizontal_scale_factor) { }
+private:
+    OrientationCorrection(double rotation_angle, double horizontal_scale_factor)
+        : rotation_angle_(rotation_angle),
+          horizontal_scale_factor_(horizontal_scale_factor) { }
 };
 
 /*!
@@ -70,29 +70,29 @@ class OrientationCorrection
  */
 class PhotoMetadata : public QObject
 {
-  Q_OBJECT
-  
- public:
-  static PhotoMetadata* FromFile(const char* filepath);
-  static PhotoMetadata* FromFile(const QFileInfo& file);
-  
-  static Orientation rotate_orientation(Orientation orientation, bool left);
-    
-  QDateTime exposure_time() const;
-  Orientation orientation() const;
-  QTransform orientation_transform() const;
-  OrientationCorrection orientation_correction() const;
+    Q_OBJECT
 
-  void set_orientation(Orientation orientation);
+public:
+    static PhotoMetadata* FromFile(const char* filepath);
+    static PhotoMetadata* FromFile(const QFileInfo& file);
 
-  bool save() const;
-  
- private:
-  PhotoMetadata(const char* filepath);
+    static Orientation rotate_orientation(Orientation orientation, bool left);
     
-  Exiv2::Image::AutoPtr image_;
-  QSet<QString> keys_present_;
-  QFileInfo file_source_info_;
+    QDateTime exposure_time() const;
+    Orientation orientation() const;
+    QTransform orientation_transform() const;
+    OrientationCorrection orientation_correction() const;
+
+    void set_orientation(Orientation orientation);
+
+    bool save() const;
+
+private:
+    PhotoMetadata(const char* filepath);
+    
+    Exiv2::Image::AutoPtr image_;
+    QSet<QString> keys_present_;
+    QFileInfo file_source_info_;
 };
 
 #endif // GALLERY_PHOTO_METADATA_H_

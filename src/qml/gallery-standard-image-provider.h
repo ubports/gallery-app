@@ -51,75 +51,75 @@
  */
 class GalleryStandardImageProvider : public QObject, public QQuickImageProvider
 {
-  Q_OBJECT
-  
- public:
-  static const char* PROVIDER_ID;
-  static const char* PROVIDER_ID_SCHEME;
-  
-  static const char* REVISION_PARAM_NAME;
-  static const char* ORIENTATION_PARAM_NAME;
+    Q_OBJECT
 
-  static const char* SIZE_KEY;
-  
-  GalleryStandardImageProvider(const bool log_image_loading);
-  virtual ~GalleryStandardImageProvider();
-  
-  static QUrl ToURL(const QFileInfo& file);
+public:
+    static const char* PROVIDER_ID;
+    static const char* PROVIDER_ID_SCHEME;
 
-  virtual QImage requestImage(const QString& id, QSize* size,
-    const QSize& requestedSize);
+    static const char* REVISION_PARAM_NAME;
+    static const char* ORIENTATION_PARAM_NAME;
 
-  void setMaxLoadResolution(int resolution);
-  
- private:
-  class CachedImage {
-   public:
-    const QString id_;
-    const QUrl uri_;
-    const QString file_;
-    QMutex imageMutex_;
-    
-    // these fields should only be accessed when imageMutex_ is locked
-    bool hasOrientation_;
-    QImage image_;
-    QSize fullSize_;
-    Orientation orientation_;
-    
-    // the following should only be accessed when cacheMutex_ is locked; the
-    // counter controls removing a CachedImage entry from the cache table
-    int inUseCount_;
-    uint byteCount_;
-    
-    CachedImage(const QString& id);
-    
-    static QString idToFile(const QString& id);
-    
-    void storeImage(const QImage& image, const QSize& fullSize, Orientation orientation);
-    bool isFullSized() const;
-    bool isReady() const;
-    bool isCacheHit(const QSize& requestedSize) const;
-  };
-  
-  QMap<QString, CachedImage*> cache_;
-  QList<QString> fifo_;
-  QMutex cacheMutex_;
-  long cachedBytes_;
-  bool log_image_loading_;
-  int maxLoadResolution_;
-  
-  static QSize orientSize(const QSize& size, Orientation orientation);
-  
-  CachedImage* claim_cached_image_entry(const QString& id, QString& loggingStr);
-  
-  QImage fetch_cached_image(CachedImage* cachedImage, const QSize& requestedSize,
-    uint* bytesLoaded, QString& loggingStr);
-  
-  void release_cached_image_entry(CachedImage* cachedImage, uint bytesLoaded,
-  long* currentCachedBytes, int* currentCacheEntries);
+    static const char* SIZE_KEY;
 
-  //Allow our test access to private variables.
-  friend class tst_GalleryStandardImageProvider;
+    GalleryStandardImageProvider(const bool log_image_loading);
+    virtual ~GalleryStandardImageProvider();
+
+    static QUrl ToURL(const QFileInfo& file);
+
+    virtual QImage requestImage(const QString& id, QSize* size,
+                                const QSize& requestedSize);
+
+    void setMaxLoadResolution(int resolution);
+
+private:
+    class CachedImage {
+    public:
+        const QString id_;
+        const QUrl uri_;
+        const QString file_;
+        QMutex imageMutex_;
+
+        // these fields should only be accessed when imageMutex_ is locked
+        bool hasOrientation_;
+        QImage image_;
+        QSize fullSize_;
+        Orientation orientation_;
+
+        // the following should only be accessed when cacheMutex_ is locked; the
+        // counter controls removing a CachedImage entry from the cache table
+        int inUseCount_;
+        uint byteCount_;
+
+        CachedImage(const QString& id);
+
+        static QString idToFile(const QString& id);
+
+        void storeImage(const QImage& image, const QSize& fullSize, Orientation orientation);
+        bool isFullSized() const;
+        bool isReady() const;
+        bool isCacheHit(const QSize& requestedSize) const;
+    };
+
+    QMap<QString, CachedImage*> cache_;
+    QList<QString> fifo_;
+    QMutex cacheMutex_;
+    long cachedBytes_;
+    bool log_image_loading_;
+    int maxLoadResolution_;
+
+    static QSize orientSize(const QSize& size, Orientation orientation);
+
+    CachedImage* claim_cached_image_entry(const QString& id, QString& loggingStr);
+
+    QImage fetch_cached_image(CachedImage* cachedImage, const QSize& requestedSize,
+                              uint* bytesLoaded, QString& loggingStr);
+
+    void release_cached_image_entry(CachedImage* cachedImage, uint bytesLoaded,
+                                    long* currentCachedBytes, int* currentCacheEntries);
+
+    //Allow our test access to private variables.
+    friend class tst_GalleryStandardImageProvider;
 };
 
 #endif // GALLERY_GALLERY_STANDARD_IMAGE_PROVIDER_H_

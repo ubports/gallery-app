@@ -35,10 +35,10 @@
   */
 class ContainerSourceCollection : public SourceCollection
 {
-  Q_OBJECT
-  
+    Q_OBJECT
+
 public:
-  ContainerSourceCollection(const QString& name, DataObjectComparator comparator);
+    ContainerSourceCollection(const QString& name, DataObjectComparator comparator);
 };
 
 #endif  // GALLERY_CONTAINER_SOURCE_COLLECTION_H_

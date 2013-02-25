@@ -35,7 +35,7 @@
  * \param parent
  */
 QmlMediaCollectionModel::QmlMediaCollectionModel(QObject* parent)
-  : QmlViewCollectionModel(parent, "mediaSource", NULL)
+    : QmlViewCollectionModel(parent, "mediaSource", NULL)
 {
 }
 
@@ -45,8 +45,8 @@ QmlMediaCollectionModel::QmlMediaCollectionModel(QObject* parent)
  * \param default_comparator
  */
 QmlMediaCollectionModel::QmlMediaCollectionModel(QObject* parent,
-  DataObjectComparator default_comparator)
-  : QmlViewCollectionModel(parent, "mediaSource", default_comparator)
+                                                 DataObjectComparator default_comparator)
+    : QmlViewCollectionModel(parent, "mediaSource", default_comparator)
 {
 }
 
@@ -55,7 +55,7 @@ QmlMediaCollectionModel::QmlMediaCollectionModel(QObject* parent,
  */
 void QmlMediaCollectionModel::RegisterType()
 {
-  qmlRegisterType<QmlMediaCollectionModel>("Gallery", 1, 0, "MediaCollectionModel");
+    qmlRegisterType<QmlMediaCollectionModel>("Gallery", 1, 0, "MediaCollectionModel");
 }
 
 /*!
@@ -64,18 +64,18 @@ void QmlMediaCollectionModel::RegisterType()
  */
 QVariant QmlMediaCollectionModel::createAlbumFromSelected()
 {
-  SelectableViewCollection* view = BackingViewCollection();
-  if (view->SelectedCount() == 0)
-    return QVariant();
-  
-  Album* album = new Album(GalleryManager::instance()->album_default_template());
-  
-  // Attach only the MediaSources in the backing collection
-  album->AttachMany(FilterSetOnlyType<DataObject*, MediaSource*>(view->GetSelected()));
-  
-  GalleryManager::instance()->album_collection()->Add(album);
-  
-  return QVariant::fromValue(album);
+    SelectableViewCollection* view = BackingViewCollection();
+    if (view->SelectedCount() == 0)
+        return QVariant();
+
+    Album* album = new Album(GalleryManager::instance()->album_default_template());
+
+    // Attach only the MediaSources in the backing collection
+    album->AttachMany(FilterSetOnlyType<DataObject*, MediaSource*>(view->GetSelected()));
+
+    GalleryManager::instance()->album_collection()->Add(album);
+
+    return QVariant::fromValue(album);
 }
 
 /*!
@@ -83,13 +83,13 @@ QVariant QmlMediaCollectionModel::createAlbumFromSelected()
  */
 void QmlMediaCollectionModel::destroySelectedMedia()
 {
-  SelectableViewCollection* view = BackingViewCollection();
-  if (view->SelectedCount() == 0)
-    return;
+    SelectableViewCollection* view = BackingViewCollection();
+    if (view->SelectedCount() == 0)
+        return;
 
-  GalleryManager::instance()->media_collection()->DestroyMany(
-    FilterSetOnlyType<DataObject*, MediaSource*>(view->GetSelected()),
-    true, true);
+    GalleryManager::instance()->media_collection()->DestroyMany(
+                FilterSetOnlyType<DataObject*, MediaSource*>(view->GetSelected()),
+                true, true);
 }
 
 /*!
@@ -98,10 +98,10 @@ void QmlMediaCollectionModel::destroySelectedMedia()
  */
 void QmlMediaCollectionModel::destroyMedia(QVariant vmedia)
 {
-  MediaSource* media = VariantToObject<MediaSource*>(vmedia);
+    MediaSource* media = VariantToObject<MediaSource*>(vmedia);
 
-  if (media != NULL)
-    GalleryManager::instance()->media_collection()->Destroy(media, true, true);
+    if (media != NULL)
+        GalleryManager::instance()->media_collection()->Destroy(media, true, true);
 }
 
 /*!
@@ -110,7 +110,7 @@ void QmlMediaCollectionModel::destroyMedia(QVariant vmedia)
  */
 bool QmlMediaCollectionModel::monitored() const
 {
-  return IsMonitoring();
+    return IsMonitoring();
 }
 
 /*!
@@ -119,15 +119,15 @@ bool QmlMediaCollectionModel::monitored() const
  */
 void QmlMediaCollectionModel::set_monitored(bool monitor)
 {
-  if (IsMonitoring() == monitor)
-    return;
-  
-  if (monitor)
-    MonitorSourceCollection(GalleryManager::instance()->media_collection());
-  else
-    StopMonitoring();
-  
-  monitoring_changed();
+    if (IsMonitoring() == monitor)
+        return;
+
+    if (monitor)
+        MonitorSourceCollection(GalleryManager::instance()->media_collection());
+    else
+        StopMonitoring();
+
+    monitoring_changed();
 }
 
 /*!
@@ -137,9 +137,9 @@ void QmlMediaCollectionModel::set_monitored(bool monitor)
  */
 QVariant QmlMediaCollectionModel::VariantFor(DataObject* object) const
 {
-  MediaSource* media_source = qobject_cast<MediaSource*>(object);
-  
-  return (media_source != NULL) ? QVariant::fromValue(media_source) : QVariant();
+    MediaSource* media_source = qobject_cast<MediaSource*>(object);
+
+    return (media_source != NULL) ? QVariant::fromValue(media_source) : QVariant();
 }
 
 /*!
@@ -149,5 +149,5 @@ QVariant QmlMediaCollectionModel::VariantFor(DataObject* object) const
  */
 DataObject* QmlMediaCollectionModel::FromVariant(QVariant var) const
 {
-  return UncheckedVariantToObject<MediaSource*>(var);
+    return UncheckedVariantToObject<MediaSource*>(var);
 }

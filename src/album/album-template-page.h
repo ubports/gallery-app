@@ -26,9 +26,9 @@
 #include <QString>
 
 enum PageOrientation {
-  PORTRAIT,
-  LANDSCAPE,
-  SQUARE
+    PORTRAIT,
+    LANDSCAPE,
+    SQUARE
 };
 
 /*!
@@ -36,25 +36,25 @@ enum PageOrientation {
  */
 class AlbumTemplatePage : public QObject
 {
-  Q_OBJECT
-  
- public:
-  AlbumTemplatePage(const char* name, const char* qml_rc, bool is_left,
-                    int frame_count, ...);
-  
-  const QString& name() const;
-  const QString& qml_rc() const;
-  bool is_left() const;
-  
-  int FrameCount() const;
-  int FramesFor(PageOrientation orientation) const;
-  const QList<PageOrientation>& Layout() const;
-  
- private:
-  QString name_;
-  QString qml_rc_;
-  bool is_left_;
-  QList<PageOrientation> layout_;
+    Q_OBJECT
+
+public:
+    AlbumTemplatePage(const char* name, const char* qml_rc, bool is_left,
+                      int frame_count, ...);
+
+    const QString& name() const;
+    const QString& qml_rc() const;
+    bool is_left() const;
+
+    int FrameCount() const;
+    int FramesFor(PageOrientation orientation) const;
+    const QList<PageOrientation>& Layout() const;
+
+private:
+    QString name_;
+    QString qml_rc_;
+    bool is_left_;
+    QList<PageOrientation> layout_;
 };
 
 #endif  // GALLERY_ALBUM_TEMPLATE_PAGE_H_

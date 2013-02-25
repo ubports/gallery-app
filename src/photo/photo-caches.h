@@ -34,43 +34,43 @@
  */
 class PhotoCaches
 {
- public:
-  static const QString ORIGINAL_DIR;
-  static const QString ENHANCED_DIR;
+public:
+    static const QString ORIGINAL_DIR;
+    static const QString ENHANCED_DIR;
 
-  PhotoCaches(const QFileInfo& file);
+    PhotoCaches(const QFileInfo& file);
 
-  bool has_cached_original() const;
-  bool has_cached_enhanced() const;
+    bool has_cached_original() const;
+    bool has_cached_enhanced() const;
 
-  const QFileInfo& original_file() const;
-  const QFileInfo& enhanced_file() const;
+    const QFileInfo& original_file() const;
+    const QFileInfo& enhanced_file() const;
 
-  const QFileInfo& pristine_file() const;
+    const QFileInfo& pristine_file() const;
 
-  bool cache_original();
-  bool restore_original();
-  bool cache_enhanced_from_original();
-  bool overwrite_from_cache(bool prefer_enhanced);
+    bool cache_original();
+    bool restore_original();
+    bool cache_enhanced_from_original();
+    bool overwrite_from_cache(bool prefer_enhanced);
 
-  void discard_cached_original();
-  void discard_cached_enhanced();
-  void discard_all();
+    void discard_cached_original();
+    void discard_cached_enhanced();
+    void discard_all();
 
- private:
-  static bool remove(const QFileInfo& file) {
-    return QFile::remove(file.filePath());
-  }
-  static bool rename(const QFileInfo& oldName, const QFileInfo& newName) {
-    return QFile::rename(oldName.filePath(), newName.filePath());
-  }
-  static bool copy(const QFileInfo& oldName, const QFileInfo& newName) {
-    return QFile::copy(oldName.filePath(), newName.filePath());
-  }
+private:
+    static bool remove(const QFileInfo& file) {
+        return QFile::remove(file.filePath());
+    }
+    static bool rename(const QFileInfo& oldName, const QFileInfo& newName) {
+        return QFile::rename(oldName.filePath(), newName.filePath());
+    }
+    static bool copy(const QFileInfo& oldName, const QFileInfo& newName) {
+        return QFile::copy(oldName.filePath(), newName.filePath());
+    }
 
-  QFileInfo file_;
-  QFileInfo original_file_;
-  QFileInfo enhanced_file_;
+    QFileInfo file_;
+    QFileInfo original_file_;
+    QFileInfo enhanced_file_;
 };
 
 #endif

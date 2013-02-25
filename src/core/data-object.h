@@ -42,17 +42,17 @@ typedef int DataObjectNumber;
   */
 class DataObject : public QObject
 {
-  Q_OBJECT
-  
- public:
-  DataObject(QObject * parent = 0);
-  
-  DataObjectNumber number() const;
-  
- private:
-  static DataObjectNumber next_number_;
-  
-  DataObjectNumber number_;
+    Q_OBJECT
+
+public:
+    DataObject(QObject * parent = 0);
+
+    DataObjectNumber number() const;
+
+private:
+    static DataObjectNumber next_number_;
+
+    DataObjectNumber number_;
 };
 
 #endif  // GALLERY_DATA_OBJECT_H_

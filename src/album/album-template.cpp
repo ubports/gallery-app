@@ -24,7 +24,7 @@
  * \param name
  */
 AlbumTemplate::AlbumTemplate(const char* name)
-  : name_(name)
+    : name_(name)
 {
 }
 
@@ -34,7 +34,7 @@ AlbumTemplate::AlbumTemplate(const char* name)
  */
 int AlbumTemplate::page_count() const
 {
-  return pages_.count();
+    return pages_.count();
 }
 
 /*!
@@ -43,7 +43,7 @@ int AlbumTemplate::page_count() const
  */
 const QList<AlbumTemplatePage*>& AlbumTemplate::pages() const
 {
-  return pages_;
+    return pages_;
 }
 
 /*!
@@ -54,5 +54,5 @@ const QList<AlbumTemplatePage*>& AlbumTemplate::pages() const
  */
 void AlbumTemplate::AddPage(AlbumTemplatePage* page)
 {
-  pages_.append(page);
+    pages_.append(page);
 }

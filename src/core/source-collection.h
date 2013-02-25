@@ -35,29 +35,29 @@ class DataSource;
   */
 class SourceCollection : public DataCollection
 {
-  Q_OBJECT
-  
- signals:
-  // Fired before the objects are destroyed and removed from the SourceCollection
-  void destroying(const QSet<DataObject*>* objects);
-  
- public:
-  SourceCollection(const QString& name);
-  
-  void DestroyAll(bool destroy_backing, bool delete_objects);
-  void DestroyMany(const QSet<DataObject*>& objects, bool destroy_backing,
-    bool delete_objects);
-  void Destroy(DataSource* object, bool destroy_backing, bool delete_object);
-  
- protected:
-  virtual void notify_destroying(const QSet<DataObject*>* objects);
-  
-  virtual void notify_contents_altered(const QSet<DataObject*>* added,
-    const QSet<DataObject*>* removed);
+    Q_OBJECT
 
- private:
-  void DestroyObjects(const QSet<DataObject*>& objects, bool destroy_backing,
-    bool delete_objects);
+signals:
+    // Fired before the objects are destroyed and removed from the SourceCollection
+    void destroying(const QSet<DataObject*>* objects);
+
+public:
+    SourceCollection(const QString& name);
+
+    void DestroyAll(bool destroy_backing, bool delete_objects);
+    void DestroyMany(const QSet<DataObject*>& objects, bool destroy_backing,
+                     bool delete_objects);
+    void Destroy(DataSource* object, bool destroy_backing, bool delete_object);
+
+protected:
+    virtual void notify_destroying(const QSet<DataObject*>* objects);
+
+    virtual void notify_contents_altered(const QSet<DataObject*>* added,
+                                         const QSet<DataObject*>* removed);
+
+private:
+    void DestroyObjects(const QSet<DataObject*>& objects, bool destroy_backing,
+                        bool delete_objects);
 };
 
 #endif  // GALLERY_SOURCE_COLLECTION_H_

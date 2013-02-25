@@ -37,41 +37,41 @@ const QString Database::DATABASE_DIR = ".database";
 Database::Database(const QDir& pictures_dir, QObject* parent) :
     QObject(parent)
 {
-  QDir db_dir(pictures_dir);
-  db_dir.mkdir(DATABASE_DIR);
-  db_dir.cd(DATABASE_DIR);
-  db_dir_ = db_dir;
+    QDir db_dir(pictures_dir);
+    db_dir.mkdir(DATABASE_DIR);
+    db_dir.cd(DATABASE_DIR);
+    db_dir_ = db_dir;
 
-  album_table_ = new AlbumTable(this, this);
-  media_table_ = new MediaTable(this, this);
-  photo_edit_table_ = new PhotoEditTable(this, this);
-  
-  // Open the database.
-  if (!open_db())
-    restore_from_backup();
-  
-  // Attempt a query to make sure the DB is valid.
-  QSqlQuery test_query(db_);
-  if (!test_query.exec("SELECT * FROM SQLITE_MASTER LIMIT 1")) {
-    log_sql_error(test_query);
-    restore_from_backup();
-  }
-  
-  QSqlQuery query(db_);
-  // Turn synchronous off.
-  if (!query.exec("PRAGMA synchronous = OFF")) {
-    log_sql_error(query);
-    return;
-  }
-  
-  // Enable foreign keys.
-  if (!query.exec("PRAGMA foreign_keys = ON")) {
-    log_sql_error(query);
-    return;
-  }
-  
-  // Update if needed.
-  upgrade_schema(get_schema_version());
+    album_table_ = new AlbumTable(this, this);
+    media_table_ = new MediaTable(this, this);
+    photo_edit_table_ = new PhotoEditTable(this, this);
+
+    // Open the database.
+    if (!open_db())
+        restore_from_backup();
+
+    // Attempt a query to make sure the DB is valid.
+    QSqlQuery test_query(db_);
+    if (!test_query.exec("SELECT * FROM SQLITE_MASTER LIMIT 1")) {
+        log_sql_error(test_query);
+        restore_from_backup();
+    }
+
+    QSqlQuery query(db_);
+    // Turn synchronous off.
+    if (!query.exec("PRAGMA synchronous = OFF")) {
+        log_sql_error(query);
+        return;
+    }
+
+    // Enable foreign keys.
+    if (!query.exec("PRAGMA foreign_keys = ON")) {
+        log_sql_error(query);
+        return;
+    }
+
+    // Update if needed.
+    upgrade_schema(get_schema_version());
 }
 
 /*!
@@ -79,11 +79,11 @@ Database::Database(const QDir& pictures_dir, QObject* parent) :
  */
 Database::~Database()
 {
-  delete album_table_;
-  delete media_table_;
-  delete photo_edit_table_;
-  
-  create_backup();
+    delete album_table_;
+    delete media_table_;
+    delete photo_edit_table_;
+
+    create_backup();
 }
 
 /*!
@@ -92,8 +92,8 @@ Database::~Database()
  */
 void Database::log_sql_error(QSqlQuery& q) const
 {
-  qDebug() << "SQLite error: " << q.lastError();
-  qDebug() << "SQLite string: " << q.lastQuery();
+    qDebug() << "SQLite error: " << q.lastError();
+    qDebug() << "SQLite string: " << q.lastQuery();
 }
 
 /*!
@@ -102,14 +102,14 @@ void Database::log_sql_error(QSqlQuery& q) const
  */
 bool Database::open_db()
 {
-  db_ = QSqlDatabase::addDatabase("QSQLITE");
-  db_.setDatabaseName(get_db_name());
-  if (!db_.open()) {
-    qDebug() << "Error opening DB: " << db_.lastError().text();
-    return false;
-  }
-  
-  return true;
+    db_ = QSqlDatabase::addDatabase("QSQLITE");
+    db_.setDatabaseName(get_db_name());
+    if (!db_.open()) {
+        qDebug() << "Error opening DB: " << db_.lastError().text();
+        return false;
+    }
+
+    return true;
 }
 
 /*!
@@ -118,13 +118,13 @@ bool Database::open_db()
  */
 int Database::get_schema_version() const
 {
-  QSqlQuery query(db_);
-  if (!query.exec("PRAGMA user_version") || !query.next()) {
-    log_sql_error(query);
-    return -1;
-  }
-  
-  return query.value(0).toInt();
+    QSqlQuery query(db_);
+    if (!query.exec("PRAGMA user_version") || !query.next()) {
+        log_sql_error(query);
+        return -1;
+    }
+
+    return query.value(0).toInt();
 }
 
 /*!
@@ -133,11 +133,11 @@ int Database::get_schema_version() const
  */
 void Database::set_schema_version(int version)
 {
-  // Must use string concats here since prepared statements
-  // appear not to work with PRAGMAs.
-  QSqlQuery query(db_);
-  if (!query.exec("PRAGMA user_version = " + QString::number(version)))
-    log_sql_error(query);
+    // Must use string concats here since prepared statements
+    // appear not to work with PRAGMAs.
+    QSqlQuery query(db_);
+    if (!query.exec("PRAGMA user_version = " + QString::number(version)))
+        log_sql_error(query);
 }
 
 /*!
@@ -146,20 +146,20 @@ void Database::set_schema_version(int version)
  */
 void Database::upgrade_schema(int current_version)
 {
-  int version = current_version + 1;
-  for (;; version++) {
-    // Check for the existence of an updated db file.
-    // Filename format is n.sql, where n is the schema version number.
-    QFile file(get_sql_dir().path() + "/" + QString::number(version) + ".sql");
-    if (!file.exists())
-      return;
-    
-    if (!execute_sql_file(file))
-      return;
-    
-    // Update version.
-    set_schema_version(version);
-  }
+    int version = current_version + 1;
+    for (;; version++) {
+        // Check for the existence of an updated db file.
+        // Filename format is n.sql, where n is the schema version number.
+        QFile file(get_sql_dir().path() + "/" + QString::number(version) + ".sql");
+        if (!file.exists())
+            return;
+
+        if (!execute_sql_file(file))
+            return;
+
+        // Update version.
+        set_schema_version(version);
+    }
 }
 
 /*!
@@ -169,35 +169,35 @@ void Database::upgrade_schema(int current_version)
  */
 bool Database::execute_sql_file(QFile& file)
 {
-  if (!file.open(QIODevice::ReadOnly)) {
-    qDebug() << "Could not open file: " << file.fileName();
-    return false;
-  }
-  
-  // Read entire file into a string.
-  QString sql;
-  QTextStream in(&file);
-  while (!in.atEnd())
-    sql += in.readLine() + "\n";
-  file.close();
-  
-  // Split string at semi-colons to break into multiple statements.
-  // This is due to the SQLite driver's inability to handle multiple
-  // statements in a single string.
-  QStringList statements = sql.split(";", QString::SkipEmptyParts);
-  foreach (QString statement, statements) {
-    if (statement.trimmed() == "")
-      continue;
-    
-    // Execute each statement.
-    QSqlQuery query(db_);
-    if (!query.exec(statement)) {
-      qDebug() << "Error executing database file: " << file.fileName();
-      log_sql_error(query);
+    if (!file.open(QIODevice::ReadOnly)) {
+        qDebug() << "Could not open file: " << file.fileName();
+        return false;
     }
-  }
-  
-  return true;
+
+    // Read entire file into a string.
+    QString sql;
+    QTextStream in(&file);
+    while (!in.atEnd())
+        sql += in.readLine() + "\n";
+    file.close();
+
+    // Split string at semi-colons to break into multiple statements.
+    // This is due to the SQLite driver's inability to handle multiple
+    // statements in a single string.
+    QStringList statements = sql.split(";", QString::SkipEmptyParts);
+    foreach (QString statement, statements) {
+        if (statement.trimmed() == "")
+            continue;
+
+        // Execute each statement.
+        QSqlQuery query(db_);
+        if (!query.exec(statement)) {
+            qDebug() << "Error executing database file: " << file.fileName();
+            log_sql_error(query);
+        }
+    }
+
+    return true;
 }
 
 /*!
@@ -206,7 +206,7 @@ bool Database::execute_sql_file(QFile& file)
  */
 AlbumTable* Database::get_album_table() const
 {
-  return album_table_;
+    return album_table_;
 }
 
 /*!
@@ -215,7 +215,7 @@ AlbumTable* Database::get_album_table() const
  */
 MediaTable* Database::get_media_table() const
 {
-  return media_table_;
+    return media_table_;
 }
 
 /*!
@@ -224,7 +224,7 @@ MediaTable* Database::get_media_table() const
  */
 PhotoEditTable* Database::get_photo_edit_table() const
 {
-  return photo_edit_table_;
+    return photo_edit_table_;
 }
 
 /*!
@@ -233,7 +233,7 @@ PhotoEditTable* Database::get_photo_edit_table() const
  */
 QSqlDatabase* Database::get_db()
 {
-  return &db_;
+    return &db_;
 }
 
 /*!
@@ -242,7 +242,7 @@ QSqlDatabase* Database::get_db()
  */
 QDir Database::get_sql_dir()
 {
-  return QDir(GalleryManager::instance()->resource()->get_rc_url("sql").path());
+    return QDir(GalleryManager::instance()->resource()->get_rc_url("sql").path());
 }
 
 /*!
@@ -250,21 +250,21 @@ QDir Database::get_sql_dir()
  */
 void Database::restore_from_backup()
 {
-  db_.close();
-  
-  // Remove existing DB.
-  QFile bad_db(get_db_name());
-  if (!bad_db.remove())
-    qDebug() << "Could not remove old file.";
-  
-  // Copy the backup, if it exists.
-  QFile file(get_db_backup_name());
-  if (file.exists()) {
-    qDebug() << "Restoring database from backup.";
-    file.copy(get_db_name());
-  }
-  
-  open_db();
+    db_.close();
+
+    // Remove existing DB.
+    QFile bad_db(get_db_name());
+    if (!bad_db.remove())
+        qDebug() << "Could not remove old file.";
+
+    // Copy the backup, if it exists.
+    QFile file(get_db_backup_name());
+    if (file.exists()) {
+        qDebug() << "Restoring database from backup.";
+        file.copy(get_db_name());
+    }
+
+    open_db();
 }
 
 /*!
@@ -272,11 +272,11 @@ void Database::restore_from_backup()
  */
 void Database::create_backup()
 {
-  QFile old_backup(get_db_backup_name());
-  if (!old_backup.remove())
-    qDebug() << "Could not remove existing backup.";
-  
-  // Copy the database to the backup.
-  QFile file(get_db_name());
-  file.copy(get_db_backup_name());
+    QFile old_backup(get_db_backup_name());
+    if (!old_backup.remove())
+        qDebug() << "Could not remove existing backup.";
+
+    // Copy the database to the backup.
+    QFile file(get_db_name());
+    file.copy(get_db_backup_name());
 }

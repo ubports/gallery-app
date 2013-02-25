@@ -25,7 +25,7 @@
  * \param parent
  */
 DataSource::DataSource(QObject * parent)
-  : DataObject(parent), membership_(NULL)
+    : DataObject(parent), membership_(NULL)
 {
 }
 
@@ -40,10 +40,10 @@ DataSource::DataSource(QObject * parent)
  */
 void DataSource::Destroy(bool destroy_backing)
 {
-  // notify subscribers of imminent doom, destroy, then notify of carnage wreaked
-  notify_destroying(destroy_backing, false);
-  DestroySource(destroy_backing, false);
-  notify_destroyed(destroy_backing, false);
+    // notify subscribers of imminent doom, destroy, then notify of carnage wreaked
+    notify_destroying(destroy_backing, false);
+    DestroySource(destroy_backing, false);
+    notify_destroyed(destroy_backing, false);
 }
 
 /*!
@@ -57,10 +57,10 @@ void DataSource::Destroy(bool destroy_backing)
  */
 void DataSource::DestroyOrphan(bool destroy_backing)
 {
-  // like Destroy(), notify before and after destruction
-  notify_destroying(destroy_backing, true);
-  DestroySource(destroy_backing, true);
-  notify_destroyed(destroy_backing, true);
+    // like Destroy(), notify before and after destruction
+    notify_destroying(destroy_backing, true);
+    DestroySource(destroy_backing, true);
+    notify_destroyed(destroy_backing, true);
 }
 
 /*!
@@ -70,7 +70,7 @@ void DataSource::DestroyOrphan(bool destroy_backing)
  */
 void DataSource::notify_destroying(bool destroying_backing, bool as_orphan)
 {
-  emit destroying(destroying_backing, as_orphan);
+    emit destroying(destroying_backing, as_orphan);
 }
 
 /*!
@@ -80,7 +80,7 @@ void DataSource::notify_destroying(bool destroying_backing, bool as_orphan)
  */
 void DataSource::notify_destroyed(bool destroyed_backing, bool as_orphan)
 {
-  emit destroyed(destroyed_backing, as_orphan);
+    emit destroyed(destroyed_backing, as_orphan);
 }
 
 /*!
@@ -89,7 +89,7 @@ void DataSource::notify_destroyed(bool destroyed_backing, bool as_orphan)
  */
 SourceCollection* DataSource::member_of() const
 {
-  return membership_;
+    return membership_;
 }
 
 /*!
@@ -101,9 +101,9 @@ SourceCollection* DataSource::member_of() const
  */
 void DataSource::set_membership(SourceCollection* collection)
 {
-  if (collection != NULL) {
-    Q_ASSERT(membership_ == NULL);
-  }
-  
-  membership_ = collection;
+    if (collection != NULL) {
+        Q_ASSERT(membership_ == NULL);
+    }
+
+    membership_ = collection;
 }

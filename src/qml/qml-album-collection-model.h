@@ -34,25 +34,25 @@ class DataObject;
  */
 class QmlAlbumCollectionModel : public QmlViewCollectionModel
 {
-  Q_OBJECT
-  
- public:
-  QmlAlbumCollectionModel(QObject* parent = NULL);
-  
-  static void RegisterType();
-  
-  Q_INVOKABLE void createAlbum(QVariant vmedia);
-  Q_INVOKABLE void destroyAlbum(QVariant valbum);
-  Q_INVOKABLE QVariant createOrphan();
-  Q_INVOKABLE void destroyOrphan(QVariant valbum);
-  Q_INVOKABLE void addOrphan(QVariant valbum);
+    Q_OBJECT
 
- protected:
-  virtual QVariant VariantFor(DataObject* object) const;
-  virtual DataObject* FromVariant(QVariant var) const;
-  
- private slots:
-  void on_album_current_page_contents_altered(Album* album);
+public:
+    QmlAlbumCollectionModel(QObject* parent = NULL);
+
+    static void RegisterType();
+
+    Q_INVOKABLE void createAlbum(QVariant vmedia);
+    Q_INVOKABLE void destroyAlbum(QVariant valbum);
+    Q_INVOKABLE QVariant createOrphan();
+    Q_INVOKABLE void destroyOrphan(QVariant valbum);
+    Q_INVOKABLE void addOrphan(QVariant valbum);
+
+protected:
+    virtual QVariant VariantFor(DataObject* object) const;
+    virtual DataObject* FromVariant(QVariant var) const;
+
+private slots:
+    void on_album_current_page_contents_altered(Album* album);
 };
 
 QML_DECLARE_TYPE(QmlAlbumCollectionModel)

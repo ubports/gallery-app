@@ -34,10 +34,10 @@ PhotoCaches::PhotoCaches(const QFileInfo& file) : file_(file),
     enhanced_file_(file.dir(),
                    QString("%1/%2").arg(ENHANCED_DIR).arg(file.fileName()))
 {
-  // We always want our file checks to hit the disk.
-  file_.setCaching(false);
-  original_file_.setCaching(false);
-  enhanced_file_.setCaching(false);
+    // We always want our file checks to hit the disk.
+    file_.setCaching(false);
+    original_file_.setCaching(false);
+    enhanced_file_.setCaching(false);
 }
 
 /*!
@@ -46,7 +46,7 @@ PhotoCaches::PhotoCaches(const QFileInfo& file) : file_(file),
  */
 bool PhotoCaches::has_cached_original() const
 {
-  return original_file_.exists();
+    return original_file_.exists();
 }
 
 /*!
@@ -55,7 +55,7 @@ bool PhotoCaches::has_cached_original() const
  */
 bool PhotoCaches::has_cached_enhanced() const
 {
-  return enhanced_file_.exists();
+    return enhanced_file_.exists();
 }
 
 /*!
@@ -64,7 +64,7 @@ bool PhotoCaches::has_cached_enhanced() const
  */
 const QFileInfo& PhotoCaches::original_file() const
 {
-  return original_file_;
+    return original_file_;
 }
 
 /*!
@@ -73,7 +73,7 @@ const QFileInfo& PhotoCaches::original_file() const
  */
 const QFileInfo& PhotoCaches::enhanced_file() const
 {
-  return enhanced_file_;
+    return enhanced_file_;
 }
 
 /*!
@@ -84,7 +84,7 @@ const QFileInfo& PhotoCaches::enhanced_file() const
  */
 const QFileInfo& PhotoCaches::pristine_file() const
 {
-  return (has_cached_original() ? original_file_ : file_);
+    return (has_cached_original() ? original_file_ : file_);
 }
 
 /*!
@@ -96,13 +96,13 @@ const QFileInfo& PhotoCaches::pristine_file() const
  */
 bool PhotoCaches::cache_original()
 {
-  if (has_cached_original()) {
-    return true;
-  }
+    if (has_cached_original()) {
+        return true;
+    }
 
-  file_.dir().mkdir(ORIGINAL_DIR);
+    file_.dir().mkdir(ORIGINAL_DIR);
 
-  return rename(file_, original_file_);
+    return rename(file_, original_file_);
 }
 
 /*!
@@ -113,12 +113,12 @@ bool PhotoCaches::cache_original()
  */
 bool PhotoCaches::restore_original()
 {
-  if (!has_cached_original()) {
-    return true;
-  }
+    if (!has_cached_original()) {
+        return true;
+    }
 
-  remove(file_);
-  return rename(original_file_, file_);
+    remove(file_);
+    return rename(original_file_, file_);
 }
 
 /*!
@@ -128,11 +128,11 @@ bool PhotoCaches::restore_original()
  */
 bool PhotoCaches::cache_enhanced_from_original()
 {
-  file_.dir().mkdir(ENHANCED_DIR);
+    file_.dir().mkdir(ENHANCED_DIR);
 
-  // If called subsequently, the previously cached version is replaced.
-  remove(enhanced_file_);
-  return copy(pristine_file(), enhanced_file_);
+    // If called subsequently, the previously cached version is replaced.
+    remove(enhanced_file_);
+    return copy(pristine_file(), enhanced_file_);
 }
 
 /*!
@@ -143,15 +143,15 @@ bool PhotoCaches::cache_enhanced_from_original()
  */
 bool PhotoCaches::overwrite_from_cache(bool prefer_enhanced)
 {
-  if (prefer_enhanced && has_cached_enhanced()) {
-    remove(file_);
-    return copy(enhanced_file_, file_);
-  } else if (has_cached_original()) {
-    remove(file_);
-    return copy(original_file_, file_);
-  } else {
-    return true;
-  }
+    if (prefer_enhanced && has_cached_enhanced()) {
+        remove(file_);
+        return copy(enhanced_file_, file_);
+    } else if (has_cached_original()) {
+        remove(file_);
+        return copy(original_file_, file_);
+    } else {
+        return true;
+    }
 }
 
 /*!
@@ -159,7 +159,7 @@ bool PhotoCaches::overwrite_from_cache(bool prefer_enhanced)
  */
 void PhotoCaches::discard_cached_original()
 {
-  remove(original_file_);
+    remove(original_file_);
 }
 
 /*!
@@ -167,7 +167,7 @@ void PhotoCaches::discard_cached_original()
  */
 void PhotoCaches::discard_cached_enhanced()
 {
-  remove(enhanced_file_);
+    remove(enhanced_file_);
 }
 
 /*!
@@ -175,6 +175,6 @@ void PhotoCaches::discard_cached_enhanced()
  */
 void PhotoCaches::discard_all()
 {
-  discard_cached_original();
-  discard_cached_enhanced();
+    discard_cached_original();
+    discard_cached_enhanced();
 }

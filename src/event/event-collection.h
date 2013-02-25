@@ -35,29 +35,29 @@ class MediaSource;
  */
 class EventCollection : public SourceCollection
 {
-  Q_OBJECT
-  
- signals:
-  void all_changed();
-  
- public:
-  EventCollection();
-  
-  Event* EventForDate(const QDate& date) const;
-  Event* EventForMediaSource(MediaSource* media) const;
-  
- protected:
-  virtual void notify_contents_altered(const QSet<DataObject *> *added,
-    const QSet<DataObject *> *removed);
-  
- private slots:
-  void on_media_added_removed(const QSet<DataObject*>* added,
-    const QSet<DataObject*>* removed);
-  
- private:
-  QHash<QDate, Event*> date_map_;
-  
-  static bool Comparator(DataObject* a, DataObject* b);
+    Q_OBJECT
+
+signals:
+    void all_changed();
+
+public:
+    EventCollection();
+
+    Event* EventForDate(const QDate& date) const;
+    Event* EventForMediaSource(MediaSource* media) const;
+
+protected:
+    virtual void notify_contents_altered(const QSet<DataObject *> *added,
+                                         const QSet<DataObject *> *removed);
+
+private slots:
+    void on_media_added_removed(const QSet<DataObject*>* added,
+                                const QSet<DataObject*>* removed);
+
+private:
+    QHash<QDate, Event*> date_map_;
+
+    static bool Comparator(DataObject* a, DataObject* b);
 };
 
 #endif  // GALLERY_EVENT_COLLECTION_H_

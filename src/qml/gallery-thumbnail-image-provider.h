@@ -35,19 +35,19 @@
 class GalleryThumbnailImageProvider : public QQuickImageProvider
 {
 public:
-  static const char* PROVIDER_ID;
-  static const char* PROVIDER_ID_SCHEME;
-  static const char* REVISION_PARAM_NAME;
+    static const char* PROVIDER_ID;
+    static const char* PROVIDER_ID_SCHEME;
+    static const char* REVISION_PARAM_NAME;
 
-  GalleryThumbnailImageProvider(const bool log_image_loading);
+    GalleryThumbnailImageProvider(const bool log_image_loading);
 
-  static QUrl ToURL(const QFileInfo& file);
+    static QUrl ToURL(const QFileInfo& file);
 
-  virtual QImage requestImage(const QString& id, QSize* size,
-    const QSize& requestedSize);
+    virtual QImage requestImage(const QString& id, QSize* size,
+                                const QSize& requestedSize);
 
 private:
-  bool log_image_loading_;
+    bool log_image_loading_;
 };
 
 #endif // GALLERYTHUMBNAILIMAGEPROVIDER_H

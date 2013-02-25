@@ -34,29 +34,29 @@ class DataObject;
  */
 class QmlMediaCollectionModel : public QmlViewCollectionModel
 {
-  Q_OBJECT
-  Q_PROPERTY(bool monitored READ monitored WRITE set_monitored
-    NOTIFY monitoring_changed)
-  
- signals:
-  void monitoring_changed();
-  
- public:
-  QmlMediaCollectionModel(QObject* parent = NULL);
-  QmlMediaCollectionModel(QObject* parent, DataObjectComparator default_comparator);
-  
-  static void RegisterType();
-  
-  Q_INVOKABLE QVariant createAlbumFromSelected();
-  Q_INVOKABLE void destroySelectedMedia();
-  Q_INVOKABLE void destroyMedia(QVariant vmedia);
-  
-  bool monitored() const;
-  void set_monitored(bool monitor);
-  
- protected:
-  virtual QVariant VariantFor(DataObject* object) const;
-  virtual DataObject* FromVariant(QVariant var) const;
+    Q_OBJECT
+    Q_PROPERTY(bool monitored READ monitored WRITE set_monitored
+               NOTIFY monitoring_changed)
+
+signals:
+    void monitoring_changed();
+
+public:
+    QmlMediaCollectionModel(QObject* parent = NULL);
+    QmlMediaCollectionModel(QObject* parent, DataObjectComparator default_comparator);
+
+    static void RegisterType();
+
+    Q_INVOKABLE QVariant createAlbumFromSelected();
+    Q_INVOKABLE void destroySelectedMedia();
+    Q_INVOKABLE void destroyMedia(QVariant vmedia);
+
+    bool monitored() const;
+    void set_monitored(bool monitor);
+
+protected:
+    virtual QVariant VariantFor(DataObject* object) const;
+    virtual DataObject* FromVariant(QVariant var) const;
 };
 
 QML_DECLARE_TYPE(QmlMediaCollectionModel)
