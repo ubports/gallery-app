@@ -30,6 +30,7 @@ Architecture: all
 Depends: ${shlibs:Depends},
          ${misc:Depends},
          ubuntu-gallery (= ${source:Version}),
-         autopilot-qt5
+         libautopilot-qt,
+         libqt5test5,
 Description: Autopilot tests for the photo gallery for Ubuntu
  Ubuntu-gallery is a photo gallery for the Ubuntu platform. This package contains autopilot tests for it.
