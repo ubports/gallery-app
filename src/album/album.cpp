@@ -42,11 +42,11 @@ const int Album::FIRST_VALID_CURRENT_PAGE = -1;
  * \param parent
  */
 Album::Album(QObject * parent)
-  : ContainerSource(parent, DEFAULT_TITLE, MediaCollection::ExposureDateTimeAscendingComparator),
-    album_template_(GalleryManager::instance()->album_default_template()), title_(DEFAULT_TITLE),
-    subtitle_(DEFAULT_SUBTITLE)
+    : ContainerSource(parent, DEFAULT_TITLE, MediaCollection::ExposureDateTimeAscendingComparator),
+      album_template_(GalleryManager::instance()->album_default_template()), title_(DEFAULT_TITLE),
+      subtitle_(DEFAULT_SUBTITLE)
 {
-  InitInstance();
+    InitInstance();
 }
 
 /*!
@@ -55,10 +55,10 @@ Album::Album(QObject * parent)
  * \param album_template
  */
 Album::Album(QObject * parent, AlbumTemplate* album_template)
-  : ContainerSource(parent, DEFAULT_TITLE, MediaCollection::ExposureDateTimeAscendingComparator),
-    album_template_(album_template), title_(DEFAULT_TITLE), subtitle_(DEFAULT_SUBTITLE)
+    : ContainerSource(parent, DEFAULT_TITLE, MediaCollection::ExposureDateTimeAscendingComparator),
+      album_template_(album_template), title_(DEFAULT_TITLE), subtitle_(DEFAULT_SUBTITLE)
 {
-  InitInstance();
+    InitInstance();
 }
 
 /*!
@@ -74,19 +74,19 @@ Album::Album(QObject * parent, AlbumTemplate* album_template)
  * \param cover_nickname
  */
 Album::Album(QObject * parent, AlbumTemplate* album_template, const QString& title,
-  const QString& subtitle, qint64 id, QDateTime creation_timestamp, bool closed,
-  int current_page, const QString &cover_nickname)
-  : ContainerSource(parent, title, MediaCollection::ExposureDateTimeAscendingComparator),
-    album_template_(album_template), title_(title), subtitle_(subtitle)
+             const QString& subtitle, qint64 id, QDateTime creation_timestamp, bool closed,
+             int current_page, const QString &cover_nickname)
+    : ContainerSource(parent, title, MediaCollection::ExposureDateTimeAscendingComparator),
+      album_template_(album_template), title_(title), subtitle_(subtitle)
 {
-  InitInstance();
+    InitInstance();
 
-  // replace defaults with what was read from DB
-  cover_nickname_ = cover_nickname;
-  creation_date_time_ = creation_timestamp;
-  current_page_ = current_page;
-  closed_ = closed;
-  id_ = id;
+    // replace defaults with what was read from DB
+    cover_nickname_ = cover_nickname;
+    creation_date_time_ = creation_timestamp;
+    current_page_ = current_page;
+    closed_ = closed;
+    id_ = id;
 }
 
 /*!
@@ -94,7 +94,7 @@ Album::Album(QObject * parent, AlbumTemplate* album_template, const QString& tit
  */
 Album::~Album()
 {
-  delete content_pages_;
+    delete content_pages_;
 }
 
 /*!
@@ -102,7 +102,7 @@ Album::~Album()
  */
 void Album::RegisterType()
 {
-  qmlRegisterType<Album>("Gallery", 1, 0, "Album");
+    qmlRegisterType<Album>("Gallery", 1, 0, "Album");
 }
 
 /*!
@@ -110,21 +110,21 @@ void Album::RegisterType()
  */
 void Album::InitInstance()
 {
-  creation_date_time_ = QDateTime::currentDateTime();
-  current_page_ = FIRST_VALID_CURRENT_PAGE;
-  closed_ = true;
-  populated_pages_count_ = 0;
-  content_pages_ = new SourceCollection(QString("Pages for ") + title_);
-  refreshing_container_ = false;
-  id_ = INVALID_ID;
-  cover_nickname_ = "default";
-  
-  create_add_photos_page();
-  
-  QObject::connect(content_pages_,
-    SIGNAL(contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
-    this,
-    SLOT(on_album_page_content_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
+    creation_date_time_ = QDateTime::currentDateTime();
+    current_page_ = FIRST_VALID_CURRENT_PAGE;
+    closed_ = true;
+    populated_pages_count_ = 0;
+    content_pages_ = new SourceCollection(QString("Pages for ") + title_);
+    refreshing_container_ = false;
+    id_ = INVALID_ID;
+    cover_nickname_ = "default";
+
+    create_add_photos_page();
+
+    QObject::connect(content_pages_,
+                     SIGNAL(contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
+                     this,
+                     SLOT(on_album_page_content_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
 }
 
 /*!
@@ -133,9 +133,9 @@ void Album::InitInstance()
  */
 void Album::addMediaSource(QVariant vmedia)
 {
-  MediaSource* media = UncheckedVariantToObject<MediaSource*>(vmedia);
-  if (media != NULL)
-    Attach(media);
+    MediaSource* media = UncheckedVariantToObject<MediaSource*>(vmedia);
+    if (media != NULL)
+        Attach(media);
 }
 
 /*!
@@ -145,28 +145,28 @@ void Album::addMediaSource(QVariant vmedia)
  */
 QVariant Album::addSelectedMediaSources(QVariant vmodel)
 {
-  QmlMediaCollectionModel* model = VariantToObject<QmlMediaCollectionModel*>(vmodel);
-  
-  // Since Events are mixed into the QmlEventOverviewModel (which is a
-  // subclass of QmlMediaCollectionModel), filter them out and only add
-  // MediaSources
-  QSet<DataObject*> media_sources =
-      FilterSetOnlyType<DataObject*, MediaSource*>(
-          model->BackingViewCollection()->GetSelected());
+    QmlMediaCollectionModel* model = VariantToObject<QmlMediaCollectionModel*>(vmodel);
 
-  // Only adding ones that aren't already in the set.
-  QSet<DataObject*> adding = media_sources - contained()->GetAsSet();
+    // Since Events are mixed into the QmlEventOverviewModel (which is a
+    // subclass of QmlMediaCollectionModel), filter them out and only add
+    // MediaSources
+    QSet<DataObject*> media_sources =
+            FilterSetOnlyType<DataObject*, MediaSource*>(
+                model->BackingViewCollection()->GetSelected());
 
-  AttachMany(media_sources);
-  
-  QList<DataObject*> sorted(adding.toList());
-  qSort(sorted.begin(), sorted.end(), contained()->comparator());
+    // Only adding ones that aren't already in the set.
+    QSet<DataObject*> adding = media_sources - contained()->GetAsSet();
 
-  // We return the sorted-first photo that was added, so we can later jump to
-  // that page of the album.
-  if (sorted.count() == 0)
-    return QVariant();
-  return QVariant::fromValue(qobject_cast<MediaSource*>(sorted.at(0)));
+    AttachMany(media_sources);
+
+    QList<DataObject*> sorted(adding.toList());
+    qSort(sorted.begin(), sorted.end(), contained()->comparator());
+
+    // We return the sorted-first photo that was added, so we can later jump to
+    // that page of the album.
+    if (sorted.count() == 0)
+        return QVariant();
+    return QVariant::fromValue(qobject_cast<MediaSource*>(sorted.at(0)));
 }
 
 /*!
@@ -175,9 +175,9 @@ QVariant Album::addSelectedMediaSources(QVariant vmodel)
  */
 void Album::removeMediaSource(QVariant vmedia)
 {
-  MediaSource* media = UncheckedVariantToObject<MediaSource*>(vmedia);
-  if (media != NULL)
-    Detach(media);
+    MediaSource* media = UncheckedVariantToObject<MediaSource*>(vmedia);
+    if (media != NULL)
+        Detach(media);
 }
 
 /*!
@@ -186,11 +186,10 @@ void Album::removeMediaSource(QVariant vmedia)
  */
 void Album::removeSelectedMediaSources(QVariant vmodel)
 {
-  QmlMediaCollectionModel* model = VariantToObject<QmlMediaCollectionModel*>(vmodel);
+    QmlMediaCollectionModel* model = VariantToObject<QmlMediaCollectionModel*>(vmodel);
 
-  DetachMany(
-    FilterSetOnlyType<DataObject*, MediaSource*>(
-      model->BackingViewCollection()->GetSelected()));
+    DetachMany( FilterSetOnlyType<DataObject*, MediaSource*>(
+                    model->BackingViewCollection()->GetSelected()));
 }
 
 /*!
@@ -200,9 +199,9 @@ void Album::removeSelectedMediaSources(QVariant vmodel)
  */
 QVariant Album::getPage(int page) const
 {
-  AlbumPage* album_page = GetPage(page);
-  
-  return (album_page != NULL) ? QVariant::fromValue(album_page) : QVariant();
+    AlbumPage* album_page = GetPage(page);
+
+    return (album_page != NULL) ? QVariant::fromValue(album_page) : QVariant();
 }
 
 /*!
@@ -212,21 +211,21 @@ QVariant Album::getPage(int page) const
  */
 int Album::getPageForMediaSource(QVariant vmedia) const
 {
-  MediaSource* media = UncheckedVariantToObject<MediaSource*>(vmedia);
-  if (media == NULL)
+    MediaSource* media = UncheckedVariantToObject<MediaSource*>(vmedia);
+    if (media == NULL)
+        return -1;
+
+    if (content_pages_ == NULL)
+        return -1;
+
+    int page_count = content_pages_->Count();
+    for (int page_ctr = 0; page_ctr < page_count; page_ctr++) {
+        AlbumPage* album_page = content_pages_->GetAtAsType<AlbumPage*>(page_ctr);
+        if (album_page->Contains(media))
+            return album_page->page_number();
+    }
+
     return -1;
-  
-  if (content_pages_ == NULL)
-    return -1;
-  
-  int page_count = content_pages_->Count();
-  for (int page_ctr = 0; page_ctr < page_count; page_ctr++) {
-    AlbumPage* album_page = content_pages_->GetAtAsType<AlbumPage*>(page_ctr);
-    if (album_page->Contains(media))
-      return album_page->page_number();
-  }
-  
-  return -1;
 }
 
 /*!
@@ -236,11 +235,11 @@ int Album::getPageForMediaSource(QVariant vmedia) const
  */
 bool Album::containsMedia(QVariant vmedia) const
 {
-  MediaSource* media = UncheckedVariantToObject<MediaSource*>(vmedia);
-  if (media == NULL)
-    return false;
-  
-  return Contains(media);
+    MediaSource* media = UncheckedVariantToObject<MediaSource*>(vmedia);
+    if (media == NULL)
+        return false;
+
+    return Contains(media);
 }
 
 /*!
@@ -250,11 +249,11 @@ bool Album::containsMedia(QVariant vmedia) const
  */
 bool Album::containsAll(QVariant vContainerSource) const
 {
-  ContainerSource* container = UncheckedVariantToObject<ContainerSource*>(vContainerSource);
-  if (container == NULL)
-    return false;
-  
-  return ContainsAll(container);
+    ContainerSource* container = UncheckedVariantToObject<ContainerSource*>(vContainerSource);
+    if (container == NULL)
+        return false;
+
+    return ContainsAll(container);
 }
 
 /*!
@@ -263,7 +262,7 @@ bool Album::containsAll(QVariant vContainerSource) const
  */
 const QString& Album::title() const
 {
-  return title_;
+    return title_;
 }
 
 /*!
@@ -272,13 +271,13 @@ const QString& Album::title() const
  */
 void Album::set_title(QString title)
 {
-  bool signal = title_ != title;
-  title_ = title;
-  
-  if (signal) {
-    GalleryManager::instance()->database()->get_album_table()->set_title(id_, title_);
-    emit title_altered();
-  }
+    bool signal = title_ != title;
+    title_ = title;
+
+    if (signal) {
+        GalleryManager::instance()->database()->get_album_table()->set_title(id_, title_);
+        emit title_altered();
+    }
 }
 
 /*!
@@ -287,7 +286,7 @@ void Album::set_title(QString title)
  */
 const QString& Album::subtitle() const
 {
-  return subtitle_;
+    return subtitle_;
 }
 
 /*!
@@ -296,13 +295,13 @@ const QString& Album::subtitle() const
  */
 void Album::set_subtitle(QString subtitle)
 {
-  bool signal = subtitle_ != subtitle;
-  subtitle_ = subtitle;
-  
-  if (signal) {
-    GalleryManager::instance()->database()->get_album_table()->set_subtitle(id_, subtitle_);
-    emit subtitle_altered();
-  }
+    bool signal = subtitle_ != subtitle;
+    subtitle_ = subtitle;
+
+    if (signal) {
+        GalleryManager::instance()->database()->get_album_table()->set_subtitle(id_, subtitle_);
+        emit subtitle_altered();
+    }
 }
 
 /*!
@@ -311,7 +310,7 @@ void Album::set_subtitle(QString subtitle)
  */
 const QDateTime& Album::creation_date_time() const
 {
-  return creation_date_time_;
+    return creation_date_time_;
 }
 
 /*!
@@ -320,8 +319,8 @@ const QDateTime& Album::creation_date_time() const
  */
 void Album::set_creation_date_time(QDateTime timestamp)
 {
-  creation_date_time_ = timestamp;
-  emit creation_date_time_altered();
+    creation_date_time_ = timestamp;
+    emit creation_date_time_altered();
 }
 
 /*!
@@ -330,7 +329,7 @@ void Album::set_creation_date_time(QDateTime timestamp)
  */
 AlbumTemplate* Album::album_template() const
 {
-  return album_template_;
+    return album_template_;
 }
 
 /*!
@@ -339,7 +338,7 @@ AlbumTemplate* Album::album_template() const
  */
 bool Album::is_closed() const
 {
-  return closed_;
+    return closed_;
 }
 
 /*!
@@ -348,7 +347,7 @@ bool Album::is_closed() const
  */
 int Album::total_page_count() const
 {
-  return content_pages_->Count() + PAGES_PER_COVER * 2;
+    return content_pages_->Count() + PAGES_PER_COVER * 2;
 }
 
 /*!
@@ -357,7 +356,7 @@ int Album::total_page_count() const
  */
 int Album::content_page_count() const
 {
-  return content_pages_->Count();
+    return content_pages_->Count();
 }
 
 /*!
@@ -366,7 +365,7 @@ int Album::content_page_count() const
  */
 int Album::populated_content_page_count() const
 {
-  return populated_pages_count_;
+    return populated_pages_count_;
 }
 
 /*!
@@ -375,7 +374,7 @@ int Album::populated_content_page_count() const
  */
 int Album::first_content_page() const
 {
-  return content_to_absolute_page(0);
+    return content_to_absolute_page(0);
 }
 
 /*!
@@ -384,7 +383,7 @@ int Album::first_content_page() const
  */
 int Album::last_content_page() const
 {
-  return content_to_absolute_page(content_pages_->Count() - 1);
+    return content_to_absolute_page(content_pages_->Count() - 1);
 }
 
 /*!
@@ -393,7 +392,7 @@ int Album::last_content_page() const
  */
 int Album::last_populated_content_page() const
 {
-  return content_to_absolute_page(populated_pages_count_ - 1);
+    return content_to_absolute_page(populated_pages_count_ - 1);
 }
 
 /*!
@@ -402,7 +401,7 @@ int Album::last_populated_content_page() const
  */
 int Album::first_valid_current_page() const
 {
-  return FIRST_VALID_CURRENT_PAGE;
+    return FIRST_VALID_CURRENT_PAGE;
 }
 
 /*!
@@ -411,8 +410,8 @@ int Album::first_valid_current_page() const
  */
 int Album::last_valid_current_page() const
 {
-  // The back cover should show up on the left, hence it's our last.
-  return total_page_count() - 1;
+    // The back cover should show up on the left, hence it's our last.
+    return total_page_count() - 1;
 }
 
 /*!
@@ -421,7 +420,7 @@ int Album::last_valid_current_page() const
  */
 int Album::current_page() const
 {
-  return current_page_;
+    return current_page_;
 }
 
 /*!
@@ -430,12 +429,12 @@ int Album::current_page() const
  */
 void Album::set_current_page(int page)
 {
-  if (current_page_ == page)
-    return;
-  
-  current_page_ = page;
-  
-  notify_current_page_altered();
+    if (current_page_ == page)
+        return;
+
+    current_page_ = page;
+
+    notify_current_page_altered();
 }
 
 /*!
@@ -444,11 +443,11 @@ void Album::set_current_page(int page)
  */
 void Album::set_closed(bool closed)
 {
-  if (closed_ == closed)
-    return;
-  
-  closed_ = closed;
-  notify_closed_altered();
+    if (closed_ == closed)
+        return;
+
+    closed_ = closed;
+    notify_closed_altered();
 }
 
 /*!
@@ -457,7 +456,7 @@ void Album::set_closed(bool closed)
  */
 void Album::set_id(qint64 id)
 {
-  this->id_ = id;
+    this->id_ = id;
 }
 
 /*!
@@ -466,7 +465,7 @@ void Album::set_id(qint64 id)
  */
 qint64 Album::get_id()
 {
-  return id_;
+    return id_;
 }
 
 /*!
@@ -475,7 +474,7 @@ qint64 Album::get_id()
  */
 QString Album::cover_nickname() const
 {
-  return cover_nickname_;
+    return cover_nickname_;
 }
 
 /*!
@@ -484,13 +483,13 @@ QString Album::cover_nickname() const
  */
 void Album::set_cover_nickname(QString name)
 {
-  bool signal = cover_nickname_ != name;
-  cover_nickname_ = name;
-  
-  if (signal) {
-    GalleryManager::instance()->database()->get_album_table()->set_cover_nickname(id_, cover_nickname_);
-    emit coverNicknameAltered();
-  }
+    bool signal = cover_nickname_ != name;
+    cover_nickname_ = name;
+
+    if (signal) {
+        GalleryManager::instance()->database()->get_album_table()->set_cover_nickname(id_, cover_nickname_);
+        emit coverNicknameAltered();
+    }
 }
 
 /*!
@@ -499,7 +498,7 @@ void Album::set_cover_nickname(QString name)
  */
 SourceCollection* Album::content_pages()
 {
-  return (SourceCollection*) content_pages_;
+    return (SourceCollection*) content_pages_;
 }
 
 /*!
@@ -509,8 +508,8 @@ SourceCollection* Album::content_pages()
  */
 AlbumPage* Album::GetPage(int page) const
 {
-  int content_page = absolute_to_content_page(page);
-  return qobject_cast<AlbumPage*>(content_pages_->GetAt(content_page));
+    int content_page = absolute_to_content_page(page);
+    return qobject_cast<AlbumPage*>(content_pages_->GetAt(content_page));
 }
 
 /*!
@@ -519,7 +518,7 @@ AlbumPage* Album::GetPage(int page) const
  */
 QQmlListProperty<MediaSource> Album::qml_all_media_sources()
 {
-  return QQmlListProperty<MediaSource>(this, all_media_sources_);
+    return QQmlListProperty<MediaSource>(this, all_media_sources_);
 }
 
 /*!
@@ -528,7 +527,7 @@ QQmlListProperty<MediaSource> Album::qml_all_media_sources()
  */
 QQmlListProperty<AlbumPage> Album::qml_pages()
 {
-  return QQmlListProperty<AlbumPage>(this, all_album_pages_);
+    return QQmlListProperty<AlbumPage>(this, all_album_pages_);
 }
 
 /*!
@@ -536,10 +535,10 @@ QQmlListProperty<AlbumPage> Album::qml_pages()
  */
 void Album::notify_current_page_altered()
 {
-  if (!refreshing_container_) {
-    emit current_page_altered();
-    GalleryManager::instance()->database()->get_album_table()->set_current_page(id_, current_page_);
-  }
+    if (!refreshing_container_) {
+        emit current_page_altered();
+        GalleryManager::instance()->database()->get_album_table()->set_current_page(id_, current_page_);
+    }
 }
 
 /*!
@@ -547,10 +546,10 @@ void Album::notify_current_page_altered()
  */
 void Album::notify_closed_altered()
 {
-  if (!refreshing_container_) {
-    emit closedAltered();
-    GalleryManager::instance()->database()->get_album_table()->set_is_closed(id_, closed_);
-  }
+    if (!refreshing_container_) {
+        emit closedAltered();
+        GalleryManager::instance()->database()->get_album_table()->set_is_closed(id_, closed_);
+    }
 }
 
 /*!
@@ -558,8 +557,8 @@ void Album::notify_closed_altered()
  */
 void Album::notify_page_count_altered()
 {
-  if (!refreshing_container_)
-    emit pageCountAltered();
+    if (!refreshing_container_)
+        emit pageCountAltered();
 }
 
 /*!
@@ -567,8 +566,8 @@ void Album::notify_page_count_altered()
  */
 void Album::notify_content_pages_altered()
 {
-  if (!refreshing_container_)
-    emit contentPagesAltered();
+    if (!refreshing_container_)
+        emit contentPagesAltered();
 }
 
 /*!
@@ -576,13 +575,13 @@ void Album::notify_content_pages_altered()
  */
 void Album::notify_current_page_contents_altered()
 {
-  emit current_page_contents_altered();
-  
-  // Don't call AlbumCollection::instance directly -- it's possible the
-  // object is orphaned
-  AlbumCollection* membership = qobject_cast<AlbumCollection*>(member_of());
-  if (membership != NULL)
-    membership->notify_album_current_page_contents_altered(this);
+    emit current_page_contents_altered();
+
+    // Don't call AlbumCollection::instance directly -- it's possible the
+    // object is orphaned
+    AlbumCollection* membership = qobject_cast<AlbumCollection*>(member_of());
+    if (membership != NULL)
+        membership->notify_album_current_page_contents_altered(this);
 }
 
 /*!
@@ -592,10 +591,10 @@ void Album::notify_current_page_contents_altered()
  */
 void Album::DestroySource(bool destroy_backing, bool as_orphan)
 {
-  // TODO: Remove album entry in database
-  
-  if (content_pages_ != NULL)
-    content_pages_->DestroyAll(true, true);
+    // TODO: Remove album entry in database
+
+    if (content_pages_ != NULL)
+        content_pages_->DestroyAll(true, true);
 }
 
 /*!
@@ -604,108 +603,108 @@ void Album::DestroySource(bool destroy_backing, bool as_orphan)
  * \param removed
  */
 void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
-  const QSet<DataObject*>* removed)
+                                              const QSet<DataObject*>* removed)
 {
-  bool stashed_refreshing_container = refreshing_container_;
-  refreshing_container_ = true;
+    bool stashed_refreshing_container = refreshing_container_;
+    refreshing_container_ = true;
 
-  int old_page_count = content_pages_->Count();
+    int old_page_count = content_pages_->Count();
 
-  ContainerSource::notify_container_contents_altered(added, removed);
-  
-  // Update database.
-  // If the album isn't in the DB yet, ignore for now.
-  if (get_id() != INVALID_ID) {
-    if (added != NULL) {
-      QSetIterator<DataObject*> i(*added);
-      while (i.hasNext()) {
-        MediaSource* media = qobject_cast<MediaSource*>(i.next());
-        Q_ASSERT(media != NULL);
-        GalleryManager::instance()->database()->get_album_table()->attach_to_album(get_id(), media->get_id());
-      }
-    }
-    
-    if (removed != NULL) {
-      QSetIterator<DataObject*> i(*removed);
-      while (i.hasNext()) {
-        MediaSource* media = qobject_cast<MediaSource*>(i.next());
-        Q_ASSERT(media != NULL);
-       GalleryManager::instance()->database()->get_album_table()->detach_from_album(get_id(), media->get_id());
-      }
-    }
-  }
-  
-  // TODO: Can be smarter than this, but since we don't know how position(s)
-  // in the contained sources list have now changed, need to reset and start
-  // afresh
-  int stashed_current_page = current_page_;
-  content_pages_->DestroyAll(true, true);
-  populated_pages_count_ = 0;
-  
-  // Convert contained DataObjects into a queue to process in order
-  QQueue<DataObject*> queue;
-  queue.append(contained()->GetAll());
-  
-  int building_page = content_to_absolute_page(0);
-  bool page_is_left = true; // First page is on the left.
+    ContainerSource::notify_container_contents_altered(added, removed);
 
-  album_template_->reset_best_fit_data();
-  // We loop until we've added all photos, and then ensure there's always an
-  // even number of pages (the last one of which may be empty).
-  while(!queue.isEmpty() || content_pages_->Count() % 2 != 0) {
-    PageOrientation next_photo_orientations[2];
-    int next_photos_count = std::min(queue.count(), 2);
-    for(int i = 0; i < next_photos_count; ++i) {
-      MediaSource* photo = qobject_cast<MediaSource*>(queue.at(i));
-      Q_ASSERT(photo != NULL);
-      QSize size = photo->size();
-      next_photo_orientations[i] = (size.height() > size.width()
-                                    ? PORTRAIT : LANDSCAPE);
+    // Update database.
+    // If the album isn't in the DB yet, ignore for now.
+    if (get_id() != INVALID_ID) {
+        if (added != NULL) {
+            QSetIterator<DataObject*> i(*added);
+            while (i.hasNext()) {
+                MediaSource* media = qobject_cast<MediaSource*>(i.next());
+                Q_ASSERT(media != NULL);
+                GalleryManager::instance()->database()->get_album_table()->attach_to_album(get_id(), media->get_id());
+            }
+        }
+
+        if (removed != NULL) {
+            QSetIterator<DataObject*> i(*removed);
+            while (i.hasNext()) {
+                MediaSource* media = qobject_cast<MediaSource*>(i.next());
+                Q_ASSERT(media != NULL);
+                GalleryManager::instance()->database()->get_album_table()->detach_from_album(get_id(), media->get_id());
+            }
+        }
     }
 
-    AlbumTemplatePage* template_page =
-        album_template_->get_best_fit_page(page_is_left, next_photos_count,
-                                           next_photo_orientations);
-    AlbumPage* page = new AlbumPage(this, building_page, template_page);
+    // TODO: Can be smarter than this, but since we don't know how position(s)
+    // in the contained sources list have now changed, need to reset and start
+    // afresh
+    int stashed_current_page = current_page_;
+    content_pages_->DestroyAll(true, true);
+    populated_pages_count_ = 0;
 
-    int photos_on_page = std::min(queue.count(), template_page->FrameCount());
-    for(int i = 0; i < photos_on_page; ++i)
-      page->Attach(queue.dequeue());
+    // Convert contained DataObjects into a queue to process in order
+    QQueue<DataObject*> queue;
+    queue.append(contained()->GetAll());
 
-    content_pages_->Add(page);
-    if (photos_on_page > 0)
-      ++populated_pages_count_;
+    int building_page = content_to_absolute_page(0);
+    bool page_is_left = true; // First page is on the left.
 
-    ++building_page;
-    page_is_left = !page_is_left;
-  }
+    album_template_->reset_best_fit_data();
+    // We loop until we've added all photos, and then ensure there's always an
+    // even number of pages (the last one of which may be empty).
+    while(!queue.isEmpty() || content_pages_->Count() % 2 != 0) {
+        PageOrientation next_photo_orientations[2];
+        int next_photos_count = std::min(queue.count(), 2);
+        for(int i = 0; i < next_photos_count; ++i) {
+            MediaSource* photo = qobject_cast<MediaSource*>(queue.at(i));
+            Q_ASSERT(photo != NULL);
+            QSize size = photo->size();
+            next_photo_orientations[i] = (size.height() > size.width()
+                                          ? PORTRAIT : LANDSCAPE);
+        }
 
-  // update QML lists and notify QML watchers
-  all_media_sources_ = CastListToType<DataObject*, MediaSource*>(contained()->GetAll());
-  emit album_contents_altered();
-  
-  refreshing_container_ = stashed_refreshing_container;
-  
-  // If there's no content, add the "add photos" page.
-  if (ContainedCount() == 0)
-    create_add_photos_page();
-  
-  // return to stashed current page, unless pages have been removed ... note
-  // that this will close the album if empty
-  current_page_ = stashed_current_page;
-  if (current_page_ > last_valid_current_page())
-    current_page_ = last_valid_current_page();
-  
-  if (current_page_ != stashed_current_page)
-    notify_current_page_altered();
+        AlbumTemplatePage* template_page =
+                album_template_->get_best_fit_page(page_is_left, next_photos_count,
+                                                   next_photo_orientations);
+        AlbumPage* page = new AlbumPage(this, building_page, template_page);
 
-  if (content_pages_->Count() != old_page_count)
-    notify_page_count_altered();
-  
-  notify_content_pages_altered();
-  // TODO: Again, could be smart and verify the current page has actually
-  // changed
-  notify_current_page_contents_altered();
+        int photos_on_page = std::min(queue.count(), template_page->FrameCount());
+        for(int i = 0; i < photos_on_page; ++i)
+            page->Attach(queue.dequeue());
+
+        content_pages_->Add(page);
+        if (photos_on_page > 0)
+            ++populated_pages_count_;
+
+        ++building_page;
+        page_is_left = !page_is_left;
+    }
+
+    // update QML lists and notify QML watchers
+    all_media_sources_ = CastListToType<DataObject*, MediaSource*>(contained()->GetAll());
+    emit album_contents_altered();
+
+    refreshing_container_ = stashed_refreshing_container;
+
+    // If there's no content, add the "add photos" page.
+    if (ContainedCount() == 0)
+        create_add_photos_page();
+
+    // return to stashed current page, unless pages have been removed ... note
+    // that this will close the album if empty
+    current_page_ = stashed_current_page;
+    if (current_page_ > last_valid_current_page())
+        current_page_ = last_valid_current_page();
+
+    if (current_page_ != stashed_current_page)
+        notify_current_page_altered();
+
+    if (content_pages_->Count() != old_page_count)
+        notify_page_count_altered();
+
+    notify_content_pages_altered();
+    // TODO: Again, could be smart and verify the current page has actually
+    // changed
+    notify_current_page_contents_altered();
 }
 
 /*!
@@ -715,7 +714,7 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
  */
 int Album::content_to_absolute_page(int content_page) const
 {
-  return content_page + PAGES_PER_COVER; // The front cover comes first.
+    return content_page + PAGES_PER_COVER; // The front cover comes first.
 }
 
 /*!
@@ -726,7 +725,7 @@ int Album::content_to_absolute_page(int content_page) const
  */
 int Album::absolute_to_content_page(int absolute_page) const
 {
-  return absolute_page - PAGES_PER_COVER;
+    return absolute_page - PAGES_PER_COVER;
 }
 
 /*!
@@ -737,18 +736,18 @@ int Album::absolute_to_content_page(int absolute_page) const
  */
 void Album::create_add_photos_page()
 {
-  PageOrientation orientation[0];
-  AlbumTemplatePage* template_page_add = new AlbumTemplatePage(
-    "Add photos", "qml/Components/AlbumInternals/AlbumPageLayoutAdd.qml", true, 0);
-  AlbumPage* page1 = new AlbumPage(this, content_to_absolute_page(0), template_page_add);
-  AlbumPage* page2 = new AlbumPage(this, content_to_absolute_page(0), 
-    album_template_->get_best_fit_page(false, 0, orientation));
-  
-  content_pages_->Add(page1);
-  content_pages_->Add(page2);
-  populated_pages_count_ += 1;
-  
-  set_closed(true);
+    PageOrientation orientation[0];
+    AlbumTemplatePage* template_page_add = new AlbumTemplatePage(
+                "Add photos", "qml/Components/AlbumInternals/AlbumPageLayoutAdd.qml", true, 0);
+    AlbumPage* page1 = new AlbumPage(this, content_to_absolute_page(0), template_page_add);
+    AlbumPage* page2 = new AlbumPage(this, content_to_absolute_page(0),
+                                     album_template_->get_best_fit_page(false, 0, orientation));
+
+    content_pages_->Add(page1);
+    content_pages_->Add(page2);
+    populated_pages_count_ += 1;
+
+    set_closed(true);
 }
 
 /*!
@@ -757,19 +756,19 @@ void Album::create_add_photos_page()
  * \param removed
  */
 void Album::on_album_page_content_altered(const QSet<DataObject*>* added,
-  const QSet<DataObject*>* removed)
+                                          const QSet<DataObject*>* removed)
 {
-  all_album_pages_ = CastListToType<DataObject*, AlbumPage*>(content_pages_->GetAll());
-  
-  bool changed = false;
-  if (current_page_ > last_valid_current_page()) {
-    // this deals with the closed case too
-    current_page_ = last_valid_current_page();
-    changed = true;
-  }
-  
-  notify_page_count_altered();
-  notify_content_pages_altered();
-  if (changed)
-    notify_current_page_altered();
+    all_album_pages_ = CastListToType<DataObject*, AlbumPage*>(content_pages_->GetAll());
+
+    bool changed = false;
+    if (current_page_ > last_valid_current_page()) {
+        // this deals with the closed case too
+        current_page_ = last_valid_current_page();
+        changed = true;
+    }
+
+    notify_page_count_altered();
+    notify_content_pages_altered();
+    if (changed)
+        notify_current_page_altered();
 }

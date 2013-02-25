@@ -28,7 +28,7 @@
  * \param parent
  */
 QmlEventCollectionModel::QmlEventCollectionModel(QObject* parent)
-  : QmlViewCollectionModel(parent, "event", NULL)
+    : QmlViewCollectionModel(parent, "event", NULL)
 {
     MonitorSourceCollection(GalleryManager::instance()->event_collection());
 }
@@ -38,7 +38,7 @@ QmlEventCollectionModel::QmlEventCollectionModel(QObject* parent)
  */
 void QmlEventCollectionModel::RegisterType()
 {
-  qmlRegisterType<QmlEventCollectionModel>("Gallery", 1, 0, "EventCollectionModel");
+    qmlRegisterType<QmlEventCollectionModel>("Gallery", 1, 0, "EventCollectionModel");
 }
 
 /*!
@@ -48,9 +48,9 @@ void QmlEventCollectionModel::RegisterType()
  */
 QVariant QmlEventCollectionModel::VariantFor(DataObject *object) const
 {
-  Event* event = qobject_cast<Event*>(object);
-  
-  return (event != NULL) ? QVariant::fromValue(event) : QVariant();
+    Event* event = qobject_cast<Event*>(object);
+
+    return (event != NULL) ? QVariant::fromValue(event) : QVariant();
 }
 
 /*!
@@ -60,5 +60,5 @@ QVariant QmlEventCollectionModel::VariantFor(DataObject *object) const
  */
 DataObject* QmlEventCollectionModel::FromVariant(QVariant var) const
 {
-  return UncheckedVariantToObject<Event*>(var);
+    return UncheckedVariantToObject<Event*>(var);
 }

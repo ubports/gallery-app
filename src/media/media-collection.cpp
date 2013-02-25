@@ -33,34 +33,34 @@
  * \param directory
  */
 MediaCollection::MediaCollection(const QDir& directory)
-  : SourceCollection("MediaCollection"), directory_(directory)
+    : SourceCollection("MediaCollection"), directory_(directory)
 {
-  directory_.setFilter(QDir::Files);
-  directory_.setSorting(QDir::Name);
-  
-  // By default, sort all media by its exposure date time, descending
-  SetComparator(ExposureDateTimeDescendingComparator);
-  
-  QSet<DataObject*> photos;
-  QStringList filenames = directory_.entryList();
-  QString filename;
-  foreach (filename, filenames) {
-    // stat'ing and sync'ing file info over even several hundred photos is an
-    // expensive operation since it involves lots of I/O, so spin the event
-    // loop so that the UI remains responsive
-    QApplication::processEvents();
+    directory_.setFilter(QDir::Files);
+    directory_.setSorting(QDir::Name);
 
-    QFileInfo file(directory_, filename);
-    
-    Photo *p = Photo::Load(file);
-    if (!p)
-      continue;
-    
-    photos.insert(p);
-    id_map_.insert(p->get_id(), p);
-  }
-  
-  AddMany(photos);
+    // By default, sort all media by its exposure date time, descending
+    SetComparator(ExposureDateTimeDescendingComparator);
+
+    QSet<DataObject*> photos;
+    QStringList filenames = directory_.entryList();
+    QString filename;
+    foreach (filename, filenames) {
+        // stat'ing and sync'ing file info over even several hundred photos is an
+        // expensive operation since it involves lots of I/O, so spin the event
+        // loop so that the UI remains responsive
+        QApplication::processEvents();
+
+        QFileInfo file(directory_, filename);
+
+        Photo *p = Photo::Load(file);
+        if (!p)
+            continue;
+
+        photos.insert(p);
+        id_map_.insert(p->get_id(), p);
+    }
+
+    AddMany(photos);
 }
 
 /*!
@@ -69,7 +69,7 @@ MediaCollection::MediaCollection(const QDir& directory)
  */
 const QDir& MediaCollection::directory() const
 {
-  return directory_;
+    return directory_;
 }
 
 /*!
@@ -83,14 +83,14 @@ const QDir& MediaCollection::directory() const
  * \return
  */
 bool MediaCollection::ExposureDateTimeAscendingComparator(DataObject* a,
-  DataObject* b)
+                                                          DataObject* b)
 {
-  QDateTime exptime_a = qobject_cast<MediaSource*>(a)->exposure_date_time();
-  QDateTime exptime_b = qobject_cast<MediaSource*>(b)->exposure_date_time();
+    QDateTime exptime_a = qobject_cast<MediaSource*>(a)->exposure_date_time();
+    QDateTime exptime_b = qobject_cast<MediaSource*>(b)->exposure_date_time();
 
-  return (exptime_a == exptime_b) ?
-    (DataCollection::DefaultDataObjectComparator(a, b)) :
-    (exptime_a < exptime_b);
+    return (exptime_a == exptime_b) ?
+                (DataCollection::DefaultDataObjectComparator(a, b)) :
+                (exptime_a < exptime_b);
 }
 
 /*!
@@ -100,9 +100,9 @@ bool MediaCollection::ExposureDateTimeAscendingComparator(DataObject* a,
  * \return
  */
 bool MediaCollection::ExposureDateTimeDescendingComparator(DataObject* a,
-  DataObject* b)
+                                                           DataObject* b)
 {
-  return !ExposureDateTimeAscendingComparator(a, b);
+    return !ExposureDateTimeAscendingComparator(a, b);
 }
 
 /*!
@@ -112,7 +112,7 @@ bool MediaCollection::ExposureDateTimeDescendingComparator(DataObject* a,
  */
 MediaSource* MediaCollection::mediaForId(qint64 id)
 {
-  return id_map_.contains(id) ? qobject_cast<MediaSource*>(id_map_[id]) : NULL;
+    return id_map_.contains(id) ? qobject_cast<MediaSource*>(id_map_[id]) : NULL;
 }
 
 /*!
@@ -121,43 +121,43 @@ MediaSource* MediaCollection::mediaForId(qint64 id)
  * \param removed
  */
 void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
-  const QSet<DataObject*>* removed)
+                                              const QSet<DataObject*>* removed)
 {
-  SourceCollection::notify_contents_altered(added, removed);
-  
-  // Track IDs of objects as they're added and removed.
-  if (added != NULL) { 
-    QSetIterator<DataObject*> i(*added);
-    while (i.hasNext()) {
-      DataObject* o = i.next();
-      id_map_.insert(qobject_cast<MediaSource*>(o)->get_id(), o);
+    SourceCollection::notify_contents_altered(added, removed);
 
-      Photo* p = qobject_cast<Photo*>(o);
-      if (p != NULL) {
-        file_photo_map_.insert(p->file().absoluteFilePath(), p);
-      }
+    // Track IDs of objects as they're added and removed.
+    if (added != NULL) {
+        QSetIterator<DataObject*> i(*added);
+        while (i.hasNext()) {
+            DataObject* o = i.next();
+            id_map_.insert(qobject_cast<MediaSource*>(o)->get_id(), o);
+
+            Photo* p = qobject_cast<Photo*>(o);
+            if (p != NULL) {
+                file_photo_map_.insert(p->file().absoluteFilePath(), p);
+            }
+        }
     }
-  }
-  
-  if (removed != NULL) {
-    QSetIterator<DataObject*> i(*removed);
-    while (i.hasNext()) {
-      DataObject* o = i.next();
-      MediaSource* media = qobject_cast<MediaSource*>(o);
 
-      Photo* p = qobject_cast<Photo*>(o);
-      if (p != NULL) {
-        file_photo_map_.remove(p->file().absoluteFilePath());
-      }
+    if (removed != NULL) {
+        QSetIterator<DataObject*> i(*removed);
+        while (i.hasNext()) {
+            DataObject* o = i.next();
+            MediaSource* media = qobject_cast<MediaSource*>(o);
 
-      id_map_.remove(media->get_id());
-      
-      // TODO: In the future we may want to do this in the Destroy method
-      // (as defined in DataSource) if we want to differentiate between
-      // removing the photo and "deleting the backing file."
-      GalleryManager::instance()->database()->get_media_table()->remove(media->get_id());
+            Photo* p = qobject_cast<Photo*>(o);
+            if (p != NULL) {
+                file_photo_map_.remove(p->file().absoluteFilePath());
+            }
+
+            id_map_.remove(media->get_id());
+
+            // TODO: In the future we may want to do this in the Destroy method
+            // (as defined in DataSource) if we want to differentiate between
+            // removing the photo and "deleting the backing file."
+            GalleryManager::instance()->database()->get_media_table()->remove(media->get_id());
+        }
     }
-  }
 }
 
 /*!
@@ -170,5 +170,5 @@ void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
  */
 Photo* MediaCollection::photoFromFileinfo(QFileInfo file_to_load)
 {
-  return file_photo_map_.value(file_to_load.absoluteFilePath(), NULL);
+    return file_photo_map_.value(file_to_load.absoluteFilePath(), NULL);
 }

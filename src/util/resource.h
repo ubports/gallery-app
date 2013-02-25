@@ -28,22 +28,22 @@
  */
 class Resource
 {
- public:
-  explicit Resource(const QString& application_dir, const QString& install_dir);
+public:
+    explicit Resource(const QString& application_dir, const QString& install_dir);
 
-  bool is_installed() const;
+    bool is_installed() const;
 
-  QUrl get_rc_url(const QString& path) const;
-  
-  int maxTextureSize() const;
-  
- private:
-  QString trailing_slash(QString path) const;
-  
-  QDir app_dir_;
-  QDir install_dir_;
+    QUrl get_rc_url(const QString& path) const;
 
-  friend class tst_Resource;
+    int maxTextureSize() const;
+
+private:
+    QString trailing_slash(QString path) const;
+
+    QDir app_dir_;
+    QDir install_dir_;
+
+    friend class tst_Resource;
 };
 
 #endif // RESOURCE_H

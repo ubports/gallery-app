@@ -27,7 +27,7 @@
  * \param parent
  */
 Event::Event(QObject* parent)
-  : ContainerSource(parent, "Event (undated)", MediaCollection::ExposureDateTimeDescendingComparator)
+    : ContainerSource(parent, "Event (undated)", MediaCollection::ExposureDateTimeDescendingComparator)
 {
 }
 
@@ -37,8 +37,8 @@ Event::Event(QObject* parent)
  * \param date
  */
 Event::Event(QObject* parent, const QDate& date)
-  : ContainerSource(parent, QString("Event for ") + date.toString(),
-  MediaCollection::ExposureDateTimeDescendingComparator), date_(date)
+    : ContainerSource(parent, QString("Event for ") + date.toString(),
+                      MediaCollection::ExposureDateTimeDescendingComparator), date_(date)
 {
 }
 
@@ -47,7 +47,7 @@ Event::Event(QObject* parent, const QDate& date)
  */
 void Event::RegisterType()
 {
-  qmlRegisterType<Event>("Gallery", 1, 0, "Event");
+    qmlRegisterType<Event>("Gallery", 1, 0, "Event");
 }
 
 /*!
@@ -56,7 +56,7 @@ void Event::RegisterType()
  */
 const QDate& Event::date() const
 {
-  return date_;
+    return date_;
 }
 
 /*!
@@ -65,7 +65,7 @@ const QDate& Event::date() const
  */
 QDateTime Event::start_date_time() const
 {
-  return QDateTime(date());
+    return QDateTime(date());
 }
 
 /*!
@@ -74,7 +74,7 @@ QDateTime Event::start_date_time() const
  */
 QDateTime Event::end_date_time() const
 {
-  return QDateTime(date(), QTime(23, 59, 59, 999));
+    return QDateTime(date(), QTime(23, 59, 59, 999));
 }
 
 /*!
@@ -84,6 +84,6 @@ QDateTime Event::end_date_time() const
  */
 void Event::DestroySource(bool destroy_backing, bool as_orphan)
 {
-  // Event is a virtual DataSource generated as a result of MediaSources added
-  // and removed from the system, so nothing to destroy
+    // Event is a virtual DataSource generated as a result of MediaSources added
+    // and removed from the system, so nothing to destroy
 }

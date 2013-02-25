@@ -29,10 +29,10 @@ DataObjectNumber DataObject::next_number_ = 0;
  * \param parent
  */
 DataObject::DataObject(QObject * parent)
-  : QObject(parent), number_(next_number_++)
+    : QObject(parent), number_(next_number_++)
 {
-  // All DataObjects are registered as C++ ownership; QML should never GC them
-  GalleryApplication::instance()->setObjectOwnership(this, QQmlEngine::CppOwnership);
+    // All DataObjects are registered as C++ ownership; QML should never GC them
+    GalleryApplication::instance()->setObjectOwnership(this, QQmlEngine::CppOwnership);
 }
 
 /*!
@@ -44,5 +44,5 @@ DataObject::DataObject(QObject * parent)
  */
 DataObjectNumber DataObject::number() const
 {
-  return number_;
+    return number_;
 }

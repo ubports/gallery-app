@@ -45,30 +45,30 @@ typedef bool (*SourceFilter)(DataObject* object);
   */
 class ViewCollection : public DataCollection
 {
-  Q_OBJECT
-  
+    Q_OBJECT
+
 public:
-  ViewCollection(const QString& name);
-  
-  // TODO: Allow multiple SourceCollections to be monitored.  Without a
-  // DataView as a mediator, this means ViewCollection (and, hence,
-  // DataCollection) will hold DataSources of varied finalized types.
-  void MonitorDataCollection(const DataCollection* collection, SourceFilter filter,
-    bool monitor_ordering);
-  bool IsMonitoring() const;
-  
- protected:
-  virtual void notify_ordering_altered();
-  
+    ViewCollection(const QString& name);
+
+    // TODO: Allow multiple SourceCollections to be monitored.  Without a
+    // DataView as a mediator, this means ViewCollection (and, hence,
+    // DataCollection) will hold DataSources of varied finalized types.
+    void MonitorDataCollection(const DataCollection* collection, SourceFilter filter,
+                               bool monitor_ordering);
+    bool IsMonitoring() const;
+
+protected:
+    virtual void notify_ordering_altered();
+
 private slots:
-  void on_monitored_contents_altered(const QSet<DataObject*>* added,
-    const QSet<DataObject*>* removed);
-  void on_monitored_ordering_altered();
-  
+    void on_monitored_contents_altered(const QSet<DataObject*>* added,
+                                       const QSet<DataObject*>* removed);
+    void on_monitored_ordering_altered();
+
 private:
-  const DataCollection* monitoring_;
-  SourceFilter monitor_filter_;
-  bool monitor_ordering_;
+    const DataCollection* monitoring_;
+    SourceFilter monitor_filter_;
+    bool monitor_ordering_;
 };
 
 #endif  // GALLERY_VIEW_COLLECTION_H_

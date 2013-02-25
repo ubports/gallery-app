@@ -24,7 +24,7 @@
  * \param name
  */
 SelectableViewCollection::SelectableViewCollection(const QString& name)
-  : ViewCollection(name), monitoring_selection_(NULL)
+    : ViewCollection(name), monitoring_selection_(NULL)
 {
 }
 
@@ -34,12 +34,12 @@ SelectableViewCollection::SelectableViewCollection(const QString& name)
  * \param removed
  */
 void SelectableViewCollection::notify_contents_to_be_altered(const QSet<DataObject*>* added,
-  const QSet<DataObject*>* removed)
+                                                             const QSet<DataObject*>* removed)
 {
-  if (removed != NULL)
-    UnselectMany(*removed);
+    if (removed != NULL)
+        UnselectMany(*removed);
 
-  ViewCollection::notify_contents_to_be_altered(added, removed);
+    ViewCollection::notify_contents_to_be_altered(added, removed);
 }
 
 /*!
@@ -48,9 +48,9 @@ void SelectableViewCollection::notify_contents_to_be_altered(const QSet<DataObje
  * \param unselected
  */
 void SelectableViewCollection::notify_selection_altered(QSet<DataObject*>* selected,
-  QSet<DataObject*>* unselected)
+                                                        QSet<DataObject*>* unselected)
 {
-  emit selection_altered(selected, unselected);
+    emit selection_altered(selected, unselected);
 }
 
 /*!
@@ -60,7 +60,7 @@ void SelectableViewCollection::notify_selection_altered(QSet<DataObject*>* selec
  */
 bool SelectableViewCollection::IsSelected(DataObject* object) const
 {
-  return selected_.contains(object);
+    return selected_.contains(object);
 }
 
 /*!
@@ -69,7 +69,7 @@ bool SelectableViewCollection::IsSelected(DataObject* object) const
  */
 const QSet<DataObject*>& SelectableViewCollection::GetSelected() const
 {
-  return selected_;
+    return selected_;
 }
 
 /*!
@@ -78,7 +78,7 @@ const QSet<DataObject*>& SelectableViewCollection::GetSelected() const
  */
 int SelectableViewCollection::SelectedCount() const
 {
-  return selected_.count();
+    return selected_.count();
 }
 
 /*!
@@ -89,17 +89,17 @@ int SelectableViewCollection::SelectedCount() const
  */
 bool SelectableViewCollection::Select(DataObject* object)
 {
-  if (!Contains(object) || selected_.contains(object))
-    return false;
-  
-  selected_.insert(object);
-  
-  QSet<DataObject*> singleton;
-  singleton.insert(object);
-  
-  notify_selection_altered(&singleton, NULL);
-  
-  return true;
+    if (!Contains(object) || selected_.contains(object))
+        return false;
+
+    selected_.insert(object);
+
+    QSet<DataObject*> singleton;
+    singleton.insert(object);
+
+    notify_selection_altered(&singleton, NULL);
+
+    return true;
 }
 
 /*!
@@ -110,19 +110,19 @@ bool SelectableViewCollection::Select(DataObject* object)
  */
 bool SelectableViewCollection::Unselect(DataObject* object)
 {
-  if (!Contains(object) || !selected_.contains(object))
-    return false;
-  
-  bool removed = selected_.remove(object);
-  Q_ASSERT(removed);
-  Q_UNUSED(removed);
+    if (!Contains(object) || !selected_.contains(object))
+        return false;
 
-  QSet<DataObject*> singleton;
-  singleton.insert(object);
-  
-  notify_selection_altered(NULL, &singleton);
-  
-  return true;
+    bool removed = selected_.remove(object);
+    Q_ASSERT(removed);
+    Q_UNUSED(removed);
+
+    QSet<DataObject*> singleton;
+    singleton.insert(object);
+
+    notify_selection_altered(NULL, &singleton);
+
+    return true;
 }
 
 /*!
@@ -132,7 +132,7 @@ bool SelectableViewCollection::Unselect(DataObject* object)
  */
 bool SelectableViewCollection::ToggleSelect(DataObject* object)
 {
-  return IsSelected(object) ? Unselect(object) : Select(object);
+    return IsSelected(object) ? Unselect(object) : Select(object);
 }
 
 /*!
@@ -141,7 +141,7 @@ bool SelectableViewCollection::ToggleSelect(DataObject* object)
  */
 int SelectableViewCollection::SelectAll()
 {
-  return SelectMany(GetAsSet());
+    return SelectMany(GetAsSet());
 }
 
 /*!
@@ -151,20 +151,20 @@ int SelectableViewCollection::SelectAll()
  */
 int SelectableViewCollection::SelectMany(const QSet<DataObject*>& select)
 {
-  // Only select objects not already selected
-  QSet<DataObject*> selected;
-  DataObject* object;
-  foreach (object, select) {
-    if (Contains(object) && !IsSelected(object)) {
-      selected_.insert(object);
-      selected.insert(object);
+    // Only select objects not already selected
+    QSet<DataObject*> selected;
+    DataObject* object;
+    foreach (object, select) {
+        if (Contains(object) && !IsSelected(object)) {
+            selected_.insert(object);
+            selected.insert(object);
+        }
     }
-  }
-  
-  if (selected.count() > 0)
-    notify_selection_altered(&selected, NULL);
-  
-  return selected.count();
+
+    if (selected.count() > 0)
+        notify_selection_altered(&selected, NULL);
+
+    return selected.count();
 }
 
 /*!
@@ -173,18 +173,18 @@ int SelectableViewCollection::SelectMany(const QSet<DataObject*>& select)
  */
 int SelectableViewCollection::UnselectAll()
 {
-  if (selected_.count() == 0)
-    return 0;
-  
-  // save all that were selected to a list for the signal
-  QSet<DataObject*> unselected;
-  unselected.unite(selected_);
-  
-  selected_.clear();
-  
-  notify_selection_altered(NULL, &unselected);
-  
-  return unselected.count();
+    if (selected_.count() == 0)
+        return 0;
+
+    // save all that were selected to a list for the signal
+    QSet<DataObject*> unselected;
+    unselected.unite(selected_);
+
+    selected_.clear();
+
+    notify_selection_altered(NULL, &unselected);
+
+    return unselected.count();
 }
 
 /*!
@@ -194,19 +194,19 @@ int SelectableViewCollection::UnselectAll()
  */
 int SelectableViewCollection::UnselectMany(const QSet<DataObject*>& unselect)
 {
-  QSet<DataObject*> unselected;
-  DataObject* object;
-  foreach (object, unselect) {
-    if (Contains(object) && IsSelected(object)) {
-      selected_.remove(object);
-      unselected.insert(object);
+    QSet<DataObject*> unselected;
+    DataObject* object;
+    foreach (object, unselect) {
+        if (Contains(object) && IsSelected(object)) {
+            selected_.remove(object);
+            unselected.insert(object);
+        }
     }
-  }
-  
-  if (unselected.count() > 0)
-    notify_selection_altered(NULL, &unselected);
-  
-  return unselected.count();
+
+    if (unselected.count() > 0)
+        notify_selection_altered(NULL, &unselected);
+
+    return unselected.count();
 }
 
 /*!
@@ -215,17 +215,17 @@ int SelectableViewCollection::UnselectMany(const QSet<DataObject*>& unselect)
  */
 void SelectableViewCollection::MonitorSelectionState(SelectableViewCollection* view)
 {
-  StopMonitoringSelectionState();
+    StopMonitoringSelectionState();
 
-  if (view == NULL)
-    return;
+    if (view == NULL)
+        return;
 
-  monitoring_selection_ = view;
+    monitoring_selection_ = view;
 
-  QObject::connect(monitoring_selection_,
-    SIGNAL(selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
-    this,
-    SLOT(on_monitoring_selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)));
+    QObject::connect(monitoring_selection_,
+                     SIGNAL(selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
+                     this,
+                     SLOT(on_monitoring_selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)));
 }
 
 /*!
@@ -233,15 +233,15 @@ void SelectableViewCollection::MonitorSelectionState(SelectableViewCollection* v
  */
 void SelectableViewCollection::StopMonitoringSelectionState()
 {
-  if (monitoring_selection_ == NULL)
-    return;
+    if (monitoring_selection_ == NULL)
+        return;
 
-  QObject::disconnect(monitoring_selection_,
-    SIGNAL(selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
-    this,
-    SLOT(on_monitoring_selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)));
+    QObject::disconnect(monitoring_selection_,
+                        SIGNAL(selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
+                        this,
+                        SLOT(on_monitoring_selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)));
 
-  monitoring_selection_ = NULL;
+    monitoring_selection_ = NULL;
 }
 
 /*!
@@ -250,7 +250,7 @@ void SelectableViewCollection::StopMonitoringSelectionState()
  */
 bool SelectableViewCollection::isMonitoringSelectionState()
 {
-  return (monitoring_selection_ != NULL);
+    return (monitoring_selection_ != NULL);
 }
 
 /*!
@@ -259,11 +259,11 @@ bool SelectableViewCollection::isMonitoringSelectionState()
  * \param unselected
  */
 void SelectableViewCollection::on_monitoring_selection_altered(
-  const QSet<DataObject*>* selected, const QSet<DataObject*>* unselected)
+        const QSet<DataObject*>* selected, const QSet<DataObject*>* unselected)
 {
-  if (selected != NULL)
-    SelectMany(*selected);
+    if (selected != NULL)
+        SelectMany(*selected);
 
-  if (unselected != NULL)
-    UnselectMany(*unselected);
+    if (unselected != NULL)
+        UnselectMany(*unselected);
 }

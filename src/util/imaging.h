@@ -32,7 +32,7 @@
  * \return
  */
 inline int clampi(int i, int min, int max) {
-  return (i < min) ? min : ((i > max) ? max : i);
+    return (i < min) ? min : ((i > max) ? max : i);
 }
 
 /*!
@@ -43,119 +43,125 @@ inline int clampi(int i, int min, int max) {
  * \return
  */
 inline float clampf(float x, float min, float max) {
-  return (x < min) ? min : ((x > max) ? max : x);
+    return (x < min) ? min : ((x > max) ? max : x);
 }
 
 /*!
  * \brief The HSVTransformation class
  */
-class HSVTransformation {
- public:
-  HSVTransformation() { }
-  virtual ~HSVTransformation() { }
+class HSVTransformation
+{
+public:
+    HSVTransformation() { }
+    virtual ~HSVTransformation() { }
 
-  virtual QColor transform_pixel(const QColor& pixel_color) const;
-  virtual bool is_identity() const = 0;
+    virtual QColor transform_pixel(const QColor& pixel_color) const;
+    virtual bool is_identity() const = 0;
 
- protected:
-  int remap_table_[256];
+protected:
+    int remap_table_[256];
 };
 
 /*!
  * \brief The IntensityHistogram class
  */
-class IntensityHistogram {
- public:
-  IntensityHistogram(const QImage& basis_image);
-  virtual ~IntensityHistogram() { }
+class IntensityHistogram
+{
+public:
+    IntensityHistogram(const QImage& basis_image);
+    virtual ~IntensityHistogram() { }
 
-  float get_cumulative_probability(int level);
+    float get_cumulative_probability(int level);
 
- private:
-  int counts_[256];
-  float probabilities_[256];
-  float cumulative_probabilities_[256];
+private:
+    int counts_[256];
+    float probabilities_[256];
+    float cumulative_probabilities_[256];
 };
 
 /*!
  * \brief The ToneExpansionTransformation class
  */
-class ToneExpansionTransformation : public virtual HSVTransformation {
-  static const float DEFAULT_LOW_DISCARD_MASS;
-  static const float DEFAULT_HIGH_DISCARD_MASS;
+class ToneExpansionTransformation : public virtual HSVTransformation
+{
+    static const float DEFAULT_LOW_DISCARD_MASS;
+    static const float DEFAULT_HIGH_DISCARD_MASS;
 
- public:
-  ToneExpansionTransformation(IntensityHistogram h, float low_discard_mass =
-    -1.0f, float high_discard_mass = -1.0f);
-  virtual ~ToneExpansionTransformation() { }
+public:
+    ToneExpansionTransformation(IntensityHistogram h, float low_discard_mass =
+            -1.0f, float high_discard_mass = -1.0f);
+    virtual ~ToneExpansionTransformation() { }
 
-  bool is_identity() const;
+    bool is_identity() const;
 
-  float low_discard_mass() const;
-  float high_discard_mass() const;
+    float low_discard_mass() const;
+    float high_discard_mass() const;
 
- private:
-  void build_remap_table();
+private:
+    void build_remap_table();
 
-  int low_kink_;
-  int high_kink_;
-  float low_discard_mass_;
-  float high_discard_mass_;
+    int low_kink_;
+    int high_kink_;
+    float low_discard_mass_;
+    float high_discard_mass_;
 };
 
 /*!
  * \brief The HermiteGammaApproximationFunction class
  */
-class HermiteGammaApproximationFunction {
- public:
-  HermiteGammaApproximationFunction(float user_interval_upper);
-  virtual ~HermiteGammaApproximationFunction() { }
+class HermiteGammaApproximationFunction
+{
+public:
+    HermiteGammaApproximationFunction(float user_interval_upper);
+    virtual ~HermiteGammaApproximationFunction() { }
 
-  float evaluate(float x);
+    float evaluate(float x);
 
- private:
-  float x_scale_;
-  float nonzero_interval_upper_;
+private:
+    float x_scale_;
+    float nonzero_interval_upper_;
 };
 
 /*!
  * \brief The ShadowDetailTransformation class
  */
-class ShadowDetailTransformation : public virtual HSVTransformation {
-  static const float MAX_EFFECT_SHIFT;
-  static const float MIN_TONAL_WIDTH;
-  static const float MAX_TONAL_WIDTH;
-  static const float TONAL_WIDTH;
+class ShadowDetailTransformation : public virtual HSVTransformation
+{
+    static const float MAX_EFFECT_SHIFT;
+    static const float MIN_TONAL_WIDTH;
+    static const float MAX_TONAL_WIDTH;
+    static const float TONAL_WIDTH;
 
- public:
-  ShadowDetailTransformation(float intensity);
+public:
+    ShadowDetailTransformation(float intensity);
 
-  bool is_identity() const;
+    bool is_identity() const;
 
- private:
-  float intensity_;
+private:
+    float intensity_;
 };
 
 /*!
  * \brief The AutoEnhanceTransformation class
  */
-class AutoEnhanceTransformation : public virtual HSVTransformation {
-  static const int SHADOW_DETECT_MIN_INTENSITY;
-  static const int SHADOW_DETECT_MAX_INTENSITY;
-  static const int SHADOW_DETECT_INTENSITY_RANGE;
-  static const int EMPIRICAL_DARK;
-  static const float SHADOW_AGGRESSIVENESS_MUL;
+class AutoEnhanceTransformation : public virtual HSVTransformation
+{
+    static const int SHADOW_DETECT_MIN_INTENSITY;
+    static const int SHADOW_DETECT_MAX_INTENSITY;
+    static const int SHADOW_DETECT_INTENSITY_RANGE;
+    static const int EMPIRICAL_DARK;
+    static const float SHADOW_AGGRESSIVENESS_MUL;
 
- public:
-  AutoEnhanceTransformation(const QImage& basis_image);
-  virtual ~AutoEnhanceTransformation();
+public:
+    AutoEnhanceTransformation(const QImage& basis_image);
+    virtual ~AutoEnhanceTransformation();
 
-  QColor transform_pixel(const QColor& pixel_color) const;
-  bool is_identity() const;
+    QColor transform_pixel(const QColor& pixel_color) const;
+    bool is_identity() const;
 
- private:
-  ShadowDetailTransformation* shadow_transform_;
-  ToneExpansionTransformation* tone_expansion_transform_;
+private:
+    ShadowDetailTransformation* shadow_transform_;
+    ToneExpansionTransformation* tone_expansion_transform_;
 };
 
 /*!

@@ -36,43 +36,43 @@ class GalleryManager;
  */
 class GalleryApplication : public QApplication
 {
-  Q_OBJECT
+    Q_OBJECT
 
- public:
-  explicit GalleryApplication(int& argc, char** argv);
-  virtual ~GalleryApplication();
-  
-  int exec();
-  
-  static GalleryApplication* instance();
-  
-  void setObjectOwnership(QObject* object, QQmlEngine::ObjectOwnership ownership);
+public:
+    explicit GalleryApplication(int& argc, char** argv);
+    virtual ~GalleryApplication();
 
-  Q_INVOKABLE bool run_command(const QString &cmd, const QString &arg);
+    int exec();
 
-  QHash<QString, QSize>& form_factors() { return form_factors_; }
+    static GalleryApplication* instance();
 
-  CommandLineParser* cmd_line_parser() { return cmd_line_parser_; }
+    void setObjectOwnership(QObject* object, QQmlEngine::ObjectOwnership ownership);
 
- private:
-  void register_qml();
-  void create_view();
-  void init_collections();
-  
-  QHash<QString, QSize> form_factors_;
-  int bgu_size_;
-  QQuickView view_;
-  QElapsedTimer timer_;
-  MediaMonitor* monitor_;
+    Q_INVOKABLE bool run_command(const QString &cmd, const QString &arg);
 
-  CommandLineParser* cmd_line_parser_;
+    QHash<QString, QSize>& form_factors() { return form_factors_; }
 
- private slots:
-  void start_init_collections();
-  void on_media_item_added(QFileInfo item_info);
+    CommandLineParser* cmd_line_parser() { return cmd_line_parser_; }
+
+private:
+    void register_qml();
+    void create_view();
+    void init_collections();
+
+    QHash<QString, QSize> form_factors_;
+    int bgu_size_;
+    QQuickView view_;
+    QElapsedTimer timer_;
+    MediaMonitor* monitor_;
+
+    CommandLineParser* cmd_line_parser_;
+
+private slots:
+    void start_init_collections();
+    void on_media_item_added(QFileInfo item_info);
 
 signals:
-  void media_loaded();
+    void media_loaded();
 };
 
 #endif // GALLERYAPPLICATION_H

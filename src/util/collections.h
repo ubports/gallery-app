@@ -24,61 +24,65 @@
 #include <QSet>
 
 template <class F, class T>
-QList<T> CastListToType(const QList<F>& from) {
-  QList<T> to;
-  
-  F from_element;
-  foreach (from_element, from) {
-    T to_element = qobject_cast<T>(from_element);
-    Q_ASSERT(to_element != NULL);
-    
-    to.append(to_element);
-  }
-  
-  return to;
+QList<T> CastListToType(const QList<F>& from)
+{
+    QList<T> to;
+
+    F from_element;
+    foreach (from_element, from) {
+        T to_element = qobject_cast<T>(from_element);
+        Q_ASSERT(to_element != NULL);
+
+        to.append(to_element);
+    }
+
+    return to;
 }
 
 template <class F, class T>
-QSet<T> CastSetToType(const QSet<F>& from) {
-  QSet<T> to;
-  
-  F from_element;
-  foreach (from_element, from) {
-    T to_element = qobject_cast<T>(from_element);
-    Q_ASSERT(to_element != NULL);
-    
-    to.insert(to_element);
-  }
-  
-  return to;
+QSet<T> CastSetToType(const QSet<F>& from)
+{
+    QSet<T> to;
+
+    F from_element;
+    foreach (from_element, from) {
+        T to_element = qobject_cast<T>(from_element);
+        Q_ASSERT(to_element != NULL);
+
+        to.insert(to_element);
+    }
+
+    return to;
 }
 
 template <class T, class A>
-QSet<T> FilterSetOnlyType(const QSet<T>& from) {
-  QSet<T> to;
-  
-  T element;
-  foreach (element, from) {
-    A casted_element = qobject_cast<A>(element);
-    if (casted_element != NULL)
-      to.insert(element);
-  }
-  
-  return to;
+QSet<T> FilterSetOnlyType(const QSet<T>& from)
+{
+    QSet<T> to;
+
+    T element;
+    foreach (element, from) {
+        A casted_element = qobject_cast<A>(element);
+        if (casted_element != NULL)
+            to.insert(element);
+    }
+
+    return to;
 }
 
 template <class T, class A>
-QList<T> FilterListOnlyType(const QList<T>& from) {
-  QList<T> to;
-  
-  T element;
-  foreach (element, from) {
-    A casted_element = qobject_cast<A>(element);
-    if (casted_element != NULL)
-      to.append(element);
-  }
-  
-  return to;
+QList<T> FilterListOnlyType(const QList<T>& from)
+{
+    QList<T> to;
+
+    T element;
+    foreach (element, from) {
+        A casted_element = qobject_cast<A>(element);
+        if (casted_element != NULL)
+            to.append(element);
+    }
+
+    return to;
 }
 
 #endif  // GALLERY_UTIL_COLLECTIONS_H_

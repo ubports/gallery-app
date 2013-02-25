@@ -26,14 +26,14 @@
  * \param comparator
  */
 ContainerSource::ContainerSource(QObject * parent, const QString& name, DataObjectComparator comparator)
-  : DataSource(parent), contained_(QString("Container for ") + QString(name))
+    : DataSource(parent), contained_(QString("Container for ") + QString(name))
 {
-  contained_.SetComparator(comparator);
-  
-  QObject::connect(&contained_,
-    SIGNAL(contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
-    this,
-    SLOT(on_contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
+    contained_.SetComparator(comparator);
+
+    QObject::connect(&contained_,
+                     SIGNAL(contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
+                     this,
+                     SLOT(on_contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
 }
 
 /*!
@@ -42,7 +42,7 @@ ContainerSource::ContainerSource(QObject * parent, const QString& name, DataObje
  */
 void ContainerSource::Attach(DataObject* object)
 {
-  contained_.Add(object);
+    contained_.Add(object);
 }
 
 /*!
@@ -51,7 +51,7 @@ void ContainerSource::Attach(DataObject* object)
  */
 void ContainerSource::AttachMany(const QSet<DataObject*>& objects)
 {
-  contained_.AddMany(objects);
+    contained_.AddMany(objects);
 }
 
 /*!
@@ -60,7 +60,7 @@ void ContainerSource::AttachMany(const QSet<DataObject*>& objects)
  */
 void ContainerSource::Detach(DataObject* object)
 {
-  contained_.Remove(object);
+    contained_.Remove(object);
 }
 
 /*!
@@ -69,7 +69,7 @@ void ContainerSource::Detach(DataObject* object)
  */
 void ContainerSource::DetachMany(const QSet<DataObject*>& objects)
 {
-  contained_.RemoveMany(objects);
+    contained_.RemoveMany(objects);
 }
 
 /*!
@@ -79,7 +79,7 @@ void ContainerSource::DetachMany(const QSet<DataObject*>& objects)
  */
 bool ContainerSource::Contains(DataObject* object) const
 {
-  return contained_.Contains(object);
+    return contained_.Contains(object);
 }
 
 /*!
@@ -89,7 +89,7 @@ bool ContainerSource::Contains(DataObject* object) const
  */
 bool ContainerSource::ContainsAll(ContainerSource* collection) const
 {
-  return contained_.ContainsAll(&collection->contained_);
+    return contained_.ContainsAll(&collection->contained_);
 }
 
 /*!
@@ -98,7 +98,7 @@ bool ContainerSource::ContainsAll(ContainerSource* collection) const
  */
 int ContainerSource::ContainedCount() const
 {
-  return contained_.Count();
+    return contained_.Count();
 }
 
 /*!
@@ -107,7 +107,7 @@ int ContainerSource::ContainedCount() const
  */
 const ViewCollection* ContainerSource::contained() const
 {
-  return &contained_;
+    return &contained_;
 }
 
 /*!
@@ -116,9 +116,9 @@ const ViewCollection* ContainerSource::contained() const
  * \param removed
  */
 void ContainerSource::notify_container_contents_altered(const QSet<DataObject*>* added,
-  const QSet<DataObject*>* removed)
+                                                        const QSet<DataObject*>* removed)
 {
-  emit container_contents_altered(added, removed);
+    emit container_contents_altered(added, removed);
 }
 
 /*!
@@ -127,7 +127,7 @@ void ContainerSource::notify_container_contents_altered(const QSet<DataObject*>*
  * \param removed
  */
 void ContainerSource::on_contents_altered(const QSet<DataObject*>* added,
-  const QSet<DataObject*>* removed)
+                                          const QSet<DataObject*>* removed)
 {
-  notify_container_contents_altered(added, removed);
+    notify_container_contents_altered(added, removed);
 }

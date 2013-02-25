@@ -24,21 +24,21 @@
  * \brief AlbumDefaultTemplate::AlbumDefaultTemplate
  */
 AlbumDefaultTemplate::AlbumDefaultTemplate()
-  : AlbumTemplate("Default Album Template"),
-    next_decision_page_type_(LANDSCAPE)
+    : AlbumTemplate("Default Album Template"),
+      next_decision_page_type_(LANDSCAPE)
 {
-  AddPage(new AlbumTemplatePage("Template A Left",
-      "qml/Components/AlbumInternals/AlbumPageLayoutLeftPortrait.qml",
-      true, 1, PORTRAIT));
-  AddPage(new AlbumTemplatePage("Template A Right",
-      "qml/Components/AlbumInternals/AlbumPageLayoutRightPortrait.qml",
-      false, 1, PORTRAIT));
-  AddPage(new AlbumTemplatePage("Template B Left",
-      "qml/Components/AlbumInternals/AlbumPageLayoutLeftDoubleLandscape.qml",
-      true, 2, LANDSCAPE, LANDSCAPE));
-  AddPage(new AlbumTemplatePage("Template B Right",
-      "qml/Components/AlbumInternals/AlbumPageLayoutRightDoubleLandscape.qml",
-      false, 2, LANDSCAPE, LANDSCAPE));
+    AddPage(new AlbumTemplatePage("Template A Left",
+                                  "qml/Components/AlbumInternals/AlbumPageLayoutLeftPortrait.qml",
+                                  true, 1, PORTRAIT));
+    AddPage(new AlbumTemplatePage("Template A Right",
+                                  "qml/Components/AlbumInternals/AlbumPageLayoutRightPortrait.qml",
+                                  false, 1, PORTRAIT));
+    AddPage(new AlbumTemplatePage("Template B Left",
+                                  "qml/Components/AlbumInternals/AlbumPageLayoutLeftDoubleLandscape.qml",
+                                  true, 2, LANDSCAPE, LANDSCAPE));
+    AddPage(new AlbumTemplatePage("Template B Right",
+                                  "qml/Components/AlbumInternals/AlbumPageLayoutRightDoubleLandscape.qml",
+                                  false, 2, LANDSCAPE, LANDSCAPE));
 }
 
 /*!
@@ -46,7 +46,7 @@ AlbumDefaultTemplate::AlbumDefaultTemplate()
  */
 void AlbumDefaultTemplate::reset_best_fit_data()
 {
-  next_decision_page_type_ = LANDSCAPE;
+    next_decision_page_type_ = LANDSCAPE;
 }
 
 /*!
@@ -57,45 +57,45 @@ void AlbumDefaultTemplate::reset_best_fit_data()
  * \return
  */
 AlbumTemplatePage* AlbumDefaultTemplate::get_best_fit_page(bool is_left,
-    int num_photos, PageOrientation photo_orientations[])
+                                                           int num_photos, PageOrientation photo_orientations[])
 {
 
-  QList<AlbumTemplatePage*> candidates;
-  foreach(AlbumTemplatePage* page, pages()) {
-    if (page->is_left() == is_left)
-      candidates.append(page);
-  }
+    QList<AlbumTemplatePage*> candidates;
+    foreach(AlbumTemplatePage* page, pages()) {
+        if (page->is_left() == is_left)
+            candidates.append(page);
+    }
 
-  // If the first photo is portrait (or there are no photos to place), we use
-  // the page with a portrait slot.
-  if (num_photos < 1 || photo_orientations[0] == PORTRAIT) {
+    // If the first photo is portrait (or there are no photos to place), we use
+    // the page with a portrait slot.
+    if (num_photos < 1 || photo_orientations[0] == PORTRAIT) {
+        foreach(AlbumTemplatePage* page, candidates) {
+            if (page->FramesFor(PORTRAIT) > 0)
+                return page;
+        }
+    }
+
+    // If two landscapes (or just one landscape at the end of the list), use the
+    // page with multiple landscape slots.
+    if (num_photos == 1 || photo_orientations[1] != PORTRAIT) {
+        foreach(AlbumTemplatePage* page, candidates) {
+            if (page->FramesFor(LANDSCAPE) > 1)
+                return page;
+        }
+    }
+
+    // In this case, we've got a landscape followed by a portrait.  There's no
+    // easy way to handle this, so we flip-flop returning the two possible pages.
+    AlbumTemplatePage* selected = NULL;
     foreach(AlbumTemplatePage* page, candidates) {
-      if (page->FramesFor(PORTRAIT) > 0)
-        return page;
+        if (page->FramesFor(next_decision_page_type_) > 0) {
+            selected = page;
+            break;
+        }
     }
-  }
 
-  // If two landscapes (or just one landscape at the end of the list), use the
-  // page with multiple landscape slots.
-  if (num_photos == 1 || photo_orientations[1] != PORTRAIT) {
-    foreach(AlbumTemplatePage* page, candidates) {
-      if (page->FramesFor(LANDSCAPE) > 1)
-        return page;
-    }
-  }
-
-  // In this case, we've got a landscape followed by a portrait.  There's no
-  // easy way to handle this, so we flip-flop returning the two possible pages.
-  AlbumTemplatePage* selected = NULL;
-  foreach(AlbumTemplatePage* page, candidates) {
-    if (page->FramesFor(next_decision_page_type_) > 0) {
-      selected = page;
-      break;
-    }
-  }
-
-  next_decision_page_type_ = (next_decision_page_type_ == PORTRAIT
-                              ? LANDSCAPE : PORTRAIT);
-  Q_ASSERT(selected != NULL);
-  return selected;
+    next_decision_page_type_ = (next_decision_page_type_ == PORTRAIT
+                                ? LANDSCAPE : PORTRAIT);
+    Q_ASSERT(selected != NULL);
+    return selected;
 }

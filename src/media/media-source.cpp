@@ -44,7 +44,7 @@ MediaSource::MediaSource()
 MediaSource::MediaSource(const QFileInfo& file)
     : id_(INVALID_ID)
 {
-  file_ = file;
+    file_ = file;
 }
 
 /*!
@@ -52,7 +52,7 @@ MediaSource::MediaSource(const QFileInfo& file)
  */
 void MediaSource::RegisterType()
 {
-  qmlRegisterType<MediaSource>("Gallery", 1, 0, "MediaSource");
+    qmlRegisterType<MediaSource>("Gallery", 1, 0, "MediaSource");
 }
 
 /*!
@@ -61,7 +61,7 @@ void MediaSource::RegisterType()
  */
 QFileInfo MediaSource::file() const
 {
-  return file_;
+    return file_;
 }
 
 /*!
@@ -70,7 +70,7 @@ QFileInfo MediaSource::file() const
  */
 QUrl MediaSource::path() const
 {
-  return QUrl::fromLocalFile(file_.absoluteFilePath());
+    return QUrl::fromLocalFile(file_.absoluteFilePath());
 }
 
 /*!
@@ -79,7 +79,7 @@ QUrl MediaSource::path() const
  */
 QUrl MediaSource::gallery_path() const
 {
-  return GalleryStandardImageProvider::ToURL(file_);
+    return GalleryStandardImageProvider::ToURL(file_);
 }
 
 /*!
@@ -88,7 +88,7 @@ QUrl MediaSource::gallery_path() const
  */
 QFileInfo MediaSource::preview_file() const
 {
-  return GalleryManager::instance()->preview_manager()->PreviewFileFor(file_);
+    return GalleryManager::instance()->preview_manager()->PreviewFileFor(file_);
 }
 
 /*!
@@ -97,7 +97,7 @@ QFileInfo MediaSource::preview_file() const
  */
 QUrl MediaSource::preview_path() const
 {
-  return QUrl::fromLocalFile(preview_file().absoluteFilePath());
+    return QUrl::fromLocalFile(preview_file().absoluteFilePath());
 }
 
 /*!
@@ -106,7 +106,7 @@ QUrl MediaSource::preview_path() const
  */
 QUrl MediaSource::gallery_preview_path() const
 {
-  return GalleryStandardImageProvider::ToURL(file_);
+    return GalleryStandardImageProvider::ToURL(file_);
 }
 
 /*!
@@ -115,7 +115,7 @@ QUrl MediaSource::gallery_preview_path() const
  */
 QFileInfo MediaSource::thumbnail_file() const
 {
-  return GalleryManager::instance()->preview_manager()->ThumbnailFileFor(file_);
+    return GalleryManager::instance()->preview_manager()->ThumbnailFileFor(file_);
 }
 
 /*!
@@ -124,7 +124,7 @@ QFileInfo MediaSource::thumbnail_file() const
  */
 QUrl MediaSource::thumbnail_path() const
 {
-  return QUrl::fromLocalFile(thumbnail_file().absoluteFilePath());
+    return QUrl::fromLocalFile(thumbnail_file().absoluteFilePath());
 }
 
 /*!
@@ -133,7 +133,7 @@ QUrl MediaSource::thumbnail_path() const
  */
 QUrl MediaSource::gallery_thumbnail_path() const
 {
-  return GalleryThumbnailImageProvider::ToURL(file_);
+    return GalleryThumbnailImageProvider::ToURL(file_);
 }
 
 /*!
@@ -143,8 +143,8 @@ QUrl MediaSource::gallery_thumbnail_path() const
  */
 QImage MediaSource::Image(bool respect_orientation)
 {
-  // QML data types cannot be abstract, so return a null image
-  return QImage();
+    // QML data types cannot be abstract, so return a null image
+    return QImage();
 }
 
 /*!
@@ -153,9 +153,9 @@ QImage MediaSource::Image(bool respect_orientation)
  */
 Orientation MediaSource::orientation() const
 {
-  // Default is identity orientation; subclasses should parse source's metadata
-  // and return proper value
-  return TOP_LEFT_ORIGIN;
+    // Default is identity orientation; subclasses should parse source's metadata
+    // and return proper value
+    return TOP_LEFT_ORIGIN;
 }
 
 /*!
@@ -164,7 +164,7 @@ Orientation MediaSource::orientation() const
  */
 QDateTime MediaSource::exposure_date_time() const
 {
-  return QDateTime();
+    return QDateTime();
 }
 
 /*!
@@ -173,14 +173,14 @@ QDateTime MediaSource::exposure_date_time() const
  */
 const QSize& MediaSource::size()
 {
-  if (!is_size_set()) {
-    // This is potentially very slow, so you should set the size as early as
-    // possible to avoid this.
-    QImage image = Image();
-    set_size(image.size());
-  }
+    if (!is_size_set()) {
+        // This is potentially very slow, so you should set the size as early as
+        // possible to avoid this.
+        QImage image = Image();
+        set_size(image.size());
+    }
 
-  return size_;
+    return size_;
 }
 
 /*!
@@ -189,11 +189,11 @@ const QSize& MediaSource::size()
  */
 void MediaSource::set_size(const QSize& size)
 {
-  if (size_ == size)
-    return;
+    if (size_ == size)
+        return;
 
-  size_ = size;
-  notify_size_altered();
+    size_ = size;
+    notify_size_altered();
 }
 
 /*!
@@ -202,7 +202,7 @@ void MediaSource::set_size(const QSize& size)
  */
 bool MediaSource::is_size_set() const
 {
-  return size_.isValid();
+    return size_.isValid();
 }
 
 /*!
@@ -211,7 +211,7 @@ bool MediaSource::is_size_set() const
  */
 QDate MediaSource::exposure_date() const
 {
-  return exposure_date_time().date();
+    return exposure_date_time().date();
 }
 
 /*!
@@ -220,7 +220,7 @@ QDate MediaSource::exposure_date() const
  */
 QTime MediaSource::exposure_time_of_day() const
 {
-  return exposure_date_time().time();
+    return exposure_date_time().time();
 }
 
 /*!
@@ -229,7 +229,7 @@ QTime MediaSource::exposure_time_of_day() const
  */
 int MediaSource::exposure_time_t() const
 {
-  return (int) exposure_date_time().toTime_t();
+    return (int) exposure_date_time().toTime_t();
 }
 
 /*!
@@ -238,7 +238,7 @@ int MediaSource::exposure_time_t() const
  */
 Event* MediaSource::FindEvent()
 {
-  return GalleryManager::instance()->event_collection()->EventForMediaSource(this);
+    return GalleryManager::instance()->event_collection()->EventForMediaSource(this);
 }
 
 /*!
@@ -247,7 +247,7 @@ Event* MediaSource::FindEvent()
  */
 QVariant MediaSource::QmlFindEvent()
 {
-  return QVariant::fromValue(FindEvent());
+    return QVariant::fromValue(FindEvent());
 }
 
 /*!
@@ -256,7 +256,7 @@ QVariant MediaSource::QmlFindEvent()
  */
 bool MediaSource::busy()
 {
-  return busy_;
+    return busy_;
 }
 
 /*!
@@ -265,7 +265,7 @@ bool MediaSource::busy()
  */
 void MediaSource::set_id(qint64 id)
 {
-  id_ = id;
+    id_ = id;
 }
 
 /*!
@@ -274,7 +274,7 @@ void MediaSource::set_id(qint64 id)
  */
 qint64 MediaSource::get_id()
 {
-  return id_;
+    return id_;
 }
 
 /*!
@@ -283,11 +283,11 @@ qint64 MediaSource::get_id()
  */
 void MediaSource::set_busy(bool busy)
 {
-  if (busy == busy_)
-    return;
-  
-  busy_ = busy;
-  emit busyChanged();
+    if (busy == busy_)
+        return;
+
+    busy_ = busy;
+    emit busyChanged();
 }
 
 /*!
@@ -306,10 +306,10 @@ int MediaSource::maxSize() const
  */
 void MediaSource::DestroySource(bool delete_backing, bool as_orphan)
 {
-  if (delete_backing) {
-    if (!QFile::remove(file_.absoluteFilePath()))
-      qDebug("Unable to delete media file %s", qPrintable(file_.absoluteFilePath()));
-  }
+    if (delete_backing) {
+        if (!QFile::remove(file_.absoluteFilePath()))
+            qDebug("Unable to delete media file %s", qPrintable(file_.absoluteFilePath()));
+    }
 }
 
 /*!
@@ -317,7 +317,7 @@ void MediaSource::DestroySource(bool delete_backing, bool as_orphan)
  */
 void MediaSource::notify_data_altered()
 {
-  emit data_altered();
+    emit data_altered();
 }
 
 /*!
@@ -325,8 +325,8 @@ void MediaSource::notify_data_altered()
  */
 void MediaSource::notify_size_altered()
 {
-  emit size_altered();
+    emit size_altered();
 
-  if (id_ != INVALID_ID)
-    GalleryManager::instance()->database()->get_media_table()->set_media_size(id_, size_);
+    if (id_ != INVALID_ID)
+        GalleryManager::instance()->database()->get_media_table()->set_media_size(id_, size_);
 }

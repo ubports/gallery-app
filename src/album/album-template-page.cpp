@@ -29,17 +29,17 @@
  */
 AlbumTemplatePage::AlbumTemplatePage(const char* name, const char* qml_rc,
                                      bool is_left, int frame_count, ...)
-  : name_(name), is_left_(is_left)
+    : name_(name), is_left_(is_left)
 {
-  Q_ASSERT(frame_count >= 0);
-  
-  va_list valist;
-  va_start(valist, frame_count);
-  for (int ctr = 0; ctr < frame_count; ctr++)
-    layout_.append(static_cast<PageOrientation>(va_arg(valist, int)));
-  va_end(valist);
-  
-  qml_rc_ = QString(qml_rc);
+    Q_ASSERT(frame_count >= 0);
+
+    va_list valist;
+    va_start(valist, frame_count);
+    for (int ctr = 0; ctr < frame_count; ctr++)
+        layout_.append(static_cast<PageOrientation>(va_arg(valist, int)));
+    va_end(valist);
+
+    qml_rc_ = QString(qml_rc);
 }
 
 /*!
@@ -48,7 +48,7 @@ AlbumTemplatePage::AlbumTemplatePage(const char* name, const char* qml_rc,
  */
 const QString& AlbumTemplatePage::name() const
 {
-  return name_;
+    return name_;
 }
 
 /*!
@@ -57,7 +57,7 @@ const QString& AlbumTemplatePage::name() const
  */
 const QString& AlbumTemplatePage::qml_rc() const
 {
-  return qml_rc_;
+    return qml_rc_;
 }
 
 /*!
@@ -66,7 +66,7 @@ const QString& AlbumTemplatePage::qml_rc() const
  */
 bool AlbumTemplatePage::is_left() const
 {
-  return is_left_;
+    return is_left_;
 }
 
 /*!
@@ -75,7 +75,7 @@ bool AlbumTemplatePage::is_left() const
  */
 int AlbumTemplatePage::FrameCount() const
 {
-  return layout_.count();
+    return layout_.count();
 }
 
 /*!
@@ -85,14 +85,14 @@ int AlbumTemplatePage::FrameCount() const
  */
 int AlbumTemplatePage::FramesFor(PageOrientation orientation) const
 {
-  int count = 0;
-  PageOrientation o;
-  foreach (o, layout_) {
-    if (o == orientation)
-      count++;
-  }
-  
-  return count;
+    int count = 0;
+    PageOrientation o;
+    foreach (o, layout_) {
+        if (o == orientation)
+            count++;
+    }
+
+    return count;
 }
 
 /*!
@@ -101,5 +101,5 @@ int AlbumTemplatePage::FramesFor(PageOrientation orientation) const
  */
 const QList<PageOrientation>& AlbumTemplatePage::Layout() const
 {
-  return layout_;
+    return layout_;
 }

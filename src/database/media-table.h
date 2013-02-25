@@ -31,41 +31,41 @@ class Database;
  */
 class MediaTable : public QObject
 {
-  Q_OBJECT
-  
- public:
-  explicit MediaTable(Database* db, QObject *parent = 0);
-  
-  void verify_files();
-  
-  qint64 get_id_for_media(const QString& filename);
-  
-  qint64 create_id_for_media(const QString& filename, const QDateTime& timestamp,
-    const QDateTime& exposure_time, Orientation original_orientation,
-    qint64 filesize);
-  
-  void update_media(qint64 media_id, const QString& filename, 
-    const QDateTime& timestamp, const QDateTime& exposure_time,
-    Orientation original_orientation, qint64 filesize);
-  
-  void get_row(qint64 media_id, QSize& size, Orientation& original_orientation,
-    QDateTime& file_timestamp, QDateTime& exposure_date_time);
-  
-  void remove(qint64 mediaId);
+    Q_OBJECT
 
-  QSize get_media_size(qint64 media_id);
-  void set_media_size(qint64 media_id, const QSize& size);
-  
-  void set_original_orientation(qint64 media_id, const Orientation& orientation);
-  
-  QDateTime get_file_timestamp(qint64 media_id);
-  
-  QDateTime get_exposure_time(qint64 media_id);
-  
-  bool row_needs_update(qint64 media_id);
-  
- private:
-  Database* db_;
+public:
+    explicit MediaTable(Database* db, QObject *parent = 0);
+
+    void verify_files();
+
+    qint64 get_id_for_media(const QString& filename);
+
+    qint64 create_id_for_media(const QString& filename, const QDateTime& timestamp,
+                               const QDateTime& exposure_time, Orientation original_orientation,
+                               qint64 filesize);
+
+    void update_media(qint64 media_id, const QString& filename,
+                      const QDateTime& timestamp, const QDateTime& exposure_time,
+                      Orientation original_orientation, qint64 filesize);
+
+    void get_row(qint64 media_id, QSize& size, Orientation& original_orientation,
+                 QDateTime& file_timestamp, QDateTime& exposure_date_time);
+
+    void remove(qint64 mediaId);
+
+    QSize get_media_size(qint64 media_id);
+    void set_media_size(qint64 media_id, const QSize& size);
+
+    void set_original_orientation(qint64 media_id, const Orientation& orientation);
+
+    QDateTime get_file_timestamp(qint64 media_id);
+
+    QDateTime get_exposure_time(qint64 media_id);
+
+    bool row_needs_update(qint64 media_id);
+
+private:
+    Database* db_;
 };
 
 #endif // MEDIATABLE_H

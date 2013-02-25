@@ -28,10 +28,10 @@
  * \param name
  */
 DataCollection::DataCollection(const QString& name)
-  : name_(name.toUtf8()), comparator_(DefaultDataObjectComparator)
+    : name_(name.toUtf8()), comparator_(DefaultDataObjectComparator)
 {
-  // All DataCollections are registered as C++ ownership; QML should never GC them
-  GalleryApplication::instance()->setObjectOwnership(this, QQmlEngine::CppOwnership);
+    // All DataCollections are registered as C++ ownership; QML should never GC them
+    GalleryApplication::instance()->setObjectOwnership(this, QQmlEngine::CppOwnership);
 }
 
 /*!
@@ -40,9 +40,9 @@ DataCollection::DataCollection(const QString& name)
  * \param removed
  */
 void DataCollection::notify_contents_to_be_altered(const QSet<DataObject*>* added,
-  const QSet<DataObject*>* removed)
+                                                   const QSet<DataObject*>* removed)
 {
-  emit contents_to_be_altered(added, removed);
+    emit contents_to_be_altered(added, removed);
 }
 
 /*!
@@ -51,9 +51,9 @@ void DataCollection::notify_contents_to_be_altered(const QSet<DataObject*>* adde
  * \param removed
  */
 void DataCollection::notify_contents_altered(const QSet<DataObject*>* added,
-  const QSet<DataObject*>* removed)
+                                             const QSet<DataObject*>* removed)
 {
-  emit contents_altered(added, removed);
+    emit contents_altered(added, removed);
 }
 
 /*!
@@ -61,7 +61,7 @@ void DataCollection::notify_contents_altered(const QSet<DataObject*>* added,
  */
 void DataCollection::notify_ordering_altered()
 {
-  emit ordering_altered();
+    emit ordering_altered();
 }
 
 /*!
@@ -70,7 +70,7 @@ void DataCollection::notify_ordering_altered()
  */
 int DataCollection::Count() const
 {
-  return list_.size();
+    return list_.size();
 }
 
 /*!
@@ -79,26 +79,26 @@ int DataCollection::Count() const
  */
 void DataCollection::Add(DataObject* object)
 {
-  Q_ASSERT(object != NULL);
-  
-  // Silently prevent double-adds
-  if (set_.contains(object))
-    return;
-  
-  // The "contents" signals require a QSet as a parameter
-  QSet<DataObject*> to_add;
-  to_add.insert(object);
-  
-  notify_contents_to_be_altered(&to_add, NULL);
-  
-  // Cheaper to binary insert single item than append it to list and do a
-  // complete re-sort
-  BinaryListInsert(object);
-  set_.insert(object);
-  
-  notify_contents_altered(&to_add, NULL);
-  
-  Sanity();
+    Q_ASSERT(object != NULL);
+
+    // Silently prevent double-adds
+    if (set_.contains(object))
+        return;
+
+    // The "contents" signals require a QSet as a parameter
+    QSet<DataObject*> to_add;
+    to_add.insert(object);
+
+    notify_contents_to_be_altered(&to_add, NULL);
+
+    // Cheaper to binary insert single item than append it to list and do a
+    // complete re-sort
+    BinaryListInsert(object);
+    set_.insert(object);
+
+    notify_contents_altered(&to_add, NULL);
+
+    Sanity();
 }
 
 /*!
@@ -107,48 +107,48 @@ void DataCollection::Add(DataObject* object)
  */
 void DataCollection::AddMany(const QSet<DataObject*>& objects)
 {
-  if (objects.count() == 0)
-    return;
-  
-  // Silently prevent double-adds (as well as create a QList for a single
-  // append operation on the internal list)
-  QList<DataObject*> to_add_list;
-  DataObject* object;
-  foreach (object, objects) {
-    Q_ASSERT(object != NULL);
-    
-    if (!set_.contains(object))
-      to_add_list.append(object);
-  }
-  
-  int add_count = to_add_list.count();
-  if (add_count == 0)
-    return;
-  
-  // The "contents" signals require a QSet as a parameter, however, avoid
-  // creating it if no objects were removed in above loop (which is quite likely
-  // in most use cases)
-  QSet<DataObject*> to_add(
-    (objects.count() == add_count) ? objects : to_add_list.toSet());
-  
-  notify_contents_to_be_altered(&to_add, NULL);
-  
-  // use binary insertion if only adding one object
-  if (add_count == 1) {
-    object = to_add_list[0];
-    
-    BinaryListInsert(object);
-    set_.insert(object);
-  } else {
-    list_.append(to_add_list);
-    set_.unite(to_add);
-    
-    Resort(false);
-  }
-  
-  notify_contents_altered(&to_add, NULL);
-  
-  Sanity();
+    if (objects.count() == 0)
+        return;
+
+    // Silently prevent double-adds (as well as create a QList for a single
+    // append operation on the internal list)
+    QList<DataObject*> to_add_list;
+    DataObject* object;
+    foreach (object, objects) {
+        Q_ASSERT(object != NULL);
+
+        if (!set_.contains(object))
+            to_add_list.append(object);
+    }
+
+    int add_count = to_add_list.count();
+    if (add_count == 0)
+        return;
+
+    // The "contents" signals require a QSet as a parameter, however, avoid
+    // creating it if no objects were removed in above loop (which is quite likely
+    // in most use cases)
+    QSet<DataObject*> to_add(
+                (objects.count() == add_count) ? objects : to_add_list.toSet());
+
+    notify_contents_to_be_altered(&to_add, NULL);
+
+    // use binary insertion if only adding one object
+    if (add_count == 1) {
+        object = to_add_list[0];
+
+        BinaryListInsert(object);
+        set_.insert(object);
+    } else {
+        list_.append(to_add_list);
+        set_.unite(to_add);
+
+        Resort(false);
+    }
+
+    notify_contents_altered(&to_add, NULL);
+
+    Sanity();
 }
 
 /*!
@@ -157,25 +157,25 @@ void DataCollection::AddMany(const QSet<DataObject*>& objects)
  */
 void DataCollection::Remove(DataObject* object)
 {
-  // Silently exit on bad removes
-  if (object == NULL || !set_.contains(object))
-    return;
-  
-  // "contents" signals require a QSet as a parameter
-  QSet<DataObject*> to_remove;
-  to_remove.insert(object);
-  
-  notify_contents_to_be_altered(NULL, &to_remove);
-  
-  bool removed = set_.remove(object);
-  Q_ASSERT(removed);
-  removed = list_.removeOne(object);
-  Q_ASSERT(removed);
-  Q_UNUSED(removed);
-  
-  notify_contents_altered(NULL, &to_remove);
-  
-  Sanity();
+    // Silently exit on bad removes
+    if (object == NULL || !set_.contains(object))
+        return;
+
+    // "contents" signals require a QSet as a parameter
+    QSet<DataObject*> to_remove;
+    to_remove.insert(object);
+
+    notify_contents_to_be_altered(NULL, &to_remove);
+
+    bool removed = set_.remove(object);
+    Q_ASSERT(removed);
+    removed = list_.removeOne(object);
+    Q_ASSERT(removed);
+    Q_UNUSED(removed);
+
+    notify_contents_altered(NULL, &to_remove);
+
+    Sanity();
 }
 
 /*!
@@ -184,8 +184,8 @@ void DataCollection::Remove(DataObject* object)
  */
 void DataCollection::RemoveAt(int index)
 {
-  if (index >= 0 && index < Count())
-    Remove(GetAt(index));
+    if (index >= 0 && index < Count())
+        Remove(GetAt(index));
 }
 
 /*!
@@ -194,33 +194,33 @@ void DataCollection::RemoveAt(int index)
  */
 void DataCollection::RemoveMany(const QSet<DataObject *> &objects)
 {
-  if (objects.count() == 0)
-    return;
-  
-  // Want to only report DataObjects that are actually removed
-  QSet<DataObject*> to_remove;
-  DataObject* object;
-  foreach (object, objects) {
-    if (object != NULL && set_.contains(object))
-      to_remove.insert(object);
-  }
-  
-  if (to_remove.count() == 0)
-    return;
-  
-  notify_contents_to_be_altered(NULL, &to_remove);
-  
-  foreach (object, to_remove) {
-    bool removed = list_.removeOne(object);
-    Q_ASSERT(removed);
-    Q_UNUSED(removed);
-  }
-  
-  set_.subtract(to_remove);
-  
-  notify_contents_altered(NULL, &to_remove);
-  
-  Sanity();
+    if (objects.count() == 0)
+        return;
+
+    // Want to only report DataObjects that are actually removed
+    QSet<DataObject*> to_remove;
+    DataObject* object;
+    foreach (object, objects) {
+        if (object != NULL && set_.contains(object))
+            to_remove.insert(object);
+    }
+
+    if (to_remove.count() == 0)
+        return;
+
+    notify_contents_to_be_altered(NULL, &to_remove);
+
+    foreach (object, to_remove) {
+        bool removed = list_.removeOne(object);
+        Q_ASSERT(removed);
+        Q_UNUSED(removed);
+    }
+
+    set_.subtract(to_remove);
+
+    notify_contents_altered(NULL, &to_remove);
+
+    Sanity();
 }
 
 /*!
@@ -228,23 +228,23 @@ void DataCollection::RemoveMany(const QSet<DataObject *> &objects)
  */
 void DataCollection::Clear()
 {
-  if (list_.count() == 0) {
-    Q_ASSERT(set_.count() == 0);
-    
-    return;
-  }
-  
-  // save copy for signals
-  QSet<DataObject*> all(set_);
-  
-  notify_contents_to_be_altered(NULL, &all);
-  
-  list_.clear();
-  set_.clear();
-  
-  notify_contents_altered(NULL, &all);
-  
-  Sanity();
+    if (list_.count() == 0) {
+        Q_ASSERT(set_.count() == 0);
+
+        return;
+    }
+
+    // save copy for signals
+    QSet<DataObject*> all(set_);
+
+    notify_contents_to_be_altered(NULL, &all);
+
+    list_.clear();
+    set_.clear();
+
+    notify_contents_altered(NULL, &all);
+
+    Sanity();
 }
 
 /*!
@@ -253,7 +253,7 @@ void DataCollection::Clear()
  */
 const QList<DataObject*>& DataCollection::GetAll() const
 {
-  return list_;
+    return list_;
 }
 
 /*!
@@ -262,7 +262,7 @@ const QList<DataObject*>& DataCollection::GetAll() const
  */
 const QSet<DataObject*>& DataCollection::GetAsSet() const
 {
-  return set_;
+    return set_;
 }
 
 /*!
@@ -272,7 +272,7 @@ const QSet<DataObject*>& DataCollection::GetAsSet() const
  */
 bool DataCollection::Contains(DataObject* object) const
 {
-  return set_.contains(object);
+    return set_.contains(object);
 }
 
 /*!
@@ -282,11 +282,12 @@ bool DataCollection::Contains(DataObject* object) const
  */
 bool DataCollection::ContainsAll(DataCollection* collection) const
 {
-  return set_.contains(collection->set_);
+    return set_.contains(collection->set_);
 }
 
-DataObject* DataCollection::GetAt(int index) const {
-  return (index >= 0 && index < list_.size()) ? list_[index] : NULL;
+DataObject* DataCollection::GetAt(int index) const
+{
+    return (index >= 0 && index < list_.size()) ? list_[index] : NULL;
 }
 
 /*!
@@ -296,15 +297,15 @@ DataObject* DataCollection::GetAt(int index) const {
  */
 int DataCollection::IndexOf(DataObject* object) const
 {
-  if (!set_.contains(object))
-    return -1;
-  
-  int index = list_.indexOf(object);
-  
-  // Testing with set_ should prevent this possibility
-  Q_ASSERT(index >= 0);
-  
-  return index;
+    if (!set_.contains(object))
+        return -1;
+
+    int index = list_.indexOf(object);
+
+    // Testing with set_ should prevent this possibility
+    Q_ASSERT(index >= 0);
+
+    return index;
 }
 
 /*!
@@ -313,12 +314,12 @@ int DataCollection::IndexOf(DataObject* object) const
  */
 void DataCollection::SetComparator(DataObjectComparator comparator)
 {
-  if (comparator_ == comparator)
-    return;
-  
-  comparator_ = (comparator != NULL) ? comparator : DefaultDataObjectComparator;
-  
-  Resort(true);
+    if (comparator_ == comparator)
+        return;
+
+    comparator_ = (comparator != NULL) ? comparator : DefaultDataObjectComparator;
+
+    Resort(true);
 }
 
 /*!
@@ -327,7 +328,7 @@ void DataCollection::SetComparator(DataObjectComparator comparator)
  */
 DataObjectComparator DataCollection::comparator() const
 {
-  return comparator_;
+    return comparator_;
 }
 
 /*!
@@ -343,7 +344,7 @@ DataObjectComparator DataCollection::comparator() const
  */
 bool DataCollection::DefaultDataObjectComparator(DataObject* a, DataObject* b)
 {
-  return a->number() < b->number();
+    return a->number() < b->number();
 }
 
 /*!
@@ -351,7 +352,7 @@ bool DataCollection::DefaultDataObjectComparator(DataObject* a, DataObject* b)
  */
 void DataCollection::Sanity() const
 {
-  Q_ASSERT(list_.count() == set_.count());
+    Q_ASSERT(list_.count() == set_.count());
 }
 
 /*!
@@ -360,51 +361,52 @@ void DataCollection::Sanity() const
  */
 void DataCollection::BinaryListInsert(DataObject* object)
 {
-  int index = -1;
-  
-  int low = 0;
-  int high = list_.count();
-  for (;;) {
-    if (low == high) {
-      index = low;
-      
-      break;
+    int index = -1;
+
+    int low = 0;
+    int high = list_.count();
+    for (;;) {
+        if (low == high) {
+            index = low;
+
+            break;
+        }
+
+        int mid = low + ((high - low) / 2);
+        DataObject* midObject = list_[mid];
+
+        if (comparator_(object, midObject)) {
+            // lowerThan
+            high = mid;
+        } else if (comparator_(midObject, object)) {
+            // higherThan
+            low = mid + 1;
+        } else {
+            // equalTo
+            index = mid;
+
+            break;
+        }
     }
-    
-    int mid = low + ((high - low) / 2);
-    DataObject* midObject = list_[mid];
-    
-    if (comparator_(object, midObject)) {
-      // lowerThan
-      high = mid;
-    } else if (comparator_(midObject, object)) {
-      // higherThan
-      low = mid + 1;
-    } else {
-      // equalTo
-      index = mid;
-      
-      break;
-    }
-  }
-  
-  Q_ASSERT(index >= 0 && index <= list_.count());
-  
-  list_.insert(index, object);
+
+    Q_ASSERT(index >= 0 && index <= list_.count());
+
+    list_.insert(index, object);
 }
 
 /*!
  * \brief DataCollection::Resort
  * \param fire_signal
  */
-void DataCollection::Resort(bool fire_signal){
-  if (Count() <= 1)
-    return;
-  
-  qSort(list_.begin(), list_.end(), comparator_);
-  
-  if (fire_signal)
-    notify_ordering_altered();
+void DataCollection::Resort(bool fire_signal)
+{
+    if (Count() <= 1)
+        return;
+
+    qSort(list_.begin(), list_.end(), comparator_);
+
+    if (fire_signal)
+        notify_ordering_altered();
 }
 
 /*!
@@ -413,13 +415,14 @@ void DataCollection::Resort(bool fire_signal){
  */
 void DataCollection::SetInternalName(const QString& name)
 {
-  name_ = name.toUtf8();
+    name_ = name.toUtf8();
 }
 
 /*!
  * \brief DataCollection::ToString
  * \return
  */
-const char* DataCollection::ToString() const{
-  return name_.data();
+const char* DataCollection::ToString() const
+{
+    return name_.data();
 }

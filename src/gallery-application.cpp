@@ -46,29 +46,29 @@
  * \param argv
  */
 GalleryApplication::GalleryApplication(int& argc, char** argv)
-  : QApplication(argc, argv),
-    view_(),
-    monitor_(NULL)
+    : QApplication(argc, argv),
+      view_(),
+      monitor_(NULL)
 {
-  bgu_size_ = QProcessEnvironment::systemEnvironment().value("GRID_UNIT_PX", "8").toInt();
-  if (bgu_size_ <= 0)
-    bgu_size_ = 8;
-  
-  timer_.start();
-  form_factors_.insert("desktop", QSize(160, 100)); // In BGU.
-  form_factors_.insert("tablet", QSize(160, 100));
-  form_factors_.insert("phone", QSize(71, 40));
-  form_factors_.insert("sidebar", QSize(71, 40));
+    bgu_size_ = QProcessEnvironment::systemEnvironment().value("GRID_UNIT_PX", "8").toInt();
+    if (bgu_size_ <= 0)
+        bgu_size_ = 8;
 
-  cmd_line_parser_ = new CommandLineParser(form_factors_);
-  bool ok = cmd_line_parser_->process_args(arguments());
-  if (!ok)
-      QApplication::quit();
+    timer_.start();
+    form_factors_.insert("desktop", QSize(160, 100)); // In BGU.
+    form_factors_.insert("tablet", QSize(160, 100));
+    form_factors_.insert("phone", QSize(71, 40));
+    form_factors_.insert("sidebar", QSize(71, 40));
 
-  register_qml();
+    cmd_line_parser_ = new CommandLineParser(form_factors_);
+    bool ok = cmd_line_parser_->process_args(arguments());
+    if (!ok)
+        QApplication::quit();
 
-  GalleryManager::instance(applicationDirPath(), cmd_line_parser()->pictures_dir(),
-                           cmd_line_parser()->log_image_loading());
+    register_qml();
+
+    GalleryManager::instance(applicationDirPath(), cmd_line_parser()->pictures_dir(),
+                             cmd_line_parser()->log_image_loading());
 }
 
 /*!
@@ -76,7 +76,7 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
  */
 GalleryApplication::~GalleryApplication()
 {
-  delete monitor_;
+    delete monitor_;
 }
 
 /*!
@@ -85,12 +85,12 @@ GalleryApplication::~GalleryApplication()
  */
 int GalleryApplication::exec()
 {
-  create_view();
+    create_view();
 
-  // Delay init_collections() so the main loop is running before it kicks off.
-  QTimer::singleShot(0, this, SLOT(start_init_collections()));
+    // Delay init_collections() so the main loop is running before it kicks off.
+    QTimer::singleShot(0, this, SLOT(start_init_collections()));
 
-  return QApplication::exec();
+    return QApplication::exec();
 }
 
 /*!
@@ -101,7 +101,7 @@ int GalleryApplication::exec()
  */
 bool GalleryApplication::run_command(const QString &cmd, const QString &arg)
 {
-  return QProcess::startDetached(cmd, QStringList(arg));
+    return QProcess::startDetached(cmd, QStringList(arg));
 }
 
 /*!
@@ -109,21 +109,21 @@ bool GalleryApplication::run_command(const QString &cmd, const QString &arg)
  */
 void GalleryApplication::register_qml()
 {
-  //
-  // QML Declarative types must be registered before use
-  //
-  // TODO: Use QML Plugins to automate this
-  //
+    //
+    // QML Declarative types must be registered before use
+    //
+    // TODO: Use QML Plugins to automate this
+    //
 
-  Album::RegisterType();
-  AlbumPage::RegisterType();
-  Event::RegisterType();
-  MediaSource::RegisterType();
-  QmlAlbumCollectionModel::RegisterType();
-  QmlEventCollectionModel::RegisterType();
-  QmlEventOverviewModel::RegisterType();
-  QmlMediaCollectionModel::RegisterType();
-  ShareFile::RegisterType();
+    Album::RegisterType();
+    AlbumPage::RegisterType();
+    Event::RegisterType();
+    MediaSource::RegisterType();
+    QmlAlbumCollectionModel::RegisterType();
+    QmlEventCollectionModel::RegisterType();
+    QmlEventOverviewModel::RegisterType();
+    QmlMediaCollectionModel::RegisterType();
+    ShareFile::RegisterType();
 }
 
 /*!
@@ -132,41 +132,41 @@ void GalleryApplication::register_qml()
  */
 void GalleryApplication::create_view()
 {
-  view_.setTitle("Gallery");
+    view_.setTitle("Gallery");
 
-  QSize size = form_factors_[cmd_line_parser()->form_factor()];
+    QSize size = form_factors_[cmd_line_parser()->form_factor()];
 
-  if (cmd_line_parser_->is_portrait())
-    size.transpose();
+    if (cmd_line_parser_->is_portrait())
+        size.transpose();
 
-  view_.setResizeMode(QQuickView::SizeRootObjectToView);
-  if (cmd_line_parser()->form_factor() == "desktop") {
-    view_.setMinimumSize(QSize(60 * bgu_size_, 60 * bgu_size_));
-  }
-  
-  view_.engine()->rootContext()->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
-  view_.engine()->rootContext()->setContextProperty("DEVICE_HEIGHT", QVariant(size.height()));
-  view_.engine()->rootContext()->setContextProperty("FORM_FACTOR", QVariant(cmd_line_parser()->form_factor()));
-  
-  // Set ourselves up to expose functionality to run external commands from QML...
-  view_.engine()->rootContext()->setContextProperty("APP", this);
+    view_.setResizeMode(QQuickView::SizeRootObjectToView);
+    if (cmd_line_parser()->form_factor() == "desktop") {
+        view_.setMinimumSize(QSize(60 * bgu_size_, 60 * bgu_size_));
+    }
 
-  view_.engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
-                                   GalleryManager::instance()->gallery_standard_image_provider());
-  view_.engine()->addImageProvider(GalleryThumbnailImageProvider::PROVIDER_ID,
-                                   GalleryManager::instance()->gallery_thumbnail_image_provider());
+    view_.engine()->rootContext()->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
+    view_.engine()->rootContext()->setContextProperty("DEVICE_HEIGHT", QVariant(size.height()));
+    view_.engine()->rootContext()->setContextProperty("FORM_FACTOR", QVariant(cmd_line_parser()->form_factor()));
 
-  view_.setSource(GalleryManager::instance()->resource()->get_rc_url("qml/GalleryApplication.qml"));
-  QObject::connect(view_.engine(), SIGNAL(quit()), this, SLOT(quit()));
+    // Set ourselves up to expose functionality to run external commands from QML...
+    view_.engine()->rootContext()->setContextProperty("APP", this);
 
-  // Hook up our media_loaded signal to GalleryApplication's onLoaded function.
-  QObject* rootObject = dynamic_cast<QObject*>(view_.rootObject());
-  QObject::connect(this, SIGNAL(media_loaded()), rootObject, SLOT(onLoaded()));
+    view_.engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
+                                     GalleryManager::instance()->gallery_standard_image_provider());
+    view_.engine()->addImageProvider(GalleryThumbnailImageProvider::PROVIDER_ID,
+                                     GalleryManager::instance()->gallery_thumbnail_image_provider());
 
-  if (cmd_line_parser()->is_fullscreen())
-    view_.showFullScreen();
-  else
-    view_.show();
+    view_.setSource(GalleryManager::instance()->resource()->get_rc_url("qml/GalleryApplication.qml"));
+    QObject::connect(view_.engine(), SIGNAL(quit()), this, SLOT(quit()));
+
+    // Hook up our media_loaded signal to GalleryApplication's onLoaded function.
+    QObject* rootObject = dynamic_cast<QObject*>(view_.rootObject());
+    QObject::connect(this, SIGNAL(media_loaded()), rootObject, SLOT(onLoaded()));
+
+    if (cmd_line_parser()->is_fullscreen())
+        view_.showFullScreen();
+    else
+        view_.show();
 }
 
 /*!
@@ -174,18 +174,18 @@ void GalleryApplication::create_view()
  */
 void GalleryApplication::init_collections()
 {
-  GalleryManager::instance()->post_init();
+    GalleryManager::instance()->post_init();
 
-  emit media_loaded();
+    emit media_loaded();
 
-  // start the file monitor so that the collection contents will be updated as
-  // new files arrive
-  monitor_ = new MediaMonitor(cmd_line_parser()->pictures_dir().path());
-  QObject::connect(monitor_, SIGNAL(media_item_added(QFileInfo)), this,
-    SLOT(on_media_item_added(QFileInfo)));
+    // start the file monitor so that the collection contents will be updated as
+    // new files arrive
+    monitor_ = new MediaMonitor(cmd_line_parser()->pictures_dir().path());
+    QObject::connect(monitor_, SIGNAL(media_item_added(QFileInfo)), this,
+                     SLOT(on_media_item_added(QFileInfo)));
 
-  if (cmd_line_parser()->startup_timer())
-    qDebug() << "Startup took" << timer_.elapsed() << "milliseconds";
+    if (cmd_line_parser()->startup_timer())
+        qDebug() << "Startup took" << timer_.elapsed() << "milliseconds";
 }
 
 /*!
@@ -193,7 +193,7 @@ void GalleryApplication::init_collections()
  */
 void GalleryApplication::start_init_collections()
 {
-  init_collections();
+    init_collections();
 }
 
 /*!
@@ -210,17 +210,19 @@ GalleryApplication* GalleryApplication::instance()
  * \param object
  * \param ownership
  */
-void GalleryApplication::setObjectOwnership(QObject* object, QQmlEngine::ObjectOwnership ownership) {
-  view_.engine()->setObjectOwnership(object, ownership);
+void GalleryApplication::setObjectOwnership(QObject* object, QQmlEngine::ObjectOwnership ownership)
+{
+    view_.engine()->setObjectOwnership(object, ownership);
 }
 
 /*!
  * \brief GalleryApplication::on_media_item_added
  * \param item_info
  */
-void GalleryApplication::on_media_item_added(QFileInfo item_info) {
-  Photo* new_photo = Photo::Fetch(item_info);
-  
-  if (new_photo)
-    GalleryManager::instance()->media_collection()->Add(new_photo);
+void GalleryApplication::on_media_item_added(QFileInfo item_info)
+{
+    Photo* new_photo = Photo::Fetch(item_info);
+
+    if (new_photo)
+        GalleryManager::instance()->media_collection()->Add(new_photo);
 }

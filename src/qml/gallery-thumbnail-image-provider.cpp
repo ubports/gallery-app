@@ -33,8 +33,8 @@ const char* GalleryThumbnailImageProvider::REVISION_PARAM_NAME = "edit";
  * @brief GalleryThumbnailImageProvider::GalleryThumbnailImageProvider
  */
 GalleryThumbnailImageProvider::GalleryThumbnailImageProvider(const bool log_image_loading)
-  : QQuickImageProvider(QQuickImageProvider::Image),
-    log_image_loading_(log_image_loading)
+    : QQuickImageProvider(QQuickImageProvider::Image),
+      log_image_loading_(log_image_loading)
 {
 }
 
@@ -43,8 +43,9 @@ GalleryThumbnailImageProvider::GalleryThumbnailImageProvider(const bool log_imag
  * \param file is the file that you want the url for
  * \return URL to be used to load a local image usign this image provider
  */
-QUrl GalleryThumbnailImageProvider::ToURL(const QFileInfo &file) {
-  return QUrl::fromUserInput(PROVIDER_ID_SCHEME + file.absoluteFilePath());
+QUrl GalleryThumbnailImageProvider::ToURL(const QFileInfo &file)
+{
+    return QUrl::fromUserInput(PROVIDER_ID_SCHEME + file.absoluteFilePath());
 }
 
 /*!
@@ -55,31 +56,31 @@ QUrl GalleryThumbnailImageProvider::ToURL(const QFileInfo &file) {
  * @return the image with id
  */
 QImage GalleryThumbnailImageProvider::requestImage(const QString &id, QSize *size,
-  const QSize &requestedSize)
+                                                   const QSize &requestedSize)
 {
-  Q_UNUSED(requestedSize);
-  QElapsedTimer timer;
-  timer.start();
+    Q_UNUSED(requestedSize);
+    QElapsedTimer timer;
+    timer.start();
 
-  QUrl url(id);
-  QFileInfo photoFile(url.path());
-  GalleryManager::instance()->preview_manager()->ensure_preview_for_media(photoFile);
+    QUrl url(id);
+    QFileInfo photoFile(url.path());
+    GalleryManager::instance()->preview_manager()->ensure_preview_for_media(photoFile);
 
-  QFileInfo thumbnailFile = GalleryManager::instance()->preview_manager()->ThumbnailFileFor(photoFile);
-  QString fileName = thumbnailFile.absoluteFilePath();
+    QFileInfo thumbnailFile = GalleryManager::instance()->preview_manager()->ThumbnailFileFor(photoFile);
+    QString fileName = thumbnailFile.absoluteFilePath();
 
-  QImage thumbnail;
-  thumbnail.load(fileName);
-  if (thumbnail.isNull()) {
-      qWarning() << "Could not load thumbnail:" << id;
-  }
+    QImage thumbnail;
+    thumbnail.load(fileName);
+    if (thumbnail.isNull()) {
+        qWarning() << "Could not load thumbnail:" << id;
+    }
 
-  if (size != NULL)
-    *size = thumbnail.size();
+    if (size != NULL)
+        *size = thumbnail.size();
 
-  if (log_image_loading_) {
-      qDebug() << id << thumbnail.size() << "time:" << timer.elapsed() << "ms";
-  }
+    if (log_image_loading_) {
+        qDebug() << id << thumbnail.size() << "time:" << timer.elapsed() << "ms";
+    }
 
-  return thumbnail;
+    return thumbnail;
 }

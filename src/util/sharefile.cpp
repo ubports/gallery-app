@@ -34,8 +34,9 @@ ShareFile::ShareFile(QObject *parent) :
 /*!
  * \brief ShareFile::RegisterType
  */
-void ShareFile::RegisterType() {
-  qmlRegisterType<ShareFile>("Gallery", 1, 0, "ShareFile");
+void ShareFile::RegisterType()
+{
+    qmlRegisterType<ShareFile>("Gallery", 1, 0, "ShareFile");
 }
 
 /*!
