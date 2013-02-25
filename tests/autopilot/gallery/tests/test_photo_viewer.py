@@ -211,6 +211,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(old_file_size > new_file_size, Equals(True))
 
         # give the gallery the time to fully save the photo, and rebuild the thumbnails
+        # FIXME using sleep is a dangerous "hackisch" workaround, and should be implemented properly
         sleep(1)
 
     def test_photo_editor_rotate(self):
@@ -255,4 +256,5 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(is_landscape, Equals(True))
 
         # give the gallery the time to fully save the photo, and rebuild the thumbnails
+        # FIXME using sleep is a dangerous "hackisch" workaround, and should be implemented properly
         sleep(1)
