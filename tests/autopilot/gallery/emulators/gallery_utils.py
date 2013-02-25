@@ -24,6 +24,10 @@ class GalleryUtils(object):
         """Get the main QML view"""
         return self.app.select_single("QQuickView")
 
+    def get_main_photo_viewer_loader(self):
+        """Returns the loder item for the PhotoViewer."""
+        return self.app.select_single("QQuickLoader", objectName="photoViewerLoader")
+
     def get_main_photo_viewer(self):
         """Returns the PhotoViewer."""
         return self.app.select_single("PhotoViewer", objectName="photoViewer")
