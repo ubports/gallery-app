@@ -210,6 +210,9 @@ class TestPhotoEditor(TestPhotoViewerBase):
         new_file_size = os.path.getsize(self.sample_file)
         self.assertThat(old_file_size > new_file_size, Equals(True))
 
+        # give the gallery the time to fully save the photo, and rebuild the thumbnails
+        sleep(1)
+
     def test_photo_editor_rotate(self):
         """Makes sure that the photo editor inside the photo viewer works using the rotate function"""
         opened_photo = self.photo_viewer.get_opened_photo()
@@ -250,3 +253,6 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(opened_photo.paintedHeight, Eventually(NotEquals(item_height)))
         is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
         self.assertThat(is_landscape, Equals(True))
+
+        # give the gallery the time to fully save the photo, and rebuild the thumbnails
+        sleep(1)
