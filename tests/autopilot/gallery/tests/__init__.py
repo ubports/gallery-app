@@ -66,8 +66,14 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
     def reveal_tool_bar(self):
         toolbar = self.events_view.get_tool_bar()
         self.assertThat(toolbar.active, Eventually(Equals(False)))
+
+        main_view = self.events_view.get_qml_view()
         x, y, w, h = toolbar.globalRect
-        self.pointing_device.drag(x+(w/2), y+h-2, x+(w/2), y-2*h)
+        x_line = main_view.x + main_view.width * 0.5
+        start_y = main_view.y + main_view.height - 1
+        stop_y = start_y - 2*h
+
+        self.pointing_device.drag(x_line, start_y, x_line, stop_y)
         self.assertThat(toolbar.active, Eventually(Equals(True)))
 
     @property
