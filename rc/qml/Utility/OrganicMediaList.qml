@@ -27,204 +27,237 @@ import "../../js/GalleryUtility.js" as GalleryUtility
 // An "organic" list of photos.  Used as the "tray" contents for each event in
 // the OrganicEventView, and the layout of the OrganicAlbumView.
 Item {
-  id: organicMediaList
-  objectName: "organicMediaList"
+    id: organicMediaList
+    objectName: "organicMediaList"
 
-  /*!
-  */
-  signal pressed(var mediaSource, var thumbnailRect)
+    /*!
+    */
+    signal pressed(var mediaSource, var thumbnailRect)
 
-  /*!
-  */
-  property var event
-  /*!
-  */
-  property alias mediaModel: photosRepeater.model
-  /*!
-  */
-  property SelectionState selection
+    /*!
+    */
+    property var event
+    /*!
+    */
+    property alias mediaModel: eventView.model
+    /*!
+    */
+    property SelectionState selection
 
-  // The left and right edges of the region in which to load photos; any
-  // outside this region are created as delegates, but the photo isn't loaded.
-  property real loadAreaLeft: 0
-  /*!
-  */
-  property real loadAreaWidth: width
+    /*!
+    */
+    property int animationDuration: Gallery.FAST_DURATION
+    /*!
+    */
+    property int animationEasingType: Easing.InQuint
 
-  /*!
-  */
-  property int animationDuration: Gallery.FAST_DURATION
-  /*!
-  */
-  property int animationEasingType: Easing.InQuint
+    // readonly
+    /*!
+    */
+    property int __mediaPerPattern: 6
+    /*!
+    */
+    property var __bigSize: units.gu(19)
+    /*!
+    */
+    property var __smallSize: units.gu(12)
+    /*!
+    */
+    property real __margin: units.gu(2)
 
-  // readonly
-  /*!
-  */
-  property int mediaPerPattern: 6
-  /*!
-  */
-  property var bigSize: units.gu(19)
-  /*!
-  */
-  property var smallSize: units.gu(12)
-  /*!
-  */
-  property real margin: units.gu(2)
-  /*!
-  */
-  property real patternWidth: bigSize + smallSize * 2 + margin * 3
-  /*!
-  */
-  property var patternLeftWidth: [0, bigSize, bigSize, smallSize * 2 + margin,
-      bigSize + margin + smallSize, bigSize + 2 * margin + 2 * smallSize ]
+    // internal
+    /*!
+    */
+    property var __photoX: [0, 0, __smallSize + __margin,
+        (__bigSize + __margin), (__bigSize + __smallSize + __margin * 2), -(__bigSize+__margin)]
+    /*!
+    */
+    property var __photoY: [0, __bigSize + __margin, __bigSize + __margin, 0, 0,
+        __smallSize + __margin]
+    /*!
+    */
+    property var __photoSize: [__bigSize, __smallSize, __smallSize, __smallSize, __smallSize,
+        __bigSize]
+    /*!
+    */
+    property var __photoWidth: [0, __smallSize + __margin, (2 * __smallSize + 2 * __margin) - (__bigSize + __margin),
+        __smallSize + __margin, __smallSize + __margin, 0]
+    /*!
+    */
+    property var __footerWidth: [0, __bigSize + __margin, __bigSize - __smallSize,
+        __bigSize - __smallSize, 0, 0]
+    /*!
+    */
+    property real __photosTopMargin: __margin / 2
 
-  // internal
-  /*!
-  */
-  property var photoX: [0, 0, smallSize + margin, bigSize + margin,
-      bigSize + smallSize + margin * 2, smallSize * 2 + margin * 2]
-  /*!
-  */
-  property var photoY: [0, bigSize + margin, bigSize + margin, 0, 0,
-      smallSize + margin]
-  /*!
-  */
-  property var photoSize: [bigSize, smallSize, smallSize, smallSize, smallSize,
-      bigSize]
-  /*!
-  */
-  property real photosLeftMargin: margin + (event ? smallSize + margin : 0)
-  /*!
-  */
-  property real photosTopMargin: margin / 2
+    height: (mediaModel.count > 1) ?
+                (__bigSize + __smallSize + __photosTopMargin + __margin + __margin/2) :
+                (__bigSize + __photosTopMargin + __margin / 2)
 
-  width: photosLeftMargin +
-         Math.floor(mediaModel.count / mediaPerPattern) * patternWidth +
-         patternLeftWidth[mediaModel.count % mediaPerPattern] +
-         margin
-  height: (mediaModel.count > 1) ?
-              (bigSize + smallSize + photosTopMargin + margin + margin/2) :
-              (bigSize + photosTopMargin + margin / 2)
-
-  EventCard {
-    x: margin
-    y: photosTopMargin
-    width: smallSize
-    height: smallSize
-
-    visible: Boolean(event)
-
-    event: organicMediaList.event
-
-    OrganicItemInteraction {
-      selectionItem: event
-      selection: organicMediaList.selection
-    }
-  }
-
-  // TODO: for performance, we may want to use something else here.  Repeaters
-  // load all their delegates at once, which may cause slow scrolling in the
-  // OrganicEventView.  Alternately, we may be able to pass in the visible
-  // area from the parent Flickable and only set photos visible (and thus
-  // trigger a load from disk) when they're in the visible area.
-  Repeater {
-    id: photosRepeater
-
-    model: MediaCollectionModel {
-      forCollection: organicMediaList.event
-      monitored: true
-    }
-
-    Item {
-      id: tItem
-      property int patternPhoto: index % mediaPerPattern
-      property int patternNumber: Math.floor(index / mediaPerPattern)
-      property bool isInLoadArea: xw <= loadAreaLeft && x >= loadAreaLeft
-
-      x: photosLeftMargin + photoX[patternPhoto] + patternWidth * patternNumber
-      // transform th right end to the left, for easier comparison for isInLoadArea
-      property int xw: x - loadAreaWidth
-      visible: isInLoadArea
-      y: photosTopMargin + photoY[patternPhoto]
-      width: photoSize[patternPhoto]
-      height: photoSize[patternPhoto]
-
-      ActivityIndicator {
-          id: loadIndicator
-          anchors.centerIn: parent
-          visible: loader_thumbnail && loader_thumbnail.item && !loader_thumbnail.item.visible
-          running: visible
-      }
-
-      Component {
-        id: component_thumbnail
-        UbuntuShape {
-          id: thumbnail
-          visible: image.status === Image.Ready
-
-          radius: "medium"
-
-          image: Image {
-            source: model.mediaSource.galleryThumbnailPath
-            asynchronous: true
-          }
-
-          OrganicItemInteraction {
-            objectName: "eventsViewPhoto"
-            selectionItem: model.mediaSource
-            selection: organicMediaList.selection
-
-            onPressed: {
-              var rect = GalleryUtility.getRectRelativeTo(thumbnail,
-                                                          organicMediaList);
-              organicMediaList.pressed(selectionItem, rect);
-            }
-          }
-
-          // TODO: fade in photos being added, fade out ones being deleted?  This
-          // might entail using Repeater's onItemAdded/onItemRemoved signals and
-          // manually keeping around a list of thumbnails to animate, as we can't
-          // very well animate the thumbnails created as Repeater delegates since
-          // they'll be destroyed before the animation would finish.
-
-          // x is intentionally missing here -- see below.
-          Behavior on y {
-            NumberAnimation {
-              duration: animationDuration
-              easing.type: animationEasingType
-            }
-          }
-          Behavior on width {
-            NumberAnimation {
-              duration: animationDuration
-              easing.type: animationEasingType
-            }
-          }
-          Behavior on height {
-            NumberAnimation {
-              duration: animationDuration
-              easing.type: animationEasingType
-            }
-          }
-        }
-      }
-      Loader {
-        id: loader_thumbnail
-        anchors.fill: parent
-        sourceComponent: tItem.isInLoadArea ? component_thumbnail : undefined
-        asynchronous: true
-      }
-
-      // This is alone down here because the containing component only
-      // specifies the x of the Loader; the loaded component specifies the y,
-      // width, and height so they're above.
-      Behavior on x {
+    Behavior on height {
         NumberAnimation {
-          duration: animationDuration
-          easing.type: animationEasingType
+            duration: animationDuration
+            easing.type: animationEasingType
         }
-      }
     }
-  }
+
+    Component {
+        id: eventHeader
+        Item {
+            width: eventView.leftBuffer + __margin + __smallSize
+            height: __smallSize
+            EventCard {
+                x: eventView.leftBuffer + __margin
+                y: __photosTopMargin
+                width: __smallSize
+                height: __smallSize
+
+                visible: Boolean(event)
+
+                event: organicMediaList.event
+
+                OrganicItemInteraction {
+                    selectionItem: event
+                    selection: organicMediaList.selection
+                }
+            }
+        }
+    }
+
+    Component {
+        id: thumbnailDelegate
+        Item {
+            property int patternPhoto: index % __mediaPerPattern
+
+            width: __photoWidth[patternPhoto]
+            height: __photoSize[patternPhoto]
+
+            UbuntuShape {
+                id: thumbnail
+                x: patternPhoto < 5 ? __margin : -__bigSize
+                y: __photosTopMargin + __photoY[patternPhoto]
+                width: parent.height
+                height: parent.height
+
+                Behavior on x {
+                    NumberAnimation {
+                        duration: animationDuration
+                        easing.type: animationEasingType
+                    }
+                }
+                Behavior on y {
+                    NumberAnimation {
+                        duration: animationDuration
+                        easing.type: animationEasingType
+                    }
+                }
+                Behavior on width {
+                    NumberAnimation {
+                        duration: animationDuration
+                        easing.type: animationEasingType
+                    }
+                }
+                Behavior on height {
+                    NumberAnimation {
+                        duration: animationDuration
+                        easing.type: animationEasingType
+                    }
+                }
+
+                visible: image.status === Image.Ready
+
+                radius: "medium"
+
+                image: Image {
+                    source: model.mediaSource.galleryThumbnailPath
+                    asynchronous: true
+                }
+
+                OrganicItemInteraction {
+                    objectName: "eventsViewPhoto"
+                    selectionItem: model.mediaSource
+                    selection: organicMediaList.selection
+
+                    onPressed: {
+                        var rect = GalleryUtility.getRectRelativeTo(thumbnail,
+                                                                    organicMediaList);
+                        organicMediaList.pressed(selectionItem, rect);
+                    }
+                }
+            }
+
+            Component {
+                id: component_loadIndicator
+                ActivityIndicator {
+                    id: loadIndicator
+                    running: true
+                }
+            }
+            Loader {
+                id: loader_loadIndicator
+                anchors.centerIn: thumbnail
+                sourceComponent: delayTimer.showIndicator && !thumbnail.visible ?
+                                     component_loadIndicator : undefined
+                asynchronous: true
+
+                Timer {
+                    id: delayTimer
+                    property bool showIndicator: false
+                    interval: 35
+                    onTriggered: showIndicator = true
+                    Component.onCompleted: start()
+                }
+            }
+        }
+    }
+
+    ListView {
+        id: eventView
+        // the buffers are needed, as the listview does not draw items outside is visible area
+        // but for the organic effect, x and width are "displaced" for some items (first, last)
+        property int leftBuffer: __bigSize + __margin
+        property int rightBuffer: __bigSize
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            left: parent.left
+            leftMargin: -leftBuffer
+            right: parent.right
+            rightMargin: -rightBuffer
+        }
+
+        maximumFlickVelocity: units.gu(300)
+        flickDeceleration: maximumFlickVelocity / 3
+        cacheBuffer: 0
+
+        model: MediaCollectionModel {
+            id: mediaModel
+            forCollection: organicMediaList.event
+            monitored: true
+        }
+
+        orientation: Qt.Horizontal
+
+        header: eventHeader
+        delegate: thumbnailDelegate
+        footer: Item {
+            width: eventView.rightBuffer + __footerWidth[mediaModel.count % __mediaPerPattern]
+        }
+
+        add: Transition {
+            NumberAnimation {
+                properties: "opacity"
+                from:0 ; to: 1
+                duration: animationDuration
+                easing.type: animationEasingType
+            }
+        }
+        displaced: Transition {
+            NumberAnimation {
+                properties: "x,y"
+                duration: animationDuration
+                easing.type: animationEasingType
+            }
+        }
+    }
 }

@@ -53,27 +53,17 @@ OrganicView {
     model: EventCollectionModel {
     }
 
-    delegate: Flickable {
+    delegate: Item {
         id: tray
 
         width: organicEventView.width
         height: photosList.height
 
-        contentWidth: photosList.width
-        contentHeight: photosList.height
-        flickableDirection: Flickable.HorizontalFlick
-        maximumFlickVelocity: units.gu(300)
-        flickDeceleration: maximumFlickVelocity / 3
-
-        onMovementStarted: trayLoadAreaPadding = units.gu(20)
-
         OrganicMediaList {
             id: photosList
             objectName: "eventViewPhoto" + index
 
-            loadAreaLeft: tray.contentX - trayLoadAreaPadding
-            // size + one big thumbnail
-            loadAreaWidth: tray.width + 2 * trayLoadAreaPadding + bigSize
+            width: parent.width
 
             animationDuration: organicEventView.animationDuration
             animationEasingType: organicEventView.animationEasingType
@@ -125,7 +115,7 @@ OrganicView {
         onDeleteClicked: {
             organicEventView.selection.model.destroySelectedMedia();
             deletePopover.hide();
-            selectionTools.leaveSelectionMode();
+            organicEventView.leaveSelectionMode();
         }
     }
 
