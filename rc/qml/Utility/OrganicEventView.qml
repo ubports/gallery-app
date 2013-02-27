@@ -53,29 +53,22 @@ OrganicView {
     model: EventCollectionModel {
     }
 
-    delegate: Item {
-        id: tray
+    delegate: OrganicMediaList {
+        id: photosList
+        objectName: "eventViewPhoto" + index
 
         width: organicEventView.width
-        height: photosList.height
 
-        OrganicMediaList {
-            id: photosList
-            objectName: "eventViewPhoto" + index
+        animationDuration: organicEventView.animationDuration
+        animationEasingType: organicEventView.animationEasingType
 
-            width: parent.width
+        event: model.event
+        selection: organicEventView.selection
 
-            animationDuration: organicEventView.animationDuration
-            animationEasingType: organicEventView.animationEasingType
-
-            event: model.event
-            selection: organicEventView.selection
-
-            onPressed: {
-                var rect = GalleryUtility.translateRect(thumbnailRect, photosList,
-                                                        organicEventView);
-                organicEventView.mediaSourcePressed(mediaSource, rect);
-            }
+        onPressed: {
+            var rect = GalleryUtility.translateRect(thumbnailRect, photosList,
+                                                    organicEventView);
+            organicEventView.mediaSourcePressed(mediaSource, rect);
         }
     }
 
