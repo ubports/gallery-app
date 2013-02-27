@@ -68,9 +68,9 @@ Item {
 
     anchors.fill: parent
     clip: true
-    maximumFlickVelocity: units.gu(250)
-    flickDeceleration: maximumFlickVelocity * 0.667
-    cacheBuffer: 2 * height
+    maximumFlickVelocity: units.gu(350)
+    flickDeceleration: maximumFlickVelocity * 0.8
+    cacheBuffer: height * 3
 
     // The OrganicMediaList only has a half margin at the top and bottom, since
     // when repeated that means a full margin between rows.  This pads it out

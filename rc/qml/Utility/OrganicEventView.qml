@@ -53,39 +53,22 @@ OrganicView {
     model: EventCollectionModel {
     }
 
-    delegate: Flickable {
-        id: tray
+    delegate: OrganicMediaList {
+        id: photosList
+        objectName: "eventViewPhoto" + index
 
         width: organicEventView.width
-        height: photosList.height
 
-        contentWidth: photosList.width
-        contentHeight: photosList.height
-        flickableDirection: Flickable.HorizontalFlick
-        maximumFlickVelocity: units.gu(300)
-        flickDeceleration: maximumFlickVelocity / 3
+        animationDuration: organicEventView.animationDuration
+        animationEasingType: organicEventView.animationEasingType
 
-        onMovementStarted: trayLoadAreaPadding = units.gu(20)
+        event: model.event
+        selection: organicEventView.selection
 
-        OrganicMediaList {
-            id: photosList
-            objectName: "eventViewPhoto" + index
-
-            loadAreaLeft: tray.contentX - trayLoadAreaPadding
-            // size + one big thumbnail
-            loadAreaWidth: tray.width + 2 * trayLoadAreaPadding + bigSize
-
-            animationDuration: organicEventView.animationDuration
-            animationEasingType: organicEventView.animationEasingType
-
-            event: model.event
-            selection: organicEventView.selection
-
-            onPressed: {
-                var rect = GalleryUtility.translateRect(thumbnailRect, photosList,
-                                                        organicEventView);
-                organicEventView.mediaSourcePressed(mediaSource, rect);
-            }
+        onPressed: {
+            var rect = GalleryUtility.translateRect(thumbnailRect, photosList,
+                                                    organicEventView);
+            organicEventView.mediaSourcePressed(mediaSource, rect);
         }
     }
 
@@ -125,7 +108,7 @@ OrganicView {
         onDeleteClicked: {
             organicEventView.selection.model.destroySelectedMedia();
             deletePopover.hide();
-            selectionTools.leaveSelectionMode();
+            organicEventView.leaveSelectionMode();
         }
     }
 
