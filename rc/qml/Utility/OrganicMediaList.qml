@@ -244,6 +244,8 @@ Item {
             width: eventView.rightBuffer + __footerWidth[mediaModel.count % __mediaPerPattern]
         }
 
+        // discplacement animations does not always work see
+        // https://bugreports.qt-project.org/browse/QTBUG-29944
         add: Transition {
             NumberAnimation {
                 properties: "opacity"
