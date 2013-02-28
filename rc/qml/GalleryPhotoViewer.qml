@@ -149,7 +149,6 @@ Item {
     onCurrentIndexChanged: {
       if (model)
         photo = model.getAt(currentIndex);
-      //chromeBar.setBarShown(false); // TODO: hide toolbar
     }
 
     delegate: PhotoViewerDelegate {
@@ -174,11 +173,9 @@ Item {
       onClicked: chromeFadeWaitClock.restart()
       onZoomed: {
           chromeFadeWaitClock.stop();
-          chromeBar.setBarShown(false);
       }
       onUnzoomed: {
           chromeFadeWaitClock.stop();
-          //chromeBar.setBarShown(false);
       }
     }
 
@@ -195,8 +192,6 @@ Item {
 
       interval: 250
       running: false
-
-      //onTriggered: chromeBar.setBarShown(!chromeBar.showChromeBar)
     }
 
     property ToolbarActions tools: ToolbarActions {
@@ -212,8 +207,6 @@ Item {
             text: "Add"
             enabled: false
             iconSource: "../img/add.png"
-            //chromeBar.setBarShown(false);
-            //popupAlbumPicker.visible = true;
         }
         Action {
             text: "Delete"
