@@ -52,6 +52,7 @@ Checkerboard {
     }
 
     model: AlbumCollectionModel {
+        id: albumCollectionModel
     }
 
     delegate: CheckerboardDelegate {
@@ -174,7 +175,10 @@ Checkerboard {
         Action {
             text: "Add"
             iconSource: Qt.resolvedUrl("../img/add.png")
-            enabled: false
+            onTriggered: {
+                var album = albumCollectionModel.createOrphan();
+                albumCollectionModel.addOrphan(album);
+            }
         }
         Action {
             text: "Camera"

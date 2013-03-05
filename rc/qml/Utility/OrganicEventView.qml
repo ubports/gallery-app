@@ -112,6 +112,17 @@ OrganicView {
         }
     }
 
+    PopupAlbumPicker {
+        id: albumPicker
+        visible: false
+        contentHeight: parent.height - units.gu(20)
+
+        onAlbumPicked: {
+            album.addSelectedMediaSources(selection.model);
+            organicEventView.leaveSelectionMode()
+        }
+    }
+
     property ActionList selectionTools: ToolbarActions {
         // in selection mode, never hide the toolbar:
         active: true
@@ -122,10 +133,8 @@ OrganicView {
             iconSource: Qt.resolvedUrl("../../img/add.png")
             enabled: selection.selectedCount > 0
             onTriggered: {
-                var album = albumCollectionModel.createOrphan();
-                album.addSelectedMediaSources(selection.model);
-                albumCollectionModel.addOrphan(album);
-                organicEventView.leaveSelectionMode()
+                albumPicker.caller = caller
+                albumPicker.show()
             }
         }
         Action {
