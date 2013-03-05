@@ -21,178 +21,96 @@
 import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 0.1
-import "../../Capetown/Widgets"
+import Ubuntu.Components.Popups 0.1
 import "../Components"
 import "../../js/Gallery.js" as Gallery
 
 /*!
+  Show a popover with all exisitng albums. With the option to click on one of them.
 */
-PopupBox {
-  id: popupAlbumPicker
+Popover {
+    id: popupAlbumPicker
 
-  /*!
-  */
-  signal albumPicked(variant album);
+    /// Emitted when an album is clicked
+    signal albumPicked(variant album);
+    /// height of the content
+    property int contentHeight: -1
 
-  /*!
-  */
-  property alias albumModel: scroller.model
+    Item {
+        width: parent.width
+        height: contentHeight
 
-  width: units.gu(40)
-  height: units.gu(80) + originCueHeight
+        GridView {
+            id: scroller
 
-  Timer {
-    id: interactionCompletedTimer
+            property int albumPreviewWidth: units.gu(14);
+            property int albumPreviewHeight: units.gu(16.5);
+            property int gutterWidth: units.gu(2)
+            property int gutterHeight: units.gu(4)
 
-    interval: Gallery.FAST_DURATION
+            clip: true
+            anchors.top: titleBox.bottom
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: units.gu(0.25)
+            anchors.left: parent.left
+            anchors.leftMargin: units.gu(4)
+            anchors.right: parent.right
 
-    onTriggered: popupAlbumPicker.popupInteractionCompleted()
-  }
+            cellWidth: scroller.albumPreviewWidth + scroller.gutterWidth
+            cellHeight: scroller.albumPreviewHeight + scroller.gutterHeight
 
-  Timer {
-    id: addPhotoLingerTimer
+            header: Item {
+                width: parent.width
+                height: units.gu(2);
+            }
+            footer: Item {
+                width: parent.width
+                height: scroller.gutterHeight / 2
+            }
 
-    interval: Gallery.FAST_DURATION
+            model: AlbumCollectionModel {
+            }
 
-    onTriggered: {
-      popupAlbumPicker.state = "hidden";
-      interactionCompletedTimer.restart();
-    }
-  }
+            delegate: Item {
+                width: scroller.cellWidth
+                height: scroller.cellHeight
 
-  GridView {
-    id: scroller
+                AlbumPreviewComponent {
+                    album: model.album
 
-    property int albumPreviewWidth: units.gu(14);
-    property int albumPreviewHeight: units.gu(16.5);
-    property int gutterWidth: units.gu(2)
-    property int gutterHeight: units.gu(4)
+                    width: scroller.albumPreviewWidth
+                    height: scroller.albumPreviewHeight
+                    anchors.centerIn: parent
 
-    clip: true
-    anchors.top: titleTextFrame.bottom
-    anchors.bottom: parent.bottom
-    anchors.bottomMargin: originCueHeight + units.gu(0.25)
-    anchors.left: parent.left
-    anchors.leftMargin: units.gu(4)
-    anchors.right: parent.right
+                    MouseArea {
+                        anchors.fill: parent
 
-    cellWidth: scroller.albumPreviewWidth + scroller.gutterWidth
-    cellHeight: scroller.albumPreviewHeight + scroller.gutterHeight
-
-    header: Item {
-      width: parent.width
-      height: units.gu(2);
-    }
-    footer: Item {
-      width: parent.width
-      height: scroller.gutterHeight / 2
-    }
-
-    model: AlbumCollectionModel {
-    }
-
-    delegate: Item {
-      width: scroller.cellWidth
-      height: scroller.cellHeight
-
-      AlbumPreviewComponent {
-        album: model.album
-
-        width: scroller.albumPreviewWidth
-        height: scroller.albumPreviewHeight
-        anchors.centerIn: parent
-
-        states: [
-          State { name: "unconfirmed";
-            PropertyChanges { target: confirmCheck; opacity: 0.0 }
-          },
-
-          State { name: "confirmed";
-            PropertyChanges { target: confirmCheck; opacity: 1.0 }
-          }
-        ]
-
-        transitions: [
-          Transition { from: "unconfirmed"; to: "confirmed";
-            NumberAnimation { target: confirmCheck; property: "opacity";
-              duration: addPhotoLingerTimer.interval;
-              easing.type: Easing.InOutQuint }
-          }
-        ]
-
-        state: "unconfirmed"
-
-        Image {
-          id: confirmCheck
-
-          anchors.centerIn: parent;
-          width: units.gu(7);
-          height: units.gu(7);
-
-          source: "img/confirm-check.png"
+                        onClicked: {
+                            popupAlbumPicker.hide()
+                            popupAlbumPicker.albumPicked(album);
+                        }
+                    }
+                }
+            }
         }
 
-        Timer {
-          id: confirmStateResetTimer
+        Rectangle {
+            id: titleBox
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: parent.top
+            height: units.gu(3)
+            color: "#dddddd"
 
-          interval: addPhotoLingerTimer.interval +
-            interactionCompletedTimer.interval
-
-          onTriggered: parent.state = "unconfirmed"
+            Label {
+                id: title
+                anchors.fill: parent
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                color: "black"
+                font.family: "Ubuntu"
+                text: "Add Photo to Album"
+            }
         }
-
-        MouseArea {
-          anchors.fill: parent
-
-          onClicked: {
-            parent.state = "confirmed"
-            popupAlbumPicker.albumPicked(album);
-            addPhotoLingerTimer.restart();
-            confirmStateResetTimer.restart();
-          }
-        }
-      }
     }
-  }
-
-  Rectangle {
-    id: titleTextFrame
-
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.top: parent.top
-
-    height: units.gu(3)
-
-    border.color: "white"
-    border.width: units.gu(0.125);
-    color: "transparent"
-
-    Text {
-      id: titleText
-
-      anchors.fill: parent
-      anchors.leftMargin: units.gu(0.5)
-      anchors.topMargin: units.gu(0.5)
-
-      color: "white"
-      font.pixelSize: units.gu(2)
-      font.italic: true
-      font.weight: Font.Light
-
-      text: "Add Photo to Album"
-    }
-  }
-
-  Rectangle {
-    id: overstroke
-
-    width: parent.width
-    height: parent.height - parent.originCueHeight
-
-    color: "transparent"
-
-    border.color: "#a7a9ac"
-    border.width: units.gu(0.25)
-  }
 }

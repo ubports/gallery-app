@@ -205,8 +205,11 @@ Item {
         }
         Action {
             text: "Add"
-            enabled: false
             iconSource: "../img/add.png"
+            onTriggered: {
+                popupAlbumPicker.caller = caller
+                popupAlbumPicker.show()
+            }
         }
         Action {
             text: "Delete"
@@ -272,16 +275,11 @@ Item {
         id: popupAlbumPicker
         objectName: "popupAlbumPicker"
 
-        popupOriginX: -units.gu(17.5)
-        popupOriginY: -units.gu(6)
-
-        onPopupInteractionCompleted: {
-            visible = false;
-        }
-
-        onAlbumPicked: album.addMediaSource(photo)
-
         visible: false
+        contentHeight: parent.height - units.gu(10)
+        onAlbumPicked: {
+            album.addMediaSource(photo)
+        }
     }
 
     onCloseRequested: viewerWrapper.closeRequested()
@@ -386,7 +384,7 @@ Item {
   EditPreview {
       id: editPreview
       anchors.fill: parent
-      source: galleryPhotoViewer.photo.galleryPreviewPath
+      source: galleryPhotoViewer.photo ? galleryPhotoViewer.photo.galleryPreviewPath : ""
 
       visible: editHUD.actionActive
 
