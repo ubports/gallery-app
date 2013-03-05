@@ -12,6 +12,7 @@ Build-Depends: debhelper (>= 9.0),
                libgles2-mesa-dev,
 Standards-Version: 3.9.2
 Vcs-Bzr: lp:ubuntu-gallery
+Homepage:https://wiki.ubuntu.com/Touch/
 
 Package: ubuntu-gallery
 Architecture: any
