@@ -24,139 +24,139 @@ import "../../Capetown/Widgets"
 /*!
 */
 Toolbar {
-  id: wrapper
+    id: wrapper
 
-  /*!
-  */
-  property bool hasPageIndicator: false
-  /*!
-  */
-  property alias pageIndicatorAlbum: pageIndicator.album
-  /*!
-  */
-  property bool hasMainIconSet: true
-  /*!
-  */
-  property bool hasFullIconSet: true
-  /*!
-  */
-  property bool hasAlbumOperationsButton: true
-  /*!
-  */
-  property alias hasSelectionOperationsButton: selectionToolbarButton.visible
-  /*!
-  */
-  property alias hasEditOperationsButton: editToolbarButton.visible
-  /*!
-  */
-  property alias albumPagesPerSpread: pageIndicator.pagesPerSpread
-  /*!
-  */
-  property alias albumViewingPage: pageIndicator.viewingPage
+    /*!
+    */
+    property bool hasPageIndicator: false
+    /*!
+    */
+    property alias pageIndicatorAlbum: pageIndicator.album
+    /*!
+    */
+    property bool hasMainIconSet: true
+    /*!
+    */
+    property bool hasFullIconSet: true
+    /*!
+    */
+    property bool hasAlbumOperationsButton: true
+    /*!
+    */
+    property alias hasSelectionOperationsButton: selectionToolbarButton.visible
+    /*!
+    */
+    property alias hasEditOperationsButton: editToolbarButton.visible
+    /*!
+    */
+    property alias albumPagesPerSpread: pageIndicator.pagesPerSpread
+    /*!
+    */
+    property alias albumViewingPage: pageIndicator.viewingPage
 
-  /* read only properties */
-  property int albumOperationsPopupX: albumOperationsToolbarButton.x +
-    iconGroup.x + 34;
-  /*!
-  */
-  property int moreOperationsPopupX: moreOperationsToolbarButton.x +
-    iconGroup.x + 34;
+    /* read only properties */
+    property int albumOperationsPopupX: albumOperationsToolbarButton.x +
+                                        iconGroup.x + 34;
+    /*!
+    */
+    property int moreOperationsPopupX: moreOperationsToolbarButton.x +
+                                       iconGroup.x + 34;
 
-  /*!
-  */
-  signal pageIndicatorPageSelected(int page)
-  /*!
-  */
-  signal albumOperationsButtonPressed()
-  /*!
-  */
-  signal trashOperationButtonPressed()
-  /*!
-  */
-  signal shareOperationsButtonPressed()
-  /*!
-  */
-  signal moreOperationsButtonPressed()
-  /*!
-  */
-  signal selectionOperationsButtonPressed(variant button)
-  /*!
-  */
-  signal editOperationsButtonPressed()
+    /*!
+    */
+    signal pageIndicatorPageSelected(int page)
+    /*!
+    */
+    signal albumOperationsButtonPressed()
+    /*!
+    */
+    signal trashOperationButtonPressed()
+    /*!
+    */
+    signal shareOperationsButtonPressed()
+    /*!
+    */
+    signal moreOperationsButtonPressed()
+    /*!
+    */
+    signal selectionOperationsButtonPressed(variant button)
+    /*!
+    */
+    signal editOperationsButtonPressed()
 
-  Row {
-    spacing: units.gu(2)
-    anchors.verticalCenter: parent.verticalCenter
-    anchors.left: parent.left
-    anchors.leftMargin: units.gu(2)
+    Row {
+        spacing: units.gu(2)
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.leftMargin: units.gu(2)
 
-    SelectionOperationsToolbarButton {
-      id: selectionToolbarButton
+        SelectionOperationsToolbarButton {
+            id: selectionToolbarButton
 
-      visible: false
+            visible: false
 
-      onClicked: wrapper.selectionOperationsButtonPressed(selectionToolbarButton)
+            onClicked: wrapper.selectionOperationsButtonPressed(selectionToolbarButton)
+        }
+
+        EditOperationsToolbarButton {
+            id: editToolbarButton
+
+            visible: false
+
+            onClicked: wrapper.editOperationsButtonPressed()
+        }
     }
 
-    EditOperationsToolbarButton {
-      id: editToolbarButton
+    AlbumPageIndicator {
+        id: pageIndicator
 
-      visible: false
+        anchors.centerIn: parent
+        isPortrait: application.isPortrait
 
-      onClicked: wrapper.editOperationsButtonPressed()
-    }
-  }
+        color: "transparent"
+        visible: wrapper.hasPageIndicator && indicatorDotCount > 1
 
-  AlbumPageIndicator {
-    id: pageIndicator
-    
-    anchors.centerIn: parent
-    isPortrait: application.isPortrait
-    
-    color: "transparent"
-    visible: wrapper.hasPageIndicator && indicatorDotCount > 1
-    
-    onSelected: wrapper.pageIndicatorPageSelected(page)
-  }
-
-  Row {
-    id: iconGroup
-
-    spacing: units.gu(2)
-    anchors.verticalCenter: parent.verticalCenter
-    anchors.right: parent.right
-    anchors.rightMargin: units.gu(2)
-
-    visible: hasMainIconSet
-
-    TrashOperationToolbarButton {
-      visible: hasFullIconSet
-      isWhite: wrapper.isDark
-
-      onClicked: wrapper.trashOperationButtonPressed();
+        onSelected: wrapper.pageIndicatorPageSelected(page)
     }
 
-    AlbumOperationsToolbarButton {
-      id: albumOperationsToolbarButton
+    Row {
+        id: iconGroup
 
-      visible: hasFullIconSet && hasAlbumOperationsButton
-      isWhite: wrapper.isDark
+        spacing: units.gu(2)
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.right: parent.right
+        anchors.rightMargin: units.gu(2)
 
-      onClicked: wrapper.albumOperationsButtonPressed();
+        visible: hasMainIconSet
+
+        TrashOperationToolbarButton {
+            visible: hasFullIconSet
+            isWhite: wrapper.isDark
+
+            onClicked: wrapper.trashOperationButtonPressed();
+        }
+
+        AlbumOperationsToolbarButton {
+            id: albumOperationsToolbarButton
+
+            visible: hasFullIconSet && hasAlbumOperationsButton
+            isWhite: wrapper.isDark
+
+            onClicked: wrapper.albumOperationsButtonPressed();
+        }
+
+        ShareOperationsToolbarButton {
+            isWhite: wrapper.isDark
+
+            onClicked: wrapper.shareOperationsButtonPressed();
+        }
+
+        MoreOperationsToolbarButton {
+            id: moreOperationsToolbarButton
+
+            isWhite: wrapper.isDark
+
+            onClicked: wrapper.moreOperationsButtonPressed();
+        }
     }
-
-    ShareOperationsToolbarButton {
-      isWhite: wrapper.isDark
-
-      onClicked: wrapper.shareOperationsButtonPressed();
-    }
-
-    MoreOperationsToolbarButton {
-      id: moreOperationsToolbarButton
-
-      isWhite: wrapper.isDark
-
-      onClicked: wrapper.moreOperationsButtonPressed();
-    }
-  }
 }

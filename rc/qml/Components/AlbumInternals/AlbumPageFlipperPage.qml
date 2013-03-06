@@ -23,75 +23,75 @@ import ".."
 // A page included inside the AlbumPageFlipper; see notes there.  Tightly
 // coupled.
 AlbumPageComponent {
-  id: albumPageFlipperPage
+    id: albumPageFlipperPage
 
-  /*!
-  */
-  property int flipperPage
+    /*!
+    */
+    property int flipperPage
 
-  // internal
-  /*!
-  */
-  property int page // For some reason QML chokes unless this is broken up onto
-  page: {           // two lines like so.
-    // Last page's number is one spread back from lastPage.
-    if (flipperPage == numPages - 1)
-      return lastPage - pagesPerSpread;
+    // internal
+    /*!
+    */
+    property int page // For some reason QML chokes unless this is broken up onto
+    page: {           // two lines like so.
+        // Last page's number is one spread back from lastPage.
+        if (flipperPage == numPages - 1)
+            return lastPage - pagesPerSpread;
 
-    // Second to last page's number is two spreads back.
-    if (flipperPage == numPages - 2)
-      return lastPage - 2 * pagesPerSpread;
+        // Second to last page's number is two spreads back.
+        if (flipperPage == numPages - 2)
+            return lastPage - 2 * pagesPerSpread;
 
-    // Otherwise, we do sequential spreads forward from firstPage.
-    return firstPage + pagesPerSpread * flipperPage;
-  }
+        // Otherwise, we do sequential spreads forward from firstPage.
+        return firstPage + pagesPerSpread * flipperPage;
+    }
 
-  property real flipFractionIntercept:
-      -flipSlope * flipperPage * gapBetweenPages
+    property real flipFractionIntercept:
+        -flipSlope * flipperPage * gapBetweenPages
 
-  // These are from AlbumPageFlipper.
-  /*!
-  */
-  property int numPages: parent.numPages
-  /*!
-  */
-  property int firstPage: parent.firstPage
-  /*!
-  */
-  property int lastPage: parent.lastPage
-  /*!
-  */
-  property real gapBetweenPages: parent.gapBetweenPages
-  /*!
-  */
-  property real pageFlipFraction: parent.pageFlipFraction
-  /*!
-  */
-  property real flipSlope: parent.flipSlope
-  /*!
-  */
-  property bool isPortrait: parent.isPortrait
-  /*!
-  */
-  property int pagesPerSpread: parent.pagesPerSpread
+    // These are from AlbumPageFlipper.
+    /*!
+    */
+    property int numPages: parent.numPages
+    /*!
+    */
+    property int firstPage: parent.firstPage
+    /*!
+    */
+    property int lastPage: parent.lastPage
+    /*!
+    */
+    property real gapBetweenPages: parent.gapBetweenPages
+    /*!
+    */
+    property real pageFlipFraction: parent.pageFlipFraction
+    /*!
+    */
+    property real flipSlope: parent.flipSlope
+    /*!
+    */
+    property bool isPortrait: parent.isPortrait
+    /*!
+    */
+    property int pagesPerSpread: parent.pagesPerSpread
 
-  anchors.fill: parent
-  z: flipFraction < 0.5 ? numPages - flipperPage : flipperPage
+    anchors.fill: parent
+    z: flipFraction < 0.5 ? numPages - flipperPage : flipperPage
 
-  visible: numPages > flipperPage
-  load: visible
+    visible: numPages > flipperPage
+    load: visible
 
-  album: parent.album
+    album: parent.album
 
-  frontPage: (isPortrait ? page : rightPageForCurrent(page))
-  // backPage is the next spread or blank for portrait mode.
-  backPage: (isPortrait ? -1 : leftPageForCurrent(page + pagesPerSpread))
+    frontPage: (isPortrait ? page : rightPageForCurrent(page))
+    // backPage is the next spread or blank for portrait mode.
+    backPage: (isPortrait ? -1 : leftPageForCurrent(page + pagesPerSpread))
 
-  frontIsPreview: flipperPage > 0
-  backIsPreview: numPages > flipperPage + 1
+    frontIsPreview: flipperPage > 0
+    backIsPreview: numPages > flipperPage + 1
 
-  // The 0.55 factor causes the animation to end juuuuust past vertical in
-  // portrait mode.  This looks better to my eyes than directly vertical (0.5).
-  flipFraction: (isPortrait ? 0.55 : 1) * Math.min(1, Math.max(0,
-      flipSlope * pageFlipFraction + flipFractionIntercept))
+    // The 0.55 factor causes the animation to end juuuuust past vertical in
+    // portrait mode.  This looks better to my eyes than directly vertical (0.5).
+    flipFraction: (isPortrait ? 0.55 : 1) * Math.min(1, Math.max(0,
+                                                                 flipSlope * pageFlipFraction + flipFractionIntercept))
 }

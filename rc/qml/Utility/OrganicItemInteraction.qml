@@ -23,49 +23,49 @@ import Ubuntu.Components 0.1
 // The user interaction and selection handling for items in the
 // OrganicMediaList.
 Item {
-  id: organicItemInteraction
+    id: organicItemInteraction
 
-  /*!
-  */
-  signal pressed()
+    /*!
+    */
+    signal pressed()
 
-  /*!
-  */
-  property var selectionItem
-  /*!
-  */
-  property SelectionState selection
+    /*!
+    */
+    property var selectionItem
+    /*!
+    */
+    property SelectionState selection
 
-  // readonly
-  property bool isSelected: selection.isSelected(selectionItem)
+    // readonly
+    property bool isSelected: selection.isSelected(selectionItem)
 
-  anchors.fill: parent
-
-  // FIXME: this is temporary and should be replaced with something real.
-  Image {
-    id: selectionTick
-
-    anchors.right: parent.right
-    anchors.top: parent.top
-    width: units.gu(5)
-    height: units.gu(5)
-
-    visible: isSelected
-
-    source: "img/photo-preview-selected-overlay.png"
-  }
-
-  MouseArea {
     anchors.fill: parent
 
-    acceptedButtons: Qt.LeftButton | Qt.RightButton
+    // FIXME: this is temporary and should be replaced with something real.
+    Image {
+        id: selectionTick
 
-    onPressAndHold: selection.toggleSelection(selectionItem)
-    onClicked: {
-      if (mouse.button == Qt.RightButton || selection.inSelectionMode)
-        selection.toggleSelection(selectionItem);
-      else
-        organicItemInteraction.pressed();
+        anchors.right: parent.right
+        anchors.top: parent.top
+        width: units.gu(5)
+        height: units.gu(5)
+
+        visible: isSelected
+
+        source: "img/photo-preview-selected-overlay.png"
     }
-  }
+
+    MouseArea {
+        anchors.fill: parent
+
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+        onPressAndHold: selection.toggleSelection(selectionItem)
+        onClicked: {
+            if (mouse.button == Qt.RightButton || selection.inSelectionMode)
+                selection.toggleSelection(selectionItem);
+            else
+                organicItemInteraction.pressed();
+        }
+    }
 }

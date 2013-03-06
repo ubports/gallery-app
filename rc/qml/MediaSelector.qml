@@ -29,101 +29,101 @@ import "Widgets"
 /*!
 */
 Item {
-  id: mediaSelector
-  
-  /*!
-  */
-  signal cancelRequested()
-  /*!
-  */
-  signal doneRequested(variant model)
+    id: mediaSelector
 
-  /*!
-  */
-  property variant album
-  
-  // Read-only.
-  /*!
-  */
-  property bool animationRunning: slider.animationRunning
-  
-  /*!
-  */
-  function show() {
-    slider.slideIn();
-  }
+    /*!
+    */
+    signal cancelRequested()
+    /*!
+    */
+    signal doneRequested(variant model)
 
-  /*!
-  */
-  function hide() {
-    slider.slideOut();
-  }
+    /*!
+    */
+    property variant album
 
-  SlidingPane {
-    id: slider
+    // Read-only.
+    /*!
+    */
+    property bool animationRunning: slider.animationRunning
 
-    x: 0
-    y: parent.height
-    width: parent.width
-    height: parent.height
-
-    inX: 0
-    inY: 0
-
-    visible: (y < parent.height)
-
-    OrganicEventView {
-      id: photos
-
-      anchors.fill: parent
-      anchors.topMargin: chrome.navbarHeight
-      visible: true
-
-      selection: SelectionState {
-        inSelectionMode: true
-        allowSelectionModeChange: false
-      }
+    /*!
+    */
+    function show() {
+        slider.slideIn();
     }
 
-    ViewerChrome {
-      id: chrome
-
-      anchors.fill: parent
-
-      autoHideWait: 0
-
-      navbarSelectionDoneButtonText: "Add to album"
-      navbarSelectionDoneButtonWidth: units.gu(18)
-      navbarHasCancelSelectionButton: true
-
-      toolbarHasMainIconsWhenSelecting: false
-
-      inSelectionMode: true
-      state: "shown"
-      visible: true
-
-      hasSelectionOperationsButton: true
-      onSelectionOperationsButtonPressed: cyclePopup(selectionMenu);
-
-      onSelectionDoneButtonPressed: {
-        doneRequested(photos.selection.model);
-        photos.selection.unselectAll();
-      }
-
-      onCancelSelectionButtonPressed: {
-        photos.selection.unselectAll();
-        cancelRequested();
-      }
-
-      popups: [selectionMenu]
-
-      SelectionMenu {
-        id: selectionMenu
-
-        selection: photos.selection
-
-        onPopupInteractionCompleted: chrome.hideAllPopups()
-      }
+    /*!
+    */
+    function hide() {
+        slider.slideOut();
     }
-  }
+
+    SlidingPane {
+        id: slider
+
+        x: 0
+        y: parent.height
+        width: parent.width
+        height: parent.height
+
+        inX: 0
+        inY: 0
+
+        visible: (y < parent.height)
+
+        OrganicEventView {
+            id: photos
+
+            anchors.fill: parent
+            anchors.topMargin: chrome.navbarHeight
+            visible: true
+
+            selection: SelectionState {
+                inSelectionMode: true
+                allowSelectionModeChange: false
+            }
+        }
+
+        ViewerChrome {
+            id: chrome
+
+            anchors.fill: parent
+
+            autoHideWait: 0
+
+            navbarSelectionDoneButtonText: "Add to album"
+            navbarSelectionDoneButtonWidth: units.gu(18)
+            navbarHasCancelSelectionButton: true
+
+            toolbarHasMainIconsWhenSelecting: false
+
+            inSelectionMode: true
+            state: "shown"
+            visible: true
+
+            hasSelectionOperationsButton: true
+            onSelectionOperationsButtonPressed: cyclePopup(selectionMenu);
+
+            onSelectionDoneButtonPressed: {
+                doneRequested(photos.selection.model);
+                photos.selection.unselectAll();
+            }
+
+            onCancelSelectionButtonPressed: {
+                photos.selection.unselectAll();
+                cancelRequested();
+            }
+
+            popups: [selectionMenu]
+
+            SelectionMenu {
+                id: selectionMenu
+
+                selection: photos.selection
+
+                onPopupInteractionCompleted: chrome.hideAllPopups()
+            }
+        }
+    }
 }

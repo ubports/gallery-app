@@ -27,57 +27,57 @@ import Ubuntu.Components 0.1
 // When implementing this, override onCurrentIndexChanged to load the 
 // appropriate photo for the index.
 ListView {
-  id: photoViewer
-  
-  /*!
-  */
-  property int currentIndexForHighlight: -1
-  
-  // NOTE: These properties should be treated as read-only, as setting them
-  // individually can lead to bogus results.  Use setCurrentIndex() to 
-  // initialize the view.
-  property alias index: photoViewer.currentIndex
+    id: photoViewer
 
-  /*!
-  */
-  function setCurrentIndex(index) {
-      if (currentIndex === index)
-        return;
+    /*!
+    */
+    property int currentIndexForHighlight: -1
 
-      currentIndex = index;
-      positionViewAtIndex(currentIndex, ListView.Beginning);
-  }
-  
-  spacing: units.gu(5)
-  orientation: ListView.Horizontal
-  snapMode: ListView.SnapOneItem
-  highlightRangeMode: ListView.StrictlyEnforceRange
-  highlightFollowsCurrentItem: true
-  flickDeceleration: units.gu(3)
-  maximumFlickVelocity: units.gu(500)
-  highlightMoveDuration: units.gu(11)
-  boundsBehavior: Flickable.DragOverBounds
+    // NOTE: These properties should be treated as read-only, as setting them
+    // individually can lead to bogus results.  Use setCurrentIndex() to
+    // initialize the view.
+    property alias index: photoViewer.currentIndex
 
-  onMovingChanged: {
-    // TODO: if you scroll through a number of pages without stopping, this
-    // never gets updated, so the highlighting stops working.
-    if (moving)
-      currentIndexForHighlight = currentIndex;
-  }
-  
-  // Keyboard focus while visible
-  onVisibleChanged: {
-    if (visible)
-      forceActiveFocus();
-  }
-  
-  Keys.onPressed: {
-    if (event.key === Qt.Key_Left) {
-      decrementCurrentIndex();
-      event.accepted = true;
-    } else if (event.key === Qt.Key_Right) {
-      incrementCurrentIndex();
-      event.accepted = true;
+    /*!
+    */
+    function setCurrentIndex(index) {
+        if (currentIndex === index)
+            return;
+
+        currentIndex = index;
+        positionViewAtIndex(currentIndex, ListView.Beginning);
     }
-  }
+
+    spacing: units.gu(5)
+    orientation: ListView.Horizontal
+    snapMode: ListView.SnapOneItem
+    highlightRangeMode: ListView.StrictlyEnforceRange
+    highlightFollowsCurrentItem: true
+    flickDeceleration: units.gu(3)
+    maximumFlickVelocity: units.gu(500)
+    highlightMoveDuration: units.gu(11)
+    boundsBehavior: Flickable.DragOverBounds
+
+    onMovingChanged: {
+        // TODO: if you scroll through a number of pages without stopping, this
+        // never gets updated, so the highlighting stops working.
+        if (moving)
+            currentIndexForHighlight = currentIndex;
+    }
+
+    // Keyboard focus while visible
+    onVisibleChanged: {
+        if (visible)
+            forceActiveFocus();
+    }
+
+    Keys.onPressed: {
+        if (event.key === Qt.Key_Left) {
+            decrementCurrentIndex();
+            event.accepted = true;
+        } else if (event.key === Qt.Key_Right) {
+            incrementCurrentIndex();
+            event.accepted = true;
+        }
+    }
 }

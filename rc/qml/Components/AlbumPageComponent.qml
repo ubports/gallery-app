@@ -27,178 +27,178 @@ import "../../js/Gallery.js" as Gallery
 // the cover) from the album and handles rotating, displaying an arbitrary page
 // on the front (right) or back (left) sides.
 Flipable {
-  id: albumPageComponent
+    id: albumPageComponent
 
-  /*!
-  */
-  property Album album // The album this page is in.
+    /*!
+    */
+    property Album album // The album this page is in.
 
-  /*!
-  */
-  property alias frontPage: frontContents.page // On the right when viewed like in a book.
-  /*!
-  */
-  property alias backPage: backContents.page // On the left when viewed like in a book.
+    /*!
+    */
+    property alias frontPage: frontContents.page // On the right when viewed like in a book.
+    /*!
+    */
+    property alias backPage: backContents.page // On the left when viewed like in a book.
 
-  // [0,2]: 0 = flat right page, 1 = flat left page, 2 = back to right page.
-  // The page turns 360 degrees from 0-2 in a normal "book" fashion.
-  property real flipFraction: 0
+    // [0,2]: 0 = flat right page, 1 = flat left page, 2 = back to right page.
+    // The page turns 360 degrees from 0-2 in a normal "book" fashion.
+    property real flipFraction: 0
 
-  /*!
-  */
-  property bool isPreview: false // Whether to load preview or normal images.
-  /*!
-  */
-  property bool load: false
-  // These override the isPreview option if specified.
-  property alias frontIsPreview: frontContents.isPreview
-  /*!
-  */
-  property alias backIsPreview: backContents.isPreview
+    /*!
+    */
+    property bool isPreview: false // Whether to load preview or normal images.
+    /*!
+    */
+    property bool load: false
+    // These override the isPreview option if specified.
+    property alias frontIsPreview: frontContents.isPreview
+    /*!
+    */
+    property alias backIsPreview: backContents.isPreview
 
-  // Whether to draw a frame around the page, if it's a content page.
-  property bool contentHasPreviewFrame: false
+    // Whether to draw a frame around the page, if it's a content page.
+    property bool contentHasPreviewFrame: false
 
-  /*!
-  */
-  property real topMargin: pageTopMargin
-  /*!
-  */
-  property real bottomMargin: pageBottomMargin
-  /*!
-  */
-  property real gutterMargin: pageGutterMargin
-  /*!
-  */
-  property real outerMargin: pageOuterMargin
-  /*!
-  */
-  property real insideMargin: pageInsideMargin
-  
-  // Prevent the page from reflecting the album as its modified
-  property bool freeze: false
-  
-  // Whether to draw the cover (defaults to true)
-  // This is used to prevent the cover from being drawn during certain transitions.
-  property bool showCover: true
+    /*!
+    */
+    property real topMargin: pageTopMargin
+    /*!
+    */
+    property real bottomMargin: pageBottomMargin
+    /*!
+    */
+    property real gutterMargin: pageGutterMargin
+    /*!
+    */
+    property real outerMargin: pageOuterMargin
+    /*!
+    */
+    property real insideMargin: pageInsideMargin
 
-  // readonly
-  /*!
-  */
-  property alias frontIsCover: frontContents.isCover
-  /*!
-  */
-  property alias backIsCover: backContents.isCover
-  /*!
-  */
-  property alias frameToContentWidth: frontContents.frameToContentWidth
-  /*!
-  */
-  property alias frameToContentHeight: frontContents.frameToContentHeight
-  /*!
-  */
-  property alias frameHingeInset: frontContents.frameHingeInset
+    // Prevent the page from reflecting the album as its modified
+    property bool freeze: false
 
-  /*!
-  */
-  property real pageTopMargin: getDeviceSpecific('albumPageTopMargin')
-  /*!
-  */
-  property real pageBottomMargin: getDeviceSpecific('albumPageBottomMargin')
-  /*!
-  */
-  property real pageGutterMargin: getDeviceSpecific('albumPageGutterMargin')
-  /*!
-  */
-  property real pageOuterMargin: getDeviceSpecific('albumPageOuterMargin')
-  /*!
-  */
-  property real pageInsideMargin: getDeviceSpecific('albumPageInsideMargin')
+    // Whether to draw the cover (defaults to true)
+    // This is used to prevent the cover from being drawn during certain transitions.
+    property bool showCover: true
 
-  /*!
-  */
-  property real previewTopMargin: getDeviceSpecific('albumPreviewTopMargin')
-  /*!
-  */
-  property real previewBottomMargin: getDeviceSpecific('albumPreviewBottomMargin')
-  /*!
-  */
-  property real previewGutterMargin: getDeviceSpecific('albumPreviewGutterMargin')
-  /*!
-  */
-  property real previewOuterMargin: getDeviceSpecific('albumPreviewOuterMargin')
-  /*!
-  */
-  property real previewInsideMargin: getDeviceSpecific('albumPreviewInsideMargin')
-  
-  // Returns the page number of the left page of the current "spread", denoted
-  // by a currentPage number from an album.  This will go on the backPage.
-  function leftPageForCurrent(currentPage) {
-    return currentPage;
-  }
+    // readonly
+    /*!
+    */
+    property alias frontIsCover: frontContents.isCover
+    /*!
+    */
+    property alias backIsCover: backContents.isCover
+    /*!
+    */
+    property alias frameToContentWidth: frontContents.frameToContentWidth
+    /*!
+    */
+    property alias frameToContentHeight: frontContents.frameToContentHeight
+    /*!
+    */
+    property alias frameHingeInset: frontContents.frameHingeInset
 
-  // Returns the page number of the right page of the current "spread", denoted
-  // by a currentPage number from an album.  This will go on the frontPage.
-  function rightPageForCurrent(currentPage) {
-    return currentPage + 1;
-  }
+    /*!
+    */
+    property real pageTopMargin: getDeviceSpecific('albumPageTopMargin')
+    /*!
+    */
+    property real pageBottomMargin: getDeviceSpecific('albumPageBottomMargin')
+    /*!
+    */
+    property real pageGutterMargin: getDeviceSpecific('albumPageGutterMargin')
+    /*!
+    */
+    property real pageOuterMargin: getDeviceSpecific('albumPageOuterMargin')
+    /*!
+    */
+    property real pageInsideMargin: getDeviceSpecific('albumPageInsideMargin')
 
-  front: AlbumPageContents {
-    id: frontContents
-    
-    x: isPreview ? -frontContents.frameHingeInset : 0 // origin offset
-    width: albumPageComponent.width
-    height: albumPageComponent.height
-    
-    album: albumPageComponent.album
-    
-    isPreview: albumPageComponent.isPreview
-    load: albumPageComponent.load
-    contentHasPreviewFrame: albumPageComponent.contentHasPreviewFrame
-    
-    topMargin: albumPageComponent.topMargin
-    bottomMargin: albumPageComponent.bottomMargin
-    gutterMargin: albumPageComponent.gutterMargin
-    outerMargin: albumPageComponent.outerMargin
-    insideMargin: albumPageComponent.insideMargin
-    
-    freeze: albumPageComponent.freeze
-    showCover: albumPageComponent.showCover
-  }
+    /*!
+    */
+    property real previewTopMargin: getDeviceSpecific('albumPreviewTopMargin')
+    /*!
+    */
+    property real previewBottomMargin: getDeviceSpecific('albumPreviewBottomMargin')
+    /*!
+    */
+    property real previewGutterMargin: getDeviceSpecific('albumPreviewGutterMargin')
+    /*!
+    */
+    property real previewOuterMargin: getDeviceSpecific('albumPreviewOuterMargin')
+    /*!
+    */
+    property real previewInsideMargin: getDeviceSpecific('albumPreviewInsideMargin')
 
-  back: AlbumPageContents {
-    id: backContents
-    
-    x: isPreview ? frontContents.frameHingeInset : 0 // origin offset
-    width: albumPageComponent.width
-    height: albumPageComponent.height
-    
-    album: albumPageComponent.album
-    
-    isPreview: albumPageComponent.isPreview
-    load: albumPageComponent.load
-    contentHasPreviewFrame: albumPageComponent.contentHasPreviewFrame
-    
-    topMargin: albumPageComponent.topMargin
-    bottomMargin: albumPageComponent.bottomMargin
-    gutterMargin: albumPageComponent.gutterMargin
-    outerMargin: albumPageComponent.outerMargin
-    insideMargin: albumPageComponent.insideMargin
-    
-    freeze: albumPageComponent.freeze
-    showCover: albumPageComponent.showCover
-  }
+    // Returns the page number of the left page of the current "spread", denoted
+    // by a currentPage number from an album.  This will go on the backPage.
+    function leftPageForCurrent(currentPage) {
+        return currentPage;
+    }
 
-  transform: Rotation {
-    id: rotation
+    // Returns the page number of the right page of the current "spread", denoted
+    // by a currentPage number from an album.  This will go on the frontPage.
+    function rightPageForCurrent(currentPage) {
+        return currentPage + 1;
+    }
 
-    origin.x: 0
-    origin.y: albumPageComponent.height / 2
+    front: AlbumPageContents {
+        id: frontContents
 
-    axis.x: 0
-    axis.y: 1
-    axis.z: 0
+        x: isPreview ? -frontContents.frameHingeInset : 0 // origin offset
+        width: albumPageComponent.width
+        height: albumPageComponent.height
 
-    angle: (flipFraction * -180)
-  }
+        album: albumPageComponent.album
+
+        isPreview: albumPageComponent.isPreview
+        load: albumPageComponent.load
+        contentHasPreviewFrame: albumPageComponent.contentHasPreviewFrame
+
+        topMargin: albumPageComponent.topMargin
+        bottomMargin: albumPageComponent.bottomMargin
+        gutterMargin: albumPageComponent.gutterMargin
+        outerMargin: albumPageComponent.outerMargin
+        insideMargin: albumPageComponent.insideMargin
+
+        freeze: albumPageComponent.freeze
+        showCover: albumPageComponent.showCover
+    }
+
+    back: AlbumPageContents {
+        id: backContents
+
+        x: isPreview ? frontContents.frameHingeInset : 0 // origin offset
+        width: albumPageComponent.width
+        height: albumPageComponent.height
+
+        album: albumPageComponent.album
+
+        isPreview: albumPageComponent.isPreview
+        load: albumPageComponent.load
+        contentHasPreviewFrame: albumPageComponent.contentHasPreviewFrame
+
+        topMargin: albumPageComponent.topMargin
+        bottomMargin: albumPageComponent.bottomMargin
+        gutterMargin: albumPageComponent.gutterMargin
+        outerMargin: albumPageComponent.outerMargin
+        insideMargin: albumPageComponent.insideMargin
+
+        freeze: albumPageComponent.freeze
+        showCover: albumPageComponent.showCover
+    }
+
+    transform: Rotation {
+        id: rotation
+
+        origin.x: 0
+        origin.y: albumPageComponent.height / 2
+
+        axis.x: 0
+        axis.y: 1
+        axis.z: 0
+
+        angle: (flipFraction * -180)
+    }
 }

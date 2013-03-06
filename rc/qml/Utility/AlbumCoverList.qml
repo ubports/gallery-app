@@ -23,84 +23,84 @@ import Gallery 1.0
 /*!
 */
 ListModel {
-  id: albumCoverList
-  
-  // Returns an element given the nickname.
-  function elementForActionName(name) {
-    // TODO: optimize.
-    for (var i = 0; i < albumCoverList.count; i++) {
-      if (albumCoverList.get(i).action === name)
-        return albumCoverList.get(i);
-    }
-    
-    return albumCoverList.get(0); // default
-  }
-  
-  /*!
-  */
-  function getDefault() {
-    return albumCoverList.get(0);
-  }
-  
-  // A note about the image paths here: the imageFull and imagePreview images
-  // are used in qml/Components/AlbumCover.qml (and the actual cover images are
-  // only needed there, so they're in qml/Components/img).  So, our path in
-  // those cases is relative to the Components directory.  However, the
-  // iconFilename is actually used by qml/Capetown/Widgets/SomethingOrOther
-  // (and thus its images live in the shared img directory).  So, our path in
-  // that case is relative to the Capetown Widgets directory.
-  // TODO: fix this so images don't have such strict requirements; maybe make
-  // a js utility function to give us the path to any image from wherever it's
-  // being used.
+    id: albumCoverList
 
-  // First item in the list must be the default.
-  ListElement {
-    title: "Default"
-    action: "default"
-    imageFull: "img/album-cover-default-large.png"
-    imagePreview: "img/album-cover-default.png"
-    iconFilename: "../../img/album-cover-default-icon.png"
-    addFilename: "img/album-add-default.png"
-    hasBottomBorder: true
-  }
-  
-  ListElement {
-    title: "Blue"
-    action: "blue"
-    imageFull: "img/album-cover-blue-large.png"
-    imagePreview: "img/album-cover-blue.png"
-    iconFilename: "../../img/album-cover-blue-icon.png"
-    addFilename: "img/album-add-blue.png"
-    hasBottomBorder: true
-  }
-  
-  ListElement {
-    title: "Green"
-    action: "green"
-    imageFull: "img/album-cover-green-large.png"
-    imagePreview: "img/album-cover-green.png"
-    iconFilename: "../../img/album-cover-green-icon.png"
-    addFilename: "img/album-add-green.png"
-    hasBottomBorder: true
-  }
-  
-  ListElement {
-    title: "Pattern"
-    action: "pattern"
-    imageFull: "img/album-cover-pattern-large.png"
-    imagePreview: "img/album-cover-pattern.png"
-    iconFilename: "../../img/album-cover-pattern-icon.png"
-    addFilename: "img/album-add-pattern.png"
-    hasBottomBorder: true
-  }
-  
-  ListElement {
-    title: "Red"
-    action: "red"
-    imageFull: "img/album-cover-red-large.png"
-    imagePreview: "img/album-cover-red.png"
-    iconFilename: "../../img/album-cover-red-icon.png"
-    addFilename: "img/album-add-red.png"
-    hasBottomBorder: true
-  }
+    // Returns an element given the nickname.
+    function elementForActionName(name) {
+        // TODO: optimize.
+        for (var i = 0; i < albumCoverList.count; i++) {
+            if (albumCoverList.get(i).action === name)
+                return albumCoverList.get(i);
+        }
+
+        return albumCoverList.get(0); // default
+    }
+
+    /*!
+    */
+    function getDefault() {
+        return albumCoverList.get(0);
+    }
+
+    // A note about the image paths here: the imageFull and imagePreview images
+    // are used in qml/Components/AlbumCover.qml (and the actual cover images are
+    // only needed there, so they're in qml/Components/img).  So, our path in
+    // those cases is relative to the Components directory.  However, the
+    // iconFilename is actually used by qml/Capetown/Widgets/SomethingOrOther
+    // (and thus its images live in the shared img directory).  So, our path in
+    // that case is relative to the Capetown Widgets directory.
+    // TODO: fix this so images don't have such strict requirements; maybe make
+    // a js utility function to give us the path to any image from wherever it's
+    // being used.
+
+    // First item in the list must be the default.
+    ListElement {
+        title: "Default"
+        action: "default"
+        imageFull: "img/album-cover-default-large.png"
+        imagePreview: "img/album-cover-default.png"
+        iconFilename: "../../img/album-cover-default-icon.png"
+        addFilename: "img/album-add-default.png"
+        hasBottomBorder: true
+    }
+
+    ListElement {
+        title: "Blue"
+        action: "blue"
+        imageFull: "img/album-cover-blue-large.png"
+        imagePreview: "img/album-cover-blue.png"
+        iconFilename: "../../img/album-cover-blue-icon.png"
+        addFilename: "img/album-add-blue.png"
+        hasBottomBorder: true
+    }
+
+    ListElement {
+        title: "Green"
+        action: "green"
+        imageFull: "img/album-cover-green-large.png"
+        imagePreview: "img/album-cover-green.png"
+        iconFilename: "../../img/album-cover-green-icon.png"
+        addFilename: "img/album-add-green.png"
+        hasBottomBorder: true
+    }
+
+    ListElement {
+        title: "Pattern"
+        action: "pattern"
+        imageFull: "img/album-cover-pattern-large.png"
+        imagePreview: "img/album-cover-pattern.png"
+        iconFilename: "../../img/album-cover-pattern-icon.png"
+        addFilename: "img/album-add-pattern.png"
+        hasBottomBorder: true
+    }
+
+    ListElement {
+        title: "Red"
+        action: "red"
+        imageFull: "img/album-cover-red-large.png"
+        imagePreview: "img/album-cover-red.png"
+        iconFilename: "../../img/album-cover-red-icon.png"
+        addFilename: "img/album-add-red.png"
+        hasBottomBorder: true
+    }
 }

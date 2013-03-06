@@ -22,5 +22,5 @@ import QtQuick 2.0
 /*!
 */
 StandardToolbarIconButton {
-  iconName: "more"
+    iconName: "more"
 }

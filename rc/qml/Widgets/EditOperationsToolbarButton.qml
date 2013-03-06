@@ -23,6 +23,6 @@ import "../../Capetown/Widgets"
 /*!
 */
 ToolbarIconButton {
-  selectedIconFilename: "img/icon-edit.png"
-  deselectedIconFilename: selectedIconFilename
+    selectedIconFilename: "img/icon-edit.png"
+    deselectedIconFilename: selectedIconFilename
 }

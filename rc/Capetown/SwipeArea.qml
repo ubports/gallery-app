@@ -29,115 +29,115 @@ import Ubuntu.Components 0.1
 MouseArea {
     /*!
     */
-  signal startSwipe(bool leftToRight, int start)
+    signal startSwipe(bool leftToRight, int start)
     /*!
     */
-  signal swiping(bool leftToRight, int start, int distance)
+    signal swiping(bool leftToRight, int start, int distance)
     /*!
     */
-  signal swiped(bool leftToRight)
+    signal swiped(bool leftToRight)
     /*!
     */
-  signal tapped(int x, int y, bool rightButton)
+    signal tapped(int x, int y, bool rightButton)
     /*!
     */
-  signal longPressed(int x, int y)
-  
+    signal longPressed(int x, int y)
+
     /*!
      */
-  property int requiredHorizMovement: units.gu(1)
-  
-  // internal
-    /*!
-    */
-  property int startX: -1
-    /*!
-    */
-  property bool leftToRight: true
-    /*!
-    */
-  property bool swipeStarted: false
-    /*!
-    */
-  property bool longPress: false
+    property int requiredHorizMovement: units.gu(1)
 
-  // internal
+    // internal
     /*!
     */
-  function reset() {
-    startX = -1;
-    leftToRight = true;
-    swipeStarted = false;
-    longPress = false;
-  }
+    property int startX: -1
+    /*!
+    */
+    property bool leftToRight: true
+    /*!
+    */
+    property bool swipeStarted: false
+    /*!
+    */
+    property bool longPress: false
 
-  preventStealing: swipeStarted
-  acceptedButtons: Qt.LeftButton | Qt.RightButton
-  
-  onEnabledChanged: reset()
-  onVisibleChanged: reset()
-  
-  onPositionChanged: {
-    if (longPress)
-      return;
-    
-    // look for initial swipe
-    if (startX == -1) {
-      startX = mouse.x;
-      
-      return;
+    // internal
+    /*!
+    */
+    function reset() {
+        startX = -1;
+        leftToRight = true;
+        swipeStarted = false;
+        longPress = false;
     }
-    
-    var diff = 0;
-    if (mouse.x < startX) {
-      // once started, don't signal anything on other side of bounding point
-      if (swipeStarted && leftToRight)
-        return;
-      
-      diff = startX - mouse.x;
-      leftToRight = false;
-    } else if (mouse.x > startX) {
-      // once started, don't signal anything on other side of bounding point
-      if (swipeStarted && !leftToRight)
-        return;
-      
-      diff = mouse.x - startX;
-      leftToRight = true;
-    } else {
-      // If mouse.x == startX, there's no horizontal swiping going on.  This
-      // lets e.g. the GridView steal vertical mouse movement for its flicking.
-      return;
-    }
-    
-    if (swipeStarted) {
-      swiping(leftToRight, startX, diff);
-      
-      return;
-    }
-    
-    if (diff < requiredHorizMovement)
-      return;
-    
-    swipeStarted = true;
-    
-    startSwipe(leftToRight, startX);
-    swiping(leftToRight, startX, diff);
-  }
 
-  onPressAndHold: {
-    if (swipeStarted)
-      return;
+    preventStealing: swipeStarted
+    acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-    longPress = true;
-    longPressed(mouse.x, mouse.y);
-  }
-  
-  onReleased: {
-    if (swipeStarted)
-      swiped(leftToRight);
-    else if (!longPress)
-      tapped(mouse.x, mouse.y, (mouse.button == Qt.RightButton));
-    
-    reset();
-  }
+    onEnabledChanged: reset()
+    onVisibleChanged: reset()
+
+    onPositionChanged: {
+        if (longPress)
+            return;
+
+        // look for initial swipe
+        if (startX == -1) {
+            startX = mouse.x;
+
+            return;
+        }
+
+        var diff = 0;
+        if (mouse.x < startX) {
+            // once started, don't signal anything on other side of bounding point
+            if (swipeStarted && leftToRight)
+                return;
+
+            diff = startX - mouse.x;
+            leftToRight = false;
+        } else if (mouse.x > startX) {
+            // once started, don't signal anything on other side of bounding point
+            if (swipeStarted && !leftToRight)
+                return;
+
+            diff = mouse.x - startX;
+            leftToRight = true;
+        } else {
+            // If mouse.x == startX, there's no horizontal swiping going on.  This
+            // lets e.g. the GridView steal vertical mouse movement for its flicking.
+            return;
+        }
+
+        if (swipeStarted) {
+            swiping(leftToRight, startX, diff);
+
+            return;
+        }
+
+        if (diff < requiredHorizMovement)
+            return;
+
+        swipeStarted = true;
+
+        startSwipe(leftToRight, startX);
+        swiping(leftToRight, startX, diff);
+    }
+
+    onPressAndHold: {
+        if (swipeStarted)
+            return;
+
+        longPress = true;
+        longPressed(mouse.x, mouse.y);
+    }
+
+    onReleased: {
+        if (swipeStarted)
+            swiped(leftToRight);
+        else if (!longPress)
+            tapped(mouse.x, mouse.y, (mouse.button == Qt.RightButton));
+
+        reset();
+    }
 }

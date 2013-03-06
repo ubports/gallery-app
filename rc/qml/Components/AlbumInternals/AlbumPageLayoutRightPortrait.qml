@@ -23,24 +23,24 @@ import QtQuick 2.0
 /*!
 */
 AlbumPageLayout {
-  id: albumPageLayoutRightPortrait
-  
-  mediaFrames: [ right ]
-  
-  FramePortrait {
-    id: right
+    id: albumPageLayoutRightPortrait
 
-    anchors.fill: parent
+    mediaFrames: [ right ]
 
-    anchors.topMargin: albumPageLayoutRightPortrait.topMargin
-    anchors.bottomMargin: albumPageLayoutRightPortrait.bottomMargin
-    anchors.leftMargin: albumPageLayoutRightPortrait.gutterMargin
-    anchors.rightMargin: albumPageLayoutRightPortrait.outerMargin
+    FramePortrait {
+        id: right
 
-    mediaSource: (albumPageLayoutRightPortrait.mediaSourceList
-      ? albumPageLayoutRightPortrait.mediaSourceList[0]
-      : null)
-    load: albumPageLayoutRightPortrait.load
-    isPreview: albumPageLayoutRightPortrait.isPreview
-  }
+        anchors.fill: parent
+
+        anchors.topMargin: albumPageLayoutRightPortrait.topMargin
+        anchors.bottomMargin: albumPageLayoutRightPortrait.bottomMargin
+        anchors.leftMargin: albumPageLayoutRightPortrait.gutterMargin
+        anchors.rightMargin: albumPageLayoutRightPortrait.outerMargin
+
+        mediaSource: (albumPageLayoutRightPortrait.mediaSourceList
+                      ? albumPageLayoutRightPortrait.mediaSourceList[0]
+                      : null)
+        load: albumPageLayoutRightPortrait.load
+        isPreview: albumPageLayoutRightPortrait.isPreview
+    }
 }

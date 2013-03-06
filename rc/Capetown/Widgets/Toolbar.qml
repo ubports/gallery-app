@@ -26,58 +26,58 @@ import Ubuntu.Components 0.1
 Item {
     /*!
     */
-  property bool isTextured: true
+    property bool isTextured: true
     /*!
     */
-  property bool isTranslucent: false
+    property bool isTranslucent: false
     /*!
     */
-  property bool isDark: false
+    property bool isDark: false
     /*!
     */
-  property bool isBottom: false // vs. top; what part of the screen it's on.
+    property bool isBottom: false // vs. top; what part of the screen it's on.
 
-  width: parent.width
-  height: units.gu(6)
+    width: parent.width
+    height: units.gu(6)
 
-  opacity: (isTranslucent ? (isDark ? 0.7 : 0.9) : 1.0)
+    opacity: (isTranslucent ? (isDark ? 0.7 : 0.9) : 1.0)
 
-  Rectangle {
-    id: darkBackground
+    Rectangle {
+        id: darkBackground
 
-    anchors.fill: parent
+        anchors.fill: parent
 
-    color: "black"
+        color: "black"
 
-    visible: !isTextured && isDark
-  }
+        visible: !isTextured && isDark
+    }
 
-  Image {
-    id: backgroundTexture
+    Image {
+        id: backgroundTexture
 
-    anchors.fill: parent
+        anchors.fill: parent
 
-    source: (isBottom
-      ? "img/toolbar-background-bottom.png"
-      : "img/toolbar-background-top.png")
-    fillMode: Image.Tile
+        source: (isBottom
+                 ? "img/toolbar-background-bottom.png"
+                 : "img/toolbar-background-top.png")
+        fillMode: Image.Tile
 
-    visible: isTextured
-  }
+        visible: isTextured
+    }
 
-  Image {
-    id: shadow
+    Image {
+        id: shadow
 
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.top: (isBottom ? undefined : parent.bottom)
-    anchors.bottom: (isBottom ? parent.top : undefined)
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: (isBottom ? undefined : parent.bottom)
+        anchors.bottom: (isBottom ? parent.top : undefined)
 
-    source: (isBottom
-      ? "img/toolbar-shadow-above.png"
-      : "img/toolbar-shadow-below.png")
-    fillMode: Image.Tile
+        source: (isBottom
+                 ? "img/toolbar-shadow-above.png"
+                 : "img/toolbar-shadow-below.png")
+        fillMode: Image.Tile
 
-    visible: isTextured
-  }
+        visible: isTextured
+    }
 }

@@ -21,36 +21,36 @@ import QtQuick 2.0
 
 // A MouseArea meant to drag a corner/edge of a crop area.
 MouseArea {
-  id: cropDragArea
+    id: cropDragArea
 
-  /*!
-  */
-  signal dragged(real dx, real dy)
-  /*!
-  */
-  signal dragStarted()
-  /*!
-  */
-  signal dragCompleted()
+    /*!
+    */
+    signal dragged(real dx, real dy)
+    /*!
+    */
+    signal dragStarted()
+    /*!
+    */
+    signal dragCompleted()
 
-  // Since we're usually moving this area with the mouse in response to
-  // dragging, we don't need to capture the last x/y, just where it was
-  // grabbed.
-  property real grabX: -1
-  /*!
-  */
-  property real grabY: -1
+    // Since we're usually moving this area with the mouse in response to
+    // dragging, we don't need to capture the last x/y, just where it was
+    // grabbed.
+    property real grabX: -1
+    /*!
+    */
+    property real grabY: -1
 
-  onPressed: {
-    dragStarted();
+    onPressed: {
+        dragStarted();
 
-    grabX = mouse.x;
-    grabY = mouse.y;
-  }
+        grabX = mouse.x;
+        grabY = mouse.y;
+    }
 
-  onReleased: {
-    dragCompleted();
-  }
+    onReleased: {
+        dragCompleted();
+    }
 
-  onPositionChanged: cropDragArea.dragged(mouse.x - grabX, mouse.y - grabY)
+    onPositionChanged: cropDragArea.dragged(mouse.x - grabX, mouse.y - grabY)
 }

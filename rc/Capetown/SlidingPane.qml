@@ -23,57 +23,57 @@ import QtQuick 2.0
 // given in the normal QML Item properties) and an alternate ("in", given in
 // inX and inY).
 Item {
-  id: slidingPane
+    id: slidingPane
 
-  /*!
-  */
-  property real inX
-  /*!
-  */
-  property real inY
-  /*!
-  */
-  property int duration: 200
+    /*!
+    */
+    property real inX
+    /*!
+    */
+    property real inY
+    /*!
+    */
+    property int duration: 200
 
-  // readonly
-  /*!
-  */
-  property bool isIn: (state == "in")
-  /*!
-  */
-  property bool animationRunning: slideX.running || slideY.running
+    // readonly
+    /*!
+    */
+    property bool isIn: (state == "in")
+    /*!
+    */
+    property bool animationRunning: slideX.running || slideY.running
 
-  /*!
-  */
-  function slideIn() {
-    state = "in";
-  }
-
-  /*!
-  */
-  function slideOut() {
-    state = "";
-  }
-
-  states: [
-    State {
-      name: "in"
-      PropertyChanges { target: slidingPane; x: inX; y: inY; }
+    /*!
+    */
+    function slideIn() {
+        state = "in";
     }
-  ]
 
-  Behavior on x {
-    animation: NumberAnimation {
-      id: slideX
-      easing.type: Easing.OutQuad
-      duration: slidingPane.duration
+    /*!
+    */
+    function slideOut() {
+        state = "";
     }
-  }
-  Behavior on y {
-    animation: NumberAnimation {
-      id: slideY
-      easing.type: Easing.OutQuad
-      duration: slidingPane.duration
+
+    states: [
+        State {
+            name: "in"
+            PropertyChanges { target: slidingPane; x: inX; y: inY; }
+        }
+    ]
+
+    Behavior on x {
+        animation: NumberAnimation {
+            id: slideX
+            easing.type: Easing.OutQuad
+            duration: slidingPane.duration
+        }
     }
-  }
+    Behavior on y {
+        animation: NumberAnimation {
+            id: slideY
+            easing.type: Easing.OutQuad
+            duration: slidingPane.duration
+        }
+    }
 }

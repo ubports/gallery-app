@@ -32,8 +32,8 @@ MainView {
     anchors.fill: parent
 
     tools: __isPhotoViewerOpen ? photoViewerLoader.item.tools
-            : (albumViewer.isOpen ? albumViewer.tools
-            : tabs.tools)
+                               : (albumViewer.isOpen ? albumViewer.tools
+                                                     : tabs.tools)
 
     Tabs {
         id: tabs
@@ -105,21 +105,21 @@ MainView {
         // (see above TODO), will make sense in future when component becomes
         // more heavyweight and causes a longer startup time
         Tab {
-          title: "Photos"
-          objectName: "photosView"
-          page: PhotosOverview {
-            id: photosOverview
+            title: "Photos"
+            objectName: "photosView"
+            page: PhotosOverview {
+                id: photosOverview
 
-            anchors.fill: parent
+                anchors.fill: parent
 
-            onMediaSourcePressed: {
-              photoViewerLoader.load();
+                onMediaSourcePressed: {
+                    photoViewerLoader.load();
 
-              var rect = GalleryUtility.translateRect(thumbnailRect,
-                photosOverview, photoViewerLoader);
-              photoViewerLoader.item.animateOpen(mediaSource, rect);
+                    var rect = GalleryUtility.translateRect(thumbnailRect,
+                                                            photosOverview, photoViewerLoader);
+                    photoViewerLoader.item.animateOpen(mediaSource, rect);
+                }
             }
-          }
         }
     }
 
