@@ -24,11 +24,11 @@ import "../Utility"
 /*!
 */
 PopupMenu {
-  id: albumCoverMenu
-  
-  model: coverList
-  
-  AlbumCoverList {
-    id: coverList
-  }
+    id: albumCoverMenu
+
+    model: coverList
+
+    AlbumCoverList {
+        id: coverList
+    }
 }

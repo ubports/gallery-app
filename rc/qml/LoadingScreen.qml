@@ -22,18 +22,18 @@ import QtQuick 2.0
 /*!
 */
 Item {
-  id: loadingScreen
+    id: loadingScreen
 
-  Image {
-    anchors.fill: parent
+    Image {
+        anchors.fill: parent
 
-    source: "../img/background-paper.png"
-    fillMode: Image.Tile
-  }
+        source: "../img/background-paper.png"
+        fillMode: Image.Tile
+    }
 
-  Text {
-    anchors.centerIn: parent
-    text: "Loading..."
-    font.pointSize: pointUnits(20)
-  }
+    Text {
+        anchors.centerIn: parent
+        text: "Loading..."
+        font.pointSize: pointUnits(20)
+    }
 }

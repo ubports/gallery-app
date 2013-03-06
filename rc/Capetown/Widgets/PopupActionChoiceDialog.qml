@@ -23,58 +23,58 @@ import Ubuntu.Components 0.1
 /*!
 */
 PopupBox {
-  id: popupActionChoiceDialog
+    id: popupActionChoiceDialog
 
-  /*!
-  */
-  signal action0Requested()
-  /*!
-  */
-  signal action1Requested()
+    /*!
+    */
+    signal action0Requested()
+    /*!
+    */
+    signal action1Requested()
 
-  /*!
-  */
-  property alias action0Title: action0Button.text
-  /*!
-  */
-  property alias action1Title: action1Button.text
+    /*!
+    */
+    property alias action0Title: action0Button.text
+    /*!
+    */
+    property alias action1Title: action1Button.text
 
-  width: units.gu(40);
-  height: units.gu(14) + originCueHeight;
+    width: units.gu(40);
+    height: units.gu(14) + originCueHeight;
 
-  Button {
-    id: action0Button
+    Button {
+        id: action0Button
 
-    color: "#f15c22"
+        color: "#f15c22"
 
-    anchors.left: parent.left
-    anchors.leftMargin: units.gu(2)
-    anchors.right: parent.right
-    anchors.rightMargin: units.gu(2)
-    anchors.bottom: parent.bottom
-    anchors.bottomMargin: units.gu(7.5) + originCueHeight
+        anchors.left: parent.left
+        anchors.leftMargin: units.gu(2)
+        anchors.right: parent.right
+        anchors.rightMargin: units.gu(2)
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: units.gu(7.5) + originCueHeight
 
-    onClicked: {
-      popupActionChoiceDialog.action0Requested();
-      popupActionChoiceDialog.popupInteractionCompleted();
+        onClicked: {
+            popupActionChoiceDialog.action0Requested();
+            popupActionChoiceDialog.popupInteractionCompleted();
+        }
     }
-  }
 
-  Button {
-    id: action1Button
+    Button {
+        id: action1Button
 
-    color: "#f15c22"
+        color: "#f15c22"
 
-    anchors.left: parent.left
-    anchors.leftMargin: units.gu(2)
-    anchors.right: parent.right
-    anchors.rightMargin: units.gu(2)
-    anchors.bottom: parent.bottom
-    anchors.bottomMargin: units.gu(2) + originCueHeight
+        anchors.left: parent.left
+        anchors.leftMargin: units.gu(2)
+        anchors.right: parent.right
+        anchors.rightMargin: units.gu(2)
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: units.gu(2) + originCueHeight
 
-    onClicked: {
-      popupActionChoiceDialog.action1Requested();
-      popupActionChoiceDialog.popupInteractionCompleted();
+        onClicked: {
+            popupActionChoiceDialog.action1Requested();
+            popupActionChoiceDialog.popupInteractionCompleted();
+        }
     }
-  }
 }

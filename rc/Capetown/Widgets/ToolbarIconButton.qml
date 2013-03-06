@@ -24,18 +24,18 @@ import Ubuntu.Components 0.1
 /*!
 */
 Button {
-  ItemStyle.class: "transparent-button"
-  id: toolbarIconButton
+    ItemStyle.class: "transparent-button"
+    id: toolbarIconButton
 
-  /*!
-  */
-  property url selectedIconFilename
-  /*!
-  */
-  property url deselectedIconFilename
+    /*!
+    */
+    property url selectedIconFilename
+    /*!
+    */
+    property url deselectedIconFilename
 
-  width: units.gu(6)
-  height: units.gu(4)
+    width: units.gu(6)
+    height: units.gu(4)
 
-  iconSource: pressed ? selectedIconFilename : deselectedIconFilename
+    iconSource: pressed ? selectedIconFilename : deselectedIconFilename
 }

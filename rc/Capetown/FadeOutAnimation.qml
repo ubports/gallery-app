@@ -22,53 +22,53 @@ import QtQuick 2.0
 // Sets the target to visible at the startOpacity, animates to the endOpacity,
 // then returns the startOpacity but with visible set to false.
 SequentialAnimation {
-  id: fadeOutAnimation
-  
-  /*!
-  */
-  property Item target
-  /*!
-  */
-  property real startOpacity: 1
-  /*!
-  */
-  property real endOpacity: 0
-  /*!
-  */
-  property int duration: 200
-  /*!
-  */
-  property int easingType: Easing.OutQuad
+    id: fadeOutAnimation
 
-  PropertyAction {
-    target: fadeOutAnimation.target
-    property: "opacity"
-    value: startOpacity
-  }
+    /*!
+    */
+    property Item target
+    /*!
+    */
+    property real startOpacity: 1
+    /*!
+    */
+    property real endOpacity: 0
+    /*!
+    */
+    property int duration: 200
+    /*!
+    */
+    property int easingType: Easing.OutQuad
 
-  PropertyAction {
-    target: fadeOutAnimation.target
-    property: "visible"
-    value: true
-  }
+    PropertyAction {
+        target: fadeOutAnimation.target
+        property: "opacity"
+        value: startOpacity
+    }
 
-  NumberAnimation {
-    target: fadeOutAnimation.target
-    property: "opacity"
-    to: endOpacity
-    duration: fadeOutAnimation.duration
-    easing.type: easingType
-  }
+    PropertyAction {
+        target: fadeOutAnimation.target
+        property: "visible"
+        value: true
+    }
 
-  PropertyAction {
-    target: fadeOutAnimation.target
-    property: "visible"
-    value: false
-  }
+    NumberAnimation {
+        target: fadeOutAnimation.target
+        property: "opacity"
+        to: endOpacity
+        duration: fadeOutAnimation.duration
+        easing.type: easingType
+    }
 
-  PropertyAction {
-    target: fadeOutAnimation.target
-    property: "opacity"
-    value: startOpacity
-  }
+    PropertyAction {
+        target: fadeOutAnimation.target
+        property: "visible"
+        value: false
+    }
+
+    PropertyAction {
+        target: fadeOutAnimation.target
+        property: "opacity"
+        value: startOpacity
+    }
 }

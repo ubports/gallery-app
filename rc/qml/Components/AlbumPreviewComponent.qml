@@ -23,8 +23,8 @@ import QtQuick 2.0
 /*!
 */
 AlbumOpener {
-  id: albumPreviewComponent
+    id: albumPreviewComponent
 
-  isPreview: true
-  contentHasPreviewFrame: true
+    isPreview: true
+    contentHasPreviewFrame: true
 }

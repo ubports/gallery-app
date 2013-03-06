@@ -23,62 +23,62 @@ import QtQuick 2.0
 /*!
 */
 ParallelAnimation {
-  id: expandAnimation
-  objectName: "expandAnimation"
+    id: expandAnimation
+    objectName: "expandAnimation"
 
-  /*!
-  */
-  property variant target
+    /*!
+    */
+    property variant target
 
-  /*!
-  */
-  property real endX: 0
-  /*!
-  */
-  property real endY: 0
-  /*!
-  */
-  property real endWidth: target.parent.width
-  /*!
-  */
-  property real endHeight: target.parent.height
-  /*!
-  */
-  property int easingType: Easing.InQuad
+    /*!
+    */
+    property real endX: 0
+    /*!
+    */
+    property real endY: 0
+    /*!
+    */
+    property real endWidth: target.parent.width
+    /*!
+    */
+    property real endHeight: target.parent.height
+    /*!
+    */
+    property int easingType: Easing.InQuad
 
-  /*!
-  */
-  property int duration: 200
+    /*!
+    */
+    property int duration: 200
 
-  NumberAnimation {
-    target: expandAnimation.target
-    property: "x"
-    to: endX
-    duration: expandAnimation.duration
-    easing.type: easingType
-  }
+    NumberAnimation {
+        target: expandAnimation.target
+        property: "x"
+        to: endX
+        duration: expandAnimation.duration
+        easing.type: easingType
+    }
 
-  NumberAnimation {
-    target: expandAnimation.target
-    property: "y"
-    to: endY
-    duration: expandAnimation.duration
-    easing.type: easingType
-  }
+    NumberAnimation {
+        target: expandAnimation.target
+        property: "y"
+        to: endY
+        duration: expandAnimation.duration
+        easing.type: easingType
+    }
 
-  NumberAnimation {
-    target: expandAnimation.target
-    property: "width"
-    to: endWidth
-    duration: expandAnimation.duration
-    easing.type: easingType
-  }
+    NumberAnimation {
+        target: expandAnimation.target
+        property: "width"
+        to: endWidth
+        duration: expandAnimation.duration
+        easing.type: easingType
+    }
 
-  NumberAnimation {
-    target: expandAnimation.target
-    property: "height"
-    to: endHeight
-    duration: expandAnimation.duration
-    easing.type: easingType
-  }
+    NumberAnimation {
+        target: expandAnimation.target
+        property: "height"
+        to: endHeight
+        duration: expandAnimation.duration
+        easing.type: easingType
+    }
 }

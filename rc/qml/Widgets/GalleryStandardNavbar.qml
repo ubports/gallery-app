@@ -24,99 +24,99 @@ import "../../Capetown/Widgets"
 /*!
 */
 Toolbar {
-  id: wrapper
+    id: wrapper
 
-  /*!
-  */
-  property bool hasReturnButton: true
-  /*!
-  */
-  property bool hasStateButton: false
-  /*!
-  */
-  property alias selectedStateButtonIconFilename: stateButton.selectedIconFilename
-  /*!
-  */
-  property alias deselectedStateButtonIconFilename: stateButton.deselectedIconFilename
-  /*!
-  */
-  property bool hasSelectionDoneButton: false
-  /*!
-  */
-  property alias selectionDoneButtonText: selectionDoneButton.text
-  /*!
-  */
-  property alias selectionDoneButtonWidth: selectionDoneButton.width
-  /*!
-  */
-  property bool hasCancelSelectionButton: false
+    /*!
+    */
+    property bool hasReturnButton: true
+    /*!
+    */
+    property bool hasStateButton: false
+    /*!
+    */
+    property alias selectedStateButtonIconFilename: stateButton.selectedIconFilename
+    /*!
+    */
+    property alias deselectedStateButtonIconFilename: stateButton.deselectedIconFilename
+    /*!
+    */
+    property bool hasSelectionDoneButton: false
+    /*!
+    */
+    property alias selectionDoneButtonText: selectionDoneButton.text
+    /*!
+    */
+    property alias selectionDoneButtonWidth: selectionDoneButton.width
+    /*!
+    */
+    property bool hasCancelSelectionButton: false
 
-  /*!
-  */
-  signal returnButtonPressed()
-  /*!
-  */
-  signal stateButtonPressed()
-  /*!
-  */
-  signal selectionDoneButtonPressed()
-  /*!
-  */
-  signal cancelSelectionButtonPressed()
+    /*!
+    */
+    signal returnButtonPressed()
+    /*!
+    */
+    signal stateButtonPressed()
+    /*!
+    */
+    signal selectionDoneButtonPressed()
+    /*!
+    */
+    signal cancelSelectionButtonPressed()
 
-  Row {
-    id: leftIconGroup
+    Row {
+        id: leftIconGroup
 
-    spacing: units.gu(2)
-    anchors.verticalCenter: parent.verticalCenter
-    anchors.left: parent.left
-    anchors.leftMargin: units.gu(2)
+        spacing: units.gu(2)
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.leftMargin: units.gu(2)
 
-    Button {
-      height: units.gu(4)
-      width: units.gu(15)
+        Button {
+            height: units.gu(4)
+            width: units.gu(15)
 
-      text: "Cancel"
+            text: "Cancel"
 
-      visible: wrapper.hasCancelSelectionButton
+            visible: wrapper.hasCancelSelectionButton
 
-      onClicked: wrapper.cancelSelectionButtonPressed()
+            onClicked: wrapper.cancelSelectionButtonPressed()
+        }
+
+        ReturnToolbarButton {
+            visible: wrapper.hasReturnButton
+            isWhite: wrapper.isDark
+
+            onClicked: wrapper.returnButtonPressed()
+        }
+
+        ToolbarIconButton {
+            id: stateButton
+
+            visible: wrapper.hasStateButton
+
+            onClicked: wrapper.stateButtonPressed()
+        }
     }
 
-    ReturnToolbarButton {
-      visible: wrapper.hasReturnButton
-      isWhite: wrapper.isDark
+    Row {
+        id: rightIconGroup
 
-      onClicked: wrapper.returnButtonPressed()
+        spacing: units.gu(2)
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.right: parent.right
+        anchors.rightMargin: units.gu(2)
+
+        Button {
+            id: selectionDoneButton
+            height: units.gu(4)
+            width: units.gu(15)
+
+            text: "Done"
+
+            visible: wrapper.hasSelectionDoneButton
+
+            onClicked: wrapper.selectionDoneButtonPressed()
+        }
     }
-
-    ToolbarIconButton {
-      id: stateButton
-
-      visible: wrapper.hasStateButton
-
-      onClicked: wrapper.stateButtonPressed()
-    }
-  }
-
-  Row {
-    id: rightIconGroup
-
-    spacing: units.gu(2)
-    anchors.verticalCenter: parent.verticalCenter
-    anchors.right: parent.right
-    anchors.rightMargin: units.gu(2)
-
-    Button {
-      id: selectionDoneButton
-      height: units.gu(4)
-      width: units.gu(15)
-
-      text: "Done"
-
-      visible: wrapper.hasSelectionDoneButton
-
-      onClicked: wrapper.selectionDoneButtonPressed()
-    }
-  }
 }

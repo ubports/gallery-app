@@ -21,41 +21,41 @@ import QtQuick 2.0
 
 // Sets the target to visible at the startOpacity, animates to the endOpacity.
 SequentialAnimation {
-  id: fadeInAnimation
-  
-  /*!
-  */
-  property Item target
-  /*!
-  */
-  property real startOpacity: 0
-  /*!
-  */
-  property real endOpacity: 1
-  /*!
-  */
-  property int duration: 200
-  /*!
-  */
-  property int easingType: Easing.InQuad
+    id: fadeInAnimation
 
-  PropertyAction {
-    target: fadeInAnimation.target
-    property: "opacity"
-    value: startOpacity
-  }
+    /*!
+    */
+    property Item target
+    /*!
+    */
+    property real startOpacity: 0
+    /*!
+    */
+    property real endOpacity: 1
+    /*!
+    */
+    property int duration: 200
+    /*!
+    */
+    property int easingType: Easing.InQuad
 
-  PropertyAction {
-    target: fadeInAnimation.target
-    property: "visible"
-    value: true
-  }
+    PropertyAction {
+        target: fadeInAnimation.target
+        property: "opacity"
+        value: startOpacity
+    }
 
-  NumberAnimation {
-    target: fadeInAnimation.target
-    property: "opacity"
-    to: endOpacity
-    duration: fadeInAnimation.duration
-    easing.type: easingType
-  }
+    PropertyAction {
+        target: fadeInAnimation.target
+        property: "visible"
+        value: true
+    }
+
+    NumberAnimation {
+        target: fadeInAnimation.target
+        property: "opacity"
+        to: endOpacity
+        duration: fadeInAnimation.duration
+        easing.type: easingType
+    }
 }

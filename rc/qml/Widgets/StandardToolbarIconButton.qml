@@ -23,20 +23,20 @@ import "../../Capetown/Widgets"
 /*!
 */
 ToolbarIconButton {
-  id: standardToolbarIconButton
+    id: standardToolbarIconButton
 
-  /*!
-  */
-  property bool isWhite
-  /*!
-  */
-  property string iconName
+    /*!
+    */
+    property bool isWhite
+    /*!
+    */
+    property string iconName
 
-  // internal
-  /*!
-  */
-  property string prefix: (isWhite ? "icon-white-" : "icon-")
+    // internal
+    /*!
+    */
+    property string prefix: (isWhite ? "icon-white-" : "icon-")
 
-  selectedIconFilename: "../../img/" + prefix + iconName + "-active.png"
-  deselectedIconFilename: "../../img/" + prefix + iconName + "-inactive.png"
+    selectedIconFilename: "../../img/" + prefix + iconName + "-active.png"
+    deselectedIconFilename: "../../img/" + prefix + iconName + "-inactive.png"
 }

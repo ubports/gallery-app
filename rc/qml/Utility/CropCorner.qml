@@ -22,45 +22,45 @@ import Ubuntu.Components 0.1
 
 // A corner of a CropFrame.
 Item {
-  id: cropCorner
+    id: cropCorner
 
-  /*!
-  */
-  signal dragged(real dx, real dy)
-  /*!
-  */
-  signal dragStarted()
-  /*!
-  */
-  signal dragCompleted()
+    /*!
+    */
+    signal dragged(real dx, real dy)
+    /*!
+    */
+    signal dragStarted()
+    /*!
+    */
+    signal dragCompleted()
 
-  /*!
-  */
-  property bool isLeft: true
-  /*!
-  */
-  property bool isTop: true
+    /*!
+    */
+    property bool isLeft: true
+    /*!
+    */
+    property bool isTop: true
 
-  x: isLeft ? -(width/2) : parent.width - (width/2)
-  y: isTop ? -(width/2) : parent.height - (width/2)
-  width: handle.width
-  height: handle.height
+    x: isLeft ? -(width/2) : parent.width - (width/2)
+    y: isTop ? -(width/2) : parent.height - (width/2)
+    width: handle.width
+    height: handle.height
 
-  Image {
-      id: handle
-      anchors.centerIn: parent
-      source: Qt.resolvedUrl("../../img/crop-handle.png")
-  }
+    Image {
+        id: handle
+        anchors.centerIn: parent
+        source: Qt.resolvedUrl("../../img/crop-handle.png")
+    }
 
-  CropDragArea {
-    anchors.centerIn: parent
-    width: handle.width + units.gu(2)
-    height: handle.height + units.gu(2)
+    CropDragArea {
+        anchors.centerIn: parent
+        width: handle.width + units.gu(2)
+        height: handle.height + units.gu(2)
 
-    onDragged: cropCorner.dragged(dx, dy)
+        onDragged: cropCorner.dragged(dx, dy)
 
-    onDragStarted: cropCorner.dragStarted()
+        onDragStarted: cropCorner.dragStarted()
 
-    onDragCompleted: cropCorner.dragCompleted()
-  }
+        onDragCompleted: cropCorner.dragCompleted()
+    }
 }

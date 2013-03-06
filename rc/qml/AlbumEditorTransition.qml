@@ -23,212 +23,212 @@ import "Components"
 
 // Provides a smooth transition between the album overview and album editor.
 Item {
-  id: albumEditorTransition
+    id: albumEditorTransition
 
-  /*!
-  */
-  signal editorEntered(variant album)
-  /*!
-  */
-  signal editorExited(variant album)
+    /*!
+    */
+    signal editorEntered(variant album)
+    /*!
+    */
+    signal editorExited(variant album)
 
-  /*!
-  */
-  property alias album: thumbnail.album
+    /*!
+    */
+    property alias album: thumbnail.album
 
-  /*!
-  */
-  property Rectangle backgroundGlass
-  /*!
-  */
-  property AlbumEditor editor
+    /*!
+    */
+    property Rectangle backgroundGlass
+    /*!
+    */
+    property AlbumEditor editor
 
-  /*!
-  */
-  property int duration: 500
-  
-  // Read-only
-  /*!
-  */
-  property bool animationRunning: enterFadeAnimation.running ||
-    exitFadeAnimation.running || enterExpandAnimation.running ||
-    exitExpandAnimation.running;
-  
-  /*!
-  */
-  function enterEditor(album, thumbnailRect) {
-    albumEditorTransition.album = album || null;
+    /*!
+    */
+    property int duration: 500
 
-    if (thumbnailRect) {
-      thumbnail.x = thumbnailRect.x;
-      thumbnail.y = thumbnailRect.y;
-      thumbnail.width = thumbnailRect.width;
-      thumbnail.height = thumbnailRect.height;
+    // Read-only
+    /*!
+    */
+    property bool animationRunning: enterFadeAnimation.running ||
+                                    exitFadeAnimation.running || enterExpandAnimation.running ||
+                                    exitExpandAnimation.running;
 
-      enterExpandAnimation.restart();
-    } else {
-      enterFadeAnimation.restart();
-    }
-  }
+    /*!
+    */
+    function enterEditor(album, thumbnailRect) {
+        albumEditorTransition.album = album || null;
 
-  /*!
-  */
-  function exitEditor(album, thumbnailRect) {
-    albumEditorTransition.album = album || null;
+        if (thumbnailRect) {
+            thumbnail.x = thumbnailRect.x;
+            thumbnail.y = thumbnailRect.y;
+            thumbnail.width = thumbnailRect.width;
+            thumbnail.height = thumbnailRect.height;
 
-    if (thumbnailRect) {
-      exitExpandAnimation.thumbnailRect = thumbnailRect;
-
-      thumbnail.x = editor.editorRect.x;
-      thumbnail.y = editor.editorRect.y;
-      thumbnail.width = editor.editorRect.width;
-      thumbnail.height = editor.editorRect.height;
-
-      exitExpandAnimation.restart();
-    } else {
-      exitFadeAnimation.restart();
-    }
-  }
-
-  // internal
-  /*!
-  */
-  function onExitFinished() {
-    editorExited(album);
-    album = null;
-  }
-
-  AlbumOpener {
-    id: thumbnail
-
-    isPreview: true
-    contentHasPreviewFrame: true
-
-    visible: false
-    load: visible
-  }
-
-  ParallelAnimation {
-    id: enterFadeAnimation
-    
-    onRunningChanged: {
-      if (!running)
-        editorEntered(albumEditorTransition.album);
-    }
-    
-    FadeInAnimation {
-      target: backgroundGlass
-      endOpacity: 0.75
-      duration: albumEditorTransition.duration
+            enterExpandAnimation.restart();
+        } else {
+            enterFadeAnimation.restart();
+        }
     }
 
-    FadeInAnimation {
-      target: editor
-      duration: albumEditorTransition.duration
-    }
-  }
+    /*!
+    */
+    function exitEditor(album, thumbnailRect) {
+        albumEditorTransition.album = album || null;
 
-  ParallelAnimation {
-    id: exitFadeAnimation
-    
-    onRunningChanged: {
-      if (!running)
-        onExitFinished();
-    }
-    
-    FadeOutAnimation {
-      target: backgroundGlass
-      startOpacity: 0.75
-      duration: albumEditorTransition.duration
-    }
+        if (thumbnailRect) {
+            exitExpandAnimation.thumbnailRect = thumbnailRect;
 
-    FadeOutAnimation {
-      target: editor
-      duration: albumEditorTransition.duration
-    }
-  }
+            thumbnail.x = editor.editorRect.x;
+            thumbnail.y = editor.editorRect.y;
+            thumbnail.width = editor.editorRect.width;
+            thumbnail.height = editor.editorRect.height;
 
-  SequentialAnimation {
-    id: enterExpandAnimation
-
-    onRunningChanged: {
-      if (!running)
-        editorEntered(albumEditorTransition.album);
+            exitExpandAnimation.restart();
+        } else {
+            exitFadeAnimation.restart();
+        }
     }
 
-    PropertyAction { target: thumbnail; property: "visible"; value: true; }
+    // internal
+    /*!
+    */
+    function onExitFinished() {
+        editorExited(album);
+        album = null;
+    }
+
+    AlbumOpener {
+        id: thumbnail
+
+        isPreview: true
+        contentHasPreviewFrame: true
+
+        visible: false
+        load: visible
+    }
 
     ParallelAnimation {
-      ExpandAnimation {
-        target: thumbnail
-        endX: editor.editorRect.x
-        endY: editor.editorRect.y
-        endWidth: editor.editorRect.width
-        endHeight: editor.editorRect.height
-        duration: albumEditorTransition.duration
-        easingType: Easing.OutQuad
-      }
+        id: enterFadeAnimation
 
-      NumberAnimation {
-        target: thumbnail
-        property: "openFraction"
-        from: (!album || album.closed ? 0 : 1)
-        to: 0
-        duration: albumEditorTransition.duration
-        easing.type: Easing.OutQuad
-      }
+        onRunningChanged: {
+            if (!running)
+                editorEntered(albumEditorTransition.album);
+        }
 
-      FadeInAnimation {
-        target: backgroundGlass
-        endOpacity: 0.75
-        duration: albumEditorTransition.duration
-      }
+        FadeInAnimation {
+            target: backgroundGlass
+            endOpacity: 0.75
+            duration: albumEditorTransition.duration
+        }
+
+        FadeInAnimation {
+            target: editor
+            duration: albumEditorTransition.duration
+        }
     }
-
-    PropertyAction { target: thumbnail; property: "visible"; value: false; }
-    PropertyAction { target: editor; property: "visible"; value: true; }
-  }
-
-  SequentialAnimation {
-    id: exitExpandAnimation
-
-    property variant thumbnailRect: {"x": 0, "y": 0, "width": 0, "height": 0}
-    
-    onRunningChanged: {
-      if (!running)
-        onExitFinished();
-    }
-    
-    PropertyAction { target: editor; property: "visible"; value: false; }
-    PropertyAction { target: thumbnail; property: "visible"; value: true; }
 
     ParallelAnimation {
-      ExpandAnimation {
-        target: thumbnail
-        endX: exitExpandAnimation.thumbnailRect.x
-        endY: exitExpandAnimation.thumbnailRect.y
-        endWidth: exitExpandAnimation.thumbnailRect.width
-        endHeight: exitExpandAnimation.thumbnailRect.height
-        duration: albumEditorTransition.duration
-        easingType: Easing.OutQuad
-      }
+        id: exitFadeAnimation
 
-      NumberAnimation {
-        target: thumbnail
-        property: "openFraction"
-        from: 0
-        to: (!album || album.closed ? 0 : 1)
-        duration: albumEditorTransition.duration
-        easing.type: Easing.InQuad
-      }
+        onRunningChanged: {
+            if (!running)
+                onExitFinished();
+        }
 
-      FadeOutAnimation {
-        target: backgroundGlass
-        startOpacity: 0.75
-        duration: albumEditorTransition.duration
-      }
+        FadeOutAnimation {
+            target: backgroundGlass
+            startOpacity: 0.75
+            duration: albumEditorTransition.duration
+        }
+
+        FadeOutAnimation {
+            target: editor
+            duration: albumEditorTransition.duration
+        }
     }
 
-    PropertyAction { target: thumbnail; property: "visible"; value: false; }
-  }
+    SequentialAnimation {
+        id: enterExpandAnimation
+
+        onRunningChanged: {
+            if (!running)
+                editorEntered(albumEditorTransition.album);
+        }
+
+        PropertyAction { target: thumbnail; property: "visible"; value: true; }
+
+        ParallelAnimation {
+            ExpandAnimation {
+                target: thumbnail
+                endX: editor.editorRect.x
+                endY: editor.editorRect.y
+                endWidth: editor.editorRect.width
+                endHeight: editor.editorRect.height
+                duration: albumEditorTransition.duration
+                easingType: Easing.OutQuad
+            }
+
+            NumberAnimation {
+                target: thumbnail
+                property: "openFraction"
+                from: (!album || album.closed ? 0 : 1)
+                to: 0
+                duration: albumEditorTransition.duration
+                easing.type: Easing.OutQuad
+            }
+
+            FadeInAnimation {
+                target: backgroundGlass
+                endOpacity: 0.75
+                duration: albumEditorTransition.duration
+            }
+        }
+
+        PropertyAction { target: thumbnail; property: "visible"; value: false; }
+        PropertyAction { target: editor; property: "visible"; value: true; }
+    }
+
+    SequentialAnimation {
+        id: exitExpandAnimation
+
+        property variant thumbnailRect: {"x": 0, "y": 0, "width": 0, "height": 0}
+
+        onRunningChanged: {
+            if (!running)
+                onExitFinished();
+        }
+
+        PropertyAction { target: editor; property: "visible"; value: false; }
+        PropertyAction { target: thumbnail; property: "visible"; value: true; }
+
+        ParallelAnimation {
+            ExpandAnimation {
+                target: thumbnail
+                endX: exitExpandAnimation.thumbnailRect.x
+                endY: exitExpandAnimation.thumbnailRect.y
+                endWidth: exitExpandAnimation.thumbnailRect.width
+                endHeight: exitExpandAnimation.thumbnailRect.height
+                duration: albumEditorTransition.duration
+                easingType: Easing.OutQuad
+            }
+
+            NumberAnimation {
+                target: thumbnail
+                property: "openFraction"
+                from: 0
+                to: (!album || album.closed ? 0 : 1)
+                duration: albumEditorTransition.duration
+                easing.type: Easing.InQuad
+            }
+
+            FadeOutAnimation {
+                target: backgroundGlass
+                startOpacity: 0.75
+                duration: albumEditorTransition.duration
+            }
+        }
+
+        PropertyAction { target: thumbnail; property: "visible"; value: false; }
+    }
 }

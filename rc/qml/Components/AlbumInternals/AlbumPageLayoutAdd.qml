@@ -21,18 +21,18 @@ import QtQuick 2.0
 
 // This page layout is used only for empty albums.
 AlbumPageLayout {
-  id: albumPageLayoutAdd
-  
-  mediaFrames: [ addButton ]
-  
-  Image {
-    id: addButton
-    objectName: "addButton" // Don't change this, we check for this name elsewhere
-    
-    anchors.centerIn: parent
-    source: "img/album-add.png"
-    
-    width: parent.width / 4
-    height: width
-  }
+    id: albumPageLayoutAdd
+
+    mediaFrames: [ addButton ]
+
+    Image {
+        id: addButton
+        objectName: "addButton" // Don't change this, we check for this name elsewhere
+
+        anchors.centerIn: parent
+        source: "img/album-add.png"
+
+        width: parent.width / 4
+        height: width
+    }
 }

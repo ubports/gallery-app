@@ -28,51 +28,51 @@ import "../Utility"
 /*!
 */
 UbuntuShape {
-  id: eventCard
+    id: eventCard
 
-  /*!
-  */
-  property variant event
-  /*!
-  */
-  property color textColor: "#888888"
+    /*!
+    */
+    property variant event
+    /*!
+    */
+    property color textColor: "#888888"
 
-  radius: "medium"
-  color: "#dddddd"
-  opacity: 0.8
+    radius: "medium"
+    color: "#dddddd"
+    opacity: 0.8
 
-  width: units.gu(12)
-  height: units.gu(12)
+    width: units.gu(12)
+    height: units.gu(12)
 
-  Label {
-    id: eventDay
+    Label {
+        id: eventDay
 
-    y: units.gu(0.5)
-    width: parent.width
+        y: units.gu(0.5)
+        width: parent.width
 
-    font.family: "Ubuntu"
+        font.family: "Ubuntu"
 
-    font.pixelSize: units.dp(62)
-    color: textColor
+        font.pixelSize: units.dp(62)
+        color: textColor
 
-    horizontalAlignment: Text.AlignHCenter
+        horizontalAlignment: Text.AlignHCenter
 
-    text: (event) ? Qt.formatDate(event.date, "dd") : ""
-  }
+        text: (event) ? Qt.formatDate(event.date, "dd") : ""
+    }
 
-  Label {
-    id: eventMonthYear
+    Label {
+        id: eventMonthYear
 
-    y: units.gu(8.5)
-    width: parent.width
+        y: units.gu(8.5)
+        width: parent.width
 
-    font.family: "Ubuntu"
-    fontSize: "medium"
-    color: textColor
+        font.family: "Ubuntu"
+        fontSize: "medium"
+        color: textColor
 
-    font.capitalization: Font.AllUppercase
-    horizontalAlignment: Text.AlignHCenter
+        font.capitalization: Font.AllUppercase
+        horizontalAlignment: Text.AlignHCenter
 
-    text: (event) ? Qt.formatDate(event.date, "MMM yyyy") : ""
-  }
+        text: (event) ? Qt.formatDate(event.date, "MMM yyyy") : ""
+    }
 }

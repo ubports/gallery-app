@@ -24,132 +24,132 @@ import ".."
 /*!
 */
 Rectangle {
-  id: popupBox
+    id: popupBox
 
-  /*!
-  */
-  signal popupInteractionCompleted();
+    /*!
+    */
+    signal popupInteractionCompleted();
 
-  /*!
-  */
-  property int contentLeft: 1
-  /*!
-  */
-  property int contentTop: 1
-  /*!
-  */
-  property alias contentWidth: contentArea.width
-  /*!
-  */
-  property alias contentHeight: contentArea.height
+    /*!
+    */
+    property int contentLeft: 1
+    /*!
+    */
+    property int contentTop: 1
+    /*!
+    */
+    property alias contentWidth: contentArea.width
+    /*!
+    */
+    property alias contentHeight: contentArea.height
 
-  /*!
-  */
-  property int originCueX
-  /*!
-  */
-  property alias originCueHeight: originCueImage.height
-  /*!
-  */
-  property alias originCueWidth: originCueImage.width
+    /*!
+    */
+    property int originCueX
+    /*!
+    */
+    property alias originCueHeight: originCueImage.height
+    /*!
+    */
+    property alias originCueWidth: originCueImage.width
 
-  /*!
-  */
-  property int popupOriginX: 0
-  /*!
-  */
-  property int popupOriginY: 0
-  /*!
-  */
-  property int fadeDuration: 300
+    /*!
+    */
+    property int popupOriginX: 0
+    /*!
+    */
+    property int popupOriginY: 0
+    /*!
+    */
+    property int fadeDuration: 300
 
-  // readonly
-  /*!
-  */
-  property int cueArrowOffset: Math.floor(originCueWidth / 2)
-  /*!
-  */
-  property int boundingOffset: units.gu(0.5)
+    // readonly
+    /*!
+    */
+    property int cueArrowOffset: Math.floor(originCueWidth / 2)
+    /*!
+    */
+    property int boundingOffset: units.gu(0.5)
 
-  /*!
-  */
-  function flipVisibility() {
-      state = (state == "shown" ? "hidden" : "shown");
-  }
-
-  color: "transparent"
-
-  x: {
-    var result = (popupOriginX >= 0) ? popupOriginX - cueArrowOffset : (parent.width + popupOriginX) - width - cueArrowOffset;
-    if (result < boundingOffset)
-      result = boundingOffset;
-    else if (result + width > parent.width - boundingOffset)
-      result = parent.width - width - boundingOffset;
-
-    return result;
-  }
-  y: {
-    var result = (popupOriginY >= 0) ? popupOriginY : (parent.height + popupOriginY) - height;
-    if (result < 0)
-      result = boundingOffset;
-    else if (result + height > parent.height)
-      result = parent.height - height - originCueHeight;
-
-    return result;
-  }
-
-  z: 32
-
-  originCueX: {
-    var result = (popupOriginX >= 0) ? x : width - originCueWidth;
-    if (result < 0)
-      result = 0;
-    else if (result > width - originCueWidth)
-      result = width - cueArrowOffset;
-
-    return result;
-  }
-
-  state: "hidden"
-
-  states: [
-    State { name: "shown"; },
-    State { name: "hidden"; }
-  ]
-
-  transitions: [
-    Transition { from: "shown"; to: "hidden";
-      FadeOutAnimation { target: popupBox; duration: fadeDuration;
-          easingType: Easing.InQuint; }
-    },
-    Transition { from: "hidden"; to: "shown";
-      FadeInAnimation { target: popupBox; duration: fadeDuration;
-          easingType: Easing.InQuint; }
+    /*!
+    */
+    function flipVisibility() {
+        state = (state == "shown" ? "hidden" : "shown");
     }
-  ]
 
-  Rectangle {
-    id: contentArea
+    color: "transparent"
 
-    anchors.top: parent.top
-    anchors.left: parent.left
-    width: parent.width
-    height: parent.height - originCueHeight;
+    x: {
+        var result = (popupOriginX >= 0) ? popupOriginX - cueArrowOffset : (parent.width + popupOriginX) - width - cueArrowOffset;
+        if (result < boundingOffset)
+            result = boundingOffset;
+        else if (result + width > parent.width - boundingOffset)
+            result = parent.width - width - boundingOffset;
 
-    color: "#bcbdc0"
-    border.color: "#a7a9ac"
-    border.width: 1
-  }
+        return result;
+    }
+    y: {
+        var result = (popupOriginY >= 0) ? popupOriginY : (parent.height + popupOriginY) - height;
+        if (result < 0)
+            result = boundingOffset;
+        else if (result + height > parent.height)
+            result = parent.height - height - originCueHeight;
 
-  Image {
-    id: originCueImage
+        return result;
+    }
 
-    x: originCueX
-    anchors.top: contentArea.bottom
-    width: 39
-    height: 25
+    z: 32
 
-    source: "img/popup-arrow.png"
-    cache: true
-  }
+    originCueX: {
+        var result = (popupOriginX >= 0) ? x : width - originCueWidth;
+        if (result < 0)
+            result = 0;
+        else if (result > width - originCueWidth)
+            result = width - cueArrowOffset;
+
+        return result;
+    }
+
+    state: "hidden"
+
+    states: [
+        State { name: "shown"; },
+        State { name: "hidden"; }
+    ]
+
+    transitions: [
+        Transition { from: "shown"; to: "hidden";
+            FadeOutAnimation { target: popupBox; duration: fadeDuration;
+                easingType: Easing.InQuint; }
+        },
+        Transition { from: "hidden"; to: "shown";
+            FadeInAnimation { target: popupBox; duration: fadeDuration;
+                easingType: Easing.InQuint; }
+        }
+    ]
+
+    Rectangle {
+        id: contentArea
+
+        anchors.top: parent.top
+        anchors.left: parent.left
+        width: parent.width
+        height: parent.height - originCueHeight;
+
+        color: "#bcbdc0"
+        border.color: "#a7a9ac"
+        border.width: 1
+    }
+
+    Image {
+        id: originCueImage
+
+        x: originCueX
+        anchors.top: contentArea.bottom
+        width: 39
+        height: 25
+
+        source: "img/popup-arrow.png"
+        cache: true
+    }
 }

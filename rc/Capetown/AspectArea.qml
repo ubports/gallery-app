@@ -23,40 +23,40 @@ import QtQuick 2.0
 // ratio (similar to the Image.PreserveAspectFit fillMode of QtQuick's Image
 // element).
 Item {
-  id: aspectArea
+    id: aspectArea
 
-  /*!
-  */
-  property real aspectWidth
-  /*!
-  */
-  property real aspectHeight
+    /*!
+    */
+    property real aspectWidth
+    /*!
+    */
+    property real aspectHeight
 
-  // The item to place inside (and reparent to) the aspectItem.
-  property Item content
+    // The item to place inside (and reparent to) the aspectItem.
+    property Item content
 
-  // readonly
-  // The item that has the correct aspect ratio inside the AspectArea.
-  property Item aspectItem: aspectItem
+    // readonly
+    // The item that has the correct aspect ratio inside the AspectArea.
+    property Item aspectItem: aspectItem
 
-  // internal
-  /*!
-  */
-  property real aspectRatio: aspectWidth / aspectHeight
-  /*!
-  */
-  property bool isWidthConstrained: (height * aspectRatio > width)
+    // internal
+    /*!
+    */
+    property real aspectRatio: aspectWidth / aspectHeight
+    /*!
+    */
+    property bool isWidthConstrained: (height * aspectRatio > width)
 
-  Component.onCompleted: {
-    if (content)
-      content.parent = aspectItem;
-  }
+    Component.onCompleted: {
+        if (content)
+            content.parent = aspectItem;
+    }
 
-  Item {
-    id: aspectItem
+    Item {
+        id: aspectItem
 
-    anchors.centerIn: parent
-    width: (isWidthConstrained ? parent.width : parent.height * aspectRatio)
-    height: (isWidthConstrained ? parent.width / aspectRatio : parent.height)
-  }
+        anchors.centerIn: parent
+        width: (isWidthConstrained ? parent.width : parent.height * aspectRatio)
+        height: (isWidthConstrained ? parent.width / aspectRatio : parent.height)
+    }
 }

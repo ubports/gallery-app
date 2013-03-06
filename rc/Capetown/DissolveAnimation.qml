@@ -23,32 +23,32 @@ import QtQuick 2.0
 /*!
 */
 SequentialAnimation {
-  id: dissolveAnimation
+    id: dissolveAnimation
 
-  /*!
-  */
-  property Item fadeInTarget
-  /*!
-  */
-  property Item fadeOutTarget
-  /*!
-  */
-  property int duration: 200
-  /*!
-  */
-  property int easingType: Easing.InQuad
+    /*!
+    */
+    property Item fadeInTarget
+    /*!
+    */
+    property Item fadeOutTarget
+    /*!
+    */
+    property int duration: 200
+    /*!
+    */
+    property int easingType: Easing.InQuad
 
-  ParallelAnimation {
-    FadeInAnimation {
-      target: fadeInTarget
-      duration: dissolveAnimation.duration
-      easingType: dissolveAnimation.easingType
+    ParallelAnimation {
+        FadeInAnimation {
+            target: fadeInTarget
+            duration: dissolveAnimation.duration
+            easingType: dissolveAnimation.easingType
+        }
+
+        FadeOutAnimation {
+            target: fadeOutTarget
+            duration: dissolveAnimation.duration
+            easingType: dissolveAnimation.easingType
+        }
     }
-
-    FadeOutAnimation {
-      target: fadeOutTarget
-      duration: dissolveAnimation.duration
-      easingType: dissolveAnimation.easingType
-    }
-  }
 }

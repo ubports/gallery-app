@@ -23,75 +23,75 @@ import "../../js/Gallery.js" as Gallery
 
 // A ListView meant to hold OrganicMediaLists in some form or another.
 Item {
-  id: organicView
+    id: organicView
 
-  /*!
-  */
-  signal mediaSourcePressed(var mediaSource, var thumbnailRect)
+    /*!
+    */
+    signal mediaSourcePressed(var mediaSource, var thumbnailRect)
 
-  /*!
-  */
-  property alias model: organicList.model
-  /*!
-  */
-  property alias delegate: organicList.delegate
-  /*!
-  */
-  property SelectionState selection
+    /*!
+    */
+    property alias model: organicList.model
+    /*!
+    */
+    property alias delegate: organicList.delegate
+    /*!
+    */
+    property SelectionState selection
 
-  /*!
-  */
-  property int animationDuration: Gallery.FAST_DURATION
-  /*!
-  */
-  property int animationEasingType: Easing.InQuint
+    /*!
+    */
+    property int animationDuration: Gallery.FAST_DURATION
+    /*!
+    */
+    property int animationEasingType: Easing.InQuint
 
-  // readonly
-  // Some duplication from OrganicMediaList, to make certain things easier.
-  property int organicMediaListMediaPerPattern: 6 // OrganicMediaList.mediaPerPattern
-  /*!
-  */
-  property real organicMediaListPatternWidth: units.gu(49) // OrganicMediaList.patternWidth
-  /*!
-  */
-  property real organicMediaListMargin: units.gu(2) // OrganicMediaList.margin
+    // readonly
+    // Some duplication from OrganicMediaList, to make certain things easier.
+    property int organicMediaListMediaPerPattern: 6 // OrganicMediaList.mediaPerPattern
+    /*!
+    */
+    property real organicMediaListPatternWidth: units.gu(49) // OrganicMediaList.patternWidth
+    /*!
+    */
+    property real organicMediaListMargin: units.gu(2) // OrganicMediaList.margin
 
-  Image {
-    anchors.fill: parent
+    Image {
+        anchors.fill: parent
 
-    source: "../../img/background-paper.png"
-    fillMode: Image.Tile
-  }
-
-  ListView {
-    id: organicList
-
-    anchors.fill: parent
-    clip: true
-    maximumFlickVelocity: units.gu(350)
-    flickDeceleration: maximumFlickVelocity * 0.8
-    cacheBuffer: height * 3
-
-    // The OrganicMediaList only has a half margin at the top and bottom, since
-    // when repeated that means a full margin between rows.  This pads it out
-    // so we also get a full row on top and bottom of the whole bunch.
-    header: Item {
-      width: parent.width
-      height: organicMediaListMargin / 2
-    }
-    footer: Item {
-      width: parent.width
-      height: organicMediaListMargin / 2
+        source: "../../img/background-paper.png"
+        fillMode: Image.Tile
     }
 
-    displaced: Transition {
-      NumberAnimation {
-        properties: "x,y"
-        duration: animationDuration
-        easing.type: animationEasingType
-      }
+    ListView {
+        id: organicList
+
+        anchors.fill: parent
+        clip: true
+        maximumFlickVelocity: units.gu(350)
+        flickDeceleration: maximumFlickVelocity * 0.8
+        cacheBuffer: height * 3
+
+        // The OrganicMediaList only has a half margin at the top and bottom, since
+        // when repeated that means a full margin between rows.  This pads it out
+        // so we also get a full row on top and bottom of the whole bunch.
+        header: Item {
+            width: parent.width
+            height: organicMediaListMargin / 2
+        }
+        footer: Item {
+            width: parent.width
+            height: organicMediaListMargin / 2
+        }
+
+        displaced: Transition {
+            NumberAnimation {
+                properties: "x,y"
+                duration: animationDuration
+                easing.type: animationEasingType
+            }
+        }
+        // TODO: specify add and remove transitions here too.  When I tried
+        // initially, QML ignored it.
     }
-    // TODO: specify add and remove transitions here too.  When I tried
-    // initially, QML ignored it.
-  }
 }

@@ -122,8 +122,8 @@ Item {
     }
 
     MouseArea {
-      id: transitionClickBlocker
-      anchors.fill: parent
-      enabled: root.animationRunning
+        id: transitionClickBlocker
+        anchors.fill: parent
+        enabled: root.animationRunning
     }
 }

@@ -23,149 +23,149 @@ import Ubuntu.Components 0.1
 
 // A PhotoViewer that is opened and closed with the PhotoViewerTransition.
 Item {
-  id: popupPhotoViewer
+    id: popupPhotoViewer
 
-  /*!
-  */
-  property alias model: viewer.model
+    /*!
+    */
+    property alias model: viewer.model
 
-  /*!
-  */
-  property alias photo: viewer.photo
-  /*!
-  */
-  property alias index: viewer.index
-  
-  // Optional: set this when launching from an album view
-  property alias album: viewer.album
-  
-  // Read-only
-  property bool animationRunning: transition.animationRunning || 
-    fadeIn.running || fadeOut.running
-  /*!
-  */
-  property bool isPoppedUp: viewer.visible && !animationRunning
-  
-  /*!
-  */
-  function setCurrentPhoto(photo) {
-    viewer.setCurrentPhoto(photo);
-  }
+    /*!
+    */
+    property alias photo: viewer.photo
+    /*!
+    */
+    property alias index: viewer.index
 
-  /*!
-  */
-  function setCurrentIndex(index) {
-    viewer.setCurrentIndex(index);
-  }
-  
-  /*!
-  */
-  signal opening()
-  /*!
-  */
-  signal opened() // The photo viewer's opening animation is finished.
-  /*!
-  */
-  signal closeRequested() // The user pressed the back button.  Call animateClosed() or close().
-  /*!
-  */
-  signal closed() // The photo viewer's closing animation is finished.
-  /*!
-  */
-  signal editRequested(variant photo) // The user wants to edit this photo.
+    // Optional: set this when launching from an album view
+    property alias album: viewer.album
 
-  /*!
-  */
-  function animateOpen(photo, thumbnailRect) {
-    opening();
-    viewer.openCompleted = false;
-    transition.transitionToPhotoViewer(photo, thumbnailRect);
-  }
+    // Read-only
+    property bool animationRunning: transition.animationRunning ||
+                                    fadeIn.running || fadeOut.running
+    /*!
+    */
+    property bool isPoppedUp: viewer.visible && !animationRunning
 
-  /*!
-  */
-  function animateClosed(thumbnailRect) {
-    transition.transitionFromPhotoViewer(photo, thumbnailRect);
-    viewer.visible = false;
-  }
-
-  /*!
-  */
-  function fadeOpen(photo) {
-    opening();
-    viewer.setCurrentPhoto(photo);
-    fadeIn.restart();
-  }
-
-  /*!
-  */
-  function fadeClosed() {
-    fadeOut.restart();
-  }
-
-  /*!
-  */
-  function close() {
-    viewer.visible = false;
-    closed();
-  }
-  
-  property alias tools: viewer.tools
-  GalleryPhotoViewer {
-    id: viewer
-    
-    property bool openCompleted: false
-    
-    anchors.fill: parent
-    visible: false
-
-    onCloseRequested: popupPhotoViewer.closeRequested()
-
-    onEditRequested: popupPhotoViewer.editRequested(photo)
-    
-    onIsReadyChanged: updateVisibility()
-    onOpenCompletedChanged: updateVisibility()
-    
-    // Internal
-    function updateVisibility() {
-      if (isReady && openCompleted) {
-        visible = true;
-        transition.hide();
-      }
-    }
-  }
-
-  PhotoViewerTransition {
-    id: transition
-
-    anchors.fill: parent
-
-    onTransitionToPhotoViewerCompleted: {
-      setCurrentPhoto(forMediaSource);
-      viewer.openCompleted = true;
-      opened();
+    /*!
+    */
+    function setCurrentPhoto(photo) {
+        viewer.setCurrentPhoto(photo);
     }
 
-    onTransitionFromPhotoViewerCompleted: {
-      closed();
+    /*!
+    */
+    function setCurrentIndex(index) {
+        viewer.setCurrentIndex(index);
     }
-  }
 
-  FadeInAnimation {
-    id: fadeIn
+    /*!
+    */
+    signal opening()
+    /*!
+    */
+    signal opened() // The photo viewer's opening animation is finished.
+    /*!
+    */
+    signal closeRequested() // The user pressed the back button.  Call animateClosed() or close().
+    /*!
+    */
+    signal closed() // The photo viewer's closing animation is finished.
+    /*!
+    */
+    signal editRequested(variant photo) // The user wants to edit this photo.
 
-    target: viewer
-    onStopped: {
-      opened();
+    /*!
+    */
+    function animateOpen(photo, thumbnailRect) {
+        opening();
+        viewer.openCompleted = false;
+        transition.transitionToPhotoViewer(photo, thumbnailRect);
     }
-  }
 
-  FadeOutAnimation {
-    id: fadeOut
-
-    target: viewer
-    onStopped: {
-      closed();
+    /*!
+    */
+    function animateClosed(thumbnailRect) {
+        transition.transitionFromPhotoViewer(photo, thumbnailRect);
+        viewer.visible = false;
     }
-  }
+
+    /*!
+    */
+    function fadeOpen(photo) {
+        opening();
+        viewer.setCurrentPhoto(photo);
+        fadeIn.restart();
+    }
+
+    /*!
+    */
+    function fadeClosed() {
+        fadeOut.restart();
+    }
+
+    /*!
+    */
+    function close() {
+        viewer.visible = false;
+        closed();
+    }
+
+    property alias tools: viewer.tools
+    GalleryPhotoViewer {
+        id: viewer
+
+        property bool openCompleted: false
+
+        anchors.fill: parent
+        visible: false
+
+        onCloseRequested: popupPhotoViewer.closeRequested()
+
+        onEditRequested: popupPhotoViewer.editRequested(photo)
+
+        onIsReadyChanged: updateVisibility()
+        onOpenCompletedChanged: updateVisibility()
+
+        // Internal
+        function updateVisibility() {
+            if (isReady && openCompleted) {
+                visible = true;
+                transition.hide();
+            }
+        }
+    }
+
+    PhotoViewerTransition {
+        id: transition
+
+        anchors.fill: parent
+
+        onTransitionToPhotoViewerCompleted: {
+            setCurrentPhoto(forMediaSource);
+            viewer.openCompleted = true;
+            opened();
+        }
+
+        onTransitionFromPhotoViewerCompleted: {
+            closed();
+        }
+    }
+
+    FadeInAnimation {
+        id: fadeIn
+
+        target: viewer
+        onStopped: {
+            opened();
+        }
+    }
+
+    FadeOutAnimation {
+        id: fadeOut
+
+        target: viewer
+        onStopped: {
+            closed();
+        }
+    }
 }

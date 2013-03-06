@@ -30,186 +30,186 @@ import "Widgets"
 /*!
 */
 Item {
-  id: albumEditor
-  objectName: "mainAlbumEditor"
+    id: albumEditor
+    objectName: "mainAlbumEditor"
 
-  /*!
-  */
-  signal closeRequested(variant album, bool enterViewer)
-  /*!
-  */
-  signal mediaSelectorHidden(int newScrollPos)
+    /*!
+    */
+    signal closeRequested(variant album, bool enterViewer)
+    /*!
+    */
+    signal mediaSelectorHidden(int newScrollPos)
 
-  /*!
-  */
-  property Album album
-  /*!
-  */
-  property real minimumCoverWidth: units.gu(32)
-  /*!
-  */
-  property real minimumCoverHeight: units.gu(38)
-  /*!
-  */
-  property real preferredCoverWidth: width - units.gu(8)
-  /*!
-  */
-  property real preferredCoverHeight: height - units.gu(8)
-  /*!
-  */
-  property real minimumTopMargin: units.gu(3)
+    /*!
+    */
+    property Album album
+    /*!
+    */
+    property real minimumCoverWidth: units.gu(32)
+    /*!
+    */
+    property real minimumCoverHeight: units.gu(38)
+    /*!
+    */
+    property real preferredCoverWidth: width - units.gu(8)
+    /*!
+    */
+    property real preferredCoverHeight: height - units.gu(8)
+    /*!
+    */
+    property real minimumTopMargin: units.gu(3)
 
-  // readonly
-  /*!
-  */
-  property variant editorRect
-  /*!
-  */
-  property alias animationRunning: mediaSelector.animationRunning
+    // readonly
+    /*!
+    */
+    property variant editorRect
+    /*!
+    */
+    property alias animationRunning: mediaSelector.animationRunning
 
-  // internal
-  /*!
-  */
-  property real canonicalWidth: units.gu(66)
-  /*!
-  */
-  property real canonicalHeight: units.gu(80)
+    // internal
+    /*!
+    */
+    property real canonicalWidth: units.gu(66)
+    /*!
+    */
+    property real canonicalHeight: units.gu(80)
 
-  /*!
-  */
-  function editNewAlbum() {
-    albumEditor.album = albumModel.createOrphan();
-    coverMenu.state = "hidden"
-  }
-
-  /*!
-  */
-  function editAlbum(album) {
-    albumEditor.album = album;
-    coverMenu.state = "hidden"
-  }
-
-  /*!
-  */
-  function setMediaSelectorScrollPos(newScrollPos) {
-    mediaSelector.setCheckerboardScrollPos(newScrollPos);
-  }
-
-  // internal
-  /*!
-  */
-  function closeAlbum() {
-    if (album.populatedContentPageCount > 0) {
-      albumModel.addOrphan(album);
-
-      // Don't want to stay on the cover.
-      if (album.currentPage == album.firstValidCurrentPage)
-        album.currentPage = album.firstContentPage;
-    } else {
-      albumModel.destroyOrphan(album);
+    /*!
+    */
+    function editNewAlbum() {
+        albumEditor.album = albumModel.createOrphan();
+        coverMenu.state = "hidden"
     }
-  }
 
-  // internal
-  /*!
-  */
-  function resetEditorRect() {
-    editorRect = GalleryUtility.getRectRelativeTo(cover.internalRect, albumEditor);
-  }
-
-  onAlbumChanged: resetEditorRect() // HACK: works, but not conceptually correct.
-  onWidthChanged: resetEditorRect()
-  onHeightChanged: resetEditorRect()
-
-  AlbumCollectionModel {
-    id: albumModel
-  }
-  
-  MouseArea {
-    id: coverCloser
-    
-    acceptedButtons: Qt.LeftButton | Qt.RightButton
-    anchors.fill: parent
-    onPressed: {
-      coverMenu.state = "hidden";
-      cover.editingDone();
-      closeAlbum();
-      
-      albumEditor.closeRequested(albumEditor.album, false);
+    /*!
+    */
+    function editAlbum(album) {
+        albumEditor.album = album;
+        coverMenu.state = "hidden"
     }
-  }
 
-  AspectArea {
-    id: coverArea
+    /*!
+    */
+    function setMediaSelectorScrollPos(newScrollPos) {
+        mediaSelector.setCheckerboardScrollPos(newScrollPos);
+    }
 
-    x: (parent.width - width) / 2
-    y: Math.max((parent.height - height) / 2, minimumTopMargin)
+    // internal
+    /*!
+    */
+    function closeAlbum() {
+        if (album.populatedContentPageCount > 0) {
+            albumModel.addOrphan(album);
 
-    width: GraphicsRoutines.clamp(
-        preferredCoverWidth, minimumCoverWidth, canonicalWidth)
-    height: GraphicsRoutines.clamp(
-        preferredCoverHeight, minimumCoverHeight, canonicalHeight)
-
-    aspectWidth: canonicalWidth
-    aspectHeight: canonicalHeight
-    
-    content: AlbumCover {
-      id: cover
-
-      anchors.fill: parent
-
-      album: albumEditor.album
-      isPreview: false
-      
-      onPressed: {
-        mouse.accepted = true;
-        if (!isTextEditing) {
-          coverMenu.flipVisibility();
+            // Don't want to stay on the cover.
+            if (album.currentPage == album.firstValidCurrentPage)
+                album.currentPage = album.firstContentPage;
         } else {
-          cover.editingDone()
+            albumModel.destroyOrphan(album);
         }
-      }
-      
-      onIsTextEditingChanged: {
-        // Hide menu when we start editing text.
-        if (isTextEditing && coverMenu.state !== "hidden")
-          coverMenu.state = "hidden";
-      }
-      
-      onAddPhotos: mediaSelector.show();
     }
-  }
-  
-  // Cover picker
-  AlbumCoverMenu {
-    id: coverMenu
-    
-    visible: false
-    state: "hidden"
-    popupOriginX: -units.gu(3)
-    popupOriginY: -units.gu(15)
-    
-    onActionInvoked: {
-      albumEditor.album.coverNickname = name
-      state = "hidden"
+
+    // internal
+    /*!
+    */
+    function resetEditorRect() {
+        editorRect = GalleryUtility.getRectRelativeTo(cover.internalRect, albumEditor);
     }
-  }
-  
-  MediaSelector {
-    id: mediaSelector
 
-    anchors.fill: parent
+    onAlbumChanged: resetEditorRect() // HACK: works, but not conceptually correct.
+    onWidthChanged: resetEditorRect()
+    onHeightChanged: resetEditorRect()
 
-    album: albumEditor.album
-
-    onCancelRequested: hide()
-
-    onDoneRequested: {
-      album.addSelectedMediaSources(model);
-      closeAlbum();
-
-      albumEditor.closeRequested(albumEditor.album, true);
-      hide();
+    AlbumCollectionModel {
+        id: albumModel
     }
-  }
+
+    MouseArea {
+        id: coverCloser
+
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
+        anchors.fill: parent
+        onPressed: {
+            coverMenu.state = "hidden";
+            cover.editingDone();
+            closeAlbum();
+
+            albumEditor.closeRequested(albumEditor.album, false);
+        }
+    }
+
+    AspectArea {
+        id: coverArea
+
+        x: (parent.width - width) / 2
+        y: Math.max((parent.height - height) / 2, minimumTopMargin)
+
+        width: GraphicsRoutines.clamp(
+                   preferredCoverWidth, minimumCoverWidth, canonicalWidth)
+        height: GraphicsRoutines.clamp(
+                    preferredCoverHeight, minimumCoverHeight, canonicalHeight)
+
+        aspectWidth: canonicalWidth
+        aspectHeight: canonicalHeight
+
+        content: AlbumCover {
+            id: cover
+
+            anchors.fill: parent
+
+            album: albumEditor.album
+            isPreview: false
+
+            onPressed: {
+                mouse.accepted = true;
+                if (!isTextEditing) {
+                    coverMenu.flipVisibility();
+                } else {
+                    cover.editingDone()
+                }
+            }
+
+            onIsTextEditingChanged: {
+                // Hide menu when we start editing text.
+                if (isTextEditing && coverMenu.state !== "hidden")
+                    coverMenu.state = "hidden";
+            }
+
+            onAddPhotos: mediaSelector.show();
+        }
+    }
+
+    // Cover picker
+    AlbumCoverMenu {
+        id: coverMenu
+
+        visible: false
+        state: "hidden"
+        popupOriginX: -units.gu(3)
+        popupOriginY: -units.gu(15)
+
+        onActionInvoked: {
+            albumEditor.album.coverNickname = name
+            state = "hidden"
+        }
+    }
+
+    MediaSelector {
+        id: mediaSelector
+
+        anchors.fill: parent
+
+        album: albumEditor.album
+
+        onCancelRequested: hide()
+
+        onDoneRequested: {
+            album.addSelectedMediaSources(model);
+            closeAlbum();
+
+            albumEditor.closeRequested(albumEditor.album, true);
+            hide();
+        }
+    }
 }

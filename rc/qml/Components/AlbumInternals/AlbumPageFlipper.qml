@@ -28,116 +28,116 @@ import "../../../js/Gallery.js" as Gallery
 // move flipFraction from 0 -> 1 to incrementally flip the page(s) or call
 // turnToDestination() or ...Origin() to animate it automatically.
 Item {
-  id: albumPageFlipper
+    id: albumPageFlipper
 
-  /*!
-  */
-  signal flipFinished(bool toDestination)
+    /*!
+    */
+    signal flipFinished(bool toDestination)
 
-  /*!
-  */
-  property Album album
-  /*!
-  */
-  property int currentPage
-  /*!
-  */
-  property int destinationPage
-  /*!
-  */
-  property int duration: Gallery.FAST_DURATION
-  /*!
-  */
-  property real flipFraction
-  /*!
-  */
-  property bool isPortrait
-  /*!
-  */
-  property int pagesPerSpread
+    /*!
+    */
+    property Album album
+    /*!
+    */
+    property int currentPage
+    /*!
+    */
+    property int destinationPage
+    /*!
+    */
+    property int duration: Gallery.FAST_DURATION
+    /*!
+    */
+    property real flipFraction
+    /*!
+    */
+    property bool isPortrait
+    /*!
+    */
+    property int pagesPerSpread
 
-  // readonly
-  /*!
-  */
-  property bool isFlipping: (flipFraction != 0 && flipFraction != 1)
-  /*!
-  */
-  property bool isForward: (destinationPage > currentPage)
-  /*!
-  */
-  property int firstPage: (isForward ? currentPage : destinationPage)
-  /*!
-  */
-  property int lastPage: (isForward ? destinationPage : currentPage)
-  /*!
-  */
-  property alias isRunning: animator.running
+    // readonly
+    /*!
+    */
+    property bool isFlipping: (flipFraction != 0 && flipFraction != 1)
+    /*!
+    */
+    property bool isForward: (destinationPage > currentPage)
+    /*!
+    */
+    property int firstPage: (isForward ? currentPage : destinationPage)
+    /*!
+    */
+    property int lastPage: (isForward ? destinationPage : currentPage)
+    /*!
+    */
+    property alias isRunning: animator.running
 
-  // internal
-  /*!
-  */
-  property int maxPages: 5
-  /*!
-  */
-  property int numPages: Math.min(maxPages,
-                                  Math.abs(destinationPage - currentPage) /
-                                  pagesPerSpread)
-  /*!
-  */
-  property real pageFlipFraction: (isForward ? flipFraction : 1 - flipFraction)
-  /*!
-  */
-  property real gapBetweenPages: (isPortrait ? 0.12 : 0.1) // Eyeballed.
-  /*!
-  */
-  property real flipSlope: 1 / (1 - gapBetweenPages * (numPages - 1))
+    // internal
+    /*!
+    */
+    property int maxPages: 5
+    /*!
+    */
+    property int numPages: Math.min(maxPages,
+                                    Math.abs(destinationPage - currentPage) /
+                                    pagesPerSpread)
+    /*!
+    */
+    property real pageFlipFraction: (isForward ? flipFraction : 1 - flipFraction)
+    /*!
+    */
+    property real gapBetweenPages: (isPortrait ? 0.12 : 0.1) // Eyeballed.
+    /*!
+    */
+    property real flipSlope: 1 / (1 - gapBetweenPages * (numPages - 1))
 
-  /*!
-  */
-  function flipToDestination() {
-    animator.to = 1;
-    animator.duration = (1 - flipFraction) * duration;
-    animator.restart();
-  }
-
-  /*!
-  */
-  function flipToOrigin() {
-    animator.to = 0;
-    animator.duration = flipFraction * duration;
-    animator.restart();
-  }
-
-  AlbumPageFlipperPage {
-    flipperPage: 0
-  }
-
-  AlbumPageFlipperPage {
-    flipperPage: 1
-  }
-
-  AlbumPageFlipperPage {
-    flipperPage: 2
-  }
-
-  AlbumPageFlipperPage {
-    flipperPage: 3
-  }
-
-  AlbumPageFlipperPage {
-    flipperPage: 4
-  }
-
-  NumberAnimation {
-    id: animator
-
-    target: albumPageFlipper
-    property: "flipFraction"
-    easing.type: Easing.OutQuad
-
-    onRunningChanged: {
-      if (!running)
-        flipFinished(flipFraction == 1);
+    /*!
+    */
+    function flipToDestination() {
+        animator.to = 1;
+        animator.duration = (1 - flipFraction) * duration;
+        animator.restart();
     }
-  }
+
+    /*!
+    */
+    function flipToOrigin() {
+        animator.to = 0;
+        animator.duration = flipFraction * duration;
+        animator.restart();
+    }
+
+    AlbumPageFlipperPage {
+        flipperPage: 0
+    }
+
+    AlbumPageFlipperPage {
+        flipperPage: 1
+    }
+
+    AlbumPageFlipperPage {
+        flipperPage: 2
+    }
+
+    AlbumPageFlipperPage {
+        flipperPage: 3
+    }
+
+    AlbumPageFlipperPage {
+        flipperPage: 4
+    }
+
+    NumberAnimation {
+        id: animator
+
+        target: albumPageFlipper
+        property: "flipFraction"
+        easing.type: Easing.OutQuad
+
+        onRunningChanged: {
+            if (!running)
+                flipFinished(flipFraction == 1);
+        }
+    }
 }

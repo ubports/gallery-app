@@ -28,347 +28,347 @@ import "../../js/Gallery.js" as Gallery
 // easy to use, standardized object.  You'll probably want to fill the screen
 // with it, as it places its chrome children at its edges.
 Item {
-  id: wrapper
+    id: wrapper
 
-  /*!
-  */
-  property alias autoHideWait: autoHideTimer.interval // 0 to disable auto-hide.
+    /*!
+    */
+    property alias autoHideWait: autoHideTimer.interval // 0 to disable auto-hide.
 
-  /*!
-  */
-  property variant popups: [ ]
+    /*!
+    */
+    property variant popups: [ ]
 
-  /*!
-  */
-  property bool hasLeftNavigationButton: false
-  /*!
-  */
-  property bool hasRightNavigationButton: false
+    /*!
+    */
+    property bool hasLeftNavigationButton: false
+    /*!
+    */
+    property bool hasRightNavigationButton: false
 
-  /*!
-  */
-  property bool toolbarsAreTextured: true
-  /*!
-  */
-  property bool toolbarsAreTranslucent: true
-  /*!
-  */
-  property bool toolbarsAreDark: false
+    /*!
+    */
+    property bool toolbarsAreTextured: true
+    /*!
+    */
+    property bool toolbarsAreTranslucent: true
+    /*!
+    */
+    property bool toolbarsAreDark: false
 
-  /*!
-  */
-  property bool navbarHasStateButton: false
-  /*!
-  */
-  property bool navbarHasCancelSelectionButton: false
+    /*!
+    */
+    property bool navbarHasStateButton: false
+    /*!
+    */
+    property bool navbarHasCancelSelectionButton: false
 
-  /*!
-  */
-  property bool toolbarHasFullIconSet: true
-  /*!
-  */
-  property bool toolbarHasMainIconsWhenSelecting: true
+    /*!
+    */
+    property bool toolbarHasFullIconSet: true
+    /*!
+    */
+    property bool toolbarHasMainIconsWhenSelecting: true
 
-  /*!
-  */
-  property bool inSelectionMode: false
-  /*!
-  */
-  property alias hasSelectionOperationsButton: toolbar.hasSelectionOperationsButton
-  
-  /*!
-  */
-  property alias pagesPerSpread: toolbar.albumPagesPerSpread
-  /*!
-  */
-  property alias viewingPage: toolbar.albumViewingPage
+    /*!
+    */
+    property bool inSelectionMode: false
+    /*!
+    */
+    property alias hasSelectionOperationsButton: toolbar.hasSelectionOperationsButton
 
-  // signals sent from the entire chrome ensemble
-  signal hidePopups();
+    /*!
+    */
+    property alias pagesPerSpread: toolbar.albumPagesPerSpread
+    /*!
+    */
+    property alias viewingPage: toolbar.albumViewingPage
 
-  // Pass-throughs from the navbar.
-  /*!
-  */
-  property alias navbarHeight: navbar.height
-  /*!
-  */
-  property alias navbarSelectedStateButtonIconFilename: navbar.selectedStateButtonIconFilename
-  /*!
-  */
-  property alias navbarDeselectedStateButtonIconFilename: navbar.deselectedStateButtonIconFilename
-  /*!
-  */
-  property alias navbarSelectionDoneButtonText: navbar.selectionDoneButtonText
-  /*!
-  */
-  property alias navbarSelectionDoneButtonWidth: navbar.selectionDoneButtonWidth
-  /*!
-  */
-  signal returnButtonPressed()
-  /*!
-  */
-  signal stateButtonPressed()
-  /*!
-  */
-  signal selectionDoneButtonPressed()
-  /*!
-  */
-  signal cancelSelectionButtonPressed()
+    // signals sent from the entire chrome ensemble
+    signal hidePopups();
 
-  // Pass-throughs from the toolbar.
-  /*!
-  */
-  property alias toolbarHeight: toolbar.height
-  /*!
-  */
-  property alias toolbarHasPageIndicator: toolbar.hasPageIndicator
-  /*!
-  */
-  property alias toolbarHasAlbumOperationsButton: toolbar.hasAlbumOperationsButton
-  /*!
-  */
-  property alias toolbarPageIndicatorAlbum: toolbar.pageIndicatorAlbum
-  /*!
-  */
-  property alias toolbarHasEditOperationsButton: toolbar.hasEditOperationsButton
-  /*!
-  */
-  signal pageIndicatorPageSelected(int page)
-  /*!
-  */
-  signal moreOperationsButtonPressed()
-  /*!
-  */
-  signal shareOperationsButtonPressed()
-  /*!
-  */
-  signal albumOperationsButtonPressed()
-  /*!
-  */
-  signal trashOperationButtonPressed()
-  /*!
-  */
-  signal selectionOperationsButtonPressed(variant button)
-  /*!
-  */
-  signal editOperationsButtonPressed()
+    // Pass-throughs from the navbar.
+    /*!
+    */
+    property alias navbarHeight: navbar.height
+    /*!
+    */
+    property alias navbarSelectedStateButtonIconFilename: navbar.selectedStateButtonIconFilename
+    /*!
+    */
+    property alias navbarDeselectedStateButtonIconFilename: navbar.deselectedStateButtonIconFilename
+    /*!
+    */
+    property alias navbarSelectionDoneButtonText: navbar.selectionDoneButtonText
+    /*!
+    */
+    property alias navbarSelectionDoneButtonWidth: navbar.selectionDoneButtonWidth
+    /*!
+    */
+    signal returnButtonPressed()
+    /*!
+    */
+    signal stateButtonPressed()
+    /*!
+    */
+    signal selectionDoneButtonPressed()
+    /*!
+    */
+    signal cancelSelectionButtonPressed()
 
-  // Pass-throughs from the left/right nav buttons.
-  /*!
-  */
-  signal leftNavigationButtonPressed()
-  /*!
-  */
-  signal rightNavigationButtonPressed()
+    // Pass-throughs from the toolbar.
+    /*!
+    */
+    property alias toolbarHeight: toolbar.height
+    /*!
+    */
+    property alias toolbarHasPageIndicator: toolbar.hasPageIndicator
+    /*!
+    */
+    property alias toolbarHasAlbumOperationsButton: toolbar.hasAlbumOperationsButton
+    /*!
+    */
+    property alias toolbarPageIndicatorAlbum: toolbar.pageIndicatorAlbum
+    /*!
+    */
+    property alias toolbarHasEditOperationsButton: toolbar.hasEditOperationsButton
+    /*!
+    */
+    signal pageIndicatorPageSelected(int page)
+    /*!
+    */
+    signal moreOperationsButtonPressed()
+    /*!
+    */
+    signal shareOperationsButtonPressed()
+    /*!
+    */
+    signal albumOperationsButtonPressed()
+    /*!
+    */
+    signal trashOperationButtonPressed()
+    /*!
+    */
+    signal selectionOperationsButtonPressed(variant button)
+    /*!
+    */
+    signal editOperationsButtonPressed()
 
-  // internal
-  /*!
-  */
-  property bool popupActive: false
-  /*!
-  */
-  property int fadeDuration
-  /*!
-  */
-  property int fadeEasing
+    // Pass-throughs from the left/right nav buttons.
+    /*!
+    */
+    signal leftNavigationButtonPressed()
+    /*!
+    */
+    signal rightNavigationButtonPressed()
 
-  visible: false
-  state: "hidden"
+    // internal
+    /*!
+    */
+    property bool popupActive: false
+    /*!
+    */
+    property int fadeDuration
+    /*!
+    */
+    property int fadeEasing
 
-  states: [
-    State { name: "shown"; },
-    State { name: "hidden"; }
-  ]
+    visible: false
+    state: "hidden"
 
-  transitions: [
-    Transition { from: "shown"; to: "hidden";
-      FadeOutAnimation { target: wrapper; duration: fadeDuration;
-          easingType: fadeEasing; }
-    },
-    Transition { from: "hidden"; to: "shown";
-      FadeInAnimation { target: wrapper; duration: fadeDuration;
-          easingType: fadeEasing; }
-    }
-  ]
+    states: [
+        State { name: "shown"; },
+        State { name: "hidden"; }
+    ]
 
-  /*!
-  */
-  function flipVisibility(fromUserAction) {
-    setFadeParams(fromUserAction);
-    state = (state == "shown" ? "hidden" : "shown");
-  }
+    transitions: [
+        Transition { from: "shown"; to: "hidden";
+            FadeOutAnimation { target: wrapper; duration: fadeDuration;
+                easingType: fadeEasing; }
+        },
+        Transition { from: "hidden"; to: "shown";
+            FadeInAnimation { target: wrapper; duration: fadeDuration;
+                easingType: fadeEasing; }
+        }
+    ]
 
-  /*!
-  */
-  function resetVisibility(visibility) {
-    state = ""; // To prevent animation.
-    visible = visibility;
-    state = (visibility ? "shown" : "hidden");
-  }
-
-  /*!
-  */
-  function show(fromUserAction) {
-    setFadeParams(fromUserAction);
-    state = "shown";
-  }
-
-  /*!
-  */
-  function hide(fromUserAction) {
-    setFadeParams(fromUserAction);
-    state = "hidden";
-  }
-
-  /*!
-  */
-  function cyclePopup(target) {
-    if (!target.visible)
-      hideAllPopups();
-
-    target.flipVisibility();
-    popupActive = target.visible;
-  }
-
-  /*!
-  */
-  function hideAllPopups() {
-    for (var i = 0; i < popups.length; i++)
-      popups[i].state = "hidden";
-
-    popupActive = false;
-  }
-
-  // internal
-  /*!
-  */
-  function setFadeParams(fromUserAction) {
-    fadeDuration = (fromUserAction ? Gallery.SNAP_DURATION : Gallery.SLOW_DURATION);
-    fadeEasing = (fromUserAction ? Easing.InQuint : Easing.InOutQuint);
-  }
-
-  onVisibleChanged: {
-    wrapper.hidePopups();
-
-    if (visible)
-      autoHideTimer.startAutoHide();
-  }
-
-  onPopupActiveChanged: {
-    if (popupActive)
-      autoHideTimer.stop();
-    else
-      autoHideTimer.startAutoHide();
-  }
-
-  /*!
-  */
-  function cancelActivity() {
-    hideAllPopups();
-  }
-
-  MouseArea {
-    id: cancelArea
-
-    anchors.fill: parent
-    z:16
-
-    visible: chrome.popupActive
-
-    acceptedButtons: Qt.LeftButton | Qt.RightButton
-
-    onClicked: chrome.cancelActivity()
-  }
-
-  ViewerNavigationButton {
-    id: leftNavButton
-
-    is_forward: false
-
-    visible: wrapper.hasLeftNavigationButton && !wrapper.inSelectionMode
-
-    anchors.leftMargin: units.gu(1.5)
-    anchors.left: parent.left
-    anchors.bottom: toolbar.top
-
-    onPressed: {
-      autoHideTimer.startAutoHide();
-      leftNavigationButtonPressed();
-    }
-  }
-
-  ViewerNavigationButton {
-    id: rightNavButton
-
-    is_forward: true
-
-    visible: wrapper.hasRightNavigationButton && !wrapper.inSelectionMode
-
-    anchors.rightMargin: units.gu(1.5)
-    anchors.right: parent.right
-    anchors.bottom: toolbar.top
-
-    onPressed: {
-      autoHideTimer.startAutoHide();
-      rightNavigationButtonPressed();
-    }
-  }
-
-  GalleryStandardNavbar {
-    id: navbar
-
-    anchors.top: parent.top
-
-    isTextured: wrapper.toolbarsAreTextured
-    isTranslucent: (!wrapper.inSelectionMode
-                    ? wrapper.toolbarsAreTranslucent : false)
-    isDark: wrapper.toolbarsAreDark
-
-    hasReturnButton: !wrapper.inSelectionMode
-    hasStateButton: wrapper.navbarHasStateButton && !wrapper.inSelectionMode
-    hasSelectionDoneButton: wrapper.inSelectionMode
-    hasCancelSelectionButton: wrapper.inSelectionMode &&
-                              wrapper.navbarHasCancelSelectionButton
-
-    onReturnButtonPressed: wrapper.returnButtonPressed()
-    onStateButtonPressed: wrapper.stateButtonPressed()
-    onSelectionDoneButtonPressed: wrapper.selectionDoneButtonPressed()
-    onCancelSelectionButtonPressed: wrapper.cancelSelectionButtonPressed()
-  }
-
-  GalleryStandardToolbar {
-    id: toolbar
-
-    anchors.bottom: parent.bottom
-
-    isTextured: wrapper.toolbarsAreTextured
-    isTranslucent: wrapper.toolbarsAreTranslucent
-    isDark: wrapper.toolbarsAreDark
-
-    hasMainIconSet: (wrapper.inSelectionMode ? wrapper.toolbarHasMainIconsWhenSelecting : true)
-    hasFullIconSet: wrapper.inSelectionMode || wrapper.toolbarHasFullIconSet
-
-    onPageIndicatorPageSelected: wrapper.pageIndicatorPageSelected(page)
-
-    onAlbumOperationsButtonPressed: wrapper.albumOperationsButtonPressed()
-    onMoreOperationsButtonPressed: wrapper.moreOperationsButtonPressed()
-    onShareOperationsButtonPressed: wrapper.shareOperationsButtonPressed()
-    onSelectionOperationsButtonPressed: wrapper.selectionOperationsButtonPressed(button)
-    onTrashOperationButtonPressed: wrapper.trashOperationButtonPressed()
-    onEditOperationsButtonPressed: wrapper.editOperationsButtonPressed()
-  }
-
-  Timer {
-    id: autoHideTimer
-
-    function startAutoHide() {
-      if (interval > 0)
-        restart();
+    /*!
+    */
+    function flipVisibility(fromUserAction) {
+        setFadeParams(fromUserAction);
+        state = (state == "shown" ? "hidden" : "shown");
     }
 
-    interval: 3000
-    running: false
+    /*!
+    */
+    function resetVisibility(visibility) {
+        state = ""; // To prevent animation.
+        visible = visibility;
+        state = (visibility ? "shown" : "hidden");
+    }
 
-    onTriggered: chrome.hide(false)
-  }
+    /*!
+    */
+    function show(fromUserAction) {
+        setFadeParams(fromUserAction);
+        state = "shown";
+    }
+
+    /*!
+    */
+    function hide(fromUserAction) {
+        setFadeParams(fromUserAction);
+        state = "hidden";
+    }
+
+    /*!
+    */
+    function cyclePopup(target) {
+        if (!target.visible)
+            hideAllPopups();
+
+        target.flipVisibility();
+        popupActive = target.visible;
+    }
+
+    /*!
+    */
+    function hideAllPopups() {
+        for (var i = 0; i < popups.length; i++)
+            popups[i].state = "hidden";
+
+        popupActive = false;
+    }
+
+    // internal
+    /*!
+    */
+    function setFadeParams(fromUserAction) {
+        fadeDuration = (fromUserAction ? Gallery.SNAP_DURATION : Gallery.SLOW_DURATION);
+        fadeEasing = (fromUserAction ? Easing.InQuint : Easing.InOutQuint);
+    }
+
+    onVisibleChanged: {
+        wrapper.hidePopups();
+
+        if (visible)
+            autoHideTimer.startAutoHide();
+    }
+
+    onPopupActiveChanged: {
+        if (popupActive)
+            autoHideTimer.stop();
+        else
+            autoHideTimer.startAutoHide();
+    }
+
+    /*!
+  */
+    function cancelActivity() {
+        hideAllPopups();
+    }
+
+    MouseArea {
+        id: cancelArea
+
+        anchors.fill: parent
+        z:16
+
+        visible: chrome.popupActive
+
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+        onClicked: chrome.cancelActivity()
+    }
+
+    ViewerNavigationButton {
+        id: leftNavButton
+
+        is_forward: false
+
+        visible: wrapper.hasLeftNavigationButton && !wrapper.inSelectionMode
+
+        anchors.leftMargin: units.gu(1.5)
+        anchors.left: parent.left
+        anchors.bottom: toolbar.top
+
+        onPressed: {
+            autoHideTimer.startAutoHide();
+            leftNavigationButtonPressed();
+        }
+    }
+
+    ViewerNavigationButton {
+        id: rightNavButton
+
+        is_forward: true
+
+        visible: wrapper.hasRightNavigationButton && !wrapper.inSelectionMode
+
+        anchors.rightMargin: units.gu(1.5)
+        anchors.right: parent.right
+        anchors.bottom: toolbar.top
+
+        onPressed: {
+            autoHideTimer.startAutoHide();
+            rightNavigationButtonPressed();
+        }
+    }
+
+    GalleryStandardNavbar {
+        id: navbar
+
+        anchors.top: parent.top
+
+        isTextured: wrapper.toolbarsAreTextured
+        isTranslucent: (!wrapper.inSelectionMode
+                        ? wrapper.toolbarsAreTranslucent : false)
+        isDark: wrapper.toolbarsAreDark
+
+        hasReturnButton: !wrapper.inSelectionMode
+        hasStateButton: wrapper.navbarHasStateButton && !wrapper.inSelectionMode
+        hasSelectionDoneButton: wrapper.inSelectionMode
+        hasCancelSelectionButton: wrapper.inSelectionMode &&
+                                  wrapper.navbarHasCancelSelectionButton
+
+        onReturnButtonPressed: wrapper.returnButtonPressed()
+        onStateButtonPressed: wrapper.stateButtonPressed()
+        onSelectionDoneButtonPressed: wrapper.selectionDoneButtonPressed()
+        onCancelSelectionButtonPressed: wrapper.cancelSelectionButtonPressed()
+    }
+
+    GalleryStandardToolbar {
+        id: toolbar
+
+        anchors.bottom: parent.bottom
+
+        isTextured: wrapper.toolbarsAreTextured
+        isTranslucent: wrapper.toolbarsAreTranslucent
+        isDark: wrapper.toolbarsAreDark
+
+        hasMainIconSet: (wrapper.inSelectionMode ? wrapper.toolbarHasMainIconsWhenSelecting : true)
+        hasFullIconSet: wrapper.inSelectionMode || wrapper.toolbarHasFullIconSet
+
+        onPageIndicatorPageSelected: wrapper.pageIndicatorPageSelected(page)
+
+        onAlbumOperationsButtonPressed: wrapper.albumOperationsButtonPressed()
+        onMoreOperationsButtonPressed: wrapper.moreOperationsButtonPressed()
+        onShareOperationsButtonPressed: wrapper.shareOperationsButtonPressed()
+        onSelectionOperationsButtonPressed: wrapper.selectionOperationsButtonPressed(button)
+        onTrashOperationButtonPressed: wrapper.trashOperationButtonPressed()
+        onEditOperationsButtonPressed: wrapper.editOperationsButtonPressed()
+    }
+
+    Timer {
+        id: autoHideTimer
+
+        function startAutoHide() {
+            if (interval > 0)
+                restart();
+        }
+
+        interval: 3000
+        running: false
+
+        onTriggered: chrome.hide(false)
+    }
 }

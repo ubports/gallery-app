@@ -22,47 +22,47 @@ import QtQuick 2.0
 /*!
 */
 AlbumPageLayout {
-  id: albumPageLayoutLeftDoubleLandscape
+    id: albumPageLayoutLeftDoubleLandscape
 
-  mediaFrames: [ top, bottom ]
+    mediaFrames: [ top, bottom ]
 
-  FramePortrait {
-    id: top
+    FramePortrait {
+        id: top
 
-    anchors.top: parent.top
-    anchors.bottom: parent.verticalCenter
-    anchors.left: parent.left
-    anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.bottom: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.right: parent.right
 
-    anchors.topMargin: albumPageLayoutLeftDoubleLandscape.topMargin
-    anchors.bottomMargin: albumPageLayoutLeftDoubleLandscape.insideMargin / 2
-    anchors.leftMargin: albumPageLayoutLeftDoubleLandscape.gutterMargin
-    anchors.rightMargin: albumPageLayoutLeftDoubleLandscape.outerMargin
+        anchors.topMargin: albumPageLayoutLeftDoubleLandscape.topMargin
+        anchors.bottomMargin: albumPageLayoutLeftDoubleLandscape.insideMargin / 2
+        anchors.leftMargin: albumPageLayoutLeftDoubleLandscape.gutterMargin
+        anchors.rightMargin: albumPageLayoutLeftDoubleLandscape.outerMargin
 
-    mediaSource: (albumPageLayoutLeftDoubleLandscape.mediaSourceList
-      ? albumPageLayoutLeftDoubleLandscape.mediaSourceList[0]
-      : null)
-    load: albumPageLayoutLeftDoubleLandscape.load
-    isPreview: albumPageLayoutLeftDoubleLandscape.isPreview
-  }
+        mediaSource: (albumPageLayoutLeftDoubleLandscape.mediaSourceList
+                      ? albumPageLayoutLeftDoubleLandscape.mediaSourceList[0]
+                      : null)
+        load: albumPageLayoutLeftDoubleLandscape.load
+        isPreview: albumPageLayoutLeftDoubleLandscape.isPreview
+    }
 
-  FramePortrait {
-    id: bottom
+    FramePortrait {
+        id: bottom
 
-    anchors.top: parent.verticalCenter
-    anchors.bottom: parent.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
+        anchors.top: parent.verticalCenter
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
 
-    anchors.topMargin: albumPageLayoutLeftDoubleLandscape.insideMargin / 2
-    anchors.bottomMargin: albumPageLayoutLeftDoubleLandscape.bottomMargin
-    anchors.leftMargin: albumPageLayoutLeftDoubleLandscape.gutterMargin
-    anchors.rightMargin: albumPageLayoutLeftDoubleLandscape.outerMargin
+        anchors.topMargin: albumPageLayoutLeftDoubleLandscape.insideMargin / 2
+        anchors.bottomMargin: albumPageLayoutLeftDoubleLandscape.bottomMargin
+        anchors.leftMargin: albumPageLayoutLeftDoubleLandscape.gutterMargin
+        anchors.rightMargin: albumPageLayoutLeftDoubleLandscape.outerMargin
 
-    mediaSource: (albumPageLayoutLeftDoubleLandscape.mediaSourceList
-      ? albumPageLayoutLeftDoubleLandscape.mediaSourceList[1]
-      : null)
-    load: albumPageLayoutLeftDoubleLandscape.load
-    isPreview: albumPageLayoutLeftDoubleLandscape.isPreview
-  }
+        mediaSource: (albumPageLayoutLeftDoubleLandscape.mediaSourceList
+                      ? albumPageLayoutLeftDoubleLandscape.mediaSourceList[1]
+                      : null)
+        load: albumPageLayoutLeftDoubleLandscape.load
+        isPreview: albumPageLayoutLeftDoubleLandscape.isPreview
+    }
 }

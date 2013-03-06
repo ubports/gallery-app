@@ -26,94 +26,94 @@ import "../js/GalleryUtility.js" as GalleryUtility
 /*!
 */
 Item {
-  id: photosOverview
-
-  /*!
-  */
-  signal mediaSourcePressed(var mediaSource, var thumbnailRect)
-
-  ///
-  function initModel() {
-      if (!photosGrid.model)
-          photosGrid.model = __model
-  }
-
-  property MediaCollectionModel __model: MediaCollectionModel {
-      monitored: true
-  }
-
-  Image {
-    anchors.fill: parent
-
-    source: "../img/background-paper.png"
-    fillMode: Image.Tile
-  }
-
-  GridView {
-    id: photosGrid
-
-    anchors.fill: parent
-    anchors.leftMargin: units.gu(1)
-    anchors.rightMargin: units.gu(1)
-
-    /// Size of the thumbnails
-    property real thumbnailSize: units.gu(12)
-    /// Minimum space between the tumbnails
-    property real minimumSpace: units.gu(0.6)
-    /// Stores the spacing between 2 images in pixel
-    property real spacing: calculateSpacing(width)
+    id: photosOverview
 
     /*!
-      Calculates the spacing that should be used, to fit the fotos horizontally nicely
-      */
-    function calculateSpacing(viewWidth) {
-        var itemSize = thumbnailSize + minimumSpace
-        var itemCount = Math.floor(viewWidth / itemSize)
-        var spareSpace = viewWidth - itemCount * itemSize
-        return (minimumSpace + spareSpace / itemCount)
+    */
+    signal mediaSourcePressed(var mediaSource, var thumbnailRect)
+
+    ///
+    function initModel() {
+        if (!photosGrid.model)
+            photosGrid.model = __model
     }
 
-    cellWidth: thumbnailSize + spacing
-    cellHeight: thumbnailSize + spacing
-
-    maximumFlickVelocity: units.gu(800)
-    flickDeceleration: maximumFlickVelocity * 0.5
-
-    // Use this rather than anchors.topMargin to prevent delegates from being
-    // unloade while scrolling out of view but still partially visible
-    header: Item {
-      width: parent.width
-      height: units.gu(1)
+    property MediaCollectionModel __model: MediaCollectionModel {
+        monitored: true
     }
-  
-    delegate: Item {
-      width: photosGrid.cellWidth
-      height: photosGrid.cellHeight
 
-      UbuntuShape {
-        id: roundedThumbnail
+    Image {
+        anchors.fill: parent
 
-        anchors.centerIn: parent
+        source: "../img/background-paper.png"
+        fillMode: Image.Tile
+    }
 
-        width: photosGrid.thumbnailSize
-        height: photosGrid.thumbnailSize
+    GridView {
+        id: photosGrid
 
-        radius: "medium"
+        anchors.fill: parent
+        anchors.leftMargin: units.gu(1)
+        anchors.rightMargin: units.gu(1)
 
-        image: Image {
-          source: mediaSource.galleryThumbnailPath
-          asynchronous: true
+        /// Size of the thumbnails
+        property real thumbnailSize: units.gu(12)
+        /// Minimum space between the tumbnails
+        property real minimumSpace: units.gu(0.6)
+        /// Stores the spacing between 2 images in pixel
+        property real spacing: calculateSpacing(width)
+
+        /*!
+        Calculates the spacing that should be used, to fit the fotos horizontally nicely
+        */
+        function calculateSpacing(viewWidth) {
+            var itemSize = thumbnailSize + minimumSpace
+            var itemCount = Math.floor(viewWidth / itemSize)
+            var spareSpace = viewWidth - itemCount * itemSize
+            return (minimumSpace + spareSpace / itemCount)
         }
 
-        MouseArea {
-          anchors.fill: parent
+        cellWidth: thumbnailSize + spacing
+        cellHeight: thumbnailSize + spacing
 
-          onClicked: {
-            mediaSourcePressed(mediaSource, GalleryUtility.getRectRelativeTo(
-              roundedThumbnail, photosOverview));
-          }
+        maximumFlickVelocity: units.gu(800)
+        flickDeceleration: maximumFlickVelocity * 0.5
+
+        // Use this rather than anchors.topMargin to prevent delegates from being
+        // unloade while scrolling out of view but still partially visible
+        header: Item {
+            width: parent.width
+            height: units.gu(1)
         }
-      }
+
+        delegate: Item {
+            width: photosGrid.cellWidth
+            height: photosGrid.cellHeight
+
+            UbuntuShape {
+                id: roundedThumbnail
+
+                anchors.centerIn: parent
+
+                width: photosGrid.thumbnailSize
+                height: photosGrid.thumbnailSize
+
+                radius: "medium"
+
+                image: Image {
+                    source: mediaSource.galleryThumbnailPath
+                    asynchronous: true
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+
+                    onClicked: {
+                        mediaSourcePressed(mediaSource, GalleryUtility.getRectRelativeTo(
+                                               roundedThumbnail, photosOverview));
+                    }
+                }
+            }
+        }
     }
-  }
 }

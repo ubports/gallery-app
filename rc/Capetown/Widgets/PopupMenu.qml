@@ -23,61 +23,61 @@ import Ubuntu.Components 0.1
 /*!
 */
 PopupBox {
-  id: popupMenu
+    id: popupMenu
 
-  // public
-  /*!
-  */
-  property alias model: menuItemList.model
+    // public
+    /*!
+    */
+    property alias model: menuItemList.model
 
-  /*!
-  */
-  signal actionInvoked(string name);
+    /*!
+    */
+    signal actionInvoked(string name);
 
-  width: units.gu(40)
-  height: menuItemColumn.height + originCueHeight
-
-  color: "transparent"
-
-  Column {
-    id: menuItemColumn
-
-    Repeater {
-      id: menuItemList
-
-      x: popupMenu.contentLeft
-      y: popupMenu.contentTop
-      width: popupMenu.width
-
-      delegate: MenuItem {
-        title: (model.title) ? model.title : ""
-        isSeparator: (model.isSeparator) ? model.isSeparator : false
-        hasBottomBorder: (model.hasBottomBorder) ? model.hasBottomBorder : false
-        iconFilename: (model.iconFilename) ? model.iconFilename : ""
-        hasCueRectangle: (model.hasCueRectangle) ? model.hasCueRectangle : false
-        action: (model.action) ? model.action : ""
-        hostMenu: popupMenu
-
-        onActionInvoked: {
-          popupMenu.actionInvoked(name);
-        }
-
-        onPopupInteractionCompleted: {
-          popupMenu.popupInteractionCompleted();
-        }
-      }
-    }
-  }
-
-  Rectangle {
-    id: overstroke
-
-    width: parent.width
-    height: parent.height - parent.originCueHeight
+    width: units.gu(40)
+    height: menuItemColumn.height + originCueHeight
 
     color: "transparent"
 
-    border.color: "#a7a9ac"
-    border.width: 1
-  }
+    Column {
+        id: menuItemColumn
+
+        Repeater {
+            id: menuItemList
+
+            x: popupMenu.contentLeft
+            y: popupMenu.contentTop
+            width: popupMenu.width
+
+            delegate: MenuItem {
+                title: (model.title) ? model.title : ""
+                isSeparator: (model.isSeparator) ? model.isSeparator : false
+                hasBottomBorder: (model.hasBottomBorder) ? model.hasBottomBorder : false
+                iconFilename: (model.iconFilename) ? model.iconFilename : ""
+                hasCueRectangle: (model.hasCueRectangle) ? model.hasCueRectangle : false
+                action: (model.action) ? model.action : ""
+                hostMenu: popupMenu
+
+                onActionInvoked: {
+                    popupMenu.actionInvoked(name);
+                }
+
+                onPopupInteractionCompleted: {
+                    popupMenu.popupInteractionCompleted();
+                }
+            }
+        }
+    }
+
+    Rectangle {
+        id: overstroke
+
+        width: parent.width
+        height: parent.height - parent.originCueHeight
+
+        color: "transparent"
+
+        border.color: "#a7a9ac"
+        border.width: 1
+    }
 }

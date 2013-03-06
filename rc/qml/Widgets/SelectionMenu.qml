@@ -25,53 +25,53 @@ import "../../Capetown/Widgets"
 /*!
 */
 PopupMenu {
-  id: selectionMenu
-  
-  /*!
-  */
-  property SelectionState selection
-  
-  // these are hardcoded to match the location of the Selection Button in the
-  // chrome
-  popupOriginX: units.gu(3.5)
-  popupOriginY: -units.gu(6)
-  
-  visible: false
-  state: "hidden"
-  
-  onActionInvoked: {
-    // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you edit
-    // a switch statement in QML.  The short version is: use braces always.
-    switch (name) {
-      case "SelectAll": {
-        if (selection)
-          selection.selectAll();
-        break;
-      }
-      
-      case "SelectNone": {
-        if (selection)
-          selection.unselectAll();
-        break;
-      }
-      
-      default: {
-        console.log("Unknown action", name);
-        break;
-      }
+    id: selectionMenu
+
+    /*!
+    */
+    property SelectionState selection
+
+    // these are hardcoded to match the location of the Selection Button in the
+    // chrome
+    popupOriginX: units.gu(3.5)
+    popupOriginY: -units.gu(6)
+
+    visible: false
+    state: "hidden"
+
+    onActionInvoked: {
+        // See https://bugreports.qt-project.org/browse/QTBUG-17012 before you edit
+        // a switch statement in QML.  The short version is: use braces always.
+        switch (name) {
+        case "SelectAll": {
+            if (selection)
+                selection.selectAll();
+            break;
+        }
+
+        case "SelectNone": {
+            if (selection)
+                selection.unselectAll();
+            break;
+        }
+
+        default: {
+            console.log("Unknown action", name);
+            break;
+        }
+        }
     }
-  }
-  
-  model: ListModel {
-    ListElement {
-      title: "Select All"
-      action: "SelectAll"
-      hasBottomBorder: true
+
+    model: ListModel {
+        ListElement {
+            title: "Select All"
+            action: "SelectAll"
+            hasBottomBorder: true
+        }
+
+        ListElement {
+            title: "Select None"
+            action: "SelectNone"
+        }
     }
-    
-    ListElement {
-      title: "Select None"
-      action: "SelectNone"
-    }
-  }
 }

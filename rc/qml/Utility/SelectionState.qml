@@ -23,79 +23,79 @@ import Gallery 1.0
 // Holds all the state for selection between the Organic views, and some other
 // places.
 Item {
-  id: organicSelectionState
+    id: organicSelectionState
 
-  /*!
-  */
-  property bool inSelectionMode: false
-  /*!
-  */
-  property bool allowSelectionModeChange: true
+    /*!
+    */
+    property bool inSelectionMode: false
+    /*!
+    */
+    property bool allowSelectionModeChange: true
 
-  /*!
-  */
-  property var model: EventOverviewModel {
-    monitored: true
-  }
-
-  // readonly
-  /*!
-  */
-  property int selectedCount: model.selectedCount
-
-  //internal
-  // HACK: this is used as a spurious extra QML condition in our isSelected
-  // check so we can cause the function to be reevaluated whenever the
-  // selection changes.  I couldn't see any easier way to trigger the model's
-  // isSelected function to get reevaluated in QML whenever its internal
-  // selection state changes.
-  property int refresh: 1
-
-  /*!
-  */
-  function isSelected(item) {
-    return refresh > 0 && model.isSelected(item);
-  }
-
-  /*!
-  */
-  function toggleSelection(item) {
-    if (tryEnterSelectionMode())
-      model.toggleSelection(item);
-  }
-
-  /*!
-  */
-  function selectAll() {
-    if (tryEnterSelectionMode())
-      model.selectAll();
-  }
-
-  /*!
-  */
-  function unselectAll() {
-    model.unselectAll();
-  }
-
-  /*!
-  */
-  function tryEnterSelectionMode() {
-    if (allowSelectionModeChange)
-      inSelectionMode = true;
-    return inSelectionMode;
-  }
-
-  /*!
-  */
-  function leaveSelectionMode() {
-    if (allowSelectionModeChange) {
-      inSelectionMode = false;
-      model.unselectAll();
+    /*!
+    */
+    property var model: EventOverviewModel {
+        monitored: true
     }
-  }
 
-  Connections {
-    target: model
-    onSelectedCountChanged: ++refresh
-  }
+    // readonly
+    /*!
+    */
+    property int selectedCount: model.selectedCount
+
+    //internal
+    // HACK: this is used as a spurious extra QML condition in our isSelected
+    // check so we can cause the function to be reevaluated whenever the
+    // selection changes.  I couldn't see any easier way to trigger the model's
+    // isSelected function to get reevaluated in QML whenever its internal
+    // selection state changes.
+    property int refresh: 1
+
+    /*!
+    */
+    function isSelected(item) {
+        return refresh > 0 && model.isSelected(item);
+    }
+
+    /*!
+    */
+    function toggleSelection(item) {
+        if (tryEnterSelectionMode())
+            model.toggleSelection(item);
+    }
+
+    /*!
+    */
+    function selectAll() {
+        if (tryEnterSelectionMode())
+            model.selectAll();
+    }
+
+    /*!
+    */
+    function unselectAll() {
+        model.unselectAll();
+    }
+
+    /*!
+    */
+    function tryEnterSelectionMode() {
+        if (allowSelectionModeChange)
+            inSelectionMode = true;
+        return inSelectionMode;
+    }
+
+    /*!
+    */
+    function leaveSelectionMode() {
+        if (allowSelectionModeChange) {
+            inSelectionMode = false;
+            model.unselectAll();
+        }
+    }
+
+    Connections {
+        target: model
+        onSelectedCountChanged: ++refresh
+    }
 }
