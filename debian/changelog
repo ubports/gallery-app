@@ -1,4 +1,4 @@
-ubuntu-gallery (0.0.60) UNRELEASED; urgency=low
+ubuntu-gallery (0.0.60) quantal; urgency=low
 
   [ Benjamin Kerensa ]
   * Add Homepage Field
