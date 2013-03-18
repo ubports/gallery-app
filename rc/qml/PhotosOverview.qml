@@ -87,6 +87,7 @@ Item {
         }
 
         delegate: Item {
+            objectName: "allPotosGridPhoto"
             width: photosGrid.cellWidth
             height: photosGrid.cellHeight
 

@@ -39,7 +39,7 @@ class TestPhotoViewerBase(GalleryTestCase):
         self.reveal_tool_bar()
 
     def click_first_photo(self):
-        single_photo = self.photo_viewer.get_first_image_in_photo_viewer()
+        single_photo = self.photo_viewer.get_first_image_in_event_view()
         self.click_item(single_photo)
 
 
@@ -58,8 +58,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
     def test_photo_delete_works(self):
         """Clicking the trash button must show the delete dialog."""
-        tool_bar = self.photo_viewer.get_tool_bar()
-        trash_button = self.photo_viewer.get_delete_icon(tool_bar)
+        trash_button = self.photo_viewer.get_delete_icon()
 
         self.pointing_device.move_to_object(trash_button)
         self.assertThat(trash_button.hovered, Eventually(Equals(True)))
@@ -110,8 +109,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
     def test_nav_bar_share_button(self):
         """Clicking the share button must show the share dialog."""
-        tool_bar = self.photo_viewer.get_tool_bar()
-        share_button = self.photo_viewer.get_viewer_chrome_share_button(tool_bar)
+        share_button = self.photo_viewer.get_viewer_chrome_share_button()
         share_menu = self.photo_viewer.get_share_dialog()
 
         self.pointing_device.move_to_object(share_button)
@@ -122,8 +120,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
     def test_nav_bar_edit_button(self):
         """Clicking the edit button must show the edit dialog."""
-        tool_bar = self.photo_viewer.get_tool_bar()
-        edit_button = self.photo_viewer.get_viewer_chrome_toolbar_edit_button(tool_bar)
+        edit_button = self.photo_viewer.get_viewer_chrome_toolbar_edit_button()
         edit_dialog = self.photo_viewer.get_photo_edit_dialog()
 
         self.pointing_device.move_to_object(edit_button)
@@ -155,8 +152,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.click_edit_button()
 
     def click_edit_button(self):
-        tool_bar = self.photo_viewer.get_tool_bar()
-        edit_button = self.photo_viewer.get_viewer_chrome_toolbar_edit_button(tool_bar)
+        edit_button = self.photo_viewer.get_viewer_chrome_toolbar_edit_button()
         self.click_item(edit_button)
 
     def click_rotate_item(self):

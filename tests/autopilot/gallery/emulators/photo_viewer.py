@@ -12,35 +12,38 @@ class PhotoViewer(GalleryUtils):
     def __init__(self, app):
         self.app = app
 
-    def get_first_image_in_photo_viewer(self):
+    def get_first_image_in_event_view(self):
         """Returns the first photo of the gallery."""
-        return self.app.select_single("OrganicMediaList", objectName="eventViewPhoto0", visible=True)
+        event = self.get_first_event()
+        list_view = event.get_children_by_type("QQuickListView")[0]
+        item = list_view.get_children_by_type("QQuickItem")[0]
+        first_photo_delegate = item.get_children_by_type("QQuickItem", objectName="eventPhoto")[0]
+        first_photo = first_photo_delegate.get_children_by_type("UbuntuShape")[0]
+        return first_photo
+
+    def get_first_event(self):
+        """Returns the first event in the event view"""
+        return self.app.select_single("OrganicMediaList", objectName="organicEventItem0")
 
     def get_crop_interactor(self):
         """Returns the crop interactor."""
         return self.app.select_single("CropInteractor", objectName="cropInteractor")
 
-    def get_viewer_chrome_toolbar_edit_button(self, tool_bar):
+    def get_viewer_chrome_toolbar_edit_button(self):
         """Return the edit button of the toolbar when photo viewer is shown"""
-        item = tool_bar.get_children_by_type("QQuickItem")[0]
-        row = item.get_children_by_type("QQuickRow")[0]
-        return row.get_children_by_type("Button")[0]
+        return self.get_toolbar_button(0)
 
     def get_viewer_chrome_album_button(self):
         """Returns the photo viewer album button."""
         return self.app.select_single("ChromeButton", objectName='disabled', visible=True)
 
-    def get_delete_icon(self, tool_bar):
+    def get_delete_icon(self):
         """Return the delete button of the toolbar when photo viewer is shown"""
-        item = tool_bar.get_children_by_type("QQuickItem")[0]
-        row = item.get_children_by_type("QQuickRow")[0]
-        return row.get_children_by_type("Button")[2]
+        return self.get_toolbar_button(2)
 
-    def get_viewer_chrome_share_button(self, tool_bar):
+    def get_viewer_chrome_share_button(self):
         """Return the share button of the toolbar when photo viewer is shown"""
-        item = tool_bar.get_children_by_type("QQuickItem")[0]
-        row = item.get_children_by_type("QQuickRow")[0]
-        return row.get_children_by_type("Button")[3]
+        return self.get_toolbar_button(3)
 
     def get_delete_dialog(self):
         """Returns the photo viewer delete dialog."""
