@@ -57,7 +57,9 @@ class GalleryUtils(object):
         item = tool_bar.get_children_by_type("QQuickItem")[0]
         back_loaders = item.get_children_by_type("QQuickLoader")
         if len(back_loaders) > 0:
+            # new toolbar
             back_loader = back_loaders[0]
             return back_loader.get_children_by_type("Button")[0]
         else:
-            item.get_children_by_type("Button")[0]
+            # old toolbar
+            return item.get_children_by_type("Button")[0]
