@@ -1,3 +1,9 @@
+gallery-app (0.0.61) quantal; urgency=low
+
+  * Rename to gallery-app
+
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Mon, 18 Mar 2013 17:59:23 +0100
+
 gallery-app (0.0.60) quantal; urgency=low
 
   [ Benjamin Kerensa ]
