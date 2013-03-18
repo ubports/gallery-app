@@ -42,12 +42,22 @@ class GalleryUtils(object):
         tool_bar = self.get_tool_bar()
         item = tool_bar.get_children_by_type("QQuickItem")[0]
         row = item.get_children_by_type("QQuickRow")[0]
-        button_loader = row.get_children_by_type("QQuickLoader")[button_idx]
-        return button_loader.get_children_by_type("Button")[0]
+        button_loaders = row.get_children_by_type("QQuickLoader")
+        if len(button_loaders) > 0:
+            # new toolbar
+            button_loader = button_loaders[button_idx]
+            return button_loader.get_children_by_type("Button")[0]
+        else:
+            # old toolbar
+            return row.get_children_by_type("Button")[button_idx]
 
     def get_cancel_icon(self):
         """Returns the cancel icon of the events view."""
         tool_bar = self.get_tool_bar()
         item = tool_bar.get_children_by_type("QQuickItem")[0]
-        back_loader = item.get_children_by_type("QQuickLoader")[0]
-        return back_loader.get_children_by_type("Button")[0]
+        back_loaders = item.get_children_by_type("QQuickLoader")
+        if len(back_loaders) > 0:
+            back_loader = back_loaders[0]
+            return back_loader.get_children_by_type("Button")[0]
+        else:
+            item.get_children_by_type("Button")[0]
