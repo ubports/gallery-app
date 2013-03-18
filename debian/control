@@ -1,4 +1,4 @@
-Source: ubuntu-gallery
+Source: gallery-app
 Section: graphics
 Priority: extra
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
@@ -14,8 +14,9 @@ Standards-Version: 3.9.2
 Vcs-Bzr: lp:ubuntu-gallery
 Homepage:https://wiki.ubuntu.com/Touch/
 
-Package: ubuntu-gallery
+Package: gallery-app
 Architecture: any
+Replaces: ubuntu-gallery
 Depends: ${shlibs:Depends},
          ${misc:Depends}, 
          qtdeclarative5-qtquick2-plugin,
@@ -26,11 +27,12 @@ Depends: ${shlibs:Depends},
 Description: Photo gallery for Ubuntu
  Ubuntu-gallery is a photo gallery for the Ubuntu platform.
 
-Package: ubuntu-gallery-autopilot
+Package: gallery-app-autopilot
+Replaces: ubuntu-gallery-autopilot
 Architecture: all
 Depends: ${shlibs:Depends},
          ${misc:Depends},
-         ubuntu-gallery (= ${source:Version}),
+         gallery-app (= ${source:Version}),
          libautopilot-qt,
          libqt5test5,
 Description: Autopilot tests for the photo gallery for Ubuntu

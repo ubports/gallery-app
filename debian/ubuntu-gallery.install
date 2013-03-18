@@ -1,3 +1,0 @@
-ubuntu-gallery.desktop /usr/share/applications
-src/ubuntu-gallery /usr/bin/
-rc/ /usr/share/ubuntu-gallery/
