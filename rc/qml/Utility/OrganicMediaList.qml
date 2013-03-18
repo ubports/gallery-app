@@ -127,6 +127,7 @@ Item {
     Component {
         id: thumbnailDelegate
         Item {
+            objectName: "eventPhoto"
             property int patternPhoto: index % __mediaPerPattern
 
             width: __photoWidth[patternPhoto]

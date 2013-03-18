@@ -13,25 +13,16 @@ class EventsView(GalleryUtils):
     def __init__(self, app):
         self.app = app
 
-    def get_plus_icon(self):
-        """Returns the 'plus' icon of the main view."""
-        return self.app.select_single("StandardToolbarIconButton", objectName="toolbarPlusIcon")
+    def get_select_icon(self):
+        """Returns the select icon of the events view."""
+        return self.get_toolbar_button(0)
+
+    def get_delete_icon(self):
+        return self.get_toolbar_button(1)
 
     def get_camera_icon(self):
         """Returns the camera icon of the main view."""
-        # FIXME use another property than the text, as that will change with the translations
-        return self.app.select_single("Button", text="Camera")
-
-    def get_select_icon(self):
-        """Returns the select icon of the events view."""
-        # FIXME use another property than the text, as that will change with the translations
-        return self.app.select_single("Button", text="Select")
-
-    def get_delete_icon(self):
-        event_bar = self.get_tool_bar()
-        item = event_bar.get_children_by_type("QQuickItem")[0]
-        row = item.get_children_by_type("QQuickRow")[0]
-        return row.get_children_by_type("Button")[1]
+        return self.get_toolbar_button(2)
 
     def get_album_editor(self):
         """Returns the album editor."""

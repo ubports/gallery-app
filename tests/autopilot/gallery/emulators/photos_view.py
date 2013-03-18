@@ -30,4 +30,4 @@ class PhotosView(GalleryUtils):
 
     def get_first_photo_in_photos_view(self):
         """Returns the very first photo in the photos view."""
-        return self.get_photos_view().select_single("QQuickItem", focus=True)
+        return self.app.select_many("QQuickItem", objectName="allPotosGridPhoto")[0]
