@@ -73,7 +73,7 @@ gallery-app (0.0.52) quantal; urgency=low
 
 gallery-app (0.0.51) quantal; urgency=low
 
-  * Renamed to gallery-app
+  * Renamed to ubuntu-gallery
 
  -- Guenter Schwann <guenter.schwann@canonical.com>  Tue, 12 Jan 2013 00:18:25 +0100
 
