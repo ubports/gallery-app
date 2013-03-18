@@ -3,7 +3,7 @@ isEmpty(PREFIX) {
 }
 
 TEMPLATE = app
-TARGET = ubuntu-gallery
+TARGET = gallery-app
 CONFIG += qt link_pkgconfig
 QMAKE_CXXFLAGS += -Werror -Wno-unused-parameter
 DEFINES += "INSTALL_PREFIX=\\\"$$PREFIX\\\""

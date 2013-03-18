@@ -73,7 +73,7 @@ void tst_Resource::get_rc_url_data()
     QTest::addColumn<QUrl>("url");
 
     QTest::newRow("system") << QString("/usr/bin") << QString("/usr") << QString("img/icon.png")
-                            << QUrl("file:///usr/share/ubuntu-gallery/rc/img/icon.png");
+                            << QUrl("file:///usr/share/gallery-app/rc/img/icon.png");
     QTest::newRow("local") << QString("/home/user/dev/gallery/src") << QString("/usr") << QString("img/icon.png")
                            << QUrl("file:///home/user/dev/gallery/src/../rc/img/icon.png");
 }
