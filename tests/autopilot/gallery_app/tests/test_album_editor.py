@@ -13,7 +13,7 @@
 # from testtools.matchers import Equals, NotEquals
 # from autopilot.matchers import Eventually
 
-# from gallery.tests import GalleryTestCase
+# from gallery_app.tests import GalleryTestCase
 
 
 # class TestAlbumEditor(GalleryTestCase):
