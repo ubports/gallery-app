@@ -44,7 +44,9 @@ Page {
     property bool isOpen: false
     active: isOpen
     onActiveChanged: {
-        if (active && root.header) root.header.hide()
+        if (active && root.header) {
+            root.header.hide()
+        }
     }
     /// Contains the actions for the toolbar in the album view
     tools: loader_albumViewer.status === Loader.Ready ? loader_albumViewer.item.albumViewer.tools : null
