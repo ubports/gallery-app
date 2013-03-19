@@ -63,7 +63,7 @@ class TestEventsView(GalleryTestCase):
         self.reveal_tool_bar()
         self.click_select_icon()
 
-        first_photo = self.photo_viewer.get_first_image_in_photo_viewer()
+        first_photo = self.photo_viewer.get_first_image_in_event_view()
         self.click_item(first_photo)
 
         trash_button = self.events_view.get_delete_icon()

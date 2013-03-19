@@ -55,7 +55,7 @@ OrganicView {
 
     delegate: OrganicMediaList {
         id: photosList
-        objectName: "eventViewPhoto" + index
+        objectName: "organicEventItem" + index
 
         width: organicEventView.width
 

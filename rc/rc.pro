@@ -11,7 +11,7 @@ QMAKE_RESOURCE_FLAGS += -root .
 
 # Install
 
-install_resources.path = $$PREFIX/share/ubuntu-gallery/
+install_resources.path = $$PREFIX/share/gallery-app/
 install_resources.files = .
 INSTALLS = install_resources
 

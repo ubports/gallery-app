@@ -26,7 +26,7 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
 
     """A common test case class that provides several useful methods for gallery tests."""
 
-    sample_dir = "/tmp/ubuntu-gallery_ap"
+    sample_dir = "/tmp/gallery-ap_sd"
     sample_file = sample_dir + "/sample.jpg"
     installed_sample_file = "/usr/lib/python2.7/dist-packages/gallery/data/sample.jpg"
     local_sample_file = "gallery/data/sample.jpg"
@@ -51,12 +51,12 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
 
     def launch_test_local(self):
         self.app = self.launch_test_application(
-            "../../src/ubuntu-gallery", self.sample_dir
+            "../../src/gallery-app", self.sample_dir
             )
 
     def launch_test_installed(self):
         self.app = self.launch_test_application(
-           "ubuntu-gallery", self.sample_dir
+           "gallery-app", self.sample_dir
            )
 
     def click_item(self, item):

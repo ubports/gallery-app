@@ -37,8 +37,29 @@ class GalleryUtils(object):
         main_view = self.app.select_single("MainScreen", objectName="overview")
         return main_view.get_children_by_type("Toolbar")[0]
 
+    def get_toolbar_button(self, button_idx):
+        """Returns the button with index idx from the toolbar"""
+        tool_bar = self.get_tool_bar()
+        item = tool_bar.get_children_by_type("QQuickItem")[0]
+        row = item.get_children_by_type("QQuickRow")[0]
+        button_loaders = row.get_children_by_type("QQuickLoader")
+        if len(button_loaders) > 0:
+            # new toolbar
+            button_loader = button_loaders[button_idx]
+            return button_loader.get_children_by_type("Button")[0]
+        else:
+            # old toolbar
+            return row.get_children_by_type("Button")[button_idx]
+
     def get_cancel_icon(self):
         """Returns the cancel icon of the events view."""
-        event_bar = self.get_tool_bar()
-        item = event_bar.get_children_by_type("QQuickItem")[0]
-        return item.get_children_by_type("Button")[0]
+        tool_bar = self.get_tool_bar()
+        item = tool_bar.get_children_by_type("QQuickItem")[0]
+        back_loaders = item.get_children_by_type("QQuickLoader")
+        if len(back_loaders) > 0:
+            # new toolbar
+            back_loader = back_loaders[0]
+            return back_loader.get_children_by_type("Button")[0]
+        else:
+            # old toolbar
+            return item.get_children_by_type("Button")[0]
