@@ -215,8 +215,7 @@ Item {
                 text: "Delete"
                 iconSource: "../img/delete.png"
                 onTriggered: {
-                    deletePopover.caller = caller;
-                    deletePopover.show();
+                    PopupUtils.open(deleteDialog, null)
                 }
             }
             Action {
@@ -245,30 +244,45 @@ Item {
             visible: false
         }
 
-        DeletePopover {
-            function finishRemove() {
-                if (!album === undefined) return;
-                if (model.count === 0) photoViewer.closeRequested();
-            }
-
-            visible: false
-            id: deletePopover
-            objectName: "deletePopover"
-
-            onDeleteClicked: {
-                viewerWrapper.model.destroyMedia(photo);
-                galleryPhotoViewer.currentIndexChanged();
-                deletePopover.finishRemove();
-                deletePopover.hide();
-            }
-        }
-
         EditPopover {
             id: editPopover
             objectName: "editPopover"
             visible: false
             photo: galleryPhotoViewer.photo
             cropper: viewerWrapper.cropper
+        }
+
+        Component {
+            id: deleteDialog
+            Dialog {
+                id: dialogue
+                objectName: "deletePhotoDialog"
+                title: "Delete a photo"
+
+                function finishRemove() {
+                    if (!album === undefined)
+                        return;
+                    if (model.count === 0)
+                        photoViewer.closeRequested();
+                }
+
+                Button {
+                    objectName: "deletePhotoDialogYes"
+                    text: "Yes"
+                    color: "#c94212"
+                    onClicked: {
+                        PopupUtils.close(dialogue)
+                        viewerWrapper.model.destroyMedia(galleryPhotoViewer.photo);
+                        galleryPhotoViewer.currentIndexChanged();
+                        dialogue.finishRemove();
+                    }
+                }
+                Button {
+                    objectName: "deletePhotoDialogNo"
+                    text: "No"
+                    onClicked: PopupUtils.close(dialogue)
+                }
+            }
         }
 
         PopupAlbumPicker {

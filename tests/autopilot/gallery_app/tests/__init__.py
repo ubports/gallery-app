@@ -16,10 +16,10 @@ from autopilot.testcase import AutopilotTestCase
 from testtools.matchers import Equals, NotEquals
 from autopilot.matchers import Eventually
 
-from gallery.emulators.album_editor import AlbumEditor
-from gallery.emulators.events_view import EventsView
-from gallery.emulators.photo_viewer import PhotoViewer
-from gallery.emulators.photos_view import PhotosView
+from gallery_app.emulators.album_editor import AlbumEditor
+from gallery_app.emulators.events_view import EventsView
+from gallery_app.emulators.photo_viewer import PhotoViewer
+from gallery_app.emulators.photos_view import PhotosView
 
 
 class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
@@ -28,8 +28,8 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
 
     sample_dir = "/tmp/gallery-ap_sd"
     sample_file = sample_dir + "/sample.jpg"
-    installed_sample_file = "/usr/lib/python2.7/dist-packages/gallery/data/sample.jpg"
-    local_sample_file = "gallery/data/sample.jpg"
+    installed_sample_file = "/usr/lib/python2.7/dist-packages/gallery_app/data/sample.jpg"
+    local_sample_file = "gallery_app/data/sample.jpg"
 
     def setUp(self):
         super(GalleryTestCase, self).setUp()
