@@ -47,7 +47,7 @@ class PhotoViewer(GalleryUtils):
 
     def get_delete_dialog(self):
         """Returns the photo viewer delete dialog."""
-        return self.app.select_single("DeletePopover", objectName="deletePopover")
+        return self.app.select_single("Dialog", objectName="deletePhotoDialog")
 
     def get_popup_album_picker(self):
         """Returns the photo viewer album pickers."""
@@ -86,11 +86,11 @@ class PhotoViewer(GalleryUtils):
 
     def get_delete_popover_delete_item(self):
         """Returns the delete button of the delete popover."""
-        return self.app.select_single("Button", objectName="deletePopoverDelete", visible=True)
+        return self.app.select_single("Button", objectName="deletePhotoDialogYes", visible=True)
 
     def get_delete_popover_cancel_item(self):
         """Returns the cancel button of the delete popover."""
-        return self.app.select_single("Button", objectName="deletePopoverCancel", visible=True)
+        return self.app.select_single("Button", objectName="deletePhotoDialogYes", visible=True)
 
     def get_opened_photo(self):
         """Returns the first opened photo."""
