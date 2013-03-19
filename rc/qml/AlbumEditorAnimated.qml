@@ -31,6 +31,8 @@ Page {
     title: "Edit album"
     active: false
     tools: ToolbarActions {
+        active: true
+        lock: true
         back: Action {
             text: "cancel"
             iconSource: Qt.resolvedUrl("../img/cancel.png")
