@@ -160,5 +160,5 @@ OrganicView {
     }
 
     property bool selectionMode: selection.inSelectionMode
-    property ToolbarActions tools: selectionMode ? selectionTools : overviewTools
+    tools: selectionMode ? selectionTools : overviewTools
 }

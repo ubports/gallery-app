@@ -24,7 +24,7 @@ import Gallery 1.0
   * The first call of open() is slow, as the lazy loading is used for the album viewer which is a
   * big component.
   */
-Item {
+Page {
     id: root
 
     /// The album to be shown in that viewer
@@ -42,8 +42,12 @@ Item {
                                       : false
     /// Indicates if this view is open
     property bool isOpen: false
+    active: isOpen
+    onActiveChanged: {
+        if (active && root.header) root.header.hide()
+    }
     /// Contains the actions for the toolbar in the album view
-    property ActionList tools: loader_albumViewer.status === Loader.Ready ? loader_albumViewer.item.albumViewer.tools : null
+    tools: loader_albumViewer.status === Loader.Ready ? loader_albumViewer.item.albumViewer.tools : null
 
     /// Opens the album. If the origin is set, an animation is performed
     function open() {

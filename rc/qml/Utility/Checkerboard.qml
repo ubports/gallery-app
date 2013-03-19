@@ -22,10 +22,11 @@
 import QtQuick 2.0
 import "../../js/Gallery.js" as Gallery
 import "../../js/GalleryUtility.js" as GalleryUtility
+import Ubuntu.Components 0.1
 
 /*!
 */
-Item {
+Page {
     id: checkerboard
 
     /*!

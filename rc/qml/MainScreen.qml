@@ -31,17 +31,13 @@ MainView {
 
     anchors.fill: parent
 
-    tools: __isPhotoViewerOpen ? photoViewerLoader.item.tools
-                               : (albumViewer.isOpen ? albumViewer.tools
-                                                     : tabs.tools)
-
     Tabs {
         id: tabs
         anchors.fill: parent
-        ItemStyle.class: "new-tabs"
         Component.onCompleted: ItemStyle.style.swipeToSwitchTabs = false
 
         visible: !(photoViewerLoader.item && photoViewerLoader.item.isPoppedUp)
+        active: visible && !albumViewer.isOpen
 
         selectedTabIndex: 1
 
@@ -54,8 +50,6 @@ MainView {
             eventView.leaveSelectionMode()
         }
 
-        // TODO: Loaders don't play well with Tabs, they prevent the tab bar
-        // from sliding upward when scrolling:
         Tab {
             title: "Albums"
             page: Loader {
@@ -63,7 +57,6 @@ MainView {
                 objectName: "albumsCheckerboardLoader"
                 anchors.fill: parent
                 asynchronous: true
-                property ToolbarActions tools: status === Loader.Ready ? item.tools : null
 
                 function load() {
                     if (source == "")

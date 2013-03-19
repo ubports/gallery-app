@@ -327,6 +327,9 @@ Image {
 
         visible: false
 
+        // avoid overriding the toolbar and header
+        active: false
+
         album: albumViewer.album
 
         onMediaSourcePressed: {
