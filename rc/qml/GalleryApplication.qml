@@ -23,7 +23,7 @@ import QtQuick 2.0
 import QtQuick.Window 2.0
 import "../js/Gallery.js" as Gallery
 import Ubuntu.Components 0.1 // Necessary to make filename@GU.ext images load
-//import Ubuntu.HUD 0.1 as HUD
+import Ubuntu.HUD 0.1 as HUD
 
 /*!
 */
@@ -143,8 +143,8 @@ Item {
         loadingScreen.visible = false;
     }
 
-    width: 800 //units.gu(DEVICE_WIDTH)
-    height: 600 //units.gu(DEVICE_HEIGHT)
+    width: units.gu(DEVICE_WIDTH)
+    height: units.gu(DEVICE_HEIGHT)
 
     focus: true
     Keys.onPressed: {
@@ -178,13 +178,13 @@ Item {
         anchors.fill: parent
     }
 
-//    HUD.HUD {
-//        id: hud
-//        applicationIdentifier: "ubuntu-gallery" // this must match the .desktop file!
+    HUD.HUD {
+        id: hud
+        applicationIdentifier: "ubuntu-gallery" // this must match the .desktop file!
 
-//        HUD.Context {
-//            id: hudCtx
-//            toolbar.quitAction.onTriggered: Qt.quit()
-//        }
-//    }
+        HUD.Context {
+            id: hudCtx
+            toolbar.quitAction.onTriggered: Qt.quit()
+        }
+    }
 }
