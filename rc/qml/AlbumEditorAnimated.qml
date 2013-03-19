@@ -25,23 +25,11 @@ import Ubuntu.Components 0.1
   * The first call of open() is slow, as the lazy loading is used for the album editor which is a
   * big component.
   */
-Page {
+Item {
     id: root
 
-    title: "Edit album"
-    active: false
-    tools: ToolbarActions {
-        back: Action {
-            text: "cancel"
-            iconSource: Qt.resolvedUrl("../img/cancel.png")
-            onTriggered: {
-                if (loader_albumEditor.item) {
-                    loader_albumEditor.item.albumEditor.closeRequested(loader_albumEditor.item.albumEditor.album, false);
-                }
-            }
-        }
-    }
-
+    // True if the album editor is opened
+    property bool isOpen: false
     /// The album to be shown in that editor
     property Album album
     /// Origin (rectangle) where this view is animated from when calling open()
@@ -64,7 +52,7 @@ Page {
             loader_albumEditor.item.albumEditorTransition.enterEditor(root.album, root.origin)
         if (previewItem)
             previewItem.visible = false
-        active = true;
+        isOpen = true;
     }
 
     Component {
@@ -84,13 +72,14 @@ Page {
                 id: inner_albumEditor
                 anchors.fill: parent
                 visible: false
+                active: root.isOpen
 
                 onMediaSelectorHidden: {
                     albumEditorCheckerboardHidden(newScrollPos);
                 }
 
                 onCloseRequested: {
-                    root.active = false;
+                    root.isOpen = false;
                     if (album) {
                         inner_albumEditorTransition.exitEditor(album, root.origin);
                     } else {
