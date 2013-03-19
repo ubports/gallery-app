@@ -37,7 +37,7 @@ MainView {
         Component.onCompleted: ItemStyle.style.swipeToSwitchTabs = false
 
         visible: !(photoViewerLoader.item && photoViewerLoader.item.isPoppedUp)
-        active: visible && !albumViewer.isOpen
+        active: visible && !albumViewer.isOpen && !albumEditor.active
 
         selectedTabIndex: 1
 
