@@ -13,7 +13,7 @@ from __future__ import absolute_import
 from testtools.matchers import Equals, NotEquals
 from autopilot.matchers import Eventually
 
-from gallery.tests import GalleryTestCase
+from gallery_app.tests import GalleryTestCase
 
 from os.path import exists, expanduser
 import os
