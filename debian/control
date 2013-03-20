@@ -11,7 +11,7 @@ Build-Depends: debhelper (>= 9.0),
                libgl-dev,
                libgles2-mesa-dev,
 Standards-Version: 3.9.2
-Vcs-Bzr: lp:ubuntu-gallery
+Vcs-Bzr: lp:gallery-app
 Homepage:https://wiki.ubuntu.com/Touch/
 
 Package: gallery-app
@@ -25,7 +25,7 @@ Depends: ${shlibs:Depends},
          qt-components-ubuntu,
          libhud-qt-qml,
 Description: Photo gallery for Ubuntu
- Ubuntu-gallery is a photo gallery for the Ubuntu platform.
+ gallery-app is a photo gallery for the Ubuntu platform.
 
 Package: gallery-app-autopilot
 Replaces: ubuntu-gallery-autopilot
@@ -36,4 +36,4 @@ Depends: ${shlibs:Depends},
          libautopilot-qt,
          libqt5test5,
 Description: Autopilot tests for the photo gallery for Ubuntu
- Ubuntu-gallery is a photo gallery for the Ubuntu platform. This package contains autopilot tests for it.
+ gallery-app is a photo gallery for the Ubuntu platform. This package contains autopilot tests for it.
