@@ -22,7 +22,7 @@ Depends: ${shlibs:Depends},
          qtdeclarative5-qtquick2-plugin,
          qtdeclarative5-window-plugin,
          libqt5sql5-sqlite,
-         qt-components-ubuntu,
+         qtdeclarative5-ubuntu-ui-toolkit-plugin | qt-components-ubuntu,
          libhud-qt-qml,
 Description: Photo gallery for Ubuntu
  Ubuntu-gallery is a photo gallery for the Ubuntu platform.
