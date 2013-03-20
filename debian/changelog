@@ -1,3 +1,11 @@
+gallery-app (0.0.62) quantal; urgency=low
+
+  * Fixes for the rename to gallery-app
+  * Fixes for the UI tests
+  * Prepare for SDK package change
+
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Wed, 20 Mar 2013 16:37:23 +0100
+
 gallery-app (0.0.61) quantal; urgency=low
 
   * Rename to gallery-app
