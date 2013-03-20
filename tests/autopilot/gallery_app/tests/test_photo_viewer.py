@@ -175,40 +175,40 @@ class TestPhotoEditor(TestPhotoViewerBase):
         revert_item = self.photo_viewer.get_revert_menu_item()
         self.click_item(revert_item)
 
-    def test_photo_editor_crop(self):
-        """Cropping a photo must crop it."""
-        crop_box = self.photo_viewer.get_crop_interactor()
-        item_width = crop_box.width
-        item_height = crop_box.height
+    #def test_photo_editor_crop(self):
+        #"""Cropping a photo must crop it."""
+        #crop_box = self.photo_viewer.get_crop_interactor()
+        #item_width = crop_box.width
+        #item_height = crop_box.height
 
-        self.click_crop_item()
+        #self.click_crop_item()
 
-        self.assertThat(crop_box.state, Eventually(Equals("shown")))
+        #self.assertThat(crop_box.state, Eventually(Equals("shown")))
 
-        old_file_size = os.path.getsize(self.sample_file)
+        #old_file_size = os.path.getsize(self.sample_file)
 
-        crop_corner = self.photo_viewer.get_top_left_crop_corner()
+        #crop_corner = self.photo_viewer.get_top_left_crop_corner()
 
-        self.pointing_device.move_to_object(crop_corner)
+        #self.pointing_device.move_to_object(crop_corner)
 
-        x, y, h, w = crop_corner.globalRect
+        #x, y, h, w = crop_corner.globalRect
 
-        self.pointing_device.press()
-        self.pointing_device.move(x + (w/2 + item_width/2), y + (h/2 +item_height/2))
-        self.pointing_device.release()
+        #self.pointing_device.press()
+        #self.pointing_device.move(x + (w/2 + item_width/2), y + (h/2 +item_height/2))
+        #self.pointing_device.release()
 
-        sleep(1)
+        #sleep(1)
 
-        crop_button = self.photo_viewer.get_crop_overlays_crop_icon()
-        self.click_item(crop_button)
+        #crop_button = self.photo_viewer.get_crop_overlays_crop_icon()
+        #self.click_item(crop_button)
 
-        sleep(0.5)
-        new_file_size = os.path.getsize(self.sample_file)
-        self.assertThat(old_file_size > new_file_size, Equals(True))
+        #sleep(0.5)
+        #new_file_size = os.path.getsize(self.sample_file)
+        #self.assertThat(old_file_size > new_file_size, Equals(True))
 
-        # give the gallery the time to fully save the photo, and rebuild the thumbnails
-        # FIXME using sleep is a dangerous "hackisch" workaround, and should be implemented properly
-        sleep(1)
+        ## give the gallery the time to fully save the photo, and rebuild the thumbnails
+        ## FIXME using sleep is a dangerous "hackisch" workaround, and should be implemented properly
+        #sleep(1)
 
     def test_photo_editor_rotate(self):
         """Makes sure that the photo editor inside the photo viewer works using the rotate function"""
