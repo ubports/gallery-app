@@ -172,6 +172,7 @@ Rectangle {
                 ScriptAction { script: isZoomAnimationInProgress = false; }
             }
         },
+
         Transition { from: "pinching"; to: "unzoomed";
             SequentialAnimation {
                 ScriptAction { script: isZoomAnimationInProgress = true; }
