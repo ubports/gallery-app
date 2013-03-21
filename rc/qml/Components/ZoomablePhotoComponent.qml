@@ -176,12 +176,12 @@ Rectangle {
             SequentialAnimation {
                 ScriptAction { script: isZoomAnimationInProgress = true; }
                 NumberAnimation { properties: "zoomFactor"; easing.type: Easing.Linear;
-                duration: Gallery.SNAP_DURATION; }
+                    duration: Gallery.SNAP_DURATION; }
                 PauseAnimation { duration: oneFrame }
                 ScriptAction { script: isZoomAnimationInProgress = false; }
             }
         },
-    
+
         Transition { from: "pinching"; to: "full_zoom";
             SequentialAnimation {
                 ScriptAction { script: isZoomAnimationInProgress = true; }
@@ -258,11 +258,11 @@ Rectangle {
             // Determine if we're still zooming in or out.  Allow for a small
             // variance to account for touch noise.
             if (Math.abs(pinch.scale - pinch.previousScale) > 0.001)
-            zoomingIn = (pinch.scale > pinch.previousScale);
+                zoomingIn = (pinch.scale > pinch.previousScale);
 
             // For some reason, the PinchArea ignores these settings.
             var scale = GraphicsRoutines.clamp(pinch.scale,
-            pinchArea.pinch.minimumScale, pinchArea.pinch.maximumScale);
+                                               pinchArea.pinch.minimumScale, pinchArea.pinch.maximumScale);
 
             zoomFactor = initialZoomFactor * scale;
         }
