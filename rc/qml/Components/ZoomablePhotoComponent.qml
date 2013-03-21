@@ -142,18 +142,13 @@ Rectangle {
         },
         State { name: "full_zoom";
             PropertyChanges { target: zoomablePhotoComponent; zoomFactor: maxZoomFactor; }
+        },
+        State { name: "pinching";
+            // Setting the zoom factor to itself seems odd, but it's necessary to
+            // prevent zoomFactor from jumping when you start pinching.
+            PropertyChanges { target: zoomablePhotoComponent; zoomFactor: zoomFactor;
+                explicit: true; }
         }
-
-        /*
-     * Pinch-to-zoom removed for demo
-     *
-    ,
-    State { name: "pinching";
-      // Setting the zoom factor to itself seems odd, but it's necessary to
-      // prevent zoomFactor from jumping when you start pinching.
-      PropertyChanges { target: zoomablePhotoComponent; zoomFactor: zoomFactor;
-        explicit: true; }
-    } */
     ]
 
     transitions: [
@@ -176,31 +171,26 @@ Rectangle {
                 PauseAnimation { duration: oneFrame }
                 ScriptAction { script: isZoomAnimationInProgress = false; }
             }
-        }
-
-        /*
-     * Pinch-to-zoom removed for demo
-     *
-    ,
-    Transition { from: "pinching"; to: "unzoomed";
-      SequentialAnimation {
-        ScriptAction { script: isZoomAnimationInProgress = true; }
-        NumberAnimation { properties: "zoomFactor"; easing.type: Easing.Linear;
-          duration: Gallery.SNAP_DURATION; }
-        PauseAnimation { duration: oneFrame }
-        ScriptAction { script: isZoomAnimationInProgress = false; }
-      }
-    },
+        },
+        Transition { from: "pinching"; to: "unzoomed";
+            SequentialAnimation {
+                ScriptAction { script: isZoomAnimationInProgress = true; }
+                NumberAnimation { properties: "zoomFactor"; easing.type: Easing.Linear;
+                duration: Gallery.SNAP_DURATION; }
+                PauseAnimation { duration: oneFrame }
+                ScriptAction { script: isZoomAnimationInProgress = false; }
+            }
+        },
     
-    Transition { from: "pinching"; to: "full_zoom";
-      SequentialAnimation {
-        ScriptAction { script: isZoomAnimationInProgress = true; }
-        NumberAnimation { properties: "zoomFactor"; easing.type: Easing.Linear;
-          duration: Gallery.SNAP_DURATION; }
-        PauseAnimation { duration: oneFrame }
-        ScriptAction { script: isZoomAnimationInProgress = false; }
-      }
-    } */
+        Transition { from: "pinching"; to: "full_zoom";
+            SequentialAnimation {
+                ScriptAction { script: isZoomAnimationInProgress = true; }
+                NumberAnimation { properties: "zoomFactor"; easing.type: Easing.Linear;
+                    duration: Gallery.SNAP_DURATION; }
+                PauseAnimation { duration: oneFrame }
+                ScriptAction { script: isZoomAnimationInProgress = false; }
+            }
+        }
     ]
 
     state: "unzoomed"
@@ -233,67 +223,63 @@ Rectangle {
         ownerName: zoomablePhotoComponent.ownerName + "unzoomedPhoto"
     }
 
-    /*
-   * Pinch-to-zoom removed for demo
-   *
-  PinchArea {
-    id: pinchArea
+    PinchArea {
+        id: pinchArea
 
-    property bool zoomingIn // Splaying to zoom in, vs. pinching to zoom out.
-    property real initialZoomFactor
-    
-    anchors.fill: parent
-    
-    // QML seems to ignore these, so we have to manually keep scale in check
-    // inside onPinchUpdated.  The 0.9 and 1.1 are just fudge factors to give
-    // us a little bounce when you go past the zoom limit.
-    pinch.minimumScale: 1 / initialZoomFactor * 0.9
-    pinch.maximumScale: maxZoomFactor / initialZoomFactor * 1.1
+        property bool zoomingIn // Splaying to zoom in, vs. pinching to zoom out.
+        property real initialZoomFactor
 
-    onPinchStarted: {
-      zoomingIn = false;
-      initialZoomFactor = zoomFactor;
-
-      if (fullyUnzoomed) {
-        if (unzoomedPhoto.isInsidePhoto(pinch.center.x, pinch.center.y)) {
-          zoomFocusX = pinch.center.x;
-          zoomFocusY = pinch.center.y;
-        } else {
-          zoomFocusX = parent.width / 2;
-          zoomFocusY = parent.height / 2;
-        }
-      }
-
-      zoomablePhotoComponent.state = "pinching";
-    }
-
-    onPinchUpdated: {
-      // Determine if we're still zooming in or out.  Allow for a small
-      // variance to account for touch noise.
-      if (Math.abs(pinch.scale - pinch.previousScale) > 0.001)
-        zoomingIn = (pinch.scale > pinch.previousScale);
-
-      // For some reason, the PinchArea ignores these settings.
-      var scale = GraphicsRoutines.clamp(pinch.scale,
-          pinchArea.pinch.minimumScale, pinchArea.pinch.maximumScale);
-
-      zoomFactor = initialZoomFactor * scale;
-    }
-    
-    onPinchFinished: zoomablePhotoComponent.state = (zoomingIn ? "full_zoom" : "unzoomed")
-  }
-  */
-
-    MouseArea {
         anchors.fill: parent
-        enabled: fullyUnzoomed
 
-        onClicked: zoomablePhotoComponent.clicked()
-        onDoubleClicked: {
-            if (unzoomedPhoto.isInsidePhoto(mouse.x, mouse.y))
-                zoom(mouse.x, mouse.y);
-            else
-                zoomablePhotoComponent.clicked();
+        // QML seems to ignore these, so we have to manually keep scale in check
+        // inside onPinchUpdated.  The 0.9 and 1.1 are just fudge factors to give
+        // us a little bounce when you go past the zoom limit.
+        pinch.minimumScale: 1 / initialZoomFactor * 0.9
+        pinch.maximumScale: maxZoomFactor / initialZoomFactor * 1.1
+
+        onPinchStarted: {
+            zoomingIn = false;
+            initialZoomFactor = zoomFactor;
+
+            if (fullyUnzoomed) {
+                if (unzoomedPhoto.isInsidePhoto(pinch.center.x, pinch.center.y)) {
+                    zoomFocusX = pinch.center.x;
+                    zoomFocusY = pinch.center.y;
+                } else {
+                    zoomFocusX = parent.width / 2;
+                    zoomFocusY = parent.height / 2;
+                }
+            }
+
+            zoomablePhotoComponent.state = "pinching";
+        }
+
+        onPinchUpdated: {
+            // Determine if we're still zooming in or out.  Allow for a small
+            // variance to account for touch noise.
+            if (Math.abs(pinch.scale - pinch.previousScale) > 0.001)
+            zoomingIn = (pinch.scale > pinch.previousScale);
+
+            // For some reason, the PinchArea ignores these settings.
+            var scale = GraphicsRoutines.clamp(pinch.scale,
+            pinchArea.pinch.minimumScale, pinchArea.pinch.maximumScale);
+
+            zoomFactor = initialZoomFactor * scale;
+        }
+
+        onPinchFinished: zoomablePhotoComponent.state = (zoomingIn ? "full_zoom" : "unzoomed")
+
+        MouseArea {
+            anchors.fill: parent
+            enabled: fullyUnzoomed
+
+            onClicked: zoomablePhotoComponent.clicked()
+            onDoubleClicked: {
+                if (unzoomedPhoto.isInsidePhoto(mouse.x, mouse.y))
+                    zoom(mouse.x, mouse.y);
+                else
+                    zoomablePhotoComponent.clicked();
+            }
         }
     }
 
