@@ -56,45 +56,35 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
         self.assertThat(photo_viewer.visible, Eventually(Equals(False)))
 
-    #def test_photo_delete_works(self):
-        #"""Clicking the trash button must show the delete dialog."""
-        #trash_button = self.photo_viewer.get_delete_icon()
+    def test_photo_delete_works(self):
+        """Clicking the trash button must show the delete dialog."""
+        trash_button = self.photo_viewer.get_delete_icon()
 
-        #self.pointing_device.move_to_object(trash_button)
-        #self.assertThat(trash_button.hovered, Eventually(Equals(True)))
-        #self.pointing_device.click()
+        self.pointing_device.move_to_object(trash_button)
+        self.assertThat(trash_button.hovered, Eventually(Equals(True)))
+        self.pointing_device.click()
 
-        #delete_dialog = self.photo_viewer.get_delete_dialog()
-        #self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
+        delete_dialog = self.photo_viewer.get_delete_dialog()
+        self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
 
-        #cancel_item = self.photo_viewer.get_delete_popover_cancel_item()
-        #self.click_item(cancel_item)
+        cancel_item = self.photo_viewer.get_delete_popover_cancel_item()
+        self.click_item(cancel_item)
 
-        #self.assertThat(delete_dialog.visible, Eventually(Equals(False)))
+        self.assertThat(lambda: exists(self.sample_file), Eventually(Equals(True)))
 
-        #self.reveal_tool_bar()
+        self.reveal_tool_bar()
 
-        #self.pointing_device.move_to_object(trash_button)
-        #self.assertThat(trash_button.hovered, Eventually(Equals(True)))
-        #self.pointing_device.click()
+        self.pointing_device.move_to_object(trash_button)
+        self.assertThat(trash_button.hovered, Eventually(Equals(True)))
+        self.pointing_device.click()
 
-        #self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
+        delete_dialog = self.photo_viewer.get_delete_dialog()
+        self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
 
-        #delete_item = self.photo_viewer.get_delete_popover_delete_item()
-        #self.click_item(delete_item)
+        delete_item = self.photo_viewer.get_delete_popover_delete_item()
+        self.click_item(delete_item)
 
-        #self.assertThat(lambda: exists(self.sample_file), Eventually(Equals(False)))
-
-        ##Up until the last line above we are testing if the file got delete, now here we
-        ##are re-copying the sample.jpg file because it seems the addCleanup method in __init__
-        ##tries to remove the sample.jpg but if it does not find it the test fails. So this
-        ##"hack" saves us from that. --om26er
-        #if os.path.realpath(__file__).startswith("/usr/"):
-            #shutil.copy(self.installed_sample_file, self.sample_dir)
-        #else:
-            #shutil.copy(self.local_sample_file, self.sample_dir)
-
-        #self.assertThat(lambda: exists(self.sample_file), Eventually(Equals(True)))
+        self.assertThat(lambda: exists(self.sample_file), Eventually(Equals(False)))
 
     # def test_nav_bar_album_picker_button(self):
     #     """Clicking the album picker must show the picker dialog."""
