@@ -42,8 +42,6 @@ Item {
                                       : false
     /// Indicates if this view is open
     property bool isOpen: false
-    /// Contains the actions for the toolbar in the album view
-    property ActionList tools: loader_albumViewer.status === Loader.Ready ? loader_albumViewer.item.albumViewer.tools : null
 
     /// Opens the album. If the origin is set, an animation is performed
     function open() {
@@ -78,6 +76,7 @@ Item {
 
                 anchors.fill: parent
                 visible: false
+                active: root.isOpen
 
                 onCloseRequested: {
                     if (root.origin) {

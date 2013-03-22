@@ -79,6 +79,9 @@ Item {
             anchors.topMargin: chrome.navbarHeight
             visible: true
 
+            // never update the toolbar or header
+            active: false
+
             selection: SelectionState {
                 inSelectionMode: true
                 allowSelectionModeChange: false

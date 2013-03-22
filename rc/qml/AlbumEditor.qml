@@ -29,9 +29,20 @@ import "Widgets"
 
 /*!
 */
-Item {
+Page {
     id: albumEditor
     objectName: "mainAlbumEditor"
+
+    title: "Edit album"
+    tools: ToolbarActions {
+        back: Action {
+            text: "cancel"
+            iconSource: Qt.resolvedUrl("../img/cancel.png")
+            onTriggered: {
+                    albumEditor.closeRequested(albumEditor.album, false);
+            }
+        }
+    }
 
     /*!
     */

@@ -25,7 +25,7 @@ import "../js/GalleryUtility.js" as GalleryUtility
 
 /*!
 */
-Item {
+Page {
     id: photosOverview
 
     /*!

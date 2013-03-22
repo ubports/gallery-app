@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Gallery 1.0
+import Ubuntu.Components 0.1
 
 /*! @brief AlbumEditorAnimated opens the editor for the album
   *
@@ -27,6 +28,8 @@ import Gallery 1.0
 Item {
     id: root
 
+    // True if the album editor is opened
+    property bool isOpen: false
     /// The album to be shown in that editor
     property Album album
     /// Origin (rectangle) where this view is animated from when calling open()
@@ -49,6 +52,7 @@ Item {
             loader_albumEditor.item.albumEditorTransition.enterEditor(root.album, root.origin)
         if (previewItem)
             previewItem.visible = false
+        isOpen = true;
     }
 
     Component {
@@ -68,12 +72,14 @@ Item {
                 id: inner_albumEditor
                 anchors.fill: parent
                 visible: false
+                active: root.isOpen
 
                 onMediaSelectorHidden: {
                     albumEditorCheckerboardHidden(newScrollPos);
                 }
 
                 onCloseRequested: {
+                    root.isOpen = false;
                     if (album) {
                         inner_albumEditorTransition.exitEditor(album, root.origin);
                     } else {

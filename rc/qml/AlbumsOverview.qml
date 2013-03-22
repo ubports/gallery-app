@@ -28,7 +28,7 @@ Checkerboard {
     id: root
 
     /// Contains the actions for the toolbar in the albums tab
-    property ActionList tools: albumOverviewTools
+    tools: albumOverviewTools
 
     /*!
     */

@@ -22,7 +22,7 @@ import "../Capetown"
 import Ubuntu.Components 0.1
 
 // A PhotoViewer that is opened and closed with the PhotoViewerTransition.
-Item {
+Page {
     id: popupPhotoViewer
 
     /*!
@@ -45,6 +45,10 @@ Item {
     /*!
     */
     property bool isPoppedUp: viewer.visible && !animationRunning
+
+    // updating active will automatically set the tools of the toolbar when activating.
+    active: isPoppedUp
+    onActiveChanged: if (active && popupPhotoViewer.header) popupPhotoViewer.header.hide()
 
     /*!
     */
@@ -110,7 +114,7 @@ Item {
         closed();
     }
 
-    property alias tools: viewer.tools
+    tools: viewer.tools
     GalleryPhotoViewer {
         id: viewer
 

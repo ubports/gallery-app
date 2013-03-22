@@ -30,7 +30,7 @@ import "Widgets"
 
 /*!
 */
-Image {
+Page {
     id: albumViewer
     objectName: "albumViewer"
 
@@ -48,15 +48,20 @@ Image {
                                     albumSpreadViewerForTransition.freeze ||
                                     photoViewer.animationRunning
 
-    /// Contains the actions for the toolbar in the album view
-    property ActionList tools: albumTools
+    // Automatically hide the header when album viewer becomes active
+    onActiveChanged: {
+        if (active && albumViewer.header) {
+            albumViewer.header.hide();
+        }
+    }
 
     // When the user clicks the back button or pages back to the cover.
     signal closeRequested(bool stayOpen, int viewingPage)
 
-    anchors.fill: parent
-    source: "../img/background-paper.png"
-
+    Image {
+        anchors.fill: parent
+        source: "../img/background-paper.png"
+    }
 
     state: "pageView"
 
@@ -327,6 +332,9 @@ Image {
 
         visible: false
 
+        // avoid overriding the toolbar and header
+        active: false
+
         album: albumViewer.album
 
         onMediaSourcePressed: {
@@ -402,7 +410,6 @@ Image {
             } else {
                 fadeClosed();
             }
-            albumViewer.tools = albumTools
         }
 
         onClosed: {
@@ -456,8 +463,8 @@ Image {
         }
     }
 
-    ToolbarActions {
-        id: albumTools
+    /// Contains the actions for the toolbar in the album view
+    tools: ToolbarActions {
         Action {
             text: "Add"
             iconSource: Qt.resolvedUrl("../img/add.png")
