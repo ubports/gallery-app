@@ -20,8 +20,8 @@ class GalleryUtils(object):
         pointing_device.click()
 
     def select_single_retry(self, object_type, **kwargs):
-        """Returns the item that is searched for with app.self_singe"""
-        """In case of the item was not found (not created yet) a second attemt is taken 1 second later"""
+        """Returns the item that is searched for with app.select_single"""
+        """In case of the item was not found (not created yet) a second attempt is taken 1 second later"""
         """Makes searching for dialogs more robust (which are created on clicks for example)"""
         item = self.app.select_single(object_type, **kwargs)
         if item == None:
