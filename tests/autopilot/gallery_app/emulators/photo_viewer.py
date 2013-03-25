@@ -25,10 +25,6 @@ class PhotoViewer(GalleryUtils):
         """Returns the first event in the event view"""
         return self.app.select_single("OrganicMediaList", objectName="organicEventItem0")
 
-    def get_crop_interactor(self):
-        """Returns the crop interactor."""
-        return self.app.select_single("CropInteractor", objectName="cropInteractor")
-
     def get_viewer_chrome_toolbar_edit_button(self):
         """Return the edit button of the toolbar when photo viewer is shown"""
         return self.get_toolbar_button(0)
@@ -96,6 +92,14 @@ class PhotoViewer(GalleryUtils):
         """Returns the first opened photo."""
         return self.app.select_single("ZoomablePhotoComponent", objectName="openedPhoto0")
 
+    def get_crop_interactor(self):
+        """Returns the crop interactor."""
+        return self.app.select_single("CropInteractor", objectName="cropInteractor")
+
+    def get_crop_overlay(self):
+        """Returns the crop overlay."""
+        return self.app.select_single("CropOverlay", objectName="cropOverlay")
+
     def get_top_left_crop_corner(self):
         """Returns the top left corner of the crop overlay for dragging."""
         return self.app.select_single("CropCorner", objectName="topLeftCropCorner")
@@ -103,3 +107,7 @@ class PhotoViewer(GalleryUtils):
     def get_crop_overlays_crop_icon(self):
         """Returns the crop icon of the crop overlay."""
         return self.app.select_single("Button", objectName="centerCropIcon", visible=True)
+
+    def get_edit_preview(self):
+        """Returns the edit preview."""
+        return self.app.select_single("EditPreview", objectName="editPreview")
