@@ -47,7 +47,7 @@ class PhotoViewer(GalleryUtils):
 
     def get_delete_dialog(self):
         """Returns the photo viewer delete dialog."""
-        return self.app.select_single("Dialog", objectName="deletePhotoDialog")
+        return self.select_single_retry("Dialog", objectName="deletePhotoDialog")
 
     def get_popup_album_picker(self):
         """Returns the photo viewer album pickers."""
