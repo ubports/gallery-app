@@ -165,40 +165,38 @@ class TestPhotoEditor(TestPhotoViewerBase):
         revert_item = self.photo_viewer.get_revert_menu_item()
         self.click_item(revert_item)
 
-    #def test_photo_editor_crop(self):
-        #"""Cropping a photo must crop it."""
-        #crop_box = self.photo_viewer.get_crop_interactor()
-        #item_width = crop_box.width
-        #item_height = crop_box.height
+    def test_photo_editor_crop(self):
+        """Cropping a photo must crop it."""
+        old_file_size = os.path.getsize(self.sample_file)
 
-        #self.click_crop_item()
+        crop_box = self.photo_viewer.get_crop_interactor()
+        item_width = crop_box.width
+        item_height = crop_box.height
 
-        #self.assertThat(crop_box.state, Eventually(Equals("shown")))
+        self.click_crop_item()
 
-        #old_file_size = os.path.getsize(self.sample_file)
+        self.assertThat(crop_box.state, Eventually(Equals("shown")))
 
-        #crop_corner = self.photo_viewer.get_top_left_crop_corner()
+        crop_corner = self.photo_viewer.get_top_left_crop_corner()
+        x, y, h, w = crop_corner.globalRect
+        x = x + w / 2
+        y = y + h / 2
+        self.pointing_device.drag(x, y, x+item_width/2, y+item_height/2)
 
-        #self.pointing_device.move_to_object(crop_corner)
+        # wait for animation being finished
+        crop_overlay = self.photo_viewer.get_crop_overlay()
+        self.assertThat(crop_overlay.interpolationFactor, Eventually(Equals(1.0)))
 
-        #x, y, h, w = crop_corner.globalRect
+        crop_button = self.photo_viewer.get_crop_overlays_crop_icon()
+        self.click_item(crop_button)
 
-        #self.pointing_device.press()
-        #self.pointing_device.move(x + (w/2 + item_width/2), y + (h/2 +item_height/2))
-        #self.pointing_device.release()
+        # wait for new photo being set/reloaded, so saving thumbnailing etc. is done
+        edit_preview = self.photo_viewer.get_edit_preview()
+        new_source = "image://gallery-standard/" + self.sample_file + "?size_level=1&orientation=1&edit=2"
+        self.assertThat(edit_preview.source, Eventually(Equals(new_source)))
 
-        #sleep(1)
-
-        #crop_button = self.photo_viewer.get_crop_overlays_crop_icon()
-        #self.click_item(crop_button)
-
-        #sleep(0.5)
-        #new_file_size = os.path.getsize(self.sample_file)
-        #self.assertThat(old_file_size > new_file_size, Equals(True))
-
-        ## give the gallery the time to fully save the photo, and rebuild the thumbnails
-        ## FIXME using sleep is a dangerous "hackisch" workaround, and should be implemented properly
-        #sleep(1)
+        new_file_size = os.path.getsize(self.sample_file)
+        self.assertThat(old_file_size > new_file_size, Equals(True))
 
     def test_photo_editor_rotate(self):
         """Makes sure that the photo editor inside the photo viewer works using the rotate function"""

@@ -397,6 +397,7 @@ Item {
 
     EditPreview {
         id: editPreview
+        objectName: "editPreview"
         anchors.fill: parent
         source: galleryPhotoViewer.photo ? galleryPhotoViewer.photo.galleryPreviewPath : ""
 
