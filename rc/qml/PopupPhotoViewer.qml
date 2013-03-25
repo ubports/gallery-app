@@ -44,7 +44,7 @@ Page {
                                     fadeIn.running || fadeOut.running
     /*!
     */
-    property bool isPoppedUp: viewer.visible && !animationRunning
+    property bool isPoppedUp: popupPhotoViewer.visible && viewer.visible && !animationRunning
 
     // updating active will automatically set the tools of the toolbar when activating.
     active: isPoppedUp
