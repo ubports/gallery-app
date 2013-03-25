@@ -366,7 +366,7 @@ Page {
         // album spread viewer is using it ... this should be set prior to
         // opening the viewer
         property bool forGridView
-        property var albumModel: MediaCollectionModel {
+        model: MediaCollectionModel {
             forCollection: albumViewer.album
         }
 
@@ -375,16 +375,12 @@ Page {
         anchors.fill: parent
 
         onOpening: {
-            // although this might be used by the page viewer, it too uses the grid's
-            // models because you can walk the entire album from both
-            model = albumModel
+            albumViewer.active = false;
         }
 
         onOpened: {
-            visible = true;
             albumSpreadViewer.visible = false;
             organicView.visible = false;
-            albumViewer.tools = photoViewer.tools
         }
 
         onCloseRequested: {
@@ -414,6 +410,7 @@ Page {
 
         onClosed: {
             visible = false;
+            albumViewer.active = true;
         }
     }
 
