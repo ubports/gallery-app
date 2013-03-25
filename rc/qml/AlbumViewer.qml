@@ -375,6 +375,7 @@ Page {
         anchors.fill: parent
 
         onOpening: {
+            visible = true;
             albumViewer.active = false;
         }
 
