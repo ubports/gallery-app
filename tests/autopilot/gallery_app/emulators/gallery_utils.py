@@ -19,6 +19,16 @@ class GalleryUtils(object):
         pointing_device.move_to_object(item)
         pointing_device.click()
 
+    def select_single_retry(self, object_type, **kwargs):
+        """Returns the item that is searched for with app.select_single"""
+        """In case of the item was not found (not created yet) a second attempt is taken 1 second later"""
+        """Makes searching for dialogs more robust (which are created on clicks for example)"""
+        item = self.app.select_single(object_type, **kwargs)
+        if item == None:
+            sleep(1)
+            item = self.app.select_single(object_type, **kwargs)
+        return item
+
 
     def get_qml_view(self):
         """Get the main QML view"""
@@ -30,7 +40,7 @@ class GalleryUtils(object):
 
     def get_main_photo_viewer(self):
         """Returns the PhotoViewer."""
-        return self.app.select_single("PhotoViewer", objectName="photoViewer")
+        return self.select_single_retry("PhotoViewer", objectName="photoViewer")
 
     def get_tool_bar(self):
         """Returns the toolbar in the main events view."""
