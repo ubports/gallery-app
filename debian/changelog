@@ -1,3 +1,12 @@
+gallery-app (0.0.63) quantal; urgency=low
+
+  * Fix crash when opeing a photo from the album view (LP: #1109206)
+  * Updates fo the autopilot tests
+  * Re-enabled pinch to zoom
+  * Use the updated header and toolbar from the SDK
+
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Mon, 25 Mar 2013 20:42:23 +0100
+
 gallery-app (0.0.62) quantal; urgency=low
 
   * Fixes for the rename to gallery-app
