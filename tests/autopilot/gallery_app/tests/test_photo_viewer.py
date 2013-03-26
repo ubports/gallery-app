@@ -15,7 +15,7 @@ from autopilot.matchers import Eventually
 
 from gallery_app.tests import GalleryTestCase
 
-from os.path import exists, expanduser
+from os.path import exists
 import os
 import shutil
 

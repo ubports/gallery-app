@@ -42,6 +42,7 @@ class GalleryUtils(object):
         """Returns the PhotoViewer."""
         return self.select_single_retry("PhotoViewer", objectName="photoViewer")
 
+
     def get_tool_bar(self):
         """Returns the toolbar in the main events view."""
         main_view = self.app.select_single("MainScreen", objectName="overview")
@@ -73,3 +74,38 @@ class GalleryUtils(object):
         else:
             # old toolbar
             return item.get_children_by_type("Button")[0]
+
+    def get_select_icon(self):
+        """Returns the select icon of the events view."""
+        return self.get_toolbar_button(0)
+
+    def get_delete_icon(self):
+        return self.get_toolbar_button(1)
+
+
+    def get_delete_dialog(self):
+        """Returns the delete dialog in the events view."""
+        return self.select_single_retry("DeleteDialog", objectName="deleteDialog")
+
+    def get_delete_dialog_delete_button(self):
+        """Returns the delete button of the delete popover."""
+        return self.app.select_single("Button", objectName="deleteDialogYes", visible=True)
+
+    def get_delete_dialog_cancel_button(self):
+        """Returns the cancel button of the delete popover."""
+        return self.app.select_single("Button", objectName="deleteDialogNo", visible=True)
+
+
+    def get_first_event(self):
+        """Returns the first event in the event view"""
+        return self.app.select_single("OrganicMediaList", objectName="organicEventItem0")
+
+    def get_first_image_in_event_view(self):
+        """Returns the first photo of the gallery."""
+        event = self.get_first_event()
+        list_view = event.get_children_by_type("QQuickListView")[0]
+        item = list_view.get_children_by_type("QQuickItem")[0]
+        first_photo_delegate = item.get_children_by_type("QQuickItem", objectName="eventPhoto")[0]
+        first_photo = first_photo_delegate.get_children_by_type("UbuntuShape")[0]
+        return first_photo
+

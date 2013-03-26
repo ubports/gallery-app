@@ -20,6 +20,7 @@ import Gallery 1.0
 import "Components"
 import "Utility"
 import "Widgets"
+import "../Capetown/Widgets"
 
 /*!
   Shows all the albums in one grid view
@@ -184,16 +185,12 @@ Checkerboard {
             text: "Camera"
             iconSource: Qt.resolvedUrl("../img/camera.png")
             onTriggered: {
-                if (appManager.status === Loader.Ready)
-                    appManager.item.switchToCameraApplication();
-                else
-                    console.log("Switching applications is not supported on this platform.");
+                appManager.switchToCameraApplication();
             }
         }
     }
 
-    Loader {
+    UbuntuApplicationCaller {
         id: appManager
-        source: "../../rc/Capetown/Widgets/UbuntuApplicationWrapper.qml"
     }
 }

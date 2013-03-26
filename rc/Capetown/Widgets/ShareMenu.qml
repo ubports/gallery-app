@@ -61,8 +61,7 @@ Item {
                 sharemenu.selected()
                 if (service == "Facebook") {
                     shareFile.writeShareFile(shareMenu.picturePath);
-                    if (loader.status != Loader.Ready) console.log("Application launching not available on this platform");
-                    else loader.item.switchToShareApplication();
+                    appManager.switchToShareApplication();
                 } else {
                     console.log("Sharing to this service is not supported yet.")
                 }
@@ -74,8 +73,7 @@ Item {
         id: shareFile
     }
 
-    Loader {
-        id: loader
-        source: "UbuntuApplicationWrapper.qml"
+    UbuntuApplicationCaller {
+        id: appManager
     }
 }

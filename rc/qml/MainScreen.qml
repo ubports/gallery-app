@@ -46,8 +46,9 @@ MainView {
                 albumsCheckerboardLoader.load();
             if (selectedTabIndex == 2)
                 photosOverview.initModel()
-            // prevent leaving the event view in selection mode
+            // prevent leaving views in selection mode
             eventView.leaveSelectionMode()
+            photosOverview.leaveSelectionMode()
         }
 
         Tab {
@@ -98,6 +99,7 @@ MainView {
         // (see above TODO), will make sense in future when component becomes
         // more heavyweight and causes a longer startup time
         Tab {
+            id: photosTab
             title: "Photos"
             objectName: "photosView"
             page: PhotosOverview {
@@ -111,6 +113,16 @@ MainView {
                     var rect = GalleryUtility.translateRect(thumbnailRect,
                                                             photosOverview, photoViewerLoader);
                     photoViewerLoader.item.animateOpen(mediaSource, rect);
+                }
+
+                // FIXME setting the title via a binding has wrong text placement at startup
+                // so it is done here as a workaround.
+                // The new implementation of the Tab header will hopefully fix this
+                onInSelectionModeChanged: {
+                    if (inSelectionMode)
+                        photosTab.title = "Select"
+                    else
+                        photosTab.title = "Photos"
                 }
             }
         }
