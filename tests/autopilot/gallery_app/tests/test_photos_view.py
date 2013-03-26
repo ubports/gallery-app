@@ -10,7 +10,7 @@
 
 from __future__ import absolute_import
 
-from testtools.matchers import Equals, NotEquals
+from testtools.matchers import Equals, NotEquals, GreaterThan
 from autopilot.matchers import Eventually
 
 from gallery_app.tests import GalleryTestCase
@@ -42,7 +42,7 @@ class TestPhotosView(GalleryTestCase):
 
         #Due to some timing issues sometimes mouse moves to the location a bit earlier
         #even though the tab item is not fully visible, hence the tab does not activate.
-        self.assertTrue(photos_tab_button.opacity, Eventually(Equals("=<0.2")))
+        self.assertThat(photos_tab_button.opacity, Eventually(GreaterThan(0.2)))
 
         photos_tab = self.photos_view.get_photos_tab()
         self.click_item(photos_tab)
