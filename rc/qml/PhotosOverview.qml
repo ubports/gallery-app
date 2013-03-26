@@ -144,6 +144,7 @@ Page {
     Component {
         id: deleteDialog
         DeleteDialog {
+            //FIXME this count > 1 thing needs to be properly replaced by translation wrappers allowing for multiple plural forms
             title: d.selection.selectedCount > 1 ? "Delete photos" : "Delete a photo"
 
             onDeleteClicked: {
