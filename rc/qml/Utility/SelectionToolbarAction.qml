@@ -29,6 +29,7 @@ ToolbarActions {
     /// Emitted when cancel was clicked
     signal cancelClicked()
     /// Emitted when add was clicked
+    /// @param caller the item that caused the call (was clicked)
     signal addClicked(var caller)
     ///Emitted when delete was clicked
     signal deleteClicked()
