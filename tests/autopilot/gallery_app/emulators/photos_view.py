@@ -31,3 +31,8 @@ class PhotosView(GalleryUtils):
     def get_first_photo_in_photos_view(self):
         """Returns the very first photo in the photos view."""
         return self.app.select_many("QQuickItem", objectName="allPotosGridPhoto")[0]
+
+    def number_of_photos_in_photos_view(self):
+        """Returns the number of events"""
+        photo_delegates = self.app.select_many("QQuickItem", objectName="allPotosGridPhoto")
+        return len(photo_delegates)

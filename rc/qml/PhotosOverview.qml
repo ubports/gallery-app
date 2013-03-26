@@ -20,27 +20,40 @@
 import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 0.1
+import Ubuntu.Components.Popups 0.1
 import "Utility"
+import "Widgets"
+import "../Capetown/Widgets"
+import "../js/Gallery.js" as Gallery
 import "../js/GalleryUtility.js" as GalleryUtility
 
 /*!
+  PhotosOverview show all the photos of the collection in chronological order in one big grid
 */
 Page {
     id: photosOverview
 
-    /*!
-    */
+    /// Emitted when a photos was clicked
+    /// @param mediaSource is the photo object
+    /// @param thumbnailRect is the rect, the photo thumbnails is shown in
     signal mediaSourcePressed(var mediaSource, var thumbnailRect)
 
-    ///
+    /// True if in the selection mode
+    property alias inSelectionMode: d.inSelectionMode
+
+    /// Sets the model to the grid if not done yet (lazy initialization)
     function initModel() {
         if (!photosGrid.model)
-            photosGrid.model = __model
+            photosGrid.model = d.model
     }
 
-    property MediaCollectionModel __model: MediaCollectionModel {
-        monitored: true
+    /// Quit selection mode, and unselect all photos
+    function leaveSelectionMode() {
+        d.selection.unselectAll()
+        d.selection.inSelectionMode = false
     }
+
+    tools: inSelectionMode ? d.selectionTools : d.overviewTools
 
     Image {
         anchors.fill: parent
@@ -106,14 +119,85 @@ Page {
                     asynchronous: true
                 }
 
-                MouseArea {
-                    anchors.fill: parent
+                OrganicItemInteraction {
+                    objectName: "photosViewPhoto"
+                    selectionItem: model.mediaSource
+                    selection: d.selection
 
-                    onClicked: {
-                        mediaSourcePressed(mediaSource, GalleryUtility.getRectRelativeTo(
-                                               roundedThumbnail, photosOverview));
+                    onPressed: {
+                        var rect = GalleryUtility.getRectRelativeTo(roundedThumbnail, photosOverview);
+                        photosOverview.mediaSourcePressed(mediaSource, rect);
                     }
                 }
+            }
+        }
+
+        displaced: Transition {
+            NumberAnimation {
+                properties: "x,y"
+                duration: Gallery.FAST_DURATION
+                easing.type: Easing.InQuint
+            }
+        }
+    }
+
+    Component {
+        id: deleteDialog
+        DeleteDialog {
+            title: d.selection.selectedCount > 1 ? "Delete photos" : "Delete a photo"
+
+            onDeleteClicked: {
+                d.selection.model.destroySelectedMedia();
+                photosOverview.leaveSelectionMode();
+            }
+        }
+    }
+
+    PopupAlbumPicker {
+        id: albumPicker
+        objectName: "photosPopupAlbumPicker"
+
+        visible: false
+        contentHeight: parent.height - units.gu(20)
+        onAlbumPicked: {
+            album.addSelectedMediaSources(d.selection.model)
+            photosOverview.leaveSelectionMode()
+        }
+    }
+
+    Item {
+        id: d
+
+        property MediaCollectionModel model: MediaCollectionModel {
+            monitored: true
+        }
+
+        property bool inSelectionMode: selection.inSelectionMode
+        property SelectionState selection: SelectionState {
+            model: d.model
+        }
+
+        property ActionList overviewTools: PhotosToolbarActions {
+            selection: d.selection
+            onStartCamera: appManager.switchToCameraApplication();
+        }
+
+        UbuntuApplicationCaller {
+            id: appManager
+        }
+
+        property ActionList selectionTools: SelectionToolbarAction {
+            selection: d.selection
+
+            onCancelClicked: {
+                photosOverview.leaveSelectionMode();
+            }
+            onAddClicked: {
+                albumPicker.caller = caller;
+                albumPicker.show();
+            }
+            onDeleteClicked: {
+                PopupUtils.open(deleteDialog, null);
             }
         }
     }

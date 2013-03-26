@@ -65,7 +65,10 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
 
     def reveal_tool_bar(self):
         toolbar = self.events_view.get_tool_bar()
-        self.assertThat(toolbar.active, Eventually(Equals(False)))
+
+        if toolbar.active:
+            # Toolbar already open
+            return
 
         main_view = self.events_view.get_qml_view()
         x, y, w, h = toolbar.globalRect

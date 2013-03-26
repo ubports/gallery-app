@@ -13,13 +13,6 @@ class EventsView(GalleryUtils):
     def __init__(self, app):
         self.app = app
 
-    def get_select_icon(self):
-        """Returns the select icon of the events view."""
-        return self.get_toolbar_button(0)
-
-    def get_delete_icon(self):
-        return self.get_toolbar_button(1)
-
     def get_camera_icon(self):
         """Returns the camera icon of the main view."""
         return self.get_toolbar_button(2)
@@ -28,6 +21,7 @@ class EventsView(GalleryUtils):
         """Returns the album editor."""
         return self.app.select_single("AlbumEditor", objectName="mainAlbumEditor")
 
-    def get_events_view_delete_dialog(self):
-        """Returns the delete dialog in the events view."""
-        return self.app.select_single("DeletePopover", objectName="eventsViewDeletePopover")
+    def number_of_photos_in_event_view(self):
+        """Returns the number of events"""
+        photo_delegates = self.app.select_many("QQuickItem", objectName="eventPhoto")
+        return len(photo_delegates)

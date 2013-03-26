@@ -21,6 +21,7 @@ import "../../../rc/Capetown"
 import "../../../rc/Capetown/Widgets"
 import "../Widgets"
 import Ubuntu.Components 0.1
+import Ubuntu.Components.Popups 0.1
 
 // An "organic" vertically-scrollable view of all events, each containing a
 // horizontally-scrollable "tray" of photos.
@@ -72,43 +73,15 @@ OrganicView {
         }
     }
 
-    property ActionList overviewTools: ToolbarActions {
-        Action {
-            text: "Select"
-            iconSource: Qt.resolvedUrl("../../img/select.png")
-            onTriggered: {
-                // Set inSelectionMode instead of using tryEnterSelectionMode
-                // because allowSelectionModeChange is false.
-                selection.inSelectionMode = true;
-            }
-        }
-        Action {
-            text: "Import"
-            iconSource: Qt.resolvedUrl("../../img/import-image.png")
-            enabled: false
-        }
-        Action {
-            text: "Camera"
-            iconSource: Qt.resolvedUrl("../../img/camera.png")
-            onTriggered: {
-                if (appManager.status == Loader.Ready) appManager.item.switchToCameraApplication();
-                else console.log("Switching applications is not supported on this platform.");
-            }
-        }
-    }
-    Loader {
-        id: appManager
-        source: "../../../rc/Capetown/Widgets/UbuntuApplicationWrapper.qml"
-    }
+    Component {
+        id: deleteDialog
+        DeleteDialog {
+            title: organicEventView.selection.selectedCount > 1 ? "Delete photos" : "Delete a photo"
 
-    DeletePopover {
-        objectName: "eventsViewDeletePopover"
-        visible: false
-        id: deletePopover
-        onDeleteClicked: {
-            organicEventView.selection.model.destroySelectedMedia();
-            deletePopover.hide();
-            organicEventView.leaveSelectionMode();
+            onDeleteClicked: {
+                organicEventView.selection.model.destroySelectedMedia();
+                organicEventView.leaveSelectionMode();
+            }
         }
     }
 
@@ -123,39 +96,27 @@ OrganicView {
         }
     }
 
-    property ActionList selectionTools: ToolbarActions {
-        // in selection mode, never hide the toolbar:
-        active: true
-        lock: true
+    property ActionList overviewTools: PhotosToolbarActions {
+        selection: organicEventView.selection
+        onStartCamera: appManager.switchToCameraApplication();
+    }
 
-        Action {
-            text: "Add"
-            iconSource: Qt.resolvedUrl("../../img/add.png")
-            enabled: selection.selectedCount > 0
-            onTriggered: {
-                albumPicker.caller = caller
-                albumPicker.show()
-            }
-        }
-        Action {
-            text: "Delete"
-            iconSource: Qt.resolvedUrl("../../img/delete.png")
-            enabled: selection.selectedCount > 0
-            onTriggered: {
-                deletePopover.caller = caller;
-                deletePopover.show();
-            }
-        }
-        Action {
-            text: "Share"
-            iconSource: Qt.resolvedUrl("../../img/share.png")
-            enabled: false
-        }
+    UbuntuApplicationCaller {
+        id: appManager
+    }
 
-        back: Action {
-            text: "Cancel"
-            iconSource: Qt.resolvedUrl("../../img/cancel.png")
-            onTriggered: organicEventView.leaveSelectionMode()
+    property ActionList selectionTools: SelectionToolbarAction {
+        selection: organicEventView.selection
+
+        onCancelClicked: {
+            organicEventView.leaveSelectionMode();
+        }
+        onAddClicked: {
+            albumPicker.caller = caller
+            albumPicker.show()
+        }
+        onDeleteClicked: {
+            PopupUtils.open(deleteDialog, null);
         }
     }
 
