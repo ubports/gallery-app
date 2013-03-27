@@ -21,9 +21,11 @@
 #include "core/gallery-manager.h"
 #include "core/command-line-parser.h"
 
+#include <QQuickView>
+
 GalleryManager* GalleryManager::gallery_mgr_ = NULL;
 
-GalleryManager::GalleryManager(const QString&, const QDir& pictures_dir, const bool)
+GalleryManager::GalleryManager(const QString&, const QDir& pictures_dir, QQuickView*, const bool)
     : collections_initialised(false),
       resource_(NULL),
       gallery_standard_image_provider_(NULL),
@@ -44,10 +46,11 @@ GalleryManager::~GalleryManager()
     gallery_mgr_ = NULL;
 }
 
-GalleryManager* GalleryManager::instance(const QString& application_path_dir, const QDir& pictures_dir, const bool)
+GalleryManager* GalleryManager::instance(const QString& application_path_dir, const QDir& pictures_dir,
+                                         QQuickView* view, const bool)
 {
     if (!gallery_mgr_)
-        gallery_mgr_ = new GalleryManager(application_path_dir, pictures_dir, false);
+        gallery_mgr_ = new GalleryManager(application_path_dir, pictures_dir, view, false);
 
     return gallery_mgr_;
 }

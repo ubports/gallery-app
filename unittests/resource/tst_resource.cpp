@@ -54,13 +54,13 @@ void tst_Resource::is_installed()
     QFETCH(QString, installDir);
     QFETCH(bool, installed);
 
-    Resource resource(appDir, installDir);
+    Resource resource(appDir, installDir, 0);
     QCOMPARE(resource.is_installed(), installed);
 }
 
 void tst_Resource::trailing_slash()
 {
-    Resource resource("", "");
+    Resource resource("", "", 0);
     QCOMPARE(resource.trailing_slash("/usr"), QString("/usr/"));
     QCOMPARE(resource.trailing_slash("/usr/"), QString("/usr/"));
 }
@@ -84,14 +84,14 @@ void tst_Resource::get_rc_url()
     QFETCH(QString, path);
     QFETCH(QUrl, url);
 
-    Resource resource(appDir, installDir);
+    Resource resource(appDir, installDir, 0);
     QCOMPARE(resource.get_rc_url(path), url);
 }
 
 void tst_Resource::maxTextureSize()
 {
-    Resource resource("", "");
-    QCOMPARE(resource.maxTextureSize(), 2048);
+    Resource resource("", "", 0);
+    QCOMPARE(resource.maxTextureSize(), 0);
 }
 
 QTEST_MAIN(tst_Resource);

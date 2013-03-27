@@ -23,13 +23,15 @@
 #include <QString>
 #include <QUrl>
 
+class QQuickView;
+
 /*!
  * \brief The Resource class
  */
 class Resource
 {
 public:
-    explicit Resource(const QString& application_dir, const QString& install_dir);
+    explicit Resource(const QString& application_dir, const QString& install_dir, QQuickView *view);
 
     bool is_installed() const;
 
@@ -37,11 +39,15 @@ public:
 
     int maxTextureSize() const;
 
+    void setView(QQuickView* view);
+
 private:
     QString trailing_slash(QString path) const;
 
     QDir app_dir_;
     QDir install_dir_;
+    QQuickView* view_;
+    mutable int max_texture_size_;
 
     friend class tst_Resource;
 };
