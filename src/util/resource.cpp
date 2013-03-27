@@ -19,7 +19,6 @@
 
 #include "resource.h"
 
-#include <QDebug>
 #include <QtGui/QOpenGLContext>
 #include <QtQuick/QQuickView>
 
