@@ -1,3 +1,13 @@
+gallery-app (0.0.64) UNRELEASED; urgency=low
+
+  * Update packaging:
+    - Sort Build-Depends and Depends
+    - Only build for architectures that qtdeclarative supports
+    - Fix copyright typo
+    - Use --fail-missing
+
+ -- Michael Terry <mterry@ubuntu.com>  Wed, 27 Mar 2013 11:36:26 -0400
+
 gallery-app (0.0.63) quantal; urgency=low
 
   * Fix crash when opeing a photo from the album view (LP: #1109206)

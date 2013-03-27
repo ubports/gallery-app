@@ -2,38 +2,39 @@ Source: gallery-app
 Section: graphics
 Priority: extra
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
-Build-Depends: debhelper (>= 9.0),
+Build-Depends: debhelper (>= 9),
                libexiv2-dev,
+               libgl1-mesa-dev | libgl-dev,
+               libgles2-mesa-dev,
+               libqt5opengl5-dev,
                qt5-default,
                qtbase5-dev,
                qtdeclarative5-dev,
-               libqt5opengl5-dev,
-               libgl-dev,
-               libgles2-mesa-dev,
-Standards-Version: 3.9.2
+Standards-Version: 3.9.4
 Vcs-Bzr: lp:gallery-app
-Homepage:https://wiki.ubuntu.com/Touch/
+Homepage: https://wiki.ubuntu.com/Touch/
 
 Package: gallery-app
-Architecture: any
+Architecture: i386 amd64 armhf
 Replaces: ubuntu-gallery
-Depends: ${shlibs:Depends},
-         ${misc:Depends}, 
-         qtdeclarative5-qtquick2-plugin,
-         qtdeclarative5-window-plugin,
-         libqt5sql5-sqlite,
-         qtdeclarative5-ubuntu-ui-toolkit-plugin | qt-components-ubuntu,
+Conflicts: ubuntu-gallery
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
          libhud-qt-qml,
+         libqt5sql5-sqlite,
+         qtdeclarative5-qtquick2-plugin,
+         qtdeclarative5-ubuntu-ui-toolkit-plugin | qt-components-ubuntu,
+         qtdeclarative5-window-plugin,
 Description: Photo gallery for Ubuntu
  gallery-app is a photo gallery for the Ubuntu platform.
 
 Package: gallery-app-autopilot
 Replaces: ubuntu-gallery-autopilot
 Architecture: all
-Depends: ${shlibs:Depends},
-         ${misc:Depends},
-         gallery-app (= ${source:Version}),
+Depends: ${misc:Depends},
+         gallery-app (>= ${source:Version}),
          libautopilot-qt,
          libqt5test5,
 Description: Autopilot tests for the photo gallery for Ubuntu
- gallery-app is a photo gallery for the Ubuntu platform. This package contains autopilot tests for it.
+ gallery-app is a photo gallery for the Ubuntu platform. This package contains
+ autopilot tests for it.
