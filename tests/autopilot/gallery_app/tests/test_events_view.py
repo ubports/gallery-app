@@ -57,7 +57,7 @@ class TestEventsView(GalleryTestCase):
         hovered state."""
         self.reveal_toolbar()
 
-        camera_icon = self.events_view.get_toolbar_camera_icon()
+        camera_icon = self.events_view.get_toolbar_camera_button()
         self.pointing_device.move_to_object(camera_icon)
 
         self.assertThat(camera_icon.hovered, Eventually(Equals(True)))
