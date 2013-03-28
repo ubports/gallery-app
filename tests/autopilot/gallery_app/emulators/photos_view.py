@@ -21,10 +21,11 @@ class PhotosView(GalleryUtils):
         return self.app.select_single("Tab", objectName="photosView")
 
     def get_toolbar_select_button(self):
-        """Returns the select icon of the events view."""
+        """Returns the select button of the tollbar in the events view."""
         return self.get_toolbar_button(0)
 
     def get_toolbar_delete_button(self):
+        """Returns the delete button of the tollbar in the events view."""
         return self.get_toolbar_button(1)
 
     def get_first_photo_in_photos_view(self):
