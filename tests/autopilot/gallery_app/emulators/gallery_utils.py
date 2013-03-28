@@ -5,6 +5,7 @@
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
 
+from time import sleep
 
 class GalleryUtils(object):
     """An emulator class that makes it easy to interact with
@@ -13,11 +14,6 @@ class GalleryUtils(object):
 
     def __init__(self, app):
         self.app = app
-
-    def click_item(self, item, pointing_device):
-        """Does a mouse click on the passed item, and moved the mouse there before"""
-        pointing_device.move_to_object(item)
-        pointing_device.click()
 
     def select_single_retry(self, object_type, **kwargs):
         """Returns the item that is searched for with app.select_single"""
@@ -43,15 +39,19 @@ class GalleryUtils(object):
         return self.select_single_retry("PhotoViewer", objectName="photoViewer")
 
 
-    def get_tool_bar(self):
+    def get_tabs_bar(self):
+        """Returns the top tabs bar."""
+        return self.app.select_single("NewTabBar")
+
+    def get_toolbar(self):
         """Returns the toolbar in the main events view."""
         main_view = self.app.select_single("MainScreen", objectName="overview")
         return main_view.get_children_by_type("Toolbar")[0]
 
     def get_toolbar_button(self, button_idx):
         """Returns the button with index idx from the toolbar"""
-        tool_bar = self.get_tool_bar()
-        item = tool_bar.get_children_by_type("QQuickItem")[0]
+        toolbar = self.get_toolbar()
+        item = toolbar.get_children_by_type("QQuickItem")[0]
         row = item.get_children_by_type("QQuickRow")[0]
         button_loaders = row.get_children_by_type("QQuickLoader")
         if len(button_loaders) > 0:
@@ -62,10 +62,10 @@ class GalleryUtils(object):
             # old toolbar
             return row.get_children_by_type("Button")[button_idx]
 
-    def get_cancel_icon(self):
+    def get_toolbar_cancel_icon(self):
         """Returns the cancel icon of the events view."""
-        tool_bar = self.get_tool_bar()
-        item = tool_bar.get_children_by_type("QQuickItem")[0]
+        toolbar = self.get_toolbar()
+        item = toolbar.get_children_by_type("QQuickItem")[0]
         back_loaders = item.get_children_by_type("QQuickLoader")
         if len(back_loaders) > 0:
             # new toolbar
@@ -74,13 +74,6 @@ class GalleryUtils(object):
         else:
             # old toolbar
             return item.get_children_by_type("Button")[0]
-
-    def get_select_icon(self):
-        """Returns the select icon of the events view."""
-        return self.get_toolbar_button(0)
-
-    def get_delete_icon(self):
-        return self.get_toolbar_button(1)
 
 
     def get_delete_dialog(self):
@@ -108,4 +101,9 @@ class GalleryUtils(object):
         first_photo_delegate = item.get_children_by_type("QQuickItem", objectName="eventPhoto")[0]
         first_photo = first_photo_delegate.get_children_by_type("UbuntuShape")[0]
         return first_photo
+
+
+    def get_albums_tab_button(self):
+        """Returns the photos tab."""
+        return self.app.select_single("AbstractButton", buttonIndex=0)
 

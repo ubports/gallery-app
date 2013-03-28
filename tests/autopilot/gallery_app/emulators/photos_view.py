@@ -12,21 +12,20 @@ class PhotosView(GalleryUtils):
     def __init__(self, app):
         self.app = app
 
-    def get_tabs_bar(self):
-        """Returns the top tabs bar."""
-        return self.app.select_single("NewTabBar")
-
-    def get_events_tab(self):
-        """Returns the events tab."""
-        return self.app.select_single("AbstractButton", buttonIndex=4)
-
-    def get_photos_tab(self):
+    def get_photos_tab_button(self):
         """Returns the photos tab."""
         return self.app.select_single("AbstractButton", buttonIndex=5)
 
     def get_photos_view(self):
         """Returns the photos view."""
         return self.app.select_single("Tab", objectName="photosView")
+
+    def get_toolbar_select_button(self):
+        """Returns the select icon of the events view."""
+        return self.get_toolbar_button(0)
+
+    def get_toolbar_delete_button(self):
+        return self.get_toolbar_button(1)
 
     def get_first_photo_in_photos_view(self):
         """Returns the very first photo in the photos view."""

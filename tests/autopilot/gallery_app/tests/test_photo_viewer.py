@@ -13,6 +13,7 @@ from __future__ import absolute_import
 from testtools.matchers import Equals, NotEquals
 from autopilot.matchers import Eventually
 
+from gallery_app.emulators.photo_viewer import PhotoViewer
 from gallery_app.tests import GalleryTestCase
 
 from os.path import exists
@@ -25,22 +26,24 @@ from time import sleep
 Class for common functionality of the phot viewing and photo editing
 """
 class TestPhotoViewerBase(GalleryTestCase):
+    @property
+    def photo_viewer(self):
+        return PhotoViewer(self.app)
+
     def setUp(self):
         super(TestPhotoViewerBase, self).setUp()
-        self.assertThat(self.photo_viewer.get_qml_view().visible, Eventually(Equals(True)))
+        self.open_first_photo()
+        self.reveal_toolbar()
 
-        self.click_first_photo()
+    def open_first_photo(self):
+        single_photo = self.photo_viewer.get_first_image_in_event_view()
+        self.click_item(single_photo)
+
         photo_viewer_loader = self.photo_viewer.get_main_photo_viewer_loader()
         self.assertThat(photo_viewer_loader.loaded, Eventually(Equals(True)))
 
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
         self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
-
-        self.reveal_tool_bar()
-
-    def click_first_photo(self):
-        single_photo = self.photo_viewer.get_first_image_in_event_view()
-        self.click_item(single_photo)
 
 
 class TestPhotoViewer(TestPhotoViewerBase):
@@ -51,14 +54,14 @@ class TestPhotoViewer(TestPhotoViewerBase):
     def test_nav_bar_back_button(self):
         """Clicking the back button must close the photo."""
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
-        back_button = self.photo_viewer.get_cancel_icon()
+        back_button = self.photo_viewer.get_toolbar_cancel_icon()
         self.click_item(back_button)
 
         self.assertThat(photo_viewer.visible, Eventually(Equals(False)))
 
     def test_photo_delete_works(self):
         """Clicking the trash button must show the delete dialog."""
-        trash_button = self.photo_viewer.get_delete_icon()
+        trash_button = self.photo_viewer.get_toolbar_delete_button()
 
         self.pointing_device.move_to_object(trash_button)
         self.assertThat(trash_button.hovered, Eventually(Equals(True)))
@@ -72,7 +75,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
         self.assertThat(lambda: exists(self.sample_file), Eventually(Equals(True)))
 
-        self.reveal_tool_bar()
+        self.reveal_toolbar()
 
         self.pointing_device.move_to_object(trash_button)
         self.assertThat(trash_button.hovered, Eventually(Equals(True)))
@@ -88,7 +91,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
     # def test_nav_bar_album_picker_button(self):
     #     """Clicking the album picker must show the picker dialog."""
-    #     album_button = self.photo_viewer.get_viewer_chrome_album_button()
+    #     album_button = self.photo_viewer.get_toolbar_album_button()
     #     album_picker = self.photo_viewer.get_popup_album_picker()
 
     #     self.pointing_device.move_to_object(album_button)
@@ -99,7 +102,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
     def test_nav_bar_share_button(self):
         """Clicking the share button must show the share dialog."""
-        share_button = self.photo_viewer.get_viewer_chrome_share_button()
+        share_button = self.photo_viewer.get_toolbar_share_button()
         share_menu = self.photo_viewer.get_share_dialog()
 
         self.pointing_device.move_to_object(share_button)
@@ -110,7 +113,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
     def test_nav_bar_edit_button(self):
         """Clicking the edit button must show the edit dialog."""
-        edit_button = self.photo_viewer.get_viewer_chrome_toolbar_edit_button()
+        edit_button = self.photo_viewer.get_toolbar_edit_button()
         edit_dialog = self.photo_viewer.get_photo_edit_dialog()
 
         self.pointing_device.move_to_object(edit_button)
@@ -142,7 +145,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.click_edit_button()
 
     def click_edit_button(self):
-        edit_button = self.photo_viewer.get_viewer_chrome_toolbar_edit_button()
+        edit_button = self.photo_viewer.get_toolbar_edit_button()
         self.click_item(edit_button)
 
     def click_rotate_item(self):
@@ -212,7 +215,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
         self.assertThat(is_landscape, Equals(False))
 
-        self.reveal_tool_bar()
+        self.reveal_toolbar()
         self.click_edit_button()
         self.click_undo_item()
 
@@ -220,7 +223,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
         self.assertThat(is_landscape, Equals(True))
 
-        self.reveal_tool_bar()
+        self.reveal_toolbar()
         self.click_edit_button()
         self.click_redo_item()
 
@@ -228,10 +231,10 @@ class TestPhotoEditor(TestPhotoViewerBase):
         is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
         self.assertThat(is_landscape, Equals(False))
 
-        self.reveal_tool_bar()
+        self.reveal_toolbar()
         self.click_edit_button()
         self.click_rotate_item()
-        self.reveal_tool_bar()
+        self.reveal_toolbar()
         self.click_edit_button()
         self.click_revert_item()
 

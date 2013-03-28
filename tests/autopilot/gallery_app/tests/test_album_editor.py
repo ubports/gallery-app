@@ -13,11 +13,16 @@
 # from testtools.matchers import Equals, NotEquals
 # from autopilot.matchers import Eventually
 
+# from gallery_app.emulators.album_editor import AlbumEditor
 # from gallery_app.tests import GalleryTestCase
 
 
 # class TestAlbumEditor(GalleryTestCase):
 #     """Tests the album editor of the gallery app"""
+
+#     @property
+#     def album_editor(self):
+#         return AlbumEditor(self.app)
 
 #     """ This is needed to wait for the application to start.
 #         In the testfarm, the application may take some time to show up."""
