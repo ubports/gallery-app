@@ -14,6 +14,7 @@ from testtools.matchers import Equals, NotEquals, GreaterThan
 from autopilot.matchers import Eventually
 
 from gallery_app.tests import GalleryTestCase
+from gallery_app.emulators.photos_view import PhotosView
 
 from os.path import exists
 from time import sleep
@@ -21,38 +22,34 @@ from time import sleep
 
 class TestPhotosView(GalleryTestCase):
 
+    @property
+    def photos_view(self):
+        return PhotosView(self.app)
+
     def setUp(self):
         super(TestPhotosView, self).setUp()
-        self.assertThat(self.photo_viewer.get_qml_view().visible, Eventually(Equals(True)))
-
-        self.click_tabs_bar()
-        self.click_photos_tab_button()
-
-        photos_view = self.photos_view.get_photos_view()
-        self.assertThat(photos_view.focus, Eventually(Equals(True)))
-        sleep(1)
+        self.switch_to_photos_tab()
 
 
-    def click_tabs_bar(self):
+    def switch_to_photos_tab(self):
         tabs_bar = self.photos_view.get_tabs_bar()
         self.click_item(tabs_bar)
 
-    def click_photos_tab_button(self):
-        photos_tab_button = self.app.select_single("AbstractButton", buttonIndex=5)
-
+        photos_tab_button = self.photos_view.get_photos_tab_button()
         #Due to some timing issues sometimes mouse moves to the location a bit earlier
         #even though the tab item is not fully visible, hence the tab does not activate.
         self.assertThat(photos_tab_button.opacity, Eventually(GreaterThan(0.2)))
+        self.click_item(photos_tab_button)
 
-        photos_tab = self.photos_view.get_photos_tab()
-        self.click_item(photos_tab)
+        photos_view = self.photos_view.get_photos_view()
+        self.assertThat(photos_view.focus, Eventually(Equals(True)))
 
     def enable_select_mode(self):
-        self.reveal_tool_bar()
+        self.reveal_toolbar()
         self.click_select_icon()
 
     def click_select_icon(self):
-        select_icon = self.photos_view.get_select_icon()
+        select_icon = self.photos_view.get_toolbar_select_button()
         self.click_item(select_icon)
 
     def click_first_photo(self):
@@ -60,7 +57,7 @@ class TestPhotosView(GalleryTestCase):
         self.click_item(photo)
 
     def click_delete_action(self):
-        trash_button = self.photos_view.get_delete_icon()
+        trash_button = self.photos_view.get_toolbar_delete_button()
         self.click_item(trash_button)
 
 
@@ -71,13 +68,13 @@ class TestPhotosView(GalleryTestCase):
 
     def test_select_button_cancel(self):
         """Clicking the cancel button after clicking the select button must
-        hide the chromebar automatically."""
+        hide the toolbar automatically."""
         self.enable_select_mode()
 
-        cancel_icon = self.photos_view.get_cancel_icon()
+        cancel_icon = self.photos_view.get_toolbar_cancel_icon()
         self.click_item(cancel_icon)
 
-        toolbar = self.photos_view.get_tool_bar()
+        toolbar = self.photos_view.get_toolbar()
         self.assertThat(toolbar.active, Eventually(Equals(False)))
 
     def test_delete_a_photo(self):

@@ -12,19 +12,19 @@ class PhotoViewer(GalleryUtils):
     def __init__(self, app):
         self.app = app
 
-    def get_viewer_chrome_toolbar_edit_button(self):
+    def get_toolbar_edit_button(self):
         """Return the edit button of the toolbar when photo viewer is shown"""
         return self.get_toolbar_button(0)
 
-    def get_viewer_chrome_album_button(self):
+    def get_toolbat_album_button(self):
         """Returns the photo viewer album button."""
         return self.app.select_single("ChromeButton", objectName='disabled', visible=True)
 
-    def get_delete_icon(self):
+    def get_toolbar_delete_button(self):
         """Return the delete button of the toolbar when photo viewer is shown"""
         return self.get_toolbar_button(2)
 
-    def get_viewer_chrome_share_button(self):
+    def get_toolbar_share_button(self):
         """Return the share button of the toolbar when photo viewer is shown"""
         return self.get_toolbar_button(3)
 

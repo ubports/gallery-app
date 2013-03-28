@@ -13,13 +13,17 @@ class EventsView(GalleryUtils):
     def __init__(self, app):
         self.app = app
 
-    def get_camera_icon(self):
-        """Returns the camera icon of the main view."""
+    def get_toolbar_camera_button(self):
+        """Returns the camera button of the toolbar in the event view"""
         return self.get_toolbar_button(2)
 
-    def get_album_editor(self):
-        """Returns the album editor."""
-        return self.app.select_single("AlbumEditor", objectName="mainAlbumEditor")
+    def get_toolbar_select_button(self):
+        """Returns the select button of the toolbar in the event view"""
+        return self.get_toolbar_button(0)
+
+    def get_toolbar_delete_button(self):
+        """Returns the delete button of the toolbar in the event view"""
+        return self.get_toolbar_button(1)
 
     def number_of_photos_in_event_view(self):
         """Returns the number of events"""
