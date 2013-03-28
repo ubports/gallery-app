@@ -67,7 +67,7 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
 
     register_qml();
 
-    GalleryManager::instance(applicationDirPath(), cmd_line_parser()->pictures_dir(),
+    GalleryManager::instance(applicationDirPath(), cmd_line_parser()->pictures_dir(), &view_,
                              cmd_line_parser()->log_image_loading());
 }
 

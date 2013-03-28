@@ -1,7 +1,7 @@
 CONFIG += testcase
 TARGET = tst_resource
 
-QT += testlib
+QT += testlib quick
 
 include(../../coverage.pri)
 

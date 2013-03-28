@@ -19,12 +19,18 @@
 
 #include "resource.h"
 
+#include <QtGui/QOpenGLContext>
+#include <QtQuick/QQuickView>
+
 /*!
  * \brief Resource::Resource
- * \param application_dir
- * \param install_dir
+ * \param application_dir the directory of where the executable is
+ * \param install_dir the directory, where apps are installed to
+ * \param view the view is used to determine the max texture size
  */
-Resource::Resource(const QString& application_dir, const QString& install_dir)
+Resource::Resource(const QString& application_dir, const QString& install_dir, QQuickView *view)
+    : view_(view),
+      max_texture_size_(0)
 {
     app_dir_ = QDir(application_dir);
     if (trailing_slash(app_dir_.absolutePath()).endsWith("/bin/"))
@@ -68,13 +74,23 @@ QUrl Resource::get_rc_url(const QString& path) const
 }
 
 /*!
- * @brief maxTextureSize
- * @return
- * returns max texture size provided by OpenGL
+ * \brief maxTextureSize
+ * \return max texture size provided by OpenGL
  */
 int Resource::maxTextureSize() const
 {
-    // FIXME tm: OpenGL query to get
-    // max texture size returns 0 if not in render thread
-    return 2048;
+    if (max_texture_size_ == 0 && view_ != 0) {
+        // QtQuick uses a dedicated rendering thread we can't access. A temporary
+        // graphics context has to be created to access implementation limits.
+        QOpenGLContext context;
+        context.create();
+        view_->winId();  // Ensure the QPA window is created.
+        context.makeCurrent(view_);
+        glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_texture_size_);
+        if (max_texture_size_ == 0) {
+            max_texture_size_ = 1024;
+        }
+    }
+
+    return max_texture_size_;
 }

@@ -23,10 +23,11 @@
 
 #include <cstddef>
 #include <QStandardPaths>
+#include <QQuickView>
 
 GalleryManager* GalleryManager::gallery_mgr_ = NULL;
 
-GalleryManager::GalleryManager(const QString&, const QDir& pictures_dir, const bool)
+GalleryManager::GalleryManager(const QString&, const QDir& pictures_dir, QQuickView*, const bool)
     : collections_initialised(false),
       resource_(NULL),
       gallery_standard_image_provider_(NULL),
@@ -48,10 +49,11 @@ GalleryManager::~GalleryManager()
     gallery_mgr_ = NULL;
 }
 
-GalleryManager* GalleryManager::instance(const QString& application_path_dir, const QDir& pictures_dir, const bool log_image_loading)
+GalleryManager* GalleryManager::instance(const QString& application_path_dir, const QDir& pictures_dir,
+                                         QQuickView* view, const bool log_image_loading)
 {
     if (!gallery_mgr_)
-        gallery_mgr_ = new GalleryManager(application_path_dir, pictures_dir, log_image_loading);
+        gallery_mgr_ = new GalleryManager(application_path_dir, pictures_dir, view, log_image_loading);
 
     return gallery_mgr_;
 }
