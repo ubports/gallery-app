@@ -1,10 +1,12 @@
-gallery-app (0.0.64) UNRELEASED; urgency=low
+gallery-app (0.0.64) quantal; urgency=low
 
   * Update packaging:
     - Sort Build-Depends and Depends
     - Only build for architectures that qtdeclarative supports
     - Fix copyright typo
     - Use --fail-missing
+  * Get max texture size from OpenGL
+  * Add toolbar in photos view and implement add, delete and start camera functionality
 
  -- Michael Terry <mterry@ubuntu.com>  Wed, 27 Mar 2013 11:36:26 -0400
 
