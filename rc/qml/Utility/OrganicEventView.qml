@@ -88,7 +88,6 @@ OrganicView {
 
     PopupAlbumPicker {
         id: albumPicker
-        visible: false
         contentHeight: parent.height - units.gu(20)
 
         onAlbumPicked: {
