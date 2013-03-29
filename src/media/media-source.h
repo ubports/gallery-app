@@ -105,7 +105,7 @@ public:
     QVariant QmlFindEvent();
 
     void set_id(qint64 id);
-    qint64 get_id();
+    qint64 get_id() const;
 
     bool busy();
     void set_busy(bool busy);

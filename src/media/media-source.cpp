@@ -272,7 +272,7 @@ void MediaSource::set_id(qint64 id)
  * \brief MediaSource::get_id
  * \return
  */
-qint64 MediaSource::get_id()
+qint64 MediaSource::get_id() const
 {
     return id_;
 }
