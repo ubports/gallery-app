@@ -37,10 +37,13 @@ AlbumCollection::AlbumCollection()
         int saved_current_page = a->current_page();
 
         // Link each album up with its photos.
+        QSet<DataObject*> photos;
         QList<qint64> photo_list;
         GalleryManager::instance()->database()->get_album_table()->media_for_album(a->get_id(), &photo_list);
         foreach (qint64 mediaId, photo_list)
-            a->Attach(GalleryManager::instance()->media_collection()->mediaForId(mediaId));
+            photos.insert(GalleryManager::instance()->media_collection()->mediaForId(mediaId));
+
+        a->AttachMany(photos);
 
         // After photos are attached, restore the current page.
         a->set_current_page(saved_current_page);
