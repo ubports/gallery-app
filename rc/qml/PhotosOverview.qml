@@ -158,7 +158,6 @@ Page {
         id: albumPicker
         objectName: "photosPopupAlbumPicker"
 
-        visible: false
         contentHeight: parent.height - units.gu(20)
         onAlbumPicked: {
             album.addSelectedMediaSources(d.selection.model)

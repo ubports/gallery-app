@@ -36,81 +36,92 @@ Popover {
     /// height of the content
     property int contentHeight: -1
 
-    Item {
-        width: parent.width
-        height: contentHeight
+    visible: false
 
-        GridView {
-            id: scroller
+    Component {
+        id: component_Item
+        Item {
+            GridView {
+                id: scroller
 
-            property int albumPreviewWidth: units.gu(14);
-            property int albumPreviewHeight: units.gu(16.5);
-            property int gutterWidth: units.gu(2)
-            property int gutterHeight: units.gu(4)
+                property int albumPreviewWidth: units.gu(14);
+                property int albumPreviewHeight: units.gu(16.5);
+                property int gutterWidth: units.gu(2)
+                property int gutterHeight: units.gu(4)
 
-            clip: true
-            anchors.top: titleBox.bottom
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: units.gu(0.25)
-            anchors.left: parent.left
-            anchors.leftMargin: units.gu(4)
-            anchors.right: parent.right
+                clip: true
+                anchors.top: titleBox.bottom
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: units.gu(0.25)
+                anchors.left: parent.left
+                anchors.leftMargin: units.gu(4)
+                anchors.right: parent.right
 
-            cellWidth: scroller.albumPreviewWidth + scroller.gutterWidth
-            cellHeight: scroller.albumPreviewHeight + scroller.gutterHeight
+                cellWidth: scroller.albumPreviewWidth + scroller.gutterWidth
+                cellHeight: scroller.albumPreviewHeight + scroller.gutterHeight
 
-            header: Item {
-                width: parent.width
-                height: units.gu(2);
-            }
-            footer: Item {
-                width: parent.width
-                height: scroller.gutterHeight / 2
-            }
+                header: Item {
+                    width: parent.width
+                    height: units.gu(2);
+                }
+                footer: Item {
+                    width: parent.width
+                    height: scroller.gutterHeight / 2
+                }
 
-            model: AlbumCollectionModel {
-            }
+                model: AlbumCollectionModel {
+                }
 
-            delegate: Item {
-                width: scroller.cellWidth
-                height: scroller.cellHeight
+                delegate: Item {
+                    width: scroller.cellWidth
+                    height: scroller.cellHeight
 
-                AlbumPreviewComponent {
-                    album: model.album
+                    AlbumPreviewComponent {
+                        album: model.album
 
-                    width: scroller.albumPreviewWidth
-                    height: scroller.albumPreviewHeight
-                    anchors.centerIn: parent
+                        width: scroller.albumPreviewWidth
+                        height: scroller.albumPreviewHeight
+                        anchors.centerIn: parent
 
-                    MouseArea {
-                        anchors.fill: parent
+                        MouseArea {
+                            anchors.fill: parent
 
-                        onClicked: {
-                            popupAlbumPicker.hide()
-                            popupAlbumPicker.albumPicked(album);
+                            onClicked: {
+                                popupAlbumPicker.hide()
+                                popupAlbumPicker.albumPicked(album);
+                            }
                         }
                     }
                 }
             }
-        }
 
-        Rectangle {
-            id: titleBox
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: parent.top
-            height: units.gu(3)
-            color: "#dddddd"
+            Rectangle {
+                id: titleBox
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: parent.top
+                height: units.gu(3)
+                color: "#dddddd"
 
-            Label {
-                id: title
-                anchors.fill: parent
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                color: "black"
-                font.family: "Ubuntu"
-                text: "Add Photo to Album"
+                Label {
+                    id: title
+                    anchors.fill: parent
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    color: "black"
+                    font.family: "Ubuntu"
+                    text: "Add Photo to Album"
+                }
             }
         }
+    }
+    Loader {
+        id: loader_Item
+
+        width: parent.width
+        height: contentHeight
+        asynchronous: true
+
+        sourceComponent: popupAlbumPicker.visible ? component_Item : undefined
     }
 }
