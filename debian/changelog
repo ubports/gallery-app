@@ -1,14 +1,9 @@
-gallery-app (0.0.66) quantal; urgency=low
-
-  * Delete unused debian/gallery-app.links.
-    - This file was used for compatibility. But it causes the gallery to
-      be appeared twice.
-
- -- Ying-Chun Liu (PaulLiu) <paul.liu@canonical.com>  Tue, 02 Apr 2013 22:33:58 +0800
-
 gallery-app (0.0.65) quantal; urgency=low
 
   * Add X-Ubuntu-Touch field into desktop file.
+  * Delete unused debian/gallery-app.links.
+    - This file was used for compatibility. But it causes the gallery to
+      be appeared twice.
 
  -- Ying-Chun Liu (PaulLiu) <paul.liu@canonical.com>  Tue, 02 Apr 2013 22:31:03 +0800
 
