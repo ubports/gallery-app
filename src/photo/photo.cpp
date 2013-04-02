@@ -37,6 +37,99 @@
 #include "qml/gallery-thumbnail-image-provider.h"
 #include "util/imaging.h"
 
+// A simple class for dealing with an undo-/redo-able stack of applied edits.
+class EditStack {
+public:
+    EditStack() : base_(), undoable_(), redoable_() {
+    }
+
+    void set_base(const PhotoEditState& base) {
+        base_ = base;
+    }
+
+    void push_edit(const PhotoEditState& edit_state) {
+        clear_redos();
+        undoable_.push(edit_state);
+    }
+
+    void clear_redos() {
+        redoable_.clear();
+    }
+
+    const PhotoEditState& undo() {
+        if (!undoable_.isEmpty())
+            redoable_.push(undoable_.pop());
+        return current();
+    }
+
+    const PhotoEditState& redo() {
+        if (!redoable_.isEmpty())
+            undoable_.push(redoable_.pop());
+        return current();
+    }
+
+    const PhotoEditState& current() const {
+        return (undoable_.isEmpty() ? base_ : undoable_.top());
+    }
+
+private:
+    PhotoEditState base_; // What to return when we have no undo-able edits.
+    QStack<PhotoEditState> undoable_;
+    QStack<PhotoEditState> redoable_;
+};
+
+
+/*!
+ * \brief The PhotoPrivate class implements some private data and functions for Photo
+ */
+class PhotoPrivate {
+    PhotoPrivate(Photo* q=0)
+        : edits_(0),
+          q_ptr(q)
+    {
+    }
+    ~PhotoPrivate()
+    {
+        delete edits_;
+    }
+
+    EditStack* editStack() const;
+    void setBaseEditStack(const PhotoEditState& base);
+
+private:
+    mutable EditStack* edits_;
+
+    Photo * const q_ptr;
+    Q_DECLARE_PUBLIC(Photo)
+};
+
+/*!
+ * \brief PhotoPrivate::editStack returns the editStack.
+ * As the edit stack is lazy loaded, it might take a while to load the last state from the DB
+ * \return the edit stack
+ */
+EditStack* PhotoPrivate::editStack() const
+{
+    if (edits_ == 0) {
+        Q_Q(const Photo);
+        edits_ = new EditStack;
+        Database* database = GalleryManager::instance()->database();
+        PhotoEditState editState = database->get_photo_edit_table()->get_edit_state(q->get_id());
+        edits_->set_base(editState);
+    }
+    return edits_;
+}
+
+void PhotoPrivate::setBaseEditStack(const PhotoEditState &base)
+{
+    if(edits_ == 0) {
+        edits_ = new EditStack;
+    }
+
+    edits_->set_base(base);
+}
+
+
 /*!
  * \brief Photo::IsValid
  * \param file
@@ -75,7 +168,6 @@ bool Photo::IsValid(const QFileInfo& file)
 Photo* Photo::Load(const QFileInfo& file)
 {
     bool needs_update = false;
-    PhotoEditState edit_state;
     QDateTime timestamp;
     QDateTime exposure_time;
     QSize size;
@@ -121,18 +213,19 @@ Photo* Photo::Load(const QFileInfo& file)
                         file.absoluteFilePath(), timestamp, exposure_time, orientation, filesize);
         }
 
+        PhotoEditState edit_state;
+        p->set_base_edit_state(edit_state);
+
         delete metadata;
     } else {
         // Load metadata from DB.
         GalleryManager::instance()->database()->get_media_table()->get_row(id, size, orientation,
                                                                            timestamp, exposure_time);
-        edit_state = GalleryManager::instance()->database()->get_photo_edit_table()->get_edit_state(id);
     }
 
     // Populate photo object.
     if (size.isValid())
         p->set_size(size);
-    p->set_base_edit_state(edit_state);
     p->set_original_orientation(orientation);
     p->set_file_timestamp(timestamp);
     p->set_exposure_date_time(exposure_time);
@@ -172,11 +265,11 @@ Photo::Photo(const QFileInfo& file)
     : MediaSource(file),
       exposure_date_time_(),
       edit_revision_(0),
-      edits_(),
       saved_state_(),
       caches_(file),
       original_size_(),
-      original_orientation_(TOP_LEFT_ORIGIN)
+      original_orientation_(TOP_LEFT_ORIGIN),
+      d_ptr(new PhotoPrivate(this))
 {
     QByteArray format = QImageReader(file.filePath()).format();
     file_format_ = QString(format).toLower();
@@ -189,6 +282,7 @@ Photo::Photo(const QFileInfo& file)
  */
 Photo::~Photo()
 {
+    delete(d_ptr);
 }
 
 /*!
@@ -285,7 +379,8 @@ QUrl Photo::gallery_thumbnail_path() const
  */
 void Photo::set_base_edit_state(const PhotoEditState& base)
 {
-    edits_.set_base(base);
+    Q_D(Photo);
+    d->editStack()->set_base(base);
 }
 
 /*!
@@ -319,10 +414,11 @@ void Photo::revertToOriginal()
  */
 void Photo::undo()
 {
+    Q_D(Photo);
     Orientation old_orientation = orientation();
 
-    PhotoEditState prev = edits_.current();
-    PhotoEditState next = edits_.undo();
+    PhotoEditState prev = d->editStack()->current();
+    PhotoEditState next = d->editStack()->undo();
     if (next != prev)
         save(next, old_orientation);
 }
@@ -332,10 +428,11 @@ void Photo::undo()
  */
 void Photo::redo()
 {
+    Q_D(Photo);
     Orientation old_orientation = orientation();
 
-    PhotoEditState prev = edits_.current();
-    PhotoEditState next = edits_.redo();
+    PhotoEditState prev = d->editStack()->current();
+    PhotoEditState next = d->editStack()->redo();
     if (next != prev)
         save(next, old_orientation);
 }
@@ -444,8 +541,9 @@ QVariant Photo::prepareForCropping()
  */
 void Photo::cancelCropping()
 {
+    Q_D(Photo);
     undo();
-    edits_.clear_redos();
+    d->editStack()->clear_redos();
 }
 
 /*!
@@ -456,6 +554,7 @@ void Photo::cancelCropping()
  */
 void Photo::crop(QVariant vrect)
 {
+    Q_D(Photo);
     QRectF ratio_crop_rect = vrect.toRectF();
 
     QSize image_size = get_original_size(current_state().orientation_);
@@ -478,7 +577,7 @@ void Photo::crop(QVariant vrect)
 
     // We replace the top of the undo stack (which came from prepareForCropping)
     // with the cropped version.
-    edits_.undo();
+    d->editStack()->undo();
     make_undoable_edit(next_state);
 }
 
@@ -500,7 +599,8 @@ void Photo::DestroySource(bool destroy_backing, bool as_orphan)
  */
 const PhotoEditState& Photo::current_state() const
 {
-    return edits_.current();
+    Q_D(const Photo);
+    return d->editStack()->current();
 }
 
 /*!
@@ -545,9 +645,10 @@ QSize Photo::get_original_size(Orientation orientation)
  */
 void Photo::make_undoable_edit(const PhotoEditState& state)
 {
+    Q_D(Photo);
     Orientation old_orientation = orientation();
 
-    edits_.push_edit(state);
+    d->editStack()->push_edit(state);
     save(state, old_orientation);
 }
 

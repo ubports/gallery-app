@@ -30,53 +30,15 @@
 #include "photo/photo-edit-state.h"
 #include "photo/photo-caches.h"
 
+class EditStack;
+class PhotoPrivate;
+
 /*!
  * \brief The Photo class
  */
 class Photo : public MediaSource
 {
     Q_OBJECT
-
-    // A simple class for dealing with an undo-/redo-able stack of applied edits.
-    class EditStack {
-    public:
-        EditStack() : base_(), undoable_(), redoable_() {
-        }
-
-        void set_base(const PhotoEditState& base) {
-            base_ = base;
-        }
-
-        void push_edit(const PhotoEditState& edit_state) {
-            clear_redos();
-            undoable_.push(edit_state);
-        }
-
-        void clear_redos() {
-            redoable_.clear();
-        }
-
-        const PhotoEditState& undo() {
-            if (!undoable_.isEmpty())
-                redoable_.push(undoable_.pop());
-            return current();
-        }
-
-        const PhotoEditState& redo() {
-            if (!redoable_.isEmpty())
-                undoable_.push(redoable_.pop());
-            return current();
-        }
-
-        const PhotoEditState& current() const {
-            return (undoable_.isEmpty() ? base_ : undoable_.top());
-        }
-
-    private:
-        PhotoEditState base_; // What to return when we have no undo-able edits.
-        QStack<PhotoEditState> undoable_;
-        QStack<PhotoEditState> redoable_;
-    };
 
 public:
     static bool IsValid(const QFileInfo& file);
@@ -135,13 +97,15 @@ private:
     QDateTime exposure_date_time_;
     QDateTime file_timestamp_;
     int edit_revision_; // How many times the pixel data has been modified by us.
-    EditStack edits_;
     PhotoEditState saved_state_; // A saved state separate from the undo stack.
     PhotoCaches caches_;
 
     // We cache this data to avoid an image read at various times.
     QSize original_size_;
     Orientation original_orientation_;
+
+    PhotoPrivate * const d_ptr;
+    Q_DECLARE_PRIVATE(Photo)
 };
 
 #endif  // GALLERY_PHOTO_H_
