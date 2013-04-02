@@ -265,7 +265,6 @@ Photo::Photo(const QFileInfo& file)
     : MediaSource(file),
       exposure_date_time_(),
       edit_revision_(0),
-      saved_state_(),
       caches_(file),
       original_size_(),
       original_orientation_(TOP_LEFT_ORIGIN),
@@ -381,23 +380,6 @@ void Photo::set_base_edit_state(const PhotoEditState& base)
 {
     Q_D(Photo);
     d->editStack()->set_base(base);
-}
-
-/*!
- * \brief Photo::saveState
- */
-void Photo::saveState()
-{
-    saved_state_ = current_state();
-}
-
-/*!
- * \brief Photo::revertToSavedState
- */
-void Photo::revertToSavedState()
-{
-    if (saved_state_ != current_state())
-        make_undoable_edit(saved_state_);
 }
 
 /*!

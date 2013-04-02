@@ -30,7 +30,6 @@
 #include "photo/photo-edit-state.h"
 #include "photo/photo-caches.h"
 
-class EditStack;
 class PhotoPrivate;
 
 /*!
@@ -60,8 +59,6 @@ public:
 
     void set_base_edit_state(const PhotoEditState& base);
 
-    Q_INVOKABLE void saveState();
-    Q_INVOKABLE void revertToSavedState();
     Q_INVOKABLE void revertToOriginal();
     Q_INVOKABLE void undo();
     Q_INVOKABLE void redo();
@@ -97,7 +94,6 @@ private:
     QDateTime exposure_date_time_;
     QDateTime file_timestamp_;
     int edit_revision_; // How many times the pixel data has been modified by us.
-    PhotoEditState saved_state_; // A saved state separate from the undo stack.
     PhotoCaches caches_;
 
     // We cache this data to avoid an image read at various times.
