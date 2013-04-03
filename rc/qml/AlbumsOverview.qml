@@ -58,6 +58,7 @@ Checkerboard {
 
     delegate: CheckerboardDelegate {
         id: thisDelegate
+        objectName: "albumsOverviewDelegate"
         property real commitFraction: 0.05
 
         // internal
