@@ -1,4 +1,4 @@
-gallery-app.desktop /usr/share/applications
-gallery-app.svg /usr/share/icons/hicolor/scalable/apps
+desktop/gallery-app.desktop /usr/share/applications
+desktop/icons/* /usr/share/icons/hicolor
 src/gallery-app /usr/bin
 usr/share/gallery-app
