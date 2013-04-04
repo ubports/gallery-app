@@ -1,134 +1,85 @@
-# # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
-# # Copyright 2012 Canonical
-# #
-# # This program is free software: you can redistribute it and/or modify it
-# # under the terms of the GNU General Public License version 3, as published
-# # by the Free Software Foundation.
+# -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
+# Copyright 2012 Canonical
+#
+# This program is free software: you can redistribute it and/or modify it
+# under the terms of the GNU General Public License version 3, as published
+# by the Free Software Foundation.
 
 
-# """Tests for the Gallery App"""
+"""Tests the album editor of the gallery app"""
 
-# from __future__ import absolute_import
+from __future__ import absolute_import
 
-# from testtools.matchers import Equals, NotEquals
-# from autopilot.matchers import Eventually
+from testtools.matchers import Equals
+from autopilot.matchers import Eventually
 
-# from gallery_app.emulators.album_editor import AlbumEditor
-# from gallery_app.tests import GalleryTestCase
+from gallery_app.emulators.album_editor import AlbumEditor
+from gallery_app.tests import GalleryTestCase
 
 
-# class TestAlbumEditor(GalleryTestCase):
-#     """Tests the album editor of the gallery app"""
+class TestAlbumEditor(GalleryTestCase):
+    """Tests the album editor of the gallery app"""
 
-#     @property
-#     def album_editor(self):
-#         return AlbumEditor(self.app)
+    @property
+    def album_editor(self):
+        return AlbumEditor(self.app)
 
-#     """ This is needed to wait for the application to start.
-#         In the testfarm, the application may take some time to show up."""
-#     def setUp(self):
-#         super(TestAlbumEditor, self).setUp()
-#         self.assertThat(self.album_editor.get_qml_view().visible, Eventually(Equals(True)))
+    def setUp(self):
+        super(TestAlbumEditor, self).setUp()
+        self.switch_to_albums_tab()
+        self.edit_first_album()
 
-#         self.click_albums_tab()
-#         self.click_plus_icon()
+    def edit_first_album(self):
+       first_album = self.album_editor.get_first_album()
+       self.tap_item(first_album)
+       edit_button = self.album_editor.get_edit_album_button()
+       self.click_item(edit_button)
+       self.ensure_edit_is_fully_open()
 
-#     def tearDown(self):
-#         super(TestAlbumEditor, self).tearDown()
+    def ensure_edit_is_fully_open(self):
+        animated_editor = self.album_editor.get_animated_album_editor()
+        self.assertThat(animated_editor.isOpen, Eventually(Equals(True)))
+        editor = self.album_editor.get_album_editor()
+        self.assertThat(editor.visible, Eventually(Equals(True)))
+        self.assertThat(animated_editor.animationRunning, Eventually(Equals(False)))
 
-#     def click_albums_tab(self):
-#         albums_tab = self.album_editor.get_albums_tab()
+    def click_title_field(self):
+        title_field = self.album_editor.get_album_title_entry_field()
+        self.click_item(title_field)
 
-#         self.pointing_device.move_to_object(albums_tab)
-#         self.pointing_device.click()
+    def click_subtitle_field(self):
+        subtitle_field = self.album_editor.get_album_subtitle_entry_field()
+        self.click_item(subtitle_field)
 
-#         self.assertThat(albums_tab.state, Eventually(Equals("selected")))
 
-#     def click_plus_icon(self):
-#         add_icon = self.album_editor.get_plus_icon()
+    def test_album_title_fields(self):
+        """tests the title and sub title"""
+        title_field = self.album_editor.get_album_title_entry_field()
+        subtitle_field = self.album_editor.get_album_subtitle_entry_field()
 
-#         self.pointing_device.move_to_object(add_icon)
-#         self.pointing_device.click()
+        text = "My Photo Album"
+        self.assertThat(title_field.text, Equals(text))
 
-#     def click_title_field(self):
-#         title_field = self.album_editor.get_album_title_entry_field()
+        text = "Ubuntu"
+        self.assertThat(subtitle_field.text, Equals(text))
 
-#         self.pointing_device.move_to_object(title_field)
-#         self.pointing_device.click()
+        self.click_title_field()
+        self.keyboard.press_and_release("Ctrl+a")
+        self.keyboard.press_and_release("P")
+        self.keyboard.press_and_release("h")
+        self.keyboard.press_and_release("o")
+        self.keyboard.press_and_release("t")
+        self.keyboard.press_and_release("o")
+        self.keyboard.press_and_release("s")
+        text = "Photos"
+        #due to some reason the album title is not updated unless it loses the focus
+        #so we click on the subtitle field.
+        self.click_subtitle_field()
+        self.assertThat(title_field.text, Equals(text))
 
-#     def click_subtitle_field(self):
-#         subtitle_field = self.album_editor.get_album_subtitle_entry_field()
-
-#         self.pointing_device.move_to_object(subtitle_field)
-#         self.pointing_device.click()
-
-#     def test_album_title_field_default_text(self):
-#         """Ensures the default text of the title field is intact."""
-#         title_field = self.album_editor.get_album_title_entry_field()
-
-#         self.assertThat(title_field.text, Eventually(Equals("New Photo Album")))
-
-#     def test_album_subtitle_field_default_text(self):
-#         """Ensures the default text of the subtitle field is intact."""
-#         subtitle_field = self.album_editor.get_album_subtitle_entry_field()
-
-#         self.assertThat(subtitle_field.text, Eventually(Equals("Subtitle")))
-
-#     def test_album_title_entry_field(self):
-#         """Ensures text can be removed from the title input field."""
-#         title_field = self.album_editor.get_album_title_entry_field()
-#         subtitle_field = self.album_editor.get_album_subtitle_entry_field()
-
-#         self.click_title_field()
-
-#         self.keyboard.press_and_release("Ctrl+a")
-#         self.keyboard.press_and_release("Delete")
-
-#         #due to some reason the album title is not updated unless it loses the focus
-#         #so we click on the subtitle field.
-#         self.click_subtitle_field()
-
-#         self.assertThat(title_field.text, Eventually(Equals("")))
-
-#     def test_album_title_entry_input(self):
-#         """Ensures text can be inserted into the title input field."""
-#         title_field = self.album_editor.get_album_title_entry_field()
-#         subtitle_field = self.album_editor.get_album_subtitle_entry_field()
-
-#         self.click_title_field()
-
-#         self.keyboard.press_and_release("Ctrl+a")
-#         self.keyboard.type("test")
-
-#         self.click_subtitle_field()
-
-#         self.assertThat(title_field.text, Eventually(Equals("test")))
-
-#     def test_album_subtitle_entry_field(self):
-#         """Ensures text can be removed from the subtitle input field."""
-#         title_field = self.album_editor.get_album_title_entry_field()
-#         subtitle_field = self.album_editor.get_album_subtitle_entry_field()
-
-#         self.click_subtitle_field()
-
-#         self.keyboard.press_and_release("Ctrl+a")
-#         self.keyboard.press_and_release("Delete")
-
-#         self.click_title_field()
-
-#         self.assertThat(subtitle_field.text, Eventually(Equals("")))
-
-#     def test_album_subtitle_entry_input(self):
-#         """Ensures text can be inserted into the subtitle input field."""
-#         title_field = self.album_editor.get_album_title_entry_field()
-#         subtitle_field = self.album_editor.get_album_subtitle_entry_field()
-
-#         self.click_subtitle_field()
-
-#         self.keyboard.press_and_release("Ctrl+a")
-#         self.keyboard.type("test")
-
-#         self.click_title_field()
-
-#         self.assertThat(subtitle_field.text, Eventually(Equals("test")))
-
+        self.keyboard.press_and_release("Ctrl+a")
+        self.keyboard.press_and_release("U")
+        self.keyboard.press_and_release("1")
+        text = "U1"
+        self.click_title_field()
+        self.assertThat(subtitle_field.text, Equals(text))

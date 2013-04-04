@@ -27,23 +27,7 @@ class TestPhotosView(GalleryTestCase):
 
     def setUp(self):
         super(TestPhotosView, self).setUp()
-        self.switch_to_albumss_tab()
-
-    def switch_to_albumss_tab(self):
-        tabs_bar = self.albums_view.get_tabs_bar()
-        self.click_item(tabs_bar)
-
-        albums_tab_button = self.albums_view.get_albums_tab_button()
-        #Due to some timing issues sometimes mouse moves to the location a bit earlier
-        #even though the tab item is not fully visible, hence the tab does not activate.
-        self.assertThat(albums_tab_button.opacity, Eventually(GreaterThan(0.2)))
-        self.click_item(albums_tab_button)
-
-        self.ensure_tabs_dont_move()
-
-    def ensure_tabs_dont_move(self):
-        """FIXME find a (functional) way to test if the tabs still move"""
-        sleep(1)
+        self.switch_to_albums_tab()
 
 
     def test_add_album(self):

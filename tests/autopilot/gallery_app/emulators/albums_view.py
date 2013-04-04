@@ -22,5 +22,5 @@ class AlbumsView(GalleryUtils):
 
     def number_of_albums_in_albums_view(self):
         #"""Returns the number of albums shown in alsbums overview"""
-        albums_delegates = self.app.select_many("CheckerboardDelegate", objectName="albumsOverviewDelegate")
+        albums_delegates = self.app.select_many("CheckerboardDelegate", objectName="checkerboardDelegate")
         return len(albums_delegates)
