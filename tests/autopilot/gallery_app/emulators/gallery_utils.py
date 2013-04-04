@@ -43,6 +43,11 @@ class GalleryUtils(object):
         """Returns the top tabs bar."""
         return self.app.select_single("NewTabBar")
 
+    def get_albums_tab_button(self):
+        """Returns the photos tab."""
+        return self.app.select_single("AbstractButton", buttonIndex=0)
+
+
     def get_toolbar(self):
         """Returns the toolbar in the main events view."""
         main_view = self.app.select_single("MainScreen", objectName="overview")
@@ -103,7 +108,6 @@ class GalleryUtils(object):
         return first_photo
 
 
-    def get_albums_tab_button(self):
-        """Returns the photos tab."""
-        return self.app.select_single("AbstractButton", buttonIndex=0)
-
+    def get_first_album(self):
+        """Returns the first album in the albums view"""
+        return self.app.select_many("CheckerboardDelegate", objectName="checkerboardDelegate")[0]

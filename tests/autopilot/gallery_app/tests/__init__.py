@@ -13,11 +13,12 @@ import shutil
 
 from autopilot.introspection.qt import QtIntrospectionTestMixin
 from autopilot.testcase import AutopilotTestCase
-from testtools.matchers import Equals, NotEquals
+from testtools.matchers import Equals, GreaterThan
 from autopilot.matchers import Eventually
 
 from gallery_app.emulators.gallery_utils import GalleryUtils
 
+from time import sleep
 
 class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
 
@@ -67,10 +68,18 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
            "gallery-app", self.sample_dir
            )
 
+
     def click_item(self, item):
         """Does a mouse click on the passed item, and moved the mouse there before"""
         self.pointing_device.move_to_object(item)
         self.pointing_device.click()
+
+    def tap_item(self, item):
+        """Does a long mouse press on the passed item, and moved the mouse there before"""
+        self.pointing_device.move_to_object(item)
+        self.pointing_device.press()
+        sleep(1)
+        self.pointing_device.release()
 
     def reveal_toolbar(self):
         toolbar = self.gallery_utils.get_toolbar()
@@ -87,3 +96,16 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
 
         self.pointing_device.drag(x_line, start_y, x_line, stop_y)
         self.assertThat(toolbar.active, Eventually(Equals(True)))
+
+    def switch_to_albums_tab(self):
+        tabs_bar = self.gallery_utils.get_tabs_bar()
+        self.click_item(tabs_bar)
+
+        albums_tab_button = self.gallery_utils.get_albums_tab_button()
+        #Due to some timing issues sometimes mouse moves to the location a bit earlier
+        #even though the tab item is not fully visible, hence the tab does not activate.
+        self.assertThat(albums_tab_button.opacity, Eventually(GreaterThan(0.2)))
+        self.click_item(albums_tab_button)
+
+        """FIXME find a (functional) way to test if the tabs still move"""
+        sleep(1)

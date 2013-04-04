@@ -41,6 +41,7 @@ Popover {
             top: parent.top
         }
         ListItem.Standard {
+            objectName: "editAlbumListItem"
             text: "Edit album"
             onClicked: {
                 hide()
