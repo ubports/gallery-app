@@ -1,4 +1,4 @@
 desktop/gallery-app.desktop /usr/share/applications
-desktop/icons/* /usr/share/icons/hicolor
+desktop/icons/* /usr/share/icons/ubuntu-mobile
 src/gallery-app /usr/bin
 usr/share/gallery-app
