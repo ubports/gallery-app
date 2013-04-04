@@ -1,3 +1,4 @@
-gallery-app.desktop /usr/share/applications
+desktop/gallery-app.desktop /usr/share/applications
+desktop/icons/* /usr/share/icons
 src/gallery-app /usr/bin
 usr/share/gallery-app
