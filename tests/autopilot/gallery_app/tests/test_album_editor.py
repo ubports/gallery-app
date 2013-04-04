@@ -64,22 +64,22 @@ class TestAlbumEditor(GalleryTestCase):
         self.assertThat(subtitle_field.text, Equals(text))
 
         self.click_title_field()
-        for i in range(10):
-            self.keyboard.press_and_release("Delete")
+        self.keyboard.press_and_release("Ctrl+a")
+        self.keyboard.press_and_release("P")
         self.keyboard.press_and_release("h")
         self.keyboard.press_and_release("o")
         self.keyboard.press_and_release("t")
         self.keyboard.press_and_release("o")
         self.keyboard.press_and_release("s")
-        text = "My Photos"
+        text = "Photos"
         #due to some reason the album title is not updated unless it loses the focus
         #so we click on the subtitle field.
         self.click_subtitle_field()
-        self.assertThat(title_field.text, Eventually(Equals(text)))
+        self.assertThat(title_field.text, Equals(text))
 
-        for i in range(2):
-            self.keyboard.press_and_release("Delete")
-        self.keyboard.press_and_release("u")
-        text = "Ubuuu"
+        self.keyboard.press_and_release("Ctrl+a")
+        self.keyboard.press_and_release("U")
+        self.keyboard.press_and_release("1")
+        text = "U1"
         self.click_title_field()
-        self.assertThat(subtitle_field.text, Eventually(Equals("Ubuuu")))
+        self.assertThat(subtitle_field.text, Equals(text))
