@@ -135,6 +135,9 @@ Item {
 
             UbuntuShape {
                 id: thumbnail
+
+                property bool isLoading: image.status === Image.Loading
+
                 x: patternPhoto < 5 ? __margin : -__bigSize
                 y: __photosTopMargin + __photoY[patternPhoto]
                 width: parent.height
@@ -197,7 +200,7 @@ Item {
             Loader {
                 id: loader_loadIndicator
                 anchors.centerIn: thumbnail
-                sourceComponent: delayTimer.showIndicator && !thumbnail.visible ?
+                sourceComponent: delayTimer.showIndicator && thumbnail.isLoading ?
                                      component_loadIndicator : undefined
                 asynchronous: true
 
