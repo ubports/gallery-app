@@ -449,6 +449,9 @@ bool Photo::canRedo() const
     return d->editStack()->canRedo();
 }
 
+/*!
+ * \brief Photo::isOriginal
+ */
 bool Photo::isOriginal() const
 {
     return current_state().is_original();
