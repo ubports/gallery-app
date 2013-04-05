@@ -83,6 +83,7 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
 
     def reveal_toolbar(self):
         toolbar = self.gallery_utils.get_toolbar()
+        self.assertThat(toolbar.animating, Eventually(Equals(False)))
 
         if toolbar.active:
             # Toolbar already open
