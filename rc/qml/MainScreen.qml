@@ -130,11 +130,13 @@ MainView {
 
     AlbumViewerAnimated {
         id: albumViewer
+        objectName: "albumViewerAnimated"
         anchors.fill: parent
     }
 
     AlbumEditorAnimated {
         id: albumEditor
+        objectName: "albumEditorAnimated"
         anchors.fill: parent
     }
 

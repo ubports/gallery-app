@@ -73,6 +73,7 @@ Item {
 
             AlbumViewer {
                 id: inner_albumViewer
+                objectName: "albumViewer"
 
                 anchors.fill: parent
                 visible: false
