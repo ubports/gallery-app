@@ -245,3 +245,43 @@ class TestPhotoEditor(TestPhotoViewerBase):
         # give the gallery the time to fully save the photo, and rebuild the thumbnails
         # FIXME using sleep is a dangerous "hackisch" workaround, and should be implemented properly
         sleep(1)
+
+    def test_photo_editor_redo_undo_revert_to_original_states(self):
+        undo_item = self.photo_viewer.get_undo_menu_item()
+        redo_item = self.photo_viewer.get_redo_menu_item()
+        revert_item = self.photo_viewer.get_revert_menu_item()
+
+        self.assertThat(undo_item.enabled, Eventually(Equals(False)))
+        self.assertThat(redo_item.enabled, Eventually(Equals(False)))
+        self.assertThat(revert_item.enabled, Eventually(Equals(False)))
+
+        self.click_rotate_item()
+
+        self.assertThat(undo_item.enabled, Eventually(Equals(True)))
+        self.assertThat(redo_item.enabled, Eventually(Equals(False)))
+        self.assertThat(revert_item.enabled, Eventually(Equals(True)))
+
+        self.reveal_toolbar()
+        self.click_edit_button()
+        self.click_undo_item()
+
+        self.assertThat(undo_item.enabled, Eventually(Equals(False)))
+        self.assertThat(redo_item.enabled, Eventually(Equals(True)))
+        self.assertThat(revert_item.enabled, Eventually(Equals(False)))
+
+        self.reveal_toolbar()
+        self.click_edit_button()
+        self.click_redo_item()
+
+        self.assertThat(undo_item.enabled, Eventually(Equals(True)))
+        self.assertThat(redo_item.enabled, Eventually(Equals(False)))
+        self.assertThat(revert_item.enabled, Eventually(Equals(True)))
+
+        self.reveal_toolbar()
+        self.click_edit_button()
+        self.click_revert_item()
+
+        self.assertThat(undo_item.enabled, Eventually(Equals(True)))
+        self.assertThat(redo_item.enabled, Eventually(Equals(False)))
+        self.assertThat(revert_item.enabled, Eventually(Equals(False)))
+
