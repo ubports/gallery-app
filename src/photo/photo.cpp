@@ -72,12 +72,12 @@ public:
         return (undoable_.isEmpty() ? base_ : undoable_.top());
     }
 
-    int undo_size() const {
-        return undoable_.size();
+    int canUndo() const {
+        return !undoable_.isEmpty();
     }
 
-    int redo_size() const {
-        return redoable_.size();
+    int canRedo() const {
+        return !redoable_.isEmpty();
     }
 
 private:
@@ -411,7 +411,7 @@ void Photo::undo()
     PhotoEditState next = d->editStack()->undo();
     if (next != prev) {
         save(next, old_orientation);
-        emit edit_stack_altered();
+        emit editStackChanged();
     }
 }
 
@@ -427,29 +427,29 @@ void Photo::redo()
     PhotoEditState next = d->editStack()->redo();
     if (next != prev) {
         save(next, old_orientation);
-        emit edit_stack_altered();
+        emit editStackChanged();
     }
 }
 
 /*!
  * \brief Photo::canUndo
  */
-bool Photo::can_undo() const
+bool Photo::canUndo() const
 {
     Q_D(const Photo);
-    return (d->editStack()->undo_size() > 0);
+    return d->editStack()->canUndo();
 }
 
 /*!
  * \brief Photo::canRedo
  */
-bool Photo::can_redo() const
+bool Photo::canRedo() const
 {
     Q_D(const Photo);
-    return (d->editStack()->redo_size() > 0);
+    return d->editStack()->canRedo();
 }
 
-bool Photo::is_original() const
+bool Photo::isOriginal() const
 {
     return current_state().is_original();
 }
@@ -667,7 +667,7 @@ void Photo::make_undoable_edit(const PhotoEditState& state)
 
     d->editStack()->push_edit(state);
     save(state, old_orientation);
-    emit edit_stack_altered();
+    emit editStackChanged();
 }
 
 /*!
