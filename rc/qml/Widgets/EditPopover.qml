@@ -53,7 +53,7 @@ Popover {
         }
         ListItem.Standard {
             text: "Auto enhance"
-            objectName: "enhanceListItem"
+            objectName: "enhanceListItem"            
             onClicked: {
                 hide();
                 photo.autoEnhance();
@@ -62,6 +62,7 @@ Popover {
         ListItem.Standard {
             text: "Undo"
             objectName: "undoListItem"
+            enabled: photo.canUndo
             onClicked: {
                 hide();
                 photo.undo();
@@ -70,6 +71,7 @@ Popover {
         ListItem.Standard {
             text: "Redo"
             objectName: "redoListItem"
+            enabled: photo.canRedo
             onClicked: {
                 hide();
                 photo.redo();
@@ -78,6 +80,7 @@ Popover {
         ListItem.Standard {
             text: "Revert to original"
             objectName: "revertListItem"
+            enabled: !photo.isOriginal
             onClicked: {
                 hide();
                 photo.revertToOriginal();

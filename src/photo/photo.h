@@ -39,6 +39,10 @@ class Photo : public MediaSource
 {
     Q_OBJECT
 
+    Q_PROPERTY(bool canUndo READ can_undo NOTIFY edit_stack_altered)
+    Q_PROPERTY(bool canRedo READ can_redo NOTIFY edit_stack_altered)
+    Q_PROPERTY(bool isOriginal READ is_original NOTIFY edit_stack_altered)
+
 public:
     static bool IsValid(const QFileInfo& file);
 
@@ -59,6 +63,10 @@ public:
 
     void set_base_edit_state(const PhotoEditState& base);
 
+    bool can_undo() const;
+    bool can_redo() const;
+    bool is_original() const;
+
     Q_INVOKABLE void revertToOriginal();
     Q_INVOKABLE void undo();
     Q_INVOKABLE void redo();
@@ -69,6 +77,9 @@ public:
     Q_INVOKABLE QVariant prepareForCropping();
     Q_INVOKABLE void cancelCropping();
     Q_INVOKABLE void crop(QVariant vrect);
+
+signals:
+    void edit_stack_altered();
 
 protected:
     virtual void DestroySource(bool destroy_backing, bool as_orphan);
