@@ -395,9 +395,8 @@ void Photo::set_base_edit_state(const PhotoEditState& base)
  */
 void Photo::revertToOriginal()
 {
-    if (!current_state().is_original()) {
+    if (!current_state().is_original())
         make_undoable_edit(PhotoEditState());
-    }
 }
 
 /*!
