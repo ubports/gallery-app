@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical Ltd
+ * Copyright (C) 2013 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -12,120 +12,106 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- * Jim Nelson <jim@yorba.org>
- * Charles Lindsay <chaz@yorba.org>
  */
 
 import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 0.1
-import "../Capetown"
-import "Components"
+import "../js/Gallery.js" as Gallery
 import "Utility"
-import "Widgets"
 
 /*!
+  MediaSelector provides a view, with all photos. And these can be selected.
 */
-Item {
+OrganicView {
     id: mediaSelector
 
-    /*!
-    */
-    signal cancelRequested()
-    /*!
-    */
-    signal doneRequested(variant model)
+    /// Is true, while the animation tto show/hide the media selector is running
+    property alias animationRunning: blendAnimation.running
 
-    /*!
-    */
-    property variant album
+    /// Emiotted when the user clicked the add button
+    signal addClicked()
+    /// Emitted when fully shown
+    signal shown()
+    /// Emitted when fully hidden
+    signal hidden()
 
-    // Read-only.
-    /*!
-    */
-    property bool animationRunning: slider.animationRunning
-
-    /*!
-    */
+    /// Shows the item in an animated way
     function show() {
-        slider.slideIn();
+        visible = true;
+        opacity = 0;
+        blendAnimation.to = 1;
+        blendAnimation.start();
+        header.show();
+        active = true
     }
-
-    /*!
-    */
+    /// Hides the item in an animated way
     function hide() {
-        slider.slideOut();
+        blendAnimation.to = 0;
+        blendAnimation.start();
+        active = false;
     }
 
-    SlidingPane {
-        id: slider
+    tools: toolActions
+    title: i18n.tr("Add to Album")
+    active: false
+    visible: false
 
-        x: 0
-        y: parent.height
-        width: parent.width
-        height: parent.height
+    selection: SelectionState {
+        id: select
+        inSelectionMode: true
+        allowSelectionModeChange: false
+    }
 
-        inX: 0
-        inY: 0
+    model: EventCollectionModel {
+    }
 
-        visible: (y < parent.height)
+    delegate: OrganicMediaList {
+        width: mediaSelector.width
 
-        OrganicEventView {
-            id: photos
+        animationDuration: mediaSelector.animationDuration
+        animationEasingType: mediaSelector.animationEasingType
 
-            anchors.fill: parent
-            anchors.topMargin: chrome.navbarHeight
-            visible: true
+        event: model.event
+        selection: mediaSelector.selection
+    }
 
-            // never update the toolbar or header
-            active: false
-
-            selection: SelectionState {
-                inSelectionMode: true
-                allowSelectionModeChange: false
+    property ToolbarActions toolActions: ToolbarActions {
+        Action {
+            text: i18n.tr("Add to Album")
+            iconSource: "../img/add.png"
+            onTriggered: {
+                mediaSelector.addClicked();
+                mediaSelector.hide();
             }
         }
 
-        ViewerChrome {
-            id: chrome
-
-            anchors.fill: parent
-
-            autoHideWait: 0
-
-            navbarSelectionDoneButtonText: "Add to album"
-            navbarSelectionDoneButtonWidth: units.gu(18)
-            navbarHasCancelSelectionButton: true
-
-            toolbarHasMainIconsWhenSelecting: false
-
-            inSelectionMode: true
-            state: "shown"
-            visible: true
-
-            hasSelectionOperationsButton: true
-            onSelectionOperationsButtonPressed: cyclePopup(selectionMenu);
-
-            onSelectionDoneButtonPressed: {
-                doneRequested(photos.selection.model);
-                photos.selection.unselectAll();
+        back: Action {
+            itemHint: Button {
+                text: i18n.tr("Cancel")
+                width: units.gu(10)
             }
-
-            onCancelSelectionButtonPressed: {
-                photos.selection.unselectAll();
-                cancelRequested();
+            onTriggered: {
+                mediaSelector.hide();
             }
+        }
+        active: true
+        lock: true
+    }
 
-            popups: [selectionMenu]
-
-            SelectionMenu {
-                id: selectionMenu
-
-                selection: photos.selection
-
-                onPopupInteractionCompleted: chrome.hideAllPopups()
+    PropertyAnimation {
+        id: blendAnimation
+        target: mediaSelector
+        property: "opacity"
+        duration: Gallery.FAST_DURATION
+        easing.type: Easing.InQuint
+        onStopped: {
+            if (mediaSelector.opacity === 1) {
+                mediaSelector.shown();
+            } else {
+                selection.unselectAll();
+                visible = false;
+                mediaSelector.hidden();
             }
         }
     }

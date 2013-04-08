@@ -35,6 +35,8 @@ Item {
     property bool isPreview: false
     /// As long as this load property is false, the loading of the images is not triggered
     property bool load: false
+    /// True if the photo is visible, either as preview, or as full version
+    property bool isLoaded: preview.status === Image.Ready || fullImage.status === Image.Ready
 
     Image {
         id: preview

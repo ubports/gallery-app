@@ -420,33 +420,32 @@ Page {
         MediaSelector {
             id: mediaSelector
 
-            album: albumViewer.album
-
-            onCancelRequested: hide()
-
-            onDoneRequested: {
-                var firstPhoto = album.addSelectedMediaSources(model);
-
-                hide();
-
+            onAddClicked: {
+                var album  = albumViewer.album;
+                var firstPhoto = album.addSelectedMediaSources(selection.model);
                 if (firstPhoto && albumViewer.state == "pageView") {
                     var firstChangedPage = album.getPageForMediaSource(firstPhoto);
                     var firstChangedSpread = albumSpreadViewer.getLeftHandPageNumber(firstChangedPage);
-
                     albumSpreadViewer.flipTo(firstChangedSpread);
                 }
+            }
+
+            onHidden: {
+                loader_mediaSelector.sourceComponent = undefined;
+                albumViewer.active = true;
             }
         }
     }
     Loader {
         id: loader_mediaSelector
+        objectName: "albumMediaSelectorLoader"
         anchors.fill: parent
         function show() {
-            sourceComponent = component_mediaSelector
-            item.show()
+            sourceComponent = component_mediaSelector;
+            item.show();
+            albumViewer.active = false;
         }
     }
-
 
     DeleteOrDeleteWithContentsDialog {
         id: albumTrashDialog
