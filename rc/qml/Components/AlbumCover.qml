@@ -185,6 +185,7 @@ Item {
 
             Image {
                 id: addPhotosImage
+                objectName: "albumCoverAddPhotosImage"
 
                 // Size ratio of image to screen space.
                 property real sizeRatio: coverImageFull.parent.width / coverImageFull.sourceSize.width

@@ -439,6 +439,7 @@ Page {
     }
     Loader {
         id: loader_mediaSelector
+        objectName: "albumMediaSelectorLoader"
         anchors.fill: parent
         function show() {
             sourceComponent = component_mediaSelector;

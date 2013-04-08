@@ -21,6 +21,10 @@ class AlbumView(GalleryUtils):
         """Returns the album view"""
         return self.app.select_single("AlbumViewer", objectName="albumViewer")
 
+    def get_toolbar_add_button(self):
+        """Returns the add button of the tollbar in the events view."""
+        return self.get_toolbar_button(0)
+
     def get_first_photo(self):
         """Returns the first photo in a newly opened album"""
         return self.app.select_many("FramePortrait")[0]
@@ -29,3 +33,15 @@ class AlbumView(GalleryUtils):
         """Returns the photo view of the album viewer"""
         view = self.get_album_view()
         return view.get_children_by_type("PopupPhotoViewer")[0]
+
+    def number_of_photos(self):
+        """Returns the numer of visible photos"""
+        return len(self.app.select_many("FramePortrait", isPreview=False, isLoaded=True))
+
+    def media_selector_loader(self):
+        """Returns the loader for the media selector"""
+        return self.app.select_single("QQuickLoader", objectName="albumMediaSelectorLoader")
+
+    def get_plus_icon_empty_album(self):
+        """Returns the plus icon visible in empty albums"""
+        return self.app.select_many("QQuickImage", objectName="addButton")[0]

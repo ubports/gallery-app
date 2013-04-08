@@ -110,3 +110,17 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
 
         """FIXME find a (functional) way to test if the tabs still move"""
         sleep(1)
+
+    def open_first_album(self):
+        first_album = self.album_view.get_first_album()
+        self.click_item(first_album)
+        self.ensure_view_is_fully_open()
+
+    def ensure_view_is_fully_open(self):
+        animated_view = self.album_view.get_animated_album_view()
+        self.assertThat(animated_view.isOpen, Eventually(Equals(True)))
+        view = self.album_view.get_album_view()
+        self.assertThat(view.visible, Eventually(Equals(True)))
+        self.assertThat(animated_view.animationRunning,
+                        Eventually(Equals(False)))
+

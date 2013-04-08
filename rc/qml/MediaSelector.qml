@@ -26,6 +26,9 @@ import "Utility"
 OrganicView {
     id: mediaSelector
 
+    /// Is true, while the animation tto show/hide the media selector is running
+    property alias animationRunning: blendAnimation.running
+
     /// Emiotted when the user clicked the add button
     signal addClicked()
     /// Emitted when fully shown
@@ -40,15 +43,19 @@ OrganicView {
         blendAnimation.to = 1;
         blendAnimation.start();
         header.show();
+        active = true
     }
     /// Hides the item in an animated way
     function hide() {
         blendAnimation.to = 0;
         blendAnimation.start();
+        active = false;
     }
 
     tools: toolActions
     title: i18n.tr("Add to Album")
+    active: false
+    visible: false
 
     selection: SelectionState {
         id: select
@@ -103,6 +110,7 @@ OrganicView {
                 mediaSelector.shown();
             } else {
                 selection.unselectAll();
+                visible = false;
                 mediaSelector.hidden();
             }
         }
