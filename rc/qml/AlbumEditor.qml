@@ -76,7 +76,7 @@ Page {
     property variant editorRect
     /*!
     */
-    property bool animationRunning: mediaSelector.animationRunning
+    property alias animationRunning: mediaSelector.animationRunning
 
     // internal
     /*!

@@ -45,8 +45,6 @@ OrganicView {
         id: albumCollectionModel
     }
 
-    anchors.bottomMargin: inSelectionMode && toolbar ? toolbar.height : 0
-
     selection: SelectionState {
         id: select
         // avoid entering selection mode by long-pressing on a photo:

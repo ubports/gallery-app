@@ -419,7 +419,6 @@ Page {
         id: component_mediaSelector
         MediaSelector {
             id: mediaSelector
-            visible: false
 
             onAddClicked: {
                 var album  = albumViewer.album;
