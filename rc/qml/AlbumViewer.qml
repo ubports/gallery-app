@@ -32,7 +32,6 @@ import "Widgets"
 */
 Page {
     id: albumViewer
-    objectName: "albumViewer"
 
     /// The album that is shown by this viewer
     property Album album
@@ -373,6 +372,7 @@ Page {
         album: albumViewer.album
 
         anchors.fill: parent
+        visible: false
 
         onOpening: {
             visible = true;
