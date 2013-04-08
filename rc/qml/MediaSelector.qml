@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical Ltd
+ * Copyright (C) 2013 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -12,20 +12,13 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- * Jim Nelson <jim@yorba.org>
- * Charles Lindsay <chaz@yorba.org>
  */
 
 import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 0.1
-import "../Capetown"
 import "../js/Gallery.js" as Gallery
-import "Components"
 import "Utility"
-import "Widgets"
 
 /*!
   MediaSelector provides a view, with all photos. And these can be selected.
@@ -56,7 +49,6 @@ OrganicView {
 
     tools: toolActions
     title: i18n.tr("Add to Album")
-    flickable: null
 
     selection: SelectionState {
         id: select
@@ -66,8 +58,6 @@ OrganicView {
 
     model: EventCollectionModel {
     }
-
-    organicMediaListMargin: header.height + units.gu(9)
 
     delegate: OrganicMediaList {
         width: mediaSelector.width
@@ -98,6 +88,8 @@ OrganicView {
                 mediaSelector.hide();
             }
         }
+        active: true
+        lock: true
     }
 
     PropertyAnimation {
@@ -108,9 +100,7 @@ OrganicView {
         easing.type: Easing.InQuint
         onStopped: {
             if (mediaSelector.opacity === 1) {
-                toolbar.active = true;
                 mediaSelector.shown();
-                console.log("HH: "+header.height + " GU: " + units.gu(1))
             } else {
                 selection.unselectAll();
                 mediaSelector.hidden();
