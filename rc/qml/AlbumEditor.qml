@@ -76,7 +76,7 @@ Page {
     property variant editorRect
     /*!
     */
-    property alias animationRunning: mediaSelector.animationRunning
+    property bool animationRunning: false//mediaSelector.animationRunning
 
     // internal
     /*!
@@ -211,16 +211,16 @@ Page {
 
         anchors.fill: parent
 
-        album: albumEditor.album
+//        album: albumEditor.album
 
-        onCancelRequested: hide()
+//        onCancelRequested: hide()
 
-        onDoneRequested: {
-            album.addSelectedMediaSources(model);
-            closeAlbum();
+//        onDoneRequested: {
+//            album.addSelectedMediaSources(model);
+//            closeAlbum();
 
-            albumEditor.closeRequested(albumEditor.album, true);
-            hide();
-        }
+//            albumEditor.closeRequested(albumEditor.album, true);
+//            hide();
+//        }
     }
 }

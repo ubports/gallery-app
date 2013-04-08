@@ -22,110 +22,98 @@ import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 0.1
 import "../Capetown"
+import "../js/Gallery.js" as Gallery
 import "Components"
 import "Utility"
 import "Widgets"
 
 /*!
+  MediaSelector provides a view, with all photos. And these can be selected.
 */
-Item {
+OrganicView {
     id: mediaSelector
 
-    /*!
-    */
-    signal cancelRequested()
-    /*!
-    */
-    signal doneRequested(variant model)
+    /// Emiotted when the user clicked the add button
+    signal addClicked()
+    /// Emitted when fully shown
+    signal shown()
+    /// Emitted when fully hidden
+    signal hidden()
 
-    /*!
-    */
-    property variant album
-
-    // Read-only.
-    /*!
-    */
-    property bool animationRunning: slider.animationRunning
-
-    /*!
-    */
+    /// Shows the item in an animated way
     function show() {
-        slider.slideIn();
+        visible = true;
+        opacity = 0;
+        blendAnimation.to = 1;
+        blendAnimation.start();
+        header.show();
     }
-
-    /*!
-    */
+    /// Hides the item in an animated way
     function hide() {
-        slider.slideOut();
+        blendAnimation.to = 0;
+        blendAnimation.start();
     }
 
-    SlidingPane {
-        id: slider
+    tools: toolActions
+    title: i18n.tr("Add to Album")
+    flickable: null
 
-        x: 0
-        y: parent.height
-        width: parent.width
-        height: parent.height
+    selection: SelectionState {
+        id: select
+        inSelectionMode: true
+        allowSelectionModeChange: false
+    }
 
-        inX: 0
-        inY: 0
+    model: EventCollectionModel {
+    }
 
-        visible: (y < parent.height)
+    organicMediaListMargin: header.height + units.gu(9)
 
-        OrganicEventView {
-            id: photos
+    delegate: OrganicMediaList {
+        width: mediaSelector.width
 
-            anchors.fill: parent
-            anchors.topMargin: chrome.navbarHeight
-            visible: true
+        animationDuration: mediaSelector.animationDuration
+        animationEasingType: mediaSelector.animationEasingType
 
-            // never update the toolbar or header
-            active: false
+        event: model.event
+        selection: mediaSelector.selection
+    }
 
-            selection: SelectionState {
-                inSelectionMode: true
-                allowSelectionModeChange: false
+    property ToolbarActions toolActions: ToolbarActions {
+        Action {
+            text: i18n.tr("Add to Album")
+            iconSource: "../img/add.png"
+            onTriggered: {
+                mediaSelector.addClicked();
+                mediaSelector.hide();
             }
         }
 
-        ViewerChrome {
-            id: chrome
-
-            anchors.fill: parent
-
-            autoHideWait: 0
-
-            navbarSelectionDoneButtonText: "Add to album"
-            navbarSelectionDoneButtonWidth: units.gu(18)
-            navbarHasCancelSelectionButton: true
-
-            toolbarHasMainIconsWhenSelecting: false
-
-            inSelectionMode: true
-            state: "shown"
-            visible: true
-
-            hasSelectionOperationsButton: true
-            onSelectionOperationsButtonPressed: cyclePopup(selectionMenu);
-
-            onSelectionDoneButtonPressed: {
-                doneRequested(photos.selection.model);
-                photos.selection.unselectAll();
+        back: Action {
+            itemHint: Button {
+                text: i18n.tr("Cancel")
+                width: units.gu(10)
             }
-
-            onCancelSelectionButtonPressed: {
-                photos.selection.unselectAll();
-                cancelRequested();
+            onTriggered: {
+                mediaSelector.hide();
             }
+        }
+    }
 
-            popups: [selectionMenu]
-
-            SelectionMenu {
-                id: selectionMenu
-
-                selection: photos.selection
-
-                onPopupInteractionCompleted: chrome.hideAllPopups()
+    PropertyAnimation {
+        id: blendAnimation
+        target: mediaSelector
+        property: "opacity"
+        duration: Gallery.FAST_DURATION
+        easing.type: Easing.InQuint
+        onStopped: {
+            if (mediaSelector.opacity === 1) {
+                toolbar.active = true;
+                mediaSelector.shown();
+                console.log("HH: "+header.height + " GU: " + units.gu(1))
+            } else {
+                selection.unselectAll();
+                mediaSelector.hidden();
             }
         }
     }
