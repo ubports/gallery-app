@@ -27,7 +27,6 @@ import Ubuntu.Components 0.1
   */
 Item {
     id: root
-    objectName: "albumEditorAnimated"
 
     // True if the album editor is opened
     property bool isOpen: false
