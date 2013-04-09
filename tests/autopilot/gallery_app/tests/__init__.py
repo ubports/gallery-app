@@ -30,6 +30,7 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
     sample_file_source = "/sample01.jpg"
     installed_sample_dir = "/usr/lib/python2.7/dist-packages/gallery_app/data"
     local_sample_dir = "gallery_app/data"
+    tap_press_time = 1
 
     @property
     def gallery_utils(self):
@@ -60,7 +61,7 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
         self.assertThat(self.gallery_utils.get_qml_view().visible,
                         Eventually(Equals(True)))
 
-        self.ensure_one_event()
+        self.ensure_at_least_one_event()
 
     def launch_test_local(self):
         self.app = self.launch_test_application(
@@ -81,7 +82,7 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
         """Does a long mouse press on the passed item, and moved the mouse there before"""
         self.pointing_device.move_to_object(item)
         self.pointing_device.press()
-        sleep(1)
+        sleep(self.tap_press_time)
         self.pointing_device.release()
 
     def reveal_toolbar(self):
@@ -101,7 +102,7 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
         self.pointing_device.drag(x_line, start_y, x_line, stop_y)
         self.assertThat(toolbar.active, Eventually(Equals(True)))
 
-    def ensure_one_event(self):
+    def ensure_at_least_one_event(self):
         """The event view has to have at least one event
         In case gallery is not yet fully loaded wait a while and test again"""
         num_events = self.gallery_utils.number_of_events()
