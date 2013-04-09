@@ -81,9 +81,7 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
     def tap_item(self, item):
         """Does a long mouse press on the passed item, and moved the mouse there before"""
         self.pointing_device.move_to_object(item)
-        self.pointing_device.press()
-        sleep(self.tap_press_time)
-        self.pointing_device.release()
+        self.pointing_device.click(1, self.tap_press_time)
 
     def reveal_toolbar(self):
         toolbar = self.gallery_utils.get_toolbar()

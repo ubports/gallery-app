@@ -13,7 +13,7 @@ class GalleryUtils(object):
     general components of the gallery app.
     """
 
-    retry_delay = 1
+    retry_delay = 0.2
 
     def __init__(self, app):
         self.app = app
@@ -23,9 +23,11 @@ class GalleryUtils(object):
         In case of the item was not found (not created yet) a second attempt is
         taken 1 second later."""
         item = self.app.select_single(object_type, **kwargs)
-        if item == None:
+        tries = 10
+        while item == None and tries > 0:
             sleep(self.retry_delay)
             item = self.app.select_single(object_type, **kwargs)
+            tries = tries -1
         return item
 
     def select_many_retry(self, object_type, **kwargs):
@@ -33,9 +35,11 @@ class GalleryUtils(object):
         In case of no item was not found (not created yet) a second attempt is
         taken 1 second later"""
         items = self.app.select_many(object_type, **kwargs)
-        if len(items) == 0:
+        tries = 10
+        while len(items) < 1 and tries > 0:
             sleep(self.retry_delay)
             items = self.app.select_many(object_type, **kwargs)
+            tries = tries -1
         return items
 
     def get_qml_view(self):
@@ -127,5 +131,6 @@ class GalleryUtils(object):
 
     def get_first_album(self):
         """Returns the first album in the albums view"""
-        return self.select_many_retry("CheckerboardDelegate",
-                                      objectName="checkerboardDelegate")[0]
+        albums = self.select_many_retry("CheckerboardDelegate",
+                                        objectName="checkerboardDelegate")
+        return albums[-1]
