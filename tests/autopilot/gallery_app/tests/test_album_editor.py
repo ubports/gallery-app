@@ -124,7 +124,7 @@ class TestAlbumEditor(GalleryTestCase):
         self.reveal_toolbar()
         cancel = self.album_view.get_toolbar_cancel_icon()
         self.click_item(cancel)
-        self.ensure_album_editor_is_fully_closed()
+        self.ensure_album_viewer_is_fully_closed()
 
         # now open to add a photo
         self.edit_first_album()

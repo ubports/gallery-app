@@ -53,11 +53,14 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
             self.sample_file_source = self.local_sample_dir + self.sample_file_source
             self.launch_test_local()
 
+        self.addCleanup(shutil.rmtree, self.sample_dir)
+
         """ This is needed to wait for the application to start.
         In the testfarm, the application may take some time to show up."""
-        self.assertThat(self.gallery_utils.get_qml_view().visible, Eventually(Equals(True)))
+        self.assertThat(self.gallery_utils.get_qml_view().visible,
+                        Eventually(Equals(True)))
 
-        self.addCleanup(shutil.rmtree, self.sample_dir)
+        self.ensure_one_event()
 
     def launch_test_local(self):
         self.app = self.launch_test_application(
@@ -97,6 +100,15 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
 
         self.pointing_device.drag(x_line, start_y, x_line, stop_y)
         self.assertThat(toolbar.active, Eventually(Equals(True)))
+
+    def ensure_one_event(self):
+        """The event view has to have at least one event
+        In case gallery is not yet fully loaded wait a while and test again"""
+        num_events = self.gallery_utils.number_of_events()
+        if num_events < 1:
+            sleep(1)
+            num_events = self.gallery_utils.number_of_events()
+        self.assertThat(num_events, Equals(1))
 
     def switch_to_albums_tab(self):
         tabs_bar = self.gallery_utils.get_tabs_bar()
