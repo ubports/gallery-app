@@ -71,7 +71,7 @@ class TestAlbumEditor(GalleryTestCase):
         self.assertThat(animated_editor.animationRunning, Eventually(Equals(False)))
 
     def ensure_album_viewer_is_fully_closed(self):
-        animated_viewer = self.album_editor.get_animated_album_view()
+        animated_viewer = self.album_view.get_animated_album_view()
         self.assertThat(animated_viewer.isOpen, Eventually(Equals(False)))
         self.assertThat(animated_viewer.animationRunning, Eventually(Equals(False)))
 
