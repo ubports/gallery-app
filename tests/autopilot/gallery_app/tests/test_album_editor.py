@@ -71,7 +71,7 @@ class TestAlbumEditor(GalleryTestCase):
         self.assertThat(animated_editor.animationRunning, Eventually(Equals(False)))
 
     def ensure_album_viewer_is_fully_closed(self):
-        animated_viewer = self.album_editor.get_animated_album_view()
+        animated_viewer = self.album_view.get_animated_album_view()
         self.assertThat(animated_viewer.isOpen, Eventually(Equals(False)))
         self.assertThat(animated_viewer.animationRunning, Eventually(Equals(False)))
 
@@ -124,7 +124,7 @@ class TestAlbumEditor(GalleryTestCase):
         self.reveal_toolbar()
         cancel = self.album_view.get_toolbar_cancel_icon()
         self.click_item(cancel)
-        self.ensure_album_editor_is_fully_closed()
+        self.ensure_album_viewer_is_fully_closed()
 
         # now open to add a photo
         self.edit_first_album()

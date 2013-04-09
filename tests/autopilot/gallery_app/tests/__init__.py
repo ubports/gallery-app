@@ -20,6 +20,7 @@ from gallery_app.emulators.gallery_utils import GalleryUtils
 
 from time import sleep
 
+
 class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
 
     """A common test case class that provides several useful methods for gallery tests."""
@@ -29,6 +30,7 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
     sample_file_source = "/sample01.jpg"
     installed_sample_dir = "/usr/lib/python2.7/dist-packages/gallery_app/data"
     local_sample_dir = "gallery_app/data"
+    tap_press_time = 1
 
     @property
     def gallery_utils(self):
@@ -52,11 +54,14 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
             self.sample_file_source = self.local_sample_dir + self.sample_file_source
             self.launch_test_local()
 
+        self.addCleanup(shutil.rmtree, self.sample_dir)
+
         """ This is needed to wait for the application to start.
         In the testfarm, the application may take some time to show up."""
-        self.assertThat(self.gallery_utils.get_qml_view().visible, Eventually(Equals(True)))
+        self.assertThat(self.gallery_utils.get_qml_view().visible,
+                        Eventually(Equals(True)))
 
-        self.addCleanup(shutil.rmtree, self.sample_dir)
+        self.ensure_at_least_one_event()
 
     def launch_test_local(self):
         self.app = self.launch_test_application(
@@ -68,6 +73,9 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
            "gallery-app", self.sample_dir
            )
 
+    def ui_update(self):
+        """ Gives the program the time to update the UI"""
+        sleep(0.1)
 
     def click_item(self, item):
         """Does a mouse click on the passed item, and moved the mouse there before"""
@@ -77,9 +85,7 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
     def tap_item(self, item):
         """Does a long mouse press on the passed item, and moved the mouse there before"""
         self.pointing_device.move_to_object(item)
-        self.pointing_device.press()
-        sleep(1)
-        self.pointing_device.release()
+        self.pointing_device.click(1, self.tap_press_time)
 
     def reveal_toolbar(self):
         toolbar = self.gallery_utils.get_toolbar()
@@ -98,6 +104,15 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
         self.pointing_device.drag(x_line, start_y, x_line, stop_y)
         self.assertThat(toolbar.active, Eventually(Equals(True)))
 
+    def ensure_at_least_one_event(self):
+        """The event view has to have at least one event
+        In case gallery is not yet fully loaded wait a while and test again"""
+        num_events = self.gallery_utils.number_of_events()
+        if num_events < 1:
+            sleep(1)
+            num_events = self.gallery_utils.number_of_events()
+        self.assertThat(num_events, Equals(1))
+
     def switch_to_albums_tab(self):
         tabs_bar = self.gallery_utils.get_tabs_bar()
         self.click_item(tabs_bar)
@@ -109,7 +124,7 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
         self.click_item(albums_tab_button)
 
         """FIXME find a (functional) way to test if the tabs still move"""
-        sleep(1)
+        sleep(1.5)
 
     def open_first_album(self):
         first_album = self.album_view.get_first_album()
