@@ -90,6 +90,7 @@ class TestAlbumView(GalleryTestCase):
         self.reveal_toolbar()
         add_button = self.albums_view.get_toolbar_add_button()
         self.click_item(add_button)
+        self.ui_update()
 
         self.open_first_album()
         num_photos_start = self.album_view.number_of_photos()

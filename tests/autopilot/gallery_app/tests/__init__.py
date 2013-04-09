@@ -73,6 +73,10 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
            "gallery-app", self.sample_dir
            )
 
+    def ui_update(self):
+        """ Gives the program the time to update the UI"""
+        sleep(0.1)
+
     def click_item(self, item):
         """Does a mouse click on the passed item, and moved the mouse there before"""
         self.pointing_device.move_to_object(item)

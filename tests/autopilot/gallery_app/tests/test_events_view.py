@@ -102,7 +102,6 @@ class TestEventsView(GalleryTestCase):
 
         self.assertThat(lambda: exists(self.sample_file), Eventually(Equals(False)))
 
-        # give UI the chance to update
-        sleep(0.1)
+        self.ui_update()
         new_number_of_photos = self.events_view.number_of_photos_in_event_view()
         self.assertThat(new_number_of_photos, Equals(number_of_photos-1))
