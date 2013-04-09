@@ -29,17 +29,20 @@ class TestPhotosView(GalleryTestCase):
         super(TestPhotosView, self).setUp()
         self.switch_to_albums_tab()
 
+    def compare_number_of_albums(self, target):
+        """Test if the number of albums is correct. For robustness (timing
+        issues), the test is repeated after one second in case it fails"""
+        num_of_albums = self.albums_view.number_of_albums_in_albums_view()
+        if num_of_albums != target:
+            sleep(1)
+            num_of_albums = self.albums_view.number_of_albums_in_albums_view()
+        self.assertThat(num_of_albums, Equals(target))
 
     def test_add_album(self):
-        num_of_albums = self.albums_view.number_of_albums_in_albums_view()
-        self.assertThat(num_of_albums, Equals(1))
+        self.compare_number_of_albums(1)
 
         self.reveal_toolbar()
         add_button = self.albums_view.get_toolbar_add_button()
         self.click_item(add_button)
 
-        # no need to wait for the end of the animation, but a draw update is needed - 100ms for sure is enough
-        sleep(0.1)
-
-        num_of_albums = self.albums_view.number_of_albums_in_albums_view()
-        self.assertThat(num_of_albums, Equals(2))
+        self.compare_number_of_albums(2)

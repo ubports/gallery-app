@@ -20,6 +20,7 @@ from gallery_app.emulators.gallery_utils import GalleryUtils
 
 from time import sleep
 
+
 class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
 
     """A common test case class that provides several useful methods for gallery tests."""
@@ -68,7 +69,6 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
            "gallery-app", self.sample_dir
            )
 
-
     def click_item(self, item):
         """Does a mouse click on the passed item, and moved the mouse there before"""
         self.pointing_device.move_to_object(item)
@@ -109,7 +109,7 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
         self.click_item(albums_tab_button)
 
         """FIXME find a (functional) way to test if the tabs still move"""
-        sleep(1)
+        sleep(1.5)
 
     def open_first_album(self):
         first_album = self.album_view.get_first_album()
