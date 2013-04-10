@@ -34,7 +34,7 @@ Dialog {
     Button {
         objectName: "deleteDialogYes"
         text: "Yes"
-        color: Gallery.DEFAULT_BUTTON_COLOR
+        color: Gallery.HIGHLIGHT_BUTTON_COLOR
         onClicked: {
             dialogue.deleteClicked()
             PopupUtils.close(dialogue);

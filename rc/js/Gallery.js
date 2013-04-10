@@ -30,7 +30,7 @@ var SLEEPY_DURATION = 1500;
 var EVENT_TIMELINE_MEDIA_SOURCE_OPACITY = 0.8;
 var EVENT_TIMELINE_EVENT_CARD_OPACITY = 1.0;
 
-var DEFAULT_BUTTON_COLOR = "#c94212"
+var HIGHLIGHT_BUTTON_COLOR = "#c94212"
 
 function isSmallFormFactor(form_factor) {
   if (!form_factor)

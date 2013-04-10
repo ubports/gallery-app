@@ -269,7 +269,7 @@ Item {
                 Button {
                     objectName: "deletePhotoDialogYes"
                     text: "Yes"
-                    color: Gallery.DEFAULT_BUTTON_COLOR
+                    color: Gallery.HIGHLIGHT_BUTTON_COLOR
                     onClicked: {
                         PopupUtils.close(dialogue)
                         viewerWrapper.model.destroyMedia(galleryPhotoViewer.photo);
