@@ -78,11 +78,14 @@ OrganicView {
 
     property ToolbarActions toolActions: ToolbarActions {
         Action {
-            text: i18n.tr("Add to Album")
-            iconSource: "../img/add.png"
-            onTriggered: {
-                mediaSelector.addClicked();
-                mediaSelector.hide();
+            itemHint: Button {
+                text: i18n.tr("Add to Album")
+                color: "#c94212"
+                width: units.gu(16)
+                onClicked: {
+                    mediaSelector.addClicked();
+                    mediaSelector.hide();
+                }
             }
         }
 
