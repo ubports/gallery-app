@@ -127,7 +127,7 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
         self.click_item(albums_tab_button)
 
         albums_loader = self.gallery_utils.get_albums_viewer_loader()
-        self.assertThat(albums_loader.status, Eventually(Equals(1)))
+        self.assertThat(albums_loader.progress, Eventually(Equals(1)))
 
         """The next check assumes that at least one album is available"""
         """Check if the albums are availabe - they need some time to load."""
