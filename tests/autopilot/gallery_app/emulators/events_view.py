@@ -7,8 +7,10 @@
 
 from gallery_utils import GalleryUtils
 
+
 class EventsView(GalleryUtils):
-    """An emulator class that makes it easy to interact with the event view of gallery."""
+    """An emulator class that makes it easy to interact with the event view of
+       gallery."""
 
     def __init__(self, app):
         self.app = app
@@ -25,7 +27,8 @@ class EventsView(GalleryUtils):
         """Returns the delete button of the toolbar in the event view"""
         return self.get_toolbar_button(1)
 
-    def number_of_photos_in_event_view(self):
+    def number_of_photos(self):
         """Returns the number of events"""
-        photo_delegates = self.app.select_many("QQuickItem", objectName="eventPhoto")
+        photo_delegates = self.app.select_many("QQuickItem",
+                                               objectName="eventPhoto")
         return len(photo_delegates)

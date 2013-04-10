@@ -10,8 +10,7 @@ from time import sleep
 
 class GalleryUtils(object):
     """An emulator class that makes it easy to interact with
-    general components of the gallery app.
-    """
+       general components of the gallery app."""
 
     retry_delay = 0.2
 
@@ -24,10 +23,10 @@ class GalleryUtils(object):
         taken 1 second later."""
         item = self.app.select_single(object_type, **kwargs)
         tries = 10
-        while item == None and tries > 0:
+        while item is None and tries > 0:
             sleep(self.retry_delay)
             item = self.app.select_single(object_type, **kwargs)
-            tries = tries -1
+            tries = tries - 1
         return item
 
     def select_many_retry(self, object_type, **kwargs):
@@ -39,7 +38,7 @@ class GalleryUtils(object):
         while len(items) < 1 and tries > 0:
             sleep(self.retry_delay)
             items = self.app.select_many(object_type, **kwargs)
-            tries = tries -1
+            tries = tries - 1
         return items
 
     def get_qml_view(self):
@@ -48,11 +47,13 @@ class GalleryUtils(object):
 
     def get_main_photo_viewer_loader(self):
         """Returns the loader item for the PhotoViewer."""
-        return self.app.select_single("QQuickLoader", objectName="photoViewerLoader")
+        return self.app.select_single("QQuickLoader",
+                                      objectName="photoViewerLoader")
 
     def get_main_photo_viewer(self):
         """Returns the PhotoViewer."""
-        return self.select_single_retry("PhotoViewer", objectName="photoViewer")
+        return self.select_single_retry("PhotoViewer",
+                                        objectName="photoViewer")
 
     def get_albums_viewer_loader(self):
         """Returns the loader item for the AlbumsOverview."""
@@ -78,26 +79,16 @@ class GalleryUtils(object):
         item = toolbar.get_children_by_type("QQuickItem")[0]
         row = item.get_children_by_type("QQuickRow")[0]
         button_loaders = row.get_children_by_type("QQuickLoader")
-        if len(button_loaders) > 0:
-            # new toolbar
-            button_loader = button_loaders[button_idx]
-            return button_loader.get_children_by_type("Button")[0]
-        else:
-            # old toolbar
-            return row.get_children_by_type("Button")[button_idx]
+        button_loader = button_loaders[button_idx]
+        return button_loader.get_children_by_type("Button")[0]
 
     def get_toolbar_cancel_icon(self):
         """Returns the cancel icon of the events view."""
         toolbar = self.get_toolbar()
         item = toolbar.get_children_by_type("QQuickItem")[0]
         back_loaders = item.get_children_by_type("QQuickLoader")
-        if len(back_loaders) > 0:
-            # new toolbar
-            back_loader = back_loaders[0]
-            return back_loader.get_children_by_type("Button")[0]
-        else:
-            # old toolbar
-            return item.get_children_by_type("Button")[0]
+        back_loader = back_loaders[0]
+        return back_loader.get_children_by_type("Button")[0]
 
     def get_delete_dialog(self):
         """Returns the delete dialog in the events view."""

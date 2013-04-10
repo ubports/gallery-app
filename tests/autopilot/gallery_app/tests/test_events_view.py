@@ -10,14 +10,13 @@
 
 from __future__ import absolute_import
 
-from testtools.matchers import Equals, NotEquals
+from testtools.matchers import Equals
 from autopilot.matchers import Eventually
 
 from gallery_app.emulators.events_view import EventsView
 from gallery_app.tests import GalleryTestCase
 
 from os.path import exists
-from time import sleep
 
 
 class TestEventsView(GalleryTestCase):
@@ -35,7 +34,6 @@ class TestEventsView(GalleryTestCase):
     def tearDown(self):
         super(TestEventsView, self).tearDown()
 
-
     def enable_select_mode(self):
         self.reveal_toolbar()
         self.click_select_icon()
@@ -52,10 +50,9 @@ class TestEventsView(GalleryTestCase):
         trash_button = self.events_view.get_toolbar_delete_button()
         self.click_item(trash_button)
 
-
     def test_camera_icon_hover(self):
         """Ensures that when the mouse is over the camera icon it has the
-        hovered state."""
+           hovered state."""
         self.reveal_toolbar()
 
         camera_icon = self.events_view.get_toolbar_camera_button()
@@ -65,7 +62,7 @@ class TestEventsView(GalleryTestCase):
 
     def test_select_button_cancel(self):
         """Clicking the cancel button after clicking the select button must
-        hide the toolbar automatically."""
+           hide the toolbar automatically."""
         self.enable_select_mode()
 
         cancel_icon = self.events_view.get_toolbar_cancel_icon()
@@ -76,7 +73,7 @@ class TestEventsView(GalleryTestCase):
 
     def test_delete_a_photo(self):
         """Selecting a photo must make the delete button clickable."""
-        number_of_photos = self.events_view.number_of_photos_in_event_view()
+        number_of_photos = self.events_view.number_of_photos()
         self.enable_select_mode()
         self.click_first_photo()
         self.click_delete_action()
@@ -87,9 +84,10 @@ class TestEventsView(GalleryTestCase):
         cancel_item = self.events_view.get_delete_dialog_cancel_button()
         self.click_item(cancel_item)
 
-        self.assertThat(lambda: exists(self.sample_file), Eventually(Equals(True)))
+        self.assertThat(lambda: exists(self.sample_file),
+                        Eventually(Equals(True)))
 
-        new_number_of_photos = self.events_view.number_of_photos_in_event_view()
+        new_number_of_photos = self.events_view.number_of_photos()
         self.assertThat(new_number_of_photos, Equals(number_of_photos))
 
         self.click_delete_action()
@@ -100,8 +98,9 @@ class TestEventsView(GalleryTestCase):
         delete_item = self.events_view.get_delete_dialog_delete_button()
         self.click_item(delete_item)
 
-        self.assertThat(lambda: exists(self.sample_file), Eventually(Equals(False)))
+        self.assertThat(lambda: exists(self.sample_file),
+                        Eventually(Equals(False)))
 
         self.ui_update()
-        new_number_of_photos = self.events_view.number_of_photos_in_event_view()
-        self.assertThat(new_number_of_photos, Equals(number_of_photos-1))
+        new_number_of_photos = self.events_view.number_of_photos()
+        self.assertThat(new_number_of_photos, Equals(number_of_photos - 1))

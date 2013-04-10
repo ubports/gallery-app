@@ -7,15 +7,17 @@
 
 from gallery_utils import GalleryUtils
 
+
 class AlbumView(GalleryUtils):
-    """An emulator class that makes it easy to interact with the gallery app."""
+    """An emulator class that makes it easy to interact with the gallery app"""
 
     def __init__(self, app):
         self.app = app
 
     def get_animated_album_view(self):
         """Returns the album view"""
-        return self.app.select_single("AlbumViewerAnimated", objectName="albumViewerAnimated")
+        return self.app.select_single("AlbumViewerAnimated",
+                                      objectName="albumViewerAnimated")
 
     def get_album_view(self):
         """Returns the album view"""
@@ -36,11 +38,13 @@ class AlbumView(GalleryUtils):
 
     def number_of_photos(self):
         """Returns the numer of visible photos"""
-        return len(self.app.select_many("FramePortrait", isPreview=False, isLoaded=True))
+        return len(self.app.select_many("FramePortrait",
+                                        isPreview=False, isLoaded=True))
 
     def media_selector_loader(self):
         """Returns the loader for the media selector"""
-        return self.app.select_single("QQuickLoader", objectName="albumMediaSelectorLoader")
+        return self.app.select_single("QQuickLoader",
+                                      objectName="albumMediaSelectorLoader")
 
     def get_plus_icon_empty_album(self):
         """Returns the plus icon visible in empty albums"""

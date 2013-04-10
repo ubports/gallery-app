@@ -10,7 +10,7 @@
 
 from __future__ import absolute_import
 
-from testtools.matchers import Equals, NotEquals, GreaterThan
+from testtools.matchers import Equals, GreaterThan
 from autopilot.matchers import Eventually
 
 from gallery_app.tests import GalleryTestCase
@@ -30,22 +30,22 @@ class TestPhotosView(GalleryTestCase):
         super(TestPhotosView, self).setUp()
         self.switch_to_photos_tab()
 
-
     def switch_to_photos_tab(self):
         tabs_bar = self.photos_view.get_tabs_bar()
         self.click_item(tabs_bar)
 
         photos_tab_button = self.photos_view.get_photos_tab_button()
-        #Due to some timing issues sometimes mouse moves to the location a bit earlier
-        #even though the tab item is not fully visible, hence the tab does not activate.
-        self.assertThat(photos_tab_button.opacity, Eventually(GreaterThan(0.2)))
+        # Due to some timing issues sometimes mouse moves to the location a bit
+        # earlier even though the tab item is not fully visible, hence the tab
+        # does not activate.
+        self.assertThat(photos_tab_button.opacity,
+                        Eventually(GreaterThan(0.2)))
         self.click_item(photos_tab_button)
 
         self.ensure_tabs_dont_move()
 
-
     def ensure_tabs_dont_move(self):
-        """FIXME find a (functional) way to test if the tabs still move"""
+        # FIXME find a (functional) way to test if the tabs still move
         sleep(1)
 
     def enable_select_mode(self):
@@ -63,7 +63,6 @@ class TestPhotosView(GalleryTestCase):
     def click_delete_action(self):
         trash_button = self.photos_view.get_toolbar_delete_button()
         self.click_item(trash_button)
-
 
     def test_open_photo(self):
         self.click_first_photo()
@@ -83,7 +82,7 @@ class TestPhotosView(GalleryTestCase):
 
     def test_delete_a_photo(self):
         """Selecting a photo must make the delete button clickable."""
-        number_of_photos = self.photos_view.number_of_photos_in_photos_view()
+        number_of_photos = self.photos_view.number_of_photos()
         self.enable_select_mode()
         self.click_first_photo()
         self.click_delete_action()
@@ -94,9 +93,10 @@ class TestPhotosView(GalleryTestCase):
         cancel_item = self.photos_view.get_delete_dialog_cancel_button()
         self.click_item(cancel_item)
 
-        self.assertThat(lambda: exists(self.sample_file), Eventually(Equals(True)))
+        self.assertThat(lambda: exists(self.sample_file),
+                        Eventually(Equals(True)))
 
-        new_number_of_photos = self.photos_view.number_of_photos_in_photos_view()
+        new_number_of_photos = self.photos_view.number_of_photos()
         self.assertThat(new_number_of_photos, Equals(number_of_photos))
 
         self.click_delete_action()
@@ -107,8 +107,9 @@ class TestPhotosView(GalleryTestCase):
         delete_item = self.photos_view.get_delete_dialog_delete_button()
         self.click_item(delete_item)
 
-        self.assertThat(lambda: exists(self.sample_file), Eventually(Equals(False)))
+        self.assertThat(lambda: exists(self.sample_file),
+                        Eventually(Equals(False)))
 
         self.ui_update()
-        new_number_of_photos = self.photos_view.number_of_photos_in_photos_view()
-        self.assertThat(new_number_of_photos, Equals(number_of_photos-1))
+        new_number_of_photos = self.photos_view.number_of_photos()
+        self.assertThat(new_number_of_photos, Equals(number_of_photos - 1))
