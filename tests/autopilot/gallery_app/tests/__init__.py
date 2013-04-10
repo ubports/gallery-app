@@ -130,15 +130,9 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
         self.assertThat(albums_loader.status, Eventually(Equals(1)))
 
         """The next check assumes that at least one album is available"""
-        """Check if the albums are availabe - they need some time to load.
-        self.gallery_utils.get_all_album_delegates() already tries itself  for
-        2 seconds - but here we extend it to 10"""
-        albums = self.gallery_utils.get_all_album_delegates()
-        tries = 5
-        while len(albums) < 1 and tries > 0:
-            albums = self.gallery_utils.get_all_album_delegates()
-            tries = tries - 1
-        self.assertThat(len(albums), GreaterThan(0))
+        """Check if the albums are availabe - they need some time to load."""
+        self.assertThat(lambda: len(self.gallery_utils.get_all_albums()),
+                        Eventually(GreaterThan(0)))
 
         """FIXME find a (functional) way to test if the tabs still move"""
         sleep(1)
@@ -155,4 +149,3 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
         self.assertThat(view.visible, Eventually(Equals(True)))
         self.assertThat(animated_view.animationRunning,
                         Eventually(Equals(False)))
-

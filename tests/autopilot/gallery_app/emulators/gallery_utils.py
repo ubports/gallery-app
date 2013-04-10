@@ -134,7 +134,7 @@ class GalleryUtils(object):
         first_photo = first_delegate.get_children_by_type("UbuntuShape")[0]
         return first_photo
 
-    def get_all_album_delegates(self):
+    def get_all_albums(self):
         """Returns the first album in the albums view"""
         albums = self.select_many_retry("CheckerboardDelegate",
                                         objectName="checkerboardDelegate")
