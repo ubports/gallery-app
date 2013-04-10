@@ -18,13 +18,13 @@ from gallery_app.tests import GalleryTestCase
 
 from os.path import exists
 import os
-import shutil
-
 from time import sleep
 
 """
 Class for common functionality of the phot viewing and photo editing
 """
+
+
 class TestPhotoViewerBase(GalleryTestCase):
     @property
     def photo_viewer(self):
@@ -73,7 +73,8 @@ class TestPhotoViewer(TestPhotoViewerBase):
         cancel_item = self.photo_viewer.get_delete_popover_cancel_item()
         self.click_item(cancel_item)
 
-        self.assertThat(lambda: exists(self.sample_file), Eventually(Equals(True)))
+        self.assertThat(lambda: exists(self.sample_file),
+                        Eventually(Equals(True)))
 
         self.reveal_toolbar()
 
@@ -87,7 +88,8 @@ class TestPhotoViewer(TestPhotoViewerBase):
         delete_item = self.photo_viewer.get_delete_popover_delete_item()
         self.click_item(delete_item)
 
-        self.assertThat(lambda: exists(self.sample_file), Eventually(Equals(False)))
+        self.assertThat(lambda: exists(self.sample_file),
+                        Eventually(Equals(False)))
 
     # def test_nav_bar_album_picker_button(self):
     #     """Clicking the album picker must show the picker dialog."""
@@ -184,25 +186,30 @@ class TestPhotoEditor(TestPhotoViewerBase):
         x, y, h, w = crop_corner.globalRect
         x = x + w / 2
         y = y + h / 2
-        self.pointing_device.drag(x, y, x+item_width/2, y+item_height/2)
+        self.pointing_device.drag(x, y,
+                                  x + item_width / 2, y + item_height / 2)
 
         # wait for animation being finished
         crop_overlay = self.photo_viewer.get_crop_overlay()
-        self.assertThat(crop_overlay.interpolationFactor, Eventually(Equals(1.0)))
+        self.assertThat(crop_overlay.interpolationFactor,
+                        Eventually(Equals(1.0)))
 
         crop_button = self.photo_viewer.get_crop_overlays_crop_icon()
         self.click_item(crop_button)
 
-        # wait for new photo being set/reloaded, so saving thumbnailing etc. is done
+        # wait for new photo being set/reloaded, so saving thumbnailing etc.
+        # is done
         edit_preview = self.photo_viewer.get_edit_preview()
-        new_source = "image://gallery-standard/" + self.sample_file + "?size_level=1&orientation=1&edit=2"
+        new_source = "image://gallery-standard/" + self.sample_file + \
+                     "?size_level=1&orientation=1&edit=2"
         self.assertThat(edit_preview.source, Eventually(Equals(new_source)))
 
         new_file_size = os.path.getsize(self.sample_file)
         self.assertThat(old_file_size > new_file_size, Equals(True))
 
     def test_photo_editor_rotate(self):
-        """Makes sure that the photo editor inside the photo viewer works using the rotate function"""
+        """Makes sure that the photo editor inside the photo viewer works using
+           the rotate function"""
         opened_photo = self.photo_viewer.get_opened_photo()
         item_height = opened_photo.height
 
@@ -211,7 +218,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.click_rotate_item()
 
-        self.assertThat(opened_photo.paintedHeight, Eventually(Equals(item_height)))
+        self.assertThat(opened_photo.paintedHeight,
+                        Eventually(Equals(item_height)))
         is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
         self.assertThat(is_landscape, Equals(False))
 
@@ -219,7 +227,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.click_edit_button()
         self.click_undo_item()
 
-        self.assertThat(opened_photo.paintedHeight, Eventually(NotEquals(item_height)))
+        self.assertThat(opened_photo.paintedHeight,
+                        Eventually(NotEquals(item_height)))
         is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
         self.assertThat(is_landscape, Equals(True))
 
@@ -227,7 +236,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.click_edit_button()
         self.click_redo_item()
 
-        self.assertThat(opened_photo.paintedHeight, Eventually(Equals(item_height)))
+        self.assertThat(opened_photo.paintedHeight,
+                        Eventually(Equals(item_height)))
         is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
         self.assertThat(is_landscape, Equals(False))
 
@@ -238,12 +248,15 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.click_edit_button()
         self.click_revert_item()
 
-        self.assertThat(opened_photo.paintedHeight, Eventually(NotEquals(item_height)))
+        self.assertThat(opened_photo.paintedHeight,
+                        Eventually(NotEquals(item_height)))
         is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
         self.assertThat(is_landscape, Equals(True))
 
-        # give the gallery the time to fully save the photo, and rebuild the thumbnails
-        # FIXME using sleep is a dangerous "hackisch" workaround, and should be implemented properly
+        # give the gallery the time to fully save the photo, and rebuild the
+        # thumbnails
+        # FIXME using sleep is a dangerous "hackisch" workaround, and should be
+        # implemented properly
         sleep(1)
 
     def test_photo_editor_redo_undo_revert_to_original_states(self):
@@ -284,4 +297,3 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(undo_item.enabled, Eventually(Equals(True)))
         self.assertThat(redo_item.enabled, Eventually(Equals(False)))
         self.assertThat(revert_item.enabled, Eventually(Equals(False)))
-

@@ -10,8 +10,7 @@
 
 from __future__ import absolute_import
 
-from testtools.matchers import Equals, NotEquals, GreaterThan
-from autopilot.matchers import Eventually
+from testtools.matchers import Equals
 
 from gallery_app.tests import GalleryTestCase
 from gallery_app.emulators.albums_view import AlbumsView
@@ -31,7 +30,7 @@ class TestPhotosView(GalleryTestCase):
 
     def compare_number_of_albums(self, target):
         """Test if the number of albums is correct. For robustness (timing
-        issues), the test is repeated after one second in case it fails"""
+           issues), the test is repeated after one second in case it fails"""
         num_of_albums = self.albums_view.number_of_albums_in_albums_view()
         if num_of_albums != target:
             sleep(1)
@@ -39,6 +38,8 @@ class TestPhotosView(GalleryTestCase):
         self.assertThat(num_of_albums, Equals(target))
 
     def test_add_album(self):
+        """Add one album, ench checks if the bumber of albums went from 1 to
+           2"""
         self.compare_number_of_albums(1)
 
         self.reveal_toolbar()

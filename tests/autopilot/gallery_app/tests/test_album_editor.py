@@ -40,18 +40,19 @@ class TestAlbumEditor(GalleryTestCase):
         self.edit_first_album()
 
     def edit_first_album(self):
-       first_album = self.album_editor.get_first_album()
-       self.tap_item(first_album)
-       edit_button = self.album_editor.get_edit_album_button()
-       self.click_item(edit_button)
-       self.ensure_edit_is_fully_open()
+        first_album = self.album_editor.get_first_album()
+        self.tap_item(first_album)
+        edit_button = self.album_editor.get_edit_album_button()
+        self.click_item(edit_button)
+        self.ensure_edit_is_fully_open()
 
     def ensure_edit_is_fully_open(self):
         animated_editor = self.album_editor.get_animated_album_editor()
         self.assertThat(animated_editor.isOpen, Eventually(Equals(True)))
         editor = self.album_editor.get_album_editor()
         self.assertThat(editor.visible, Eventually(Equals(True)))
-        self.assertThat(animated_editor.animationRunning, Eventually(Equals(False)))
+        self.assertThat(animated_editor.animationRunning,
+                        Eventually(Equals(False)))
 
     def click_title_field(self):
         title_field = self.album_editor.get_album_title_entry_field()
@@ -68,12 +69,14 @@ class TestAlbumEditor(GalleryTestCase):
     def ensure_album_editor_is_fully_closed(self):
         animated_editor = self.album_editor.get_animated_album_editor()
         self.assertThat(animated_editor.isOpen, Eventually(Equals(False)))
-        self.assertThat(animated_editor.animationRunning, Eventually(Equals(False)))
+        self.assertThat(animated_editor.animationRunning,
+                        Eventually(Equals(False)))
 
     def ensure_album_viewer_is_fully_closed(self):
         animated_viewer = self.album_view.get_animated_album_view()
         self.assertThat(animated_viewer.isOpen, Eventually(Equals(False)))
-        self.assertThat(animated_viewer.animationRunning, Eventually(Equals(False)))
+        self.assertThat(animated_viewer.animationRunning,
+                        Eventually(Equals(False)))
 
     def test_album_title_fields(self):
         """tests the title and sub title"""
@@ -95,8 +98,8 @@ class TestAlbumEditor(GalleryTestCase):
         self.keyboard.press_and_release("o")
         self.keyboard.press_and_release("s")
         text = "Photos"
-        #due to some reason the album title is not updated unless it loses the focus
-        #so we click on the subtitle field.
+        #due to some reason the album title is not updated unless it loses the
+        #focus. So we click on the subtitle field.
         self.click_subtitle_field()
         self.assertThat(title_field.text, Equals(text))
 

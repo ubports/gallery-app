@@ -7,6 +7,7 @@
 
 from gallery_utils import GalleryUtils
 
+
 class AlbumsView(GalleryUtils):
 
     def __init__(self, app):
@@ -21,6 +22,7 @@ class AlbumsView(GalleryUtils):
         return self.get_toolbar_button(0)
 
     def number_of_albums_in_albums_view(self):
-        #"""Returns the number of albums shown in alsbums overview"""
-        albums_delegates = self.app.select_many("CheckerboardDelegate", objectName="checkerboardDelegate")
-        return len(albums_delegates)
+        """Returns the number of albums shown in albums overview"""
+        albums = self.app.select_many("CheckerboardDelegate",
+                                      objectName="checkerboardDelegate")
+        return len(albums)
