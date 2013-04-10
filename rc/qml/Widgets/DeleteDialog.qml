@@ -17,6 +17,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
+import "../../js/Gallery.js" as Gallery
 
 /*!
   Dialog specialiced for the question to delete
@@ -33,7 +34,7 @@ Dialog {
     Button {
         objectName: "deleteDialogYes"
         text: "Yes"
-        color: "#c94212"
+        color: Gallery.DEFAULT_BUTTON_COLOR
         onClicked: {
             dialogue.deleteClicked()
             PopupUtils.close(dialogue);

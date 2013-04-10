@@ -80,7 +80,7 @@ OrganicView {
         Action {
             itemHint: Button {
                 text: i18n.tr("Add to Album")
-                color: "#c94212"
+                color: Gallery.DEFAULT_BUTTON_COLOR
                 width: units.gu(16)
                 onClicked: {
                     mediaSelector.addClicked();
