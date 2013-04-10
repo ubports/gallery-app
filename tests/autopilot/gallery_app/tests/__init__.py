@@ -60,8 +60,12 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
         In the testfarm, the application may take some time to show up."""
         self.assertThat(self.gallery_utils.get_qml_view().visible,
                         Eventually(Equals(True)))
-
+        """Wait for the data to be loaded and displayed"""
         self.ensure_at_least_one_event()
+
+        """FIXME somehow on the server gallery sometimes is not fully started
+        for switching to the albums view. Therefore this hack of two seconds"""
+        sleep(2)
 
     def launch_test_local(self):
         self.app = self.launch_test_application(
