@@ -47,7 +47,7 @@ class GalleryUtils(object):
         return self.app.select_single("QQuickView")
 
     def get_main_photo_viewer_loader(self):
-        """Returns the loder item for the PhotoViewer."""
+        """Returns the loader item for the PhotoViewer."""
         return self.app.select_single("QQuickLoader", objectName="photoViewerLoader")
 
     def get_main_photo_viewer(self):
@@ -55,7 +55,7 @@ class GalleryUtils(object):
         return self.select_single_retry("PhotoViewer", objectName="photoViewer")
 
     def get_albums_viewer_loader(self):
-        """Returns the loder item for the AlbumsOverview."""
+        """Returns the loader item for the AlbumsOverview."""
         return self.app.select_single("QQuickLoader",
                                       objectName="albumsCheckerboardLoader")
 
@@ -135,7 +135,7 @@ class GalleryUtils(object):
         return first_photo
 
     def get_all_albums(self):
-        """Returns the first album in the albums view"""
+        """Returns all albums in the albums view"""
         albums = self.select_many_retry("CheckerboardDelegate",
                                         objectName="checkerboardDelegate")
         return albums
