@@ -62,10 +62,9 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
                         Eventually(Equals(True)))
         """Wait for the data to be loaded and displayed"""
         self.ensure_at_least_one_event()
-
         """FIXME somehow on the server gallery sometimes is not fully started
-        for switching to the albums view. Therefore this hack of two seconds"""
-        sleep(2)
+        for switching to the albums view. Therefore this hack of a second"""
+        sleep(1)
 
     def launch_test_local(self):
         self.app = self.launch_test_application(
@@ -127,8 +126,22 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
         self.assertThat(albums_tab_button.opacity, Eventually(GreaterThan(0.2)))
         self.click_item(albums_tab_button)
 
+        albums_loader = self.gallery_utils.get_albums_viewer_loader()
+        self.assertThat(albums_loader.status, Eventually(Equals(1)))
+
+        """The next check assumes that at least one album is available"""
+        """Check if the albums are availabe - they need some time to load.
+        self.gallery_utils.get_all_album_delegates() already tries itself  for
+        2 seconds - but here we extend it to 10"""
+        albums = self.gallery_utils.get_all_album_delegates()
+        tries = 5
+        while len(albums) < 1 and tries > 0:
+            albums = self.gallery_utils.get_all_album_delegates()
+            tries = tries - 1
+        self.assertThat(len(albums), GreaterThan(0))
+
         """FIXME find a (functional) way to test if the tabs still move"""
-        sleep(1.5)
+        sleep(1)
 
     def open_first_album(self):
         first_album = self.album_view.get_first_album()

@@ -54,6 +54,11 @@ class GalleryUtils(object):
         """Returns the PhotoViewer."""
         return self.select_single_retry("PhotoViewer", objectName="photoViewer")
 
+    def get_albums_viewer_loader(self):
+        """Returns the loder item for the AlbumsOverview."""
+        return self.app.select_single("QQuickLoader",
+                                      objectName="albumsCheckerboardLoader")
+
     def get_tabs_bar(self):
         """Returns the top tabs bar."""
         return self.app.select_single("NewTabBar")
@@ -128,6 +133,12 @@ class GalleryUtils(object):
                                                    objectName="eventPhoto")[0]
         first_photo = first_delegate.get_children_by_type("UbuntuShape")[0]
         return first_photo
+
+    def get_all_album_delegates(self):
+        """Returns the first album in the albums view"""
+        albums = self.select_many_retry("CheckerboardDelegate",
+                                        objectName="checkerboardDelegate")
+        return albums
 
     def get_first_album(self):
         """Returns the first album in the albums view"""
