@@ -245,7 +245,9 @@ Item {
         header: eventHeader
         delegate: thumbnailDelegate
         footer: Item {
-            width: eventView.rightBuffer + __footerWidth[mediaModel.count % __mediaPerPattern]
+            width: eventView.rightBuffer +
+                   __footerWidth[mediaModel.count % __mediaPerPattern] +
+                   __margin
         }
 
         // discplacement animations does not always work see
