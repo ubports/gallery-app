@@ -16,7 +16,7 @@ gallery-app (0.0.66) quantal; urgency=low
   * Make sure that the options undo/redo/revertToOriginal are disable if is not
     possible to execute the action (LP: #1163174)
 
- -- Michael Terry <mterry@ubuntu.com>  Tue, 09 Apr 2013 13:02:37 -0400
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Thu, 11 Apr 2013 15:31:24 +0200
 
 gallery-app (0.0.65) quantal; urgency=low
 
