@@ -23,7 +23,7 @@ import QtQuick 2.0
 import QtQuick.Window 2.0
 import "../js/Gallery.js" as Gallery
 import Ubuntu.Components 0.1 // Necessary to make filename@GU.ext images load
-import Ubuntu.HUD 0.1 as HUD
+import Ubuntu.HUD 1.0 as HUD
 
 /*!
 */
@@ -184,7 +184,10 @@ Item {
 
         HUD.Context {
             id: hudCtx
-            toolbar.quitAction.onTriggered: Qt.quit()
+
+            HUD.QuitAction {
+                onTriggered: Qt.quit()
+            }
         }
     }
 }
