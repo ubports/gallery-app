@@ -1,6 +1,18 @@
-gallery-app (0.0.66) UNRELEASED; urgency=low
+gallery-app (0.0.66) quantal; urgency=low
 
+  [ Michael Terry ]
   * Automatic snapshot from revision 633 (bootstrap)
+
+  [ Guenter Schwann ]
+  * Addied album related autopilot tests
+  * Works to make the autopilot tests more stable
+  * Fixed autopilot style to please pep8 and pyflackes
+  * Fix bug of constant redraw when event view is not visible (LP: #1164425)
+  * Make sure that the options undo/redo/revertToOriginal are disable if is not
+    possible to execute the action (LP: #1163174)
+  * New MediaSelector, using SDK components
+  * Cleaned up old unused qml files
+  * Added right margin in events view
 
  -- Michael Terry <mterry@ubuntu.com>  Tue, 09 Apr 2013 13:02:37 -0400
 
