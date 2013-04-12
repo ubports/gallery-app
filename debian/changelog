@@ -1,3 +1,9 @@
+gallery-app (0.0.67) UNRELEASED; urgency=low
+
+  * For cancel on the toolbar use a button instead of a menu item (LP: #1163408)
+
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Thu, 11 Apr 2013 15:53:55 +0200
+
 gallery-app (0.0.66) quantal; urgency=low
 
   [ Michael Terry ]
