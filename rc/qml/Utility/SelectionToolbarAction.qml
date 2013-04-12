@@ -57,8 +57,10 @@ ToolbarActions {
     }
 
     back: Action {
-        text: "Cancel"
-        iconSource: Qt.resolvedUrl("../../img/cancel.png")
+        itemHint: Button {
+            text: i18n.tr("Cancel")
+            width: units.gu(10)
+        }
         onTriggered: root.cancelClicked();
     }
 }
