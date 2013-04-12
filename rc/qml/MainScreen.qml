@@ -52,7 +52,7 @@ MainView {
         }
 
         Tab {
-            title: "Albums"
+            title: i18n.tr("Albums")
             page: Loader {
                 id: albumsCheckerboardLoader
                 objectName: "albumsCheckerboardLoader"
@@ -68,7 +68,7 @@ MainView {
 
         Tab {
             id: eventTab
-            title: "Events"
+            title: i18n.tr("Events")
             page: OrganicEventView {
                 id: eventView
                 objectName: "organicEventView"
@@ -88,9 +88,9 @@ MainView {
                 // The new implementation of the Tab header will hopefully fix this
                 onInSelectionModeChanged: {
                     if (inSelectionMode)
-                        eventTab.title = "Select"
+                        eventTab.title = i18n.tr("Select")
                     else
-                        eventTab.title = "Events"
+                        eventTab.title = i18n.tr("Events")
                 }
             }
         }
@@ -100,7 +100,7 @@ MainView {
         // more heavyweight and causes a longer startup time
         Tab {
             id: photosTab
-            title: "Photos"
+            title: i18n.tr("Photos")
             objectName: "photosView"
             page: PhotosOverview {
                 id: photosOverview
@@ -120,9 +120,9 @@ MainView {
                 // The new implementation of the Tab header will hopefully fix this
                 onInSelectionModeChanged: {
                     if (inSelectionMode)
-                        photosTab.title = "Select"
+                        photosTab.title = i18n.tr("Select")
                     else
-                        photosTab.title = "Photos"
+                        photosTab.title = i18n.tr("Photos")
                 }
             }
         }

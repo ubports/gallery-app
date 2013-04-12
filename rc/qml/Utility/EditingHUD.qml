@@ -63,59 +63,59 @@ Item {
 
     HUD.Action {
         id: deleteAction
-        label: "Delete"
+        label: i18n.tr("Delete")
         keywords: "Trash;Erase"
     }
     HUD.Action {
         id: shareAction
-        label: "Share"
+        label: i18n.tr("Share")
         keywords: "Post;Upload;Attach"
     }
     HUD.Action {
         id: addAction
-        label: "Add"
+        label: i18n.tr("Add")
         keywords: "Add Photo to Album"
     }
     HUD.Action {
         id: undoAction
-        label: "Undo"
+        label: i18n.tr("Undo")
         keywords: "Cancel Action;Backstep"
     }
     HUD.Action {
         id: redoAction
-        label: "Redo"
+        label: i18n.tr("Redo")
         keywords: "Reapply;Make Again"
     }
     HUD.Action {
         id: autoEnhanceAction
-        label: "Auto Enhance"
+        label: i18n.tr("Auto Enhance")
         description: "Adjust the image automatically"
         keywords: "Automatically Adjust Photo"
         onTriggered: photo.autoEnhance()
     }
     HUD.Action {
         id: rotateAction
-        label: "Rotate"
+        label: i18n.tr("Rotate")
         keywords: "Turn Clockwise"
         description: "Rotate the image clockwise"
         onTriggered: photo.rotateRight()
     }
     HUD.Action {
         id: cropAction
-        label: "Crop"
+        label: i18n.tr("Crop")
         keywords: "Trim;Cut"
         description: "Crop the image"
         onTriggered: cropper.show(photo)
     }
     HUD.Action {
         id: revertAction
-        label: "Revert to Original"
+        label: i18n.tr("Revert to Original")
         keywords: "Discard Changes"
         description: "Discard all changes"
     }
     HUD.Action {
         id: exposureAction
-        label: "Exposure"
+        label: i18n.tr("Exposure")
         description: "Adjust the exposure"
         keywords: "Underexposed;Overexposed"
         hasLivePreview: true
@@ -123,7 +123,7 @@ Item {
 
         HUD.SliderParameter {
             id: compensationParam
-            label: "Compensation"
+            label: i18n.tr("Compensation")
 
             minimumValue: 0.0
             maximumValue: 100.0
@@ -157,7 +157,7 @@ Item {
     }
     HUD.Action {
         id: colorBalanceAction
-        label: "Color Balance"
+        label: i18n.tr("Color Balance")
         description: "Adjust color balance"
         keywords: "Saturation;Hue"
         hasLivePreview: true
@@ -165,7 +165,7 @@ Item {
 
         HUD.SliderParameter {
             id: brightnessParam
-            label: "Brightness"
+            label: i18n.tr("Brightness")
 
             minimumValue: 0.0
             maximumValue: 100.0
@@ -177,7 +177,7 @@ Item {
 
         HUD.SliderParameter {
             id: contrastParam
-            label: "Contrast"
+            label: i18n.tr("Contrast")
 
             minimumValue: 0.0
             maximumValue: 100.0
@@ -189,7 +189,7 @@ Item {
 
         HUD.SliderParameter {
             id: saturationParam
-            label: "Saturation"
+            label: i18n.tr("Saturation")
 
             minimumValue: 0.0
             maximumValue: 100.0
@@ -201,7 +201,7 @@ Item {
 
         HUD.SliderParameter {
             id: hueParam
-            label: "Hue"
+            label: i18n.tr("Hue")
 
             minimumValue: 0.0
             maximumValue: 100.0

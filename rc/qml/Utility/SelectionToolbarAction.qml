@@ -39,25 +39,25 @@ ToolbarActions {
     lock: true
 
     Action {
-        text: "Add"
+        text: i18n.tr("Add")
         iconSource: Qt.resolvedUrl("../../img/add.png")
         enabled: root.selection.selectedCount > 0
         onTriggered: root.addClicked(caller);
     }
     Action {
-        text: "Delete"
+        text: i18n.tr("Delete")
         iconSource: Qt.resolvedUrl("../../img/delete.png")
         enabled: root.selection.selectedCount > 0
         onTriggered:root.deleteClicked();
     }
     Action {
-        text: "Share"
+        text: i18n.tr("Share")
         iconSource: Qt.resolvedUrl("../../img/share.png")
         enabled: false
     }
 
     back: Action {
-        text: "Cancel"
+        text: i18n.tr("Cancel")
         iconSource: Qt.resolvedUrl("../../img/cancel.png")
         onTriggered: root.cancelClicked();
     }

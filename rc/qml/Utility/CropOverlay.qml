@@ -352,7 +352,7 @@ Item {
         Button {
             objectName: "centerCropIcon"
             anchors.centerIn: parent
-            text: "Crop"
+            text: i18n.tr("Crop")
             color: frame.border.color
             opacity: 0.9
             onClicked: cropOverlay.cropButtonPressed()

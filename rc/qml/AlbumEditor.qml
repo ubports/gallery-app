@@ -36,7 +36,7 @@ Page {
     title: "Edit album"
     tools: ToolbarActions {
         back: Action {
-            text: "cancel"
+            text: i18n.tr("Cancel")
             iconSource: Qt.resolvedUrl("../img/cancel.png")
             onTriggered: {
                     albumEditor.closeRequested(albumEditor.album, false);
