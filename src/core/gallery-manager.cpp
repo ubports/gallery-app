@@ -40,19 +40,19 @@ GalleryManager* GalleryManager::gallery_mgr_ = NULL;
  * \param log_image_loading if true, the image loadings times are printed to stdout
  * \return
  */
-GalleryManager* GalleryManager::instance(const QString &application_path_dir, const QDir &pictures_dir,
+GalleryManager* GalleryManager::instance(const QDir &pictures_dir,
                                          QQuickView *view, const bool log_image_loading)
 {
     if (!gallery_mgr_)
-        gallery_mgr_ = new GalleryManager(application_path_dir, pictures_dir, view, log_image_loading);
+        gallery_mgr_ = new GalleryManager(pictures_dir, view, log_image_loading);
 
     return gallery_mgr_;
 }
 
-GalleryManager::GalleryManager(const QString& application_path_dir, const QDir& pictures_dir,
+GalleryManager::GalleryManager(const QDir& pictures_dir,
                                QQuickView *view, const bool log_image_loading)
     : collections_initialised(false),
-      resource_(new Resource(application_path_dir, INSTALL_PREFIX, view)),
+      resource_(new Resource(view)),
       gallery_standard_image_provider_(new GalleryStandardImageProvider(log_image_loading)),
       gallery_thumbnail_image_provider_(new GalleryThumbnailImageProvider(log_image_loading)),
       database_(NULL),

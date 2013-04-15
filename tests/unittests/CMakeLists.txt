@@ -1,0 +1,5 @@
+add_subdirectory(command-line-parser)
+add_subdirectory(gallerystandardimageprovider)
+add_subdirectory(gallerythumbnailimageprovider)
+add_subdirectory(imaging)
+add_subdirectory(resource)
