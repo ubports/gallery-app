@@ -32,9 +32,9 @@ find_package(Qt5Qml)
 find_package(Qt5Quick)
 find_package(Qt5Sql)
 find_package(OpenGL)
-find_package(Exiv2)
 
-include(FindPkgConfig)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(EXIV2 REQUIRED exiv2)
 
 # Standard install paths
 include(GNUInstallDirs)
