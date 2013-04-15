@@ -33,7 +33,7 @@ Dialog {
 
     Button {
         objectName: "deleteDialogYes"
-        text: "Yes"
+        text: i18n.tr("Yes")
         color: Gallery.HIGHLIGHT_BUTTON_COLOR
         onClicked: {
             dialogue.deleteClicked()
@@ -42,7 +42,7 @@ Dialog {
     }
     Button {
         objectName: "deleteDialogNo"
-        text: "No"
+        text: i18n.tr("No")
         onClicked: PopupUtils.close(dialogue);
     }
 }

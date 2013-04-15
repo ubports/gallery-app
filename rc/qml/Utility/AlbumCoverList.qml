@@ -55,7 +55,7 @@ ListModel {
 
     // First item in the list must be the default.
     ListElement {
-        title: "Default"
+        title: ""
         action: "default"
         imageFull: "img/album-cover-default-large.png"
         imagePreview: "img/album-cover-default.png"
@@ -65,7 +65,7 @@ ListModel {
     }
 
     ListElement {
-        title: "Blue"
+        title: ""
         action: "blue"
         imageFull: "img/album-cover-blue-large.png"
         imagePreview: "img/album-cover-blue.png"
@@ -75,7 +75,7 @@ ListModel {
     }
 
     ListElement {
-        title: "Green"
+        title: ""
         action: "green"
         imageFull: "img/album-cover-green-large.png"
         imagePreview: "img/album-cover-green.png"
@@ -85,7 +85,7 @@ ListModel {
     }
 
     ListElement {
-        title: "Pattern"
+        title: ""
         action: "pattern"
         imageFull: "img/album-cover-pattern-large.png"
         imagePreview: "img/album-cover-pattern.png"
@@ -95,12 +95,29 @@ ListModel {
     }
 
     ListElement {
-        title: "Red"
+        title: ""
         action: "red"
         imageFull: "img/album-cover-red-large.png"
         imagePreview: "img/album-cover-red.png"
         iconFilename: "../../img/album-cover-red-icon.png"
         addFilename: "img/album-add-red.png"
         hasBottomBorder: true
+    }
+
+    Component.onCompleted: {
+        // Script expressions are not allowed for the property values of a list element
+        // The the translated titles are set here
+        for (var i = 0; i < albumCoverList.count; i++) {
+            var elem = albumCoverList. get(i);
+            switch (i) {
+            case 0: elem.title = i18n.tr("Default"); break;
+            case 1: elem.title = i18n.tr("Blue"); break;
+            case 2: elem.title = i18n.tr("Green"); break;
+            case 3: elem.title = i18n.tr("Pattern"); break;
+            case 4: elem.title = i18n.tr("Red"); break;
+            default: elem.title = i18n.tr("");
+            }
+            albumCoverList.set(i, elem);
+        }
     }
 }

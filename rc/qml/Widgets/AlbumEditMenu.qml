@@ -42,21 +42,21 @@ Popover {
         }
         ListItem.Standard {
             objectName: "editAlbumListItem"
-            text: "Edit album"
+            text: i18n.tr("Edit album")
             onClicked: {
                 hide()
                 editClicked()
             }
         }
         ListItem.Standard {
-            text: "Share"
+            text: i18n.tr("Share")
             onClicked: {
                 hide()
                 shareClicked()
             }
         }
         ListItem.Standard {
-            text: "Delete"
+            text: i18n.tr("Delete")
             onClicked: {
                 hide()
                 deleteClicked()

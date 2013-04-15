@@ -29,18 +29,18 @@ ToolbarActions {
     signal startCamera()
 
     Action {
-        text: "Select"
+        text: i18n.tr("Select")
         iconSource: Qt.resolvedUrl("../../img/select.png")
         enabled: root.selection !== null
         onTriggered: root.selection.inSelectionMode = true;
     }
     Action {
-        text: "Import"
+        text: i18n.tr("Import")
         iconSource: Qt.resolvedUrl("../../img/import-image.png")
         enabled: false
     }
     Action {
-        text: "Camera"
+        text: i18n.tr("Camera")
         iconSource: Qt.resolvedUrl("../../img/camera.png")
         onTriggered: root.startCamera();
     }

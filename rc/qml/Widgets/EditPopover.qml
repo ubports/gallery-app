@@ -36,7 +36,7 @@ Popover {
             top: parent.top
         }
         ListItem.Standard {
-            text: "Rotate"
+            text: i18n.tr("Rotate")
             objectName: "rotateListItem"
             onClicked: {
                 hide();
@@ -44,7 +44,7 @@ Popover {
             }
         }
         ListItem.Standard {
-            text: "Crop"
+            text: i18n.tr("Crop")
             objectName: "cropListItem"
             onClicked: {
                 hide();
@@ -52,7 +52,7 @@ Popover {
             }
         }
         ListItem.Standard {
-            text: "Auto enhance"
+            text: i18n.tr("Auto enhance")
             objectName: "enhanceListItem"            
             onClicked: {
                 hide();
@@ -60,7 +60,7 @@ Popover {
             }
         }
         ListItem.Standard {
-            text: "Undo"
+            text: i18n.tr("Undo")
             objectName: "undoListItem"
             enabled: photo.canUndo
             onClicked: {
@@ -69,7 +69,7 @@ Popover {
             }
         }
         ListItem.Standard {
-            text: "Redo"
+            text: i18n.tr("Redo")
             objectName: "redoListItem"
             enabled: photo.canRedo
             onClicked: {
@@ -78,7 +78,7 @@ Popover {
             }
         }
         ListItem.Standard {
-            text: "Revert to original"
+            text: i18n.tr("Revert to original")
             objectName: "revertListItem"
             enabled: !photo.isOriginal
             onClicked: {

@@ -174,7 +174,7 @@ Checkerboard {
     ToolbarActions {
         id: albumOverviewTools
         Action {
-            text: "Add"
+            text: i18n.tr("Add")
             iconSource: Qt.resolvedUrl("../img/add.png")
             onTriggered: {
                 var album = albumCollectionModel.createOrphan();
@@ -182,7 +182,7 @@ Checkerboard {
             }
         }
         Action {
-            text: "Camera"
+            text: i18n.tr("Camera")
             iconSource: Qt.resolvedUrl("../img/camera.png")
             onTriggered: {
                 appManager.switchToCameraApplication();

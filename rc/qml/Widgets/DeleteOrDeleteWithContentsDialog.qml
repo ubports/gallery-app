@@ -48,7 +48,7 @@ Popover {
             right: parent.right
         }
         ListItem.Standard {
-            text: "Delete album"
+            text: i18n.tr("Delete album")
             selected: false
             onClicked: {
                 deleteClicked()
@@ -57,7 +57,7 @@ Popover {
             }
         }
         ListItem.Standard {
-            text: "Delete album + contents"
+            text: i18n.tr("Delete album + contents")
             selected: false
             onClicked: {
                 deleteWithContentsClicked()

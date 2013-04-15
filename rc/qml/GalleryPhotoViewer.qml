@@ -196,7 +196,7 @@ Item {
 
         property ToolbarActions tools: ToolbarActions {
             Action {
-                text: "Edit"
+                text: i18n.tr("Edit")
                 iconSource: "../img/edit.png"
                 onTriggered: {
                     editPopover.caller = caller;
@@ -204,7 +204,7 @@ Item {
                 }
             }
             Action {
-                text: "Add"
+                text: i18n.tr("Add")
                 iconSource: "../img/add.png"
                 onTriggered: {
                     popupAlbumPicker.caller = caller
@@ -212,14 +212,14 @@ Item {
                 }
             }
             Action {
-                text: "Delete"
+                text: i18n.tr("Delete")
                 iconSource: "../img/delete.png"
                 onTriggered: {
                     PopupUtils.open(deleteDialog, null)
                 }
             }
             Action {
-                text: "Share"
+                text: i18n.tr("Share")
                 iconSource: "../img/share.png"
                 onTriggered: {
                     sharePopover.picturePath = viewerWrapper.photo.path;
@@ -229,7 +229,7 @@ Item {
             }
 
             back: Action {
-                text: "Back"
+                text: i18n.tr("Back")
                 iconSource: "../img/back.png"
                 onTriggered: {
                     galleryPhotoViewer.currentItem.unzoom();
@@ -257,7 +257,7 @@ Item {
             Dialog {
                 id: dialogue
                 objectName: "deletePhotoDialog"
-                title: "Delete a photo"
+                title: i18n.tr("Delete a photo")
 
                 function finishRemove() {
                     if (!album === undefined)
@@ -268,7 +268,7 @@ Item {
 
                 Button {
                     objectName: "deletePhotoDialogYes"
-                    text: "Yes"
+                    text: i18n.tr("Yes")
                     color: Gallery.HIGHLIGHT_BUTTON_COLOR
                     onClicked: {
                         PopupUtils.close(dialogue)
@@ -279,7 +279,7 @@ Item {
                 }
                 Button {
                     objectName: "deletePhotoDialogNo"
-                    text: "No"
+                    text: i18n.tr("No")
                     onClicked: PopupUtils.close(dialogue)
                 }
             }
