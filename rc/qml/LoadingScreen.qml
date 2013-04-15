@@ -33,7 +33,7 @@ Item {
 
     Text {
         anchors.centerIn: parent
-        text: "Loading..."
+        text: i18n.tr("Loading...")
         font.pointSize: pointUnits(20)
     }
 }
