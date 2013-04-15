@@ -3,6 +3,7 @@ Section: graphics
 Priority: extra
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends: debhelper (>= 9),
+               cmake,
                libexiv2-dev,
                libgl1-mesa-dev | libgl-dev,
                libgles2-mesa-dev,
