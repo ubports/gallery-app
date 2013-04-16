@@ -4,8 +4,7 @@ export DPKG_GENSYMBOLS_CHECK_LEVEL = 4
 export QT_QPA_PLATFORM = minimal
 
 %:
-	dh $@ --parallel --buildsystem=qmake
+	dh $@ --parallel
 
 override_dh_install:
-	rm -r debian/tmp/usr/tests
 	dh_install --fail-missing

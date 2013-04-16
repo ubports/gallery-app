@@ -19,7 +19,6 @@
 #ifndef RESOURCE_H
 #define RESOURCE_H
 
-#include <QDir>
 #include <QString>
 #include <QUrl>
 
@@ -31,9 +30,7 @@ class QQuickView;
 class Resource
 {
 public:
-    explicit Resource(const QString& application_dir, const QString& install_dir, QQuickView *view);
-
-    bool is_installed() const;
+    explicit Resource(QQuickView *view);
 
     QUrl get_rc_url(const QString& path) const;
 
@@ -42,10 +39,6 @@ public:
     void setView(QQuickView* view);
 
 private:
-    QString trailing_slash(QString path) const;
-
-    QDir app_dir_;
-    QDir install_dir_;
     QQuickView* view_;
     mutable int max_texture_size_;
 

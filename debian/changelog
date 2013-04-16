@@ -2,6 +2,7 @@ gallery-app (0.0.67) UNRELEASED; urgency=low
 
   * For cancel on the toolbar use a button instead of a menu item (LP: #1163408)
   * Wrap all UI strings in i18n.tr() function to prepare translation
+  * Switch to cmake as build system
 
  -- Guenter Schwann <guenter.schwann@canonical.com>  Thu, 11 Apr 2013 15:53:55 +0200
 

@@ -42,8 +42,7 @@ class GalleryManager;
 class GalleryManager
 {
 public:
-    static GalleryManager* instance(const QString& application_path_dir = QString(),
-                                    const QDir& pictures_dir = QDir(),
+    static GalleryManager* instance(const QDir& pictures_dir = QDir(),
                                     QQuickView *view = 0,
                                     const bool log_image_loading = false);
 
@@ -63,7 +62,7 @@ public:
     GalleryThumbnailImageProvider* gallery_thumbnail_image_provider() { return gallery_thumbnail_image_provider_; }
 
 private:
-    GalleryManager(const QString& application_path_dir, const QDir& pictures_dir, QQuickView *view,
+    GalleryManager(const QDir& pictures_dir, QQuickView *view,
                    const bool log_image_loading);
     ~GalleryManager();
 

@@ -18,6 +18,7 @@
  */
 
 #include "resource.h"
+#include "config.h"
 
 #include <QtGui/QOpenGLContext>
 #include <QtQuick/QQuickView>
@@ -28,35 +29,10 @@
  * \param install_dir the directory, where apps are installed to
  * \param view the view is used to determine the max texture size
  */
-Resource::Resource(const QString& application_dir, const QString& install_dir, QQuickView *view)
+Resource::Resource(QQuickView *view)
     : view_(view),
       max_texture_size_(0)
 {
-    app_dir_ = QDir(application_dir);
-    if (trailing_slash(app_dir_.absolutePath()).endsWith("/bin/"))
-        app_dir_.cdUp();
-
-    install_dir_ = QDir(install_dir);
-}
-
-/*!
- * \brief Resource::is_installed
- * Return if the is run from an installed appl or from a local place.
- * \return Returns true if we're installed, false if we're running locally.
- */
-bool Resource::is_installed() const
-{
-    return app_dir_ == install_dir_;
-}
-
-/*!
- * \brief Resource::trailing_slash
- * \param path
- * \return
- */
-QString Resource::trailing_slash(QString path) const
-{
-    return path.endsWith("/") ? path : path + "/";
 }
 
 /*!
@@ -68,9 +44,9 @@ QString Resource::trailing_slash(QString path) const
  */
 QUrl Resource::get_rc_url(const QString& path) const
 {
-    return is_installed() ?
-                QUrl::fromLocalFile(trailing_slash(install_dir_.path()) + "share/gallery-app/rc/" + path) :
-                QUrl::fromLocalFile(trailing_slash(app_dir_.path()) + "../rc/" + path);
+    return isRunningInstalled() ?
+                QUrl::fromLocalFile(galleryDirectory() + "/rc/" + path) :
+                QUrl::fromLocalFile(galleryDirectory() + "/../rc/" + path);
 }
 
 /*!
