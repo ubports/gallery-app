@@ -56,6 +56,8 @@ public:
 
 private:
     Database* db_;
+
+    bool is_attached_to_album(qint64 album_id, qint64 media_id) const;
 };
 
 #endif // ALBUMTABLE_H
