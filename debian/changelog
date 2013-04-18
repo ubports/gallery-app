@@ -5,7 +5,7 @@ gallery-app (0.0.67-0ubuntu1) UNRELEASED; urgency=low
 
   [ Łukasz 'sil2100' Zemczak ]
   * debian/control:
-    - Add build-dependency for python, needed to get autopilot tests installed
+    - Add build-dependency on python, needed to get autopilot tests installed
 
  -- Didier Roche <didrocks@ubuntu.com>  Thu, 18 Apr 2013 09:52:45 +0200
 
