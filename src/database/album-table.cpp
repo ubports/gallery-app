@@ -115,14 +115,13 @@ bool AlbumTable::is_attached_to_album(qint64 album_id, qint64 media_id) const
 {
     QSqlQuery query(*db_->get_db());
 
-    // Check if album is already attached
     query.prepare("SELECT COUNT(*) FROM MediaAlbumTable WHERE album_id = :album_id AND media_id = :media_id");
     query.bindValue(":album_id", album_id);
     query.bindValue(":media_id", media_id);
     if (!query.exec())
         db_->log_sql_error(query);
     else if (query.next() && (query.value(0).toInt() > 0))
-        return true; // album already attached
+        return true;
 
     return false;
 }
