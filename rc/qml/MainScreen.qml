@@ -34,7 +34,6 @@ MainView {
     Tabs {
         id: tabs
         anchors.fill: parent
-        Component.onCompleted: ItemStyle.style.swipeToSwitchTabs = false
 
         visible: !(photoViewerLoader.item && photoViewerLoader.item.isPoppedUp)
         active: visible && !albumViewer.isOpen && !albumEditor.isOpen

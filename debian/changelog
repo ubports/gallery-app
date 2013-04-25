@@ -1,4 +1,4 @@
-gallery-app (0.0.67-0ubuntu1) UNRELEASED; urgency=low
+gallery-app (0.0.68) quantal; urgency=low
 
   [ Didier Roche ]
   * Automatic snapshot from revision 654 (bootstrap)
@@ -7,7 +7,10 @@ gallery-app (0.0.67-0ubuntu1) UNRELEASED; urgency=low
   * debian/control:
     - Add build-dependency on python, needed to get autopilot tests installed
 
- -- Didier Roche <didrocks@ubuntu.com>  Thu, 18 Apr 2013 09:52:45 +0200
+  [ Guenter Schwann ]
+  * Switching tabs by swiping is disabled, so the command can be cleaned up
+
+ -- Guenter Schwann <guenter.schwann@canonical.com>  Thu, 25 Apr 2013 14:45:26 +0200
 
 gallery-app (0.0.67) quantal; urgency=low
 
