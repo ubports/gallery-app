@@ -7,6 +7,10 @@ gallery-app (0.0.67-0ubuntu1) UNRELEASED; urgency=low
   * debian/control:
     - Add build-dependency on python, needed to get autopilot tests installed
 
+  [ Guenter Schwann ]
+  * Fix releaving the toolbar in autopilot tests
+  * Fix cancel button in toolbar
+
  -- Didier Roche <didrocks@ubuntu.com>  Thu, 18 Apr 2013 09:52:45 +0200
 
 gallery-app (0.0.67) quantal; urgency=low
