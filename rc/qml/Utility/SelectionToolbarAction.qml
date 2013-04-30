@@ -60,7 +60,7 @@ ToolbarActions {
         itemHint: Button {
             text: i18n.tr("Cancel")
             width: units.gu(10)
+            onClicked: root.cancelClicked();
         }
-        onTriggered: root.cancelClicked();
     }
 }

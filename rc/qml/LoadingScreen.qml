@@ -31,9 +31,9 @@ Item {
         fillMode: Image.Tile
     }
 
-    Text {
+/*    Text {
         anchors.centerIn: parent
         text: i18n.tr("Loading...")
         font.pointSize: pointUnits(20)
-    }
+    }*/
 }

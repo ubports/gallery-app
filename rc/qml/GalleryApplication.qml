@@ -20,10 +20,10 @@
  */
 
 import QtQuick 2.0
-import QtQuick.Window 2.0
-import "../js/Gallery.js" as Gallery
-import Ubuntu.Components 0.1 // Necessary to make filename@GU.ext images load
-import Ubuntu.HUD 1.0 as HUD
+//import QtQuick.Window 2.0
+//import "../js/Gallery.js" as Gallery
+//import Ubuntu.Components 0.1 // Necessary to make filename@GU.ext images load
+//import Ubuntu.HUD 1.0 as HUD
 
 /*!
 */
@@ -33,7 +33,7 @@ Item {
     // readonly
     /*!
     */
-    property bool isPortrait: (height > width)
+/*    property bool isPortrait: (height > width)
 
     // Big list of form factor-specific values.  'default' is used if the key
     // can't be found under any other form_factor (otherwise, form_factors should
@@ -135,15 +135,15 @@ Item {
         // 1.6 is a hacky fudge-factor for now.
         return Math.round(1.6 * amt);
     }
-
+*/
     /*!
     */
     function onLoaded() {
-        mainScreenLoader.load();
-        loadingScreen.visible = false;
+        //mainScreenLoader.load();
+        //loadingScreen.visible = false;
     }
 
-    width: units.gu(DEVICE_WIDTH)
+/*    width: units.gu(DEVICE_WIDTH)
     height: units.gu(DEVICE_HEIGHT)
 
     focus: true
@@ -158,14 +158,14 @@ Item {
             height = temp;
         }
     }
-
-    LoadingScreen {
+*/
+/*    LoadingScreen {
         id: loadingScreen
 
         anchors.fill: parent
     }
-
-    Loader {
+*/
+/*    Loader {
         id: mainScreenLoader
 
         // find the loader with autopilot:
@@ -190,4 +190,5 @@ Item {
             }
         }
     }
+    */
 }
