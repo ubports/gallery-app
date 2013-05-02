@@ -31,7 +31,7 @@ find_package(Qt5Gui)
 find_package(Qt5Qml)
 find_package(Qt5Quick)
 find_package(Qt5Sql)
-find_package(OpenGL)
+find_package(GLESv2)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(EXIV2 REQUIRED exiv2)

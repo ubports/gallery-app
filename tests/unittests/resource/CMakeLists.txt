@@ -27,6 +27,6 @@ set_tests_properties(resource PROPERTIES
     ENVIRONMENT "QT_QPA_PLATFORM=minimal"
     )
 target_link_libraries(resource 
-    ${OPENGL_LIBRARIES}
+    ${GLESv2_LIBRARIES}
     ${GSTLIB_LDFLAGS}
     )

@@ -114,7 +114,7 @@ qt5_use_modules(${GALLERY} Widgets Core Qml Quick OpenGL Sql)
 
 target_link_libraries( ${GALLERY}
     ${EXIV2_LIBRARIES}
-    ${OPENGL_LIBRARIES}
+    ${GLESv2_LIBRARIES}
     ${GSTLIB_LDFLAGS}
     )
 
