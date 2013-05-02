@@ -70,9 +70,7 @@ class GalleryUtils(object):
 
     def get_toolbar(self):
         """Returns the toolbar in the main events view."""
-        #main_view = self.app.select_single("MainScreen", objectName="overview")
-        #return main_view.get_children_by_type("Toolbar")[0]
-        return self.app.select_many("Toolbar")[0]
+        return self.app.select_single("Toolbar")
 
     def get_toolbar_button(self, button_idx):
         """Returns the button with index idx from the toolbar"""

@@ -39,9 +39,9 @@ Page {
             itemHint: Button {
                 text: i18n.tr("Cancel")
                 width: units.gu(10)
-            }
-            onTriggered: {
-                albumEditor.closeRequested(albumEditor.album, false);
+                onClicked: {
+                    albumEditor.closeRequested(albumEditor.album, false);
+                }
             }
         }
     }
