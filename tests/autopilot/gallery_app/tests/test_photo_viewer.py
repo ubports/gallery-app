@@ -64,7 +64,6 @@ class TestPhotoViewer(TestPhotoViewerBase):
         trash_button = self.photo_viewer.get_toolbar_delete_button()
 
         self.pointing_device.move_to_object(trash_button)
-        self.assertThat(trash_button.hovered, Eventually(Equals(True)))
         self.pointing_device.click()
 
         delete_dialog = self.photo_viewer.get_delete_dialog()
@@ -79,7 +78,6 @@ class TestPhotoViewer(TestPhotoViewerBase):
         self.reveal_toolbar()
 
         self.pointing_device.move_to_object(trash_button)
-        self.assertThat(trash_button.hovered, Eventually(Equals(True)))
         self.pointing_device.click()
 
         delete_dialog = self.photo_viewer.get_delete_dialog()
@@ -97,7 +95,6 @@ class TestPhotoViewer(TestPhotoViewerBase):
     #     album_picker = self.photo_viewer.get_popup_album_picker()
 
     #     self.pointing_device.move_to_object(album_button)
-    #     self.assertThat(album_button.hovered, Eventually(Equals(True)))
     #     self.pointing_device.click()
 
     #     self.assertThat(album_picker.visible, Eventually(Equals(True)))
@@ -108,7 +105,6 @@ class TestPhotoViewer(TestPhotoViewerBase):
         share_menu = self.photo_viewer.get_share_dialog()
 
         self.pointing_device.move_to_object(share_button)
-        self.assertThat(share_button.hovered, Eventually(Equals(True)))
         self.pointing_device.click()
 
         self.assertThat(share_menu.visible, Eventually(Equals(True)))
@@ -119,7 +115,6 @@ class TestPhotoViewer(TestPhotoViewerBase):
         edit_dialog = self.photo_viewer.get_photo_edit_dialog()
 
         self.pointing_device.move_to_object(edit_button)
-        self.assertThat(edit_button.hovered, Eventually(Equals(True)))
         self.pointing_device.click()
 
         self.assertThat(edit_dialog.visible, Eventually(Equals(True)))

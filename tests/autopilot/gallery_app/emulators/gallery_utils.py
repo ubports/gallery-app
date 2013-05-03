@@ -79,7 +79,7 @@ class GalleryUtils(object):
         row = item.get_children_by_type("QQuickRow")[0]
         button_loaders = row.get_children_by_type("QQuickLoader")
         button_loader = button_loaders[button_idx]
-        return button_loader.get_children_by_type("Button")[0]
+        return button_loader
 
     def get_toolbar_cancel_icon(self):
         """Returns the cancel icon of the events view."""
@@ -87,7 +87,7 @@ class GalleryUtils(object):
         item = toolbar.get_children_by_type("QQuickItem")[0]
         back_loaders = item.get_children_by_type("QQuickLoader")
         back_loader = back_loaders[0]
-        return back_loader.get_children_by_type("Button")[0]
+        return back_loader
 
     def get_delete_dialog(self):
         """Returns the delete dialog in the events view."""
