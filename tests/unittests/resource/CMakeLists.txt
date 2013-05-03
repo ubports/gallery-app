@@ -26,7 +26,14 @@ set_tests_properties(resource PROPERTIES
     TIMEOUT ${CTEST_TESTING_TIMEOUT}
     ENVIRONMENT "QT_QPA_PLATFORM=minimal"
     )
+
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "^arm")
+    set(GL_LIBRARIES ${GLESv2_LIBRARIES})
+else()
+    set(GL_LIBRARIES ${OPENGL_LIBRARIES})
+endif()
+
 target_link_libraries(resource 
-    ${GLESv2_LIBRARIES}
+    ${GL_LIBRARIES}
     ${GSTLIB_LDFLAGS}
     )
