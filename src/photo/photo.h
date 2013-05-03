@@ -53,7 +53,7 @@ public:
     explicit Photo(const QFileInfo& file);
     virtual ~Photo();
 
-    virtual QImage Image(bool respect_orientation);
+    virtual QImage Image(bool respect_orientation, const QSize &scaleSize=QSize());
     virtual Orientation orientation() const;
     virtual QDateTime exposure_date_time() const;
 

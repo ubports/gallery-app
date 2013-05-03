@@ -11,6 +11,7 @@ gallery-app (0.0.67-0ubuntu1) UNRELEASED; urgency=low
   * Fix releaving the toolbar in autopilot tests
   * Fix cancel button in toolbar
   * Fix autopilot reveal and autopilot toolbar buttons click
+  * Speed up thumbnail creation, and limit number of thumbnails on startup
 
  -- Didier Roche <didrocks@ubuntu.com>  Thu, 18 Apr 2013 09:52:45 +0200
 
