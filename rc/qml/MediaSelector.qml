@@ -93,9 +93,9 @@ OrganicView {
             itemHint: Button {
                 text: i18n.tr("Cancel")
                 width: units.gu(10)
-            }
-            onTriggered: {
-                mediaSelector.hide();
+                onClicked: {
+                    mediaSelector.hide();
+                }
             }
         }
         active: true
