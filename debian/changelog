@@ -12,6 +12,7 @@ gallery-app (0.0.67-0ubuntu1) UNRELEASED; urgency=low
   * Fix cancel button in toolbar
   * Fix autopilot reveal and autopilot toolbar buttons click
   * Smaller default size on desktops
+  * Fix gallery startup on device (LP: #1173286)
 
  -- Didier Roche <didrocks@ubuntu.com>  Thu, 18 Apr 2013 09:52:45 +0200
 
