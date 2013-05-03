@@ -302,13 +302,8 @@ QImage Photo::Image(bool respect_orientation, const QSize &scaleSize)
     QImageReader imageReader(file().filePath(), file_format_.toStdString().c_str());
     QSize imageSize = imageReader.size();
     if (scaleSize.isValid()) {
-        qreal scaleFactor = 1.0;
-        if (imageSize.width() > imageSize.height())
-            scaleFactor = imageSize.width() / scaleSize.width();
-        else
-            scaleFactor = imageSize.height() / scaleSize.height();
-
-        QSize size(imageSize.width() / scaleFactor, imageSize.height() / scaleFactor);
+        QSize size = imageSize;
+        size.scale(scaleSize, Qt::KeepAspectRatioByExpanding);
         imageReader.setScaledSize(size);
     }
     QImage image = imageReader.read();
