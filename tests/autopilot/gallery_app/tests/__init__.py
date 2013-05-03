@@ -107,7 +107,7 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
         stop_y = start_y - 2 * h
 
         self.pointing_device.drag(x_line, start_y, x_line, stop_y)
-        self.assertThat(toolbar.active, Eventually(Equals(True)))
+        self.assertThat(toolbar.opened, Eventually(Equals(True)))
 
     def ensure_at_least_one_event(self):
         """The event view has to have at least one event

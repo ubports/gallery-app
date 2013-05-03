@@ -50,16 +50,6 @@ class TestEventsView(GalleryTestCase):
         trash_button = self.events_view.get_toolbar_delete_button()
         self.click_item(trash_button)
 
-    def test_camera_icon_hover(self):
-        """Ensures that when the mouse is over the camera icon it has the
-           hovered state."""
-        self.reveal_toolbar()
-
-        camera_icon = self.events_view.get_toolbar_camera_button()
-        self.pointing_device.move_to_object(camera_icon)
-
-        self.assertThat(camera_icon.hovered, Eventually(Equals(True)))
-
     def test_select_button_cancel(self):
         """Clicking the cancel button after clicking the select button must
            hide the toolbar automatically."""
