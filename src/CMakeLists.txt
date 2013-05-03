@@ -112,9 +112,15 @@ add_executable(${GALLERY}
 
 qt5_use_modules(${GALLERY} Widgets Core Qml Quick OpenGL Sql)
 
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "^arm")
+    set(GL_LIBRARIES ${GLESv2_LIBRARIES})
+else()
+    set(GL_LIBRARIES ${OPENGL_LIBRARIES})
+endif()
+
 target_link_libraries( ${GALLERY}
     ${EXIV2_LIBRARIES}
-    ${OPENGL_LIBRARIES}
+    ${GL_LIBRARIES}
     ${GSTLIB_LDFLAGS}
     )
 

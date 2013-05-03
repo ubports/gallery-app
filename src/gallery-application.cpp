@@ -55,7 +55,7 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
         bgu_size_ = 8;
 
     timer_.start();
-    form_factors_.insert("desktop", QSize(160, 100)); // In BGU.
+    form_factors_.insert("desktop", QSize(120, 80)); // In BGU.
     form_factors_.insert("tablet", QSize(160, 100));
     form_factors_.insert("phone", QSize(71, 40));
     form_factors_.insert("sidebar", QSize(71, 40));
