@@ -35,8 +35,8 @@ ToolbarActions {
     signal deleteClicked()
 
     // in selection mode, never hide the toolbar:
-    active: true
-    lock: true
+    opened: true
+    locked: true
 
     Action {
         text: i18n.tr("Add")
