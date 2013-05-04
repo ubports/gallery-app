@@ -297,9 +297,16 @@ Photo::~Photo()
  * \param respect_orientation if set to true, the photo is rotated according to the EXIF information
  * \return The image in full size
  */
-QImage Photo::Image(bool respect_orientation)
+QImage Photo::Image(bool respect_orientation, const QSize &scaleSize)
 {
-    QImage image(file().filePath(), file_format_.toStdString().c_str());
+    QImageReader imageReader(file().filePath(), file_format_.toStdString().c_str());
+    QSize imageSize = imageReader.size();
+    if (scaleSize.isValid()) {
+        QSize size = imageSize;
+        size.scale(scaleSize, Qt::KeepAspectRatioByExpanding);
+        imageReader.setScaledSize(size);
+    }
+    QImage image = imageReader.read();
     if (!image.isNull() && respect_orientation && file_format_has_orientation()) {
         image = image.transformed(
                     OrientationCorrection::FromOrientation(orientation())
