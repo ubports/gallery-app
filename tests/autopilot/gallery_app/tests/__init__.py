@@ -10,20 +10,30 @@
 import os.path
 import shutil
 
-from autopilot.introspection.qt import QtIntrospectionTestMixin
+from autopilot.input import Mouse, Touch, Pointer
+from autopilot.matchers import Eventually
+from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
 from testtools.matchers import Equals, GreaterThan
-from autopilot.matchers import Eventually
 
 from gallery_app.emulators.gallery_utils import GalleryUtils
 
 from time import sleep
 
 
-class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
+class GalleryTestCase(AutopilotTestCase):
 
     """A common test case class that provides several useful methods for
        gallery tests."""
+
+    if model() == 'Desktop':
+        scenarios = [
+        ('with mouse', dict(input_device_class=Mouse)),
+        ]
+    else:
+        scenarios = [
+        ('with touch', dict(input_device_class=Touch)),
+        ]
 
     sample_dir = "/tmp/gallery-ap_sd"
     sample_file = sample_dir + "/sample01.jpg"
@@ -32,11 +42,14 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
     local_sample_dir = "gallery_app/data"
     tap_press_time = 1
 
+    local_location = "../../src/gallery-app"
+
     @property
     def gallery_utils(self):
         return GalleryUtils(self.app)
 
     def setUp(self):
+        self.pointing_device = Pointer(self.input_device_class.create())
         super(GalleryTestCase, self).setUp()
 
         if (os.path.exists(self.sample_dir)):
@@ -70,11 +83,19 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
         sleep(1)
 
     def launch_test_local(self):
-        self.app = self.launch_test_application("../../src/gallery-app",
-                                                self.sample_dir)
+        self.app = self.launch_test_application(self.local_location,
+            self.sample_dir)
 
     def launch_test_installed(self):
-        self.app = self.launch_test_application("gallery-app", self.sample_dir)
+        if model() == 'Desktop':
+            self.app = self.launch_test_application("gallery-app", 
+                self.sample_dir,
+                "--desktop_file_hint=/usr/share/applications/gallery-app.desktop",
+                app_type='qt')
+        else:
+            self.app = self.launch_test_application("gallery-app", 
+                self.sample_dir
+                )
 
     def ui_update(self):
         """ Gives the program the time to update the UI"""
@@ -107,7 +128,7 @@ class GalleryTestCase(AutopilotTestCase, QtIntrospectionTestMixin):
         stop_y = start_y - 2 * h
 
         self.pointing_device.drag(x_line, start_y, x_line, stop_y)
-        self.assertThat(toolbar.opened, Eventually(Equals(True)))
+        self.assertThat(toolbar.state, Eventually(Equals("spread")))
 
     def ensure_at_least_one_event(self):
         """The event view has to have at least one event
