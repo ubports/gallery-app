@@ -102,21 +102,19 @@ class TestPhotoViewer(TestPhotoViewerBase):
     def test_nav_bar_share_button(self):
         """Clicking the share button must show the share dialog."""
         share_button = self.photo_viewer.get_toolbar_share_button()
+
+        self.click_item(share_button)
+
         share_menu = self.photo_viewer.get_share_dialog()
-
-        self.pointing_device.move_to_object(share_button)
-        self.pointing_device.click()
-
         self.assertThat(share_menu.visible, Eventually(Equals(True)))
 
     def test_nav_bar_edit_button(self):
         """Clicking the edit button must show the edit dialog."""
         edit_button = self.photo_viewer.get_toolbar_edit_button()
+
+        self.click_item(edit_button)
+
         edit_dialog = self.photo_viewer.get_photo_edit_dialog()
-
-        self.pointing_device.move_to_object(edit_button)
-        self.pointing_device.click()
-
         self.assertThat(edit_dialog.visible, Eventually(Equals(True)))
 
     def test_double_click_zoom(self):
