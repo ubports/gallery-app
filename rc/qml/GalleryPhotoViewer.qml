@@ -199,8 +199,7 @@ Item {
                 text: i18n.tr("Edit")
                 iconSource: "../img/edit.png"
                 onTriggered: {
-                    editPopover.caller = caller;
-                    editPopover.show();
+                    PopupUtils.open(editPopoverComponent, caller)
                 }
             }
             Action {
@@ -222,9 +221,7 @@ Item {
                 text: i18n.tr("Share")
                 iconSource: "../img/share.png"
                 onTriggered: {
-                    sharePopover.picturePath = viewerWrapper.photo.path;
-                    sharePopover.caller = caller;
-                    sharePopover.show();
+                    PopupUtils.open(sharePopoverComponent, caller)
                 }
             }
 
@@ -238,18 +235,25 @@ Item {
             }
         }
 
-        SharePopover {
-            id: sharePopover
-            objectName: "sharePopover"
-            visible: false
+        Component {
+            id: sharePopoverComponent
+            SharePopover {
+                id: sharePopover
+                objectName: "sharePopover"
+                visible: false
+                picturePath: viewerWrapper.photo.path
+            }
         }
 
-        EditPopover {
-            id: editPopover
-            objectName: "editPopover"
-            visible: false
-            photo: galleryPhotoViewer.photo
-            cropper: viewerWrapper.cropper
+        Component {
+            id: editPopoverComponent
+            EditPopover {
+                id: editPopover
+                objectName: "editPopover"
+                visible: false
+                photo: galleryPhotoViewer.photo
+                cropper: viewerWrapper.cropper
+            }
         }
 
         Component {
