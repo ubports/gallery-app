@@ -26,10 +26,10 @@ ListModel {
     id: albumCoverList
 
     // Returns an element given the nickname.
-    function elementForActionName(name) {
+    function elementForCoverName(name) {
         // TODO: optimize.
         for (var i = 0; i < albumCoverList.count; i++) {
-            if (albumCoverList.get(i).action === name)
+            if (albumCoverList.get(i).coverName === name)
                 return albumCoverList.get(i);
         }
 
@@ -56,7 +56,7 @@ ListModel {
     // First item in the list must be the default.
     ListElement {
         title: ""
-        action: "default"
+        coverName: "default"
         imageFull: "img/album-cover-default-large.png"
         imagePreview: "img/album-cover-default.png"
         iconFilename: "../../img/album-cover-default-icon.png"
@@ -66,7 +66,7 @@ ListModel {
 
     ListElement {
         title: ""
-        action: "blue"
+        coverName: "blue"
         imageFull: "img/album-cover-blue-large.png"
         imagePreview: "img/album-cover-blue.png"
         iconFilename: "../../img/album-cover-blue-icon.png"
@@ -76,7 +76,7 @@ ListModel {
 
     ListElement {
         title: ""
-        action: "green"
+        coverName: "green"
         imageFull: "img/album-cover-green-large.png"
         imagePreview: "img/album-cover-green.png"
         iconFilename: "../../img/album-cover-green-icon.png"
@@ -86,7 +86,7 @@ ListModel {
 
     ListElement {
         title: ""
-        action: "pattern"
+        coverName: "pattern"
         imageFull: "img/album-cover-pattern-large.png"
         imagePreview: "img/album-cover-pattern.png"
         iconFilename: "../../img/album-cover-pattern-icon.png"
@@ -96,7 +96,7 @@ ListModel {
 
     ListElement {
         title: ""
-        action: "red"
+        coverName: "red"
         imageFull: "img/album-cover-red-large.png"
         imagePreview: "img/album-cover-red.png"
         iconFilename: "../../img/album-cover-red-icon.png"

@@ -92,14 +92,14 @@ Page {
     */
     function editNewAlbum() {
         albumEditor.album = albumModel.createOrphan();
-        coverMenu.state = "hidden"
+        coverMenu.hide()
     }
 
     /*!
     */
     function editAlbum(album) {
         albumEditor.album = album;
-        coverMenu.state = "hidden"
+        coverMenu.hide()
     }
 
     /*!
@@ -144,7 +144,7 @@ Page {
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         anchors.fill: parent
         onPressed: {
-            coverMenu.state = "hidden";
+            coverMenu.hide();
             cover.editingDone();
             closeAlbum();
 
@@ -177,7 +177,7 @@ Page {
             onPressed: {
                 mouse.accepted = true;
                 if (!isTextEditing) {
-                    coverMenu.flipVisibility();
+                    coverMenu.show();
                 } else {
                     cover.editingDone()
                 }
@@ -185,8 +185,8 @@ Page {
 
             onIsTextEditingChanged: {
                 // Hide menu when we start editing text.
-                if (isTextEditing && coverMenu.state !== "hidden")
-                    coverMenu.state = "hidden";
+                if (isTextEditing && coverMenu.visible)
+                    coverMenu.hide();
             }
 
             onAddPhotos: mediaSelector.show();
@@ -196,16 +196,7 @@ Page {
     // Cover picker
     AlbumCoverMenu {
         id: coverMenu
-
-        visible: false
-        state: "hidden"
-        popupOriginX: -units.gu(3)
-        popupOriginY: -units.gu(15)
-
-        onActionInvoked: {
-            albumEditor.album.coverNickname = name
-            state = "hidden"
-        }
+        onNewCoverSelected: albumEditor.album.coverNickname = coverName;
     }
 
     MediaSelector {
