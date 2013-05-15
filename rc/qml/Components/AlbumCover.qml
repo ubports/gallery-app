@@ -176,6 +176,7 @@ Item {
 
         Image {
             id: coverImageFull
+            objectName: "albumCoverImage"
 
             source: coverElement.imageFull
             visible: !isPreview

@@ -41,6 +41,7 @@ Popover {
             model: AlbumCoverList {}
 
             delegate: ListItem.Standard {
+                objectName: "albumCoverMenuItem"
                 text: title
                 icon: Qt.resolvedUrl(iconFilename)
                 onClicked: {
