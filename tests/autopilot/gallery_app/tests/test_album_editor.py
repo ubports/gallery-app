@@ -151,8 +151,9 @@ class TestAlbumEditor(GalleryTestCase):
         self.assertThat(cover_image.source.endswith("album-cover-default-large.png"),
                         Equals(True))
 
+        # click somewhere rather at the bottom of the cover
         x, y, w, h = cover_image.globalRect
-        self.pointing_device.move(x + w/2, y + h - h/20 )
+        self.pointing_device.move(x + int(w/2), y + h - int(h/10) )
         self.pointing_device.click()
 
         green_item = self.album_editor.get_cover_menu_item(2)
