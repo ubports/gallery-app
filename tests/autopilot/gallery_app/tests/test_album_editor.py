@@ -148,7 +148,8 @@ class TestAlbumEditor(GalleryTestCase):
     def test_cover_image(self):
         """Test to change the album cover image"""
         cover_image = self.album_editor.get_album_cover_image()
-        self.assertThat(cover_image.source[-29:], Equals("album-cover-default-large.png"))
+        self.assertThat(cover_image.source.endswith("album-cover-default-large.png"),
+                        Equals(True))
 
         x, y, w, h = cover_image.globalRect
         self.pointing_device.move(x + w/2, y + h - h/20 )
@@ -157,4 +158,5 @@ class TestAlbumEditor(GalleryTestCase):
         green_item = self.album_editor.get_cover_menu_item(2)
         self.click_item(green_item)
 
-        self.assertThat(cover_image.source[-27:], Equals("album-cover-green-large.png"))
+        self.assertThat(cover_image.source.endswith("album-cover-green-large.png"),
+                        Equals(True))

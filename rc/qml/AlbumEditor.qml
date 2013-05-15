@@ -185,7 +185,7 @@ Page {
 
             onIsTextEditingChanged: {
                 // Hide menu when we start editing text.
-                if (isTextEditing && coverMenu.visible === true)
+                if (isTextEditing && coverMenu.visible)
                     coverMenu.hide();
             }
 
