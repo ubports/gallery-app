@@ -18,17 +18,36 @@
  */
 
 import QtQuick 2.0
-import "../../Capetown/Widgets"
+import Ubuntu.Components.Popups 0.1
+import Ubuntu.Components.ListItems 0.1 as ListItem
 import "../Utility"
 
 /*!
+  Menu to select the album cover
 */
-PopupMenu {
+Popover {
     id: albumCoverMenu
 
-    model: coverList
+    signal newCoverSelected(string coverName)
 
-    AlbumCoverList {
-        id: coverList
+    Column {
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: parent.top
+        }
+
+        Repeater {
+            model: AlbumCoverList {}
+
+            delegate: ListItem.Standard {
+                text: title
+                icon: Qt.resolvedUrl(iconFilename)
+                onClicked: {
+                    albumCoverMenu.newCoverSelected(coverName);
+                    hide();
+                }
+            }
+        }
     }
 }

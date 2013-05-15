@@ -106,7 +106,7 @@ Item {
     /*!
   */
     property variant coverElement: album !== null ?
-                                       coverList.elementForActionName(album.coverNickname) : coverList.getDefault();
+                                       coverList.elementForCoverName(album.coverNickname) : coverList.getDefault();
 
     // Read-only
     property bool isTextEditing: title.isEditing || subtitle.isEditing
