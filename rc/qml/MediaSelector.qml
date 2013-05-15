@@ -98,8 +98,8 @@ OrganicView {
                 }
             }
         }
-        active: true
-        lock: true
+        opened: true
+        locked: true
     }
 
     PropertyAnimation {
