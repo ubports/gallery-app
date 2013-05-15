@@ -102,21 +102,19 @@ class TestPhotoViewer(TestPhotoViewerBase):
     def test_nav_bar_share_button(self):
         """Clicking the share button must show the share dialog."""
         share_button = self.photo_viewer.get_toolbar_share_button()
+
+        self.click_item(share_button)
+
         share_menu = self.photo_viewer.get_share_dialog()
-
-        self.pointing_device.move_to_object(share_button)
-        self.pointing_device.click()
-
         self.assertThat(share_menu.visible, Eventually(Equals(True)))
 
     def test_nav_bar_edit_button(self):
         """Clicking the edit button must show the edit dialog."""
         edit_button = self.photo_viewer.get_toolbar_edit_button()
+
+        self.click_item(edit_button)
+
         edit_dialog = self.photo_viewer.get_photo_edit_dialog()
-
-        self.pointing_device.move_to_object(edit_button)
-        self.pointing_device.click()
-
         self.assertThat(edit_dialog.visible, Eventually(Equals(True)))
 
     def test_double_click_zoom(self):
@@ -273,12 +271,16 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.click_edit_button()
         self.click_undo_item()
 
+        self.reveal_toolbar()
+        self.click_edit_button()
+        undo_item = self.photo_viewer.get_undo_menu_item()
+        redo_item = self.photo_viewer.get_redo_menu_item()
+        revert_item = self.photo_viewer.get_revert_menu_item()
+
         self.assertThat(undo_item.enabled, Eventually(Equals(False)))
         self.assertThat(redo_item.enabled, Eventually(Equals(True)))
         self.assertThat(revert_item.enabled, Eventually(Equals(False)))
 
-        self.reveal_toolbar()
-        self.click_edit_button()
         self.click_redo_item()
 
         self.assertThat(undo_item.enabled, Eventually(Equals(True)))
@@ -288,6 +290,12 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.reveal_toolbar()
         self.click_edit_button()
         self.click_revert_item()
+
+        self.reveal_toolbar()
+        self.click_edit_button()
+        undo_item = self.photo_viewer.get_undo_menu_item()
+        redo_item = self.photo_viewer.get_redo_menu_item()
+        revert_item = self.photo_viewer.get_revert_menu_item()
 
         self.assertThat(undo_item.enabled, Eventually(Equals(True)))
         self.assertThat(redo_item.enabled, Eventually(Equals(False)))
