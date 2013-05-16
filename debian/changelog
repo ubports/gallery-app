@@ -1,4 +1,4 @@
-gallery-app (0.0.67-0ubuntu1) UNRELEASED; urgency=low
+gallery-app (0.0.67-0ubuntu2) UNRELEASED; urgency=low
 
   [ Didier Roche ]
   * Automatic snapshot from revision 654 (bootstrap)
@@ -15,7 +15,10 @@ gallery-app (0.0.67-0ubuntu1) UNRELEASED; urgency=low
   * Fix gallery startup on device (LP: #1173286)
   * Speed up thumbnail creation, and limit number of thumbnails on startup
 
- -- Didier Roche <didrocks@ubuntu.com>  Thu, 18 Apr 2013 09:52:45 +0200
+  [ Omer Akram ]
+  * Just a test commit.
+
+ -- Omer Akram <om26er@ubuntu.com>  Thu, 16 May 2013 16:55:08 +0500
 
 gallery-app (0.0.67) quantal; urgency=low
 
