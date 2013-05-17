@@ -184,10 +184,6 @@ Item {
 
         HUD.Context {
             id: hudCtx
-
-            HUD.QuitAction {
-                onTriggered: Qt.quit()
-            }
         }
     }
 }
