@@ -30,6 +30,7 @@ MainView {
     objectName: "overview"
 
     anchors.fill: parent
+    automaticOrientation: application.automaticOrientation
 
     Tabs {
         id: tabs
