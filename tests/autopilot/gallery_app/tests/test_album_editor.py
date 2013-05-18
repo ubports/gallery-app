@@ -41,7 +41,10 @@ class TestAlbumEditor(GalleryTestCase):
 
     def edit_first_album(self):
         first_album = self.album_editor.get_first_album()
-        self.tap_item(first_album)
+        self.pointing_device.move_to_object(first_album)
+        self.pointing_device.press()
+        sleep(1)
+        self.pointing_device.release()
         edit_button = self.album_editor.get_edit_album_button()
         self.click_item(edit_button)
         self.ensure_edit_is_fully_open()
