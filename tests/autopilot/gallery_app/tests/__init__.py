@@ -147,7 +147,7 @@ class GalleryTestCase(AutopilotTestCase):
         # earlier. Even though the tab item is not fully visible, hence the tab
         # does not activate.
         self.assertThat(albums_tab_button.opacity,
-                        Eventually(GreaterThan(0.2)))
+                        Eventually(GreaterThan(0.35)))
         self.click_item(albums_tab_button)
 
         albums_loader = self.gallery_utils.get_albums_viewer_loader()
