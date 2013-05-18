@@ -29,7 +29,8 @@ class AlbumView(GalleryUtils):
 
     def get_first_photo(self):
         """Returns the first photo in a newly opened album"""
-        return self.app.select_many("FramePortrait")[0]
+        return self.app.select_single("FramePortrait",
+                                      visible=True, isLoaded=True)
 
     def get_album_photo_view(self):
         """Returns the photo view of the album viewer"""
@@ -39,7 +40,7 @@ class AlbumView(GalleryUtils):
     def number_of_photos(self):
         """Returns the numer of visible photos"""
         return len(self.app.select_many("FramePortrait",
-                                        isPreview=False, isLoaded=True))
+                                        visible=True, isLoaded=True))
 
     def media_selector_loader(self):
         """Returns the loader for the media selector"""
