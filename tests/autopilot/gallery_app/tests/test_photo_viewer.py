@@ -37,9 +37,7 @@ class TestPhotoViewerBase(GalleryTestCase):
 
     def open_first_photo(self):
         single_photo = self.photo_viewer.get_first_image_in_event_view()
-        self.pointing_device.move_to_object(single_photo)
-        sleep(0.25)
-        self.pointing_device.click()
+        self.click_item(single_photo)
 
         photo_viewer_loader = self.photo_viewer.get_main_photo_viewer_loader()
         self.assertThat(photo_viewer_loader.loaded, Eventually(Equals(True)))

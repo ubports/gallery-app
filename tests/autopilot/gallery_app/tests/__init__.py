@@ -104,6 +104,8 @@ class GalleryTestCase(AutopilotTestCase):
         """Does a mouse click on the passed item, and moved the mouse there
            before"""
         self.pointing_device.move_to_object(item)
+        if model() == 'Desktop':
+            sleep(0.25)
         self.pointing_device.click()
 
     def tap_item(self, item):
