@@ -49,4 +49,5 @@ class AlbumView(GalleryUtils):
 
     def get_plus_icon_empty_album(self):
         """Returns the plus icon visible in empty albums"""
-        return self.app.select_many("QQuickImage", objectName="addButton")[0]
+        return self.app.select_single("QQuickImage",
+                                      objectName="addButton", visible=True)
