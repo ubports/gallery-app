@@ -18,6 +18,8 @@ from gallery_app.emulators.albums_view import AlbumsView
 from gallery_app.emulators.media_selector import MediaSelector
 from gallery_app.tests import GalleryTestCase
 
+from time import sleep
+
 
 class TestAlbumView(GalleryTestCase):
     """Tests the album view of the gallery app"""
@@ -103,6 +105,8 @@ class TestAlbumView(GalleryTestCase):
         photo = self.media_selector.get_second_photo()
         self.click_item(photo)
         add_button = self.media_selector.get_toolbar_add_button()
+        #Not using click_item() here as this test fails with the
+        #short delay between click, using 0.5 sec wait here.
         self.pointing_device.move_to_object(add_button)
         sleep(0.5)
         self.pointing_device.click()
