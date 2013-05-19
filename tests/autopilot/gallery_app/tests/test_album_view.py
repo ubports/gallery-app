@@ -114,4 +114,4 @@ class TestAlbumView(GalleryTestCase):
 
         num_photos = self.album_view.number_of_photos()
         self.assertThat(lambda: num_photos,                      
-                        Eventually(Equals(num_photos_start + 1))))
+                        Eventually(Equals(num_photos_start + 1)))
