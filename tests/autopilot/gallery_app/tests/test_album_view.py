@@ -103,7 +103,9 @@ class TestAlbumView(GalleryTestCase):
         photo = self.media_selector.get_second_photo()
         self.click_item(photo)
         add_button = self.media_selector.get_toolbar_add_button()
-        self.click_item(add_button)
+        self.pointing_device.move_to_object(add_button)
+        sleep(0.5)
+        self.pointing_device.click()
 
         num_photos = self.album_view.number_of_photos()
         self.assertThat(num_photos, Equals(num_photos_start + 1))
