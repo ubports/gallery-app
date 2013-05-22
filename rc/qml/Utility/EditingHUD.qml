@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Gallery 1.0
+import Ubuntu.Components 0.1
 import Ubuntu.HUD 1.0 as HUD
 
 /*!
@@ -64,62 +65,62 @@ Item {
     HUD.Action {
         id: deleteAction
         label: i18n.tr("Delete")
-        keywords: "Trash;Erase"
+        keywords: i18n.tr("Trash;Erase")
     }
     HUD.Action {
         id: shareAction
         label: i18n.tr("Share")
-        keywords: "Post;Upload;Attach"
+        keywords: i18n.tr("Post;Upload;Attach")
     }
     HUD.Action {
         id: addAction
         label: i18n.tr("Add")
-        keywords: "Add Photo to Album"
+        keywords: i18n.tr("Add Photo to Album")
     }
     HUD.Action {
         id: undoAction
         label: i18n.tr("Undo")
-        keywords: "Cancel Action;Backstep"
+        keywords: i18n.tr("Cancel Action;Backstep")
     }
     HUD.Action {
         id: redoAction
         label: i18n.tr("Redo")
-        keywords: "Reapply;Make Again"
+        keywords: i18n.tr("Reapply;Make Again")
     }
     HUD.Action {
         id: autoEnhanceAction
         label: i18n.tr("Auto Enhance")
-        description: "Adjust the image automatically"
-        keywords: "Automatically Adjust Photo"
+        description: i18n.tr("Adjust the image automatically")
+        keywords: i18n.tr("Automatically Adjust Photo")
         onTriggered: photo.autoEnhance()
     }
     HUD.Action {
         id: rotateAction
         label: i18n.tr("Rotate")
-        keywords: "Turn Clockwise"
-        description: "Rotate the image clockwise"
+        keywords: i18n.tr("Turn Clockwise")
+        description: i18n.tr("Rotate the image clockwise")
         onTriggered: photo.rotateRight()
     }
     HUD.Action {
         id: cropAction
         label: i18n.tr("Crop")
-        keywords: "Trim;Cut"
-        description: "Crop the image"
+        keywords: i18n.tr("Trim;Cut")
+        description: i18n.tr("Crop the image")
         onTriggered: cropper.show(photo)
     }
     HUD.Action {
         id: revertAction
         label: i18n.tr("Revert to Original")
-        keywords: "Discard Changes"
-        description: "Discard all changes"
+        keywords: i18n.tr("Discard Changes")
+        description: i18n.tr("Discard all changes")
     }
     HUD.Action {
         id: exposureAction
         label: i18n.tr("Exposure")
-        description: "Adjust the exposure"
-        keywords: "Underexposed;Overexposed"
+        description: i18n.tr("Adjust the exposure")
+        keywords: i18n.tr("Underexposed;Overexposed")
         hasLivePreview: true
-        commitLabel: "Confirm" // string to show in the confirm button
+        commitLabel: i18n.tr("Confirm") // string to show in the confirm button
 
         HUD.SliderParameter {
             id: compensationParam
@@ -158,10 +159,10 @@ Item {
     HUD.Action {
         id: colorBalanceAction
         label: i18n.tr("Color Balance")
-        description: "Adjust color balance"
-        keywords: "Saturation;Hue"
+        description: i18n.tr("Adjust color balance")
+        keywords: i18n.tr("Saturation;Hue")
         hasLivePreview: true
-        commitLabel: "Confirm"
+        commitLabel: i18n.tr("Confirm")
 
         HUD.SliderParameter {
             id: brightnessParam
