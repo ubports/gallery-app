@@ -2,3 +2,4 @@ usr/bin/gallery-app
 usr/share/applications
 usr/share/gallery-app
 usr/share/icons
+usr/share/locale/*/LC_MESSAGES/gallery-app.mo
