@@ -83,8 +83,9 @@ class TestAlbumView(GalleryTestCase):
         add_button = self.media_selector.get_toolbar_add_button()
         self.click_item(add_button)
 
-        num_photos = self.album_view.number_of_photos()
-        self.assertThat(num_photos, Equals(num_photos_start + 1))
+        self.assertThat(lambda: len(self.app.select_many(
+            "FramePortrait", isPreview=False, isLoaded=True)),
+            Eventually(Equals(num_photos_start + 1)))
 
     def test_add_photo_to_new_album(self):
         self.reveal_toolbar()
