@@ -2,13 +2,12 @@
 # Copyright 2013 Canonical Ltd.
 # This file is distributed under the same license as the gallery-app package.
 #
-#: rc/qml/Utility/AlbumCoverList.qml:118
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-22 18:14+0000\n"
+"POT-Creation-Date: 2013-05-23 06:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
