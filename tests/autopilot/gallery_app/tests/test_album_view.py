@@ -111,6 +111,5 @@ class TestAlbumView(GalleryTestCase):
         sleep(0.5)
         self.pointing_device.click()
 
-        num_photos = self.album_view.number_of_photos()
-        self.assertThat(lambda: num_photos,                      
-                        Eventually(Equals(num_photos_start + 1)))
+        self.assertThat(lambda: self.album_view.number_of_photos(),
+            Eventually(Equals(num_photos_start + 1)))
