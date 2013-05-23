@@ -88,7 +88,7 @@ class TestPhotosView(GalleryTestCase):
         self.click_delete_action()
 
         delete_dialog = self.photos_view.get_delete_dialog()
-        self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
+        self.assertThat(delete_dialog.opacity, Eventually(Equals(1)))
 
         cancel_item = self.photos_view.get_delete_dialog_cancel_button()
         self.click_item(cancel_item)
@@ -102,7 +102,7 @@ class TestPhotosView(GalleryTestCase):
         self.click_delete_action()
 
         delete_dialog = self.photos_view.get_delete_dialog()
-        self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
+        self.assertThat(delete_dialog.opacity, Eventually(Equals(1)))
 
         delete_item = self.photos_view.get_delete_dialog_delete_button()
         self.click_item(delete_item)
