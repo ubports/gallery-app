@@ -138,6 +138,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
     def setUp(self):
         super(TestPhotoEditor, self).setUp()
         self.click_edit_button()
+        self.ensure_edit_dialog_visible()
 
     def click_edit_button(self):
         edit_button = self.photo_viewer.get_toolbar_edit_button()
