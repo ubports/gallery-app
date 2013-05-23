@@ -105,11 +105,7 @@ class TestAlbumView(GalleryTestCase):
         photo = self.media_selector.get_second_photo()
         self.click_item(photo)
         add_button = self.media_selector.get_toolbar_add_button()
-        #Not using click_item() here as this test fails with the
-        #short delay between click, using 0.5 sec wait here.
-        self.pointing_device.move_to_object(add_button)
-        sleep(0.5)
-        self.pointing_device.click()
+        self.click_item(add_button, delay=0.5)
 
         self.assertThat(lambda: self.album_view.number_of_photos(),
             Eventually(Equals(num_photos_start + 1)))

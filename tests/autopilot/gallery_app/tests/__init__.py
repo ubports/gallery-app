@@ -100,19 +100,25 @@ class GalleryTestCase(AutopilotTestCase):
         """ Gives the program the time to update the UI"""
         sleep(0.1)
 
-    def click_item(self, item):
+    def click_item(self, item, delay=0.1):
         """Does a mouse click on the passed item, and moved the mouse there
            before"""
+        #In jenkins test may fail because we don't wait before clicking the target
+        #so we add a little delay before click.
+        if model() == 'Desktop' and delay <= 0.25:
+            delay = 0.25
+
         self.pointing_device.move_to_object(item)
-        if model() == 'Desktop':
-            sleep(0.25)
+        sleep(delay)
         self.pointing_device.click()
 
     def tap_item(self, item):
         """Does a long mouse press on the passed item, and moved the mouse
            there before"""
         self.pointing_device.move_to_object(item)
-        self.pointing_device.click(1, self.tap_press_time)
+        self.pointing_device.press()
+        sleep(1)
+        self.pointing_device.release()
 
     def reveal_toolbar(self):
         toolbar = self.gallery_utils.get_toolbar()
