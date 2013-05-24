@@ -49,6 +49,7 @@ set(GALLERY_DIR ${CMAKE_INSTALL_DATADIR}/gallery-app)
 enable_testing()
 
 add_subdirectory(desktop)
+add_subdirectory(po)
 add_subdirectory(rc)
 add_subdirectory(src)
 add_subdirectory(tests)

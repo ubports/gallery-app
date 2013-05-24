@@ -30,6 +30,7 @@ MainView {
     objectName: "overview"
 
     anchors.fill: parent
+    applicationName: "gallery-app"
     automaticOrientation: application.automaticOrientation
 
     Tabs {

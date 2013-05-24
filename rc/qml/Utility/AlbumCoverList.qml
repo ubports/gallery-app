@@ -115,7 +115,7 @@ ListModel {
             case 2: elem.title = i18n.tr("Green"); break;
             case 3: elem.title = i18n.tr("Pattern"); break;
             case 4: elem.title = i18n.tr("Red"); break;
-            default: elem.title = i18n.tr("");
+            default: elem.title = "";
             }
             albumCoverList.set(i, elem);
         }

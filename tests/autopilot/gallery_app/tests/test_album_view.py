@@ -18,6 +18,8 @@ from gallery_app.emulators.albums_view import AlbumsView
 from gallery_app.emulators.media_selector import MediaSelector
 from gallery_app.tests import GalleryTestCase
 
+from time import sleep
+
 
 class TestAlbumView(GalleryTestCase):
     """Tests the album view of the gallery app"""
@@ -83,8 +85,8 @@ class TestAlbumView(GalleryTestCase):
         add_button = self.media_selector.get_toolbar_add_button()
         self.click_item(add_button)
 
-        num_photos = self.album_view.number_of_photos()
-        self.assertThat(num_photos, Equals(num_photos_start + 1))
+        self.assertThat(lambda: self.album_view.number_of_photos(),
+            Eventually(Equals(num_photos_start + 1)))
 
     def test_add_photo_to_new_album(self):
         self.reveal_toolbar()
@@ -103,7 +105,7 @@ class TestAlbumView(GalleryTestCase):
         photo = self.media_selector.get_second_photo()
         self.click_item(photo)
         add_button = self.media_selector.get_toolbar_add_button()
-        self.click_item(add_button)
+        self.click_item(add_button, delay=0.5)
 
-        num_photos = self.album_view.number_of_photos()
-        self.assertThat(num_photos, Equals(num_photos_start + 1))
+        self.assertThat(lambda: self.album_view.number_of_photos(),
+            Eventually(Equals(num_photos_start + 1)))

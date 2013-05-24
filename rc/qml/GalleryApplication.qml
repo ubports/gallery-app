@@ -192,4 +192,8 @@ Item {
             }
         }
     }
+
+    Component.onCompleted: {
+        i18n.domain = "gallery-app";
+    }
 }
