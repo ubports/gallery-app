@@ -29,8 +29,8 @@ class AlbumView(GalleryUtils):
 
     def get_first_photo(self):
         """Returns the first photo in a newly opened album"""
-        return self.app.select_many("FramePortrait",
-                                      visible=True, isLoaded=True)[0]
+        return self.app.select_many(
+            "FramePortrait", visible=True, isLoaded=True)[0]
 
     def get_album_photo_view(self):
         """Returns the photo view of the album viewer"""

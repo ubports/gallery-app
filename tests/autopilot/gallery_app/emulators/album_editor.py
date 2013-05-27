@@ -52,5 +52,5 @@ class AlbumEditor(GalleryUtils):
 
     def get_cover_menu_item(self, idx):
         """Returns the item of the cover menu with index idx"""
-        return self.app.select_many("Standard", 
+        return self.app.select_many("Standard",
                                     objectName="albumCoverMenuItem")[idx]

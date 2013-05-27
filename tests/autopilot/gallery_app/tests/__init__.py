@@ -83,15 +83,18 @@ class GalleryTestCase(AutopilotTestCase):
         sleep(1)
 
     def launch_test_local(self):
-        self.app = self.launch_test_application(self.local_location,
+        self.app = self.launch_test_application(
+            self.local_location,
             self.sample_dir)
 
     def launch_test_installed(self):
         if model() == 'Desktop':
-            self.app = self.launch_test_application("gallery-app",
+            self.app = self.launch_test_application(
+                "gallery-app",
                 self.sample_dir)
         else:
-            self.app = self.launch_test_application("gallery-app",
+            self.app = self.launch_test_application(
+                "gallery-app",
                 "--desktop_file_hint=/usr/share/applications/gallery-app.desktop",
                 self.sample_dir,
                 app_type='qt')
@@ -103,8 +106,8 @@ class GalleryTestCase(AutopilotTestCase):
     def click_item(self, item, delay=0.1):
         """Does a mouse click on the passed item, and moved the mouse there
            before"""
-        #In jenkins test may fail because we don't wait before clicking the target
-        #so we add a little delay before click.
+        # In jenkins test may fail because we don't wait before clicking the
+        # target so we add a little delay before click.
         if model() == 'Desktop' and delay <= 0.25:
             delay = 0.25
 
