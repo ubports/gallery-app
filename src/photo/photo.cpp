@@ -28,7 +28,6 @@
 #include <QImageWriter>
 
 #include "photo.h"
-#include "core/gallery-manager.h"
 #include "database/database.h"
 #include "database/media-table.h"
 #include "database/photo-edit-table.h"
@@ -36,6 +35,7 @@
 #include "qml/gallery-standard-image-provider.h"
 #include "qml/gallery-thumbnail-image-provider.h"
 #include "util/imaging.h"
+#include "gallery-manager.h"
 
 // A simple class for dealing with an undo-/redo-able stack of applied edits.
 class EditStack {

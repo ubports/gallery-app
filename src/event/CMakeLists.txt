@@ -1,0 +1,30 @@
+project(gallery_event_src)
+
+set(GALLERY_EVENT_LIB gallery-event)
+
+include_directories(
+    ../
+    ${CMAKE_BINARY_DIR}
+    ${GSTLIB_INCLUDE_DIRS}
+    )
+
+set(gallery_event_HDRS
+    event.h
+    event-collection.h
+    )
+
+set(gallery_event_SRCS
+    event.cpp
+    event-collection.cpp
+    )
+
+add_library(${GALLERY_EVENT_LIB}
+    ${gallery_event_MOC_SRCS}
+    ${gallery_event_SRCS}
+    )
+
+qt5_use_modules(${GALLERY_EVENT_LIB} Widgets Core Qml)
+
+target_link_libraries( ${GALLERY_EVENT_LIB}
+    ${GSTLIB_LDFLAGS}
+    )

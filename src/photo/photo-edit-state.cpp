@@ -17,7 +17,7 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-#include "photo/photo-edit-state.h"
+#include "photo-edit-state.h"
 
 /*!
  * \brief PhotoEditState::rotate_crop_rectangle

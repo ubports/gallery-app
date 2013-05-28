@@ -18,17 +18,17 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-#include "qml/qml-media-collection-model.h"
+#include "qml-media-collection-model.h"
 
 #include "album/album.h"
 #include "album/album-collection.h"
 #include "album/album-default-template.h"
 #include "core/data-object.h"
-#include "core/gallery-manager.h"
 #include "core/selectable-view-collection.h"
 #include "media/media-source.h"
 #include "media/media-collection.h"
 #include "util/variants.h"
+#include "gallery-manager.h"
 
 /*!
  * \brief QmlMediaCollectionModel::QmlMediaCollectionModel

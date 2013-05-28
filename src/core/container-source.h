@@ -23,9 +23,9 @@
 #include <QObject>
 #include <QSet>
 
-#include "core/data-object.h"
-#include "core/data-source.h"
-#include "core/view-collection.h"
+#include "data-object.h"
+#include "data-source.h"
+#include "view-collection.h"
 
 /**
   * A ContainerSource is a DataSource that holds other DataSources.  Generally

@@ -21,7 +21,9 @@
 #include "database.h"
 #include "album/album.h"
 #include "album/album-default-template.h"
-#include "core/gallery-manager.h"
+#include "gallery-manager.h"
+
+#include <QtSql>
 
 /*!
  * \brief AlbumTable::AlbumTable

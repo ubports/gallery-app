@@ -26,7 +26,7 @@
 #include <QVariant>
 #include <QtQml>
 
-#include "qml/qml-media-collection-model.h"
+#include "qml-media-collection-model.h"
 
 class DataObject;
 

@@ -37,7 +37,7 @@ private:
 };
 
 tst_GalleryThumbnailImageProvider::tst_GalleryThumbnailImageProvider()
-    : gallery_thumbnail_image_provider(false)
+    : gallery_thumbnail_image_provider()
 {
 }
 

@@ -26,8 +26,8 @@
 #include <QString>
 #include <QVariant>
 
-#include "album/album-page.h"
-#include "album/album-template.h"
+#include "album-page.h"
+#include "album-template.h"
 #include "core/container-source.h"
 #include "media/media-source.h"
 

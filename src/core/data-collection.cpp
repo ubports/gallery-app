@@ -20,8 +20,7 @@
 #include <QQmlEngine>
 
 #include "data-collection.h"
-#include "core/data-object.h"
-#include "gallery-application.h"
+#include "data-object.h"
 
 /*!
  * \brief DataCollection::DataCollection
@@ -31,7 +30,7 @@ DataCollection::DataCollection(const QString& name)
     : name_(name.toUtf8()), comparator_(DefaultDataObjectComparator)
 {
     // All DataCollections are registered as C++ ownership; QML should never GC them
-    GalleryApplication::instance()->setObjectOwnership(this, QQmlEngine::CppOwnership);
+    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 }
 
 /*!

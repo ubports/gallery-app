@@ -17,17 +17,16 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "media/media-source.h"
-
-#include "core/gallery-manager.h"
+#include "media-source.h"
+#include "preview-manager.h"
 #include "database/database.h"
 #include "database/media-table.h"
 #include "event/event.h"
 #include "event/event-collection.h"
-#include "media/preview-manager.h"
 #include "qml/gallery-standard-image-provider.h"
 #include "qml/gallery-thumbnail-image-provider.h"
 #include "util/resource.h"
+#include "gallery-manager.h"
 
 /*!
  * \brief MediaSource::MediaSource

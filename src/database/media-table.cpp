@@ -18,6 +18,7 @@
  */
 
 #include <QApplication>
+#include <QtSql>
 
 #include "media-table.h"
 #include "database.h"

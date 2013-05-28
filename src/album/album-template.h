@@ -24,7 +24,7 @@
 #include <QList>
 #include <QString>
 
-#include "album/album-template-page.h"
+#include "album-template-page.h"
 
 /*!
  * \brief The AlbumTemplate class

@@ -22,8 +22,8 @@
 
 #include <QSet>
 
-#include "core/data-object.h"
-#include "core/view-collection.h"
+#include "data-object.h"
+#include "view-collection.h"
 
 /**
   * SelectableViewCollection adds the notion of selection to a ViewCollection.
