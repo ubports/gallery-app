@@ -41,14 +41,17 @@ void ShareFile::RegisterType()
 
 /*!
  * \brief ShareFile::writeShareFile
+ * \param id
  * \param path
  */
-void ShareFile::writeShareFile(const QString &path)
+void ShareFile::writeShareFile(const QString &id, const QString &path)
 {
     QFileInfo imageFilePath(QDir::tempPath() + QDir::separator() + "sharelocation");
     QFile imageFile(imageFilePath.absoluteFilePath());
     if (imageFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         QTextStream stream(&imageFile);
+        stream << id;
+        stream << "\n";
         stream << path;
         imageFile.close();
     } else {
