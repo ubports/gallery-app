@@ -3,7 +3,7 @@ project(gallery_event_src)
 set(GALLERY_EVENT_LIB gallery-event)
 
 include_directories(
-    ../
+    ${gallery_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
     ${GSTLIB_INCLUDE_DIRS}
     )

@@ -3,7 +3,7 @@ project(gallery_qml_src)
 set(GALLERY_QML_LIB gallery-qml)
 
 include_directories(
-    ../
+    ${gallery_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
     ${GSTLIB_INCLUDE_DIRS}
     )

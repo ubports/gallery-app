@@ -3,7 +3,7 @@ project(gallery_database_src)
 set(GALLERY_DATABASE_LIB gallery-database)
 
 include_directories(
-    ../
+    ${gallery_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
     ${GSTLIB_INCLUDE_DIRS}
     )
