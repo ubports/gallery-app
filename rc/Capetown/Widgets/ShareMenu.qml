@@ -53,11 +53,12 @@ Item {
         delegate: Item {
             width: parent.width
             height: childrenRect.height
+            visible: serviceName == "Facebook"
             AccountService {
                 id: accts
                 objectHandle: accountService
             }
-                ListItem.Subtitled {
+            ListItem.Subtitled {
                 text: accts.provider.displayName
                 subText: displayName
                 icon: "image://gicon/"+accts.provider.iconName
