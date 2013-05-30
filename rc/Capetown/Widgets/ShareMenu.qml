@@ -17,6 +17,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components.ListItems 0.1 as ListItem
+import Ubuntu.OnlineAccounts 0.1
 import Gallery 1.0
 
 /*!
@@ -33,6 +34,12 @@ Item {
 
     height: childrenRect.height
 
+    AccountServiceModel {
+        id: accounts
+        serviceType: "microblogging"
+        includeDisabled: true
+    }
+
     ListView {
         anchors {
             top: parent.top
@@ -42,28 +49,30 @@ Item {
         height: childrenRect.height
 
         interactive: false
-        model: ListModel {
-            ListElement { service: "Facebook"; user: "lolachang2010@yahoo.co.uk"; iconPath: "img/facebook.png" }
-            ListElement { service: "Twitter"; user: "@lola_chang"; iconPath: "img/twitter.png" }
-            ListElement { service: "Ubuntu One"; user: "lolachang"; iconPath: "img/ubuntuone.png" }
-            ListElement { service: "Gmail"; user: "lolachang2010@gmail.com"; iconPath: "img/gmail.png" }
-            ListElement { service: "Pinterest"; user: "lolachang2010@yahoo.co.uk"; iconPath: "img/pinterest.png" }
-        }
+        model: accounts
+        delegate: Item {
+            width: parent.width
+            height: childrenRect.height
+            visible: serviceName == "Facebook"
+            AccountService {
+                id: accts
+                objectHandle: accountService
+            }
+            ListItem.Subtitled {
+                text: accts.provider.displayName
+                subText: displayName
+                icon: "image://gicon/"+accts.provider.iconName
+                __iconHeight: units.gu(5)
+                __iconWidth: units.gu(5)
 
-        delegate: ListItem.Subtitled {
-            text: service
-            subText: user
-            icon: Qt.resolvedUrl(iconPath)
-            __iconHeight: units.gu(5)
-            __iconWidth: units.gu(5)
-
-            onClicked: {
-                sharemenu.selected()
-                if (service == "Facebook") {
-                    shareFile.writeShareFile(shareMenu.picturePath);
-                    appManager.switchToShareApplication();
-                } else {
-                    console.log("Sharing to this service is not supported yet.")
+                onClicked: {
+                    sharemenu.selected()
+                    if (accts.provider.displayName == "Facebook") {
+                        shareFile.writeShareFile(accountId, shareMenu.picturePath);
+                        appManager.switchToShareApplication();
+                    } else {
+                        console.log("Sharing to this service is not supported yet.")
+                    }
                 }
             }
         }
