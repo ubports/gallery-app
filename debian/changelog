@@ -1,8 +1,30 @@
-gallery-app (0.0.67daily13.05.22ubuntu.unity.next-0ubuntu2) UNRELEASED; urgency=low
+gallery-app (0.0.67daily13.05.31.1ubuntu.unity.next-0ubuntu1) raring; urgency=low
 
+  [ Ken VanDine ]
   * Use UOA to populate share menu
 
- -- Ken VanDine <ken.vandine@canonical.com>  Wed, 29 May 2013 11:35:37 -0400
+  [ Guenter Schwann ]
+  * First german translation, and everything needed to make it work.
+  * Support orientation change.
+  * Fixes sharing functionality (LP: 1183460). (LP: #1183460)
+  * Remove old unused files.
+
+  [ Omer Akram ]
+  * Fix autopilot test: wait for the edit dialog to fully appear before
+    moving towards it.
+  * Fix failing tests on touch devices.
+
+  [ Olivier Tilloy ]
+  * Add missing runtime dependency on qtdeclarative5-accounts-plugin.
+    Merging manually as the jenkins CI job is busted, it installs the
+    wrong version of the app and its dependencies (see
+    https://code.launchpad.net/~osomon/gallery-app/missing-uoa-
+    dep/+merge/166552).
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 677 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 31 May 2013 10:43:43 +0000
 
 gallery-app (0.0.67daily13.05.22ubuntu.unity.next-0ubuntu1) raring; urgency=low
 
