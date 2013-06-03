@@ -19,7 +19,6 @@ set(gallery_event_SRCS
     )
 
 add_library(${GALLERY_EVENT_LIB}
-    ${gallery_event_MOC_SRCS}
     ${gallery_event_SRCS}
     )
 

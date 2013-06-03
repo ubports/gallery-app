@@ -29,7 +29,6 @@ set(gallery_qml_SRCS
     )
 
 add_library(${GALLERY_QML_LIB}
-    ${gallery_qml_MOC_SRCS}
     ${gallery_qml_SRCS}
     )
 

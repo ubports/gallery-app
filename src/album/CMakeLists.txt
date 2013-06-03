@@ -27,7 +27,6 @@ set(gallery_album_SRCS
     )
 
 add_library(${GALLERY_ALBUM_LIB}
-    ${gallery_album_MOC_SRCS}
     ${gallery_album_SRCS}
     )
 

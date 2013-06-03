@@ -23,7 +23,6 @@ set(gallery_database_SRCS
     )
 
 add_library(${GALLERY_DATABASE_LIB}
-    ${gallery_database_MOC_SRCS}
     ${gallery_database_SRCS}
     )
 

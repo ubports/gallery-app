@@ -23,7 +23,6 @@ set(gallery_media_SRCS
     )
 
 add_library(${GALLERY_MEDIA_LIB}
-    ${gallery_media_MOC_SRCS}
     ${gallery_media_SRCS}
     )
 

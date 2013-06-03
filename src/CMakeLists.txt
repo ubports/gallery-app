@@ -34,7 +34,6 @@ set(gallery_SRCS
     )
 
 add_executable(${GALLERY}
-    ${gallery_MOC_SRCS}
     ${gallery_SRCS}
     )
 
