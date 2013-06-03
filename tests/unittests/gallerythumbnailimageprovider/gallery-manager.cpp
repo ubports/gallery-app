@@ -37,10 +37,9 @@ GalleryManager::GalleryManager(const QDir& pictures_dir, QQuickView*, const bool
       media_collection_(NULL),
       album_collection_(NULL),
       event_collection_(NULL),
-      preview_manager_(NULL),
-      pictures_dir_(pictures_dir)
+      preview_manager_(NULL)
 {
-
+    Q_UNUSED(pictures_dir);
 }
 
 GalleryManager::~GalleryManager()
