@@ -18,7 +18,7 @@
  *
  */
 
-#include "core/command-line-parser.h"
+#include "command-line-parser.h"
 
 #include <QTextStream>
 #include <QStandardPaths>

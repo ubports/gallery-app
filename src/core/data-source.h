@@ -20,7 +20,7 @@
 #ifndef GALLERY_DATA_SOURCE_H_
 #define GALLERY_DATA_SOURCE_H_
 
-#include "core/data-object.h"
+#include "data-object.h"
 
 class SourceCollection;
 

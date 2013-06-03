@@ -26,7 +26,6 @@
 
 #include "gallery-standard-image-provider.h"
 #include "media/preview-manager.h"
-#include "core/gallery-manager.h"
 
 const char* GalleryStandardImageProvider::PROVIDER_ID = "gallery-standard";
 const char* GalleryStandardImageProvider::PROVIDER_ID_SCHEME = "image://gallery-standard/";
@@ -45,10 +44,11 @@ const int SCALED_LOAD_FLOOR_DIM_PIXELS =
 /*!
  * \brief GalleryStandardImageProvider::GalleryStandardImageProvider
  */
-GalleryStandardImageProvider::GalleryStandardImageProvider(const bool log_image_loading)
+GalleryStandardImageProvider::GalleryStandardImageProvider()
     : QQuickImageProvider(QQuickImageProvider::Image),
       cachedBytes_(0),
-      log_image_loading_(log_image_loading),
+      m_previewManager(0),
+      m_logImageLoading(false),
       maxLoadResolution_(INT_MAX)
 {
 }
@@ -74,7 +74,7 @@ QUrl GalleryStandardImageProvider::ToURL(const QFileInfo& file)
 }
 
 #define LOG_IMAGE_STATUS(status) { \
-    if (log_image_loading_) \
+    if (m_logImageLoading) \
     loggingStr += status; \
     }
 
@@ -88,6 +88,11 @@ QUrl GalleryStandardImageProvider::ToURL(const QFileInfo& file)
 QImage GalleryStandardImageProvider::requestImage(const QString& id,
                                                   QSize* size, const QSize& requestedSize)
 {
+    if (!m_previewManager) {
+        qWarning() << Q_FUNC_INFO << "no PreviewManager set";
+        return QImage();
+    }
+
     // for LOG_IMAGE_STATUS
     QString loggingStr = "";
     QElapsedTimer timer;
@@ -95,7 +100,7 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
 
     QUrl url(id);
     QFileInfo photoFile(url.path());
-    GalleryManager::instance()->preview_manager()->ensure_preview_for_media(photoFile);
+    m_previewManager->ensure_preview_for_media(photoFile);
 
     CachedImage* cachedImage = claim_cached_image_entry(id, loggingStr);
     Q_ASSERT(cachedImage != NULL);
@@ -110,7 +115,7 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
     int currentCacheEntries = 0;
     release_cached_image_entry(cachedImage, bytesLoaded, &currentCachedBytes, &currentCacheEntries);
 
-    if (log_image_loading_) {
+    if (m_logImageLoading) {
         if (bytesLoaded > 0) {
             qDebug("%s %s req:%dx%d ret:%dx%d cache:%ldb/%d loaded:%db time:%lldms", qPrintable(loggingStr),
                    qPrintable(id), requestedSize.width(), requestedSize.height(), readyImage.width(),
@@ -127,6 +132,16 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
         *size = readyImage.size();
 
     return readyImage;
+}
+
+void GalleryStandardImageProvider::setPreviewManager(PreviewManager *previewManager)
+{
+    m_previewManager = previewManager;
+}
+
+void GalleryStandardImageProvider::setLogging(bool enableLogging)
+{
+    m_logImageLoading = enableLogging;
 }
 
 /*!
@@ -415,7 +430,7 @@ QString GalleryStandardImageProvider::CachedImage::idToFile(const QString& id)
 
     if (value == "1")
     {
-        QFileInfo thumbnailFile = GalleryManager::instance()->preview_manager()->PreviewFileFor(fileName);
+        QFileInfo thumbnailFile = PreviewManager::PreviewFileFor(fileName);
         fileName = thumbnailFile.absoluteFilePath();
     }
 

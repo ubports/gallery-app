@@ -18,11 +18,11 @@
  */
 
 #include "event-collection.h"
+#include "event.h"
 #include "core/data-object.h"
-#include "core/gallery-manager.h"
-#include "event/event.h"
 #include "media/media-collection.h"
 #include "media/media-source.h"
+#include "gallery-manager.h"
 
 /*!
  * \brief EventCollection::EventCollection

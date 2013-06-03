@@ -49,8 +49,8 @@ public:
 
     PreviewManager();
 
-    QFileInfo PreviewFileFor(const QFileInfo& file) const;
-    QFileInfo ThumbnailFileFor(const QFileInfo& file) const;
+    static QFileInfo PreviewFileFor(const QFileInfo& file);
+    static QFileInfo ThumbnailFileFor(const QFileInfo& file);
 
     bool ensure_preview_for_media(QFileInfo file, bool regen = false);
 

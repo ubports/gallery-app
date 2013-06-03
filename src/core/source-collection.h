@@ -20,7 +20,7 @@
 #ifndef GALLERY_SOURCE_COLLECTION_H_
 #define GALLERY_SOURCE_COLLECTION_H_
 
-#include "core/data-collection.h"
+#include "data-collection.h"
 
 class DataSource;
 

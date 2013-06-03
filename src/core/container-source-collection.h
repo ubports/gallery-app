@@ -22,8 +22,8 @@
 
 #include <QString>
 
-#include "core/data-object.h"
-#include "core/source-collection.h"
+#include "data-object.h"
+#include "source-collection.h"
 
 /**
   * ContainerSourceCollection is a SourceCollection that holds ContainerSources.

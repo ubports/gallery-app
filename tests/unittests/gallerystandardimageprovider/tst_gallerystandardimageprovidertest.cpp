@@ -23,7 +23,6 @@
 #include <QUrl>
 
 #include "qml/gallery-standard-image-provider.h"
-#include "core/gallery-manager.h"
 #include "media/preview-manager.h"
 
 class tst_GalleryStandardImageProvider : public QObject
@@ -42,7 +41,7 @@ private:
 };
 
 tst_GalleryStandardImageProvider::tst_GalleryStandardImageProvider()
-    : gallery_standard_image_provider(false)
+    : gallery_standard_image_provider()
 {
 }
 

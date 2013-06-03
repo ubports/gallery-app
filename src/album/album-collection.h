@@ -22,7 +22,7 @@
 
 #include <QObject>
 
-#include "album/album.h"
+#include "album.h"
 #include "core/container-source-collection.h"
 #include "core/data-object.h"
 

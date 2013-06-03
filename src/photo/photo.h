@@ -25,10 +25,10 @@
 #include <QDateTime>
 #include <QStack>
 
+#include "photo-caches.h"
+#include "photo-edit-state.h"
+#include "photo-metadata.h"
 #include "media/media-source.h"
-#include "photo/photo-metadata.h"
-#include "photo/photo-edit-state.h"
-#include "photo/photo-caches.h"
 
 class PhotoPrivate;
 

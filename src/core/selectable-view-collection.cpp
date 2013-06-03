@@ -17,7 +17,7 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "core/selectable-view-collection.h"
+#include "selectable-view-collection.h"
 
 /*!
  * \brief SelectableViewCollection::SelectableViewCollection

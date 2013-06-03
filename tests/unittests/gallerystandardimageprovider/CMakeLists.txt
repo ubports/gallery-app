@@ -12,7 +12,6 @@ include_directories(
 
 add_executable(gallerystandardimageprovider
     tst_gallerystandardimageprovidertest.cpp
-    gallery-manager.cpp
     preview-manager.cpp
     photometa-data.cpp
     ${gallery_src_SOURCE_DIR}/qml/gallery-standard-image-provider.cpp
@@ -20,7 +19,7 @@ add_executable(gallerystandardimageprovider
 
 qt5_use_modules(gallerystandardimageprovider Quick Test)
 add_test(gallerystandardimageprovider gallerystandardimageprovider
-    -xunitxml -o test_resource.xml
+    -xunitxml -o test_gallerystandardimageprovider.xml
     )
 set_tests_properties(gallerystandardimageprovider PROPERTIES
     TIMEOUT ${CTEST_TESTING_TIMEOUT}

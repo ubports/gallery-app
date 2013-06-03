@@ -42,7 +42,7 @@ Resource::Resource(QQuickView *view)
  * \param path
  * \return
  */
-QUrl Resource::get_rc_url(const QString& path) const
+QUrl Resource::get_rc_url(const QString& path)
 {
     return isRunningInstalled() ?
                 QUrl::fromLocalFile(galleryDirectory() + "/rc/" + path) :

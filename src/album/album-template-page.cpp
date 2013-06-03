@@ -17,7 +17,7 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "album/album-template-page.h"
+#include "album-template-page.h"
 
 /*!
  * \brief AlbumTemplatePage::AlbumTemplatePage

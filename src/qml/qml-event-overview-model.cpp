@@ -19,11 +19,11 @@
 
 #include "qml-event-overview-model.h"
 #include "core/data-object.h"
-#include "core/gallery-manager.h"
 #include "core/selectable-view-collection.h"
 #include "event/event.h"
 #include "event/event-collection.h"
 #include "util/variants.h"
+#include "gallery-manager.h"
 
 /*!
  * \brief QmlEventOverviewModel::QmlEventOverviewModel

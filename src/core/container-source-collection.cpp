@@ -17,7 +17,7 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "core/container-source-collection.h"
+#include "container-source-collection.h"
 
 /*!
  * \brief ContainerSourceCollection::ContainerSourceCollection

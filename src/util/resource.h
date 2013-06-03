@@ -32,7 +32,7 @@ class Resource
 public:
     explicit Resource(QQuickView *view);
 
-    QUrl get_rc_url(const QString& path) const;
+    static QUrl get_rc_url(const QString& path);
 
     int maxTextureSize() const;
 
