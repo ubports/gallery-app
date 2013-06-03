@@ -21,9 +21,9 @@
 #include <QMutexLocker>
 
 #include "preview-manager.h"
-#include "core/gallery-manager.h"
-#include "media/media-collection.h"
+#include "media-collection.h"
 #include "photo/photo.h"
+#include "gallery-manager.h"
 
 const int PreviewManager::PREVIEW_WIDTH_MAX = 360;
 const int PreviewManager::PREVIEW_HEIGHT_MAX = 360;
@@ -113,7 +113,7 @@ void PreviewManager::on_media_data_altered()
  * \param file
  * \return
  */
-QFileInfo PreviewManager::PreviewFileFor(const QFileInfo& file) const
+QFileInfo PreviewManager::PreviewFileFor(const QFileInfo& file)
 {
     return QFileInfo(file.dir(), PREVIEW_DIR + "/" + file.completeBaseName() + "_th." + PREVIEW_FILE_EXT);
 }
@@ -123,7 +123,7 @@ QFileInfo PreviewManager::PreviewFileFor(const QFileInfo& file) const
  * \param file
  * \return
  */
-QFileInfo PreviewManager::ThumbnailFileFor(const QFileInfo& file) const
+QFileInfo PreviewManager::ThumbnailFileFor(const QFileInfo& file)
 {
     return QFileInfo(file.dir(), PREVIEW_DIR + "/" + file.completeBaseName() + "_th_s." + PREVIEW_FILE_EXT);
 }

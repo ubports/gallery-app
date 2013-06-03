@@ -20,7 +20,6 @@
 #include <QQmlEngine>
 
 #include "data-object.h"
-#include "gallery-application.h"
 
 DataObjectNumber DataObject::next_number_ = 0;
 
@@ -32,7 +31,7 @@ DataObject::DataObject(QObject * parent)
     : QObject(parent), number_(next_number_++)
 {
     // All DataObjects are registered as C++ ownership; QML should never GC them
-    GalleryApplication::instance()->setObjectOwnership(this, QQmlEngine::CppOwnership);
+    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 }
 
 /*!

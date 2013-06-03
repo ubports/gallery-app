@@ -33,6 +33,8 @@
 
 #include "photo/photo-metadata.h"
 
+class PreviewManager;
+
 /*!
  * Gallery uses a custom image provider for three reasons:
  *
@@ -62,7 +64,7 @@ public:
 
     static const char* SIZE_KEY;
 
-    GalleryStandardImageProvider(const bool log_image_loading);
+    GalleryStandardImageProvider();
     virtual ~GalleryStandardImageProvider();
 
     static QUrl ToURL(const QFileInfo& file);
@@ -70,6 +72,8 @@ public:
     virtual QImage requestImage(const QString& id, QSize* size,
                                 const QSize& requestedSize);
 
+    void setPreviewManager(PreviewManager* previewManager);
+    void setLogging(bool enableLogging);
     void setMaxLoadResolution(int resolution);
 
 private:
@@ -105,7 +109,8 @@ private:
     QList<QString> fifo_;
     QMutex cacheMutex_;
     long cachedBytes_;
-    bool log_image_loading_;
+    PreviewManager* m_previewManager;
+    bool m_logImageLoading;
     int maxLoadResolution_;
 
     static QSize orientSize(const QSize& size, Orientation orientation);

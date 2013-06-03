@@ -21,7 +21,7 @@
 #include <QStringList>
 #include <QtTest>
 
-#include "core/command-line-parser.h"
+#include "util/command-line-parser.h"
 
 class tst_CommandLineParser : public QObject
 {

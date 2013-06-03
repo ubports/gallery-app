@@ -18,11 +18,11 @@
  */
 
 #include "album-page.h"
-#include "album/album.h"
+#include "album.h"
 #include "media/media-collection.h"
 #include "util/collections.h"
 #include "util/resource.h"
-#include "core/gallery-manager.h"
+#include "gallery-manager.h"
 
 /*!
  * \brief AlbumPage::AlbumPage
@@ -88,7 +88,7 @@ AlbumTemplatePage* AlbumPage::template_page() const
  */
 QUrl AlbumPage::qml_rc() const
 {
-    return GalleryManager::instance()->resource()->get_rc_url(template_page_->qml_rc());
+    return Resource::get_rc_url(template_page_->qml_rc());
 }
 
 /*!

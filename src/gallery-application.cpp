@@ -22,10 +22,9 @@
 #include <QUrl>
 
 #include "gallery-application.h"
+#include "gallery-manager.h"
 #include "album/album.h"
 #include "album/album-page.h"
-#include "core/command-line-parser.h"
-#include "core/gallery-manager.h"
 #include "event/event.h"
 #include "media/media-collection.h"
 #include "media/media-monitor.h"
@@ -37,6 +36,7 @@
 #include "qml/qml-event-collection-model.h"
 #include "qml/qml-event-overview-model.h"
 #include "qml/qml-media-collection-model.h"
+#include "util/command-line-parser.h"
 #include "util/resource.h"
 #include "util/sharefile.h"
 
@@ -156,7 +156,7 @@ void GalleryApplication::create_view()
     view_.engine()->addImageProvider(GalleryThumbnailImageProvider::PROVIDER_ID,
                                      GalleryManager::instance()->gallery_thumbnail_image_provider());
 
-    view_.setSource(GalleryManager::instance()->resource()->get_rc_url("qml/GalleryApplication.qml"));
+    view_.setSource(Resource::get_rc_url("qml/GalleryApplication.qml"));
     QObject::connect(view_.engine(), SIGNAL(quit()), this, SLOT(quit()));
 
     // Hook up our media_loaded signal to GalleryApplication's onLoaded function.
@@ -203,16 +203,6 @@ void GalleryApplication::start_init_collections()
 GalleryApplication* GalleryApplication::instance()
 {
     return static_cast<GalleryApplication*>(qApp);
-}
-
-/*!
- * \brief GalleryApplication::setObjectOwnership register objects' ownership (QML/Javascript vs. C++)
- * \param object
- * \param ownership
- */
-void GalleryApplication::setObjectOwnership(QObject* object, QQmlEngine::ObjectOwnership ownership)
-{
-    view_.engine()->setObjectOwnership(object, ownership);
 }
 
 /*!

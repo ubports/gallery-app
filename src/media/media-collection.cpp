@@ -22,10 +22,10 @@
 #include <QString>
 
 #include "media-collection.h"
-#include "core/gallery-manager.h"
 #include "photo/photo.h"
 #include "database/database.h"
 #include "database/media-table.h"
+#include "gallery-manager.h"
 
 /*!
  * \brief MediaCollection::MediaCollection

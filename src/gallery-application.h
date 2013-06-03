@@ -20,16 +20,14 @@
 #ifndef GALLERYAPPLICATION_H
 #define GALLERYAPPLICATION_H
 
-#include "media/media-monitor.h"
-
 #include <QApplication>
-#include <QQmlEngine>
 #include <QQuickView>
 #include <QElapsedTimer>
 #include <QFileInfo>
 
 class CommandLineParser;
 class GalleryManager;
+class MediaMonitor;
 
 /*!
  * \brief The GalleryApplication class
@@ -45,8 +43,6 @@ public:
     int exec();
 
     static GalleryApplication* instance();
-
-    void setObjectOwnership(QObject* object, QQmlEngine::ObjectOwnership ownership);
 
     Q_INVOKABLE bool run_command(const QString &cmd, const QString &arg);
 

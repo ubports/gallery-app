@@ -17,11 +17,11 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "album/album-collection.h"
+#include "album-collection.h"
 #include "media/media-collection.h"
 #include "database/database.h"
 #include "database/album-table.h"
-#include "core/gallery-manager.h"
+#include "gallery-manager.h"
 
 /*!
  * \brief AlbumCollection::AlbumCollection

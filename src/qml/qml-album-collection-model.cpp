@@ -21,9 +21,9 @@
 #include "album/album.h"
 #include "album/album-collection.h"
 #include "album/album-default-template.h"
-#include "core/gallery-manager.h"
 #include "core/selectable-view-collection.h"
 #include "util/variants.h"
+#include "gallery-manager.h"
 
 /*!
  * \brief QmlAlbumCollectionModel::QmlAlbumCollectionModel

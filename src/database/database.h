@@ -21,18 +21,15 @@
 #define DATABASE_H
 
 #include <QObject>
-#include <QDir>
-#include <QtSql>
-#include <QSqlTableModel>
+#include <QFile>
 #include <QString>
-
-#include "album-table.h"
-#include "media-table.h"
-#include "photo-edit-table.h"
 
 class AlbumTable;
 class MediaTable;
 class PhotoEditTable;
+
+class QSqlQuery;
+class QSqlDatabase;
 
 const qint64 INVALID_ID = -1;
 
@@ -75,7 +72,7 @@ private:
 
     QString m_databaseDirectory;
     QString m_sqlSchemaDirectory;
-    QSqlDatabase db_;
+    QSqlDatabase* db_;
     AlbumTable* album_table_;
     MediaTable* media_table_;
     PhotoEditTable* photo_edit_table_;

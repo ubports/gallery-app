@@ -23,7 +23,7 @@
 
 #include <QObject>
 
-#include "album/album-template.h"
+#include "album-template.h"
 
 /*!
  * \brief The AlbumDefaultTemplate class

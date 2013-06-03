@@ -17,7 +17,7 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "core/view-collection.h"
+#include "view-collection.h"
 
 /*!
  * \brief ViewCollection::ViewCollection

@@ -25,6 +25,8 @@
 #include <QSize>
 #include <QString>
 
+class PreviewManager;
+
 /*!
  * @brief The GalleryThumbailImageProvider class is used to load the small square thumbnails
  *
@@ -39,15 +41,19 @@ public:
     static const char* PROVIDER_ID_SCHEME;
     static const char* REVISION_PARAM_NAME;
 
-    GalleryThumbnailImageProvider(const bool log_image_loading);
+    GalleryThumbnailImageProvider();
 
     static QUrl ToURL(const QFileInfo& file);
 
     virtual QImage requestImage(const QString& id, QSize* size,
                                 const QSize& requestedSize);
 
+    void setPreviewManager(PreviewManager* previewManager);
+    void setLogging(bool enableLogging);
+
 private:
-    bool log_image_loading_;
+    PreviewManager* m_previewManager;
+    bool m_logImageLoading;
 };
 
 #endif // GALLERYTHUMBNAILIMAGEPROVIDER_H
