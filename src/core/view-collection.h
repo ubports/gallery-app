@@ -20,8 +20,8 @@
 #ifndef GALLERY_VIEW_COLLECTION_H_
 #define GALLERY_VIEW_COLLECTION_H_
 
-#include "core/data-collection.h"
-#include "core/source-collection.h"
+#include "data-collection.h"
+#include "source-collection.h"
 
 typedef bool (*SourceFilter)(DataObject* object);
 

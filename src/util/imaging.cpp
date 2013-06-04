@@ -21,7 +21,7 @@
 #include <QApplication>
 #include <qmath.h>
 
-#include "util/imaging.h"
+#include "imaging.h"
 
 /*!
  * \brief HSVTransformation::transform_pixel

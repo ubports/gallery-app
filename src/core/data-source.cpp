@@ -17,8 +17,8 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "core/data-source.h"
-#include "core/source-collection.h"
+#include "data-source.h"
+#include "source-collection.h"
 
 /*!
  * \brief DataSource::DataSource

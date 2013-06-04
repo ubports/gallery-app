@@ -23,7 +23,7 @@
 #include <QObject>
 #include <QUrl>
 
-#include "album/album-template-page.h"
+#include "album-template-page.h"
 #include "core/container-source.h"
 #include "media/media-source.h"
 

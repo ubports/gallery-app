@@ -25,10 +25,10 @@
 #include <QDateTime>
 #include <QStack>
 
+#include "photo-caches.h"
+#include "photo-edit-state.h"
+#include "photo-metadata.h"
 #include "media/media-source.h"
-#include "photo/photo-metadata.h"
-#include "photo/photo-edit-state.h"
-#include "photo/photo-caches.h"
 
 class PhotoPrivate;
 
@@ -53,7 +53,7 @@ public:
     explicit Photo(const QFileInfo& file);
     virtual ~Photo();
 
-    virtual QImage Image(bool respect_orientation);
+    virtual QImage Image(bool respect_orientation, const QSize &scaleSize=QSize());
     virtual Orientation orientation() const;
     virtual QDateTime exposure_date_time() const;
 

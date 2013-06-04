@@ -17,7 +17,7 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-#include "photo/photo-caches.h"
+#include "photo-caches.h"
 
 #include <QDir>
 

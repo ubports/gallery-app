@@ -21,13 +21,14 @@
 #include "gallery-manager.h"
 #include "album/album-collection.h"
 #include "album/album-default-template.h"
-#include "core/command-line-parser.h"
 #include "database/database.h"
+#include "database/media-table.h"
 #include "event/event-collection.h"
 #include "media/media-collection.h"
 #include "media/preview-manager.h"
 #include "qml/gallery-standard-image-provider.h"
 #include "qml/gallery-thumbnail-image-provider.h"
+#include "util/command-line-parser.h"
 #include "util/resource.h"
 
 GalleryManager* GalleryManager::gallery_mgr_ = NULL;
@@ -52,40 +53,46 @@ GalleryManager* GalleryManager::instance(const QDir &pictures_dir,
 GalleryManager::GalleryManager(const QDir& pictures_dir,
                                QQuickView *view, const bool log_image_loading)
     : collections_initialised(false),
-      resource_(new Resource(view)),
-      gallery_standard_image_provider_(new GalleryStandardImageProvider(log_image_loading)),
-      gallery_thumbnail_image_provider_(new GalleryThumbnailImageProvider(log_image_loading)),
+      resource_(new Resource(pictures_dir.path(), view)),
+      gallery_standard_image_provider_(new GalleryStandardImageProvider()),
+      gallery_thumbnail_image_provider_(new GalleryThumbnailImageProvider()),
       database_(NULL),
       default_template_(NULL),
       media_collection_(NULL),
       album_collection_(NULL),
       event_collection_(NULL),
-      preview_manager_(NULL),
-      pictures_dir_(pictures_dir)
+      preview_manager_(NULL)
 {
     const int maxTextureSize = resource_->maxTextureSize();
     gallery_standard_image_provider_->setMaxLoadResolution(maxTextureSize);
+    gallery_standard_image_provider_->setLogging(log_image_loading);
+    gallery_thumbnail_image_provider_->setLogging(log_image_loading);
 }
 
 void GalleryManager::post_init()
 {
     if (!collections_initialised)
     {
-        qDebug("Opening %s...", qPrintable(pictures_dir_.path()));
+        qDebug() << "Opening" << resource_->picturesDirectory() << "...";
 
         Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute);
 
-        database_ = new Database(pictures_dir_);
+        database_ = new Database(resource_->databaseDirectory(),
+                                 resource_->get_rc_url("sql").path());
         database_->get_media_table()->verify_files();
         default_template_ = new AlbumDefaultTemplate();
-        media_collection_ = new MediaCollection(pictures_dir_);
+        QDir mediaDir(resource_->picturesDirectory());
+        media_collection_ = new MediaCollection(mediaDir);
         album_collection_ = new AlbumCollection();
         event_collection_ = new EventCollection();
         preview_manager_ = new PreviewManager();
 
+        gallery_standard_image_provider_->setPreviewManager(preview_manager_);
+        gallery_thumbnail_image_provider_->setPreviewManager(preview_manager_);
+
         collections_initialised = true;
 
-        qDebug("Opened %s", qPrintable(pictures_dir_.path()));
+        qDebug() << "Opened" << resource_->picturesDirectory();
     }
 }
 

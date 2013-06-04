@@ -83,8 +83,6 @@ private:
     AlbumCollection* album_collection_;
     EventCollection* event_collection_;
     PreviewManager* preview_manager_;
-
-    const QDir pictures_dir_;
 };
 
 #endif // GALLERYMANAGER_H

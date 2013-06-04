@@ -70,7 +70,8 @@ Page {
         clip: true
         maximumFlickVelocity: units.gu(350)
         flickDeceleration: maximumFlickVelocity * 0.8
-        cacheBuffer: height * 3
+        cacheBuffer: 0
+        onFlickStarted: cacheBuffer = height * 3;
 
         // The OrganicMediaList only has a half margin at the top and bottom, since
         // when repeated that means a full margin between rows.  This pads it out

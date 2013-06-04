@@ -1,0 +1,264 @@
+# Ubuntu gallery app translation.
+# Copyright 2013 Canonical Ltd.
+# This file is distributed under the same license as the gallery-app package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gallery-app VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-05-23 06:59+0000\n"
+"PO-Revision-Date: 2013-05-22 18:22-0000\n"
+"Last-Translator: Guenter Schwann <guenter.schwann@canonical.com>\n"
+"Language-Team: German\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: rc/qml/Utility/SelectionToolbarAction.qml:42
+#: rc/qml/Utility/EditingHUD.qml:77 rc/qml/AlbumViewer.qml:466
+#: rc/qml/GalleryPhotoViewer.qml:206 rc/qml/AlbumsOverview.qml:177
+msgid "Add"
+msgstr ""
+
+#: rc/qml/Utility/SelectionToolbarAction.qml:48
+#: rc/qml/Utility/EditingHUD.qml:67 rc/qml/AlbumViewer.qml:473
+#: rc/qml/GalleryPhotoViewer.qml:214 rc/qml/Widgets/AlbumEditMenu.qml:59
+msgid "Delete"
+msgstr ""
+
+#: rc/qml/Utility/SelectionToolbarAction.qml:54
+#: rc/qml/Utility/EditingHUD.qml:72 rc/qml/AlbumViewer.qml:483
+#: rc/qml/GalleryPhotoViewer.qml:221 rc/qml/Widgets/AlbumEditMenu.qml:52
+msgid "Share"
+msgstr "Freigeben"
+
+#: rc/qml/Utility/SelectionToolbarAction.qml:61 rc/qml/MediaSelector.qml:94
+#: rc/qml/AlbumEditor.qml:40
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: rc/qml/Utility/PhotosToolbarActions.qml:32 rc/qml/MainScreen.qml:92
+#: rc/qml/MainScreen.qml:124
+msgid "Select"
+msgstr ""
+
+#: rc/qml/Utility/PhotosToolbarActions.qml:38
+msgid "Import"
+msgstr ""
+
+#: rc/qml/Utility/PhotosToolbarActions.qml:43 rc/qml/AlbumsOverview.qml:185
+msgid "Camera"
+msgstr "Kamera"
+
+#: rc/qml/Utility/EditingHUD.qml:68
+msgid "Trash;Erase"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:73
+msgid "Post;Upload;Attach"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:78 rc/qml/Widgets/PopupAlbumPicker.qml:113
+msgid "Add Photo to Album"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:82 rc/qml/Widgets/EditPopover.qml:63
+msgid "Undo"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:83
+msgid "Cancel Action;Backstep"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:87 rc/qml/Widgets/EditPopover.qml:72
+msgid "Redo"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:88
+msgid "Reapply;Make Again"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:92
+msgid "Auto Enhance"
+msgstr "Automatisch verbessern"
+
+#: rc/qml/Utility/EditingHUD.qml:93
+msgid "Adjust the image automatically"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:94
+msgid "Automatically Adjust Photo"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:99 rc/qml/Widgets/EditPopover.qml:39
+msgid "Rotate"
+msgstr "Drehen"
+
+#: rc/qml/Utility/EditingHUD.qml:100
+msgid "Turn Clockwise"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:101
+msgid "Rotate the image clockwise"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:106 rc/qml/Utility/CropOverlay.qml:355
+#: rc/qml/Widgets/EditPopover.qml:47
+msgid "Crop"
+msgstr "Ausschneiden"
+
+#: rc/qml/Utility/EditingHUD.qml:107
+msgid "Trim;Cut"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:108
+msgid "Crop the image"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:113
+msgid "Revert to Original"
+msgstr "Original wiederherstellen"
+
+#: rc/qml/Utility/EditingHUD.qml:114
+msgid "Discard Changes"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:115
+msgid "Discard all changes"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:119
+msgid "Exposure"
+msgstr "Belichtung"
+
+#: rc/qml/Utility/EditingHUD.qml:120
+msgid "Adjust the exposure"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:121
+msgid "Underexposed;Overexposed"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:123 rc/qml/Utility/EditingHUD.qml:165
+msgid "Confirm"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:127
+msgid "Compensation"
+msgstr "Farbabgleich"
+
+#: rc/qml/Utility/EditingHUD.qml:161
+msgid "Color Balance"
+msgstr "Farbabgleich"
+
+#: rc/qml/Utility/EditingHUD.qml:162
+#, fuzzy
+msgid "Adjust color balance"
+msgstr "Farbabgleich"
+
+#: rc/qml/Utility/EditingHUD.qml:163
+msgid "Saturation;Hue"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:169
+msgid "Brightness"
+msgstr "Helligkeit"
+
+#: rc/qml/Utility/EditingHUD.qml:181
+msgid "Contrast"
+msgstr "Kontrast"
+
+#: rc/qml/Utility/EditingHUD.qml:193
+msgid "Saturation"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:205
+msgid "Hue"
+msgstr "Farbton"
+
+#: rc/qml/Utility/AlbumCoverList.qml:113
+msgid "Default"
+msgstr "Standard"
+
+#: rc/qml/Utility/AlbumCoverList.qml:114
+msgid "Blue"
+msgstr "Blau"
+
+#: rc/qml/Utility/AlbumCoverList.qml:115
+msgid "Green"
+msgstr ""
+
+#: rc/qml/Utility/AlbumCoverList.qml:116
+msgid "Pattern"
+msgstr "Muster"
+
+#: rc/qml/Utility/AlbumCoverList.qml:117
+msgid "Red"
+msgstr "Rot"
+
+#: rc/qml/AlbumViewer.qml:488 rc/qml/GalleryPhotoViewer.qml:229
+msgid "Back"
+msgstr ""
+
+#: rc/qml/PhotosOverview.qml:148
+msgid "Delete photos"
+msgstr ""
+
+#: rc/qml/PhotosOverview.qml:149 rc/qml/GalleryPhotoViewer.qml:264
+msgid "Delete a photo"
+msgstr ""
+
+#: rc/qml/MainScreen.qml:56
+msgid "Albums"
+msgstr "Alben"
+
+#: rc/qml/MainScreen.qml:72 rc/qml/MainScreen.qml:94
+msgid "Events"
+msgstr "Ereignisse"
+
+#: rc/qml/MainScreen.qml:104 rc/qml/MainScreen.qml:126
+msgid "Photos"
+msgstr "Fotos"
+
+#: rc/qml/GalleryPhotoViewer.qml:199
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: rc/qml/GalleryPhotoViewer.qml:275 rc/qml/Widgets/DeleteDialog.qml:36
+msgid "Yes"
+msgstr "Ja"
+
+#: rc/qml/GalleryPhotoViewer.qml:286 rc/qml/Widgets/DeleteDialog.qml:45
+msgid "No"
+msgstr "Nein"
+
+#: rc/qml/MediaSelector.qml:56 rc/qml/MediaSelector.qml:82
+msgid "Add to Album"
+msgstr ""
+
+#: rc/qml/LoadingScreen.qml:36
+msgid "Loading…"
+msgstr "Laden…"
+
+#: rc/qml/Widgets/AlbumEditMenu.qml:45
+msgid "Edit album"
+msgstr "Album bearbeiten"
+
+#: rc/qml/Widgets/DeleteOrDeleteWithContentsDialog.qml:51
+msgid "Delete album"
+msgstr ""
+
+#: rc/qml/Widgets/DeleteOrDeleteWithContentsDialog.qml:60
+msgid "Delete album + contents"
+msgstr ""
+
+#: rc/qml/Widgets/EditPopover.qml:55
+msgid "Auto enhance"
+msgstr "Automatisch verbessern"
+
+#: rc/qml/Widgets/EditPopover.qml:81
+msgid "Revert to original"
+msgstr "Original wiederherstellen"

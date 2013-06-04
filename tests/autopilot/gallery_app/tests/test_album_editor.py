@@ -18,6 +18,8 @@ from gallery_app.emulators.album_view import AlbumView
 from gallery_app.emulators.media_selector import MediaSelector
 from gallery_app.tests import GalleryTestCase
 
+from time import sleep
+
 
 class TestAlbumEditor(GalleryTestCase):
     """Tests the album editor of the gallery app"""
@@ -84,10 +86,10 @@ class TestAlbumEditor(GalleryTestCase):
         subtitle_field = self.album_editor.get_album_subtitle_entry_field()
 
         text = "My Photo Album"
-        self.assertThat(title_field.text, Equals(text))
+        self.assertThat(title_field.text, Eventually(Equals(text)))
 
         text = "Ubuntu"
-        self.assertThat(subtitle_field.text, Equals(text))
+        self.assertThat(subtitle_field.text, Eventually(Equals(text)))
 
         self.click_title_field()
         self.keyboard.press_and_release("Ctrl+a")
@@ -101,14 +103,14 @@ class TestAlbumEditor(GalleryTestCase):
         #due to some reason the album title is not updated unless it loses the
         #focus. So we click on the subtitle field.
         self.click_subtitle_field()
-        self.assertThat(title_field.text, Equals(text))
+        self.assertThat(title_field.text, Eventually(Equals(text)))
 
         self.keyboard.press_and_release("Ctrl+a")
         self.keyboard.press_and_release("U")
         self.keyboard.press_and_release("1")
         text = "U1"
         self.click_title_field()
-        self.assertThat(subtitle_field.text, Equals(text))
+        self.assertThat(subtitle_field.text, Eventually(Equals(text)))
 
     def test_add_photo(self):
         """Tests adding a photo using the media selector"""
@@ -144,3 +146,20 @@ class TestAlbumEditor(GalleryTestCase):
         self.open_first_album()
         num_photos = self.album_view.number_of_photos()
         self.assertThat(num_photos, Equals(num_photos_start + 1))
+
+    def test_cover_image(self):
+        """Test to change the album cover image"""
+        cover_image = self.album_editor.get_album_cover_image()
+        self.assertThat(
+            cover_image.source.endswith("album-cover-default-large.png"), Equals(True))
+
+        # click somewhere rather at the bottom of the cover
+        x, y, w, h = cover_image.globalRect
+        self.pointing_device.move(x + int(w / 2), y + h - int(h / 10))
+        self.pointing_device.click()
+
+        green_item = self.album_editor.get_cover_menu_item(2)
+        self.click_item(green_item)
+
+        self.assertThat(
+            cover_image.source.endswith("album-cover-green-large.png"), Equals(True))

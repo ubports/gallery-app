@@ -44,3 +44,13 @@ class AlbumEditor(GalleryUtils):
         return self.app.select_single("QQuickImage",
                                       objectName="albumCoverAddPhotosImage",
                                       visible=True)
+
+    def get_album_cover_image(self):
+        """Returns the album editor."""
+        return self.app.select_many("QQuickImage",
+                                    objectName="albumCoverImage")[0]
+
+    def get_cover_menu_item(self, idx):
+        """Returns the item of the cover menu with index idx"""
+        return self.app.select_many("Standard",
+                                    objectName="albumCoverMenuItem")[idx]

@@ -23,8 +23,8 @@ import QtQuick 2.0
 Item {
     /// Opens the share application
     function switchToShareApplication() {
-        if (loader.status === Loader.Ready) {
-            loader.item.switchToShareApplication();
+        if (appManager.status === Loader.Ready) {
+            appManager.item.switchToShareApplication();
         } else {
             console.log("Application launching not available on this platform");
         }

@@ -18,9 +18,11 @@
  */
 
 #include <QSqlQuery>
+#include <QStringList>
+#include <QVariant>
 
 #include "photo-edit-table.h"
-#include "database/database.h"
+#include "database.h"
 #include "photo/photo-edit-state.h"
 
 /*!

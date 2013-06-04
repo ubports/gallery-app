@@ -18,7 +18,7 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-#include "album/album-default-template.h"
+#include "album-default-template.h"
 
 /*!
  * \brief AlbumDefaultTemplate::AlbumDefaultTemplate

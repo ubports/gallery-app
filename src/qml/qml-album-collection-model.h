@@ -24,7 +24,7 @@
 #include <QVariant>
 #include <QtQml>
 
-#include "qml/qml-view-collection-model.h"
+#include "qml-view-collection-model.h"
 
 class Album;
 class DataObject;

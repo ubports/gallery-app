@@ -35,8 +35,8 @@ ToolbarActions {
     signal deleteClicked()
 
     // in selection mode, never hide the toolbar:
-    active: true
-    lock: true
+    opened: true
+    locked: true
 
     Action {
         text: i18n.tr("Add")
@@ -60,7 +60,9 @@ ToolbarActions {
         itemHint: Button {
             text: i18n.tr("Cancel")
             width: units.gu(10)
+            onClicked: {
+                root.cancelClicked();
+            }
         }
-        onTriggered: root.cancelClicked();
     }
 }

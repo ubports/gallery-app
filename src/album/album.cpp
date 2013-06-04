@@ -20,12 +20,12 @@
 
 
 #include "album.h"
-#include "album/album-collection.h"
-#include "album/album-default-template.h"
-#include "core/gallery-manager.h"
+#include "album-collection.h"
+#include "album-default-template.h"
 #include "core/selectable-view-collection.h"
 #include "database/album-table.h"
 #include "database/database.h"
+#include "gallery-manager.h"
 #include "media/media-collection.h"
 #include "qml/qml-media-collection-model.h"
 #include "util/variants.h"

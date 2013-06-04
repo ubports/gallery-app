@@ -12,14 +12,13 @@ include_directories(
 
 add_executable(gallerythumbnailimageprovider
     tst_gallerythumbnailimageprovider.cpp
-    gallery-manager.cpp
     preview-manager.cpp
     ${gallery_src_SOURCE_DIR}/qml/gallery-thumbnail-image-provider.cpp
     )
 
 qt5_use_modules(gallerythumbnailimageprovider Quick Test)
 add_test(gallerythumbnailimageprovider gallerythumbnailimageprovider
-    -xunitxml -o test_resource.xml
+    -xunitxml -o test_gallerythumbnailimageprovider.xml
     )
 set_tests_properties(gallerythumbnailimageprovider PROPERTIES
     TIMEOUT ${CTEST_TESTING_TIMEOUT}

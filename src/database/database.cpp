@@ -22,25 +22,30 @@
 #include "album-table.h"
 #include "media-table.h"
 #include "photo-edit-table.h"
-#include "core/gallery-manager.h"
-#include "util/resource.h"
 
 #include <QFile>
-
-const QString Database::DATABASE_DIR = ".database";
+#include <QtSql>
+#include <QSqlTableModel>
 
 /*!
  * \brief Database::Database
- * \param pictures_dir
+ * \param databaseDir directory to load/store the database
+ * \param schemaDirectory directory of the SQL schema for the database
  * \param parent
  */
-Database::Database(const QDir& pictures_dir, QObject* parent) :
-    QObject(parent)
+Database::Database(const QString &databaseDir, const QString &schemaDirectory,
+                   QObject* parent) :
+    QObject(parent),
+    m_databaseDirectory(databaseDir),
+    m_sqlSchemaDirectory(schemaDirectory),
+    db_(new QSqlDatabase())
 {
-    QDir db_dir(pictures_dir);
-    db_dir.mkdir(DATABASE_DIR);
-    db_dir.cd(DATABASE_DIR);
-    db_dir_ = db_dir;
+    if (!QFile::exists(m_databaseDirectory)) {
+        QDir dir;
+        bool createOk = dir.mkpath(m_databaseDirectory);
+        if (!createOk)
+            qWarning() << "Unanble to create DB directory" << m_databaseDirectory;
+    }
 
     album_table_ = new AlbumTable(this, this);
     media_table_ = new MediaTable(this, this);
@@ -51,13 +56,13 @@ Database::Database(const QDir& pictures_dir, QObject* parent) :
         restore_from_backup();
 
     // Attempt a query to make sure the DB is valid.
-    QSqlQuery test_query(db_);
+    QSqlQuery test_query(*db_);
     if (!test_query.exec("SELECT * FROM SQLITE_MASTER LIMIT 1")) {
         log_sql_error(test_query);
         restore_from_backup();
     }
 
-    QSqlQuery query(db_);
+    QSqlQuery query(*db_);
     // Turn synchronous off.
     if (!query.exec("PRAGMA synchronous = OFF")) {
         log_sql_error(query);
@@ -82,6 +87,7 @@ Database::~Database()
     delete album_table_;
     delete media_table_;
     delete photo_edit_table_;
+    delete db_;
 
     create_backup();
 }
@@ -102,10 +108,10 @@ void Database::log_sql_error(QSqlQuery& q) const
  */
 bool Database::open_db()
 {
-    db_ = QSqlDatabase::addDatabase("QSQLITE");
-    db_.setDatabaseName(get_db_name());
-    if (!db_.open()) {
-        qDebug() << "Error opening DB: " << db_.lastError().text();
+    *db_ = QSqlDatabase::addDatabase("QSQLITE");
+    db_->setDatabaseName(get_db_name());
+    if (!db_->open()) {
+        qDebug() << "Error opening DB: " << db_->lastError().text();
         return false;
     }
 
@@ -118,7 +124,7 @@ bool Database::open_db()
  */
 int Database::get_schema_version() const
 {
-    QSqlQuery query(db_);
+    QSqlQuery query(*db_);
     if (!query.exec("PRAGMA user_version") || !query.next()) {
         log_sql_error(query);
         return -1;
@@ -135,7 +141,7 @@ void Database::set_schema_version(int version)
 {
     // Must use string concats here since prepared statements
     // appear not to work with PRAGMAs.
-    QSqlQuery query(db_);
+    QSqlQuery query(*db_);
     if (!query.exec("PRAGMA user_version = " + QString::number(version)))
         log_sql_error(query);
 }
@@ -150,7 +156,7 @@ void Database::upgrade_schema(int current_version)
     for (;; version++) {
         // Check for the existence of an updated db file.
         // Filename format is n.sql, where n is the schema version number.
-        QFile file(get_sql_dir().path() + "/" + QString::number(version) + ".sql");
+        QFile file(get_sql_dir() + "/" + QString::number(version) + ".sql");
         if (!file.exists())
             return;
 
@@ -190,7 +196,7 @@ bool Database::execute_sql_file(QFile& file)
             continue;
 
         // Execute each statement.
-        QSqlQuery query(db_);
+        QSqlQuery query(*db_);
         if (!query.exec(statement)) {
             qDebug() << "Error executing database file: " << file.fileName();
             log_sql_error(query);
@@ -233,16 +239,34 @@ PhotoEditTable* Database::get_photo_edit_table() const
  */
 QSqlDatabase* Database::get_db()
 {
-    return &db_;
+    return db_;
 }
 
 /*!
  * \brief Database::get_sql_dir Returns the directory where the .sql files live
  * \return
  */
-QDir Database::get_sql_dir()
+const QString& Database::get_sql_dir() const
 {
-    return QDir(GalleryManager::instance()->resource()->get_rc_url("sql").path());
+    return m_sqlSchemaDirectory;
+}
+
+/*!
+* \brief get_db_name
+* \return the filename of the database
+*/
+QString Database::get_db_name() const
+{
+    return m_databaseDirectory + "/gallery.sqlite";
+}
+
+/*!
+* \brief get_db_backup_name
+* \return the filename for the backup of the database
+*/
+QString Database::get_db_backup_name() const
+{
+    return get_db_name() + ".bak";
 }
 
 /*!
@@ -250,7 +274,7 @@ QDir Database::get_sql_dir()
  */
 void Database::restore_from_backup()
 {
-    db_.close();
+    db_->close();
 
     // Remove existing DB.
     QFile bad_db(get_db_name());

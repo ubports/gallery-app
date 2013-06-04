@@ -18,10 +18,10 @@
  */
 
 #include "qml-event-collection-model.h"
-#include "core/gallery-manager.h"
 #include "event/event.h"
 #include "event/event-collection.h"
 #include "util/variants.h"
+#include "gallery-manager.h"
 
 /*!
  * \brief QmlEventCollectionModel::QmlEventCollectionModel

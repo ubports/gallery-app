@@ -18,7 +18,6 @@
 */
 
 #include "gallery-thumbnail-image-provider.h"
-#include "core/gallery-manager.h"
 #include "media/preview-manager.h"
 
 #include <QDebug>
@@ -26,15 +25,15 @@
 
 const char* GalleryThumbnailImageProvider::PROVIDER_ID = "gallery-thumbnail";
 const char* GalleryThumbnailImageProvider::PROVIDER_ID_SCHEME = "image://gallery-thumbnail/";
-
 const char* GalleryThumbnailImageProvider::REVISION_PARAM_NAME = "edit";
 
 /*!
  * @brief GalleryThumbnailImageProvider::GalleryThumbnailImageProvider
  */
-GalleryThumbnailImageProvider::GalleryThumbnailImageProvider(const bool log_image_loading)
+GalleryThumbnailImageProvider::GalleryThumbnailImageProvider()
     : QQuickImageProvider(QQuickImageProvider::Image),
-      log_image_loading_(log_image_loading)
+      m_previewManager(0),
+      m_logImageLoading(false)
 {
 }
 
@@ -59,14 +58,20 @@ QImage GalleryThumbnailImageProvider::requestImage(const QString &id, QSize *siz
                                                    const QSize &requestedSize)
 {
     Q_UNUSED(requestedSize);
+
+    if (!m_previewManager) {
+        qWarning() << Q_FUNC_INFO << "no PreviewManager set";
+        return QImage();
+    }
+
     QElapsedTimer timer;
     timer.start();
 
     QUrl url(id);
     QFileInfo photoFile(url.path());
-    GalleryManager::instance()->preview_manager()->ensure_preview_for_media(photoFile);
+    m_previewManager->ensure_preview_for_media(photoFile);
 
-    QFileInfo thumbnailFile = GalleryManager::instance()->preview_manager()->ThumbnailFileFor(photoFile);
+    QFileInfo thumbnailFile = m_previewManager->ThumbnailFileFor(photoFile);
     QString fileName = thumbnailFile.absoluteFilePath();
 
     QImage thumbnail;
@@ -78,9 +83,19 @@ QImage GalleryThumbnailImageProvider::requestImage(const QString &id, QSize *siz
     if (size != NULL)
         *size = thumbnail.size();
 
-    if (log_image_loading_) {
+    if (m_logImageLoading) {
         qDebug() << id << thumbnail.size() << "time:" << timer.elapsed() << "ms";
     }
 
     return thumbnail;
+}
+
+void GalleryThumbnailImageProvider::setPreviewManager(PreviewManager *previewManager)
+{
+    m_previewManager = previewManager;
+}
+
+void GalleryThumbnailImageProvider::setLogging(bool enableLogging)
+{
+    m_logImageLoading = enableLogging;
 }

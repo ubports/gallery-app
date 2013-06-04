@@ -32,7 +32,7 @@ public:
     static void RegisterType();
 
 public Q_SLOTS:
-    void writeShareFile(const QString& path);
+    void writeShareFile(const QString& id, const QString& path);
 };
 
 #endif // SHAREFILE_H

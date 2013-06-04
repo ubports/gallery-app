@@ -35,6 +35,8 @@ Item {
     */
     property bool isPortrait: (height > width)
 
+    property bool automaticOrientation: true
+
     // Big list of form factor-specific values.  'default' is used if the key
     // can't be found under any other form_factor (otherwise, form_factors should
     // match the FORM_FACTOR values passed from main.cpp).  Just add Portrait to
@@ -184,10 +186,10 @@ Item {
 
         HUD.Context {
             id: hudCtx
-
-            HUD.QuitAction {
-                onTriggered: Qt.quit()
-            }
         }
+    }
+
+    Component.onCompleted: {
+        i18n.domain = "gallery-app";
     }
 }
