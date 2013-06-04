@@ -84,12 +84,10 @@ void GalleryManager::post_init()
         media_collection_ = new MediaCollection(pictures_dir_);
         album_collection_ = new AlbumCollection();
         event_collection_ = new EventCollection();
-        preview_manager_ = new PreviewManager();
-
-        gallery_standard_image_provider_->setPreviewManager(preview_manager_);
-        gallery_thumbnail_image_provider_->setPreviewManager(preview_manager_);
 
         collections_initialised = true;
+
+        initPreviewManager();
 
         qDebug("Opened %s", qPrintable(pictures_dir_.path()));
     }
@@ -123,4 +121,38 @@ GalleryManager::~GalleryManager()
 
     delete preview_manager_;
     preview_manager_ = NULL;
+}
+
+/*!
+ * \brief GalleryManager::initPreviewManager creates the PreviewManager,
+ * assigns it to all needed objects and creates all signal slot connection.
+ */
+void GalleryManager::initPreviewManager()
+{
+    Q_ASSERT(media_collection_);
+    Q_ASSERT(gallery_standard_image_provider_);
+    Q_ASSERT(gallery_thumbnail_image_provider_);
+
+    if (preview_manager_)
+        return;
+
+    preview_manager_ = new PreviewManager("/home/schwann/.cache/thumbnails/",
+                                          media_collection_);
+
+    gallery_standard_image_provider_->setPreviewManager(preview_manager_);
+    gallery_thumbnail_image_provider_->setPreviewManager(preview_manager_);
+
+    // Monitor MediaCollection for all new MediaSources
+    QObject::connect(media_collection_,
+                     SIGNAL(contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
+                     preview_manager_,
+                     SLOT(on_media_added_removed(const QSet<DataObject*>*,const QSet<DataObject*>*)));
+
+    QObject::connect(media_collection_,
+                     SIGNAL(destroying(const QSet<DataObject*>*)),
+                     preview_manager_,
+                     SLOT(on_media_destroying(const QSet<DataObject*>*)));
+
+    // Verify previews for all existing added MediaSources
+    preview_manager_->onMediaAddedRemoved(&media_collection_->GetAsSet(), NULL);
 }

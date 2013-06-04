@@ -25,7 +25,14 @@
 const QString PreviewManager::PREVIEW_DIR = ".thumbs";
 const char* PreviewManager::PREVIEW_FILE_EXT = "JPG";
 
-bool PreviewManager::ensure_preview_for_media(QFileInfo file, bool regen)
+PreviewManager::PreviewManager(const QString &thumbnailDirectory,
+                               MediaCollection *mediaCollection, QObject *parent)
+{
+    Q_UNUSED(thumbnailDirectory);
+    Q_UNUSED(mediaCollection)
+}
+
+bool PreviewManager::ensurePreview(QFileInfo file, bool regen)
 {
     file = QFileInfo();
     regen = false;
@@ -33,21 +40,22 @@ bool PreviewManager::ensure_preview_for_media(QFileInfo file, bool regen)
     return regen;
 }
 
-void PreviewManager::on_media_added_removed(const QSet<DataObject *> *, const QSet<DataObject *> *)
+void PreviewManager::onMediaAddedRemoved(const QSet<DataObject *> *, const QSet<DataObject *> *)
 {
 
 }
 
-void PreviewManager::on_media_destroying(const QSet<DataObject *> *)
+void PreviewManager::onMediaDestroying(const QSet<DataObject *> *)
 {
 
 }
 
-void PreviewManager::on_media_data_altered()
+void PreviewManager::updatePreview()
 {
 
 }
 
-QFileInfo PreviewManager::ThumbnailFileFor(const QFileInfo& file) {
-  return QFileInfo(file.dir(), PREVIEW_DIR + "/" + file.completeBaseName() + "_th_s." + PREVIEW_FILE_EXT);
+QString PreviewManager::thumbnailFileName(const QFileInfo& file) const
+{
+  return QString(file.absolutePath() + PREVIEW_DIR + "/" + file.completeBaseName() + "_th_s." + PREVIEW_FILE_EXT);
 }
