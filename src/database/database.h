@@ -21,7 +21,6 @@
 #define DATABASE_H
 
 #include <QObject>
-#include <QDir>
 #include <QFile>
 #include <QString>
 
@@ -42,10 +41,7 @@ class Database : public QObject
     Q_OBJECT
 
 public:
-    // Path to database, relative to pictures path.
-    static const QString DATABASE_DIR;
-
-    Database(const QDir& pictures_dir, QObject* parent = 0);
+    Database(const QString& databaseDir, const QString &schemaDirectory, QObject* parent = 0);
 
     ~Database();
 
@@ -65,31 +61,18 @@ private:
 
     bool execute_sql_file(QFile& file);
 
-    QDir get_sql_dir();
+    const QString &get_sql_dir() const;
 
-    /*!
-   * \brief get_db_name
-   * \return
-   */
-    inline QString get_db_name() {
-        return db_dir_.path() + "/gallery.sqlite";
-    }
-
-    /*!
-   * \brief get_db_backup_name
-   * \return
-   */
-    inline QString get_db_backup_name() {
-        return db_dir_.path() + "/gallery.sqlite.bak";
-    }
+    QString get_db_name() const;
+    QString get_db_backup_name() const;
 
     void restore_from_backup();
 
     void create_backup();
 
+    QString m_databaseDirectory;
+    QString m_sqlSchemaDirectory;
     QSqlDatabase* db_;
-    QDir db_dir_;
-
     AlbumTable* album_table_;
     MediaTable* media_table_;
     PhotoEditTable* photo_edit_table_;
