@@ -53,7 +53,7 @@ GalleryManager* GalleryManager::instance(const QDir &pictures_dir,
 GalleryManager::GalleryManager(const QDir& pictures_dir,
                                QQuickView *view, const bool log_image_loading)
     : collections_initialised(false),
-      resource_(new Resource(view)),
+      resource_(new Resource(pictures_dir.path(), view)),
       gallery_standard_image_provider_(new GalleryStandardImageProvider()),
       gallery_thumbnail_image_provider_(new GalleryThumbnailImageProvider()),
       database_(NULL),
@@ -61,8 +61,7 @@ GalleryManager::GalleryManager(const QDir& pictures_dir,
       media_collection_(NULL),
       album_collection_(NULL),
       event_collection_(NULL),
-      preview_manager_(NULL),
-      pictures_dir_(pictures_dir)
+      preview_manager_(NULL)
 {
     const int maxTextureSize = resource_->maxTextureSize();
     gallery_standard_image_provider_->setMaxLoadResolution(maxTextureSize);
@@ -72,16 +71,20 @@ GalleryManager::GalleryManager(const QDir& pictures_dir,
 
 void GalleryManager::post_init()
 {
+    Q_ASSERT(resource_);
+
     if (!collections_initialised)
     {
-        qDebug("Opening %s...", qPrintable(pictures_dir_.path()));
+        qDebug() << "Opening" << resource_->picturesDirectory() << "...";
 
         Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute);
 
-        database_ = new Database(pictures_dir_);
+        database_ = new Database(resource_->databaseDirectory(),
+                                 resource_->get_rc_url("sql").path());
         database_->get_media_table()->verify_files();
         default_template_ = new AlbumDefaultTemplate();
-        media_collection_ = new MediaCollection(pictures_dir_);
+        QDir mediaDir(resource_->picturesDirectory());
+        media_collection_ = new MediaCollection(mediaDir);
         album_collection_ = new AlbumCollection();
         event_collection_ = new EventCollection();
 
@@ -89,7 +92,7 @@ void GalleryManager::post_init()
 
         initPreviewManager();
 
-        qDebug("Opened %s", qPrintable(pictures_dir_.path()));
+        qDebug() << "Opened" << resource_->picturesDirectory();
     }
 }
 
@@ -129,6 +132,7 @@ GalleryManager::~GalleryManager()
  */
 void GalleryManager::initPreviewManager()
 {
+    Q_ASSERT(resource_);
     Q_ASSERT(media_collection_);
     Q_ASSERT(gallery_standard_image_provider_);
     Q_ASSERT(gallery_thumbnail_image_provider_);
@@ -136,7 +140,7 @@ void GalleryManager::initPreviewManager()
     if (preview_manager_)
         return;
 
-    preview_manager_ = new PreviewManager("/home/schwann/.cache/thumbnails/",
+    preview_manager_ = new PreviewManager(resource_->thumbnailDirectory(),
                                           media_collection_);
 
     gallery_standard_image_provider_->setPreviewManager(preview_manager_);

@@ -22,6 +22,10 @@
 
 #include <QtGui/QOpenGLContext>
 #include <QtQuick/QQuickView>
+#include <QStandardPaths>
+
+const QLatin1String Resource::DATABASE_DIR = QLatin1String("database");
+const QLatin1String Resource::THUMBNAIL_DIR = QLatin1String("thumbnails");
 
 /*!
  * \brief Resource::Resource
@@ -29,10 +33,15 @@
  * \param install_dir the directory, where apps are installed to
  * \param view the view is used to determine the max texture size
  */
-Resource::Resource(QQuickView *view)
-    : view_(view),
-      max_texture_size_(0)
+Resource::Resource(const QString &pictureDir, QQuickView *view)
+    : m_pictureDirectory(pictureDir),
+      m_databaseDirectory(""),
+      m_thumbnailDirectory(""),
+      m_view(view),
+      m_maxTextureSize(0)
 {
+    if (m_pictureDirectory.isEmpty())
+        m_pictureDirectory = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
 }
 
 /*!
@@ -50,23 +59,66 @@ QUrl Resource::get_rc_url(const QString& path)
 }
 
 /*!
+ * \brief Resource::picturesDirectory
+ * \return Returns the directory for the pictures
+ */
+const QString &Resource::picturesDirectory() const
+{
+    return m_pictureDirectory;
+}
+
+/*!
+ * \brief Resource::databaseDirectory directory for the database
+ * \return the directory the database is stored
+ */
+const QString &Resource::databaseDirectory() const
+{
+    if (m_databaseDirectory.isEmpty()) {
+        if (m_pictureDirectory == QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)) {
+            m_databaseDirectory = QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
+                    QDir::separator() + DATABASE_DIR;
+        } else {
+            m_databaseDirectory = m_pictureDirectory + QDir::separator() + "." + DATABASE_DIR;
+        }
+    }
+    return m_databaseDirectory;
+}
+
+/*!
+ * \brief Resource::thumbnailDirectory returns the base directory of the thumbnails
+ * \return
+ */
+const QString &Resource::thumbnailDirectory() const
+{
+    if (m_thumbnailDirectory.isEmpty()) {
+        if (m_pictureDirectory == QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)) {
+            m_thumbnailDirectory = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) +
+                    QDir::separator() + THUMBNAIL_DIR;
+        } else {
+            m_thumbnailDirectory = m_pictureDirectory + QDir::separator() + "." + THUMBNAIL_DIR;
+        }
+    }
+    return m_thumbnailDirectory;
+}
+
+/*!
  * \brief maxTextureSize
  * \return max texture size provided by OpenGL
  */
 int Resource::maxTextureSize() const
 {
-    if (max_texture_size_ == 0 && view_ != 0) {
+    if (m_maxTextureSize == 0 && m_view != 0) {
         // QtQuick uses a dedicated rendering thread we can't access. A temporary
         // graphics context has to be created to access implementation limits.
         QOpenGLContext context;
         context.create();
-        view_->winId();  // Ensure the QPA window is created.
-        context.makeCurrent(view_);
-        glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_texture_size_);
-        if (max_texture_size_ == 0) {
-            max_texture_size_ = 1024;
+        m_view->winId();  // Ensure the QPA window is created.
+        context.makeCurrent(m_view);
+        glGetIntegerv(GL_MAX_TEXTURE_SIZE, &m_maxTextureSize);
+        if (m_maxTextureSize == 0) {
+            m_maxTextureSize = 1024;
         }
     }
 
-    return max_texture_size_;
+    return m_maxTextureSize;
 }
