@@ -19,7 +19,6 @@
  */
 
 #include <QDir>
-#include <QImage>
 
 #include "media/preview-manager.h"
 #include "media/media-collection.h"
@@ -45,17 +44,14 @@ bool PreviewManager::ensurePreview(QFileInfo file, bool regen)
 
 void PreviewManager::onMediaAddedRemoved(const QSet<DataObject *> *, const QSet<DataObject *> *)
 {
-
 }
 
 void PreviewManager::onMediaDestroying(const QSet<DataObject *> *)
 {
-
 }
 
 void PreviewManager::updatePreview()
 {
-
 }
 
 QString PreviewManager::previewFileName(const QFileInfo &file) const

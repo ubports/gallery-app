@@ -42,17 +42,14 @@ bool PreviewManager::ensurePreview(QFileInfo file, bool regen)
 
 void PreviewManager::onMediaAddedRemoved(const QSet<DataObject *> *, const QSet<DataObject *> *)
 {
-
 }
 
 void PreviewManager::onMediaDestroying(const QSet<DataObject *> *)
 {
-
 }
 
 void PreviewManager::updatePreview()
 {
-
 }
 
 QString PreviewManager::thumbnailFileName(const QFileInfo& file) const

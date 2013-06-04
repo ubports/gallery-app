@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical Ltd
+ * Copyright (C) 2013 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -12,9 +12,6 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- * Jim Nelson <jim@yorba.org>
  */
 
 #ifndef GALLERY_MEDIA_COLLECTION_H_
