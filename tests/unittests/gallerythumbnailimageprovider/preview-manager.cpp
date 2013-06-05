@@ -54,5 +54,6 @@ void PreviewManager::updatePreview()
 
 QString PreviewManager::thumbnailFileName(const QFileInfo& file) const
 {
-  return QString(file.absolutePath() + PREVIEW_DIR + "/" + file.completeBaseName() + "_th_s." + PREVIEW_FILE_EXT);
+  return QString(file.absolutePath() + PREVIEW_DIR + QDir::separator() +
+                 file.completeBaseName() + "_th_s." + PREVIEW_FILE_EXT);
 }

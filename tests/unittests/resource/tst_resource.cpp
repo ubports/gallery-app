@@ -47,7 +47,8 @@ void tst_Resource::picturesDirectory()
 void tst_Resource::databaseDirectory()
 {
     Resource resource("", 0);
-    QString dbDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/" + Resource::DATABASE_DIR;
+    QString dbDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
+            QDir::separator() + Resource::DATABASE_DIR;
     QCOMPARE(resource.databaseDirectory(), dbDir);
 
     QString picDir("/some/where/else");
@@ -59,7 +60,8 @@ void tst_Resource::databaseDirectory()
 void tst_Resource::thumbnailDirectory()
 {
     Resource resource("", 0);
-    QString dbDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/" + Resource::THUMBNAIL_DIR;
+    QString dbDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) +
+            QDir::separator() + Resource::THUMBNAIL_DIR;
     QCOMPARE(resource.thumbnailDirectory(), dbDir);
 
     QString picDir("/some/where/else");

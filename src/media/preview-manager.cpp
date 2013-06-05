@@ -192,7 +192,7 @@ bool PreviewManager::ensurePreview(QFileInfo file, bool regen)
 }
 
 /*!
- * \brief PreviewManager::saveThumbnail saves the thumbnail in an save way
+ * \brief PreviewManager::saveThumbnail saves the thumbnail in a safe way
  * The image is written to a temporary file, and then moved (the move is atomic)
  * \param image thumbnail to save
  * \param fileName filename of the thumbnail
@@ -259,7 +259,7 @@ QString PreviewManager::thumbnailFileName(const QString &fileName,
 {
     QCryptographicHash md5(QCryptographicHash::Md5);
     md5.addData(QUrl::fromLocalFile(fileName).toEncoded());
-    QString previewDir = m_thumbnailDir + levelName + "/";
+    QString previewDir = m_thumbnailDir + levelName + QDir::separator();
     return QString(previewDir + md5.result().toHex() + PREVIEW_FILE_EXT);
 }
 

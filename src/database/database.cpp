@@ -156,7 +156,7 @@ void Database::upgrade_schema(int current_version)
     for (;; version++) {
         // Check for the existence of an updated db file.
         // Filename format is n.sql, where n is the schema version number.
-        QFile file(get_sql_dir() + "/" + QString::number(version) + ".sql");
+        QFile file(get_sql_dir() + QDir::separator() + QString::number(version) + ".sql");
         if (!file.exists())
             return;
 
