@@ -16,12 +16,12 @@ class AlbumView(GalleryUtils):
 
     def get_animated_album_view(self):
         """Returns the album view"""
-        return self.app.select_single("AlbumViewerAnimated",
-                                      objectName="albumViewerAnimated")
+        return self.select_single_retry("AlbumViewerAnimated",
+                                        objectName="albumViewerAnimated")
 
     def get_album_view(self):
         """Returns the album view"""
-        return self.app.select_single("AlbumViewer", objectName="albumViewer")
+        return self.select_single_retry("AlbumViewer", objectName="albumViewer")
 
     def get_toolbar_add_button(self):
         """Returns the add button of the tollbar in the events view."""
