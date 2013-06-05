@@ -39,7 +39,7 @@ const long MAX_CACHE_BYTES = 20L * 1024L * 1024L;
 
 // fully load previews into memory when requested
 const int SCALED_LOAD_FLOOR_DIM_PIXELS =
-        qMax(PreviewManager::PREVIEW_WIDTH_MAX, PreviewManager::PREVIEW_HEIGHT_MAX);
+        qMax(PreviewManager::PREVIEW_SIZE, PreviewManager::PREVIEW_SIZE);
 
 /*!
  * \brief GalleryStandardImageProvider::GalleryStandardImageProvider
@@ -100,7 +100,7 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
 
     QUrl url(id);
     QFileInfo photoFile(url.path());
-    m_previewManager->ensure_preview_for_media(photoFile);
+    m_previewManager->ensurePreview(photoFile);
 
     CachedImage* cachedImage = claim_cached_image_entry(id, loggingStr);
     Q_ASSERT(cachedImage != NULL);
@@ -178,7 +178,7 @@ GalleryStandardImageProvider::CachedImage* GalleryStandardImageProvider::claim_c
         // remove CachedImage before prepending to FIFO
         fifo_.removeOne(id);
     } else {
-        cachedImage = new CachedImage(id);
+        cachedImage = new CachedImage(id, idToFile(id));
         cache_.insert(id, cachedImage);
         LOG_IMAGE_STATUS("new-cache-entry ");
     }
@@ -392,11 +392,40 @@ QSize GalleryStandardImageProvider::orientSize(const QSize& size, Orientation or
 }
 
 /*!
- * \brief GalleryStandardImageProvider::CachedImage::CachedImage
+ * \brief GalleryStandardImageProvider::idToFile
  * \param id
+ * \return
  */
-GalleryStandardImageProvider::CachedImage::CachedImage(const QString& id)
-    : id_(id), uri_(id), file_(idToFile(id)), hasOrientation_(false),
+QString GalleryStandardImageProvider::idToFile(const QString& id) const
+{
+    if (!m_previewManager) {
+        qWarning() << Q_FUNC_INFO << "no PreviewManager set";
+        return QString();
+    }
+
+    QUrl url = QUrl(id);
+    QString fileName = url.path();
+
+    //Get our item value from our query by it's key.
+    QUrlQuery url_query(url);
+    url_query.hasQueryItem(GalleryStandardImageProvider::SIZE_KEY);
+    QString value = url_query.queryItemValue(GalleryStandardImageProvider::SIZE_KEY);
+
+    if (value == "1") {
+        fileName = m_previewManager->previewFileName(fileName);
+    }
+
+    return fileName;
+}
+
+/*!
+ * \brief GalleryStandardImageProvider::CachedImage::CachedImage
+ * \param id the full URI of the image
+ * \param fileName the filename for the URI (can be the file itself or the preview)
+ */
+GalleryStandardImageProvider::CachedImage::CachedImage(const QString& id,
+                                                       const QString& filename)
+    : id_(id), uri_(id), file_(filename), hasOrientation_(false),
       orientation_(TOP_LEFT_ORIGIN), inUseCount_(0), byteCount_(0)
 {
     QUrlQuery query(uri_);
@@ -411,30 +440,6 @@ GalleryStandardImageProvider::CachedImage::CachedImage(const QString& id)
             }
         }
     }
-}
-
-/*!
- * \brief GalleryStandardImageProvider::CachedImage::idToFile
- * \param id
- * \return
- */
-QString GalleryStandardImageProvider::CachedImage::idToFile(const QString& id)
-{
-    QUrl url = QUrl(id);
-    QString fileName = url.path();
-
-    //Get our item value from our query by it's key.
-    QUrlQuery url_query(url);
-    url_query.hasQueryItem(GalleryStandardImageProvider::SIZE_KEY);
-    QString value = url_query.queryItemValue(GalleryStandardImageProvider::SIZE_KEY);
-
-    if (value == "1")
-    {
-        QFileInfo thumbnailFile = PreviewManager::PreviewFileFor(fileName);
-        fileName = thumbnailFile.absoluteFilePath();
-    }
-
-    return fileName;
 }
 
 /*!

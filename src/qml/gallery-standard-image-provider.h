@@ -95,9 +95,7 @@ private:
         int inUseCount_;
         uint byteCount_;
 
-        CachedImage(const QString& id);
-
-        static QString idToFile(const QString& id);
+        CachedImage(const QString& id, const QString& filename);
 
         void storeImage(const QImage& image, const QSize& fullSize, Orientation orientation);
         bool isFullSized() const;
@@ -122,6 +120,8 @@ private:
 
     void release_cached_image_entry(CachedImage* cachedImage, uint bytesLoaded,
                                     long* currentCachedBytes, int* currentCacheEntries);
+
+    QString idToFile(const QString& id) const;
 
     //Allow our test access to private variables.
     friend class tst_GalleryStandardImageProvider;
