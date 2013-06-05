@@ -17,11 +17,6 @@ class PhotoViewer(GalleryUtils):
         """Return the edit button of the toolbar when photo viewer is shown"""
         return self.get_toolbar_button(0)
 
-    def get_toolbat_album_button(self):
-        """Returns the photo viewer album button."""
-        return self.app.select_single("ChromeButton", objectName='disabled',
-                                      visible=True)
-
     def get_toolbar_delete_button(self):
         """Return the delete button of the toolbar when photo viewer is
            shown"""
@@ -38,22 +33,22 @@ class PhotoViewer(GalleryUtils):
 
     def get_popup_album_picker(self):
         """Returns the photo viewer album pickers."""
-        return self.app.select_single("PopupAlbumPicker",
+        return self.select_single_retry("PopupAlbumPicker",
                                       objectName="popupAlbumPicker")
 
     def get_share_dialog(self):
         """Returns the photo viewer share dialog."""
-        return self.app.select_single("SharePopover",
-                                      objectName="sharePopover")
+        return self.select_single_retry("SharePopover",
+                                        objectName="sharePopover")
 
     def get_photo_edit_dialog(self):
         """Returns the photo edit dialog."""
-        return self.app.select_single("EditPopover",
+        return self.select_single_retry("EditPopover",
                                       objectName="editPopover")
 
     def get_photo_component(self):
-        return self.app.select_many("ZoomablePhotoComponent",
-                                    ownerName="photoViewerDelegate")[0]
+        return self.select_many_retry("ZoomablePhotoComponent",
+                                      ownerName="photoViewerDelegate")[0]
 
     def get_crop_menu_item(self):
         """Returns the crop item of the edit dialog."""
@@ -89,28 +84,28 @@ class PhotoViewer(GalleryUtils):
 
     def get_opened_photo(self):
         """Returns the first opened photo."""
-        return self.app.select_single("ZoomablePhotoComponent",
-                                      objectName="openedPhoto0")
+        return self.select_single_retry("ZoomablePhotoComponent",
+                                        objectName="openedPhoto0")
 
     def get_crop_interactor(self):
         """Returns the crop interactor."""
-        return self.app.select_single("CropInteractor",
-                                      objectName="cropInteractor")
+        return self.select_single_retry("CropInteractor",
+                                        objectName="cropInteractor")
 
     def get_crop_overlay(self):
         """Returns the crop overlay."""
-        return self.app.select_single("CropOverlay", objectName="cropOverlay")
+        return self.select_single_retry("CropOverlay", objectName="cropOverlay")
 
     def get_top_left_crop_corner(self):
         """Returns the top left corner of the crop overlay for dragging."""
-        return self.app.select_single("CropCorner",
-                                      objectName="topLeftCropCorner")
+        return self.select_single_retry("CropCorner",
+                                        objectName="topLeftCropCorner")
 
     def get_crop_overlays_crop_icon(self):
         """Returns the crop icon of the crop overlay."""
-        return self.app.select_single("Button", objectName="centerCropIcon",
-                                      visible=True)
+        return self.select_single_retry("Button", objectName="centerCropIcon",
+                                        visible=True)
 
     def get_edit_preview(self):
         """Returns the edit preview."""
-        return self.app.select_single("EditPreview", objectName="editPreview")
+        return self.select_single_retry("EditPreview", objectName="editPreview")
