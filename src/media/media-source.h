@@ -90,7 +90,7 @@ public:
     QUrl thumbnail_path() const;
     virtual QUrl gallery_thumbnail_path() const;
 
-    virtual QImage Image(bool respect_orientation = true);
+    virtual QImage Image(bool respect_orientation = true, const QSize &scaleSize=QSize());
     virtual Orientation orientation() const;
     virtual QDateTime exposure_date_time() const;
 

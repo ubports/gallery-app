@@ -140,7 +140,7 @@ QUrl MediaSource::gallery_thumbnail_path() const
  * \param respect_orientation
  * \return
  */
-QImage MediaSource::Image(bool respect_orientation)
+QImage MediaSource::Image(bool respect_orientation, const QSize &scaleSize)
 {
     // QML data types cannot be abstract, so return a null image
     return QImage();
