@@ -24,7 +24,7 @@
 #include <QHash>
 #include <QSet>
 
-#include "core/source-collection.h"
+#include "source-collection.h"
 
 class DataObject;
 class Event;

@@ -5,8 +5,9 @@ if(NOT CTEST_TESTING_TIMEOUT)
 endif()
 
 include_directories(
+    ${gallery_media_src_SOURCE_DIR}
+    ${gallery_qml_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
-    ${gallery_src_SOURCE_DIR}
     ${GSTLIB_INCLUDE_DIRS}
     )
 

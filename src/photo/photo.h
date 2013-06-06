@@ -28,7 +28,7 @@
 #include "photo-caches.h"
 #include "photo-edit-state.h"
 #include "photo-metadata.h"
-#include "media/media-source.h"
+#include "media-source.h"
 
 class PhotoPrivate;
 

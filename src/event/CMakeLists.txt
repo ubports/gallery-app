@@ -4,6 +4,10 @@ set(GALLERY_EVENT_LIB gallery-event)
 
 include_directories(
     ${gallery_src_SOURCE_DIR}
+    ${gallery_core_src_SOURCE_DIR}
+    ${gallery_media_src_SOURCE_DIR}
+    ${gallery_photo_src_SOURCE_DIR}
+    ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
     ${GSTLIB_INCLUDE_DIRS}
     )
@@ -25,5 +29,9 @@ add_library(${GALLERY_EVENT_LIB}
 qt5_use_modules(${GALLERY_EVENT_LIB} Widgets Core Qml)
 
 target_link_libraries( ${GALLERY_EVENT_LIB}
+    gallery-core
+    gallery-media
+    gallery-photo
+    gallery-util
     ${GSTLIB_LDFLAGS}
     )

@@ -6,7 +6,7 @@ endif()
 
 include_directories(
     ${CMAKE_BINARY_DIR}
-    ${gallery_src_SOURCE_DIR}
+    ${gallery_util_src_SOURCE_DIR}
     )
 
 add_executable(resource

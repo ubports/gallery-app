@@ -22,7 +22,7 @@
 
 #include "preview-manager.h"
 #include "media-collection.h"
-#include "photo/photo.h"
+#include "photo.h"
 #include "gallery-manager.h"
 
 const int PreviewManager::PREVIEW_WIDTH_MAX = 360;

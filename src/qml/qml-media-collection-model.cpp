@@ -20,14 +20,14 @@
 
 #include "qml-media-collection-model.h"
 
-#include "album/album.h"
-#include "album/album-collection.h"
-#include "album/album-default-template.h"
-#include "core/data-object.h"
-#include "core/selectable-view-collection.h"
-#include "media/media-source.h"
-#include "media/media-collection.h"
-#include "util/variants.h"
+#include "album.h"
+#include "album-collection.h"
+#include "album-default-template.h"
+#include "data-object.h"
+#include "selectable-view-collection.h"
+#include "media-source.h"
+#include "media-collection.h"
+#include "variants.h"
 #include "gallery-manager.h"
 
 /*!

@@ -19,13 +19,13 @@
 
 #include "media-source.h"
 #include "preview-manager.h"
-#include "database/database.h"
-#include "database/media-table.h"
-#include "event/event.h"
-#include "event/event-collection.h"
-#include "qml/gallery-standard-image-provider.h"
-#include "qml/gallery-thumbnail-image-provider.h"
-#include "util/resource.h"
+#include "database.h"
+#include "media-table.h"
+#include "event.h"
+#include "event-collection.h"
+#include "gallery-standard-image-provider.h"
+#include "gallery-thumbnail-image-provider.h"
+#include "resource.h"
 #include "gallery-manager.h"
 
 /*!

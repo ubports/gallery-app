@@ -23,7 +23,7 @@
 
 #include "photo-edit-table.h"
 #include "database.h"
-#include "photo/photo-edit-state.h"
+#include "photo-edit-state.h"
 
 /*!
  * \brief PhotoEditTable::PhotoEditTable

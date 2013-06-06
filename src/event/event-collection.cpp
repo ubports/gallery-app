@@ -19,9 +19,9 @@
 
 #include "event-collection.h"
 #include "event.h"
-#include "core/data-object.h"
-#include "media/media-collection.h"
-#include "media/media-source.h"
+#include "data-object.h"
+#include "media-collection.h"
+#include "media-source.h"
 #include "gallery-manager.h"
 
 /*!

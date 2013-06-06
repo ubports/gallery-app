@@ -24,8 +24,8 @@
 #include <QUrl>
 
 #include "album-template-page.h"
-#include "core/container-source.h"
-#include "media/media-source.h"
+#include "container-source.h"
+#include "media-source.h"
 
 class Album;
 

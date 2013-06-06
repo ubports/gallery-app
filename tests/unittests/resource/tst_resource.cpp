@@ -21,7 +21,7 @@
 #include <QStandardPaths>
 #include <QString>
 
-#include "util/resource.h"
+#include "resource.h"
 
 class tst_Resource : public QObject
 {

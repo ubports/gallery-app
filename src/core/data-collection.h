@@ -26,7 +26,7 @@
 #include <QSet>
 #include <QString>
 
-#include "util/collections.h"
+#include "collections.h"
 
 class DataObject;
 

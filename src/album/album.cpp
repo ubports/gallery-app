@@ -22,13 +22,13 @@
 #include "album.h"
 #include "album-collection.h"
 #include "album-default-template.h"
-#include "core/selectable-view-collection.h"
-#include "database/album-table.h"
-#include "database/database.h"
+#include "selectable-view-collection.h"
+#include "album-table.h"
+#include "database.h"
+#include "media-collection.h"
+#include "qml-media-collection-model.h"
+#include "variants.h"
 #include "gallery-manager.h"
-#include "media/media-collection.h"
-#include "qml/qml-media-collection-model.h"
-#include "util/variants.h"
 
 const char *Album::DEFAULT_TITLE = "New Photo Album";
 const char *Album::DEFAULT_SUBTITLE = "Subtitle";

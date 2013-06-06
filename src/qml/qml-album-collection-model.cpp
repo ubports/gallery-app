@@ -18,11 +18,11 @@
  */
 
 #include "qml-album-collection-model.h"
-#include "album/album.h"
-#include "album/album-collection.h"
-#include "album/album-default-template.h"
-#include "core/selectable-view-collection.h"
-#include "util/variants.h"
+#include "album.h"
+#include "album-collection.h"
+#include "album-default-template.h"
+#include "selectable-view-collection.h"
+#include "variants.h"
 #include "gallery-manager.h"
 
 /*!

@@ -18,9 +18,9 @@
  */
 
 #include "qml-event-collection-model.h"
-#include "event/event.h"
-#include "event/event-collection.h"
-#include "util/variants.h"
+#include "event.h"
+#include "event-collection.h"
+#include "variants.h"
 #include "gallery-manager.h"
 
 /*!

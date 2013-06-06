@@ -29,8 +29,8 @@
 #include <QVariant>
 #include <QtQml>
 
-#include "core/data-source.h"
-#include "photo/photo-metadata.h"
+#include "data-source.h"
+#include "photo-metadata.h"
 
 class Event;
 class GalleryManager;

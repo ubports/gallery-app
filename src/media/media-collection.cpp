@@ -22,9 +22,9 @@
 #include <QString>
 
 #include "media-collection.h"
-#include "photo/photo.h"
-#include "database/database.h"
-#include "database/media-table.h"
+#include "photo.h"
+#include "database.h"
+#include "media-table.h"
 #include "gallery-manager.h"
 
 /*!

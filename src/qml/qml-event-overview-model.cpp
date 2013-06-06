@@ -18,11 +18,11 @@
  */
 
 #include "qml-event-overview-model.h"
-#include "core/data-object.h"
-#include "core/selectable-view-collection.h"
-#include "event/event.h"
-#include "event/event-collection.h"
-#include "util/variants.h"
+#include "data-object.h"
+#include "selectable-view-collection.h"
+#include "event.h"
+#include "event-collection.h"
+#include "variants.h"
 #include "gallery-manager.h"
 
 /*!

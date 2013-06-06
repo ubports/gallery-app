@@ -20,7 +20,7 @@
 #include <QString>
 
 #include "event.h"
-#include "media/media-collection.h"
+#include "media-collection.h"
 
 /*!
  * \brief Event::Event

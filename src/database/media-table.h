@@ -22,7 +22,7 @@
 
 #include <QObject>
 
-#include "photo/photo-metadata.h"
+#include "photo-metadata.h"
 
 class Database;
 

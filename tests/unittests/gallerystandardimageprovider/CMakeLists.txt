@@ -6,7 +6,9 @@ endif()
 
 include_directories(
     ${CMAKE_BINARY_DIR}
-    ${gallery_src_SOURCE_DIR}
+    ${gallery_media_src_SOURCE_DIR}
+    ${gallery_photo_src_SOURCE_DIR}
+    ${gallery_qml_src_SOURCE_DIR}
     ${GSTLIB_INCLUDE_DIRS}
     )
 

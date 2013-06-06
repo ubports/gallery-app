@@ -24,8 +24,8 @@
 #include <QDate>
 #include <QDateTime>
 
-#include "core/container-source.h"
-#include "media/media-source.h"
+#include "container-source.h"
+#include "media-source.h"
 
 /*!
  * \brief The Event class

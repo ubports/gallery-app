@@ -19,10 +19,9 @@
 
 #include "album-page.h"
 #include "album.h"
-#include "media/media-collection.h"
-#include "util/collections.h"
-#include "util/resource.h"
-#include "gallery-manager.h"
+#include "media-collection.h"
+#include "collections.h"
+#include "resource.h"
 
 /*!
  * \brief AlbumPage::AlbumPage

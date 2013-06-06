@@ -20,7 +20,7 @@
 
 #include <QDir>
 
-#include "media/preview-manager.h"
+#include "preview-manager.h"
 
 const int PreviewManager::PREVIEW_WIDTH_MAX = 360;
 const int PreviewManager::PREVIEW_HEIGHT_MAX = 360;
