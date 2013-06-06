@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-05-23 06:59+0000\n"
-"PO-Revision-Date: 2013-06-04 17:14+0000\n"
-"Last-Translator: Anthony Wong <anthony.wong@canonical.com>\n"
+"PO-Revision-Date: 2013-06-05 19:26+0000\n"
+"Last-Translator: Luo Lei <luolei@ubuntukylin.com>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-05 06:35+0000\n"
-"X-Generator: Launchpad (build 16660)\n"
+"X-Launchpad-Export-Date: 2013-06-06 06:29+0000\n"
+"X-Generator: Launchpad (build 16667)\n"
 
 #: rc/qml/Utility/SelectionToolbarAction.qml:42
 #: rc/qml/Utility/EditingHUD.qml:77 rc/qml/AlbumViewer.qml:466
@@ -55,43 +55,43 @@ msgstr "相机"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr ""
+msgstr "废弃;删除"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
-msgstr ""
+msgstr "发布;上传;附件"
 
 #: rc/qml/Utility/EditingHUD.qml:78 rc/qml/Widgets/PopupAlbumPicker.qml:113
 msgid "Add Photo to Album"
-msgstr ""
+msgstr "添加照片到相册"
 
 #: rc/qml/Utility/EditingHUD.qml:82 rc/qml/Widgets/EditPopover.qml:63
 msgid "Undo"
-msgstr ""
+msgstr "撤消"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr ""
+msgstr "取消操作;回退"
 
 #: rc/qml/Utility/EditingHUD.qml:87 rc/qml/Widgets/EditPopover.qml:72
 msgid "Redo"
-msgstr ""
+msgstr "恢复"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr ""
+msgstr "恢复操作;重做"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr ""
+msgstr "自动优化"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr ""
+msgstr "自动调整图片"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr ""
+msgstr "自动调整照片"
 
 #: rc/qml/Utility/EditingHUD.qml:99 rc/qml/Widgets/EditPopover.qml:39
 msgid "Rotate"
@@ -103,24 +103,24 @@ msgstr "顺时针旋转"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr "顺时针旋转图像"
+msgstr "顺时针旋转图片"
 
 #: rc/qml/Utility/EditingHUD.qml:106 rc/qml/Utility/CropOverlay.qml:355
 #: rc/qml/Widgets/EditPopover.qml:47
 msgid "Crop"
-msgstr ""
+msgstr "裁剪"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr ""
+msgstr "修剪;切割"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr ""
+msgstr "裁剪图片"
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr ""
+msgstr "恢复至原图"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
@@ -128,19 +128,19 @@ msgstr "放弃修改"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr ""
+msgstr "放弃所有修改"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr ""
+msgstr "曝光量"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr ""
+msgstr "调整曝光量"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr ""
+msgstr "曝光不足;曝光过度"
 
 #: rc/qml/Utility/EditingHUD.qml:123 rc/qml/Utility/EditingHUD.qml:165
 msgid "Confirm"
@@ -148,116 +148,116 @@ msgstr "确认"
 
 #: rc/qml/Utility/EditingHUD.qml:127
 msgid "Compensation"
-msgstr ""
+msgstr "曝光补偿"
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Color Balance"
-msgstr ""
+msgstr "色彩平衡"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Adjust color balance"
-msgstr ""
+msgstr "色彩平衡调整"
 
 #: rc/qml/Utility/EditingHUD.qml:163
 msgid "Saturation;Hue"
-msgstr ""
+msgstr "饱和度;色相"
 
 #: rc/qml/Utility/EditingHUD.qml:169
 msgid "Brightness"
-msgstr ""
+msgstr "亮度"
 
 #: rc/qml/Utility/EditingHUD.qml:181
 msgid "Contrast"
-msgstr ""
+msgstr "对比度"
 
 #: rc/qml/Utility/EditingHUD.qml:193
 msgid "Saturation"
-msgstr ""
+msgstr "饱和度"
 
 #: rc/qml/Utility/EditingHUD.qml:205
 msgid "Hue"
-msgstr ""
+msgstr "色相"
 
 #: rc/qml/Utility/AlbumCoverList.qml:113
 msgid "Default"
-msgstr ""
+msgstr "默认"
 
 #: rc/qml/Utility/AlbumCoverList.qml:114
 msgid "Blue"
-msgstr ""
+msgstr "蓝色"
 
 #: rc/qml/Utility/AlbumCoverList.qml:115
 msgid "Green"
-msgstr ""
+msgstr "绿色"
 
 #: rc/qml/Utility/AlbumCoverList.qml:116
 msgid "Pattern"
-msgstr ""
+msgstr "图案"
 
 #: rc/qml/Utility/AlbumCoverList.qml:117
 msgid "Red"
-msgstr ""
+msgstr "红色"
 
 #: rc/qml/AlbumViewer.qml:488 rc/qml/GalleryPhotoViewer.qml:229
 msgid "Back"
-msgstr ""
+msgstr "返回"
 
 #: rc/qml/PhotosOverview.qml:148
 msgid "Delete photos"
-msgstr ""
+msgstr "删除照片"
 
 #: rc/qml/PhotosOverview.qml:149 rc/qml/GalleryPhotoViewer.qml:264
 msgid "Delete a photo"
-msgstr ""
+msgstr "删除一张照片"
 
 #: rc/qml/MainScreen.qml:56
 msgid "Albums"
-msgstr ""
+msgstr "相册"
 
 #: rc/qml/MainScreen.qml:72 rc/qml/MainScreen.qml:94
 msgid "Events"
-msgstr ""
+msgstr "事件"
 
 #: rc/qml/MainScreen.qml:104 rc/qml/MainScreen.qml:126
 msgid "Photos"
-msgstr ""
+msgstr "照片"
 
 #: rc/qml/GalleryPhotoViewer.qml:199
 msgid "Edit"
-msgstr ""
+msgstr "编辑"
 
 #: rc/qml/GalleryPhotoViewer.qml:275 rc/qml/Widgets/DeleteDialog.qml:36
 msgid "Yes"
-msgstr ""
+msgstr "是"
 
 #: rc/qml/GalleryPhotoViewer.qml:286 rc/qml/Widgets/DeleteDialog.qml:45
 msgid "No"
-msgstr ""
+msgstr "否"
 
 #: rc/qml/MediaSelector.qml:56 rc/qml/MediaSelector.qml:82
 msgid "Add to Album"
-msgstr ""
+msgstr "添加到相册"
 
 #: rc/qml/LoadingScreen.qml:36
 msgid "Loading…"
-msgstr ""
+msgstr "正在载入..."
 
 #: rc/qml/Widgets/AlbumEditMenu.qml:45
 msgid "Edit album"
-msgstr ""
+msgstr "编辑相册"
 
 #: rc/qml/Widgets/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr ""
+msgstr "删除相册"
 
 #: rc/qml/Widgets/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr ""
+msgstr "删除相册与内容"
 
 #: rc/qml/Widgets/EditPopover.qml:55
 msgid "Auto enhance"
-msgstr ""
+msgstr "自动美化"
 
 #: rc/qml/Widgets/EditPopover.qml:81
 msgid "Revert to original"
-msgstr ""
+msgstr "恢复至原状态"
