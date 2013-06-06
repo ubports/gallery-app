@@ -1,266 +1,263 @@
-# Ubuntu gallery app translation.
-# Copyright 2013 Canonical Ltd.
+# French translation for gallery-app
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
 # This file is distributed under the same license as the gallery-app package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gallery-app VERSION\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: gallery-app\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-05-23 06:59+0000\n"
-"PO-Revision-Date: 2013-06-04 12:02+0000\n"
-"Last-Translator: Günter Schwann <Unknown>\n"
-"Language-Team: German\n"
+"PO-Revision-Date: 2013-06-04 20:34+0000\n"
+"Last-Translator: Sarhan Aissi <sarhanaissi@gmail.com>\n"
+"Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2013-06-05 06:35+0000\n"
 "X-Generator: Launchpad (build 16660)\n"
-"Language: de\n"
 
 #: rc/qml/Utility/SelectionToolbarAction.qml:42
 #: rc/qml/Utility/EditingHUD.qml:77 rc/qml/AlbumViewer.qml:466
 #: rc/qml/GalleryPhotoViewer.qml:206 rc/qml/AlbumsOverview.qml:177
 msgid "Add"
-msgstr "Hinzufügen"
+msgstr "Ajouter"
 
 #: rc/qml/Utility/SelectionToolbarAction.qml:48
 #: rc/qml/Utility/EditingHUD.qml:67 rc/qml/AlbumViewer.qml:473
 #: rc/qml/GalleryPhotoViewer.qml:214 rc/qml/Widgets/AlbumEditMenu.qml:59
 msgid "Delete"
-msgstr "Löschen"
+msgstr "Supprimer"
 
 #: rc/qml/Utility/SelectionToolbarAction.qml:54
 #: rc/qml/Utility/EditingHUD.qml:72 rc/qml/AlbumViewer.qml:483
 #: rc/qml/GalleryPhotoViewer.qml:221 rc/qml/Widgets/AlbumEditMenu.qml:52
 msgid "Share"
-msgstr "Freigeben"
+msgstr "Partager"
 
 #: rc/qml/Utility/SelectionToolbarAction.qml:61 rc/qml/MediaSelector.qml:94
 #: rc/qml/AlbumEditor.qml:40
 msgid "Cancel"
-msgstr "Abbrechen"
+msgstr "Annuler"
 
 #: rc/qml/Utility/PhotosToolbarActions.qml:32 rc/qml/MainScreen.qml:92
 #: rc/qml/MainScreen.qml:124
 msgid "Select"
-msgstr "Auswählen"
+msgstr "Sélectionner"
 
 #: rc/qml/Utility/PhotosToolbarActions.qml:38
 msgid "Import"
-msgstr "Importieren"
+msgstr "Importer"
 
 #: rc/qml/Utility/PhotosToolbarActions.qml:43 rc/qml/AlbumsOverview.qml:185
 msgid "Camera"
-msgstr "Kamera"
+msgstr "Appareil photo"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr ""
-"Müll;Mülleimer;Papierkorb;Abfall;Löschen;Entfernen;Leeren;Wegwerfen;Säubern"
+msgstr "Corbeille,Supprimer"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
 msgstr ""
-"Posten;Schreiben;Veröffentlichen;Upload;Hochladen;Anhang;Anhängen;Anlage;Anhe"
-"ften;Beilegen;Beifügen;Senden;Schicken;Versenden"
 
 #: rc/qml/Utility/EditingHUD.qml:78 rc/qml/Widgets/PopupAlbumPicker.qml:113
 msgid "Add Photo to Album"
-msgstr "Foto zu Album hinzufügen"
+msgstr "Ajouter une photo à l'album"
 
 #: rc/qml/Utility/EditingHUD.qml:82 rc/qml/Widgets/EditPopover.qml:63
 msgid "Undo"
-msgstr "Rückgängig"
+msgstr "Annuler"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr "Aktion abbrechen;Rückgängig"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:87 rc/qml/Widgets/EditPopover.qml:72
 msgid "Redo"
-msgstr "Wiederherstellen"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr "Erneut anwenden;Wiederholen"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr "Automatisch verbessern"
+msgstr "Amélioration automatique"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr "Das Bild automatisch optimieren"
+msgstr "Ajuster l'image automatiquement"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr "Das Foto automatisch ausrichten"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:99 rc/qml/Widgets/EditPopover.qml:39
 msgid "Rotate"
-msgstr "Drehen"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr "Im Uhrzeigersinn drehen"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr "Bild im Uhrzeigersinn drehen"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:106 rc/qml/Utility/CropOverlay.qml:355
 #: rc/qml/Widgets/EditPopover.qml:47
 msgid "Crop"
-msgstr "Ausschneiden"
+msgstr "Rogner"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr "Zuschneiden"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr "Bild zuschneiden"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr "Original wiederherstellen"
+msgstr "Revenir à l'original"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr "Änderungen verwerfen"
+msgstr "Abandonner les modifications"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr "Alle Änderungen verwerfen"
+msgstr "Abandonner toutes les modifications"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr "Belichtung"
+msgstr "Exposition"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr "Die Belichtung anpassen"
+msgstr "Ajuster l'exposition"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr "Unterbelichtet;Überbelichtet"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:123 rc/qml/Utility/EditingHUD.qml:165
 msgid "Confirm"
-msgstr "Bestätigen"
+msgstr "Confirmer"
 
 #: rc/qml/Utility/EditingHUD.qml:127
 msgid "Compensation"
-msgstr "Farbabgleich"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Color Balance"
-msgstr "Farbabgleich"
+msgstr "Balance des couleurs"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Adjust color balance"
-msgstr "Farbabgleich anpassen"
+msgstr "Ajuster la balance des couleurs"
 
 #: rc/qml/Utility/EditingHUD.qml:163
 msgid "Saturation;Hue"
-msgstr "Sättigung;Farbton"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:169
 msgid "Brightness"
-msgstr "Helligkeit"
+msgstr "Luminosité"
 
 #: rc/qml/Utility/EditingHUD.qml:181
 msgid "Contrast"
-msgstr "Kontrast"
+msgstr "Contraste"
 
 #: rc/qml/Utility/EditingHUD.qml:193
 msgid "Saturation"
-msgstr "Sättigung"
+msgstr "Saturation"
 
 #: rc/qml/Utility/EditingHUD.qml:205
 msgid "Hue"
-msgstr "Farbton"
+msgstr ""
 
 #: rc/qml/Utility/AlbumCoverList.qml:113
 msgid "Default"
-msgstr "Standard"
+msgstr "Par défaut"
 
 #: rc/qml/Utility/AlbumCoverList.qml:114
 msgid "Blue"
-msgstr "Blau"
+msgstr "Bleu"
 
 #: rc/qml/Utility/AlbumCoverList.qml:115
 msgid "Green"
-msgstr "Grün"
+msgstr "Vert"
 
 #: rc/qml/Utility/AlbumCoverList.qml:116
 msgid "Pattern"
-msgstr "Muster"
+msgstr ""
 
 #: rc/qml/Utility/AlbumCoverList.qml:117
 msgid "Red"
-msgstr "Rot"
+msgstr "Rouge"
 
 #: rc/qml/AlbumViewer.qml:488 rc/qml/GalleryPhotoViewer.qml:229
 msgid "Back"
-msgstr "Zurück"
+msgstr ""
 
 #: rc/qml/PhotosOverview.qml:148
 msgid "Delete photos"
-msgstr "Fotos löschen"
+msgstr ""
 
 #: rc/qml/PhotosOverview.qml:149 rc/qml/GalleryPhotoViewer.qml:264
 msgid "Delete a photo"
-msgstr "Ein Foto löschen"
+msgstr "Supprimer une photo"
 
 #: rc/qml/MainScreen.qml:56
 msgid "Albums"
-msgstr "Alben"
+msgstr "Albums"
 
 #: rc/qml/MainScreen.qml:72 rc/qml/MainScreen.qml:94
 msgid "Events"
-msgstr "Ereignisse"
+msgstr "Événements"
 
 #: rc/qml/MainScreen.qml:104 rc/qml/MainScreen.qml:126
 msgid "Photos"
-msgstr "Fotos"
+msgstr "Photos"
 
 #: rc/qml/GalleryPhotoViewer.qml:199
 msgid "Edit"
-msgstr "Bearbeiten"
+msgstr ""
 
 #: rc/qml/GalleryPhotoViewer.qml:275 rc/qml/Widgets/DeleteDialog.qml:36
 msgid "Yes"
-msgstr "Ja"
+msgstr "Oui"
 
 #: rc/qml/GalleryPhotoViewer.qml:286 rc/qml/Widgets/DeleteDialog.qml:45
 msgid "No"
-msgstr "Nein"
+msgstr "Non"
 
 #: rc/qml/MediaSelector.qml:56 rc/qml/MediaSelector.qml:82
 msgid "Add to Album"
-msgstr "Zum Album hinzufügen"
+msgstr "Ajouter à l'album"
 
 #: rc/qml/LoadingScreen.qml:36
 msgid "Loading…"
-msgstr "Laden…"
+msgstr ""
 
 #: rc/qml/Widgets/AlbumEditMenu.qml:45
 msgid "Edit album"
-msgstr "Album bearbeiten"
+msgstr ""
 
 #: rc/qml/Widgets/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr "Album löschen"
+msgstr ""
 
 #: rc/qml/Widgets/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr "Album + Inhalte löschen"
+msgstr ""
 
 #: rc/qml/Widgets/EditPopover.qml:55
 msgid "Auto enhance"
-msgstr "Automatisch verbessern"
+msgstr ""
 
 #: rc/qml/Widgets/EditPopover.qml:81
 msgid "Revert to original"
-msgstr "Original wiederherstellen"
+msgstr ""

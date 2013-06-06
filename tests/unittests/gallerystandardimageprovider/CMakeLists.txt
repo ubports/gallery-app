@@ -6,10 +6,15 @@ endif()
 
 include_directories(
     ${CMAKE_BINARY_DIR}
+    ${gallery_src_SOURCE_DIR}
     ${gallery_media_src_SOURCE_DIR}
     ${gallery_photo_src_SOURCE_DIR}
     ${gallery_qml_src_SOURCE_DIR}
     ${GSTLIB_INCLUDE_DIRS}
+    )
+
+QT_WRAP_CPP(gallerystandardimageprovider GALLERYSTANDARDIMAGEPROVIDIER_MOCS
+    ${gallery_src_SOURCE_DIR}/media/preview-manager.h
     )
 
 add_executable(gallerystandardimageprovider
@@ -17,6 +22,7 @@ add_executable(gallerystandardimageprovider
     preview-manager.cpp
     photometa-data.cpp
     ${gallery_src_SOURCE_DIR}/qml/gallery-standard-image-provider.cpp
+    ${GALLERYSTANDARDIMAGEPROVIDIER_MOCS}
     )
 
 qt5_use_modules(gallerystandardimageprovider Quick Test)
@@ -27,6 +33,6 @@ set_tests_properties(gallerystandardimageprovider PROPERTIES
     TIMEOUT ${CTEST_TESTING_TIMEOUT}
     ENVIRONMENT "QT_QPA_PLATFORM=minimal"
     )
-target_link_libraries(gallerystandardimageprovider 
+target_link_libraries(gallerystandardimageprovider
     ${GSTLIB_LDFLAGS}
     )

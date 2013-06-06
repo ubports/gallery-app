@@ -19,11 +19,14 @@
  */
 
 #include <QtTest/QtTest>
+#include <QDir>
 #include <QFileInfo>
 #include <QUrl>
 
 #include "gallery-standard-image-provider.h"
 #include "preview-manager.h"
+#include "media-collection.h"
+#include "gallery-manager.h"
 
 class tst_GalleryStandardImageProvider : public QObject
 {
@@ -33,8 +36,8 @@ public:
 
 private slots:
     void ToURL();
-    void Fullsize();
-    void Thumbnail();
+    void idToFile_data();
+    void idToFile();
 
 private:
     GalleryStandardImageProvider gallery_standard_image_provider;
@@ -54,18 +57,27 @@ void tst_GalleryStandardImageProvider::ToURL()
     QCOMPARE(url, expect);
 }
 
-void tst_GalleryStandardImageProvider::Fullsize()
+void tst_GalleryStandardImageProvider::idToFile_data()
 {
-    QString id = "/home/user/Pictures/logo.jpg?size_level=0&orientation=1";
-    QString fileName = "/home/user/Pictures/logo.jpg";
-    QCOMPARE(GalleryStandardImageProvider::CachedImage::idToFile(id), fileName);
+    QTest::addColumn<QString>("id");
+    QTest::addColumn<QString>("fileName");
+
+    QTest::newRow("FullSize") << "/home/user/Pictures/logo.jpg?size_level=0&orientation=1" <<
+                                 "/home/user/Pictures/logo.jpg";
+    QTest::newRow("Thumbnail") << "/home/user/Pictures/logo.jpg?size_level=1&orientation=1" <<
+                                 "/home/user/Pictures/.thumbs/logo_th.JPG";
 }
 
-void tst_GalleryStandardImageProvider::Thumbnail()
+void tst_GalleryStandardImageProvider::idToFile()
 {
-    QString id = "/home/user/Pictures/logo.jpg?size_level=1&orientation=1";
-    QString fileName = "/home/user/Pictures/.thumbs/logo_th.JPG";
-    QCOMPARE(GalleryStandardImageProvider::CachedImage::idToFile(id), fileName);
+    QFETCH(QString, id);
+    QFETCH(QString, fileName);
+
+    MediaCollection mediaCollection(QDir("/home/user/Pictures"));
+    PreviewManager previewManager("/home/user/thumbnails", &mediaCollection);
+    GalleryStandardImageProvider provider;
+    provider.setPreviewManager(&previewManager);
+    QCOMPARE(provider.idToFile(id), fileName);
 }
 
 QTEST_MAIN(tst_GalleryStandardImageProvider);

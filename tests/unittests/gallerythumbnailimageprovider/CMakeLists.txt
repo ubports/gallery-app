@@ -11,10 +11,15 @@ include_directories(
     ${GSTLIB_INCLUDE_DIRS}
     )
 
+QT_WRAP_CPP(gallerythumbnailimageprovider GALLERYTHUMBNAILIMAGEPROVIDIER_MOCS
+    ${gallery_src_SOURCE_DIR}/media/preview-manager.h
+    )
+
 add_executable(gallerythumbnailimageprovider
     tst_gallerythumbnailimageprovider.cpp
     preview-manager.cpp
     ${gallery_src_SOURCE_DIR}/qml/gallery-thumbnail-image-provider.cpp
+    ${GALLERYTHUMBNAILIMAGEPROVIDIER_MOCS}
     )
 
 qt5_use_modules(gallerythumbnailimageprovider Quick Test)

@@ -69,10 +69,9 @@ QImage GalleryThumbnailImageProvider::requestImage(const QString &id, QSize *siz
 
     QUrl url(id);
     QFileInfo photoFile(url.path());
-    m_previewManager->ensure_preview_for_media(photoFile);
+    m_previewManager->ensurePreview(photoFile);
 
-    QFileInfo thumbnailFile = m_previewManager->ThumbnailFileFor(photoFile);
-    QString fileName = thumbnailFile.absoluteFilePath();
+    QString fileName = m_previewManager->thumbnailFileName(photoFile);
 
     QImage thumbnail;
     thumbnail.load(fileName);

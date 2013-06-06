@@ -65,8 +65,8 @@ void MediaMonitor::on_file_activity_ceased()
 
     QStringList difference = subtract_manifest(new_manifest, manifest_);
     for (int i = 0; i < difference.size(); i++)
-        notify_media_item_added(target_directory_.absolutePath() + "/" +
-                                difference.at(i));
+        notify_media_item_added(target_directory_.absolutePath() +
+                                QDir::separator() + difference.at(i));
 
     manifest_ = new_manifest;
 }

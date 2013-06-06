@@ -17,51 +17,51 @@
  * Jim Nelson <jim@yorba.org>
  */
 
+#include <QCryptographicHash>
 #include <QDir>
 #include <QMutexLocker>
 
 #include "preview-manager.h"
 #include "media-collection.h"
 #include "photo.h"
-#include "gallery-manager.h"
 
-const int PreviewManager::PREVIEW_WIDTH_MAX = 360;
-const int PreviewManager::PREVIEW_HEIGHT_MAX = 360;
 // FIXME adapt to different sizes. This is fixed size for the demo device
-const int PreviewManager::THUMBNAIL_SIZE = 216;
+const int PreviewManager::PREVIEW_SIZE = 360; // in pixel
+const int PreviewManager::THUMBNAIL_SIZE = 216; // in pixel
 const int PreviewManager::PREVIEW_QUALITY = 70;
 const char* PreviewManager::PREVIEW_FILE_FORMAT = "JPEG";
-const char* PreviewManager::PREVIEW_FILE_EXT = "JPG";
-const QString PreviewManager::PREVIEW_DIR = ".thumbs";
+const char* PreviewManager::PREVIEW_FILE_EXT = ".jpg";
+const QString PreviewManager::PREVIEW_DIR = "preview";
+const QString PreviewManager::THUMBNAIL_DIR = "square";
 
-QMutex PreviewManager::createMutex_;
+QMutex PreviewManager::m_createMutex;
 
 /*!
  * \brief PreviewManager::PreviewManager
  */
-PreviewManager::PreviewManager()
+PreviewManager::PreviewManager(const QString &thumbnailDirectory,
+                               MediaCollection *mediaCollection, QObject *parent)
+    : QObject(parent),
+      m_thumbnailDir(thumbnailDirectory),
+      m_mediaCollection(mediaCollection)
 {
-    // Monitor MediaCollection for all new MediaSources
-    QObject::connect(GalleryManager::instance()->media_collection(),
-                     SIGNAL(contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
-                     this,
-                     SLOT(on_media_added_removed(const QSet<DataObject*>*,const QSet<DataObject*>*)));
+    Q_ASSERT(m_mediaCollection);
 
-    QObject::connect(GalleryManager::instance()->media_collection(),
-                     SIGNAL(destroying(const QSet<DataObject*>*)),
-                     this,
-                     SLOT(on_media_destroying(const QSet<DataObject*>*)));
+    if (m_thumbnailDir.right(1) != QDir::separator())
+        m_thumbnailDir += QDir::separator();
 
-    // Verify previews for all existing added MediaSources
-    on_media_added_removed(&GalleryManager::instance()->media_collection()->GetAsSet(), NULL);
+    // create the thumbnail directory if not already present
+    QDir dir;
+    dir.mkpath(m_thumbnailDir + PREVIEW_DIR);
+    dir.mkpath(m_thumbnailDir + THUMBNAIL_DIR);
 }
 
 /*!
- * \brief PreviewManager::on_media_added_removed
+ * \brief PreviewManager::onMediaAddedRemoved
  * \param added
  * \param removed
  */
-void PreviewManager::on_media_added_removed(const QSet<DataObject*>* added,
+void PreviewManager::onMediaAddedRemoved(const QSet<DataObject*>* added,
                                             const QSet<DataObject*>* removed)
 {
     if (added != NULL) {
@@ -70,7 +70,7 @@ void PreviewManager::on_media_added_removed(const QSet<DataObject*>* added,
             MediaSource* source = qobject_cast<MediaSource*>(object);
 
             QObject::connect(source, SIGNAL(data_altered()),
-                             this, SLOT(on_media_data_altered()), Qt::UniqueConnection);
+                             this, SLOT(updatePreview()), Qt::UniqueConnection);
         }
     }
 
@@ -79,76 +79,73 @@ void PreviewManager::on_media_added_removed(const QSet<DataObject*>* added,
         foreach (object, *removed) {
             MediaSource* source = qobject_cast<MediaSource*>(object);
             QObject::disconnect(source, SIGNAL(data_altered()),
-                                this, SLOT(on_media_data_altered()));
+                                this, SLOT(updatePreview()));
         }
     }
 }
 
 /*!
- * \brief PreviewManager::on_media_destroying
+ * \brief PreviewManager::onMediaDestroying
  * \param destroying
  */
-void PreviewManager::on_media_destroying(const QSet<DataObject*>* destroying)
+void PreviewManager::onMediaDestroying(const QSet<DataObject*>* destroying)
 {
     if (destroying != NULL) {
         DataObject* object;
         foreach (object, *destroying)
-            DestroyPreview(qobject_cast<MediaSource*>(object));
+            destroyPreviews(qobject_cast<MediaSource*>(object));
     }
 }
 
 /*!
- * \brief PreviewManager::on_media_data_altered
+ * \brief PreviewManager::updatePreview
  */
-void PreviewManager::on_media_data_altered()
+void PreviewManager::updatePreview()
 {
     QObject* object = QObject::sender();
     MediaSource* source = qobject_cast<MediaSource*>(object);
 
-    ensure_preview_for_media(source->file(), true);
+    ensurePreview(source->file(), true);
 }
 
 /*!
- * \brief PreviewManager::PreviewFileFor
+ * \brief PreviewManager::previewFileName
  * \param file
  * \return
  */
-QFileInfo PreviewManager::PreviewFileFor(const QFileInfo& file)
+QString PreviewManager::previewFileName(const QFileInfo& file) const
 {
-    return QFileInfo(file.dir(), PREVIEW_DIR + "/" + file.completeBaseName() + "_th." + PREVIEW_FILE_EXT);
+    return thumbnailFileName(file.canonicalFilePath(), PREVIEW_DIR);
 }
 
 /*!
- * \brief PreviewManager::ThumbnailFileFor
+ * \brief PreviewManager::thumbnailFileName
  * \param file
  * \return
  */
-QFileInfo PreviewManager::ThumbnailFileFor(const QFileInfo& file)
+QString PreviewManager::thumbnailFileName(const QFileInfo& file) const
 {
-    return QFileInfo(file.dir(), PREVIEW_DIR + "/" + file.completeBaseName() + "_th_s." + PREVIEW_FILE_EXT);
+    return thumbnailFileName(file.canonicalFilePath(), THUMBNAIL_DIR);
 }
 
 /*!
- * \brief PreviewManager::ensure_preview_for_media
+ * \brief PreviewManager::ensurePreview
  * \param file
  * \param regen
  * \return
  */
-bool PreviewManager::ensure_preview_for_media(QFileInfo file, bool regen)
+bool PreviewManager::ensurePreview(QFileInfo file, bool regen)
 {
-    QMutexLocker locker(&createMutex_);
-
-    // create the thumbnail directory if not already present
-    file.dir().mkdir(PREVIEW_DIR);
+    QMutexLocker locker(&m_createMutex);
 
     // If preview file exists, considered valid (unless we're regenerating it).
-    QFileInfo preview = PreviewFileFor(file);
-    QFileInfo thumbnail = ThumbnailFileFor(file);
+    QString preview = previewFileName(file);
+    QString thumbnail = thumbnailFileName(file);
 
     QImage thumbMaster;
-    if (!preview.exists() || regen) {
-        Photo* photo = GalleryManager::instance()->media_collection()->photoFromFileinfo(file);
-        QSize previewSize(PREVIEW_WIDTH_MAX, PREVIEW_WIDTH_MAX);
+    if (updateNeeded(file, QFileInfo(preview)) || regen) {
+        Photo* photo = m_mediaCollection->photoFromFileinfo(file);
+        QSize previewSize(PREVIEW_SIZE, PREVIEW_SIZE);
         QImage fullsized(photo->Image(true, previewSize));
         if (fullsized.isNull()) {
             qDebug() << "Unable to generate fullsized image for " << file.filePath() << "not generating preview";
@@ -159,34 +156,34 @@ bool PreviewManager::ensure_preview_for_media(QFileInfo file, bool regen)
         // these values are replicated in the QML so that the preview will fill each
         // grid cell, cropping down to the center of the image if necessary
         QImage scaled = (fullsized.height() > fullsized.width())
-                ? fullsized.scaledToWidth(PREVIEW_WIDTH_MAX, Qt::SmoothTransformation)
-                : fullsized.scaledToHeight(PREVIEW_HEIGHT_MAX, Qt::SmoothTransformation);
+                ? fullsized.scaledToWidth(PREVIEW_SIZE, Qt::SmoothTransformation)
+                : fullsized.scaledToHeight(PREVIEW_SIZE, Qt::SmoothTransformation);
 
         if (scaled.isNull()) {
             qDebug() << "Unable to scale " << file.filePath() << "for preview";
             return false;
         }
 
-        if (!scaled.save(preview.filePath(), PREVIEW_FILE_FORMAT, PREVIEW_QUALITY)) {
-            qDebug("Unable to save preview %s", qPrintable(preview.filePath()));
+        if (!saveThumbnail(scaled, preview)) {
+            qDebug("Unable to save preview %s", qPrintable(preview));
             return false;
         }
         thumbMaster = scaled;
     }
 
-    if (!thumbnail.exists() || regen) {
+    if (updateNeeded(file, QFileInfo(thumbnail)) || regen) {
         if (thumbMaster.isNull()) {
-            thumbMaster.load(preview.filePath());
+            thumbMaster.load(preview);
             if (thumbMaster.isNull()) {
                 qDebug("Unable load preview image for %s, not generating thumbnail",
-                       qPrintable(preview.filePath()));
+                       qPrintable(preview));
                 return false;
             }
         }
 
-        QImage square = generate_Thumbnail(thumbMaster);
-        if (!square.save(thumbnail.filePath(), PREVIEW_FILE_FORMAT, PREVIEW_QUALITY)) {
-            qDebug("Unable to save preview %s", qPrintable(thumbnail.filePath()));
+        QImage square = generateThumbnail(thumbMaster);
+        if (!saveThumbnail(square, thumbnail)) {
+            qDebug("Unable to save preview %s", qPrintable(thumbnail));
             return false;
         }
     }
@@ -195,25 +192,44 @@ bool PreviewManager::ensure_preview_for_media(QFileInfo file, bool regen)
 }
 
 /*!
- * \brief PreviewManager::DestroyPreview
+ * \brief PreviewManager::saveThumbnail saves the thumbnail in a safe way
+ * The image is written to a temporary file, and then moved (the move is atomic)
+ * \param image thumbnail to save
+ * \param fileName filename of the thumbnail
+ * \return true, if saving the file was successful
+ */
+bool PreviewManager::saveThumbnail(const QImage &image, const QString &fileName) const
+{
+    QString temporaryName(fileName+".tmp");
+    bool ok;
+    ok = image.save(temporaryName, PREVIEW_FILE_FORMAT, PREVIEW_QUALITY);
+    if (!ok)
+        return false;
+
+    QFile thumbnail(temporaryName);
+    return thumbnail.rename(fileName);
+}
+
+/*!
+ * \brief PreviewManager::destroyPreviews
  * \param media
  */
-void PreviewManager::DestroyPreview(MediaSource* media)
+void PreviewManager::destroyPreviews(MediaSource* media)
 {
-    QString filename = PreviewFileFor(media->file()).filePath();
+    QString filename = previewFileName(media->file());
     if (!QFile::remove(filename))
         qDebug("Unable to remove preview %s", qPrintable(filename));
-    filename = ThumbnailFileFor(media->file()).filePath();
+    filename = thumbnailFileName(media->file());
     if (!QFile::remove(filename))
         qDebug("Unable to remove thumbnail %s", qPrintable(filename));
 }
 
 /*!
- * \brief PreviewManager::generate_Thumbnail
+ * \brief PreviewManager::generateThumbnail
  * \param master
  * \return
  */
-QImage PreviewManager::generate_Thumbnail(const QImage &master) const
+QImage PreviewManager::generateThumbnail(const QImage &master) const
 {
     int xOffset = 0;
     int yOffset = 0;
@@ -229,4 +245,34 @@ QImage PreviewManager::generate_Thumbnail(const QImage &master) const
 
     QImage thumbnail = square.scaled(THUMBNAIL_SIZE, THUMBNAIL_SIZE);
     return thumbnail;
+}
+
+/*!
+ * \brief PreviewManager::thumbnailFileName generates the file name for a given
+ * file and it's level (size/type)
+ * \param fileName full filename URI (file:///directory/file.name.png)
+ * \param levelName correclates to the sub directory inside of the thumbnail directory
+ * \return full filePath of the thumbnail
+ */
+QString PreviewManager::thumbnailFileName(const QString &fileName,
+                                          const QString &levelName) const
+{
+    QCryptographicHash md5(QCryptographicHash::Md5);
+    md5.addData(QUrl::fromLocalFile(fileName).toEncoded());
+    QString previewDir = m_thumbnailDir + levelName + QDir::separator();
+    return QString(previewDir + md5.result().toHex() + PREVIEW_FILE_EXT);
+}
+
+/*!
+ * \brief PreviewManager::updateNeeded checks if the thumbnail needs to be (re-)created
+ * \param mediaFile the original photo/video
+ * \param previewFile the preview file
+ * \return true if the thumbnail needs to be created
+ */
+bool PreviewManager::updateNeeded(const QFileInfo &mediaFile, const QFileInfo &previewFile) const
+{
+    if (!previewFile.exists())
+        return true;
+
+    return mediaFile.lastModified() > previewFile.lastModified();
 }

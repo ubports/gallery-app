@@ -30,6 +30,7 @@ class tst_Resource : public QObject
 private slots:
     void picturesDirectory();
     void databaseDirectory();
+    void thumbnailDirectory();
     void maxTextureSize();
 };
 
@@ -46,13 +47,27 @@ void tst_Resource::picturesDirectory()
 void tst_Resource::databaseDirectory()
 {
     Resource resource("", 0);
-    QString dbDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/" + Resource::DATABASE_DIR;
+    QString dbDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
+            QDir::separator() + Resource::DATABASE_DIR;
     QCOMPARE(resource.databaseDirectory(), dbDir);
 
     QString picDir("/some/where/else");
     Resource resource2(picDir, 0);
     dbDir = picDir + "/." + Resource::DATABASE_DIR;
     QCOMPARE(resource2.databaseDirectory(), dbDir);
+}
+
+void tst_Resource::thumbnailDirectory()
+{
+    Resource resource("", 0);
+    QString dbDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) +
+            QDir::separator() + Resource::THUMBNAIL_DIR;
+    QCOMPARE(resource.thumbnailDirectory(), dbDir);
+
+    QString picDir("/some/where/else");
+    Resource resource2(picDir, 0);
+    dbDir = picDir + "/." + Resource::THUMBNAIL_DIR;
+    QCOMPARE(resource2.thumbnailDirectory(), dbDir);
 }
 
 void tst_Resource::maxTextureSize()
