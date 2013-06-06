@@ -31,7 +31,7 @@
 #include <QString>
 #include <QUrl>
 
-#include "photo-metadata.h"
+#include "orientation.h"
 
 class PreviewManager;
 

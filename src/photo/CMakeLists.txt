@@ -18,14 +18,12 @@ set(gallery_photo_HDRS
     photo.h
     photo-caches.h
     photo-edit-state.h
-    photo-metadata.h
     )
 
 set(gallery_photo_SRCS
     photo.cpp
     photo-caches.cpp
     photo-edit-state.cpp
-    photo-metadata.cpp
     )
 
 add_library(${GALLERY_PHOTO_LIB}

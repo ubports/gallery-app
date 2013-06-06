@@ -66,7 +66,7 @@ public:
     int Count() const;
 
     void Add(DataObject* object);
-    void AddMany(const QSet<DataObject*>& objects);
+    virtual void AddMany(const QSet<DataObject*>& objects);
 
     void Remove(DataObject* object);
     void RemoveAt(int index);

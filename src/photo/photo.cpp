@@ -31,6 +31,7 @@
 #include "database.h"
 #include "media-table.h"
 #include "photo-edit-table.h"
+#include "photo-metadata.h"
 #include "media-collection.h"
 #include "gallery-standard-image-provider.h"
 #include "gallery-thumbnail-image-provider.h"
@@ -257,9 +258,12 @@ Photo* Photo::Fetch(const QFileInfo& file)
 {
     GalleryManager* gallery_mgr = GalleryManager::instance();
 
-    Photo* p = gallery_mgr->media_collection()->photoFromFileinfo(file);
-    if (p == NULL) {
+    Photo* p = 0;
+    MediaSource* media = gallery_mgr->media_collection()->photoFromFileinfo(file);
+    if (media == NULL) {
         p = Load(file);
+    } else {
+        p = qobject_cast<Photo*>(media);
     }
 
     return p;
@@ -470,7 +474,7 @@ bool Photo::isOriginal() const
 void Photo::rotateRight()
 {
     Orientation new_orientation =
-            PhotoMetadata::rotate_orientation(orientation(), false);
+            OrientationCorrection::rotate_orientation(orientation(), false);
 
     QSize size = get_original_size(orientation());
 

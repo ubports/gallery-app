@@ -25,6 +25,7 @@
 #include <QDebug>
 
 #include "gallery-standard-image-provider.h"
+#include "photo-metadata.h"
 #include "preview-manager.h"
 
 const char* GalleryStandardImageProvider::PROVIDER_ID = "gallery-standard";

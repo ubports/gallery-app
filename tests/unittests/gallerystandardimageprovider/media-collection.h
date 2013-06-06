@@ -22,7 +22,7 @@
 class MediaCollection
 {
 public:
-    MediaCollection(const QDir& directory) {Q_UNUSED(directory);}
+    MediaCollection() {}
 };
 
 #endif

@@ -25,10 +25,13 @@
 #include "media-table.h"
 #include "event-collection.h"
 #include "media-collection.h"
+#include "photo.h"
 #include "preview-manager.h"
 #include "gallery-standard-image-provider.h"
 #include "gallery-thumbnail-image-provider.h"
 #include "resource.h"
+
+#include <exiv2/exiv2.hpp>
 
 GalleryManager* GalleryManager::gallery_mgr_ = NULL;
 
@@ -82,8 +85,8 @@ void GalleryManager::post_init()
                                  resource_->get_rc_url("sql").path());
         database_->get_media_table()->verify_files();
         default_template_ = new AlbumDefaultTemplate();
-        QDir mediaDir(resource_->picturesDirectory());
-        media_collection_ = new MediaCollection(mediaDir);
+        media_collection_ = new MediaCollection();
+        fillMediaCollection();
         album_collection_ = new AlbumCollection();
         event_collection_ = new EventCollection();
 
@@ -158,4 +161,30 @@ void GalleryManager::initPreviewManager()
 
     // Verify previews for all existing added MediaSources
     preview_manager_->onMediaAddedRemoved(&media_collection_->GetAsSet(), NULL);
+}
+
+/*!
+ * \brief GalleryManager::fillMediaCollection fills the MediaCollection with
+ * the content of the picture directory
+ */
+void GalleryManager::fillMediaCollection()
+{
+    Q_ASSERT(media_collection_);
+
+    QDir mediaDir(resource_->picturesDirectory());
+    mediaDir.setFilter(QDir::Files);
+    mediaDir.setSorting(QDir::Name);
+
+    QSet<DataObject*> photos;
+    QStringList filenames = mediaDir.entryList();
+    foreach (const QString& filename, filenames) {
+        QFileInfo file(mediaDir, filename);
+        Photo *p = Photo::Load(file);
+        if (!p)
+            continue;
+
+        photos.insert(p);
+    }
+
+    media_collection_->AddMany(photos);
 }

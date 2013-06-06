@@ -23,7 +23,7 @@
 #include <QRect>
 #include <QVector4D>
 
-#include "photo-metadata.h"
+#include "orientation.h"
 
 /*!
  * \brief The PhotoEditState class

@@ -23,7 +23,7 @@
 
 #include "preview-manager.h"
 #include "media-collection.h"
-#include "photo.h"
+#include "media-source.h"
 
 // FIXME adapt to different sizes. This is fixed size for the demo device
 const int PreviewManager::PREVIEW_SIZE = 360; // in pixel
@@ -144,7 +144,7 @@ bool PreviewManager::ensurePreview(QFileInfo file, bool regen)
 
     QImage thumbMaster;
     if (updateNeeded(file, QFileInfo(preview)) || regen) {
-        Photo* photo = m_mediaCollection->photoFromFileinfo(file);
+        MediaSource* photo = m_mediaCollection->photoFromFileinfo(file);
         QSize previewSize(PREVIEW_SIZE, PREVIEW_SIZE);
         QImage fullsized(photo->Image(true, previewSize));
         if (fullsized.isNull()) {
