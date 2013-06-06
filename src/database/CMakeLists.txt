@@ -4,6 +4,8 @@ set(GALLERY_DATABASE_LIB gallery-database)
 
 include_directories(
     ${gallery_src_SOURCE_DIR}
+    # because of circulate dependencies the sub project can't be used directly
+    # FIXME resolve the circulate dependencies
     ${gallery_src_SOURCE_DIR}/album
     ${gallery_core_src_SOURCE_DIR}
     ${gallery_src_SOURCE_DIR}/media
