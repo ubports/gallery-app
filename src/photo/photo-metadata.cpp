@@ -17,9 +17,9 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-#include <cstdio>
-
 #include "photo-metadata.h"
+
+#include <cstdio>
 
 namespace {
 const Orientation DEFAULT_ORIENTATION = TOP_LEFT_ORIGIN;

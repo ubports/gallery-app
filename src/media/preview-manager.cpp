@@ -17,13 +17,17 @@
  * Jim Nelson <jim@yorba.org>
  */
 
+#include "preview-manager.h"
+
+// media
+#include "media-collection.h"
+
+// photo
+#include "photo.h"
+
 #include <QCryptographicHash>
 #include <QDir>
 #include <QMutexLocker>
-
-#include "preview-manager.h"
-#include "media-collection.h"
-#include "photo/photo.h"
 
 // FIXME adapt to different sizes. This is fixed size for the demo device
 const int PreviewManager::PREVIEW_SIZE = 360; // in pixel

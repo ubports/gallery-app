@@ -20,11 +20,11 @@
 #ifndef GALLERY_EVENT_COLLECTION_H_
 #define GALLERY_EVENT_COLLECTION_H_
 
+#include "source-collection.h"
+
 #include <QDate>
 #include <QHash>
 #include <QSet>
-
-#include "core/source-collection.h"
 
 class DataObject;
 class Event;

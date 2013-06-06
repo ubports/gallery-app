@@ -20,7 +20,7 @@
 
 #include <QDir>
 
-#include "media/preview-manager.h"
+#include "preview-manager.h"
 
 const QString PreviewManager::PREVIEW_DIR = ".thumbs";
 const char* PreviewManager::PREVIEW_FILE_EXT = "JPG";

@@ -17,10 +17,12 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include <QString>
-
 #include "event.h"
-#include "media/media-collection.h"
+
+// media
+#include "media-collection.h"
+
+#include <QString>
 
 /*!
  * \brief Event::Event

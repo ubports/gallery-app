@@ -5,8 +5,8 @@ if(NOT CTEST_TESTING_TIMEOUT)
 endif()
 
 include_directories(
+    ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
-    ${gallery_src_SOURCE_DIR}
     )
 
 add_executable(command-line-parser

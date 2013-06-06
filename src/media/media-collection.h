@@ -24,7 +24,8 @@
 #include <QHash>
 #include <QSet>
 
-#include "core/source-collection.h"
+// core
+#include "source-collection.h"
 
 class DataObject;
 class MediaSource;

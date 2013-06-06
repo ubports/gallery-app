@@ -17,7 +17,7 @@
 #include <QtTest/QtTest>
 #include <QString>
 
-#include "util/imaging.h"
+#include "imaging.h"
 
 class tst_Imaging : public QObject
 {

@@ -18,7 +18,7 @@
  *
  */
 
-#include "photo/photo-metadata.h"
+#include "photo-metadata.h"
 
 Orientation PhotoMetadata::orientation() const
 {

@@ -20,6 +20,12 @@
 #ifndef GALLERY_MEDIA_SOURCE_H_
 #define GALLERY_MEDIA_SOURCE_H_
 
+// core
+#include "data-source.h"
+
+// photo
+#include "photo-metadata.h"
+
 #include <QDate>
 #include <QDateTime>
 #include <QFileInfo>
@@ -28,9 +34,6 @@
 #include <QUrl>
 #include <QVariant>
 #include <QtQml>
-
-#include "core/data-source.h"
-#include "photo/photo-metadata.h"
 
 class Event;
 class GalleryManager;

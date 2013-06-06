@@ -20,9 +20,9 @@
 #ifndef GALLERY_PHOTO_METADATA_H_
 #define GALLERY_PHOTO_METADATA_H_
 
-#include <QObject>
 #include <QDateTime>
 #include <QFileInfo>
+#include <QObject>
 #include <QString>
 #include <QSet>
 #include <QTransform>
