@@ -1,13 +1,13 @@
 project(gallery_src)
 
-add_subdirectory(album)
+add_subdirectory(util)
 add_subdirectory(core)
+add_subdirectory(album)
 add_subdirectory(database)
 add_subdirectory(event)
 add_subdirectory(media)
 add_subdirectory(photo)
 add_subdirectory(qml)
-add_subdirectory(util)
 
 configure_file(
     config.h.in
