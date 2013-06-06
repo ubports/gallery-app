@@ -4,11 +4,11 @@ set(GALLERY_QML_LIB gallery-qml)
 
 include_directories(
     ${gallery_src_SOURCE_DIR}
-    ${gallery_album_src_SOURCE_DIR}
+    ${gallery_src_SOURCE_DIR}/album
     ${gallery_core_src_SOURCE_DIR}
-    ${gallery_event_src_SOURCE_DIR}
-    ${gallery_media_src_SOURCE_DIR}
-    ${gallery_photo_src_SOURCE_DIR}
+    ${gallery_src_SOURCE_DIR}/event
+    ${gallery_src_SOURCE_DIR}/media
+    ${gallery_src_SOURCE_DIR}/photo
     ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
     ${GSTLIB_INCLUDE_DIRS}
