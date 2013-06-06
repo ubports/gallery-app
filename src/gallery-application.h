@@ -21,9 +21,9 @@
 #define GALLERYAPPLICATION_H
 
 #include <QApplication>
-#include <QQuickView>
 #include <QElapsedTimer>
 #include <QFileInfo>
+#include <QQuickView>
 
 class CommandLineParser;
 class GalleryManager;

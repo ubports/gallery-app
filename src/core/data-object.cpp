@@ -17,9 +17,9 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include <QQmlEngine>
-
 #include "data-object.h"
+
+#include <QQmlEngine>
 
 DataObjectNumber DataObject::next_number_ = 0;
 

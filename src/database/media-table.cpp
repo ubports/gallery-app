@@ -17,11 +17,11 @@
  * Eric Gregory <eric@yorba.org>
  */
 
-#include <QApplication>
-#include <QtSql>
-
 #include "media-table.h"
 #include "database.h"
+
+#include <QApplication>
+#include <QtSql>
 
 /*!
  * \brief MediaTable::MediaTable

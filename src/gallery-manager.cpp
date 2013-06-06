@@ -19,15 +19,27 @@
  */
 
 #include "gallery-manager.h"
+
+// album
 #include "album-collection.h"
 #include "album-default-template.h"
+
+// database
 #include "database.h"
 #include "media-table.h"
+
+// event
 #include "event-collection.h"
+
+// media
 #include "media-collection.h"
 #include "preview-manager.h"
+
+// qml
 #include "gallery-standard-image-provider.h"
 #include "gallery-thumbnail-image-provider.h"
+
+// util
 #include "resource.h"
 
 GalleryManager* GalleryManager::gallery_mgr_ = NULL;

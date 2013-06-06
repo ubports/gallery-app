@@ -19,9 +19,15 @@
 
 #include "event-collection.h"
 #include "event.h"
+
+// core
 #include "data-object.h"
+
+// media
 #include "media-collection.h"
 #include "media-source.h"
+
+// src
 #include "gallery-manager.h"
 
 /*!

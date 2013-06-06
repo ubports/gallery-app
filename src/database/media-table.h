@@ -20,9 +20,9 @@
 #ifndef MEDIATABLE_H
 #define MEDIATABLE_H
 
-#include <QObject>
-
 #include "photo-metadata.h"
+
+#include <QObject>
 
 class Database;
 
