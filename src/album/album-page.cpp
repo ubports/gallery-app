@@ -19,7 +19,11 @@
 
 #include "album-page.h"
 #include "album.h"
+
+// media
 #include "media-collection.h"
+
+// util
 #include "collections.h"
 #include "resource.h"
 

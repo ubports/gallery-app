@@ -21,6 +21,7 @@
 #define GALLERY_UTIL_COLLECTIONS_H_
 
 #include <QList>
+#include <QObject>
 #include <QSet>
 
 template <class F, class T>

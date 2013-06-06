@@ -20,11 +20,11 @@
 #ifndef GALLERY_ALBUM_TEMPLATE_H_
 #define GALLERY_ALBUM_TEMPLATE_H_
 
+#include "album-template-page.h"
+
 #include <QObject>
 #include <QList>
 #include <QString>
-
-#include "album-template-page.h"
 
 /*!
  * \brief The AlbumTemplate class

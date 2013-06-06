@@ -23,19 +23,31 @@
 
 #include "gallery-application.h"
 #include "gallery-manager.h"
+
+// album
 #include "album.h"
 #include "album-page.h"
+
+// event
 #include "event.h"
+
+// media
 #include "media-collection.h"
 #include "media-monitor.h"
 #include "media-source.h"
+
+// photo
 #include "photo.h"
+
+// qml
 #include "gallery-standard-image-provider.h"
 #include "gallery-thumbnail-image-provider.h"
 #include "qml-album-collection-model.h"
 #include "qml-event-collection-model.h"
 #include "qml-event-overview-model.h"
 #include "qml-media-collection-model.h"
+
+// util
 #include "command-line-parser.h"
 #include "resource.h"
 #include "sharefile.h"

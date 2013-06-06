@@ -24,6 +24,7 @@
 #include <QHash>
 #include <QSet>
 
+// core
 #include "source-collection.h"
 
 class DataObject;

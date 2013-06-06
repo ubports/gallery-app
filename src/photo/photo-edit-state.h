@@ -20,10 +20,10 @@
 #ifndef GALLERY_PHOTO_EDIT_STATE_H_
 #define GALLERY_PHOTO_EDIT_STATE_H_
 
+#include "photo-metadata.h"
+
 #include <QRect>
 #include <QVector4D>
-
-#include "photo-metadata.h"
 
 /*!
  * \brief The PhotoEditState class

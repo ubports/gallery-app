@@ -18,9 +18,15 @@
  */
 
 #include "album-collection.h"
-#include "media-collection.h"
-#include "database.h"
+
+// database
 #include "album-table.h"
+#include "database.h"
+
+// media
+#include "media-collection.h"
+
+// src
 #include "gallery-manager.h"
 
 /*!

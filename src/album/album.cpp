@@ -18,16 +18,27 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-
 #include "album.h"
 #include "album-collection.h"
 #include "album-default-template.h"
+
+// core
 #include "selectable-view-collection.h"
+
+// database
 #include "album-table.h"
 #include "database.h"
+
+// media
 #include "media-collection.h"
+
+// qml
 #include "qml-media-collection-model.h"
+
+// util
 #include "variants.h"
+
+// src
 #include "gallery-manager.h"
 
 const char *Album::DEFAULT_TITLE = "New Photo Album";
