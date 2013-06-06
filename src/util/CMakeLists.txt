@@ -4,7 +4,7 @@ set(GALLERY_UTIL_LIB gallery-util)
 
 include_directories(
     ${gallery_src_SOURCE_DIR}
-    ${CMAKE_CURRENT_BINARY_DIR}/..
+    ${gallery_src_BINARY_DIR}
     ${CMAKE_BINARY_DIR}
     ${GSTLIB_INCLUDE_DIRS}
     )

@@ -15,8 +15,6 @@ include_directories(
     )
 
 set(gallery_qml_HDRS
-    gallery-standard-image-provider.h
-    gallery-thumbnail-image-provider.h
     qml-album-collection-model.h
     qml-event-collection-model.h
     qml-event-overview-model.h
@@ -25,8 +23,6 @@ set(gallery_qml_HDRS
     )
 
 set(gallery_qml_SRCS
-    gallery-standard-image-provider.cpp
-    gallery-thumbnail-image-provider.cpp
     qml-album-collection-model.cpp
     qml-event-collection-model.cpp
     qml-event-overview-model.cpp

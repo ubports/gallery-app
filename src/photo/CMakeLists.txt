@@ -6,8 +6,8 @@ include_directories(
     ${gallery_src_SOURCE_DIR}
     ${gallery_core_src_SOURCE_DIR}
     ${gallery_media_src_SOURCE_DIR}
+    ${gallery_medialoader_src_SOURCE_DIR}
     ${gallery_database_src_SOURCE_DIR}
-    ${gallery_qml_src_SOURCE_DIR}
     ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
     ${EXIV2_INCLUDEDIR}
@@ -37,8 +37,8 @@ qt5_use_modules(${GALLERY_PHOTO_LIB} Widgets Core Quick)
 target_link_libraries( ${GALLERY_PHOTO_LIB}
     gallery-core
     gallery-media
+    gallery-medialoader
     gallery-database
-    gallery-qml
     gallery-util
     ${EXIV2_LIBRARIES}
     ${GSTLIB_LDFLAGS}
