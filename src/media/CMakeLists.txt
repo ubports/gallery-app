@@ -9,7 +9,6 @@ include_directories(
     ${gallery_src_SOURCE_DIR}/event
     ${gallery_src_SOURCE_DIR}/medialoader
     ${gallery_src_SOURCE_DIR}/photo
-    ${gallery_src_SOURCE_DIR}/qml
     ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
     ${GSTLIB_INCLUDE_DIRS}
@@ -39,7 +38,6 @@ target_link_libraries( ${GALLERY_MEDIA_LIB}
     gallery-event
     gallery-medialoader
     gallery-photo
-    gallery-qml
     gallery-util
     ${GSTLIB_LDFLAGS}
     )
