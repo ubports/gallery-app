@@ -85,9 +85,9 @@ QUrl MediaSource::gallery_path() const
  * \brief MediaSource::preview_file
  * \return
  */
-QFileInfo MediaSource::preview_file() const
+QString MediaSource::preview_file() const
 {
-    return GalleryManager::instance()->preview_manager()->PreviewFileFor(file_);
+    return GalleryManager::instance()->preview_manager()->previewFileName(file_);
 }
 
 /*!
@@ -96,7 +96,7 @@ QFileInfo MediaSource::preview_file() const
  */
 QUrl MediaSource::preview_path() const
 {
-    return QUrl::fromLocalFile(preview_file().absoluteFilePath());
+    return QUrl::fromLocalFile(preview_file());
 }
 
 /*!
@@ -112,9 +112,9 @@ QUrl MediaSource::gallery_preview_path() const
  * \brief MediaSource::thumbnail_file
  * \return
  */
-QFileInfo MediaSource::thumbnail_file() const
+QString MediaSource::thumbnail_file() const
 {
-    return GalleryManager::instance()->preview_manager()->ThumbnailFileFor(file_);
+    return GalleryManager::instance()->preview_manager()->thumbnailFileName(file_);
 }
 
 /*!
@@ -123,7 +123,7 @@ QFileInfo MediaSource::thumbnail_file() const
  */
 QUrl MediaSource::thumbnail_path() const
 {
-    return QUrl::fromLocalFile(thumbnail_file().absoluteFilePath());
+    return QUrl::fromLocalFile(thumbnail_file());
 }
 
 /*!

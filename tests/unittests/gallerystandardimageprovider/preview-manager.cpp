@@ -21,14 +21,20 @@
 #include <QDir>
 
 #include "media/preview-manager.h"
+#include "media/media-collection.h"
 
-const int PreviewManager::PREVIEW_WIDTH_MAX = 360;
-const int PreviewManager::PREVIEW_HEIGHT_MAX = 360;
-
+const int PreviewManager::PREVIEW_SIZE = 360;
 const QString PreviewManager::PREVIEW_DIR = ".thumbs";
 const char* PreviewManager::PREVIEW_FILE_EXT = "JPG";
 
-bool PreviewManager::ensure_preview_for_media(QFileInfo file, bool regen)
+PreviewManager::PreviewManager(const QString &thumbnailDirectory,
+                               MediaCollection *mediaCollection, QObject *parent)
+{
+    Q_UNUSED(thumbnailDirectory);
+    Q_UNUSED(mediaCollection)
+}
+
+bool PreviewManager::ensurePreview(QFileInfo file, bool regen)
 {
     file = QFileInfo();
     regen = false;
@@ -36,22 +42,20 @@ bool PreviewManager::ensure_preview_for_media(QFileInfo file, bool regen)
     return regen;
 }
 
-void PreviewManager::on_media_added_removed(const QSet<DataObject *> *, const QSet<DataObject *> *)
+void PreviewManager::onMediaAddedRemoved(const QSet<DataObject *> *, const QSet<DataObject *> *)
 {
-
 }
 
-void PreviewManager::on_media_destroying(const QSet<DataObject *> *)
+void PreviewManager::onMediaDestroying(const QSet<DataObject *> *)
 {
-
 }
 
-void PreviewManager::on_media_data_altered()
+void PreviewManager::updatePreview()
 {
-
 }
 
-QFileInfo PreviewManager::PreviewFileFor(const QFileInfo &file)
+QString PreviewManager::previewFileName(const QFileInfo &file) const
 {
-    return QFileInfo(file.dir(), PREVIEW_DIR + "/" + file.completeBaseName() + "_th." + PREVIEW_FILE_EXT);
+    return QString(file.absolutePath() + QDir::separator() + PREVIEW_DIR +
+                   QDir::separator() + file.completeBaseName() + "_th." + PREVIEW_FILE_EXT);
 }

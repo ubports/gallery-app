@@ -25,6 +25,7 @@
 #include <QStandardPaths>
 
 const QLatin1String Resource::DATABASE_DIR = QLatin1String("database");
+const QLatin1String Resource::THUMBNAIL_DIR = QLatin1String("thumbnails");
 
 /*!
  * \brief Resource::Resource
@@ -35,6 +36,7 @@ const QLatin1String Resource::DATABASE_DIR = QLatin1String("database");
 Resource::Resource(const QString &pictureDir, QQuickView *view)
     : m_pictureDirectory(pictureDir),
       m_databaseDirectory(""),
+      m_thumbnailDirectory(""),
       m_view(view),
       m_maxTextureSize(0)
 {
@@ -80,6 +82,23 @@ const QString &Resource::databaseDirectory() const
         }
     }
     return m_databaseDirectory;
+}
+
+/*!
+ * \brief Resource::thumbnailDirectory returns the base directory of the thumbnails
+ * \return
+ */
+const QString &Resource::thumbnailDirectory() const
+{
+    if (m_thumbnailDirectory.isEmpty()) {
+        if (m_pictureDirectory == QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)) {
+            m_thumbnailDirectory = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) +
+                    QDir::separator() + THUMBNAIL_DIR;
+        } else {
+            m_thumbnailDirectory = m_pictureDirectory + QDir::separator() + "." + THUMBNAIL_DIR;
+        }
+    }
+    return m_thumbnailDirectory;
 }
 
 /*!

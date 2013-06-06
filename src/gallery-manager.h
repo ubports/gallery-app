@@ -69,6 +69,8 @@ private:
     GalleryManager(const GalleryManager&);
     void operator=(const GalleryManager&);
 
+    void initPreviewManager();
+
     static GalleryManager* gallery_mgr_;
 
     bool collections_initialised;

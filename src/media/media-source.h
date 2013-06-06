@@ -82,11 +82,11 @@ public:
     QUrl path() const;
     virtual QUrl gallery_path() const;
 
-    QFileInfo preview_file() const;
+    QString preview_file() const;
     QUrl preview_path() const;
     virtual QUrl gallery_preview_path() const;
 
-    QFileInfo thumbnail_file() const;
+    QString thumbnail_file() const;
     QUrl thumbnail_path() const;
     virtual QUrl gallery_thumbnail_path() const;
 

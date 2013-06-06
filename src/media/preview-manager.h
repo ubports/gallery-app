@@ -28,43 +28,60 @@
 
 class QImage;
 class DataObject;
+class MediaCollection;
 class MediaSource;
 
 /*!
- * \brief The PreviewManager class
+ * \brief The PreviewManager class creates and removes thumbnails
+ *
+ * The thumbnail storage and creation is inspired by
+ * http://specifications.freedesktop.org/thumbnail-spec/thumbnail-spec-latest.html
+ * But it uses jpeg (for performance),
+ * uses different sizes,
+ * not the standard sub directoy name (because of the sizes),
+ * does not save any meta information in the thumbnails,
+ * does not use the fail directory
  */
 class PreviewManager : public QObject
 {
     Q_OBJECT
 
 public:
-    static const int PREVIEW_WIDTH_MAX;
-    static const int PREVIEW_HEIGHT_MAX;
+    static const int PREVIEW_SIZE;
     static const int THUMBNAIL_SIZE;
     static const int PREVIEW_QUALITY;
     static const char* PREVIEW_FILE_FORMAT;
     static const char* PREVIEW_FILE_EXT;
 
     static const QString PREVIEW_DIR;
+    static const QString THUMBNAIL_DIR;
 
-    PreviewManager();
+    PreviewManager(const QString& thumbnailDirectory, MediaCollection *mediaCollection,
+                   QObject* parent = 0);
 
-    static QFileInfo PreviewFileFor(const QFileInfo& file);
-    static QFileInfo ThumbnailFileFor(const QFileInfo& file);
+    QString previewFileName(const QFileInfo& file) const;
+    QString thumbnailFileName(const QFileInfo& file) const;
 
-    bool ensure_preview_for_media(QFileInfo file, bool regen = false);
+    bool ensurePreview(QFileInfo file, bool regen = false);
+
+public slots:
+    void onMediaAddedRemoved(const QSet<DataObject*>* added,
+                                const QSet<DataObject*>* removed);
+    void onMediaDestroying(const QSet<DataObject*>* destroying);
 
 private slots:
-    void on_media_added_removed(const QSet<DataObject*>* added,
-                                const QSet<DataObject*>* removed);
-    void on_media_destroying(const QSet<DataObject*>* destroying);
-    void on_media_data_altered();
+    void updatePreview();
 
 private:
-    void DestroyPreview(MediaSource* media);
-    QImage generate_Thumbnail(const QImage& master) const;
+    bool saveThumbnail(const QImage& image, const QString& fileName) const;
+    void destroyPreviews(MediaSource* media);
+    QImage generateThumbnail(const QImage& master) const;
+    QString thumbnailFileName(const QString& fileName, const QString& levelName) const;
+    bool updateNeeded(const QFileInfo& mediaFile, const QFileInfo& previewFile) const;
 
-    static QMutex createMutex_;
+    static QMutex m_createMutex;
+    QString m_thumbnailDir;
+    MediaCollection *m_mediaCollection;
 };
 
 #endif  // GALLERY_PREVIEW_MANAGER_H_
