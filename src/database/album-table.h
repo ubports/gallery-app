@@ -20,8 +20,8 @@
 #ifndef ALBUMTABLE_H
 #define ALBUMTABLE_H
 
-#include <QObject>
 #include <QList>
+#include <QObject>
 
 class Album;
 class Database;

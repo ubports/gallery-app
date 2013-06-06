@@ -21,22 +21,32 @@
  * Clint Rogers <clinton@yorba.org>
  */
 
+#include "photo.h"
+
+// database
+#include "database.h"
+#include "media-table.h"
+#include "photo-edit-table.h"
+
+// media
+#include "media-collection.h"
+
+// medialoader
+#include "gallery-standard-image-provider.h"
+#include "gallery-thumbnail-image-provider.h"
+#include "photo-metadata.h"
+
+// util
+#include "imaging.h"
+
+// src
+#include "gallery-manager.h"
+
 #include <QApplication>
 #include <QFileInfo>
 #include <QImage>
 #include <QImageReader>
 #include <QImageWriter>
-
-#include "photo.h"
-#include "database.h"
-#include "media-table.h"
-#include "photo-edit-table.h"
-#include "photo-metadata.h"
-#include "media-collection.h"
-#include "gallery-standard-image-provider.h"
-#include "gallery-thumbnail-image-provider.h"
-#include "imaging.h"
-#include "gallery-manager.h"
 
 // A simple class for dealing with an undo-/redo-able stack of applied edits.
 class EditStack {

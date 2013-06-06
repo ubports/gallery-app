@@ -22,13 +22,17 @@
 #ifndef GALLERY_PHOTO_H_
 #define GALLERY_PHOTO_H_
 
-#include <QDateTime>
-#include <QStack>
-
 #include "photo-caches.h"
 #include "photo-edit-state.h"
-#include "orientation.h"
+
+// media
 #include "media-source.h"
+
+// util
+#include "orientation.h"
+
+#include <QDateTime>
+#include <QStack>
 
 class PhotoPrivate;
 

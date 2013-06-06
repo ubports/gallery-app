@@ -20,8 +20,9 @@
 #ifndef GALLERYMANAGER_H
 #define GALLERYMANAGER_H
 
-#include <cstddef>
 #include <QDir>
+
+#include <cstddef>
 
 class QQuickView;
 

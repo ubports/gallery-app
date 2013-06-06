@@ -24,8 +24,8 @@
 #include "photo-edit-table.h"
 
 #include <QFile>
-#include <QtSql>
 #include <QSqlTableModel>
+#include <QtSql>
 
 /*!
  * \brief Database::Database

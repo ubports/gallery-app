@@ -20,12 +20,15 @@
 #ifndef GALLERY_EVENT_H_
 #define GALLERY_EVENT_H_
 
-#include <QObject>
+// core
+#include "container-source.h"
+
+// media
+#include "media-source.h"
+
 #include <QDate>
 #include <QDateTime>
-
-#include "container-source.h"
-#include "media-source.h"
+#include <QObject>
 
 /*!
  * \brief The Event class

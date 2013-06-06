@@ -21,17 +21,18 @@
 #ifndef GALLERY_GALLERY_STANDARD_IMAGE_PROVIDER_H_
 #define GALLERY_GALLERY_STANDARD_IMAGE_PROVIDER_H_
 
-#include <QObject>
-#include <QQuickImageProvider>
+// util
+#include "orientation.h"
+
 #include <QFileInfo>
 #include <QImage>
 #include <QMap>
 #include <QMutex>
+#include <QObject>
+#include <QQuickImageProvider>
 #include <QSize>
 #include <QString>
 #include <QUrl>
-
-#include "orientation.h"
 
 class PreviewManager;
 

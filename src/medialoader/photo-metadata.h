@@ -20,11 +20,12 @@
 #ifndef GALLERY_PHOTO_METADATA_H_
 #define GALLERY_PHOTO_METADATA_H_
 
+// util
 #include <orientation.h>
 
-#include <QObject>
 #include <QDateTime>
 #include <QFileInfo>
+#include <QObject>
 #include <QString>
 #include <QSet>
 #include <QTransform>

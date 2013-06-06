@@ -17,15 +17,19 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include <QFileInfo>
-#include <QStringList>
-#include <QString>
-
 #include "media-collection.h"
 #include "media-source.h"
+
+// database
 #include "database.h"
 #include "media-table.h"
+
+// src
 #include "gallery-manager.h"
+
+#include <QFileInfo>
+#include <QString>
+#include <QStringList>
 
 /*!
  * \brief MediaCollection::MediaCollection

@@ -18,6 +18,8 @@
 */
 
 #include "gallery-thumbnail-image-provider.h"
+
+// media
 #include "preview-manager.h"
 
 #include <QDebug>

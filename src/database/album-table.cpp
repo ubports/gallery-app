@@ -19,8 +19,12 @@
 
 #include "album-table.h"
 #include "database.h"
+
+// album
 #include "album.h"
 #include "album-default-template.h"
+
+// src
 #include "gallery-manager.h"
 
 #include <QtSql>

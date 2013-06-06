@@ -20,9 +20,10 @@
 #ifndef MEDIATABLE_H
 #define MEDIATABLE_H
 
-#include <QObject>
-
+// util
 #include "orientation.h"
+
+#include <QObject>
 
 class Database;
 

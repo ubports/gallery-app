@@ -20,9 +20,9 @@
 #ifndef GALLERY_MEDIA_MONITOR_H_
 #define GALLERY_MEDIA_MONITOR_H_
 
-#include <QObject>
 #include <QDir>
 #include <QFileSystemWatcher>
+#include <QObject>
 #include <QStringList>
 #include <QTimer>
 

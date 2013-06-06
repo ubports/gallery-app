@@ -20,10 +20,11 @@
 #ifndef GALLERY_PHOTO_EDIT_STATE_H_
 #define GALLERY_PHOTO_EDIT_STATE_H_
 
+// util
+#include "orientation.h"
+
 #include <QRect>
 #include <QVector4D>
-
-#include "orientation.h"
 
 /*!
  * \brief The PhotoEditState class

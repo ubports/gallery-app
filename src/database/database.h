@@ -20,16 +20,16 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
-#include <QObject>
 #include <QFile>
+#include <QObject>
 #include <QString>
 
 class AlbumTable;
 class MediaTable;
 class PhotoEditTable;
 
-class QSqlQuery;
 class QSqlDatabase;
+class QSqlQuery;
 
 const qint64 INVALID_ID = -1;
 

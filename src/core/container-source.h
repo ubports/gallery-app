@@ -20,12 +20,12 @@
 #ifndef GALLERY_CONTAINER_SOURCE_H_
 #define GALLERY_CONTAINER_SOURCE_H_
 
-#include <QObject>
-#include <QSet>
-
 #include "data-object.h"
 #include "data-source.h"
 #include "view-collection.h"
+
+#include <QObject>
+#include <QSet>
 
 /**
   * A ContainerSource is a DataSource that holds other DataSources.  Generally
