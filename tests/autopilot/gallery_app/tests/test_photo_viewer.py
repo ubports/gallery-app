@@ -138,11 +138,12 @@ class TestPhotoEditor(TestPhotoViewerBase):
     def setUp(self):
         super(TestPhotoEditor, self).setUp()
         self.click_edit_button()
-        self.ensure_edit_dialog_visible()
 
     def click_edit_button(self):
         edit_button = self.photo_viewer.get_toolbar_edit_button()
+        edit_dialog = self.photo_viewer.get_photo_edit_dialog()
         self.click_item(edit_button)
+        self.assertThat(edit_dialog.opacity, (Eventually(Equals(1))))
 
     def click_rotate_item(self):
         rotate_item = self.photo_viewer.get_rotate_menu_item()
@@ -219,7 +220,6 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.reveal_toolbar()
         self.click_edit_button()
-        self.ensure_edit_dialog_visible()
         self.click_undo_item()
 
         self.assertThat(opened_photo.paintedHeight,
@@ -229,7 +229,6 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.reveal_toolbar()
         self.click_edit_button()
-        self.ensure_edit_dialog_visible()
         self.click_redo_item()
 
         self.assertThat(opened_photo.paintedHeight,
@@ -239,11 +238,9 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.reveal_toolbar()
         self.click_edit_button()
-        self.ensure_edit_dialog_visible()
         self.click_rotate_item()
         self.reveal_toolbar()
         self.click_edit_button()
-        self.ensure_edit_dialog_visible()
         self.click_revert_item()
 
         self.assertThat(opened_photo.paintedHeight,
@@ -274,12 +271,10 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.reveal_toolbar()
         self.click_edit_button()
-        self.ensure_edit_dialog_visible()
         self.click_undo_item()
 
         self.reveal_toolbar()
         self.click_edit_button()
-        self.ensure_edit_dialog_visible()
         undo_item = self.photo_viewer.get_undo_menu_item()
         redo_item = self.photo_viewer.get_redo_menu_item()
         revert_item = self.photo_viewer.get_revert_menu_item()
@@ -296,12 +291,10 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.reveal_toolbar()
         self.click_edit_button()
-        self.ensure_edit_dialog_visible()
         self.click_revert_item()
 
         self.reveal_toolbar()
         self.click_edit_button()
-        self.ensure_edit_dialog_visible()
         undo_item = self.photo_viewer.get_undo_menu_item()
         redo_item = self.photo_viewer.get_redo_menu_item()
         revert_item = self.photo_viewer.get_revert_menu_item()
