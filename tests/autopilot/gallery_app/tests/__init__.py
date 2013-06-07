@@ -143,11 +143,8 @@ class GalleryTestCase(AutopilotTestCase):
     def ensure_at_least_one_event(self):
         """The event view has to have at least one event
         In case gallery is not yet fully loaded wait a while and test again"""
-        num_events = self.gallery_utils.number_of_events()
-        if num_events < 1:
-            sleep(1)
-            num_events = self.gallery_utils.number_of_events()
-        self.assertThat(num_events, Equals(1))
+        self.assertThat(lambda: self.gallery_utils.number_of_events(),
+                        Eventually(GreaterThan(0)))
 
     def switch_to_albums_tab(self):
         tabs_bar = self.gallery_utils.get_tabs_bar()
