@@ -6,6 +6,7 @@ add_subdirectory(album)
 add_subdirectory(database)
 add_subdirectory(event)
 add_subdirectory(media)
+add_subdirectory(medialoader)
 add_subdirectory(photo)
 add_subdirectory(qml)
 
@@ -23,6 +24,7 @@ include_directories(
     ${gallery_database_src_SOURCE_DIR}
     ${gallery_event_src_SOURCE_DIR}
     ${gallery_media_src_SOURCE_DIR}
+    ${gallery_medialoader_src_SOURCE_DIR}
     ${gallery_photo_src_SOURCE_DIR}
     ${gallery_qml_src_SOURCE_DIR}
     ${gallery_util_src_SOURCE_DIR}
@@ -53,6 +55,7 @@ target_link_libraries( ${GALLERY}
     gallery-database
     gallery-event
     gallery-media
+    gallery-medialoader
     gallery-photo
     gallery-qml
     gallery-util
