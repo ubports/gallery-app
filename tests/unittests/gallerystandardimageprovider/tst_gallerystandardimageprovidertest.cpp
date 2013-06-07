@@ -23,9 +23,9 @@
 #include <QFileInfo>
 #include <QUrl>
 
-#include "qml/gallery-standard-image-provider.h"
-#include "media/preview-manager.h"
-#include "media/media-collection.h"
+#include "gallery-standard-image-provider.h"
+#include "preview-manager.h"
+#include "media-collection.h"
 #include "gallery-manager.h"
 
 class tst_GalleryStandardImageProvider : public QObject

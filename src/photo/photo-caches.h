@@ -20,9 +20,9 @@
 #ifndef GALLERY_PHOTO_CACHES_H_
 #define GALLERY_PHOTO_CACHES_H_
 
-#include <QString>
-#include <QFileInfo>
 #include <QFile>
+#include <QFileInfo>
+#include <QString>
 
 /*!
  * \brief The PhotoCaches class

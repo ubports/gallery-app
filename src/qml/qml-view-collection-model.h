@@ -27,7 +27,7 @@
 #include <QModelIndex>
 #include <QVariant>
 
-#include <core/data-collection.h>
+#include <data-collection.h>
 
 class DataObject;
 class ContainerSource;

@@ -20,13 +20,14 @@
 #ifndef GALLERY_DATA_COLLECTION_H_
 #define GALLERY_DATA_COLLECTION_H_
 
-#include <QObject>
+// core
+#include "collections.h"
+
 #include <QByteArray>
 #include <QList>
+#include <QObject>
 #include <QSet>
 #include <QString>
-
-#include "util/collections.h"
 
 class DataObject;
 

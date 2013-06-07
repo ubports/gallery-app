@@ -4,6 +4,14 @@ set(GALLERY_QML_LIB gallery-qml)
 
 include_directories(
     ${gallery_src_SOURCE_DIR}
+    # because of circulate dependencies the sub project can't be used directly
+    # FIXME resolve the circulate dependencies
+    ${gallery_src_SOURCE_DIR}/album
+    ${gallery_core_src_SOURCE_DIR}
+    ${gallery_src_SOURCE_DIR}/event
+    ${gallery_src_SOURCE_DIR}/media
+    ${gallery_src_SOURCE_DIR}/photo
+    ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
     ${GSTLIB_INCLUDE_DIRS}
     )
@@ -35,5 +43,12 @@ add_library(${GALLERY_QML_LIB}
 qt5_use_modules(${GALLERY_QML_LIB} Core Quick)
 
 target_link_libraries( ${GALLERY_QML_LIB}
+    gallery-album
+    gallery-core
+    gallery-event
+    gallery-media
+    gallery-photo
+    gallery-qml
+    gallery-util
     ${GSTLIB_LDFLAGS}
     )

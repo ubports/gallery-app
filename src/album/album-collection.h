@@ -20,11 +20,13 @@
 #ifndef GALLERY_ALBUM_COLLECTION_H_
 #define GALLERY_ALBUM_COLLECTION_H_
 
-#include <QObject>
-
 #include "album.h"
-#include "core/container-source-collection.h"
-#include "core/data-object.h"
+
+// core
+#include "container-source-collection.h"
+#include "data-object.h"
+
+#include <QObject>
 
 /*!
  * \brief The AlbumCollection class

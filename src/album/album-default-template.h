@@ -21,9 +21,9 @@
 #ifndef GALLERY_ALBUM_DEFAULT_TEMPLATE_H_
 #define GALLERY_ALBUM_DEFAULT_TEMPLATE_H_
 
-#include <QObject>
-
 #include "album-template.h"
+
+#include <QObject>
 
 /*!
  * \brief The AlbumDefaultTemplate class

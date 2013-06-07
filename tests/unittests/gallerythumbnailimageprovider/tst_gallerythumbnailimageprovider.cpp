@@ -21,7 +21,7 @@
 #include <QFileInfo>
 #include <QUrl>
 
-#include "qml/gallery-thumbnail-image-provider.h"
+#include "gallery-thumbnail-image-provider.h"
 
 class tst_GalleryThumbnailImageProvider : public QObject
 {

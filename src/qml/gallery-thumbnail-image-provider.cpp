@@ -18,7 +18,9 @@
 */
 
 #include "gallery-thumbnail-image-provider.h"
-#include "media/preview-manager.h"
+
+// media
+#include "preview-manager.h"
 
 #include <QDebug>
 #include <QElapsedTimer>

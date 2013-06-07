@@ -1,13 +1,13 @@
 project(gallery_src)
 
-add_subdirectory(album)
+add_subdirectory(util)
 add_subdirectory(core)
+add_subdirectory(album)
 add_subdirectory(database)
 add_subdirectory(event)
 add_subdirectory(media)
 add_subdirectory(photo)
 add_subdirectory(qml)
-add_subdirectory(util)
 add_subdirectory(video)
 
 configure_file(
@@ -19,6 +19,14 @@ configure_file(
 set(GALLERY gallery-app)
 
 include_directories(
+    ${gallery_album_src_SOURCE_DIR}
+    ${gallery_core_src_SOURCE_DIR}
+    ${gallery_database_src_SOURCE_DIR}
+    ${gallery_event_src_SOURCE_DIR}
+    ${gallery_media_src_SOURCE_DIR}
+    ${gallery_photo_src_SOURCE_DIR}
+    ${gallery_qml_src_SOURCE_DIR}
+    ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
     ${GSTLIB_INCLUDE_DIRS}
     )

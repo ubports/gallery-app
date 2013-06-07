@@ -17,10 +17,10 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include <QQmlEngine>
-
 #include "data-collection.h"
 #include "data-object.h"
+
+#include <QQmlEngine>
 
 /*!
  * \brief DataCollection::DataCollection

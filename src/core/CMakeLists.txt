@@ -3,7 +3,7 @@ project(gallery_core_src)
 set(GALLERY_CORE_LIB gallery-core)
 
 include_directories(
-    ${gallery_src_SOURCE_DIR}
+    ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
     ${GSTLIB_INCLUDE_DIRS}
     )
@@ -37,5 +37,6 @@ add_library(${GALLERY_CORE_LIB}
 qt5_use_modules(${GALLERY_CORE_LIB} Core Quick)
 
 target_link_libraries( ${GALLERY_CORE_LIB}
+    gallery-util
     ${GSTLIB_LDFLAGS}
     )

@@ -23,22 +23,34 @@
 
 #include "gallery-application.h"
 #include "gallery-manager.h"
-#include "album/album.h"
-#include "album/album-page.h"
-#include "event/event.h"
-#include "media/media-collection.h"
-#include "media/media-monitor.h"
-#include "media/media-source.h"
-#include "photo/photo.h"
-#include "qml/gallery-standard-image-provider.h"
-#include "qml/gallery-thumbnail-image-provider.h"
-#include "qml/qml-album-collection-model.h"
-#include "qml/qml-event-collection-model.h"
-#include "qml/qml-event-overview-model.h"
-#include "qml/qml-media-collection-model.h"
-#include "util/command-line-parser.h"
-#include "util/resource.h"
-#include "util/sharefile.h"
+
+// album
+#include "album.h"
+#include "album-page.h"
+
+// event
+#include "event.h"
+
+// media
+#include "media-collection.h"
+#include "media-monitor.h"
+#include "media-source.h"
+
+// photo
+#include "photo.h"
+
+// qml
+#include "gallery-standard-image-provider.h"
+#include "gallery-thumbnail-image-provider.h"
+#include "qml-album-collection-model.h"
+#include "qml-event-collection-model.h"
+#include "qml-event-overview-model.h"
+#include "qml-media-collection-model.h"
+
+// util
+#include "command-line-parser.h"
+#include "resource.h"
+#include "sharefile.h"
 
 /*!
  * \brief GalleryApplication::GalleryApplication

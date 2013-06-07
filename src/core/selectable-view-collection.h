@@ -20,10 +20,10 @@
 #ifndef GALLERY_SELECTABLE_VIEW_COLLECTION_H_
 #define GALLERY_SELECTABLE_VIEW_COLLECTION_H_
 
-#include <QSet>
-
 #include "data-object.h"
 #include "view-collection.h"
+
+#include <QSet>
 
 /**
   * SelectableViewCollection adds the notion of selection to a ViewCollection.

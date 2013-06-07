@@ -20,12 +20,16 @@
 #ifndef GALLERY_ALBUM_PAGE_H_
 #define GALLERY_ALBUM_PAGE_H_
 
+#include "album-template-page.h"
+
+// core
+#include "container-source.h"
+
+// media
+#include "media-source.h"
+
 #include <QObject>
 #include <QUrl>
-
-#include "album-template-page.h"
-#include "core/container-source.h"
-#include "media/media-source.h"
 
 class Album;
 

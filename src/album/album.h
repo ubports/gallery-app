@@ -21,15 +21,19 @@
 #ifndef GALLERY_ALBUM_H_
 #define GALLERY_ALBUM_H_
 
+#include "album-page.h"
+#include "album-template.h"
+
+// core
+#include "container-source.h"
+
+// media
+#include "media-source.h"
+
 #include <QDateTime>
 #include <QQmlListProperty>
 #include <QString>
 #include <QVariant>
-
-#include "album-page.h"
-#include "album-template.h"
-#include "core/container-source.h"
-#include "media/media-source.h"
 
 /*!
  * \brief The AlbumTemplate class

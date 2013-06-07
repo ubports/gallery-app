@@ -18,14 +18,16 @@
  * Jim Nelson <jim@yorba.org>
  */
 
+#include "gallery-standard-image-provider.h"
+
+// media
+#include "preview-manager.h"
+
+#include <QDebug>
+#include <QElapsedTimer>
 #include <QImageReader>
 #include <QSize>
-#include <QElapsedTimer>
 #include <QUrlQuery>
-#include <QDebug>
-
-#include "gallery-standard-image-provider.h"
-#include "media/preview-manager.h"
 
 const char* GalleryStandardImageProvider::PROVIDER_ID = "gallery-standard";
 const char* GalleryStandardImageProvider::PROVIDER_ID_SCHEME = "image://gallery-standard/";

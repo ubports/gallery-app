@@ -20,8 +20,8 @@
 
 #include <QDir>
 
-#include "media/preview-manager.h"
-#include "media/media-collection.h"
+#include "preview-manager.h"
+#include "media-collection.h"
 
 const int PreviewManager::PREVIEW_SIZE = 360;
 const QString PreviewManager::PREVIEW_DIR = ".thumbs";
