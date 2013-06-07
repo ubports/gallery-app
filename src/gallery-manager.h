@@ -71,6 +71,7 @@ private:
     void operator=(const GalleryManager&);
 
     void initPreviewManager();
+    void fillMediaCollection();
 
     static GalleryManager* gallery_mgr_;
 

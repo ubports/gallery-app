@@ -223,8 +223,8 @@ GalleryApplication* GalleryApplication::instance()
  */
 void GalleryApplication::on_media_item_added(QFileInfo item_info)
 {
-    Photo* new_photo = Photo::Fetch(item_info);
+    MediaSource* newMedia = Photo::Fetch(item_info);
 
-    if (new_photo)
-        GalleryManager::instance()->media_collection()->Add(new_photo);
+    if (newMedia)
+        GalleryManager::instance()->media_collection()->Add(newMedia);
 }

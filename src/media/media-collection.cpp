@@ -18,13 +18,11 @@
  */
 
 #include "media-collection.h"
+#include "media-source.h"
 
 // database
 #include "database.h"
 #include "media-table.h"
-
-// photo
-#include "photo.h"
 
 // src
 #include "gallery-manager.h"
@@ -37,39 +35,11 @@
  * \brief MediaCollection::MediaCollection
  * \param directory
  */
-MediaCollection::MediaCollection(const QDir& directory)
-    : SourceCollection("MediaCollection"), directory_(directory)
+MediaCollection::MediaCollection()
+    : SourceCollection("MediaCollection")
 {
-    directory_.setFilter(QDir::Files);
-    directory_.setSorting(QDir::Name);
-
     // By default, sort all media by its exposure date time, descending
     SetComparator(ExposureDateTimeDescendingComparator);
-
-    QSet<DataObject*> photos;
-    QStringList filenames = directory_.entryList();
-    QString filename;
-    foreach (filename, filenames) {
-        QFileInfo file(directory_, filename);
-
-        Photo *p = Photo::Load(file);
-        if (!p)
-            continue;
-
-        photos.insert(p);
-        id_map_.insert(p->get_id(), p);
-    }
-
-    AddMany(photos);
-}
-
-/*!
- * \brief MediaCollection::directory
- * \return
- */
-const QDir& MediaCollection::directory() const
-{
-    return directory_;
 }
 
 /*!
@@ -132,9 +102,9 @@ void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
             DataObject* o = i.next();
             id_map_.insert(qobject_cast<MediaSource*>(o)->get_id(), o);
 
-            Photo* p = qobject_cast<Photo*>(o);
-            if (p != NULL) {
-                file_photo_map_.insert(p->file().absoluteFilePath(), p);
+            MediaSource* media = qobject_cast<MediaSource*>(o);
+            if (media != 0) {
+                m_filePhotoMap.insert(media->file().absoluteFilePath(), media);
             }
         }
     }
@@ -145,9 +115,8 @@ void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
             DataObject* o = i.next();
             MediaSource* media = qobject_cast<MediaSource*>(o);
 
-            Photo* p = qobject_cast<Photo*>(o);
-            if (p != NULL) {
-                file_photo_map_.remove(p->file().absoluteFilePath());
+            if (media != 0) {
+                m_filePhotoMap.remove(media->file().absoluteFilePath());
             }
 
             id_map_.remove(media->get_id());
@@ -168,7 +137,20 @@ void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
  * \param file_to_load
  * \return
  */
-Photo* MediaCollection::photoFromFileinfo(QFileInfo file_to_load)
+MediaSource *MediaCollection::photoFromFileinfo(const QFileInfo& file_to_load)
 {
-    return file_photo_map_.value(file_to_load.absoluteFilePath(), NULL);
+    return m_filePhotoMap.value(file_to_load.absoluteFilePath(), 0);
+}
+
+/*!
+ * \reimp
+ */
+void MediaCollection::AddMany(const QSet<DataObject *> &objects)
+{
+    foreach (DataObject* data, objects) {
+        MediaSource* media = qobject_cast<MediaSource*>(data);
+        id_map_.insert(media->get_id(), media);
+    }
+
+    DataCollection::AddMany(objects);
 }

@@ -10,7 +10,6 @@ include_directories(
     ${gallery_src_SOURCE_DIR}/database
     ${gallery_src_SOURCE_DIR}/event
     ${gallery_src_SOURCE_DIR}/medialoader
-    ${gallery_src_SOURCE_DIR}/photo
     ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
     ${GSTLIB_INCLUDE_DIRS}
@@ -39,7 +38,6 @@ target_link_libraries( ${GALLERY_MEDIA_LIB}
     gallery-database
     gallery-event
     gallery-medialoader
-    gallery-photo
     gallery-util
     ${GSTLIB_LDFLAGS}
     )

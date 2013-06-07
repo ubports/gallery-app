@@ -21,7 +21,8 @@
 #ifndef GALLERY_GALLERY_STANDARD_IMAGE_PROVIDER_H_
 #define GALLERY_GALLERY_STANDARD_IMAGE_PROVIDER_H_
 
-#include "photo-metadata.h"
+// util
+#include "orientation.h"
 
 #include <QFileInfo>
 #include <QImage>

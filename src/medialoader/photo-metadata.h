@@ -20,6 +20,9 @@
 #ifndef GALLERY_PHOTO_METADATA_H_
 #define GALLERY_PHOTO_METADATA_H_
 
+// util
+#include <orientation.h>
+
 #include <QDateTime>
 #include <QFileInfo>
 #include <QObject>
@@ -28,42 +31,6 @@
 #include <QTransform>
 
 #include <exiv2/exiv2.hpp>
-
-enum Orientation {
-    MIN_ORIENTATION = 1,
-    TOP_LEFT_ORIGIN = 1,
-    TOP_RIGHT_ORIGIN = 2,
-    BOTTOM_RIGHT_ORIGIN = 3,
-    BOTTOM_LEFT_ORIGIN = 4,
-    LEFT_TOP_ORIGIN = 5,
-    RIGHT_TOP_ORIGIN = 6,
-    RIGHT_BOTTOM_ORIGIN = 7,
-    LEFT_BOTTOM_ORIGIN = 8,
-    MAX_ORIENTATION = 8
-};
-
-/*!
- * \brief The OrientationCorrection struct
- */
-class OrientationCorrection
-{
-public:
-    static OrientationCorrection FromOrientation(Orientation o);
-    static OrientationCorrection Identity();
-
-    const double rotation_angle_;
-    const double horizontal_scale_factor_;
-
-    QTransform to_transform() const;
-
-    bool is_flipped_from(const OrientationCorrection& other) const;
-    int get_normalized_rotation_difference(const OrientationCorrection& other) const;
-
-private:
-    OrientationCorrection(double rotation_angle, double horizontal_scale_factor)
-        : rotation_angle_(rotation_angle),
-          horizontal_scale_factor_(horizontal_scale_factor) { }
-};
 
 /*!
  * \brief The PhotoMetadata class
@@ -76,8 +43,6 @@ public:
     static PhotoMetadata* FromFile(const char* filepath);
     static PhotoMetadata* FromFile(const QFileInfo& file);
 
-    static Orientation rotate_orientation(Orientation orientation, bool left);
-    
     QDateTime exposure_time() const;
     Orientation orientation() const;
     QTransform orientation_transform() const;

@@ -19,8 +19,7 @@
  */
 
 #include "gallery-standard-image-provider.h"
-
-// media
+#include "photo-metadata.h"
 #include "preview-manager.h"
 
 #include <QDebug>

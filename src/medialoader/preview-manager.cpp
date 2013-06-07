@@ -21,9 +21,7 @@
 
 // media
 #include "media-collection.h"
-
-// photo
-#include "photo.h"
+#include "media-source.h"
 
 #include <QCryptographicHash>
 #include <QDir>
@@ -148,7 +146,7 @@ bool PreviewManager::ensurePreview(QFileInfo file, bool regen)
 
     QImage thumbMaster;
     if (updateNeeded(file, QFileInfo(preview)) || regen) {
-        Photo* photo = m_mediaCollection->photoFromFileinfo(file);
+        MediaSource* photo = m_mediaCollection->photoFromFileinfo(file);
         QSize previewSize(PREVIEW_SIZE, PREVIEW_SIZE);
         QImage fullsized(photo->Image(true, previewSize));
         if (fullsized.isNull()) {

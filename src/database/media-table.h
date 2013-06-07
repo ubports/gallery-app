@@ -20,7 +20,8 @@
 #ifndef MEDIATABLE_H
 #define MEDIATABLE_H
 
-#include "photo-metadata.h"
+// util
+#include "orientation.h"
 
 #include <QObject>
 

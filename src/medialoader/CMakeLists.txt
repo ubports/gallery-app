@@ -7,9 +7,6 @@ include_directories(
     ${gallery_core_src_SOURCE_DIR}
     # because of circulate dependencies the sub project can't be used directly
     # FIXME resolve the circulate dependencies
-    ${gallery_src_SOURCE_DIR}/database
-    ${gallery_src_SOURCE_DIR}/event
-    ${gallery_src_SOURCE_DIR}/photo
     ${gallery_src_SOURCE_DIR}/media
     ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
@@ -19,12 +16,14 @@ include_directories(
 set(gallery_medialoader_HDRS
     gallery-standard-image-provider.h
     gallery-thumbnail-image-provider.h
+    photo-metadata.h
     preview-manager.h
     )
 
 set(gallery_medialoader_SRCS
     gallery-standard-image-provider.cpp
     gallery-thumbnail-image-provider.cpp
+    photo-metadata.cpp
     preview-manager.cpp
     )
 
@@ -36,9 +35,6 @@ qt5_use_modules(${GALLERY_MEDIALOADER_LIB} Core Quick)
 
 target_link_libraries( ${GALLERY_MEDIALOADER_LIB}
     gallery-core
-    gallery-database
-    gallery-event
-    gallery-photo
     gallery-media
     gallery-util
     ${GSTLIB_LDFLAGS}

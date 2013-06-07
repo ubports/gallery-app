@@ -24,10 +24,12 @@
 
 #include "photo-caches.h"
 #include "photo-edit-state.h"
-#include "photo-metadata.h"
 
 // media
 #include "media-source.h"
+
+// util
+#include "orientation.h"
 
 #include <QDateTime>
 #include <QStack>
