@@ -8,20 +8,21 @@ include_directories(
     ${CMAKE_BINARY_DIR}
     ${gallery_src_SOURCE_DIR}
     ${gallery_media_src_SOURCE_DIR}
+    ${gallery_medialoader_src_SOURCE_DIR}
     ${gallery_photo_src_SOURCE_DIR}
-    ${gallery_qml_src_SOURCE_DIR}
+    ${gallery_util_src_SOURCE_DIR}
     ${GSTLIB_INCLUDE_DIRS}
     )
 
 QT_WRAP_CPP(gallerystandardimageprovider GALLERYSTANDARDIMAGEPROVIDIER_MOCS
-    ${gallery_src_SOURCE_DIR}/media/preview-manager.h
+    ${gallery_src_SOURCE_DIR}/medialoader/preview-manager.h
     )
 
 add_executable(gallerystandardimageprovider
     tst_gallerystandardimageprovidertest.cpp
     preview-manager.cpp
     photometa-data.cpp
-    ${gallery_src_SOURCE_DIR}/qml/gallery-standard-image-provider.cpp
+    ${gallery_src_SOURCE_DIR}/medialoader/gallery-standard-image-provider.cpp
     ${GALLERYSTANDARDIMAGEPROVIDIER_MOCS}
     )
 

@@ -1,3 +1,48 @@
+gallery-app (0.0.67daily13.06.05-0ubuntu1) saucy; urgency=low
+
+  [ Łukasz 'sil2100' Zemczak ]
+  * libhud-qt-qml has been renamed to qtdeclarative5-hud1.0.
+
+  [ Olivier Tilloy ]
+  * Add missing runtime dependency on qtdeclarative5-accounts-plugin.
+    Merging manually as the jenkins CI job is busted, it installs the
+    wrong version of the app and its dependencies (see
+    https://code.launchpad.net/~osomon/gallery-app/missing-uoa-
+    dep/+merge/166552).
+
+  [ Michael Terry ]
+  * Port to HUD 1.0.
+
+  [ Omer Akram ]
+  * port gallery-app to ap 1.3.
+  * Fix autopilot test: wait for the edit dialog to fully appear before
+    moving towards it.
+  * Fix failing tests on touch devices.
+  * Fixes a few pep8 complaints.
+
+  [ Renato Araujo Oliveira Filho ]
+  * Fixed duplicate entries in Media Album Table;. (LP: #1163353)
+
+  [ Guenter Schwann ]
+  * Use Components and PopupUtils for the edit and share Popover.
+  * Update Toolbar API.
+  * Use SDK Popover for cover image menu.
+  * First german translation, and everything needed to make it work.
+  * Support orientation change.
+  * Fixes sharing functionality (LP: 1183460). (LP: #1183460)
+  * Remove old unused files.
+  * Split gallery into static libraries, for better modualirity, and
+    easier testing.
+  * As default save database in $HOME/.local/share/gallery-app.
+  * Remove quit action from HUD.
+  * Switching tabs by swiping is disabled, so the command can be cleaned
+    up.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 683
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 05 Jun 2013 05:03:07 +0000
+
 gallery-app (0.0.67daily13.05.31.1ubuntu.unity.next-0ubuntu1) raring; urgency=low
 
   [ Ken VanDine ]

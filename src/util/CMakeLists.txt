@@ -13,6 +13,7 @@ set(gallery_util_HDRS
     collections.h
     command-line-parser.h
     imaging.h
+    orientation.h
     resource.h
     sharefile.h
     variants.h
@@ -21,6 +22,7 @@ set(gallery_util_HDRS
 set(gallery_util_SRCS
     command-line-parser.cpp
     imaging.cpp
+    orientation.cpp
     resource.cpp
     sharefile.cpp
     )

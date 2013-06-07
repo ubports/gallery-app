@@ -20,7 +20,7 @@
 #ifndef GALLERY_MEDIA_COLLECTION_H_
 #define GALLERY_MEDIA_COLLECTION_H_
 
-#include <QDir>
+#include <QFileInfo>
 #include <QHash>
 #include <QSet>
 
@@ -29,7 +29,6 @@
 
 class DataObject;
 class MediaSource;
-class Photo;
 
 /*!
  * \brief The MediaCollection class
@@ -39,16 +38,15 @@ class MediaCollection : public SourceCollection
     Q_OBJECT
 
 public:
-    MediaCollection(const QDir& directory);
+    MediaCollection();
 
     static bool ExposureDateTimeAscendingComparator(DataObject* a, DataObject* b);
     static bool ExposureDateTimeDescendingComparator(DataObject* a, DataObject* b);
 
-    const QDir& directory() const;
-
     MediaSource* mediaForId(qint64 id);
+    MediaSource* photoFromFileinfo(const QFileInfo &file_to_load);
 
-    Photo* photoFromFileinfo(QFileInfo file_to_load);
+    virtual void AddMany(const QSet<DataObject*>& objects);
 
 protected slots:
     virtual void notify_contents_altered(const QSet<DataObject*>* added,
@@ -57,9 +55,8 @@ protected slots:
 private:
     // Used by photoFromFileinfo() to prevent ourselves from accidentally
     // seeing a duplicate photo after an edit.
-    QHash<QString, Photo*> file_photo_map_;
+    QHash<QString, MediaSource*> m_filePhotoMap;
 
-    QDir directory_;
     QHash<qint64, DataObject*> id_map_;
 };
 

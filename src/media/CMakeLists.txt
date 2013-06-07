@@ -9,8 +9,7 @@ include_directories(
     # FIXME resolve the circulate dependencies
     ${gallery_src_SOURCE_DIR}/database
     ${gallery_src_SOURCE_DIR}/event
-    ${gallery_src_SOURCE_DIR}/photo
-    ${gallery_src_SOURCE_DIR}/qml
+    ${gallery_src_SOURCE_DIR}/medialoader
     ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
     ${GSTLIB_INCLUDE_DIRS}
@@ -20,14 +19,12 @@ set(gallery_media_HDRS
     media-collection.h
     media-monitor.h
     media-source.h
-    preview-manager.h
     )
 
 set(gallery_media_SRCS
     media-collection.cpp
     media-monitor.cpp
     media-source.cpp
-    preview-manager.cpp
     )
 
 add_library(${GALLERY_MEDIA_LIB}
@@ -40,8 +37,7 @@ target_link_libraries( ${GALLERY_MEDIA_LIB}
     gallery-core
     gallery-database
     gallery-event
-    gallery-photo
-    gallery-qml
+    gallery-medialoader
     gallery-util
     ${GSTLIB_LDFLAGS}
     )

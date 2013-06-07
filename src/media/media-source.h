@@ -23,8 +23,8 @@
 // core
 #include "data-source.h"
 
-// photo
-#include "photo-metadata.h"
+// util
+#include "orientation.h"
 
 #include <QDate>
 #include <QDateTime>
