@@ -103,7 +103,7 @@ void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
             id_map_.insert(qobject_cast<MediaSource*>(o)->get_id(), o);
 
             MediaSource* media = qobject_cast<MediaSource*>(o);
-            if (media != NULL) {
+            if (media != 0) {
                 m_filePhotoMap.insert(media->file().absoluteFilePath(), media);
             }
         }
@@ -115,7 +115,7 @@ void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
             DataObject* o = i.next();
             MediaSource* media = qobject_cast<MediaSource*>(o);
 
-            if (media != NULL) {
+            if (media != 0) {
                 m_filePhotoMap.remove(media->file().absoluteFilePath());
             }
 
@@ -139,7 +139,7 @@ void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
  */
 MediaSource *MediaCollection::photoFromFileinfo(const QFileInfo& file_to_load)
 {
-    return m_filePhotoMap.value(file_to_load.absoluteFilePath(), NULL);
+    return m_filePhotoMap.value(file_to_load.absoluteFilePath(), 0);
 }
 
 /*!

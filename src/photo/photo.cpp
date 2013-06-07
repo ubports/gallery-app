@@ -270,7 +270,7 @@ Photo* Photo::Fetch(const QFileInfo& file)
 
     Photo* p = 0;
     MediaSource* media = gallery_mgr->media_collection()->photoFromFileinfo(file);
-    if (media == NULL) {
+    if (media == 0) {
         p = Load(file);
     } else {
         p = qobject_cast<Photo*>(media);

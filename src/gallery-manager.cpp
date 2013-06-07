@@ -188,7 +188,7 @@ void GalleryManager::fillMediaCollection()
     mediaDir.setSorting(QDir::Name);
 
     QSet<DataObject*> photos;
-    QStringList filenames = mediaDir.entryList();
+    const QStringList filenames = mediaDir.entryList();
     foreach (const QString& filename, filenames) {
         QFileInfo file(mediaDir, filename);
         Photo *p = Photo::Load(file);
