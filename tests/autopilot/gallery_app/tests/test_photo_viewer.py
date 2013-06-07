@@ -274,10 +274,12 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.reveal_toolbar()
         self.click_edit_button()
+        self.ensure_edit_dialog_visible()
         self.click_undo_item()
 
         self.reveal_toolbar()
         self.click_edit_button()
+        self.ensure_edit_dialog_visible()
         undo_item = self.photo_viewer.get_undo_menu_item()
         redo_item = self.photo_viewer.get_redo_menu_item()
         revert_item = self.photo_viewer.get_revert_menu_item()
@@ -294,10 +296,12 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.reveal_toolbar()
         self.click_edit_button()
+        self.ensure_edit_dialog_visible()
         self.click_revert_item()
 
         self.reveal_toolbar()
         self.click_edit_button()
+        self.ensure_edit_dialog_visible()
         undo_item = self.photo_viewer.get_undo_menu_item()
         redo_item = self.photo_viewer.get_redo_menu_item()
         revert_item = self.photo_viewer.get_revert_menu_item()
