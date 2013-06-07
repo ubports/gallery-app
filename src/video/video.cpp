@@ -40,16 +40,25 @@ QImage Video::image(bool respect_orientation, const QSize &scaleSize)
     return QImage(Resource::get_rc_url("img/video-thumbnail.png").toLocalFile());
 }
 
+/*!
+ * \reimp
+ */
 QUrl Video::galleryPath() const
 {
     return Resource::get_rc_url("img/video-thumbnail.png");
 }
 
+/*!
+ * \reimp
+ */
 QUrl Video::galleryPreviewPath() const
 {
     return Resource::get_rc_url("img/video-thumbnail.png");
 }
 
+/*!
+ * \reimp
+ */
 QUrl Video::galleryThumbnailPath() const
 {
     return Resource::get_rc_url("img/video-thumbnail.png");
