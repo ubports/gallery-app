@@ -5,6 +5,8 @@ set(GALLERY_MEDIALOADER_LIB gallery-medialoader)
 include_directories(
     ${gallery_src_SOURCE_DIR}
     ${gallery_core_src_SOURCE_DIR}
+    # because of circulate dependencies the sub project can't be used directly
+    # FIXME resolve the circulate dependencies
     ${gallery_src_SOURCE_DIR}/media
     ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
