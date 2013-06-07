@@ -16,6 +16,11 @@
 
 #include "video.h"
 
+// util
+#include <resource.h>
+
+#include <QUrl>
+
 /*!
  * \brief Video::Video
  * \param file
@@ -28,17 +33,24 @@ Video::Video(const QFileInfo &file)
 /*!
  * \reimp
  */
-QImage Video::Image(bool respect_orientation, const QSize &scaleSize)
+QImage Video::image(bool respect_orientation, const QSize &scaleSize)
 {
     Q_UNUSED(respect_orientation);
     Q_UNUSED(scaleSize);
-    return QImage();
+    return QImage(Resource::get_rc_url("img/video-thumbnail.png").toLocalFile());
 }
 
-/*!
- * \reimp
- */
-QDateTime Video::exposure_date_time() const
+QUrl Video::galleryPath() const
 {
-    return QDateTime();
+    return Resource::get_rc_url("img/video-thumbnail.png");
+}
+
+QUrl Video::galleryPreviewPath() const
+{
+    return Resource::get_rc_url("img/video-thumbnail.png");
+}
+
+QUrl Video::galleryThumbnailPath() const
+{
+    return Resource::get_rc_url("img/video-thumbnail.png");
 }

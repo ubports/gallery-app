@@ -55,8 +55,8 @@ MediaCollection::MediaCollection()
 bool MediaCollection::ExposureDateTimeAscendingComparator(DataObject* a,
                                                           DataObject* b)
 {
-    QDateTime exptime_a = qobject_cast<MediaSource*>(a)->exposure_date_time();
-    QDateTime exptime_b = qobject_cast<MediaSource*>(b)->exposure_date_time();
+    QDateTime exptime_a = qobject_cast<MediaSource*>(a)->exposureDateTime();
+    QDateTime exptime_b = qobject_cast<MediaSource*>(b)->exposureDateTime();
 
     return (exptime_a == exptime_b) ?
                 (DataCollection::DefaultDataObjectComparator(a, b)) :
@@ -104,7 +104,7 @@ void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
 
             MediaSource* media = qobject_cast<MediaSource*>(o);
             if (media != 0) {
-                m_filePhotoMap.insert(media->file().absoluteFilePath(), media);
+                m_fileMediaMap.insert(media->file().absoluteFilePath(), media);
             }
         }
     }
@@ -116,7 +116,7 @@ void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
             MediaSource* media = qobject_cast<MediaSource*>(o);
 
             if (media != 0) {
-                m_filePhotoMap.remove(media->file().absoluteFilePath());
+                m_fileMediaMap.remove(media->file().absoluteFilePath());
             }
 
             id_map_.remove(media->get_id());
@@ -137,9 +137,9 @@ void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
  * \param file_to_load
  * \return
  */
-MediaSource *MediaCollection::photoFromFileinfo(const QFileInfo& file_to_load)
+MediaSource *MediaCollection::mediaFromFileinfo(const QFileInfo& file)
 {
-    return m_filePhotoMap.value(file_to_load.absoluteFilePath(), 0);
+    return m_fileMediaMap.value(file.absoluteFilePath(), 0);
 }
 
 /*!

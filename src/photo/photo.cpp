@@ -247,7 +247,7 @@ Photo* Photo::Load(const QFileInfo& file)
         p->set_size(size);
     p->set_original_orientation(orientation);
     p->set_file_timestamp(timestamp);
-    p->set_exposure_date_time(exposure_time);
+    p->setExposureDateTime(exposure_time);
 
     // We set the id last so we don't save the info we just read in back out to
     // the DB.
@@ -269,7 +269,7 @@ Photo* Photo::Fetch(const QFileInfo& file)
     GalleryManager* gallery_mgr = GalleryManager::instance();
 
     Photo* p = 0;
-    MediaSource* media = gallery_mgr->media_collection()->photoFromFileinfo(file);
+    MediaSource* media = gallery_mgr->media_collection()->mediaFromFileinfo(file);
     if (media == 0) {
         p = Load(file);
     } else {
@@ -285,7 +285,6 @@ Photo* Photo::Fetch(const QFileInfo& file)
  */
 Photo::Photo(const QFileInfo& file)
     : MediaSource(file),
-      exposure_date_time_(),
       edit_revision_(0),
       caches_(file),
       original_size_(),
@@ -311,7 +310,7 @@ Photo::~Photo()
  * \param respect_orientation if set to true, the photo is rotated according to the EXIF information
  * \return The image in full size
  */
-QImage Photo::Image(bool respect_orientation, const QSize &scaleSize)
+QImage Photo::image(bool respect_orientation, const QSize &scaleSize)
 {
     QImageReader imageReader(file().filePath(), file_format_.toStdString().c_str());
     QSize imageSize = imageReader.size();
@@ -345,21 +344,11 @@ Orientation Photo::orientation() const
 }
 
 /*!
- * \brief Photo::exposure_date_time
- * \return
+ * \reimp
  */
-QDateTime Photo::exposure_date_time() const
+QUrl Photo::galleryPath() const
 {
-    return exposure_date_time_;
-}
-
-/*!
- * \brief Photo::gallery_path
- * \return
- */
-QUrl Photo::gallery_path() const
-{
-    QUrl url = MediaSource::gallery_path();
+    QUrl url = MediaSource::galleryPath();
     // We don't pass the orientation in if we saved the file already rotated,
     // which is the case if the file format can't store rotation metadata.
     append_path_params(&url, (file_format_has_orientation() ? orientation() : TOP_LEFT_ORIGIN), 0);
@@ -368,12 +357,11 @@ QUrl Photo::gallery_path() const
 }
 
 /*!
- * \brief Photo::gallery_preview_path
- * \return
+ * \reimp
  */
-QUrl Photo::gallery_preview_path() const
+QUrl Photo::galleryPreviewPath() const
 {
-    QUrl url = MediaSource::gallery_preview_path();
+    QUrl url = MediaSource::galleryPreviewPath();
     // previews are always stored fully transformed
 
     append_path_params(&url, TOP_LEFT_ORIGIN, 1);
@@ -382,12 +370,11 @@ QUrl Photo::gallery_preview_path() const
 }
 
 /*!
- * \brief Photo::gallery_thumbnail_path
- * \return
+ * \reimp
  */
-QUrl Photo::gallery_thumbnail_path() const
+QUrl Photo::galleryThumbnailPath() const
 {
-    QUrl url = MediaSource::gallery_thumbnail_path();
+    QUrl url = MediaSource::galleryThumbnailPath();
     // same as in append_path_params() this is needed to trigger an update of the image in QML
     // so the URL is changed by adding/chageing the edit parameter
     QUrlQuery query;
@@ -1021,17 +1008,4 @@ void Photo::set_original_orientation(Orientation orientation)
 void Photo::set_file_timestamp(const QDateTime& timestamp)
 {
     file_timestamp_ = timestamp;
-}
-
-/*!
- * \brief Photo::set_exposure_date_time
- * \param exposure_time
- */
-void Photo::set_exposure_date_time(const QDateTime& exposure_time)
-{
-    if (exposure_date_time_ == exposure_time)
-        return;
-
-    exposure_date_time_ = exposure_time;
-    emit exposure_date_time_altered();
 }

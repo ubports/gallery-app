@@ -42,7 +42,8 @@
  * \brief MediaSource::MediaSource
  */
 MediaSource::MediaSource()
-    : id_(INVALID_ID)
+    : id_(INVALID_ID),
+      m_exposureDateTime()
 {
 }
 
@@ -51,7 +52,8 @@ MediaSource::MediaSource()
  * \param file
  */
 MediaSource::MediaSource(const QFileInfo& file)
-    : id_(INVALID_ID)
+    : id_(INVALID_ID),
+      m_exposureDateTime()
 {
     file_ = file;
 }
@@ -83,64 +85,64 @@ QUrl MediaSource::path() const
 }
 
 /*!
- * \brief MediaSource::gallery_path
+ * \brief MediaSource::galleryPath
  * \return
  */
-QUrl MediaSource::gallery_path() const
+QUrl MediaSource::galleryPath() const
 {
     return GalleryStandardImageProvider::ToURL(file_);
 }
 
 /*!
- * \brief MediaSource::preview_file
+ * \brief MediaSource::previewFile
  * \return
  */
-QString MediaSource::preview_file() const
+QString MediaSource::previewFile() const
 {
     return GalleryManager::instance()->preview_manager()->previewFileName(file_);
 }
 
 /*!
- * \brief MediaSource::preview_path
+ * \brief MediaSource::previewPath
  * \return
  */
-QUrl MediaSource::preview_path() const
+QUrl MediaSource::previewPath() const
 {
-    return QUrl::fromLocalFile(preview_file());
+    return QUrl::fromLocalFile(previewFile());
 }
 
 /*!
- * \brief MediaSource::gallery_preview_path
+ * \brief MediaSource::galleryPreviewPath
  * \return
  */
-QUrl MediaSource::gallery_preview_path() const
+QUrl MediaSource::galleryPreviewPath() const
 {
     return GalleryStandardImageProvider::ToURL(file_);
 }
 
 /*!
- * \brief MediaSource::thumbnail_file
+ * \brief MediaSource::thumbnailFile
  * \return
  */
-QString MediaSource::thumbnail_file() const
+QString MediaSource::thumbnailFile() const
 {
     return GalleryManager::instance()->preview_manager()->thumbnailFileName(file_);
 }
 
 /*!
- * \brief MediaSource::thumbnail_path
+ * \brief MediaSource::thumbnailPath
  * \return
  */
-QUrl MediaSource::thumbnail_path() const
+QUrl MediaSource::thumbnailPath() const
 {
-    return QUrl::fromLocalFile(thumbnail_file());
+    return QUrl::fromLocalFile(thumbnailFile());
 }
 
 /*!
- * \brief MediaSource::gallery_thumbnail_path
+ * \brief MediaSource::galleryThumbnailPath
  * \return
  */
-QUrl MediaSource::gallery_thumbnail_path() const
+QUrl MediaSource::galleryThumbnailPath() const
 {
     return GalleryThumbnailImageProvider::ToURL(file_);
 }
@@ -150,7 +152,7 @@ QUrl MediaSource::gallery_thumbnail_path() const
  * \param respect_orientation
  * \return
  */
-QImage MediaSource::Image(bool respect_orientation, const QSize &scaleSize)
+QImage MediaSource::image(bool respect_orientation, const QSize &scaleSize)
 {
     Q_UNUSED(respect_orientation);
     Q_UNUSED(scaleSize);
@@ -170,12 +172,25 @@ Orientation MediaSource::orientation() const
 }
 
 /*!
- * \brief MediaSource::exposure_date_time
+ * \brief MediaSource::exposureDateTime
  * \return
  */
-QDateTime MediaSource::exposure_date_time() const
+const QDateTime& MediaSource::exposureDateTime() const
 {
-    return QDateTime();
+    return m_exposureDateTime;
+}
+
+/*!
+ * \brief MediaSource::setExposureDateTime
+ * \param exposure_time
+ */
+void MediaSource::setExposureDateTime(const QDateTime& exposure_time)
+{
+    if (m_exposureDateTime == exposure_time)
+        return;
+
+    m_exposureDateTime = exposure_time;
+    emit exposure_date_time_altered();
 }
 
 /*!
@@ -187,7 +202,7 @@ const QSize& MediaSource::size()
     if (!is_size_set()) {
         // This is potentially very slow, so you should set the size as early as
         // possible to avoid this.
-        QImage image = Image();
+        QImage image = image();
         set_size(image.size());
     }
 
@@ -222,7 +237,7 @@ bool MediaSource::is_size_set() const
  */
 QDate MediaSource::exposure_date() const
 {
-    return exposure_date_time().date();
+    return exposureDateTime().date();
 }
 
 /*!
@@ -231,7 +246,7 @@ QDate MediaSource::exposure_date() const
  */
 QTime MediaSource::exposure_time_of_day() const
 {
-    return exposure_date_time().time();
+    return exposureDateTime().time();
 }
 
 /*!
@@ -240,7 +255,7 @@ QTime MediaSource::exposure_time_of_day() const
  */
 int MediaSource::exposure_time_t() const
 {
-    return (int) exposure_date_time().toTime_t();
+    return (int) exposureDateTime().toTime_t();
 }
 
 /*!

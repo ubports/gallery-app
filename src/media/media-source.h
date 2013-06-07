@@ -45,11 +45,11 @@ class MediaSource : public DataSource
 {
     Q_OBJECT
     Q_PROPERTY(QUrl path READ path NOTIFY path_altered)
-    Q_PROPERTY(QUrl previewPath READ preview_path NOTIFY preview_path_altered)
-    Q_PROPERTY(QUrl thumbnailPath READ thumbnail_path NOTIFY thumbnail_path_altered)
-    Q_PROPERTY(QUrl galleryPath READ gallery_path NOTIFY gallery_path_altered)
-    Q_PROPERTY(QUrl galleryPreviewPath READ gallery_preview_path NOTIFY gallery_preview_path_altered)
-    Q_PROPERTY(QUrl galleryThumbnailPath READ gallery_thumbnail_path NOTIFY gallery_thumbnail_path_altered)
+    Q_PROPERTY(QUrl previewPath READ previewPath NOTIFY preview_path_altered)
+    Q_PROPERTY(QUrl thumbnailPath READ thumbnailPath NOTIFY thumbnail_path_altered)
+    Q_PROPERTY(QUrl galleryPath READ galleryPath NOTIFY gallery_path_altered)
+    Q_PROPERTY(QUrl galleryPreviewPath READ galleryPreviewPath NOTIFY gallery_preview_path_altered)
+    Q_PROPERTY(QUrl galleryThumbnailPath READ galleryThumbnailPath NOTIFY gallery_thumbnail_path_altered)
     Q_PROPERTY(int orientation READ orientation NOTIFY orientation_altered)
     Q_PROPERTY(QDate exposureDate READ exposure_date NOTIFY exposure_date_time_altered)
     Q_PROPERTY(QTime exposureTimeOfDay READ exposure_time_of_day NOTIFY exposure_date_time_altered)
@@ -83,19 +83,19 @@ public:
 
     QFileInfo file() const;
     QUrl path() const;
-    virtual QUrl gallery_path() const;
+    virtual QUrl galleryPath() const;
 
-    QString preview_file() const;
-    QUrl preview_path() const;
-    virtual QUrl gallery_preview_path() const;
+    QString previewFile() const;
+    QUrl previewPath() const;
+    virtual QUrl galleryPreviewPath() const;
 
-    QString thumbnail_file() const;
-    QUrl thumbnail_path() const;
-    virtual QUrl gallery_thumbnail_path() const;
+    QString thumbnailFile() const;
+    QUrl thumbnailPath() const;
+    virtual QUrl galleryThumbnailPath() const;
 
-    virtual QImage Image(bool respect_orientation = true, const QSize &scaleSize=QSize());
+    virtual QImage image(bool respect_orientation = true, const QSize &scaleSize=QSize());
     virtual Orientation orientation() const;
-    virtual QDateTime exposure_date_time() const;
+    const QDateTime& exposureDateTime() const;
 
     const QSize& size();
     void set_size(const QSize& size);
@@ -116,6 +116,8 @@ public:
     int maxSize() const;
 
 protected:
+    void setExposureDateTime(const QDateTime& exposure_time);
+
     virtual void DestroySource(bool delete_backing, bool as_orphan);
 
     virtual void notify_data_altered();
@@ -133,6 +135,7 @@ private:
     QFileInfo file_;
     qint64 id_;
     QSize size_;
+    QDateTime m_exposureDateTime;
     bool busy_;
 };
 

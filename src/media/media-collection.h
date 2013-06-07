@@ -44,7 +44,7 @@ public:
     static bool ExposureDateTimeDescendingComparator(DataObject* a, DataObject* b);
 
     MediaSource* mediaForId(qint64 id);
-    MediaSource* photoFromFileinfo(const QFileInfo &file_to_load);
+    MediaSource* mediaFromFileinfo(const QFileInfo &file);
 
     virtual void AddMany(const QSet<DataObject*>& objects);
 
@@ -55,7 +55,7 @@ protected slots:
 private:
     // Used by photoFromFileinfo() to prevent ourselves from accidentally
     // seeing a duplicate photo after an edit.
-    QHash<QString, MediaSource*> m_filePhotoMap;
+    QHash<QString, MediaSource*> m_fileMediaMap;
 
     QHash<qint64, DataObject*> id_map_;
 };

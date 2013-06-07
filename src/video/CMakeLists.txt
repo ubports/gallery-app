@@ -4,7 +4,9 @@ set(GALLERY_VIDEO_LIB gallery-video)
 
 include_directories(
     ${gallery_src_SOURCE_DIR}
+    ${gallery_core_src_SOURCE_DIR}
     ${gallery_media_src_SOURCE_DIR}
+    ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
     ${GSTLIB_INCLUDE_DIRS}
     )

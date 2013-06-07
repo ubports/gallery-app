@@ -17,9 +17,10 @@
 #ifndef GALLERY_VIDEO_H_
 #define GALLERY_VIDEO_H_
 
-#include <QFileInfo>
+// media
+#include "media-source.h"
 
-#include "media/media-source.h"
+#include <QFileInfo>
 
 /*!
  * \brief The Video class represents one video file
@@ -31,8 +32,11 @@ class Video : public MediaSource
 public:
     explicit Video(const QFileInfo& file);
 
-    virtual QImage Image(bool respect_orientation = true, const QSize &scaleSize=QSize());
-    virtual QDateTime exposure_date_time() const;
+    virtual QImage image(bool respect_orientation = true, const QSize &scaleSize=QSize());
+
+    virtual QUrl galleryPath() const;
+    virtual QUrl galleryPreviewPath() const;
+    virtual QUrl galleryThumbnailPath() const;
 };
 
 #endif  // GALLERY_VIDEO_H_

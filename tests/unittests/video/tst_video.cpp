@@ -17,7 +17,7 @@
 #include <QtTest/QtTest>
 #include <QString>
 
-#include "video/video.h"
+#include "video.h"
 
 class tst_Video : public QObject
 {
