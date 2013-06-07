@@ -219,6 +219,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.reveal_toolbar()
         self.click_edit_button()
+        self.ensure_edit_dialog_visible()
         self.click_undo_item()
 
         self.assertThat(opened_photo.paintedHeight,
@@ -228,6 +229,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.reveal_toolbar()
         self.click_edit_button()
+        self.ensure_edit_dialog_visible()
         self.click_redo_item()
 
         self.assertThat(opened_photo.paintedHeight,
@@ -237,9 +239,11 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.reveal_toolbar()
         self.click_edit_button()
+        self.ensure_edit_dialog_visible()
         self.click_rotate_item()
         self.reveal_toolbar()
         self.click_edit_button()
+        self.ensure_edit_dialog_visible()
         self.click_revert_item()
 
         self.assertThat(opened_photo.paintedHeight,
