@@ -161,12 +161,12 @@ void GalleryManager::initPreviewManager()
     QObject::connect(media_collection_,
                      SIGNAL(contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
                      preview_manager_,
-                     SLOT(on_media_added_removed(const QSet<DataObject*>*,const QSet<DataObject*>*)));
+                     SLOT(onMediaAddedRemoved(const QSet<DataObject*>*,const QSet<DataObject*>*)));
 
     QObject::connect(media_collection_,
                      SIGNAL(destroying(const QSet<DataObject*>*)),
                      preview_manager_,
-                     SLOT(on_media_destroying(const QSet<DataObject*>*)));
+                     SLOT(onMediaDestroying(const QSet<DataObject*>*)));
 
     // Verify previews for all existing added MediaSources
     preview_manager_->onMediaAddedRemoved(&media_collection_->GetAsSet(), NULL);
