@@ -59,7 +59,6 @@ class MediaSource : public DataSource
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
     Q_PROPERTY(int width READ width NOTIFY sizeChanged)
     Q_PROPERTY(int height READ height NOTIFY sizeChanged)
-    Q_PROPERTY(int maxSize READ maxSize NOTIFY maxSizeChanged)
 
 signals:
     void pathChanged();
@@ -74,7 +73,6 @@ signals:
     void dataChanged();
     void sizeChanged();
     void busyChanged();
-    void maxSizeChanged();
 
 public:
     MediaSource();
@@ -108,8 +106,6 @@ public:
     qint64 id() const;
 
     bool busy() const;
-
-    int maxSize() const;
 
 protected:
     void setId(qint64 id);

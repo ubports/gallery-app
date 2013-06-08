@@ -32,9 +32,6 @@
 #include "gallery-standard-image-provider.h"
 #include "gallery-thumbnail-image-provider.h"
 
-// util
-#include "resource.h"
-
 // src
 #include "gallery-manager.h"
 
@@ -324,15 +321,6 @@ void MediaSource::setBusy(bool busy)
 
     m_busy = busy;
     emit busyChanged();
-}
-
-/*!
- * \brief MediaSource::maxSize
- * \return
- */
-int MediaSource::maxSize() const
-{
-    return GalleryManager::instance()->resource()->maxTextureSize();
 }
 
 /*!

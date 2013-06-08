@@ -156,9 +156,12 @@ void GalleryApplication::create_view()
         view_.setMinimumSize(QSize(60 * bgu_size_, 60 * bgu_size_));
     }
 
-    view_.engine()->rootContext()->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
-    view_.engine()->rootContext()->setContextProperty("DEVICE_HEIGHT", QVariant(size.height()));
-    view_.engine()->rootContext()->setContextProperty("FORM_FACTOR", QVariant(cmd_line_parser()->form_factor()));
+    QQmlContext *rootContext = view_.engine()->rootContext();
+    rootContext->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
+    rootContext->setContextProperty("DEVICE_HEIGHT", QVariant(size.height()));
+    rootContext->setContextProperty("FORM_FACTOR", QVariant(cmd_line_parser()->form_factor()));
+    rootContext->setContextProperty("MAX_GL_TEXTURE_SIZE",
+                                    QVariant(GalleryManager::instance()->resource()->maxTextureSize()));
 
     // Set ourselves up to expose functionality to run external commands from QML...
     view_.engine()->rootContext()->setContextProperty("APP", this);
