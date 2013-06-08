@@ -130,7 +130,7 @@ void GalleryApplication::register_qml()
     Album::RegisterType();
     AlbumPage::RegisterType();
     Event::RegisterType();
-    MediaSource::RegisterType();
+    qmlRegisterType<MediaSource>("Gallery", 1, 0, "MediaSource");
     QmlAlbumCollectionModel::RegisterType();
     QmlEventCollectionModel::RegisterType();
     QmlEventOverviewModel::RegisterType();

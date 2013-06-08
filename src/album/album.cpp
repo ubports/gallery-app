@@ -631,7 +631,7 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
             while (i.hasNext()) {
                 MediaSource* media = qobject_cast<MediaSource*>(i.next());
                 Q_ASSERT(media != NULL);
-                GalleryManager::instance()->database()->get_album_table()->attach_to_album(get_id(), media->get_id());
+                GalleryManager::instance()->database()->get_album_table()->attach_to_album(get_id(), media->id());
             }
         }
 
@@ -640,7 +640,7 @@ void Album::notify_container_contents_altered(const QSet<DataObject*>* added,
             while (i.hasNext()) {
                 MediaSource* media = qobject_cast<MediaSource*>(i.next());
                 Q_ASSERT(media != NULL);
-                GalleryManager::instance()->database()->get_album_table()->detach_from_album(get_id(), media->get_id());
+                GalleryManager::instance()->database()->get_album_table()->detach_from_album(get_id(), media->id());
             }
         }
     }

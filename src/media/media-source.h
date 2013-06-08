@@ -30,6 +30,7 @@
 #include <QDateTime>
 #include <QFileInfo>
 #include <QImage>
+#include <QSize>
 #include <QTime>
 #include <QUrl>
 #include <QVariant>
@@ -44,42 +45,40 @@ class GalleryManager;
 class MediaSource : public DataSource
 {
     Q_OBJECT
-    Q_PROPERTY(QUrl path READ path NOTIFY path_altered)
-    Q_PROPERTY(QUrl previewPath READ previewPath NOTIFY preview_path_altered)
-    Q_PROPERTY(QUrl thumbnailPath READ thumbnailPath NOTIFY thumbnail_path_altered)
-    Q_PROPERTY(QUrl galleryPath READ galleryPath NOTIFY gallery_path_altered)
-    Q_PROPERTY(QUrl galleryPreviewPath READ galleryPreviewPath NOTIFY gallery_preview_path_altered)
-    Q_PROPERTY(QUrl galleryThumbnailPath READ galleryThumbnailPath NOTIFY gallery_thumbnail_path_altered)
-    Q_PROPERTY(int orientation READ orientation NOTIFY orientation_altered)
-    Q_PROPERTY(QDate exposureDate READ exposure_date NOTIFY exposure_date_time_altered)
-    Q_PROPERTY(QTime exposureTimeOfDay READ exposure_time_of_day NOTIFY exposure_date_time_altered)
-    Q_PROPERTY(int exposure_time_t READ exposure_time_t NOTIFY exposure_date_time_altered)
-    Q_PROPERTY(QVariant event READ QmlFindEvent NOTIFY event_changed)
+    Q_PROPERTY(QUrl path READ path NOTIFY pathChanged)
+    Q_PROPERTY(QUrl previewPath READ previewPath NOTIFY previewPathChanged)
+    Q_PROPERTY(QUrl thumbnailPath READ thumbnailPath NOTIFY thumbnailPathChanged)
+    Q_PROPERTY(QUrl galleryPath READ galleryPath NOTIFY galleryPathChanged)
+    Q_PROPERTY(QUrl galleryPreviewPath READ galleryPreviewPath NOTIFY galleryPreviewPathChanged)
+    Q_PROPERTY(QUrl galleryThumbnailPath READ galleryThumbnailPath NOTIFY galleryThumbnailPathChanged)
+    Q_PROPERTY(int orientation READ orientation NOTIFY orientationChanged)
+    Q_PROPERTY(QDate exposureDate READ exposureDate NOTIFY exposureDateTimeChanged)
+    Q_PROPERTY(QTime exposureTimeOfDay READ exposureTimeOfDay NOTIFY exposureDateTimeChanged)
+    Q_PROPERTY(int exposureTime_t READ exposureTime_t NOTIFY exposureDateTimeChanged)
+    Q_PROPERTY(QVariant event READ QmlFindEvent NOTIFY eventChanged)
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
-    Q_PROPERTY(int width READ width NOTIFY size_altered)
-    Q_PROPERTY(int height READ height NOTIFY size_altered)
+    Q_PROPERTY(int width READ width NOTIFY sizeChanged)
+    Q_PROPERTY(int height READ height NOTIFY sizeChanged)
     Q_PROPERTY(int maxSize READ maxSize NOTIFY maxSizeChanged)
 
 signals:
-    void path_altered();
-    void preview_path_altered();
-    void thumbnail_path_altered();
-    void gallery_path_altered();
-    void gallery_preview_path_altered();
-    void gallery_thumbnail_path_altered();
-    void orientation_altered();
-    void exposure_date_time_altered();
-    void event_changed();
-    void data_altered();
-    void size_altered();
+    void pathChanged();
+    void previewPathChanged();
+    void thumbnailPathChanged();
+    void galleryPathChanged();
+    void galleryPreviewPathChanged();
+    void galleryThumbnailPathChanged();
+    void orientationChanged();
+    void exposureDateTimeChanged();
+    void eventChanged();
+    void dataChanged();
+    void sizeChanged();
     void busyChanged();
     void maxSizeChanged();
 
 public:
     MediaSource();
     explicit MediaSource(const QFileInfo& file);
-
-    static void RegisterType();
 
     QFileInfo file() const;
     QUrl path() const;
@@ -96,47 +95,51 @@ public:
     virtual QImage image(bool respect_orientation = true, const QSize &scaleSize=QSize());
     virtual Orientation orientation() const;
     const QDateTime& exposureDateTime() const;
+    const QDateTime& fileTimestamp() const;
 
     const QSize& size();
-    void set_size(const QSize& size);
-    bool is_size_set() const;
-    QDate exposure_date() const;
-    QTime exposure_time_of_day() const;
-    int exposure_time_t() const;
+    QDate exposureDate() const;
+    QTime exposureTimeOfDay() const;
+    int exposureTime_t() const;
 
     Event* FindEvent();
     QVariant QmlFindEvent();
 
-    void set_id(qint64 id);
-    qint64 get_id() const;
+    qint64 id() const;
 
-    bool busy();
-    void set_busy(bool busy);
+    bool busy() const;
 
     int maxSize() const;
 
 protected:
-    void setExposureDateTime(const QDateTime& exposure_time);
+    void setId(qint64 id);
+    void setExposureDateTime(const QDateTime& exposureTime);
+    void setFileTimestamp(const QDateTime& timestamp);
+    void setSize(const QSize& size);
+    bool isSizeSet() const;
 
     virtual void DestroySource(bool delete_backing, bool as_orphan);
 
     virtual void notify_data_altered();
     virtual void notify_size_altered();
 
+    void setBusy(bool busy);
+
 private:
     int width() const {
-        return size_.width();
+        return m_size.width();
     }
 
     int height() const {
-        return size_.height();
+        return m_size.height();
     }
 
-    QFileInfo file_;
-    qint64 id_;
-    QSize size_;
+    QFileInfo m_file;
+    qint64 m_id;
+    QSize m_size;
     QDateTime m_exposureDateTime;
-    bool busy_;
+    QDateTime m_fileTimestamp;
+    bool m_busy;
 };
 
 QML_DECLARE_TYPE(MediaSource)

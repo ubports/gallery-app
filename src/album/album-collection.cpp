@@ -150,7 +150,7 @@ void AlbumCollection::notify_contents_altered(const QSet<DataObject*>* added,
             foreach(DataObject* o, album->contained()->GetAll()) {
                 MediaSource* media = qobject_cast<MediaSource*>(o);
                 Q_ASSERT(media != NULL);
-                GalleryManager::instance()->database()->get_album_table()->attach_to_album(album->get_id(), media->get_id());
+                GalleryManager::instance()->database()->get_album_table()->attach_to_album(album->get_id(), media->id());
             }
         }
     }

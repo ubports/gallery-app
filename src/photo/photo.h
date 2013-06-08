@@ -23,7 +23,6 @@
 #define GALLERY_PHOTO_H_
 
 #include "photo-caches.h"
-#include "photo-edit-state.h"
 
 // media
 #include "media-source.h"
@@ -31,9 +30,7 @@
 // util
 #include "orientation.h"
 
-#include <QDateTime>
-#include <QStack>
-
+class PhotoEditState;
 class PhotoPrivate;
 
 /*!
@@ -102,10 +99,8 @@ private:
     bool file_format_has_metadata() const;
     bool file_format_has_orientation() const;
     void set_original_orientation(Orientation orientation);
-    void set_file_timestamp(const QDateTime& timestamp);
 
     QString file_format_;
-    QDateTime file_timestamp_;
     int edit_revision_; // How many times the pixel data has been modified by us.
     PhotoCaches caches_;
 

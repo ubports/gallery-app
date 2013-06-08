@@ -71,7 +71,7 @@ void PreviewManager::onMediaAddedRemoved(const QSet<DataObject*>* added,
         foreach (object, *added) {
             MediaSource* source = qobject_cast<MediaSource*>(object);
 
-            QObject::connect(source, SIGNAL(data_altered()),
+            QObject::connect(source, SIGNAL(dataChanged()),
                              this, SLOT(updatePreview()), Qt::UniqueConnection);
         }
     }
@@ -80,7 +80,7 @@ void PreviewManager::onMediaAddedRemoved(const QSet<DataObject*>* added,
         DataObject* object;
         foreach (object, *removed) {
             MediaSource* source = qobject_cast<MediaSource*>(object);
-            QObject::disconnect(source, SIGNAL(data_altered()),
+            QObject::disconnect(source, SIGNAL(dataChanged()),
                                 this, SLOT(updatePreview()));
         }
     }

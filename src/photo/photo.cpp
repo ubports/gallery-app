@@ -22,6 +22,7 @@
  */
 
 #include "photo.h"
+#include "photo-edit-state.h"
 
 // database
 #include "database.h"
@@ -47,6 +48,7 @@
 #include <QImage>
 #include <QImageReader>
 #include <QImageWriter>
+#include <QStack>
 
 // A simple class for dealing with an undo-/redo-able stack of applied edits.
 class EditStack {
@@ -133,7 +135,7 @@ EditStack* PhotoPrivate::editStack() const
         Q_Q(const Photo);
         edits_ = new EditStack;
         Database* database = GalleryManager::instance()->database();
-        PhotoEditState editState = database->get_photo_edit_table()->get_edit_state(q->get_id());
+        PhotoEditState editState = database->get_photo_edit_table()->get_edit_state(q->id());
         edits_->set_base(editState);
     }
     return edits_;
@@ -244,14 +246,14 @@ Photo* Photo::Load(const QFileInfo& file)
 
     // Populate photo object.
     if (size.isValid())
-        p->set_size(size);
+        p->setSize(size);
     p->set_original_orientation(orientation);
-    p->set_file_timestamp(timestamp);
+    p->setFileTimestamp(timestamp);
     p->setExposureDateTime(exposure_time);
 
     // We set the id last so we don't save the info we just read in back out to
     // the DB.
-    p->set_id(id);
+    p->setId(id);
 
     return p;
 }
@@ -326,8 +328,8 @@ QImage Photo::image(bool respect_orientation, const QSize &scaleSize)
                     .to_transform());
 
         // Cache this here since the image is already loaded.
-        if (!is_size_set())
-            set_size(image.size());
+        if (!isSizeSet())
+            setSize(image.size());
     }
 
     return image;
@@ -689,17 +691,17 @@ void Photo::make_undoable_edit(const PhotoEditState& state)
 void Photo::save(const PhotoEditState& state, Orientation old_orientation)
 {
     edit_file(state);
-    GalleryManager::instance()->database()->get_photo_edit_table()->set_edit_state(get_id(), state);
+    GalleryManager::instance()->database()->get_photo_edit_table()->set_edit_state(id(), state);
 
     if (orientation() != old_orientation)
-        emit orientation_altered();
+        emit orientationChanged();
     notify_data_altered();
 
     ++edit_revision_;
 
-    emit gallery_path_altered();
-    emit gallery_preview_path_altered();
-    emit gallery_thumbnail_path_altered();
+    emit galleryPathChanged();
+    emit galleryPreviewPathChanged();
+    emit galleryThumbnailPathChanged();
 }
 
 /*!
@@ -728,7 +730,7 @@ void Photo::handle_simple_metadata_rotation(const PhotoEditState& state)
         new_size = original_size_.transposed();
     }
 
-    set_size(new_size);
+    setSize(new_size);
 }
 
 /*!
@@ -743,7 +745,7 @@ void Photo::edit_file(const PhotoEditState& state)
         if (!caches_.restore_original())
             qDebug("Error restoring original for %s", qPrintable(file().filePath()));
         else
-            set_size(get_original_size(PhotoEditState::ORIGINAL_ORIENTATION));
+            setSize(get_original_size(PhotoEditState::ORIGINAL_ORIENTATION));
 
         // As a courtesy, when the original goes away, we get rid of the other
         // cached files too.
@@ -832,7 +834,7 @@ void Photo::edit_file(const PhotoEditState& state)
 
     delete metadata;
 
-    set_size(new_size);
+    setSize(new_size);
 }
 
 /*!
@@ -845,7 +847,7 @@ void Photo::create_cached_enhanced()
         return;
     }
 
-    set_busy(true);
+    setBusy(true);
 
     QFileInfo to_enhance = caches_.enhanced_file();
     PhotoMetadata* metadata = PhotoMetadata::FromFile(to_enhance);
@@ -885,7 +887,7 @@ void Photo::create_cached_enhanced()
         caches_.discard_cached_enhanced();
     }
 
-    set_busy(false);
+    setBusy(false);
 
     delete metadata;
 }
@@ -899,7 +901,7 @@ void Photo::create_cached_enhanced()
  */
 QImage Photo::compensateExposure(const QImage &image, qreal compansation)
 {
-    set_busy(true);
+    setBusy(true);
 
     int shift = qBound(-255, (int)(255*compansation), 255);
     QImage result(image.width(), image.height(), image.format());
@@ -915,7 +917,7 @@ QImage Photo::compensateExposure(const QImage &image, qreal compansation)
         }
     }
 
-    set_busy(false);
+    setBusy(false);
     return result;
 }
 
@@ -930,7 +932,7 @@ QImage Photo::compensateExposure(const QImage &image, qreal compansation)
  */
 QImage Photo::doColorBalance(const QImage &image, qreal brightness, qreal contrast, qreal saturation, qreal hue)
 {
-    set_busy(true);
+    setBusy(true);
     QImage result(image.width(), image.height(), image.format());
 
     ColorBalance cb(brightness, contrast, saturation, hue);
@@ -944,7 +946,7 @@ QImage Photo::doColorBalance(const QImage &image, qreal brightness, qreal contra
         }
     }
 
-    set_busy(false);
+    setBusy(false);
     return result;
 }
 
@@ -999,13 +1001,4 @@ bool Photo::file_format_has_orientation() const
 void Photo::set_original_orientation(Orientation orientation)
 {
     original_orientation_ = orientation;
-}
-
-/*!
- * \brief Photo::set_file_timestamp
- * \param timestamp
- */
-void Photo::set_file_timestamp(const QDateTime& timestamp)
-{
-    file_timestamp_ = timestamp;
 }

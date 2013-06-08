@@ -100,7 +100,7 @@ void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
         QSetIterator<DataObject*> i(*added);
         while (i.hasNext()) {
             DataObject* o = i.next();
-            id_map_.insert(qobject_cast<MediaSource*>(o)->get_id(), o);
+            id_map_.insert(qobject_cast<MediaSource*>(o)->id(), o);
 
             MediaSource* media = qobject_cast<MediaSource*>(o);
             if (media != 0) {
@@ -119,12 +119,12 @@ void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
                 m_fileMediaMap.remove(media->file().absoluteFilePath());
             }
 
-            id_map_.remove(media->get_id());
+            id_map_.remove(media->id());
 
             // TODO: In the future we may want to do this in the Destroy method
             // (as defined in DataSource) if we want to differentiate between
             // removing the photo and "deleting the backing file."
-            GalleryManager::instance()->database()->get_media_table()->remove(media->get_id());
+            GalleryManager::instance()->database()->get_media_table()->remove(media->id());
         }
     }
 }
@@ -149,7 +149,7 @@ void MediaCollection::AddMany(const QSet<DataObject *> &objects)
 {
     foreach (DataObject* data, objects) {
         MediaSource* media = qobject_cast<MediaSource*>(data);
-        id_map_.insert(media->get_id(), media);
+        id_map_.insert(media->id(), media);
     }
 
     DataCollection::AddMany(objects);
