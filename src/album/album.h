@@ -53,39 +53,39 @@
 class Album : public ContainerSource
 {
     Q_OBJECT
-    Q_PROPERTY(QString title READ title WRITE set_title NOTIFY title_altered)
-    Q_PROPERTY(QString subtitle READ subtitle WRITE set_subtitle NOTIFY subtitle_altered)
-    Q_PROPERTY(QDateTime creationDateTime READ creation_date_time
-               NOTIFY creation_date_time_altered)
-    Q_PROPERTY(QQmlListProperty<AlbumPage> contentPages READ qml_pages
-               NOTIFY contentPagesAltered)
+    Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
+    Q_PROPERTY(QString subtitle READ subtitle WRITE setSubtitle NOTIFY subtitleChanged)
+    Q_PROPERTY(QDateTime creationDateTime READ creationDateTime
+               NOTIFY creationDateTimeChanged)
+    Q_PROPERTY(QQmlListProperty<AlbumPage> contentPages READ qmlPages
+               NOTIFY contentPagesChanged)
     Q_PROPERTY(QQmlListProperty<MediaSource> allMediaSources
-               READ qml_all_media_sources NOTIFY album_contents_altered)
-    Q_PROPERTY(int firstContentPage READ first_content_page NOTIFY pageCountAltered)
-    Q_PROPERTY(int lastContentPage READ last_content_page NOTIFY pageCountAltered)
-    Q_PROPERTY(int lastPopulatedContentPage READ last_populated_content_page NOTIFY pageCountAltered)
-    Q_PROPERTY(int totalPageCount READ total_page_count NOTIFY pageCountAltered)
-    Q_PROPERTY(int contentPageCount READ content_page_count NOTIFY pageCountAltered)
-    Q_PROPERTY(int populatedContentPageCount READ populated_content_page_count NOTIFY pageCountAltered)
-    Q_PROPERTY(int firstValidCurrentPage READ first_valid_current_page NOTIFY pageCountAltered)
-    Q_PROPERTY(int lastValidCurrentPage READ last_valid_current_page NOTIFY pageCountAltered)
-    Q_PROPERTY(int currentPage READ current_page WRITE set_current_page
-               NOTIFY current_page_altered)
-    Q_PROPERTY(bool closed READ is_closed WRITE set_closed NOTIFY closedAltered)
-    Q_PROPERTY(QString coverNickname READ cover_nickname WRITE set_cover_nickname
-               NOTIFY coverNicknameAltered)
+               READ qmlAllMediaSources NOTIFY albumContentsChanged)
+    Q_PROPERTY(int firstContentPage READ firstContentPage NOTIFY pageCountChanged)
+    Q_PROPERTY(int lastContentPage READ lastContentPage NOTIFY pageCountChanged)
+    Q_PROPERTY(int lastPopulatedContentPage READ lastPopulatedContentPage NOTIFY pageCountChanged)
+    Q_PROPERTY(int totalPageCount READ totalPageCount NOTIFY pageCountChanged)
+    Q_PROPERTY(int contentPageCount READ contentPageCount NOTIFY pageCountChanged)
+    Q_PROPERTY(int populatedContentPageCount READ populatedContentPageCount NOTIFY pageCountChanged)
+    Q_PROPERTY(int firstValidCurrentPage READ firstValidCurrentPage NOTIFY pageCountChanged)
+    Q_PROPERTY(int lastValidCurrentPage READ lastValidCurrentPage NOTIFY pageCountChanged)
+    Q_PROPERTY(int currentPage READ currentPage WRITE setCurrentPage
+               NOTIFY currentPageChanged)
+    Q_PROPERTY(bool closed READ isClosed WRITE setClosed NOTIFY closedChanged)
+    Q_PROPERTY(QString coverNickname READ coverNickname WRITE setCoverNickname
+               NOTIFY coverNicknameChanged)
 
 signals:
-    void album_contents_altered();
-    void creation_date_time_altered();
-    void current_page_altered();
-    void current_page_contents_altered();
-    void title_altered();
-    void subtitle_altered();
-    void closedAltered();
-    void contentPagesAltered();
-    void pageCountAltered();
-    void coverNicknameAltered();
+    void albumContentsChanged();
+    void creationDateTimeChanged();
+    void currentPageChanged();
+    void currentPageContentsChanged();
+    void titleChanged();
+    void subtitleChanged();
+    void closedChanged();
+    void contentPagesChanged();
+    void pageCountChanged();
+    void coverNicknameChanged();
 
 public:
     static const char *DEFAULT_TITLE;
@@ -94,14 +94,12 @@ public:
     static const int FIRST_VALID_CURRENT_PAGE;
 
     Album(QObject * parent = 0);
-    explicit Album(QObject * parent, AlbumTemplate* album_template);
-    Album(QObject * parent, AlbumTemplate* album_template, const QString &title,
-          const QString &subtitle, qint64 id, QDateTime creation_timestamp, bool closed,
-          int current_page, const QString &cover_nickname);
+    explicit Album(QObject * parent, AlbumTemplate* albumTemplate);
+    Album(QObject * parent, AlbumTemplate* albumTemplate, const QString &title,
+          const QString &subtitle, qint64 id, QDateTime creationTimestamp, bool closed,
+          int currentPage, const QString &coverNickname);
 
     virtual ~Album();
-
-    static void RegisterType();
 
     Q_INVOKABLE void addMediaSource(QVariant vmedia);
     Q_INVOKABLE QVariant addSelectedMediaSources(QVariant vmodel);
@@ -113,72 +111,72 @@ public:
     Q_INVOKABLE bool containsAll(QVariant vContainerSource) const;
 
     const QString& title() const;
-    void set_title(QString title);
+    void setTitle(QString title);
     const QString& subtitle() const;
-    void set_subtitle(QString subtitle);
-    const QDateTime& creation_date_time() const;
-    void set_creation_date_time(QDateTime timestamp);
-    AlbumTemplate* album_template() const;
-    bool is_closed() const;
-    int total_page_count() const;
-    int content_page_count() const;
-    int populated_content_page_count() const;
-    int first_content_page() const;
-    int last_content_page() const;
-    int last_populated_content_page() const;
-    int first_valid_current_page() const;
-    int last_valid_current_page() const;
-    int current_page() const;
-    void set_current_page(int page);
-    void set_closed(bool closed);
-    void set_id(qint64 id_);
-    qint64 get_id();
-    QString cover_nickname() const;
-    void set_cover_nickname(QString name);
+    void setSubtitle(QString subtitle);
+    const QDateTime& creationDateTime() const;
+    void setCreationDateTime(QDateTime timestamp);
+    AlbumTemplate* albumTemplate() const;
+    bool isClosed() const;
+    int totalPageCount() const;
+    int contentPageCount() const;
+    int populatedContentPageCount() const;
+    int firstContentPage() const;
+    int lastContentPage() const;
+    int lastPopulatedContentPage() const;
+    int firstValidCurrentPage() const;
+    int lastValidCurrentPage() const;
+    int currentPage() const;
+    void setCurrentPage(int page);
+    void setClosed(bool closed);
+    void setId(qint64 id);
+    qint64 id() const;
+    QString coverNickname() const;
+    void setCoverNickname(QString name);
 
-    SourceCollection* content_pages();
+    SourceCollection* contentPages();
 
-    AlbumPage* GetPage(int page) const;
+    AlbumPage* getAlbumPage(int page) const;
 
-    QQmlListProperty<AlbumPage> qml_pages();
-    QQmlListProperty<MediaSource> qml_all_media_sources();
+    QQmlListProperty<AlbumPage> qmlPages();
+    QQmlListProperty<MediaSource> qmlAllMediaSources();
 
 protected:
-    virtual void destroySource(bool destroy_backing, bool as_orphan);
+    virtual void destroySource(bool destroyBacking, bool asOrphan);
 
-    virtual void notify_current_page_altered();
-    virtual void notify_closed_altered();
-    virtual void notify_page_count_altered();
-    virtual void notify_content_pages_altered();
-    virtual void notify_current_page_contents_altered();
+    virtual void notifyCurrentPageChanged();
+    virtual void notifyClosedChanged();
+    virtual void notifyPageCountChanged();
+    virtual void notifyContentPagesChanged();
+    virtual void notifyCurrentPageContentsChanged();
     virtual void notifyContainerContentsChanged(const QSet<DataObject*>* added,
-                                                   const QSet<DataObject*>* removed);
+                                                const QSet<DataObject*>* removed);
 
-    int content_to_absolute_page(int content_page) const;
-    int absolute_to_content_page(int absolute_page) const;
+    int contentToAbsolutePage(int contentPage) const;
+    int absoluteToContentPage(int absolutePage) const;
 
-    void create_add_photos_page();
+    void createAddPhotosPage();
 
 private slots:
-    void on_album_page_content_altered(const QSet<DataObject*>* added,
-                                       const QSet<DataObject*>* removed);
+    void onAlbumPageContentChanged(const QSet<DataObject*>* added,
+                                   const QSet<DataObject*>* removed);
 
 private:
-    AlbumTemplate* album_template_;
-    QString title_;
-    QString subtitle_;
-    QDateTime creation_date_time_;
-    int current_page_; // Page number of the left page of the current spread.
-    bool closed_;
-    int populated_pages_count_;
-    SourceCollection* content_pages_;
-    QList<MediaSource*> all_media_sources_;
-    QList<AlbumPage*> all_album_pages_;
-    bool refreshing_container_;
-    qint64 id_;
-    QString cover_nickname_;
+    void initInstance();
 
-    void InitInstance();
+    AlbumTemplate* m_albumTemplate;
+    QString m_title;
+    QString m_subtitle;
+    QDateTime m_creationDateDime;
+    int m_currentPage; // Page number of the left page of the current spread.
+    bool m_closed;
+    int m_populatedPagesCount;
+    SourceCollection* m_contentPages;
+    QList<MediaSource*> m_allMediaSources;
+    QList<AlbumPage*> m_allAlbumPages;
+    bool m_refreshingContainer;
+    qint64 m_id;
+    QString m_coverNickname;
 };
 
 QML_DECLARE_TYPE(Album)

@@ -34,7 +34,7 @@ QmlAlbumCollectionModel::QmlAlbumCollectionModel(QObject* parent)
 {
     MonitorSourceCollection(GalleryManager::instance()->album_collection());
     QObject::connect(GalleryManager::instance()->album_collection(),
-                     SIGNAL(album_current_page_contents_altered(Album*)),
+                     SIGNAL(albumCurrentPageContentsChanged(Album*)),
                      this, SLOT(on_album_current_page_contents_altered(Album*)));
 }
 

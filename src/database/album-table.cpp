@@ -74,7 +74,7 @@ void AlbumTable::get_albums(QList<Album*>* album_list)
  */
 void AlbumTable::add_album(Album* album)
 {
-    if (album->get_id() != INVALID_ID)
+    if (album->id() != INVALID_ID)
         return; // Nothing to do here.
 
     QSqlQuery query(*db_->get_db());
@@ -84,14 +84,14 @@ void AlbumTable::add_album(Album* album)
                   ":cover_nickname)");
     query.bindValue(":title", album->title());
     query.bindValue(":subtitle", album->subtitle());
-    query.bindValue(":time_added", album->creation_date_time().toMSecsSinceEpoch());
-    query.bindValue(":is_closed", album->is_closed());
-    query.bindValue(":page", album->current_page());
-    query.bindValue(":cover_nickname", album->cover_nickname());
+    query.bindValue(":time_added", album->creationDateTime().toMSecsSinceEpoch());
+    query.bindValue(":is_closed", album->isClosed());
+    query.bindValue(":page", album->currentPage());
+    query.bindValue(":cover_nickname", album->coverNickname());
     if (!query.exec())
         db_->log_sql_error(query);
 
-    album->set_id(query.lastInsertId().toLongLong());
+    album->setId(query.lastInsertId().toLongLong());
 }
 
 /*!
@@ -100,16 +100,16 @@ void AlbumTable::add_album(Album* album)
  */
 void AlbumTable::remove_album(Album* album)
 {
-    if (album->get_id() == INVALID_ID)
+    if (album->id() == INVALID_ID)
         return; // Nothing to remove.
 
     QSqlQuery query(*db_->get_db());
     query.prepare("DELETE FROM AlbumTable WHERE id = :id");
-    query.bindValue(":id", album->get_id());
+    query.bindValue(":id", album->id());
     if (!query.exec())
         db_->log_sql_error(query);
 
-    album->set_id(INVALID_ID);
+    album->setId(INVALID_ID);
 }
 
 /*!

@@ -36,25 +36,25 @@ class AlbumCollection : public ContainerSourceCollection
     Q_OBJECT
 
 signals:
-    void album_current_page_contents_altered(Album* album);
+    void albumCurrentPageContentsChanged(Album* album);
 
 public:
     friend class Album;
 
     AlbumCollection();
 
-    static bool CreationDateTimeAscendingComparator(DataObject* a, DataObject* b);
-    static bool CreationDateTimeDescendingComparator(DataObject* a, DataObject* b);
+    static bool creationDateTimeAscendingComparator(DataObject* a, DataObject* b);
+    static bool creationDateTimeDescendingComparator(DataObject* a, DataObject* b);
 
 protected:
-    virtual void notify_album_current_page_contents_altered(Album* album);
+    virtual void notifyAlbumCurrentPageContentsChanged(Album* album);
 
     virtual void notifyContentsChanged(const QSet<DataObject*>* added,
-                                         const QSet<DataObject*>* removed);
+                                       const QSet<DataObject*>* removed);
 
 private slots:
-    void on_media_added_removed(const QSet<DataObject*>* added,
-                                const QSet<DataObject*>* removed);
+    void onMediaAddedRemoved(const QSet<DataObject*>* added,
+                             const QSet<DataObject*>* removed);
 };
 
 #endif  // GALLERY_ALBUM_COLLECTION_H_

@@ -121,8 +121,8 @@ bool GalleryApplication::run_command(const QString &cmd, const QString &arg)
  */
 void GalleryApplication::register_qml()
 {
-    Album::RegisterType();
-    AlbumPage::RegisterType();
+    qmlRegisterType<Album>("Gallery", 1, 0, "Album");
+    qmlRegisterType<AlbumPage>("Gallery", 1, 0, "AlbumPage");
     Event::RegisterType();
     qmlRegisterType<MediaSource>("Gallery", 1, 0, "MediaSource");
     QmlAlbumCollectionModel::RegisterType();
