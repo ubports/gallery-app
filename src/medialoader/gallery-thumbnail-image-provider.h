@@ -43,7 +43,7 @@ public:
 
     GalleryThumbnailImageProvider();
 
-    static QUrl ToURL(const QFileInfo& file);
+    static QUrl toURL(const QFileInfo& file);
 
     virtual QImage requestImage(const QString& id, QSize* size,
                                 const QSize& requestedSize);

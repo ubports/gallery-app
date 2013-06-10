@@ -52,7 +52,7 @@ tst_GalleryStandardImageProvider::tst_GalleryStandardImageProvider()
 void tst_GalleryStandardImageProvider::ToURL()
 {
     QFileInfo fi("/tmp/test.jpg");
-    QUrl url = gallery_standard_image_provider.ToURL(fi);
+    QUrl url = gallery_standard_image_provider.toURL(fi);
     QUrl expect("image://gallery-standard//tmp/test.jpg");
     QCOMPARE(url, expect);
 }

@@ -169,7 +169,7 @@ bool Photo::IsValid(const QFileInfo& file)
             return false;
     }
 
-    PhotoMetadata* tmp = PhotoMetadata::FromFile(file);
+    PhotoMetadata* tmp = PhotoMetadata::fromFile(file);
     if (tmp == NULL)
         return false;
 
@@ -211,7 +211,7 @@ Photo* Photo::Load(const QFileInfo& file)
     // If we don't have the photo, add it to the DB.  If we have the photo but the
     // row is from a previous version of the DB, update the row.
     if (id == INVALID_ID || needs_update) {
-        PhotoMetadata* metadata = PhotoMetadata::FromFile(p->caches_.pristine_file());
+        PhotoMetadata* metadata = PhotoMetadata::fromFile(p->caches_.pristine_file());
         if (metadata == NULL) {
             delete p;
             return NULL;
@@ -221,8 +221,8 @@ Photo* Photo::Load(const QFileInfo& file)
         orientation = p->file_format_has_orientation()
                 ? metadata->orientation() : TOP_LEFT_ORIGIN;
         filesize = p->caches_.pristine_file().size();
-        exposure_time = metadata->exposure_time().isValid() ?
-                    QDateTime(metadata->exposure_time()) : timestamp;
+        exposure_time = metadata->exposureTime().isValid() ?
+                    QDateTime(metadata->exposureTime()) : timestamp;
 
         if (needs_update) {
             // Update DB.
@@ -712,8 +712,8 @@ void Photo::save(const PhotoEditState& state, Orientation old_orientation)
  */
 void Photo::handle_simple_metadata_rotation(const PhotoEditState& state)
 {
-    PhotoMetadata* metadata = PhotoMetadata::FromFile(file());
-    metadata->set_orientation(state.orientation_);
+    PhotoMetadata* metadata = PhotoMetadata::fromFile(file());
+    metadata->setOrientation(state.orientation_);
 
     metadata->save();
     delete(metadata);
@@ -785,15 +785,15 @@ void Photo::edit_file(const PhotoEditState& state)
         qDebug("Error loading %s for editing", qPrintable(file().filePath()));
         return;
     }
-    PhotoMetadata* metadata = PhotoMetadata::FromFile(file());
+    PhotoMetadata* metadata = PhotoMetadata::fromFile(file());
 
     if (file_format_has_orientation() &&
             state.orientation_ != PhotoEditState::ORIGINAL_ORIENTATION)
-        metadata->set_orientation(state.orientation_);
+        metadata->setOrientation(state.orientation_);
 
     if (file_format_has_orientation() &&
             metadata->orientation() != TOP_LEFT_ORIGIN)
-        image = image.transformed(metadata->orientation_transform());
+        image = image.transformed(metadata->orientationTransform());
     else if (state.orientation_ != PhotoEditState::ORIGINAL_ORIENTATION &&
              state.orientation_ != TOP_LEFT_ORIGIN)
         image = image.transformed(
@@ -824,7 +824,7 @@ void Photo::edit_file(const PhotoEditState& state)
     // file and reapply the transformation it comes out correctly.
     if (file_format_has_orientation() &&
             metadata->orientation() != TOP_LEFT_ORIGIN)
-        image = image.transformed(metadata->orientation_transform().inverted());
+        image = image.transformed(metadata->orientationTransform().inverted());
 
     bool saved = image.save(file().filePath(), file_format_.toStdString().c_str(), 90);
     if (saved && file_format_has_metadata())
@@ -850,7 +850,7 @@ void Photo::create_cached_enhanced()
     setBusy(true);
 
     QFileInfo to_enhance = caches_.enhanced_file();
-    PhotoMetadata* metadata = PhotoMetadata::FromFile(to_enhance);
+    PhotoMetadata* metadata = PhotoMetadata::fromFile(to_enhance);
 
     QImage unenhanced_img(to_enhance.filePath(), file_format_.toStdString().c_str());
     int width = unenhanced_img.width();

@@ -25,7 +25,7 @@ Orientation PhotoMetadata::orientation() const
     return Orientation();
 }
 
-PhotoMetadata* PhotoMetadata::FromFile(const QFileInfo &file)
+PhotoMetadata* PhotoMetadata::fromFile(const QFileInfo &file)
 {
     QFileInfo test = file;
     return NULL;

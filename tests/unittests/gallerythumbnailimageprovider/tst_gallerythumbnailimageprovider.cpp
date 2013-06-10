@@ -44,7 +44,7 @@ tst_GalleryThumbnailImageProvider::tst_GalleryThumbnailImageProvider()
 void tst_GalleryThumbnailImageProvider::ToURL()
 {
     QFileInfo fi("/tmp/test.jpg");
-    QUrl url = gallery_thumbnail_image_provider.ToURL(fi);
+    QUrl url = gallery_thumbnail_image_provider.toURL(fi);
     QUrl expect("image://gallery-thumbnail//tmp/test.jpg");
     QCOMPARE(url, expect);
 }
