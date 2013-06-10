@@ -53,7 +53,7 @@ const int Album::FIRST_VALID_CURRENT_PAGE = -1;
  * \param parent
  */
 Album::Album(QObject * parent)
-    : ContainerSource(parent, DEFAULT_TITLE, MediaCollection::ExposureDateTimeAscendingComparator),
+    : ContainerSource(parent, DEFAULT_TITLE, MediaCollection::exposureDateTimeAscendingComparator),
       album_template_(GalleryManager::instance()->album_default_template()), title_(DEFAULT_TITLE),
       subtitle_(DEFAULT_SUBTITLE)
 {
@@ -66,7 +66,7 @@ Album::Album(QObject * parent)
  * \param album_template
  */
 Album::Album(QObject * parent, AlbumTemplate* album_template)
-    : ContainerSource(parent, DEFAULT_TITLE, MediaCollection::ExposureDateTimeAscendingComparator),
+    : ContainerSource(parent, DEFAULT_TITLE, MediaCollection::exposureDateTimeAscendingComparator),
       album_template_(album_template), title_(DEFAULT_TITLE), subtitle_(DEFAULT_SUBTITLE)
 {
     InitInstance();
@@ -87,7 +87,7 @@ Album::Album(QObject * parent, AlbumTemplate* album_template)
 Album::Album(QObject * parent, AlbumTemplate* album_template, const QString& title,
              const QString& subtitle, qint64 id, QDateTime creation_timestamp, bool closed,
              int current_page, const QString &cover_nickname)
-    : ContainerSource(parent, title, MediaCollection::ExposureDateTimeAscendingComparator),
+    : ContainerSource(parent, title, MediaCollection::exposureDateTimeAscendingComparator),
       album_template_(album_template), title_(title), subtitle_(subtitle)
 {
     InitInstance();
@@ -600,7 +600,7 @@ void Album::notify_current_page_contents_altered()
  * \param destroy_backing
  * \param as_orphan
  */
-void Album::DestroySource(bool destroy_backing, bool as_orphan)
+void Album::destroySource(bool destroy_backing, bool as_orphan)
 {
     // TODO: Remove album entry in database
 

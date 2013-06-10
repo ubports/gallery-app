@@ -39,11 +39,11 @@ MediaCollection::MediaCollection()
     : SourceCollection("MediaCollection")
 {
     // By default, sort all media by its exposure date time, descending
-    setComparator(ExposureDateTimeDescendingComparator);
+    setComparator(exposureDateTimeDescendingComparator);
 }
 
 /*!
- * \brief MediaCollection::ExposureDateTimeAscendingComparator
+ * \brief MediaCollection::exposureDateTimeAscendingComparator
  * NOTE: this comparator function expects the API contract of
  *       DataObject::number() to return the same value for the same logical
  *       data object across invocations of Gallery. Right now, this contract
@@ -52,7 +52,7 @@ MediaCollection::MediaCollection()
  * \param b
  * \return
  */
-bool MediaCollection::ExposureDateTimeAscendingComparator(DataObject* a,
+bool MediaCollection::exposureDateTimeAscendingComparator(DataObject* a,
                                                           DataObject* b)
 {
     QDateTime exptime_a = qobject_cast<MediaSource*>(a)->exposureDateTime();
@@ -64,15 +64,15 @@ bool MediaCollection::ExposureDateTimeAscendingComparator(DataObject* a,
 }
 
 /*!
- * \brief MediaCollection::ExposureDateTimeDescendingComparator
+ * \brief MediaCollection::exposureDateTimeDescendingComparator
  * \param a
  * \param b
  * \return
  */
-bool MediaCollection::ExposureDateTimeDescendingComparator(DataObject* a,
+bool MediaCollection::exposureDateTimeDescendingComparator(DataObject* a,
                                                            DataObject* b)
 {
-    return !ExposureDateTimeAscendingComparator(a, b);
+    return !exposureDateTimeAscendingComparator(a, b);
 }
 
 /*!
@@ -82,11 +82,11 @@ bool MediaCollection::ExposureDateTimeDescendingComparator(DataObject* a,
  */
 MediaSource* MediaCollection::mediaForId(qint64 id)
 {
-    return id_map_.contains(id) ? qobject_cast<MediaSource*>(id_map_[id]) : NULL;
+    return m_idMap.contains(id) ? qobject_cast<MediaSource*>(m_idMap[id]) : NULL;
 }
 
 /*!
- * \brief MediaCollection::notify_contents_altered
+ * \brief MediaCollection::notifyContentsChanged
  * \param added
  * \param removed
  */
@@ -100,7 +100,7 @@ void MediaCollection::notifyContentsChanged(const QSet<DataObject*>* added,
         QSetIterator<DataObject*> i(*added);
         while (i.hasNext()) {
             DataObject* o = i.next();
-            id_map_.insert(qobject_cast<MediaSource*>(o)->id(), o);
+            m_idMap.insert(qobject_cast<MediaSource*>(o)->id(), o);
 
             MediaSource* media = qobject_cast<MediaSource*>(o);
             if (media != 0) {
@@ -119,7 +119,7 @@ void MediaCollection::notifyContentsChanged(const QSet<DataObject*>* added,
                 m_fileMediaMap.remove(media->file().absoluteFilePath());
             }
 
-            id_map_.remove(media->id());
+            m_idMap.remove(media->id());
 
             // TODO: In the future we may want to do this in the Destroy method
             // (as defined in DataSource) if we want to differentiate between
@@ -149,7 +149,7 @@ void MediaCollection::addMany(const QSet<DataObject *> &objects)
 {
     foreach (DataObject* data, objects) {
         MediaSource* media = qobject_cast<MediaSource*>(data);
-        id_map_.insert(media->id(), media);
+        m_idMap.insert(media->id(), media);
     }
 
     DataCollection::addMany(objects);

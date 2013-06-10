@@ -29,7 +29,7 @@
  * \param parent
  */
 Event::Event(QObject* parent)
-    : ContainerSource(parent, "Event (undated)", MediaCollection::ExposureDateTimeDescendingComparator)
+    : ContainerSource(parent, "Event (undated)", MediaCollection::exposureDateTimeDescendingComparator)
 {
 }
 
@@ -40,7 +40,7 @@ Event::Event(QObject* parent)
  */
 Event::Event(QObject* parent, const QDate& date)
     : ContainerSource(parent, QString("Event for ") + date.toString(),
-                      MediaCollection::ExposureDateTimeDescendingComparator), date_(date)
+                      MediaCollection::exposureDateTimeDescendingComparator), date_(date)
 {
 }
 
@@ -84,7 +84,7 @@ QDateTime Event::end_date_time() const
  * \param destroy_backing
  * \param as_orphan
  */
-void Event::DestroySource(bool destroy_backing, bool as_orphan)
+void Event::destroySource(bool destroy_backing, bool as_orphan)
 {
     // Event is a virtual DataSource generated as a result of MediaSources added
     // and removed from the system, so nothing to destroy

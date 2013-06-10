@@ -32,7 +32,7 @@
  * \param parent
  */
 AlbumPage::AlbumPage(QObject * parent)
-    : ContainerSource(parent, "AlbumPage", MediaCollection::ExposureDateTimeAscendingComparator),
+    : ContainerSource(parent, "AlbumPage", MediaCollection::exposureDateTimeAscendingComparator),
       owner_(NULL), page_number_(-1), template_page_(NULL)
 {
 }
@@ -42,7 +42,7 @@ AlbumPage::AlbumPage(QObject * parent)
  * \param owner
  */
 AlbumPage::AlbumPage(Album* owner)
-    : ContainerSource(owner, "AlbumPage", MediaCollection::ExposureDateTimeAscendingComparator),
+    : ContainerSource(owner, "AlbumPage", MediaCollection::exposureDateTimeAscendingComparator),
       owner_(owner), page_number_(-1), template_page_(NULL)
 {
 }
@@ -54,7 +54,7 @@ AlbumPage::AlbumPage(Album* owner)
  * \param template_page
  */
 AlbumPage::AlbumPage(Album* owner, int page_number, AlbumTemplatePage* template_page)
-    : ContainerSource(owner, "AlbumPage", MediaCollection::ExposureDateTimeAscendingComparator),
+    : ContainerSource(owner, "AlbumPage", MediaCollection::exposureDateTimeAscendingComparator),
       owner_(owner), page_number_(page_number), template_page_(template_page)
 {
 }
@@ -117,7 +117,7 @@ QVariant AlbumPage::qml_owner() const
  * \param destroy_backing
  * \param as_orphan
  */
-void AlbumPage::DestroySource(bool destroy_backing, bool as_orphan)
+void AlbumPage::destroySource(bool destroy_backing, bool as_orphan)
 {
 }
 

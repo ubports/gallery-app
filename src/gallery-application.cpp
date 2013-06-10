@@ -190,7 +190,7 @@ void GalleryApplication::init_collections()
     // start the file monitor so that the collection contents will be updated as
     // new files arrive
     monitor_ = new MediaMonitor(cmd_line_parser()->picturesDir().path());
-    QObject::connect(monitor_, SIGNAL(media_item_added(QFileInfo)), this,
+    QObject::connect(monitor_, SIGNAL(mediaItemAdded(QFileInfo)), this,
                      SLOT(on_media_item_added(QFileInfo)));
 
     if (cmd_line_parser()->startupTimer())

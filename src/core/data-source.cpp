@@ -42,7 +42,7 @@ void DataSource::destroy(bool destroy_backing)
 {
     // notify subscribers of imminent doom, destroy, then notify of carnage wreaked
     notifyDestroying(destroy_backing, false);
-    DestroySource(destroy_backing, false);
+    destroySource(destroy_backing, false);
     notifyDestroyed(destroy_backing, false);
 }
 
@@ -59,7 +59,7 @@ void DataSource::destroyOrphan(bool destroy_backing)
 {
     // like Destroy(), notify before and after destruction
     notifyDestroying(destroy_backing, true);
-    DestroySource(destroy_backing, true);
+    destroySource(destroy_backing, true);
     notifyDestroyed(destroy_backing, true);
 }
 

@@ -40,8 +40,8 @@ class MediaCollection : public SourceCollection
 public:
     MediaCollection();
 
-    static bool ExposureDateTimeAscendingComparator(DataObject* a, DataObject* b);
-    static bool ExposureDateTimeDescendingComparator(DataObject* a, DataObject* b);
+    static bool exposureDateTimeAscendingComparator(DataObject* a, DataObject* b);
+    static bool exposureDateTimeDescendingComparator(DataObject* a, DataObject* b);
 
     MediaSource* mediaForId(qint64 id);
     MediaSource* mediaFromFileinfo(const QFileInfo &file);
@@ -50,14 +50,14 @@ public:
 
 protected slots:
     virtual void notifyContentsChanged(const QSet<DataObject*>* added,
-                                         const QSet<DataObject*>* removed);
+                                       const QSet<DataObject*>* removed);
 
 private:
     // Used by photoFromFileinfo() to prevent ourselves from accidentally
     // seeing a duplicate photo after an edit.
     QHash<QString, MediaSource*> m_fileMediaMap;
 
-    QHash<qint64, DataObject*> id_map_;
+    QHash<qint64, DataObject*> m_idMap;
 };
 
 #endif  // GALLERY_MEDIA_COLLECTION_H_

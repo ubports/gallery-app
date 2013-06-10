@@ -66,7 +66,7 @@ public:
     QVariant qml_owner() const;
 
 protected:
-    virtual void DestroySource(bool destroy_backing, bool as_orphan);
+    virtual void destroySource(bool destroy_backing, bool as_orphan);
 
     virtual void notifyContainerContentsChanged(const QSet<DataObject *> *added,
                                                    const QSet<DataObject *> *removed);

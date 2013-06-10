@@ -24,20 +24,20 @@
 
 /*!
  * \brief MediaMonitor::MediaMonitor
- * \param target_directory
+ * \param targetDirectory
  */
-MediaMonitor::MediaMonitor(const QDir& target_directory)
-    : target_directory_(target_directory),
-      watcher_(QStringList(target_directory.path())),
-      manifest_(get_manifest(target_directory)),
-      file_activity_timer_(this)
+MediaMonitor::MediaMonitor(const QDir& targetDirectory)
+    : m_targetDirectory(targetDirectory),
+      m_watcher(QStringList(targetDirectory.path())),
+      m_manifest(getManifest(targetDirectory)),
+      m_fileActivityTimer(this)
 {
-    QObject::connect(&watcher_, SIGNAL(directoryChanged(const QString&)), this,
-                     SLOT(on_directory_event(const QString&)));
+    QObject::connect(&m_watcher, SIGNAL(directoryChanged(const QString&)), this,
+                     SLOT(onDirectoryEvent(const QString&)));
 
-    file_activity_timer_.setSingleShot(true);
-    QObject::connect(&file_activity_timer_, SIGNAL(timeout()), this,
-                     SLOT(on_file_activity_ceased()));
+    m_fileActivityTimer.setSingleShot(true);
+    QObject::connect(&m_fileActivityTimer, SIGNAL(timeout()), this,
+                     SLOT(onFileActivityCeased()));
 }
 
 /*!
@@ -48,46 +48,46 @@ MediaMonitor::~MediaMonitor()
 }
 
 /*!
- * \brief MediaMonitor::on_directory_event
- * \param event_source
+ * \brief MediaMonitor::onDirectoryEvent
+ * \param eventSource
  */
-void MediaMonitor::on_directory_event(const QString& event_source)
+void MediaMonitor::onDirectoryEvent(const QString& eventSource)
 {
-    file_activity_timer_.start(100);
+    m_fileActivityTimer.start(100);
 }
 
 /*!
- * \brief MediaMonitor::on_file_activity_ceased
+ * \brief MediaMonitor::onFileActivityCeased
  */
-void MediaMonitor::on_file_activity_ceased()
+void MediaMonitor::onFileActivityCeased()
 {
-    QStringList new_manifest = get_manifest(target_directory_);
+    QStringList new_manifest = getManifest(m_targetDirectory);
 
-    QStringList difference = subtract_manifest(new_manifest, manifest_);
+    QStringList difference = subtractManifest(new_manifest, m_manifest);
     for (int i = 0; i < difference.size(); i++)
-        notify_media_item_added(target_directory_.absolutePath() +
+        notifyMediaItemAdded(m_targetDirectory.absolutePath() +
                                 QDir::separator() + difference.at(i));
 
-    manifest_ = new_manifest;
+    m_manifest = new_manifest;
 }
 
 /*!
- * \brief MediaMonitor::get_manifest
+ * \brief MediaMonitor::getManifest
  * \param dir
  * \return
  */
-QStringList MediaMonitor::get_manifest(const QDir& dir)
+QStringList MediaMonitor::getManifest(const QDir& dir)
 {
     return dir.entryList(QDir::Files, QDir::Time);
 }
 
 /*!
- * \brief MediaMonitor::subtract_manifest
+ * \brief MediaMonitor::subtractManifest
  * \param m1
  * \param m2
  * \return
  */
-QStringList MediaMonitor::subtract_manifest(const QStringList& m1,
+QStringList MediaMonitor::subtractManifest(const QStringList& m1,
                                             const QStringList& m2)
 {
     QSet<QString> result = QSet<QString>::fromList(m1);
@@ -98,12 +98,12 @@ QStringList MediaMonitor::subtract_manifest(const QStringList& m1,
 }
 
 /*!
- * \brief MediaMonitor::notify_media_item_added
- * \param item_path
+ * \brief MediaMonitor::notifyMediaItemAdded
+ * \param itemPath
  */
-void MediaMonitor::notify_media_item_added(const QString& item_path)
+void MediaMonitor::notifyMediaItemAdded(const QString& itemPath)
 {
-    QFileInfo item_info(item_path);
+    QFileInfo item_info(itemPath);
 
-    emit media_item_added(item_info);
+    emit mediaItemAdded(item_info);
 }

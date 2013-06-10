@@ -144,7 +144,7 @@ public:
     QQmlListProperty<MediaSource> qml_all_media_sources();
 
 protected:
-    virtual void DestroySource(bool destroy_backing, bool as_orphan);
+    virtual void destroySource(bool destroy_backing, bool as_orphan);
 
     virtual void notify_current_page_altered();
     virtual void notify_closed_altered();
