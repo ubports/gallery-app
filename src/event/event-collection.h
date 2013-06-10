@@ -37,27 +37,24 @@ class EventCollection : public SourceCollection
 {
     Q_OBJECT
 
-signals:
-    void all_changed();
-
 public:
     EventCollection();
 
-    Event* EventForDate(const QDate& date) const;
-    Event* EventForMediaSource(MediaSource* media) const;
+    Event* eventForDate(const QDate& date) const;
+    Event* eventForMediaSource(MediaSource* media) const;
 
 protected:
     virtual void notifyContentsChanged(const QSet<DataObject *> *added,
-                                         const QSet<DataObject *> *removed);
+                                       const QSet<DataObject *> *removed);
 
 private slots:
-    void on_media_added_removed(const QSet<DataObject*>* added,
-                                const QSet<DataObject*>* removed);
+    void onMediaAddedRemoved(const QSet<DataObject*>* added,
+                             const QSet<DataObject*>* removed);
 
 private:
-    QHash<QDate, Event*> date_map_;
+    static bool comparator(DataObject* a, DataObject* b);
 
-    static bool Comparator(DataObject* a, DataObject* b);
+    QHash<QDate, Event*> m_dateMap;
 };
 
 #endif  // GALLERY_EVENT_COLLECTION_H_

@@ -271,7 +271,7 @@ int MediaSource::exposureTime_t() const
  */
 Event* MediaSource::FindEvent()
 {
-    return GalleryManager::instance()->event_collection()->EventForMediaSource(this);
+    return GalleryManager::instance()->event_collection()->eventForMediaSource(this);
 }
 
 /*!
