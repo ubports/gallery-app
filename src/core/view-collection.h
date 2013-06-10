@@ -53,22 +53,22 @@ public:
     // TODO: Allow multiple SourceCollections to be monitored.  Without a
     // DataView as a mediator, this means ViewCollection (and, hence,
     // DataCollection) will hold DataSources of varied finalized types.
-    void MonitorDataCollection(const DataCollection* collection, SourceFilter filter,
+    void monitorDataCollection(const DataCollection* collection, SourceFilter filter,
                                bool monitor_ordering);
-    bool IsMonitoring() const;
+    bool isMonitoring() const;
 
 protected:
-    virtual void notify_ordering_altered();
+    virtual void notifyOrderingChanged();
 
 private slots:
-    void on_monitored_contents_altered(const QSet<DataObject*>* added,
-                                       const QSet<DataObject*>* removed);
-    void on_monitored_ordering_altered();
+    void onMonitoredContentsChanged(const QSet<DataObject*>* added,
+                                    const QSet<DataObject*>* removed);
+    void onMonitoredOrderingChanged();
 
 private:
-    const DataCollection* monitoring_;
-    SourceFilter monitor_filter_;
-    bool monitor_ordering_;
+    const DataCollection* m_monitoring;
+    SourceFilter m_monitorFilter;
+    bool m_monitorOrdering;
 };
 
 #endif  // GALLERY_VIEW_COLLECTION_H_

@@ -151,7 +151,7 @@ protected:
     virtual void notify_page_count_altered();
     virtual void notify_content_pages_altered();
     virtual void notify_current_page_contents_altered();
-    virtual void notify_container_contents_altered(const QSet<DataObject*>* added,
+    virtual void notifyContainerContentsChanged(const QSet<DataObject*>* added,
                                                    const QSet<DataObject*>* removed);
 
     int content_to_absolute_page(int content_page) const;

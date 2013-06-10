@@ -64,15 +64,15 @@ public:
 
     friend class SourceCollection;
 
-    SourceCollection* member_of() const;
+    SourceCollection* memberOf() const;
 
-    virtual void DestroyOrphan(bool destroy_backing);
+    virtual void destroyOrphan(bool destroy_backing);
 
 protected:
-    virtual void notify_destroying(bool destroying_backing, bool as_orphan);
-    virtual void notify_destroyed(bool destroyed_backing, bool as_orphan);
+    virtual void notifyDestroying(bool destroying_backing, bool as_orphan);
+    virtual void notifyDestroyed(bool destroyed_backing, bool as_orphan);
 
-    virtual void Destroy(bool destroy_backing);
+    virtual void destroy(bool destroy_backing);
 
     /// DataSource subclasses need to implement this by performing clean-up
     /// work prior to being removed from the system ... if destroy_backing is
@@ -80,9 +80,9 @@ protected:
     virtual void DestroySource(bool destroy_backing, bool as_orphan) = 0;
 
 private:
-    SourceCollection *membership_;
+    SourceCollection *m_membership;
 
-    void set_membership(SourceCollection* collection);
+    void setMembership(SourceCollection* collection);
 };
 
 #endif  // GALLERY_DATA_SOURCE_H_

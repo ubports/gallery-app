@@ -162,7 +162,7 @@ void GalleryManager::initPreviewManager()
 
     // Monitor MediaCollection for all new MediaSources
     QObject::connect(media_collection_,
-                     SIGNAL(contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
+                     SIGNAL(contentsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*)),
                      preview_manager_,
                      SLOT(onMediaAddedRemoved(const QSet<DataObject*>*,const QSet<DataObject*>*)));
 
@@ -172,7 +172,7 @@ void GalleryManager::initPreviewManager()
                      SLOT(onMediaDestroying(const QSet<DataObject*>*)));
 
     // Verify previews for all existing added MediaSources
-    preview_manager_->onMediaAddedRemoved(&media_collection_->GetAsSet(), NULL);
+    preview_manager_->onMediaAddedRemoved(&media_collection_->getAsSet(), NULL);
 }
 
 /*!
@@ -198,5 +198,5 @@ void GalleryManager::fillMediaCollection()
         photos.insert(p);
     }
 
-    media_collection_->AddMany(photos);
+    media_collection_->addMany(photos);
 }
