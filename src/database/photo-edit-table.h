@@ -35,13 +35,13 @@ class PhotoEditTable : public QObject
 public:
     explicit PhotoEditTable(Database* db, QObject *parent = 0);
 
-    PhotoEditState get_edit_state(qint64 media_id) const;
-    void set_edit_state(qint64 media_id, const PhotoEditState& edit_state);
+    PhotoEditState editState(qint64 mediaId) const;
+    void setEditState(qint64 mediaId, const PhotoEditState& editState);
 
 private:
-    void prepare_row(qint64 media_id);
+    void prepareRow(qint64 mediaId);
 
-    Database* db_;
+    Database* m_db;
 };
 
 #endif // PHOTOEDITTABLE_H

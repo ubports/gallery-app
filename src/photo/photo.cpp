@@ -135,7 +135,7 @@ EditStack* PhotoPrivate::editStack() const
         Q_Q(const Photo);
         edits_ = new EditStack;
         Database* database = GalleryManager::instance()->database();
-        PhotoEditState editState = database->get_photo_edit_table()->get_edit_state(q->id());
+        PhotoEditState editState = database->getPhotoEditTable()->editState(q->id());
         edits_->set_base(editState);
     }
     return edits_;
@@ -196,7 +196,7 @@ Photo* Photo::Load(const QFileInfo& file)
     qint64 filesize;
 
     // Look for photo in the database.
-    qint64 id = GalleryManager::instance()->database()->get_media_table()->get_id_for_media(
+    qint64 id = GalleryManager::instance()->database()->getMediaTable()->getIdForMedia(
                 file.absoluteFilePath());
 
     if (id == INVALID_ID && !IsValid(file))
@@ -206,7 +206,7 @@ Photo* Photo::Load(const QFileInfo& file)
 
     // Check for legacy rows.
     if (id != INVALID_ID)
-        needs_update = GalleryManager::instance()->database()->get_media_table()->row_needs_update(id);
+        needs_update = GalleryManager::instance()->database()->getMediaTable()->rowNeedsUpdate(id);
 
     // If we don't have the photo, add it to the DB.  If we have the photo but the
     // row is from a previous version of the DB, update the row.
@@ -226,11 +226,11 @@ Photo* Photo::Load(const QFileInfo& file)
 
         if (needs_update) {
             // Update DB.
-            GalleryManager::instance()->database()->get_media_table()->update_media(id,
+            GalleryManager::instance()->database()->getMediaTable()->updateMedia(id,
                                                                                     file.absoluteFilePath(), timestamp, exposure_time, orientation, filesize);
         } else {
             // Add to DB.
-            id = GalleryManager::instance()->database()->get_media_table()->create_id_for_media(
+            id = GalleryManager::instance()->database()->getMediaTable()->createIdForMedia(
                         file.absoluteFilePath(), timestamp, exposure_time, orientation, filesize);
         }
 
@@ -240,7 +240,7 @@ Photo* Photo::Load(const QFileInfo& file)
         delete metadata;
     } else {
         // Load metadata from DB.
-        GalleryManager::instance()->database()->get_media_table()->get_row(id, size, orientation,
+        GalleryManager::instance()->database()->getMediaTable()->getRow(id, size, orientation,
                                                                            timestamp, exposure_time);
     }
 
@@ -691,7 +691,7 @@ void Photo::make_undoable_edit(const PhotoEditState& state)
 void Photo::save(const PhotoEditState& state, Orientation old_orientation)
 {
     edit_file(state);
-    GalleryManager::instance()->database()->get_photo_edit_table()->set_edit_state(id(), state);
+    GalleryManager::instance()->database()->getPhotoEditTable()->setEditState(id(), state);
 
     if (orientation() != old_orientation)
         emit orientationChanged();

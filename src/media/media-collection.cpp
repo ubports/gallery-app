@@ -124,7 +124,7 @@ void MediaCollection::notifyContentsChanged(const QSet<DataObject*>* added,
             // TODO: In the future we may want to do this in the Destroy method
             // (as defined in DataSource) if we want to differentiate between
             // removing the photo and "deleting the backing file."
-            GalleryManager::instance()->database()->get_media_table()->remove(media->id());
+            GalleryManager::instance()->database()->getMediaTable()->remove(media->id());
         }
     }
 }

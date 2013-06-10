@@ -34,22 +34,22 @@
  * \param db
  * \param parent
  */
-AlbumTable::AlbumTable(Database* db, QObject* parent) : QObject(parent), db_(db)
+AlbumTable::AlbumTable(Database* db, QObject* parent) : QObject(parent), m_db(db)
 {
 }
 
 /*!
  * \brief AlbumTable::get_albums returns a set of all albums
- * Returns a set of all albums
- * \param album_list
+ * Returns a set of all getAlbums
+ * \param albumSet
  */
-void AlbumTable::get_albums(QList<Album*>* album_list)
+void AlbumTable::getAlbums(QList<Album*>* albumSet)
 {
-    QSqlQuery query(*db_->get_db());
+    QSqlQuery query(*m_db->getDB());
     query.prepare("SELECT id, title, subtitle, time_added, is_closed, current_page, "
                   "cover_nickname FROM AlbumTable ORDER BY time_added DESC");
     if (!query.exec())
-        db_->log_sql_error(query);
+        m_db->logSqlError(query);
 
     while (query.next()) {
         QDateTime timestamp;
@@ -64,20 +64,20 @@ void AlbumTable::get_albums(QList<Album*>* album_list)
 
         Album* a = new Album(this, GalleryManager::instance()->album_default_template(), title, subtitle, id,
                              timestamp, is_closed, current_page, cover_nickname);
-        album_list->append(a);
+        albumSet->append(a);
     }
 }
 
 /*!
- * \brief AlbumTable::add_album adds an album to the DB
+ * \brief AlbumTable::addAlbum adds an album to the DB
  * \param album
  */
-void AlbumTable::add_album(Album* album)
+void AlbumTable::addAlbum(Album* album)
 {
     if (album->id() != INVALID_ID)
         return; // Nothing to do here.
 
-    QSqlQuery query(*db_->get_db());
+    QSqlQuery query(*m_db->getDB());
     query.prepare("INSERT INTO AlbumTable (title, subtitle, time_added, is_closed, "
                   "current_page, cover_nickname) "
                   "VALUES (:title, :subtitle, :time_added, :is_closed, :page, "
@@ -89,43 +89,43 @@ void AlbumTable::add_album(Album* album)
     query.bindValue(":page", album->currentPage());
     query.bindValue(":cover_nickname", album->coverNickname());
     if (!query.exec())
-        db_->log_sql_error(query);
+        m_db->logSqlError(query);
 
     album->setId(query.lastInsertId().toLongLong());
 }
 
 /*!
- * \brief AlbumTable::remove_album removes an album from the DB.
+ * \brief AlbumTable::removeAlbum removes an album from the DB.
  * \param album
  */
-void AlbumTable::remove_album(Album* album)
+void AlbumTable::removeAlbum(Album* album)
 {
     if (album->id() == INVALID_ID)
         return; // Nothing to remove.
 
-    QSqlQuery query(*db_->get_db());
+    QSqlQuery query(*m_db->getDB());
     query.prepare("DELETE FROM AlbumTable WHERE id = :id");
     query.bindValue(":id", album->id());
     if (!query.exec())
-        db_->log_sql_error(query);
+        m_db->logSqlError(query);
 
     album->setId(INVALID_ID);
 }
 
 /*!
- * \brief AlbumTable::is_attached_to_album check if a photo is attached to album
- * \param album_id
- * \param media_id
+ * \brief AlbumTable::isAttachedToAlbum check if a photo is attached to album
+ * \param albumId
+ * \param mediaId
  */
-bool AlbumTable::is_attached_to_album(qint64 album_id, qint64 media_id) const
+bool AlbumTable::isAttachedToAlbum(qint64 albumId, qint64 mediaId) const
 {
-    QSqlQuery query(*db_->get_db());
+    QSqlQuery query(*m_db->getDB());
 
     query.prepare("SELECT COUNT(*) FROM MediaAlbumTable WHERE album_id = :album_id AND media_id = :media_id");
-    query.bindValue(":album_id", album_id);
-    query.bindValue(":media_id", media_id);
+    query.bindValue(":album_id", albumId);
+    query.bindValue(":media_id", mediaId);
     if (!query.exec())
-        db_->log_sql_error(query);
+        m_db->logSqlError(query);
     else if (query.next() && (query.value(0).toInt() > 0))
         return true;
 
@@ -133,134 +133,134 @@ bool AlbumTable::is_attached_to_album(qint64 album_id, qint64 media_id) const
 }
 
 /*!
- * \brief AlbumTable::attach_to_album adds a photo to an album.
- * \param album_id
- * \param media_id
+ * \brief AlbumTable::attachToAlbum adds a photo to an album.
+ * \param albumId
+ * \param mediaId
  */
-void AlbumTable::attach_to_album(qint64 album_id, qint64 media_id)
+void AlbumTable::attachToAlbum(qint64 albumId, qint64 mediaId)
 {
-    if (is_attached_to_album(album_id, media_id))
+    if (isAttachedToAlbum(albumId, mediaId))
         return;
 
-    QSqlQuery query(*db_->get_db());
+    QSqlQuery query(*m_db->getDB());
     query.prepare("INSERT INTO MediaAlbumTable (album_id, media_id) "
                   "VALUES (:album_id, :media_id)");
-    query.bindValue(":album_id", album_id);
-    query.bindValue(":media_id", media_id);
+    query.bindValue(":album_id", albumId);
+    query.bindValue(":media_id", mediaId);
     if (!query.exec())
-        db_->log_sql_error(query);
+        m_db->logSqlError(query);
 }
 
 /*!
- * \brief AlbumTable::detach_from_album removes a photo from an album.
- * \param album_id
- * \param media_id
+ * \brief AlbumTable::detachFromAlbum removes a photo from an album.
+ * \param albumId
+ * \param mediaId
  */
-void AlbumTable::detach_from_album(qint64 album_id, qint64 media_id)
+void AlbumTable::detachFromAlbum(qint64 albumId, qint64 mediaId)
 {
-    QSqlQuery query(*db_->get_db());
+    QSqlQuery query(*m_db->getDB());
     query.prepare("DELETE FROM MediaAlbumTable WHERE album_id = :album_id AND "
                   "media_id = :media_id");
-    query.bindValue(":album_id", album_id);
-    query.bindValue(":media_id", media_id);
+    query.bindValue(":album_id", albumId);
+    query.bindValue(":media_id", mediaId);
     if (!query.exec())
-        db_->log_sql_error(query);
+        m_db->logSqlError(query);
 }
 
 /*!
- * \brief AlbumTable::media_for_album returns a list of photos for an album.
- * \param album_id
+ * \brief AlbumTable::mediaForAlbum returns a list of photos for an album.
+ * \param albumId
  * \param list
  */
-void AlbumTable::media_for_album(qint64 album_id, QList<qint64>* list) const
+void AlbumTable::mediaForAlbum(qint64 albumId, QList<qint64>* list) const
 {
-    QSqlQuery query(*db_->get_db());
+    QSqlQuery query(*m_db->getDB());
     query.prepare("SELECT media_id FROM MediaAlbumTable WHERE "
                   "album_id = :album_id");
-    query.bindValue(":album_id", album_id);
+    query.bindValue(":album_id", albumId);
     if (!query.exec())
-        db_->log_sql_error(query);
+        m_db->logSqlError(query);
 
     while (query.next())
         list->append(query.value(0).toLongLong());
 }
 
 /*!
- * \brief AlbumTable::set_is_closed Sets whether or not an album is open
- * \param album_id
- * \param is_closed
+ * \brief AlbumTable::setIsClosed Sets whether or not an album is open
+ * \param albumId
+ * \param isClosed
  */
-void AlbumTable::set_is_closed(qint64 album_id, bool is_closed)
+void AlbumTable::setIsClosed(qint64 albumId, bool isClosed)
 {
-    QSqlQuery query(*db_->get_db());
+    QSqlQuery query(*m_db->getDB());
     query.prepare("UPDATE AlbumTable SET is_closed = :is_closed WHERE "
                   "id = :album_id");
-    query.bindValue(":is_closed", is_closed);
-    query.bindValue(":album_id", album_id);
+    query.bindValue(":is_closed", isClosed);
+    query.bindValue(":album_id", albumId);
     if (!query.exec())
-        db_->log_sql_error(query);
+        m_db->logSqlError(query);
 }
 
 /*!
- * \brief AlbumTable::set_current_page Sets the current page of the album.
- * \param album_id
+ * \brief AlbumTable::setCurrentPage Sets the current page of the album.
+ * \param albumId
  * \param page
  */
-void AlbumTable::set_current_page(qint64 album_id, int page)
+void AlbumTable::setCurrentPage(qint64 albumId, int page)
 {
-    QSqlQuery query(*db_->get_db());
+    QSqlQuery query(*m_db->getDB());
     query.prepare("UPDATE AlbumTable SET current_page = :page WHERE "
                   "id = :album_id");
     query.bindValue(":page", page);
-    query.bindValue(":album_id", album_id);
+    query.bindValue(":album_id", albumId);
     if (!query.exec())
-        db_->log_sql_error(query);
+        m_db->logSqlError(query);
 }
 
 /*!
- * \brief AlbumTable::set_cover_nickname Sets the cover style for the album.
- * \param album_id
- * \param cover_nickname
+ * \brief AlbumTable::setCoverNickname Sets the cover style for the album.
+ * \param albumId
+ * \param coverNickname
  */
-void AlbumTable::set_cover_nickname(qint64 album_id, QString cover_nickname)
+void AlbumTable::setCoverNickname(qint64 albumId, QString coverNickname)
 {
-    QSqlQuery query(*db_->get_db());
+    QSqlQuery query(*m_db->getDB());
     query.prepare("UPDATE AlbumTable SET cover_nickname = :cover_nickname WHERE "
                   "id = :album_id");
-    query.bindValue(":cover_nickname", cover_nickname);
-    query.bindValue(":album_id", album_id);
+    query.bindValue(":cover_nickname", coverNickname);
+    query.bindValue(":album_id", albumId);
     if (!query.exec())
-        db_->log_sql_error(query);
+        m_db->logSqlError(query);
 }
 
 /*!
- * \brief AlbumTable::set_title Sets the title of the album.
- * \param album_id
+ * \brief AlbumTable::setTitle Sets the title of the album.
+ * \param albumId
  * \param title
  */
-void AlbumTable::set_title(qint64 album_id, QString title)
+void AlbumTable::setTitle(qint64 albumId, QString title)
 {
-    QSqlQuery query(*db_->get_db());
+    QSqlQuery query(*m_db->getDB());
     query.prepare("UPDATE AlbumTable SET title = :title WHERE "
                   "id = :album_id");
     query.bindValue(":title", title);
-    query.bindValue(":album_id", album_id);
+    query.bindValue(":album_id", albumId);
     if (!query.exec())
-        db_->log_sql_error(query);
+        m_db->logSqlError(query);
 }
 
 /*!
- * \brief AlbumTable::set_subtitle Sets the subtitle of the album.
- * \param album_id
+ * \brief AlbumTable::setSubtitle Sets the subtitle of the album.
+ * \param albumId
  * \param subtitle
  */
-void AlbumTable::set_subtitle(qint64 album_id, QString subtitle)
+void AlbumTable::setSubtitle(qint64 albumId, QString subtitle)
 {
-    QSqlQuery query(*db_->get_db());
+    QSqlQuery query(*m_db->getDB());
     query.prepare("UPDATE AlbumTable SET subtitle = :subtitle WHERE "
                   "id = :album_id");
     query.bindValue(":subtitle", subtitle);
-    query.bindValue(":album_id", album_id);
+    query.bindValue(":album_id", albumId);
     if (!query.exec())
-        db_->log_sql_error(query);
+        m_db->logSqlError(query);
 }

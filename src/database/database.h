@@ -45,37 +45,37 @@ public:
 
     ~Database();
 
-    void log_sql_error(QSqlQuery& q) const;
-    QSqlDatabase* get_db();
+    void logSqlError(QSqlQuery& q) const;
+    QSqlDatabase* getDB();
 
-    AlbumTable* get_album_table() const;
-    MediaTable* get_media_table() const;
-    PhotoEditTable* get_photo_edit_table() const;
+    AlbumTable* getAlbumTable() const;
+    MediaTable* getMediaTable() const;
+    PhotoEditTable* getPhotoEditTable() const;
 
 private:
-    bool open_db();
+    bool openDB();
 
-    int get_schema_version() const;
-    void set_schema_version(int version);
-    void upgrade_schema(int current_version);
+    int schemaVersion() const;
+    void setSchemaVersion(int version);
+    void upgradeSchema(int current_version);
 
-    bool execute_sql_file(QFile& file);
+    bool executeSqlFile(QFile& file);
 
-    const QString &get_sql_dir() const;
+    const QString &getSqlDir() const;
 
-    QString get_db_name() const;
-    QString get_db_backup_name() const;
+    QString getDBname() const;
+    QString getDBBackupName() const;
 
-    void restore_from_backup();
+    void restoreFromBackup();
 
-    void create_backup();
+    void createBackup();
 
     QString m_databaseDirectory;
     QString m_sqlSchemaDirectory;
-    QSqlDatabase* db_;
-    AlbumTable* album_table_;
-    MediaTable* media_table_;
-    PhotoEditTable* photo_edit_table_;
+    QSqlDatabase* m_db;
+    AlbumTable* m_albumTable;
+    MediaTable* m_mediaTable;
+    PhotoEditTable* m_photoEditTable;
 };
 
 #endif // DATABASE_H
