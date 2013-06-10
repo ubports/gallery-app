@@ -96,7 +96,7 @@ private:
         int inUseCount;
         uint byteCount;
 
-        CachedImage(const QString& id, const QString& filename);
+        CachedImage(const QString& fileId, const QString& filename);
 
         void storeImage(const QImage& newImage, const QSize& newFullSize,
                         Orientation newOrientation);

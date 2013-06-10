@@ -433,9 +433,9 @@ QString GalleryStandardImageProvider::idToFile(const QString& id) const
  * \param id the full URI of the image
  * \param fileName the filename for the URI (can be the file itself or the preview)
  */
-GalleryStandardImageProvider::CachedImage::CachedImage(const QString& id,
+GalleryStandardImageProvider::CachedImage::CachedImage(const QString& fileId,
                                                        const QString& filename)
-    : id(id), uri(id), file(filename), hasOrientation(false),
+    : id(fileId), uri(fileId), file(filename), hasOrientation(false),
       orientation(TOP_LEFT_ORIGIN), inUseCount(0), byteCount(0)
 {
     QUrlQuery query(uri);
