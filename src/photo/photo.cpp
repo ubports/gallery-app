@@ -324,8 +324,8 @@ QImage Photo::image(bool respect_orientation, const QSize &scaleSize)
     QImage image = imageReader.read();
     if (!image.isNull() && respect_orientation && file_format_has_orientation()) {
         image = image.transformed(
-                    OrientationCorrection::FromOrientation(orientation())
-                    .to_transform());
+                    OrientationCorrection::fromOrientation(orientation())
+                    .toTransform());
 
         // Cache this here since the image is already loaded.
         if (!isSizeSet())
@@ -473,7 +473,7 @@ bool Photo::isOriginal() const
 void Photo::rotateRight()
 {
     Orientation new_orientation =
-            OrientationCorrection::rotate_orientation(orientation(), false);
+            OrientationCorrection::rotateOrientation(orientation(), false);
 
     QSize size = get_original_size(orientation());
 
@@ -645,8 +645,8 @@ QSize Photo::get_original_size(Orientation orientation)
                         file_format_.toStdString().c_str());
         if (file_format_has_orientation()) {
             original =
-                    original.transformed(OrientationCorrection::FromOrientation(
-                                             original_orientation_).to_transform());
+                    original.transformed(OrientationCorrection::fromOrientation(
+                                             original_orientation_).toTransform());
         }
 
         original_size_ = original.size();
@@ -656,11 +656,11 @@ QSize Photo::get_original_size(Orientation orientation)
 
     if (orientation != PhotoEditState::ORIGINAL_ORIENTATION) {
         OrientationCorrection original_correction =
-                OrientationCorrection::FromOrientation(original_orientation_);
+                OrientationCorrection::fromOrientation(original_orientation_);
         OrientationCorrection out_correction =
-                OrientationCorrection::FromOrientation(orientation);
+                OrientationCorrection::fromOrientation(orientation);
         int degrees_rotation =
-                original_correction.get_normalized_rotation_difference(out_correction);
+                original_correction.getNormalizedRotationDifference(out_correction);
 
         if (degrees_rotation == 90 || degrees_rotation == 270)
             rotated_size.transpose();
@@ -719,12 +719,12 @@ void Photo::handle_simple_metadata_rotation(const PhotoEditState& state)
     delete(metadata);
 
     OrientationCorrection orig_correction =
-            OrientationCorrection::FromOrientation(original_orientation_);
+            OrientationCorrection::fromOrientation(original_orientation_);
     OrientationCorrection dest_correction =
-            OrientationCorrection::FromOrientation(state.orientation_);
+            OrientationCorrection::fromOrientation(state.orientation_);
 
     QSize new_size = original_size_;
-    int angle = dest_correction.get_normalized_rotation_difference(orig_correction);
+    int angle = dest_correction.getNormalizedRotationDifference(orig_correction);
 
     if ((angle == 90) || (angle == 270)) {
         new_size = original_size_.transposed();
@@ -797,7 +797,7 @@ void Photo::edit_file(const PhotoEditState& state)
     else if (state.orientation_ != PhotoEditState::ORIGINAL_ORIENTATION &&
              state.orientation_ != TOP_LEFT_ORIGIN)
         image = image.transformed(
-                    OrientationCorrection::FromOrientation(state.orientation_).to_transform());
+                    OrientationCorrection::fromOrientation(state.orientation_).toTransform());
 
     // Cache this here so we may be able to avoid another JPEG decode later just
     // to find the dimensions.
@@ -872,7 +872,7 @@ void Photo::create_cached_enhanced()
     for (int j = 0; j < height; j++) {
         QApplication::processEvents();
         for (int i = 0; i < width; i++) {
-            QColor px = enhance_txn.transform_pixel(
+            QColor px = enhance_txn.transformPixel(
                         QColor(unenhanced_img.pixel(i, j)));
             enhanced_image.setPixel(i, j, px.rgb());
         }
@@ -941,7 +941,7 @@ QImage Photo::doColorBalance(const QImage &image, qreal brightness, qreal contra
         QApplication::processEvents();
         for (int i = 0; i <image.width(); i++) {
             QColor px = image.pixel(i, j);
-            QColor tpx = cb.transform_pixel(px);
+            QColor tpx = cb.transformPixel(px);
             result.setPixel(i, j, tpx.rgb());
         }
     }

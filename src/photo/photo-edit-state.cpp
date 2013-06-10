@@ -44,20 +44,20 @@ QRect PhotoEditState::rotate_crop_rectangle(Orientation new_orientation,
 {
 
     OrientationCorrection old_correction =
-            OrientationCorrection::FromOrientation(orientation_);
+            OrientationCorrection::fromOrientation(orientation_);
     OrientationCorrection new_correction =
-            OrientationCorrection::FromOrientation(new_orientation);
+            OrientationCorrection::fromOrientation(new_orientation);
 
     int x = crop_rectangle_.x();
     int y = crop_rectangle_.y();
     int width = crop_rectangle_.width();
     int height = crop_rectangle_.height();
 
-    if (old_correction.is_flipped_from(new_correction))
+    if (old_correction.isFlippedFrom(new_correction))
         x = image_width - x - width;
 
     int degrees_rotation =
-            new_correction.get_normalized_rotation_difference(old_correction);
+            new_correction.getNormalizedRotationDifference(old_correction);
 
     // Rotate in 90 degree increments.  This seemed easier than a switch
     // statement but may mean a few more cycles.

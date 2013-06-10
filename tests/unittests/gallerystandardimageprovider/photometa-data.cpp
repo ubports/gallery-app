@@ -31,13 +31,13 @@ PhotoMetadata* PhotoMetadata::FromFile(const QFileInfo &file)
     return NULL;
 }
 
-OrientationCorrection OrientationCorrection::FromOrientation(Orientation o)
+OrientationCorrection OrientationCorrection::fromOrientation(Orientation o)
 {
-    OrientationCorrection test = OrientationCorrection::FromOrientation(o);
+    OrientationCorrection test = OrientationCorrection::fromOrientation(o);
     return test;
 }
 
-QTransform OrientationCorrection::to_transform() const
+QTransform OrientationCorrection::toTransform() const
 {
   QTransform result;
   return result;

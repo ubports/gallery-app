@@ -91,7 +91,7 @@ AlbumTemplatePage* AlbumPage::template_page() const
  */
 QUrl AlbumPage::qml_rc() const
 {
-    return Resource::get_rc_url(template_page_->qml_rc());
+    return Resource::getRcUrl(template_page_->qml_rc());
 }
 
 /*!

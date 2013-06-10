@@ -41,22 +41,22 @@ enum Orientation {
 class OrientationCorrection
 {
 public:
-    static OrientationCorrection FromOrientation(Orientation o);
-    static OrientationCorrection Identity();
-    static Orientation rotate_orientation(Orientation orientation, bool left);
+    static OrientationCorrection fromOrientation(Orientation o);
+    static OrientationCorrection identity();
+    static Orientation rotateOrientation(Orientation orientation, bool left);
 
-    const double rotation_angle_;
-    const double horizontal_scale_factor_;
+    QTransform toTransform() const;
 
-    QTransform to_transform() const;
-
-    bool is_flipped_from(const OrientationCorrection& other) const;
-    int get_normalized_rotation_difference(const OrientationCorrection& other) const;
+    bool isFlippedFrom(const OrientationCorrection& other) const;
+    int getNormalizedRotationDifference(const OrientationCorrection& other) const;
 
 private:
     OrientationCorrection(double rotation_angle, double horizontal_scale_factor)
-        : rotation_angle_(rotation_angle),
-          horizontal_scale_factor_(horizontal_scale_factor) { }
+        : m_rotationAngle(rotation_angle),
+          m_horizontalScaleFactor(horizontal_scale_factor) { }
+
+    const double m_rotationAngle;
+    const double m_horizontalScaleFactor;
 };
 
 

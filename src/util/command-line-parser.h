@@ -34,29 +34,29 @@ class CommandLineParser
 public:
     CommandLineParser(const QHash<QString, QSize>& form_factors);
 
-    bool process_args(const QStringList& args);
+    bool processArguments(const QStringList& args);
 
-    QDir pictures_dir() const { return pictures_dir_; }
-    bool is_portrait() const { return is_portrait_; }
-    bool is_fullscreen() const { return is_fullscreen_; }
-    bool startup_timer() const { return startup_timer_; }
-    bool log_image_loading() const { return log_image_loading_; }
+    QDir picturesDir() const { return m_picturesDir; }
+    bool isPortrait() const { return m_isPortrait; }
+    bool isFullscreen() const { return m_isFullscreen; }
+    bool startupTimer() const { return m_startupTimer; }
+    bool logImageLoading() const { return m_logImageLoading; }
 
-    QString form_factor() { return form_factor_; }
+    QString formFactor() { return m_formFactor; }
 
 private:
-    bool invalid_arg(QString arg);
+    bool invalidArg(QString arg);
     void usage();
 
-    bool startup_timer_;
-    bool is_fullscreen_;
-    bool is_portrait_;
-    QDir pictures_dir_;
+    bool m_startupTimer;
+    bool m_isFullscreen;
+    bool m_isPortrait;
+    QDir m_picturesDir;
 
-    bool log_image_loading_;
+    bool m_logImageLoading;
 
-    const QHash<QString, QSize> form_factors_;
-    QString form_factor_;
+    const QHash<QString, QSize> m_formFactors;
+    QString m_formFactor;
 };
 
 #endif // COMMANDLINEPARSER_H
