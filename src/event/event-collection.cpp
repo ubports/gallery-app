@@ -137,7 +137,7 @@ void EventCollection::onMediaAddedRemoved(const QSet<DataObject *> *added,
 }
 
 /*!
- * \brief EventCollection::notify_contents_altered
+ * \brief EventCollection::notifyContentsChanged
  * \param added
  * \param removed
  */

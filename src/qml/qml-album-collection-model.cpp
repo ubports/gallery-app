@@ -125,5 +125,5 @@ DataObject* QmlAlbumCollectionModel::fromVariant(QVariant var) const
  */
 void QmlAlbumCollectionModel::onAlbumCurrentPageContentsChanged(Album* album)
 {
-    notifyElementAltered(backingViewCollection()->indexOf(album), SubclassRole);
+    notifyElementChanged(backingViewCollection()->indexOf(album), SubclassRole);
 }
