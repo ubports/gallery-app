@@ -47,7 +47,7 @@ AlbumCollection::AlbumCollection()
         QList<qint64> photo_list;
         GalleryManager::instance()->database()->getAlbumTable()->mediaForAlbum(a->id(), &photo_list);
         foreach (qint64 mediaId, photo_list)
-            photos.insert(GalleryManager::instance()->media_collection()->mediaForId(mediaId));
+            photos.insert(GalleryManager::instance()->mediaCollection()->mediaForId(mediaId));
 
         a->attachMany(photos);
 
@@ -64,7 +64,7 @@ AlbumCollection::AlbumCollection()
     // We need to monitor the media collection so that when photos get removed
     // from the system, they also get removed from all albums.
     QObject::connect(
-                GalleryManager::instance()->media_collection(),
+                GalleryManager::instance()->mediaCollection(),
                 SIGNAL(contentsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*)),
                 this,
                 SLOT(onMediaAddedRemoved(const QSet<DataObject*>*,const QSet<DataObject*>*)));

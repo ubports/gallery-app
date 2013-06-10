@@ -271,7 +271,7 @@ Photo* Photo::fetch(const QFileInfo& file)
     GalleryManager* gallery_mgr = GalleryManager::instance();
 
     Photo* p = 0;
-    MediaSource* media = gallery_mgr->media_collection()->mediaFromFileinfo(file);
+    MediaSource* media = gallery_mgr->mediaCollection()->mediaFromFileinfo(file);
     if (media == 0) {
         p = load(file);
     } else {

@@ -43,28 +43,24 @@ class GalleryManager;
 class GalleryManager
 {
 public:
-    static GalleryManager* instance(const QDir& pictures_dir = QDir(),
+    static GalleryManager* instance(const QDir& picturesDir = QDir(),
                                     QQuickView *view = 0,
-                                    const bool log_image_loading = false);
+                                    const bool logImageLoading = false);
 
-    /*!
-     * Called after main loop is initialised. See GalleryApplication::exec() comments.
-    */
-    void post_init();
+    void postInit();
 
-    Database* database() { return database_; }
-    AlbumDefaultTemplate* album_default_template() { return default_template_; }
-    MediaCollection* media_collection() { return media_collection_; }
-    AlbumCollection* album_collection() { return album_collection_; }
-    EventCollection* event_collection() { return event_collection_; }
-    PreviewManager* preview_manager() { return preview_manager_; }
-    Resource* resource() { return resource_; }
-    GalleryStandardImageProvider* gallery_standard_image_provider() { return gallery_standard_image_provider_; }
-    GalleryThumbnailImageProvider* gallery_thumbnail_image_provider() { return gallery_thumbnail_image_provider_; }
+    Database* database() { return m_database; }
+    AlbumDefaultTemplate* albumDefaultTemplate() { return m_defaultTemplate; }
+    MediaCollection* mediaCollection() { return m_mediaCollection; }
+    AlbumCollection* albumCollection() { return m_albumCollection; }
+    EventCollection* eventCollection() { return m_eventCollection; }
+    PreviewManager* previewManager() { return m_previewManager; }
+    Resource* resource() { return m_resource; }
+    GalleryStandardImageProvider* galleryStandardImageProvider() { return m_standardImageProvider; }
+    GalleryThumbnailImageProvider* galleryThumbnailImageProvider() { return m_thumbnailImageProvider_; }
 
 private:
-    GalleryManager(const QDir& pictures_dir, QQuickView *view,
-                   const bool log_image_loading);
+    GalleryManager(const QDir& picturesDir, QQuickView *view, const bool logImageLoading);
     ~GalleryManager();
 
     GalleryManager(const GalleryManager&);
@@ -73,20 +69,20 @@ private:
     void initPreviewManager();
     void fillMediaCollection();
 
-    static GalleryManager* gallery_mgr_;
+    static GalleryManager* m_galleryManager;
 
-    bool collections_initialised;
+    bool collectionsInitialised;
 
-    Resource* resource_;
-    GalleryStandardImageProvider* gallery_standard_image_provider_;
-    GalleryThumbnailImageProvider* gallery_thumbnail_image_provider_;
+    Resource* m_resource;
+    GalleryStandardImageProvider* m_standardImageProvider;
+    GalleryThumbnailImageProvider* m_thumbnailImageProvider_;
 
-    Database* database_;
-    AlbumDefaultTemplate* default_template_;
-    MediaCollection* media_collection_;
-    AlbumCollection* album_collection_;
-    EventCollection* event_collection_;
-    PreviewManager* preview_manager_;
+    Database* m_database;
+    AlbumDefaultTemplate* m_defaultTemplate;
+    MediaCollection* m_mediaCollection;
+    AlbumCollection* m_albumCollection;
+    EventCollection* m_eventCollection;
+    PreviewManager* m_previewManager;
 };
 
 #endif // GALLERYMANAGER_H

@@ -30,7 +30,7 @@
 QmlEventCollectionModel::QmlEventCollectionModel(QObject* parent)
     : QmlViewCollectionModel(parent, "event", NULL)
 {
-    monitorSourceCollection(GalleryManager::instance()->event_collection());
+    monitorSourceCollection(GalleryManager::instance()->eventCollection());
 }
 
 /*!
