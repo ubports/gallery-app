@@ -18,7 +18,6 @@ include_directories(
     ${gallery_media_src_SOURCE_DIR}
     ${gallery_medialoader_src_SOURCE_DIR}
     ${gallery_photo_src_SOURCE_DIR}
-    ${gallery_qml_src_SOURCE_DIR}
     ${gallery_util_src_SOURCE_DIR}
     ${gallery_video_src_SOURCE_DIR}
     ${GSTLIB_INCLUDE_DIRS}
@@ -29,7 +28,7 @@ add_executable(video
     ${gallery_src_SOURCE_DIR}/gallery-manager.cpp
     )
 
-qt5_use_modules(video Widgets Core Qml Quick OpenGL Sql Test)
+qt5_use_modules(video Widgets Core Qml Quick Test)
 add_test(video video -xunitxml -o test_video.xml)
 set_tests_properties(video PROPERTIES
     TIMEOUT ${CTEST_TESTING_TIMEOUT}

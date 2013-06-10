@@ -24,13 +24,30 @@ class tst_Video : public QObject
   Q_OBJECT
 
 private slots:
-    void dummy();
+    void galleryPath();
+    void galleryPreviewPath();
+    void galleryThumbnailPath();
 };
 
-void tst_Video::dummy()
+void tst_Video::galleryPath()
 {
-    Video video();
-    QCOMPARE(0, 0);
+    QFileInfo fi;
+    Video video(fi);
+    QCOMPARE(video.galleryPath().toString().endsWith(QString("img/video-thumbnail.png")), true);
+}
+
+void tst_Video::galleryPreviewPath()
+{
+    QFileInfo fi;
+    Video video(fi);
+    QCOMPARE(video.galleryPreviewPath().toString().endsWith(QString("img/video-thumbnail.png")), true);
+}
+
+void tst_Video::galleryThumbnailPath()
+{
+    QFileInfo fi;
+    Video video(fi);
+    QCOMPARE(video.galleryThumbnailPath().toString().endsWith(QString("img/video-thumbnail.png")), true);
 }
 
 QTEST_MAIN(tst_Video);

@@ -11,10 +11,6 @@ include_directories(
     ${GSTLIB_INCLUDE_DIRS}
     )
 
-set(gallery_video_HDRS
-    video.h
-    )
-
 set(gallery_video_SRCS
     video.cpp
     )
@@ -24,7 +20,7 @@ add_library(${GALLERY_VIDEO_LIB}
     ${gallery_video_SRCS}
     )
 
-qt5_use_modules(${GALLERY_VIDEO_LIB} Widgets Core Qml Quick Sql)
+qt5_use_modules(${GALLERY_VIDEO_LIB} Widgets Core Qml)
 
 target_link_libraries( ${GALLERY_VIDEO_LIB}
     gallery-media
