@@ -191,7 +191,7 @@ void GalleryManager::fillMediaCollection()
     const QStringList filenames = mediaDir.entryList();
     foreach (const QString& filename, filenames) {
         QFileInfo file(mediaDir, filename);
-        Photo *p = Photo::Load(file);
+        Photo *p = Photo::load(file);
         if (!p)
             continue;
 
