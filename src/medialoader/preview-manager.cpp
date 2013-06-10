@@ -71,7 +71,7 @@ void PreviewManager::onMediaAddedRemoved(const QSet<DataObject*>* added,
         foreach (object, *added) {
             MediaSource* source = qobject_cast<MediaSource*>(object);
 
-            QObject::connect(source, SIGNAL(data_altered()),
+            QObject::connect(source, SIGNAL(dataChanged()),
                              this, SLOT(updatePreview()), Qt::UniqueConnection);
         }
     }
@@ -80,7 +80,7 @@ void PreviewManager::onMediaAddedRemoved(const QSet<DataObject*>* added,
         DataObject* object;
         foreach (object, *removed) {
             MediaSource* source = qobject_cast<MediaSource*>(object);
-            QObject::disconnect(source, SIGNAL(data_altered()),
+            QObject::disconnect(source, SIGNAL(dataChanged()),
                                 this, SLOT(updatePreview()));
         }
     }
@@ -146,9 +146,9 @@ bool PreviewManager::ensurePreview(QFileInfo file, bool regen)
 
     QImage thumbMaster;
     if (updateNeeded(file, QFileInfo(preview)) || regen) {
-        MediaSource* photo = m_mediaCollection->photoFromFileinfo(file);
+        MediaSource* photo = m_mediaCollection->mediaFromFileinfo(file);
         QSize previewSize(PREVIEW_SIZE, PREVIEW_SIZE);
-        QImage fullsized(photo->Image(true, previewSize));
+        QImage fullsized(photo->image(true, previewSize));
         if (fullsized.isNull()) {
             qDebug() << "Unable to generate fullsized image for " << file.filePath() << "not generating preview";
             return false;

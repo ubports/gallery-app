@@ -9,6 +9,7 @@ add_subdirectory(media)
 add_subdirectory(medialoader)
 add_subdirectory(photo)
 add_subdirectory(qml)
+add_subdirectory(video)
 
 configure_file(
     config.h.in
@@ -59,6 +60,7 @@ target_link_libraries( ${GALLERY}
     gallery-photo
     gallery-qml
     gallery-util
+    gallery-video
     ${GSTLIB_LDFLAGS}
     )
 

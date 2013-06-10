@@ -116,16 +116,16 @@ Rectangle {
         sourceSize.width: {
             if (width < 1024)
                 return 1024;
-            else if (mediaSource && width > mediaSource.maxSize)
-                return mediaSource.maxSize;
+            else if (mediaSource && width > MAX_GL_TEXTURE_SIZE)
+                return MAX_GL_TEXTURE_SIZE;
             return width;
         }
 
         sourceSize.height: {
             if (height < 1024)
                 return 1024;
-            else if (mediaSource && height > mediaSource.maxSize)
-                return mediaSource.maxSize;
+            else if (mediaSource && height > MAX_GL_TEXTURE_SIZE)
+                return MAX_GL_TEXTURE_SIZE;
             return height;
         }
 

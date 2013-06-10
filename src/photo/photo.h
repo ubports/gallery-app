@@ -23,7 +23,6 @@
 #define GALLERY_PHOTO_H_
 
 #include "photo-caches.h"
-#include "photo-edit-state.h"
 
 // media
 #include "media-source.h"
@@ -31,9 +30,7 @@
 // util
 #include "orientation.h"
 
-#include <QDateTime>
-#include <QStack>
-
+class PhotoEditState;
 class PhotoPrivate;
 
 /*!
@@ -54,16 +51,14 @@ public:
 
     static Photo* Fetch(const QFileInfo& file);
 
-    explicit Photo(const QFileInfo& file);
     virtual ~Photo();
 
-    virtual QImage Image(bool respect_orientation, const QSize &scaleSize=QSize());
+    virtual QImage image(bool respect_orientation, const QSize &scaleSize=QSize());
     virtual Orientation orientation() const;
-    virtual QDateTime exposure_date_time() const;
 
-    virtual QUrl gallery_path() const;
-    virtual QUrl gallery_preview_path() const;
-    virtual QUrl gallery_thumbnail_path() const;
+    virtual QUrl galleryPath() const;
+    virtual QUrl galleryPreviewPath() const;
+    virtual QUrl galleryThumbnailPath() const;
 
     void set_base_edit_state(const PhotoEditState& base);
 
@@ -89,6 +84,8 @@ protected:
     virtual void DestroySource(bool destroy_backing, bool as_orphan);
 
 private:
+    explicit Photo(const QFileInfo& file);
+
     const PhotoEditState& current_state() const;
     QSize get_original_size(Orientation orientation);
     void make_undoable_edit(const PhotoEditState& state);
@@ -102,12 +99,8 @@ private:
     bool file_format_has_metadata() const;
     bool file_format_has_orientation() const;
     void set_original_orientation(Orientation orientation);
-    void set_file_timestamp(const QDateTime& timestamp);
-    void set_exposure_date_time(const QDateTime& exposure_time);
 
     QString file_format_;
-    QDateTime exposure_date_time_;
-    QDateTime file_timestamp_;
     int edit_revision_; // How many times the pixel data has been modified by us.
     PhotoCaches caches_;
 

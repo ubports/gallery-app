@@ -108,9 +108,9 @@ void EventCollection::on_media_added_removed(const QSet<DataObject *> *added,
             MediaSource* media = qobject_cast<MediaSource*>(object);
             Q_ASSERT(media != NULL);
 
-            Event* existing = date_map_.value(media->exposure_date());
+            Event* existing = date_map_.value(media->exposureDate());
             if (existing == NULL) {
-                existing = new Event(this, media->exposure_date());
+                existing = new Event(this, media->exposureDate());
 
                 Add(existing);
             }
@@ -125,7 +125,7 @@ void EventCollection::on_media_added_removed(const QSet<DataObject *> *added,
             MediaSource* media = qobject_cast<MediaSource*>(object);
             Q_ASSERT(media != NULL);
 
-            Event* event = date_map_.value(media->exposure_date());
+            Event* event = date_map_.value(media->exposureDate());
             Q_ASSERT(event != NULL);
 
             event->Detach(media);

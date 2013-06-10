@@ -178,7 +178,7 @@ void QmlEventOverviewModel::on_event_overview_contents_altered(
             if (source == NULL)
                 continue;
 
-            QDate source_date = source->exposure_date_time().date();
+            QDate source_date = source->exposureDateTime().date();
             Event* event = GalleryManager::instance()->event_collection()->EventForDate(source_date);
             Q_ASSERT(event != NULL);
 
@@ -356,7 +356,7 @@ QDateTime QmlEventOverviewModel::ObjectDateTime(DataObject* object, bool asc)
 {
     MediaSource* media = qobject_cast<MediaSource*>(object);
     if (media != NULL)
-        return media->exposure_date_time();
+        return media->exposureDateTime();
 
     // Events are different depending on ascending vs. descending; they should
     // always be at the head of the MediaSource span, so they need to use different
