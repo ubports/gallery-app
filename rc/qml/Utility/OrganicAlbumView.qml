@@ -58,7 +58,7 @@ OrganicView {
     Connections {
         target: album
         ignoreUnknownSignals: true
-        onContentPagesAltered: chunkingModel.reset()
+        onContentPagesChanged: chunkingModel.reset()
     }
 
     model: ListModel {
