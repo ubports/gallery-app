@@ -181,7 +181,3 @@ class GalleryTestCase(AutopilotTestCase):
         self.assertThat(view.visible, Eventually(Equals(True)))
         self.assertThat(animated_view.animationRunning,
                         Eventually(Equals(False)))
-
-    def ensure_edit_dialog_visible(self):
-        edit_dialog = self.photo_viewer.get_photo_edit_dialog()
-        self.assertThat(edit_dialog.opacity, (Eventually(Equals(1))))
