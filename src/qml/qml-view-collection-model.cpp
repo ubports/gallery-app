@@ -602,13 +602,13 @@ void QmlViewCollectionModel::notifyElementRemoved(int index)
 }
 
 /*!
- * \brief QmlViewCollectionModel::notifyElementAltered
+ * \brief QmlViewCollectionModel::notifyElementChanged
  * This notifies model subscribers that the element at the particular index
  * has been altered in some way.
  * \param index
  * \param role
  */
-void QmlViewCollectionModel::notifyElementAltered(int index, int role)
+void QmlViewCollectionModel::notifyElementChanged(int index, int role)
 {
     if (index >= 0) {
         QModelIndex model_index = createIndex(index, role);
@@ -617,15 +617,15 @@ void QmlViewCollectionModel::notifyElementAltered(int index, int role)
 }
 
 /*!
- * \brief QmlViewCollectionModel::notifySetAltered
+ * \brief QmlViewCollectionModel::notifySetChanged
  * \param list
  * \param role
  */
-void QmlViewCollectionModel::notifySetAltered(const QSet<DataObject*>* list, int role)
+void QmlViewCollectionModel::notifySetChanged(const QSet<DataObject*>* list, int role)
 {
     DataObject* object;
     foreach (object, *list)
-        notifyElementAltered(m_view->indexOf(object), role);
+        notifyElementChanged(m_view->indexOf(object), role);
 }
 
 /*!
@@ -655,10 +655,10 @@ void QmlViewCollectionModel::onSelectionChanged(const QSet<DataObject*>* selecte
                                                   const QSet<DataObject*>* unselected)
 {
     if (selected != NULL)
-        notifySetAltered(selected, SelectionRole);
+        notifySetChanged(selected, SelectionRole);
 
     if (unselected != NULL)
-        notifySetAltered(unselected, SelectionRole);
+        notifySetChanged(unselected, SelectionRole);
 
     emit selectedCountChanged();
 }

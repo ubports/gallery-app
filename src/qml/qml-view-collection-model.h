@@ -130,7 +130,7 @@ protected:
 
     void notifyElementAdded(int index);
     void notifyElementRemoved(int index);
-    void notifyElementAltered(int index, int role);
+    void notifyElementChanged(int index, int role);
     void notifyReset();
 
     virtual QHash<int, QByteArray> roleNames() const;
@@ -159,7 +159,7 @@ private:
 
     void setBackingViewCollection(SelectableViewCollection* view);
     void disconnectBackingViewCollection();
-    void notifySetAltered(const QSet<DataObject*> *list, int role);
+    void notifySetChanged(const QSet<DataObject*> *list, int role);
 };
 
 #endif  // GALLERY_QML_VIEW_COLLECTION_MODEL_H_
