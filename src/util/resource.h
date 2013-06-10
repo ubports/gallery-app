@@ -33,7 +33,7 @@ class Resource
 public:
     explicit Resource(const QString& pictureDir, QQuickView *view);
 
-    static QUrl get_rc_url(const QString& path);
+    static QUrl getRcUrl(const QString& path);
 
     const QString &picturesDirectory() const;
     const QString &databaseDirectory() const;

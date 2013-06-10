@@ -22,11 +22,11 @@
 #include "orientation.h"
 
 /*!
- * \brief OrientationCorrection::FromOrientation
+ * \brief OrientationCorrection::fromOrientation
  * \param o
  * \return
  */
-OrientationCorrection OrientationCorrection::FromOrientation(Orientation o)
+OrientationCorrection OrientationCorrection::fromOrientation(Orientation o)
 {
     double rotation_angle = 0.0;
     double horizontal_scale_factor = 1.0;
@@ -72,21 +72,21 @@ OrientationCorrection OrientationCorrection::FromOrientation(Orientation o)
 }
 
 /*!
- * \brief OrientationCorrection::Identity
+ * \brief OrientationCorrection::identity
  * \return
  */
-OrientationCorrection OrientationCorrection::Identity()
+OrientationCorrection OrientationCorrection::identity()
 {
     return OrientationCorrection(0.0, 1.0);
 }
 
 /*!
- * \brief OrientationCorrection::rotate_orientation
+ * \brief OrientationCorrection::rotateOrientation
  * \param orientation
  * \param left
  * \return
  */
-Orientation OrientationCorrection::rotate_orientation(Orientation orientation, bool left)
+Orientation OrientationCorrection::rotateOrientation(Orientation orientation, bool left)
 {
     QVector<Orientation> sequence_a;
     QVector<Orientation> sequence_b;
@@ -106,43 +106,43 @@ Orientation OrientationCorrection::rotate_orientation(Orientation orientation, b
 }
 
 /*!
- * \brief OrientationCorrection::to_transform
+ * \brief OrientationCorrection::toTransform
  * Returns the correction as a QTransform.
  * \return Returns the correction as a QTransform.
  */
-QTransform OrientationCorrection::to_transform() const
+QTransform OrientationCorrection::toTransform() const
 {
     QTransform result;
-    result.scale(horizontal_scale_factor_, 1.0);
-    result.rotate(rotation_angle_);
+    result.scale(m_horizontalScaleFactor, 1.0);
+    result.rotate(m_rotationAngle);
 
     return result;
 }
 
 /*!
- * \brief OrientationCorrection::is_flipped_from
+ * \brief OrientationCorrection::isFlippedFrom
  * Returns whether the two orientations are flipped relative to each other.
  * Ignores rotation_angle; only checks horizontal_scale_factor_.
  * \param other
  * \return
  */
-bool OrientationCorrection::is_flipped_from(
+bool OrientationCorrection::isFlippedFrom(
         const OrientationCorrection& other) const
 {
-    return (horizontal_scale_factor_ != other.horizontal_scale_factor_);
+    return (m_horizontalScaleFactor != other.m_horizontalScaleFactor);
 }
 
 /*!
- * \brief OrientationCorrection::get_normalized_rotation_difference
+ * \brief OrientationCorrection::getNormalizedRotationDifference
  * Returns the rotation difference in degrees (this - other), normalized to
  * 0, 90, 180, or 270.  Ignores the horizontal_scale_factor_.
  * \param other
  * \return
  */
-int OrientationCorrection::get_normalized_rotation_difference(
+int OrientationCorrection::getNormalizedRotationDifference(
         const OrientationCorrection& other) const
 {
-    int degrees_rotation = (int)rotation_angle_ - (int)other.rotation_angle_;
+    int degrees_rotation = (int)m_rotationAngle - (int)other.m_rotationAngle;
     if (degrees_rotation < 0)
         degrees_rotation += 360;
 

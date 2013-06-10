@@ -73,14 +73,14 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
     form_factors_.insert("sidebar", QSize(71, 40));
 
     cmd_line_parser_ = new CommandLineParser(form_factors_);
-    bool ok = cmd_line_parser_->process_args(arguments());
+    bool ok = cmd_line_parser_->processArguments(arguments());
     if (!ok)
         QApplication::quit();
 
     register_qml();
 
-    GalleryManager::instance(cmd_line_parser()->pictures_dir(), &view_,
-                             cmd_line_parser()->log_image_loading());
+    GalleryManager::instance(cmd_line_parser()->picturesDir(), &view_,
+                             cmd_line_parser()->logImageLoading());
 }
 
 /*!
@@ -121,12 +121,6 @@ bool GalleryApplication::run_command(const QString &cmd, const QString &arg)
  */
 void GalleryApplication::register_qml()
 {
-    //
-    // QML Declarative types must be registered before use
-    //
-    // TODO: Use QML Plugins to automate this
-    //
-
     Album::RegisterType();
     AlbumPage::RegisterType();
     Event::RegisterType();
@@ -135,7 +129,7 @@ void GalleryApplication::register_qml()
     QmlEventCollectionModel::RegisterType();
     QmlEventOverviewModel::RegisterType();
     QmlMediaCollectionModel::RegisterType();
-    ShareFile::RegisterType();
+    qmlRegisterType<ShareFile>("Gallery", 1, 0, "ShareFile");
 }
 
 /*!
@@ -146,20 +140,20 @@ void GalleryApplication::create_view()
 {
     view_.setTitle("Gallery");
 
-    QSize size = form_factors_[cmd_line_parser()->form_factor()];
+    QSize size = form_factors_[cmd_line_parser()->formFactor()];
 
-    if (cmd_line_parser_->is_portrait())
+    if (cmd_line_parser_->isPortrait())
         size.transpose();
 
     view_.setResizeMode(QQuickView::SizeRootObjectToView);
-    if (cmd_line_parser()->form_factor() == "desktop") {
+    if (cmd_line_parser()->formFactor() == "desktop") {
         view_.setMinimumSize(QSize(60 * bgu_size_, 60 * bgu_size_));
     }
 
     QQmlContext *rootContext = view_.engine()->rootContext();
     rootContext->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
     rootContext->setContextProperty("DEVICE_HEIGHT", QVariant(size.height()));
-    rootContext->setContextProperty("FORM_FACTOR", QVariant(cmd_line_parser()->form_factor()));
+    rootContext->setContextProperty("FORM_FACTOR", QVariant(cmd_line_parser()->formFactor()));
     rootContext->setContextProperty("MAX_GL_TEXTURE_SIZE",
                                     QVariant(GalleryManager::instance()->resource()->maxTextureSize()));
 
@@ -171,14 +165,14 @@ void GalleryApplication::create_view()
     view_.engine()->addImageProvider(GalleryThumbnailImageProvider::PROVIDER_ID,
                                      GalleryManager::instance()->gallery_thumbnail_image_provider());
 
-    view_.setSource(Resource::get_rc_url("qml/GalleryApplication.qml"));
+    view_.setSource(Resource::getRcUrl("qml/GalleryApplication.qml"));
     QObject::connect(view_.engine(), SIGNAL(quit()), this, SLOT(quit()));
 
     // Hook up our media_loaded signal to GalleryApplication's onLoaded function.
     QObject* rootObject = dynamic_cast<QObject*>(view_.rootObject());
     QObject::connect(this, SIGNAL(media_loaded()), rootObject, SLOT(onLoaded()));
 
-    if (cmd_line_parser()->is_fullscreen())
+    if (cmd_line_parser()->isFullscreen())
         view_.showFullScreen();
     else
         view_.show();
@@ -195,11 +189,11 @@ void GalleryApplication::init_collections()
 
     // start the file monitor so that the collection contents will be updated as
     // new files arrive
-    monitor_ = new MediaMonitor(cmd_line_parser()->pictures_dir().path());
+    monitor_ = new MediaMonitor(cmd_line_parser()->picturesDir().path());
     QObject::connect(monitor_, SIGNAL(media_item_added(QFileInfo)), this,
                      SLOT(on_media_item_added(QFileInfo)));
 
-    if (cmd_line_parser()->startup_timer())
+    if (cmd_line_parser()->startupTimer())
         qDebug() << "Startup took" << timer_.elapsed() << "milliseconds";
 }
 

@@ -55,8 +55,8 @@ public:
     HSVTransformation() { }
     virtual ~HSVTransformation() { }
 
-    virtual QColor transform_pixel(const QColor& pixel_color) const;
-    virtual bool is_identity() const = 0;
+    virtual QColor transformPixel(const QColor& pixel_color) const;
+    virtual bool isIdentity() const = 0;
 
 protected:
     int remap_table_[256];
@@ -71,12 +71,12 @@ public:
     IntensityHistogram(const QImage& basis_image);
     virtual ~IntensityHistogram() { }
 
-    float get_cumulative_probability(int level);
+    float getCumulativeProbability(int level);
 
 private:
-    int counts_[256];
-    float probabilities_[256];
-    float cumulative_probabilities_[256];
+    int m_counts[256];
+    float m_probabilities[256];
+    float m_cumulativeProbabilities[256];
 };
 
 /*!
@@ -88,22 +88,22 @@ class ToneExpansionTransformation : public virtual HSVTransformation
     static const float DEFAULT_HIGH_DISCARD_MASS;
 
 public:
-    ToneExpansionTransformation(IntensityHistogram h, float low_discard_mass =
-            -1.0f, float high_discard_mass = -1.0f);
+    ToneExpansionTransformation(IntensityHistogram h, float lowDiscardMass =
+            -1.0f, float highDiscardMass = -1.0f);
     virtual ~ToneExpansionTransformation() { }
 
-    bool is_identity() const;
+    bool isIdentity() const;
 
-    float low_discard_mass() const;
-    float high_discard_mass() const;
+    float lowDiscardMass() const;
+    float highDiscardMass() const;
 
 private:
-    void build_remap_table();
+    void buildRemapTable();
 
-    int low_kink_;
-    int high_kink_;
-    float low_discard_mass_;
-    float high_discard_mass_;
+    int m_lowKink;
+    int m_highKink;
+    float m_lowDiscardMass;
+    float m_highDiscardMass;
 };
 
 /*!
@@ -118,8 +118,8 @@ public:
     float evaluate(float x);
 
 private:
-    float x_scale_;
-    float nonzero_interval_upper_;
+    float m_xScale;
+    float m_nonzeroIntervalUpper;
 };
 
 /*!
@@ -135,10 +135,10 @@ class ShadowDetailTransformation : public virtual HSVTransformation
 public:
     ShadowDetailTransformation(float intensity);
 
-    bool is_identity() const;
+    bool isIdentity() const;
 
 private:
-    float intensity_;
+    float m_intensity;
 };
 
 /*!
@@ -156,12 +156,12 @@ public:
     AutoEnhanceTransformation(const QImage& basis_image);
     virtual ~AutoEnhanceTransformation();
 
-    QColor transform_pixel(const QColor& pixel_color) const;
-    bool is_identity() const;
+    QColor transformPixel(const QColor& pixel_color) const;
+    bool isIdentity() const;
 
 private:
-    ShadowDetailTransformation* shadow_transform_;
-    ToneExpansionTransformation* tone_expansion_transform_;
+    ShadowDetailTransformation* m_shadowTransform;
+    ToneExpansionTransformation* m_toneExpansionTransform;
 };
 
 /*!
@@ -175,7 +175,7 @@ class ColorBalance
 public:
     ColorBalance(qreal brightness, qreal contrast, qreal saturation, qreal hue);
 
-    QColor transform_pixel(const QColor& pixel_color) const;
+    QColor transformPixel(const QColor& pixel_color) const;
 
 private:
     QVector4D transformBrightness(const QVector4D& pixel) const;

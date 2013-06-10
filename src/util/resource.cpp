@@ -45,13 +45,13 @@ Resource::Resource(const QString &pictureDir, QQuickView *view)
 }
 
 /*!
- * \brief Resource::get_rc_url
+ * \brief Resource::getRcUrl
  * Converts a relative path in the resource folder to a fully-qualified URL.
  * Do NOT use this function if you need an absolute path.
  * \param path
  * \return
  */
-QUrl Resource::get_rc_url(const QString& path)
+QUrl Resource::getRcUrl(const QString& path)
 {
     return isRunningInstalled() ?
                 QUrl::fromLocalFile(galleryDirectory() + "/rc/" + path) :

@@ -29,7 +29,6 @@ class ShareFile : public QObject
 
 public:
     explicit ShareFile(QObject *parent = 0);
-    static void RegisterType();
 
 public Q_SLOTS:
     void writeShareFile(const QString& id, const QString& path);

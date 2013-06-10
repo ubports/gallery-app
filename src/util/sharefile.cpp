@@ -32,14 +32,6 @@ ShareFile::ShareFile(QObject *parent) :
 }
 
 /*!
- * \brief ShareFile::RegisterType
- */
-void ShareFile::RegisterType()
-{
-    qmlRegisterType<ShareFile>("Gallery", 1, 0, "ShareFile");
-}
-
-/*!
  * \brief ShareFile::writeShareFile
  * \param id
  * \param path

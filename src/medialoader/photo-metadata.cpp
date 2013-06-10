@@ -196,7 +196,7 @@ QDateTime PhotoMetadata::exposure_time() const
  */
 OrientationCorrection PhotoMetadata::orientation_correction() const
 {
-    return OrientationCorrection::FromOrientation(orientation());
+    return OrientationCorrection::fromOrientation(orientation());
 }
 
 /*!
@@ -205,7 +205,7 @@ OrientationCorrection PhotoMetadata::orientation_correction() const
  */
 QTransform PhotoMetadata::orientation_transform() const
 {
-    return orientation_correction().to_transform();
+    return orientation_correction().toTransform();
 }
 
 /*!

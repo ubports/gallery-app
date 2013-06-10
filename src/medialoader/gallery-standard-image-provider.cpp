@@ -283,7 +283,7 @@ QImage GalleryStandardImageProvider::fetch_cached_image(CachedImage *cachedImage
             // rotate image if not TOP LEFT
             if (orientation != TOP_LEFT_ORIGIN)  {
                 readyImage = readyImage.transformed(
-                            OrientationCorrection::FromOrientation(orientation).to_transform());
+                            OrientationCorrection::fromOrientation(orientation).toTransform());
             }
 
             cachedImage->storeImage(readyImage, fullSize, orientation);

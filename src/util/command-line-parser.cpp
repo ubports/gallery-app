@@ -25,22 +25,22 @@
 #include <QDebug>
 
 CommandLineParser::CommandLineParser(const QHash<QString, QSize>& form_factors)
-    : startup_timer_(false),
-      is_fullscreen_(false),
-      is_portrait_(false),
-      pictures_dir_(QDir(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation))),
-      log_image_loading_(false),
-      form_factors_(form_factors),
-      form_factor_("desktop")
+    : m_startupTimer(false),
+      m_isFullscreen(false),
+      m_isPortrait(false),
+      m_picturesDir(QDir(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation))),
+      m_logImageLoading(false),
+      m_formFactors(form_factors),
+      m_formFactor("desktop")
 {
 }
 
 /*!
- * @brief CommandLineParser::process_args parsers our input commandline args and sets attributes accordingly.
+ * @brief CommandLineParser::processArguments parsers our input commandline args and sets attributes accordingly.
  * @param QStringList of commandline args to parse and set attributes.
  * @return false if invalid parameter is input or -h/--help is called.
  */
-bool CommandLineParser::process_args(const QStringList& args)
+bool CommandLineParser::processArguments(const QStringList& args)
 {
     bool valid_args = true;
 
@@ -53,34 +53,34 @@ bool CommandLineParser::process_args(const QStringList& args)
             return false;
         }
         else if (args[i] == "--landscape") {
-            is_portrait_ = false;
+            m_isPortrait = false;
         }
         else if (args[i] == "--portrait") {
-            is_portrait_ = true;
+            m_isPortrait = true;
         }
         else if (args[i] == "--fullscreen") {
-            is_fullscreen_ = true;
+            m_isFullscreen = true;
         }
         else if (args[i] == "--startup-timer") {
-            startup_timer_ = true;
+            m_startupTimer = true;
         }
         else if (args[i] == "--log-image-loading") {
-            log_image_loading_ = true;
+            m_logImageLoading = true;
         }
         else {
             QString form_factor = args[i].mid(2); // minus initial "--"
 
-            if (args[i].startsWith("--") && form_factors_.keys().contains(form_factor)) {
-                form_factor_ = form_factor;
+            if (args[i].startsWith("--") && m_formFactors.keys().contains(form_factor)) {
+                m_formFactor = form_factor;
             }
             else if (args[i].startsWith("--desktop_file_hint")) {
                 // ignore this command line switch, hybris uses it to get application info
             }
             else if (i == args.count() - 1 && QDir(args[i]).exists()) {
-                pictures_dir_ = QDir(args[i]);
+                m_picturesDir = QDir(args[i]);
             }
             else {
-                valid_args = !invalid_arg(args[i]);
+                valid_args = !invalidArg(args[i]);
             }
         }
     }
@@ -100,7 +100,7 @@ void CommandLineParser::usage()
     out << "  --portrait\trun in portrait orientation" << endl;
     out << "  --fullscreen\trun fullscreen" << endl;
 
-    foreach (const QString& form_factor, form_factors_.keys()) {
+    foreach (const QString& form_factor, m_formFactors.keys()) {
         out << "  --" << form_factor << "\trun in " << form_factor << " form factor" << endl;
     }
 
@@ -110,10 +110,10 @@ void CommandLineParser::usage()
 }
 
 /*!
- * @brief CommandLineParser::invalid_arg() if an invalid argument is contained in our QStringList.
+ * @brief CommandLineParser::invalidArg() if an invalid argument is contained in our QStringList.
  * @return returns true.
  */
-bool CommandLineParser::invalid_arg(QString arg)
+bool CommandLineParser::invalidArg(QString arg)
 {
     QTextStream(stderr) << "Invalid argument '" << arg << "'" << endl;
     usage();
