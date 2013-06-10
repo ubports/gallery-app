@@ -38,11 +38,9 @@ class QmlEventCollectionModel : public QmlViewCollectionModel
 public:
     QmlEventCollectionModel(QObject* parent = NULL);
 
-    static void RegisterType();
-
 protected:
-    virtual QVariant VariantFor(DataObject *object) const;
-    virtual DataObject* FromVariant(QVariant var) const;
+    virtual QVariant variantFor(DataObject *object) const;
+    virtual DataObject* fromVariant(QVariant var) const;
 };
 
 QML_DECLARE_TYPE(QmlEventCollectionModel)

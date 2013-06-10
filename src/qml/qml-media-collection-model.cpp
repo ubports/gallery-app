@@ -51,20 +51,12 @@ QmlMediaCollectionModel::QmlMediaCollectionModel(QObject* parent,
 }
 
 /*!
- * \brief QmlMediaCollectionModel::RegisterType
- */
-void QmlMediaCollectionModel::RegisterType()
-{
-    qmlRegisterType<QmlMediaCollectionModel>("Gallery", 1, 0, "MediaCollectionModel");
-}
-
-/*!
  * \brief QmlMediaCollectionModel::createAlbumFromSelected
  * \return
  */
 QVariant QmlMediaCollectionModel::createAlbumFromSelected()
 {
-    SelectableViewCollection* view = BackingViewCollection();
+    SelectableViewCollection* view = backingViewCollection();
     if (view->selectedCount() == 0)
         return QVariant();
 
@@ -83,7 +75,7 @@ QVariant QmlMediaCollectionModel::createAlbumFromSelected()
  */
 void QmlMediaCollectionModel::destroySelectedMedia()
 {
-    SelectableViewCollection* view = BackingViewCollection();
+    SelectableViewCollection* view = backingViewCollection();
     if (view->selectedCount() == 0)
         return;
 
@@ -110,32 +102,32 @@ void QmlMediaCollectionModel::destroyMedia(QVariant vmedia)
  */
 bool QmlMediaCollectionModel::monitored() const
 {
-    return IsMonitoring();
+    return isMonitoring();
 }
 
 /*!
- * \brief QmlMediaCollectionModel::set_monitored
+ * \brief QmlMediaCollectionModel::setMonitored
  * \param monitor
  */
-void QmlMediaCollectionModel::set_monitored(bool monitor)
+void QmlMediaCollectionModel::setMonitored(bool monitor)
 {
-    if (IsMonitoring() == monitor)
+    if (isMonitoring() == monitor)
         return;
 
     if (monitor)
-        MonitorSourceCollection(GalleryManager::instance()->media_collection());
+        monitorSourceCollection(GalleryManager::instance()->media_collection());
     else
-        StopMonitoring();
+        stopMonitoring();
 
-    monitoring_changed();
+    monitoringChanged();
 }
 
 /*!
- * \brief QmlMediaCollectionModel::VariantFor
+ * \brief QmlMediaCollectionModel::variantFor
  * \param object
  * \return
  */
-QVariant QmlMediaCollectionModel::VariantFor(DataObject* object) const
+QVariant QmlMediaCollectionModel::variantFor(DataObject* object) const
 {
     MediaSource* media_source = qobject_cast<MediaSource*>(object);
 
@@ -143,11 +135,11 @@ QVariant QmlMediaCollectionModel::VariantFor(DataObject* object) const
 }
 
 /*!
- * \brief QmlMediaCollectionModel::FromVariant
+ * \brief QmlMediaCollectionModel::fromVariant
  * \param var
  * \return
  */
-DataObject* QmlMediaCollectionModel::FromVariant(QVariant var) const
+DataObject* QmlMediaCollectionModel::fromVariant(QVariant var) const
 {
     return UncheckedVariantToObject<MediaSource*>(var);
 }

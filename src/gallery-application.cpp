@@ -125,10 +125,10 @@ void GalleryApplication::register_qml()
     qmlRegisterType<AlbumPage>("Gallery", 1, 0, "AlbumPage");
     qmlRegisterType<Event>("Gallery", 1, 0, "Event");
     qmlRegisterType<MediaSource>("Gallery", 1, 0, "MediaSource");
-    QmlAlbumCollectionModel::RegisterType();
-    QmlEventCollectionModel::RegisterType();
-    QmlEventOverviewModel::RegisterType();
-    QmlMediaCollectionModel::RegisterType();
+    qmlRegisterType<QmlAlbumCollectionModel>("Gallery", 1, 0, "AlbumCollectionModel");
+    qmlRegisterType<QmlEventCollectionModel>("Gallery", 1, 0, "EventCollectionModel");
+    qmlRegisterType<QmlEventOverviewModel>("Gallery", 1, 0, "EventOverviewModel");
+    qmlRegisterType<QmlMediaCollectionModel>("Gallery", 1, 0, "MediaCollectionModel");
     qmlRegisterType<ShareFile>("Gallery", 1, 0, "ShareFile");
 }
 

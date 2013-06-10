@@ -40,25 +40,25 @@ class SourceCollection;
 class QmlViewCollectionModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(int count READ count NOTIFY count_changed)
-    Q_PROPERTY(int rawCount READ raw_count NOTIFY raw_count_changed)
-    Q_PROPERTY(int selectedCount READ selected_count NOTIFY selectedCountChanged)
-    Q_PROPERTY(QVariant forCollection READ for_collection WRITE set_for_collection
-               NOTIFY backing_collection_changed)
-    Q_PROPERTY(QVariant monitorSelection READ monitor_selection
-               WRITE set_monitor_selection NOTIFY monitor_selection_changed)
-    Q_PROPERTY(int head READ head WRITE set_head NOTIFY head_changed)
-    Q_PROPERTY(int limit READ limit WRITE set_limit NOTIFY limit_changed)
+    Q_PROPERTY(int count READ count NOTIFY countChanged)
+    Q_PROPERTY(int rawCount READ rawCount NOTIFY rawCountChanged)
+    Q_PROPERTY(int selectedCount READ selectedCount NOTIFY selectedCountChanged)
+    Q_PROPERTY(QVariant forCollection READ forCollection WRITE setForCollection
+               NOTIFY backingCollectionChanged)
+    Q_PROPERTY(QVariant monitorSelection READ monitorSelection
+               WRITE setMonitorSelection NOTIFY monitorSelectionChanged)
+    Q_PROPERTY(int head READ head WRITE setHead NOTIFY headChanged)
+    Q_PROPERTY(int limit READ limit WRITE setLimit NOTIFY limitChanged)
 
 signals:
-    void count_changed();
-    void raw_count_changed();
+    void countChanged();
+    void rawCountChanged();
     void selectedCountChanged();
-    void backing_collection_changed();
-    void head_changed();
-    void limit_changed();
-    void ordering_altered();
-    void monitor_selection_changed();
+    void backingCollectionChanged();
+    void headChanged();
+    void limitChanged();
+    void orderingChanged();
+    void monitorSelectionChanged();
 
 public:
     // These roles are available for all subclasses of QmlViewCollectionModel.
@@ -78,14 +78,14 @@ public:
     };
 
     QmlViewCollectionModel(QObject* parent, const QString& objectTypeName,
-                           DataObjectComparator default_comparator);
+                           DataObjectComparator defaultComparator);
     virtual ~QmlViewCollectionModel();
 
-    QVariant for_collection() const;
-    void set_for_collection(QVariant var);
+    QVariant forCollection() const;
+    void setForCollection(QVariant var);
 
-    QVariant monitor_selection() const;
-    void set_monitor_selection(QVariant vmodel);
+    QVariant monitorSelection() const;
+    void setMonitorSelection(QVariant vmodel);
 
     Q_INVOKABLE int indexOf(QVariant var);
     Q_INVOKABLE QVariant getAt(int index);
@@ -100,66 +100,66 @@ public:
     virtual QVariant data(const QModelIndex& index, int role) const;
 
     int count() const;
-    int raw_count() const;
-    int selected_count() const;
+    int rawCount() const;
+    int selectedCount() const;
     int head() const;
-    void set_head(int head);
+    void setHead(int head);
     int limit() const;
-    void set_limit(int limit);
-    void clear_limit();
+    void setLimit(int limit);
+    void clearLimit();
 
-    SelectableViewCollection* BackingViewCollection() const;
+    SelectableViewCollection* backingViewCollection() const;
 
-    DataObjectComparator default_comparator() const;
-    void set_default_comparator(DataObjectComparator comparator);
+    DataObjectComparator defaultComparator() const;
+    void setDefaultComparator(DataObjectComparator comparator);
 
 protected:
-    virtual void notify_backing_collection_changed();
+    virtual void notifyBackingCollectionChanged();
 
-    void MonitorSourceCollection(SourceCollection* sources);
-    void MonitorContainerSource(ContainerSource* container);
-    bool IsMonitoring() const;
-    void StopMonitoring();
+    void monitorSourceCollection(SourceCollection* sources);
+    void monitorContainerSource(ContainerSource* container);
+    bool isMonitoring() const;
+    void stopMonitoring();
 
     // Subclasses should return the DataObject cast and packed in a QVariant
-    virtual QVariant VariantFor(DataObject* object) const = 0;
+    virtual QVariant variantFor(DataObject* object) const = 0;
 
     // Subclasses should convert from QVariant into appropriate DataObject
     // subclass.  Return null if unknown type
-    virtual DataObject* FromVariant(QVariant var) const = 0;
+    virtual DataObject* fromVariant(QVariant var) const = 0;
 
-    void NotifyElementAdded(int index);
-    void NotifyElementRemoved(int index);
-    void NotifyElementAltered(int index, int role);
-    void NotifyReset();
+    void notifyElementAdded(int index);
+    void notifyElementRemoved(int index);
+    void notifyElementAltered(int index, int role);
+    void notifyReset();
 
     virtual QHash<int, QByteArray> roleNames() const;
 
 private slots:
-    void on_selection_altered(const QSet<DataObject*>* selected,
-                              const QSet<DataObject*>* unselected);
-    void on_contents_to_be_altered(const QSet<DataObject*>* added,
-                                   const QSet<DataObject*>* removed);
-    void on_contents_altered(const QSet<DataObject*>* add,
+    void onSelectionChanged(const QSet<DataObject*>* selected,
+                            const QSet<DataObject*>* unselected);
+    void onContentsAboutToBeChanged(const QSet<DataObject*>* added,
+                                    const QSet<DataObject*>* removed);
+    void onContentsChanged(const QSet<DataObject*>* add,
                              const QSet<DataObject*>* removed);
-    void on_ordering_altered();
+    void onOrderingChanged();
 
 private:
-    QVariant collection_;
-    QVariant monitor_selection_;
-    SelectableViewCollection* view_;
-    QList<int> to_be_removed_;
-    DataObjectComparator default_comparator_;
-    int head_;
-    int limit_;
-    QHash<int, QByteArray> roles_;
+    QVariant m_collection;
+    QVariant m_monitorSelection;
+    SelectableViewCollection* m_view;
+    QList<int> m_toBeRemoved;
+    DataObjectComparator m_defaultComparator;
+    int m_head;
+    int m_limit;
+    QHash<int, QByteArray> m_roles;
 
-    static bool IntLessThan(int a, int b);
-    static bool IntReverseLessThan(int a, int b);
+    static bool intLessThan(int a, int b);
+    static bool intReverseLessThan(int a, int b);
 
-    void SetBackingViewCollection(SelectableViewCollection* view);
-    void DisconnectBackingViewCollection();
-    void NotifySetAltered(const QSet<DataObject*> *list, int role);
+    void setBackingViewCollection(SelectableViewCollection* view);
+    void disconnectBackingViewCollection();
+    void notifySetAltered(const QSet<DataObject*> *list, int role);
 };
 
 #endif  // GALLERY_QML_VIEW_COLLECTION_MODEL_H_

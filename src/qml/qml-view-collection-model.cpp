@@ -27,20 +27,20 @@
  * \brief QmlViewCollectionModel::QmlViewCollectionModel
  * \param parent
  * \param objectTypeName
- * \param default_comparator
+ * \param defaultComparator
  */
 QmlViewCollectionModel::QmlViewCollectionModel(QObject* parent, const QString& objectTypeName,
-                                               DataObjectComparator default_comparator)
-    : QAbstractListModel(parent), view_(NULL), default_comparator_(default_comparator),
-      head_(0), limit_(-1)
+                                               DataObjectComparator defaultComparator)
+    : QAbstractListModel(parent), m_view(NULL), m_defaultComparator(defaultComparator),
+      m_head(0), m_limit(-1)
 {
-    roles_.insert(ObjectRole, "object");
-    roles_.insert(SelectionRole, "isSelected");
-    roles_.insert(TypeNameRole, "typeName");
+    m_roles.insert(ObjectRole, "object");
+    m_roles.insert(SelectionRole, "isSelected");
+    m_roles.insert(TypeNameRole, "typeName");
 
     // allow for subclasses to give object a semantically-significant name
     if (!objectTypeName.isEmpty())
-        roles_.insert(SubclassRole, objectTypeName.toLatin1());
+        m_roles.insert(SubclassRole, objectTypeName.toLatin1());
 }
 
 /*!
@@ -48,23 +48,23 @@ QmlViewCollectionModel::QmlViewCollectionModel(QObject* parent, const QString& o
  */
 QmlViewCollectionModel::~QmlViewCollectionModel()
 {
-    delete view_;
+    delete m_view;
 }
 
 /*!
- * \brief QmlViewCollectionModel::for_collection
+ * \brief QmlViewCollectionModel::forCollection
  * \return
  */
-QVariant QmlViewCollectionModel::for_collection() const
+QVariant QmlViewCollectionModel::forCollection() const
 {
-    return collection_;
+    return m_collection;
 }
 
 /*!
- * \brief QmlViewCollectionModel::set_for_collection
+ * \brief QmlViewCollectionModel::setForCollection
  * \param var
  */
-void QmlViewCollectionModel::set_for_collection(QVariant var)
+void QmlViewCollectionModel::setForCollection(QVariant var)
 {
     QObject* obj = qvariant_cast<QObject*>(var);
     if (obj == NULL) {
@@ -73,51 +73,51 @@ void QmlViewCollectionModel::set_for_collection(QVariant var)
         if (var.isValid() && ((QMetaType::Type) var.type()) != QMetaType::QObjectStar)
             qDebug("Unable to set collection of type %s", var.typeName());
 
-        StopMonitoring();
+        stopMonitoring();
 
         return;
     }
 
     ContainerSource* container = qobject_cast<ContainerSource*>(obj);
     if (container != NULL) {
-        collection_ = var;
-        MonitorContainerSource(container);
+        m_collection = var;
+        monitorContainerSource(container);
 
         return;
     }
 
     SourceCollection* source = qobject_cast<SourceCollection*>(obj);
     if (source != NULL) {
-        collection_ = var;
-        MonitorSourceCollection(source);
+        m_collection = var;
+        monitorSourceCollection(source);
 
         return;
     }
 
-    StopMonitoring();
+    stopMonitoring();
 
     qDebug("Unable to set collection that is neither ContainerSource nor SourceCollection");
 }
 
 /*!
- * \brief QmlViewCollectionModel::monitor_selection
+ * \brief QmlViewCollectionModel::monitorSelection
  * \return
  */
-QVariant QmlViewCollectionModel::monitor_selection() const
+QVariant QmlViewCollectionModel::monitorSelection() const
 {
-    return monitor_selection_;
+    return m_monitorSelection;
 }
 
 /*!
- * \brief QmlViewCollectionModel::set_monitor_selection
+ * \brief QmlViewCollectionModel::setMonitorSelection
  * \param vmodel
  */
-void QmlViewCollectionModel::set_monitor_selection(QVariant vmodel)
+void QmlViewCollectionModel::setMonitorSelection(QVariant vmodel)
 {
     // always stop monitoring
-    monitor_selection_ = QVariant();
-    if (view_ != NULL)
-        view_->stopMonitoringSelectionState();
+    m_monitorSelection = QVariant();
+    if (m_view != NULL)
+        m_view->stopMonitoringSelectionState();
     
     QmlViewCollectionModel* model = UncheckedVariantToObject<QmlViewCollectionModel*>(vmodel);
     if (model == NULL) {
@@ -127,9 +127,9 @@ void QmlViewCollectionModel::set_monitor_selection(QVariant vmodel)
         return;
     }
 
-    monitor_selection_ = vmodel;
-    if (view_ != NULL)
-        view_->monitorSelectionState(model->view_);
+    m_monitorSelection = vmodel;
+    if (m_view != NULL)
+        m_view->monitorSelectionState(model->m_view);
 }
 
 /*!
@@ -143,7 +143,7 @@ int QmlViewCollectionModel::indexOf(QVariant var)
     if (object == NULL)
         return -1;
 
-    return (view_ != NULL) ? view_->indexOf(object) : -1;
+    return (m_view != NULL) ? m_view->indexOf(object) : -1;
 }
 
 /*!
@@ -153,12 +153,12 @@ int QmlViewCollectionModel::indexOf(QVariant var)
  */
 QVariant QmlViewCollectionModel::getAt(int index)
 {
-    if (view_ == NULL || index < 0)
+    if (m_view == NULL || index < 0)
         return QVariant();
 
-    DataObject* object = view_->getAt(index);
+    DataObject* object = m_view->getAt(index);
 
-    return (object != NULL) ? VariantFor(object) : QVariant();
+    return (object != NULL) ? variantFor(object) : QVariant();
 }
 
 /*!
@@ -166,7 +166,7 @@ QVariant QmlViewCollectionModel::getAt(int index)
  */
 void QmlViewCollectionModel::clear()
 {
-    StopMonitoring();
+    stopMonitoring();
 }
 
 /*!
@@ -175,22 +175,22 @@ void QmlViewCollectionModel::clear()
  */
 void QmlViewCollectionModel::add(QVariant var)
 {
-    DataObject* object = FromVariant(var);
+    DataObject* object = fromVariant(var);
     if (object == NULL) {
         qDebug("Unable to convert variant into appropriate DataObject");
 
         return;
     }
 
-    if (view_ == NULL) {
+    if (m_view == NULL) {
         SelectableViewCollection* view = new SelectableViewCollection("Manual ViewCollection");
-        if (default_comparator_ != NULL)
-            view->setComparator(default_comparator_);
+        if (m_defaultComparator != NULL)
+            view->setComparator(m_defaultComparator);
 
-        SetBackingViewCollection(view);
+        setBackingViewCollection(view);
     }
 
-    view_->add(object);
+    m_view->add(object);
 }
 
 /*!
@@ -198,8 +198,8 @@ void QmlViewCollectionModel::add(QVariant var)
  */
 void QmlViewCollectionModel::selectAll()
 {
-    if (view_ != NULL)
-        view_->selectAll();
+    if (m_view != NULL)
+        m_view->selectAll();
 }
 
 /*!
@@ -207,8 +207,8 @@ void QmlViewCollectionModel::selectAll()
  */
 void QmlViewCollectionModel::unselectAll()
 {
-    if (view_ != NULL)
-        view_->unselectAll();
+    if (m_view != NULL)
+        m_view->unselectAll();
 }
 
 /*!
@@ -217,8 +217,8 @@ void QmlViewCollectionModel::unselectAll()
  */
 void QmlViewCollectionModel::toggleSelection(QVariant var)
 {
-    if (view_ != NULL)
-        view_->toggleSelect(VariantToObject<DataObject*>(var));
+    if (m_view != NULL)
+        m_view->toggleSelect(VariantToObject<DataObject*>(var));
 }
 
 /*!
@@ -228,8 +228,8 @@ void QmlViewCollectionModel::toggleSelection(QVariant var)
  */
 bool QmlViewCollectionModel::isSelected(QVariant var)
 {
-    return (view_ != NULL && var.isValid()
-            ? view_->isSelected(VariantToObject<DataObject*>(var))
+    return (m_view != NULL && var.isValid()
+            ? m_view->isSelected(VariantToObject<DataObject*>(var))
             : false);
 }
 
@@ -251,41 +251,41 @@ int QmlViewCollectionModel::rowCount(const QModelIndex& parent) const
  */
 QVariant QmlViewCollectionModel::data(const QModelIndex& index, int role) const
 {
-    if (view_ == NULL)
+    if (m_view == NULL)
         return QVariant();
 
-    if (limit_ == 0)
+    if (m_limit == 0)
         return QVariant();
 
     // calculate actual starting index from the head (a negative head means to
     // start from n elements from the tail of the list; relying on negative value
     // for addition in latter part of ternary operator her)
-    int real_start = (head_ >= 0) ? head_ : view_->count() + head_;
+    int real_start = (m_head >= 0) ? m_head : m_view->count() + m_head;
     int real_index = index.row() + real_start;
 
     // bounds checking
-    if (real_index < 0 || real_index >= view_->count())
+    if (real_index < 0 || real_index >= m_view->count())
         return QVariant();
 
     // watch for indexing beyond upper limit
-    if (limit_ > 0 && real_index >= (real_start + limit_))
+    if (m_limit > 0 && real_index >= (real_start + m_limit))
         return QVariant();
 
-    DataObject* object = view_->getAt(real_index);
+    DataObject* object = m_view->getAt(real_index);
     if (object == NULL)
         return QVariant();
 
     switch (role) {
     case ObjectRole:
     case SubclassRole:
-        return VariantFor(object);
+        return variantFor(object);
 
     case SelectionRole:
-        return QVariant(view_->isSelected(object));
+        return QVariant(m_view->isSelected(object));
 
     case TypeNameRole:
         // Return type name with the pointer ("*") removed
-        return QVariant(QString(VariantFor(object).typeName()).remove('*'));
+        return QVariant(QString(variantFor(object).typeName()).remove('*'));
 
     default:
         return QVariant();
@@ -298,39 +298,39 @@ QVariant QmlViewCollectionModel::data(const QModelIndex& index, int role) const
  */
 int QmlViewCollectionModel::count() const
 {
-    int count = (view_ != NULL) ? view_->count() : 0;
+    int count = (m_view != NULL) ? m_view->count() : 0;
 
     // account for head (if negative, means head of list starts at tail)
-    count -= (head_ > 0) ? head_ : (-head_);
+    count -= (m_head > 0) ? m_head : (-m_head);
 
     // watch for underflow
     if (count < 0)
         count = 0;
 
     // apply limit, if set
-    if (limit_ >= 0 && count > limit_)
-        count = limit_;
+    if (m_limit >= 0 && count > m_limit)
+        count = m_limit;
 
     return count;
 }
 
 /*!
- * \brief QmlViewCollectionModel::raw_count
+ * \brief QmlViewCollectionModel::rawCount
  * \return
  */
-int QmlViewCollectionModel::raw_count() const
+int QmlViewCollectionModel::rawCount() const
 {
-    return (view_ != NULL) ? view_->count() : 0;
+    return (m_view != NULL) ? m_view->count() : 0;
 }
 
 /*!
- * \brief QmlViewCollectionModel::selected_count
+ * \brief QmlViewCollectionModel::selectedCount
  * \return
  */
-int QmlViewCollectionModel::selected_count() const
+int QmlViewCollectionModel::selectedCount() const
 {
     // TODO: Selected count should honor limit and head as well
-    return (view_ != NULL) ? view_->selectedCount() : 0;
+    return (m_view != NULL) ? m_view->selectedCount() : 0;
 }
 
 /*!
@@ -339,19 +339,23 @@ int QmlViewCollectionModel::selected_count() const
  */
 int QmlViewCollectionModel::head() const
 {
-    return head_;
+    return m_head;
 }
 
-void QmlViewCollectionModel::set_head(int head) {
-    if (head_ == head)
+/*!
+ * \brief QmlViewCollectionModel::setHead
+ * \param head
+ */
+void QmlViewCollectionModel::setHead(int head) {
+    if (m_head == head)
         return;
 
-    head_ = head;
+    m_head = head;
 
-    emit head_changed();
+    emit headChanged();
     // TODO: this could be checked for and optimized instead of nuking it all.
-    emit count_changed();
-    NotifyReset();
+    emit countChanged();
+    notifyReset();
 }
 
 /*!
@@ -360,199 +364,199 @@ void QmlViewCollectionModel::set_head(int head) {
  */
 int QmlViewCollectionModel::limit() const
 {
-    return limit_;
+    return m_limit;
 }
 
 /*!
- * \brief QmlViewCollectionModel::set_limit
+ * \brief QmlViewCollectionModel::setLimit
  * \param limit
  */
-void QmlViewCollectionModel::set_limit(int limit)
+void QmlViewCollectionModel::setLimit(int limit)
 {
     int normalized = (limit >= 0) ? limit : -1;
 
-    if (limit_ == normalized)
+    if (m_limit == normalized)
         return;
 
-    limit_ = normalized;
+    m_limit = normalized;
 
-    emit limit_changed();
-    emit count_changed();
-    NotifyReset();
+    emit limitChanged();
+    emit countChanged();
+    notifyReset();
 }
 
 /*!
- * \brief QmlViewCollectionModel::clear_limit
+ * \brief QmlViewCollectionModel::clearLimit
  */
-void QmlViewCollectionModel::clear_limit()
+void QmlViewCollectionModel::clearLimit()
 {
-    set_limit(-1);
+    setLimit(-1);
 }
 
 /*!
- * \brief QmlViewCollectionModel::SetBackingViewCollection
+ * \brief QmlViewCollectionModel::setBackingViewCollection
  * \param view
  */
-void QmlViewCollectionModel::SetBackingViewCollection(SelectableViewCollection* view)
+void QmlViewCollectionModel::setBackingViewCollection(SelectableViewCollection* view)
 {
-    int old_count = (view_ != NULL) ? view_->count() : 0;
-    int old_selected_count = (view_ != NULL) ? view_->selectedCount() : 0;
+    int old_count = (m_view != NULL) ? m_view->count() : 0;
+    int old_selected_count = (m_view != NULL) ? m_view->selectedCount() : 0;
 
-    DisconnectBackingViewCollection();
+    disconnectBackingViewCollection();
 
     beginResetModel();
 
-    view_ = view;
+    m_view = view;
 
     endResetModel();
 
-    QObject::connect(view_,
+    QObject::connect(m_view,
                      SIGNAL(selectionChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)),
                      this,
-                     SLOT(on_selection_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
+                     SLOT(onSelectionChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)));
 
-    QObject::connect(view_,
+    QObject::connect(m_view,
                      SIGNAL(contentsAboutToBeChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)),
                      this,
-                     SLOT(on_contents_to_be_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
+                     SLOT(onContentsAboutToBeChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)));
 
-    QObject::connect(view_,
+    QObject::connect(m_view,
                      SIGNAL(contentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)),
                      this,
-                     SLOT(on_contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
+                     SLOT(onContentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)));
 
-    QObject::connect(view_, SIGNAL(orderingChanged()),
-                     this, SLOT(on_ordering_altered()));
+    QObject::connect(m_view, SIGNAL(orderingChanged()),
+                     this, SLOT(onOrderingChanged()));
 
-    notify_backing_collection_changed();
+    notifyBackingCollectionChanged();
 
-    if (old_count != view_->count()) {
-        emit raw_count_changed();
+    if (old_count != m_view->count()) {
+        emit rawCountChanged();
         // TODO: we could maybe check for this instead of always firing it.
-        emit count_changed();
+        emit countChanged();
     }
 
-    if (old_selected_count != view_->selectedCount())
+    if (old_selected_count != m_view->selectedCount())
         emit selectedCountChanged();
 }
 
 /*!
- * \brief QmlViewCollectionModel::DisconnectBackingViewCollection
+ * \brief QmlViewCollectionModel::disconnectBackingViewCollection
  */
-void QmlViewCollectionModel::DisconnectBackingViewCollection()
+void QmlViewCollectionModel::disconnectBackingViewCollection()
 {
-    if (view_ == NULL)
+    if (m_view == NULL)
         return;
 
-    QObject::disconnect(view_,
+    QObject::disconnect(m_view,
                         SIGNAL(selectionChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)),
                         this,
-                        SLOT(on_selection_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
+                        SLOT(onSelectionChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)));
 
-    QObject::disconnect(view_,
+    QObject::disconnect(m_view,
                         SIGNAL(contentsAboutToBeChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)),
                         this,
-                        SLOT(on_contents_to_be_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
+                        SLOT(onContentsAboutToBeChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)));
 
-    QObject::disconnect(view_,
+    QObject::disconnect(m_view,
                         SIGNAL(contentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)),
                         this,
-                        SLOT(on_contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
+                        SLOT(onContentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)));
 
-    QObject::disconnect(view_, SIGNAL(orderingChanged()),
-                        this, SLOT(on_ordering_altered()));
+    QObject::disconnect(m_view, SIGNAL(orderingChanged()),
+                        this, SLOT(onOrderingChanged()));
 
     beginResetModel();
 
-    delete view_;
-    view_ = NULL;
+    delete m_view;
+    m_view = NULL;
 
     endResetModel();
 }
 
 /*!
- * \brief QmlViewCollectionModel::BackingViewCollection
+ * \brief QmlViewCollectionModel::backingViewCollection
  * \return
  */
-SelectableViewCollection* QmlViewCollectionModel::BackingViewCollection() const
+SelectableViewCollection* QmlViewCollectionModel::backingViewCollection() const
 {
-    return view_;
+    return m_view;
 }
 
 /*!
- * \brief QmlViewCollectionModel::default_comparator
+ * \brief QmlViewCollectionModel::defaultComparator
  * \return
  */
-DataObjectComparator QmlViewCollectionModel::default_comparator() const
+DataObjectComparator QmlViewCollectionModel::defaultComparator() const
 {
-    return default_comparator_;
+    return m_defaultComparator;
 }
 
 /*!
- * \brief QmlViewCollectionModel::set_default_comparator
+ * \brief QmlViewCollectionModel::setDefaultComparator
  * \param comparator
  */
-void QmlViewCollectionModel::set_default_comparator(DataObjectComparator comparator)
+void QmlViewCollectionModel::setDefaultComparator(DataObjectComparator comparator)
 {
-    default_comparator_ = comparator;
+    m_defaultComparator = comparator;
 }
 
 /*!
- * \brief QmlViewCollectionModel::MonitorSourceCollection
+ * \brief QmlViewCollectionModel::monitorSourceCollection
  * \param sources
  */
-void QmlViewCollectionModel::MonitorSourceCollection(SourceCollection* sources)
+void QmlViewCollectionModel::monitorSourceCollection(SourceCollection* sources)
 {
     SelectableViewCollection* view = new SelectableViewCollection("MonitorSourceCollection");
-    if (default_comparator_ != NULL)
-        view->setComparator(default_comparator_);
-    view->monitorDataCollection(sources, NULL, (default_comparator_ == NULL));
+    if (m_defaultComparator != NULL)
+        view->setComparator(m_defaultComparator);
+    view->monitorDataCollection(sources, NULL, (m_defaultComparator == NULL));
 
-    SetBackingViewCollection(view);
+    setBackingViewCollection(view);
 }
 
 /*!
- * \brief QmlViewCollectionModel::MonitorContainerSource
+ * \brief QmlViewCollectionModel::monitorContainerSource
  * \param container
  */
-void QmlViewCollectionModel::MonitorContainerSource(ContainerSource* container)
+void QmlViewCollectionModel::monitorContainerSource(ContainerSource* container)
 {
     SelectableViewCollection* view = new SelectableViewCollection("MonitorContainerSource");
-    if (default_comparator_ != NULL)
-        view->setComparator(default_comparator_);
+    if (m_defaultComparator != NULL)
+        view->setComparator(m_defaultComparator);
     view->monitorDataCollection(container->contained(), NULL,
-                                (default_comparator_ == NULL));
+                                (m_defaultComparator == NULL));
 
-    SetBackingViewCollection(view);
+    setBackingViewCollection(view);
 }
 
 /*!
- * \brief QmlViewCollectionModel::IsMonitoring
+ * \brief QmlViewCollectionModel::isMonitoring
  * \return
  */
-bool QmlViewCollectionModel::IsMonitoring() const
+bool QmlViewCollectionModel::isMonitoring() const
 {
-    return view_ != NULL && view_->isMonitoring();
+    return m_view != NULL && m_view->isMonitoring();
 }
 
 /*!
- * \brief QmlViewCollectionModel::StopMonitoring
+ * \brief QmlViewCollectionModel::stopMonitoring
  */
-void QmlViewCollectionModel::StopMonitoring()
+void QmlViewCollectionModel::stopMonitoring()
 {
-    if (view_ == NULL)
+    if (m_view == NULL)
         return;
 
-    int old_count = view_->count();
-    int old_selected_count = view_->selectedCount();
+    int old_count = m_view->count();
+    int old_selected_count = m_view->selectedCount();
 
-    DisconnectBackingViewCollection();
+    disconnectBackingViewCollection();
 
-    notify_backing_collection_changed();
+    notifyBackingCollectionChanged();
 
     if (old_count != 0) {
-        emit raw_count_changed();
-        emit count_changed();
+        emit rawCountChanged();
+        emit countChanged();
     }
 
     if (old_selected_count != 0)
@@ -560,21 +564,21 @@ void QmlViewCollectionModel::StopMonitoring()
 }
 
 /*!
- * \brief QmlViewCollectionModel::notify_backing_collection_changed
+ * \brief QmlViewCollectionModel::notifyBackingCollectionChanged
  */
-void QmlViewCollectionModel::notify_backing_collection_changed()
+void QmlViewCollectionModel::notifyBackingCollectionChanged()
 {
-    emit backing_collection_changed();
+    emit backingCollectionChanged();
 }
 
 /*!
- * \brief QmlViewCollectionModel::NotifyElementAdded
+ * \brief QmlViewCollectionModel::notifyElementAdded
  * This notifies model subscribers that the element has been added at the
  * particular index ... note that QmlViewCollectionModel monitors
  * the SelectableViewCollections "contents-altered" signal already
  * \param index
  */
-void QmlViewCollectionModel::NotifyElementAdded(int index)
+void QmlViewCollectionModel::notifyElementAdded(int index)
 {
     if (index >= 0) {
         beginInsertRows(QModelIndex(), index, index);
@@ -583,13 +587,13 @@ void QmlViewCollectionModel::NotifyElementAdded(int index)
 }
 
 /*!
- * \brief QmlViewCollectionModel::NotifyElementRemoved
+ * \brief QmlViewCollectionModel::notifyElementRemoved
  * This notifies model subscribers that the element at this index was
  * removed ... note that QmlViewCollectionModel monitors the
  * SelectableViewCollections' "contents-altered" signal already
  * \param index
  */
-void QmlViewCollectionModel::NotifyElementRemoved(int index)
+void QmlViewCollectionModel::notifyElementRemoved(int index)
 {
     if (index >= 0) {
         beginRemoveRows(QModelIndex(), index, index);
@@ -598,13 +602,13 @@ void QmlViewCollectionModel::NotifyElementRemoved(int index)
 }
 
 /*!
- * \brief QmlViewCollectionModel::NotifyElementAltered
+ * \brief QmlViewCollectionModel::notifyElementAltered
  * This notifies model subscribers that the element at the particular index
  * has been altered in some way.
  * \param index
  * \param role
  */
-void QmlViewCollectionModel::NotifyElementAltered(int index, int role)
+void QmlViewCollectionModel::notifyElementAltered(int index, int role)
 {
     if (index >= 0) {
         QModelIndex model_index = createIndex(index, role);
@@ -613,21 +617,21 @@ void QmlViewCollectionModel::NotifyElementAltered(int index, int role)
 }
 
 /*!
- * \brief QmlViewCollectionModel::NotifySetAltered
+ * \brief QmlViewCollectionModel::notifySetAltered
  * \param list
  * \param role
  */
-void QmlViewCollectionModel::NotifySetAltered(const QSet<DataObject*>* list, int role)
+void QmlViewCollectionModel::notifySetAltered(const QSet<DataObject*>* list, int role)
 {
     DataObject* object;
     foreach (object, *list)
-        NotifyElementAltered(view_->indexOf(object), role);
+        notifyElementAltered(m_view->indexOf(object), role);
 }
 
 /*!
- * \brief QmlViewCollectionModel::NotifyReset Tells model subscribers that everything has changed.
+ * \brief QmlViewCollectionModel::notifyReset Tells model subscribers that everything has changed.
  */
-void QmlViewCollectionModel::NotifyReset()
+void QmlViewCollectionModel::notifyReset()
 {
     beginResetModel();
     endResetModel();
@@ -639,70 +643,70 @@ void QmlViewCollectionModel::NotifyReset()
  */
 QHash<int, QByteArray> QmlViewCollectionModel::roleNames() const
 {
-    return roles_;
+    return m_roles;
 }
 
 /*!
- * \brief QmlViewCollectionModel::on_selection_altered
+ * \brief QmlViewCollectionModel::onSelectionChanged
  * \param selected
  * \param unselected
  */
-void QmlViewCollectionModel::on_selection_altered(const QSet<DataObject*>* selected,
+void QmlViewCollectionModel::onSelectionChanged(const QSet<DataObject*>* selected,
                                                   const QSet<DataObject*>* unselected)
 {
     if (selected != NULL)
-        NotifySetAltered(selected, SelectionRole);
+        notifySetAltered(selected, SelectionRole);
 
     if (unselected != NULL)
-        NotifySetAltered(unselected, SelectionRole);
+        notifySetAltered(unselected, SelectionRole);
 
     emit selectedCountChanged();
 }
 
 /*!
- * \brief QmlViewCollectionModel::on_contents_to_be_altered
+ * \brief QmlViewCollectionModel::onContentsAboutToBeChanged
  * \param added
  * \param removed
  */
-void QmlViewCollectionModel::on_contents_to_be_altered(const QSet<DataObject*>* added,
+void QmlViewCollectionModel::onContentsAboutToBeChanged(const QSet<DataObject*>* added,
                                                        const QSet<DataObject*>* removed)
 {
     // Gather the indexes of all the elements to be removed before removal,
     // then report their removal when they've actually been removed
     if (removed != NULL) {
         // should already be cleared; either first use or cleared in on_contents_altered()
-        Q_ASSERT(to_be_removed_.count() == 0);
+        Q_ASSERT(m_toBeRemoved.count() == 0);
         DataObject* object;
         foreach (object, *removed) {
-            int index = view_->indexOf(object);
+            int index = m_view->indexOf(object);
             Q_ASSERT(index >= 0);
-            to_be_removed_.append(index);
+            m_toBeRemoved.append(index);
         }
     }
 }
 
 /*!
- * \brief QmlViewCollectionModel::on_contents_altered
+ * \brief QmlViewCollectionModel::onContentsChanged
  * \param added
  * \param removed
  */
-void QmlViewCollectionModel::on_contents_altered(const QSet<DataObject*>* added,
+void QmlViewCollectionModel::onContentsChanged(const QSet<DataObject*>* added,
                                                  const QSet<DataObject*>* removed)
 {
     // Report removed items using indices gathered from on_contents_to_be_altered()
-    if (to_be_removed_.count() > 0) {
+    if (m_toBeRemoved.count() > 0) {
         // sort indices in reverse order and walk in descending order so they're
         // always accurate as items are "removed"
-        qSort(to_be_removed_.begin(), to_be_removed_.end(), IntReverseLessThan);
+        qSort(m_toBeRemoved.begin(), m_toBeRemoved.end(), intReverseLessThan);
 
         // Only if we aren't getting a sub-view do we directly map these up to QML.
-        if (head_ == 0 && limit_ < 0) {
+        if (m_head == 0 && m_limit < 0) {
             int index;
-            foreach (index, to_be_removed_)
-                NotifyElementRemoved(index);
+            foreach (index, m_toBeRemoved)
+                notifyElementRemoved(index);
         }
 
-        to_be_removed_.clear();
+        m_toBeRemoved.clear();
     }
 
     // Report inserted items after they've been inserted
@@ -713,56 +717,56 @@ void QmlViewCollectionModel::on_contents_altered(const QSet<DataObject*>* added,
 
         DataObject* object;
         foreach (object, *added)
-            indices.append(view_->indexOf(object));
+            indices.append(m_view->indexOf(object));
 
-        qSort(indices.begin(), indices.end(), IntLessThan);
+        qSort(indices.begin(), indices.end(), intLessThan);
 
         // Again, don't map directly to QML if we're only getting a sub-view.
-        if (head_ == 0 && limit_ < 0) {
+        if (m_head == 0 && m_limit < 0) {
             int index;
             foreach (index, indices)
-                NotifyElementAdded(index);
+                notifyElementAdded(index);
         }
     }
 
     // TODO: "filtered" views get some special treatment.  Instead of figuring
     // out how each addition/deletion affects it, we just wipe the whole thing
     // out each time it's altered.  This is probably wasteful.
-    if (head_ != 0 || limit_ >= 0)
-        NotifyReset();
+    if (m_head != 0 || m_limit >= 0)
+        notifyReset();
 
-    emit raw_count_changed();
-    emit count_changed();
+    emit rawCountChanged();
+    emit countChanged();
 }
 
 /*!
- * \brief QmlViewCollectionModel::on_ordering_altered
+ * \brief QmlViewCollectionModel::onOrderingChanged
  */
-void QmlViewCollectionModel::on_ordering_altered()
+void QmlViewCollectionModel::onOrderingChanged()
 {
-    NotifyReset();
+    notifyReset();
 
-    emit ordering_altered();
+    emit orderingChanged();
 }
 
 /*!
- * \brief QmlViewCollectionModel::IntLessThan
+ * \brief QmlViewCollectionModel::intLessThan
  * \param a
  * \param b
  * \return
  */
-bool QmlViewCollectionModel::IntLessThan(int a, int b)
+bool QmlViewCollectionModel::intLessThan(int a, int b)
 {
     return a < b;
 }
 
 /*!
- * \brief QmlViewCollectionModel::IntReverseLessThan
+ * \brief QmlViewCollectionModel::intReverseLessThan
  * \param a
  * \param b
  * \return
  */
-bool QmlViewCollectionModel::IntReverseLessThan(int a, int b)
+bool QmlViewCollectionModel::intReverseLessThan(int a, int b)
 {
     return b < a;
 }
