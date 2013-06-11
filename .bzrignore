@@ -9,6 +9,8 @@
 /tests/unittests/imaging/imaging
 /tests/unittests/resource/resource
 /tests/unittests/video/video
+/tests/unittests/*/test_*.xml
+/Testing
 /po/*.gmo
 CMakeCache.txt
 CMakeFiles
