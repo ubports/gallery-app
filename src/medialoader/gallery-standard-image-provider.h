@@ -68,7 +68,7 @@ public:
     GalleryStandardImageProvider();
     virtual ~GalleryStandardImageProvider();
 
-    static QUrl ToURL(const QFileInfo& file);
+    static QUrl toURL(const QFileInfo& file);
 
     virtual QImage requestImage(const QString& id, QSize* size,
                                 const QSize& requestedSize);
@@ -80,46 +80,47 @@ public:
 private:
     class CachedImage {
     public:
-        const QString id_;
-        const QUrl uri_;
-        const QString file_;
-        QMutex imageMutex_;
+        const QString id;
+        const QUrl uri;
+        const QString file;
+        QMutex imageMutex;
 
         // these fields should only be accessed when imageMutex_ is locked
-        bool hasOrientation_;
-        QImage image_;
-        QSize fullSize_;
-        Orientation orientation_;
+        bool hasOrientation;
+        QImage image;
+        QSize fullSize;
+        Orientation orientation;
 
         // the following should only be accessed when cacheMutex_ is locked; the
         // counter controls removing a CachedImage entry from the cache table
-        int inUseCount_;
-        uint byteCount_;
+        int inUseCount;
+        uint byteCount;
 
-        CachedImage(const QString& id, const QString& filename);
+        CachedImage(const QString& fileId, const QString& filename);
 
-        void storeImage(const QImage& image, const QSize& fullSize, Orientation orientation);
+        void storeImage(const QImage& newImage, const QSize& newFullSize,
+                        Orientation newOrientation);
         bool isFullSized() const;
         bool isReady() const;
         bool isCacheHit(const QSize& requestedSize) const;
     };
 
-    QMap<QString, CachedImage*> cache_;
-    QList<QString> fifo_;
-    QMutex cacheMutex_;
-    long cachedBytes_;
+    QMap<QString, CachedImage*> m_cache;
+    QList<QString> m_fifo;
+    QMutex m_cacheMutex;
+    long m_cachedBytes;
     PreviewManager* m_previewManager;
     bool m_logImageLoading;
-    int maxLoadResolution_;
+    int m_maxLoadResolution;
 
     static QSize orientSize(const QSize& size, Orientation orientation);
 
-    CachedImage* claim_cached_image_entry(const QString& id, QString& loggingStr);
+    CachedImage* claimCachedImageEntry(const QString& id, QString& loggingStr);
 
-    QImage fetch_cached_image(CachedImage* cachedImage, const QSize& requestedSize,
+    QImage fetchCachedImage(CachedImage* cachedImage, const QSize& requestedSize,
                               uint* bytesLoaded, QString& loggingStr);
 
-    void release_cached_image_entry(CachedImage* cachedImage, uint bytesLoaded,
+    void releaseCachedImageEntry(CachedImage* cachedImage, uint bytesLoaded,
                                     long* currentCachedBytes, int* currentCacheEntries);
 
     QString idToFile(const QString& id) const;

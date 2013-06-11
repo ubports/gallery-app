@@ -97,38 +97,38 @@ QDateTime parse_exif_date_string(const char* s) {
  * \param filepath
  */
 PhotoMetadata::PhotoMetadata(const char* filepath)
-    : file_source_info_(filepath)
+    : m_fileSourceInfo(filepath)
 {
-    image_ = Exiv2::ImageFactory::open(filepath);
-    image_->readMetadata();
+    m_image = Exiv2::ImageFactory::open(filepath);
+    m_image->readMetadata();
 }
 
 /*!
- * \brief PhotoMetadata::FromFile
+ * \brief PhotoMetadata::fromFile
  * \param filepath
  * \return
  */
-PhotoMetadata* PhotoMetadata::FromFile(const char* filepath)
+PhotoMetadata* PhotoMetadata::fromFile(const char* filepath)
 {
     PhotoMetadata* result = NULL;
     try {
         result = new PhotoMetadata(filepath);
 
-        if (!result->image_->good()) {
+        if (!result->m_image->good()) {
             qDebug("Invalid image metadata in %s", filepath);
             delete result;
             return NULL;
         }
 
-        Exiv2::ExifData& exif_data = result->image_->exifData();
+        Exiv2::ExifData& exif_data = result->m_image->exifData();
         Exiv2::ExifData::const_iterator end = exif_data.end();
         for (Exiv2::ExifData::const_iterator i = exif_data.begin(); i != end; i++)
-            result->keys_present_.insert(QString(i->key().c_str()));
+            result->m_keysPresent.insert(QString(i->key().c_str()));
 
-        Exiv2::XmpData& xmp_data = result->image_->xmpData();
+        Exiv2::XmpData& xmp_data = result->m_image->xmpData();
         Exiv2::XmpData::const_iterator end1 = xmp_data.end();
         for (Exiv2::XmpData::const_iterator i = xmp_data.begin(); i != end1; i++)
-            result->keys_present_.insert(QString(i->key().c_str()));
+            result->m_keysPresent.insert(QString(i->key().c_str()));
 
         return result;
     } catch (Exiv2::AnyError& e) {
@@ -139,13 +139,13 @@ PhotoMetadata* PhotoMetadata::FromFile(const char* filepath)
 }
 
 /*!
- * \brief PhotoMetadata::FromFile
+ * \brief PhotoMetadata::fromFile
  * \param file
  * \return
  */
-PhotoMetadata* PhotoMetadata::FromFile(const QFileInfo &file)
+PhotoMetadata* PhotoMetadata::fromFile(const QFileInfo &file)
 {
-    return PhotoMetadata::FromFile(file.absoluteFilePath().toStdString().c_str());
+    return PhotoMetadata::fromFile(file.absoluteFilePath().toStdString().c_str());
 }
 
 /*!
@@ -154,12 +154,12 @@ PhotoMetadata* PhotoMetadata::FromFile(const QFileInfo &file)
  */
 Orientation PhotoMetadata::orientation() const
 {
-    Exiv2::ExifData& exif_data = image_->exifData();
+    Exiv2::ExifData& exif_data = m_image->exifData();
 
     if (exif_data.empty())
         return DEFAULT_ORIENTATION;
 
-    if (keys_present_.find(EXIF_ORIENTATION_KEY) == keys_present_.end())
+    if (m_keysPresent.find(EXIF_ORIENTATION_KEY) == m_keysPresent.end())
         return DEFAULT_ORIENTATION;
 
     long orientation_code = exif_data[EXIF_ORIENTATION_KEY].toLong();
@@ -170,56 +170,56 @@ Orientation PhotoMetadata::orientation() const
 }
 
 /*!
- * \brief PhotoMetadata::exposure_time
+ * \brief PhotoMetadata::exposureTime
  * \return
  */
-QDateTime PhotoMetadata::exposure_time() const
+QDateTime PhotoMetadata::exposureTime() const
 {
     const char* matched = get_first_matched(EXPOSURE_TIME_KEYS,
-                                            NUM_EXPOSURE_TIME_KEYS, keys_present_);
+                                            NUM_EXPOSURE_TIME_KEYS, m_keysPresent);
     if (matched == NULL)
         return QDateTime();
 
     if (is_exif_key(matched))
-        return parse_exif_date_string(image_->exifData()[matched].toString().c_str());
+        return parse_exif_date_string(m_image->exifData()[matched].toString().c_str());
 
     if (is_xmp_key(matched))
-        return parse_xmp_date_string(image_->xmpData()[matched].toString().c_str());
+        return parse_xmp_date_string(m_image->xmpData()[matched].toString().c_str());
 
     // No valid/known tag for exposure date/time
     return QDateTime();
 }
 
 /*!
- * \brief PhotoMetadata::orientation_correction
+ * \brief PhotoMetadata::orientationCorrection
  * \return
  */
-OrientationCorrection PhotoMetadata::orientation_correction() const
+OrientationCorrection PhotoMetadata::orientationCorrection() const
 {
     return OrientationCorrection::fromOrientation(orientation());
 }
 
 /*!
- * \brief PhotoMetadata::orientation_transform
+ * \brief PhotoMetadata::orientationTransform
  * \return
  */
-QTransform PhotoMetadata::orientation_transform() const
+QTransform PhotoMetadata::orientationTransform() const
 {
-    return orientation_correction().toTransform();
+    return orientationCorrection().toTransform();
 }
 
 /*!
- * \brief PhotoMetadata::set_orientation
+ * \brief PhotoMetadata::setOrientation
  * \param orientation
  */
-void PhotoMetadata::set_orientation(Orientation orientation)
+void PhotoMetadata::setOrientation(Orientation orientation)
 {
-    Exiv2::ExifData& exif_data = image_->exifData();
+    Exiv2::ExifData& exif_data = m_image->exifData();
 
     exif_data[EXIF_ORIENTATION_KEY] = orientation;
 
-    if (!keys_present_.contains(EXIF_ORIENTATION_KEY))
-        keys_present_.insert(EXIF_ORIENTATION_KEY);
+    if (!m_keysPresent.contains(EXIF_ORIENTATION_KEY))
+        m_keysPresent.insert(EXIF_ORIENTATION_KEY);
 }
 
 /*!
@@ -229,7 +229,7 @@ void PhotoMetadata::set_orientation(Orientation orientation)
 bool PhotoMetadata::save() const
 {
     try {
-        image_->writeMetadata();
+        m_image->writeMetadata();
         return true;
     } catch (Exiv2::AnyError& e) {
         return false;

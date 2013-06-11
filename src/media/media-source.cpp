@@ -79,7 +79,7 @@ QUrl MediaSource::path() const
  */
 QUrl MediaSource::galleryPath() const
 {
-    return GalleryStandardImageProvider::ToURL(m_file);
+    return GalleryStandardImageProvider::toURL(m_file);
 }
 
 /*!
@@ -106,7 +106,7 @@ QUrl MediaSource::previewPath() const
  */
 QUrl MediaSource::galleryPreviewPath() const
 {
-    return GalleryStandardImageProvider::ToURL(m_file);
+    return GalleryStandardImageProvider::toURL(m_file);
 }
 
 /*!
@@ -133,7 +133,7 @@ QUrl MediaSource::thumbnailPath() const
  */
 QUrl MediaSource::galleryThumbnailPath() const
 {
-    return GalleryThumbnailImageProvider::ToURL(m_file);
+    return GalleryThumbnailImageProvider::toURL(m_file);
 }
 
 /*!

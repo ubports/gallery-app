@@ -40,11 +40,11 @@ GalleryThumbnailImageProvider::GalleryThumbnailImageProvider()
 }
 
 /*!
- * \brief GalleryThumbnailImageProvider::ToURL return the URL to this image provider for a local file
+ * \brief GalleryThumbnailImageProvider::toURL return the URL to this image provider for a local file
  * \param file is the file that you want the url for
  * \return URL to be used to load a local image usign this image provider
  */
-QUrl GalleryThumbnailImageProvider::ToURL(const QFileInfo &file)
+QUrl GalleryThumbnailImageProvider::toURL(const QFileInfo &file)
 {
     return QUrl::fromUserInput(PROVIDER_ID_SCHEME + file.absoluteFilePath());
 }

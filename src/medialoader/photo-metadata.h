@@ -40,24 +40,24 @@ class PhotoMetadata : public QObject
     Q_OBJECT
 
 public:
-    static PhotoMetadata* FromFile(const char* filepath);
-    static PhotoMetadata* FromFile(const QFileInfo& file);
+    static PhotoMetadata* fromFile(const char* filepath);
+    static PhotoMetadata* fromFile(const QFileInfo& file);
 
-    QDateTime exposure_time() const;
+    QDateTime exposureTime() const;
     Orientation orientation() const;
-    QTransform orientation_transform() const;
-    OrientationCorrection orientation_correction() const;
+    QTransform orientationTransform() const;
+    OrientationCorrection orientationCorrection() const;
 
-    void set_orientation(Orientation orientation);
+    void setOrientation(Orientation orientation);
 
     bool save() const;
 
 private:
     PhotoMetadata(const char* filepath);
     
-    Exiv2::Image::AutoPtr image_;
-    QSet<QString> keys_present_;
-    QFileInfo file_source_info_;
+    Exiv2::Image::AutoPtr m_image;
+    QSet<QString> m_keysPresent;
+    QFileInfo m_fileSourceInfo;
 };
 
 #endif // GALLERY_PHOTO_METADATA_H_
