@@ -1,13 +1,14 @@
-# Ubuntu gallery app translation.
-# Copyright 2013 Canonical Ltd.
-# This file is distributed under the same license as the gallery-app package.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Canonical Ltd.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-23 06:59+0000\n"
+"POT-Creation-Date: 2013-06-11 14:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -259,4 +260,16 @@ msgstr ""
 
 #: rc/qml/Widgets/EditPopover.qml:81
 msgid "Revert to original"
+msgstr ""
+
+#: desktop/gallery-app.desktop.in:3
+msgid "Gallery"
+msgstr ""
+
+#: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
+msgid "Ubuntu Photo Viewer"
+msgstr ""
+
+#: desktop/gallery-app.desktop.in:6
+msgid "Browse your photographs"
 msgstr ""
