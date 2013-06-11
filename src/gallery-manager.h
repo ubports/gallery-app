@@ -57,7 +57,7 @@ public:
     PreviewManager* previewManager() { return m_previewManager; }
     Resource* resource() { return m_resource; }
     GalleryStandardImageProvider* galleryStandardImageProvider() { return m_standardImageProvider; }
-    GalleryThumbnailImageProvider* galleryThumbnailImageProvider() { return m_thumbnailImageProvider_; }
+    GalleryThumbnailImageProvider* galleryThumbnailImageProvider() { return m_thumbnailImageProvider; }
 
 private:
     GalleryManager(const QDir& picturesDir, QQuickView *view, const bool logImageLoading);
@@ -75,7 +75,7 @@ private:
 
     Resource* m_resource;
     GalleryStandardImageProvider* m_standardImageProvider;
-    GalleryThumbnailImageProvider* m_thumbnailImageProvider_;
+    GalleryThumbnailImageProvider* m_thumbnailImageProvider;
 
     Database* m_database;
     AlbumDefaultTemplate* m_defaultTemplate;

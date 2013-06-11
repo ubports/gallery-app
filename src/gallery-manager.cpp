@@ -75,7 +75,7 @@ GalleryManager::GalleryManager(const QDir& picturesDir,
     : collectionsInitialised(false),
       m_resource(new Resource(picturesDir.path(), view)),
       m_standardImageProvider(new GalleryStandardImageProvider()),
-      m_thumbnailImageProvider_(new GalleryThumbnailImageProvider()),
+      m_thumbnailImageProvider(new GalleryThumbnailImageProvider()),
       m_database(NULL),
       m_defaultTemplate(NULL),
       m_mediaCollection(NULL),
@@ -86,7 +86,7 @@ GalleryManager::GalleryManager(const QDir& picturesDir,
     const int maxTextureSize = m_resource->maxTextureSize();
     m_standardImageProvider->setMaxLoadResolution(maxTextureSize);
     m_standardImageProvider->setLogging(logImageLoading);
-    m_thumbnailImageProvider_->setLogging(logImageLoading);
+    m_thumbnailImageProvider->setLogging(logImageLoading);
 }
 
 /*!
@@ -131,8 +131,8 @@ GalleryManager::~GalleryManager()
     delete m_standardImageProvider;
     m_standardImageProvider = NULL;
 
-    delete m_thumbnailImageProvider_;
-    m_thumbnailImageProvider_ = NULL;
+    delete m_thumbnailImageProvider;
+    m_thumbnailImageProvider = NULL;
 
     delete m_database;
     m_database = NULL;
@@ -162,7 +162,7 @@ void GalleryManager::initPreviewManager()
     Q_ASSERT(m_resource);
     Q_ASSERT(m_mediaCollection);
     Q_ASSERT(m_standardImageProvider);
-    Q_ASSERT(m_thumbnailImageProvider_);
+    Q_ASSERT(m_thumbnailImageProvider);
 
     if (m_previewManager)
         return;
@@ -171,7 +171,7 @@ void GalleryManager::initPreviewManager()
                                           m_mediaCollection);
 
     m_standardImageProvider->setPreviewManager(m_previewManager);
-    m_thumbnailImageProvider_->setPreviewManager(m_previewManager);
+    m_thumbnailImageProvider->setPreviewManager(m_previewManager);
 
     // Monitor MediaCollection for all new MediaSources
     QObject::connect(m_mediaCollection,
