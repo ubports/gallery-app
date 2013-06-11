@@ -24,11 +24,11 @@
 #include <QMutex>
 #include <QObject>
 #include <QSet>
+#include <QSize>
 #include <QString>
 
 class QImage;
 class DataObject;
-class MediaCollection;
 class MediaSource;
 
 /*!
@@ -56,8 +56,7 @@ public:
     static const QString PREVIEW_DIR;
     static const QString THUMBNAIL_DIR;
 
-    PreviewManager(const QString& thumbnailDirectory, MediaCollection *mediaCollection,
-                   QObject* parent = 0);
+    PreviewManager(const QString& thumbnailDirectory, QObject* parent = 0);
 
     QString previewFileName(const QFileInfo& file) const;
     QString thumbnailFileName(const QFileInfo& file) const;
@@ -78,10 +77,10 @@ private:
     QImage generateThumbnail(const QImage& master) const;
     QString thumbnailFileName(const QString& fileName, const QString& levelName) const;
     bool updateNeeded(const QFileInfo& mediaFile, const QFileInfo& previewFile) const;
+    QImage loadPhoto(const QString& fileName, const QSize &maxSize) const;
 
     static QMutex m_createMutex;
     QString m_thumbnailDir;
-    MediaCollection *m_mediaCollection;
 };
 
 #endif  // GALLERY_PREVIEW_MANAGER_H_

@@ -27,11 +27,9 @@ const int PreviewManager::PREVIEW_SIZE = 360;
 const QString PreviewManager::PREVIEW_DIR = ".thumbs";
 const char* PreviewManager::PREVIEW_FILE_EXT = "JPG";
 
-PreviewManager::PreviewManager(const QString &thumbnailDirectory,
-                               MediaCollection *mediaCollection, QObject *parent)
+PreviewManager::PreviewManager(const QString &thumbnailDirectory, QObject *parent)
 {
     Q_UNUSED(thumbnailDirectory);
-    Q_UNUSED(mediaCollection)
 }
 
 bool PreviewManager::ensurePreview(QFileInfo file, bool regen)

@@ -18,13 +18,14 @@
  */
 
 #include "preview-manager.h"
+#include "photo-metadata.h"
 
 // media
-#include "media-collection.h"
 #include "media-source.h"
 
 #include <QCryptographicHash>
 #include <QDir>
+#include <QImageReader>
 #include <QMutexLocker>
 
 // FIXME adapt to different sizes. This is fixed size for the demo device
@@ -41,14 +42,10 @@ QMutex PreviewManager::m_createMutex;
 /*!
  * \brief PreviewManager::PreviewManager
  */
-PreviewManager::PreviewManager(const QString &thumbnailDirectory,
-                               MediaCollection *mediaCollection, QObject *parent)
+PreviewManager::PreviewManager(const QString &thumbnailDirectory, QObject *parent)
     : QObject(parent),
-      m_thumbnailDir(thumbnailDirectory),
-      m_mediaCollection(mediaCollection)
+      m_thumbnailDir(thumbnailDirectory)
 {
-    Q_ASSERT(m_mediaCollection);
-
     if (m_thumbnailDir.right(1) != QDir::separator())
         m_thumbnailDir += QDir::separator();
 
@@ -146,9 +143,8 @@ bool PreviewManager::ensurePreview(QFileInfo file, bool regen)
 
     QImage thumbMaster;
     if (updateNeeded(file, QFileInfo(preview)) || regen) {
-        MediaSource* photo = m_mediaCollection->mediaFromFileinfo(file);
         QSize previewSize(PREVIEW_SIZE, PREVIEW_SIZE);
-        QImage fullsized(photo->image(true, previewSize));
+        QImage fullsized = loadPhoto(file.canonicalFilePath(), previewSize);
         if (fullsized.isNull()) {
             qDebug() << "Unable to generate fullsized image for " << file.filePath() << "not generating preview";
             return false;
@@ -205,8 +201,10 @@ bool PreviewManager::saveThumbnail(const QImage &image, const QString &fileName)
     QString temporaryName(fileName+".tmp");
     bool ok;
     ok = image.save(temporaryName, PREVIEW_FILE_FORMAT, PREVIEW_QUALITY);
-    if (!ok)
+    if (!ok) {
+        qWarning() << "Unanble to save the thumbnail" << temporaryName;
         return false;
+    }
 
     QFile thumbnail(temporaryName);
     return thumbnail.rename(fileName);
@@ -277,4 +275,37 @@ bool PreviewManager::updateNeeded(const QFileInfo &mediaFile, const QFileInfo &p
         return true;
 
     return mediaFile.lastModified() > previewFile.lastModified();
+}
+
+/*!
+ * \brief PreviewManager::loadPhoto load a photo with correct orientation
+ * The size can be limited as well, to speed upt the loading
+ * \param fileName file name of the photo
+ * \param maxSize limits the size, so that one side fits into maxSize. If an
+ * invalid size is passed, the image is loaded in full size.
+ * \return the photo corrctly sized and oriented
+ */
+QImage PreviewManager::loadPhoto(const QString &fileName, const QSize& maxSize) const
+{
+    QImageReader imageReader(fileName);
+
+    QSize imageSize = imageReader.size();
+    if (maxSize.isValid()) {
+        QSize size = imageSize;
+        size.scale(maxSize, Qt::KeepAspectRatioByExpanding);
+        imageReader.setScaledSize(size);
+    }
+
+    QImage image = imageReader.read();
+    if (!image.isNull()) {
+        PhotoMetadata* metadata = PhotoMetadata::fromFile(fileName.toStdString().c_str());
+        image = image.transformed(
+                    OrientationCorrection::fromOrientation(metadata->orientation())
+                    .toTransform());
+        delete metadata;
+    } else {
+        qWarning() << "Could not load the image" << fileName << "for thumbnail generation";
+    }
+
+    return image;
 }
