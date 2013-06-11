@@ -81,7 +81,7 @@ signals:
     void editStackChanged();
 
 protected:
-    virtual void DestroySource(bool destroy_backing, bool as_orphan);
+    virtual void destroySource(bool destroy_backing, bool as_orphan);
 
 private:
     explicit Photo(const QFileInfo& file);

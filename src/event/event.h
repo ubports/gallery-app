@@ -54,7 +54,7 @@ public:
     QDateTime end_date_time() const;
 
 protected:
-    virtual void DestroySource(bool destroy_backing, bool as_orphan);
+    virtual void destroySource(bool destroy_backing, bool as_orphan);
 
 private:
     QDate date_;

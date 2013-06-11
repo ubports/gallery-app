@@ -616,9 +616,9 @@ void Photo::crop(QVariant vrect)
  * \param destroy_backing
  * \param as_orphan
  */
-void Photo::DestroySource(bool destroy_backing, bool as_orphan)
+void Photo::destroySource(bool destroy_backing, bool as_orphan)
 {
-    MediaSource::DestroySource(destroy_backing, as_orphan);
+    MediaSource::destroySource(destroy_backing, as_orphan);
 
     caches_.discard_all();
 }
@@ -695,7 +695,7 @@ void Photo::save(const PhotoEditState& state, Orientation old_orientation)
 
     if (orientation() != old_orientation)
         emit orientationChanged();
-    notify_data_altered();
+    notifyDataChanged();
 
     ++edit_revision_;
 

@@ -226,7 +226,7 @@ void MediaSource::setSize(const QSize& size)
         return;
 
     m_size = size;
-    notify_size_altered();
+    notifySizeChanged();
 }
 
 /*!
@@ -324,13 +324,13 @@ void MediaSource::setBusy(bool busy)
 }
 
 /*!
- * \brief MediaSource::DestroySource \reimp
- * \param delete_backing
- * \param as_orphan
+ * \brief MediaSource::destroySource \reimp
+ * \param deleteBacking
+ * \param asOrphan
  */
-void MediaSource::DestroySource(bool delete_backing, bool as_orphan)
+void MediaSource::destroySource(bool deleteBacking, bool asOrphan)
 {
-    if (delete_backing) {
+    if (deleteBacking) {
         if (!QFile::remove(m_file.absoluteFilePath()))
             qDebug("Unable to delete media file %s", qPrintable(m_file.absoluteFilePath()));
     }
@@ -339,7 +339,7 @@ void MediaSource::DestroySource(bool delete_backing, bool as_orphan)
 /*!
  * \brief MediaSource::notify_data_altered
  */
-void MediaSource::notify_data_altered()
+void MediaSource::notifyDataChanged()
 {
     emit dataChanged();
 }
@@ -347,7 +347,7 @@ void MediaSource::notify_data_altered()
 /*!
  * \brief MediaSource::notify_size_altered
  */
-void MediaSource::notify_size_altered()
+void MediaSource::notifySizeChanged()
 {
     emit sizeChanged();
 

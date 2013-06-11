@@ -77,7 +77,7 @@ protected:
     /// DataSource subclasses need to implement this by performing clean-up
     /// work prior to being removed from the system ... if destroy_backing is
     /// true, the backing (file, database row, etc.) should be erased as well.
-    virtual void DestroySource(bool destroy_backing, bool as_orphan) = 0;
+    virtual void destroySource(bool destroy_backing, bool as_orphan) = 0;
 
 private:
     SourceCollection *m_membership;
