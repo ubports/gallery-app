@@ -135,3 +135,9 @@ class GalleryUtils(object):
         albums = self.select_many_retry("CheckerboardDelegate",
                                         objectName="checkerboardDelegate")
         return albums[-1]
+
+    def get_tabs_bar_absolute_width(self):
+        return self.app.select_single("QQuickPathView").width
+
+    def get_tabs_bar_potential_width(self):
+        return self.app.select_single("NewTabBar").width
