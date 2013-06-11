@@ -34,36 +34,36 @@
 class ContainerSource : public DataSource
 {
     Q_OBJECT
-    Q_PROPERTY(int containedCount READ ContainedCount NOTIFY container_contents_altered)
+    Q_PROPERTY(int containedCount READ containedCount NOTIFY containerContentsChanged)
 
 signals:
-    void container_contents_altered(const QSet<DataObject*>* added,
-                                    const QSet<DataObject*>* removed);
+    void containerContentsChanged(const QSet<DataObject*>* added,
+                                  const QSet<DataObject*>* removed);
 
 public:
     ContainerSource(QObject * parent, const QString &name, DataObjectComparator comparator);
 
-    void Attach(DataObject* object);
-    void AttachMany(const QSet<DataObject*>& objects);
+    void attach(DataObject* object);
+    void attachMany(const QSet<DataObject*>& objects);
 
-    void Detach(DataObject* object);
-    void DetachMany(const QSet<DataObject*>& objects);
+    void detach(DataObject* object);
+    void detachMany(const QSet<DataObject*>& objects);
 
-    bool Contains(DataObject* object) const;
-    bool ContainsAll(ContainerSource* collection) const;
-    int ContainedCount() const;
+    bool contains(DataObject* object) const;
+    bool containsAll(ContainerSource* collection) const;
+    int containedCount() const;
     const ViewCollection* contained() const;
 
 protected:
-    virtual void notify_container_contents_altered(const QSet<DataObject*>* added,
-                                                   const QSet<DataObject*>* removed);
+    virtual void notifyContainerContentsChanged(const QSet<DataObject*>* added,
+                                                const QSet<DataObject*>* removed);
 
 private slots:
-    void on_contents_altered(const QSet<DataObject*>* added,
-                             const QSet<DataObject*>* removed);
+    void onContentsChanged(const QSet<DataObject*>* added,
+                           const QSet<DataObject*>* removed);
 
 private:
-    ViewCollection contained_;
+    ViewCollection m_contained;
 };
 
 #endif  // GALLERY_CONTAINER_SOURCE_H_

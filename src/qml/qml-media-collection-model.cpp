@@ -65,15 +65,15 @@ void QmlMediaCollectionModel::RegisterType()
 QVariant QmlMediaCollectionModel::createAlbumFromSelected()
 {
     SelectableViewCollection* view = BackingViewCollection();
-    if (view->SelectedCount() == 0)
+    if (view->selectedCount() == 0)
         return QVariant();
 
     Album* album = new Album(GalleryManager::instance()->album_default_template());
 
     // Attach only the MediaSources in the backing collection
-    album->AttachMany(FilterSetOnlyType<DataObject*, MediaSource*>(view->GetSelected()));
+    album->attachMany(FilterSetOnlyType<DataObject*, MediaSource*>(view->getSelected()));
 
-    GalleryManager::instance()->album_collection()->Add(album);
+    GalleryManager::instance()->album_collection()->add(album);
 
     return QVariant::fromValue(album);
 }
@@ -84,11 +84,11 @@ QVariant QmlMediaCollectionModel::createAlbumFromSelected()
 void QmlMediaCollectionModel::destroySelectedMedia()
 {
     SelectableViewCollection* view = BackingViewCollection();
-    if (view->SelectedCount() == 0)
+    if (view->selectedCount() == 0)
         return;
 
-    GalleryManager::instance()->media_collection()->DestroyMany(
-                FilterSetOnlyType<DataObject*, MediaSource*>(view->GetSelected()),
+    GalleryManager::instance()->media_collection()->destroyMany(
+                FilterSetOnlyType<DataObject*, MediaSource*>(view->getSelected()),
                 true, true);
 }
 
@@ -101,7 +101,7 @@ void QmlMediaCollectionModel::destroyMedia(QVariant vmedia)
     MediaSource* media = VariantToObject<MediaSource*>(vmedia);
 
     if (media != NULL)
-        GalleryManager::instance()->media_collection()->Destroy(media, true, true);
+        GalleryManager::instance()->media_collection()->destroy(media, true, true);
 }
 
 /*!

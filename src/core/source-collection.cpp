@@ -30,60 +30,60 @@ SourceCollection::SourceCollection(const QString& name)
 }
 
 /*!
- * \brief SourceCollection::DestroyAll
+ * \brief SourceCollection::destroyAll
  * \param destroy_backing
  * \param delete_objects
  */
-void SourceCollection::DestroyAll(bool destroy_backing, bool delete_objects)
+void SourceCollection::destroyAll(bool destroy_backing, bool delete_objects)
 {
-    if (Count() == 0)
+    if (count() == 0)
         return;
 
     // obtain a copy of all objects
-    QSet<DataObject*> all(GetAsSet());
+    QSet<DataObject*> all(getAsSet());
 
     // must be done before destruction and removal
-    notify_destroying(&all);
+    notifyDestroying(&all);
 
     // remove before destroying
-    Clear();
+    clear();
 
     // destroy and optionally delete all objects
-    DestroyObjects(all, destroy_backing, delete_objects);
+    destroyObjects(all, destroy_backing, delete_objects);
 }
 
 /*!
- * \brief SourceCollection::DestroyMany
+ * \brief SourceCollection::destroyMany
  * \param objects
  * \param destroy_backing
  * \param delete_objects
  */
-void SourceCollection::DestroyMany(const QSet<DataObject*>& objects,
+void SourceCollection::destroyMany(const QSet<DataObject*>& objects,
                                    bool destroy_backing, bool delete_objects)
 {
-    QSet<DataObject*> intersection(GetAsSet());
+    QSet<DataObject*> intersection(getAsSet());
     intersection.intersect(objects);
 
     if (intersection.count() == 0)
         return;
 
-    notify_destroying(&intersection);
+    notifyDestroying(&intersection);
 
-    RemoveMany(intersection);
+    removeMany(intersection);
 
-    DestroyObjects(intersection, destroy_backing, delete_objects);
+    destroyObjects(intersection, destroy_backing, delete_objects);
 }
 
 /*!
- * \brief SourceCollection::Destroy
+ * \brief SourceCollection::destroy
  * \param object
  * \param destroy_backing
  * \param delete_object
  */
-void SourceCollection::Destroy(DataSource* object, bool destroy_backing,
+void SourceCollection::destroy(DataSource* object, bool destroy_backing,
                                bool delete_object)
 {
-    if (object == NULL || !Contains(object))
+    if (object == NULL || !contains(object))
         return;
 
     // Encapsulate the object in a set for the signals below.
@@ -91,31 +91,31 @@ void SourceCollection::Destroy(DataSource* object, bool destroy_backing,
     object_set.insert(object);
 
     // must be done before destruction and removal
-    notify_destroying(&object_set);
+    notifyDestroying(&object_set);
 
     // remove before destroying
-    Remove(object);
+    remove(object);
 
-    object->Destroy(destroy_backing);
+    object->destroy(destroy_backing);
     if (delete_object)
         delete object;
 }
 
 /*!
- * \brief SourceCollection::notify_destroying
+ * \brief SourceCollection::notifyDestroying
  * \param objects
  */
-void SourceCollection::notify_destroying(const QSet<DataObject*>* objects)
+void SourceCollection::notifyDestroying(const QSet<DataObject*>* objects)
 {
     emit destroying(objects);
 }
 
 /*!
- * \brief SourceCollection::notify_contents_altered
+ * \brief SourceCollection::notifyContentsChanged
  * \param added
  * \param removed
  */
-void SourceCollection::notify_contents_altered(const QSet<DataObject*>* added,
+void SourceCollection::notifyContentsChanged(const QSet<DataObject*>* added,
                                                const QSet<DataObject*>* removed)
 {
     if (added != NULL) {
@@ -123,7 +123,7 @@ void SourceCollection::notify_contents_altered(const QSet<DataObject*>* added,
         DataObject* object;
         foreach (object, *added) {
             DataSource *source = qobject_cast<DataSource*>(object);
-            source->set_membership(this);
+            source->setMembership(this);
         }
     }
 
@@ -132,21 +132,21 @@ void SourceCollection::notify_contents_altered(const QSet<DataObject*>* added,
         DataObject* object;
         foreach (object, *removed) {
             DataSource *source = qobject_cast<DataSource*>(object);
-            Q_ASSERT(source->member_of() == this);
-            source->set_membership(NULL);
+            Q_ASSERT(source->memberOf() == this);
+            source->setMembership(NULL);
         }
     }
 
-    DataCollection::notify_contents_altered(added, removed);
+    DataCollection::notifyContentsChanged(added, removed);
 }
 
 /*!
- * \brief SourceCollection::DestroyObjects
+ * \brief SourceCollection::destroyObjects
  * \param objects
  * \param destroy_backing
  * \param delete_objects
  */
-void SourceCollection::DestroyObjects(const QSet<DataObject*>& objects,
+void SourceCollection::destroyObjects(const QSet<DataObject*>& objects,
                                       bool destroy_backing, bool delete_objects)
 {
     DataObject* object;
@@ -154,7 +154,7 @@ void SourceCollection::DestroyObjects(const QSet<DataObject*>& objects,
         DataSource* source = qobject_cast<DataSource*>(object);
         Q_ASSERT(source != NULL);
 
-        source->Destroy(destroy_backing);
+        source->destroy(destroy_backing);
         if (delete_objects)
             delete source;
     }

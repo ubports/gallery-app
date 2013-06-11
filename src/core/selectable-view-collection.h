@@ -35,50 +35,50 @@ class SelectableViewCollection : public ViewCollection
     Q_OBJECT
 
 signals:
-    void selection_altered(const QSet<DataObject*>* selected,
-                           const QSet<DataObject*>* unselected);
+    void selectionChanged(const QSet<DataObject*>* selected,
+                          const QSet<DataObject*>* unselected);
 
 public:
     SelectableViewCollection(const QString& name);
 
-    bool IsSelected(DataObject* object) const;
+    bool isSelected(DataObject* object) const;
 
-    int SelectedCount() const;
-    const QSet<DataObject*>& GetSelected() const;
+    int selectedCount() const;
+    const QSet<DataObject*>& getSelected() const;
 
     template <class T>
-    QSet<T> GetSelectedAsType() const {
-        return CastSetToType<DataObject*, T>(GetSelected());
+    QSet<T> getSelectedAsType() const {
+        return CastSetToType<DataObject*, T>(getSelected());
     }
 
-    bool Select(DataObject* object);
-    bool Unselect(DataObject* object);
-    bool ToggleSelect(DataObject* object);
-    int SelectAll();
-    int SelectMany(const QSet<DataObject*>& select);
-    int UnselectAll();
-    int UnselectMany(const QSet<DataObject*>& unselect);
+    bool select(DataObject* object);
+    bool unselect(DataObject* object);
+    bool toggleSelect(DataObject* object);
+    int selectAll();
+    int selectMany(const QSet<DataObject*>& select);
+    int unselectAll();
+    int unselectMany(const QSet<DataObject*>& unselect);
 
     // One SelectableViewCollection may monitor the selection status of another ...
     // this does *not* mirror the collection, merely alter selection state of
     // elements in this collection as they change in another
-    void MonitorSelectionState(SelectableViewCollection* view);
-    void StopMonitoringSelectionState();
+    void monitorSelectionState(SelectableViewCollection* view);
+    void stopMonitoringSelectionState();
     bool isMonitoringSelectionState();
 
 protected:
-    virtual void notify_contents_to_be_altered(const QSet<DataObject*>* added,
+    virtual void notifyContentsToBeChanged(const QSet<DataObject*>* added,
                                                const QSet<DataObject*>* removed);
-    virtual void notify_selection_altered(QSet<DataObject*>* selected,
+    virtual void notifySelectionChanged(QSet<DataObject*>* selected,
                                           QSet<DataObject*>* unselected);
 
 private slots:
-    void on_monitoring_selection_altered(const QSet<DataObject*>* selected,
+    void onMonitoringSelectionChanged(const QSet<DataObject*>* selected,
                                          const QSet<DataObject*>* unselected);
 
 private:
-    QSet<DataObject*> selected_;
-    SelectableViewCollection* monitoring_selection_;
+    QSet<DataObject*> m_selected;
+    SelectableViewCollection* m_monitoringSelection;
 };
 
 #endif  // GALLERY_SELECTABLE_VIEW_COLLECTION_H_

@@ -49,7 +49,7 @@ public:
 protected:
     virtual void notify_album_current_page_contents_altered(Album* album);
 
-    virtual void notify_contents_altered(const QSet<DataObject*>* added,
+    virtual void notifyContentsChanged(const QSet<DataObject*>* added,
                                          const QSet<DataObject*>* removed);
 
 private slots:

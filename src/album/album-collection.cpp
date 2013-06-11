@@ -39,7 +39,7 @@ AlbumCollection::AlbumCollection()
     QList<Album*> album_list;
     GalleryManager::instance()->database()->get_album_table()->get_albums(&album_list);
     foreach (Album* a, album_list) {
-        Add(a);
+        add(a);
         int saved_current_page = a->current_page();
 
         // Link each album up with its photos.
@@ -49,7 +49,7 @@ AlbumCollection::AlbumCollection()
         foreach (qint64 mediaId, photo_list)
             photos.insert(GalleryManager::instance()->media_collection()->mediaForId(mediaId));
 
-        a->AttachMany(photos);
+        a->attachMany(photos);
 
         // After photos are attached, restore the current page.
         a->set_current_page(saved_current_page);
@@ -57,7 +57,7 @@ AlbumCollection::AlbumCollection()
         // If there are no photos in the album, mark it as closed.
         // This is needed for the case where the user exits the application while
         // viewing an empty album.
-        if (a->ContainedCount() == 0)
+        if (a->containedCount() == 0)
             a->set_closed(true);
     }
 
@@ -65,7 +65,7 @@ AlbumCollection::AlbumCollection()
     // from the system, they also get removed from all albums.
     QObject::connect(
                 GalleryManager::instance()->media_collection(),
-                SIGNAL(contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
+                SIGNAL(contentsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*)),
                 this,
                 SLOT(on_media_added_removed(const QSet<DataObject*>*,const QSet<DataObject*>*)));
 }
@@ -113,7 +113,7 @@ void AlbumCollection::on_media_added_removed(const QSet<DataObject *> *added,
         // TODO: this could maybe be optimized.  Many albums might not care about
         // the particular photo being added.
         DataObject* album_object;
-        foreach (album_object, GetAsSet()) {
+        foreach (album_object, getAsSet()) {
             Album* album = qobject_cast<Album*>(album_object);
             Q_ASSERT(album != NULL);
 
@@ -122,7 +122,7 @@ void AlbumCollection::on_media_added_removed(const QSet<DataObject *> *added,
                 MediaSource* media = qobject_cast<MediaSource*>(object);
                 Q_ASSERT(media != NULL);
 
-                album->Detach(media);
+                album->detach(media);
             }
         }
     }
@@ -133,10 +133,10 @@ void AlbumCollection::on_media_added_removed(const QSet<DataObject *> *added,
  * \param added
  * \param removed
  */
-void AlbumCollection::notify_contents_altered(const QSet<DataObject*>* added,
+void AlbumCollection::notifyContentsChanged(const QSet<DataObject*>* added,
                                               const QSet<DataObject*>* removed)
 {
-    ContainerSourceCollection::notify_contents_altered(added, removed);
+    ContainerSourceCollection::notifyContentsChanged(added, removed);
 
     if (added != NULL) {
         foreach (DataObject* object, *added) {
@@ -147,7 +147,7 @@ void AlbumCollection::notify_contents_altered(const QSet<DataObject*>* added,
             GalleryManager::instance()->database()->get_album_table()->add_album(album);
 
             // Add initial photos.
-            foreach(DataObject* o, album->contained()->GetAll()) {
+            foreach(DataObject* o, album->contained()->getAll()) {
                 MediaSource* media = qobject_cast<MediaSource*>(o);
                 Q_ASSERT(media != NULL);
                 GalleryManager::instance()->database()->get_album_table()->attach_to_album(album->get_id(), media->id());

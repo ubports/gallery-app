@@ -50,9 +50,9 @@ public:
     DataObjectNumber number() const;
 
 private:
-    static DataObjectNumber next_number_;
+    static DataObjectNumber m_nextNumber;
 
-    DataObjectNumber number_;
+    DataObjectNumber m_number;
 };
 
 #endif  // GALLERY_DATA_OBJECT_H_

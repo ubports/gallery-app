@@ -36,18 +36,18 @@
 EventCollection::EventCollection()
     : SourceCollection("EventCollection")
 {
-    SetComparator(Comparator);
+    setComparator(Comparator);
 
     // Monitor MediaCollection to create/destroy Events, one for each day of
     // media found
     QObject::connect(
                 GalleryManager::instance()->media_collection(),
-                SIGNAL(contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
+                SIGNAL(contentsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*)),
                 this,
                 SLOT(on_media_added_removed(const QSet<DataObject*>*,const QSet<DataObject*>*)));
 
     // seed what's already present
-    on_media_added_removed(&GalleryManager::instance()->media_collection()->GetAsSet(), NULL);
+    on_media_added_removed(&GalleryManager::instance()->media_collection()->getAsSet(), NULL);
 }
 
 /*!
@@ -69,8 +69,8 @@ Event* EventCollection::EventForMediaSource(MediaSource* media) const
 {
     // TODO: Could use lookup table here, but this is fine for now
     Event* event;
-    foreach (event, GetAllAsType<Event*>()) {
-        if (event->Contains(media))
+    foreach (event, getAllAsType<Event*>()) {
+        if (event->contains(media))
             return event;
     }
 
@@ -112,10 +112,10 @@ void EventCollection::on_media_added_removed(const QSet<DataObject *> *added,
             if (existing == NULL) {
                 existing = new Event(this, media->exposureDate());
 
-                Add(existing);
+                add(existing);
             }
 
-            existing->Attach(media);
+            existing->attach(media);
         }
     }
 
@@ -128,10 +128,10 @@ void EventCollection::on_media_added_removed(const QSet<DataObject *> *added,
             Event* event = date_map_.value(media->exposureDate());
             Q_ASSERT(event != NULL);
 
-            event->Detach(media);
+            event->detach(media);
 
-            if (event->ContainedCount() == 0)
-                Destroy(event, true, true);
+            if (event->containedCount() == 0)
+                destroy(event, true, true);
         }
     }
 }
@@ -141,7 +141,7 @@ void EventCollection::on_media_added_removed(const QSet<DataObject *> *added,
  * \param added
  * \param removed
  */
-void EventCollection::notify_contents_altered(const QSet<DataObject *> *added,
+void EventCollection::notifyContentsChanged(const QSet<DataObject *> *added,
                                               const QSet<DataObject *> *removed)
 {
     if (added != NULL) {
@@ -167,5 +167,5 @@ void EventCollection::notify_contents_altered(const QSet<DataObject *> *added,
         }
     }
 
-    SourceCollection::notify_contents_altered(added, removed);
+    SourceCollection::notifyContentsChanged(added, removed);
 }

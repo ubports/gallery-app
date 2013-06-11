@@ -68,7 +68,7 @@ public:
 protected:
     virtual void DestroySource(bool destroy_backing, bool as_orphan);
 
-    virtual void notify_container_contents_altered(const QSet<DataObject *> *added,
+    virtual void notifyContainerContentsChanged(const QSet<DataObject *> *added,
                                                    const QSet<DataObject *> *removed);
 
 private:

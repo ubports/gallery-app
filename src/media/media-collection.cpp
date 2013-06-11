@@ -39,7 +39,7 @@ MediaCollection::MediaCollection()
     : SourceCollection("MediaCollection")
 {
     // By default, sort all media by its exposure date time, descending
-    SetComparator(ExposureDateTimeDescendingComparator);
+    setComparator(ExposureDateTimeDescendingComparator);
 }
 
 /*!
@@ -59,7 +59,7 @@ bool MediaCollection::ExposureDateTimeAscendingComparator(DataObject* a,
     QDateTime exptime_b = qobject_cast<MediaSource*>(b)->exposureDateTime();
 
     return (exptime_a == exptime_b) ?
-                (DataCollection::DefaultDataObjectComparator(a, b)) :
+                (DataCollection::defaultDataObjectComparator(a, b)) :
                 (exptime_a < exptime_b);
 }
 
@@ -90,10 +90,10 @@ MediaSource* MediaCollection::mediaForId(qint64 id)
  * \param added
  * \param removed
  */
-void MediaCollection::notify_contents_altered(const QSet<DataObject*>* added,
+void MediaCollection::notifyContentsChanged(const QSet<DataObject*>* added,
                                               const QSet<DataObject*>* removed)
 {
-    SourceCollection::notify_contents_altered(added, removed);
+    SourceCollection::notifyContentsChanged(added, removed);
 
     // Track IDs of objects as they're added and removed.
     if (added != NULL) {
@@ -145,12 +145,12 @@ MediaSource *MediaCollection::mediaFromFileinfo(const QFileInfo& file)
 /*!
  * \reimp
  */
-void MediaCollection::AddMany(const QSet<DataObject *> &objects)
+void MediaCollection::addMany(const QSet<DataObject *> &objects)
 {
     foreach (DataObject* data, objects) {
         MediaSource* media = qobject_cast<MediaSource*>(data);
         id_map_.insert(media->id(), media);
     }
 
-    DataCollection::AddMany(objects);
+    DataCollection::addMany(objects);
 }

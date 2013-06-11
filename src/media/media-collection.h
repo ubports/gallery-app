@@ -46,10 +46,10 @@ public:
     MediaSource* mediaForId(qint64 id);
     MediaSource* mediaFromFileinfo(const QFileInfo &file);
 
-    virtual void AddMany(const QSet<DataObject*>& objects);
+    virtual void addMany(const QSet<DataObject*>& objects);
 
 protected slots:
-    virtual void notify_contents_altered(const QSet<DataObject*>* added,
+    virtual void notifyContentsChanged(const QSet<DataObject*>* added,
                                          const QSet<DataObject*>* removed);
 
 private:

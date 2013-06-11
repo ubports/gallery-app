@@ -47,7 +47,7 @@ public:
     Event* EventForMediaSource(MediaSource* media) const;
 
 protected:
-    virtual void notify_contents_altered(const QSet<DataObject *> *added,
+    virtual void notifyContentsChanged(const QSet<DataObject *> *added,
                                          const QSet<DataObject *> *removed);
 
 private slots:

@@ -47,80 +47,80 @@ class DataCollection : public QObject
 
 signals:
     // fired *before* the DataObjects have been added or removed from the collection
-    void contents_to_be_altered(const QSet<DataObject*>* added,
-                                const QSet<DataObject*>* removed);
+    void contentsAboutToBeChanged(const QSet<DataObject*>* added,
+                                  const QSet<DataObject*>* removed);
 
     // fired *after* the DataObjects have been added or removed from the collection
-    void contents_altered(const QSet<DataObject*>* added,
+    void contentsChanged(const QSet<DataObject*>* added,
                           const QSet<DataObject*>* removed);
 
     // fired after the the DataCollection has been reordered due to a new
     // DataObjectComparator being installed; if the new comparator doesn't
     // actually affect the ordering, this signal will still be called
-    void ordering_altered();
+    void orderingChanged();
 
 public:
-    static bool DefaultDataObjectComparator(DataObject* a, DataObject* b);
+    static bool defaultDataObjectComparator(DataObject* a, DataObject* b);
 
     DataCollection(const QString& name);
 
-    int Count() const;
+    int count() const;
 
-    void Add(DataObject* object);
-    virtual void AddMany(const QSet<DataObject*>& objects);
+    void add(DataObject* object);
+    virtual void addMany(const QSet<DataObject*>& objects);
 
-    void Remove(DataObject* object);
-    void RemoveAt(int index);
-    void RemoveMany(const QSet<DataObject*>& objects);
-    void Clear();
+    void remove(DataObject* object);
+    void removeAt(int index);
+    void removeMany(const QSet<DataObject*>& objects);
+    void clear();
 
-    bool Contains(DataObject* object) const;
-    bool ContainsAll(DataCollection* collection) const;
-    const QList<DataObject*>& GetAll() const;
-    const QSet<DataObject*>& GetAsSet() const;
-    DataObject* GetAt(int index) const;
-    int IndexOf(DataObject* media) const;
+    bool contains(DataObject* object) const;
+    bool containsAll(DataCollection* collection) const;
+    const QList<DataObject*>& getAll() const;
+    const QSet<DataObject*>& getAsSet() const;
+    DataObject* getAt(int index) const;
+    int indexOf(DataObject* media) const;
 
     template<class T>
-    QList<T> GetAllAsType() const {
-        return CastListToType<DataObject*, T>(GetAll());
+    QList<T> getAllAsType() const {
+        return CastListToType<DataObject*, T>(getAll());
     }
 
     template<class T>
     QSet<T> GetAsSetAsType() const {
-        return CastSetToType<DataObject*, T>(GetAsSet());
+        return CastSetToType<DataObject*, T>(getAsSet());
     }
 
     template <class T>
-    T GetAtAsType(int index) const {
-        return qobject_cast<T>(GetAt(index));
+    T getAtAsType(int index) const {
+        return qobject_cast<T>(getAt(index));
     }
 
-    void SetComparator(DataObjectComparator comparator);
+    void setComparator(DataObjectComparator comparator);
     DataObjectComparator comparator() const;
 
-    void SetInternalName(const QString& name);
+    void setInternalName(const QString& name);
 
-    virtual const char* ToString() const;
+    virtual const char* toString() const;
 
 protected:
-    virtual void notify_contents_to_be_altered(const QSet<DataObject*>* added,
-                                               const QSet<DataObject*>* removed);
+    virtual void notifyContentsToBeChanged(const QSet<DataObject*>* added,
+                                           const QSet<DataObject*>* removed);
 
-    virtual void notify_contents_altered(const QSet<DataObject*>* added,
-                                         const QSet<DataObject*>* removed);
+    virtual void notifyContentsChanged(const QSet<DataObject*>* added,
+                                       const QSet<DataObject*>* removed);
 
-    virtual void notify_ordering_altered();
+    virtual void notifyOrderingChanged();
 
 private:
-    QByteArray name_;
-    QList<DataObject*> list_;
-    QSet<DataObject*> set_;
-    DataObjectComparator comparator_;
+    void sanity() const;
+    void binaryListInsert(DataObject* object);
+    void resort(bool fire_signal);
 
-    void Sanity() const;
-    void BinaryListInsert(DataObject* object);
-    void Resort(bool fire_signal);
+    QByteArray m_name;
+    QList<DataObject*> m_list;
+    QSet<DataObject*> m_set;
+    DataObjectComparator m_comparator;
 };
 
 #endif  // GALLERY_DATA_COLLECTION_H_
