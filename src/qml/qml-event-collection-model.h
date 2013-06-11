@@ -39,7 +39,7 @@ public:
     QmlEventCollectionModel(QObject* parent = NULL);
 
 protected:
-    virtual QVariant variantFor(DataObject *object) const;
+    virtual QVariant toVariant(DataObject *object) const;
     virtual DataObject* fromVariant(QVariant var) const;
 };
 

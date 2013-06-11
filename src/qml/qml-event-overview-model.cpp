@@ -69,6 +69,8 @@ void QmlEventOverviewModel::setAscendingOrder(bool ascending)
 
     setDefaultComparator(comparator);
     backingViewCollection()->setComparator(comparator);
+
+    emit ascendingChanged();
 }
 
 /*!
@@ -76,11 +78,11 @@ void QmlEventOverviewModel::setAscendingOrder(bool ascending)
  * \param object
  * \return
  */
-QVariant QmlEventOverviewModel::variantFor(DataObject* object) const
+QVariant QmlEventOverviewModel::toVariant(DataObject* object) const
 {
     Event* event = qobject_cast<Event*>(object);
 
-    return (event != NULL) ? QVariant::fromValue(event) : QmlMediaCollectionModel::variantFor(object);
+    return (event != NULL) ? QVariant::fromValue(event) : QmlMediaCollectionModel::toVariant(object);
 }
 
 /*!

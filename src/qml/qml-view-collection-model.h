@@ -82,19 +82,19 @@ public:
     virtual ~QmlViewCollectionModel();
 
     QVariant forCollection() const;
-    void setForCollection(QVariant var);
+    void setForCollection(const QVariant &var);
 
     QVariant monitorSelection() const;
-    void setMonitorSelection(QVariant vmodel);
+    void setMonitorSelection(const QVariant &vmodel);
 
-    Q_INVOKABLE int indexOf(QVariant var);
+    Q_INVOKABLE int indexOf(const QVariant &var) const;
     Q_INVOKABLE QVariant getAt(int index);
     Q_INVOKABLE void clear();
-    Q_INVOKABLE void add(QVariant var);
+    Q_INVOKABLE void add(const QVariant &var);
     Q_INVOKABLE void selectAll();
     Q_INVOKABLE void unselectAll();
-    Q_INVOKABLE void toggleSelection(QVariant var);
-    Q_INVOKABLE bool isSelected(QVariant var);
+    Q_INVOKABLE void toggleSelection(const QVariant &var);
+    Q_INVOKABLE bool isSelected(const QVariant &var) const;
 
     virtual int rowCount(const QModelIndex& parent) const;
     virtual QVariant data(const QModelIndex& index, int role) const;
@@ -122,7 +122,7 @@ protected:
     void stopMonitoring();
 
     // Subclasses should return the DataObject cast and packed in a QVariant
-    virtual QVariant variantFor(DataObject* object) const = 0;
+    virtual QVariant toVariant(DataObject* object) const = 0;
 
     // Subclasses should convert from QVariant into appropriate DataObject
     // subclass.  Return null if unknown type

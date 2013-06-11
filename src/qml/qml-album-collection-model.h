@@ -46,7 +46,7 @@ public:
     Q_INVOKABLE void addOrphan(QVariant valbum);
 
 protected:
-    virtual QVariant variantFor(DataObject* object) const;
+    virtual QVariant toVariant(DataObject* object) const;
     virtual DataObject* fromVariant(QVariant var) const;
 
 private slots:

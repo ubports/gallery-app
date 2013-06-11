@@ -53,7 +53,7 @@ public:
     void setMonitored(bool monitor);
 
 protected:
-    virtual QVariant variantFor(DataObject* object) const;
+    virtual QVariant toVariant(DataObject* object) const;
     virtual DataObject* fromVariant(QVariant var) const;
 };
 

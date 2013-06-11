@@ -127,7 +127,7 @@ void QmlMediaCollectionModel::setMonitored(bool monitor)
  * \param object
  * \return
  */
-QVariant QmlMediaCollectionModel::variantFor(DataObject* object) const
+QVariant QmlMediaCollectionModel::toVariant(DataObject* object) const
 {
     MediaSource* media_source = qobject_cast<MediaSource*>(object);
 

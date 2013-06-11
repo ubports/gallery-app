@@ -102,7 +102,7 @@ void QmlAlbumCollectionModel::addOrphan(QVariant valbum)
  * \param object
  * \return
  */
-QVariant QmlAlbumCollectionModel::variantFor(DataObject* object) const
+QVariant QmlAlbumCollectionModel::toVariant(DataObject* object) const
 {
     Album* album = qobject_cast<Album*>(object);
 

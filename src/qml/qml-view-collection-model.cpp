@@ -64,7 +64,7 @@ QVariant QmlViewCollectionModel::forCollection() const
  * \brief QmlViewCollectionModel::setForCollection
  * \param var
  */
-void QmlViewCollectionModel::setForCollection(QVariant var)
+void QmlViewCollectionModel::setForCollection(const QVariant &var)
 {
     QObject* obj = qvariant_cast<QObject*>(var);
     if (obj == NULL) {
@@ -112,7 +112,7 @@ QVariant QmlViewCollectionModel::monitorSelection() const
  * \brief QmlViewCollectionModel::setMonitorSelection
  * \param vmodel
  */
-void QmlViewCollectionModel::setMonitorSelection(QVariant vmodel)
+void QmlViewCollectionModel::setMonitorSelection(const QVariant &vmodel)
 {
     // always stop monitoring
     m_monitorSelection = QVariant();
@@ -137,7 +137,7 @@ void QmlViewCollectionModel::setMonitorSelection(QVariant vmodel)
  * \param var
  * \return
  */
-int QmlViewCollectionModel::indexOf(QVariant var)
+int QmlViewCollectionModel::indexOf(const QVariant &var) const
 {
     DataObject* object = UncheckedVariantToObject<DataObject*>(var);
     if (object == NULL)
@@ -158,7 +158,7 @@ QVariant QmlViewCollectionModel::getAt(int index)
 
     DataObject* object = m_view->getAt(index);
 
-    return (object != NULL) ? variantFor(object) : QVariant();
+    return (object != NULL) ? toVariant(object) : QVariant();
 }
 
 /*!
@@ -173,7 +173,7 @@ void QmlViewCollectionModel::clear()
  * \brief QmlViewCollectionModel::add
  * \param var
  */
-void QmlViewCollectionModel::add(QVariant var)
+void QmlViewCollectionModel::add(const QVariant &var)
 {
     DataObject* object = fromVariant(var);
     if (object == NULL) {
@@ -215,7 +215,7 @@ void QmlViewCollectionModel::unselectAll()
  * \brief QmlViewCollectionModel::toggleSelection
  * \param var
  */
-void QmlViewCollectionModel::toggleSelection(QVariant var)
+void QmlViewCollectionModel::toggleSelection(const QVariant &var)
 {
     if (m_view != NULL)
         m_view->toggleSelect(VariantToObject<DataObject*>(var));
@@ -226,7 +226,7 @@ void QmlViewCollectionModel::toggleSelection(QVariant var)
  * \param var
  * \return
  */
-bool QmlViewCollectionModel::isSelected(QVariant var)
+bool QmlViewCollectionModel::isSelected(const QVariant &var) const
 {
     return (m_view != NULL && var.isValid()
             ? m_view->isSelected(VariantToObject<DataObject*>(var))
@@ -278,14 +278,14 @@ QVariant QmlViewCollectionModel::data(const QModelIndex& index, int role) const
     switch (role) {
     case ObjectRole:
     case SubclassRole:
-        return variantFor(object);
+        return toVariant(object);
 
     case SelectionRole:
         return QVariant(m_view->isSelected(object));
 
     case TypeNameRole:
         // Return type name with the pointer ("*") removed
-        return QVariant(QString(variantFor(object).typeName()).remove('*'));
+        return QVariant(QString(toVariant(object).typeName()).remove('*'));
 
     default:
         return QVariant();

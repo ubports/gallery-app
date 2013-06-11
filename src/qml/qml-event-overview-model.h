@@ -37,10 +37,10 @@ class QmlEventOverviewModel : public QmlMediaCollectionModel
 {
     Q_OBJECT
     Q_PROPERTY(bool ascending READ ascendingOrder WRITE setAscendingOrder
-               NOTIFY orderingChanged)
+               NOTIFY ascendingChanged)
 
 signals:
-    void orderingChanged();
+    void ascendingChanged();
 
 public:
     QmlEventOverviewModel(QObject* parent = NULL);
@@ -51,7 +51,7 @@ public:
 protected:
     virtual void notifyBackingCollectionChanged();
 
-    virtual QVariant variantFor(DataObject *object) const;
+    virtual QVariant toVariant(DataObject *object) const;
     virtual DataObject* fromVariant(QVariant var) const;
 
 private slots:

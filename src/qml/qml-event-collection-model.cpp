@@ -38,7 +38,7 @@ QmlEventCollectionModel::QmlEventCollectionModel(QObject* parent)
  * \param object
  * \return
  */
-QVariant QmlEventCollectionModel::variantFor(DataObject *object) const
+QVariant QmlEventCollectionModel::toVariant(DataObject *object) const
 {
     Event* event = qobject_cast<Event*>(object);
 
