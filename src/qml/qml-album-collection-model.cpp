@@ -98,7 +98,7 @@ void QmlAlbumCollectionModel::addOrphan(QVariant valbum)
 }
 
 /*!
- * \brief QmlAlbumCollectionModel::variantFor
+ * \brief QmlAlbumCollectionModel::toVariant
  * \param object
  * \return
  */

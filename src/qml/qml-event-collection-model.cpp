@@ -34,7 +34,7 @@ QmlEventCollectionModel::QmlEventCollectionModel(QObject* parent)
 }
 
 /*!
- * \brief QmlEventCollectionModel::VariantFor
+ * \brief QmlEventCollectionModel::toVariant
  * \param object
  * \return
  */

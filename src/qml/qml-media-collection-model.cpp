@@ -123,7 +123,7 @@ void QmlMediaCollectionModel::setMonitored(bool monitor)
 }
 
 /*!
- * \brief QmlMediaCollectionModel::variantFor
+ * \brief QmlMediaCollectionModel::toVariant
  * \param object
  * \return
  */

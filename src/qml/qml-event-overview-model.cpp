@@ -74,7 +74,7 @@ void QmlEventOverviewModel::setAscendingOrder(bool ascending)
 }
 
 /*!
- * \brief QmlEventOverviewModel::variantFor
+ * \brief QmlEventOverviewModel::toVariant
  * \param object
  * \return
  */
