@@ -352,5 +352,5 @@ void MediaSource::notifySizeChanged()
     emit sizeChanged();
 
     if (m_id != INVALID_ID)
-        GalleryManager::instance()->database()->get_media_table()->set_media_size(m_id, m_size);
+        GalleryManager::instance()->database()->getMediaTable()->setMediaSize(m_id, m_size);
 }

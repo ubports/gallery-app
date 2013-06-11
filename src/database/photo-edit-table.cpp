@@ -33,27 +33,27 @@
  * \param parent
  */
 PhotoEditTable::PhotoEditTable(Database* db, QObject* parent)
-    : QObject(parent), db_(db)
+    : QObject(parent), m_db(db)
 {
 }
 
 /*!
- * \brief PhotoEditTable::get_edit_state
- * \param media_id
+ * \brief PhotoEditTable::editState
+ * \param mediaId
  * \return
  */
-PhotoEditState PhotoEditTable::get_edit_state(qint64 media_id) const
+PhotoEditState PhotoEditTable::editState(qint64 mediaId) const
 {
     PhotoEditState edit_state;
 
-    QSqlQuery query(*db_->get_db());
+    QSqlQuery query(*m_db->getDB());
     query.prepare("SELECT crop_rectangle, is_enhanced, orientation "
                   "FROM PhotoEditTable "
                   "WHERE media_id = :media_id");
 
-    query.bindValue(":media_id", media_id);
+    query.bindValue(":media_id", mediaId);
     if (!query.exec())
-        db_->log_sql_error(query);
+        m_db->logSqlError(query);
 
     if (query.next()) {
         QStringList parts = query.value(0).toString().split(',');
@@ -74,51 +74,51 @@ PhotoEditState PhotoEditTable::get_edit_state(qint64 media_id) const
 }
 
 /*!
- * \brief PhotoEditTable::set_edit_state
- * \param media_id
- * \param edit_state
+ * \brief PhotoEditTable::setEditState
+ * \param mediaId
+ * \param editState
  */
-void PhotoEditTable::set_edit_state(qint64 media_id,
-                                    const PhotoEditState& edit_state)
+void PhotoEditTable::setEditState(qint64 mediaId,
+                                  const PhotoEditState& editState)
 {
-    if (media_id == INVALID_ID)
+    if (mediaId == INVALID_ID)
         return;
 
-    prepare_row(media_id);
+    prepareRow(mediaId);
 
     QString crop_rect_string = QString("%1,%2,%3,%4")
-            .arg(edit_state.crop_rectangle_.x())
-            .arg(edit_state.crop_rectangle_.y())
-            .arg(edit_state.crop_rectangle_.width())
-            .arg(edit_state.crop_rectangle_.height());
+            .arg(editState.crop_rectangle_.x())
+            .arg(editState.crop_rectangle_.y())
+            .arg(editState.crop_rectangle_.width())
+            .arg(editState.crop_rectangle_.height());
 
-    QSqlQuery query(*db_->get_db());
+    QSqlQuery query(*m_db->getDB());
 
     query.prepare("UPDATE PhotoEditTable "
                   "SET crop_rectangle = :crop_rect_string, "
                   "is_enhanced = :is_enhanced, "
                   "orientation = :orientation "
                   "WHERE media_id = :media_id");
-    query.bindValue(":media_id", media_id);
+    query.bindValue(":media_id", mediaId);
     query.bindValue(":crop_rect_string", crop_rect_string);
-    query.bindValue(":is_enhanced", edit_state.is_enhanced_);
-    query.bindValue(":orientation", static_cast<int>(edit_state.orientation_));
+    query.bindValue(":is_enhanced", editState.is_enhanced_);
+    query.bindValue(":orientation", static_cast<int>(editState.orientation_));
 
     if (!query.exec())
-        db_->log_sql_error(query);
+        m_db->logSqlError(query);
 }
 
 /*!
- * \brief PhotoEditTable::prepare_row
- * \param media_id
+ * \brief PhotoEditTable::prepareRow
+ * \param mediaId
  */
-void PhotoEditTable::prepare_row(qint64 media_id)
+void PhotoEditTable::prepareRow(qint64 mediaId)
 {
-    QSqlQuery query(*db_->get_db());
+    QSqlQuery query(*m_db->getDB());
     query.prepare("INSERT OR IGNORE INTO PhotoEditTable "
                   "(media_id) VALUES (:media_id)");
 
-    query.bindValue(":media_id", media_id);
+    query.bindValue(":media_id", mediaId);
     if (!query.exec())
-        db_->log_sql_error(query);
+        m_db->logSqlError(query);
 }

@@ -278,7 +278,7 @@ void Album::setTitle(QString title)
     m_title = title;
 
     if (signal) {
-        GalleryManager::instance()->database()->get_album_table()->set_title(m_id, m_title);
+        GalleryManager::instance()->database()->getAlbumTable()->setTitle(m_id, m_title);
         emit titleChanged();
     }
 }
@@ -302,7 +302,7 @@ void Album::setSubtitle(QString subtitle)
     m_subtitle = subtitle;
 
     if (signal) {
-        GalleryManager::instance()->database()->get_album_table()->set_subtitle(m_id, m_subtitle);
+        GalleryManager::instance()->database()->getAlbumTable()->setSubtitle(m_id, m_subtitle);
         emit subtitleChanged();
     }
 }
@@ -490,7 +490,7 @@ void Album::setCoverNickname(QString name)
     m_coverNickname = name;
 
     if (signal) {
-        GalleryManager::instance()->database()->get_album_table()->set_cover_nickname(m_id, m_coverNickname);
+        GalleryManager::instance()->database()->getAlbumTable()->setCoverNickname(m_id, m_coverNickname);
         emit coverNicknameChanged();
     }
 }
@@ -540,7 +540,7 @@ void Album::notifyCurrentPageChanged()
 {
     if (!m_refreshingContainer) {
         emit currentPageChanged();
-        GalleryManager::instance()->database()->get_album_table()->set_current_page(m_id, m_currentPage);
+        GalleryManager::instance()->database()->getAlbumTable()->setCurrentPage(m_id, m_currentPage);
     }
 }
 
@@ -551,7 +551,7 @@ void Album::notifyClosedChanged()
 {
     if (!m_refreshingContainer) {
         emit closedChanged();
-        GalleryManager::instance()->database()->get_album_table()->set_is_closed(m_id, m_closed);
+        GalleryManager::instance()->database()->getAlbumTable()->setIsClosed(m_id, m_closed);
     }
 }
 
@@ -623,7 +623,7 @@ void Album::notifyContainerContentsChanged(const QSet<DataObject*>* added,
             while (i.hasNext()) {
                 MediaSource* media = qobject_cast<MediaSource*>(i.next());
                 Q_ASSERT(media != NULL);
-                GalleryManager::instance()->database()->get_album_table()->attach_to_album(id(), media->id());
+                GalleryManager::instance()->database()->getAlbumTable()->attachToAlbum(id(), media->id());
             }
         }
 
@@ -632,7 +632,7 @@ void Album::notifyContainerContentsChanged(const QSet<DataObject*>* added,
             while (i.hasNext()) {
                 MediaSource* media = qobject_cast<MediaSource*>(i.next());
                 Q_ASSERT(media != NULL);
-                GalleryManager::instance()->database()->get_album_table()->detach_from_album(id(), media->id());
+                GalleryManager::instance()->database()->getAlbumTable()->detachFromAlbum(id(), media->id());
             }
         }
     }

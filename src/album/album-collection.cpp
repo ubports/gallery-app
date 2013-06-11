@@ -37,7 +37,7 @@ AlbumCollection::AlbumCollection()
 {
     // Load existing albums from database.
     QList<Album*> album_list;
-    GalleryManager::instance()->database()->get_album_table()->get_albums(&album_list);
+    GalleryManager::instance()->database()->getAlbumTable()->getAlbums(&album_list);
     foreach (Album* a, album_list) {
         add(a);
         int saved_current_page = a->currentPage();
@@ -45,7 +45,7 @@ AlbumCollection::AlbumCollection()
         // Link each album up with its photos.
         QSet<DataObject*> photos;
         QList<qint64> photo_list;
-        GalleryManager::instance()->database()->get_album_table()->media_for_album(a->id(), &photo_list);
+        GalleryManager::instance()->database()->getAlbumTable()->mediaForAlbum(a->id(), &photo_list);
         foreach (qint64 mediaId, photo_list)
             photos.insert(GalleryManager::instance()->media_collection()->mediaForId(mediaId));
 
@@ -144,13 +144,13 @@ void AlbumCollection::notifyContentsChanged(const QSet<DataObject*>* added,
             Q_ASSERT(album != NULL);
 
             // Add the album.
-            GalleryManager::instance()->database()->get_album_table()->add_album(album);
+            GalleryManager::instance()->database()->getAlbumTable()->addAlbum(album);
 
             // Add initial photos.
             foreach(DataObject* o, album->contained()->getAll()) {
                 MediaSource* media = qobject_cast<MediaSource*>(o);
                 Q_ASSERT(media != NULL);
-                GalleryManager::instance()->database()->get_album_table()->attach_to_album(album->id(), media->id());
+                GalleryManager::instance()->database()->getAlbumTable()->attachToAlbum(album->id(), media->id());
             }
         }
     }
@@ -160,7 +160,7 @@ void AlbumCollection::notifyContentsChanged(const QSet<DataObject*>* added,
             Album* album = qobject_cast<Album*>(object);
             Q_ASSERT(album != NULL);
 
-            GalleryManager::instance()->database()->get_album_table()->remove_album(album);
+            GalleryManager::instance()->database()->getAlbumTable()->removeAlbum(album);
         }
     }
 }
