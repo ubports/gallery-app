@@ -39,43 +39,41 @@ class Album;
 class AlbumPage : public ContainerSource
 {
     Q_OBJECT
-    Q_PROPERTY(int pageNumber READ page_number NOTIFY page_number_changed);
-    Q_PROPERTY(QUrl qmlRc READ qml_rc NOTIFY qml_rc_changed);
+    Q_PROPERTY(int pageNumber READ pageNumber NOTIFY pageNumberChanged);
+    Q_PROPERTY(QUrl qmlRc READ qmlRc NOTIFY qmlRcChanged);
     Q_PROPERTY(QQmlListProperty<MediaSource> mediaSourceList
-               READ qml_media_source_list NOTIFY media_source_list_changed);
-    Q_PROPERTY(QVariant owner READ qml_owner NOTIFY owner_changed);
+               READ qmlMediaSourceList NOTIFY mediaSourceListChanged);
+    Q_PROPERTY(QVariant owner READ qmlOwner NOTIFY ownerChanged);
 
 signals:
-    void page_number_changed();
-    void qml_rc_changed();
-    void media_source_list_changed();
-    void owner_changed();
+    void pageNumberChanged();
+    void qmlRcChanged();
+    void mediaSourceListChanged();
+    void ownerChanged();
 
 public:
     AlbumPage(QObject * parent = 0);
     explicit AlbumPage(Album* owner);
-    AlbumPage(Album* owner, int page_number, AlbumTemplatePage* template_page);
+    AlbumPage(Album* owner, int pageNumber, AlbumTemplatePage* templatePage);
 
-    static void RegisterType();
+    int pageNumber() const;
+    AlbumTemplatePage* templatePage() const;
+    QUrl qmlRc() const;
 
-    int page_number() const;
-    AlbumTemplatePage* template_page() const;
-    QUrl qml_rc() const;
-
-    QQmlListProperty<MediaSource> qml_media_source_list();
-    QVariant qml_owner() const;
+    QQmlListProperty<MediaSource> qmlMediaSourceList();
+    QVariant qmlOwner() const;
 
 protected:
-    virtual void destroySource(bool destroy_backing, bool as_orphan);
+    virtual void destroySource(bool destroyBacking, bool asOrphan);
 
     virtual void notifyContainerContentsChanged(const QSet<DataObject *> *added,
-                                                   const QSet<DataObject *> *removed);
+                                                const QSet<DataObject *> *removed);
 
 private:
-    Album* owner_;
-    int page_number_;
-    AlbumTemplatePage* template_page_;
-    QList<MediaSource*> source_list_;
+    Album* m_owner;
+    int m_pageNumber;
+    AlbumTemplatePage* m_templatePage;
+    QList<MediaSource*> m_sourceList;
 };
 
 QML_DECLARE_TYPE(AlbumPage);

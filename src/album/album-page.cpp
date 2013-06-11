@@ -33,7 +33,7 @@
  */
 AlbumPage::AlbumPage(QObject * parent)
     : ContainerSource(parent, "AlbumPage", MediaCollection::exposureDateTimeAscendingComparator),
-      owner_(NULL), page_number_(-1), template_page_(NULL)
+      m_owner(NULL), m_pageNumber(-1), m_templatePage(NULL)
 {
 }
 
@@ -43,95 +43,87 @@ AlbumPage::AlbumPage(QObject * parent)
  */
 AlbumPage::AlbumPage(Album* owner)
     : ContainerSource(owner, "AlbumPage", MediaCollection::exposureDateTimeAscendingComparator),
-      owner_(owner), page_number_(-1), template_page_(NULL)
+      m_owner(owner), m_pageNumber(-1), m_templatePage(NULL)
 {
 }
 
 /*!
  * \brief AlbumPage::AlbumPage
  * \param owner
- * \param page_number
- * \param template_page
+ * \param pageNumber
+ * \param templatePage
  */
-AlbumPage::AlbumPage(Album* owner, int page_number, AlbumTemplatePage* template_page)
+AlbumPage::AlbumPage(Album* owner, int pageNumber, AlbumTemplatePage* templatePage)
     : ContainerSource(owner, "AlbumPage", MediaCollection::exposureDateTimeAscendingComparator),
-      owner_(owner), page_number_(page_number), template_page_(template_page)
+      m_owner(owner), m_pageNumber(pageNumber), m_templatePage(templatePage)
 {
 }
 
 /*!
- * \brief AlbumPage::RegisterType
- */
-void AlbumPage::RegisterType()
-{
-    qmlRegisterType<AlbumPage>("Gallery", 1, 0, "AlbumPage");
-}
-
-/*!
- * \brief AlbumPage::page_number
+ * \brief AlbumPage::pageNumber
  * \return
  */
-int AlbumPage::page_number() const
+int AlbumPage::pageNumber() const
 {
-    return page_number_;
+    return m_pageNumber;
 }
 
 /*!
- * \brief AlbumPage::template_page
+ * \brief AlbumPage::templatePage
  * \return
  */
-AlbumTemplatePage* AlbumPage::template_page() const
+AlbumTemplatePage* AlbumPage::templatePage() const
 {
-    return template_page_;
+    return m_templatePage;
 }
 
 /*!
- * \brief AlbumPage::qml_rc
+ * \brief AlbumPage::qmlRc
  * \return
  */
-QUrl AlbumPage::qml_rc() const
+QUrl AlbumPage::qmlRc() const
 {
-    return Resource::getRcUrl(template_page_->qml_rc());
+    return Resource::getRcUrl(m_templatePage->qmlRc());
 }
 
 /*!
- * \brief AlbumPage::qml_media_source_list
+ * \brief AlbumPage::qmlMediaSourceList
  * \return
  */
-QQmlListProperty<MediaSource> AlbumPage::qml_media_source_list()
+QQmlListProperty<MediaSource> AlbumPage::qmlMediaSourceList()
 {
-    return QQmlListProperty<MediaSource>(this, source_list_);
+    return QQmlListProperty<MediaSource>(this, m_sourceList);
 }
 
 /*!
- * \brief AlbumPage::qml_owner
+ * \brief AlbumPage::qmlOwner
  * \return
  */
-QVariant AlbumPage::qml_owner() const
+QVariant AlbumPage::qmlOwner() const
 {
-    return QVariant::fromValue(owner_);
+    return QVariant::fromValue(m_owner);
 }
 
 /*!
- * \brief AlbumPage::DestroySource \reimp
- * \param destroy_backing
- * \param as_orphan
+ * \brief AlbumPage::destroySource \reimp
+ * \param destroyBacking
+ * \param asOrphan
  */
-void AlbumPage::destroySource(bool destroy_backing, bool as_orphan)
+void AlbumPage::destroySource(bool destroyBacking, bool asOrphan)
 {
 }
 
 /*!
- * \brief AlbumPage::notify_container_contents_altered
+ * \brief AlbumPage::notifyContainerContentsChanged
  * \param added
  * \param removed
  */
 void AlbumPage::notifyContainerContentsChanged(const QSet<DataObject *> *added,
-                                                  const QSet<DataObject *> *removed)
+                                               const QSet<DataObject *> *removed)
 {
     ContainerSource::notifyContainerContentsChanged(added, removed);
 
     // TODO: Can be done smarter using the added and removed; this will do for now
-    source_list_ = CastListToType<DataObject*, MediaSource*>(contained()->getAll());
-    emit media_source_list_changed();
+    m_sourceList = CastListToType<DataObject*, MediaSource*>(contained()->getAll());
+    emit mediaSourceListChanged();
 }

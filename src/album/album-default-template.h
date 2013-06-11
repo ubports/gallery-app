@@ -35,13 +35,13 @@ class AlbumDefaultTemplate : public AlbumTemplate
 public:
     AlbumDefaultTemplate();
 
-    virtual void reset_best_fit_data();
-    virtual AlbumTemplatePage* get_best_fit_page(bool is_left, int num_photos,
-                                                 PageOrientation photo_orientations[]);
+    virtual void resetBestFitData();
+    virtual AlbumTemplatePage* getBestFitPage(bool isLeft, int numPhotos,
+                                              PageOrientation photoOrientations[]);
 
 private:
     // Used internally in get_best_fit_page().
-    PageOrientation next_decision_page_type_;
+    PageOrientation m_nextDecisionPageType;
 };
 
 #endif  // GALLERY_ALBUM_DEFAULT_TEMPLATE_H_

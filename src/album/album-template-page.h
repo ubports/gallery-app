@@ -39,22 +39,22 @@ class AlbumTemplatePage : public QObject
     Q_OBJECT
 
 public:
-    AlbumTemplatePage(const char* name, const char* qml_rc, bool is_left,
-                      int frame_count, ...);
+    AlbumTemplatePage(const char* name, const char* qmlRc, bool isLeft,
+                      int frameCount, ...);
 
     const QString& name() const;
-    const QString& qml_rc() const;
-    bool is_left() const;
+    const QString& qmlRc() const;
+    bool isLeft() const;
 
-    int FrameCount() const;
-    int FramesFor(PageOrientation orientation) const;
-    const QList<PageOrientation>& Layout() const;
+    int frameCount() const;
+    int framesFor(PageOrientation orientation) const;
+    const QList<PageOrientation>& layout() const;
 
 private:
-    QString name_;
-    QString qml_rc_;
-    bool is_left_;
-    QList<PageOrientation> layout_;
+    QString m_name;
+    QString m_qmlRc;
+    bool m_isLeft;
+    QList<PageOrientation> m_layout;
 };
 
 #endif  // GALLERY_ALBUM_TEMPLATE_PAGE_H_

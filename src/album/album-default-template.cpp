@@ -25,61 +25,61 @@
  */
 AlbumDefaultTemplate::AlbumDefaultTemplate()
     : AlbumTemplate("Default Album Template"),
-      next_decision_page_type_(LANDSCAPE)
+      m_nextDecisionPageType(LANDSCAPE)
 {
-    AddPage(new AlbumTemplatePage("Template A Left",
+    addPage(new AlbumTemplatePage("Template A Left",
                                   "qml/Components/AlbumInternals/AlbumPageLayoutLeftPortrait.qml",
                                   true, 1, PORTRAIT));
-    AddPage(new AlbumTemplatePage("Template A Right",
+    addPage(new AlbumTemplatePage("Template A Right",
                                   "qml/Components/AlbumInternals/AlbumPageLayoutRightPortrait.qml",
                                   false, 1, PORTRAIT));
-    AddPage(new AlbumTemplatePage("Template B Left",
+    addPage(new AlbumTemplatePage("Template B Left",
                                   "qml/Components/AlbumInternals/AlbumPageLayoutLeftDoubleLandscape.qml",
                                   true, 2, LANDSCAPE, LANDSCAPE));
-    AddPage(new AlbumTemplatePage("Template B Right",
+    addPage(new AlbumTemplatePage("Template B Right",
                                   "qml/Components/AlbumInternals/AlbumPageLayoutRightDoubleLandscape.qml",
                                   false, 2, LANDSCAPE, LANDSCAPE));
 }
 
 /*!
- * \brief AlbumDefaultTemplate::reset_best_fit_data
+ * \brief AlbumDefaultTemplate::resetBestFitData
  */
-void AlbumDefaultTemplate::reset_best_fit_data()
+void AlbumDefaultTemplate::resetBestFitData()
 {
-    next_decision_page_type_ = LANDSCAPE;
+    m_nextDecisionPageType = LANDSCAPE;
 }
 
 /*!
- * \brief AlbumDefaultTemplate::get_best_fit_page
- * \param is_left
- * \param num_photos
- * \param photo_orientations
+ * \brief AlbumDefaultTemplate::getBestFitPage
+ * \param isLeft
+ * \param numPhotos
+ * \param photoOrientations
  * \return
  */
-AlbumTemplatePage* AlbumDefaultTemplate::get_best_fit_page(bool is_left,
-                                                           int num_photos, PageOrientation photo_orientations[])
+AlbumTemplatePage* AlbumDefaultTemplate::getBestFitPage(bool isLeft,
+                                                        int numPhotos, PageOrientation photoOrientations[])
 {
 
     QList<AlbumTemplatePage*> candidates;
     foreach(AlbumTemplatePage* page, pages()) {
-        if (page->is_left() == is_left)
+        if (page->isLeft() == isLeft)
             candidates.append(page);
     }
 
     // If the first photo is portrait (or there are no photos to place), we use
     // the page with a portrait slot.
-    if (num_photos < 1 || photo_orientations[0] == PORTRAIT) {
+    if (numPhotos < 1 || photoOrientations[0] == PORTRAIT) {
         foreach(AlbumTemplatePage* page, candidates) {
-            if (page->FramesFor(PORTRAIT) > 0)
+            if (page->framesFor(PORTRAIT) > 0)
                 return page;
         }
     }
 
     // If two landscapes (or just one landscape at the end of the list), use the
     // page with multiple landscape slots.
-    if (num_photos == 1 || photo_orientations[1] != PORTRAIT) {
+    if (numPhotos == 1 || photoOrientations[1] != PORTRAIT) {
         foreach(AlbumTemplatePage* page, candidates) {
-            if (page->FramesFor(LANDSCAPE) > 1)
+            if (page->framesFor(LANDSCAPE) > 1)
                 return page;
         }
     }
@@ -88,13 +88,13 @@ AlbumTemplatePage* AlbumDefaultTemplate::get_best_fit_page(bool is_left,
     // easy way to handle this, so we flip-flop returning the two possible pages.
     AlbumTemplatePage* selected = NULL;
     foreach(AlbumTemplatePage* page, candidates) {
-        if (page->FramesFor(next_decision_page_type_) > 0) {
+        if (page->framesFor(m_nextDecisionPageType) > 0) {
             selected = page;
             break;
         }
     }
 
-    next_decision_page_type_ = (next_decision_page_type_ == PORTRAIT
+    m_nextDecisionPageType = (m_nextDecisionPageType == PORTRAIT
                                 ? LANDSCAPE : PORTRAIT);
     Q_ASSERT(selected != NULL);
     return selected;
