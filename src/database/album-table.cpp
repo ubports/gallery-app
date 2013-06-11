@@ -62,7 +62,7 @@ void AlbumTable::getAlbums(QList<Album*>* albumSet)
         int current_page = query.value(5).toInt();
         QString cover_nickname = query.value(6).toString();
 
-        Album* a = new Album(this, GalleryManager::instance()->album_default_template(), title, subtitle, id,
+        Album* a = new Album(this, GalleryManager::instance()->albumDefaultTemplate(), title, subtitle, id,
                              timestamp, is_closed, current_page, cover_nickname);
         albumSet->append(a);
     }

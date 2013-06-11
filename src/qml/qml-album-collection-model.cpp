@@ -32,8 +32,8 @@
 QmlAlbumCollectionModel::QmlAlbumCollectionModel(QObject* parent)
     : QmlViewCollectionModel(parent, "album", NULL)
 {
-    monitorSourceCollection(GalleryManager::instance()->album_collection());
-    QObject::connect(GalleryManager::instance()->album_collection(),
+    monitorSourceCollection(GalleryManager::instance()->albumCollection());
+    QObject::connect(GalleryManager::instance()->albumCollection(),
                      SIGNAL(albumCurrentPageContentsChanged(Album*)),
                      this, SLOT(onAlbumCurrentPageContentsChanged(Album*)));
 }
@@ -44,10 +44,10 @@ QmlAlbumCollectionModel::QmlAlbumCollectionModel(QObject* parent)
  */
 void QmlAlbumCollectionModel::createAlbum(QVariant vmedia)
 {
-    Album* album = new Album(GalleryManager::instance()->album_default_template());
+    Album* album = new Album(GalleryManager::instance()->albumDefaultTemplate());
     album->attach(VariantToObject<MediaSource*>(vmedia));
 
-    GalleryManager::instance()->album_collection()->add(album);
+    GalleryManager::instance()->albumCollection()->add(album);
 }
 
 /*!
@@ -59,7 +59,7 @@ void QmlAlbumCollectionModel::destroyAlbum(QVariant valbum)
     Album* album = VariantToObject<Album*>(valbum);
 
     if (album != NULL)
-        GalleryManager::instance()->album_collection()->destroy(album, true, true);
+        GalleryManager::instance()->albumCollection()->destroy(album, true, true);
 }
 
 /*!
@@ -68,7 +68,7 @@ void QmlAlbumCollectionModel::destroyAlbum(QVariant valbum)
  */
 QVariant QmlAlbumCollectionModel::createOrphan()
 {
-    return QVariant::fromValue(new Album(GalleryManager::instance()->album_default_template()));
+    return QVariant::fromValue(new Album(GalleryManager::instance()->albumDefaultTemplate()));
 }
 
 /*!
@@ -94,7 +94,7 @@ void QmlAlbumCollectionModel::addOrphan(QVariant valbum)
     Album* album = VariantToObject<Album*>(valbum);
 
     if (album != NULL)
-        GalleryManager::instance()->album_collection()->add(album);
+        GalleryManager::instance()->albumCollection()->add(album);
 }
 
 /*!
