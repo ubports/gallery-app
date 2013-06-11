@@ -337,7 +337,7 @@ void MediaSource::destroySource(bool deleteBacking, bool asOrphan)
 }
 
 /*!
- * \brief MediaSource::notify_data_altered
+ * \brief MediaSource::notifyDataChanged
  */
 void MediaSource::notifyDataChanged()
 {
@@ -345,7 +345,7 @@ void MediaSource::notifyDataChanged()
 }
 
 /*!
- * \brief MediaSource::notify_size_altered
+ * \brief MediaSource::notifySizeChanged
  */
 void MediaSource::notifySizeChanged()
 {

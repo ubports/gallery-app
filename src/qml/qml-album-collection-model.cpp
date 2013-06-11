@@ -32,18 +32,10 @@
 QmlAlbumCollectionModel::QmlAlbumCollectionModel(QObject* parent)
     : QmlViewCollectionModel(parent, "album", NULL)
 {
-    MonitorSourceCollection(GalleryManager::instance()->album_collection());
+    monitorSourceCollection(GalleryManager::instance()->album_collection());
     QObject::connect(GalleryManager::instance()->album_collection(),
                      SIGNAL(albumCurrentPageContentsChanged(Album*)),
-                     this, SLOT(on_album_current_page_contents_altered(Album*)));
-}
-
-/*!
- * \brief QmlAlbumCollectionModel::RegisterType
- */
-void QmlAlbumCollectionModel::RegisterType()
-{
-    qmlRegisterType<QmlAlbumCollectionModel>("Gallery", 1, 0, "AlbumCollectionModel");
+                     this, SLOT(onAlbumCurrentPageContentsChanged(Album*)));
 }
 
 /*!
@@ -106,11 +98,11 @@ void QmlAlbumCollectionModel::addOrphan(QVariant valbum)
 }
 
 /*!
- * \brief QmlAlbumCollectionModel::VariantFor
+ * \brief QmlAlbumCollectionModel::toVariant
  * \param object
  * \return
  */
-QVariant QmlAlbumCollectionModel::VariantFor(DataObject* object) const
+QVariant QmlAlbumCollectionModel::toVariant(DataObject* object) const
 {
     Album* album = qobject_cast<Album*>(object);
 
@@ -118,20 +110,20 @@ QVariant QmlAlbumCollectionModel::VariantFor(DataObject* object) const
 }
 
 /*!
- * \brief QmlAlbumCollectionModel::FromVariant
+ * \brief QmlAlbumCollectionModel::fromVariant
  * \param var
  * \return
  */
-DataObject* QmlAlbumCollectionModel::FromVariant(QVariant var) const
+DataObject* QmlAlbumCollectionModel::fromVariant(QVariant var) const
 {
     return UncheckedVariantToObject<Album*>(var);
 }
 
 /*!
- * \brief QmlAlbumCollectionModel::on_album_current_page_contents_altered
+ * \brief QmlAlbumCollectionModel::onAlbumCurrentPageContentsChanged
  * \param album
  */
-void QmlAlbumCollectionModel::on_album_current_page_contents_altered(Album* album)
+void QmlAlbumCollectionModel::onAlbumCurrentPageContentsChanged(Album* album)
 {
-    NotifyElementAltered(BackingViewCollection()->indexOf(album), SubclassRole);
+    notifyElementChanged(backingViewCollection()->indexOf(album), SubclassRole);
 }
