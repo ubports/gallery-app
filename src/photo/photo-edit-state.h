@@ -52,7 +52,7 @@ public:
         is_enhanced_(false), exposureCompensation_(0.0) {
     }
 
-    bool is_original() const {
+    bool isOriginal() const {
         return (orientation_ < MIN_ORIENTATION && !crop_rectangle_.isValid() &&
                 !is_enhanced_ && exposureCompensation_ == 0.0 &&
                 colorBalance_.isNull());
@@ -62,13 +62,13 @@ public:
     // because rotating the crop_rectangle isn't trivial.  Note that image_width/
     // height must be specified in this PhotoEditState's orientation, not the
     // new_orientation.
-    PhotoEditState rotate(Orientation new_orientation,
-                          int image_width, int image_height) const {
+    PhotoEditState rotate(Orientation newOrientation,
+                          int imageWidth, int imageHeight) const {
         PhotoEditState new_state = *this;
-        new_state.orientation_ = new_orientation;
+        new_state.orientation_ = newOrientation;
         if (crop_rectangle_.isValid())
             new_state.crop_rectangle_ =
-                    rotate_crop_rectangle(new_orientation, image_width, image_height);
+                    rotateCropRectangle(newOrientation, imageWidth, imageHeight);
         return new_state;
     }
 
@@ -82,8 +82,8 @@ public:
     bool operator!=(const PhotoEditState& other) { return !(*this == other); }
 
 private:
-    QRect rotate_crop_rectangle(Orientation new_orientation,
-                                int image_width, int image_height) const;
+    QRect rotateCropRectangle(Orientation newOrientation,
+                                int imageWidth, int imageHeight) const;
 };
 
 #endif
