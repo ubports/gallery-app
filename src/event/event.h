@@ -36,28 +36,26 @@
 class Event : public ContainerSource
 {
     Q_OBJECT
-    Q_PROPERTY(QDate date READ date NOTIFY date_altered)
-    Q_PROPERTY(QDateTime startDateTime READ start_date_time NOTIFY date_altered)
-    Q_PROPERTY(QDateTime endDateTime READ end_date_time NOTIFY date_altered)
+    Q_PROPERTY(QDate date READ date NOTIFY dateChanged)
+    Q_PROPERTY(QDateTime startDateTime READ startDateTime NOTIFY dateChanged)
+    Q_PROPERTY(QDateTime endDateTime READ endDateTime NOTIFY dateChanged)
 
 signals:
-    void date_altered();
+    void dateChanged();
 
 public:
     Event(QObject* parent = 0);
     explicit Event(QObject* parent, const QDate &date);
 
-    static void RegisterType();
-
     const QDate& date() const;
-    QDateTime start_date_time() const;
-    QDateTime end_date_time() const;
+    QDateTime startDateTime() const;
+    QDateTime endDateTime() const;
 
 protected:
-    virtual void destroySource(bool destroy_backing, bool as_orphan);
+    virtual void destroySource(bool destroyBacking, bool asOrphan);
 
 private:
-    QDate date_;
+    QDate m_date;
 };
 
 QML_DECLARE_TYPE(Event)

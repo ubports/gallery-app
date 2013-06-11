@@ -179,7 +179,7 @@ void QmlEventOverviewModel::on_event_overview_contents_altered(
                 continue;
 
             QDate source_date = source->exposureDateTime().date();
-            Event* event = GalleryManager::instance()->event_collection()->EventForDate(source_date);
+            Event* event = GalleryManager::instance()->event_collection()->eventForDate(source_date);
             Q_ASSERT(event != NULL);
 
             if (!view->contains(event))
@@ -363,7 +363,7 @@ QDateTime QmlEventOverviewModel::ObjectDateTime(DataObject* object, bool asc)
     // times to ensure that
     Event* event = qobject_cast<Event*>(object);
     if (event != NULL)
-        return asc ? event->start_date_time() : event->end_date_time();
+        return asc ? event->startDateTime() : event->endDateTime();
 
     return QDateTime();
 }
