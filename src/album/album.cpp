@@ -54,7 +54,7 @@ const int Album::FIRST_VALID_CURRENT_PAGE = -1;
  */
 Album::Album(QObject * parent)
     : ContainerSource(parent, DEFAULT_TITLE, MediaCollection::exposureDateTimeAscendingComparator),
-      m_albumTemplate(GalleryManager::instance()->album_default_template()), m_title(DEFAULT_TITLE),
+      m_albumTemplate(GalleryManager::instance()->albumDefaultTemplate()), m_title(DEFAULT_TITLE),
       m_subtitle(DEFAULT_SUBTITLE)
 {
     initInstance();
@@ -155,7 +155,7 @@ QVariant Album::addSelectedMediaSources(QVariant vmodel)
     // MediaSources
     QSet<DataObject*> media_sources =
             FilterSetOnlyType<DataObject*, MediaSource*>(
-                model->BackingViewCollection()->getSelected());
+                model->backingViewCollection()->getSelected());
 
     // Only adding ones that aren't already in the set.
     QSet<DataObject*> adding = media_sources - contained()->getAsSet();
@@ -192,7 +192,7 @@ void Album::removeSelectedMediaSources(QVariant vmodel)
     QmlMediaCollectionModel* model = VariantToObject<QmlMediaCollectionModel*>(vmodel);
 
     detachMany( FilterSetOnlyType<DataObject*, MediaSource*>(
-                    model->BackingViewCollection()->getSelected()));
+                    model->backingViewCollection()->getSelected()));
 }
 
 /*!
