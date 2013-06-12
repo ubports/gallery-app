@@ -150,7 +150,7 @@ Item {
     Connections {
         target: album
         ignoreUnknownSignals: true
-        onClosedAltered: openFraction = (album.closed ? 0 : 1)
+        onClosedChanged: openFraction = (album.closed ? 0 : 1)
     }
 
     Item {

@@ -52,8 +52,8 @@ Rectangle {
     Connections {
         target: album
         ignoreUnknownSignals: true
-        onContentPagesAltered: pageIndicatorRepeater.filterModel()
-        onPageCountAltered: pageIndicatorRepeater.filterModel()
+        onContentPagesChanged: pageIndicatorRepeater.filterModel()
+        onPageCountChanged: pageIndicatorRepeater.filterModel()
     }
 
     onPagesPerSpreadChanged: pageIndicatorRepeater.filterModel();

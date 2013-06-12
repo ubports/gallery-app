@@ -114,10 +114,10 @@ protected:
     void setSize(const QSize& size);
     bool isSizeSet() const;
 
-    virtual void DestroySource(bool delete_backing, bool as_orphan);
+    virtual void destroySource(bool deleteBacking, bool asOrphan);
 
-    virtual void notify_data_altered();
-    virtual void notify_size_altered();
+    virtual void notifyDataChanged();
+    virtual void notifySizeChanged();
 
     void setBusy(bool busy);
 

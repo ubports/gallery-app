@@ -36,28 +36,28 @@ class AlbumTable : public QObject
 public:
     explicit AlbumTable(Database* db, QObject* parent = 0);
 
-    void get_albums(QList<Album*>* album_set);
+    void getAlbums(QList<Album*>* albumSet);
 
-    void add_album(Album* album);
-    void remove_album(Album* album);
+    void addAlbum(Album* album);
+    void removeAlbum(Album* album);
 
-    void attach_to_album(qint64 album_id, qint64 media_id);
-    void detach_from_album(qint64 album_id, qint64 media_id);
+    void attachToAlbum(qint64 albumId, qint64 mediaId);
+    void detachFromAlbum(qint64 albumId, qint64 mediaId);
 
-    void media_for_album(qint64 album_id, QList<qint64>* list) const;
+    void mediaForAlbum(qint64 albumId, QList<qint64>* list) const;
 
-    void set_is_closed(qint64 album_id, bool is_closed);
+    void setIsClosed(qint64 albumId, bool isClosed);
 
-    void set_current_page(qint64 album_id, int page);
+    void setCurrentPage(qint64 albumId, int page);
 
-    void set_cover_nickname(qint64 album_id, QString cover_nickname);
-    void set_title(qint64 album_id, QString title);
-    void set_subtitle(qint64 album_id, QString subtitle);
+    void setCoverNickname(qint64 albumId, QString coverNickname);
+    void setTitle(qint64 albumId, QString title);
+    void setSubtitle(qint64 albumId, QString subtitle);
 
 private:
-    Database* db_;
+    Database* m_db;
 
-    bool is_attached_to_album(qint64 album_id, qint64 media_id) const;
+    bool isAttachedToAlbum(qint64 albumId, qint64 mediaId) const;
 };
 
 #endif // ALBUMTABLE_H

@@ -88,7 +88,7 @@ QUrl MediaSource::galleryPath() const
  */
 QString MediaSource::previewFile() const
 {
-    return GalleryManager::instance()->preview_manager()->previewFileName(m_file);
+    return GalleryManager::instance()->previewManager()->previewFileName(m_file);
 }
 
 /*!
@@ -115,7 +115,7 @@ QUrl MediaSource::galleryPreviewPath() const
  */
 QString MediaSource::thumbnailFile() const
 {
-    return GalleryManager::instance()->preview_manager()->thumbnailFileName(m_file);
+    return GalleryManager::instance()->previewManager()->thumbnailFileName(m_file);
 }
 
 /*!
@@ -226,7 +226,7 @@ void MediaSource::setSize(const QSize& size)
         return;
 
     m_size = size;
-    notify_size_altered();
+    notifySizeChanged();
 }
 
 /*!
@@ -271,7 +271,7 @@ int MediaSource::exposureTime_t() const
  */
 Event* MediaSource::FindEvent()
 {
-    return GalleryManager::instance()->event_collection()->EventForMediaSource(this);
+    return GalleryManager::instance()->eventCollection()->eventForMediaSource(this);
 }
 
 /*!
@@ -324,33 +324,33 @@ void MediaSource::setBusy(bool busy)
 }
 
 /*!
- * \brief MediaSource::DestroySource \reimp
- * \param delete_backing
- * \param as_orphan
+ * \brief MediaSource::destroySource \reimp
+ * \param deleteBacking
+ * \param asOrphan
  */
-void MediaSource::DestroySource(bool delete_backing, bool as_orphan)
+void MediaSource::destroySource(bool deleteBacking, bool asOrphan)
 {
-    if (delete_backing) {
+    if (deleteBacking) {
         if (!QFile::remove(m_file.absoluteFilePath()))
             qDebug("Unable to delete media file %s", qPrintable(m_file.absoluteFilePath()));
     }
 }
 
 /*!
- * \brief MediaSource::notify_data_altered
+ * \brief MediaSource::notifyDataChanged
  */
-void MediaSource::notify_data_altered()
+void MediaSource::notifyDataChanged()
 {
     emit dataChanged();
 }
 
 /*!
- * \brief MediaSource::notify_size_altered
+ * \brief MediaSource::notifySizeChanged
  */
-void MediaSource::notify_size_altered()
+void MediaSource::notifySizeChanged()
 {
     emit sizeChanged();
 
     if (m_id != INVALID_ID)
-        GalleryManager::instance()->database()->get_media_table()->set_media_size(m_id, m_size);
+        GalleryManager::instance()->database()->getMediaTable()->setMediaSize(m_id, m_size);
 }

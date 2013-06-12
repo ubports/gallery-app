@@ -1,3 +1,26 @@
+gallery-app (0.0.67daily13.06.11-0ubuntu1) saucy; urgency=low
+
+  [ Omer Akram ]
+  * Autopilot test: wait for the edit dialog to appear before moving the
+    mouse.
+
+  [ Guenter Schwann ]
+  * More robust autopilot tests by using the *_retry functions more
+    often.
+  * Refactor PreviewManager to save thumbnails in
+    $HOME/.cache/thumbnails (LP: 1089655). (LP: #1089655)
+  * Remove directories from includes, but set them in the include paths.
+  * Move image providers and preview manager to a separate library.
+  * Improved ensure_at_least_one_event() function.
+  * Remove many dependencies on photo.
+  * Add initial video class.
+  * Use Qt coding style for util.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 696
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 11 Jun 2013 05:03:13 +0000
+
 gallery-app (0.0.67daily13.06.05-0ubuntu1) saucy; urgency=low
 
   [ Łukasz 'sil2100' Zemczak ]

@@ -160,7 +160,7 @@ Item {
     Connections {
         target: album
         ignoreUnknownSignals: true
-        onContentPagesAltered: loader.reload()
+        onContentPagesChanged: loader.reload()
     }
 
     // Album preview page frame.

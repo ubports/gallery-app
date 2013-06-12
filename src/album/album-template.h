@@ -34,21 +34,21 @@ class AlbumTemplate : public QObject
     Q_OBJECT
 
 public:
-    int page_count() const;
+    int pageCount() const;
     const QList<AlbumTemplatePage*>& pages() const;
 
-    virtual void reset_best_fit_data() = 0;
-    virtual AlbumTemplatePage* get_best_fit_page(bool is_left, int num_photos,
-                                                 PageOrientation photo_orientations[]) = 0;
+    virtual void resetBestFitData() = 0;
+    virtual AlbumTemplatePage* getBestFitPage(bool isLeft, int numPhotos,
+                                                 PageOrientation photoOrientations[]) = 0;
 
 protected:
     explicit AlbumTemplate(const char* name);
 
-    void AddPage(AlbumTemplatePage* page);
+    void addPage(AlbumTemplatePage* page);
 
 private:
-    QString name_;
-    QList<AlbumTemplatePage*> pages_;
+    QString m_name;
+    QList<AlbumTemplatePage*> m_pages;
 };
 
 #endif  // GALLERY_ALBUM_TEMPLATE_H_

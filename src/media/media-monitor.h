@@ -34,27 +34,27 @@ class MediaMonitor : public QObject
     Q_OBJECT
 
 signals:
-    void media_item_added(QFileInfo new_item);
+    void mediaItemAdded(QFileInfo newItem);
 
 public:
-    MediaMonitor(const QDir& target_directory);
+    MediaMonitor(const QDir& targetDirectory);
     virtual ~MediaMonitor();
 
-private:
-    const QDir target_directory_;
-    const QFileSystemWatcher watcher_;
-    QStringList manifest_;
-    QTimer file_activity_timer_;
-
-    static QStringList get_manifest(const QDir& dir);
-    static QStringList subtract_manifest(const QStringList& m1,
-                                         const QStringList& m2);
-
-    void notify_media_item_added(const QString& item_path);
-
 private slots:
-    void on_directory_event(const QString& event_source);
-    void on_file_activity_ceased();
+    void onDirectoryEvent(const QString& eventSource);
+    void onFileActivityCeased();
+
+private:
+    static QStringList getManifest(const QDir& dir);
+    static QStringList subtractManifest(const QStringList& m1,
+                                        const QStringList& m2);
+
+    void notifyMediaItemAdded(const QString& itemPath);
+
+    const QDir m_targetDirectory;
+    const QFileSystemWatcher m_watcher;
+    QStringList m_manifest;
+    QTimer m_fileActivityTimer;
 };
 
 #endif // GALLERY_MEDIA_MONITOR_H_
