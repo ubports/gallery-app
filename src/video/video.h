@@ -32,11 +32,18 @@ class Video : public MediaSource
 public:
     explicit Video(const QFileInfo& file);
 
+    static Video *load(const QFileInfo& file);
+
     virtual QImage image(bool respect_orientation = true, const QSize &scaleSize=QSize());
 
     virtual QUrl galleryPath() const;
     virtual QUrl galleryPreviewPath() const;
     virtual QUrl galleryThumbnailPath() const;
+
+    static bool isCameraVideo(const QFileInfo& file);
+
+private:
+    friend class tst_Video;
 };
 
 #endif  // GALLERY_VIDEO_H_

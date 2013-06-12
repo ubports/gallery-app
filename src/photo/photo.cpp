@@ -196,8 +196,8 @@ Photo* Photo::Load(const QFileInfo& file)
     qint64 filesize;
 
     // Look for photo in the database.
-    qint64 id = GalleryManager::instance()->database()->getMediaTable()->getIdForMedia(
-                file.absoluteFilePath());
+    MediaTable *mediaTable = GalleryManager::instance()->database()->getMediaTable();
+    qint64 id = mediaTable->getIdForMedia(file.absoluteFilePath());
 
     if (id == INVALID_ID && !IsValid(file))
         return NULL;
@@ -206,7 +206,7 @@ Photo* Photo::Load(const QFileInfo& file)
 
     // Check for legacy rows.
     if (id != INVALID_ID)
-        needs_update = GalleryManager::instance()->database()->getMediaTable()->rowNeedsUpdate(id);
+        needs_update = mediaTable->rowNeedsUpdate(id);
 
     // If we don't have the photo, add it to the DB.  If we have the photo but the
     // row is from a previous version of the DB, update the row.
@@ -226,12 +226,12 @@ Photo* Photo::Load(const QFileInfo& file)
 
         if (needs_update) {
             // Update DB.
-            GalleryManager::instance()->database()->getMediaTable()->updateMedia(id,
-                                                                                    file.absoluteFilePath(), timestamp, exposure_time, orientation, filesize);
+            mediaTable->updateMedia(id, file.absoluteFilePath(), timestamp, exposure_time,
+                                    orientation, filesize);
         } else {
             // Add to DB.
-            id = GalleryManager::instance()->database()->getMediaTable()->createIdForMedia(
-                        file.absoluteFilePath(), timestamp, exposure_time, orientation, filesize);
+            id = mediaTable->createIdForMedia(file.absoluteFilePath(), timestamp,
+                                              exposure_time, orientation, filesize);
         }
 
         PhotoEditState edit_state;
@@ -240,8 +240,7 @@ Photo* Photo::Load(const QFileInfo& file)
         delete metadata;
     } else {
         // Load metadata from DB.
-        GalleryManager::instance()->database()->getMediaTable()->getRow(id, size, orientation,
-                                                                           timestamp, exposure_time);
+        mediaTable->getRow(id, size, orientation, timestamp, exposure_time);
     }
 
     // Populate photo object.

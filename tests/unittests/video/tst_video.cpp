@@ -27,6 +27,7 @@ private slots:
     void galleryPath();
     void galleryPreviewPath();
     void galleryThumbnailPath();
+    void isCameraVideo();
 };
 
 void tst_Video::galleryPath()
@@ -48,6 +49,18 @@ void tst_Video::galleryThumbnailPath()
     QFileInfo fi;
     Video video(fi);
     QCOMPARE(video.galleryThumbnailPath().toString().endsWith(QString("img/video-thumbnail.png")), true);
+}
+
+void tst_Video::isCameraVideo()
+{
+    QFile fi("/dir/video20130612_0001.mp4");
+    QVERIFY(Video::isCameraVideo(fi));
+
+    fi.setFileName("/dir/video20130612_0001.avi");
+    QVERIFY(!Video::isCameraVideo(fi));
+
+    fi.setFileName("/dir/home_video.mp4");
+    QVERIFY(!Video::isCameraVideo(fi));
 }
 
 QTEST_MAIN(tst_Video);

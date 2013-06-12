@@ -43,6 +43,9 @@
 // util
 #include "resource.h"
 
+// video
+#include "video.h"
+
 #include <exiv2/exiv2.hpp>
 
 GalleryManager* GalleryManager::gallery_mgr_ = NULL;
@@ -191,11 +194,16 @@ void GalleryManager::fillMediaCollection()
     const QStringList filenames = mediaDir.entryList();
     foreach (const QString& filename, filenames) {
         QFileInfo file(mediaDir, filename);
-        Photo *p = Photo::Load(file);
-        if (!p)
-            continue;
-
-        photos.insert(p);
+        if (Video::isCameraVideo(file)) {
+            Video *video = Video::load(file);
+            if (video)
+                photos.insert(video);
+        } else {
+            Photo *p = Photo::Load(file);
+            if (p) {
+                photos.insert(p);
+            }
+        }
     }
 
     media_collection_->addMany(photos);
