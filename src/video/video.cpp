@@ -16,13 +16,6 @@
 
 #include "video.h"
 
-// database
-#include "database.h"
-#include "media-table.h"
-
-// src
-#include "gallery-manager.h"
-
 // util
 #include <resource.h>
 
@@ -38,58 +31,11 @@ Video::Video(const QFileInfo &file)
 }
 
 /*!
- * \brief Video::load loads the data for a video file.
- * Creates / updates the database as well.
- * \param file the file to load
- * \return 0 if this no valid video file
+ * \reimp
  */
-Video *Video::load(const QFileInfo &file)
+MediaSource::MediaType Video::type() const
 {
-    bool needs_update = false;
-    QDateTime timestamp;
-    QDateTime exposureTime;
-    QSize size;
-    Orientation orientation;
-    qint64 fileSize;
-
-    // Look for video in the database.
-    MediaTable *mediaTable = GalleryManager::instance()->database()->getMediaTable();
-    qint64 id = GalleryManager::instance()->database()->getMediaTable()->getIdForMedia(
-                file.absoluteFilePath());
-
-    if (id == INVALID_ID && (!file.exists() || !isCameraVideo(file)))
-        return 0;
-
-    Video *video = new Video(file);
-
-    if (id != INVALID_ID)
-        needs_update = mediaTable->rowNeedsUpdate(id);
-
-    if (id == INVALID_ID || needs_update) {
-        timestamp = file.created();
-        orientation = TOP_LEFT_ORIGIN;
-        fileSize = file.size();
-        exposureTime = file.created();
-
-        if (needs_update) {
-            // Update DB.
-            mediaTable->updateMedia(id, file.absoluteFilePath(), timestamp, exposureTime,
-                                    orientation, fileSize);
-        } else {
-            // Add to DB.
-            id = mediaTable->createIdForMedia(file.absoluteFilePath(), timestamp,
-                                              exposureTime, orientation, fileSize);
-        }
-    } else {
-        // Load metadata from DB.
-        mediaTable->getRow(id, size, orientation, timestamp, exposureTime);
-    }
-    video->setSize(QSize(256,256)); // dummy for now
-    video->setFileTimestamp(timestamp);
-    video->setExposureDateTime(exposureTime);
-    video->setId(id);
-
-    return video;
+    return MediaSource::Video;
 }
 
 /*!

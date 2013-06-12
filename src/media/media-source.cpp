@@ -56,6 +56,15 @@ MediaSource::MediaSource(const QFileInfo& file)
 }
 
 /*!
+ * \brief MediaSource::type the type of the media
+ * \return
+ */
+MediaSource::MediaType MediaSource::type() const
+{
+    return None;
+}
+
+/*!
  * \brief MediaSource::file
  * \return
  */

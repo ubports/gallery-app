@@ -32,7 +32,7 @@ class Video : public MediaSource
 public:
     explicit Video(const QFileInfo& file);
 
-    static Video *load(const QFileInfo& file);
+    virtual MediaType type() const;
 
     virtual QImage image(bool respect_orientation = true, const QSize &scaleSize=QSize());
 

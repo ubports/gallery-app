@@ -37,12 +37,14 @@ include_directories(
 set(gallery_HDRS
     gallery-application.h
     gallery-manager.h
+    media-object-factory.h
     )
 
 set(gallery_SRCS
     gallery-application.cpp
     gallery-manager.cpp
     main.cpp
+    media-object-factory.cpp
     )
 
 add_executable(${GALLERY}

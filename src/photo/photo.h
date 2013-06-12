@@ -45,13 +45,12 @@ class Photo : public MediaSource
     Q_PROPERTY(bool isOriginal READ isOriginal NOTIFY editStackChanged)
 
 public:
-    static bool isValid(const QFileInfo& file);
-
-    static Photo* load(const QFileInfo& file);
-
-    static Photo* fetch(const QFileInfo& file);
-
+    explicit Photo(const QFileInfo& file);
     virtual ~Photo();
+
+    virtual MediaType type() const;
+
+    static bool isValid(const QFileInfo& file);
 
     virtual QImage image(bool respect_orientation, const QSize &scaleSize=QSize());
     virtual Orientation orientation() const;
@@ -61,6 +60,10 @@ public:
     virtual QUrl galleryThumbnailPath() const;
 
     void setBaseEditState(const PhotoEditState& base);
+
+    const QFileInfo &originalFile() const;
+    const QFileInfo &enhancedFile() const;
+    const QFileInfo &pristineFile() const;
 
     bool canUndo() const;
     bool canRedo() const;
@@ -84,8 +87,6 @@ protected:
     virtual void destroySource(bool destroyBacking, bool asOrphan);
 
 private:
-    explicit Photo(const QFileInfo& file);
-
     const PhotoEditState& currentState() const;
     QSize originalSize(Orientation orientation);
     void makeUndoableEdit(const PhotoEditState& state);
