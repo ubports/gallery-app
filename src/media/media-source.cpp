@@ -88,7 +88,7 @@ QUrl MediaSource::galleryPath() const
  */
 QString MediaSource::previewFile() const
 {
-    return GalleryManager::instance()->preview_manager()->previewFileName(m_file);
+    return GalleryManager::instance()->previewManager()->previewFileName(m_file);
 }
 
 /*!
@@ -115,7 +115,7 @@ QUrl MediaSource::galleryPreviewPath() const
  */
 QString MediaSource::thumbnailFile() const
 {
-    return GalleryManager::instance()->preview_manager()->thumbnailFileName(m_file);
+    return GalleryManager::instance()->previewManager()->thumbnailFileName(m_file);
 }
 
 /*!
@@ -271,7 +271,7 @@ int MediaSource::exposureTime_t() const
  */
 Event* MediaSource::FindEvent()
 {
-    return GalleryManager::instance()->event_collection()->EventForMediaSource(this);
+    return GalleryManager::instance()->eventCollection()->eventForMediaSource(this);
 }
 
 /*!
@@ -337,7 +337,7 @@ void MediaSource::destroySource(bool deleteBacking, bool asOrphan)
 }
 
 /*!
- * \brief MediaSource::notify_data_altered
+ * \brief MediaSource::notifyDataChanged
  */
 void MediaSource::notifyDataChanged()
 {
@@ -345,7 +345,7 @@ void MediaSource::notifyDataChanged()
 }
 
 /*!
- * \brief MediaSource::notify_size_altered
+ * \brief MediaSource::notifySizeChanged
  */
 void MediaSource::notifySizeChanged()
 {

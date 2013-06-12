@@ -39,8 +39,6 @@ class QmlAlbumCollectionModel : public QmlViewCollectionModel
 public:
     QmlAlbumCollectionModel(QObject* parent = NULL);
 
-    static void RegisterType();
-
     Q_INVOKABLE void createAlbum(QVariant vmedia);
     Q_INVOKABLE void destroyAlbum(QVariant valbum);
     Q_INVOKABLE QVariant createOrphan();
@@ -48,11 +46,11 @@ public:
     Q_INVOKABLE void addOrphan(QVariant valbum);
 
 protected:
-    virtual QVariant VariantFor(DataObject* object) const;
-    virtual DataObject* FromVariant(QVariant var) const;
+    virtual QVariant toVariant(DataObject* object) const;
+    virtual DataObject* fromVariant(QVariant var) const;
 
 private slots:
-    void on_album_current_page_contents_altered(Album* album);
+    void onAlbumCurrentPageContentsChanged(Album* album);
 };
 
 QML_DECLARE_TYPE(QmlAlbumCollectionModel)

@@ -44,31 +44,31 @@ public:
 
     static GalleryApplication* instance();
 
-    Q_INVOKABLE bool run_command(const QString &cmd, const QString &arg);
+    Q_INVOKABLE bool runCommand(const QString &cmd, const QString &arg);
 
-    QHash<QString, QSize>& form_factors() { return form_factors_; }
+    QHash<QString, QSize>& formFactors() { return m_formFactors; }
 
-    CommandLineParser* cmd_line_parser() { return cmd_line_parser_; }
+    CommandLineParser* cmdLineParser() { return m_cmdLineParser; }
 
 private:
-    void register_qml();
-    void create_view();
-    void init_collections();
+    void registerQML();
+    void createView();
+    void initCollections();
 
-    QHash<QString, QSize> form_factors_;
-    int bgu_size_;
-    QQuickView view_;
-    QElapsedTimer timer_;
-    MediaMonitor* monitor_;
+    QHash<QString, QSize> m_formFactors;
+    int m_bguSize;
+    QQuickView m_view;
+    QElapsedTimer m_timer;
+    MediaMonitor* m_monitor;
 
-    CommandLineParser* cmd_line_parser_;
+    CommandLineParser* m_cmdLineParser;
 
 private slots:
-    void start_init_collections();
-    void on_media_item_added(QFileInfo item_info);
+    void startInitCollections();
+    void onMediaItemAdded(QFileInfo itemInfo);
 
 signals:
-    void media_loaded();
+    void mediaLoaded();
 };
 
 #endif // GALLERYAPPLICATION_H
