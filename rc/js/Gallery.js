@@ -34,14 +34,14 @@ var HIGHLIGHT_BUTTON_COLOR = "#c94212"
 
 function isSmallFormFactor(form_factor) {
   if (!form_factor)
-    form_factor = 'desktop' //FORM_FACTOR; // From C++.
+    form_factor = FORM_FACTOR; // From C++.
 
   return (form_factor === 'phone' || form_factor === 'sidebar');
 }
 
 function isDesktop(form_factor) {
-//  if (!form_factor)
-//    form_factor = FORM_FACTOR; // From C++.
+  if (!form_factor)
+    form_factor = FORM_FACTOR; // From C++.
 
   return (form_factor === 'desktop');
 }
