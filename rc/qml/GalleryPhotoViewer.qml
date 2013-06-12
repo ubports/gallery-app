@@ -422,10 +422,10 @@ Item {
         running: visible
     }
 
-    EditingHUD {
-        id: editHUD
-        photo: galleryPhotoViewer.photo
-        onExposureActivated: editPreview.useExposure()
-        onColorBalanceActivated: editPreview.useColorBalance()
-    }
+//    EditingHUD {
+//        id: editHUD
+//        photo: galleryPhotoViewer.photo
+//        onExposureActivated: editPreview.useExposure()
+//        onColorBalanceActivated: editPreview.useColorBalance()
+//    }
 }
