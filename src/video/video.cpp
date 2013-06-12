@@ -38,9 +38,10 @@ Video::Video(const QFileInfo &file)
 }
 
 /*!
- * \brief Video::load
- * \param file
- * \return
+ * \brief Video::load loads the data for a video file.
+ * Creates / updates the database as well.
+ * \param file the file to load
+ * \return 0 if this no valid video file
  */
 Video *Video::load(const QFileInfo &file)
 {
@@ -128,7 +129,7 @@ QUrl Video::galleryThumbnailPath() const
 /*!
  * \brief Video::isCameraVideo return true if the video file was created by the
  * camera-app
- * \param file
+ * \param file the file to check
  * \return
  */
 bool Video::isCameraVideo(const QFileInfo &file)
