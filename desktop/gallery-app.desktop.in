@@ -14,3 +14,4 @@ MimeType=image/jpg;image/jpeg
 Categories=Graphics;Photography;RasterGraphics;Viewer
 X-Ayatana-Appmenu-Show-Stubs=false
 X-Ubuntu-Touch=true
+X-Ubuntu-Gettext-Domain=gallery-app
