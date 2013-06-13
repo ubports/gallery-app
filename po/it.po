@@ -7,51 +7,130 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-05-23 06:59+0000\n"
+"POT-Creation-Date: 2013-06-12 08:03+0000\n"
 "PO-Revision-Date: 2013-05-30 14:41+0000\n"
 "Last-Translator: Claudio Arseni <claudio.arseni@gmail.com>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-05 06:35+0000\n"
-"X-Generator: Launchpad (build 16660)\n"
+"X-Launchpad-Export-Date: 2013-06-13 06:10+0000\n"
+"X-Generator: Launchpad (build 16667)\n"
 
-#: rc/qml/Utility/SelectionToolbarAction.qml:42
-#: rc/qml/Utility/EditingHUD.qml:77 rc/qml/AlbumViewer.qml:466
-#: rc/qml/GalleryPhotoViewer.qml:206 rc/qml/AlbumsOverview.qml:177
-msgid "Add"
-msgstr "Aggiungi"
+#: desktop/gallery-app.desktop.in:3
+msgid "Gallery"
+msgstr ""
 
-#: rc/qml/Utility/SelectionToolbarAction.qml:48
-#: rc/qml/Utility/EditingHUD.qml:67 rc/qml/AlbumViewer.qml:473
-#: rc/qml/GalleryPhotoViewer.qml:214 rc/qml/Widgets/AlbumEditMenu.qml:59
-msgid "Delete"
-msgstr "Elimina"
+#: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
+msgid "Ubuntu Photo Viewer"
+msgstr ""
 
-#: rc/qml/Utility/SelectionToolbarAction.qml:54
-#: rc/qml/Utility/EditingHUD.qml:72 rc/qml/AlbumViewer.qml:483
-#: rc/qml/GalleryPhotoViewer.qml:221 rc/qml/Widgets/AlbumEditMenu.qml:52
-msgid "Share"
-msgstr "Condividi"
+#: desktop/gallery-app.desktop.in:6
+msgid "Browse your photographs"
+msgstr ""
 
-#: rc/qml/Utility/SelectionToolbarAction.qml:61 rc/qml/MediaSelector.qml:94
-#: rc/qml/AlbumEditor.qml:40
+#: rc/qml/AlbumEditor.qml:40 rc/qml/MediaSelector.qml:94
+#: rc/qml/Utility/SelectionToolbarAction.qml:61
 msgid "Cancel"
 msgstr "Annulla"
 
-#: rc/qml/Utility/PhotosToolbarActions.qml:32 rc/qml/MainScreen.qml:92
-#: rc/qml/MainScreen.qml:124
+#: rc/qml/AlbumViewer.qml:466 rc/qml/AlbumsOverview.qml:177
+#: rc/qml/GalleryPhotoViewer.qml:206 rc/qml/Utility/EditingHUD.qml:77
+#: rc/qml/Utility/SelectionToolbarAction.qml:42
+msgid "Add"
+msgstr "Aggiungi"
+
+#: rc/qml/AlbumViewer.qml:473 rc/qml/GalleryPhotoViewer.qml:214
+#: rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/Utility/SelectionToolbarAction.qml:48
+#: rc/qml/Widgets/AlbumEditMenu.qml:59
+msgid "Delete"
+msgstr "Elimina"
+
+#: rc/qml/AlbumViewer.qml:483 rc/qml/GalleryPhotoViewer.qml:221
+#: rc/qml/Utility/EditingHUD.qml:72
+#: rc/qml/Utility/SelectionToolbarAction.qml:54
+#: rc/qml/Widgets/AlbumEditMenu.qml:52
+msgid "Share"
+msgstr "Condividi"
+
+#: rc/qml/AlbumViewer.qml:488 rc/qml/GalleryPhotoViewer.qml:229
+msgid "Back"
+msgstr "Indietro"
+
+#: rc/qml/AlbumsOverview.qml:185 rc/qml/Utility/PhotosToolbarActions.qml:43
+msgid "Camera"
+msgstr "Fotocamera"
+
+#: rc/qml/GalleryPhotoViewer.qml:199
+msgid "Edit"
+msgstr "Modifica"
+
+#: rc/qml/GalleryPhotoViewer.qml:264 rc/qml/PhotosOverview.qml:149
+msgid "Delete a photo"
+msgstr "Elimina una foto"
+
+#: rc/qml/GalleryPhotoViewer.qml:275 rc/qml/Widgets/DeleteDialog.qml:36
+msgid "Yes"
+msgstr "Sì"
+
+#: rc/qml/GalleryPhotoViewer.qml:286 rc/qml/Widgets/DeleteDialog.qml:45
+msgid "No"
+msgstr "No"
+
+#: rc/qml/LoadingScreen.qml:36
+msgid "Loading…"
+msgstr "Caricamento..."
+
+#: rc/qml/MainScreen.qml:56
+msgid "Albums"
+msgstr "Album"
+
+#: rc/qml/MainScreen.qml:72 rc/qml/MainScreen.qml:94
+msgid "Events"
+msgstr "Eventi"
+
+#: rc/qml/MainScreen.qml:92 rc/qml/MainScreen.qml:124
+#: rc/qml/Utility/PhotosToolbarActions.qml:32
 msgid "Select"
 msgstr "Seleziona"
 
-#: rc/qml/Utility/PhotosToolbarActions.qml:38
-msgid "Import"
-msgstr "Importa"
+#: rc/qml/MainScreen.qml:104 rc/qml/MainScreen.qml:126
+msgid "Photos"
+msgstr "Foto"
 
-#: rc/qml/Utility/PhotosToolbarActions.qml:43 rc/qml/AlbumsOverview.qml:185
-msgid "Camera"
-msgstr "Fotocamera"
+#: rc/qml/MediaSelector.qml:56 rc/qml/MediaSelector.qml:82
+msgid "Add to Album"
+msgstr "Aggiungi all'album"
+
+#: rc/qml/PhotosOverview.qml:148
+msgid "Delete photos"
+msgstr "Elimina foto"
+
+#: rc/qml/Utility/AlbumCoverList.qml:113
+msgid "Default"
+msgstr "Predefinita"
+
+#: rc/qml/Utility/AlbumCoverList.qml:114
+msgid "Blue"
+msgstr "Blu"
+
+#: rc/qml/Utility/AlbumCoverList.qml:115
+msgid "Green"
+msgstr "Verde"
+
+#: rc/qml/Utility/AlbumCoverList.qml:116
+msgid "Pattern"
+msgstr "Motivo"
+
+#: rc/qml/Utility/AlbumCoverList.qml:117
+msgid "Red"
+msgstr "Rosso"
+
+#: rc/qml/Utility/CropOverlay.qml:355 rc/qml/Utility/EditingHUD.qml:106
+#: rc/qml/Widgets/EditPopover.qml:47
+msgid "Crop"
+msgstr "Ritaglia"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
@@ -104,11 +183,6 @@ msgstr "Ruota in senso orario"
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
 msgstr "Ruota l'immagine in senso orario"
-
-#: rc/qml/Utility/EditingHUD.qml:106 rc/qml/Utility/CropOverlay.qml:355
-#: rc/qml/Widgets/EditPopover.qml:47
-msgid "Crop"
-msgstr "Ritaglia"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
@@ -178,69 +252,9 @@ msgstr "Saturazione"
 msgid "Hue"
 msgstr "Tonalità"
 
-#: rc/qml/Utility/AlbumCoverList.qml:113
-msgid "Default"
-msgstr "Predefinita"
-
-#: rc/qml/Utility/AlbumCoverList.qml:114
-msgid "Blue"
-msgstr "Blu"
-
-#: rc/qml/Utility/AlbumCoverList.qml:115
-msgid "Green"
-msgstr "Verde"
-
-#: rc/qml/Utility/AlbumCoverList.qml:116
-msgid "Pattern"
-msgstr "Motivo"
-
-#: rc/qml/Utility/AlbumCoverList.qml:117
-msgid "Red"
-msgstr "Rosso"
-
-#: rc/qml/AlbumViewer.qml:488 rc/qml/GalleryPhotoViewer.qml:229
-msgid "Back"
-msgstr "Indietro"
-
-#: rc/qml/PhotosOverview.qml:148
-msgid "Delete photos"
-msgstr "Elimina foto"
-
-#: rc/qml/PhotosOverview.qml:149 rc/qml/GalleryPhotoViewer.qml:264
-msgid "Delete a photo"
-msgstr "Elimina una foto"
-
-#: rc/qml/MainScreen.qml:56
-msgid "Albums"
-msgstr "Album"
-
-#: rc/qml/MainScreen.qml:72 rc/qml/MainScreen.qml:94
-msgid "Events"
-msgstr "Eventi"
-
-#: rc/qml/MainScreen.qml:104 rc/qml/MainScreen.qml:126
-msgid "Photos"
-msgstr "Foto"
-
-#: rc/qml/GalleryPhotoViewer.qml:199
-msgid "Edit"
-msgstr "Modifica"
-
-#: rc/qml/GalleryPhotoViewer.qml:275 rc/qml/Widgets/DeleteDialog.qml:36
-msgid "Yes"
-msgstr "Sì"
-
-#: rc/qml/GalleryPhotoViewer.qml:286 rc/qml/Widgets/DeleteDialog.qml:45
-msgid "No"
-msgstr "No"
-
-#: rc/qml/MediaSelector.qml:56 rc/qml/MediaSelector.qml:82
-msgid "Add to Album"
-msgstr "Aggiungi all'album"
-
-#: rc/qml/LoadingScreen.qml:36
-msgid "Loading…"
-msgstr "Caricamento..."
+#: rc/qml/Utility/PhotosToolbarActions.qml:38
+msgid "Import"
+msgstr "Importa"
 
 #: rc/qml/Widgets/AlbumEditMenu.qml:45
 msgid "Edit album"
