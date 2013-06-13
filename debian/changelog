@@ -1,3 +1,20 @@
+gallery-app (0.0.67daily13.06.13-0ubuntu1) saucy; urgency=low
+
+  [ Omer Akram ]
+  * fixes a few autopilot tests on the phone devices.
+
+  [ tpeeters ]
+  * Update the type of tools properties to be compatible with upcoming
+    changes in UITK.
+
+  [ Guenter Schwann ]
+  * Support to translate the .desktop file.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 713
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 13 Jun 2013 06:13:06 +0000
+
 gallery-app (0.0.67daily13.06.12-0ubuntu1) saucy; urgency=low
 
   [ Guenter Schwann ]
