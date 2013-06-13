@@ -45,6 +45,7 @@ class GalleryManager;
 class MediaSource : public DataSource
 {
     Q_OBJECT
+    Q_PROPERTY(MediaType type READ type NOTIFY typeChanged)
     Q_PROPERTY(QUrl path READ path NOTIFY pathChanged)
     Q_PROPERTY(QUrl previewPath READ previewPath NOTIFY previewPathChanged)
     Q_PROPERTY(QUrl thumbnailPath READ thumbnailPath NOTIFY thumbnailPathChanged)
@@ -62,6 +63,7 @@ class MediaSource : public DataSource
     Q_ENUMS(MediaType)
 
 signals:
+    void typeChanged();
     void pathChanged();
     void previewPathChanged();
     void thumbnailPathChanged();

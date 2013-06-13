@@ -22,13 +22,9 @@ import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
-import "../Capetown"
-import "../Capetown/Viewer"
-import "Components"
-import "Utility"
-import "Widgets"
-import "../js/Gallery.js" as Gallery
+import "../Utility"
+import "../Widgets"
+import "../../js/Gallery.js" as Gallery
 
 /*!
 */
@@ -120,12 +116,12 @@ Item {
         }
 
         function goBack() {
-            galleryPhotoViewer.currentItem.unzoom();
+            galleryPhotoViewer.currentItem.reset();
             pageBack();
         }
 
         function goForward() {
-            galleryPhotoViewer.currentItem.unzoom();
+            galleryPhotoViewer.currentItem.reset();
             pageForward();
         }
 
@@ -151,14 +147,20 @@ Item {
                 photo = model.getAt(currentIndex);
         }
 
-        delegate: PhotoViewerDelegate {
-            id: viewerDelegate
+        delegate: Item {
+            /// Is true while the media content is loaded
+            property bool isLoaded: delegateView.item.isLoaded
+            /// Is true when the view is in a state, where the user possibly
+            /// interacts with the media (and not swipe to another media)
+            property bool userInteracting: delegateView.item.state === "zoomed"
+
+            // set the view to it's original state
+            function reset() {
+                delegateView.item.reset()
+            }
 
             width: galleryPhotoViewer.width
             height: galleryPhotoViewer.height
-            useInteractivePreview: galleryPhotoViewer.moving
-
-            visible: true
 
             opacity: {
                 if (!galleryPhotoViewer.moving || galleryPhotoViewer.contentX < 0
@@ -168,43 +170,48 @@ Item {
                 return 1.0 - Math.abs((galleryPhotoViewer.contentX - x) / width);
             }
 
-            mediaSource: model.mediaSource
+            Component {
+                id: component_delegatePhotoView
+                PhotoViewerDelegate {
+                    useInteractivePreview: galleryPhotoViewer.moving
+                    mediaSource: model.mediaSource
+                }
+            }
+            Component {
+                id: component_delegateVideoView
+                VideoViewerDelegate {
+                    mediaSource: model.mediaSource
+                }
+            }
+            Loader {
+                id: delegateView
+                anchors.fill: parent
+                sourceComponent: model.mediaSource.type === MediaSource.Photo ?
+                                     component_delegatePhotoView : component_delegateVideoView
+            }
 
-            onClicked: chromeFadeWaitClock.restart()
-            onZoomed: {
-                chromeFadeWaitClock.stop();
-            }
-            onUnzoomed: {
-                chromeFadeWaitClock.stop();
-            }
         }
 
         // Don't allow flicking while the chrome is actively displaying a popup
         // menu, or the image is zoomed, or we're cropping. When images are zoomed,
         // mouse drags should pan, not flick. Also don't flick during parameterized
         // HUD action to prevent photo from changing during the action
-        interactive: (currentItem != null) &&
-                     (currentItem.state == "unzoomed") && cropper.state == "hidden" &&
+        interactive: currentItem != null &&
+                     !currentItem.userInteracting &&
+                     cropper.state == "hidden" &&
                      !editHUD.actionActive
-
-        Timer {
-            id: chromeFadeWaitClock
-
-            interval: 250
-            running: false
-        }
 
         property ToolbarActions tools: ToolbarActions {
             Action {
                 text: i18n.tr("Edit")
-                iconSource: "../img/edit.png"
+                iconSource: "../../img/edit.png"
                 onTriggered: {
                     PopupUtils.open(editPopoverComponent, caller)
                 }
             }
             Action {
                 text: i18n.tr("Add")
-                iconSource: "../img/add.png"
+                iconSource: "../../img/add.png"
                 onTriggered: {
                     popupAlbumPicker.caller = caller
                     popupAlbumPicker.show()
@@ -212,14 +219,14 @@ Item {
             }
             Action {
                 text: i18n.tr("Delete")
-                iconSource: "../img/delete.png"
+                iconSource: "../../img/delete.png"
                 onTriggered: {
                     PopupUtils.open(deleteDialog, null)
                 }
             }
             Action {
                 text: i18n.tr("Share")
-                iconSource: "../img/share.png"
+                iconSource: "../../img/share.png"
                 onTriggered: {
                     PopupUtils.open(sharePopoverComponent, caller)
                 }
@@ -227,9 +234,9 @@ Item {
 
             back: Action {
                 text: i18n.tr("Back")
-                iconSource: "../img/back.png"
+                iconSource: "../../img/back.png"
                 onTriggered: {
-                    galleryPhotoViewer.currentItem.unzoom();
+                    galleryPhotoViewer.currentItem.reset();
                     closeRequested();
                 }
             }
