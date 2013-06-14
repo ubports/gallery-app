@@ -62,9 +62,9 @@ Item {
                            (galleryPhotoViewer.currentItem ? galleryPhotoViewer.currentItem.isLoaded : false)
 
     // tooolbar actions for the full view
-    property ToolbarActions tools: media === null ? null :
-                                       (media.type === MediaSource.Photo ?
+    property ToolbarActions tools: media ? (media.type === MediaSource.Photo ?
                                             d.photoToolbar : d.videoToolbar)
+                                         : null
 
     /*!
     */
@@ -144,6 +144,8 @@ Item {
             property bool userInteracting: delegateView.item.state === "zoomed"
             /// Needed as ListView.isCurrentItem can't be used directly
             property bool isActive: ListView.isCurrentItem
+            /// True if a video is currently played
+            property bool isPlayingVideo: galleryPhotoViewer.currentItem.state === "playing"
 
             // set the view to it's original state
             function reset() {
@@ -405,8 +407,7 @@ Item {
                 text: i18n.tr("Edit")
                 iconSource: "../../img/edit.png"
                 onTriggered: {
-                    if (viewerWrapper.media && viewerWrapper.media.type === MediaSource.Photo)
-                        PopupUtils.open(editPopoverComponent, caller);
+                    PopupUtils.open(editPopoverComponent, caller);
                 }
             }
             Action {
@@ -444,13 +445,12 @@ Item {
 
         property ToolbarActions videoToolbar: ToolbarActions {
             Action {
-                text: galleryPhotoViewer.currentItem.state === "playing" ?
+                text: galleryPhotoViewer.currentItem.isPlayingVideo ?
                         i18n.tr("Pause") : i18n.tr("Play")
-                iconSource: galleryPhotoViewer.currentItem.state === "playing" ?
+                iconSource: galleryPhotoViewer.currentItem.isPlayingVideo ?
                                 "../../img/icon_pause.png" : "../../img/icon_play.png"
                 onTriggered: {
-                    if (viewerWrapper.media && viewerWrapper.media.type === MediaSource.Video)
-                        galleryPhotoViewer.currentItem.togglePlayPause();
+                    galleryPhotoViewer.currentItem.togglePlayPause();
                 }
             }
             Action {

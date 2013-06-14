@@ -32,20 +32,26 @@ Item {
 
     /// Stops the video playback if running
     function reset() {
-        video.stop();
+        state = "stopped";
     }
 
     /// Starts playing the video
     function playVideo() {
-        if (video.source !== mediaSource.path)
-            video.source = mediaSource.path;
-        video.play();
+        if (!loader_video.item)
+            loader_video.sourceComponent = component_video;
+
+        if (loader_video.item.source !== mediaSource.path)
+            loader_video.item.source = mediaSource.path;
+        loader_video.item.play();
     }
 
     /// Toggles between playing and pausing the video playback
     function togglePlayPause() {
+        if (!loader_video.item)
+            loader_video.sourceComponent = component_video;
+
         if (videoViewerDelegate.state === "playing") {
-            video.pause();
+            loader_video.item.pause();
         } else {
             videoViewerDelegate.playVideo();
         }
@@ -67,37 +73,47 @@ Item {
         }
     }
 
-    Video {
-        id: video
-        anchors.fill: parent
-        visible: false
-        onStopped: {
-            videoViewerDelegate.state = "stopped";
-        }
-        onPaused: {
-            videoViewerDelegate.state = "paused"
-        }
-        onPlaying: {
-            videoViewerDelegate.state = "playing"
+    Component {
+        id: component_video
+        Video {
+            id: video
+            onStopped: {
+                videoViewerDelegate.state = "stopped";
+            }
+            onPaused: {
+                videoViewerDelegate.state = "paused"
+            }
+            onPlaying: {
+                videoViewerDelegate.state = "playing"
+            }
         }
     }
+    Loader {
+        id: loader_video
+        anchors.fill: parent
+    }
+
 
     state: "stopped"
     states: [
         State {
             name: "playing"
             PropertyChanges { target: thumbnail; visible: false }
-            PropertyChanges { target: video; visible: true }
         },
         State {
             name: "paused"
             PropertyChanges { target: thumbnail; visible: false }
-            PropertyChanges { target: video; visible: true }
         },
         State {
             name: "stopped"
             PropertyChanges { target: thumbnail; visible: true }
-            PropertyChanges { target: video; visible: false }
         }
     ]
+    onStateChanged: {
+        if (state === "stopped") {
+            if (loader_video.item)
+                loader_video.item.stop()
+            loader_video.sourceComponent = null
+        }
+    }
 }
