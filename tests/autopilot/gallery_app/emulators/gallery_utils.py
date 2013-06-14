@@ -51,9 +51,9 @@ class GalleryUtils(object):
                                       objectName="photoViewerLoader")
 
     def get_main_photo_viewer(self):
-        """Returns the PhotoViewer."""
-        return self.select_single_retry("PhotoViewer",
-                                        objectName="photoViewer")
+        """Returns the MediaListView."""
+        return self.select_single_retry("MediaListView",
+                                        objectName="mediaListView")
 
     def get_albums_viewer_loader(self):
         """Returns the loader item for the AlbumsOverview."""

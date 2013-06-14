@@ -27,7 +27,7 @@ import Ubuntu.Components 0.1
 // When implementing this, override onCurrentIndexChanged to load the 
 // appropriate photo for the index.
 ListView {
-    id: photoViewer
+    id: mediaListView
 
     /*!
     */
@@ -36,7 +36,7 @@ ListView {
     // NOTE: These properties should be treated as read-only, as setting them
     // individually can lead to bogus results.  Use setCurrentIndex() to
     // initialize the view.
-    property alias index: photoViewer.currentIndex
+    property alias index: mediaListView.currentIndex
 
     /*!
     */

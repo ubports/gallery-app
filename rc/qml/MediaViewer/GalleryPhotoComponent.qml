@@ -20,7 +20,6 @@
  */
 
 import QtQuick 2.0
-import "../../Capetown/Viewer"
 
 // Basic photo component.  Can be used on its own, or as a delegate
 // for PhotoViewer.

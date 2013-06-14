@@ -21,12 +21,8 @@
 import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 0.1
-import "../Capetown"
-import "../Capetown/Viewer"
-import "Components"
-import "Widgets"
-import "Utility"
-import "../js/GraphicsRoutines.js" as GraphicsRoutines
+import "../Components"
+import "../../js/GraphicsRoutines.js" as GraphicsRoutines
 
 /*!
 */

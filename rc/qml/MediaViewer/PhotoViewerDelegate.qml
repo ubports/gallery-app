@@ -22,20 +22,15 @@ import Gallery 1.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
-import "../Capetown"
-import "../Capetown/Viewer"
-import "Components"
-import "Widgets"
-import "../js/Gallery.js" as Gallery
+import "../../js/Gallery.js" as Gallery
 
 /*!
 */
 Item {
     id: photoViewerDelegate
 
-    /*!
-    */
-    property var mediaSource
+    /// The photo to show
+    property MediaSource mediaSource
     /*!
     */
     property bool useInteractivePreview
@@ -53,9 +48,8 @@ Item {
     */
     signal unzoomed()
 
-    /*!
-    */
-    function unzoom() {
+    /// Resets the view to it's initial state
+    function reset() {
         if (!isLoaded)
             return;
 

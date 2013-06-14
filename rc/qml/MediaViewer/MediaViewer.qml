@@ -22,13 +22,9 @@ import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
-import "../Capetown"
-import "../Capetown/Viewer"
-import "Components"
-import "Utility"
-import "Widgets"
-import "../js/Gallery.js" as Gallery
+import "../Utility"
+import "../Widgets"
+import "../../js/Gallery.js" as Gallery
 
 /*!
 */
@@ -37,7 +33,7 @@ Item {
 
     /*!
     */
-    property alias photo: galleryPhotoViewer.photo
+    property alias media: galleryPhotoViewer.media
     /*!
     */
     property alias model: galleryPhotoViewer.model
@@ -64,6 +60,11 @@ Item {
     // the check catches this before we can inadvertently follow a stale pointer.
     property bool isReady: model != null && model.count > 0 &&
                            (galleryPhotoViewer.currentItem ? galleryPhotoViewer.currentItem.isLoaded : false)
+
+    // tooolbar actions for the full view
+    property ToolbarActions tools: media ? (media.type === MediaSource.Photo ?
+                                            d.photoToolbar : d.videoToolbar)
+                                         : null
 
     /*!
     */
@@ -101,10 +102,9 @@ Item {
         anchors.fill: parent
     }
 
-    property alias tools: galleryPhotoViewer.tools
-    PhotoViewer {
+    MediaListView {
         id: galleryPhotoViewer
-        objectName: "photoViewer"
+        objectName: "mediaListView"
 
         // When the user clicks the back button.
         signal closeRequested()
@@ -113,52 +113,58 @@ Item {
         // NOTE: These properties should be treated as read-only, as setting them
         // individually can lead to bogus results.  Use setCurrentPhoto() or
         // setCurrentIndex() to initialize the view.
-        property variant photo: null
+        property variant media: null
 
         function setCurrentPhoto(photo) {
             setCurrentIndex(model.indexOf(photo));
         }
 
         function goBack() {
-            galleryPhotoViewer.currentItem.unzoom();
+            galleryPhotoViewer.currentItem.reset();
             pageBack();
         }
 
         function goForward() {
-            galleryPhotoViewer.currentItem.unzoom();
+            galleryPhotoViewer.currentItem.reset();
             pageForward();
         }
 
         anchors.fill: parent
 
-        Connections {
-            target: photo || null
-            ignoreUnknownSignals: true
-            onBusyChanged: galleryPhotoViewer.updateBusy()
-        }
-
-        // Internal: use to switch the busy indicator on or off.
-        function updateBusy() {
-            if (photo.busy) {
-                busySpinner.visible = true;
-            } else {
-                busySpinner.visible = false;
-            }
-        }
-
         onCurrentIndexChanged: {
             if (model)
-                photo = model.getAt(currentIndex);
+                media = model.getAt(currentIndex);
         }
 
-        delegate: PhotoViewerDelegate {
-            id: viewerDelegate
+        delegate: Item {
+            /// Is true while the media content is loaded
+            property bool isLoaded: delegateView.item.isLoaded
+            /// Is true when the view is in a state, where the user possibly
+            /// interacts with the media (and not swipe to another media)
+            property bool userInteracting: delegateView.item.state === "zoomed"
+            /// Needed as ListView.isCurrentItem can't be used directly
+            property bool isActive: ListView.isCurrentItem
+            /// True if a video is currently played
+            property bool isPlayingVideo: galleryPhotoViewer.currentItem.state === "playing"
+
+            // set the view to it's original state
+            function reset() {
+                delegateView.item.reset();
+            }
+            /// Toggles between play and pause - only usful when a video is shown
+            function togglePlayPause() {
+                if (model.mediaSource.type === MediaSource.Video)
+                    delegateView.item.togglePlayPause();
+            }
+
+            onIsActiveChanged: {
+                if (!isActive)
+                    reset()
+            }
 
             width: galleryPhotoViewer.width
             height: galleryPhotoViewer.height
-            useInteractivePreview: galleryPhotoViewer.moving
-
-            visible: true
+            state: delegateView.item.state
 
             opacity: {
                 if (!galleryPhotoViewer.moving || galleryPhotoViewer.contentX < 0
@@ -168,72 +174,36 @@ Item {
                 return 1.0 - Math.abs((galleryPhotoViewer.contentX - x) / width);
             }
 
-            mediaSource: model.mediaSource
+            Component {
+                id: component_delegatePhotoView
+                PhotoViewerDelegate {
+                    useInteractivePreview: galleryPhotoViewer.moving
+                    mediaSource: model.mediaSource
+                }
+            }
+            Component {
+                id: component_delegateVideoView
+                VideoViewerDelegate {
+                    mediaSource: model.mediaSource
+                }
+            }
+            Loader {
+                id: delegateView
+                anchors.fill: parent
+                sourceComponent: model.mediaSource.type === MediaSource.Photo ?
+                                     component_delegatePhotoView : component_delegateVideoView
+            }
 
-            onClicked: chromeFadeWaitClock.restart()
-            onZoomed: {
-                chromeFadeWaitClock.stop();
-            }
-            onUnzoomed: {
-                chromeFadeWaitClock.stop();
-            }
         }
 
         // Don't allow flicking while the chrome is actively displaying a popup
         // menu, or the image is zoomed, or we're cropping. When images are zoomed,
         // mouse drags should pan, not flick. Also don't flick during parameterized
         // HUD action to prevent photo from changing during the action
-        interactive: (currentItem != null) &&
-                     (currentItem.state == "unzoomed") && cropper.state == "hidden" &&
+        interactive: currentItem != null &&
+                     !currentItem.userInteracting &&
+                     cropper.state == "hidden" &&
                      !editHUD.actionActive
-
-        Timer {
-            id: chromeFadeWaitClock
-
-            interval: 250
-            running: false
-        }
-
-        property ToolbarActions tools: ToolbarActions {
-            Action {
-                text: i18n.tr("Edit")
-                iconSource: "../img/edit.png"
-                onTriggered: {
-                    PopupUtils.open(editPopoverComponent, caller)
-                }
-            }
-            Action {
-                text: i18n.tr("Add")
-                iconSource: "../img/add.png"
-                onTriggered: {
-                    popupAlbumPicker.caller = caller
-                    popupAlbumPicker.show()
-                }
-            }
-            Action {
-                text: i18n.tr("Delete")
-                iconSource: "../img/delete.png"
-                onTriggered: {
-                    PopupUtils.open(deleteDialog, null)
-                }
-            }
-            Action {
-                text: i18n.tr("Share")
-                iconSource: "../img/share.png"
-                onTriggered: {
-                    PopupUtils.open(sharePopoverComponent, caller)
-                }
-            }
-
-            back: Action {
-                text: i18n.tr("Back")
-                iconSource: "../img/back.png"
-                onTriggered: {
-                    galleryPhotoViewer.currentItem.unzoom();
-                    closeRequested();
-                }
-            }
-        }
 
         Component {
             id: sharePopoverComponent
@@ -241,7 +211,7 @@ Item {
                 id: sharePopover
                 objectName: "sharePopover"
                 visible: false
-                picturePath: viewerWrapper.photo.path
+                picturePath: viewerWrapper.media.path
             }
         }
 
@@ -251,7 +221,7 @@ Item {
                 id: editPopover
                 objectName: "editPopover"
                 visible: false
-                photo: galleryPhotoViewer.photo
+                photo: galleryPhotoViewer.media
                 cropper: viewerWrapper.cropper
             }
         }
@@ -276,7 +246,7 @@ Item {
                     color: Gallery.HIGHLIGHT_BUTTON_COLOR
                     onClicked: {
                         PopupUtils.close(dialogue)
-                        viewerWrapper.model.destroyMedia(galleryPhotoViewer.photo);
+                        viewerWrapper.model.destroyMedia(galleryPhotoViewer.media);
                         galleryPhotoViewer.currentIndexChanged();
                         dialogue.finishRemove();
                     }
@@ -296,12 +266,12 @@ Item {
             visible: false
             contentHeight: parent.height - units.gu(10)
             onAlbumPicked: {
-                album.addMediaSource(photo)
+                album.addMediaSource(media)
             }
         }
 
         onCloseRequested: viewerWrapper.closeRequested()
-        onEditRequested: viewerWrapper.editRequested(photo)
+        onEditRequested: viewerWrapper.editRequested(media)
     }
 
     property alias cropper: cropper
@@ -403,7 +373,7 @@ Item {
         id: editPreview
         objectName: "editPreview"
         anchors.fill: parent
-        source: galleryPhotoViewer.photo ? galleryPhotoViewer.photo.galleryPreviewPath : ""
+        source: galleryPhotoViewer.media ? galleryPhotoViewer.media.galleryPreviewPath : ""
 
         visible: editHUD.actionActive
 
@@ -418,14 +388,102 @@ Item {
     ActivityIndicator {
         id: busySpinner
         anchors.centerIn: parent
-        visible: false
+        visible: media && media.busy
         running: visible
     }
 
     EditingHUD {
         id: editHUD
-        photo: galleryPhotoViewer.photo
+        photo: galleryPhotoViewer.media
         onExposureActivated: editPreview.useExposure()
         onColorBalanceActivated: editPreview.useColorBalance()
+    }
+
+    Item {
+        id: d
+
+        property ToolbarActions photoToolbar: ToolbarActions {
+            Action {
+                text: i18n.tr("Edit")
+                iconSource: "../../img/edit.png"
+                onTriggered: {
+                    PopupUtils.open(editPopoverComponent, caller);
+                }
+            }
+            Action {
+                text: i18n.tr("Add")
+                iconSource: "../../img/add.png"
+                onTriggered: {
+                    popupAlbumPicker.caller = caller;
+                    popupAlbumPicker.show();
+                }
+            }
+            Action {
+                text: i18n.tr("Delete")
+                iconSource: "../../img/delete.png"
+                onTriggered: {
+                    PopupUtils.open(deleteDialog, null);
+                }
+            }
+            Action {
+                text: i18n.tr("Share")
+                iconSource: "../../img/share.png"
+                onTriggered: {
+                    PopupUtils.open(sharePopoverComponent, caller);
+                }
+            }
+
+            back: Action {
+                text: i18n.tr("Back")
+                iconSource: "../../img/back.png"
+                onTriggered: {
+                    galleryPhotoViewer.currentItem.reset();
+                    closeRequested();
+                }
+            }
+        }
+
+        property ToolbarActions videoToolbar: ToolbarActions {
+            Action {
+                text: galleryPhotoViewer.currentItem.isPlayingVideo ?
+                        i18n.tr("Pause") : i18n.tr("Play")
+                iconSource: galleryPhotoViewer.currentItem.isPlayingVideo ?
+                                "../../img/icon_pause.png" : "../../img/icon_play.png"
+                onTriggered: {
+                    galleryPhotoViewer.currentItem.togglePlayPause();
+                }
+            }
+            Action {
+                text: i18n.tr("Add")
+                iconSource: "../../img/add.png"
+                onTriggered: {
+                    popupAlbumPicker.caller = caller;
+                    popupAlbumPicker.show();
+                }
+            }
+            Action {
+                text: i18n.tr("Delete")
+                iconSource: "../../img/delete.png"
+                onTriggered: {
+                    PopupUtils.open(deleteDialog, null);
+                }
+            }
+            Action {
+                text: i18n.tr("Share")
+                iconSource: "../../img/share.png"
+                onTriggered: {
+                    PopupUtils.open(sharePopoverComponent, caller);
+                }
+            }
+
+            back: Action {
+                text: i18n.tr("Back")
+                iconSource: "../../img/back.png"
+                onTriggered: {
+                    galleryPhotoViewer.currentItem.reset();
+                    closeRequested();
+                }
+            }
+        }
     }
 }
