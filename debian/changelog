@@ -1,3 +1,39 @@
+gallery-app (0.0.67daily13.06.13-0ubuntu1) saucy; urgency=low
+
+  [ Omer Akram ]
+  * fixes a few autopilot tests on the phone devices.
+
+  [ tpeeters ]
+  * Update the type of tools properties to be compatible with upcoming
+    changes in UITK.
+
+  [ Guenter Schwann ]
+  * Support to translate the .desktop file.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 713
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 13 Jun 2013 06:13:06 +0000
+
+gallery-app (0.0.67daily13.06.12-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Use Qt coding style for core.
+  * Use Qt coding style for medialoader.
+  * Use Qt coding style for media.
+  * Use Qt coding style for album.
+  * Use Qt coding style for database.
+  * Use Qt coding style for event.
+  * Use Qt coding style for photo.
+  * Update bzr ignore file.
+  * Use Qt coding style for qml.
+  * Use Qt coding style for src.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 708
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 12 Jun 2013 06:09:11 +0000
+
 gallery-app (0.0.67daily13.06.11-0ubuntu1) saucy; urgency=low
 
   [ Omer Akram ]
