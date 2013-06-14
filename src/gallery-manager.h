@@ -21,27 +21,32 @@
 #define GALLERYMANAGER_H
 
 #include <QDir>
+#include <QFileInfo>
+#include <QObject>
 
 #include <cstddef>
 
 class QQuickView;
 
-class Resource;
+class AlbumCollection;
+class AlbumDefaultTemplate;
+class Database;
+class EventCollection;
+class GalleryManager;
 class GalleryStandardImageProvider;
 class GalleryThumbnailImageProvider;
-class Database;
-class AlbumDefaultTemplate;
 class MediaCollection;
-class AlbumCollection;
-class EventCollection;
+class MediaMonitor;
 class PreviewManager;
-class GalleryManager;
+class Resource;
 
 /*!
  * Simple class which encapsulates instantiates objects which require only one instance.
  */
-class GalleryManager
+class GalleryManager : public QObject
 {
+    Q_OBJECT
+
 public:
     static GalleryManager* instance(const QDir& picturesDir = QDir(),
                                     QQuickView *view = 0,
@@ -58,6 +63,9 @@ public:
     Resource* resource() { return m_resource; }
     GalleryStandardImageProvider* galleryStandardImageProvider() { return m_standardImageProvider; }
     GalleryThumbnailImageProvider* galleryThumbnailImageProvider() { return m_thumbnailImageProvider; }
+
+private slots:
+    void onMediaItemAdded(QFileInfo itemInfo);
 
 private:
     GalleryManager(const QDir& picturesDir, QQuickView *view, const bool logImageLoading);
@@ -76,13 +84,13 @@ private:
     Resource* m_resource;
     GalleryStandardImageProvider* m_standardImageProvider;
     GalleryThumbnailImageProvider* m_thumbnailImageProvider;
-
     Database* m_database;
     AlbumDefaultTemplate* m_defaultTemplate;
     MediaCollection* m_mediaCollection;
     AlbumCollection* m_albumCollection;
     EventCollection* m_eventCollection;
     PreviewManager* m_previewManager;
+    MediaMonitor* m_monitor;
 };
 
 #endif // GALLERYMANAGER_H

@@ -20,7 +20,7 @@
 #ifndef GALLERY_MEDIA_MONITOR_H_
 #define GALLERY_MEDIA_MONITOR_H_
 
-#include <QDir>
+#include <QFileInfo>
 #include <QFileSystemWatcher>
 #include <QObject>
 #include <QStringList>
@@ -37,7 +37,7 @@ signals:
     void mediaItemAdded(QFileInfo newItem);
 
 public:
-    MediaMonitor(const QDir& targetDirectory);
+    MediaMonitor(const QStringList& targetDirectories);
     virtual ~MediaMonitor();
 
 private slots:
@@ -45,14 +45,14 @@ private slots:
     void onFileActivityCeased();
 
 private:
-    static QStringList getManifest(const QDir& dir);
+    static QStringList getManifest(const QStringList& dirs);
     static QStringList subtractManifest(const QStringList& m1,
                                         const QStringList& m2);
 
     void notifyMediaItemAdded(const QString& itemPath);
 
-    const QDir m_targetDirectory;
-    const QFileSystemWatcher m_watcher;
+    QStringList m_targetDirectories;
+    QFileSystemWatcher m_watcher;
     QStringList m_manifest;
     QTimer m_fileActivityTimer;
 };

@@ -33,6 +33,7 @@
 
 // media
 #include "media-collection.h"
+#include "media-monitor.h"
 #include "photo.h"
 #include "preview-manager.h"
 
@@ -76,12 +77,13 @@ GalleryManager::GalleryManager(const QDir& picturesDir,
       m_resource(new Resource(picturesDir.path(), view)),
       m_standardImageProvider(new GalleryStandardImageProvider()),
       m_thumbnailImageProvider(new GalleryThumbnailImageProvider()),
-      m_database(NULL),
-      m_defaultTemplate(NULL),
-      m_mediaCollection(NULL),
-      m_albumCollection(NULL),
-      m_eventCollection(NULL),
-      m_previewManager(NULL)
+      m_database(0),
+      m_defaultTemplate(0),
+      m_mediaCollection(0),
+      m_albumCollection(0),
+      m_eventCollection(0),
+      m_previewManager(0),
+      m_monitor(0)
 {
     const int maxTextureSize = m_resource->maxTextureSize();
     m_standardImageProvider->setMaxLoadResolution(maxTextureSize);
@@ -99,7 +101,7 @@ void GalleryManager::postInit()
 
     if (!collectionsInitialised)
     {
-        qDebug() << "Opening" << m_resource->picturesDirectory() << "...";
+        qDebug() << "Opening" << m_resource->mediaDirectories() << "...";
 
         Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute);
 
@@ -116,7 +118,13 @@ void GalleryManager::postInit()
 
         initPreviewManager();
 
-        qDebug() << "Opened" << m_resource->picturesDirectory();
+        // start the file monitor so that the collection contents will be updated as
+        // new files arrive
+        m_monitor = new MediaMonitor(m_resource->mediaDirectories());
+        QObject::connect(m_monitor, SIGNAL(mediaItemAdded(QFileInfo)), this,
+                         SLOT(onMediaItemAdded(QFileInfo)));
+
+        qDebug() << "Opened" << m_resource->mediaDirectories();
     }
 }
 
@@ -126,31 +134,34 @@ void GalleryManager::postInit()
 GalleryManager::~GalleryManager()
 {
     delete m_resource;
-    m_resource = NULL;
+    m_resource = 0;
 
     delete m_standardImageProvider;
-    m_standardImageProvider = NULL;
+    m_standardImageProvider = 0;
 
     delete m_thumbnailImageProvider;
-    m_thumbnailImageProvider = NULL;
+    m_thumbnailImageProvider = 0;
 
     delete m_database;
-    m_database = NULL;
+    m_database = 0;
 
     delete m_defaultTemplate;
-    m_defaultTemplate = NULL;
+    m_defaultTemplate = 0;
 
     delete m_mediaCollection;
-    m_mediaCollection = NULL;
+    m_mediaCollection = 0;
 
     delete m_albumCollection;
-    m_albumCollection = NULL;
+    m_albumCollection = 0;
 
     delete m_eventCollection;
-    m_eventCollection = NULL;
+    m_eventCollection = 0;
 
     delete m_previewManager;
-    m_previewManager = NULL;
+    m_previewManager = 0;
+
+    delete m_monitor;
+    m_monitor = 0;
 }
 
 /*!
@@ -196,7 +207,7 @@ void GalleryManager::fillMediaCollection()
 {
     Q_ASSERT(m_mediaCollection);
 
-    QDir mediaDir(m_resource->picturesDirectory());
+    QDir mediaDir(m_resource->mediaDirectories().at(0));
     mediaDir.setFilter(QDir::Files);
     mediaDir.setSorting(QDir::Name);
 
@@ -212,4 +223,16 @@ void GalleryManager::fillMediaCollection()
     }
 
     m_mediaCollection->addMany(photos);
+}
+
+/*!
+ * \brief GalleryApplication::onMediaItemAdded
+ * \param item_info
+ */
+void GalleryManager::onMediaItemAdded(QFileInfo itemInfo)
+{
+    MediaSource* newMedia = Photo::fetch(itemInfo);
+
+    if (newMedia)
+        m_mediaCollection->add(newMedia);
 }

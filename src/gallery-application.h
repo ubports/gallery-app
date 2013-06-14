@@ -27,7 +27,6 @@
 
 class CommandLineParser;
 class GalleryManager;
-class MediaMonitor;
 
 /*!
  * \brief The GalleryApplication class
@@ -59,13 +58,11 @@ private:
     int m_bguSize;
     QQuickView m_view;
     QElapsedTimer m_timer;
-    MediaMonitor* m_monitor;
 
     CommandLineParser* m_cmdLineParser;
 
 private slots:
     void startInitCollections();
-    void onMediaItemAdded(QFileInfo itemInfo);
 
 signals:
     void mediaLoaded();
