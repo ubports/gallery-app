@@ -22,7 +22,6 @@ import Gallery 1.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
-import "../Components"
 import "../../js/Gallery.js" as Gallery
 
 /*!
@@ -30,8 +29,7 @@ import "../../js/Gallery.js" as Gallery
 Item {
     id: photoViewerDelegate
 
-    /*!
-    */
+    /// The photo to show
     property MediaSource mediaSource
     /*!
     */

@@ -25,14 +25,30 @@ if requrested
 Item {
     id: videoViewerDelegate
 
-    ///
+    /// The video item that to be shown by this component
     property MediaSource mediaSource
-    ///
+    /// Is true, once this component is fully usable
     property bool isLoaded: thumbnail.status === Image.Ready
 
     /// Stops the video playback if running
     function reset() {
         video.stop();
+    }
+
+    /// Starts playing the video
+    function playVideo() {
+        if (video.source !== mediaSource.path)
+            video.source = mediaSource.path;
+        video.play();
+    }
+
+    /// Toggles between playing and pausing the video playback
+    function togglePlayPause() {
+        if (videoViewerDelegate.state === "playing") {
+            video.pause();
+        } else {
+            videoViewerDelegate.playVideo();
+        }
     }
 
     Image {
@@ -47,11 +63,7 @@ Item {
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            console.log("play: " + mediaSource.path);
-            video.source = mediaSource.path;
-            video.visible = true;
-            thumbnail.visible = false;
-            video.play();
+            videoViewerDelegate.togglePlayPause();
         }
     }
 
@@ -60,8 +72,32 @@ Item {
         anchors.fill: parent
         visible: false
         onStopped: {
-            thumbnail.visible = true;
-            visible = false;
+            videoViewerDelegate.state = "stopped";
+        }
+        onPaused: {
+            videoViewerDelegate.state = "paused"
+        }
+        onPlaying: {
+            videoViewerDelegate.state = "playing"
         }
     }
+
+    state: "stopped"
+    states: [
+        State {
+            name: "playing"
+            PropertyChanges { target: thumbnail; visible: false }
+            PropertyChanges { target: video; visible: true }
+        },
+        State {
+            name: "paused"
+            PropertyChanges { target: thumbnail; visible: false }
+            PropertyChanges { target: video; visible: true }
+        },
+        State {
+            name: "stopped"
+            PropertyChanges { target: thumbnail; visible: true }
+            PropertyChanges { target: video; visible: false }
+        }
+    ]
 }

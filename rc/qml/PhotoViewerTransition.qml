@@ -19,7 +19,7 @@
 
 import QtQuick 2.0
 import "../Capetown"
-import "Components"
+import "MediaViewer"
 import "../js/GraphicsRoutines.js" as GraphicsRoutines
 
 // Some custom components and animations that we want to invoke whenever we

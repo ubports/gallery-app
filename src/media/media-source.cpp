@@ -40,7 +40,8 @@
  */
 MediaSource::MediaSource()
     : m_id(INVALID_ID),
-      m_exposureDateTime()
+      m_exposureDateTime(),
+      m_busy(false)
 {
 }
 
@@ -50,7 +51,8 @@ MediaSource::MediaSource()
  */
 MediaSource::MediaSource(const QFileInfo& file)
     : m_id(INVALID_ID),
-      m_exposureDateTime()
+      m_exposureDateTime(),
+      m_busy(false)
 {
     m_file = file;
 }
