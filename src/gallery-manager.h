@@ -20,7 +20,7 @@
 #ifndef GALLERYMANAGER_H
 #define GALLERYMANAGER_H
 
-#include <QDir>
+#include <QFileInfo>
 #include <QObject>
 
 #include <cstddef>
@@ -48,7 +48,7 @@ class GalleryManager : public QObject
     Q_OBJECT
 
 public:
-    static GalleryManager* instance(const QDir& picturesDir = QDir(),
+    static GalleryManager* instance(const QString &picturesDir = QString(),
                                     QQuickView *view = 0,
                                     const bool logImageLoading = false);
 
@@ -68,7 +68,7 @@ private slots:
     void onMediaItemAdded(QFileInfo file);
 
 private:
-    GalleryManager(const QDir& picturesDir, QQuickView *view, const bool logImageLoading);
+    GalleryManager(const QString &picturesDir, QQuickView *view, const bool logImageLoading);
     ~GalleryManager();
 
     GalleryManager(const GalleryManager&);
@@ -84,7 +84,6 @@ private:
     Resource* m_resource;
     GalleryStandardImageProvider* m_standardImageProvider;
     GalleryThumbnailImageProvider* m_thumbnailImageProvider;
-
     Database* m_database;
     AlbumDefaultTemplate* m_defaultTemplate;
     MediaCollection* m_mediaCollection;

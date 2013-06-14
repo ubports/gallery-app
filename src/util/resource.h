@@ -21,6 +21,7 @@
 
 #include <QLatin1String>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 
 class QQuickView;
@@ -35,7 +36,7 @@ public:
 
     static QUrl getRcUrl(const QString& path);
 
-    const QString &picturesDirectory() const;
+    const QStringList &mediaDirectories() const;
     const QString &databaseDirectory() const;
     const QString &thumbnailDirectory() const;
 
@@ -43,7 +44,7 @@ public:
     void setView(QQuickView* view);
 
 private:
-    QString m_pictureDirectory;
+    QStringList m_mediaDirectories;
     mutable QString m_databaseDirectory;
     mutable QString m_thumbnailDirectory;
     QQuickView* m_view;

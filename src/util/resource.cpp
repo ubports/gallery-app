@@ -20,6 +20,7 @@
 #include "resource.h"
 #include "config.h"
 
+#include <QDebug>
 #include <QtGui/QOpenGLContext>
 #include <QtQuick/QQuickView>
 #include <QStandardPaths>
@@ -34,14 +35,18 @@ const QLatin1String Resource::THUMBNAIL_DIR = QLatin1String("thumbnails");
  * \param view the view is used to determine the max texture size
  */
 Resource::Resource(const QString &pictureDir, QQuickView *view)
-    : m_pictureDirectory(pictureDir),
+    : m_mediaDirectories(),
       m_databaseDirectory(""),
       m_thumbnailDirectory(""),
       m_view(view),
       m_maxTextureSize(0)
 {
-    if (m_pictureDirectory.isEmpty())
-        m_pictureDirectory = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    if (!pictureDir.isEmpty() && QDir(pictureDir).exists()) {
+        m_mediaDirectories.append(pictureDir);
+    } else {
+        m_mediaDirectories.append(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation));
+        m_mediaDirectories.append(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
+    }
 }
 
 /*!
@@ -62,9 +67,9 @@ QUrl Resource::getRcUrl(const QString& path)
  * \brief Resource::picturesDirectory
  * \return Returns the directory for the pictures
  */
-const QString &Resource::picturesDirectory() const
+const QStringList &Resource::mediaDirectories() const
 {
-    return m_pictureDirectory;
+    return m_mediaDirectories;
 }
 
 /*!
@@ -74,11 +79,11 @@ const QString &Resource::picturesDirectory() const
 const QString &Resource::databaseDirectory() const
 {
     if (m_databaseDirectory.isEmpty()) {
-        if (m_pictureDirectory == QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)) {
+        if (m_mediaDirectories.contains(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation))) {
             m_databaseDirectory = QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
                     QDir::separator() + DATABASE_DIR;
         } else {
-            m_databaseDirectory = m_pictureDirectory + QDir::separator() + "." + DATABASE_DIR;
+            m_databaseDirectory = m_mediaDirectories.at(0) + QDir::separator() + "." + DATABASE_DIR;
         }
     }
     return m_databaseDirectory;
@@ -91,11 +96,11 @@ const QString &Resource::databaseDirectory() const
 const QString &Resource::thumbnailDirectory() const
 {
     if (m_thumbnailDirectory.isEmpty()) {
-        if (m_pictureDirectory == QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)) {
+        if (m_mediaDirectories.contains(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation))) {
             m_thumbnailDirectory = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) +
                     QDir::separator() + THUMBNAIL_DIR;
         } else {
-            m_thumbnailDirectory = m_pictureDirectory + QDir::separator() + "." + THUMBNAIL_DIR;
+            m_thumbnailDirectory = m_mediaDirectories.at(0) + QDir::separator() + "." + THUMBNAIL_DIR;
         }
     }
     return m_thumbnailDirectory;

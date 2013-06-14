@@ -56,7 +56,7 @@ GalleryManager* GalleryManager::m_galleryManager = NULL;
  * \param logImageLoading if true, the image loadings times are printed to stdout
  * \return
  */
-GalleryManager* GalleryManager::instance(const QDir &picturesDir,
+GalleryManager* GalleryManager::instance(const QString &picturesDir,
                                          QQuickView *view, const bool logImageLoading)
 {
     if (!m_galleryManager)
@@ -71,10 +71,10 @@ GalleryManager* GalleryManager::instance(const QDir &picturesDir,
  * \param view
  * \param logImageLoading
  */
-GalleryManager::GalleryManager(const QDir& picturesDir,
+GalleryManager::GalleryManager(const QString& picturesDir,
                                QQuickView *view, const bool logImageLoading)
     : collectionsInitialised(false),
-      m_resource(new Resource(picturesDir.path(), view)),
+      m_resource(new Resource(picturesDir, view)),
       m_standardImageProvider(new GalleryStandardImageProvider()),
       m_thumbnailImageProvider(new GalleryThumbnailImageProvider()),
       m_database(0),
@@ -101,7 +101,7 @@ void GalleryManager::postInit()
 
     if (!collectionsInitialised)
     {
-        qDebug() << "Opening" << m_resource->picturesDirectory() << "...";
+        qDebug() << "Opening" << m_resource->mediaDirectories() << "...";
 
         Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute);
 
@@ -121,11 +121,11 @@ void GalleryManager::postInit()
 
         // start the file monitor so that the collection contents will be updated as
         // new files arrive
-        m_monitor = new MediaMonitor(m_resource->picturesDirectory());
+        m_monitor = new MediaMonitor(m_resource->mediaDirectories());
         QObject::connect(m_monitor, SIGNAL(mediaItemAdded(QFileInfo)), this,
                          SLOT(onMediaItemAdded(QFileInfo)));
 
-        qDebug() << "Opened" << m_resource->picturesDirectory();
+        qDebug() << "Opened" << m_resource->mediaDirectories();
     }
 }
 
@@ -138,34 +138,37 @@ GalleryManager::~GalleryManager()
     m_monitor = 0;
 
     delete m_resource;
-    m_resource = NULL;
+    m_resource = 0;
 
     delete m_standardImageProvider;
-    m_standardImageProvider = NULL;
+    m_standardImageProvider = 0;
 
     delete m_thumbnailImageProvider;
-    m_thumbnailImageProvider = NULL;
+    m_thumbnailImageProvider = 0;
 
     delete m_mediaFactory;
     m_mediaFactory = 0;
 
     delete m_database;
-    m_database = NULL;
+    m_database = 0;
 
     delete m_defaultTemplate;
-    m_defaultTemplate = NULL;
+    m_defaultTemplate = 0;
 
     delete m_mediaCollection;
-    m_mediaCollection = NULL;
+    m_mediaCollection = 0;
 
     delete m_albumCollection;
-    m_albumCollection = NULL;
+    m_albumCollection = 0;
 
     delete m_eventCollection;
-    m_eventCollection = NULL;
+    m_eventCollection = 0;
 
     delete m_previewManager;
-    m_previewManager = NULL;
+    m_previewManager = 0;
+
+    delete m_monitor;
+    m_monitor = 0;
 }
 
 /*!
@@ -211,17 +214,19 @@ void GalleryManager::fillMediaCollection()
 {
     Q_ASSERT(m_mediaCollection);
 
-    QDir mediaDir(m_resource->picturesDirectory());
-    mediaDir.setFilter(QDir::Files);
-    mediaDir.setSorting(QDir::Name);
-
     QSet<DataObject*> photos;
-    const QStringList filenames = mediaDir.entryList();
-    foreach (const QString& filename, filenames) {
-        QFileInfo file(mediaDir, filename);
-        DataObject *media = m_mediaFactory->create(file);
-        if (media) {
-            photos.insert(media);
+    foreach (const QString &dirName, m_resource->mediaDirectories()) {
+        QDir mediaDir(dirName);
+        mediaDir.setFilter(QDir::Files);
+        mediaDir.setSorting(QDir::Name);
+
+        const QStringList filenames = mediaDir.entryList();
+        foreach (const QString& filename, filenames) {
+            QFileInfo file(mediaDir, filename);
+            DataObject *media = m_mediaFactory->create(file);
+            if (media) {
+                photos.insert(media);
+            }
         }
     }
 
@@ -238,7 +243,6 @@ void GalleryManager::onMediaItemAdded(QFileInfo file)
     if (media == 0) {
         media = m_mediaFactory->create(file);
     }
-
     if (media) {
         m_mediaCollection->add(media);
     }
