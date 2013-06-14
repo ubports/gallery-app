@@ -26,6 +26,7 @@ include_directories(
 add_executable(video
     tst_video.cpp
     ${gallery_src_SOURCE_DIR}/gallery-manager.cpp
+    ${gallery_src_SOURCE_DIR}/media-object-factory.cpp
     )
 
 qt5_use_modules(video Widgets Core Qml Quick Test)

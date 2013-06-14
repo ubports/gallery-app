@@ -59,8 +59,7 @@
  */
 GalleryApplication::GalleryApplication(int& argc, char** argv)
     : QApplication(argc, argv),
-      m_view(),
-      m_monitor(NULL)
+      m_view()
 {
     m_bguSize = QProcessEnvironment::systemEnvironment().value("GRID_UNIT_PX", "8").toInt();
     if (m_bguSize <= 0)
@@ -88,7 +87,6 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
  */
 GalleryApplication::~GalleryApplication()
 {
-    delete m_monitor;
 }
 
 /*!
@@ -187,12 +185,6 @@ void GalleryApplication::initCollections()
 
     emit mediaLoaded();
 
-    // start the file monitor so that the collection contents will be updated as
-    // new files arrive
-    m_monitor = new MediaMonitor(cmdLineParser()->picturesDir().path());
-    QObject::connect(m_monitor, SIGNAL(mediaItemAdded(QFileInfo)), this,
-                     SLOT(onMediaItemAdded(QFileInfo)));
-
     if (cmdLineParser()->startupTimer())
         qDebug() << "Startup took" << m_timer.elapsed() << "milliseconds";
 }
@@ -212,16 +204,4 @@ void GalleryApplication::startInitCollections()
 GalleryApplication* GalleryApplication::instance()
 {
     return static_cast<GalleryApplication*>(qApp);
-}
-
-/*!
- * \brief GalleryApplication::onMediaItemAdded
- * \param item_info
- */
-void GalleryApplication::onMediaItemAdded(QFileInfo itemInfo)
-{
-    MediaSource* newMedia = Photo::fetch(itemInfo);
-
-    if (newMedia)
-        GalleryManager::instance()->mediaCollection()->add(newMedia);
 }
