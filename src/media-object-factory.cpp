@@ -152,6 +152,9 @@ bool MediaObjectFactory::readPhotoMetadata(const QFileInfo &file)
  */
 bool MediaObjectFactory::readVideoMetadata(const QFileInfo &file)
 {
+    if (!file.exists())
+        return false;
+
     m_timeStamp = file.created();
     m_orientation = TOP_LEFT_ORIGIN;
     m_fileSize = file.size();

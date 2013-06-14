@@ -38,12 +38,5 @@ add_library(${GALLERY_QML_LIB}
 qt5_use_modules(${GALLERY_QML_LIB} Core Quick)
 
 target_link_libraries( ${GALLERY_QML_LIB}
-    gallery-album
-    gallery-core
-    gallery-event
-    gallery-media
-    gallery-photo
-    gallery-qml
-    gallery-util
     ${GSTLIB_LDFLAGS}
     )

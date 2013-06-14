@@ -37,9 +37,14 @@ set_tests_properties(video PROPERTIES
     )
 
 target_link_libraries(video
+    gallery-album
     gallery-core
     gallery-database
+    gallery-event
     gallery-media
+    gallery-medialoader
+    gallery-photo
+    gallery-qml
     gallery-util
     gallery-video
     ${EXIV2_LIBRARIES}

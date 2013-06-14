@@ -48,6 +48,8 @@ private:
     QSize m_size;
     Orientation m_orientation;
     qint64 m_fileSize;
+
+    friend class tst_MediaObjectFactory;
 };
 
 #endif  // MEDIA_OBJECT_FACTORY_H_
