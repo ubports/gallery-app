@@ -42,7 +42,7 @@ void tst_Resource::picturesDirectory()
 
     QString picDir("/tmp");
     Resource resource2(picDir, 0);
-    QCOMPARE(resource.mediaDirectories().size(), 1);
+    QCOMPARE(resource2.mediaDirectories().size(), 1);
     QCOMPARE(resource2.mediaDirectories().at(0), picDir);
 }
 
