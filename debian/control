@@ -1,6 +1,6 @@
 Source: gallery-app
 Section: graphics
-Priority: extra
+Priority: optional
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends: debhelper (>= 9),
                cmake,
@@ -21,7 +21,7 @@ Vcs-Bzr: lp:gallery-app
 Homepage: https://wiki.ubuntu.com/Touch/
 
 Package: gallery-app
-Architecture: i386 amd64 armhf
+Architecture: any
 Replaces: ubuntu-gallery
 Conflicts: ubuntu-gallery
 Depends: ${misc:Depends},
