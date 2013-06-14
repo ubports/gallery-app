@@ -37,6 +37,7 @@ class GalleryStandardImageProvider;
 class GalleryThumbnailImageProvider;
 class MediaCollection;
 class MediaMonitor;
+class MediaObjectFactory;
 class PreviewManager;
 class Resource;
 
@@ -65,7 +66,7 @@ public:
     GalleryThumbnailImageProvider* galleryThumbnailImageProvider() { return m_thumbnailImageProvider; }
 
 private slots:
-    void onMediaItemAdded(QFileInfo itemInfo);
+    void onMediaItemAdded(QFileInfo file);
 
 private:
     GalleryManager(const QDir& picturesDir, QQuickView *view, const bool logImageLoading);
@@ -90,7 +91,8 @@ private:
     AlbumCollection* m_albumCollection;
     EventCollection* m_eventCollection;
     PreviewManager* m_previewManager;
-    MediaMonitor* m_monitor;
+    MediaObjectFactory *m_mediaFactory;
+    MediaMonitor *m_monitor;
 };
 
 #endif // GALLERYMANAGER_H

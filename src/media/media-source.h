@@ -59,6 +59,7 @@ class MediaSource : public DataSource
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
     Q_PROPERTY(int width READ width NOTIFY sizeChanged)
     Q_PROPERTY(int height READ height NOTIFY sizeChanged)
+    Q_ENUMS(MediaType)
 
 signals:
     void pathChanged();
@@ -78,6 +79,14 @@ public:
     MediaSource();
     explicit MediaSource(const QFileInfo& file);
 
+    enum MediaType {
+        None = 0,
+        Photo = 1,
+        Video = 2
+    };
+
+    virtual MediaType type() const;
+
     QFileInfo file() const;
     QUrl path() const;
     virtual QUrl galleryPath() const;
@@ -92,26 +101,28 @@ public:
 
     virtual QImage image(bool respect_orientation = true, const QSize &scaleSize=QSize());
     virtual Orientation orientation() const;
-    const QDateTime& exposureDateTime() const;
-    const QDateTime& fileTimestamp() const;
 
-    const QSize& size();
+    const QDateTime& exposureDateTime() const;
     QDate exposureDate() const;
     QTime exposureTimeOfDay() const;
     int exposureTime_t() const;
+    void setExposureDateTime(const QDateTime& exposureTime);
+
+    const QDateTime& fileTimestamp() const;
+    void setFileTimestamp(const QDateTime& timestamp);
+
+    const QSize& size();
+    void setSize(const QSize& size);
 
     Event* FindEvent();
     QVariant QmlFindEvent();
 
     qint64 id() const;
+    void setId(qint64 id);
 
     bool busy() const;
 
 protected:
-    void setId(qint64 id);
-    void setExposureDateTime(const QDateTime& exposureTime);
-    void setFileTimestamp(const QDateTime& timestamp);
-    void setSize(const QSize& size);
     bool isSizeSet() const;
 
     virtual void destroySource(bool deleteBacking, bool asOrphan);

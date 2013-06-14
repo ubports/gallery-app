@@ -33,6 +33,14 @@ Video::Video(const QFileInfo &file)
 /*!
  * \reimp
  */
+MediaSource::MediaType Video::type() const
+{
+    return MediaSource::Video;
+}
+
+/*!
+ * \reimp
+ */
 QImage Video::image(bool respect_orientation, const QSize &scaleSize)
 {
     Q_UNUSED(respect_orientation);
@@ -62,4 +70,20 @@ QUrl Video::galleryPreviewPath() const
 QUrl Video::galleryThumbnailPath() const
 {
     return Resource::getRcUrl("img/video-thumbnail.png");
+}
+
+/*!
+ * \brief Video::isCameraVideo return true if the video file was created by the
+ * camera-app
+ * \param file the file to check
+ * \return
+ */
+bool Video::isCameraVideo(const QFileInfo &file)
+{
+    if (file.suffix() == QLatin1String("mp4") &&
+            file.baseName().startsWith("video")) {
+        return true;
+    }
+
+    return false;
 }

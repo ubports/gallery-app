@@ -148,7 +148,18 @@ class GalleryTestCase(AutopilotTestCase):
 
     def switch_to_albums_tab(self):
         tabs_bar = self.gallery_utils.get_tabs_bar()
-        self.click_item(tabs_bar)
+        tabs_bar_abs_width = self.gallery_utils.get_tabs_bar_absolute_width()
+        tabs_bar_potential_width = self.gallery_utils.get_tabs_bar_potential_width()
+
+        if tabs_bar_abs_width == tabs_bar_potential_width:
+            x, y, w, h = tabs_bar.globalRect
+
+            tx = x + (w / 1.5)
+            ty = y + (h / 2)
+
+            self.pointing_device.drag(tx, ty, tx / 8, ty)
+        else:
+            self.click_item(tabs_bar)
 
         albums_tab_button = self.gallery_utils.get_albums_tab_button()
         # Due to some timing issues sometimes mouse moves to the location a bit

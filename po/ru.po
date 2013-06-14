@@ -7,51 +7,130 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-05-23 06:59+0000\n"
-"PO-Revision-Date: 2013-06-06 21:35+0000\n"
+"POT-Creation-Date: 2013-06-12 08:03+0000\n"
+"PO-Revision-Date: 2013-06-13 09:28+0000\n"
 "Last-Translator: Den <epicodes@gmail.com>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-07 07:02+0000\n"
+"X-Launchpad-Export-Date: 2013-06-14 07:05+0000\n"
 "X-Generator: Launchpad (build 16667)\n"
 
-#: rc/qml/Utility/SelectionToolbarAction.qml:42
-#: rc/qml/Utility/EditingHUD.qml:77 rc/qml/AlbumViewer.qml:466
-#: rc/qml/GalleryPhotoViewer.qml:206 rc/qml/AlbumsOverview.qml:177
-msgid "Add"
-msgstr "Добавить"
+#: desktop/gallery-app.desktop.in:3
+msgid "Gallery"
+msgstr "Галерея"
 
-#: rc/qml/Utility/SelectionToolbarAction.qml:48
-#: rc/qml/Utility/EditingHUD.qml:67 rc/qml/AlbumViewer.qml:473
-#: rc/qml/GalleryPhotoViewer.qml:214 rc/qml/Widgets/AlbumEditMenu.qml:59
-msgid "Delete"
-msgstr "Удалить"
+#: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
+msgid "Ubuntu Photo Viewer"
+msgstr ""
 
-#: rc/qml/Utility/SelectionToolbarAction.qml:54
-#: rc/qml/Utility/EditingHUD.qml:72 rc/qml/AlbumViewer.qml:483
-#: rc/qml/GalleryPhotoViewer.qml:221 rc/qml/Widgets/AlbumEditMenu.qml:52
-msgid "Share"
-msgstr "Поделиться"
+#: desktop/gallery-app.desktop.in:6
+msgid "Browse your photographs"
+msgstr ""
 
-#: rc/qml/Utility/SelectionToolbarAction.qml:61 rc/qml/MediaSelector.qml:94
-#: rc/qml/AlbumEditor.qml:40
+#: rc/qml/AlbumEditor.qml:40 rc/qml/MediaSelector.qml:94
+#: rc/qml/Utility/SelectionToolbarAction.qml:61
 msgid "Cancel"
 msgstr "Отменить"
 
-#: rc/qml/Utility/PhotosToolbarActions.qml:32 rc/qml/MainScreen.qml:92
-#: rc/qml/MainScreen.qml:124
+#: rc/qml/AlbumViewer.qml:466 rc/qml/AlbumsOverview.qml:177
+#: rc/qml/GalleryPhotoViewer.qml:206 rc/qml/Utility/EditingHUD.qml:77
+#: rc/qml/Utility/SelectionToolbarAction.qml:42
+msgid "Add"
+msgstr "Добавить"
+
+#: rc/qml/AlbumViewer.qml:473 rc/qml/GalleryPhotoViewer.qml:214
+#: rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/Utility/SelectionToolbarAction.qml:48
+#: rc/qml/Widgets/AlbumEditMenu.qml:59
+msgid "Delete"
+msgstr "Удалить"
+
+#: rc/qml/AlbumViewer.qml:483 rc/qml/GalleryPhotoViewer.qml:221
+#: rc/qml/Utility/EditingHUD.qml:72
+#: rc/qml/Utility/SelectionToolbarAction.qml:54
+#: rc/qml/Widgets/AlbumEditMenu.qml:52
+msgid "Share"
+msgstr "Поделиться"
+
+#: rc/qml/AlbumViewer.qml:488 rc/qml/GalleryPhotoViewer.qml:229
+msgid "Back"
+msgstr "Назад"
+
+#: rc/qml/AlbumsOverview.qml:185 rc/qml/Utility/PhotosToolbarActions.qml:43
+msgid "Camera"
+msgstr "Камера"
+
+#: rc/qml/GalleryPhotoViewer.qml:199
+msgid "Edit"
+msgstr "Изменить"
+
+#: rc/qml/GalleryPhotoViewer.qml:264 rc/qml/PhotosOverview.qml:149
+msgid "Delete a photo"
+msgstr "Удалить изображение"
+
+#: rc/qml/GalleryPhotoViewer.qml:275 rc/qml/Widgets/DeleteDialog.qml:36
+msgid "Yes"
+msgstr "Да"
+
+#: rc/qml/GalleryPhotoViewer.qml:286 rc/qml/Widgets/DeleteDialog.qml:45
+msgid "No"
+msgstr "Нет"
+
+#: rc/qml/LoadingScreen.qml:36
+msgid "Loading…"
+msgstr "Загрузка..."
+
+#: rc/qml/MainScreen.qml:56
+msgid "Albums"
+msgstr "Альбомы"
+
+#: rc/qml/MainScreen.qml:72 rc/qml/MainScreen.qml:94
+msgid "Events"
+msgstr "Мероприятия"
+
+#: rc/qml/MainScreen.qml:92 rc/qml/MainScreen.qml:124
+#: rc/qml/Utility/PhotosToolbarActions.qml:32
 msgid "Select"
 msgstr "Выбрать"
 
-#: rc/qml/Utility/PhotosToolbarActions.qml:38
-msgid "Import"
-msgstr "Импортировать"
+#: rc/qml/MainScreen.qml:104 rc/qml/MainScreen.qml:126
+msgid "Photos"
+msgstr "Фотографии"
 
-#: rc/qml/Utility/PhotosToolbarActions.qml:43 rc/qml/AlbumsOverview.qml:185
-msgid "Camera"
-msgstr "Камера"
+#: rc/qml/MediaSelector.qml:56 rc/qml/MediaSelector.qml:82
+msgid "Add to Album"
+msgstr "Добавить в Альбом"
+
+#: rc/qml/PhotosOverview.qml:148
+msgid "Delete photos"
+msgstr "Удалить фотографии"
+
+#: rc/qml/Utility/AlbumCoverList.qml:113
+msgid "Default"
+msgstr "По умолчанию"
+
+#: rc/qml/Utility/AlbumCoverList.qml:114
+msgid "Blue"
+msgstr "Синий"
+
+#: rc/qml/Utility/AlbumCoverList.qml:115
+msgid "Green"
+msgstr "Зелёный"
+
+#: rc/qml/Utility/AlbumCoverList.qml:116
+msgid "Pattern"
+msgstr "Шаблон"
+
+#: rc/qml/Utility/AlbumCoverList.qml:117
+msgid "Red"
+msgstr "Красный"
+
+#: rc/qml/Utility/CropOverlay.qml:355 rc/qml/Utility/EditingHUD.qml:106
+#: rc/qml/Widgets/EditPopover.qml:47
+msgid "Crop"
+msgstr "Кадрировать"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
@@ -63,7 +142,7 @@ msgstr "Отправить;Загрузить;Прикрепить"
 
 #: rc/qml/Utility/EditingHUD.qml:78 rc/qml/Widgets/PopupAlbumPicker.qml:113
 msgid "Add Photo to Album"
-msgstr ""
+msgstr "Добавить Фото в альбом"
 
 #: rc/qml/Utility/EditingHUD.qml:82 rc/qml/Widgets/EditPopover.qml:63
 msgid "Undo"
@@ -83,11 +162,11 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr ""
+msgstr "Автоулучшение"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr ""
+msgstr "Автоматически улучшить изображение"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
@@ -99,20 +178,15 @@ msgstr "Вращать"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr ""
+msgstr "Повернуть по часовой стрелке"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr ""
-
-#: rc/qml/Utility/EditingHUD.qml:106 rc/qml/Utility/CropOverlay.qml:355
-#: rc/qml/Widgets/EditPopover.qml:47
-msgid "Crop"
-msgstr "Кадрировать"
+msgstr "Повернуть изображение по часовой стрелке"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr ""
+msgstr "Обрезка;Вырезать"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
@@ -128,7 +202,7 @@ msgstr "Отменить изменения"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr ""
+msgstr "Отменить все изменения"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
@@ -136,7 +210,7 @@ msgstr "Экспозиция"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr ""
+msgstr "Отрегулировать экспозицию"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
@@ -160,7 +234,7 @@ msgstr "Настройка цветового баланса"
 
 #: rc/qml/Utility/EditingHUD.qml:163
 msgid "Saturation;Hue"
-msgstr ""
+msgstr "Насыщенность; Оттенок"
 
 #: rc/qml/Utility/EditingHUD.qml:169
 msgid "Brightness"
@@ -178,69 +252,9 @@ msgstr "Насыщенность"
 msgid "Hue"
 msgstr "Оттенок"
 
-#: rc/qml/Utility/AlbumCoverList.qml:113
-msgid "Default"
-msgstr "По умолчанию"
-
-#: rc/qml/Utility/AlbumCoverList.qml:114
-msgid "Blue"
-msgstr "Синий"
-
-#: rc/qml/Utility/AlbumCoverList.qml:115
-msgid "Green"
-msgstr "Зелёный"
-
-#: rc/qml/Utility/AlbumCoverList.qml:116
-msgid "Pattern"
-msgstr ""
-
-#: rc/qml/Utility/AlbumCoverList.qml:117
-msgid "Red"
-msgstr "Красный"
-
-#: rc/qml/AlbumViewer.qml:488 rc/qml/GalleryPhotoViewer.qml:229
-msgid "Back"
-msgstr "Назад"
-
-#: rc/qml/PhotosOverview.qml:148
-msgid "Delete photos"
-msgstr ""
-
-#: rc/qml/PhotosOverview.qml:149 rc/qml/GalleryPhotoViewer.qml:264
-msgid "Delete a photo"
-msgstr "Удалить изображение"
-
-#: rc/qml/MainScreen.qml:56
-msgid "Albums"
-msgstr "Альбомы"
-
-#: rc/qml/MainScreen.qml:72 rc/qml/MainScreen.qml:94
-msgid "Events"
-msgstr "Мероприятия"
-
-#: rc/qml/MainScreen.qml:104 rc/qml/MainScreen.qml:126
-msgid "Photos"
-msgstr "Фотографии"
-
-#: rc/qml/GalleryPhotoViewer.qml:199
-msgid "Edit"
-msgstr ""
-
-#: rc/qml/GalleryPhotoViewer.qml:275 rc/qml/Widgets/DeleteDialog.qml:36
-msgid "Yes"
-msgstr "Да"
-
-#: rc/qml/GalleryPhotoViewer.qml:286 rc/qml/Widgets/DeleteDialog.qml:45
-msgid "No"
-msgstr "Нет"
-
-#: rc/qml/MediaSelector.qml:56 rc/qml/MediaSelector.qml:82
-msgid "Add to Album"
-msgstr "Добавить в Альбом"
-
-#: rc/qml/LoadingScreen.qml:36
-msgid "Loading…"
-msgstr "Загрузка..."
+#: rc/qml/Utility/PhotosToolbarActions.qml:38
+msgid "Import"
+msgstr "Импортировать"
 
 #: rc/qml/Widgets/AlbumEditMenu.qml:45
 msgid "Edit album"
@@ -252,11 +266,11 @@ msgstr "Удалить альбом"
 
 #: rc/qml/Widgets/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr ""
+msgstr "Удалить альбом и содержимое"
 
 #: rc/qml/Widgets/EditPopover.qml:55
 msgid "Auto enhance"
-msgstr ""
+msgstr "Автоулучшение"
 
 #: rc/qml/Widgets/EditPopover.qml:81
 msgid "Revert to original"

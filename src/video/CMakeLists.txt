@@ -5,6 +5,7 @@ set(GALLERY_VIDEO_LIB gallery-video)
 include_directories(
     ${gallery_src_SOURCE_DIR}
     ${gallery_core_src_SOURCE_DIR}
+    ${gallery_database_src_SOURCE_DIR}
     ${gallery_media_src_SOURCE_DIR}
     ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
@@ -23,6 +24,7 @@ add_library(${GALLERY_VIDEO_LIB}
 qt5_use_modules(${GALLERY_VIDEO_LIB} Widgets Core Qml)
 
 target_link_libraries( ${GALLERY_VIDEO_LIB}
+    gallery-database
     gallery-media
     ${GSTLIB_LDFLAGS}
     )

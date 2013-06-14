@@ -7,51 +7,130 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-05-23 06:59+0000\n"
+"POT-Creation-Date: 2013-06-12 08:03+0000\n"
 "PO-Revision-Date: 2013-05-29 03:58+0000\n"
 "Last-Translator: Gheyret T.Kenji <Unknown>\n"
 "Language-Team: Uyghur <ug@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-05 06:35+0000\n"
-"X-Generator: Launchpad (build 16660)\n"
+"X-Launchpad-Export-Date: 2013-06-13 06:10+0000\n"
+"X-Generator: Launchpad (build 16667)\n"
 
-#: rc/qml/Utility/SelectionToolbarAction.qml:42
-#: rc/qml/Utility/EditingHUD.qml:77 rc/qml/AlbumViewer.qml:466
-#: rc/qml/GalleryPhotoViewer.qml:206 rc/qml/AlbumsOverview.qml:177
-msgid "Add"
-msgstr "قوش"
+#: desktop/gallery-app.desktop.in:3
+msgid "Gallery"
+msgstr ""
 
-#: rc/qml/Utility/SelectionToolbarAction.qml:48
-#: rc/qml/Utility/EditingHUD.qml:67 rc/qml/AlbumViewer.qml:473
-#: rc/qml/GalleryPhotoViewer.qml:214 rc/qml/Widgets/AlbumEditMenu.qml:59
-msgid "Delete"
-msgstr "ئۆچۈر"
+#: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
+msgid "Ubuntu Photo Viewer"
+msgstr ""
 
-#: rc/qml/Utility/SelectionToolbarAction.qml:54
-#: rc/qml/Utility/EditingHUD.qml:72 rc/qml/AlbumViewer.qml:483
-#: rc/qml/GalleryPhotoViewer.qml:221 rc/qml/Widgets/AlbumEditMenu.qml:52
-msgid "Share"
-msgstr "ھەمبەھىرلە"
+#: desktop/gallery-app.desktop.in:6
+msgid "Browse your photographs"
+msgstr ""
 
-#: rc/qml/Utility/SelectionToolbarAction.qml:61 rc/qml/MediaSelector.qml:94
-#: rc/qml/AlbumEditor.qml:40
+#: rc/qml/AlbumEditor.qml:40 rc/qml/MediaSelector.qml:94
+#: rc/qml/Utility/SelectionToolbarAction.qml:61
 msgid "Cancel"
 msgstr "ئەمەلدىن قالدۇر"
 
-#: rc/qml/Utility/PhotosToolbarActions.qml:32 rc/qml/MainScreen.qml:92
-#: rc/qml/MainScreen.qml:124
+#: rc/qml/AlbumViewer.qml:466 rc/qml/AlbumsOverview.qml:177
+#: rc/qml/GalleryPhotoViewer.qml:206 rc/qml/Utility/EditingHUD.qml:77
+#: rc/qml/Utility/SelectionToolbarAction.qml:42
+msgid "Add"
+msgstr "قوش"
+
+#: rc/qml/AlbumViewer.qml:473 rc/qml/GalleryPhotoViewer.qml:214
+#: rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/Utility/SelectionToolbarAction.qml:48
+#: rc/qml/Widgets/AlbumEditMenu.qml:59
+msgid "Delete"
+msgstr "ئۆچۈر"
+
+#: rc/qml/AlbumViewer.qml:483 rc/qml/GalleryPhotoViewer.qml:221
+#: rc/qml/Utility/EditingHUD.qml:72
+#: rc/qml/Utility/SelectionToolbarAction.qml:54
+#: rc/qml/Widgets/AlbumEditMenu.qml:52
+msgid "Share"
+msgstr "ھەمبەھىرلە"
+
+#: rc/qml/AlbumViewer.qml:488 rc/qml/GalleryPhotoViewer.qml:229
+msgid "Back"
+msgstr "كەينى"
+
+#: rc/qml/AlbumsOverview.qml:185 rc/qml/Utility/PhotosToolbarActions.qml:43
+msgid "Camera"
+msgstr "كامېرا"
+
+#: rc/qml/GalleryPhotoViewer.qml:199
+msgid "Edit"
+msgstr "تەھرىر"
+
+#: rc/qml/GalleryPhotoViewer.qml:264 rc/qml/PhotosOverview.qml:149
+msgid "Delete a photo"
+msgstr "بىر سۈرەتنى ئۆچۈر"
+
+#: rc/qml/GalleryPhotoViewer.qml:275 rc/qml/Widgets/DeleteDialog.qml:36
+msgid "Yes"
+msgstr "ھەئە"
+
+#: rc/qml/GalleryPhotoViewer.qml:286 rc/qml/Widgets/DeleteDialog.qml:45
+msgid "No"
+msgstr "ياق"
+
+#: rc/qml/LoadingScreen.qml:36
+msgid "Loading…"
+msgstr "يۈكلەۋاتىدۇ…"
+
+#: rc/qml/MainScreen.qml:56
+msgid "Albums"
+msgstr "ئالبوملار"
+
+#: rc/qml/MainScreen.qml:72 rc/qml/MainScreen.qml:94
+msgid "Events"
+msgstr "ھادىسىلەر"
+
+#: rc/qml/MainScreen.qml:92 rc/qml/MainScreen.qml:124
+#: rc/qml/Utility/PhotosToolbarActions.qml:32
 msgid "Select"
 msgstr "تاللا"
 
-#: rc/qml/Utility/PhotosToolbarActions.qml:38
-msgid "Import"
-msgstr "ئىمپورت قىل"
+#: rc/qml/MainScreen.qml:104 rc/qml/MainScreen.qml:126
+msgid "Photos"
+msgstr "سۈرەتلەر"
 
-#: rc/qml/Utility/PhotosToolbarActions.qml:43 rc/qml/AlbumsOverview.qml:185
-msgid "Camera"
-msgstr "كامېرا"
+#: rc/qml/MediaSelector.qml:56 rc/qml/MediaSelector.qml:82
+msgid "Add to Album"
+msgstr "ئالبومغا قوش"
+
+#: rc/qml/PhotosOverview.qml:148
+msgid "Delete photos"
+msgstr "سۈرەتلەرنى ئۆچۈر"
+
+#: rc/qml/Utility/AlbumCoverList.qml:113
+msgid "Default"
+msgstr "كۆڭۈلدىكى"
+
+#: rc/qml/Utility/AlbumCoverList.qml:114
+msgid "Blue"
+msgstr "كۆك"
+
+#: rc/qml/Utility/AlbumCoverList.qml:115
+msgid "Green"
+msgstr "يېشىل"
+
+#: rc/qml/Utility/AlbumCoverList.qml:116
+msgid "Pattern"
+msgstr "ئەندىزە"
+
+#: rc/qml/Utility/AlbumCoverList.qml:117
+msgid "Red"
+msgstr "قىزىل"
+
+#: rc/qml/Utility/CropOverlay.qml:355 rc/qml/Utility/EditingHUD.qml:106
+#: rc/qml/Widgets/EditPopover.qml:47
+msgid "Crop"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
@@ -103,11 +182,6 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr ""
-
-#: rc/qml/Utility/EditingHUD.qml:106 rc/qml/Utility/CropOverlay.qml:355
-#: rc/qml/Widgets/EditPopover.qml:47
-msgid "Crop"
 msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:107
@@ -178,69 +252,9 @@ msgstr "تويۇنۇش"
 msgid "Hue"
 msgstr "رەڭگى"
 
-#: rc/qml/Utility/AlbumCoverList.qml:113
-msgid "Default"
-msgstr "كۆڭۈلدىكى"
-
-#: rc/qml/Utility/AlbumCoverList.qml:114
-msgid "Blue"
-msgstr "كۆك"
-
-#: rc/qml/Utility/AlbumCoverList.qml:115
-msgid "Green"
-msgstr "يېشىل"
-
-#: rc/qml/Utility/AlbumCoverList.qml:116
-msgid "Pattern"
-msgstr "ئەندىزە"
-
-#: rc/qml/Utility/AlbumCoverList.qml:117
-msgid "Red"
-msgstr "قىزىل"
-
-#: rc/qml/AlbumViewer.qml:488 rc/qml/GalleryPhotoViewer.qml:229
-msgid "Back"
-msgstr "كەينى"
-
-#: rc/qml/PhotosOverview.qml:148
-msgid "Delete photos"
-msgstr "سۈرەتلەرنى ئۆچۈر"
-
-#: rc/qml/PhotosOverview.qml:149 rc/qml/GalleryPhotoViewer.qml:264
-msgid "Delete a photo"
-msgstr "بىر سۈرەتنى ئۆچۈر"
-
-#: rc/qml/MainScreen.qml:56
-msgid "Albums"
-msgstr "ئالبوملار"
-
-#: rc/qml/MainScreen.qml:72 rc/qml/MainScreen.qml:94
-msgid "Events"
-msgstr "ھادىسىلەر"
-
-#: rc/qml/MainScreen.qml:104 rc/qml/MainScreen.qml:126
-msgid "Photos"
-msgstr "سۈرەتلەر"
-
-#: rc/qml/GalleryPhotoViewer.qml:199
-msgid "Edit"
-msgstr "تەھرىر"
-
-#: rc/qml/GalleryPhotoViewer.qml:275 rc/qml/Widgets/DeleteDialog.qml:36
-msgid "Yes"
-msgstr "ھەئە"
-
-#: rc/qml/GalleryPhotoViewer.qml:286 rc/qml/Widgets/DeleteDialog.qml:45
-msgid "No"
-msgstr "ياق"
-
-#: rc/qml/MediaSelector.qml:56 rc/qml/MediaSelector.qml:82
-msgid "Add to Album"
-msgstr "ئالبومغا قوش"
-
-#: rc/qml/LoadingScreen.qml:36
-msgid "Loading…"
-msgstr "يۈكلەۋاتىدۇ…"
+#: rc/qml/Utility/PhotosToolbarActions.qml:38
+msgid "Import"
+msgstr "ئىمپورت قىل"
 
 #: rc/qml/Widgets/AlbumEditMenu.qml:45
 msgid "Edit album"

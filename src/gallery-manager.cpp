@@ -19,6 +19,7 @@
  */
 
 #include "gallery-manager.h"
+#include "media-object-factory.h"
 
 // album
 #include "album-collection.h"
@@ -34,7 +35,6 @@
 // media
 #include "media-collection.h"
 #include "media-monitor.h"
-#include "photo.h"
 #include "preview-manager.h"
 
 // qml
@@ -107,6 +107,7 @@ void GalleryManager::postInit()
 
         m_database = new Database(m_resource->databaseDirectory(),
                                  m_resource->getRcUrl("sql").path());
+        m_mediaFactory = new MediaObjectFactory(m_database->getMediaTable());
         m_database->getMediaTable()->verifyFiles();
         m_defaultTemplate = new AlbumDefaultTemplate();
         m_mediaCollection = new MediaCollection();
@@ -133,6 +134,9 @@ void GalleryManager::postInit()
  */
 GalleryManager::~GalleryManager()
 {
+    delete m_monitor;
+    m_monitor = 0;
+
     delete m_resource;
     m_resource = 0;
 
@@ -141,6 +145,9 @@ GalleryManager::~GalleryManager()
 
     delete m_thumbnailImageProvider;
     m_thumbnailImageProvider = 0;
+
+    delete m_mediaFactory;
+    m_mediaFactory = 0;
 
     delete m_database;
     m_database = 0;
@@ -215,11 +222,10 @@ void GalleryManager::fillMediaCollection()
     const QStringList filenames = mediaDir.entryList();
     foreach (const QString& filename, filenames) {
         QFileInfo file(mediaDir, filename);
-        Photo *p = Photo::load(file);
-        if (!p)
-            continue;
-
-        photos.insert(p);
+        DataObject *media = m_mediaFactory->create(file);
+        if (media) {
+            photos.insert(media);
+        }
     }
 
     m_mediaCollection->addMany(photos);
@@ -227,12 +233,15 @@ void GalleryManager::fillMediaCollection()
 
 /*!
  * \brief GalleryApplication::onMediaItemAdded
- * \param item_info
+ * \param file
  */
-void GalleryManager::onMediaItemAdded(QFileInfo itemInfo)
+void GalleryManager::onMediaItemAdded(QFileInfo file)
 {
-    MediaSource* newMedia = Photo::fetch(itemInfo);
-
-    if (newMedia)
-        m_mediaCollection->add(newMedia);
+    MediaSource* media = m_mediaCollection->mediaFromFileinfo(file);
+    if (media == 0) {
+        media = m_mediaFactory->create(file);
+    }
+    if (media) {
+        m_mediaCollection->add(media);
+    }
 }

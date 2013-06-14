@@ -179,109 +179,6 @@ bool Photo::isValid(const QFileInfo& file)
 }
 
 /*!
- * \brief Photo::load Loads a photo object from the given file
- * Loads a photo object from the given file.  If it's not already
- * present in the database, it will be added.  If the file is not
- * valid return null.
- * \param file
- * \return
- */
-Photo* Photo::load(const QFileInfo& file)
-{
-    bool needs_update = false;
-    QDateTime timestamp;
-    QDateTime exposure_time;
-    QSize size;
-    Orientation orientation;
-    qint64 filesize;
-
-    // Look for photo in the database.
-    qint64 id = GalleryManager::instance()->database()->getMediaTable()->getIdForMedia(
-                file.absoluteFilePath());
-
-    if (id == INVALID_ID && !isValid(file))
-        return NULL;
-
-    Photo* p = new Photo(file);
-
-    // Check for legacy rows.
-    if (id != INVALID_ID)
-        needs_update = GalleryManager::instance()->database()->getMediaTable()->rowNeedsUpdate(id);
-
-    // If we don't have the photo, add it to the DB.  If we have the photo but the
-    // row is from a previous version of the DB, update the row.
-    if (id == INVALID_ID || needs_update) {
-        PhotoMetadata* metadata = PhotoMetadata::fromFile(p->m_caches.pristineFile());
-        if (metadata == NULL) {
-            delete p;
-            return NULL;
-        }
-
-        timestamp = p->m_caches.pristineFile().lastModified();
-        orientation = p->fileFormatHasOrientation()
-                ? metadata->orientation() : TOP_LEFT_ORIGIN;
-        filesize = p->m_caches.pristineFile().size();
-        exposure_time = metadata->exposureTime().isValid() ?
-                    QDateTime(metadata->exposureTime()) : timestamp;
-
-        if (needs_update) {
-            // Update DB.
-            GalleryManager::instance()->database()->getMediaTable()->updateMedia(id,
-                                                                                    file.absoluteFilePath(), timestamp, exposure_time, orientation, filesize);
-        } else {
-            // Add to DB.
-            id = GalleryManager::instance()->database()->getMediaTable()->createIdForMedia(
-                        file.absoluteFilePath(), timestamp, exposure_time, orientation, filesize);
-        }
-
-        PhotoEditState edit_state;
-        p->setBaseEditState(edit_state);
-
-        delete metadata;
-    } else {
-        // Load metadata from DB.
-        GalleryManager::instance()->database()->getMediaTable()->getRow(id, size, orientation,
-                                                                           timestamp, exposure_time);
-    }
-
-    // Populate photo object.
-    if (size.isValid())
-        p->setSize(size);
-    p->setOriginalOrientation(orientation);
-    p->setFileTimestamp(timestamp);
-    p->setExposureDateTime(exposure_time);
-
-    // We set the id last so we don't save the info we just read in back out to
-    // the DB.
-    p->setId(id);
-
-    return p;
-}
-
-/*!
- * \brief Photo::fetch Loads a photo object from the given file and generates a thumbnail for it
- * Loads a photo object from the given file and generates a thumbnail for it
- * if and only if it hasn't already been loaded; otherwise, it attempts to
- * return the existing object instead. Uses Photo.Load() to do its work.
- * \param file
- * \return
- */
-Photo* Photo::fetch(const QFileInfo& file)
-{
-    GalleryManager* gallery_mgr = GalleryManager::instance();
-
-    Photo* p = 0;
-    MediaSource* media = gallery_mgr->mediaCollection()->mediaFromFileinfo(file);
-    if (media == 0) {
-        p = load(file);
-    } else {
-        p = qobject_cast<Photo*>(media);
-    }
-
-    return p;
-}
-
-/*!
  * \brief Photo::Photo
  * \param file
  */
@@ -305,6 +202,14 @@ Photo::Photo(const QFileInfo& file)
 Photo::~Photo()
 {
     delete(d_ptr);
+}
+
+/*!
+ * \reimp
+ */
+MediaSource::MediaType Photo::type() const
+{
+    return MediaSource::Photo;
 }
 
 /*!
@@ -398,6 +303,33 @@ void Photo::setBaseEditState(const PhotoEditState& base)
 {
     Q_D(Photo);
     d->editStack()->setBase(base);
+}
+
+/*!
+ * \brief Photo::originalFile
+ * \return
+ */
+const QFileInfo &Photo::originalFile() const
+{
+    return m_caches.originalFile();
+}
+
+/*!
+ * \brief Photo::enhancedFile
+ * \return
+ */
+const QFileInfo &Photo::enhancedFile() const
+{
+    return m_caches.enhancedFile();
+}
+
+/*!
+ * \brief Photo::pristineFile
+ * \return
+ */
+const QFileInfo &Photo::pristineFile() const
+{
+    return m_caches.pristineFile();
 }
 
 /*!
