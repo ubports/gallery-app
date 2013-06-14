@@ -20,30 +20,35 @@
 #ifndef GALLERYMANAGER_H
 #define GALLERYMANAGER_H
 
-#include <QDir>
+#include <QFileInfo>
+#include <QObject>
 
 #include <cstddef>
 
 class QQuickView;
 
-class Resource;
+class AlbumCollection;
+class AlbumDefaultTemplate;
+class Database;
+class EventCollection;
+class GalleryManager;
 class GalleryStandardImageProvider;
 class GalleryThumbnailImageProvider;
-class Database;
-class AlbumDefaultTemplate;
 class MediaCollection;
-class AlbumCollection;
-class EventCollection;
+class MediaMonitor;
+class MediaObjectFactory;
 class PreviewManager;
-class GalleryManager;
+class Resource;
 
 /*!
  * Simple class which encapsulates instantiates objects which require only one instance.
  */
-class GalleryManager
+class GalleryManager : public QObject
 {
+    Q_OBJECT
+
 public:
-    static GalleryManager* instance(const QDir& picturesDir = QDir(),
+    static GalleryManager* instance(const QString &picturesDir = QString(),
                                     QQuickView *view = 0,
                                     const bool logImageLoading = false);
 
@@ -59,8 +64,11 @@ public:
     GalleryStandardImageProvider* galleryStandardImageProvider() { return m_standardImageProvider; }
     GalleryThumbnailImageProvider* galleryThumbnailImageProvider() { return m_thumbnailImageProvider; }
 
+private slots:
+    void onMediaItemAdded(QFileInfo file);
+
 private:
-    GalleryManager(const QDir& picturesDir, QQuickView *view, const bool logImageLoading);
+    GalleryManager(const QString &picturesDir, QQuickView *view, const bool logImageLoading);
     ~GalleryManager();
 
     GalleryManager(const GalleryManager&);
@@ -76,13 +84,14 @@ private:
     Resource* m_resource;
     GalleryStandardImageProvider* m_standardImageProvider;
     GalleryThumbnailImageProvider* m_thumbnailImageProvider;
-
     Database* m_database;
     AlbumDefaultTemplate* m_defaultTemplate;
     MediaCollection* m_mediaCollection;
     AlbumCollection* m_albumCollection;
     EventCollection* m_eventCollection;
     PreviewManager* m_previewManager;
+    MediaObjectFactory *m_mediaFactory;
+    MediaMonitor *m_monitor;
 };
 
 #endif // GALLERYMANAGER_H

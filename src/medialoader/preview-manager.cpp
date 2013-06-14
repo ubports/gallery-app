@@ -206,6 +206,10 @@ bool PreviewManager::saveThumbnail(const QImage &image, const QString &fileName)
         return false;
     }
 
+    if (QFile::exists(fileName)) {
+        QFile::remove(fileName);
+    }
+
     QFile thumbnail(temporaryName);
     return thumbnail.rename(fileName);
 }
