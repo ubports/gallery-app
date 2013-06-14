@@ -20,25 +20,48 @@
 
 #include "photo-metadata.h"
 
+#include <QDateTime>
+
+PhotoMetadata::PhotoMetadata(const char* filepath)
+    : m_fileSourceInfo(filepath)
+{
+}
+
 Orientation PhotoMetadata::orientation() const
 {
-    return Orientation();
+    return BOTTOM_LEFT_ORIGIN;
+}
+
+PhotoMetadata* PhotoMetadata::fromFile(const char* filepath)
+{
+    return new PhotoMetadata(filepath);
 }
 
 PhotoMetadata* PhotoMetadata::fromFile(const QFileInfo &file)
 {
-    QFileInfo test = file;
-    return NULL;
+    if (file.suffix() == QLatin1String("jpg")) {
+        return PhotoMetadata::fromFile(file.absoluteFilePath().toStdString().c_str());
+    } else {
+        return 0;
+    }
 }
 
-OrientationCorrection OrientationCorrection::fromOrientation(Orientation o)
+QDateTime PhotoMetadata::exposureTime() const
 {
-    OrientationCorrection test = OrientationCorrection::fromOrientation(o);
-    return test;
+    return QDateTime(QDate(2013, 01, 01), QTime(11, 11, 11));
 }
 
-QTransform OrientationCorrection::toTransform() const
+QTransform PhotoMetadata::orientationTransform() const
 {
-  QTransform result;
-  return result;
+    return QTransform();
+}
+
+void PhotoMetadata::setOrientation(Orientation orientation)
+{
+    Q_UNUSED(orientation);
+}
+
+bool PhotoMetadata::save() const
+{
+    return true;
 }

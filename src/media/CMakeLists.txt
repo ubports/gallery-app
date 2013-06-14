@@ -34,10 +34,5 @@ add_library(${GALLERY_MEDIA_LIB}
 qt5_use_modules(${GALLERY_MEDIA_LIB} Core Quick)
 
 target_link_libraries( ${GALLERY_MEDIA_LIB}
-    gallery-core
-    gallery-database
-    gallery-event
-    gallery-medialoader
-    gallery-util
     ${GSTLIB_LDFLAGS}
     )
