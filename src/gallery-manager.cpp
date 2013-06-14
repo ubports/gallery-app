@@ -56,7 +56,7 @@ GalleryManager* GalleryManager::m_galleryManager = NULL;
  * \param logImageLoading if true, the image loadings times are printed to stdout
  * \return
  */
-GalleryManager* GalleryManager::instance(const QDir &picturesDir,
+GalleryManager* GalleryManager::instance(const QString &picturesDir,
                                          QQuickView *view, const bool logImageLoading)
 {
     if (!m_galleryManager)
@@ -71,10 +71,10 @@ GalleryManager* GalleryManager::instance(const QDir &picturesDir,
  * \param view
  * \param logImageLoading
  */
-GalleryManager::GalleryManager(const QDir& picturesDir,
+GalleryManager::GalleryManager(const QString& picturesDir,
                                QQuickView *view, const bool logImageLoading)
     : collectionsInitialised(false),
-      m_resource(new Resource(picturesDir.path(), view)),
+      m_resource(new Resource(picturesDir, view)),
       m_standardImageProvider(new GalleryStandardImageProvider()),
       m_thumbnailImageProvider(new GalleryThumbnailImageProvider()),
       m_database(0),
@@ -214,17 +214,19 @@ void GalleryManager::fillMediaCollection()
 {
     Q_ASSERT(m_mediaCollection);
 
-    QDir mediaDir(m_resource->mediaDirectories().at(0));
-    mediaDir.setFilter(QDir::Files);
-    mediaDir.setSorting(QDir::Name);
-
     QSet<DataObject*> photos;
-    const QStringList filenames = mediaDir.entryList();
-    foreach (const QString& filename, filenames) {
-        QFileInfo file(mediaDir, filename);
-        DataObject *media = m_mediaFactory->create(file);
-        if (media) {
-            photos.insert(media);
+    foreach (const QString &dirName, m_resource->mediaDirectories()) {
+        QDir mediaDir(dirName);
+        mediaDir.setFilter(QDir::Files);
+        mediaDir.setSorting(QDir::Name);
+
+        const QStringList filenames = mediaDir.entryList();
+        foreach (const QString& filename, filenames) {
+            QFileInfo file(mediaDir, filename);
+            DataObject *media = m_mediaFactory->create(file);
+            if (media) {
+                photos.insert(media);
+            }
         }
     }
 

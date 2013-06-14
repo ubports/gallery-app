@@ -20,15 +20,16 @@
 
 #include "command-line-parser.h"
 
-#include <QTextStream>
-#include <QStandardPaths>
 #include <QDebug>
+#include <QDir>
+#include <QStandardPaths>
+#include <QTextStream>
 
 CommandLineParser::CommandLineParser(const QHash<QString, QSize>& form_factors)
     : m_startupTimer(false),
       m_isFullscreen(false),
       m_isPortrait(false),
-      m_picturesDir(QDir(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation))),
+      m_picturesDir(""),
       m_logImageLoading(false),
       m_formFactors(form_factors),
       m_formFactor("desktop")
@@ -42,6 +43,7 @@ CommandLineParser::CommandLineParser(const QHash<QString, QSize>& form_factors)
  */
 bool CommandLineParser::processArguments(const QStringList& args)
 {
+    qDebug() << "cml argument:" << args;
     bool valid_args = true;
 
     for (int i = 1; i < args.count(); ++i)
@@ -77,7 +79,7 @@ bool CommandLineParser::processArguments(const QStringList& args)
                 // ignore this command line switch, hybris uses it to get application info
             }
             else if (i == args.count() - 1 && QDir(args[i]).exists()) {
-                m_picturesDir = QDir(args[i]);
+                m_picturesDir = args[i];
             }
             else {
                 valid_args = !invalidArg(args[i]);

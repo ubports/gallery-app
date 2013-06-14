@@ -21,7 +21,6 @@
 #ifndef COMMANDLINEPARSER_H
 #define COMMANDLINEPARSER_H
 
-#include <QDir>
 #include <QHash>
 #include <QSize>
 #include <QString>
@@ -36,7 +35,7 @@ public:
 
     bool processArguments(const QStringList& args);
 
-    QDir picturesDir() const { return m_picturesDir; }
+    QString picturesDir() const { return m_picturesDir; }
     bool isPortrait() const { return m_isPortrait; }
     bool isFullscreen() const { return m_isFullscreen; }
     bool startupTimer() const { return m_startupTimer; }
@@ -51,7 +50,7 @@ private:
     bool m_startupTimer;
     bool m_isFullscreen;
     bool m_isPortrait;
-    QDir m_picturesDir;
+    QString m_picturesDir;
 
     bool m_logImageLoading;
 

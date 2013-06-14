@@ -20,6 +20,7 @@
 #include "resource.h"
 #include "config.h"
 
+#include <QDebug>
 #include <QtGui/QOpenGLContext>
 #include <QtQuick/QQuickView>
 #include <QStandardPaths>
@@ -40,11 +41,11 @@ Resource::Resource(const QString &pictureDir, QQuickView *view)
       m_view(view),
       m_maxTextureSize(0)
 {
-    if (pictureDir.isEmpty()) {
+    if (!pictureDir.isEmpty() && QDir(pictureDir).exists()) {
+        m_mediaDirectories.append(pictureDir);
+    } else {
         m_mediaDirectories.append(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation));
         m_mediaDirectories.append(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
-    } else {
-        m_mediaDirectories.append(pictureDir);
     }
 }
 
