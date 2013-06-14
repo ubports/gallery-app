@@ -39,7 +39,7 @@
 
 GalleryManager* GalleryManager::m_galleryManager = NULL;
 
-GalleryManager* GalleryManager::instance(const QDir &picturesDir,
+GalleryManager* GalleryManager::instance(const QString &picturesDir,
                                          QQuickView *view, const bool logImageLoading)
 {
     if (!m_galleryManager)
@@ -48,7 +48,7 @@ GalleryManager* GalleryManager::instance(const QDir &picturesDir,
     return m_galleryManager;
 }
 
-GalleryManager::GalleryManager(const QDir& picturesDir,
+GalleryManager::GalleryManager(const QString& picturesDir,
                                QQuickView *view, const bool logImageLoading)
     : collectionsInitialised(false),
       m_resource(0),

@@ -19,6 +19,7 @@
 
 #include "media-monitor.h"
 
+#include <QDir>
 #include <QSet>
 #include <QString>
 
@@ -26,10 +27,10 @@
  * \brief MediaMonitor::MediaMonitor
  * \param targetDirectory
  */
-MediaMonitor::MediaMonitor(const QDir& targetDirectory)
-    : m_targetDirectory(targetDirectory),
-      m_watcher(QStringList(targetDirectory.path())),
-      m_manifest(getManifest(targetDirectory)),
+MediaMonitor::MediaMonitor(const QStringList &targetDirectories)
+    : m_targetDirectories(targetDirectories),
+      m_watcher(targetDirectories),
+      m_manifest(getManifest(targetDirectories)),
       m_fileActivityTimer(this)
 {
     QObject::connect(&m_watcher, SIGNAL(directoryChanged(const QString&)), this,
@@ -61,12 +62,11 @@ void MediaMonitor::onDirectoryEvent(const QString& eventSource)
  */
 void MediaMonitor::onFileActivityCeased()
 {
-    QStringList new_manifest = getManifest(m_targetDirectory);
+    QStringList new_manifest = getManifest(m_targetDirectories);
 
     QStringList difference = subtractManifest(new_manifest, m_manifest);
     for (int i = 0; i < difference.size(); i++)
-        notifyMediaItemAdded(m_targetDirectory.absolutePath() +
-                                QDir::separator() + difference.at(i));
+        notifyMediaItemAdded(difference.at(i));
 
     m_manifest = new_manifest;
 }
@@ -76,9 +76,17 @@ void MediaMonitor::onFileActivityCeased()
  * \param dir
  * \return
  */
-QStringList MediaMonitor::getManifest(const QDir& dir)
+QStringList MediaMonitor::getManifest(const QStringList &dirs)
 {
-    return dir.entryList(QDir::Files, QDir::Time);
+    QStringList allFiles;
+    foreach (const QString &dirName, dirs) {
+        QDir dir(dirName);
+        QStringList fileList = dir.entryList(QDir::Files, QDir::Time);
+        foreach (const QString &fileName, fileList) {
+            allFiles.append(dirName + QDir::separator() + fileName);
+        }
+    }
+    return allFiles;
 }
 
 /*!
