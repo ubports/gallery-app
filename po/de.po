@@ -7,27 +7,27 @@ msgstr ""
 "Project-Id-Version: gallery-app VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-12 08:03+0000\n"
-"PO-Revision-Date: 2013-06-04 12:02+0000\n"
-"Last-Translator: Günter Schwann <Unknown>\n"
+"PO-Revision-Date: 2013-06-13 17:13+0000\n"
+"Last-Translator: Phillip Sz <Unknown>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-13 06:10+0000\n"
+"X-Launchpad-Export-Date: 2013-06-14 07:05+0000\n"
 "X-Generator: Launchpad (build 16667)\n"
 "Language: de\n"
 
 #: desktop/gallery-app.desktop.in:3
 msgid "Gallery"
-msgstr ""
+msgstr "Galerie"
 
 #: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
 msgid "Ubuntu Photo Viewer"
-msgstr ""
+msgstr "Ubuntu-Fotobetrachter"
 
 #: desktop/gallery-app.desktop.in:6
 msgid "Browse your photographs"
-msgstr ""
+msgstr "Durchsuchen Sie Ihre Fotos"
 
 #: rc/qml/AlbumEditor.qml:40 rc/qml/MediaSelector.qml:94
 #: rc/qml/Utility/SelectionToolbarAction.qml:61
@@ -52,7 +52,7 @@ msgstr "Löschen"
 #: rc/qml/Utility/SelectionToolbarAction.qml:54
 #: rc/qml/Widgets/AlbumEditMenu.qml:52
 msgid "Share"
-msgstr "Freigeben"
+msgstr "Teilen"
 
 #: rc/qml/AlbumViewer.qml:488 rc/qml/GalleryPhotoViewer.qml:229
 msgid "Back"
@@ -80,7 +80,7 @@ msgstr "Nein"
 
 #: rc/qml/LoadingScreen.qml:36
 msgid "Loading…"
-msgstr "Laden…"
+msgstr "Laden …"
 
 #: rc/qml/MainScreen.qml:56
 msgid "Albums"

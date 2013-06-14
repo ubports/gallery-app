@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-12 08:03+0000\n"
-"PO-Revision-Date: 2013-06-05 19:26+0000\n"
-"Last-Translator: Luo Lei <luolei@ubuntukylin.com>\n"
+"PO-Revision-Date: 2013-06-13 11:43+0000\n"
+"Last-Translator: Anthony Wong <anthony.wong@canonical.com>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-13 06:10+0000\n"
+"X-Launchpad-Export-Date: 2013-06-14 07:05+0000\n"
 "X-Generator: Launchpad (build 16667)\n"
 
 #: desktop/gallery-app.desktop.in:3
 msgid "Gallery"
-msgstr ""
+msgstr "相册"
 
 #: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
 msgid "Ubuntu Photo Viewer"
@@ -45,7 +45,7 @@ msgstr "添加"
 #: rc/qml/Utility/SelectionToolbarAction.qml:48
 #: rc/qml/Widgets/AlbumEditMenu.qml:59
 msgid "Delete"
-msgstr "刪除"
+msgstr "删除"
 
 #: rc/qml/AlbumViewer.qml:483 rc/qml/GalleryPhotoViewer.qml:221
 #: rc/qml/Utility/EditingHUD.qml:72

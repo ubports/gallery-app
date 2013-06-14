@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-12 08:03+0000\n"
-"PO-Revision-Date: 2013-05-31 15:51+0000\n"
+"PO-Revision-Date: 2013-06-13 17:33+0000\n"
 "Last-Translator: admresdeserv. <jeanmarc.gailis@gmail.com>\n"
 "Language-Team: Latvian <lv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-13 06:10+0000\n"
+"X-Launchpad-Export-Date: 2013-06-14 07:05+0000\n"
 "X-Generator: Launchpad (build 16667)\n"
 
 #: desktop/gallery-app.desktop.in:3
 msgid "Gallery"
-msgstr ""
+msgstr "Galerija"
 
 #: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
 msgid "Ubuntu Photo Viewer"
@@ -56,7 +56,7 @@ msgstr "Koplietot"
 
 #: rc/qml/AlbumViewer.qml:488 rc/qml/GalleryPhotoViewer.qml:229
 msgid "Back"
-msgstr ""
+msgstr "Atpakaļ"
 
 #: rc/qml/AlbumsOverview.qml:185 rc/qml/Utility/PhotosToolbarActions.qml:43
 msgid "Camera"
@@ -64,31 +64,31 @@ msgstr "Fotokamera"
 
 #: rc/qml/GalleryPhotoViewer.qml:199
 msgid "Edit"
-msgstr ""
+msgstr "Rediģēt"
 
 #: rc/qml/GalleryPhotoViewer.qml:264 rc/qml/PhotosOverview.qml:149
 msgid "Delete a photo"
-msgstr ""
+msgstr "Izdzest Fotografiju"
 
 #: rc/qml/GalleryPhotoViewer.qml:275 rc/qml/Widgets/DeleteDialog.qml:36
 msgid "Yes"
-msgstr ""
+msgstr "Jā"
 
 #: rc/qml/GalleryPhotoViewer.qml:286 rc/qml/Widgets/DeleteDialog.qml:45
 msgid "No"
-msgstr ""
+msgstr "Nē"
 
 #: rc/qml/LoadingScreen.qml:36
 msgid "Loading…"
-msgstr ""
+msgstr "Ielādē…"
 
 #: rc/qml/MainScreen.qml:56
 msgid "Albums"
-msgstr ""
+msgstr "Albūms"
 
 #: rc/qml/MainScreen.qml:72 rc/qml/MainScreen.qml:94
 msgid "Events"
-msgstr ""
+msgstr "Pasākumi"
 
 #: rc/qml/MainScreen.qml:92 rc/qml/MainScreen.qml:124
 #: rc/qml/Utility/PhotosToolbarActions.qml:32
@@ -97,15 +97,15 @@ msgstr "Izvēlēties"
 
 #: rc/qml/MainScreen.qml:104 rc/qml/MainScreen.qml:126
 msgid "Photos"
-msgstr ""
+msgstr "Fotogrāfijas"
 
 #: rc/qml/MediaSelector.qml:56 rc/qml/MediaSelector.qml:82
 msgid "Add to Album"
-msgstr ""
+msgstr "Pievienot albumam"
 
 #: rc/qml/PhotosOverview.qml:148
 msgid "Delete photos"
-msgstr ""
+msgstr "Dzest fotografijas"
 
 #: rc/qml/Utility/AlbumCoverList.qml:113
 msgid "Default"
@@ -117,15 +117,15 @@ msgstr "Zils"
 
 #: rc/qml/Utility/AlbumCoverList.qml:115
 msgid "Green"
-msgstr ""
+msgstr "Zaļš"
 
 #: rc/qml/Utility/AlbumCoverList.qml:116
 msgid "Pattern"
-msgstr ""
+msgstr "Raksts"
 
 #: rc/qml/Utility/AlbumCoverList.qml:117
 msgid "Red"
-msgstr ""
+msgstr "Sarkans"
 
 #: rc/qml/Utility/CropOverlay.qml:355 rc/qml/Utility/EditingHUD.qml:106
 #: rc/qml/Widgets/EditPopover.qml:47
@@ -142,7 +142,7 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:78 rc/qml/Widgets/PopupAlbumPicker.qml:113
 msgid "Add Photo to Album"
-msgstr ""
+msgstr "Pievienot fotografiju albumam"
 
 #: rc/qml/Utility/EditingHUD.qml:82 rc/qml/Widgets/EditPopover.qml:63
 msgid "Undo"
@@ -150,7 +150,7 @@ msgstr "Atsaukt"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr ""
+msgstr "Atcelt akciju;Iet atpakal"
 
 #: rc/qml/Utility/EditingHUD.qml:87 rc/qml/Widgets/EditPopover.qml:72
 msgid "Redo"
@@ -258,15 +258,15 @@ msgstr "Importēt"
 
 #: rc/qml/Widgets/AlbumEditMenu.qml:45
 msgid "Edit album"
-msgstr ""
+msgstr "Rediget albumu"
 
 #: rc/qml/Widgets/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr ""
+msgstr "Izdzest albumu"
 
 #: rc/qml/Widgets/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr ""
+msgstr "Izdzest albumu un atteli"
 
 #: rc/qml/Widgets/EditPopover.qml:55
 msgid "Auto enhance"
