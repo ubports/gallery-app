@@ -104,7 +104,7 @@ Item {
 
     MediaListView {
         id: galleryPhotoViewer
-        objectName: "photoViewer"
+        objectName: "mediaListView"
 
         // When the user clicks the back button.
         signal closeRequested()
