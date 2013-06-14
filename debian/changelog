@@ -1,3 +1,18 @@
+gallery-app (0.0.67daily13.06.14.1-0ubuntu1) saucy; urgency=low
+
+  [ Robert Bruce Park ]
+  * Fix lintian warnings as per http://paste.ubuntu.com/5741741/.
+
+  [ Guenter Schwann ]
+  * Fix updating thumbnails.
+  * Fix autopilot tests using the toolbar buttons.
+  * Show thumbnail in gallery for videos.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 719
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 14 Jun 2013 13:32:39 +0000
+
 gallery-app (0.0.67daily13.06.13-0ubuntu1) saucy; urgency=low
 
   [ Omer Akram ]
