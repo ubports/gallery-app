@@ -1,4 +1,4 @@
-# Kurdish (Sorani) translation for gallery-app
+# Japanese translation for gallery-app
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
 # This file is distributed under the same license as the gallery-app package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-14 09:04+0000\n"
-"PO-Revision-Date: 2013-05-28 14:29+0000\n"
-"Last-Translator: jwtear nariman <jwtiyar@gmail.com>\n"
-"Language-Team: Kurdish (Sorani) <ckb@li.org>\n"
+"PO-Revision-Date: 2013-06-14 22:32+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -32,71 +32,71 @@ msgstr ""
 #: rc/qml/AlbumEditor.qml:40 rc/qml/MediaSelector.qml:94
 #: rc/qml/Utility/SelectionToolbarAction.qml:61
 msgid "Cancel"
-msgstr "پاشگه‌زبوونه‌وه‌"
+msgstr ""
 
 #: rc/qml/AlbumViewer.qml:466 rc/qml/AlbumsOverview.qml:177
 #: rc/qml/MediaViewer/MediaViewer.qml:413
 #: rc/qml/MediaViewer/MediaViewer.qml:457 rc/qml/Utility/EditingHUD.qml:77
 #: rc/qml/Utility/SelectionToolbarAction.qml:42
 msgid "Add"
-msgstr "زۆركردن"
+msgstr ""
 
 #: rc/qml/AlbumViewer.qml:473 rc/qml/MediaViewer/MediaViewer.qml:421
 #: rc/qml/MediaViewer/MediaViewer.qml:465 rc/qml/Utility/EditingHUD.qml:67
 #: rc/qml/Utility/SelectionToolbarAction.qml:48
 #: rc/qml/Widgets/AlbumEditMenu.qml:59
 msgid "Delete"
-msgstr "بیسڕەوە"
+msgstr ""
 
 #: rc/qml/AlbumViewer.qml:483 rc/qml/MediaViewer/MediaViewer.qml:428
 #: rc/qml/MediaViewer/MediaViewer.qml:472 rc/qml/Utility/EditingHUD.qml:72
 #: rc/qml/Utility/SelectionToolbarAction.qml:54
 #: rc/qml/Widgets/AlbumEditMenu.qml:52
 msgid "Share"
-msgstr "بڵاوکردنەوە"
+msgstr ""
 
 #: rc/qml/AlbumViewer.qml:488 rc/qml/MediaViewer/MediaViewer.qml:436
 #: rc/qml/MediaViewer/MediaViewer.qml:480
 msgid "Back"
-msgstr "گه‌ڕانه‌وه‌"
+msgstr ""
 
 #: rc/qml/AlbumsOverview.qml:185 rc/qml/Utility/PhotosToolbarActions.qml:43
 msgid "Camera"
-msgstr "کامێرا"
+msgstr ""
 
 #: rc/qml/LoadingScreen.qml:36
 msgid "Loading…"
-msgstr "باردەکات..."
+msgstr ""
 
 #: rc/qml/MainScreen.qml:56
 msgid "Albums"
-msgstr "ئەلبوومەکان"
+msgstr ""
 
 #: rc/qml/MainScreen.qml:72 rc/qml/MainScreen.qml:94
 msgid "Events"
-msgstr "رووداوەکان"
+msgstr ""
 
 #: rc/qml/MainScreen.qml:92 rc/qml/MainScreen.qml:124
 #: rc/qml/Utility/PhotosToolbarActions.qml:32
 msgid "Select"
-msgstr "- هه‌ڵیبژێره‌ -"
+msgstr ""
 
 #: rc/qml/MainScreen.qml:104 rc/qml/MainScreen.qml:126
 msgid "Photos"
-msgstr "وێنەکان"
+msgstr ""
 
 #: rc/qml/MediaSelector.qml:56 rc/qml/MediaSelector.qml:82
 msgid "Add to Album"
-msgstr "زیادی بکە بۆ ئەلبووم"
+msgstr ""
 
 #: rc/qml/MediaViewer/CropOverlay.qml:354
 #: rc/qml/MediaViewer/EditPopover.qml:46 rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr "بڕین."
+msgstr ""
 
 #: rc/qml/MediaViewer/EditPopover.qml:38 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr "خولاندنەوەی وێنە"
+msgstr ""
 
 #: rc/qml/MediaViewer/EditPopover.qml:54
 msgid "Auto enhance"
@@ -104,11 +104,11 @@ msgstr ""
 
 #: rc/qml/MediaViewer/EditPopover.qml:62 rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
-msgstr "نه‌كردن"
+msgstr ""
 
 #: rc/qml/MediaViewer/EditPopover.qml:71 rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr "كردنه‌وه"
+msgstr ""
 
 #: rc/qml/MediaViewer/EditPopover.qml:80
 msgid "Revert to original"
@@ -116,19 +116,19 @@ msgstr ""
 
 #: rc/qml/MediaViewer/MediaViewer.qml:232 rc/qml/PhotosOverview.qml:149
 msgid "Delete a photo"
-msgstr "وێنەکە بسڕەوە"
+msgstr ""
 
 #: rc/qml/MediaViewer/MediaViewer.qml:243 rc/qml/Widgets/DeleteDialog.qml:36
 msgid "Yes"
-msgstr "بەڵێ"
+msgstr ""
 
 #: rc/qml/MediaViewer/MediaViewer.qml:254 rc/qml/Widgets/DeleteDialog.qml:45
 msgid "No"
-msgstr "نەخێر"
+msgstr ""
 
 #: rc/qml/MediaViewer/MediaViewer.qml:405
 msgid "Edit"
-msgstr "داستکاریکردن"
+msgstr ""
 
 #: rc/qml/MediaViewer/MediaViewer.qml:448
 msgid "Pause"
@@ -140,27 +140,27 @@ msgstr ""
 
 #: rc/qml/PhotosOverview.qml:148
 msgid "Delete photos"
-msgstr "وێنەکان بسڕەوە"
+msgstr ""
 
 #: rc/qml/Utility/AlbumCoverList.qml:113
 msgid "Default"
-msgstr "بنه‌ڕه‌ت"
+msgstr ""
 
 #: rc/qml/Utility/AlbumCoverList.qml:114
 msgid "Blue"
-msgstr "شین"
+msgstr ""
 
 #: rc/qml/Utility/AlbumCoverList.qml:115
 msgid "Green"
-msgstr "سەوز"
+msgstr ""
 
 #: rc/qml/Utility/AlbumCoverList.qml:116
 msgid "Pattern"
-msgstr "شێواز"
+msgstr ""
 
 #: rc/qml/Utility/AlbumCoverList.qml:117
 msgid "Red"
-msgstr "سوور"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
@@ -172,7 +172,7 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:78 rc/qml/Widgets/PopupAlbumPicker.qml:113
 msgid "Add Photo to Album"
-msgstr "وێنەیەک بۆ ئەلبوومەکە زیاد بکە"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
@@ -188,7 +188,7 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr "وێنەکە ڕیک بخە بە خۆکارانە"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
@@ -196,7 +196,7 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr "بەلای هێڵی کاتژمێری خولێکی پێبدە"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
@@ -208,19 +208,19 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr "وێنەکە ببڕە"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr "بیگەڕێنەوە بۆ شێوەی بنەڕەتی"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr "گۆڕانکاریەکان پاشەکەوت مەکە"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr "هەموو گۆرانکاریەکان پاشەکەوت مەکە"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
@@ -236,7 +236,7 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:123 rc/qml/Utility/EditingHUD.qml:165
 msgid "Confirm"
-msgstr "دڵنیابوون"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:127
 msgid "Compensation"
@@ -256,7 +256,7 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:169
 msgid "Brightness"
-msgstr "ڕوونی"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:181
 msgid "Contrast"
@@ -272,16 +272,16 @@ msgstr ""
 
 #: rc/qml/Utility/PhotosToolbarActions.qml:38
 msgid "Import"
-msgstr "هێنان"
+msgstr ""
 
 #: rc/qml/Widgets/AlbumEditMenu.qml:45
 msgid "Edit album"
-msgstr "ئەلبووم دەستکاریبکە"
+msgstr ""
 
 #: rc/qml/Widgets/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr "ئەلبووم بسڕەوە"
+msgstr ""
 
 #: rc/qml/Widgets/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr "ئەلبوومەکە بسڕەوە لەگەڵ ناوەرۆکەکەی"
+msgstr ""
