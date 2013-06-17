@@ -1,4 +1,4 @@
-# Finnish translation for gallery-app
+# Korean translation for gallery-app
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
 # This file is distributed under the same license as the gallery-app package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-14 09:04+0000\n"
-"PO-Revision-Date: 2013-06-16 12:08+0000\n"
-"Last-Translator: Jiri Grönroos <Unknown>\n"
-"Language-Team: Finnish <fi@li.org>\n"
+"PO-Revision-Date: 2013-06-16 07:45+0000\n"
+"Last-Translator: Jinkyu Yi <Unknown>\n"
+"Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,269 +19,269 @@ msgstr ""
 
 #: desktop/gallery-app.desktop.in:3
 msgid "Gallery"
-msgstr "Galleria"
+msgstr "그림 모음"
 
 #: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
 msgid "Ubuntu Photo Viewer"
-msgstr "Ubuntun kuvakatselin"
+msgstr "우분투 사진 보기"
 
 #: desktop/gallery-app.desktop.in:6
 msgid "Browse your photographs"
-msgstr "Selaa valokuviasi"
+msgstr ""
 
 #: rc/qml/AlbumEditor.qml:40 rc/qml/MediaSelector.qml:94
 #: rc/qml/Utility/SelectionToolbarAction.qml:61
 msgid "Cancel"
-msgstr "Peru"
+msgstr ""
 
 #: rc/qml/AlbumViewer.qml:466 rc/qml/AlbumsOverview.qml:177
 #: rc/qml/MediaViewer/MediaViewer.qml:413
 #: rc/qml/MediaViewer/MediaViewer.qml:457 rc/qml/Utility/EditingHUD.qml:77
 #: rc/qml/Utility/SelectionToolbarAction.qml:42
 msgid "Add"
-msgstr "Lisää"
+msgstr ""
 
 #: rc/qml/AlbumViewer.qml:473 rc/qml/MediaViewer/MediaViewer.qml:421
 #: rc/qml/MediaViewer/MediaViewer.qml:465 rc/qml/Utility/EditingHUD.qml:67
 #: rc/qml/Utility/SelectionToolbarAction.qml:48
 #: rc/qml/Widgets/AlbumEditMenu.qml:59
 msgid "Delete"
-msgstr "Poista"
+msgstr "지우기"
 
 #: rc/qml/AlbumViewer.qml:483 rc/qml/MediaViewer/MediaViewer.qml:428
 #: rc/qml/MediaViewer/MediaViewer.qml:472 rc/qml/Utility/EditingHUD.qml:72
 #: rc/qml/Utility/SelectionToolbarAction.qml:54
 #: rc/qml/Widgets/AlbumEditMenu.qml:52
 msgid "Share"
-msgstr "Jaa"
+msgstr "공유"
 
 #: rc/qml/AlbumViewer.qml:488 rc/qml/MediaViewer/MediaViewer.qml:436
 #: rc/qml/MediaViewer/MediaViewer.qml:480
 msgid "Back"
-msgstr "Edellinen"
+msgstr "돌아가기"
 
 #: rc/qml/AlbumsOverview.qml:185 rc/qml/Utility/PhotosToolbarActions.qml:43
 msgid "Camera"
-msgstr "Kamera"
+msgstr "카메라"
 
 #: rc/qml/LoadingScreen.qml:36
 msgid "Loading…"
-msgstr "Ladataan…"
+msgstr "읽어오고 있습니다…"
 
 #: rc/qml/MainScreen.qml:56
 msgid "Albums"
-msgstr "Albumit"
+msgstr ""
 
 #: rc/qml/MainScreen.qml:72 rc/qml/MainScreen.qml:94
 msgid "Events"
-msgstr "Tapahtumat"
+msgstr ""
 
 #: rc/qml/MainScreen.qml:92 rc/qml/MainScreen.qml:124
 #: rc/qml/Utility/PhotosToolbarActions.qml:32
 msgid "Select"
-msgstr "Valitse"
+msgstr ""
 
 #: rc/qml/MainScreen.qml:104 rc/qml/MainScreen.qml:126
 msgid "Photos"
-msgstr "Kuvat"
+msgstr ""
 
 #: rc/qml/MediaSelector.qml:56 rc/qml/MediaSelector.qml:82
 msgid "Add to Album"
-msgstr "Lisää albumiin"
+msgstr ""
 
 #: rc/qml/MediaViewer/CropOverlay.qml:354
 #: rc/qml/MediaViewer/EditPopover.qml:46 rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr "Rajaa"
+msgstr ""
 
 #: rc/qml/MediaViewer/EditPopover.qml:38 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr "Käännä"
+msgstr ""
 
 #: rc/qml/MediaViewer/EditPopover.qml:54
 msgid "Auto enhance"
-msgstr "Automaattinen parannus"
+msgstr ""
 
 #: rc/qml/MediaViewer/EditPopover.qml:62 rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
-msgstr "Kumoa"
+msgstr ""
 
 #: rc/qml/MediaViewer/EditPopover.qml:71 rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr "Tee uudelleen"
+msgstr ""
 
 #: rc/qml/MediaViewer/EditPopover.qml:80
 msgid "Revert to original"
-msgstr "Palauta alkuperäinen"
+msgstr ""
 
 #: rc/qml/MediaViewer/MediaViewer.qml:232 rc/qml/PhotosOverview.qml:149
 msgid "Delete a photo"
-msgstr "Poista kuva"
+msgstr ""
 
 #: rc/qml/MediaViewer/MediaViewer.qml:243 rc/qml/Widgets/DeleteDialog.qml:36
 msgid "Yes"
-msgstr "Kyllä"
+msgstr ""
 
 #: rc/qml/MediaViewer/MediaViewer.qml:254 rc/qml/Widgets/DeleteDialog.qml:45
 msgid "No"
-msgstr "Ei"
+msgstr ""
 
 #: rc/qml/MediaViewer/MediaViewer.qml:405
 msgid "Edit"
-msgstr "Muokkaa"
+msgstr ""
 
 #: rc/qml/MediaViewer/MediaViewer.qml:448
 msgid "Pause"
-msgstr "Keskeytä"
+msgstr ""
 
 #: rc/qml/MediaViewer/MediaViewer.qml:448
 msgid "Play"
-msgstr "Toista"
+msgstr ""
 
 #: rc/qml/PhotosOverview.qml:148
 msgid "Delete photos"
-msgstr "Poista kuvat"
+msgstr ""
 
 #: rc/qml/Utility/AlbumCoverList.qml:113
 msgid "Default"
-msgstr "Oletus"
+msgstr ""
 
 #: rc/qml/Utility/AlbumCoverList.qml:114
 msgid "Blue"
-msgstr "Sininen"
+msgstr ""
 
 #: rc/qml/Utility/AlbumCoverList.qml:115
 msgid "Green"
-msgstr "Vihreä"
+msgstr ""
 
 #: rc/qml/Utility/AlbumCoverList.qml:116
 msgid "Pattern"
-msgstr "Kuvio"
+msgstr ""
 
 #: rc/qml/Utility/AlbumCoverList.qml:117
 msgid "Red"
-msgstr "Punainen"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr "Trash;Erase;Roskakori;Poista"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
-msgstr "Post;Upload;Attach;Lähetä;Liitä"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:78 rc/qml/Widgets/PopupAlbumPicker.qml:113
 msgid "Add Photo to Album"
-msgstr "Lisää valokuva tai albumi"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr "Cancel Action;Backstep;Peru toiminto"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr "Reapply;Make Again;Toteuta uudelleen"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr "Automaattinen säätö"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr "Säädä kuvaa automaattisesti"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr "Säädä valokuvaa automaattisesti"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr "Käännä myötäpäivään"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr "Käännä kuvaa myötäpäivään"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr "Trim;Cut;Trimmaa;Leikkaa"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr "Rajaa kuva"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr "Palauta alkuperäinen"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr "Hylkää muutokset"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr "Hylkää kaikki muutokset"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr "Valotus"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr "Säädä valotusta"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr "Underexposed;Overexposed;Alivalottunut;Ylivalottunut"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:123 rc/qml/Utility/EditingHUD.qml:165
 msgid "Confirm"
-msgstr "Hyväksy"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:127
 msgid "Compensation"
-msgstr "Tasapaino"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Color Balance"
-msgstr "Väritasapaino"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Adjust color balance"
-msgstr "Säädä väritasapainoa"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:163
 msgid "Saturation;Hue"
-msgstr "Saturation;Hue;Kylläisyys;Sävy;Vivahde"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:169
 msgid "Brightness"
-msgstr "Kirkkaus"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:181
 msgid "Contrast"
-msgstr "Kontrasti"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:193
 msgid "Saturation"
-msgstr "Kylläisyys"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:205
 msgid "Hue"
-msgstr "Sävy"
+msgstr ""
 
 #: rc/qml/Utility/PhotosToolbarActions.qml:38
 msgid "Import"
-msgstr "Tuo"
+msgstr ""
 
 #: rc/qml/Widgets/AlbumEditMenu.qml:45
 msgid "Edit album"
-msgstr "Muokkaa albumia"
+msgstr ""
 
 #: rc/qml/Widgets/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr "Poista albumi"
+msgstr ""
 
 #: rc/qml/Widgets/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr "Poista albumi ja sen sisältö"
+msgstr ""
