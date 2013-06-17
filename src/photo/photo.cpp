@@ -214,10 +214,10 @@ MediaSource::MediaType Photo::type() const
 
 /*!
  * \brief Photo::image Returns the photo in full size.
- * \param respect_orientation if set to true, the photo is rotated according to the EXIF information
+ * \param respectOrientation if set to true, the photo is rotated according to the EXIF information
  * \return The image in full size
  */
-QImage Photo::image(bool respect_orientation, const QSize &scaleSize)
+QImage Photo::image(bool respectOrientation, const QSize &scaleSize)
 {
     QImageReader imageReader(file().filePath(), m_fileFormat.toStdString().c_str());
     QSize imageSize = imageReader.size();
@@ -227,7 +227,7 @@ QImage Photo::image(bool respect_orientation, const QSize &scaleSize)
         imageReader.setScaledSize(size);
     }
     QImage image = imageReader.read();
-    if (!image.isNull() && respect_orientation && fileFormatHasOrientation()) {
+    if (!image.isNull() && respectOrientation && fileFormatHasOrientation()) {
         image = image.transformed(
                     OrientationCorrection::fromOrientation(orientation())
                     .toTransform());

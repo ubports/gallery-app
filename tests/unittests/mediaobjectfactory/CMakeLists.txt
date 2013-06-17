@@ -21,14 +21,25 @@ include_directories(
 
 QT_WRAP_CPP(mediaobjectfactory MEDIAOBJECTFACTORY_MOCS
     ${gallery_src_SOURCE_DIR}/gallery-manager.h
+    ${gallery_database_src_SOURCE_DIR}/album-table.h
+    ${gallery_database_src_SOURCE_DIR}/database.h
+    ${gallery_database_src_SOURCE_DIR}/media-table.h
+    ${gallery_database_src_SOURCE_DIR}/photo-edit-table.h
     ${gallery_medialoader_src_SOURCE_DIR}/gallery-standard-image-provider.h
     ${gallery_medialoader_src_SOURCE_DIR}/photo-metadata.h
     ${gallery_medialoader_src_SOURCE_DIR}/preview-manager.h
+    ${gallery_photo_src_SOURCE_DIR}/photo.h
     )
 
 add_executable(mediaobjectfactory
     tst_mediaobjectfactory.cpp
     ${gallery_src_SOURCE_DIR}/media-object-factory.cpp
+    ../stubs/album-table_stub.cpp
+    ../stubs/database_stub.cpp
+    ../stubs/media-table_stub.cpp
+    ../stubs/photo_stub.cpp
+    ../stubs/photo-caches_stub.cpp
+    ../stubs/photo-edit-table_stub.cpp
     ../stubs/photometa-data_stub.cpp
     ../stubs/preview-manager_stub.cpp
     ../stubs/gallery-standard-image-provider_stub.cpp
@@ -47,10 +58,8 @@ set_tests_properties(mediaobjectfactory PROPERTIES
 target_link_libraries(mediaobjectfactory
     gallery-album
     gallery-core
-    gallery-database
     gallery-event
     gallery-media
-    gallery-photo
     gallery-qml
     gallery-util
     gallery-video
