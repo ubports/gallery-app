@@ -1,3 +1,17 @@
+gallery-app (0.0.67daily13.06.17-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Run gallery in fullscreen.
+  * Multi directory support, and use ~/Videos as default media directory
+    in addition to ~/Pictures.
+  * Unit tests for MediaObjectFactory.
+  * Rudimentary video playback functionality.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 726
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 17 Jun 2013 05:38:05 +0000
+
 gallery-app (0.0.67daily13.06.14.1-0ubuntu1) saucy; urgency=low
 
   [ Robert Bruce Park ]
