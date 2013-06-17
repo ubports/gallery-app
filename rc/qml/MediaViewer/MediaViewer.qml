@@ -392,12 +392,12 @@ Item {
         running: visible
     }
 
-    EditingHUD {
-        id: editHUD
-        photo: galleryPhotoViewer.media
-        onExposureActivated: editPreview.useExposure()
-        onColorBalanceActivated: editPreview.useColorBalance()
-    }
+//    EditingHUD {
+//        id: editHUD
+//        photo: galleryPhotoViewer.media
+//        onExposureActivated: editPreview.useExposure()
+//        onColorBalanceActivated: editPreview.useColorBalance()
+//    }
 
     Item {
         id: d

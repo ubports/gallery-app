@@ -40,8 +40,8 @@ function isSmallFormFactor(form_factor) {
 }
 
 function isDesktop(form_factor) {
-  if (!form_factor)
-    form_factor = FORM_FACTOR; // From C++.
+//  if (!form_factor)
+//    form_factor = FORM_FACTOR; // From C++.
 
   return (form_factor === 'desktop');
 }

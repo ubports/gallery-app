@@ -17,7 +17,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components.ListItems 0.1 as ListItem
-import Ubuntu.OnlineAccounts 0.1
+//import Ubuntu.OnlineAccounts 0.1
 import Gallery 1.0
 
 /*!
@@ -34,11 +34,11 @@ Item {
 
     height: childrenRect.height
 
-    AccountServiceModel {
-        id: accounts
-        serviceType: "microblogging"
-        includeDisabled: true
-    }
+//    AccountServiceModel {
+//        id: accounts
+//        serviceType: "microblogging"
+//        includeDisabled: true
+//    }
 
     ListView {
         anchors {
@@ -54,10 +54,10 @@ Item {
             width: parent.width
             height: childrenRect.height
             visible: serviceName == "Facebook"
-            AccountService {
-                id: accts
-                objectHandle: accountService
-            }
+//            AccountService {
+//                id: accts
+//                objectHandle: accountService
+//            }
             ListItem.Subtitled {
                 text: accts.provider.displayName
                 subText: displayName
@@ -78,9 +78,9 @@ Item {
         }
     }
 
-    ShareFile {
-        id: shareFile
-    }
+//    ShareFile {
+//        id: shareFile
+//    }
 
     UbuntuApplicationCaller {
         id: appManager
