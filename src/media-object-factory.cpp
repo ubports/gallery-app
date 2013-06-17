@@ -46,6 +46,8 @@ MediaObjectFactory::MediaObjectFactory(MediaTable *mediaTable)
  */
 MediaSource *MediaObjectFactory::create(const QFileInfo &file)
 {
+    Q_ASSERT(m_mediaTable);
+
     clearMetadata();
 
     MediaSource::MediaType mediaType = MediaSource::Photo;
@@ -53,7 +55,7 @@ MediaSource *MediaObjectFactory::create(const QFileInfo &file)
         mediaType = MediaSource::Video;
 
     // Look for video in the database.
-    qint64 id = m_mediaTable->getIdForMedia(file.canonicalFilePath());
+    qint64 id = m_mediaTable->getIdForMedia(file.absoluteFilePath());
 
     if (id == INVALID_ID) {
         if (mediaType == MediaSource::Video && (!file.exists()))
@@ -92,11 +94,11 @@ MediaSource *MediaObjectFactory::create(const QFileInfo &file)
 
         if (needsUpdate) {
             // Update DB.
-            m_mediaTable->updateMedia(id, file.canonicalFilePath(), m_timeStamp,
+            m_mediaTable->updateMedia(id, file.absoluteFilePath(), m_timeStamp,
                                       m_exposureTime, m_orientation, m_fileSize);
         } else {
             // Add to DB.
-            id = m_mediaTable->createIdForMedia(file.canonicalFilePath(), m_timeStamp,
+            id = m_mediaTable->createIdForMedia(file.absoluteFilePath(), m_timeStamp,
                                                 m_exposureTime, m_orientation, m_fileSize);
         }
     } else {
@@ -106,6 +108,8 @@ MediaSource *MediaObjectFactory::create(const QFileInfo &file)
     media->setSize(m_size);
     media->setFileTimestamp(m_timeStamp);
     media->setExposureDateTime(m_exposureTime);
+    if (mediaType == MediaSource::Photo)
+        photo->setOriginalOrientation(m_orientation);
     media->setId(id);
 
     return media;
