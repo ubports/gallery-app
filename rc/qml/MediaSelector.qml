@@ -52,7 +52,6 @@ OrganicView {
         active = false;
     }
 
-    tools: toolActions
     title: i18n.tr("Add to Album")
     active: false
     visible: false
@@ -76,26 +75,24 @@ OrganicView {
         selection: mediaSelector.selection
     }
 
-    property ToolbarActions toolActions: ToolbarActions {
-        Action {
-            itemHint: Button {
-                text: i18n.tr("Add to Album")
-                color: Gallery.HIGHLIGHT_BUTTON_COLOR
-                width: units.gu(16)
-                onClicked: {
-                    mediaSelector.addClicked();
-                    mediaSelector.hide();
-                }
+    tools: ToolbarItems {
+        Button {
+            anchors.verticalCenter: parent.verticalCenter
+            text: i18n.tr("Add to Album")
+            color: Gallery.HIGHLIGHT_BUTTON_COLOR
+            width: units.gu(16)
+            onTriggered: {
+                mediaSelector.addClicked();
+                mediaSelector.hide();
             }
         }
 
-        back: Action {
-            itemHint: Button {
-                text: i18n.tr("Cancel")
-                width: units.gu(10)
-                onClicked: {
-                    mediaSelector.hide();
-                }
+        back: Button {
+            anchors.verticalCenter: parent.verticalCenter
+            text: i18n.tr("Cancel")
+            width: units.gu(10)
+            onClicked: {
+                mediaSelector.hide();
             }
         }
         opened: true

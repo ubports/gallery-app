@@ -62,7 +62,7 @@ Item {
                            (galleryPhotoViewer.currentItem ? galleryPhotoViewer.currentItem.isLoaded : false)
 
     // tooolbar actions for the full view
-    property ToolbarActions tools: media ? (media.type === MediaSource.Photo ?
+    property Item tools: media ? (media.type === MediaSource.Photo ?
                                             d.photoToolbar : d.videoToolbar)
                                          : null
 
@@ -402,38 +402,47 @@ Item {
     Item {
         id: d
 
-        property ToolbarActions photoToolbar: ToolbarActions {
-            Action {
+        property Item photoToolbar: ToolbarItems {
+            ToolbarButton {
                 text: i18n.tr("Edit")
                 iconSource: "../../img/edit.png"
                 onTriggered: {
                     PopupUtils.open(editPopoverComponent, caller);
                 }
             }
-            Action {
+            ToolbarButton {
+                action: Action {
+                    text: i18n.tr("Add photo to album")
+                    iconSource: "../../img/add.png"
+                    onTriggered: {
+                        popupAlbumPicker.caller = caller;
+                        popupAlbumPicker.show();
+                    }
+                }
                 text: i18n.tr("Add")
-                iconSource: "../../img/add.png"
-                onTriggered: {
-                    popupAlbumPicker.caller = caller;
-                    popupAlbumPicker.show();
-                }
             }
-            Action {
+            ToolbarButton {
+                action: Action {
+                    text: i18n.tr("Delete")
+                    iconSource: "../../img/delete.png"
+                    onTriggered: {
+                        PopupUtils.open(deleteDialog, null);
+                    }
+                }
                 text: i18n.tr("Delete")
-                iconSource: "../../img/delete.png"
-                onTriggered: {
-                    PopupUtils.open(deleteDialog, null);
-                }
             }
-            Action {
-                text: i18n.tr("Share")
-                iconSource: "../../img/share.png"
-                onTriggered: {
-                    PopupUtils.open(sharePopoverComponent, caller);
+            ToolbarButton {
+                action: Action {
+                    text: i18n.tr("Share photo")
+                    iconSource: "../../img/share.png"
+                    onTriggered: {
+                        PopupUtils.open(sharePopoverComponent, caller);
+                    }
                 }
+                text: i18n.tr("Share")
             }
 
-            back: Action {
+            back: ToolbarButton {
                 text: i18n.tr("Back")
                 iconSource: "../../img/back.png"
                 onTriggered: {
@@ -443,8 +452,8 @@ Item {
             }
         }
 
-        property ToolbarActions videoToolbar: ToolbarActions {
-            Action {
+        property Item videoToolbar: ToolbarItems {
+            ToolbarButton {
                 text: galleryPhotoViewer.currentItem.isPlayingVideo ?
                         i18n.tr("Pause") : i18n.tr("Play")
                 iconSource: galleryPhotoViewer.currentItem.isPlayingVideo ?
@@ -453,7 +462,7 @@ Item {
                     galleryPhotoViewer.currentItem.togglePlayPause();
                 }
             }
-            Action {
+            ToolbarButton {
                 text: i18n.tr("Add")
                 iconSource: "../../img/add.png"
                 onTriggered: {
@@ -461,14 +470,14 @@ Item {
                     popupAlbumPicker.show();
                 }
             }
-            Action {
+            ToolbarButton {
                 text: i18n.tr("Delete")
                 iconSource: "../../img/delete.png"
                 onTriggered: {
                     PopupUtils.open(deleteDialog, null);
                 }
             }
-            Action {
+            ToolbarButton {
                 text: i18n.tr("Share")
                 iconSource: "../../img/share.png"
                 onTriggered: {
@@ -476,7 +485,7 @@ Item {
                 }
             }
 
-            back: Action {
+            back: ToolbarButton {
                 text: i18n.tr("Back")
                 iconSource: "../../img/back.png"
                 onTriggered: {

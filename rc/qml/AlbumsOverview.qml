@@ -28,9 +28,6 @@ import "../Capetown/Widgets"
 Checkerboard {
     id: root
 
-    /// Contains the actions for the toolbar in the albums tab
-    tools: albumOverviewTools
-
     /*!
     */
     function getRectOfAlbumPreview(album, relativeTo) {
@@ -171,21 +168,27 @@ Checkerboard {
         visible: false
     }
 
-    ToolbarActions {
+    /// Contains the actions for the toolbar in the albums tab
+    tools: ToolbarItems {
         id: albumOverviewTools
-        Action {
-            text: i18n.tr("Add")
-            iconSource: Qt.resolvedUrl("../img/add.png")
-            onTriggered: {
-                var album = albumCollectionModel.createOrphan();
-                albumCollectionModel.addOrphan(album);
+        ToolbarButton {
+            action: Action {
+                text: i18n.tr("Add new album") // Text in HUD
+                iconSource: Qt.resolvedUrl("../img/add.png")
+                onTriggered: {
+                    var album = albumCollectionModel.createOrphan();
+                    albumCollectionModel.addOrphan(album);
+                }
             }
+            text: "Add" // text in toolbar
         }
-        Action {
-            text: i18n.tr("Camera")
-            iconSource: Qt.resolvedUrl("../img/camera.png")
-            onTriggered: {
-                appManager.switchToCameraApplication();
+        ToolbarButton {
+            action: Action {
+                text: i18n.tr("Camera")
+                iconSource: Qt.resolvedUrl("../img/camera.png")
+                onTriggered: {
+                    appManager.switchToCameraApplication();
+                }
             }
         }
     }
