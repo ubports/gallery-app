@@ -101,7 +101,7 @@ public:
     QUrl thumbnailPath() const;
     virtual QUrl galleryThumbnailPath() const;
 
-    virtual QImage image(bool respect_orientation = true, const QSize &scaleSize=QSize());
+    virtual QImage image(bool respectOrientation = true, const QSize &scaleSize=QSize());
     virtual Orientation orientation() const;
 
     const QDateTime& exposureDateTime() const;

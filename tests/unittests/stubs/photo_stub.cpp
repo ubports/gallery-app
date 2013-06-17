@@ -62,7 +62,7 @@ MediaSource::MediaType Photo::type() const
     return MediaSource::Photo;
 }
 
-QImage Photo::image(bool respect_orientation, const QSize &scaleSize)
+QImage Photo::image(bool respectOrientation, const QSize &scaleSize)
 {
     return QImage();
 }
