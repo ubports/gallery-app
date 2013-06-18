@@ -62,6 +62,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
     def test_photo_delete_works(self):
         """Clicking the trash button must show the delete dialog."""
         trash_button = self.photo_viewer.get_toolbar_delete_button()
+        photo_viewer = self.photo_viewer.get_main_photo_viewer()
 
         self.pointing_device.move_to_object(trash_button)
         self.pointing_device.click()
@@ -88,6 +89,17 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
         self.assertThat(lambda: exists(self.sample_file),
                         Eventually(Equals(False)))
+
+        self.reveal_toolbar()
+        self.pointing_device.click_object(trash_button)
+
+        delete_dialog = self.photo_viewer.get_delete_dialog()
+        self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
+
+        delete_item = self.photo_viewer.get_delete_popover_delete_item()
+        self.click_item(delete_item)
+
+        self.assertThat(photo_viewer.visible, Eventually(Equals(False)))
 
     # def test_nav_bar_album_picker_button(self):
     #     """Clicking the album picker must show the picker dialog."""
