@@ -237,7 +237,7 @@ Item {
                     if (!album === undefined)
                         return;
                     if (model.count === 0)
-                        photoViewer.closeRequested();
+                        galleryPhotoViewer.closeRequested();
                 }
 
                 Button {
@@ -388,7 +388,7 @@ Item {
     ActivityIndicator {
         id: busySpinner
         anchors.centerIn: parent
-        visible: media && media.busy
+        visible: media ? media.busy : false
         running: visible
     }
 
@@ -445,10 +445,14 @@ Item {
 
         property ToolbarActions videoToolbar: ToolbarActions {
             Action {
-                text: galleryPhotoViewer.currentItem.isPlayingVideo ?
-                        i18n.tr("Pause") : i18n.tr("Play")
-                iconSource: galleryPhotoViewer.currentItem.isPlayingVideo ?
-                                "../../img/icon_pause.png" : "../../img/icon_play.png"
+                text: galleryPhotoViewer.currentItem ?
+                          (galleryPhotoViewer.currentItem.isPlayingVideo ?
+                               i18n.tr("Pause") : i18n.tr("Play"))
+                        : ""
+                iconSource: galleryPhotoViewer.currentItem ?
+                                (galleryPhotoViewer.currentItem.isPlayingVideo ?
+                                     "../../img/icon_pause.png" : "../../img/icon_play.png")
+                              : ""
                 onTriggered: {
                     galleryPhotoViewer.currentItem.togglePlayPause();
                 }

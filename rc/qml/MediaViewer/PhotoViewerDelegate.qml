@@ -75,7 +75,7 @@ Item {
 
         fillMode: Image.PreserveAspectFit
 
-        source: mediaSource.galleryPreviewPath
+        source: mediaSource ? mediaSource.galleryPreviewPath : ""
     }
 
     Loader {
