@@ -40,7 +40,8 @@
  */
 MediaSource::MediaSource()
     : m_id(INVALID_ID),
-      m_exposureDateTime()
+      m_exposureDateTime(),
+      m_busy(false)
 {
 }
 
@@ -50,7 +51,8 @@ MediaSource::MediaSource()
  */
 MediaSource::MediaSource(const QFileInfo& file)
     : m_id(INVALID_ID),
-      m_exposureDateTime()
+      m_exposureDateTime(),
+      m_busy(false)
 {
     m_file = file;
 }
@@ -147,12 +149,12 @@ QUrl MediaSource::galleryThumbnailPath() const
 
 /*!
  * \brief MediaSource::Image
- * \param respect_orientation
+ * \param respectOrientation
  * \return
  */
-QImage MediaSource::image(bool respect_orientation, const QSize &scaleSize)
+QImage MediaSource::image(bool respectOrientation, const QSize &scaleSize)
 {
-    Q_UNUSED(respect_orientation);
+    Q_UNUSED(respectOrientation);
     Q_UNUSED(scaleSize);
     // QML data types cannot be abstract, so return a null image
     return QImage();

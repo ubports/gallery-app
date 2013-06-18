@@ -21,7 +21,9 @@
 #include <QDir>
 
 #include "preview-manager.h"
+#include "media-collection.h"
 
+const int PreviewManager::PREVIEW_SIZE = 360;
 const QString PreviewManager::PREVIEW_DIR = ".thumbs";
 const char* PreviewManager::PREVIEW_FILE_EXT = "JPG";
 
@@ -48,6 +50,12 @@ void PreviewManager::onMediaDestroying(const QSet<DataObject *> *)
 
 void PreviewManager::updatePreview()
 {
+}
+
+QString PreviewManager::previewFileName(const QFileInfo &file) const
+{
+    return QString(file.absolutePath() + QDir::separator() + PREVIEW_DIR +
+                   QDir::separator() + file.completeBaseName() + "_th." + PREVIEW_FILE_EXT);
 }
 
 QString PreviewManager::thumbnailFileName(const QFileInfo& file) const

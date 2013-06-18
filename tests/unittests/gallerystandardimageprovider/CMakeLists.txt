@@ -14,14 +14,16 @@ include_directories(
     )
 
 QT_WRAP_CPP(gallerystandardimageprovider GALLERYSTANDARDIMAGEPROVIDIER_MOCS
-    ${gallery_src_SOURCE_DIR}/medialoader/preview-manager.h
+    ${gallery_medialoader_src_SOURCE_DIR}/preview-manager.h
+    ${gallery_medialoader_src_SOURCE_DIR}/photo-metadata.h
     )
 
 add_executable(gallerystandardimageprovider
     tst_gallerystandardimageprovidertest.cpp
-    preview-manager.cpp
-    photometa-data.cpp
     ${gallery_src_SOURCE_DIR}/medialoader/gallery-standard-image-provider.cpp
+    ../stubs/orientation_stub.cpp
+    ../stubs/preview-manager_stub.cpp
+    ../stubs/photometa-data_stub.cpp
     ${GALLERYSTANDARDIMAGEPROVIDIER_MOCS}
     )
 

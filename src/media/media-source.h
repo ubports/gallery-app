@@ -45,6 +45,7 @@ class GalleryManager;
 class MediaSource : public DataSource
 {
     Q_OBJECT
+    Q_PROPERTY(MediaType type READ type NOTIFY typeChanged)
     Q_PROPERTY(QUrl path READ path NOTIFY pathChanged)
     Q_PROPERTY(QUrl previewPath READ previewPath NOTIFY previewPathChanged)
     Q_PROPERTY(QUrl thumbnailPath READ thumbnailPath NOTIFY thumbnailPathChanged)
@@ -62,6 +63,7 @@ class MediaSource : public DataSource
     Q_ENUMS(MediaType)
 
 signals:
+    void typeChanged();
     void pathChanged();
     void previewPathChanged();
     void thumbnailPathChanged();
@@ -99,7 +101,7 @@ public:
     QUrl thumbnailPath() const;
     virtual QUrl galleryThumbnailPath() const;
 
-    virtual QImage image(bool respect_orientation = true, const QSize &scaleSize=QSize());
+    virtual QImage image(bool respectOrientation = true, const QSize &scaleSize=QSize());
     virtual Orientation orientation() const;
 
     const QDateTime& exposureDateTime() const;

@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-06-12 08:03+0000\n"
+"POT-Creation-Date: 2013-06-14 09:04+0000\n"
 "PO-Revision-Date: 2013-06-13 09:34+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-14 07:05+0000\n"
+"X-Launchpad-Export-Date: 2013-06-15 06:21+0000\n"
 "X-Generator: Launchpad (build 16667)\n"
 
 #: desktop/gallery-app.desktop.in:3
@@ -35,48 +35,34 @@ msgid "Cancel"
 msgstr "Скасувати"
 
 #: rc/qml/AlbumViewer.qml:466 rc/qml/AlbumsOverview.qml:177
-#: rc/qml/GalleryPhotoViewer.qml:206 rc/qml/Utility/EditingHUD.qml:77
+#: rc/qml/MediaViewer/MediaViewer.qml:413
+#: rc/qml/MediaViewer/MediaViewer.qml:457 rc/qml/Utility/EditingHUD.qml:77
 #: rc/qml/Utility/SelectionToolbarAction.qml:42
 msgid "Add"
 msgstr "Додати"
 
-#: rc/qml/AlbumViewer.qml:473 rc/qml/GalleryPhotoViewer.qml:214
-#: rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/AlbumViewer.qml:473 rc/qml/MediaViewer/MediaViewer.qml:421
+#: rc/qml/MediaViewer/MediaViewer.qml:465 rc/qml/Utility/EditingHUD.qml:67
 #: rc/qml/Utility/SelectionToolbarAction.qml:48
 #: rc/qml/Widgets/AlbumEditMenu.qml:59
 msgid "Delete"
 msgstr "Вилучити"
 
-#: rc/qml/AlbumViewer.qml:483 rc/qml/GalleryPhotoViewer.qml:221
-#: rc/qml/Utility/EditingHUD.qml:72
+#: rc/qml/AlbumViewer.qml:483 rc/qml/MediaViewer/MediaViewer.qml:428
+#: rc/qml/MediaViewer/MediaViewer.qml:472 rc/qml/Utility/EditingHUD.qml:72
 #: rc/qml/Utility/SelectionToolbarAction.qml:54
 #: rc/qml/Widgets/AlbumEditMenu.qml:52
 msgid "Share"
 msgstr "Поділитись"
 
-#: rc/qml/AlbumViewer.qml:488 rc/qml/GalleryPhotoViewer.qml:229
+#: rc/qml/AlbumViewer.qml:488 rc/qml/MediaViewer/MediaViewer.qml:436
+#: rc/qml/MediaViewer/MediaViewer.qml:480
 msgid "Back"
 msgstr "Назад"
 
 #: rc/qml/AlbumsOverview.qml:185 rc/qml/Utility/PhotosToolbarActions.qml:43
 msgid "Camera"
 msgstr "Камера"
-
-#: rc/qml/GalleryPhotoViewer.qml:199
-msgid "Edit"
-msgstr "Змінити"
-
-#: rc/qml/GalleryPhotoViewer.qml:264 rc/qml/PhotosOverview.qml:149
-msgid "Delete a photo"
-msgstr "Вилучити фотографію"
-
-#: rc/qml/GalleryPhotoViewer.qml:275 rc/qml/Widgets/DeleteDialog.qml:36
-msgid "Yes"
-msgstr "Так"
-
-#: rc/qml/GalleryPhotoViewer.qml:286 rc/qml/Widgets/DeleteDialog.qml:45
-msgid "No"
-msgstr "Ні"
 
 #: rc/qml/LoadingScreen.qml:36
 msgid "Loading…"
@@ -103,6 +89,55 @@ msgstr "Фотографії"
 msgid "Add to Album"
 msgstr "Додати до альбому"
 
+#: rc/qml/MediaViewer/CropOverlay.qml:354
+#: rc/qml/MediaViewer/EditPopover.qml:46 rc/qml/Utility/EditingHUD.qml:106
+msgid "Crop"
+msgstr "Обрізати"
+
+#: rc/qml/MediaViewer/EditPopover.qml:38 rc/qml/Utility/EditingHUD.qml:99
+msgid "Rotate"
+msgstr "Обертання"
+
+#: rc/qml/MediaViewer/EditPopover.qml:54
+msgid "Auto enhance"
+msgstr "Автопокращення"
+
+#: rc/qml/MediaViewer/EditPopover.qml:62 rc/qml/Utility/EditingHUD.qml:82
+msgid "Undo"
+msgstr "Вернути"
+
+#: rc/qml/MediaViewer/EditPopover.qml:71 rc/qml/Utility/EditingHUD.qml:87
+msgid "Redo"
+msgstr "Повторити"
+
+#: rc/qml/MediaViewer/EditPopover.qml:80
+msgid "Revert to original"
+msgstr "Повернутися до початкового"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:232 rc/qml/PhotosOverview.qml:149
+msgid "Delete a photo"
+msgstr "Вилучити фотографію"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:243 rc/qml/Widgets/DeleteDialog.qml:36
+msgid "Yes"
+msgstr "Так"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:254 rc/qml/Widgets/DeleteDialog.qml:45
+msgid "No"
+msgstr "Ні"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:405
+msgid "Edit"
+msgstr "Змінити"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:448
+msgid "Pause"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:448
+msgid "Play"
+msgstr ""
+
 #: rc/qml/PhotosOverview.qml:148
 msgid "Delete photos"
 msgstr "Вилучити фотографії"
@@ -127,11 +162,6 @@ msgstr "Текстура"
 msgid "Red"
 msgstr "Червоний"
 
-#: rc/qml/Utility/CropOverlay.qml:355 rc/qml/Utility/EditingHUD.qml:106
-#: rc/qml/Widgets/EditPopover.qml:47
-msgid "Crop"
-msgstr "Обрізати"
-
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
 msgstr "Trash;Erase;смітник;вилучити"
@@ -144,17 +174,9 @@ msgstr "Post;Upload;Attach;допис;поділитися;вивантажит�
 msgid "Add Photo to Album"
 msgstr "Додати фотографію до альбому"
 
-#: rc/qml/Utility/EditingHUD.qml:82 rc/qml/Widgets/EditPopover.qml:63
-msgid "Undo"
-msgstr "Вернути"
-
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
 msgstr "Cancel Action;Backstep;скасувати;повернути;назад"
-
-#: rc/qml/Utility/EditingHUD.qml:87 rc/qml/Widgets/EditPopover.qml:72
-msgid "Redo"
-msgstr "Повторити"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
@@ -171,10 +193,6 @@ msgstr "Скоригувати зображення у автоматичном�
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
 msgstr "Скоригувати фотографію автоматично"
-
-#: rc/qml/Utility/EditingHUD.qml:99 rc/qml/Widgets/EditPopover.qml:39
-msgid "Rotate"
-msgstr "Обертання"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
@@ -267,11 +285,3 @@ msgstr "Вилучити альбом"
 #: rc/qml/Widgets/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
 msgstr "Вилучити альбом з вмістом"
-
-#: rc/qml/Widgets/EditPopover.qml:55
-msgid "Auto enhance"
-msgstr "Автопокращення"
-
-#: rc/qml/Widgets/EditPopover.qml:81
-msgid "Revert to original"
-msgstr "Повернутися до початкового"

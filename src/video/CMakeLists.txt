@@ -24,7 +24,5 @@ add_library(${GALLERY_VIDEO_LIB}
 qt5_use_modules(${GALLERY_VIDEO_LIB} Widgets Core Qml)
 
 target_link_libraries( ${GALLERY_VIDEO_LIB}
-    gallery-database
-    gallery-media
     ${GSTLIB_LDFLAGS}
     )
