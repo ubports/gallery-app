@@ -165,6 +165,10 @@ class TestPhotoEditor(TestPhotoViewerBase):
         revert_item = self.photo_viewer.get_revert_menu_item()
         self.click_item(revert_item)
 
+    def click_enhance_item(self):
+        enhance_item = self.photo_viewer.get_auto_enhance_menu_item()
+        self.click_item(enhance_item)
+
     def test_photo_editor_crop(self):
         """Cropping a photo must crop it."""
         old_file_size = os.path.getsize(self.sample_file)
@@ -254,7 +258,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         # implemented properly
         sleep(1)
 
-    def test_photo_editor_redo_undo_revert_to_original_states(self):
+    def test_photo_editor_redo_undo_revert_enhance_states(self):
         undo_item = self.photo_viewer.get_undo_menu_item()
         redo_item = self.photo_viewer.get_redo_menu_item()
         revert_item = self.photo_viewer.get_revert_menu_item()
@@ -310,3 +314,11 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(undo_item.enabled, Eventually(Equals(True)))
         self.assertThat(redo_item.enabled, Eventually(Equals(False)))
         self.assertThat(revert_item.enabled, Eventually(Equals(False)))
+
+        self.click_enhance_item()
+
+        self.reveal_toolbar()
+        self.click_edit_button()
+
+        revert_item = self.photo_viewer.get_revert_menu_item()
+        self.assertThat(lambda: revert_item.enabled, Eventually(Equals(True)))

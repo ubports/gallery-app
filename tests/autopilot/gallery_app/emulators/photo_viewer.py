@@ -70,6 +70,10 @@ class PhotoViewer(GalleryUtils):
         """Returns the revert to original menu item in the edit dialog."""
         return self.app.select_single("Standard", objectName="revertListItem")
 
+    def get_auto_enhance_menu_item(self):
+        """Returns the 'auto enhance' menu item in the edit dialog."""
+        return self.app.select_single("Standard", objectName='enhanceListItem')
+
     def get_delete_popover_delete_item(self):
         """Returns the delete button of the delete popover."""
         return self.app.select_single("Button",
