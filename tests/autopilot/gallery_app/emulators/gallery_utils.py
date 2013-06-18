@@ -77,12 +77,6 @@ class GalleryUtils(object):
         toolbar = self.get_toolbar()
         return toolbar.select_single("ActionItem", objectName=name)
 
-    #def get_toolbar_button(self, button_idx):
-    #    """Returns the button with index idx from the toolbar"""
-    #    toolbar = self.get_toolbar()
-    #    buttons = toolbar.select_many("ActionItem")
-    #    return buttons[button_idx+1]
-
     def get_toolbar_cancel_icon(self):
         """Returns the cancel icon of the events view."""
         toolbar = self.get_toolbar()

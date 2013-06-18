@@ -435,7 +435,7 @@ Item {
                 text: i18n.tr("Delete")
             }
             ToolbarButton {
-                objectName: "actionButton"
+                objectName: "shareButton"
                 action: Action {
                     text: i18n.tr("Share photo")
                     iconSource: "../../img/share.png"

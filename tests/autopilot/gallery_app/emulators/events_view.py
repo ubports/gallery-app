@@ -17,15 +17,14 @@ class EventsView(GalleryUtils):
 
     def get_toolbar_camera_button(self):
         """Returns the camera button of the toolbar in the event view"""
-        return self.get_toolbar_button(2)
+        return self.get_toolbar_named_toolbarbutton("cameraButton")
 
     def get_toolbar_select_button(self):
         """Returns the select button of the toolbar in the event view"""
-        return self.get_toolbar_button(0)
+        return self.get_toolbar_named_toolbarbutton("selectButton")
 
     def get_toolbar_delete_button(self):
         """Returns the delete button of the toolbar in the event view"""
-        #return self.get_toolbar_button(1)
         return self.get_toolbar_named_toolbarbutton("deleteButton")
 
     def number_of_photos(self):
