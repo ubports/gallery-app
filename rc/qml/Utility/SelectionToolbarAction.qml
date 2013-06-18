@@ -39,24 +39,28 @@ ToolbarItems {
     locked: true
 
     ToolbarButton {
+        objectName: "addButton"
         text: i18n.tr("Add")
         iconSource: Qt.resolvedUrl("../../img/add.png")
         enabled: root.selection.selectedCount > 0
         onTriggered: root.addClicked(caller);
     }
     ToolbarButton {
+        objectName: "deleteButton"
         text: i18n.tr("Delete")
         iconSource: Qt.resolvedUrl("../../img/delete.png")
         enabled: root.selection.selectedCount > 0
         onTriggered:root.deleteClicked();
     }
     ToolbarButton {
+        objectName: "shareButton"
         text: i18n.tr("Share")
         iconSource: Qt.resolvedUrl("../../img/share.png")
         enabled: false
     }
 
     back:  Button {
+        objectName: "cancelButton"
         anchors.verticalCenter: parent.verticalCenter
         text: i18n.tr("Cancel")
         width: units.gu(10)

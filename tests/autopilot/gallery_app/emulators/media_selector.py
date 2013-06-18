@@ -20,7 +20,6 @@ class MediaSelector(GalleryUtils):
 
     def get_toolbar_add_button(self):
         """Returns the add button of the tollbar in the media selector"""
-        #return self.get_toolbar_button(0)
         toolbar = self.get_toolbar()
         return toolbar.select_single("Button", objectName="addButton")
 

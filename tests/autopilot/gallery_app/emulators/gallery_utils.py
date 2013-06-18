@@ -72,21 +72,21 @@ class GalleryUtils(object):
         """Returns the toolbar in the main events view."""
         return self.app.select_single("Toolbar")
 
-    def get_toolbar_button(self, button_idx):
-        """Returns the button with index idx from the toolbar"""
+    def get_toolbar_named_toolbarbutton(self, name):
+        """Returns the ToolbarButton with the specified objectName"""
         toolbar = self.get_toolbar()
-        buttons = toolbar.select_many("ActionItem")
-        return buttons[button_idx+1]
+        return toolbar.select_single("ActionItem", objectName=name)
+
+    #def get_toolbar_button(self, button_idx):
+    #    """Returns the button with index idx from the toolbar"""
+    #    toolbar = self.get_toolbar()
+    #    buttons = toolbar.select_many("ActionItem")
+    #    return buttons[button_idx+1]
 
     def get_toolbar_cancel_icon(self):
         """Returns the cancel icon of the events view."""
         toolbar = self.get_toolbar()
-        #buttons = toolbar.select_many("Button")
-        #return buttons[0]
         return toolbar.select_single("Button", objectName="cancelButton", visible=True)
-        #return toolbar.select_single("Button", objectName="cancelButton", visible=True)
-        #toolbar_items = toolbar.select_single("ToolbarItems")
-        #return toolbar_items.back
 
     def get_toolbar_back_icon(self):
         """Returns the back icon of the toolbar."""

@@ -404,6 +404,7 @@ Item {
 
         property Item photoToolbar: ToolbarItems {
             ToolbarButton {
+                objectName: "editButton"
                 text: i18n.tr("Edit")
                 iconSource: "../../img/edit.png"
                 onTriggered: {
@@ -411,6 +412,7 @@ Item {
                 }
             }
             ToolbarButton {
+                objectName: "addButton"
                 action: Action {
                     text: i18n.tr("Add photo to album")
                     iconSource: "../../img/add.png"
@@ -422,6 +424,7 @@ Item {
                 text: i18n.tr("Add")
             }
             ToolbarButton {
+                objectName: "deleteButton"
                 action: Action {
                     text: i18n.tr("Delete")
                     iconSource: "../../img/delete.png"
@@ -432,6 +435,7 @@ Item {
                 text: i18n.tr("Delete")
             }
             ToolbarButton {
+                objectName: "actionButton"
                 action: Action {
                     text: i18n.tr("Share photo")
                     iconSource: "../../img/share.png"
@@ -443,6 +447,7 @@ Item {
             }
 
             back: ToolbarButton {
+                objectName: "backButton"
                 text: i18n.tr("Back")
                 iconSource: "../../img/back.png"
                 onTriggered: {
@@ -454,6 +459,7 @@ Item {
 
         property Item videoToolbar: ToolbarItems {
             ToolbarButton {
+                objectName: "playButton"
                 text: galleryPhotoViewer.currentItem.isPlayingVideo ?
                         i18n.tr("Pause") : i18n.tr("Play")
                 iconSource: galleryPhotoViewer.currentItem.isPlayingVideo ?
@@ -463,6 +469,7 @@ Item {
                 }
             }
             ToolbarButton {
+                objectName: "addButton"
                 text: i18n.tr("Add")
                 iconSource: "../../img/add.png"
                 onTriggered: {
@@ -471,6 +478,7 @@ Item {
                 }
             }
             ToolbarButton {
+                objectName: "deleteButton"
                 text: i18n.tr("Delete")
                 iconSource: "../../img/delete.png"
                 onTriggered: {
@@ -478,6 +486,7 @@ Item {
                 }
             }
             ToolbarButton {
+                objectName: "shareButton"
                 text: i18n.tr("Share")
                 iconSource: "../../img/share.png"
                 onTriggered: {
@@ -486,6 +495,7 @@ Item {
             }
 
             back: ToolbarButton {
+                objectName: "backButton"
                 text: i18n.tr("Back")
                 iconSource: "../../img/back.png"
                 onTriggered: {

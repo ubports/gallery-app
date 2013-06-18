@@ -25,7 +25,8 @@ class EventsView(GalleryUtils):
 
     def get_toolbar_delete_button(self):
         """Returns the delete button of the toolbar in the event view"""
-        return self.get_toolbar_button(1)
+        #return self.get_toolbar_button(1)
+        return self.get_toolbar_named_toolbarbutton("deleteButton")
 
     def number_of_photos(self):
         """Returns the number of events"""

@@ -29,17 +29,20 @@ ToolbarItems {
     signal startCamera()
 
     ToolbarButton {
+        objectName: "selectButton"
         text: i18n.tr("Select")
         iconSource: Qt.resolvedUrl("../../img/select.png")
         enabled: root.selection !== null
         onTriggered: root.selection.inSelectionMode = true;
     }
     ToolbarButton {
+        objectName: "importButton"
         text: i18n.tr("Import")
         iconSource: Qt.resolvedUrl("../../img/import-image.png")
         enabled: false
     }
     ToolbarButton {
+        objectName: "cameraButton"
         text: i18n.tr("Camera")
         iconSource: Qt.resolvedUrl("../../img/camera.png")
         onTriggered: root.startCamera();
