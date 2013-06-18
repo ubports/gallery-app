@@ -7,6 +7,7 @@
 /tests/unittests/gallerystandardimageprovider/gallerystandardimageprovider
 /tests/unittests/gallerythumbnailimageprovider/gallerythumbnailimageprovider
 /tests/unittests/imaging/imaging
+/tests/unittests/mediaobjectfactory/mediaobjectfactory
 /tests/unittests/resource/resource
 /tests/unittests/video/config.h
 /tests/unittests/video/video

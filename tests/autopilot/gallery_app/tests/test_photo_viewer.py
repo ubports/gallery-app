@@ -21,7 +21,7 @@ import os
 from time import sleep
 
 """
-Class for common functionality of the phot viewing and photo editing
+Class for common functionality of the photo viewing and photo editing
 """
 
 
