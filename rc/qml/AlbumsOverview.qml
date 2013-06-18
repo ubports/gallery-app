@@ -172,6 +172,7 @@ Checkerboard {
     tools: ToolbarItems {
         id: albumOverviewTools
         ToolbarButton {
+            objectName: "addButton"
             action: Action {
                 text: i18n.tr("Add new album") // Text in HUD
                 iconSource: Qt.resolvedUrl("../img/add.png")
@@ -183,6 +184,7 @@ Checkerboard {
             text: "Add" // text in toolbar
         }
         ToolbarButton {
+            objectName: "cameraButton"
             action: Action {
                 text: i18n.tr("Camera")
                 iconSource: Qt.resolvedUrl("../img/camera.png")

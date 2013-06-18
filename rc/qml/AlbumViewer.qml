@@ -463,6 +463,7 @@ Page {
     /// Contains the actions for the toolbar in the album view
     tools: ToolbarItems {
         ToolbarButton {
+            objectName: "addButton"
             action: Action {
                 text: i18n.tr("Add to album") // text in HUD
                 iconSource: Qt.resolvedUrl("../img/add.png")
@@ -473,6 +474,7 @@ Page {
             text: i18n.tr("Add") // text in toolbar
         }
         ToolbarButton {
+            objectName: "deleteButton"
             text: i18n.tr("Delete")
             iconSource: Qt.resolvedUrl("../img/delete.png")
             onTriggered: {
@@ -483,6 +485,7 @@ Page {
             enabled: false // FIXME enable once the close animation is not shown anymore
         }
         ToolbarButton {
+            objectName: "shareButton"
             text: i18n.tr("Share")
             iconSource: Qt.resolvedUrl("../img/share.png")
             enabled: false
