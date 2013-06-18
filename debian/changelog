@@ -1,3 +1,13 @@
+gallery-app (0.0.67daily13.06.18-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Unit test for MediaObjectFactory::create().
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 730
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 18 Jun 2013 08:24:43 +0000
+
 gallery-app (0.0.67daily13.06.17-0ubuntu1) saucy; urgency=low
 
   [ Guenter Schwann ]

@@ -124,7 +124,10 @@ Page {
         anchors.fill: parent
         visible: false
 
-        onCloseRequested: popupPhotoViewer.closeRequested()
+        onCloseRequested: {
+            popupPhotoViewer.closeRequested();
+            openCompleted = false;
+        }
 
         onEditRequested: popupPhotoViewer.editRequested(media)
 
