@@ -127,8 +127,8 @@ class TestAlbumEditor(GalleryTestCase):
         num_photos_start = self.album_view.number_of_photos()
         self.assertThat(num_photos_start, Equals(1))
         self.reveal_toolbar()
-        cancel = self.album_view.get_toolbar_cancel_icon()
-        self.click_item(cancel)
+        back = self.album_view.get_toolbar_back_icon()
+        self.click_item(back)
         self.ensure_album_viewer_is_fully_closed()
 
         # now open to add a photo

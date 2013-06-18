@@ -36,6 +36,7 @@ Page {
     title: "Edit album"
     tools: ToolbarItems {
         back: Button {
+            objectName: "cancelButton"
             anchors.verticalCenter: parent.verticalCenter
             text: i18n.tr("Cancel")
             width: units.gu(10)

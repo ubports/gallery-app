@@ -79,6 +79,7 @@ OrganicView {
         Button {
             anchors.verticalCenter: parent.verticalCenter
             text: i18n.tr("Add to Album")
+            objectName: "addButton"
             color: Gallery.HIGHLIGHT_BUTTON_COLOR
             width: units.gu(16)
             onTriggered: {
@@ -90,6 +91,7 @@ OrganicView {
         back: Button {
             anchors.verticalCenter: parent.verticalCenter
             text: i18n.tr("Cancel")
+            objectName: "cancelButton"
             width: units.gu(10)
             onClicked: {
                 mediaSelector.hide();

@@ -489,6 +489,7 @@ Page {
         }
         back: ToolbarButton {
             text: i18n.tr("Back")
+            objectName: "backButton"
             iconSource: Qt.resolvedUrl("../img/back.png")
             onTriggered: {
                 __close()
