@@ -54,7 +54,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
     def test_nav_bar_back_button(self):
         """Clicking the back button must close the photo."""
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
-        back_button = self.photo_viewer.get_toolbar_cancel_icon()
+        back_button = self.photo_viewer.get_toolbar_back_icon()
         self.click_item(back_button)
 
         self.assertThat(photo_viewer.visible, Eventually(Equals(False)))

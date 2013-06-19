@@ -96,7 +96,7 @@ OrganicView {
         }
     }
 
-    property ToolbarActions overviewTools: PhotosToolbarActions {
+    property Item overviewTools: PhotosToolbarActions {
         selection: organicEventView.selection
         onStartCamera: appManager.switchToCameraApplication();
     }
@@ -105,7 +105,7 @@ OrganicView {
         id: appManager
     }
 
-    property ToolbarActions selectionTools: SelectionToolbarAction {
+    property Item selectionTools: SelectionToolbarAction {
         selection: organicEventView.selection
 
         onCancelClicked: {

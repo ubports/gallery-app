@@ -34,14 +34,14 @@ Page {
     objectName: "mainAlbumEditor"
 
     title: "Edit album"
-    tools: ToolbarActions {
-        back: Action {
-            itemHint: Button {
-                text: i18n.tr("Cancel")
-                width: units.gu(10)
-                onClicked: {
-                    albumEditor.closeRequested(albumEditor.album, false);
-                }
+    tools: ToolbarItems {
+        back: Button {
+            objectName: "cancelButton"
+            anchors.verticalCenter: parent.verticalCenter
+            text: i18n.tr("Cancel")
+            width: units.gu(10)
+            onClicked: {
+                albumEditor.closeRequested(albumEditor.album, false);
             }
         }
     }

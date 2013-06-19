@@ -15,16 +15,16 @@ class PhotoViewer(GalleryUtils):
 
     def get_toolbar_edit_button(self):
         """Return the edit button of the toolbar when photo viewer is shown"""
-        return self.get_toolbar_button(0)
+        return self.get_toolbar_named_toolbarbutton("editButton")
 
     def get_toolbar_delete_button(self):
         """Return the delete button of the toolbar when photo viewer is
            shown"""
-        return self.get_toolbar_button(2)
+        return self.get_toolbar_named_toolbarbutton("deleteButton")
 
     def get_toolbar_share_button(self):
         """Return the share button of the toolbar when photo viewer is shown"""
-        return self.get_toolbar_button(3)
+        return self.get_toolbar_named_toolbarbutton("shareButton")
 
     def get_delete_dialog(self):
         """Returns the photo viewer delete dialog."""

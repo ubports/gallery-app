@@ -25,7 +25,7 @@ class AlbumView(GalleryUtils):
 
     def get_toolbar_add_button(self):
         """Returns the add button of the tollbar in the events view."""
-        return self.get_toolbar_button(0)
+        return self.get_toolbar_named_toolbarbutton("addButton")
 
     def get_first_photo(self):
         """Returns the first photo in a newly opened album"""

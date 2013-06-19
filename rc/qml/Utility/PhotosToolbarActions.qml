@@ -20,7 +20,7 @@ import Ubuntu.Components 0.1
 /*!
   The actions for the toolbar for the event and photos view
   */
-ToolbarActions {
+ToolbarItems {
     id: root
     /// The selection state item to use for enable / disable the select mode
     property SelectionState selection: null
@@ -28,18 +28,21 @@ ToolbarActions {
     /// Emittedt when the camera action was triggered
     signal startCamera()
 
-    Action {
+    ToolbarButton {
+        objectName: "selectButton"
         text: i18n.tr("Select")
         iconSource: Qt.resolvedUrl("../../img/select.png")
         enabled: root.selection !== null
         onTriggered: root.selection.inSelectionMode = true;
     }
-    Action {
+    ToolbarButton {
+        objectName: "importButton"
         text: i18n.tr("Import")
         iconSource: Qt.resolvedUrl("../../img/import-image.png")
         enabled: false
     }
-    Action {
+    ToolbarButton {
+        objectName: "cameraButton"
         text: i18n.tr("Camera")
         iconSource: Qt.resolvedUrl("../../img/camera.png")
         onTriggered: root.startCamera();

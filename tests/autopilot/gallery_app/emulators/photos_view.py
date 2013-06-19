@@ -23,11 +23,11 @@ class PhotosView(GalleryUtils):
 
     def get_toolbar_select_button(self):
         """Returns the select button of the tollbar in the events view."""
-        return self.get_toolbar_button(0)
+        return self.get_toolbar_named_toolbarbutton("selectButton")
 
     def get_toolbar_delete_button(self):
         """Returns the delete button of the tollbar in the events view."""
-        return self.get_toolbar_button(1)
+        return self.get_toolbar_named_toolbarbutton("deleteButton")
 
     def get_first_photo_in_photos_view(self):
         """Returns the very first photo in the photos view."""
