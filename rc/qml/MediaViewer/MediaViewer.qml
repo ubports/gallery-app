@@ -457,7 +457,7 @@ Item {
             }
         }
 
-        property ToolbarActions videoToolbar: ToolbarItems {
+        property Item videoToolbar: ToolbarItems {
             ToolbarButton {
                 text: galleryPhotoViewer.currentItem ?
                           (galleryPhotoViewer.currentItem.isPlayingVideo ?
