@@ -22,6 +22,13 @@
 // database
 #include "media-table.h"
 
+// photo
+#include <photo.h>
+
+// for controlling the fake MediaTable
+extern bool mediaFakeTableNeedsUpdate;
+extern void setOrientationOfFirstRow(Orientation orientation);
+
 class tst_MediaObjectFactory : public QObject
 {
   Q_OBJECT
@@ -30,6 +37,7 @@ private slots:
     void init();
     void cleanup();
 
+    void create();
     void clearMetadata();
     void readPhotoMetadata();
     void readVideoMetadata();
@@ -41,7 +49,7 @@ private:
 
 void tst_MediaObjectFactory::init()
 {
-    m_mediaTable = 0;
+    m_mediaTable = new MediaTable(0, 0);
     m_factory = new MediaObjectFactory(m_mediaTable);
 }
 
@@ -49,6 +57,53 @@ void tst_MediaObjectFactory::cleanup()
 {
     delete m_factory;
     m_factory = 0;
+    delete m_mediaTable;
+    m_mediaTable = 0;
+}
+
+void tst_MediaObjectFactory::create()
+{
+    // invalid file
+    MediaSource *media = m_factory->create(QFileInfo("no_valid_file"));
+    QCOMPARE(media, (MediaSource*)0);
+
+    // new file
+    media = m_factory->create(QFileInfo("/some/photo.jpg"));
+    Photo *photo = qobject_cast<Photo*>(media);
+    QVERIFY(photo != 0);
+    QCOMPARE(photo->id(), (qint64)0);
+    QCOMPARE(photo->exposureDateTime(), QDateTime(QDate(2013, 01, 01), QTime(11, 11, 11)));
+    QCOMPARE(photo->orientation(), BOTTOM_LEFT_ORIGIN);
+
+    // another new file
+    media = m_factory->create(QFileInfo("/some/other_photo.jpg"));
+    photo = qobject_cast<Photo*>(media);
+    QVERIFY(photo != 0);
+    QCOMPARE(photo->id(), (qint64)1);
+
+    // existing from DB
+    media = m_factory->create(QFileInfo("/some/photo.jpg"));
+    photo = qobject_cast<Photo*>(media);
+    QVERIFY(photo != 0);
+    QCOMPARE(photo->id(), (qint64)0);
+
+    // update DB from file
+    setOrientationOfFirstRow(TOP_RIGHT_ORIGIN); // change the DB
+
+    media = m_factory->create(QFileInfo("/some/photo.jpg"));
+    photo = qobject_cast<Photo*>(media);
+    QVERIFY(photo != 0);
+    QCOMPARE(photo->id(), (qint64)0);
+    QCOMPARE(photo->orientation(), TOP_RIGHT_ORIGIN);
+
+    mediaFakeTableNeedsUpdate = true; // forces the update
+
+    media = m_factory->create(QFileInfo("/some/photo.jpg"));
+    photo = qobject_cast<Photo*>(media);
+    QVERIFY(photo != 0);
+    QCOMPARE(photo->id(), (qint64)0);
+    QCOMPARE(photo->orientation(), BOTTOM_LEFT_ORIGIN);
+    mediaFakeTableNeedsUpdate = false;
 }
 
 void tst_MediaObjectFactory::clearMetadata()

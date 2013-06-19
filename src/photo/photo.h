@@ -52,7 +52,7 @@ public:
 
     static bool isValid(const QFileInfo& file);
 
-    virtual QImage image(bool respect_orientation, const QSize &scaleSize=QSize());
+    virtual QImage image(bool respectOrientation, const QSize &scaleSize=QSize());
     virtual Orientation orientation() const;
 
     virtual QUrl galleryPath() const;
@@ -80,6 +80,8 @@ public:
     Q_INVOKABLE void cancelCropping();
     Q_INVOKABLE void crop(QVariant vrect);
 
+    void setOriginalOrientation(Orientation orientation);
+
 signals:
     void editStackChanged();
 
@@ -99,7 +101,6 @@ private:
     void handleSimpleMetadataRotation(const PhotoEditState& state);
     bool fileFormatHasMetadata() const;
     bool fileFormatHasOrientation() const;
-    void setOriginalOrientation(Orientation orientation);
 
     QString m_fileFormat;
     int m_editRevision; // How many times the pixel data has been modified by us.

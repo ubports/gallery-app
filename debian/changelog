@@ -1,3 +1,41 @@
+gallery-app (0.0.67daily13.06.19-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Add autopilot test for video support.
+  * Close PhotoViewer when last media is deleted (LP: #1131802). (LP:
+    #1131802)
+  * PreviewManager does the loading and orientating of photos on it's
+    own.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 734
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 19 Jun 2013 05:48:16 +0000
+
+gallery-app (0.0.67daily13.06.18-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Unit test for MediaObjectFactory::create().
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 730
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 18 Jun 2013 08:24:43 +0000
+
+gallery-app (0.0.67daily13.06.17-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Run gallery in fullscreen.
+  * Multi directory support, and use ~/Videos as default media directory
+    in addition to ~/Pictures.
+  * Unit tests for MediaObjectFactory.
+  * Rudimentary video playback functionality.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 726
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 17 Jun 2013 05:38:05 +0000
+
 gallery-app (0.0.67daily13.06.14.1-0ubuntu1) saucy; urgency=low
 
   [ Robert Bruce Park ]

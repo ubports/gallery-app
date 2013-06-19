@@ -94,3 +94,6 @@ class TestEventsView(GalleryTestCase):
         self.ui_update()
         new_number_of_photos = self.events_view.number_of_photos()
         self.assertThat(new_number_of_photos, Equals(number_of_photos - 1))
+
+    def test_adding_a_video(self):
+        self.add_video_sample()

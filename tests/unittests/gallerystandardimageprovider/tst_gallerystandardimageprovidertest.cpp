@@ -73,8 +73,7 @@ void tst_GalleryStandardImageProvider::idToFile()
     QFETCH(QString, id);
     QFETCH(QString, fileName);
 
-    MediaCollection mediaCollection;
-    PreviewManager previewManager("/home/user/thumbnails", &mediaCollection);
+    PreviewManager previewManager("/home/user/thumbnails");
     GalleryStandardImageProvider provider;
     provider.setPreviewManager(&previewManager);
     QCOMPARE(provider.idToFile(id), fileName);

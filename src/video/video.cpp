@@ -41,9 +41,9 @@ MediaSource::MediaType Video::type() const
 /*!
  * \reimp
  */
-QImage Video::image(bool respect_orientation, const QSize &scaleSize)
+QImage Video::image(bool respectOrientation, const QSize &scaleSize)
 {
-    Q_UNUSED(respect_orientation);
+    Q_UNUSED(respectOrientation);
     Q_UNUSED(scaleSize);
     return QImage(Resource::getRcUrl("img/video-thumbnail.png").toLocalFile());
 }

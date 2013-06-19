@@ -35,9 +35,10 @@ class GalleryTestCase(AutopilotTestCase):
         ('with touch', dict(input_device_class=Touch)),
         ]
 
-    sample_dir = "/tmp/gallery-ap_sd"
-    sample_file = sample_dir + "/sample01.jpg"
+    sample_destination_dir = "/tmp/gallery-ap_sd"
+    sample_file = sample_destination_dir + "/sample01.jpg"
     sample_file_source = "/sample01.jpg"
+    sample_dir = ""
     installed_sample_dir = "/usr/lib/python2.7/dist-packages/gallery_app/data"
     local_sample_dir = "gallery_app/data"
     tap_press_time = 1
@@ -52,25 +53,27 @@ class GalleryTestCase(AutopilotTestCase):
         self.pointing_device = Pointer(self.input_device_class.create())
         super(GalleryTestCase, self).setUp()
 
-        if (os.path.exists(self.sample_dir)):
-            shutil.rmtree(self.sample_dir)
-        self.assertFalse(os.path.exists(self.sample_dir))
+        if (os.path.exists(self.sample_destination_dir)):
+            shutil.rmtree(self.sample_destination_dir)
+        self.assertFalse(os.path.exists(self.sample_destination_dir))
         # Lets assume we are installed system wide if this file is somewhere
         # in /usr
         if os.path.realpath(__file__).startswith("/usr/"):
-            shutil.copytree(self.installed_sample_dir, self.sample_dir)
+            self.sample_dir = self.installed_sample_dir
+            default_data_dir = self.installed_sample_dir+"/default"
+            shutil.copytree(default_data_dir, self.sample_destination_dir)
             self.assertTrue(os.path.isfile(self.sample_file))
-            self.sample_file_source = self.installed_sample_dir + \
-                self.sample_file_source
+            self.sample_file_source = default_data_dir + self.sample_file_source
             self.launch_test_installed()
         else:
-            shutil.copytree(self.local_sample_dir, self.sample_dir)
+            self.sample_dir = self.local_sample_dir
+            default_data_dir = self.local_sample_dir+"/default"
+            shutil.copytree(default_data_dir, self.sample_destination_dir)
             self.assertTrue(os.path.isfile(self.sample_file))
-            self.sample_file_source = self.local_sample_dir + \
-                self.sample_file_source
+            self.sample_file_source = default_data_dir + self.sample_file_source
             self.launch_test_local()
 
-        self.addCleanup(shutil.rmtree, self.sample_dir)
+        self.addCleanup(shutil.rmtree, self.sample_destination_dir)
 
         """ This is needed to wait for the application to start.
         In the testfarm, the application may take some time to show up."""
@@ -85,18 +88,18 @@ class GalleryTestCase(AutopilotTestCase):
     def launch_test_local(self):
         self.app = self.launch_test_application(
             self.local_location,
-            self.sample_dir)
+            self.sample_destination_dir)
 
     def launch_test_installed(self):
         if model() == 'Desktop':
             self.app = self.launch_test_application(
                 "gallery-app",
-                self.sample_dir)
+                self.sample_destination_dir)
         else:
             self.app = self.launch_test_application(
                 "gallery-app",
                 "--desktop_file_hint=/usr/share/applications/gallery-app.desktop",
-                self.sample_dir,
+                self.sample_destination_dir,
                 app_type='qt')
 
     def ui_update(self):
@@ -192,3 +195,10 @@ class GalleryTestCase(AutopilotTestCase):
         self.assertThat(view.visible, Eventually(Equals(True)))
         self.assertThat(animated_view.animationRunning,
                         Eventually(Equals(False)))
+
+    def add_video_sample(self):
+        video_file = "video20130618_0002.mp4"
+        shutil.copyfile(self.sample_dir+"/option01/"+video_file,
+                        self.sample_destination_dir+"/"+video_file)
+        self.assertThat(lambda: self.events_view.number_of_photos(),
+                        Eventually(Equals(3)))

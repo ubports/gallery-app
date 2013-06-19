@@ -34,7 +34,7 @@ public:
 
     virtual MediaType type() const;
 
-    virtual QImage image(bool respect_orientation = true, const QSize &scaleSize=QSize());
+    virtual QImage image(bool respectOrientation = true, const QSize &scaleSize=QSize());
 
     virtual QUrl galleryPath() const;
     virtual QUrl galleryPreviewPath() const;
