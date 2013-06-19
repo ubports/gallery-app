@@ -1,3 +1,17 @@
+gallery-app (0.0.67daily13.06.19-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Add autopilot test for video support.
+  * Close PhotoViewer when last media is deleted (LP: #1131802). (LP:
+    #1131802)
+  * PreviewManager does the loading and orientating of photos on it's
+    own.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 734
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 19 Jun 2013 05:48:16 +0000
+
 gallery-app (0.0.67daily13.06.18-0ubuntu1) saucy; urgency=low
 
   [ Guenter Schwann ]
