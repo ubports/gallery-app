@@ -71,11 +71,25 @@ Popover {
                     Item {
                         width: albumGrid.cellWidth
                         height: albumGrid.cellHeight
-                        Image {
+                        UbuntuShape {
                             width: albumGrid.albumPreviewWidth
                             height: albumGrid.albumPreviewHeight
                             anchors.centerIn: parent
-                            source: Qt.resolvedUrl("../../img/Add_Album.png")
+                            color: "lightgray"
+
+                            Label {
+                                anchors.top: parent.top
+                                anchors.topMargin: units.gu(3)
+                                anchors.left: parent.left
+                                anchors.leftMargin: units.gu(3)
+                                anchors.right: parent.right
+                                anchors.rightMargin: units.gu(3)
+                                text: i18n.tr("Add new album")
+                                fontSize: "medium"
+                                horizontalAlignment: Text.AlignHCenter
+                                wrapMode: Text.WordWrap
+                            }
+
                             MouseArea {
                                 anchors.fill: parent
                                 onClicked: {
