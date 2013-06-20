@@ -152,6 +152,7 @@ Page {
             setCurrentPhoto(forMediaSource);
             viewer.openCompleted = true;
             opened();
+            viewer.playVideo();
         }
 
         onTransitionFromPhotoViewerCompleted: {
@@ -165,6 +166,7 @@ Page {
         target: viewer
         onStopped: {
             opened();
+            viewer.playVideo();
         }
     }
 
