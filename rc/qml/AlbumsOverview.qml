@@ -17,10 +17,10 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Gallery 1.0
+import "AlbumEditor"
+import "AlbumViewer"
 import "Components"
 import "Utility"
-import "Widgets"
-import "../Capetown/Widgets"
 
 /*!
   Shows all the albums in one grid view

@@ -21,12 +21,12 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Gallery 1.0
-import "../Capetown"
-import "../js/Gallery.js" as Gallery
-import "../js/GalleryUtility.js" as GalleryUtility
-import "Components"
-import "Utility"
-import "Widgets"
+import "../../js/Gallery.js" as Gallery
+import "../../js/GalleryUtility.js" as GalleryUtility
+import "../Components"
+import "../MediaViewer"
+import "../OrganicView"
+import "../Utility"
 
 /*!
 */
@@ -59,7 +59,7 @@ Page {
 
     Image {
         anchors.fill: parent
-        source: "../img/background-paper.png"
+        source: "../../img/background-paper.png"
     }
 
     state: "pageView"
@@ -349,7 +349,7 @@ Page {
 
             visible: album !== null && album.containedCount == 0
 
-            source: "Components/AlbumInternals/img/album-add.png"
+            source: Qt.resolvedUrl("AlbumInternals/img/album-add.png")
 
             MouseArea {
                 anchors.fill: parent
@@ -466,7 +466,7 @@ Page {
             objectName: "addButton"
             action: Action {
                 text: i18n.tr("Add to album") // text in HUD
-                iconSource: Qt.resolvedUrl("../img/add.png")
+                iconSource: Qt.resolvedUrl("../../img/add.png")
                 onTriggered: {
                     loader_mediaSelector.show()
                 }
@@ -476,7 +476,7 @@ Page {
         ToolbarButton {
             objectName: "deleteButton"
             text: i18n.tr("Delete")
-            iconSource: Qt.resolvedUrl("../img/delete.png")
+            iconSource: Qt.resolvedUrl("../../img/delete.png")
             onTriggered: {
                 albumTrashDialog.album = album
                 albumTrashDialog.caller = caller
@@ -487,13 +487,13 @@ Page {
         ToolbarButton {
             objectName: "shareButton"
             text: i18n.tr("Share")
-            iconSource: Qt.resolvedUrl("../img/share.png")
+            iconSource: Qt.resolvedUrl("../../img/share.png")
             enabled: false
         }
         back: ToolbarButton {
             text: i18n.tr("Back")
             objectName: "backButton"
-            iconSource: Qt.resolvedUrl("../img/back.png")
+            iconSource: Qt.resolvedUrl("../../img/back.png")
             onTriggered: {
                 __close()
             }

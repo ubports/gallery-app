@@ -19,10 +19,8 @@
 
 import QtQuick 2.0
 import Gallery 1.0
-import "../Capetown"
-import "Components"
-import "Utility"
-import "../js/Gallery.js" as Gallery
+import "../../js/Gallery.js" as Gallery
+import "../Utility"
 
 // Some custom components and animations that we want to invoke whenever we
 // bring up the album viewer.

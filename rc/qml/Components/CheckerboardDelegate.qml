@@ -18,7 +18,6 @@
  */
 
 import QtQuick 2.0
-import "../../Capetown"
 import "../../js/GalleryUtility.js" as GalleryUtility
 
 // A child delegate for a Checkerboard.  Tightly coupled to Checkerboard due to

@@ -22,8 +22,8 @@ import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
+import "../Components"
 import "../Utility"
-import "../Widgets"
 import "../../js/Gallery.js" as Gallery
 
 /*!
@@ -159,7 +159,9 @@ Item {
             /// Needed as ListView.isCurrentItem can't be used directly
             property bool isActive: ListView.isCurrentItem
             /// True if a video is currently played
-            property bool isPlayingVideo: galleryPhotoViewer.currentItem.state === "playing"
+            property bool isPlayingVideo: galleryPhotoViewer.currentItem ?
+                                              galleryPhotoViewer.currentItem.state === "playing"
+                                            : false
 
             // set the view to it's original state
             function reset() {

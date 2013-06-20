@@ -18,8 +18,8 @@
  */
 
 import QtQuick 2.0
-import "../Capetown"
-import "Components"
+import "../AlbumViewer"
+import "../Utility"
 
 // Provides a smooth transition between the album overview and album editor.
 Item {

@@ -741,7 +741,7 @@ void Album::createAddPhotosPage()
 {
     PageOrientation orientation[0];
     AlbumTemplatePage* template_page_add = new AlbumTemplatePage(
-                "Add photos", "qml/Components/AlbumInternals/AlbumPageLayoutAdd.qml", true, 0);
+                "Add photos", "qml/AlbumViewer/AlbumInternals/AlbumPageLayoutAdd.qml", true, 0);
     AlbumPage* page1 = new AlbumPage(this, contentToAbsolutePage(0), template_page_add);
     AlbumPage* page2 = new AlbumPage(this, contentToAbsolutePage(0),
                                      m_albumTemplate->getBestFitPage(false, 0, orientation));

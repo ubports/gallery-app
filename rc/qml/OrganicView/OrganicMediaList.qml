@@ -21,6 +21,7 @@ import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 0.1
 import "../Components"
+import "../Utility"
 import "../../js/Gallery.js" as Gallery
 import "../../js/GalleryUtility.js" as GalleryUtility
 
