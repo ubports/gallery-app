@@ -35,60 +35,80 @@ Popover {
     signal albumPicked(variant album);
     /// height of the content
     property int contentHeight: -1
+    contentWidth: units.gu(34)
 
     visible: false
 
     Component {
         id: component_Item
         Item {
-            GridView {
-                id: scroller
+            clip: true
 
-                property int albumPreviewWidth: units.gu(14);
-                property int albumPreviewHeight: units.gu(16.5);
-                property int gutterWidth: units.gu(2)
-                property int gutterHeight: units.gu(4)
-
-                clip: true
+            Flickable {
                 anchors.top: titleBox.bottom
+                anchors.topMargin: units.gu(1)
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: units.gu(0.25)
-                anchors.left: parent.left
-                anchors.leftMargin: units.gu(4)
-                anchors.right: parent.right
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: albumGrid.width
 
-                cellWidth: scroller.albumPreviewWidth + scroller.gutterWidth
-                cellHeight: scroller.albumPreviewHeight + scroller.gutterHeight
+                contentHeight: albumGrid.height
 
-                header: Item {
-                    width: parent.width
-                    height: units.gu(2);
-                }
-                footer: Item {
-                    width: parent.width
-                    height: scroller.gutterHeight / 2
-                }
+                Grid {
+                    id: albumGrid
 
-                model: AlbumCollectionModel {
-                }
+                    property int albumPreviewWidth: units.gu(14);
+                    property int albumPreviewHeight: units.gu(16.5);
+                    property int gutterWidth: units.gu(2)
+                    property int gutterHeight: units.gu(4)
+                    property int cellWidth: albumPreviewWidth + gutterWidth
+                    property int cellHeight: albumPreviewHeight + gutterHeight
+                    property AlbumCollectionModel albumCollectionModel: AlbumCollectionModel{}
 
-                delegate: Item {
-                    width: scroller.cellWidth
-                    height: scroller.cellHeight
+                    columns: Math.floor((popupAlbumPicker.contentWidth - units.gu(2)) / cellWidth)
+                    rows: Math.ceil((albumCollectionModel.count + 1) / columns)
 
-                    AlbumPreviewComponent {
-                        album: model.album
+                    Item {
+                        width: albumGrid.cellWidth
+                        height: albumGrid.cellHeight
+                        Image {
+                            width: albumGrid.albumPreviewWidth
+                            height: albumGrid.albumPreviewHeight
+                            anchors.centerIn: parent
+                            source: Qt.resolvedUrl("../../img/Add_Album.png")
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: {
+                                    var album = albumCollectionModel.createOrphan();
+                                    albumCollectionModel.addOrphan(album);
+                                }
+                            }
+                        }
+                    }
 
-                        width: scroller.albumPreviewWidth
-                        height: scroller.albumPreviewHeight
-                        anchors.centerIn: parent
+                    Repeater {
+                        model: albumGrid.albumCollectionModel
 
-                        MouseArea {
-                            anchors.fill: parent
+                        Item {
+                            width: albumGrid.cellWidth
+                            height: albumGrid.cellHeight
 
-                            onClicked: {
-                                popupAlbumPicker.hide()
-                                popupAlbumPicker.albumPicked(album);
+                            AlbumPreviewComponent {
+                                width: albumGrid.albumPreviewWidth
+                                height: albumGrid.albumPreviewHeight
+                                anchors.centerIn: parent
+
+                                album: model.album
+                                showClosed: true
+
+                                MouseArea {
+                                    anchors.fill: parent
+
+                                    onClicked: {
+                                        popupAlbumPicker.hide();
+                                        popupAlbumPicker.albumPicked(album);
+                                    }
+                                }
                             }
                         }
                     }
