@@ -15,13 +15,13 @@
  */
 
 import QtQuick 2.0
-import Gallery 1.0
-import "../../js/GalleryUtility.js" as GalleryUtility
-import "../../../rc/Capetown"
-import "../../../rc/Capetown/Widgets"
-import "../Widgets"
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
+import Gallery 1.0
+import "Components"
+import "OrganicView"
+import "Utility"
+import "../js/GalleryUtility.js" as GalleryUtility
 
 // An "organic" vertically-scrollable view of all events, each containing a
 // horizontally-scrollable "tray" of photos.

@@ -28,16 +28,16 @@ AlbumDefaultTemplate::AlbumDefaultTemplate()
       m_nextDecisionPageType(LANDSCAPE)
 {
     addPage(new AlbumTemplatePage("Template A Left",
-                                  "qml/Components/AlbumInternals/AlbumPageLayoutLeftPortrait.qml",
+                                  "qml/AlbumViewer/AlbumInternals/AlbumPageLayoutLeftPortrait.qml",
                                   true, 1, PORTRAIT));
     addPage(new AlbumTemplatePage("Template A Right",
-                                  "qml/Components/AlbumInternals/AlbumPageLayoutRightPortrait.qml",
+                                  "qml/AlbumViewer/AlbumInternals/AlbumPageLayoutRightPortrait.qml",
                                   false, 1, PORTRAIT));
     addPage(new AlbumTemplatePage("Template B Left",
-                                  "qml/Components/AlbumInternals/AlbumPageLayoutLeftDoubleLandscape.qml",
+                                  "qml/AlbumViewer/AlbumInternals/AlbumPageLayoutLeftDoubleLandscape.qml",
                                   true, 2, LANDSCAPE, LANDSCAPE));
     addPage(new AlbumTemplatePage("Template B Right",
-                                  "qml/Components/AlbumInternals/AlbumPageLayoutRightDoubleLandscape.qml",
+                                  "qml/AlbumViewer/AlbumInternals/AlbumPageLayoutRightDoubleLandscape.qml",
                                   false, 2, LANDSCAPE, LANDSCAPE));
 }
 

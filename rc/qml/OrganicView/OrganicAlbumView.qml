@@ -19,6 +19,7 @@
 
 import QtQuick 2.0
 import Gallery 1.0
+import "../Utility"
 import "../../js/GalleryUtility.js" as GalleryUtility
 
 // An "organic" vertically-scrollable view of media in a particular album.

@@ -21,7 +21,9 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Gallery 1.0
 import "../js/GalleryUtility.js" as GalleryUtility
-import "Utility"
+import "AlbumEditor"
+import "AlbumViewer"
+import "MediaViewer"
 
 /*!
 */
@@ -70,7 +72,7 @@ MainView {
         Tab {
             id: eventTab
             title: i18n.tr("Events")
-            page: OrganicEventView {
+            page: EventsOverview {
                 id: eventView
                 objectName: "organicEventView"
 

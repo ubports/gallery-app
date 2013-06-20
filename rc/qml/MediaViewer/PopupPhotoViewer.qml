@@ -19,8 +19,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
-import "../Capetown"
-import "MediaViewer"
+import "../Utility"
 
 // A PhotoViewer that is opened and closed with the PhotoViewerTransition.
 Page {

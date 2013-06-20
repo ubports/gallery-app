@@ -19,6 +19,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import "../Utility"
 
 // The user interaction and selection handling for items in the
 // OrganicMediaList.
@@ -52,7 +53,7 @@ Item {
 
         visible: isSelected
 
-        source: "img/photo-preview-selected-overlay.png"
+        source: Qt.resolvedUrl("../../img/photo-preview-selected-overlay.png")
     }
 
     MouseArea {
