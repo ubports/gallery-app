@@ -97,6 +97,20 @@ Item {
         galleryPhotoViewer.goForward();
     }
 
+    // If the media item is a video, start playing it
+    function playVideo()
+    {
+        if (!galleryPhotoViewer.currentItem)
+            return;
+        if (galleryPhotoViewer.media.type !== MediaSource.Video)
+            return;
+
+        if (galleryPhotoViewer.currentItem.isPlayingVideo)
+            return;
+
+        galleryPhotoViewer.currentItem.togglePlayPause();
+    }
+
     Rectangle{
         color: "black"
         anchors.fill: parent
