@@ -21,7 +21,7 @@ import os
 from time import sleep
 
 """
-Class for common functionality of the phot viewing and photo editing
+Class for common functionality of the photo viewing and photo editing
 """
 
 
@@ -54,7 +54,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
     def test_nav_bar_back_button(self):
         """Clicking the back button must close the photo."""
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
-        back_button = self.photo_viewer.get_toolbar_cancel_icon()
+        back_button = self.photo_viewer.get_toolbar_back_icon()
         self.click_item(back_button)
 
         self.assertThat(photo_viewer.visible, Eventually(Equals(False)))
@@ -138,11 +138,12 @@ class TestPhotoEditor(TestPhotoViewerBase):
     def setUp(self):
         super(TestPhotoEditor, self).setUp()
         self.click_edit_button()
-        self.ensure_edit_dialog_visible()
 
     def click_edit_button(self):
         edit_button = self.photo_viewer.get_toolbar_edit_button()
         self.click_item(edit_button)
+        edit_dialog = self.photo_viewer.get_photo_edit_dialog()
+        self.assertThat(edit_dialog.opacity, (Eventually(Equals(1))))
 
     def click_rotate_item(self):
         rotate_item = self.photo_viewer.get_rotate_menu_item()
@@ -264,12 +265,16 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.click_rotate_item()
 
+        self.reveal_toolbar()
+        self.click_edit_button()
+        undo_item = self.photo_viewer.get_undo_menu_item()
+        redo_item = self.photo_viewer.get_redo_menu_item()
+        revert_item = self.photo_viewer.get_revert_menu_item()
+        
         self.assertThat(undo_item.enabled, Eventually(Equals(True)))
         self.assertThat(redo_item.enabled, Eventually(Equals(False)))
         self.assertThat(revert_item.enabled, Eventually(Equals(True)))
-
-        self.reveal_toolbar()
-        self.click_edit_button()
+        
         self.click_undo_item()
 
         self.reveal_toolbar()
@@ -284,12 +289,16 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.click_redo_item()
 
+        self.reveal_toolbar()
+        self.click_edit_button()
+        undo_item = self.photo_viewer.get_undo_menu_item()
+        redo_item = self.photo_viewer.get_redo_menu_item()
+        revert_item = self.photo_viewer.get_revert_menu_item()
+
         self.assertThat(undo_item.enabled, Eventually(Equals(True)))
         self.assertThat(redo_item.enabled, Eventually(Equals(False)))
         self.assertThat(revert_item.enabled, Eventually(Equals(True)))
-
-        self.reveal_toolbar()
-        self.click_edit_button()
+        
         self.click_revert_item()
 
         self.reveal_toolbar()

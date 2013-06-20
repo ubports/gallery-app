@@ -21,7 +21,7 @@
 #include <QFileInfo>
 #include <QUrl>
 
-#include "qml/gallery-thumbnail-image-provider.h"
+#include "gallery-thumbnail-image-provider.h"
 
 class tst_GalleryThumbnailImageProvider : public QObject
 {
@@ -37,14 +37,14 @@ private:
 };
 
 tst_GalleryThumbnailImageProvider::tst_GalleryThumbnailImageProvider()
-    : gallery_thumbnail_image_provider(false)
+    : gallery_thumbnail_image_provider()
 {
 }
 
 void tst_GalleryThumbnailImageProvider::ToURL()
 {
     QFileInfo fi("/tmp/test.jpg");
-    QUrl url = gallery_thumbnail_image_provider.ToURL(fi);
+    QUrl url = gallery_thumbnail_image_provider.toURL(fi);
     QUrl expect("image://gallery-thumbnail//tmp/test.jpg");
     QCOMPARE(url, expect);
 }

@@ -17,7 +17,7 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-#include "photo/photo-edit-state.h"
+#include "photo-edit-state.h"
 
 /*!
  * \brief PhotoEditState::rotate_crop_rectangle
@@ -38,31 +38,31 @@
  * \param image_height
  * \return
  */
-QRect PhotoEditState::rotate_crop_rectangle(Orientation new_orientation,
-                                            int image_width,
-                                            int image_height) const
+QRect PhotoEditState::rotateCropRectangle(Orientation newOrientation,
+                                            int imageWidth,
+                                            int imageHeight) const
 {
 
     OrientationCorrection old_correction =
-            OrientationCorrection::FromOrientation(orientation_);
+            OrientationCorrection::fromOrientation(orientation_);
     OrientationCorrection new_correction =
-            OrientationCorrection::FromOrientation(new_orientation);
+            OrientationCorrection::fromOrientation(newOrientation);
 
     int x = crop_rectangle_.x();
     int y = crop_rectangle_.y();
     int width = crop_rectangle_.width();
     int height = crop_rectangle_.height();
 
-    if (old_correction.is_flipped_from(new_correction))
-        x = image_width - x - width;
+    if (old_correction.isFlippedFrom(new_correction))
+        x = imageWidth - x - width;
 
     int degrees_rotation =
-            new_correction.get_normalized_rotation_difference(old_correction);
+            new_correction.getNormalizedRotationDifference(old_correction);
 
     // Rotate in 90 degree increments.  This seemed easier than a switch
     // statement but may mean a few more cycles.
     while(degrees_rotation > 0) {
-        int new_x = image_height - y - height;
+        int new_x = imageHeight - y - height;
         int new_y = x;
 
         x = new_x;
@@ -70,7 +70,7 @@ QRect PhotoEditState::rotate_crop_rectangle(Orientation new_orientation,
         std::swap(width, height);
 
         degrees_rotation -= 90;
-        std::swap(image_width, image_height);
+        std::swap(imageWidth, imageHeight);
     }
 
     return QRect(x, y, width, height);

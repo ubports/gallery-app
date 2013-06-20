@@ -5,22 +5,22 @@ if(NOT CTEST_TESTING_TIMEOUT)
 endif()
 
 include_directories(
+    ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
-    ${gallery_src_SOURCE_DIR}
-    ${GSTLIB_INCLUDE_DIRS}
     )
 
 add_executable(imaging
     tst_imaging.cpp
-    ${gallery_src_SOURCE_DIR}/util/imaging.cpp
     )
 
 qt5_use_modules(imaging Quick Widgets Test)
-add_test(imaging imaging -xunitxml -o test_resource.xml)
+
+add_test(imaging imaging -xunitxml -o test_imaging.xml)
 set_tests_properties(imaging PROPERTIES
     TIMEOUT ${CTEST_TESTING_TIMEOUT}
     ENVIRONMENT "QT_QPA_PLATFORM=minimal"
     )
+
 target_link_libraries(imaging 
-    ${GSTLIB_LDFLAGS}
+    gallery-util
     )

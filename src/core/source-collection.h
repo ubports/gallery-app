@@ -20,7 +20,7 @@
 #ifndef GALLERY_SOURCE_COLLECTION_H_
 #define GALLERY_SOURCE_COLLECTION_H_
 
-#include "core/data-collection.h"
+#include "data-collection.h"
 
 class DataSource;
 
@@ -44,19 +44,19 @@ signals:
 public:
     SourceCollection(const QString& name);
 
-    void DestroyAll(bool destroy_backing, bool delete_objects);
-    void DestroyMany(const QSet<DataObject*>& objects, bool destroy_backing,
+    void destroyAll(bool destroy_backing, bool delete_objects);
+    void destroyMany(const QSet<DataObject*>& objects, bool destroy_backing,
                      bool delete_objects);
-    void Destroy(DataSource* object, bool destroy_backing, bool delete_object);
+    void destroy(DataSource* object, bool destroy_backing, bool delete_object);
 
 protected:
-    virtual void notify_destroying(const QSet<DataObject*>* objects);
+    virtual void notifyDestroying(const QSet<DataObject*>* objects);
 
-    virtual void notify_contents_altered(const QSet<DataObject*>* added,
+    virtual void notifyContentsChanged(const QSet<DataObject*>* added,
                                          const QSet<DataObject*>* removed);
 
 private:
-    void DestroyObjects(const QSet<DataObject*>& objects, bool destroy_backing,
+    void destroyObjects(const QSet<DataObject*>& objects, bool destroy_backing,
                         bool delete_objects);
 };
 

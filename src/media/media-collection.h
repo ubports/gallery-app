@@ -20,15 +20,15 @@
 #ifndef GALLERY_MEDIA_COLLECTION_H_
 #define GALLERY_MEDIA_COLLECTION_H_
 
-#include <QDir>
+#include <QFileInfo>
 #include <QHash>
 #include <QSet>
 
-#include "core/source-collection.h"
+// core
+#include "source-collection.h"
 
 class DataObject;
 class MediaSource;
-class Photo;
 
 /*!
  * \brief The MediaCollection class
@@ -38,28 +38,26 @@ class MediaCollection : public SourceCollection
     Q_OBJECT
 
 public:
-    MediaCollection(const QDir& directory);
+    MediaCollection();
 
-    static bool ExposureDateTimeAscendingComparator(DataObject* a, DataObject* b);
-    static bool ExposureDateTimeDescendingComparator(DataObject* a, DataObject* b);
-
-    const QDir& directory() const;
+    static bool exposureDateTimeAscendingComparator(DataObject* a, DataObject* b);
+    static bool exposureDateTimeDescendingComparator(DataObject* a, DataObject* b);
 
     MediaSource* mediaForId(qint64 id);
+    MediaSource* mediaFromFileinfo(const QFileInfo &file);
 
-    Photo* photoFromFileinfo(QFileInfo file_to_load);
+    virtual void addMany(const QSet<DataObject*>& objects);
 
 protected slots:
-    virtual void notify_contents_altered(const QSet<DataObject*>* added,
-                                         const QSet<DataObject*>* removed);
+    virtual void notifyContentsChanged(const QSet<DataObject*>* added,
+                                       const QSet<DataObject*>* removed);
 
 private:
     // Used by photoFromFileinfo() to prevent ourselves from accidentally
     // seeing a duplicate photo after an edit.
-    QHash<QString, Photo*> file_photo_map_;
+    QHash<QString, MediaSource*> m_fileMediaMap;
 
-    QDir directory_;
-    QHash<qint64, DataObject*> id_map_;
+    QHash<qint64, DataObject*> m_idMap;
 };
 
 #endif  // GALLERY_MEDIA_COLLECTION_H_

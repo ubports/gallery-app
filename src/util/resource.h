@@ -19,7 +19,9 @@
 #ifndef RESOURCE_H
 #define RESOURCE_H
 
+#include <QLatin1String>
 #include <QString>
+#include <QStringList>
 #include <QUrl>
 
 class QQuickView;
@@ -30,17 +32,28 @@ class QQuickView;
 class Resource
 {
 public:
-    explicit Resource(QQuickView *view);
+    explicit Resource(const QString& pictureDir, QQuickView *view);
 
-    QUrl get_rc_url(const QString& path) const;
+    static QUrl getRcUrl(const QString& path);
+
+    const QStringList &mediaDirectories() const;
+    const QString &databaseDirectory() const;
+    const QString &thumbnailDirectory() const;
 
     int maxTextureSize() const;
-
     void setView(QQuickView* view);
 
 private:
-    QQuickView* view_;
-    mutable int max_texture_size_;
+    QStringList m_mediaDirectories;
+    mutable QString m_databaseDirectory;
+    mutable QString m_thumbnailDirectory;
+    QQuickView* m_view;
+    mutable int m_maxTextureSize;
+
+    // Path to database, relative to application data path.
+    static const QLatin1String DATABASE_DIR;
+    // Path to database, relative to application cache path.
+    static const QLatin1String THUMBNAIL_DIR;
 
     friend class tst_Resource;
 };

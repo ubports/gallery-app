@@ -1,3 +1,188 @@
+gallery-app (0.0.67daily13.06.19-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Add autopilot test for video support.
+  * Close PhotoViewer when last media is deleted (LP: #1131802). (LP:
+    #1131802)
+  * PreviewManager does the loading and orientating of photos on it's
+    own.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 734
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 19 Jun 2013 05:48:16 +0000
+
+gallery-app (0.0.67daily13.06.18-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Unit test for MediaObjectFactory::create().
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 730
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 18 Jun 2013 08:24:43 +0000
+
+gallery-app (0.0.67daily13.06.17-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Run gallery in fullscreen.
+  * Multi directory support, and use ~/Videos as default media directory
+    in addition to ~/Pictures.
+  * Unit tests for MediaObjectFactory.
+  * Rudimentary video playback functionality.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 726
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 17 Jun 2013 05:38:05 +0000
+
+gallery-app (0.0.67daily13.06.14.1-0ubuntu1) saucy; urgency=low
+
+  [ Robert Bruce Park ]
+  * Fix lintian warnings as per http://paste.ubuntu.com/5741741/.
+
+  [ Guenter Schwann ]
+  * Fix updating thumbnails.
+  * Fix autopilot tests using the toolbar buttons.
+  * Show thumbnail in gallery for videos.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 719
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 14 Jun 2013 13:32:39 +0000
+
+gallery-app (0.0.67daily13.06.13-0ubuntu1) saucy; urgency=low
+
+  [ Omer Akram ]
+  * fixes a few autopilot tests on the phone devices.
+
+  [ tpeeters ]
+  * Update the type of tools properties to be compatible with upcoming
+    changes in UITK.
+
+  [ Guenter Schwann ]
+  * Support to translate the .desktop file.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 713
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 13 Jun 2013 06:13:06 +0000
+
+gallery-app (0.0.67daily13.06.12-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Use Qt coding style for core.
+  * Use Qt coding style for medialoader.
+  * Use Qt coding style for media.
+  * Use Qt coding style for album.
+  * Use Qt coding style for database.
+  * Use Qt coding style for event.
+  * Use Qt coding style for photo.
+  * Update bzr ignore file.
+  * Use Qt coding style for qml.
+  * Use Qt coding style for src.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 708
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 12 Jun 2013 06:09:11 +0000
+
+gallery-app (0.0.67daily13.06.11-0ubuntu1) saucy; urgency=low
+
+  [ Omer Akram ]
+  * Autopilot test: wait for the edit dialog to appear before moving the
+    mouse.
+
+  [ Guenter Schwann ]
+  * More robust autopilot tests by using the *_retry functions more
+    often.
+  * Refactor PreviewManager to save thumbnails in
+    $HOME/.cache/thumbnails (LP: 1089655). (LP: #1089655)
+  * Remove directories from includes, but set them in the include paths.
+  * Move image providers and preview manager to a separate library.
+  * Improved ensure_at_least_one_event() function.
+  * Remove many dependencies on photo.
+  * Add initial video class.
+  * Use Qt coding style for util.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 696
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 11 Jun 2013 05:03:13 +0000
+
+gallery-app (0.0.67daily13.06.05-0ubuntu1) saucy; urgency=low
+
+  [ Łukasz 'sil2100' Zemczak ]
+  * libhud-qt-qml has been renamed to qtdeclarative5-hud1.0.
+
+  [ Olivier Tilloy ]
+  * Add missing runtime dependency on qtdeclarative5-accounts-plugin.
+    Merging manually as the jenkins CI job is busted, it installs the
+    wrong version of the app and its dependencies (see
+    https://code.launchpad.net/~osomon/gallery-app/missing-uoa-
+    dep/+merge/166552).
+
+  [ Michael Terry ]
+  * Port to HUD 1.0.
+
+  [ Omer Akram ]
+  * port gallery-app to ap 1.3.
+  * Fix autopilot test: wait for the edit dialog to fully appear before
+    moving towards it.
+  * Fix failing tests on touch devices.
+  * Fixes a few pep8 complaints.
+
+  [ Renato Araujo Oliveira Filho ]
+  * Fixed duplicate entries in Media Album Table;. (LP: #1163353)
+
+  [ Guenter Schwann ]
+  * Use Components and PopupUtils for the edit and share Popover.
+  * Update Toolbar API.
+  * Use SDK Popover for cover image menu.
+  * First german translation, and everything needed to make it work.
+  * Support orientation change.
+  * Fixes sharing functionality (LP: 1183460). (LP: #1183460)
+  * Remove old unused files.
+  * Split gallery into static libraries, for better modualirity, and
+    easier testing.
+  * As default save database in $HOME/.local/share/gallery-app.
+  * Remove quit action from HUD.
+  * Switching tabs by swiping is disabled, so the command can be cleaned
+    up.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 683
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 05 Jun 2013 05:03:07 +0000
+
+gallery-app (0.0.67daily13.05.31.1ubuntu.unity.next-0ubuntu1) raring; urgency=low
+
+  [ Ken VanDine ]
+  * Use UOA to populate share menu
+
+  [ Guenter Schwann ]
+  * First german translation, and everything needed to make it work.
+  * Support orientation change.
+  * Fixes sharing functionality (LP: 1183460). (LP: #1183460)
+  * Remove old unused files.
+
+  [ Omer Akram ]
+  * Fix autopilot test: wait for the edit dialog to fully appear before
+    moving towards it.
+  * Fix failing tests on touch devices.
+
+  [ Olivier Tilloy ]
+  * Add missing runtime dependency on qtdeclarative5-accounts-plugin.
+    Merging manually as the jenkins CI job is busted, it installs the
+    wrong version of the app and its dependencies (see
+    https://code.launchpad.net/~osomon/gallery-app/missing-uoa-
+    dep/+merge/166552).
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 677 (ubuntu-unity/next)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 31 May 2013 10:43:43 +0000
+
 gallery-app (0.0.67daily13.05.22ubuntu.unity.next-0ubuntu1) raring; urgency=low
 
   [ Didier Roche ]

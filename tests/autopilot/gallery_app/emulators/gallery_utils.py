@@ -51,9 +51,9 @@ class GalleryUtils(object):
                                       objectName="photoViewerLoader")
 
     def get_main_photo_viewer(self):
-        """Returns the PhotoViewer."""
-        return self.select_single_retry("PhotoViewer",
-                                        objectName="photoViewer")
+        """Returns the MediaListView."""
+        return self.select_single_retry("MediaListView",
+                                        objectName="mediaListView")
 
     def get_albums_viewer_loader(self):
         """Returns the loader item for the AlbumsOverview."""
@@ -72,22 +72,20 @@ class GalleryUtils(object):
         """Returns the toolbar in the main events view."""
         return self.app.select_single("Toolbar")
 
-    def get_toolbar_button(self, button_idx):
-        """Returns the button with index idx from the toolbar"""
+    def get_toolbar_named_toolbarbutton(self, name):
+        """Returns the ToolbarButton with the specified objectName"""
         toolbar = self.get_toolbar()
-        item = toolbar.get_children_by_type("QQuickItem")[0]
-        row = item.get_children_by_type("QQuickRow")[0]
-        button_loaders = row.get_children_by_type("QQuickLoader")
-        button_loader = button_loaders[button_idx]
-        return button_loader
+        return toolbar.select_single("ActionItem", objectName=name)
 
     def get_toolbar_cancel_icon(self):
         """Returns the cancel icon of the events view."""
         toolbar = self.get_toolbar()
-        item = toolbar.get_children_by_type("QQuickItem")[0]
-        back_loaders = item.get_children_by_type("QQuickLoader")
-        back_loader = back_loaders[0]
-        return back_loader
+        return toolbar.select_single("Button", objectName="cancelButton", visible=True)
+
+    def get_toolbar_back_icon(self):
+        """Returns the back icon of the toolbar."""
+        toolbar = self.get_toolbar()
+        return toolbar.select_single("ActionItem", objectName="backButton", visible=True)
 
     def get_delete_dialog(self):
         """Returns the delete dialog in the events view."""
@@ -135,3 +133,9 @@ class GalleryUtils(object):
         albums = self.select_many_retry("CheckerboardDelegate",
                                         objectName="checkerboardDelegate")
         return albums[-1]
+
+    def get_tabs_bar_absolute_width(self):
+        return self.app.select_single("QQuickPathView").width
+
+    def get_tabs_bar_potential_width(self):
+        return self.app.select_single("NewTabBar").width

@@ -17,7 +17,7 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "core/container-source-collection.h"
+#include "container-source-collection.h"
 
 /*!
  * \brief ContainerSourceCollection::ContainerSourceCollection
@@ -28,5 +28,5 @@ ContainerSourceCollection::ContainerSourceCollection(const QString& name,
                                                      DataObjectComparator comparator)
     : SourceCollection(name)
 {
-    SetComparator(comparator);
+    setComparator(comparator);
 }

@@ -18,134 +18,128 @@
  */
 
 #include "qml-event-overview-model.h"
-#include "core/data-object.h"
-#include "core/gallery-manager.h"
-#include "core/selectable-view-collection.h"
-#include "event/event.h"
-#include "event/event-collection.h"
-#include "util/variants.h"
+#include "data-object.h"
+#include "selectable-view-collection.h"
+#include "event.h"
+#include "event-collection.h"
+#include "variants.h"
+#include "gallery-manager.h"
 
 /*!
  * \brief QmlEventOverviewModel::QmlEventOverviewModel
  * \param parent
  */
 QmlEventOverviewModel::QmlEventOverviewModel(QObject* parent)
-    : QmlMediaCollectionModel(parent, DescendingComparator),
-      ascending_order_(false), syncing_media_(false)
+    : QmlMediaCollectionModel(parent, descendingComparator),
+      m_ascendingOrder(false), m_syncingMedia(false)
 {
     // initialize ViewCollection as it stands now with Events
-    MonitorNewViewCollection();
+    monitorNewViewCollection();
 
     // We need to know when events get removed from the system so we can remove
     // them too.
     QObject::connect(
-                GalleryManager::instance()->event_collection(),
-                SIGNAL(contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
+                GalleryManager::instance()->eventCollection(),
+                SIGNAL(contentsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*)),
                 this,
-                SLOT(on_events_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)));
+                SLOT(onEventsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*)));
 }
 
 /*!
- * \brief QmlEventOverviewModel::RegisterType
- */
-void QmlEventOverviewModel::RegisterType()
-{
-    qmlRegisterType<QmlEventOverviewModel>("Gallery", 1, 0, "EventOverviewModel");
-}
-
-/*!
- * \brief QmlEventOverviewModel::ascending_order
+ * \brief QmlEventOverviewModel::ascendingOrder
  * \return
  */
-bool QmlEventOverviewModel::ascending_order() const
+bool QmlEventOverviewModel::ascendingOrder() const
 {
-    return ascending_order_;
+    return m_ascendingOrder;
 }
 
 /*!
- * \brief QmlEventOverviewModel::set_ascending_order
+ * \brief QmlEventOverviewModel::setAscendingOrder
  * \param ascending
  */
-void QmlEventOverviewModel::set_ascending_order(bool ascending)
+void QmlEventOverviewModel::setAscendingOrder(bool ascending)
 {
-    if (ascending == ascending_order_)
+    if (ascending == m_ascendingOrder)
         return;
 
-    ascending_order_ = ascending;
+    m_ascendingOrder = ascending;
     DataObjectComparator comparator =
-            ascending_order_ ? AscendingComparator : DescendingComparator;
+            m_ascendingOrder ? ascendingComparator : descendingComparator;
 
-    set_default_comparator(comparator);
-    BackingViewCollection()->SetComparator(comparator);
+    setDefaultComparator(comparator);
+    backingViewCollection()->setComparator(comparator);
+
+    emit ascendingChanged();
 }
 
 /*!
- * \brief QmlEventOverviewModel::VariantFor
+ * \brief QmlEventOverviewModel::toVariant
  * \param object
  * \return
  */
-QVariant QmlEventOverviewModel::VariantFor(DataObject* object) const
+QVariant QmlEventOverviewModel::toVariant(DataObject* object) const
 {
     Event* event = qobject_cast<Event*>(object);
 
-    return (event != NULL) ? QVariant::fromValue(event) : QmlMediaCollectionModel::VariantFor(object);
+    return (event != NULL) ? QVariant::fromValue(event) : QmlMediaCollectionModel::toVariant(object);
 }
 
 /*!
- * \brief QmlEventOverviewModel::FromVariant
+ * \brief QmlEventOverviewModel::fromVariant
  * \param var
  * \return
  */
-DataObject* QmlEventOverviewModel::FromVariant(QVariant var) const
+DataObject* QmlEventOverviewModel::fromVariant(QVariant var) const
 {
     DataObject* object = UncheckedVariantToObject<Event*>(var);
 
-    return (object != NULL) ? object : QmlMediaCollectionModel::FromVariant(var);
+    return (object != NULL) ? object : QmlMediaCollectionModel::fromVariant(var);
 }
 
 /*!
- * \brief QmlEventOverviewModel::notify_backing_collection_changed
+ * \brief QmlEventOverviewModel::notifyBackingCollectionChanged
  */
-void QmlEventOverviewModel::notify_backing_collection_changed()
+void QmlEventOverviewModel::notifyBackingCollectionChanged()
 {
-    MonitorNewViewCollection();
+    monitorNewViewCollection();
 
-    QmlViewCollectionModel::notify_backing_collection_changed();
+    QmlViewCollectionModel::notifyBackingCollectionChanged();
 }
 
 /*!
- * \brief QmlEventOverviewModel::MonitorNewViewCollection
+ * \brief QmlEventOverviewModel::monitorNewViewCollection
  */
-void QmlEventOverviewModel::MonitorNewViewCollection()
+void QmlEventOverviewModel::monitorNewViewCollection()
 {
-    if (BackingViewCollection() == NULL)
+    if (backingViewCollection() == NULL)
         return;
 
     QObject::connect(
-                BackingViewCollection(),
-                SIGNAL(contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
+                backingViewCollection(),
+                SIGNAL(contentsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*)),
                 this,
-                SLOT(on_event_overview_contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)));
+                SLOT(onEventOverviewContentsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*)));
 
     QObject::connect(
-                BackingViewCollection(),
-                SIGNAL(selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
+                backingViewCollection(),
+                SIGNAL(selectionChanged(const QSet<DataObject*>*,const QSet<DataObject*>*)),
                 this,
-                SLOT(on_event_overview_selection_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)));
+                SLOT(onEventOverviewSelectionChanged(const QSet<DataObject*>*,const QSet<DataObject*>*)));
 
     // seed existing contents with Events
-    on_event_overview_contents_altered(&BackingViewCollection()->GetAsSet(), NULL);
+    onEventOverviewContentsChanged(&backingViewCollection()->getAsSet(), NULL);
 }
 
 /*!
- * \brief QmlEventOverviewModel::on_events_altered
+ * \brief QmlEventOverviewModel::onEventsChanged
  * \param added
  * \param removed
  */
-void QmlEventOverviewModel::on_events_altered(const QSet<DataObject*>* added,
-                                              const QSet<DataObject*>* removed)
+void QmlEventOverviewModel::onEventsChanged(const QSet<DataObject*>* added,
+                                            const QSet<DataObject*>* removed)
 {
-    SelectableViewCollection* view = BackingViewCollection();
+    SelectableViewCollection* view = backingViewCollection();
     if (view == NULL)
         return;
 
@@ -155,21 +149,21 @@ void QmlEventOverviewModel::on_events_altered(const QSet<DataObject*>* added,
             Event* event = qobject_cast<Event*>(object);
             Q_ASSERT(event != NULL);
 
-            if (view->Contains(event))
-                view->Remove(event);
+            if (view->contains(event))
+                view->remove(event);
         }
     }
 }
 
 /*!
- * \brief QmlEventOverviewModel::on_event_overview_contents_altered
+ * \brief QmlEventOverviewModel::onEventOverviewContentsChanged
  * \param added
  * \param removed
  */
-void QmlEventOverviewModel::on_event_overview_contents_altered(
+void QmlEventOverviewModel::onEventOverviewContentsChanged(
         const QSet<DataObject*>* added, const QSet<DataObject*>* removed)
 {
-    SelectableViewCollection* view = BackingViewCollection();
+    SelectableViewCollection* view = backingViewCollection();
 
     if (added != NULL) {
         DataObject* object;
@@ -178,37 +172,37 @@ void QmlEventOverviewModel::on_event_overview_contents_altered(
             if (source == NULL)
                 continue;
 
-            QDate source_date = source->exposure_date_time().date();
-            Event* event = GalleryManager::instance()->event_collection()->EventForDate(source_date);
+            QDate source_date = source->exposureDateTime().date();
+            Event* event = GalleryManager::instance()->eventCollection()->eventForDate(source_date);
             Q_ASSERT(event != NULL);
 
-            if (!view->Contains(event))
-                view->Add(event);
+            if (!view->contains(event))
+                view->add(event);
         }
     }
 }
 
 /*!
- * \brief QmlEventOverviewModel::on_event_overview_selection_altered
+ * \brief QmlEventOverviewModel::onEventOverviewSelectionChanged
  * \param selected
  * \param unselected
  */
-void QmlEventOverviewModel::on_event_overview_selection_altered(
+void QmlEventOverviewModel::onEventOverviewSelectionChanged(
         const QSet<DataObject*>* selected, const QSet<DataObject*>* unselected)
 {
     // if an Event is selected, select all photos in that date
-    SyncSelectedMedia(selected, true);
+    syncSelectedMedia(selected, true);
 
     // if an Event is unselected, unselect all photos in that date
-    SyncSelectedMedia(unselected, false);
+    syncSelectedMedia(unselected, false);
 }
 
 /*!
- * \brief QmlEventOverviewModel::SyncSelectedMedia
+ * \brief QmlEventOverviewModel::syncSelectedMedia
  * \param toggled
  * \param selected
  */
-void QmlEventOverviewModel::SyncSelectedMedia(const QSet<DataObject*>* toggled,
+void QmlEventOverviewModel::syncSelectedMedia(const QSet<DataObject*>* toggled,
                                               bool selected)
 {
     if (toggled == NULL)
@@ -216,13 +210,13 @@ void QmlEventOverviewModel::SyncSelectedMedia(const QSet<DataObject*>* toggled,
 
     // Don't recurse -- only take action from the selection made by the user, not
     // any other selections we've done internally.
-    if (syncing_media_)
+    if (m_syncingMedia)
         return;
 
-    syncing_media_ = true;
+    m_syncingMedia = true;
 
-    SelectableViewCollection* view = BackingViewCollection();
-    int count = view->Count();
+    SelectableViewCollection* view = backingViewCollection();
+    int count = view->count();
 
     // Walk the toggle group looking for Event's; when found, walk all the
     // MediaSources that follow and select or unselect them; when another
@@ -235,16 +229,16 @@ void QmlEventOverviewModel::SyncSelectedMedia(const QSet<DataObject*>* toggled,
         if (event == NULL)
             continue;
 
-        int index = view->IndexOf(event);
+        int index = view->indexOf(event);
         for (int ctr = index + 1; ctr < count; ctr++) {
-            MediaSource* media = qobject_cast<MediaSource*>(view->GetAt(ctr));
+            MediaSource* media = qobject_cast<MediaSource*>(view->getAt(ctr));
             if (media == NULL)
                 break;
 
             if (selected)
-                view->Select(media);
+                view->select(media);
             else
-                view->Unselect(media);
+                view->unselect(media);
         }
     }
 
@@ -258,17 +252,17 @@ void QmlEventOverviewModel::SyncSelectedMedia(const QSet<DataObject*>* toggled,
         if (media == NULL)
             break;
 
-        int index = view->IndexOf(media);
+        int index = view->indexOf(media);
         bool all_match_selection = true;
 
         // First walk forward to the next event/end of list looking for differing
         // selection states in other media.
         for (int i = index + 1; i < count; ++i) {
-            MediaSource* media = qobject_cast<MediaSource*>(view->GetAt(i));
+            MediaSource* media = qobject_cast<MediaSource*>(view->getAt(i));
             if (media == NULL)
                 break;
 
-            if (view->IsSelected(media) != selected) {
+            if (view->isSelected(media) != selected) {
                 all_match_selection = false;
                 break;
             }
@@ -276,60 +270,60 @@ void QmlEventOverviewModel::SyncSelectedMedia(const QSet<DataObject*>* toggled,
 
         // Now walk backwards also checking media, and looking for the event.
         for (int i = index - 1; i >= 0; --i) {
-            MediaSource* media = qobject_cast<MediaSource*>(view->GetAt(i));
-            Event* event = qobject_cast<Event*>(view->GetAt(i));
+            MediaSource* media = qobject_cast<MediaSource*>(view->getAt(i));
+            Event* event = qobject_cast<Event*>(view->getAt(i));
 
             if (media != NULL) {
-                if (view->IsSelected(media) != selected)
+                if (view->isSelected(media) != selected)
                     all_match_selection = false;
             }
 
             if (event != NULL) {
                 if (all_match_selection && selected)
-                    view->Select(event);
+                    view->select(event);
                 else
-                    view->Unselect(event);
+                    view->unselect(event);
                 break;
             }
         }
     }
 
-    syncing_media_ = false;
+    m_syncingMedia = false;
 }
 
 /*!
- * \brief QmlEventOverviewModel::AscendingComparator
+ * \brief QmlEventOverviewModel::ascendingComparator
  * \param a
  * \param b
  * \return
  */
-bool QmlEventOverviewModel::AscendingComparator(DataObject* a, DataObject* b)
+bool QmlEventOverviewModel::ascendingComparator(DataObject* a, DataObject* b)
 {
-    return EventComparator(a, b, true);
+    return eventComparator(a, b, true);
 }
 
 /*!
- * \brief QmlEventOverviewModel::DescendingComparator
+ * \brief QmlEventOverviewModel::descendingComparator
  * \param a
  * \param b
  * \return
  */
-bool QmlEventOverviewModel::DescendingComparator(DataObject* a, DataObject* b)
+bool QmlEventOverviewModel::descendingComparator(DataObject* a, DataObject* b)
 {
-    return EventComparator(a, b, false);
+    return eventComparator(a, b, false);
 }
 
 /*!
- * \brief QmlEventOverviewModel::EventComparator
+ * \brief QmlEventOverviewModel::eventComparator
  * \param a
  * \param b
  * \param asc
  * \return
  */
-bool QmlEventOverviewModel::EventComparator(DataObject* a, DataObject* b, bool asc)
+bool QmlEventOverviewModel::eventComparator(DataObject* a, DataObject* b, bool asc)
 {
-    QDateTime atime = ObjectDateTime(a, asc);
-    QDateTime btime = ObjectDateTime(b, asc);
+    QDateTime atime = objectDateTime(a, asc);
+    QDateTime btime = objectDateTime(b, asc);
 
     // use default comparator to stabilize order (reversing comparison for descending
     // order)
@@ -337,13 +331,13 @@ bool QmlEventOverviewModel::EventComparator(DataObject* a, DataObject* b, bool a
     if (atime != btime)
         lessThan = atime < btime;
     else
-        lessThan = DataCollection::DefaultDataObjectComparator(a, b);
+        lessThan = DataCollection::defaultDataObjectComparator(a, b);
 
     return (asc) ? lessThan : !lessThan;
 }
 
 /*!
- * \brief QmlEventOverviewModel::ObjectDateTime
+ * \brief QmlEventOverviewModel::objectDateTime
  * Since items in the list can be either a MediaSource or an Event,
  * determine dynamically and compare.  Since going in reverse chronological order,
  * use the event's end date/time for comparison (to place it before everything
@@ -352,18 +346,18 @@ bool QmlEventOverviewModel::EventComparator(DataObject* a, DataObject* b, bool a
  * \param asc
  * \return
  */
-QDateTime QmlEventOverviewModel::ObjectDateTime(DataObject* object, bool asc)
+QDateTime QmlEventOverviewModel::objectDateTime(DataObject* object, bool asc)
 {
     MediaSource* media = qobject_cast<MediaSource*>(object);
     if (media != NULL)
-        return media->exposure_date_time();
+        return media->exposureDateTime();
 
     // Events are different depending on ascending vs. descending; they should
     // always be at the head of the MediaSource span, so they need to use different
     // times to ensure that
     Event* event = qobject_cast<Event*>(object);
     if (event != NULL)
-        return asc ? event->start_date_time() : event->end_date_time();
+        return asc ? event->startDateTime() : event->endDateTime();
 
     return QDateTime();
 }

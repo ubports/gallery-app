@@ -17,24 +17,24 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "album/album-template.h"
+#include "album-template.h"
 
 /*!
  * \brief AlbumTemplate::AlbumTemplate
  * \param name
  */
 AlbumTemplate::AlbumTemplate(const char* name)
-    : name_(name)
+    : m_name(name)
 {
 }
 
 /*!
- * \brief AlbumTemplate::page_count
+ * \brief AlbumTemplate::pageCount
  * \return
  */
-int AlbumTemplate::page_count() const
+int AlbumTemplate::pageCount() const
 {
-    return pages_.count();
+    return m_pages.count();
 }
 
 /*!
@@ -43,16 +43,16 @@ int AlbumTemplate::page_count() const
  */
 const QList<AlbumTemplatePage*>& AlbumTemplate::pages() const
 {
-    return pages_;
+    return m_pages;
 }
 
 /*!
- * \brief AlbumTemplate::AddPage
+ * \brief AlbumTemplate::addPage
  * AlbumTemplate assumes ownership of the AlbumTemplatePage at this point
  * and will delete it when destroyed
  * \param page
  */
-void AlbumTemplate::AddPage(AlbumTemplatePage* page)
+void AlbumTemplate::addPage(AlbumTemplatePage* page)
 {
-    pages_.append(page);
+    m_pages.append(page);
 }

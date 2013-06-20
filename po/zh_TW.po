@@ -1,0 +1,287 @@
+# Chinese (Traditional) translation for gallery-app
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the gallery-app package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gallery-app\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-06-14 09:04+0000\n"
+"PO-Revision-Date: 2013-05-28 13:43+0000\n"
+"Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
+"Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-06-15 06:21+0000\n"
+"X-Generator: Launchpad (build 16667)\n"
+
+#: desktop/gallery-app.desktop.in:3
+msgid "Gallery"
+msgstr ""
+
+#: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
+msgid "Ubuntu Photo Viewer"
+msgstr ""
+
+#: desktop/gallery-app.desktop.in:6
+msgid "Browse your photographs"
+msgstr ""
+
+#: rc/qml/AlbumEditor.qml:40 rc/qml/MediaSelector.qml:94
+#: rc/qml/Utility/SelectionToolbarAction.qml:61
+msgid "Cancel"
+msgstr "取消"
+
+#: rc/qml/AlbumViewer.qml:466 rc/qml/AlbumsOverview.qml:177
+#: rc/qml/MediaViewer/MediaViewer.qml:413
+#: rc/qml/MediaViewer/MediaViewer.qml:457 rc/qml/Utility/EditingHUD.qml:77
+#: rc/qml/Utility/SelectionToolbarAction.qml:42
+msgid "Add"
+msgstr "新增"
+
+#: rc/qml/AlbumViewer.qml:473 rc/qml/MediaViewer/MediaViewer.qml:421
+#: rc/qml/MediaViewer/MediaViewer.qml:465 rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/Utility/SelectionToolbarAction.qml:48
+#: rc/qml/Widgets/AlbumEditMenu.qml:59
+msgid "Delete"
+msgstr "刪除"
+
+#: rc/qml/AlbumViewer.qml:483 rc/qml/MediaViewer/MediaViewer.qml:428
+#: rc/qml/MediaViewer/MediaViewer.qml:472 rc/qml/Utility/EditingHUD.qml:72
+#: rc/qml/Utility/SelectionToolbarAction.qml:54
+#: rc/qml/Widgets/AlbumEditMenu.qml:52
+msgid "Share"
+msgstr "分享"
+
+#: rc/qml/AlbumViewer.qml:488 rc/qml/MediaViewer/MediaViewer.qml:436
+#: rc/qml/MediaViewer/MediaViewer.qml:480
+msgid "Back"
+msgstr "返回"
+
+#: rc/qml/AlbumsOverview.qml:185 rc/qml/Utility/PhotosToolbarActions.qml:43
+msgid "Camera"
+msgstr "相機"
+
+#: rc/qml/LoadingScreen.qml:36
+msgid "Loading…"
+msgstr "載入中…"
+
+#: rc/qml/MainScreen.qml:56
+msgid "Albums"
+msgstr "相簿"
+
+#: rc/qml/MainScreen.qml:72 rc/qml/MainScreen.qml:94
+msgid "Events"
+msgstr "事件"
+
+#: rc/qml/MainScreen.qml:92 rc/qml/MainScreen.qml:124
+#: rc/qml/Utility/PhotosToolbarActions.qml:32
+msgid "Select"
+msgstr "選取"
+
+#: rc/qml/MainScreen.qml:104 rc/qml/MainScreen.qml:126
+msgid "Photos"
+msgstr "相片"
+
+#: rc/qml/MediaSelector.qml:56 rc/qml/MediaSelector.qml:82
+msgid "Add to Album"
+msgstr "新增至相簿"
+
+#: rc/qml/MediaViewer/CropOverlay.qml:354
+#: rc/qml/MediaViewer/EditPopover.qml:46 rc/qml/Utility/EditingHUD.qml:106
+msgid "Crop"
+msgstr "裁切"
+
+#: rc/qml/MediaViewer/EditPopover.qml:38 rc/qml/Utility/EditingHUD.qml:99
+msgid "Rotate"
+msgstr "旋轉"
+
+#: rc/qml/MediaViewer/EditPopover.qml:54
+msgid "Auto enhance"
+msgstr "自動補強"
+
+#: rc/qml/MediaViewer/EditPopover.qml:62 rc/qml/Utility/EditingHUD.qml:82
+msgid "Undo"
+msgstr "恢復"
+
+#: rc/qml/MediaViewer/EditPopover.qml:71 rc/qml/Utility/EditingHUD.qml:87
+msgid "Redo"
+msgstr "重做"
+
+#: rc/qml/MediaViewer/EditPopover.qml:80
+msgid "Revert to original"
+msgstr "還原至原始狀態"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:232 rc/qml/PhotosOverview.qml:149
+msgid "Delete a photo"
+msgstr "刪除一張相片"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:243 rc/qml/Widgets/DeleteDialog.qml:36
+msgid "Yes"
+msgstr "是"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:254 rc/qml/Widgets/DeleteDialog.qml:45
+msgid "No"
+msgstr "否"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:405
+msgid "Edit"
+msgstr "編輯"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:448
+msgid "Pause"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:448
+msgid "Play"
+msgstr ""
+
+#: rc/qml/PhotosOverview.qml:148
+msgid "Delete photos"
+msgstr "刪除相片"
+
+#: rc/qml/Utility/AlbumCoverList.qml:113
+msgid "Default"
+msgstr "預設"
+
+#: rc/qml/Utility/AlbumCoverList.qml:114
+msgid "Blue"
+msgstr "藍"
+
+#: rc/qml/Utility/AlbumCoverList.qml:115
+msgid "Green"
+msgstr "綠"
+
+#: rc/qml/Utility/AlbumCoverList.qml:116
+msgid "Pattern"
+msgstr "樣式"
+
+#: rc/qml/Utility/AlbumCoverList.qml:117
+msgid "Red"
+msgstr "紅"
+
+#: rc/qml/Utility/EditingHUD.qml:68
+msgid "Trash;Erase"
+msgstr "垃圾;抹除"
+
+#: rc/qml/Utility/EditingHUD.qml:73
+msgid "Post;Upload;Attach"
+msgstr "Post;Upload;Attach;張貼;上傳;附件"
+
+#: rc/qml/Utility/EditingHUD.qml:78 rc/qml/Widgets/PopupAlbumPicker.qml:113
+msgid "Add Photo to Album"
+msgstr "新增相片至相簿"
+
+#: rc/qml/Utility/EditingHUD.qml:83
+msgid "Cancel Action;Backstep"
+msgstr "Cancel Action;Backstep;取消動作;上一步"
+
+#: rc/qml/Utility/EditingHUD.qml:88
+msgid "Reapply;Make Again"
+msgstr "Reapply;Make Again;再次動作"
+
+#: rc/qml/Utility/EditingHUD.qml:92
+msgid "Auto Enhance"
+msgstr "自動增強"
+
+#: rc/qml/Utility/EditingHUD.qml:93
+msgid "Adjust the image automatically"
+msgstr "自動調整影像"
+
+#: rc/qml/Utility/EditingHUD.qml:94
+msgid "Automatically Adjust Photo"
+msgstr "自動調整相片"
+
+#: rc/qml/Utility/EditingHUD.qml:100
+msgid "Turn Clockwise"
+msgstr "順時針旋轉"
+
+#: rc/qml/Utility/EditingHUD.qml:101
+msgid "Rotate the image clockwise"
+msgstr "順時針旋轉影像"
+
+#: rc/qml/Utility/EditingHUD.qml:107
+msgid "Trim;Cut"
+msgstr "Trim;Cut;裁剪"
+
+#: rc/qml/Utility/EditingHUD.qml:108
+msgid "Crop the image"
+msgstr "裁切影像"
+
+#: rc/qml/Utility/EditingHUD.qml:113
+msgid "Revert to Original"
+msgstr "還原至原始狀態"
+
+#: rc/qml/Utility/EditingHUD.qml:114
+msgid "Discard Changes"
+msgstr "放棄修改"
+
+#: rc/qml/Utility/EditingHUD.qml:115
+msgid "Discard all changes"
+msgstr "放棄所有更動"
+
+#: rc/qml/Utility/EditingHUD.qml:119
+msgid "Exposure"
+msgstr "曝光"
+
+#: rc/qml/Utility/EditingHUD.qml:120
+msgid "Adjust the exposure"
+msgstr "調整曝光"
+
+#: rc/qml/Utility/EditingHUD.qml:121
+msgid "Underexposed;Overexposed"
+msgstr "Underexposed;Overexposed;過曝;過度曝光;曝光不足"
+
+#: rc/qml/Utility/EditingHUD.qml:123 rc/qml/Utility/EditingHUD.qml:165
+msgid "Confirm"
+msgstr "確認"
+
+#: rc/qml/Utility/EditingHUD.qml:127
+msgid "Compensation"
+msgstr "補償"
+
+#: rc/qml/Utility/EditingHUD.qml:161
+msgid "Color Balance"
+msgstr "色彩平衡"
+
+#: rc/qml/Utility/EditingHUD.qml:162
+msgid "Adjust color balance"
+msgstr "調整色彩平衡"
+
+#: rc/qml/Utility/EditingHUD.qml:163
+msgid "Saturation;Hue"
+msgstr "Saturation;Hue;飽和度;色相"
+
+#: rc/qml/Utility/EditingHUD.qml:169
+msgid "Brightness"
+msgstr "亮度"
+
+#: rc/qml/Utility/EditingHUD.qml:181
+msgid "Contrast"
+msgstr "對比"
+
+#: rc/qml/Utility/EditingHUD.qml:193
+msgid "Saturation"
+msgstr "飽和"
+
+#: rc/qml/Utility/EditingHUD.qml:205
+msgid "Hue"
+msgstr "色相"
+
+#: rc/qml/Utility/PhotosToolbarActions.qml:38
+msgid "Import"
+msgstr "匯入"
+
+#: rc/qml/Widgets/AlbumEditMenu.qml:45
+msgid "Edit album"
+msgstr "編輯相簿"
+
+#: rc/qml/Widgets/DeleteOrDeleteWithContentsDialog.qml:51
+msgid "Delete album"
+msgstr "刪除相簿"
+
+#: rc/qml/Widgets/DeleteOrDeleteWithContentsDialog.qml:60
+msgid "Delete album + contents"
+msgstr "刪除相簿 + 內容"

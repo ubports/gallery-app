@@ -127,8 +127,8 @@ class TestAlbumEditor(GalleryTestCase):
         num_photos_start = self.album_view.number_of_photos()
         self.assertThat(num_photos_start, Equals(1))
         self.reveal_toolbar()
-        cancel = self.album_view.get_toolbar_cancel_icon()
-        self.click_item(cancel)
+        back = self.album_view.get_toolbar_back_icon()
+        self.click_item(back)
         self.ensure_album_viewer_is_fully_closed()
 
         # now open to add a photo
@@ -150,16 +150,16 @@ class TestAlbumEditor(GalleryTestCase):
     def test_cover_image(self):
         """Test to change the album cover image"""
         cover_image = self.album_editor.get_album_cover_image()
-        self.assertThat(cover_image.source.endswith("album-cover-default-large.png"),
-                        Equals(True))
+        self.assertThat(
+            cover_image.source.endswith("album-cover-default-large.png"), Equals(True))
 
         # click somewhere rather at the bottom of the cover
         x, y, w, h = cover_image.globalRect
-        self.pointing_device.move(x + int(w/2), y + h - int(h/10) )
+        self.pointing_device.move(x + int(w / 2), y + h - int(h / 10))
         self.pointing_device.click()
 
         green_item = self.album_editor.get_cover_menu_item(2)
         self.click_item(green_item)
 
-        self.assertThat(cover_image.source.endswith("album-cover-green-large.png"),
-                        Equals(True))
+        self.assertThat(
+            cover_image.source.endswith("album-cover-green-large.png"), Equals(True))

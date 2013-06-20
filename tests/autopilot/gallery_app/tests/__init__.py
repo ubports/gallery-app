@@ -35,9 +35,10 @@ class GalleryTestCase(AutopilotTestCase):
         ('with touch', dict(input_device_class=Touch)),
         ]
 
-    sample_dir = "/tmp/gallery-ap_sd"
-    sample_file = sample_dir + "/sample01.jpg"
+    sample_destination_dir = "/tmp/gallery-ap_sd"
+    sample_file = sample_destination_dir + "/sample01.jpg"
     sample_file_source = "/sample01.jpg"
+    sample_dir = ""
     installed_sample_dir = "/usr/lib/python2.7/dist-packages/gallery_app/data"
     local_sample_dir = "gallery_app/data"
     tap_press_time = 1
@@ -52,25 +53,27 @@ class GalleryTestCase(AutopilotTestCase):
         self.pointing_device = Pointer(self.input_device_class.create())
         super(GalleryTestCase, self).setUp()
 
-        if (os.path.exists(self.sample_dir)):
-            shutil.rmtree(self.sample_dir)
-        self.assertFalse(os.path.exists(self.sample_dir))
+        if (os.path.exists(self.sample_destination_dir)):
+            shutil.rmtree(self.sample_destination_dir)
+        self.assertFalse(os.path.exists(self.sample_destination_dir))
         # Lets assume we are installed system wide if this file is somewhere
         # in /usr
         if os.path.realpath(__file__).startswith("/usr/"):
-            shutil.copytree(self.installed_sample_dir, self.sample_dir)
+            self.sample_dir = self.installed_sample_dir
+            default_data_dir = self.installed_sample_dir+"/default"
+            shutil.copytree(default_data_dir, self.sample_destination_dir)
             self.assertTrue(os.path.isfile(self.sample_file))
-            self.sample_file_source = self.installed_sample_dir + \
-                self.sample_file_source
+            self.sample_file_source = default_data_dir + self.sample_file_source
             self.launch_test_installed()
         else:
-            shutil.copytree(self.local_sample_dir, self.sample_dir)
+            self.sample_dir = self.local_sample_dir
+            default_data_dir = self.local_sample_dir+"/default"
+            shutil.copytree(default_data_dir, self.sample_destination_dir)
             self.assertTrue(os.path.isfile(self.sample_file))
-            self.sample_file_source = self.local_sample_dir + \
-                self.sample_file_source
+            self.sample_file_source = default_data_dir + self.sample_file_source
             self.launch_test_local()
 
-        self.addCleanup(shutil.rmtree, self.sample_dir)
+        self.addCleanup(shutil.rmtree, self.sample_destination_dir)
 
         """ This is needed to wait for the application to start.
         In the testfarm, the application may take some time to show up."""
@@ -83,17 +86,20 @@ class GalleryTestCase(AutopilotTestCase):
         sleep(1)
 
     def launch_test_local(self):
-        self.app = self.launch_test_application(self.local_location,
-            self.sample_dir)
+        self.app = self.launch_test_application(
+            self.local_location,
+            self.sample_destination_dir)
 
     def launch_test_installed(self):
         if model() == 'Desktop':
-            self.app = self.launch_test_application("gallery-app",
-                self.sample_dir)
+            self.app = self.launch_test_application(
+                "gallery-app",
+                self.sample_destination_dir)
         else:
-            self.app = self.launch_test_application("gallery-app",
+            self.app = self.launch_test_application(
+                "gallery-app",
                 "--desktop_file_hint=/usr/share/applications/gallery-app.desktop",
-                self.sample_dir,
+                self.sample_destination_dir,
                 app_type='qt')
 
     def ui_update(self):
@@ -103,8 +109,8 @@ class GalleryTestCase(AutopilotTestCase):
     def click_item(self, item, delay=0.1):
         """Does a mouse click on the passed item, and moved the mouse there
            before"""
-        #In jenkins test may fail because we don't wait before clicking the target
-        #so we add a little delay before click.
+        # In jenkins test may fail because we don't wait before clicking the
+        # target so we add a little delay before click.
         if model() == 'Desktop' and delay <= 0.25:
             delay = 0.25
 
@@ -140,15 +146,23 @@ class GalleryTestCase(AutopilotTestCase):
     def ensure_at_least_one_event(self):
         """The event view has to have at least one event
         In case gallery is not yet fully loaded wait a while and test again"""
-        num_events = self.gallery_utils.number_of_events()
-        if num_events < 1:
-            sleep(1)
-            num_events = self.gallery_utils.number_of_events()
-        self.assertThat(num_events, Equals(1))
+        self.assertThat(lambda: self.gallery_utils.number_of_events(),
+                        Eventually(GreaterThan(0)))
 
     def switch_to_albums_tab(self):
         tabs_bar = self.gallery_utils.get_tabs_bar()
-        self.click_item(tabs_bar)
+        tabs_bar_abs_width = self.gallery_utils.get_tabs_bar_absolute_width()
+        tabs_bar_potential_width = self.gallery_utils.get_tabs_bar_potential_width()
+
+        if tabs_bar_abs_width == tabs_bar_potential_width:
+            x, y, w, h = tabs_bar.globalRect
+
+            tx = x + (w / 1.5)
+            ty = y + (h / 2)
+
+            self.pointing_device.drag(tx, ty, tx / 8, ty)
+        else:
+            self.click_item(tabs_bar)
 
         albums_tab_button = self.gallery_utils.get_albums_tab_button()
         # Due to some timing issues sometimes mouse moves to the location a bit
@@ -182,6 +196,9 @@ class GalleryTestCase(AutopilotTestCase):
         self.assertThat(animated_view.animationRunning,
                         Eventually(Equals(False)))
 
-    def ensure_edit_dialog_visible(self):
-        edit_dialog = self.photo_viewer.get_photo_edit_dialog()
-        self.assertThat(edit_dialog.opacity, (Eventually(Equals(1))))
+    def add_video_sample(self):
+        video_file = "video20130618_0002.mp4"
+        shutil.copyfile(self.sample_dir+"/option01/"+video_file,
+                        self.sample_destination_dir+"/"+video_file)
+        self.assertThat(lambda: self.events_view.number_of_photos(),
+                        Eventually(Equals(3)))

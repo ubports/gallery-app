@@ -18,11 +18,17 @@
  */
 
 #include "event-collection.h"
-#include "core/data-object.h"
-#include "core/gallery-manager.h"
-#include "event/event.h"
-#include "media/media-collection.h"
-#include "media/media-source.h"
+#include "event.h"
+
+// core
+#include "data-object.h"
+
+// media
+#include "media-collection.h"
+#include "media-source.h"
+
+// src
+#include "gallery-manager.h"
 
 /*!
  * \brief EventCollection::EventCollection
@@ -30,41 +36,41 @@
 EventCollection::EventCollection()
     : SourceCollection("EventCollection")
 {
-    SetComparator(Comparator);
+    setComparator(comparator);
 
     // Monitor MediaCollection to create/destroy Events, one for each day of
     // media found
     QObject::connect(
-                GalleryManager::instance()->media_collection(),
-                SIGNAL(contents_altered(const QSet<DataObject*>*,const QSet<DataObject*>*)),
+                GalleryManager::instance()->mediaCollection(),
+                SIGNAL(contentsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*)),
                 this,
-                SLOT(on_media_added_removed(const QSet<DataObject*>*,const QSet<DataObject*>*)));
+                SLOT(onMediaAddedRemoved(const QSet<DataObject*>*,const QSet<DataObject*>*)));
 
     // seed what's already present
-    on_media_added_removed(&GalleryManager::instance()->media_collection()->GetAsSet(), NULL);
+    onMediaAddedRemoved(&GalleryManager::instance()->mediaCollection()->getAsSet(), NULL);
 }
 
 /*!
- * \brief EventCollection::EventForDate
+ * \brief EventCollection::eventForDate
  * \param date
  * \return
  */
-Event* EventCollection::EventForDate(const QDate& date) const
+Event* EventCollection::eventForDate(const QDate& date) const
 {
-    return date_map_.value(date);
+    return m_dateMap.value(date);
 }
 
 /*!
- * \brief EventCollection::EventForMediaSource
+ * \brief EventCollection::eventForMediaSource
  * \param media
  * \return
  */
-Event* EventCollection::EventForMediaSource(MediaSource* media) const
+Event* EventCollection::eventForMediaSource(MediaSource* media) const
 {
     // TODO: Could use lookup table here, but this is fine for now
     Event* event;
-    foreach (event, GetAllAsType<Event*>()) {
-        if (event->Contains(media))
+    foreach (event, getAllAsType<Event*>()) {
+        if (event->contains(media))
             return event;
     }
 
@@ -72,12 +78,12 @@ Event* EventCollection::EventForMediaSource(MediaSource* media) const
 }
 
 /*!
- * \brief EventCollection::Comparator sorts Events in reverse chronological order
+ * \brief EventCollection::comparator sorts Events in reverse chronological order
  * \param a
  * \param b
  * \return
  */
-bool EventCollection::Comparator(DataObject* a, DataObject* b)
+bool EventCollection::comparator(DataObject* a, DataObject* b)
 {
     Event* eventa = qobject_cast<Event*>(a);
     Q_ASSERT(eventa != NULL);
@@ -89,12 +95,12 @@ bool EventCollection::Comparator(DataObject* a, DataObject* b)
 }
 
 /*!
- * \brief EventCollection::on_media_added_removed
+ * \brief EventCollection::onMediaAddedRemoved
  * \param added
  * \param removed
  */
-void EventCollection::on_media_added_removed(const QSet<DataObject *> *added,
-                                             const QSet<DataObject *> *removed)
+void EventCollection::onMediaAddedRemoved(const QSet<DataObject *> *added,
+                                           const QSet<DataObject *> *removed)
 {
     if (added != NULL) {
         DataObject* object;
@@ -102,14 +108,14 @@ void EventCollection::on_media_added_removed(const QSet<DataObject *> *added,
             MediaSource* media = qobject_cast<MediaSource*>(object);
             Q_ASSERT(media != NULL);
 
-            Event* existing = date_map_.value(media->exposure_date());
+            Event* existing = m_dateMap.value(media->exposureDate());
             if (existing == NULL) {
-                existing = new Event(this, media->exposure_date());
+                existing = new Event(this, media->exposureDate());
 
-                Add(existing);
+                add(existing);
             }
 
-            existing->Attach(media);
+            existing->attach(media);
         }
     }
 
@@ -119,24 +125,24 @@ void EventCollection::on_media_added_removed(const QSet<DataObject *> *added,
             MediaSource* media = qobject_cast<MediaSource*>(object);
             Q_ASSERT(media != NULL);
 
-            Event* event = date_map_.value(media->exposure_date());
+            Event* event = m_dateMap.value(media->exposureDate());
             Q_ASSERT(event != NULL);
 
-            event->Detach(media);
+            event->detach(media);
 
-            if (event->ContainedCount() == 0)
-                Destroy(event, true, true);
+            if (event->containedCount() == 0)
+                destroy(event, true, true);
         }
     }
 }
 
 /*!
- * \brief EventCollection::notify_contents_altered
+ * \brief EventCollection::notifyContentsChanged
  * \param added
  * \param removed
  */
-void EventCollection::notify_contents_altered(const QSet<DataObject *> *added,
-                                              const QSet<DataObject *> *removed)
+void EventCollection::notifyContentsChanged(const QSet<DataObject *> *added,
+                                             const QSet<DataObject *> *removed)
 {
     if (added != NULL) {
         DataObject* object;
@@ -145,8 +151,8 @@ void EventCollection::notify_contents_altered(const QSet<DataObject *> *added,
             Q_ASSERT(event != NULL);
 
             // One Event per day
-            Q_ASSERT(!date_map_.contains(event->date()));
-            date_map_.insert(event->date(), event);
+            Q_ASSERT(!m_dateMap.contains(event->date()));
+            m_dateMap.insert(event->date(), event);
         }
     }
 
@@ -156,10 +162,10 @@ void EventCollection::notify_contents_altered(const QSet<DataObject *> *added,
             Event* event = qobject_cast<Event*>(object);
             Q_ASSERT(event != NULL);
 
-            Q_ASSERT(date_map_.contains(event->date()));
-            date_map_.remove(event->date());
+            Q_ASSERT(m_dateMap.contains(event->date()));
+            m_dateMap.remove(event->date());
         }
     }
 
-    SourceCollection::notify_contents_altered(added, removed);
+    SourceCollection::notifyContentsChanged(added, removed);
 }

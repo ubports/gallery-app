@@ -17,7 +17,7 @@
 #include <QtTest/QtTest>
 #include <QString>
 
-#include "util/imaging.h"
+#include "imaging.h"
 
 class tst_Imaging : public QObject
 {
@@ -60,7 +60,7 @@ void tst_Imaging::transform_pixel()
     QFETCH(QColor, result);
 
     ColorBalance cb(brightness, contrast, saturation, hue);
-    QCOMPARE(cb.transform_pixel(color), result);
+    QCOMPARE(cb.transformPixel(color), result);
 }
 
 QTEST_MAIN(tst_Imaging);

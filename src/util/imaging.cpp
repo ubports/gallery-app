@@ -21,14 +21,14 @@
 #include <QApplication>
 #include <qmath.h>
 
-#include "util/imaging.h"
+#include "imaging.h"
 
 /*!
- * \brief HSVTransformation::transform_pixel
+ * \brief HSVTransformation::transformPixel
  * \param pixel_color
  * \return
  */
-QColor HSVTransformation::transform_pixel(const QColor &pixel_color) const
+QColor HSVTransformation::transformPixel(const QColor &pixel_color) const
 {
     QColor result;
 
@@ -49,7 +49,7 @@ QColor HSVTransformation::transform_pixel(const QColor &pixel_color) const
 IntensityHistogram::IntensityHistogram(const QImage& basis_image)
 {
     for (int i = 0; i < 256; i++)
-        counts_[i] = 0;
+        m_counts[i] = 0;
 
     int width = basis_image.width();
     int height = basis_image.height();
@@ -60,27 +60,27 @@ IntensityHistogram::IntensityHistogram(const QImage& basis_image)
         for (int i = 0; i < width; i++) {
             QColor c = QColor(basis_image.pixel(i, j));
             int intensity = c.value();
-            counts_[intensity]++;
+            m_counts[intensity]++;
         }
     }
 
     float pixel_count = (float)(width * height);
     float accumulator = 0.0f;
     for (int i = 0; i < 256; i++) {
-        probabilities_[i] = ((float) counts_[i]) / pixel_count;
-        accumulator += probabilities_[i];
-        cumulative_probabilities_[i] = accumulator;
+        m_probabilities[i] = ((float) m_counts[i]) / pixel_count;
+        accumulator += m_probabilities[i];
+        m_cumulativeProbabilities[i] = accumulator;
     }
 }
 
 /*!
- * \brief IntensityHistogram::get_cumulative_probability
+ * \brief IntensityHistogram::getCumulativeProbability
  * \param level
  * \return
  */
-float IntensityHistogram::get_cumulative_probability(int level)
+float IntensityHistogram::getCumulativeProbability(int level)
 {
-    return cumulative_probabilities_[level];
+    return m_cumulativeProbabilities[level];
 }
 
 
@@ -100,49 +100,49 @@ ToneExpansionTransformation::ToneExpansionTransformation(IntensityHistogram h,
     if (high_discard_mass == -1.0f)
         high_discard_mass = DEFAULT_HIGH_DISCARD_MASS;
 
-    low_discard_mass_ = low_discard_mass;
-    high_discard_mass_ = high_discard_mass;
+    m_lowDiscardMass = low_discard_mass;
+    m_highDiscardMass = high_discard_mass;
 
-    low_kink_ = 0;
-    high_kink_ = 255;
+    m_lowKink = 0;
+    m_highKink = 255;
 
-    while (h.get_cumulative_probability(low_kink_) < low_discard_mass)
-        low_kink_++;
+    while (h.getCumulativeProbability(m_lowKink) < low_discard_mass)
+        m_lowKink++;
 
-    while (h.get_cumulative_probability(high_kink_) > high_discard_mass)
-        high_kink_--;
+    while (h.getCumulativeProbability(m_highKink) > high_discard_mass)
+        m_highKink--;
 
-    low_kink_ = clampi(low_kink_, 0, 255);
-    high_kink_ = clampi(high_kink_, 0, 255);
+    m_lowKink = clampi(m_lowKink, 0, 255);
+    m_highKink = clampi(m_highKink, 0, 255);
 
-    build_remap_table();
+    buildRemapTable();
 }
 
 /*!
- * \brief ToneExpansionTransformation::is_identity
+ * \brief ToneExpansionTransformation::isIdentity
  * \return
  */
-bool ToneExpansionTransformation::is_identity() const
+bool ToneExpansionTransformation::isIdentity() const
 {
-    return ((low_kink_ == 0) && (high_kink_ == 255));
+    return ((m_lowKink == 0) && (m_highKink == 255));
 }
 
 /*!
- * \brief ToneExpansionTransformation::build_remap_table
+ * \brief ToneExpansionTransformation::buildRemapTable
  */
-void ToneExpansionTransformation::build_remap_table()
+void ToneExpansionTransformation::buildRemapTable()
 {
-    float low_kink_f = ((float) low_kink_) / 255.0f;
-    float high_kink_f = ((float) high_kink_) / 255.0f;
+    float low_kink_f = ((float) m_lowKink) / 255.0f;
+    float high_kink_f = ((float) m_highKink) / 255.0f;
 
     float slope = 1.0f / (high_kink_f - low_kink_f);
     float intercept = -(low_kink_f / (high_kink_f - low_kink_f));
 
     int i = 0;
-    for ( ; i <= low_kink_; i++)
+    for ( ; i <= m_lowKink; i++)
         remap_table_[i] = 0;
 
-    for ( ; i < high_kink_; i++)
+    for ( ; i < m_highKink; i++)
         remap_table_[i] = (int) ((255.0f * (slope * (((float) i) / 255.0f) +
                                             intercept)) + 0.5);
 
@@ -151,21 +151,21 @@ void ToneExpansionTransformation::build_remap_table()
 }
 
 /*!
- * \brief ToneExpansionTransformation::low_discard_mass
+ * \brief ToneExpansionTransformation::lowDiscardMass
  * \return
  */
-float ToneExpansionTransformation::low_discard_mass() const
+float ToneExpansionTransformation::lowDiscardMass() const
 {
-    return low_discard_mass_;
+    return m_lowDiscardMass;
 }
 
 /*!
- * \brief ToneExpansionTransformation::high_discard_mass
+ * \brief ToneExpansionTransformation::highDiscardMass
  * \return
  */
-float ToneExpansionTransformation::high_discard_mass() const
+float ToneExpansionTransformation::highDiscardMass() const
 {
-    return high_discard_mass_;
+    return m_highDiscardMass;
 }
 
 
@@ -176,8 +176,8 @@ float ToneExpansionTransformation::high_discard_mass() const
 HermiteGammaApproximationFunction::HermiteGammaApproximationFunction(
         float user_interval_upper)
 {
-    nonzero_interval_upper_ = clampf(user_interval_upper, 0.1f, 1.0f);
-    x_scale_ = 1.0f / nonzero_interval_upper_;
+    m_nonzeroIntervalUpper = clampf(user_interval_upper, 0.1f, 1.0f);
+    m_xScale = 1.0f / m_nonzeroIntervalUpper;
 }
 
 /*!
@@ -189,10 +189,10 @@ float HermiteGammaApproximationFunction::evaluate(float x)
 {
     if (x < 0.0f)
         return 0.0f;
-    else if (x > nonzero_interval_upper_)
+    else if (x > m_nonzeroIntervalUpper)
         return 0.0f;
     else {
-        float indep_var = x_scale_ * x;
+        float indep_var = m_xScale * x;
 
         float dep_var =  6.0f * ((indep_var * indep_var * indep_var) -
                                  (2.0f * (indep_var * indep_var)) + (indep_var));
@@ -212,7 +212,7 @@ const float ShadowDetailTransformation::TONAL_WIDTH = 1.0f;
  */
 ShadowDetailTransformation::ShadowDetailTransformation(float intensity)
 {
-    intensity_ = intensity;
+    m_intensity = intensity;
     float effect_shift = MAX_EFFECT_SHIFT * intensity;
 
     HermiteGammaApproximationFunction func =
@@ -229,12 +229,12 @@ ShadowDetailTransformation::ShadowDetailTransformation(float intensity)
 }
 
 /*!
- * \brief ShadowDetailTransformation::is_identity
+ * \brief ShadowDetailTransformation::isIdentity
  * \return
  */
-bool ShadowDetailTransformation::is_identity() const
+bool ShadowDetailTransformation::isIdentity() const
 {
-    return (intensity_ == 0.0f);
+    return (m_intensity == 0.0f);
 }
 
 
@@ -250,7 +250,7 @@ const float AutoEnhanceTransformation::SHADOW_AGGRESSIVENESS_MUL = 0.45f;
  * \param basis
  */
 AutoEnhanceTransformation::AutoEnhanceTransformation(const QImage& basis)
-    : shadow_transform_(0), tone_expansion_transform_(0)
+    : m_shadowTransform(0), m_toneExpansionTransform(0)
 {
     IntensityHistogram histogram = IntensityHistogram(basis);
 
@@ -258,18 +258,18 @@ AutoEnhanceTransformation::AutoEnhanceTransformation(const QImage& basis)
      shadow range -- this measures "of the pixels in the image, how many of
      them are in shadow?" */
     float pct_in_range = 100.0f *
-            (histogram.get_cumulative_probability(SHADOW_DETECT_MAX_INTENSITY) -
-             histogram.get_cumulative_probability(SHADOW_DETECT_MIN_INTENSITY));
+            (histogram.getCumulativeProbability(SHADOW_DETECT_MAX_INTENSITY) -
+             histogram.getCumulativeProbability(SHADOW_DETECT_MIN_INTENSITY));
 
     /* compute the mean intensity of the pixels that are in the shadow range --
      this measures "of those pixels that are in shadow, just how dark are
      they?" */
     float sh_prob_mu =
-            (histogram.get_cumulative_probability(SHADOW_DETECT_MIN_INTENSITY) +
-             histogram.get_cumulative_probability(SHADOW_DETECT_MAX_INTENSITY)) * 0.5f;
+            (histogram.getCumulativeProbability(SHADOW_DETECT_MIN_INTENSITY) +
+             histogram.getCumulativeProbability(SHADOW_DETECT_MAX_INTENSITY)) * 0.5f;
     int sh_intensity_mu = SHADOW_DETECT_MIN_INTENSITY;
     for ( ; sh_intensity_mu <= SHADOW_DETECT_MAX_INTENSITY; sh_intensity_mu++) {
-        if (histogram.get_cumulative_probability(sh_intensity_mu) >= sh_prob_mu)
+        if (histogram.getCumulativeProbability(sh_intensity_mu) >= sh_prob_mu)
             break;
     }
 
@@ -286,7 +286,7 @@ AutoEnhanceTransformation::AutoEnhanceTransformation(const QImage& basis)
                                           ((float) SHADOW_DETECT_INTENSITY_RANGE));
         shadow_trans_effect_size *= SHADOW_AGGRESSIVENESS_MUL;
 
-        shadow_transform_
+        m_shadowTransform
                 = new ShadowDetailTransformation(shadow_trans_effect_size);
 
         QImage shadow_corrected_image = QImage(basis);
@@ -299,17 +299,17 @@ AutoEnhanceTransformation::AutoEnhanceTransformation(const QImage& basis)
             QApplication::processEvents();
 
             for (int i = 0; i < shadow_corrected_image.width(); i++) {
-                QColor px = shadow_transform_->transform_pixel(
+                QColor px = m_shadowTransform->transformPixel(
                             QColor(shadow_corrected_image.pixel(i, j)));
                 shadow_corrected_image.setPixel(i, j, px.rgb());
             }
         }
 
-        tone_expansion_transform_ = new ToneExpansionTransformation(
+        m_toneExpansionTransform = new ToneExpansionTransformation(
                     IntensityHistogram(shadow_corrected_image), 0.005f, 0.995f);
 
     } else {
-        tone_expansion_transform_ = new ToneExpansionTransformation(
+        m_toneExpansionTransform = new ToneExpansionTransformation(
                     IntensityHistogram(basis));
     }
 }
@@ -319,34 +319,34 @@ AutoEnhanceTransformation::AutoEnhanceTransformation(const QImage& basis)
  */
 AutoEnhanceTransformation::~AutoEnhanceTransformation()
 {
-    if (shadow_transform_)
-        delete shadow_transform_;
-    delete tone_expansion_transform_;
+    if (m_shadowTransform)
+        delete m_shadowTransform;
+    delete m_toneExpansionTransform;
 }
 
 /*!
- * \brief AutoEnhanceTransformation::transform_pixel
+ * \brief AutoEnhanceTransformation::transformPixel
  * \param pixel_color
  * \return
  */
-QColor AutoEnhanceTransformation::transform_pixel(
+QColor AutoEnhanceTransformation::transformPixel(
         const QColor& pixel_color) const
 {
     QColor px = pixel_color;
 
-    if (shadow_transform_)
-        px = shadow_transform_->transform_pixel(px);
+    if (m_shadowTransform)
+        px = m_shadowTransform->transformPixel(px);
 
-    px = tone_expansion_transform_->transform_pixel(px);
+    px = m_toneExpansionTransform->transformPixel(px);
 
     /* if tone expansion occurs, boost saturation to compensate for boosted
      dynamic range */
-    if (!tone_expansion_transform_->is_identity()) {
+    if (!m_toneExpansionTransform->isIdentity()) {
         int h, s, v;
         px.getHsv(&h, &s, &v);
 
         float compensation_multiplier =
-                (tone_expansion_transform_->low_discard_mass() < 0.01f) ? 1.02f : 1.10f;
+                (m_toneExpansionTransform->lowDiscardMass() < 0.01f) ? 1.02f : 1.10f;
 
         s = (int) (((float) s) * compensation_multiplier);
         s = clampi(s, 0, 255);
@@ -357,7 +357,7 @@ QColor AutoEnhanceTransformation::transform_pixel(
     return px;
 }
 
-bool AutoEnhanceTransformation::is_identity() const
+bool AutoEnhanceTransformation::isIdentity() const
 {
     return false;
 }
@@ -410,12 +410,12 @@ ColorBalance::ColorBalance(qreal brightness, qreal contrast, qreal saturation, q
 }
 
 /*!
- * \brief ColorBalance::transform_pixel transforms one pixel according to the parameters given in
+ * \brief ColorBalance::transformPixel transforms one pixel according to the parameters given in
  * the constructor
  * \param pixel_color The pixel to be transformed
  * \return Color for the new pixel
  */
-QColor ColorBalance::transform_pixel(const QColor &pixel_color) const
+QColor ColorBalance::transformPixel(const QColor &pixel_color) const
 {
     QVector4D pixel(pixel_color.red()/255.0, pixel_color.green()/255.0, pixel_color.blue()/255.0, 0.0);
     pixel = transformHue(pixel);

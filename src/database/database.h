@@ -20,20 +20,16 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
-#include <QObject>
-
-#include <QtSql>
-#include <QSqlTableModel>
-#include <QString>
 #include <QFile>
-
-#include "album-table.h"
-#include "media-table.h"
-#include "photo-edit-table.h"
+#include <QObject>
+#include <QString>
 
 class AlbumTable;
 class MediaTable;
 class PhotoEditTable;
+
+class QSqlDatabase;
+class QSqlQuery;
 
 const qint64 INVALID_ID = -1;
 
@@ -45,57 +41,41 @@ class Database : public QObject
     Q_OBJECT
 
 public:
-    // Path to database, relative to pictures path.
-    static const QString DATABASE_DIR;
-
-    Database(const QDir& pictures_dir, QObject* parent = 0);
+    Database(const QString& databaseDir, const QString &schemaDirectory, QObject* parent = 0);
 
     ~Database();
 
-    void log_sql_error(QSqlQuery& q) const;
-    QSqlDatabase* get_db();
+    void logSqlError(QSqlQuery& q) const;
+    QSqlDatabase* getDB();
 
-    AlbumTable* get_album_table() const;
-    MediaTable* get_media_table() const;
-    PhotoEditTable* get_photo_edit_table() const;
+    AlbumTable* getAlbumTable() const;
+    MediaTable* getMediaTable() const;
+    PhotoEditTable* getPhotoEditTable() const;
 
 private:
-    bool open_db();
+    bool openDB();
 
-    int get_schema_version() const;
-    void set_schema_version(int version);
-    void upgrade_schema(int current_version);
+    int schemaVersion() const;
+    void setSchemaVersion(int version);
+    void upgradeSchema(int current_version);
 
-    bool execute_sql_file(QFile& file);
+    bool executeSqlFile(QFile& file);
 
-    QDir get_sql_dir();
+    const QString &getSqlDir() const;
 
-    /*!
-   * \brief get_db_name
-   * \return
-   */
-    inline QString get_db_name() {
-        return db_dir_.path() + "/gallery.sqlite";
-    }
+    QString getDBname() const;
+    QString getDBBackupName() const;
 
-    /*!
-   * \brief get_db_backup_name
-   * \return
-   */
-    inline QString get_db_backup_name() {
-        return db_dir_.path() + "/gallery.sqlite.bak";
-    }
+    void restoreFromBackup();
 
-    void restore_from_backup();
+    void createBackup();
 
-    void create_backup();
-
-    QSqlDatabase db_;
-    QDir db_dir_;
-
-    AlbumTable* album_table_;
-    MediaTable* media_table_;
-    PhotoEditTable* photo_edit_table_;
+    QString m_databaseDirectory;
+    QString m_sqlSchemaDirectory;
+    QSqlDatabase* m_db;
+    AlbumTable* m_albumTable;
+    MediaTable* m_mediaTable;
+    PhotoEditTable* m_photoEditTable;
 };
 
 #endif // DATABASE_H

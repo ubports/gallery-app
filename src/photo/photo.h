@@ -22,14 +22,15 @@
 #ifndef GALLERY_PHOTO_H_
 #define GALLERY_PHOTO_H_
 
-#include <QDateTime>
-#include <QStack>
+#include "photo-caches.h"
 
-#include "media/media-source.h"
-#include "photo/photo-metadata.h"
-#include "photo/photo-edit-state.h"
-#include "photo/photo-caches.h"
+// media
+#include "media-source.h"
 
+// util
+#include "orientation.h"
+
+class PhotoEditState;
 class PhotoPrivate;
 
 /*!
@@ -44,24 +45,25 @@ class Photo : public MediaSource
     Q_PROPERTY(bool isOriginal READ isOriginal NOTIFY editStackChanged)
 
 public:
-    static bool IsValid(const QFileInfo& file);
-
-    static Photo* Load(const QFileInfo& file);
-
-    static Photo* Fetch(const QFileInfo& file);
-
     explicit Photo(const QFileInfo& file);
     virtual ~Photo();
 
-    virtual QImage Image(bool respect_orientation, const QSize &scaleSize=QSize());
+    virtual MediaType type() const;
+
+    static bool isValid(const QFileInfo& file);
+
+    virtual QImage image(bool respectOrientation, const QSize &scaleSize=QSize());
     virtual Orientation orientation() const;
-    virtual QDateTime exposure_date_time() const;
 
-    virtual QUrl gallery_path() const;
-    virtual QUrl gallery_preview_path() const;
-    virtual QUrl gallery_thumbnail_path() const;
+    virtual QUrl galleryPath() const;
+    virtual QUrl galleryPreviewPath() const;
+    virtual QUrl galleryThumbnailPath() const;
 
-    void set_base_edit_state(const PhotoEditState& base);
+    void setBaseEditState(const PhotoEditState& base);
+
+    const QFileInfo &originalFile() const;
+    const QFileInfo &enhancedFile() const;
+    const QFileInfo &pristineFile() const;
 
     bool canUndo() const;
     bool canRedo() const;
@@ -78,38 +80,35 @@ public:
     Q_INVOKABLE void cancelCropping();
     Q_INVOKABLE void crop(QVariant vrect);
 
+    void setOriginalOrientation(Orientation orientation);
+
 signals:
     void editStackChanged();
 
 protected:
-    virtual void DestroySource(bool destroy_backing, bool as_orphan);
+    virtual void destroySource(bool destroyBacking, bool asOrphan);
 
 private:
-    const PhotoEditState& current_state() const;
-    QSize get_original_size(Orientation orientation);
-    void make_undoable_edit(const PhotoEditState& state);
-    void save(const PhotoEditState& state, Orientation old_orientation);
-    void edit_file(const PhotoEditState& state);
-    void create_cached_enhanced();
+    const PhotoEditState& currentState() const;
+    QSize originalSize(Orientation orientation);
+    void makeUndoableEdit(const PhotoEditState& state);
+    void save(const PhotoEditState& state, Orientation oldOrientation);
+    void editFile(const PhotoEditState& state);
+    void createCachedEnhanced();
     QImage compensateExposure(const QImage& image, qreal compansation);
     QImage doColorBalance(const QImage& image, qreal brightness, qreal contrast, qreal saturation, qreal hue);
-    void append_path_params(QUrl* url, Orientation orientation, const int size_level) const;
-    void handle_simple_metadata_rotation(const PhotoEditState& state);
-    bool file_format_has_metadata() const;
-    bool file_format_has_orientation() const;
-    void set_original_orientation(Orientation orientation);
-    void set_file_timestamp(const QDateTime& timestamp);
-    void set_exposure_date_time(const QDateTime& exposure_time);
+    void appendPathParams(QUrl* url, Orientation orientation, const int sizeLevel) const;
+    void handleSimpleMetadataRotation(const PhotoEditState& state);
+    bool fileFormatHasMetadata() const;
+    bool fileFormatHasOrientation() const;
 
-    QString file_format_;
-    QDateTime exposure_date_time_;
-    QDateTime file_timestamp_;
-    int edit_revision_; // How many times the pixel data has been modified by us.
-    PhotoCaches caches_;
+    QString m_fileFormat;
+    int m_editRevision; // How many times the pixel data has been modified by us.
+    PhotoCaches m_caches;
 
     // We cache this data to avoid an image read at various times.
-    QSize original_size_;
-    Orientation original_orientation_;
+    QSize m_originalSize;
+    Orientation m_originalOrientation;
 
     PhotoPrivate * const d_ptr;
     Q_DECLARE_PRIVATE(Photo)

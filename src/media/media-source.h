@@ -20,17 +20,21 @@
 #ifndef GALLERY_MEDIA_SOURCE_H_
 #define GALLERY_MEDIA_SOURCE_H_
 
+// core
+#include "data-source.h"
+
+// util
+#include "orientation.h"
+
 #include <QDate>
 #include <QDateTime>
 #include <QFileInfo>
 #include <QImage>
+#include <QSize>
 #include <QTime>
 #include <QUrl>
 #include <QVariant>
 #include <QtQml>
-
-#include "core/data-source.h"
-#include "photo/photo-metadata.h"
 
 class Event;
 class GalleryManager;
@@ -41,96 +45,110 @@ class GalleryManager;
 class MediaSource : public DataSource
 {
     Q_OBJECT
-    Q_PROPERTY(QUrl path READ path NOTIFY path_altered)
-    Q_PROPERTY(QUrl previewPath READ preview_path NOTIFY preview_path_altered)
-    Q_PROPERTY(QUrl thumbnailPath READ thumbnail_path NOTIFY thumbnail_path_altered)
-    Q_PROPERTY(QUrl galleryPath READ gallery_path NOTIFY gallery_path_altered)
-    Q_PROPERTY(QUrl galleryPreviewPath READ gallery_preview_path NOTIFY gallery_preview_path_altered)
-    Q_PROPERTY(QUrl galleryThumbnailPath READ gallery_thumbnail_path NOTIFY gallery_thumbnail_path_altered)
-    Q_PROPERTY(int orientation READ orientation NOTIFY orientation_altered)
-    Q_PROPERTY(QDate exposureDate READ exposure_date NOTIFY exposure_date_time_altered)
-    Q_PROPERTY(QTime exposureTimeOfDay READ exposure_time_of_day NOTIFY exposure_date_time_altered)
-    Q_PROPERTY(int exposure_time_t READ exposure_time_t NOTIFY exposure_date_time_altered)
-    Q_PROPERTY(QVariant event READ QmlFindEvent NOTIFY event_changed)
+    Q_PROPERTY(MediaType type READ type NOTIFY typeChanged)
+    Q_PROPERTY(QUrl path READ path NOTIFY pathChanged)
+    Q_PROPERTY(QUrl previewPath READ previewPath NOTIFY previewPathChanged)
+    Q_PROPERTY(QUrl thumbnailPath READ thumbnailPath NOTIFY thumbnailPathChanged)
+    Q_PROPERTY(QUrl galleryPath READ galleryPath NOTIFY galleryPathChanged)
+    Q_PROPERTY(QUrl galleryPreviewPath READ galleryPreviewPath NOTIFY galleryPreviewPathChanged)
+    Q_PROPERTY(QUrl galleryThumbnailPath READ galleryThumbnailPath NOTIFY galleryThumbnailPathChanged)
+    Q_PROPERTY(int orientation READ orientation NOTIFY orientationChanged)
+    Q_PROPERTY(QDate exposureDate READ exposureDate NOTIFY exposureDateTimeChanged)
+    Q_PROPERTY(QTime exposureTimeOfDay READ exposureTimeOfDay NOTIFY exposureDateTimeChanged)
+    Q_PROPERTY(int exposureTime_t READ exposureTime_t NOTIFY exposureDateTimeChanged)
+    Q_PROPERTY(QVariant event READ QmlFindEvent NOTIFY eventChanged)
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
-    Q_PROPERTY(int width READ width NOTIFY size_altered)
-    Q_PROPERTY(int height READ height NOTIFY size_altered)
-    Q_PROPERTY(int maxSize READ maxSize NOTIFY maxSizeChanged)
+    Q_PROPERTY(int width READ width NOTIFY sizeChanged)
+    Q_PROPERTY(int height READ height NOTIFY sizeChanged)
+    Q_ENUMS(MediaType)
 
 signals:
-    void path_altered();
-    void preview_path_altered();
-    void thumbnail_path_altered();
-    void gallery_path_altered();
-    void gallery_preview_path_altered();
-    void gallery_thumbnail_path_altered();
-    void orientation_altered();
-    void exposure_date_time_altered();
-    void event_changed();
-    void data_altered();
-    void size_altered();
+    void typeChanged();
+    void pathChanged();
+    void previewPathChanged();
+    void thumbnailPathChanged();
+    void galleryPathChanged();
+    void galleryPreviewPathChanged();
+    void galleryThumbnailPathChanged();
+    void orientationChanged();
+    void exposureDateTimeChanged();
+    void eventChanged();
+    void dataChanged();
+    void sizeChanged();
     void busyChanged();
-    void maxSizeChanged();
 
 public:
     MediaSource();
     explicit MediaSource(const QFileInfo& file);
 
-    static void RegisterType();
+    enum MediaType {
+        None = 0,
+        Photo = 1,
+        Video = 2
+    };
+
+    virtual MediaType type() const;
 
     QFileInfo file() const;
     QUrl path() const;
-    virtual QUrl gallery_path() const;
+    virtual QUrl galleryPath() const;
 
-    QFileInfo preview_file() const;
-    QUrl preview_path() const;
-    virtual QUrl gallery_preview_path() const;
+    QString previewFile() const;
+    QUrl previewPath() const;
+    virtual QUrl galleryPreviewPath() const;
 
-    QFileInfo thumbnail_file() const;
-    QUrl thumbnail_path() const;
-    virtual QUrl gallery_thumbnail_path() const;
+    QString thumbnailFile() const;
+    QUrl thumbnailPath() const;
+    virtual QUrl galleryThumbnailPath() const;
 
-    virtual QImage Image(bool respect_orientation = true);
+    virtual QImage image(bool respectOrientation = true, const QSize &scaleSize=QSize());
     virtual Orientation orientation() const;
-    virtual QDateTime exposure_date_time() const;
+
+    const QDateTime& exposureDateTime() const;
+    QDate exposureDate() const;
+    QTime exposureTimeOfDay() const;
+    int exposureTime_t() const;
+    void setExposureDateTime(const QDateTime& exposureTime);
+
+    const QDateTime& fileTimestamp() const;
+    void setFileTimestamp(const QDateTime& timestamp);
 
     const QSize& size();
-    void set_size(const QSize& size);
-    bool is_size_set() const;
-    QDate exposure_date() const;
-    QTime exposure_time_of_day() const;
-    int exposure_time_t() const;
+    void setSize(const QSize& size);
 
     Event* FindEvent();
     QVariant QmlFindEvent();
 
-    void set_id(qint64 id);
-    qint64 get_id() const;
+    qint64 id() const;
+    void setId(qint64 id);
 
-    bool busy();
-    void set_busy(bool busy);
-
-    int maxSize() const;
+    bool busy() const;
 
 protected:
-    virtual void DestroySource(bool delete_backing, bool as_orphan);
+    bool isSizeSet() const;
 
-    virtual void notify_data_altered();
-    virtual void notify_size_altered();
+    virtual void destroySource(bool deleteBacking, bool asOrphan);
+
+    virtual void notifyDataChanged();
+    virtual void notifySizeChanged();
+
+    void setBusy(bool busy);
 
 private:
     int width() const {
-        return size_.width();
+        return m_size.width();
     }
 
     int height() const {
-        return size_.height();
+        return m_size.height();
     }
 
-    QFileInfo file_;
-    qint64 id_;
-    QSize size_;
-    bool busy_;
+    QFileInfo m_file;
+    qint64 m_id;
+    QSize m_size;
+    QDateTime m_exposureDateTime;
+    QDateTime m_fileTimestamp;
+    bool m_busy;
 };
 
 QML_DECLARE_TYPE(MediaSource)

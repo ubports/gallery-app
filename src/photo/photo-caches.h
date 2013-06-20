@@ -20,9 +20,9 @@
 #ifndef GALLERY_PHOTO_CACHES_H_
 #define GALLERY_PHOTO_CACHES_H_
 
-#include <QString>
-#include <QFileInfo>
 #include <QFile>
+#include <QFileInfo>
+#include <QString>
 
 /*!
  * \brief The PhotoCaches class
@@ -40,22 +40,21 @@ public:
 
     PhotoCaches(const QFileInfo& file);
 
-    bool has_cached_original() const;
-    bool has_cached_enhanced() const;
+    bool hasCachedOriginal() const;
+    bool hasCachedEnhanced() const;
 
-    const QFileInfo& original_file() const;
-    const QFileInfo& enhanced_file() const;
+    const QFileInfo& originalFile() const;
+    const QFileInfo& enhancedFile() const;
+    const QFileInfo& pristineFile() const;
 
-    const QFileInfo& pristine_file() const;
+    bool cacheOriginal();
+    bool restoreOriginal();
+    bool cacheEnhancedFromOriginal();
+    bool overwriteFromCache(bool preferEnhanced);
 
-    bool cache_original();
-    bool restore_original();
-    bool cache_enhanced_from_original();
-    bool overwrite_from_cache(bool prefer_enhanced);
-
-    void discard_cached_original();
-    void discard_cached_enhanced();
-    void discard_all();
+    void discardCachedOriginal();
+    void discardCachedEnhanced();
+    void discardAll();
 
 private:
     static bool remove(const QFileInfo& file) {
@@ -68,9 +67,9 @@ private:
         return QFile::copy(oldName.filePath(), newName.filePath());
     }
 
-    QFileInfo file_;
-    QFileInfo original_file_;
-    QFileInfo enhanced_file_;
+    QFileInfo m_file;
+    QFileInfo m_originalFile;
+    QFileInfo m_enhancedFile;
 };
 
 #endif

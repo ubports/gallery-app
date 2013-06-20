@@ -1,0 +1,17 @@
+[Desktop Entry]
+Version=1.0
+Name=tr("Gallery")
+GenericName=tr("Ubuntu Photo Viewer")
+X-GNOME-Fullname=tr("Ubuntu Photo Viewer")
+Comment=tr("Browse your photographs")
+TryExec=gallery-app
+Exec=gallery-app --fullscreen %u
+Icon=gallery-app
+StartupNotify=true
+Terminal=false
+Type=Application
+MimeType=image/jpg;image/jpeg
+Categories=Graphics;Photography;RasterGraphics;Viewer
+X-Ayatana-Appmenu-Show-Stubs=false
+X-Ubuntu-Touch=true
+X-Ubuntu-Gettext-Domain=gallery-app

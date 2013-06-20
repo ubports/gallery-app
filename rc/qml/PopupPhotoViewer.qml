@@ -18,8 +18,9 @@
  */
 
 import QtQuick 2.0
-import "../Capetown"
 import Ubuntu.Components 0.1
+import "../Capetown"
+import "MediaViewer"
 
 // A PhotoViewer that is opened and closed with the PhotoViewerTransition.
 Page {
@@ -31,7 +32,7 @@ Page {
 
     /*!
     */
-    property alias photo: viewer.photo
+    property alias photo: viewer.media
     /*!
     */
     property alias index: viewer.index
@@ -115,7 +116,7 @@ Page {
     }
 
     tools: viewer.tools
-    GalleryPhotoViewer {
+    MediaViewer {
         id: viewer
 
         property bool openCompleted: false
@@ -123,9 +124,12 @@ Page {
         anchors.fill: parent
         visible: false
 
-        onCloseRequested: popupPhotoViewer.closeRequested()
+        onCloseRequested: {
+            popupPhotoViewer.closeRequested();
+            openCompleted = false;
+        }
 
-        onEditRequested: popupPhotoViewer.editRequested(photo)
+        onEditRequested: popupPhotoViewer.editRequested(media)
 
         onIsReadyChanged: updateVisibility()
         onOpenCompletedChanged: updateVisibility()

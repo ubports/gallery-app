@@ -178,7 +178,7 @@ Page {
             model: d.model
         }
 
-        property ActionList overviewTools: PhotosToolbarActions {
+        property Item overviewTools: PhotosToolbarActions {
             selection: d.selection
             onStartCamera: appManager.switchToCameraApplication();
         }
@@ -187,7 +187,7 @@ Page {
             id: appManager
         }
 
-        property ActionList selectionTools: SelectionToolbarAction {
+        property Item selectionTools: SelectionToolbarAction {
             selection: d.selection
 
             onCancelClicked: {

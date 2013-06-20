@@ -20,10 +20,10 @@
 #ifndef GALLERY_CONTAINER_SOURCE_COLLECTION_H_
 #define GALLERY_CONTAINER_SOURCE_COLLECTION_H_
 
-#include <QString>
+#include "data-object.h"
+#include "source-collection.h"
 
-#include "core/data-object.h"
-#include "core/source-collection.h"
+#include <QString>
 
 /**
   * ContainerSourceCollection is a SourceCollection that holds ContainerSources.

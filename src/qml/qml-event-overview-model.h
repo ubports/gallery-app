@@ -26,7 +26,7 @@
 #include <QVariant>
 #include <QtQml>
 
-#include "qml/qml-media-collection-model.h"
+#include "qml-media-collection-model.h"
 
 class DataObject;
 
@@ -36,45 +36,43 @@ class DataObject;
 class QmlEventOverviewModel : public QmlMediaCollectionModel
 {
     Q_OBJECT
-    Q_PROPERTY(bool ascending READ ascending_order WRITE set_ascending_order
-               NOTIFY ordering_altered)
+    Q_PROPERTY(bool ascending READ ascendingOrder WRITE setAscendingOrder
+               NOTIFY ascendingChanged)
 
 signals:
-    void ordering_altered();
+    void ascendingChanged();
 
 public:
     QmlEventOverviewModel(QObject* parent = NULL);
 
-    static void RegisterType();
-
-    bool ascending_order() const;
-    void set_ascending_order(bool ascending);
+    bool ascendingOrder() const;
+    void setAscendingOrder(bool ascending);
 
 protected:
-    virtual void notify_backing_collection_changed();
+    virtual void notifyBackingCollectionChanged();
 
-    virtual QVariant VariantFor(DataObject *object) const;
-    virtual DataObject* FromVariant(QVariant var) const;
+    virtual QVariant toVariant(DataObject *object) const;
+    virtual DataObject* fromVariant(QVariant var) const;
 
 private slots:
-    void on_events_altered(const QSet<DataObject*>* added,
-                           const QSet<DataObject*>* removed);
-    void on_event_overview_contents_altered(const QSet<DataObject*>* added,
-                                            const QSet<DataObject*>* removed);
-    void on_event_overview_selection_altered(const QSet<DataObject*>* selected,
-                                             const QSet<DataObject*>* unselected);
+    void onEventsChanged(const QSet<DataObject*>* added,
+                         const QSet<DataObject*>* removed);
+    void onEventOverviewContentsChanged(const QSet<DataObject*>* added,
+                                        const QSet<DataObject*>* removed);
+    void onEventOverviewSelectionChanged(const QSet<DataObject*>* selected,
+                                         const QSet<DataObject*>* unselected);
 
 private:
-    bool ascending_order_;
-    bool syncing_media_;
+    static bool ascendingComparator(DataObject* a, DataObject* b);
+    static bool descendingComparator(DataObject* a, DataObject* b);
+    static bool eventComparator(DataObject* a, DataObject* b, bool desc);
+    static QDateTime objectDateTime(DataObject* object, bool desc);
 
-    static bool AscendingComparator(DataObject* a, DataObject* b);
-    static bool DescendingComparator(DataObject* a, DataObject* b);
-    static bool EventComparator(DataObject* a, DataObject* b, bool desc);
-    static QDateTime ObjectDateTime(DataObject* object, bool desc);
+    void monitorNewViewCollection();
+    void syncSelectedMedia(const QSet<DataObject*>* toggled, bool selected);
 
-    void MonitorNewViewCollection();
-    void SyncSelectedMedia(const QSet<DataObject*>* toggled, bool selected);
+    bool m_ascendingOrder;
+    bool m_syncingMedia;
 };
 
 QML_DECLARE_TYPE(QmlEventOverviewModel)

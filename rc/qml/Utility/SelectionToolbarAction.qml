@@ -21,7 +21,7 @@ import Ubuntu.Components.Popups 0.1
 /*!
   The actions for the toolbar for the event and photos view in select mode
   */
-ToolbarActions {
+ToolbarItems {
     id: root
     /// The selection state item
     property SelectionState selection: null
@@ -38,31 +38,34 @@ ToolbarActions {
     opened: true
     locked: true
 
-    Action {
+    ToolbarButton {
+        objectName: "addButton"
         text: i18n.tr("Add")
         iconSource: Qt.resolvedUrl("../../img/add.png")
         enabled: root.selection.selectedCount > 0
         onTriggered: root.addClicked(caller);
     }
-    Action {
+    ToolbarButton {
+        objectName: "deleteButton"
         text: i18n.tr("Delete")
         iconSource: Qt.resolvedUrl("../../img/delete.png")
         enabled: root.selection.selectedCount > 0
         onTriggered:root.deleteClicked();
     }
-    Action {
+    ToolbarButton {
+        objectName: "shareButton"
         text: i18n.tr("Share")
         iconSource: Qt.resolvedUrl("../../img/share.png")
         enabled: false
     }
 
-    back: Action {
-        itemHint: Button {
-            text: i18n.tr("Cancel")
-            width: units.gu(10)
-            onClicked: {
-                root.cancelClicked();
-            }
+    back:  Button {
+        objectName: "cancelButton"
+        anchors.verticalCenter: parent.verticalCenter
+        text: i18n.tr("Cancel")
+        width: units.gu(10)
+        onClicked: {
+            root.cancelClicked();
         }
     }
 }

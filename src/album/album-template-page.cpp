@@ -17,29 +17,29 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "album/album-template-page.h"
+#include "album-template-page.h"
 
 /*!
  * \brief AlbumTemplatePage::AlbumTemplatePage
  * \param name
- * \param qml_rc
- * \param is_left determines whether the page is meant to be displayed on the right or left of a spread.
+ * \param qmlRc
+ * \param isLeft determines whether the page is meant to be displayed on the right or left of a spread.
  * \param frame_count
  * Final arguments are a list of PageOrientation enums that describe the page's frames (slots) from top to bottom, left to right.
  */
-AlbumTemplatePage::AlbumTemplatePage(const char* name, const char* qml_rc,
-                                     bool is_left, int frame_count, ...)
-    : name_(name), is_left_(is_left)
+AlbumTemplatePage::AlbumTemplatePage(const char* name, const char* qmlRc,
+                                     bool isLeft, int frameCount, ...)
+    : m_name(name), m_isLeft(isLeft)
 {
-    Q_ASSERT(frame_count >= 0);
+    Q_ASSERT(frameCount >= 0);
 
     va_list valist;
-    va_start(valist, frame_count);
-    for (int ctr = 0; ctr < frame_count; ctr++)
-        layout_.append(static_cast<PageOrientation>(va_arg(valist, int)));
+    va_start(valist, frameCount);
+    for (int ctr = 0; ctr < frameCount; ctr++)
+        m_layout.append(static_cast<PageOrientation>(va_arg(valist, int)));
     va_end(valist);
 
-    qml_rc_ = QString(qml_rc);
+    m_qmlRc = QString(qmlRc);
 }
 
 /*!
@@ -48,46 +48,46 @@ AlbumTemplatePage::AlbumTemplatePage(const char* name, const char* qml_rc,
  */
 const QString& AlbumTemplatePage::name() const
 {
-    return name_;
+    return m_name;
 }
 
 /*!
- * \brief AlbumTemplatePage::qml_rc
+ * \brief AlbumTemplatePage::qmlRc
  * \return
  */
-const QString& AlbumTemplatePage::qml_rc() const
+const QString& AlbumTemplatePage::qmlRc() const
 {
-    return qml_rc_;
+    return m_qmlRc;
 }
 
 /*!
- * \brief AlbumTemplatePage::is_left
+ * \brief AlbumTemplatePage::isLeft
  * \return
  */
-bool AlbumTemplatePage::is_left() const
+bool AlbumTemplatePage::isLeft() const
 {
-    return is_left_;
+    return m_isLeft;
 }
 
 /*!
- * \brief AlbumTemplatePage::FrameCount
+ * \brief AlbumTemplatePage::frameCount
  * \return
  */
-int AlbumTemplatePage::FrameCount() const
+int AlbumTemplatePage::frameCount() const
 {
-    return layout_.count();
+    return m_layout.count();
 }
 
 /*!
- * \brief AlbumTemplatePage::FramesFor
+ * \brief AlbumTemplatePage::framesFor
  * \param orientation
  * \return
  */
-int AlbumTemplatePage::FramesFor(PageOrientation orientation) const
+int AlbumTemplatePage::framesFor(PageOrientation orientation) const
 {
     int count = 0;
     PageOrientation o;
-    foreach (o, layout_) {
+    foreach (o, m_layout) {
         if (o == orientation)
             count++;
     }
@@ -96,10 +96,10 @@ int AlbumTemplatePage::FramesFor(PageOrientation orientation) const
 }
 
 /*!
- * \brief AlbumTemplatePage::Layout
+ * \brief AlbumTemplatePage::layout
  * \return
  */
-const QList<PageOrientation>& AlbumTemplatePage::Layout() const
+const QList<PageOrientation>& AlbumTemplatePage::layout() const
 {
-    return layout_;
+    return m_layout;
 }

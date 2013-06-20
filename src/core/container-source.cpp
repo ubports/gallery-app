@@ -17,7 +17,7 @@
  * Jim Nelson <jim@yorba.org>
  */
 
-#include "core/container-source.h"
+#include "container-source.h"
 
 /*!
  * \brief ContainerSource::ContainerSource
@@ -26,79 +26,79 @@
  * \param comparator
  */
 ContainerSource::ContainerSource(QObject * parent, const QString& name, DataObjectComparator comparator)
-    : DataSource(parent), contained_(QString("Container for ") + QString(name))
+    : DataSource(parent), m_contained(QString("Container for ") + QString(name))
 {
-    contained_.SetComparator(comparator);
+    m_contained.setComparator(comparator);
 
-    QObject::connect(&contained_,
-                     SIGNAL(contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)),
+    QObject::connect(&m_contained,
+                     SIGNAL(contentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)),
                      this,
-                     SLOT(on_contents_altered(const QSet<DataObject*>*, const QSet<DataObject*>*)));
+                     SLOT(onContentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)));
 }
 
 /*!
- * \brief ContainerSource::Attach
+ * \brief ContainerSource::attach
  * \param object
  */
-void ContainerSource::Attach(DataObject* object)
+void ContainerSource::attach(DataObject* object)
 {
-    contained_.Add(object);
+    m_contained.add(object);
 }
 
 /*!
- * \brief ContainerSource::AttachMany
+ * \brief ContainerSource::attachMany
  * \param objects
  */
-void ContainerSource::AttachMany(const QSet<DataObject*>& objects)
+void ContainerSource::attachMany(const QSet<DataObject*>& objects)
 {
-    contained_.AddMany(objects);
+    m_contained.addMany(objects);
 }
 
 /*!
- * \brief ContainerSource::Detach
+ * \brief ContainerSource::detach
  * \param object
  */
-void ContainerSource::Detach(DataObject* object)
+void ContainerSource::detach(DataObject* object)
 {
-    contained_.Remove(object);
+    m_contained.remove(object);
 }
 
 /*!
- * \brief ContainerSource::DetachMany
+ * \brief ContainerSource::detachMany
  * \param objects
  */
-void ContainerSource::DetachMany(const QSet<DataObject*>& objects)
+void ContainerSource::detachMany(const QSet<DataObject*>& objects)
 {
-    contained_.RemoveMany(objects);
+    m_contained.removeMany(objects);
 }
 
 /*!
- * \brief ContainerSource::Contains
+ * \brief ContainerSource::contains
  * \param object
  * \return
  */
-bool ContainerSource::Contains(DataObject* object) const
+bool ContainerSource::contains(DataObject* object) const
 {
-    return contained_.Contains(object);
+    return m_contained.contains(object);
 }
 
 /*!
- * \brief ContainerSource::ContainsAll
+ * \brief ContainerSource::containsAll
  * \param collection
  * \return
  */
-bool ContainerSource::ContainsAll(ContainerSource* collection) const
+bool ContainerSource::containsAll(ContainerSource* collection) const
 {
-    return contained_.ContainsAll(&collection->contained_);
+    return m_contained.containsAll(&collection->m_contained);
 }
 
 /*!
- * \brief ContainerSource::ContainedCount
+ * \brief ContainerSource::containedCount
  * \return
  */
-int ContainerSource::ContainedCount() const
+int ContainerSource::containedCount() const
 {
-    return contained_.Count();
+    return m_contained.count();
 }
 
 /*!
@@ -107,27 +107,27 @@ int ContainerSource::ContainedCount() const
  */
 const ViewCollection* ContainerSource::contained() const
 {
-    return &contained_;
+    return &m_contained;
 }
 
 /*!
- * \brief ContainerSource::notify_container_contents_altered
+ * \brief ContainerSource::notifyContainerContentsChanged
  * \param added
  * \param removed
  */
-void ContainerSource::notify_container_contents_altered(const QSet<DataObject*>* added,
-                                                        const QSet<DataObject*>* removed)
+void ContainerSource::notifyContainerContentsChanged(const QSet<DataObject*>* added,
+                                                     const QSet<DataObject*>* removed)
 {
-    emit container_contents_altered(added, removed);
+    emit containerContentsChanged(added, removed);
 }
 
 /*!
- * \brief ContainerSource::on_contents_altered
+ * \brief ContainerSource::onContentsChanged
  * \param added
  * \param removed
  */
-void ContainerSource::on_contents_altered(const QSet<DataObject*>* added,
-                                          const QSet<DataObject*>* removed)
+void ContainerSource::onContentsChanged(const QSet<DataObject*>* added,
+                                        const QSet<DataObject*>* removed)
 {
-    notify_container_contents_altered(added, removed);
+    notifyContainerContentsChanged(added, removed);
 }

@@ -17,22 +17,21 @@
  * Jim Nelson <jim@yorba.org>
  */
 
+#include "data-object.h"
+
 #include <QQmlEngine>
 
-#include "data-object.h"
-#include "gallery-application.h"
-
-DataObjectNumber DataObject::next_number_ = 0;
+DataObjectNumber DataObject::m_nextNumber = 0;
 
 /*!
  * \brief DataObject::DataObject
  * \param parent
  */
 DataObject::DataObject(QObject * parent)
-    : QObject(parent), number_(next_number_++)
+    : QObject(parent), m_number(m_nextNumber++)
 {
     // All DataObjects are registered as C++ ownership; QML should never GC them
-    GalleryApplication::instance()->setObjectOwnership(this, QQmlEngine::CppOwnership);
+    QQmlEngine::setObjectOwnership(this, QQmlEngine::CppOwnership);
 }
 
 /*!
@@ -44,5 +43,5 @@ DataObject::DataObject(QObject * parent)
  */
 DataObjectNumber DataObject::number() const
 {
-    return number_;
+    return m_number;
 }

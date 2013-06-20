@@ -21,7 +21,7 @@
 #include <QStringList>
 #include <QtTest>
 
-#include "core/command-line-parser.h"
+#include "command-line-parser.h"
 
 class tst_CommandLineParser : public QObject
 {
@@ -56,28 +56,28 @@ void tst_CommandLineParser::is_portrait_test()
 {
     bool expect = false;
 
-    QCOMPARE(cmd_line_parser_->is_portrait(), expect);
+    QCOMPARE(cmd_line_parser_->isPortrait(), expect);
 }
 
 void tst_CommandLineParser::is_fullscreen_test()
 {
     bool expect = false;
 
-    QCOMPARE(cmd_line_parser_->is_fullscreen(), expect);
+    QCOMPARE(cmd_line_parser_->isFullscreen(), expect);
 }
 
 void tst_CommandLineParser::startup_timer_test()
 {
     bool expect = false;
 
-    QCOMPARE(cmd_line_parser_->startup_timer(), expect);
+    QCOMPARE(cmd_line_parser_->startupTimer(), expect);
 }
 
 void tst_CommandLineParser::log_image_loading_test()
 {
     bool expect = false;
 
-    QCOMPARE(cmd_line_parser_->log_image_loading(), expect);
+    QCOMPARE(cmd_line_parser_->logImageLoading(), expect);
 }
 
 void tst_CommandLineParser::process_args_test_data()
@@ -123,12 +123,12 @@ void tst_CommandLineParser::process_args_test()
     QFETCH(bool, log_image_loading);
     QFETCH(bool, invalid_arg);
 
-    bool result = test.process_args(process_args);
+    bool result = test.processArguments(process_args);
 
-    QCOMPARE(test.is_portrait(), is_portrait);
-    QCOMPARE(test.is_fullscreen(), is_fullscreen);
-    QCOMPARE(test.startup_timer(), startup_timer);
-    QCOMPARE(test.log_image_loading(), log_image_loading);
+    QCOMPARE(test.isPortrait(), is_portrait);
+    QCOMPARE(test.isFullscreen(), is_fullscreen);
+    QCOMPARE(test.startupTimer(), startup_timer);
+    QCOMPARE(test.logImageLoading(), log_image_loading);
     QCOMPARE(result, invalid_arg);
 }
 
