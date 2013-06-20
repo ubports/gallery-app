@@ -47,6 +47,8 @@ Item {
     // Whether to draw the cover (defaults to true)
     // This is used to prevent the cover from being drawn during certain transitions.
     property bool showCover: true
+    /// Show the album closed, even if marked open in the DB
+    property bool showClosed: false
     /*!
     */
     property int insideLeftPage: defaultInsideLeftPage
@@ -145,12 +147,12 @@ Item {
         animator.restart();
     }
 
-    onAlbumChanged: openFraction = (!album || album.closed ? 0 : 1)
+    onAlbumChanged: openFraction = (!album || album.closed || showClosed ? 0 : 1)
 
     Connections {
         target: album
         ignoreUnknownSignals: true
-        onClosedChanged: openFraction = (album.closed ? 0 : 1)
+        onClosedChanged: openFraction = (album.closed || showClosed ? 0 : 1)
     }
 
     Item {
