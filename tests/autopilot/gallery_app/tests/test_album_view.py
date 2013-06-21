@@ -83,7 +83,8 @@ class TestAlbumView(GalleryTestCase):
         add_button = self.media_selector.get_toolbar_add_button()
         self.click_item(add_button)
 
-        self.assertThat(lambda: self.album_view.number_of_photos(),
+        self.assertThat(
+            lambda: self.album_view.number_of_photos(),
             Eventually(Equals(num_photos_start + 1)))
 
     def test_add_photo_to_new_album(self):
@@ -105,5 +106,6 @@ class TestAlbumView(GalleryTestCase):
         add_button = self.media_selector.get_toolbar_add_button()
         self.click_item(add_button, delay=0.5)
 
-        self.assertThat(lambda: self.album_view.number_of_photos(),
+        self.assertThat(
+            lambda: self.album_view.number_of_photos(),
             Eventually(Equals(num_photos_start + 1)))

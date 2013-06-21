@@ -28,11 +28,11 @@ class GalleryTestCase(AutopilotTestCase):
 
     if model() == 'Desktop':
         scenarios = [
-        ('with mouse', dict(input_device_class=Mouse)),
+            ('with mouse', dict(input_device_class=Mouse)),
         ]
     else:
         scenarios = [
-        ('with touch', dict(input_device_class=Touch)),
+            ('with touch', dict(input_device_class=Touch)),
         ]
 
     sample_destination_dir = "/tmp/gallery-ap_sd"
