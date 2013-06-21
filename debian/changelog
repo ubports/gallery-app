@@ -1,3 +1,18 @@
+gallery-app (0.0.67daily13.06.21-0ubuntu1) saucy; urgency=low
+
+  [ tpeeters ]
+  * Use new toolbar API.
+
+  [ Guenter Schwann ]
+  * Play automatically when directly launching the video. (LP: #1170052)
+  * Album picker can add an album. (LP: #1163403)
+  * New arrangement for the qml files and cleanups.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 741
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 21 Jun 2013 07:09:21 +0000
+
 gallery-app (0.0.67daily13.06.19-0ubuntu1) saucy; urgency=low
 
   [ Guenter Schwann ]
