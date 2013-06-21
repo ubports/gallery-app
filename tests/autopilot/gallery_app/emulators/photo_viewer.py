@@ -94,7 +94,8 @@ class PhotoViewer(GalleryUtils):
 
     def get_crop_overlay(self):
         """Returns the crop overlay."""
-        return self.select_single_retry("CropOverlay", objectName="cropOverlay")
+        return self.select_single_retry("CropOverlay",
+                                        objectName="cropOverlay")
 
     def get_top_left_crop_corner(self):
         """Returns the top left corner of the crop overlay for dragging."""
@@ -108,4 +109,5 @@ class PhotoViewer(GalleryUtils):
 
     def get_edit_preview(self):
         """Returns the edit preview."""
-        return self.select_single_retry("EditPreview", objectName="editPreview")
+        return self.select_single_retry("EditPreview",
+                                        objectName="editPreview")
