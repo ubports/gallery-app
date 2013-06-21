@@ -18,8 +18,6 @@ from gallery_app.emulators.albums_view import AlbumsView
 from gallery_app.emulators.media_selector import MediaSelector
 from gallery_app.tests import GalleryTestCase
 
-from time import sleep
-
 
 class TestAlbumView(GalleryTestCase):
     """Tests the album view of the gallery app"""
