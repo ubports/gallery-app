@@ -802,7 +802,7 @@ void Photo::createCachedEnhanced()
     QImage enhanced_image(width, height, dest_format);
 
     for (int j = 0; j < height; j++) {
-        QApplication::processEvents();
+        //QApplication::processEvents();
         for (int i = 0; i < width; i++) {
             QColor px = enhance_txn.transformPixel(
                         QColor(unenhanced_img.pixel(i, j)));

@@ -62,6 +62,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
     def test_photo_delete_works(self):
         """Clicking the trash button must show the delete dialog."""
         trash_button = self.photo_viewer.get_toolbar_delete_button()
+        photo_viewer = self.photo_viewer.get_main_photo_viewer()
 
         self.pointing_device.move_to_object(trash_button)
         self.pointing_device.click()
@@ -88,6 +89,17 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
         self.assertThat(lambda: exists(self.sample_file),
                         Eventually(Equals(False)))
+
+        self.reveal_toolbar()
+        self.pointing_device.click_object(trash_button)
+
+        delete_dialog = self.photo_viewer.get_delete_dialog()
+        self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
+
+        delete_item = self.photo_viewer.get_delete_popover_delete_item()
+        self.click_item(delete_item)
+
+        self.assertThat(photo_viewer.visible, Eventually(Equals(False)))
 
     # def test_nav_bar_album_picker_button(self):
     #     """Clicking the album picker must show the picker dialog."""
@@ -165,6 +177,10 @@ class TestPhotoEditor(TestPhotoViewerBase):
         revert_item = self.photo_viewer.get_revert_menu_item()
         self.click_item(revert_item)
 
+    def click_enhance_item(self):
+        enhance_item = self.photo_viewer.get_auto_enhance_menu_item()
+        self.click_item(enhance_item)
+
     def test_photo_editor_crop(self):
         """Cropping a photo must crop it."""
         old_file_size = os.path.getsize(self.sample_file)
@@ -176,6 +192,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.click_crop_item()
 
         self.assertThat(crop_box.state, Eventually(Equals("shown")))
+        self.assertThat(crop_box.opacity, Eventually(Equals(1)))
 
         crop_corner = self.photo_viewer.get_top_left_crop_corner()
         x, y, h, w = crop_corner.globalRect
@@ -254,7 +271,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         # implemented properly
         sleep(1)
 
-    def test_photo_editor_redo_undo_revert_to_original_states(self):
+    def test_photo_editor_redo_undo_revert_enhance_states(self):
         undo_item = self.photo_viewer.get_undo_menu_item()
         redo_item = self.photo_viewer.get_redo_menu_item()
         revert_item = self.photo_viewer.get_revert_menu_item()
@@ -310,3 +327,11 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(undo_item.enabled, Eventually(Equals(True)))
         self.assertThat(redo_item.enabled, Eventually(Equals(False)))
         self.assertThat(revert_item.enabled, Eventually(Equals(False)))
+
+        self.click_enhance_item()
+
+        self.reveal_toolbar()
+        self.click_edit_button()
+
+        revert_item = self.photo_viewer.get_revert_menu_item()
+        self.assertThat(lambda: revert_item.enabled, Eventually(Equals(True)))
