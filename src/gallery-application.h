@@ -45,10 +45,6 @@ public:
 
     Q_INVOKABLE bool runCommand(const QString &cmd, const QString &arg);
 
-    QHash<QString, QSize>& formFactors() { return m_formFactors; }
-
-    CommandLineParser* cmdLineParser() { return m_cmdLineParser; }
-
 private:
     void registerQML();
     void createView();

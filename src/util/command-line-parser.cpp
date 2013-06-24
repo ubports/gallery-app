@@ -30,6 +30,9 @@ CommandLineParser::CommandLineParser(const QHash<QString, QSize>& form_factors)
       m_isFullscreen(false),
       m_isPortrait(false),
       m_picturesDir(""),
+      m_pickMode(false),
+      m_pickPhoto(false),
+      m_pickVideo(false),
       m_logImageLoading(false),
       m_formFactors(form_factors),
       m_formFactor("desktop")
@@ -43,7 +46,6 @@ CommandLineParser::CommandLineParser(const QHash<QString, QSize>& form_factors)
  */
 bool CommandLineParser::processArguments(const QStringList& args)
 {
-    qDebug() << "cml argument:" << args;
     bool valid_args = true;
 
     for (int i = 1; i < args.count(); ++i)
@@ -68,6 +70,14 @@ bool CommandLineParser::processArguments(const QStringList& args)
         }
         else if (args[i] == "--log-image-loading") {
             m_logImageLoading = true;
+        }
+        else if (args[i] == "--pick-photo") {
+            m_pickMode = true;
+            m_pickPhoto = true;
+        }
+        else if (args[i] == "--pick-video") {
+            m_pickMode = true;
+            m_pickVideo = true;
         }
         else {
             QString form_factor = args[i].mid(2); // minus initial "--"
@@ -108,6 +118,8 @@ void CommandLineParser::usage()
 
     out << "  --startup-timer\n\t\tdebug-print startup time" << endl;
     out << "  --log-image-loading\n\t\tlog image loading" << endl;
+    out << "  --pick-photo\n\t\tEnable mode to pick one photo" << endl;
+    out << "  --pick-video\n\t\tEnable mode to pick one video" << endl;
     out << "pictures_dir defaults to ~/Pictures, and must exist prior to running gallery" << endl;
 }
 
