@@ -192,6 +192,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.click_crop_item()
 
         self.assertThat(crop_box.state, Eventually(Equals("shown")))
+        self.assertThat(crop_box.opacity, Eventually(Equals(1)))
 
         crop_corner = self.photo_viewer.get_top_left_crop_corner()
         x, y, h, w = crop_corner.globalRect

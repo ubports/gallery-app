@@ -162,7 +162,7 @@ class GalleryTestCase(AutopilotTestCase):
 
             self.pointing_device.drag(tx, ty, tx / 8, ty)
         else:
-            self.click_item(tabs_bar)
+            self.click_item(tabs_bar, delay=0.5)
 
         albums_tab_button = self.gallery_utils.get_albums_tab_button()
         # Due to some timing issues sometimes mouse moves to the location a bit
