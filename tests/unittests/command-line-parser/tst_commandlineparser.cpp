@@ -87,6 +87,9 @@ void tst_CommandLineParser::process_args_test_data()
     QTest::addColumn<bool>("is_fullscreen");
     QTest::addColumn<bool>("startup_timer");
     QTest::addColumn<bool>("log_image_loading");
+    QTest::addColumn<bool>("pick_mode_enabled");
+    QTest::addColumn<bool>("pick_photo");
+    QTest::addColumn<bool>("pick_video");
     QTest::addColumn<bool>("invalid_arg");
 
     QStringList boolean_test;
@@ -95,6 +98,7 @@ void tst_CommandLineParser::process_args_test_data()
     boolean_test.append("--fullscreen");
     boolean_test.append("--startup-timer");
     boolean_test.append("--log-image-loading");
+    boolean_test.append("--pick-photo");
 
     QStringList invalid_arg_test;
     invalid_arg_test.append("gallery");
@@ -105,9 +109,12 @@ void tst_CommandLineParser::process_args_test_data()
     help_test.append("-h");
     help_test.append("--landscape");
 
-    QTest::newRow("Boolean member test") << boolean_test << true << true << true << true << true;
-    QTest::newRow("Invalid arg test") << invalid_arg_test << false << false << false << false << false;
-    QTest::newRow("Help test") << help_test << false << false << false << false << false;
+    QTest::newRow("Boolean member test") << boolean_test << true << true << true << true
+                                         << true << true << false << true;
+    QTest::newRow("Invalid arg test") << invalid_arg_test << false << false << false << false
+                                      << false << false << false << false;
+    QTest::newRow("Help test") << help_test << false << false << false << false
+                               << false << false << false << false;
 }
 
 void tst_CommandLineParser::process_args_test()
@@ -121,6 +128,9 @@ void tst_CommandLineParser::process_args_test()
     QFETCH(bool, is_fullscreen);
     QFETCH(bool, startup_timer);
     QFETCH(bool, log_image_loading);
+    QFETCH(bool, pick_mode_enabled);
+    QFETCH(bool, pick_photo);
+    QFETCH(bool, pick_video);
     QFETCH(bool, invalid_arg);
 
     bool result = test.processArguments(process_args);
@@ -129,6 +139,9 @@ void tst_CommandLineParser::process_args_test()
     QCOMPARE(test.isFullscreen(), is_fullscreen);
     QCOMPARE(test.startupTimer(), startup_timer);
     QCOMPARE(test.logImageLoading(), log_image_loading);
+    QCOMPARE(test.pickModeEnabled(), pick_mode_enabled);
+    QCOMPARE(test.pickPhoto(), pick_photo);
+    QCOMPARE(test.pickVideo(), pick_video);
     QCOMPARE(result, invalid_arg);
 }
 

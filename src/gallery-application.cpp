@@ -78,8 +78,8 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
 
     registerQML();
 
-    GalleryManager::instance(cmdLineParser()->picturesDir(), &m_view,
-                             cmdLineParser()->logImageLoading());
+    GalleryManager::instance(m_cmdLineParser->picturesDir(), &m_view,
+                             m_cmdLineParser->logImageLoading());
 }
 
 /*!
@@ -87,6 +87,7 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
  */
 GalleryApplication::~GalleryApplication()
 {
+    delete m_cmdLineParser;
 }
 
 /*!
@@ -138,20 +139,25 @@ void GalleryApplication::createView()
 {
     m_view.setTitle("Gallery");
 
-    QSize size = m_formFactors[cmdLineParser()->formFactor()];
+    QSize size = m_formFactors[m_cmdLineParser->formFactor()];
 
     if (m_cmdLineParser->isPortrait())
         size.transpose();
 
     m_view.setResizeMode(QQuickView::SizeRootObjectToView);
-    if (cmdLineParser()->formFactor() == "desktop") {
+    if (m_cmdLineParser->formFactor() == "desktop") {
         m_view.setMinimumSize(QSize(60 * m_bguSize, 60 * m_bguSize));
     }
 
     QQmlContext *rootContext = m_view.engine()->rootContext();
     rootContext->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
     rootContext->setContextProperty("DEVICE_HEIGHT", QVariant(size.height()));
-    rootContext->setContextProperty("FORM_FACTOR", QVariant(cmdLineParser()->formFactor()));
+    rootContext->setContextProperty("FORM_FACTOR", QVariant(m_cmdLineParser->formFactor()));
+    rootContext->setContextProperty("PICK_MODE_ENABLED", QVariant(m_cmdLineParser->pickModeEnabled()));
+    if (m_cmdLineParser->pickPhoto())
+        rootContext->setContextProperty("PICK_TYPE", QVariant(MediaSource::Photo));
+    else
+        rootContext->setContextProperty("PICK_TYPE", QVariant(MediaSource::Video));
     rootContext->setContextProperty("MAX_GL_TEXTURE_SIZE",
                                     QVariant(GalleryManager::instance()->resource()->maxTextureSize()));
 
@@ -170,7 +176,7 @@ void GalleryApplication::createView()
     QObject* rootObject = dynamic_cast<QObject*>(m_view.rootObject());
     QObject::connect(this, SIGNAL(mediaLoaded()), rootObject, SLOT(onLoaded()));
 
-    if (cmdLineParser()->isFullscreen())
+    if (m_cmdLineParser->isFullscreen())
         m_view.showFullScreen();
     else
         m_view.show();
@@ -185,7 +191,7 @@ void GalleryApplication::initCollections()
 
     emit mediaLoaded();
 
-    if (cmdLineParser()->startupTimer())
+    if (m_cmdLineParser->startupTimer())
         qDebug() << "Startup took" << m_timer.elapsed() << "milliseconds";
 }
 

@@ -26,7 +26,8 @@
 #include <QString>
 
 /*!
- * @brief The CommandLineParser is used to parse our commandline inputs and set parameters accordingly.
+ * @brief The CommandLineParser is used to parse our commandline inputs and set
+ * parameters accordingly.
  */
 class CommandLineParser
 {
@@ -35,13 +36,15 @@ public:
 
     bool processArguments(const QStringList& args);
 
-    QString picturesDir() const { return m_picturesDir; }
+    const QString &picturesDir() const { return m_picturesDir; }
     bool isPortrait() const { return m_isPortrait; }
     bool isFullscreen() const { return m_isFullscreen; }
     bool startupTimer() const { return m_startupTimer; }
     bool logImageLoading() const { return m_logImageLoading; }
-
-    QString formFactor() { return m_formFactor; }
+    bool pickModeEnabled() const { return m_pickMode; }
+    bool pickPhoto() const { return m_pickPhoto; }
+    bool pickVideo() const { return m_pickVideo; }
+    const QString &formFactor() const { return m_formFactor; }
 
 private:
     bool invalidArg(QString arg);
@@ -51,7 +54,9 @@ private:
     bool m_isFullscreen;
     bool m_isPortrait;
     QString m_picturesDir;
-
+    bool m_pickMode;
+    bool m_pickPhoto;
+    bool m_pickVideo;
     bool m_logImageLoading;
 
     const QHash<QString, QSize> m_formFactors;
