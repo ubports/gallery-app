@@ -52,6 +52,8 @@
 #include "resource.h"
 #include "sharefile.h"
 
+QElapsedTimer* GalleryApplication::m_timer = 0;
+
 /*!
  * \brief GalleryApplication::GalleryApplication
  * \param argc
@@ -65,7 +67,6 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
     if (m_bguSize <= 0)
         m_bguSize = 8;
 
-    m_timer.start();
     m_formFactors.insert("desktop", QSize(120, 80)); // In BGU.
     m_formFactors.insert("tablet", QSize(160, 100));
     m_formFactors.insert("phone", QSize(71, 40));
@@ -80,6 +81,9 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
 
     GalleryManager::instance(m_cmdLineParser->picturesDir(), &m_view,
                              m_cmdLineParser->logImageLoading());
+
+    if (m_cmdLineParser->startupTimer())
+        qDebug() << "Construct GalleryApplication" << m_timer->elapsed() << "ms";
 }
 
 /*!
@@ -99,7 +103,7 @@ int GalleryApplication::exec()
     createView();
 
     // Delay init_collections() so the main loop is running before it kicks off.
-    QTimer::singleShot(0, this, SLOT(startInitCollections()));
+    QTimer::singleShot(0, this, SLOT(initCollections()));
 
     return QApplication::exec();
 }
@@ -180,6 +184,9 @@ void GalleryApplication::createView()
         m_view.showFullScreen();
     else
         m_view.show();
+
+    if (m_cmdLineParser->startupTimer())
+        qDebug() << "GalleryApplication view created" << m_timer->elapsed() << "ms";
 }
 
 /*!
@@ -188,26 +195,24 @@ void GalleryApplication::createView()
 void GalleryApplication::initCollections()
 {
     GalleryManager::instance()->postInit();
+    if (m_cmdLineParser->startupTimer())
+        qDebug() << "GalleryManager initialized" << m_timer->elapsed() << "ms";
 
     emit mediaLoaded();
-
-    if (m_cmdLineParser->startupTimer())
-        qDebug() << "Startup took" << m_timer.elapsed() << "milliseconds";
+    if (m_cmdLineParser->startupTimer()) {
+        qDebug() << "MainView loaded" << m_timer->elapsed() << "ms";
+        qDebug() << "Startup took" << m_timer->elapsed() << "ms";
+    }
 }
 
 /*!
- * \brief GalleryApplication::startInitCollections
+ * \brief GalleryApplication::startStartupTimer
  */
-void GalleryApplication::startInitCollections()
+void GalleryApplication::startStartupTimer()
 {
-    initCollections();
+    if (!m_timer)
+        m_timer = new QElapsedTimer();
+
+    m_timer->restart();
 }
 
-/*!
- * \brief GalleryApplication::instance
- * \return
- */
-GalleryApplication* GalleryApplication::instance()
-{
-    return static_cast<GalleryApplication*>(qApp);
-}

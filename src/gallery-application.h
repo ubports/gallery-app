@@ -41,27 +41,26 @@ public:
 
     int exec();
 
-    static GalleryApplication* instance();
-
     Q_INVOKABLE bool runCommand(const QString &cmd, const QString &arg);
+
+    static void startStartupTimer();
+
+signals:
+    void mediaLoaded();
+
+private slots:
+    void initCollections();
 
 private:
     void registerQML();
     void createView();
-    void initCollections();
 
     QHash<QString, QSize> m_formFactors;
     int m_bguSize;
     QQuickView m_view;
-    QElapsedTimer m_timer;
+    static QElapsedTimer *m_timer;
 
     CommandLineParser* m_cmdLineParser;
-
-private slots:
-    void startInitCollections();
-
-signals:
-    void mediaLoaded();
 };
 
 #endif // GALLERYAPPLICATION_H
