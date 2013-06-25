@@ -203,6 +203,9 @@ void GalleryApplication::initCollections()
         qDebug() << "MainView loaded" << m_timer->elapsed() << "ms";
         qDebug() << "Startup took" << m_timer->elapsed() << "ms";
     }
+
+    delete m_timer;
+    m_timer = 0;
 }
 
 /*!
