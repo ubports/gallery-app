@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-20 12:56+0000\n"
-"PO-Revision-Date: 2013-06-17 09:32+0000\n"
+"PO-Revision-Date: 2013-06-26 05:51+0000\n"
 "Last-Translator: Demuxer <demuxer@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-21 06:08+0000\n"
-"X-Generator: Launchpad (build 16677)\n"
+"X-Launchpad-Export-Date: 2013-06-26 06:19+0000\n"
+"X-Generator: Launchpad (build 16681)\n"
 
 #: desktop/gallery-app.desktop.in:3
 msgid "Gallery"
@@ -117,7 +117,7 @@ msgstr ""
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr ""
+msgstr "Eliminar álbum y contenido"
 
 #: rc/qml/Components/MediaSelector.qml:56
 #: rc/qml/Components/MediaSelector.qml:82
@@ -240,7 +240,7 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr ""
+msgstr "Recortar;Cortar"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
@@ -256,7 +256,7 @@ msgstr "Descartar cambios"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr ""
+msgstr "Descartar todos los cambios"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
