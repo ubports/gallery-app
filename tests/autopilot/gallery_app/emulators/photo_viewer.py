@@ -34,7 +34,7 @@ class PhotoViewer(GalleryUtils):
     def get_popup_album_picker(self):
         """Returns the photo viewer album pickers."""
         return self.select_single_retry("PopupAlbumPicker",
-                                      objectName="popupAlbumPicker")
+                                        objectName="popupAlbumPicker")
 
     def get_share_dialog(self):
         """Returns the photo viewer share dialog."""
@@ -44,7 +44,7 @@ class PhotoViewer(GalleryUtils):
     def get_photo_edit_dialog(self):
         """Returns the photo edit dialog."""
         return self.select_single_retry("EditPopover",
-                                      objectName="editPopover")
+                                        objectName="editPopover")
 
     def get_photo_component(self):
         return self.select_many_retry("ZoomablePhotoComponent",
@@ -98,7 +98,8 @@ class PhotoViewer(GalleryUtils):
 
     def get_crop_overlay(self):
         """Returns the crop overlay."""
-        return self.select_single_retry("CropOverlay", objectName="cropOverlay")
+        return self.select_single_retry("CropOverlay",
+                                        objectName="cropOverlay")
 
     def get_top_left_crop_corner(self):
         """Returns the top left corner of the crop overlay for dragging."""
@@ -112,4 +113,5 @@ class PhotoViewer(GalleryUtils):
 
     def get_edit_preview(self):
         """Returns the edit preview."""
-        return self.select_single_retry("EditPreview", objectName="editPreview")
+        return self.select_single_retry("EditPreview",
+                                        objectName="editPreview")

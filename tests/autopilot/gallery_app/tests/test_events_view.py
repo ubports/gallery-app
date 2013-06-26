@@ -26,10 +26,10 @@ class TestEventsView(GalleryTestCase):
     def events_view(self):
         return EventsView(self.app)
 
-    """ This is needed to wait for the application to start.
-        In the testfarm, the application may take some time to show up."""
     def setUp(self):
         self.ARGS = []
+        # This is needed to wait for the application to start.
+        # In the testfarm, the application may take some time to show up.
         super(TestEventsView, self).setUp()
 
     def tearDown(self):

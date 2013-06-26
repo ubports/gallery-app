@@ -1,3 +1,18 @@
+gallery-app (0.0.67daily13.06.25-0ubuntu1) saucy; urgency=low
+
+  [ Omer Akram ]
+  * Add autopilot test for the auto-enhance feature in the edit dialog.
+    Also add a test to make sure that deleting the last photo in the
+    gallery take you back to the main view.
+
+  [ Guenter Schwann ]
+  * Add command line arguments for photo and video pick mode.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 748
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 25 Jun 2013 07:51:43 +0000
+
 gallery-app (0.0.67daily13.06.21-0ubuntu1) saucy; urgency=low
 
   [ tpeeters ]

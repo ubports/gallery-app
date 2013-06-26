@@ -28,11 +28,11 @@ class GalleryTestCase(AutopilotTestCase):
 
     if model() == 'Desktop':
         scenarios = [
-        ('with mouse', dict(input_device_class=Mouse)),
+            ('with mouse', dict(input_device_class=Mouse)),
         ]
     else:
         scenarios = [
-        ('with touch', dict(input_device_class=Touch)),
+            ('with touch', dict(input_device_class=Touch)),
         ]
 
     sample_destination_dir = "/tmp/gallery-ap_sd"
@@ -65,14 +65,16 @@ class GalleryTestCase(AutopilotTestCase):
             default_data_dir = self.installed_sample_dir+"/default"
             shutil.copytree(default_data_dir, self.sample_destination_dir)
             self.assertTrue(os.path.isfile(self.sample_file))
-            self.sample_file_source = default_data_dir + self.sample_file_source
+            self.sample_file_source = \
+                default_data_dir + self.sample_file_source
             self.launch_test_installed()
         else:
             self.sample_dir = self.local_sample_dir
             default_data_dir = self.local_sample_dir+"/default"
             shutil.copytree(default_data_dir, self.sample_destination_dir)
             self.assertTrue(os.path.isfile(self.sample_file))
-            self.sample_file_source = default_data_dir + self.sample_file_source
+            self.sample_file_source = \
+                default_data_dir + self.sample_file_source
             self.launch_test_local()
 
         self.addCleanup(shutil.rmtree, self.sample_destination_dir)
@@ -100,7 +102,8 @@ class GalleryTestCase(AutopilotTestCase):
                 "gallery-app",
                 *self.ARGS)
         else:
-            self.ARGS.append("--desktop_file_hint=/usr/share/applications/gallery-app.desktop")
+            self.ARGS.append("--desktop_file_hint="
+                             "/usr/share/applications/gallery-app.desktop")
             self.ARGS.append(self.sample_destination_dir)
             self.ARGS.append(app_type='qt')
             self.app = self.launch_test_application(
@@ -157,7 +160,8 @@ class GalleryTestCase(AutopilotTestCase):
     def switch_to_albums_tab(self):
         tabs_bar = self.gallery_utils.get_tabs_bar()
         tabs_bar_abs_width = self.gallery_utils.get_tabs_bar_absolute_width()
-        tabs_bar_potential_width = self.gallery_utils.get_tabs_bar_potential_width()
+        tabs_bar_potential_width = \
+            self.gallery_utils.get_tabs_bar_potential_width()
 
         if tabs_bar_abs_width == tabs_bar_potential_width:
             x, y, w, h = tabs_bar.globalRect

@@ -21,7 +21,8 @@ class AlbumView(GalleryUtils):
 
     def get_album_view(self):
         """Returns the album view"""
-        return self.select_single_retry("AlbumViewer", objectName="albumViewer")
+        return self.select_single_retry("AlbumViewer",
+                                        objectName="albumViewer")
 
     def get_toolbar_add_button(self):
         """Returns the add button of the tollbar in the events view."""

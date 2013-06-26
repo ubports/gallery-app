@@ -80,12 +80,16 @@ class GalleryUtils(object):
     def get_toolbar_cancel_icon(self):
         """Returns the cancel icon of the events view."""
         toolbar = self.get_toolbar()
-        return toolbar.select_single("Button", objectName="cancelButton", visible=True)
+        return toolbar.select_single("Button",
+                                     objectName="cancelButton",
+                                     visible=True)
 
     def get_toolbar_back_icon(self):
         """Returns the back icon of the toolbar."""
         toolbar = self.get_toolbar()
-        return toolbar.select_single("ActionItem", objectName="backButton", visible=True)
+        return toolbar.select_single("ActionItem",
+                                     objectName="backButton",
+                                     visible=True)
 
     def get_delete_dialog(self):
         """Returns the delete dialog in the events view."""

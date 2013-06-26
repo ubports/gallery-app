@@ -18,8 +18,6 @@ from gallery_app.emulators.album_view import AlbumView
 from gallery_app.emulators.media_selector import MediaSelector
 from gallery_app.tests import GalleryTestCase
 
-from time import sleep
-
 
 class TestAlbumEditor(GalleryTestCase):
     """Tests the album editor of the gallery app"""
@@ -152,7 +150,8 @@ class TestAlbumEditor(GalleryTestCase):
         """Test to change the album cover image"""
         cover_image = self.album_editor.get_album_cover_image()
         self.assertThat(
-            cover_image.source.endswith("album-cover-default-large.png"), Equals(True))
+            cover_image.source.endswith("album-cover-default-large.png"),
+            Equals(True))
 
         # click somewhere rather at the bottom of the cover
         x, y, w, h = cover_image.globalRect
@@ -163,4 +162,5 @@ class TestAlbumEditor(GalleryTestCase):
         self.click_item(green_item)
 
         self.assertThat(
-            cover_image.source.endswith("album-cover-green-large.png"), Equals(True))
+            cover_image.source.endswith("album-cover-green-large.png"),
+            Equals(True))

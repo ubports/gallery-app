@@ -22,12 +22,12 @@ class AlbumEditor(GalleryUtils):
     def get_animated_album_editor(self):
         """Returns the album editor."""
         return self.select_single_retry("AlbumEditorAnimated",
-                                         objectName="albumEditorAnimated")
+                                        objectName="albumEditorAnimated")
 
     def get_album_editor(self):
         """Returns the album editor."""
         return self.select_single_retry("AlbumEditor",
-                                         objectName="mainAlbumEditor")
+                                        objectName="mainAlbumEditor")
 
     def get_album_title_entry_field(self):
         """Returns the album title input box."""
