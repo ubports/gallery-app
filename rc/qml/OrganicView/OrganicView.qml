@@ -55,7 +55,7 @@ Page {
     property real organicMediaListPatternWidth: units.gu(49) // OrganicMediaList.patternWidth
     /*!
     */
-    property real organicMediaListMargin: units.gu(2) // OrganicMediaList.margin
+    property real organicMediaListMargin: units.gu(1)
 
     Image {
         anchors.fill: parent
@@ -79,11 +79,11 @@ Page {
         // so we also get a full row on top and bottom of the whole bunch.
         header: Item {
             width: parent.width
-            height: organicMediaListMargin / 2
+            height: organicMediaListMargin
         }
         footer: Item {
             width: parent.width
-            height: organicMediaListMargin / 2
+            height: organicMediaListMargin
         }
 
         displaced: Transition {
