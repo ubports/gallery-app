@@ -41,6 +41,7 @@ private slots:
     void clearMetadata();
     void readPhotoMetadata();
     void readVideoMetadata();
+    void enableContentLoadFilter();
 
 private:
     MediaTable *m_mediaTable;
@@ -50,7 +51,8 @@ private:
 void tst_MediaObjectFactory::init()
 {
     m_mediaTable = new MediaTable(0, 0);
-    m_factory = new MediaObjectFactory(m_mediaTable);
+    m_factory = new MediaObjectFactory();
+    m_factory->setMediaTable(m_mediaTable);
 }
 
 void tst_MediaObjectFactory::cleanup()
@@ -138,6 +140,17 @@ void tst_MediaObjectFactory::readVideoMetadata()
 {
     bool success = m_factory->readPhotoMetadata(QFileInfo("no_valid_file"));
     QCOMPARE(success, false);
+}
+
+void tst_MediaObjectFactory::enableContentLoadFilter()
+{
+    MediaSource *media = m_factory->create(QFileInfo("/some/photo.jpg"));
+    QVERIFY(media != 0);
+
+    m_factory->enableContentLoadFilter(MediaSource::Video);
+
+    media = m_factory->create(QFileInfo("/some/photo.jpg"));
+    QVERIFY(media == 0);
 }
 
 QTEST_MAIN(tst_MediaObjectFactory);

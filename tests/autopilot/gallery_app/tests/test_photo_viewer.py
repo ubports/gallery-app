@@ -31,6 +31,7 @@ class TestPhotoViewerBase(GalleryTestCase):
         return PhotoViewer(self.app)
 
     def setUp(self):
+        self.ARGS = []
         super(TestPhotoViewerBase, self).setUp()
         self.open_first_photo()
         self.reveal_toolbar()

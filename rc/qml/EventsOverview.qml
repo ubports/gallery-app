@@ -28,10 +28,6 @@ import "../js/GalleryUtility.js" as GalleryUtility
 OrganicView {
     id: organicEventView
 
-    // Arbitrary extra amount of padding so that as you scroll the tray, the
-    // photos are already loaded by the time they're on screen.
-    property real trayLoadAreaPadding: units.gu(1)
-
     /// True if in the selection mode
     property alias inSelectionMode: select.inSelectionMode
 
@@ -39,10 +35,6 @@ OrganicView {
     function leaveSelectionMode() {
         selection.unselectAll()
         selection.inSelectionMode = false
-    }
-
-    AlbumCollectionModel {
-        id: albumCollectionModel
     }
 
     selection: SelectionState {
@@ -59,10 +51,6 @@ OrganicView {
         objectName: "organicEventItem" + index
 
         width: organicEventView.width
-
-        animationDuration: organicEventView.animationDuration
-        animationEasingType: organicEventView.animationEasingType
-
         event: model.event
         selection: organicEventView.selection
 

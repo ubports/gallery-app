@@ -25,6 +25,7 @@ class TestPhotosView(GalleryTestCase):
         return AlbumsView(self.app)
 
     def setUp(self):
+        self.ARGS = []
         super(TestPhotosView, self).setUp()
         self.switch_to_albums_tab()
 

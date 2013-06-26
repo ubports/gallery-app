@@ -17,6 +17,9 @@
 #ifndef MEDIA_OBJECT_FACTORY_H_
 #define MEDIA_OBJECT_FACTORY_H_
 
+// media
+#include "media-source.h"
+
 // utils
 #include <orientation.h>
 
@@ -24,7 +27,6 @@
 #include <QFileInfo>
 #include <QSize>
 
-class MediaSource;
 class MediaTable;
 
 /*!
@@ -33,7 +35,10 @@ class MediaTable;
 class MediaObjectFactory
 {
 public:
-    explicit MediaObjectFactory(MediaTable *mediaTable);
+    explicit MediaObjectFactory();
+
+    void setMediaTable(MediaTable *mediaTable);
+    void enableContentLoadFilter(MediaSource::MediaType filterType);
 
     MediaSource *create(const QFileInfo& file);
 
@@ -48,6 +53,8 @@ private:
     QSize m_size;
     Orientation m_orientation;
     qint64 m_fileSize;
+
+    MediaSource::MediaType m_filterType;
 
     friend class tst_MediaObjectFactory;
 };

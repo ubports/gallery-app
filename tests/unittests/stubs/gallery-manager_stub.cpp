@@ -75,32 +75,34 @@ void GalleryManager::postInit()
     {
         m_defaultTemplate = new AlbumDefaultTemplate();
         m_mediaCollection = new MediaCollection();
-        m_albumCollection = new AlbumCollection();
-        m_eventCollection = new EventCollection();
 
         collectionsInitialised = true;
     }
 }
 
+AlbumCollection *GalleryManager::albumCollection()
+{
+    if (!m_albumCollection)
+        m_albumCollection = new AlbumCollection();
+
+    return m_albumCollection;
+}
+
+EventCollection *GalleryManager::eventCollection()
+{
+    if (!m_eventCollection)
+        m_eventCollection = new EventCollection;
+
+    return m_eventCollection;
+}
 GalleryManager::~GalleryManager()
 {
     delete m_standardImageProvider;
-    m_standardImageProvider = NULL;
-
     delete m_thumbnailImageProvider;
-    m_thumbnailImageProvider = NULL;
-
     delete m_defaultTemplate;
-    m_defaultTemplate = NULL;
-
     delete m_mediaCollection;
-    m_mediaCollection = NULL;
-
     delete m_albumCollection;
-    m_albumCollection = NULL;
-
     delete m_eventCollection;
-    m_eventCollection = NULL;
 }
 
 void GalleryManager::onMediaItemAdded(QFileInfo file)

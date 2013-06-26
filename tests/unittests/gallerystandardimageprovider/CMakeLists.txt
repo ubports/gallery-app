@@ -7,6 +7,7 @@ endif()
 include_directories(
     ${CMAKE_BINARY_DIR}
     ${gallery_src_SOURCE_DIR}
+    ${gallery_core_src_SOURCE_DIR}
     ${gallery_media_src_SOURCE_DIR}
     ${gallery_medialoader_src_SOURCE_DIR}
     ${gallery_util_src_SOURCE_DIR}

@@ -45,9 +45,13 @@ AlbumCollection::AlbumCollection()
         // Link each album up with its photos.
         QSet<DataObject*> photos;
         QList<qint64> photo_list;
+        MediaSource *media;
         GalleryManager::instance()->database()->getAlbumTable()->mediaForAlbum(a->id(), &photo_list);
-        foreach (qint64 mediaId, photo_list)
-            photos.insert(GalleryManager::instance()->mediaCollection()->mediaForId(mediaId));
+        foreach (qint64 mediaId, photo_list) {
+            media = GalleryManager::instance()->mediaCollection()->mediaForId(mediaId);
+            if (media)
+                photos.insert(media);
+        }
 
         a->attachMany(photos);
 

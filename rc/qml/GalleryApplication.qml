@@ -174,7 +174,10 @@ Item {
         objectName: "mainLoader"
 
         function load() {
-            source = "MainScreen.qml"
+            if (PICK_MODE_ENABLED)
+                source = "PickerScreen.qml";
+            else
+                source = "MainScreen.qml";
         }
 
         anchors.fill: parent

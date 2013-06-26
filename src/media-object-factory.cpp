@@ -33,9 +33,29 @@
  * \brief MediaObjectFactory::MediaObjectFactory
  * \param mediaTable
  */
-MediaObjectFactory::MediaObjectFactory(MediaTable *mediaTable)
-    : m_mediaTable(mediaTable)
+MediaObjectFactory::MediaObjectFactory()
+    : m_mediaTable(),
+      m_filterType(MediaSource::None)
 {
+}
+
+/*!
+ * \brief MediaObjectFactory::setMediaTable
+ * \param mediaTable
+ */
+void MediaObjectFactory::setMediaTable(MediaTable *mediaTable)
+{
+    m_mediaTable = mediaTable;
+}
+
+/*!
+ * \brief GalleryManager::enableContentLoadFilter enable filter to load only
+ * content of certain type
+ * \param filterType
+ */
+void MediaObjectFactory::enableContentLoadFilter(MediaSource::MediaType filterType)
+{
+    m_filterType = filterType;
 }
 
 /*!
@@ -53,6 +73,9 @@ MediaSource *MediaObjectFactory::create(const QFileInfo &file)
     MediaSource::MediaType mediaType = MediaSource::Photo;
     if (Video::isCameraVideo(file))
         mediaType = MediaSource::Video;
+
+    if (m_filterType != MediaSource::None && mediaType != m_filterType)
+        return 0;
 
     // Look for video in the database.
     qint64 id = m_mediaTable->getIdForMedia(file.absoluteFilePath());

@@ -30,7 +30,7 @@ OrganicView {
     /// Is true, while the animation tto show/hide the media selector is running
     property alias animationRunning: blendAnimation.running
 
-    /// Emiotted when the user clicked the add button
+    /// Emitted when the user clicked the add button
     signal addClicked()
     /// Emitted when fully shown
     signal shown()
@@ -68,10 +68,6 @@ OrganicView {
 
     delegate: OrganicMediaList {
         width: mediaSelector.width
-
-        animationDuration: mediaSelector.animationDuration
-        animationEasingType: mediaSelector.animationEasingType
-
         event: model.event
         selection: mediaSelector.selection
     }

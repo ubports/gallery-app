@@ -37,6 +37,7 @@ class TestAlbumView(GalleryTestCase):
         return MediaSelector(self.app)
 
     def setUp(self):
+        self.ARGS = []
         super(TestAlbumView, self).setUp()
         self.switch_to_albums_tab()
 

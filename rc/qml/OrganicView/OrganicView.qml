@@ -40,13 +40,6 @@ Page {
     */
     property SelectionState selection
 
-    /*!
-    */
-    property int animationDuration: Gallery.FAST_DURATION
-    /*!
-    */
-    property int animationEasingType: Easing.InQuint
-
     // readonly
     // Some duplication from OrganicMediaList, to make certain things easier.
     property int organicMediaListMediaPerPattern: 6 // OrganicMediaList.mediaPerPattern
@@ -89,8 +82,8 @@ Page {
         displaced: Transition {
             NumberAnimation {
                 properties: "x,y"
-                duration: animationDuration
-                easing.type: animationEasingType
+                duration: Gallery.FAST_DURATION
+                easing.type: Easing.InQuint
             }
         }
         // TODO: specify add and remove transitions here too.  When I tried
