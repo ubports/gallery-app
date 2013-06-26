@@ -287,11 +287,11 @@ class TestPhotoEditor(TestPhotoViewerBase):
         undo_item = self.photo_viewer.get_undo_menu_item()
         redo_item = self.photo_viewer.get_redo_menu_item()
         revert_item = self.photo_viewer.get_revert_menu_item()
-        
+
         self.assertThat(undo_item.enabled, Eventually(Equals(True)))
         self.assertThat(redo_item.enabled, Eventually(Equals(False)))
         self.assertThat(revert_item.enabled, Eventually(Equals(True)))
-        
+
         self.click_undo_item()
 
         self.reveal_toolbar()
@@ -315,7 +315,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(undo_item.enabled, Eventually(Equals(True)))
         self.assertThat(redo_item.enabled, Eventually(Equals(False)))
         self.assertThat(revert_item.enabled, Eventually(Equals(True)))
-        
+
         self.click_revert_item()
 
         self.reveal_toolbar()
