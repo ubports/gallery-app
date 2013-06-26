@@ -44,6 +44,8 @@
 // util
 #include "resource.h"
 
+#include <QElapsedTimer>
+
 #include <exiv2/exiv2.hpp>
 
 GalleryManager* GalleryManager::m_galleryManager = NULL;
@@ -101,6 +103,8 @@ void GalleryManager::postInit()
 
     if (!collectionsInitialised)
     {
+        QElapsedTimer t;
+        t.start();
         qDebug() << "Opening" << m_resource->mediaDirectories() << "...";
 
         Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute);
@@ -125,7 +129,10 @@ void GalleryManager::postInit()
         QObject::connect(m_monitor, SIGNAL(mediaItemAdded(QFileInfo)), this,
                          SLOT(onMediaItemAdded(QFileInfo)));
 
-        qDebug() << "Opened" << m_resource->mediaDirectories();
+        qDebug() << "Opened" << m_resource->mediaDirectories() << "with "
+                 << m_mediaCollection->count() << "media files in"
+                 << t.elapsed() << "ms - "
+                 <<  (qreal)t.elapsed() / (qreal)m_mediaCollection->count() << " ms per media";
     }
 }
 

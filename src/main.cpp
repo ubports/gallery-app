@@ -23,6 +23,7 @@
 
 int main(int argc, char *argv[])
 {
+    GalleryApplication::startStartupTimer();
     GalleryApplication app(argc, argv);
     return app.exec();
 }
