@@ -95,6 +95,16 @@ EventCollection *GalleryManager::eventCollection()
 
     return m_eventCollection;
 }
+
+void GalleryManager::returnPickedContent(QVariant variant)
+{
+    Q_UNUSED(variant);
+}
+
+void GalleryManager::contentPickingCanceled()
+{
+}
+
 GalleryManager::~GalleryManager()
 {
     delete m_standardImageProvider;

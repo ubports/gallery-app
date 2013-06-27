@@ -32,9 +32,6 @@
 // media
 #include "media-collection.h"
 
-// qml
-#include "qml-media-collection-model.h"
-
 // util
 #include "variants.h"
 
@@ -131,6 +128,29 @@ void Album::initInstance()
 }
 
 /*!
+ * \brief Album::mediaList2ObjectSet converts a list of MediaSource into a set
+ * of DataObjects
+ * \param mediaList
+ * \return
+ */
+QSet<DataObject *> Album::mediaList2ObjectSet(QVariant mediaList) const
+{
+    QSet<DataObject*> objectSet;
+
+    if (!mediaList.canConvert<QList<MediaSource*> >()) {
+        qWarning() << Q_FUNC_INFO << mediaList << "is not a QList<MediaSource*>";
+        return objectSet;
+    }
+
+    QList<MediaSource*> mlist = qvariant_cast<QList<MediaSource*> >(mediaList);
+    foreach (MediaSource *media, mlist) {
+        objectSet.insert(media);
+    }
+
+    return objectSet;
+}
+
+/*!
  * \brief Album::addMediaSource
  * \param vmedia
  */
@@ -142,25 +162,18 @@ void Album::addMediaSource(QVariant vmedia)
 }
 
 /*!
- * \brief Album::addSelectedMediaSources
- * \param vmodel
- * \return
+ * \brief Album::addSelectedMediaSources adds the medias in variant to the album
+ * \param mediaList A QVariant containing a QList<MediaSource*> of the medias to add
+ * \return The first media that got added in a QVariant
  */
-QVariant Album::addSelectedMediaSources(QVariant vmodel)
+QVariant Album::addSelectedMediaSources(QVariant mediaList)
 {
-    QmlMediaCollectionModel* model = VariantToObject<QmlMediaCollectionModel*>(vmodel);
-
-    // Since Events are mixed into the QmlEventOverviewModel (which is a
-    // subclass of QmlMediaCollectionModel), filter them out and only add
-    // MediaSources
-    QSet<DataObject*> media_sources =
-            FilterSetOnlyType<DataObject*, MediaSource*>(
-                model->backingViewCollection()->getSelected());
+    QSet<DataObject*> mediaSet = mediaList2ObjectSet(mediaList);
 
     // Only adding ones that aren't already in the set.
-    QSet<DataObject*> adding = media_sources - contained()->getAsSet();
+    QSet<DataObject*> adding = mediaSet - contained()->getAsSet();
 
-    attachMany(media_sources);
+    attachMany(adding);
 
     QList<DataObject*> sorted(adding.toList());
     qSort(sorted.begin(), sorted.end(), contained()->comparator());
@@ -184,15 +197,14 @@ void Album::removeMediaSource(QVariant vmedia)
 }
 
 /*!
- * \brief Album::removeSelectedMediaSources
- * \param vmodel
+ * \brief Album::removeSelectedMediaSources  removes the medias in the variant
+ * of the album
+ * \param mediaList A QVariant containing a QList<MediaSource*> of the medias to remove
  */
-void Album::removeSelectedMediaSources(QVariant vmodel)
+void Album::removeSelectedMediaSources(QVariant mediaList)
 {
-    QmlMediaCollectionModel* model = VariantToObject<QmlMediaCollectionModel*>(vmodel);
-
-    detachMany( FilterSetOnlyType<DataObject*, MediaSource*>(
-                    model->backingViewCollection()->getSelected()));
+    QSet<DataObject*> mediaSet = mediaList2ObjectSet(mediaList);
+    detachMany(mediaSet);
 }
 
 /*!

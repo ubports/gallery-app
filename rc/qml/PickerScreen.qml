@@ -101,9 +101,7 @@ MainView {
                 if (!enabled)
                     return;
 
-                // FIXME call content manager API to return selected item
-                // pass eventSelectView.selection.model to C++?
-                console.log("Picked a media")
+                MANAGER.returnPickedContent(mediaLibrary.selectedMedias);
                 Qt.quit();
             }
         }
@@ -114,8 +112,7 @@ MainView {
             objectName: "cancelButton"
             width: units.gu(10)
             onClicked: {
-                // FIXME call content manager API to return nothing
-                console.log("Canceled picking a content")
+                MANAGER.contentPickingCanceled()
                 Qt.quit();
             }
         }

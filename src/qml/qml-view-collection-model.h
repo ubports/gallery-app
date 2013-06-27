@@ -27,10 +27,12 @@
 #include <QModelIndex>
 #include <QVariant>
 
+// core
 #include <data-collection.h>
 
 class DataObject;
 class ContainerSource;
+class MediaSource;
 class SelectableViewCollection;
 class SourceCollection;
 
@@ -43,6 +45,8 @@ class QmlViewCollectionModel : public QAbstractListModel
     Q_PROPERTY(int count READ count NOTIFY countChanged)
     Q_PROPERTY(int rawCount READ rawCount NOTIFY rawCountChanged)
     Q_PROPERTY(int selectedCount READ selectedCount NOTIFY selectedCountChanged)
+    // not for use in QML directly, but QML can use it, to pass it as QVariant back to C++
+    Q_PROPERTY(QList<MediaSource*> selectedMedias READ selectedMedias NOTIFY selectionChanged)
     Q_PROPERTY(QVariant forCollection READ forCollection WRITE setForCollection
                NOTIFY backingCollectionChanged)
     Q_PROPERTY(QVariant monitorSelection READ monitorSelection
@@ -54,6 +58,7 @@ signals:
     void countChanged();
     void rawCountChanged();
     void selectedCountChanged();
+    void selectionChanged();
     void backingCollectionChanged();
     void headChanged();
     void limitChanged();
@@ -107,6 +112,8 @@ public:
     int limit() const;
     void setLimit(int limit);
     void clearLimit();
+
+    QList<MediaSource*> selectedMedias() const;
 
     SelectableViewCollection* backingViewCollection() const;
 

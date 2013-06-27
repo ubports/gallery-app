@@ -203,7 +203,7 @@ Page {
 
         onAddClicked: {
             var album  = albumEditor.album;
-            var firstPhoto = album.addSelectedMediaSources(selection.model);
+            var firstPhoto = album.addSelectedMediaSources(selection.model.selectedMedias);
         }
 
         onHidden: {

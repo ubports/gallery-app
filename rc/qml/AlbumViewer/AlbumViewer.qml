@@ -422,7 +422,7 @@ Page {
 
             onAddClicked: {
                 var album  = albumViewer.album;
-                var firstPhoto = album.addSelectedMediaSources(selection.model);
+                var firstPhoto = album.addSelectedMediaSources(selection.model.selectedMedias);
                 if (firstPhoto && albumViewer.state == "pageView") {
                     var firstChangedPage = album.getPageForMediaSource(firstPhoto);
                     var firstChangedSpread = albumSpreadViewer.getLeftHandPageNumber(firstChangedPage);

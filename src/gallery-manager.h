@@ -55,6 +55,9 @@ public:
                                     QQuickView *view = 0,
                                     const bool logImageLoading = false);
 
+    Q_INVOKABLE void returnPickedContent(QVariant variant);
+    Q_INVOKABLE void contentPickingCanceled();
+
     void enableContentLoadFilter(MediaSource::MediaType filterType);
     void postInit();
 
