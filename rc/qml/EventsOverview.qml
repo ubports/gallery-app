@@ -79,7 +79,7 @@ OrganicView {
         contentHeight: parent.height - units.gu(20)
 
         onAlbumPicked: {
-            album.addSelectedMediaSources(selection.model);
+            album.addSelectedMediaSources(selection.model.selectedMedias);
             organicEventView.leaveSelectionMode()
         }
     }

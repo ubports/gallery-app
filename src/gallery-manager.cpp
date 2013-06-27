@@ -68,6 +68,35 @@ GalleryManager* GalleryManager::instance(const QString &picturesDir,
 }
 
 /*!
+ * \brief GalleryManager::returnPickedContent passes the selcted items to the
+ * content manager
+ * \param variant
+ */
+void GalleryManager::returnPickedContent(QVariant variant)
+{
+    if (!variant.canConvert<QList<MediaSource*> >()) {
+        qWarning() << Q_FUNC_INFO << variant << "is not a QList<MediaSource*>";
+        return;
+    }
+
+    QList<MediaSource*> sources = qvariant_cast<QList<MediaSource*> >(variant);
+
+    foreach (const MediaSource *media, sources) {
+        //FIXME call content manager API
+        qDebug() << "Picked media:" << media->path();
+    }
+}
+
+/*!
+ * \brief GalleryManager::contentPickingCanceled tell the content manager, that
+ * the picking was canceled
+ */
+void GalleryManager::contentPickingCanceled()
+{
+    //FIXME call content manager API
+}
+
+/*!
  * \brief GalleryManager::enableContentLoadFilter enable filter to load only
  * content of certain type
  * \param filterType

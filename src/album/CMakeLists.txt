@@ -9,7 +9,6 @@ include_directories(
     # FIXME resolve the circulate dependencies
     ${gallery_src_SOURCE_DIR}/database
     ${gallery_src_SOURCE_DIR}/media
-    ${gallery_src_SOURCE_DIR}/qml
     ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
     ${GSTLIB_INCLUDE_DIRS}

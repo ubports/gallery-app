@@ -133,6 +133,8 @@ void GalleryApplication::registerQML()
     qmlRegisterType<QmlEventOverviewModel>("Gallery", 1, 0, "EventOverviewModel");
     qmlRegisterType<QmlMediaCollectionModel>("Gallery", 1, 0, "MediaCollectionModel");
     qmlRegisterType<ShareFile>("Gallery", 1, 0, "ShareFile");
+
+    qRegisterMetaType<QList<MediaSource*> >("MediaSourceList");
 }
 
 /*!
@@ -154,6 +156,7 @@ void GalleryApplication::createView()
     }
 
     QQmlContext *rootContext = m_view.engine()->rootContext();
+    rootContext->setContextProperty("MANAGER", GalleryManager::instance());
     rootContext->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
     rootContext->setContextProperty("DEVICE_HEIGHT", QVariant(size.height()));
     rootContext->setContextProperty("FORM_FACTOR", QVariant(m_cmdLineParser->formFactor()));

@@ -102,9 +102,9 @@ public:
     virtual ~Album();
 
     Q_INVOKABLE void addMediaSource(QVariant vmedia);
-    Q_INVOKABLE QVariant addSelectedMediaSources(QVariant vmodel);
+    Q_INVOKABLE QVariant addSelectedMediaSources(QVariant mediaList);
     Q_INVOKABLE void removeMediaSource(QVariant vmedia);
-    Q_INVOKABLE void removeSelectedMediaSources(QVariant vmodel);
+    Q_INVOKABLE void removeSelectedMediaSources(QVariant mediaList);
     Q_INVOKABLE QVariant getPage(int page) const;
     Q_INVOKABLE int getPageForMediaSource(QVariant vmedia) const;
     Q_INVOKABLE bool containsMedia(QVariant vmedia) const;
@@ -163,6 +163,7 @@ private slots:
 
 private:
     void initInstance();
+    QSet<DataObject*> mediaList2ObjectSet(QVariant mediaList) const;
 
     AlbumTemplate* m_albumTemplate;
     QString m_title;

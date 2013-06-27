@@ -18,10 +18,17 @@
  */
 
 #include "qml-view-collection-model.h"
+
+// core
 #include "container-source.h"
 #include "data-object.h"
 #include "selectable-view-collection.h"
-#include "util/variants.h"
+
+// media
+#include "media-source.h"
+
+// util
+#include "variants.h"
 
 /*!
  * \brief QmlViewCollectionModel::QmlViewCollectionModel
@@ -394,6 +401,22 @@ void QmlViewCollectionModel::clearLimit()
 }
 
 /*!
+ * \brief QmlViewCollectionModel::selectedMedias returns the selected media itmes
+ * \return
+ */
+QList<MediaSource*> QmlViewCollectionModel::selectedMedias() const
+{
+    QList<MediaSource*> selectedList;
+    QSet<DataObject*> totalSelection = m_view->getSelected();
+    foreach (DataObject* data, totalSelection) {
+        MediaSource *media = qobject_cast<MediaSource*>(data);
+        if (media)
+            selectedList.append(media);
+    }
+    return selectedList;
+}
+
+/*!
  * \brief QmlViewCollectionModel::setBackingViewCollection
  * \param view
  */
@@ -436,6 +459,7 @@ void QmlViewCollectionModel::setBackingViewCollection(SelectableViewCollection* 
         emit countChanged();
     }
 
+    emit selectionChanged();
     if (old_selected_count != m_view->selectedCount())
         emit selectedCountChanged();
 }
@@ -660,6 +684,7 @@ void QmlViewCollectionModel::onSelectionChanged(const QSet<DataObject*>* selecte
     if (unselected != NULL)
         notifySetChanged(unselected, SelectionRole);
 
+    emit selectionChanged();
     emit selectedCountChanged();
 }
 

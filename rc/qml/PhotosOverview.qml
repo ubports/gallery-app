@@ -89,7 +89,7 @@ Page {
 
         contentHeight: parent.height - units.gu(20)
         onAlbumPicked: {
-            album.addSelectedMediaSources(d.selection.model)
+            album.addSelectedMediaSources(d.selection.model.selectedMedias)
             photosOverview.leaveSelectionMode()
         }
     }
