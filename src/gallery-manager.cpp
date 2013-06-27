@@ -68,6 +68,16 @@ GalleryManager* GalleryManager::instance(const QString &picturesDir,
 }
 
 /*!
+ * \brief GalleryManager::enableContentLoadFilter enable filter to load only
+ * content of certain type
+ * \param filterType
+ */
+void GalleryManager::enableContentLoadFilter(MediaSource::MediaType filterType)
+{
+    m_mediaFactory->enableContentLoadFilter(filterType);
+}
+
+/*!
  * \brief GalleryManager::GalleryManager
  * \param picturesDir
  * \param view
@@ -91,6 +101,7 @@ GalleryManager::GalleryManager(const QString& picturesDir,
     m_standardImageProvider->setMaxLoadResolution(maxTextureSize);
     m_standardImageProvider->setLogging(logImageLoading);
     m_thumbnailImageProvider->setLogging(logImageLoading);
+    m_mediaFactory = new MediaObjectFactory();
 }
 
 /*!
@@ -111,13 +122,11 @@ void GalleryManager::postInit()
 
         m_database = new Database(m_resource->databaseDirectory(),
                                  m_resource->getRcUrl("sql").path());
-        m_mediaFactory = new MediaObjectFactory(m_database->getMediaTable());
+        m_mediaFactory->setMediaTable(m_database->getMediaTable());
         m_database->getMediaTable()->verifyFiles();
         m_defaultTemplate = new AlbumDefaultTemplate();
         m_mediaCollection = new MediaCollection();
         fillMediaCollection();
-        m_albumCollection = new AlbumCollection();
-        m_eventCollection = new EventCollection();
 
         collectionsInitialised = true;
 
@@ -134,6 +143,30 @@ void GalleryManager::postInit()
                  << t.elapsed() << "ms - "
                  <<  (qreal)t.elapsed() / (qreal)m_mediaCollection->count() << " ms per media";
     }
+}
+
+/*!
+ * \brief GalleryManager::albumCollection returns the collection of all albums
+ * \return
+ */
+AlbumCollection *GalleryManager::albumCollection()
+{
+    if (!m_albumCollection)
+        m_albumCollection = new AlbumCollection();
+
+    return m_albumCollection;
+}
+
+/*!
+ * \brief GalleryManager::eventCollection returns the collection of all events
+ * \return
+ */
+EventCollection *GalleryManager::eventCollection()
+{
+    if (!m_eventCollection)
+        m_eventCollection = new EventCollection;
+
+    return m_eventCollection;
 }
 
 /*!

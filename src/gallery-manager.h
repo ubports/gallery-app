@@ -20,6 +20,9 @@
 #ifndef GALLERYMANAGER_H
 #define GALLERYMANAGER_H
 
+// media
+#include "media-source.h"
+
 #include <QFileInfo>
 #include <QObject>
 
@@ -52,17 +55,18 @@ public:
                                     QQuickView *view = 0,
                                     const bool logImageLoading = false);
 
+    void enableContentLoadFilter(MediaSource::MediaType filterType);
     void postInit();
 
-    Database* database() { return m_database; }
-    AlbumDefaultTemplate* albumDefaultTemplate() { return m_defaultTemplate; }
-    MediaCollection* mediaCollection() { return m_mediaCollection; }
-    AlbumCollection* albumCollection() { return m_albumCollection; }
-    EventCollection* eventCollection() { return m_eventCollection; }
-    PreviewManager* previewManager() { return m_previewManager; }
-    Resource* resource() { return m_resource; }
-    GalleryStandardImageProvider* galleryStandardImageProvider() { return m_standardImageProvider; }
-    GalleryThumbnailImageProvider* galleryThumbnailImageProvider() { return m_thumbnailImageProvider; }
+    Database *database() { return m_database; }
+    AlbumDefaultTemplate *albumDefaultTemplate() { return m_defaultTemplate; }
+    MediaCollection *mediaCollection() { return m_mediaCollection; }
+    AlbumCollection *albumCollection();
+    EventCollection *eventCollection();
+    PreviewManager *previewManager() { return m_previewManager; }
+    Resource *resource() { return m_resource; }
+    GalleryStandardImageProvider *galleryStandardImageProvider() { return m_standardImageProvider; }
+    GalleryThumbnailImageProvider *galleryThumbnailImageProvider() { return m_thumbnailImageProvider; }
 
 private slots:
     void onMediaItemAdded(QFileInfo file);

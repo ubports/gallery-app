@@ -62,83 +62,11 @@ Page {
         fillMode: Image.Tile
     }
 
-    GridView {
+    MediaGrid {
         id: photosGrid
 
         anchors.fill: parent
-        anchors.leftMargin: units.gu(1)
-        anchors.rightMargin: units.gu(1)
-
-        /// Size of the thumbnails
-        property real thumbnailSize: units.gu(12)
-        /// Minimum space between the tumbnails
-        property real minimumSpace: units.gu(0.6)
-        /// Stores the spacing between 2 images in pixel
-        property real spacing: calculateSpacing(width)
-
-        /*!
-        Calculates the spacing that should be used, to fit the fotos horizontally nicely
-        */
-        function calculateSpacing(viewWidth) {
-            var itemSize = thumbnailSize + minimumSpace
-            var itemCount = Math.floor(viewWidth / itemSize)
-            var spareSpace = viewWidth - itemCount * itemSize
-            return (minimumSpace + spareSpace / itemCount)
-        }
-
-        cellWidth: thumbnailSize + spacing
-        cellHeight: thumbnailSize + spacing
-
-        maximumFlickVelocity: units.gu(800)
-        flickDeceleration: maximumFlickVelocity * 0.5
-
-        // Use this rather than anchors.topMargin to prevent delegates from being
-        // unloade while scrolling out of view but still partially visible
-        header: Item {
-            width: parent.width
-            height: units.gu(1)
-        }
-
-        delegate: Item {
-            objectName: "allPotosGridPhoto"
-            width: photosGrid.cellWidth
-            height: photosGrid.cellHeight
-
-            UbuntuShape {
-                id: roundedThumbnail
-
-                anchors.centerIn: parent
-
-                width: photosGrid.thumbnailSize
-                height: photosGrid.thumbnailSize
-
-                radius: "medium"
-
-                image: Image {
-                    source: mediaSource.galleryThumbnailPath
-                    asynchronous: true
-                }
-
-                OrganicItemInteraction {
-                    objectName: "photosViewPhoto"
-                    selectionItem: model.mediaSource
-                    selection: d.selection
-
-                    onPressed: {
-                        var rect = GalleryUtility.getRectRelativeTo(roundedThumbnail, photosOverview);
-                        photosOverview.mediaSourcePressed(mediaSource, rect);
-                    }
-                }
-            }
-        }
-
-        displaced: Transition {
-            NumberAnimation {
-                properties: "x,y"
-                duration: Gallery.FAST_DURATION
-                easing.type: Easing.InQuint
-            }
-        }
+        selection: d.selection
     }
 
     Component {

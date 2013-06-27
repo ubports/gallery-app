@@ -45,6 +45,8 @@ class GalleryTestCase(AutopilotTestCase):
 
     local_location = "../../src/gallery-app"
 
+    ARGS = []
+
     @property
     def gallery_utils(self):
         return GalleryUtils(self.app)
@@ -88,22 +90,25 @@ class GalleryTestCase(AutopilotTestCase):
         sleep(1)
 
     def launch_test_local(self):
+        self.ARGS.append(self.sample_destination_dir)
         self.app = self.launch_test_application(
             self.local_location,
-            self.sample_destination_dir)
+            *self.ARGS)
 
     def launch_test_installed(self):
         if model() == 'Desktop':
+            self.ARGS.append(self.sample_destination_dir)
             self.app = self.launch_test_application(
                 "gallery-app",
-                self.sample_destination_dir)
+                *self.ARGS)
         else:
+            self.ARGS.append("--desktop_file_hint="
+                             "/usr/share/applications/gallery-app.desktop")
+            self.ARGS.append(self.sample_destination_dir)
+            self.ARGS.append(app_type='qt')
             self.app = self.launch_test_application(
                 "gallery-app",
-                ("--desktop_file_hint="
-                 "/usr/share/applications/gallery-app.desktop"),
-                self.sample_destination_dir,
-                app_type='qt')
+                *self.ARGS)
 
     def ui_update(self):
         """ Gives the program the time to update the UI"""
@@ -184,6 +189,9 @@ class GalleryTestCase(AutopilotTestCase):
         self.assertThat(lambda: len(self.gallery_utils.get_all_albums()),
                         Eventually(GreaterThan(0)))
 
+        self.ensure_tabs_dont_move()
+
+    def ensure_tabs_dont_move(self):
         # FIXME find a (functional) way to test if the tabs still move
         sleep(1)
 

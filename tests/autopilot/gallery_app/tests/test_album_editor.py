@@ -35,6 +35,7 @@ class TestAlbumEditor(GalleryTestCase):
         return MediaSelector(self.app)
 
     def setUp(self):
+        self.ARGS = []
         super(TestAlbumEditor, self).setUp()
         self.switch_to_albums_tab()
         self.edit_first_album()

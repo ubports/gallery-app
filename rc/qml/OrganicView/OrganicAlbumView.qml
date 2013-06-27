@@ -83,9 +83,6 @@ OrganicView {
         anchors.left: parent.left
         anchors.leftMargin: (parent.width - photosWidth) / 2
 
-        animationDuration: organicAlbumView.animationDuration
-        animationEasingType: organicAlbumView.animationEasingType
-
         selection: organicAlbumView.selection
 
         mediaModel: MediaCollectionModel {

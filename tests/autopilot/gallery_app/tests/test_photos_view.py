@@ -17,7 +17,6 @@ from gallery_app.tests import GalleryTestCase
 from gallery_app.emulators.photos_view import PhotosView
 
 from os.path import exists
-from time import sleep
 
 
 class TestPhotosView(GalleryTestCase):
@@ -27,6 +26,7 @@ class TestPhotosView(GalleryTestCase):
         return PhotosView(self.app)
 
     def setUp(self):
+        self.ARGS = []
         super(TestPhotosView, self).setUp()
         self.switch_to_photos_tab()
 
@@ -43,10 +43,6 @@ class TestPhotosView(GalleryTestCase):
         self.click_item(photos_tab_button)
 
         self.ensure_tabs_dont_move()
-
-    def ensure_tabs_dont_move(self):
-        # FIXME find a (functional) way to test if the tabs still move
-        sleep(1)
 
     def enable_select_mode(self):
         self.reveal_toolbar()

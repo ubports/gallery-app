@@ -194,6 +194,12 @@ void GalleryApplication::createView()
  */
 void GalleryApplication::initCollections()
 {
+    if (m_cmdLineParser->pickModeEnabled()) {
+        MediaSource::MediaType filterType = MediaSource::Video;
+        if (m_cmdLineParser->pickPhoto())
+            filterType = MediaSource::Photo;
+        GalleryManager::instance()->enableContentLoadFilter(filterType);
+    }
     GalleryManager::instance()->postInit();
     if (m_cmdLineParser->startupTimer())
         qDebug() << "GalleryManager initialized" << m_timer->elapsed() << "ms";

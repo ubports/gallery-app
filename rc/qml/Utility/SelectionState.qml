@@ -25,12 +25,12 @@ import Gallery 1.0
 Item {
     id: organicSelectionState
 
-    /*!
-    */
+    /// Is true if the selection mode is active
     property bool inSelectionMode: false
-    /*!
-    */
+    /// If false, none of the selection functions has an effect
     property bool allowSelectionModeChange: true
+    /// It true, only one item can be selected
+    property bool singleSelect: false
 
     /*!
     */
@@ -39,8 +39,7 @@ Item {
     }
 
     // readonly
-    /*!
-    */
+    /// The number of currently selected items
     property int selectedCount: model.selectedCount
 
     //internal
@@ -60,14 +59,22 @@ Item {
     /*!
     */
     function toggleSelection(item) {
-        if (tryEnterSelectionMode())
-            model.toggleSelection(item);
+        if (tryEnterSelectionMode()) {
+            if (singleSelect) {
+                var select = !isSelected(item);
+                unselectAll();
+                if (select)
+                    model.toggleSelection(item);
+            }
+            else
+                model.toggleSelection(item);
+        }
     }
 
     /*!
     */
     function selectAll() {
-        if (tryEnterSelectionMode())
+        if (tryEnterSelectionMode() && !singleSelect)
             model.selectAll();
     }
 
