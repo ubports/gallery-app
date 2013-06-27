@@ -26,10 +26,6 @@ class MediaSelector(GalleryUtils):
     def get_second_photo(self):
         """Returns the second photo item"""
         selector = self.get_media_selector()
-        list_view = selector.get_children_by_type("QQuickListView")[0]
-        item = list_view.get_children_by_type("QQuickItem")[0]
-        media_list = item.get_children_by_type("OrganicMediaList")[0]
-        list_view = media_list.get_children_by_type("QQuickListView")[0]
-        item = list_view.get_children_by_type("QQuickItem")[0]
-        item = item.get_children_by_type("QQuickItem")[3]
-        return item.get_children_by_type("UbuntuShape")[0]
+        medias = selector.select_many("OrganicItemInteraction",
+                                      objectName="eventsViewPhoto")
+        return medias[1]
