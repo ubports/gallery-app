@@ -1,3 +1,13 @@
+gallery-app (0.0.67+13.10.20130627-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Better and more startup feedback.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 753
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 27 Jun 2013 05:28:13 +0000
+
 gallery-app (0.0.67+13.10.20130626-0ubuntu1) saucy; urgency=low
 
   [ Javier Collado ]
