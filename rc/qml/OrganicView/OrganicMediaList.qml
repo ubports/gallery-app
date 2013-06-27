@@ -25,75 +25,62 @@ import "../Utility"
 import "../../js/Gallery.js" as Gallery
 import "../../js/GalleryUtility.js" as GalleryUtility
 
-// An "organic" list of photos.  Used as the "tray" contents for each event in
-// the OrganicEventView, and the layout of the OrganicAlbumView.
+/*!
+An "organic" list of photos.  Used as the "tray" contents for each event in
+the OrganicEventView, and the layout of the OrganicAlbumView.
+*/
 Item {
     id: organicMediaList
     objectName: "organicMediaList"
 
-    /*!
-    */
+    ///
     signal pressed(var mediaSource, var thumbnailRect)
 
-    /*!
-    */
+    ///
     property var event
-    /*!
-    */
+    ///
     property alias mediaModel: eventView.model
-    /*!
-    */
+    ///
     property SelectionState selection
 
-    /*!
-    */
+    ///
     property int animationDuration: Gallery.FAST_DURATION
-    /*!
-    */
+    ///
     property int animationEasingType: Easing.InQuint
 
     // readonly
-    /*!
-    */
+    ///
     property int __mediaPerPattern: 6
-    /*!
-    */
+    /// Size of the bigger thumbnails
     property var __bigSize: units.gu(19)
-    /*!
-    */
+    /// Size of the smaller thumbnails
     property var __smallSize: units.gu(12)
-    /*!
-    */
+    /// Space between the thumbnails
     property real __margin: units.gu(2)
 
-    // internal
-    /*!
-    */
-    property var __photoX: [0, 0, __smallSize + __margin,
-        (__bigSize + __margin), (__bigSize + __smallSize + __margin * 2), -(__bigSize+__margin)]
-    /*!
-    */
-    property var __photoY: [0, __bigSize + __margin, __bigSize + __margin, 0, 0,
-        __smallSize + __margin]
-    /*!
-    */
-    property var __photoSize: [__bigSize, __smallSize, __smallSize, __smallSize, __smallSize,
-        __bigSize]
-    /*!
-    */
-    property var __photoWidth: [0, __smallSize + __margin, (2 * __smallSize + 2 * __margin) - (__bigSize + __margin),
-        __smallSize + __margin, __smallSize + __margin, 0]
-    /*!
-    */
-    property var __footerWidth: [0, __bigSize + __margin, __bigSize - __smallSize,
-        __bigSize - __smallSize, 0, 0]
-    /*!
-    */
+    // internal, used to get the organix effect
+    /// X-position shift for the delegates in one of the organic blocks
+    property var __photoX: [-__margin, 0, 0, 0, 0, 0]
+    /// Y-position shift for the delegates in one of the organic blocks
+    property var __photoY: [__smallSize + __margin, 0, __bigSize + __margin,
+        0, __bigSize + __margin, 0]
+    /// Size of the delegate in one of the organic blocks
+    property var __photoSize: [__bigSize,__smallSize, __smallSize,
+        __bigSize, __smallSize, __smallSize]
+    /// Size to be adapted for the organic effect
+    property var __photoWidth: [__smallSize-__margin, __bigSize - (__smallSize + __margin),
+        2 * __smallSize - __bigSize,__bigSize - (__smallSize + __margin),
+        __smallSize, 0]
+    /// Extra space on the right, for correct scroll boundary
+    property var __footerWidth: [__smallSize, __bigSize - __smallSize,
+        2 * __smallSize - __bigSize + __margin,
+        __bigSize - __smallSize, __smallSize + __margin,
+        0]
+
+    /// Used to generate a spacing between the events
     property real __photosTopMargin: __margin / 2
 
-    height: (mediaModel.count > 1) ?
-                (__bigSize + __smallSize + __photosTopMargin + __margin + __margin/2) :
-                (__bigSize + __photosTopMargin + __margin / 2)
+    height: __bigSize + __smallSize + __photosTopMargin + __margin + __margin/2
 
     Behavior on height {
         NumberAnimation {
@@ -105,7 +92,7 @@ Item {
     Component {
         id: eventHeader
         Item {
-            width: eventView.leftBuffer + __margin + __smallSize
+            width: eventView.leftBuffer + 2*__margin //+ __smallSize
             height: __smallSize
             EventCard {
                 x: eventView.leftBuffer + __margin
@@ -139,7 +126,7 @@ Item {
 
                 property bool isLoading: image.status === Image.Loading
 
-                x: patternPhoto < 5 ? __margin : -__bigSize
+                x: __photoX[patternPhoto]
                 y: __photosTopMargin + __photoY[patternPhoto]
                 width: parent.height
                 height: parent.height
@@ -220,8 +207,8 @@ Item {
         id: eventView
         // the buffers are needed, as the listview does not draw items outside is visible area
         // but for the organic effect, x and width are "displaced" for some items (first, last)
-        property int leftBuffer: __bigSize + __margin
-        property int rightBuffer: __bigSize
+        property int leftBuffer: __smallSize + __margin
+        property int rightBuffer: __smallSize
         anchors {
             top: parent.top
             bottom: parent.bottom
@@ -244,6 +231,7 @@ Item {
         orientation: Qt.Horizontal
 
         header: eventHeader
+        spacing: __margin
         delegate: thumbnailDelegate
         footer: Item {
             width: eventView.rightBuffer +

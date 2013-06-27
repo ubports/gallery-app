@@ -45,34 +45,34 @@ UbuntuShape {
     height: units.gu(12)
 
     Label {
-        id: eventDay
-
-        y: units.gu(0.5)
-        width: parent.width
-
-        font.family: "Ubuntu"
-
-        font.pixelSize: units.dp(62)
-        color: textColor
-
-        horizontalAlignment: Text.AlignHCenter
-
-        text: (event) ? Qt.formatDate(event.date, "dd") : ""
-    }
-
-    Label {
         id: eventMonthYear
 
-        y: units.gu(8.5)
+        y: units.gu(1.5)
         width: parent.width
+        height: units.gu(1)
 
         font.family: "Ubuntu"
-        fontSize: "medium"
+        font.pixelSize: units.dp(15)
         color: textColor
 
         font.capitalization: Font.AllUppercase
         horizontalAlignment: Text.AlignHCenter
 
         text: (event) ? Qt.formatDate(event.date, "MMM yyyy") : ""
+    }
+
+    Label {
+        id: eventDay
+
+        anchors.top: eventMonthYear.bottom
+        width: parent.width
+
+        font.family: "Ubuntu"
+        font.pixelSize: units.dp(67)
+        color: textColor
+
+        horizontalAlignment: Text.AlignHCenter
+
+        text: (event) ? Qt.formatDate(event.date, "dd") : ""
     }
 }
