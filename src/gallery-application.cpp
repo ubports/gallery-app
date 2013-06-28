@@ -17,10 +17,6 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-#include <QQuickItem>
-#include <QString>
-#include <QUrl>
-
 #include "gallery-application.h"
 #include "gallery-manager.h"
 
@@ -52,6 +48,11 @@
 #include "resource.h"
 #include "sharefile.h"
 
+#include <QQuickItem>
+#include <QQuickView>
+#include <QString>
+#include <QUrl>
+
 QElapsedTimer* GalleryApplication::m_timer = 0;
 
 /*!
@@ -61,7 +62,7 @@ QElapsedTimer* GalleryApplication::m_timer = 0;
  */
 GalleryApplication::GalleryApplication(int& argc, char** argv)
     : QApplication(argc, argv),
-      m_view()
+      m_view(new QQuickView())
 {
     m_bguSize = QProcessEnvironment::systemEnvironment().value("GRID_UNIT_PX", "8").toInt();
     if (m_bguSize <= 0)
@@ -79,8 +80,8 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
 
     registerQML();
 
-    GalleryManager::instance(m_cmdLineParser->picturesDir(), &m_view,
-                             m_cmdLineParser->logImageLoading());
+    m_galleryManager = new GalleryManager(m_cmdLineParser->picturesDir(), m_view);
+    m_galleryManager->logImageLoading(m_cmdLineParser->logImageLoading());
 
     if (m_cmdLineParser->startupTimer())
         qDebug() << "Construct GalleryApplication" << m_timer->elapsed() << "ms";
@@ -91,7 +92,9 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
  */
 GalleryApplication::~GalleryApplication()
 {
+    delete m_view;
     delete m_cmdLineParser;
+    delete m_galleryManager;
 }
 
 /*!
@@ -143,20 +146,20 @@ void GalleryApplication::registerQML()
  */
 void GalleryApplication::createView()
 {
-    m_view.setTitle("Gallery");
+    m_view->setTitle("Gallery");
 
     QSize size = m_formFactors[m_cmdLineParser->formFactor()];
 
     if (m_cmdLineParser->isPortrait())
         size.transpose();
 
-    m_view.setResizeMode(QQuickView::SizeRootObjectToView);
+    m_view->setResizeMode(QQuickView::SizeRootObjectToView);
     if (m_cmdLineParser->formFactor() == "desktop") {
-        m_view.setMinimumSize(QSize(60 * m_bguSize, 60 * m_bguSize));
+        m_view->setMinimumSize(QSize(60 * m_bguSize, 60 * m_bguSize));
     }
 
-    QQmlContext *rootContext = m_view.engine()->rootContext();
-    rootContext->setContextProperty("MANAGER", GalleryManager::instance());
+    QQmlContext *rootContext = m_view->engine()->rootContext();
+    rootContext->setContextProperty("MANAGER", m_galleryManager);
     rootContext->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
     rootContext->setContextProperty("DEVICE_HEIGHT", QVariant(size.height()));
     rootContext->setContextProperty("FORM_FACTOR", QVariant(m_cmdLineParser->formFactor()));
@@ -166,27 +169,27 @@ void GalleryApplication::createView()
     else
         rootContext->setContextProperty("PICK_TYPE", QVariant(MediaSource::Video));
     rootContext->setContextProperty("MAX_GL_TEXTURE_SIZE",
-                                    QVariant(GalleryManager::instance()->resource()->maxTextureSize()));
+                                    QVariant(m_galleryManager->resource()->maxTextureSize()));
 
     // Set ourselves up to expose functionality to run external commands from QML...
-    m_view.engine()->rootContext()->setContextProperty("APP", this);
+    m_view->engine()->rootContext()->setContextProperty("APP", this);
 
-    m_view.engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
-                                     GalleryManager::instance()->galleryStandardImageProvider());
-    m_view.engine()->addImageProvider(GalleryThumbnailImageProvider::PROVIDER_ID,
-                                     GalleryManager::instance()->galleryThumbnailImageProvider());
+    m_view->engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
+                                     m_galleryManager->galleryStandardImageProvider());
+    m_view->engine()->addImageProvider(GalleryThumbnailImageProvider::PROVIDER_ID,
+                                     m_galleryManager->galleryThumbnailImageProvider());
 
-    m_view.setSource(Resource::getRcUrl("qml/GalleryApplication.qml"));
-    QObject::connect(m_view.engine(), SIGNAL(quit()), this, SLOT(quit()));
+    m_view->setSource(Resource::getRcUrl("qml/GalleryApplication.qml"));
+    QObject::connect(m_view->engine(), SIGNAL(quit()), this, SLOT(quit()));
 
     // Hook up our media_loaded signal to GalleryApplication's onLoaded function.
-    QObject* rootObject = dynamic_cast<QObject*>(m_view.rootObject());
+    QObject* rootObject = dynamic_cast<QObject*>(m_view->rootObject());
     QObject::connect(this, SIGNAL(mediaLoaded()), rootObject, SLOT(onLoaded()));
 
     if (m_cmdLineParser->isFullscreen())
-        m_view.showFullScreen();
+        m_view->showFullScreen();
     else
-        m_view.show();
+        m_view->show();
 
     if (m_cmdLineParser->startupTimer())
         qDebug() << "GalleryApplication view created" << m_timer->elapsed() << "ms";
@@ -201,9 +204,9 @@ void GalleryApplication::initCollections()
         MediaSource::MediaType filterType = MediaSource::Video;
         if (m_cmdLineParser->pickPhoto())
             filterType = MediaSource::Photo;
-        GalleryManager::instance()->enableContentLoadFilter(filterType);
+        m_galleryManager->enableContentLoadFilter(filterType);
     }
-    GalleryManager::instance()->postInit();
+    m_galleryManager->postInit();
     if (m_cmdLineParser->startupTimer())
         qDebug() << "GalleryManager initialized" << m_timer->elapsed() << "ms";
 

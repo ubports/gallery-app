@@ -20,25 +20,54 @@
 #ifndef GALLERY_MEDIA_MONITOR_H_
 #define GALLERY_MEDIA_MONITOR_H_
 
-#include <QFileInfo>
 #include <QFileSystemWatcher>
 #include <QObject>
 #include <QStringList>
+#include <QThread>
 #include <QTimer>
 
+class MediaMonitorWorker;
+
 /*!
- * \brief The MediaMonitor class
+ * \brief The MediaMonitor class monitor directories for added files
+ * All it's time consuming tasks are automaticly run in a separate thread
  */
 class MediaMonitor : public QObject
 {
     Q_OBJECT
 
+public:
+    MediaMonitor(QObject *parent=0);
+    virtual ~MediaMonitor();
+
+    void startMonitoring(const QStringList& targetDirectories);
+
 signals:
-    void mediaItemAdded(QFileInfo newItem);
+    void mediaItemAdded(QString newItem);
+
+private:
+    MediaMonitorWorker* m_worker;
+    QThread m_workerThread;
+};
+
+
+/*!
+ * \brief The MediaMonitorWorker class does the actucal fiel monitoring, but is
+ * supposed to to it in a thread
+ */
+class MediaMonitorWorker : public QObject
+{
+    Q_OBJECT
 
 public:
-    MediaMonitor(const QStringList& targetDirectories);
-    virtual ~MediaMonitor();
+    MediaMonitorWorker(QObject *parent=0);
+    virtual ~MediaMonitorWorker();
+
+public slots:
+    void startMonitoring(const QStringList& targetDirectories);
+
+signals:
+    void mediaItemAdded(QString newItem);
 
 private slots:
     void onDirectoryEvent(const QString& eventSource);
@@ -48,8 +77,6 @@ private:
     static QStringList getManifest(const QStringList& dirs);
     static QStringList subtractManifest(const QStringList& m1,
                                         const QStringList& m2);
-
-    void notifyMediaItemAdded(const QString& itemPath);
 
     QStringList m_targetDirectories;
     QFileSystemWatcher m_watcher;

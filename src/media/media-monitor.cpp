@@ -27,10 +27,50 @@
  * \brief MediaMonitor::MediaMonitor
  * \param targetDirectory
  */
-MediaMonitor::MediaMonitor(const QStringList &targetDirectories)
-    : m_targetDirectories(targetDirectories),
-      m_watcher(targetDirectories),
-      m_manifest(getManifest(targetDirectories)),
+MediaMonitor::MediaMonitor(QObject *parent)
+    : QObject(parent),
+      m_workerThread(this)
+{
+    m_worker = new MediaMonitorWorker();
+    m_worker->moveToThread(&m_workerThread);
+    QObject::connect(&m_workerThread, SIGNAL(finished()),
+                     m_worker, SLOT(deleteLater()));
+
+    QObject::connect(m_worker, SIGNAL(mediaItemAdded(QString)),
+                     this, SIGNAL(mediaItemAdded(QString)), Qt::QueuedConnection);
+
+    m_workerThread.start(QThread::LowPriority);
+}
+
+/*!
+ * \brief MediaMonitor::~MediaMonitor
+ */
+MediaMonitor::~MediaMonitor()
+{
+    m_workerThread.quit();
+    m_workerThread.wait();
+}
+
+/*!
+ * \brief MediaMonitor::startMonitoring
+ * \param targetDirectories
+ */
+void MediaMonitor::startMonitoring(const QStringList &targetDirectories)
+{
+    QMetaObject::invokeMethod(m_worker, "startMonitoring", Qt::QueuedConnection,
+                              Q_ARG(QStringList, targetDirectories));
+}
+
+
+/*!
+ * \brief MediaMonitor::MediaMonitor
+ * \param targetDirectory
+ */
+MediaMonitorWorker::MediaMonitorWorker(QObject *parent)
+    : QObject(parent),
+      m_targetDirectories(),
+      m_watcher(this),
+      m_manifest(),
       m_fileActivityTimer(this)
 {
     QObject::connect(&m_watcher, SIGNAL(directoryChanged(const QString&)), this,
@@ -44,15 +84,31 @@ MediaMonitor::MediaMonitor(const QStringList &targetDirectories)
 /*!
  * \brief MediaMonitor::~MediaMonitor
  */
-MediaMonitor::~MediaMonitor()
+MediaMonitorWorker::~MediaMonitorWorker()
 {
+}
+
+/*!
+ * \brief MediaMonitor::startMonitoring
+ * \param targetDirectories
+ */
+void MediaMonitorWorker::startMonitoring(const QStringList &targetDirectories)
+{
+    QStringList newDirectories;
+    foreach (const QString& dir, targetDirectories) {
+        if (!m_targetDirectories.contains(dir))
+            newDirectories.append(dir);
+    }
+    m_targetDirectories += newDirectories;
+    m_manifest = getManifest(m_targetDirectories);
+    m_watcher.addPaths(newDirectories);
 }
 
 /*!
  * \brief MediaMonitor::onDirectoryEvent
  * \param eventSource
  */
-void MediaMonitor::onDirectoryEvent(const QString& eventSource)
+void MediaMonitorWorker::onDirectoryEvent(const QString& eventSource)
 {
     m_fileActivityTimer.start(100);
 }
@@ -60,13 +116,13 @@ void MediaMonitor::onDirectoryEvent(const QString& eventSource)
 /*!
  * \brief MediaMonitor::onFileActivityCeased
  */
-void MediaMonitor::onFileActivityCeased()
+void MediaMonitorWorker::onFileActivityCeased()
 {
     QStringList new_manifest = getManifest(m_targetDirectories);
 
     QStringList difference = subtractManifest(new_manifest, m_manifest);
     for (int i = 0; i < difference.size(); i++)
-        notifyMediaItemAdded(difference.at(i));
+        emit mediaItemAdded(difference.at(i));
 
     m_manifest = new_manifest;
 }
@@ -76,7 +132,7 @@ void MediaMonitor::onFileActivityCeased()
  * \param dir
  * \return
  */
-QStringList MediaMonitor::getManifest(const QStringList &dirs)
+QStringList MediaMonitorWorker::getManifest(const QStringList &dirs)
 {
     QStringList allFiles;
     foreach (const QString &dirName, dirs) {
@@ -95,23 +151,10 @@ QStringList MediaMonitor::getManifest(const QStringList &dirs)
  * \param m2
  * \return
  */
-QStringList MediaMonitor::subtractManifest(const QStringList& m1,
+QStringList MediaMonitorWorker::subtractManifest(const QStringList& m1,
                                             const QStringList& m2)
 {
     QSet<QString> result = QSet<QString>::fromList(m1);
-
     result.subtract(QSet<QString>::fromList(m2));
-
     return QStringList(result.toList());
-}
-
-/*!
- * \brief MediaMonitor::notifyMediaItemAdded
- * \param itemPath
- */
-void MediaMonitor::notifyMediaItemAdded(const QString& itemPath)
-{
-    QFileInfo item_info(itemPath);
-
-    emit mediaItemAdded(item_info);
 }
