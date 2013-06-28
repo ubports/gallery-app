@@ -1,3 +1,16 @@
+gallery-app (0.0.67+13.10.20130628-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Show a special UI for picking content mode.
+  * * remove qml dependency from album * get the list of selected items
+    for the content picking.
+  * Use new design for organic view. (LP: #1193001)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 757
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 28 Jun 2013 05:39:15 +0000
+
 gallery-app (0.0.67+13.10.20130627-0ubuntu1) saucy; urgency=low
 
   [ Guenter Schwann ]
