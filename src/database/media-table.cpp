@@ -289,22 +289,3 @@ void MediaTable::getRow(qint64 mediaId, QSize& size, Orientation&
     exposureDateTime.setMSecsSinceEpoch(query.value(3).toLongLong());
     originalOrientation = static_cast<Orientation>(query.value(4).toInt());
 }
-
-/*!
- * \brief MediaTable::rowNeedsUpdate
- * Returns true if row is from an older schema.  In that case, update_media()
- * should be called to repopulate the row.
- * \param mediaId
- * \return
- */
-bool MediaTable::rowNeedsUpdate(qint64 mediaId)
-{
-    QSqlQuery query(*m_db->getDB());
-    query.prepare("SELECT 1 FROM MediaTable WHERE timestamp IS NULL "
-                  "AND id = :id LIMIT 1");
-    query.bindValue(":id", mediaId);
-    if (!query.exec())
-        m_db->logSqlError(query);
-
-    return query.next();
-}

@@ -63,8 +63,6 @@ public:
 
     QDateTime getExposureTime(qint64 mediaId);
 
-    bool rowNeedsUpdate(qint64 mediaId);
-
 private:
     Database* m_db;
 };

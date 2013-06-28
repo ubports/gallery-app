@@ -98,11 +98,7 @@ MediaSource *MediaObjectFactory::create(const QFileInfo &file)
         media = video;
     }
 
-    bool needsUpdate = false;
-    if (id != INVALID_ID)
-        needsUpdate = m_mediaTable->rowNeedsUpdate(id);
-
-    if (id == INVALID_ID || needsUpdate) {
+    if (id == INVALID_ID) {
         bool metadataOk;
         if (mediaType == MediaSource::Photo) {
             metadataOk = readPhotoMetadata(photo->pristineFile());
@@ -115,15 +111,9 @@ MediaSource *MediaObjectFactory::create(const QFileInfo &file)
             return 0;
         }
 
-        if (needsUpdate) {
-            // Update DB.
-            m_mediaTable->updateMedia(id, file.absoluteFilePath(), m_timeStamp,
-                                      m_exposureTime, m_orientation, m_fileSize);
-        } else {
-            // Add to DB.
-            id = m_mediaTable->createIdForMedia(file.absoluteFilePath(), m_timeStamp,
-                                                m_exposureTime, m_orientation, m_fileSize);
-        }
+        // Add to DB.
+        id = m_mediaTable->createIdForMedia(file.absoluteFilePath(), m_timeStamp,
+                                            m_exposureTime, m_orientation, m_fileSize);
     } else {
         // Load metadata from DB.
         m_mediaTable->getRow(id, m_size, m_orientation, m_timeStamp, m_exposureTime);

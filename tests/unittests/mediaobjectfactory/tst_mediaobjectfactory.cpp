@@ -26,7 +26,6 @@
 #include <photo.h>
 
 // for controlling the fake MediaTable
-extern bool mediaFakeTableNeedsUpdate;
 extern void setOrientationOfFirstRow(Orientation orientation);
 
 class tst_MediaObjectFactory : public QObject
@@ -97,15 +96,6 @@ void tst_MediaObjectFactory::create()
     QVERIFY(photo != 0);
     QCOMPARE(photo->id(), (qint64)0);
     QCOMPARE(photo->orientation(), TOP_RIGHT_ORIGIN);
-
-    mediaFakeTableNeedsUpdate = true; // forces the update
-
-    media = m_factory->create(QFileInfo("/some/photo.jpg"));
-    photo = qobject_cast<Photo*>(media);
-    QVERIFY(photo != 0);
-    QCOMPARE(photo->id(), (qint64)0);
-    QCOMPARE(photo->orientation(), BOTTOM_LEFT_ORIGIN);
-    mediaFakeTableNeedsUpdate = false;
 }
 
 void tst_MediaObjectFactory::clearMetadata()
