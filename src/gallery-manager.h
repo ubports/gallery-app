@@ -51,9 +51,10 @@ class GalleryManager : public QObject
     Q_OBJECT
 
 public:
-    static GalleryManager* instance(const QString &picturesDir = QString(),
-                                    QQuickView *view = 0,
-                                    const bool logImageLoading = false);
+    GalleryManager(const QString &picturesDir, QQuickView *view);
+    ~GalleryManager();
+
+    static GalleryManager* instance();
 
     Q_INVOKABLE void returnPickedContent(QVariant variant);
     Q_INVOKABLE void contentPickingCanceled();
@@ -71,18 +72,18 @@ public:
     GalleryStandardImageProvider *galleryStandardImageProvider() { return m_standardImageProvider; }
     GalleryThumbnailImageProvider *galleryThumbnailImageProvider() { return m_thumbnailImageProvider; }
 
+    void logImageLoading(bool log);
+
 private slots:
-    void onMediaItemAdded(QFileInfo file);
+    void onMediaItemAdded(QString file);
 
 private:
-    GalleryManager(const QString &picturesDir, QQuickView *view, const bool logImageLoading);
-    ~GalleryManager();
-
     GalleryManager(const GalleryManager&);
     void operator=(const GalleryManager&);
 
     void initPreviewManager();
     void fillMediaCollection();
+    void startFileMonitoring();
 
     static GalleryManager* m_galleryManager;
 
