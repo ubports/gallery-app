@@ -36,7 +36,6 @@
 #include <QVariant>
 #include <QtQml>
 
-class Event;
 class GalleryManager;
 
 /*!
@@ -56,7 +55,6 @@ class MediaSource : public DataSource
     Q_PROPERTY(QDate exposureDate READ exposureDate NOTIFY exposureDateTimeChanged)
     Q_PROPERTY(QTime exposureTimeOfDay READ exposureTimeOfDay NOTIFY exposureDateTimeChanged)
     Q_PROPERTY(int exposureTime_t READ exposureTime_t NOTIFY exposureDateTimeChanged)
-    Q_PROPERTY(QVariant event READ QmlFindEvent NOTIFY eventChanged)
     Q_PROPERTY(bool busy READ busy NOTIFY busyChanged)
     Q_PROPERTY(int width READ width NOTIFY sizeChanged)
     Q_PROPERTY(int height READ height NOTIFY sizeChanged)
@@ -72,7 +70,6 @@ signals:
     void galleryThumbnailPathChanged();
     void orientationChanged();
     void exposureDateTimeChanged();
-    void eventChanged();
     void dataChanged();
     void sizeChanged();
     void busyChanged();
@@ -115,9 +112,6 @@ public:
 
     const QSize& size();
     void setSize(const QSize& size);
-
-    Event* FindEvent();
-    QVariant QmlFindEvent();
 
     qint64 id() const;
     void setId(qint64 id);

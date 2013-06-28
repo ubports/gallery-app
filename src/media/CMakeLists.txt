@@ -8,7 +8,6 @@ include_directories(
     # because of circulate dependencies the sub project can't be used directly
     # FIXME resolve the circulate dependencies
     ${gallery_src_SOURCE_DIR}/database
-    ${gallery_src_SOURCE_DIR}/event
     ${gallery_src_SOURCE_DIR}/medialoader
     ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}

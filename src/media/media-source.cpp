@@ -24,10 +24,6 @@
 #include "database.h"
 #include "media-table.h"
 
-// event
-#include "event.h"
-#include "event-collection.h"
-
 // qml
 #include "gallery-standard-image-provider.h"
 #include "gallery-thumbnail-image-provider.h"
@@ -274,24 +270,6 @@ QTime MediaSource::exposureTimeOfDay() const
 int MediaSource::exposureTime_t() const
 {
     return (int) exposureDateTime().toTime_t();
-}
-
-/*!
- * \brief MediaSource::FindEvent
- * \return
- */
-Event* MediaSource::FindEvent()
-{
-    return GalleryManager::instance()->eventCollection()->eventForMediaSource(this);
-}
-
-/*!
- * \brief MediaSource::QmlFindEvent
- * \return
- */
-QVariant MediaSource::QmlFindEvent()
-{
-    return QVariant::fromValue(FindEvent());
 }
 
 /*!
