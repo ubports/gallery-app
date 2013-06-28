@@ -147,7 +147,9 @@ void Database::setSchemaVersion(int version)
 }
 
 /*!
- * \brief Database::upgradeSchema Upgrades the schema from current_version to the latest & greatest
+ * \brief Database::upgradeSchema Upgrades the schema from current_version to
+ * the latest & greatest
+ * FIXME this should upgrade the whole DB (every row of every table)
  * \param current_version
  */
 void Database::upgradeSchema(int current_version)
