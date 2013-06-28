@@ -39,17 +39,7 @@
 
 GalleryManager* GalleryManager::m_galleryManager = NULL;
 
-GalleryManager* GalleryManager::instance(const QString &picturesDir,
-                                         QQuickView *view, const bool logImageLoading)
-{
-    if (!m_galleryManager)
-        m_galleryManager = new GalleryManager(picturesDir, view, logImageLoading);
-
-    return m_galleryManager;
-}
-
-GalleryManager::GalleryManager(const QString& picturesDir,
-                               QQuickView *view, const bool logImageLoading)
+GalleryManager::GalleryManager(const QString& picturesDir, QQuickView *view)
     : collectionsInitialised(false),
       m_resource(0),
       m_standardImageProvider(new GalleryStandardImageProvider()),
@@ -65,7 +55,11 @@ GalleryManager::GalleryManager(const QString& picturesDir,
 {
     Q_UNUSED(picturesDir);
     Q_UNUSED(view);
-    Q_UNUSED(logImageLoading);
+}
+
+GalleryManager* GalleryManager::instance()
+{
+    return m_galleryManager;
 }
 
 void GalleryManager::postInit()
@@ -121,7 +115,7 @@ GalleryManager::~GalleryManager()
     delete m_eventCollection;
 }
 
-void GalleryManager::onMediaItemAdded(QFileInfo file)
+void GalleryManager::onMediaItemAdded(QString file)
 {
     Q_UNUSED(file);
 }

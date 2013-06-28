@@ -23,10 +23,11 @@
 #include <QApplication>
 #include <QElapsedTimer>
 #include <QFileInfo>
-#include <QQuickView>
 
 class CommandLineParser;
 class GalleryManager;
+
+class QQuickView;
 
 /*!
  * \brief The GalleryApplication class
@@ -55,12 +56,14 @@ private:
     void registerQML();
     void createView();
 
+
+    QQuickView *m_view;
+    GalleryManager *m_galleryManager;
+    CommandLineParser* m_cmdLineParser;
     QHash<QString, QSize> m_formFactors;
     int m_bguSize;
-    QQuickView m_view;
-    static QElapsedTimer *m_timer;
 
-    CommandLineParser* m_cmdLineParser;
+    static QElapsedTimer *m_timer;
 };
 
 #endif // GALLERYAPPLICATION_H

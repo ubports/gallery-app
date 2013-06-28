@@ -39,7 +39,6 @@ static qint64 mediaLastId = 0;
 static QList<MediaDataRow> mediaFakeTable;
 
 // for controlling the fake MediaTable from the tests
-bool mediaFakeTableNeedsUpdate;
 void setOrientationOfFirstRow(Orientation orientation)
 {
     mediaFakeTable[0].originalOrientation = orientation;
@@ -50,7 +49,6 @@ MediaTable::MediaTable(Database* db, QObject* parent)
 {
     mediaLastId = 0;
     mediaFakeTable.clear();
-    mediaFakeTableNeedsUpdate = false;
 }
 
 void MediaTable::verifyFiles()
@@ -122,9 +120,4 @@ void MediaTable::getRow(qint64 mediaId, QSize& size, Orientation&
             return;
         }
     }
-}
-
-bool MediaTable::rowNeedsUpdate(qint64 mediaId)
-{
-    return mediaFakeTableNeedsUpdate;
 }
