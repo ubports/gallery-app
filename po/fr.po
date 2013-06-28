@@ -8,30 +8,30 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-20 12:56+0000\n"
-"PO-Revision-Date: 2013-06-20 12:19+0000\n"
-"Last-Translator: ldmpub <ldmpub@gmail.com>\n"
+"PO-Revision-Date: 2013-06-26 14:02+0000\n"
+"Last-Translator: Olivier Febwin <febwin@free.fr>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-21 06:08+0000\n"
-"X-Generator: Launchpad (build 16677)\n"
+"X-Launchpad-Export-Date: 2013-06-28 06:33+0000\n"
+"X-Generator: Launchpad (build 16681)\n"
 
 #: desktop/gallery-app.desktop.in:3
 msgid "Gallery"
-msgstr ""
+msgstr "Galerie"
 
 #: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
 msgid "Ubuntu Photo Viewer"
-msgstr ""
+msgstr "Visionneuse de photos Ubuntu"
 
 #: desktop/gallery-app.desktop.in:6
 msgid "Browse your photographs"
-msgstr ""
+msgstr "Parcourir vos photos"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:45
 msgid "Edit album"
-msgstr ""
+msgstr "Modifier l'album"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:52
 #: rc/qml/AlbumViewer/AlbumViewer.qml:489
@@ -91,11 +91,11 @@ msgstr "Ajouter"
 #: rc/qml/MediaViewer/MediaViewer.qml:467
 #: rc/qml/MediaViewer/MediaViewer.qml:518
 msgid "Back"
-msgstr ""
+msgstr "Précédent"
 
 #: rc/qml/AlbumsOverview.qml:177 rc/qml/Components/PopupAlbumPicker.qml:87
 msgid "Add new album"
-msgstr ""
+msgstr "Ajouter un nouvel album"
 
 #: rc/qml/AlbumsOverview.qml:189 rc/qml/Utility/PhotosToolbarActions.qml:46
 msgid "Camera"
@@ -113,11 +113,11 @@ msgstr "Non"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr ""
+msgstr "Supprimer l'album"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr ""
+msgstr "Supprimer l'album + les contenus"
 
 #: rc/qml/Components/MediaSelector.qml:56
 #: rc/qml/Components/MediaSelector.qml:82
@@ -130,7 +130,7 @@ msgstr "Ajouter une photo à l'album"
 
 #: rc/qml/LoadingScreen.qml:36
 msgid "Loading…"
-msgstr ""
+msgstr "Chargement…"
 
 #: rc/qml/MainScreen.qml:58
 msgid "Albums"
@@ -168,11 +168,11 @@ msgstr "Annuler"
 
 #: rc/qml/MediaViewer/EditPopover.qml:71 rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr ""
+msgstr "Rétablir"
 
 #: rc/qml/MediaViewer/EditPopover.qml:80
 msgid "Revert to original"
-msgstr ""
+msgstr "Revenir à l'original"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:250 rc/qml/PhotosOverview.qml:149
 msgid "Delete a photo"
@@ -192,11 +192,11 @@ msgstr ""
 
 #: rc/qml/MediaViewer/MediaViewer.qml:480
 msgid "Pause"
-msgstr ""
+msgstr "Pause"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:480
 msgid "Play"
-msgstr ""
+msgstr "Lecture"
 
 #: rc/qml/PhotosOverview.qml:148
 msgid "Delete photos"
@@ -228,7 +228,7 @@ msgstr "Ajuster l'image automatiquement"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr ""
+msgstr "Ajuster la photo automatiquement"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
@@ -236,7 +236,7 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr ""
+msgstr "Faire pivoter l'image dans le sens horaire"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
@@ -244,7 +244,7 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr ""
+msgstr "Recadrer l'image"
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
