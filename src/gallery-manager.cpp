@@ -40,6 +40,7 @@
 // qml
 #include "gallery-standard-image-provider.h"
 #include "gallery-thumbnail-image-provider.h"
+#include "qml-media-collection-model.h"
 
 // util
 #include "resource.h"
@@ -124,7 +125,8 @@ GalleryManager::GalleryManager(const QString& picturesDir,
       m_albumCollection(0),
       m_eventCollection(0),
       m_previewManager(0),
-      m_monitor(0)
+      m_monitor(0),
+      m_mediaLibrary(0)
 {
     const int maxTextureSize = m_resource->maxTextureSize();
     m_standardImageProvider->setMaxLoadResolution(maxTextureSize);
@@ -199,10 +201,27 @@ EventCollection *GalleryManager::eventCollection()
 }
 
 /*!
+ * \brief GalleryManager::mediaLibrary return the collection of all medias
+ * \return
+ */
+QmlMediaCollectionModel *GalleryManager::mediaLibrary() const
+{
+    if (m_mediaLibrary == 0) {
+        m_mediaLibrary = new QmlMediaCollectionModel();
+        m_mediaLibrary->setMonitored(true);
+    }
+
+    return m_mediaLibrary;
+}
+
+/*!
  * \brief GalleryManager::~GalleryManager
  */
 GalleryManager::~GalleryManager()
 {
+    delete m_mediaLibrary;
+    m_mediaLibrary = 0;
+
     delete m_monitor;
     m_monitor = 0;
 

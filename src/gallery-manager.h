@@ -41,6 +41,7 @@ class MediaCollection;
 class MediaMonitor;
 class MediaObjectFactory;
 class PreviewManager;
+class QmlMediaCollectionModel;
 class Resource;
 
 /*!
@@ -49,6 +50,8 @@ class Resource;
 class GalleryManager : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QmlMediaCollectionModel* mediaLibrary READ mediaLibrary NOTIFY mediaLibraryChanged)
+
 
 public:
     static GalleryManager* instance(const QString &picturesDir = QString(),
@@ -70,6 +73,11 @@ public:
     Resource *resource() { return m_resource; }
     GalleryStandardImageProvider *galleryStandardImageProvider() { return m_standardImageProvider; }
     GalleryThumbnailImageProvider *galleryThumbnailImageProvider() { return m_thumbnailImageProvider; }
+
+    QmlMediaCollectionModel *mediaLibrary() const;
+
+signals:
+    void mediaLibraryChanged();
 
 private slots:
     void onMediaItemAdded(QFileInfo file);
@@ -99,6 +107,8 @@ private:
     PreviewManager* m_previewManager;
     MediaObjectFactory *m_mediaFactory;
     MediaMonitor *m_monitor;
+
+    mutable QmlMediaCollectionModel *m_mediaLibrary;
 };
 
 #endif // GALLERYMANAGER_H
