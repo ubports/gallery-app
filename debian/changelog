@@ -1,3 +1,15 @@
+gallery-app (0.0.67+13.10.20130701-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Remove dependency of media on events.
+  * Remove query to update the mediatable rows at startup.
+  * Put the file monitorin an extra thread.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 762
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 01 Jul 2013 08:43:51 +0000
+
 gallery-app (0.0.67+13.10.20130628-0ubuntu1) saucy; urgency=low
 
   [ Guenter Schwann ]
