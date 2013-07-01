@@ -25,6 +25,7 @@
 
 #include <QDateTime>
 #include <QFileInfo>
+#include <QObject>
 #include <QSize>
 
 class MediaTable;
@@ -32,17 +33,27 @@ class MediaTable;
 /*!
  * \brief The MediaObjectFactory creates phot and video objects
  */
-class MediaObjectFactory
+class MediaObjectFactory : public QObject
 {
+    Q_OBJECT
+
 public:
     explicit MediaObjectFactory();
 
     void setMediaTable(MediaTable *mediaTable);
     void enableContentLoadFilter(MediaSource::MediaType filterType);
 
+    QSet<DataObject*> mediasFromDB();
+    void clear();
+
     MediaSource *create(const QFileInfo& file);
 
-private:
+private slots:
+    void addMedia(qint64 mediaId, const QString& filename, const QSize& size,
+                  const QDateTime& timestamp, const QDateTime& exposureTime,
+                  Orientation originalOrientation, qint64 filesize);
+
+private:    
     void clearMetadata();
     bool readPhotoMetadata(const QFileInfo &file);
     bool readVideoMetadata(const QFileInfo &file);
@@ -55,6 +66,8 @@ private:
     qint64 m_fileSize;
 
     MediaSource::MediaType m_filterType;
+
+    QSet<DataObject*> m_mediasFromDB;
 
     friend class tst_MediaObjectFactory;
 };

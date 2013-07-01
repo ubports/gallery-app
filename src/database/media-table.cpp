@@ -34,45 +34,6 @@ MediaTable::MediaTable(Database* db, QObject* parent)
 }
 
 /*!
- * \brief MediaTable::verifyFiles
- * Runs though the table, removes references to files
- * that have been deleted from disk.
- */
-void MediaTable::verifyFiles()
-{
-    QSqlQuery query(*m_db->getDB());
-    QList<qint64> to_delete;
-    query.prepare("SELECT id, filename FROM MediaTable");
-    if (!query.exec())
-        m_db->logSqlError(query);
-
-    // Stat each file. Make a list of files that no longer exist.
-    while (query.next()) {
-        // stat'ing and sync'ing file info over even several hundred photos is an
-        // expensive operation since it involves lots of I/O, so spin the event
-        // loop so that the UI remains responsive
-        QApplication::processEvents();
-
-        qint64 id = query.value(0).toLongLong();
-        QFile file(query.value(1).toString());
-
-        if (!file.exists())
-            to_delete.append(id);
-    }
-
-    // Delete any references to non-existent files.
-    m_db->getDB()->transaction();
-    foreach (qint64 id, to_delete) {
-        // spin the event loop so that the UI remains responsive
-        QApplication::processEvents();
-
-        remove(id);
-    }
-    
-    m_db->getDB()->commit();
-}
-
-/*!
  * \brief MediaTable::getIdForMedia Returns the row ID for the given photo.
  * \param filename
  * \return Returns the row ID for the given photo. If none exists, -1 will be returned.
@@ -260,6 +221,31 @@ QDateTime MediaTable::getExposureTime(qint64 mediaId)
     }
 
     return exposure_time;
+}
+
+/*!
+ * \brief MediaTable::emitAllRows goes through the whole DB and emits a row() signal
+ * for every single row with all the Database
+ */
+void MediaTable::emitAllRows()
+{
+    QSqlQuery query(*m_db->getDB());
+    query.prepare("SELECT * FROM MediaTable");
+    if (!query.exec())
+        m_db->logSqlError(query);
+
+    while (query.next()) {
+        qint64 id = query.value(0).toInt();
+        QString filename = query.value(1).toString();
+        QSize size(query.value(2).toInt(), query.value(3).toInt());
+        QDateTime timestamp;
+        timestamp.setMSecsSinceEpoch(query.value(4).toLongLong());
+        QDateTime exposuretime;
+        exposuretime.setMSecsSinceEpoch(query.value(5).toLongLong());
+        Orientation orientation = static_cast<Orientation>(query.value(6).toInt());
+        qint64 filesize = query.value(7).toInt();
+        emit row(id, filename, size, timestamp, exposuretime, orientation, filesize);
+    }
 }
 
 /*!

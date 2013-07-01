@@ -137,9 +137,19 @@ void MediaCollection::notifyContentsChanged(const QSet<DataObject*>* added,
  * \param file_to_load
  * \return
  */
-MediaSource *MediaCollection::mediaFromFileinfo(const QFileInfo& file)
+const MediaSource *MediaCollection::mediaFromFileinfo(const QFileInfo& file) const
 {
     return m_fileMediaMap.value(file.absoluteFilePath(), 0);
+}
+
+/*!
+ * \brief MediaCollection::containsFile
+ * \param filename
+ * \return
+ */
+bool MediaCollection::containsFile(const QString &filename) const
+{
+    return m_fileMediaMap.contains(filename);
 }
 
 /*!
@@ -153,4 +163,25 @@ void MediaCollection::addMany(const QSet<DataObject *> &objects)
     }
 
     DataCollection::addMany(objects);
+}
+
+/*!
+ * \brief MediaCollection::destroy
+ * \param media
+ */
+void MediaCollection::destroy(MediaSource *media)
+{
+    SourceCollection::destroy(media, true, true);
+}
+
+/*!
+ * \brief MediaCollection::remove
+ * \param id
+ */
+void MediaCollection::destroy(qint64 id)
+{
+    if (m_idMap.contains(id)) {
+        MediaSource *media = qobject_cast<MediaSource*>(m_idMap[id]);
+        SourceCollection::destroy(media, true, true);
+    }
 }

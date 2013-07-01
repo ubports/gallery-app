@@ -113,3 +113,8 @@ void GalleryManager::onMediaItemAdded(QString file)
 {
     Q_UNUSED(file);
 }
+
+void GalleryManager::onMediaItemRemoved(qint64 mediaId)
+{
+    Q_UNUSED(mediaId);
+}

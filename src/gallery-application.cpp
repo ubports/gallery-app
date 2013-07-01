@@ -206,7 +206,10 @@ void GalleryApplication::initCollections()
             filterType = MediaSource::Photo;
         m_galleryManager->enableContentLoadFilter(filterType);
     }
+    QApplication::processEvents();
+
     m_galleryManager->postInit();
+    QApplication::processEvents();
     if (m_cmdLineParser->startupTimer())
         qDebug() << "GalleryManager initialized" << m_timer->elapsed() << "ms";
 
@@ -230,4 +233,3 @@ void GalleryApplication::startStartupTimer()
 
     m_timer->restart();
 }
-

@@ -18,14 +18,17 @@
  */
 
 #include "media-monitor.h"
+#include "media-collection.h"
+#include "media-source.h"
 
 #include <QDir>
+#include <QElapsedTimer>
+#include <QFileInfo>
 #include <QSet>
 #include <QString>
 
 /*!
  * \brief MediaMonitor::MediaMonitor
- * \param targetDirectory
  */
 MediaMonitor::MediaMonitor(QObject *parent)
     : QObject(parent),
@@ -38,6 +41,8 @@ MediaMonitor::MediaMonitor(QObject *parent)
 
     QObject::connect(m_worker, SIGNAL(mediaItemAdded(QString)),
                      this, SIGNAL(mediaItemAdded(QString)), Qt::QueuedConnection);
+    QObject::connect(m_worker, SIGNAL(mediaItemRemoved(qint64)),
+                     this, SIGNAL(mediaItemRemoved(qint64)), Qt::QueuedConnection);
 
     m_workerThread.start(QThread::LowPriority);
 }
@@ -52,7 +57,8 @@ MediaMonitor::~MediaMonitor()
 }
 
 /*!
- * \brief MediaMonitor::startMonitoring
+ * \brief MediaMonitor::startMonitoring starts monitoring the given directories
+ * new and delted files
  * \param targetDirectories
  */
 void MediaMonitor::startMonitoring(const QStringList &targetDirectories)
@@ -61,10 +67,20 @@ void MediaMonitor::startMonitoring(const QStringList &targetDirectories)
                               Q_ARG(QStringList, targetDirectories));
 }
 
+/*!
+ * \brief MediaMonitor::checkConsitency checks the given datastructure, if it is
+ * in sync with the file system (files got added, deleted meanwhile)
+ * \param mediaCollection
+ */
+void MediaMonitor::checkConsitency(const MediaCollection *mediaCollection)
+{
+    m_worker->setMediaCollection(mediaCollection);
+    QMetaObject::invokeMethod(m_worker, "checkConsitency", Qt::QueuedConnection);
+}
+
 
 /*!
  * \brief MediaMonitor::MediaMonitor
- * \param targetDirectory
  */
 MediaMonitorWorker::MediaMonitorWorker(QObject *parent)
     : QObject(parent),
@@ -89,6 +105,15 @@ MediaMonitorWorker::~MediaMonitorWorker()
 }
 
 /*!
+ * \brief MediaMonitorWorker::setMediaCollection
+ * \param mediaCollection
+ */
+void MediaMonitorWorker::setMediaCollection(const MediaCollection *mediaCollection)
+{
+    m_mediaCollection = mediaCollection;
+}
+
+/*!
  * \brief MediaMonitor::startMonitoring
  * \param targetDirectories
  */
@@ -102,6 +127,16 @@ void MediaMonitorWorker::startMonitoring(const QStringList &targetDirectories)
     m_targetDirectories += newDirectories;
     m_manifest = getManifest(m_targetDirectories);
     m_watcher.addPaths(newDirectories);
+}
+
+/*!
+ * \brief MediaMonitorWorker::checkConsitency
+ * \param mediaCollection
+ */
+void MediaMonitorWorker::checkConsitency()
+{
+    checkForRemovedMedias();
+    checkForNewMedias();
 }
 
 /*!
@@ -120,9 +155,17 @@ void MediaMonitorWorker::onFileActivityCeased()
 {
     QStringList new_manifest = getManifest(m_targetDirectories);
 
-    QStringList difference = subtractManifest(new_manifest, m_manifest);
-    for (int i = 0; i < difference.size(); i++)
-        emit mediaItemAdded(difference.at(i));
+    QStringList added = subtractManifest(new_manifest, m_manifest);
+    for (int i = 0; i < added.size(); i++)
+        emit mediaItemAdded(added.at(i));
+
+    QStringList removed = subtractManifest(m_manifest, new_manifest);
+    for (int i = 0; i < removed.size(); i++) {
+        QFileInfo file(removed.at(i));
+        const MediaSource *media = m_mediaCollection->mediaFromFileinfo(file);
+        if (media)
+            emit mediaItemRemoved(media->id());
+    }
 
     m_manifest = new_manifest;
 }
@@ -157,4 +200,32 @@ QStringList MediaMonitorWorker::subtractManifest(const QStringList& m1,
     QSet<QString> result = QSet<QString>::fromList(m1);
     result.subtract(QSet<QString>::fromList(m2));
     return QStringList(result.toList());
+}
+
+/*!
+ * \brief MediaMonitorWorker::checkForNewMedias checks for files in the filesystem
+ * that are not in the datastructure
+ * \param mediaCollection
+ */
+void MediaMonitorWorker::checkForNewMedias()
+{
+    foreach (const QString& file, m_manifest) {
+        if (!m_mediaCollection->containsFile(file))
+            emit mediaItemAdded(file);
+    }
+}
+
+/*!
+ * \brief MediaMonitorWorker::checkForRemovedMedias checks if there are files in
+ * the datastructure, but not in the file system
+ */
+void MediaMonitorWorker::checkForRemovedMedias()
+{
+    const QList<DataObject*> medias = m_mediaCollection->getAll();
+    foreach (const DataObject* obj, medias) {
+        const MediaSource *media = qobject_cast<const MediaSource*>(obj);
+        Q_ASSERT(media);
+        if (!m_manifest.contains(media->file().absoluteFilePath()))
+            emit mediaItemRemoved(media->id());
+    }
 }

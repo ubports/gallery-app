@@ -93,7 +93,7 @@ void QmlMediaCollectionModel::destroyMedia(QVariant vmedia)
     MediaSource* media = VariantToObject<MediaSource*>(vmedia);
 
     if (media != NULL)
-        GalleryManager::instance()->mediaCollection()->destroy(media, true, true);
+        GalleryManager::instance()->mediaCollection()->destroy(media);
 }
 
 /*!
