@@ -24,8 +24,6 @@ import Gallery 1.0
 import "../../js/Gallery.js" as Gallery
 import "../../js/GalleryUtility.js" as GalleryUtility
 import "../Components"
-import "../MediaViewer"
-import "../OrganicView"
 import "../Utility"
 
 /*!
@@ -45,7 +43,7 @@ Page {
     property bool animationRunning: albumSpreadViewer.isFlipping ||
                                     removeCrossfadeAnimation.running ||
                                     albumSpreadViewerForTransition.freeze ||
-                                    photoViewer.animationRunning
+                                    photoViewerLoader.animationRunning
 
     // Automatically hide the header when album viewer becomes active
     onActiveChanged: {
@@ -60,31 +58,6 @@ Page {
     Image {
         anchors.fill: parent
         source: "../../img/background-paper.png"
-    }
-
-    state: "pageView"
-
-    states: [
-        State { name: "pageView"; },
-        State { name: "gridView"; }
-    ]
-
-    transitions: [
-        Transition { from: "pageView"; to: "gridView";
-            ParallelAnimation {
-                DissolveAnimation { fadeOutTarget: albumSpreadViewer; fadeInTarget: organicView; }
-            }
-        },
-        Transition { from: "gridView"; to: "pageView";
-            ParallelAnimation {
-                DissolveAnimation { fadeOutTarget: organicView; fadeInTarget: albumSpreadViewer; }
-            }
-        }
-    ]
-
-    onStateChanged: {
-        if (state == "pageView")
-            organicView.selection.leaveSelectionMode();
     }
 
     function crossfadeRemove() {
@@ -149,9 +122,6 @@ Page {
     function resetView(album) {
         albumViewer.album = album;
 
-        state = ""; // Prevents the animation on gridView -> pageView from happening.
-        state = "pageView";
-
         albumSpreadViewer.visible = true;
         chrome.resetVisibility(false);
         organicView.visible = false;
@@ -167,7 +137,7 @@ Page {
         album: albumViewer.album
         z: 100
         visible: freeze
-        load: parent.visible && freeze && parent.state == "pageView"
+        load: parent.visible && freeze
 
         Connections {
             target: albumSpreadViewer
@@ -190,10 +160,10 @@ Page {
         anchors.fill: parent
 
         album: albumViewer.album
-        load: parent.visible && parent.state == "pageView"
+        load: parent.visible
 
         // Keyboard focus while visible and viewer is not visible
-        focus: visible //&& !photoViewer.isPoppedUp
+        focus: visible
 
         showCover: !albumSpreadViewerForTransition.freeze
 
@@ -240,12 +210,7 @@ Page {
                 if (!hit.mediaSource)
                     return;
 
-                if (organicView.selection.inSelectionMode) {
-                    organicView.selection.toggleSelection(hit.mediaSource);
-                } else {
-                    photoViewer.forGridView = false;
-                    photoViewer.fadeOpen(hit.mediaSource);
-                }
+                photoViewerLoader.fadeOpen(hit.mediaSource);
             }
 
             // Long press/right click.
@@ -324,94 +289,52 @@ Page {
         }
     }
 
-    OrganicAlbumView {
-        id: organicView
-
+    Loader {
+        id: photoViewerLoader
         anchors.fill: parent
 
-        visible: false
+        /// Is true while the view is popping up or closing
+        property bool animationRunning: item ? item.animationRunning : false
 
-        // avoid overriding the toolbar and header
-        active: false
 
-        album: albumViewer.album
-
-        onMediaSourcePressed: {
-            var rect = GalleryUtility.translateRect(thumbnailRect, organicView, photoViewer);
-            photoViewer.forGridView = true;
-            photoViewer.animateOpen(mediaSource, rect);
+        /// Opens the view
+        function fadeOpen(media) {
+            if (status === Loader.Null)
+                setSource(Qt.resolvedUrl("../MediaViewer/PopupPhotoViewer.qml"),
+                          {model: albumCollection, album: albumViewer.album})
+            photoViewerLoader.item.fadeOpen(media)
         }
 
-        Image {
-            id: plusButton
-
-            anchors.centerIn: parent
-
-            visible: album !== null && album.containedCount == 0
-
-            source: Qt.resolvedUrl("AlbumInternals/img/album-add.png")
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: loader_mediaSelector.show()
-            }
-        }
-    }
-
-    PopupPhotoViewer {
-        id: photoViewer
-
-        // true if the grid view component is using the photo viewer, false if the
-        // album spread viewer is using it ... this should be set prior to
-        // opening the viewer
-        property bool forGridView
-        model: MediaCollectionModel {
+        MediaCollectionModel {
+            id: albumCollection
             forCollection: albumViewer.album
         }
 
-        album: albumViewer.album
+        Connections{
+            target: photoViewerLoader.item
+            onOpening: {
+                photoViewerLoader.visible = true;
+                albumViewer.active = false;
+            }
 
-        anchors.fill: parent
-        visible: false
-
-        onOpening: {
-            visible = true;
-            albumViewer.active = false;
-        }
-
-        onOpened: {
-            albumSpreadViewer.visible = false;
-            organicView.visible = false;
-        }
-
-        onCloseRequested: {
-            if (forGridView) {
-                // TODO: position organicView.
-            } else {
-                var page = albumViewer.album.getPageForMediaSource(photo);
+            onOpened: {
+                albumSpreadViewer.visible = false;
+            }
+            onCloseRequested: {
+                var page = albumViewer.album.getPageForMediaSource(photoViewerLoader.item.photo);
                 if (page >= 0) {
                     albumViewer.album.currentPage = albumSpreadViewer.getLeftHandPageNumber(page);
                     albumSpreadViewer.viewingPage = isPortrait? page : albumViewer.album.currentPage;
                 }
+
+                albumSpreadViewer.visible = true;
+                photoViewerLoader.item.fadeClosed();
+            }
+            onClosed: {
+                albumViewer.active = true;
+                photoViewerLoader.visible = false;
             }
 
-            albumSpreadViewer.visible = (albumViewer.state == "pageView");
-            organicView.visible = (albumViewer.state == "gridView");
-
-            if (forGridView) {
-                var rect = null; // TODO: get rect from organicView.
-                if (rect)
-                    animateClosed(rect);
-                else
-                    close();
-            } else {
-                fadeClosed();
-            }
-        }
-
-        onClosed: {
-            visible = false;
-            albumViewer.active = true;
         }
     }
 

@@ -36,7 +36,7 @@ class AlbumView(GalleryUtils):
     def get_album_photo_view(self):
         """Returns the photo view of the album viewer"""
         view = self.get_album_view()
-        return view.get_children_by_type("PopupPhotoViewer")[0]
+        return view.select_single("PopupPhotoViewer")
 
     def number_of_photos(self):
         """Returns the numer of visible photos"""

@@ -23,7 +23,6 @@ import Gallery 1.0
 import "../js/GalleryUtility.js" as GalleryUtility
 import "AlbumEditor"
 import "AlbumViewer"
-import "MediaViewer"
 
 /*!
 */
@@ -48,10 +47,10 @@ MainView {
             if (selectedTabIndex == 0)
                 albumsCheckerboardLoader.load();
             if (selectedTabIndex == 2)
-                photosOverview.initModel()
+                photosOverviewLoader.load();
             // prevent leaving views in selection mode
-            eventView.leaveSelectionMode()
-            photosOverview.leaveSelectionMode()
+            eventView.leaveSelectionMode();
+            photosOverviewLoader.leaveSelectionMode();
         }
 
         Tab {
@@ -105,27 +104,39 @@ MainView {
             id: photosTab
             title: i18n.tr("Photos")
             objectName: "photosView"
-            page: PhotosOverview {
-                id: photosOverview
-
+            page: Loader {
+                id: photosOverviewLoader
                 anchors.fill: parent
 
-                onMediaSourcePressed: {
-                    photoViewerLoader.load();
-
-                    var rect = GalleryUtility.translateRect(thumbnailRect,
-                                                            photosOverview, photoViewerLoader);
-                    photoViewerLoader.item.animateOpen(mediaSource, rect);
+                /// Load the PhotosOverview if not done already
+                function load() {
+                    if (status === Loader.Null)
+                        setSource(Qt.resolvedUrl("PhotosOverview.qml"),
+                                  {model: MANAGER.mediaLibrary})
                 }
 
-                // FIXME setting the title via a binding has wrong text placement at startup
-                // so it is done here as a workaround.
-                // The new implementation of the Tab header will hopefully fix this
-                onInSelectionModeChanged: {
-                    if (inSelectionMode)
-                        photosTab.title = i18n.tr("Select")
-                    else
-                        photosTab.title = i18n.tr("Photos")
+                /// Quit selection mode, and unselect all photos
+                function leaveSelectionMode() {
+                    if (item)
+                        item.leaveSelectionMode();
+                }
+
+                Connections {
+                    target: photosOverviewLoader.item
+                    onMediaSourcePressed: {
+                        photoViewerLoader.load();
+
+                        var rect = GalleryUtility.translateRect(thumbnailRect,
+                                                                photosOverviewLoader,
+                                                                photoViewerLoader);
+                        photoViewerLoader.item.animateOpen(mediaSource, rect);
+                    }
+                    onInSelectionModeChanged: {
+                        if (photosOverviewLoader.item.inSelectionMode)
+                            photosTab.title = i18n.tr("Select")
+                        else
+                            photosTab.title = i18n.tr("Photos")
+                    }
                 }
             }
         }
@@ -153,25 +164,18 @@ MainView {
         property bool loaded: photoViewerLoader.status === Loader.Ready
 
         function load() {
-            if (!sourceComponent)
-                sourceComponent = photoViewerComponent;
+            if (status === Loader.Null)
+                setSource(Qt.resolvedUrl("MediaViewer/PopupPhotoViewer.qml"),
+                          {model: MANAGER.mediaLibrary});
         }
 
         anchors.fill: parent
         z: 100
 
-        Component {
-            id: photoViewerComponent
 
-            PopupPhotoViewer {
-                id: popupPhotoViewer
-
-                model: MediaCollectionModel {
-                    monitored: true
-                }
-
-                onCloseRequested: fadeClosed()
-            }
+        Connections {
+            target: photoViewerLoader.item
+            onCloseRequested: photoViewerLoader.item.fadeClosed();
         }
     }
 
