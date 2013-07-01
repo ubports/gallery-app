@@ -297,7 +297,7 @@ Page {
         property bool animationRunning: item ? item.animationRunning : false
 
 
-        /// Opnes the view
+        /// Opens the view
         function fadeOpen(media) {
             if (status === Loader.Null)
                 setSource(Qt.resolvedUrl("../MediaViewer/PopupPhotoViewer.qml"),

@@ -69,7 +69,8 @@ GalleryManager::GalleryManager(const QString& picturesDir,
       m_albumCollection(0),
       m_eventCollection(0),
       m_previewManager(0),
-      m_monitor(0)
+      m_monitor(0),
+      m_mediaLibrary(0)
 {
     const int maxTextureSize = m_resource->maxTextureSize();
     m_standardImageProvider->setMaxLoadResolution(maxTextureSize);
@@ -240,7 +241,8 @@ EventCollection *GalleryManager::eventCollection()
 QmlMediaCollectionModel *GalleryManager::mediaLibrary() const
 {
     if (m_mediaLibrary == 0) {
-        m_mediaLibrary = new QmlMediaCollectionModel();
+        GalleryManager *self = const_cast<GalleryManager*>(this);
+        m_mediaLibrary = new QmlMediaCollectionModel(self);
         m_mediaLibrary->setMonitored(true);
     }
 
