@@ -119,12 +119,7 @@ class GalleryUtils(object):
     def get_first_image_in_event_view(self):
         """Returns the first photo of the gallery."""
         event = self.get_first_event()
-        list_view = event.get_children_by_type("QQuickListView")[0]
-        item = list_view.get_children_by_type("QQuickItem")[0]
-        first_delegate = item.get_children_by_type("QQuickItem",
-                                                   objectName="eventPhoto")[0]
-        first_photo = first_delegate.get_children_by_type("UbuntuShape")[0]
-        return first_photo
+        return event.select_many("OrganicItemInteraction")[1]
 
     def get_all_albums(self):
         """Returns all albums in the albums view"""
