@@ -52,6 +52,11 @@ class TestPhotoViewer(TestPhotoViewerBase):
     def setUp(self):
         super(TestPhotoViewer, self).setUp()
 
+    def get_delete_dialog(self):
+        delete_dialog = self.photo_viewer.get_delete_dialog()
+        self.assertThat(delete_dialog.opacity, Eventually(Equals(1)))
+        return delete_dialog
+
     def test_nav_bar_back_button(self):
         """Clicking the back button must close the photo."""
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
@@ -68,8 +73,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
         self.pointing_device.move_to_object(trash_button)
         self.pointing_device.click()
 
-        delete_dialog = self.photo_viewer.get_delete_dialog()
-        self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
+        delete_dialog = self.get_delete_dialog()
 
         cancel_item = self.photo_viewer.get_delete_popover_cancel_item()
         self.click_item(cancel_item)
@@ -82,8 +86,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
         self.pointing_device.move_to_object(trash_button)
         self.pointing_device.click()
 
-        delete_dialog = self.photo_viewer.get_delete_dialog()
-        self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
+        delete_dialog = self.get_delete_dialog()
 
         delete_item = self.photo_viewer.get_delete_popover_delete_item()
         self.click_item(delete_item)
@@ -94,8 +97,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
         self.reveal_toolbar()
         self.pointing_device.click_object(trash_button)
 
-        delete_dialog = self.photo_viewer.get_delete_dialog()
-        self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
+        delete_dialog = self.get_delete_dialog()
 
         delete_item = self.photo_viewer.get_delete_popover_delete_item()
         self.click_item(delete_item)

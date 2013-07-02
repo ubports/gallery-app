@@ -47,6 +47,11 @@ class TestEventsView(GalleryTestCase):
         first_photo = self.events_view.get_first_image_in_event_view()
         self.click_item(first_photo)
 
+    def get_delete_dialog(self):
+        delete_dialog = self.gallery_utils.get_delete_dialog()
+        self.assertThat(delete_dialog.opacity, Eventually(Equals(1)))
+        return delete_dialog
+
     def click_delete_action(self):
         trash_button = self.events_view.get_toolbar_delete_button()
         self.click_item(trash_button)
@@ -69,8 +74,7 @@ class TestEventsView(GalleryTestCase):
         self.click_first_photo()
         self.click_delete_action()
 
-        delete_dialog = self.events_view.get_delete_dialog()
-        self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
+        delete_dialog = self.get_delete_dialog()
 
         cancel_item = self.events_view.get_delete_dialog_cancel_button()
         self.click_item(cancel_item)
@@ -83,8 +87,7 @@ class TestEventsView(GalleryTestCase):
 
         self.click_delete_action()
 
-        delete_dialog = self.events_view.get_delete_dialog()
-        self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
+        delete_dialog = self.get_delete_dialog()
 
         delete_item = self.events_view.get_delete_dialog_delete_button()
         self.click_item(delete_item)
