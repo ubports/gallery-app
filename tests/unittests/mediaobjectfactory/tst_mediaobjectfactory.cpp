@@ -41,6 +41,7 @@ private slots:
     void readPhotoMetadata();
     void readVideoMetadata();
     void enableContentLoadFilter();
+    void addMedia();
 
 private:
     MediaTable *m_mediaTable;
@@ -141,6 +142,34 @@ void tst_MediaObjectFactory::enableContentLoadFilter()
 
     media = m_factory->create(QFileInfo("/some/photo.jpg"));
     QVERIFY(media == 0);
+}
+
+void tst_MediaObjectFactory::addMedia()
+{
+    qint64 id = 123;
+    QString filename("/some/photo.jpg");
+    QSize size(320, 200);
+    QDateTime timestamp(QDate(2013, 02, 03), QTime(12, 12, 12));
+    QDateTime exposureTime(QDate(2013, 03, 04), QTime(1, 2, 3));
+    Orientation originalOrientation(BOTTOM_RIGHT_ORIGIN);
+    qint64 filesize = 2048;
+
+    m_factory->addMedia(id, filename, size, timestamp,
+                                             exposureTime, originalOrientation,
+                                             filesize);
+
+    QCOMPARE(m_factory->m_mediasFromDB.size(), 1);
+    QSet<DataObject*>::iterator it;
+    it = m_factory->m_mediasFromDB.begin();
+    DataObject *obj = *it;
+    Photo *photo = qobject_cast<Photo*>(obj);
+    QVERIFY(photo != 0);
+    QCOMPARE(photo->id(), id);
+    QCOMPARE(photo->path().toLocalFile(), filename);
+    QCOMPARE(photo->size(), size);
+    QCOMPARE(photo->exposureDateTime(), exposureTime);
+    QCOMPARE(photo->fileTimestamp(), timestamp);
+    QCOMPARE(photo->orientation(), originalOrientation);
 }
 
 QTEST_MAIN(tst_MediaObjectFactory);
