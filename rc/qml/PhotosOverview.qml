@@ -38,19 +38,16 @@ Page {
     /// @param thumbnailRect is the rect, the photo thumbnails is shown in
     signal mediaSourcePressed(var mediaSource, var thumbnailRect)
 
+    /// The to show in this view
+    property MediaCollectionModel model
+
     /// True if in the selection mode
     property alias inSelectionMode: d.inSelectionMode
 
-    /// Sets the model to the grid if not done yet (lazy initialization)
-    function initModel() {
-        if (!photosGrid.model)
-            photosGrid.model = d.model
-    }
-
     /// Quit selection mode, and unselect all photos
     function leaveSelectionMode() {
-        d.selection.unselectAll()
-        d.selection.inSelectionMode = false
+        d.selection.unselectAll();
+        d.selection.inSelectionMode = false;
     }
 
     tools: inSelectionMode ? d.selectionTools : d.overviewTools
@@ -66,6 +63,7 @@ Page {
         id: photosGrid
 
         anchors.fill: parent
+        model: photosOverview.model
         selection: d.selection
     }
 
@@ -89,21 +87,17 @@ Page {
 
         contentHeight: parent.height - units.gu(20)
         onAlbumPicked: {
-            album.addSelectedMediaSources(d.selection.model.selectedMedias)
-            photosOverview.leaveSelectionMode()
+            album.addSelectedMediaSources(d.selection.model.selectedMedias);
+            photosOverview.leaveSelectionMode();
         }
     }
 
     Item {
         id: d
 
-        property MediaCollectionModel model: MediaCollectionModel {
-            monitored: true
-        }
-
         property bool inSelectionMode: selection.inSelectionMode
         property SelectionState selection: SelectionState {
-            model: d.model
+            model: photosOverview.model
         }
 
         property Item overviewTools: PhotosToolbarActions {

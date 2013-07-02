@@ -50,7 +50,8 @@ GalleryManager::GalleryManager(const QString& picturesDir, QQuickView *view)
       m_albumCollection(0),
       m_eventCollection(0),
       m_previewManager(0),
-      m_monitor(0)
+      m_monitor(0),
+      m_mediaLibrary(0)
 {
     Q_UNUSED(picturesDir);
     Q_UNUSED(view);
@@ -88,6 +89,11 @@ EventCollection *GalleryManager::eventCollection()
         m_eventCollection = new EventCollection;
 
     return m_eventCollection;
+}
+
+QmlMediaCollectionModel *GalleryManager::mediaLibrary() const
+{
+    return m_mediaLibrary;
 }
 
 void GalleryManager::returnPickedContent(QVariant variant)

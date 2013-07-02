@@ -74,13 +74,28 @@ OrganicView {
         }
     }
 
-    PopupAlbumPicker {
-        id: albumPicker
-        contentHeight: parent.height - units.gu(20)
+    Loader {
+        id: albumPickerLoader
 
-        onAlbumPicked: {
-            album.addSelectedMediaSources(selection.model.selectedMedias);
-            organicEventView.leaveSelectionMode()
+        /// Holds the target height for the conent
+        property int contentHeight: parent.height - units.gu(20)
+
+        /// Opens the album picker, at proper position for the caller
+        function show(caller) {
+            if (status === Loader.Null)
+                setSource(Qt.resolvedUrl("Components/PopupAlbumPicker.qml"),
+                          {contentHeight: albumPickerLoader.contentHeight});
+
+            albumPickerLoader.item.caller = caller
+            albumPickerLoader.item.show()
+        }
+
+        Connections {
+            target: albumPickerLoader.item
+            onAlbumPicked: {
+                album.addSelectedMediaSources(selection.model.selectedMedias);
+                organicEventView.leaveSelectionMode()
+            }
         }
     }
 
@@ -100,8 +115,7 @@ OrganicView {
             organicEventView.leaveSelectionMode();
         }
         onAddClicked: {
-            albumPicker.caller = caller
-            albumPicker.show()
+            albumPickerLoader.show(caller)
         }
         onDeleteClicked: {
             PopupUtils.open(deleteDialog, null);
