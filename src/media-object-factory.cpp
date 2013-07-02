@@ -126,13 +126,11 @@ MediaSource *MediaObjectFactory::create(const QFileInfo &file)
 
     MediaSource *media = 0;
     Photo *photo = 0;
-    Video *video = 0;
     if (mediaType == MediaSource::Photo) {
         photo = new Photo(file);
         media = photo;
     } else {
-        video = new Video(file);
-        media = video;
+        media = new Video(file);
     }
 
     if (id == INVALID_ID) {
@@ -191,13 +189,11 @@ void MediaObjectFactory::addMedia(qint64 mediaId, const QString &filename,
 
     MediaSource *media = 0;
     Photo *photo = 0;
-    Video *video = 0;
     if (mediaType == MediaSource::Photo) {
         photo = new Photo(file);
         media = photo;
     } else {
-        video = new Video(file);
-        media = video;
+        media = new Video(file);
     }
 
     media->setSize(size);
