@@ -3,7 +3,6 @@ project(gallery_util_src)
 set(GALLERY_UTIL_LIB gallery-util)
 
 include_directories(
-    ${gallery_src_SOURCE_DIR}
     ${gallery_src_BINARY_DIR}
     ${CMAKE_BINARY_DIR}
     ${GSTLIB_INCLUDE_DIRS}

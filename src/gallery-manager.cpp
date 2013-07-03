@@ -194,7 +194,7 @@ void GalleryManager::postInit()
                                  m_resource->getRcUrl("sql").path());
         m_mediaFactory->setMediaTable(m_database->getMediaTable());
         m_defaultTemplate = new AlbumDefaultTemplate();
-        m_mediaCollection = new MediaCollection();
+        m_mediaCollection = new MediaCollection(m_database->getMediaTable());
 
         initPreviewManager();
         fillMediaCollection();
@@ -215,8 +215,11 @@ void GalleryManager::postInit()
  */
 AlbumCollection *GalleryManager::albumCollection()
 {
-    if (!m_albumCollection)
-        m_albumCollection = new AlbumCollection();
+    if (!m_albumCollection) {
+        m_albumCollection = new AlbumCollection(m_mediaCollection,
+                                                m_database->getAlbumTable(),
+                                                m_defaultTemplate);
+    }
 
     return m_albumCollection;
 }
@@ -227,8 +230,19 @@ AlbumCollection *GalleryManager::albumCollection()
  */
 EventCollection *GalleryManager::eventCollection()
 {
-    if (!m_eventCollection)
+    if (!m_eventCollection) {
         m_eventCollection = new EventCollection();
+
+        // Monitor MediaCollection to create/destroy Events, one for each day of
+        // media found
+        QObject::connect(
+                    m_mediaCollection,
+                    SIGNAL(contentsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*)),
+                    m_eventCollection,
+                    SLOT(onMediaAddedRemoved(const QSet<DataObject*>*,const QSet<DataObject*>*)));
+        // seed what's already present
+        m_eventCollection->onMediaAddedRemoved(&(m_mediaCollection->getAsSet()), NULL);
+    }
 
     return m_eventCollection;
 }

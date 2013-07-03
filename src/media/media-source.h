@@ -37,6 +37,7 @@
 #include <QtQml>
 
 class GalleryManager;
+class MediaTable;
 
 /*!
  * \brief The MediaSource class
@@ -46,8 +47,6 @@ class MediaSource : public DataSource
     Q_OBJECT
     Q_PROPERTY(MediaType type READ type NOTIFY typeChanged)
     Q_PROPERTY(QUrl path READ path NOTIFY pathChanged)
-    Q_PROPERTY(QUrl previewPath READ previewPath NOTIFY previewPathChanged)
-    Q_PROPERTY(QUrl thumbnailPath READ thumbnailPath NOTIFY thumbnailPathChanged)
     Q_PROPERTY(QUrl galleryPath READ galleryPath NOTIFY galleryPathChanged)
     Q_PROPERTY(QUrl galleryPreviewPath READ galleryPreviewPath NOTIFY galleryPreviewPathChanged)
     Q_PROPERTY(QUrl galleryThumbnailPath READ galleryThumbnailPath NOTIFY galleryThumbnailPathChanged)
@@ -63,8 +62,6 @@ class MediaSource : public DataSource
 signals:
     void typeChanged();
     void pathChanged();
-    void previewPathChanged();
-    void thumbnailPathChanged();
     void galleryPathChanged();
     void galleryPreviewPathChanged();
     void galleryThumbnailPathChanged();
@@ -90,12 +87,7 @@ public:
     QUrl path() const;
     virtual QUrl galleryPath() const;
 
-    QString previewFile() const;
-    QUrl previewPath() const;
     virtual QUrl galleryPreviewPath() const;
-
-    QString thumbnailFile() const;
-    QUrl thumbnailPath() const;
     virtual QUrl galleryThumbnailPath() const;
 
     virtual QImage image(bool respectOrientation = true, const QSize &scaleSize=QSize());
@@ -117,6 +109,8 @@ public:
     void setId(qint64 id);
 
     bool busy() const;
+
+    void setMediaTable(MediaTable *mediaTable);
 
 protected:
     bool isSizeSet() const;
@@ -143,6 +137,7 @@ private:
     QDateTime m_exposureDateTime;
     QDateTime m_fileTimestamp;
     bool m_busy;
+    MediaTable *m_mediaTable;
 };
 
 QML_DECLARE_TYPE(MediaSource)

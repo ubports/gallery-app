@@ -8,6 +8,7 @@ include_directories(
     # FIXME resolve the circulate dependencies
     ${gallery_src_SOURCE_DIR}/album
     ${gallery_core_src_SOURCE_DIR}
+    ${gallery_src_SOURCE_DIR}/database
     ${gallery_src_SOURCE_DIR}/event
     ${gallery_src_SOURCE_DIR}/media
     ${gallery_util_src_SOURCE_DIR}

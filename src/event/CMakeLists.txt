@@ -3,7 +3,6 @@ project(gallery_event_src)
 set(GALLERY_EVENT_LIB gallery-event)
 
 include_directories(
-    ${gallery_src_SOURCE_DIR}
     ${gallery_core_src_SOURCE_DIR}
     # because of circulate dependencies the sub project can't be used directly
     # FIXME resolve the circulate dependencies
@@ -30,8 +29,5 @@ add_library(${GALLERY_EVENT_LIB}
 qt5_use_modules(${GALLERY_EVENT_LIB} Widgets Core Qml)
 
 target_link_libraries( ${GALLERY_EVENT_LIB}
-    gallery-core
-    gallery-media
-    gallery-util
     ${GSTLIB_LDFLAGS}
     )

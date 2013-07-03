@@ -24,9 +24,6 @@
 #include "database.h"
 #include "media-table.h"
 
-// src
-#include "gallery-manager.h"
-
 #include <QFileInfo>
 #include <QString>
 #include <QStringList>
@@ -35,8 +32,9 @@
  * \brief MediaCollection::MediaCollection
  * \param directory
  */
-MediaCollection::MediaCollection()
-    : SourceCollection("MediaCollection")
+MediaCollection::MediaCollection(MediaTable *mediaTable)
+    : SourceCollection("MediaCollection"),
+      m_mediaTable(mediaTable)
 {
     // By default, sort all media by its exposure date time, descending
     setComparator(exposureDateTimeDescendingComparator);
@@ -124,7 +122,7 @@ void MediaCollection::notifyContentsChanged(const QSet<DataObject*>* added,
             // TODO: In the future we may want to do this in the Destroy method
             // (as defined in DataSource) if we want to differentiate between
             // removing the photo and "deleting the backing file."
-            GalleryManager::instance()->database()->getMediaTable()->remove(media->id());
+            m_mediaTable->remove(media->id());
         }
     }
 }

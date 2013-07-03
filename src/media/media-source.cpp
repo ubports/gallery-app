@@ -18,7 +18,6 @@
  */
 
 #include "media-source.h"
-#include "preview-manager.h"
 
 // database
 #include "database.h"
@@ -28,16 +27,14 @@
 #include "gallery-standard-image-provider.h"
 #include "gallery-thumbnail-image-provider.h"
 
-// src
-#include "gallery-manager.h"
-
 /*!
  * \brief MediaSource::MediaSource
  */
 MediaSource::MediaSource()
     : m_id(INVALID_ID),
       m_exposureDateTime(),
-      m_busy(false)
+      m_busy(false),
+      m_mediaTable(0)
 {
 }
 
@@ -48,7 +45,8 @@ MediaSource::MediaSource()
 MediaSource::MediaSource(const QFileInfo& file)
     : m_id(INVALID_ID),
       m_exposureDateTime(),
-      m_busy(false)
+      m_busy(false),
+      m_mediaTable(0)
 {
     m_file = file;
 }
@@ -90,24 +88,6 @@ QUrl MediaSource::galleryPath() const
 }
 
 /*!
- * \brief MediaSource::previewFile
- * \return
- */
-QString MediaSource::previewFile() const
-{
-    return GalleryManager::instance()->previewManager()->previewFileName(m_file);
-}
-
-/*!
- * \brief MediaSource::previewPath
- * \return
- */
-QUrl MediaSource::previewPath() const
-{
-    return QUrl::fromLocalFile(previewFile());
-}
-
-/*!
  * \brief MediaSource::galleryPreviewPath
  * \return
  */
@@ -117,23 +97,6 @@ QUrl MediaSource::galleryPreviewPath() const
 }
 
 /*!
- * \brief MediaSource::thumbnailFile
- * \return
- */
-QString MediaSource::thumbnailFile() const
-{
-    return GalleryManager::instance()->previewManager()->thumbnailFileName(m_file);
-}
-
-/*!
- * \brief MediaSource::thumbnailPath
- * \return
- */
-QUrl MediaSource::thumbnailPath() const
-{
-    return QUrl::fromLocalFile(thumbnailFile());
-}
-
 /*!
  * \brief MediaSource::galleryThumbnailPath
  * \return
@@ -282,6 +245,15 @@ bool MediaSource::busy() const
 }
 
 /*!
+ * \brief MediaSource::setMediaTable
+ * \param mediaTable
+ */
+void MediaSource::setMediaTable(MediaTable *mediaTable)
+{
+    m_mediaTable = mediaTable;
+}
+
+/*!
  * \brief MediaSource::set_id
  * \param id
  */
@@ -340,6 +312,6 @@ void MediaSource::notifySizeChanged()
 {
     emit sizeChanged();
 
-    if (m_id != INVALID_ID)
-        GalleryManager::instance()->database()->getMediaTable()->setMediaSize(m_id, m_size);
+    if (m_id != INVALID_ID && m_mediaTable)
+        m_mediaTable->setMediaSize(m_id, m_size);
 }

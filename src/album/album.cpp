@@ -26,17 +26,14 @@
 #include "selectable-view-collection.h"
 
 // database
-#include "album-table.h"
 #include "database.h"
+#include "album-table.h"
 
 // media
 #include "media-collection.h"
 
 // util
 #include "variants.h"
-
-// src
-#include "gallery-manager.h"
 
 const char *Album::DEFAULT_TITLE = "New Photo Album";
 const char *Album::DEFAULT_SUBTITLE = "Subtitle";
@@ -49,22 +46,12 @@ const int Album::FIRST_VALID_CURRENT_PAGE = -1;
  * \brief Album::Album
  * \param parent
  */
-Album::Album(QObject * parent)
+Album::Album(QObject *parent)
     : ContainerSource(parent, DEFAULT_TITLE, MediaCollection::exposureDateTimeAscendingComparator),
-      m_albumTemplate(GalleryManager::instance()->albumDefaultTemplate()), m_title(DEFAULT_TITLE),
-      m_subtitle(DEFAULT_SUBTITLE)
-{
-    initInstance();
-}
-
-/*!
- * \brief Album::Album
- * \param parent
- * \param album_template
- */
-Album::Album(QObject * parent, AlbumTemplate* albumTemplate)
-    : ContainerSource(parent, DEFAULT_TITLE, MediaCollection::exposureDateTimeAscendingComparator),
-      m_albumTemplate(albumTemplate), m_title(DEFAULT_TITLE), m_subtitle(DEFAULT_SUBTITLE)
+      m_albumTemplate(0),
+      m_title(DEFAULT_TITLE),
+      m_subtitle(DEFAULT_SUBTITLE),
+      m_albumTable(0)
 {
     initInstance();
 }
@@ -81,11 +68,14 @@ Album::Album(QObject * parent, AlbumTemplate* albumTemplate)
  * \param current_page
  * \param cover_nickname
  */
-Album::Album(QObject * parent, AlbumTemplate* albumTemplate, const QString& title,
-             const QString& subtitle, qint64 id, QDateTime creationTimestamp, bool closed,
+Album::Album(QObject *parent, const QString& title, const QString& subtitle,
+             qint64 id, QDateTime creationTimestamp, bool closed,
              int currentPage, const QString &coverNickname)
     : ContainerSource(parent, title, MediaCollection::exposureDateTimeAscendingComparator),
-      m_albumTemplate(albumTemplate), m_title(title), m_subtitle(subtitle)
+      m_albumTemplate(0),
+      m_title(title),
+      m_subtitle(subtitle),
+      m_albumTable(0)
 {
     initInstance();
 
@@ -286,13 +276,13 @@ const QString& Album::title() const
  */
 void Album::setTitle(QString title)
 {
-    bool signal = m_title != title;
-    m_title = title;
+    Q_ASSERT(m_albumTable);
+    if (title == m_title)
+        return;
 
-    if (signal) {
-        GalleryManager::instance()->database()->getAlbumTable()->setTitle(m_id, m_title);
-        emit titleChanged();
-    }
+    m_title = title;
+    m_albumTable->setTitle(m_id, m_title);
+    emit titleChanged();
 }
 
 /*!
@@ -310,13 +300,13 @@ const QString& Album::subtitle() const
  */
 void Album::setSubtitle(QString subtitle)
 {
-    bool signal = m_subtitle != subtitle;
-    m_subtitle = subtitle;
+    Q_ASSERT(m_albumTable);
+    if (subtitle == m_subtitle)
+        return;
 
-    if (signal) {
-        GalleryManager::instance()->database()->getAlbumTable()->setSubtitle(m_id, m_subtitle);
-        emit subtitleChanged();
-    }
+    m_subtitle = subtitle;
+    m_albumTable->setSubtitle(m_id, m_subtitle);
+    emit subtitleChanged();
 }
 
 /*!
@@ -345,6 +335,15 @@ void Album::setCreationDateTime(QDateTime timestamp)
 AlbumTemplate* Album::albumTemplate() const
 {
     return m_albumTemplate;
+}
+
+/*!
+ * \brief Album::setAlbumTemplate
+ * \param albumTemplate
+ */
+void Album::setAlbumTemplate(AlbumTemplate *albumTemplate)
+{
+    m_albumTemplate = albumTemplate;
 }
 
 /*!
@@ -498,13 +497,13 @@ QString Album::coverNickname() const
  */
 void Album::setCoverNickname(QString name)
 {
-    bool signal = m_coverNickname != name;
-    m_coverNickname = name;
+    Q_ASSERT(m_albumTable);
+    if (name == m_coverNickname)
+        return;
 
-    if (signal) {
-        GalleryManager::instance()->database()->getAlbumTable()->setCoverNickname(m_id, m_coverNickname);
-        emit coverNicknameChanged();
-    }
+    m_coverNickname = name;
+    m_albumTable->setCoverNickname(m_id, m_coverNickname);
+    emit coverNicknameChanged();
 }
 
 /*!
@@ -537,6 +536,15 @@ QQmlListProperty<MediaSource> Album::qmlAllMediaSources()
 }
 
 /*!
+ * \brief Album::setAlbumTable
+ * \param alumTable
+ */
+void Album::setAlbumTable(AlbumTable *albumTable)
+{
+    m_albumTable = albumTable;
+}
+
+/*!
  * \brief Album::qmlPages
  * \return
  */
@@ -550,9 +558,10 @@ QQmlListProperty<AlbumPage> Album::qmlPages()
  */
 void Album::notifyCurrentPageChanged()
 {
+    Q_ASSERT(m_albumTable);
     if (!m_refreshingContainer) {
         emit currentPageChanged();
-        GalleryManager::instance()->database()->getAlbumTable()->setCurrentPage(m_id, m_currentPage);
+        m_albumTable->setCurrentPage(m_id, m_currentPage);
     }
 }
 
@@ -561,9 +570,10 @@ void Album::notifyCurrentPageChanged()
  */
 void Album::notifyClosedChanged()
 {
+    Q_ASSERT(m_albumTable);
     if (!m_refreshingContainer) {
         emit closedChanged();
-        GalleryManager::instance()->database()->getAlbumTable()->setIsClosed(m_id, m_closed);
+        m_albumTable->setIsClosed(m_id, m_closed);
     }
 }
 
@@ -620,6 +630,8 @@ void Album::destroySource(bool destroyBacking, bool asOrphan)
 void Album::notifyContainerContentsChanged(const QSet<DataObject*>* added,
                                            const QSet<DataObject*>* removed)
 {
+    Q_ASSERT(m_albumTemplate);
+    Q_ASSERT(m_albumTable);
     bool stashed_refreshing_container = m_refreshingContainer;
     m_refreshingContainer = true;
 
@@ -635,7 +647,7 @@ void Album::notifyContainerContentsChanged(const QSet<DataObject*>* added,
             while (i.hasNext()) {
                 MediaSource* media = qobject_cast<MediaSource*>(i.next());
                 Q_ASSERT(media != NULL);
-                GalleryManager::instance()->database()->getAlbumTable()->attachToAlbum(id(), media->id());
+                m_albumTable->attachToAlbum(id(), media->id());
             }
         }
 
@@ -644,7 +656,7 @@ void Album::notifyContainerContentsChanged(const QSet<DataObject*>* added,
             while (i.hasNext()) {
                 MediaSource* media = qobject_cast<MediaSource*>(i.next());
                 Q_ASSERT(media != NULL);
-                GalleryManager::instance()->database()->getAlbumTable()->detachFromAlbum(id(), media->id());
+                m_albumTable->detachFromAlbum(id(), media->id());
             }
         }
     }
@@ -755,8 +767,15 @@ void Album::createAddPhotosPage()
     AlbumTemplatePage* template_page_add = new AlbumTemplatePage(
                 "Add photos", "qml/AlbumViewer/AlbumInternals/AlbumPageLayoutAdd.qml", true, 0);
     AlbumPage* page1 = new AlbumPage(this, contentToAbsolutePage(0), template_page_add);
-    AlbumPage* page2 = new AlbumPage(this, contentToAbsolutePage(0),
-                                     m_albumTemplate->getBestFitPage(false, 0, orientation));
+    AlbumPage* page2 = 0;
+    if (m_albumTemplate) {
+        page2 = new AlbumPage(this, contentToAbsolutePage(0),
+                              m_albumTemplate->getBestFitPage(false, 0, orientation));
+    } else {
+        AlbumDefaultTemplate albumTemplate;
+        page2 = new AlbumPage(this, contentToAbsolutePage(0),
+                              albumTemplate.getBestFitPage(false, 0, orientation));
+    }
 
     m_contentPages->add(page1);
     m_contentPages->add(page2);

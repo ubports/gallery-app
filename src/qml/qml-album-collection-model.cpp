@@ -18,11 +18,22 @@
  */
 
 #include "qml-album-collection-model.h"
+
+// album
 #include "album.h"
 #include "album-collection.h"
 #include "album-default-template.h"
+
+// core
 #include "selectable-view-collection.h"
+
+// database
+#include "album-table.h"
+#include "database.h"
+
+// util
 #include "variants.h"
+
 #include "gallery-manager.h"
 
 /*!
@@ -44,7 +55,9 @@ QmlAlbumCollectionModel::QmlAlbumCollectionModel(QObject* parent)
  */
 void QmlAlbumCollectionModel::createAlbum(QVariant vmedia)
 {
-    Album* album = new Album(GalleryManager::instance()->albumDefaultTemplate());
+    Album* album = new Album();
+    album->setAlbumTable(GalleryManager::instance()->database()->getAlbumTable());
+    album->setAlbumTemplate(GalleryManager::instance()->albumDefaultTemplate());
     album->attach(VariantToObject<MediaSource*>(vmedia));
 
     GalleryManager::instance()->albumCollection()->add(album);
@@ -68,7 +81,10 @@ void QmlAlbumCollectionModel::destroyAlbum(QVariant valbum)
  */
 QVariant QmlAlbumCollectionModel::createOrphan()
 {
-    return QVariant::fromValue(new Album(GalleryManager::instance()->albumDefaultTemplate()));
+    Album *album = new Album();
+    album->setAlbumTable(GalleryManager::instance()->database()->getAlbumTable());
+    album->setAlbumTemplate(GalleryManager::instance()->albumDefaultTemplate());
+    return QVariant::fromValue(album);
 }
 
 /*!

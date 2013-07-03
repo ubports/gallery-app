@@ -11,6 +11,7 @@ configure_file(
 
 include_directories(
     ${CMAKE_BINARY_DIR}
+    ${gallery_src_SOURCE_DIR}
     ${gallery_album_src_SOURCE_DIR}
     ${gallery_core_src_SOURCE_DIR}
     ${gallery_database_src_SOURCE_DIR}
