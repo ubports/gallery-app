@@ -69,7 +69,7 @@ void GalleryManager::postInit()
     if (!collectionsInitialised)
     {
         m_defaultTemplate = new AlbumDefaultTemplate();
-        m_mediaCollection = new MediaCollection();
+        m_mediaCollection = new MediaCollection(0);
 
         collectionsInitialised = true;
     }
@@ -77,17 +77,11 @@ void GalleryManager::postInit()
 
 AlbumCollection *GalleryManager::albumCollection()
 {
-    if (!m_albumCollection)
-        m_albumCollection = new AlbumCollection();
-
     return m_albumCollection;
 }
 
 EventCollection *GalleryManager::eventCollection()
 {
-    if (!m_eventCollection)
-        m_eventCollection = new EventCollection;
-
     return m_eventCollection;
 }
 

@@ -24,11 +24,7 @@
 #include "data-object.h"
 
 // media
-#include "media-collection.h"
 #include "media-source.h"
-
-// src
-#include "gallery-manager.h"
 
 /*!
  * \brief EventCollection::EventCollection
@@ -37,17 +33,6 @@ EventCollection::EventCollection()
     : SourceCollection("EventCollection")
 {
     setComparator(comparator);
-
-    // Monitor MediaCollection to create/destroy Events, one for each day of
-    // media found
-    QObject::connect(
-                GalleryManager::instance()->mediaCollection(),
-                SIGNAL(contentsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*)),
-                this,
-                SLOT(onMediaAddedRemoved(const QSet<DataObject*>*,const QSet<DataObject*>*)));
-
-    // seed what's already present
-    onMediaAddedRemoved(&GalleryManager::instance()->mediaCollection()->getAsSet(), NULL);
 }
 
 /*!

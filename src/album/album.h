@@ -35,6 +35,8 @@
 #include <QString>
 #include <QVariant>
 
+class AlbumTable;
+
 /*!
  * \brief The AlbumTemplate class
 
@@ -93,11 +95,10 @@ public:
     static const int PAGES_PER_COVER;
     static const int FIRST_VALID_CURRENT_PAGE;
 
-    Album(QObject * parent = 0);
-    explicit Album(QObject * parent, AlbumTemplate* albumTemplate);
-    Album(QObject * parent, AlbumTemplate* albumTemplate, const QString &title,
-          const QString &subtitle, qint64 id, QDateTime creationTimestamp, bool closed,
-          int currentPage, const QString &coverNickname);
+    Album(QObject *parent = 0);
+    Album(QObject *parent, const QString &title, const QString &subtitle,
+          qint64 id, QDateTime creationTimestamp, bool closed, int currentPage,
+          const QString &coverNickname);
 
     virtual ~Album();
 
@@ -117,6 +118,7 @@ public:
     const QDateTime& creationDateTime() const;
     void setCreationDateTime(QDateTime timestamp);
     AlbumTemplate* albumTemplate() const;
+    void setAlbumTemplate(AlbumTemplate *albumTemplate);
     bool isClosed() const;
     int totalPageCount() const;
     int contentPageCount() const;
@@ -140,6 +142,8 @@ public:
 
     QQmlListProperty<AlbumPage> qmlPages();
     QQmlListProperty<MediaSource> qmlAllMediaSources();
+
+    void setAlbumTable(AlbumTable* albumTable);
 
 protected:
     virtual void destroySource(bool destroyBacking, bool asOrphan);
@@ -165,7 +169,7 @@ private:
     void initInstance();
     QSet<DataObject*> mediaList2ObjectSet(QVariant mediaList) const;
 
-    AlbumTemplate* m_albumTemplate;
+    AlbumTemplate *m_albumTemplate;
     QString m_title;
     QString m_subtitle;
     QDateTime m_creationDateDime;
@@ -178,6 +182,7 @@ private:
     bool m_refreshingContainer;
     qint64 m_id;
     QString m_coverNickname;
+    AlbumTable *m_albumTable;
 };
 
 QML_DECLARE_TYPE(Album)

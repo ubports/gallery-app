@@ -132,6 +132,7 @@ MediaSource *MediaObjectFactory::create(const QFileInfo &file)
     } else {
         media = new Video(file);
     }
+    media->setMediaTable(m_mediaTable);
 
     if (id == INVALID_ID) {
         bool metadataOk;
@@ -195,6 +196,7 @@ void MediaObjectFactory::addMedia(qint64 mediaId, const QString &filename,
     } else {
         media = new Video(file);
     }
+    media->setMediaTable(m_mediaTable);
 
     media->setSize(size);
     media->setFileTimestamp(timestamp);

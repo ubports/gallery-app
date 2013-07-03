@@ -43,13 +43,13 @@ public:
     Event* eventForDate(const QDate& date) const;
     Event* eventForMediaSource(MediaSource* media) const;
 
+public slots:
+    void onMediaAddedRemoved(const QSet<DataObject*>* added,
+                             const QSet<DataObject*>* removed);
+
 protected:
     virtual void notifyContentsChanged(const QSet<DataObject *> *added,
                                        const QSet<DataObject *> *removed);
-
-private slots:
-    void onMediaAddedRemoved(const QSet<DataObject*>* added,
-                             const QSet<DataObject*>* removed);
 
 private:
     static bool comparator(DataObject* a, DataObject* b);

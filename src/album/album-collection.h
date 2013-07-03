@@ -28,6 +28,10 @@
 
 #include <QObject>
 
+class AlbumTable;
+class AlbumTemplate;
+class MediaCollection;
+
 /*!
  * \brief The AlbumCollection class
  */
@@ -41,7 +45,8 @@ signals:
 public:
     friend class Album;
 
-    AlbumCollection();
+    AlbumCollection(MediaCollection *mediaCollection, AlbumTable *albumTable,
+                    AlbumTemplate *albumTemplate);
 
     static bool creationDateTimeAscendingComparator(DataObject* a, DataObject* b);
     static bool creationDateTimeDescendingComparator(DataObject* a, DataObject* b);
@@ -55,6 +60,10 @@ protected:
 private slots:
     void onMediaAddedRemoved(const QSet<DataObject*>* added,
                              const QSet<DataObject*>* removed);
+
+private:
+    MediaCollection *m_mediaCollection;
+    AlbumTable *m_albumTable;
 };
 
 #endif  // GALLERY_ALBUM_COLLECTION_H_

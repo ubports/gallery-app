@@ -29,6 +29,7 @@
 
 class DataObject;
 class MediaSource;
+class MediaTable;
 
 /*!
  * \brief The MediaCollection class
@@ -38,7 +39,7 @@ class MediaCollection : public SourceCollection
     Q_OBJECT
 
 public:
-    MediaCollection();
+    MediaCollection(MediaTable *mediaTable);
 
     static bool exposureDateTimeAscendingComparator(DataObject* a, DataObject* b);
     static bool exposureDateTimeDescendingComparator(DataObject* a, DataObject* b);
@@ -60,8 +61,8 @@ private:
     // Used by photoFromFileinfo() to prevent ourselves from accidentally
     // seeing a duplicate photo after an edit.
     QHash<QString, MediaSource*> m_fileMediaMap;
-
     QHash<qint64, DataObject*> m_idMap;
+    MediaTable *m_mediaTable;
 };
 
 #endif  // GALLERY_MEDIA_COLLECTION_H_
