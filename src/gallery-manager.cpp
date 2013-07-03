@@ -193,13 +193,12 @@ void GalleryManager::postInit()
         m_database = new Database(m_resource->databaseDirectory(),
                                  m_resource->getRcUrl("sql").path());
         m_mediaFactory->setMediaTable(m_database->getMediaTable());
-        m_database->getMediaTable()->verifyFiles();
         m_defaultTemplate = new AlbumDefaultTemplate();
         m_mediaCollection = new MediaCollection();
 
         initPreviewManager();
-        startFileMonitoring();
         fillMediaCollection();
+        startFileMonitoring();
 
         collectionsInitialised = true;
 
@@ -229,7 +228,7 @@ AlbumCollection *GalleryManager::albumCollection()
 EventCollection *GalleryManager::eventCollection()
 {
     if (!m_eventCollection)
-        m_eventCollection = new EventCollection;
+        m_eventCollection = new EventCollection();
 
     return m_eventCollection;
 }
@@ -303,23 +302,10 @@ void GalleryManager::fillMediaCollection()
 {
     Q_ASSERT(m_mediaCollection);
 
-    QSet<DataObject*> photos;
-    foreach (const QString &dirName, m_resource->mediaDirectories()) {
-        QDir mediaDir(dirName);
-        mediaDir.setFilter(QDir::Files);
-        mediaDir.setSorting(QDir::Name);
-
-        const QStringList filenames = mediaDir.entryList();
-        foreach (const QString& filename, filenames) {
-            QFileInfo file(mediaDir, filename);
-            DataObject *media = m_mediaFactory->create(file);
-            if (media) {
-                photos.insert(media);
-            }
-        }
-    }
-
-    m_mediaCollection->addMany(photos);
+    QSet<DataObject*> medias;
+    medias = m_mediaFactory->mediasFromDB();
+    m_mediaCollection->addMany(medias);
+    m_mediaFactory->clear();
 }
 
 /*!
@@ -334,7 +320,11 @@ void GalleryManager::startFileMonitoring()
     m_monitor = new MediaMonitor();
     QObject::connect(m_monitor, SIGNAL(mediaItemAdded(QString)),
                      this, SLOT(onMediaItemAdded(QString)));
+    QObject::connect(m_monitor, SIGNAL(mediaItemRemoved(qint64)),
+                     this, SLOT(onMediaItemRemoved(qint64)));
+
     m_monitor->startMonitoring(m_resource->mediaDirectories());
+    m_monitor->checkConsitency(m_mediaCollection);
 }
 
 /*!
@@ -343,12 +333,19 @@ void GalleryManager::startFileMonitoring()
  */
 void GalleryManager::onMediaItemAdded(QString file)
 {
-    QFileInfo fi(file);
-    MediaSource* media = m_mediaCollection->mediaFromFileinfo(fi);
-    if (media == 0) {
-        media = m_mediaFactory->create(fi);
+    if (! m_mediaCollection->containsFile(file)) {
+        QFileInfo fi(file);
+        MediaSource *media = m_mediaFactory->create(fi);
+        if (media)
+            m_mediaCollection->add(media);
     }
-    if (media) {
-        m_mediaCollection->add(media);
-    }
+}
+
+/*!
+ * \brief GalleryManager::onMediaItemRemoved
+ * \param mediaId
+ */
+void GalleryManager::onMediaItemRemoved(qint64 mediaId)
+{
+    m_mediaCollection->destroy(mediaId);
 }

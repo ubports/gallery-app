@@ -51,10 +51,6 @@ MediaTable::MediaTable(Database* db, QObject* parent)
     mediaFakeTable.clear();
 }
 
-void MediaTable::verifyFiles()
-{
-}
-
 qint64 MediaTable::getIdForMedia(const QString& filename)
 {
     foreach (const MediaDataRow &row, mediaFakeTable) {
@@ -106,6 +102,10 @@ QSize MediaTable::getMediaSize(qint64 mediaId)
 }
 
 void MediaTable::setMediaSize(qint64 mediaId, const QSize& size)
+{
+}
+
+void MediaTable::emitAllRows()
 {
 }
 

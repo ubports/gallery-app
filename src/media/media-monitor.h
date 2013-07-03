@@ -26,11 +26,13 @@
 #include <QThread>
 #include <QTimer>
 
+class MediaCollection;
 class MediaMonitorWorker;
 
 /*!
- * \brief The MediaMonitor class monitor directories for added files
- * All it's time consuming tasks are automaticly run in a separate thread
+ * \brief The MediaMonitor class monitor directories for added files. And does a
+ * check if the files in the datastructure and on thef ile system are in sync.
+ * All this is done in an extra thread.
  */
 class MediaMonitor : public QObject
 {
@@ -41,9 +43,11 @@ public:
     virtual ~MediaMonitor();
 
     void startMonitoring(const QStringList& targetDirectories);
+    void checkConsitency(const MediaCollection *mediaCollection);
 
 signals:
     void mediaItemAdded(QString newItem);
+    void mediaItemRemoved(qint64 mediaId);
 
 private:
     MediaMonitorWorker* m_worker;
@@ -63,25 +67,31 @@ public:
     MediaMonitorWorker(QObject *parent=0);
     virtual ~MediaMonitorWorker();
 
+    void setMediaCollection(const MediaCollection *mediaCollection);
+
 public slots:
     void startMonitoring(const QStringList& targetDirectories);
+    void checkConsitency();
 
 signals:
     void mediaItemAdded(QString newItem);
+    void mediaItemRemoved(qint64 mediaId);
 
 private slots:
     void onDirectoryEvent(const QString& eventSource);
     void onFileActivityCeased();
 
 private:
-    static QStringList getManifest(const QStringList& dirs);
-    static QStringList subtractManifest(const QStringList& m1,
-                                        const QStringList& m2);
+    QStringList getManifest(const QStringList& dirs);
+    QStringList subtractManifest(const QStringList& m1, const QStringList& m2);
+    void checkForNewMedias();
+    void checkForRemovedMedias();
 
     QStringList m_targetDirectories;
     QFileSystemWatcher m_watcher;
     QStringList m_manifest;
     QTimer m_fileActivityTimer;
+    const MediaCollection *m_mediaCollection;
 };
 
 #endif // GALLERY_MEDIA_MONITOR_H_

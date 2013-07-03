@@ -37,8 +37,6 @@ class MediaTable : public QObject
 public:
     explicit MediaTable(Database* db, QObject *parent = 0);
 
-    void verifyFiles();
-
     qint64 getIdForMedia(const QString& filename);
 
     qint64 createIdForMedia(const QString& filename, const QDateTime& timestamp,
@@ -62,6 +60,13 @@ public:
     QDateTime getFileTimestamp(qint64 mediaId);
 
     QDateTime getExposureTime(qint64 mediaId);
+
+    void emitAllRows();
+
+signals:
+    void row(qint64 mediaId, const QString& filename, const QSize& size,
+             const QDateTime& timestamp, const QDateTime& exposureTime,
+             Orientation originalOrientation, qint64 filesize);
 
 private:
     Database* m_db;

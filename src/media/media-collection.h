@@ -44,9 +44,13 @@ public:
     static bool exposureDateTimeDescendingComparator(DataObject* a, DataObject* b);
 
     MediaSource* mediaForId(qint64 id);
-    MediaSource* mediaFromFileinfo(const QFileInfo &file);
+    const MediaSource* mediaFromFileinfo(const QFileInfo &file) const;
+    bool containsFile(const QString& filename) const;
 
     virtual void addMany(const QSet<DataObject*>& objects);
+
+    void destroy(MediaSource *media);
+    void destroy(qint64 id);
 
 protected slots:
     virtual void notifyContentsChanged(const QSet<DataObject*>* added,

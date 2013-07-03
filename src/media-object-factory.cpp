@@ -59,6 +59,43 @@ void MediaObjectFactory::enableContentLoadFilter(MediaSource::MediaType filterTy
 }
 
 /*!
+ * \brief MediaObjectFactory::photosFromDB creates a set with all photos and video
+ * stored in the DB.
+ * Someone else needs to take the responsibility to delete all the objects in the set.
+ * You should call clear() afterwards, to remove temporary data.
+ * \return All medias stored in the DB
+ */
+QSet<DataObject *> MediaObjectFactory::mediasFromDB()
+{
+    Q_ASSERT(m_mediaTable);
+
+    m_mediasFromDB.clear();
+
+    connect(m_mediaTable,
+            SIGNAL(row(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)),
+            this,
+            SLOT(addMedia(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)));
+
+    m_mediaTable->emitAllRows();
+
+    disconnect(m_mediaTable,
+               SIGNAL(row(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)),
+               this,
+               SLOT(addMedia(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)));
+
+    return m_mediasFromDB;
+}
+
+/*!
+ * \brief MediaObjectFactory::clear
+ */
+void MediaObjectFactory::clear()
+{
+    clearMetadata();
+    m_mediasFromDB.clear();
+}
+
+/*!
  * \brief MediaObjectFactory::create loads the data for a photo or video file.
  * Creates / updates the database as well.
  * \param file the file to load
@@ -89,13 +126,11 @@ MediaSource *MediaObjectFactory::create(const QFileInfo &file)
 
     MediaSource *media = 0;
     Photo *photo = 0;
-    Video *video = 0;
     if (mediaType == MediaSource::Photo) {
         photo = new Photo(file);
         media = photo;
     } else {
-        video = new Video(file);
-        media = video;
+        media = new Video(file);
     }
 
     if (id == INVALID_ID) {
@@ -126,6 +161,49 @@ MediaSource *MediaObjectFactory::create(const QFileInfo &file)
     media->setId(id);
 
     return media;
+}
+
+/*!
+ * \brief MediaObjectFactory::addMedia creates a media object, and adds it to the
+ * internal set. This is used for mediasFromDB().
+ * \param mediaId
+ * \param filename
+ * \param size
+ * \param timestamp
+ * \param exposureTime
+ * \param originalOrientation
+ * \param filesize
+ * \return
+ */
+void MediaObjectFactory::addMedia(qint64 mediaId, const QString &filename,
+                                  const QSize &size, const QDateTime &timestamp,
+                                  const QDateTime &exposureTime,
+                                  Orientation originalOrientation, qint64 filesize)
+{
+    Q_UNUSED(filesize);
+
+    QFileInfo file(filename);
+    MediaSource::MediaType mediaType = MediaSource::Photo;
+    if (Video::isCameraVideo(file))
+        mediaType = MediaSource::Video;
+
+    MediaSource *media = 0;
+    Photo *photo = 0;
+    if (mediaType == MediaSource::Photo) {
+        photo = new Photo(file);
+        media = photo;
+    } else {
+        media = new Video(file);
+    }
+
+    media->setSize(size);
+    media->setFileTimestamp(timestamp);
+    media->setExposureDateTime(exposureTime);
+    if (mediaType == MediaSource::Photo)
+        photo->setOriginalOrientation(originalOrientation);
+    media->setId(mediaId);
+
+    m_mediasFromDB.insert(media);
 }
 
 /*!

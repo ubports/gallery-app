@@ -84,6 +84,7 @@ signals:
 
 private slots:
     void onMediaItemAdded(QString file);
+    void onMediaItemRemoved(qint64 mediaId);
 
 private:
     GalleryManager(const GalleryManager&);
