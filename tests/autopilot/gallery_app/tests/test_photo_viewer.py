@@ -10,7 +10,7 @@
 
 from __future__ import absolute_import
 
-from testtools.matchers import Equals, NotEquals
+from testtools.matchers import Equals, NotEquals, GreaterThan
 from autopilot.matchers import Eventually
 
 from gallery_app.emulators.photo_viewer import PhotoViewer
@@ -37,6 +37,8 @@ class TestPhotoViewerBase(GalleryTestCase):
         self.reveal_toolbar()
 
     def open_first_photo(self):
+        self.assertThat(lambda: self.photo_viewer.number_of_photos_in_events(),
+                        Eventually(GreaterThan(0)))
         single_photo = self.photo_viewer.get_first_image_in_event_view()
         self.click_item(single_photo)
 

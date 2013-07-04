@@ -26,9 +26,3 @@ class EventsView(GalleryUtils):
     def get_toolbar_delete_button(self):
         """Returns the delete button of the toolbar in the event view"""
         return self.get_toolbar_named_toolbarbutton("deleteButton")
-
-    def number_of_photos(self):
-        """Returns the number of events"""
-        photo_delegates = self.app.select_many("QQuickItem",
-                                               objectName="eventPhoto")
-        return len(photo_delegates)
