@@ -281,7 +281,7 @@ void MediaSource::setBusy(bool busy)
         return;
 
     m_busy = busy;
-    emit busyChanged();
+    emit busyChanged(m_busy);
 }
 
 /*!
