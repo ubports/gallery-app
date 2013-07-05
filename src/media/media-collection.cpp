@@ -103,6 +103,8 @@ void MediaCollection::notifyContentsChanged(const QSet<DataObject*>* added,
             MediaSource* media = qobject_cast<MediaSource*>(o);
             if (media != 0) {
                 m_fileMediaMap.insert(media->file().absoluteFilePath(), media);
+                QObject::connect(media, SIGNAL(busyChanged(bool)),
+                                 this, SIGNAL(mediaIsBusy(bool)));
             }
         }
     }
@@ -115,6 +117,8 @@ void MediaCollection::notifyContentsChanged(const QSet<DataObject*>* added,
 
             if (media != 0) {
                 m_fileMediaMap.remove(media->file().absoluteFilePath());
+                QObject::disconnect(media, SIGNAL(busyChanged(bool)),
+                                    this, SIGNAL(mediaIsBusy(bool)));
             }
 
             m_idMap.remove(media->id());

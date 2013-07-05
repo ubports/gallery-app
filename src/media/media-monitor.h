@@ -45,6 +45,9 @@ public:
     void startMonitoring(const QStringList& targetDirectories);
     void checkConsitency(const MediaCollection *mediaCollection);
 
+public slots:
+    void setMonitoringOnHold(bool onHold);
+
 signals:
     void mediaItemAdded(QString newItem);
     void mediaItemRemoved(qint64 mediaId);
@@ -68,6 +71,7 @@ public:
     virtual ~MediaMonitorWorker();
 
     void setMediaCollection(const MediaCollection *mediaCollection);
+    void setMonitoringOnHold(bool onHold);
 
 public slots:
     void startMonitoring(const QStringList& targetDirectories);
@@ -92,6 +96,7 @@ private:
     QStringList m_manifest;
     QTimer m_fileActivityTimer;
     const MediaCollection *m_mediaCollection;
+    bool m_onHold;
 };
 
 #endif // GALLERY_MEDIA_MONITOR_H_

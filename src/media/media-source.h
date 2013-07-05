@@ -69,7 +69,7 @@ signals:
     void exposureDateTimeChanged();
     void dataChanged();
     void sizeChanged();
-    void busyChanged();
+    void busyChanged(bool);
 
 public:
     MediaSource();

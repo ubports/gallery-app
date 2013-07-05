@@ -622,6 +622,7 @@ void Photo::makeUndoableEdit(const PhotoEditState& state)
  */
 void Photo::save(const PhotoEditState& state, Orientation oldOrientation)
 {
+    setBusy(true);
     editFile(state);
     GalleryManager::instance()->database()->getPhotoEditTable()->setEditState(id(), state);
 
@@ -634,6 +635,7 @@ void Photo::save(const PhotoEditState& state, Orientation oldOrientation)
     emit galleryPathChanged();
     emit galleryPreviewPathChanged();
     emit galleryThumbnailPathChanged();
+    setBusy(false);
 }
 
 /*!
@@ -779,8 +781,6 @@ void Photo::createCachedEnhanced()
         return;
     }
 
-    setBusy(true);
-
     QFileInfo to_enhance = m_caches.enhancedFile();
     PhotoMetadata* metadata = PhotoMetadata::fromFile(to_enhance);
 
@@ -819,8 +819,6 @@ void Photo::createCachedEnhanced()
         m_caches.discardCachedEnhanced();
     }
 
-    setBusy(false);
-
     delete metadata;
 }
 
@@ -833,8 +831,6 @@ void Photo::createCachedEnhanced()
  */
 QImage Photo::compensateExposure(const QImage &image, qreal compansation)
 {
-    setBusy(true);
-
     int shift = qBound(-255, (int)(255*compansation), 255);
     QImage result(image.width(), image.height(), image.format());
 
@@ -849,7 +845,6 @@ QImage Photo::compensateExposure(const QImage &image, qreal compansation)
         }
     }
 
-    setBusy(false);
     return result;
 }
 
@@ -864,7 +859,6 @@ QImage Photo::compensateExposure(const QImage &image, qreal compansation)
  */
 QImage Photo::doColorBalance(const QImage &image, qreal brightness, qreal contrast, qreal saturation, qreal hue)
 {
-    setBusy(true);
     QImage result(image.width(), image.height(), image.format());
 
     ColorBalance cb(brightness, contrast, saturation, hue);
@@ -878,7 +872,6 @@ QImage Photo::doColorBalance(const QImage &image, qreal brightness, qreal contra
         }
     }
 
-    setBusy(false);
     return result;
 }
 

@@ -53,6 +53,9 @@ public:
     void destroy(MediaSource *media);
     void destroy(qint64 id);
 
+signals:
+    void mediaIsBusy(bool busy);
+
 protected slots:
     virtual void notifyContentsChanged(const QSet<DataObject*>* added,
                                        const QSet<DataObject*>* removed);

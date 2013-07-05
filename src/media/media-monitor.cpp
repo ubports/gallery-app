@@ -78,6 +78,16 @@ void MediaMonitor::checkConsitency(const MediaCollection *mediaCollection)
     QMetaObject::invokeMethod(m_worker, "checkConsitency", Qt::QueuedConnection);
 }
 
+/*!
+ * \brief MediaMonitor::setMonitoringOnHold when true, all actions based on file
+ * activity are delayed until it's set back to true
+ * \param onHold
+ */
+void MediaMonitor::setMonitoringOnHold(bool onHold)
+{
+    m_worker->setMonitoringOnHold(onHold);
+}
+
 
 /*!
  * \brief MediaMonitor::MediaMonitor
@@ -87,12 +97,14 @@ MediaMonitorWorker::MediaMonitorWorker(QObject *parent)
       m_targetDirectories(),
       m_watcher(this),
       m_manifest(),
-      m_fileActivityTimer(this)
+      m_fileActivityTimer(this),
+      m_onHold(false)
 {
     QObject::connect(&m_watcher, SIGNAL(directoryChanged(const QString&)), this,
                      SLOT(onDirectoryEvent(const QString&)));
 
     m_fileActivityTimer.setSingleShot(true);
+    m_fileActivityTimer.setInterval(100);
     QObject::connect(&m_fileActivityTimer, SIGNAL(timeout()), this,
                      SLOT(onFileActivityCeased()));
 }
@@ -111,6 +123,15 @@ MediaMonitorWorker::~MediaMonitorWorker()
 void MediaMonitorWorker::setMediaCollection(const MediaCollection *mediaCollection)
 {
     m_mediaCollection = mediaCollection;
+}
+
+/*!
+ * \brief MediaMonitorWorker::setMonitoringOnHold
+ * \param onHold
+ */
+void MediaMonitorWorker::setMonitoringOnHold(bool onHold)
+{
+    m_onHold = onHold;
 }
 
 /*!
@@ -145,7 +166,7 @@ void MediaMonitorWorker::checkConsitency()
  */
 void MediaMonitorWorker::onDirectoryEvent(const QString& eventSource)
 {
-    m_fileActivityTimer.start(100);
+    m_fileActivityTimer.start();
 }
 
 /*!
@@ -153,6 +174,11 @@ void MediaMonitorWorker::onDirectoryEvent(const QString& eventSource)
  */
 void MediaMonitorWorker::onFileActivityCeased()
 {
+    if (m_onHold) {
+        m_fileActivityTimer.start();
+        return;
+    }
+
     QStringList new_manifest = getManifest(m_targetDirectories);
 
     QStringList added = subtractManifest(new_manifest, m_manifest);

@@ -102,7 +102,7 @@ bool PhotoCaches::cacheOriginal()
 
     m_file.dir().mkdir(ORIGINAL_DIR);
 
-    return copy(m_file, m_originalFile);
+    return rename(m_file, m_originalFile);
 }
 
 /*!

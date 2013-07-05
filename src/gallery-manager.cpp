@@ -332,6 +332,8 @@ void GalleryManager::startFileMonitoring()
         return;
 
     m_monitor = new MediaMonitor();
+    QObject::connect(m_mediaCollection, SIGNAL(mediaIsBusy(bool)),
+                     m_monitor, SLOT(setMonitoringOnHold(bool)));
     QObject::connect(m_monitor, SIGNAL(mediaItemAdded(QString)),
                      this, SLOT(onMediaItemAdded(QString)));
     QObject::connect(m_monitor, SIGNAL(mediaItemRemoved(qint64)),
