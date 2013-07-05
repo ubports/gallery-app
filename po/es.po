@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-20 12:56+0000\n"
-"PO-Revision-Date: 2013-06-26 05:51+0000\n"
-"Last-Translator: Demuxer <demuxer@gmail.com>\n"
+"PO-Revision-Date: 2013-07-04 22:33+0000\n"
+"Last-Translator: Adolfo Jayme Barrientos <fitoschido@gmail.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-06-28 06:33+0000\n"
-"X-Generator: Launchpad (build 16681)\n"
+"X-Launchpad-Export-Date: 2013-07-05 06:13+0000\n"
+"X-Generator: Launchpad (build 16696)\n"
 
 #: desktop/gallery-app.desktop.in:3
 msgid "Gallery"
@@ -31,7 +31,7 @@ msgstr ""
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:45
 msgid "Edit album"
-msgstr ""
+msgstr "Editar álbum"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:52
 #: rc/qml/AlbumViewer/AlbumViewer.qml:489
@@ -78,7 +78,7 @@ msgstr "Rojo"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:468
 msgid "Add to album"
-msgstr ""
+msgstr "Añadir al álbum"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:474
 #: rc/qml/MediaViewer/MediaViewer.qml:440
@@ -95,7 +95,7 @@ msgstr "Atrás"
 
 #: rc/qml/AlbumsOverview.qml:177 rc/qml/Components/PopupAlbumPicker.qml:87
 msgid "Add new album"
-msgstr ""
+msgstr "Añadir álbum nuevo"
 
 #: rc/qml/AlbumsOverview.qml:189 rc/qml/Utility/PhotosToolbarActions.qml:46
 msgid "Camera"
@@ -104,16 +104,16 @@ msgstr "Cámara"
 #: rc/qml/Components/DeleteDialog.qml:36
 #: rc/qml/MediaViewer/MediaViewer.qml:261
 msgid "Yes"
-msgstr ""
+msgstr "Sí"
 
 #: rc/qml/Components/DeleteDialog.qml:45
 #: rc/qml/MediaViewer/MediaViewer.qml:272
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr ""
+msgstr "Eliminar álbum"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
@@ -176,27 +176,27 @@ msgstr "Revertir a original"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:250 rc/qml/PhotosOverview.qml:149
 msgid "Delete a photo"
-msgstr ""
+msgstr "Eliminar una foto"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:424
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:433
 msgid "Add photo to album"
-msgstr ""
+msgstr "Añadir foto al álbum"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:456
 msgid "Share photo"
-msgstr ""
+msgstr "Compartir foto"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:480
 msgid "Pause"
-msgstr ""
+msgstr "Pausar"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:480
 msgid "Play"
-msgstr ""
+msgstr "Reproducir"
 
 #: rc/qml/PhotosOverview.qml:148
 msgid "Delete photos"
@@ -288,7 +288,7 @@ msgstr "Ajustar el balance de colores"
 
 #: rc/qml/Utility/EditingHUD.qml:163
 msgid "Saturation;Hue"
-msgstr ""
+msgstr "Saturación;Matiz"
 
 #: rc/qml/Utility/EditingHUD.qml:169
 msgid "Brightness"
@@ -304,7 +304,7 @@ msgstr "Saturación"
 
 #: rc/qml/Utility/EditingHUD.qml:205
 msgid "Hue"
-msgstr ""
+msgstr "Matiz"
 
 #: rc/qml/Utility/PhotosToolbarActions.qml:40
 msgid "Import"
