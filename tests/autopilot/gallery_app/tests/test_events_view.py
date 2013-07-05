@@ -69,7 +69,7 @@ class TestEventsView(GalleryTestCase):
 
     def test_delete_a_photo(self):
         """Selecting a photo must make the delete button clickable."""
-        number_of_photos = self.events_view.number_of_photos()
+        number_of_photos = self.events_view.number_of_photos_in_events()
         self.enable_select_mode()
         self.click_first_photo()
         self.click_delete_action()
@@ -82,7 +82,7 @@ class TestEventsView(GalleryTestCase):
         self.assertThat(lambda: exists(self.sample_file),
                         Eventually(Equals(True)))
 
-        new_number_of_photos = self.events_view.number_of_photos()
+        new_number_of_photos = self.events_view.number_of_photos_in_events()
         self.assertThat(new_number_of_photos, Equals(number_of_photos))
 
         self.click_delete_action()
@@ -96,7 +96,7 @@ class TestEventsView(GalleryTestCase):
                         Eventually(Equals(False)))
 
         self.ui_update()
-        new_number_of_photos = self.events_view.number_of_photos()
+        new_number_of_photos = self.events_view.number_of_photos_in_events()
         self.assertThat(new_number_of_photos, Equals(number_of_photos - 1))
 
     def test_adding_a_video(self):

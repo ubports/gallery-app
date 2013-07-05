@@ -116,6 +116,12 @@ class GalleryUtils(object):
         total number in the model, because of the listview"""
         return len(self.app.select_many("OrganicMediaList"))
 
+    def number_of_photos_in_events(self):
+        """Returns the number of events"""
+        photo_delegates = self.app.select_many("QQuickItem",
+                                               objectName="eventPhoto")
+        return len(photo_delegates)
+
     def get_first_image_in_event_view(self):
         """Returns the first photo of the gallery."""
         event = self.get_first_event()
