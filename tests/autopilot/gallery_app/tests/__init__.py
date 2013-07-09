@@ -105,10 +105,10 @@ class GalleryTestCase(AutopilotTestCase):
             self.ARGS.append("--desktop_file_hint="
                              "/usr/share/applications/gallery-app.desktop")
             self.ARGS.append(self.sample_destination_dir)
-            self.ARGS.append(app_type='qt')
             self.app = self.launch_test_application(
                 "gallery-app",
-                *self.ARGS)
+                *self.ARGS,
+                app_type='qt')
 
     def ui_update(self):
         """ Gives the program the time to update the UI"""
