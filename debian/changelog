@@ -1,3 +1,21 @@
+gallery-app (0.0.67+13.10.20130709-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Faster startup * use more Loader and use source instead of
+    sourComponent * introduce lazy loaded mediaLibrary that holds all
+    the media files * remove unused organic album view.
+  * Load the media object from the DB without checkin for the files (and
+    separate queries) Do a datastructure / file syetem consitency check
+    in a background thread.
+  * Reduce use of singleton.
+  * More robust test for opening a photo.
+  * Don't do file monitoring during editing.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 770
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 09 Jul 2013 05:02:57 +0000
+
 gallery-app (0.0.67+13.10.20130701-0ubuntu1) saucy; urgency=low
 
   [ Guenter Schwann ]
