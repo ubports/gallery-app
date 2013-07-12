@@ -1,3 +1,13 @@
+gallery-app (0.0.67+13.10.20130712-0ubuntu1) saucy; urgency=low
+
+  [ Christopher Lee ]
+  * Fix issue when launching on device.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 772
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 12 Jul 2013 05:02:52 +0000
+
 gallery-app (0.0.67+13.10.20130709-0ubuntu1) saucy; urgency=low
 
   [ Guenter Schwann ]
