@@ -29,8 +29,6 @@ Popover {
 
     /// The user clicked on the edit button
     signal editClicked()
-    /// The user clicked on the share button
-    signal shareClicked()
     /// The user clicked on the delete button
     signal deleteClicked()
 
@@ -46,13 +44,6 @@ Popover {
             onClicked: {
                 hide()
                 editClicked()
-            }
-        }
-        ListItem.Standard {
-            text: i18n.tr("Share")
-            onClicked: {
-                hide()
-                shareClicked()
             }
         }
         ListItem.Standard {
