@@ -407,12 +407,6 @@ Page {
             }
             enabled: false // FIXME enable once the close animation is not shown anymore
         }
-        ToolbarButton {
-            objectName: "shareButton"
-            text: i18n.tr("Share")
-            iconSource: Qt.resolvedUrl("../../img/share.png")
-            enabled: false
-        }
         back: ToolbarButton {
             text: i18n.tr("Back")
             objectName: "backButton"

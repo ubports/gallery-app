@@ -147,13 +147,6 @@ Checkerboard {
             albumEditor.open()
         }
 
-        onShareClicked: {
-            for (var index = 0; index < album.allMediaSources.length; index++) {
-                // FIXME once the share component can handle more than one image
-                //shareImage(album.allMediaSources[index]);
-            }
-        }
-
         onDeleteClicked: {
             albumTrashDialog.album = album
             albumTrashDialog.caller = caller

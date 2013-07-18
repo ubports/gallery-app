@@ -420,20 +420,24 @@ Item {
 
         property Item photoToolbar: ToolbarItems {
             ToolbarButton {
+                id: photoEditButton
                 objectName: "editButton"
-                text: i18n.tr("Edit")
-                iconSource: "../../img/edit.png"
-                onTriggered: {
-                    PopupUtils.open(editPopoverComponent, caller);
+                action: Action {
+                    text: i18n.tr("Edit")
+                    iconSource: "../../img/edit.png"
+                    onTriggered: {
+                        PopupUtils.open(editPopoverComponent, photoEditButton);
+                    }
                 }
             }
             ToolbarButton {
+                id: photoAddButton
                 objectName: "addButton"
                 action: Action {
                     text: i18n.tr("Add photo to album")
                     iconSource: "../../img/add.png"
                     onTriggered: {
-                        popupAlbumPicker.caller = caller;
+                        popupAlbumPicker.caller = photoAddButton;
                         popupAlbumPicker.show();
                     }
                 }
@@ -451,12 +455,13 @@ Item {
                 text: i18n.tr("Delete")
             }
             ToolbarButton {
+                id: photoShareButton
                 objectName: "shareButton"
                 action: Action {
                     text: i18n.tr("Share photo")
                     iconSource: "../../img/share.png"
                     onTriggered: {
-                        PopupUtils.open(sharePopoverComponent, caller);
+                        PopupUtils.open(sharePopoverComponent, photoShareButton);
                     }
                 }
                 text: i18n.tr("Share")
@@ -488,11 +493,12 @@ Item {
                 }
             }
             ToolbarButton {
+                id: videoAddButton
                 objectName: "addButton"
                 text: i18n.tr("Add")
                 iconSource: "../../img/add.png"
                 onTriggered: {
-                    popupAlbumPicker.caller = caller;
+                    popupAlbumPicker.caller = videoAddButton;
                     popupAlbumPicker.show();
                 }
             }
@@ -505,11 +511,12 @@ Item {
                 }
             }
             ToolbarButton {
+                id: videoShareButton
                 objectName: "shareButton"
                 text: i18n.tr("Share")
                 iconSource: "../../img/share.png"
                 onTriggered: {
-                    PopupUtils.open(sharePopoverComponent, caller);
+                    PopupUtils.open(sharePopoverComponent, videoShareButton);
                 }
             }
 
