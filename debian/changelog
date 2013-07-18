@@ -1,3 +1,16 @@
+gallery-app (0.0.67+13.10.20130718-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Minor performance improvement comparing MediaSource dates.
+
+  [ Łukasz 'sil2100' Zemczak ]
+  * Remove sharing of albums LP: #1163862 (LP: #1163862)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 778
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 18 Jul 2013 10:09:23 +0000
+
 gallery-app (0.0.67+13.10.20130712-0ubuntu1) saucy; urgency=low
 
   [ Christopher Lee ]
