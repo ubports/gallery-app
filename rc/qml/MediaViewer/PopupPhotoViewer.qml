@@ -25,6 +25,7 @@ import "../Utility"
 Page {
     id: popupPhotoViewer
 
+    anchors.fill: parent
     /*!
     */
     property alias model: viewer.model
