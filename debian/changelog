@@ -1,3 +1,14 @@
+gallery-app (0.0.67+13.10.20130725-0ubuntu1) saucy; urgency=low
+
+  [ Kaleo ]
+  * Make sure the photo viewer height is the size of the window by
+    overriding the default height set by Page. (LP: #1204327)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 784
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 25 Jul 2013 06:41:10 +0000
+
 gallery-app (0.0.67+13.10.20130722-0ubuntu1) saucy; urgency=low
 
   [ Guenter Schwann ]
