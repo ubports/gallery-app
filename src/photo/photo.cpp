@@ -353,15 +353,14 @@ void Photo::revertToOriginal()
 void Photo::undo()
 {
     Q_D(Photo);
-    Orientation old_orientation = orientation();
+    if (busy()) {
+        qWarning() << "Don't start edit operation, while another one is running";
+        return;
+    }
 
     PhotoEditState prev = d->editStack()->current();
     PhotoEditState next = d->editStack()->undo();
     if (next != prev) {
-        if (busy()) {
-            qWarning() << "Don't start edit operation, while another one is running";
-            return;
-        }
         asyncEdit(next);
     }
 }
@@ -372,15 +371,14 @@ void Photo::undo()
 void Photo::redo()
 {
     Q_D(Photo);
-    Orientation old_orientation = orientation();
+    if (busy()) {
+        qWarning() << "Don't start edit operation, while another one is running";
+        return;
+    }
 
     PhotoEditState prev = d->editStack()->current();
     PhotoEditState next = d->editStack()->redo();
     if (next != prev) {
-        if (busy()) {
-            qWarning() << "Don't start edit operation, while another one is running";
-            return;
-        }
         asyncEdit(next);
     }
 }
