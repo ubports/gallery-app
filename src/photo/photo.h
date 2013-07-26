@@ -31,6 +31,7 @@
 #include "orientation.h"
 
 class PhotoEditState;
+class PhotoEditThread;
 class PhotoPrivate;
 
 /*!
@@ -81,6 +82,12 @@ public:
     Q_INVOKABLE void crop(QVariant vrect);
 
     void setOriginalOrientation(Orientation orientation);
+    Orientation originalOrientation() const;
+    const QSize &originalSize();
+
+    const QString &fileFormat() const;
+    bool fileFormatHasMetadata() const;
+    bool fileFormatHasOrientation() const;
 
 signals:
     void editStackChanged();
@@ -88,22 +95,21 @@ signals:
 protected:
     virtual void destroySource(bool destroyBacking, bool asOrphan);
 
+private Q_SLOTS:
+    void resetToOriginalSize();
+    void finishEditing();
+
 private:
     const PhotoEditState& currentState() const;
     QSize originalSize(Orientation orientation);
     void makeUndoableEdit(const PhotoEditState& state);
-    void save(const PhotoEditState& state, Orientation oldOrientation);
+    void asyncEdit(const PhotoEditState& state);
     void editFile(const PhotoEditState& state);
-    void createCachedEnhanced();
-    QImage compensateExposure(const QImage& image, qreal compansation);
-    QImage doColorBalance(const QImage& image, qreal brightness, qreal contrast, qreal saturation, qreal hue);
     void appendPathParams(QUrl* url, Orientation orientation, const int sizeLevel) const;
-    void handleSimpleMetadataRotation(const PhotoEditState& state);
-    bool fileFormatHasMetadata() const;
-    bool fileFormatHasOrientation() const;
 
     QString m_fileFormat;
     int m_editRevision; // How many times the pixel data has been modified by us.
+    PhotoEditThread *m_editThread;
     PhotoCaches m_caches;
 
     // We cache this data to avoid an image read at various times.

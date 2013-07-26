@@ -159,3 +159,12 @@ void Photo::setOriginalOrientation(Orientation orientation)
 {
     m_originalOrientation = orientation;
 }
+
+void Photo::resetToOriginalSize()
+{
+}
+
+void Photo::finishEditing()
+{
+}
+

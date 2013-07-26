@@ -23,6 +23,7 @@
 
 #include "photo.h"
 #include "photo-edit-state.h"
+#include "photo-edit-thread.h"
 
 // database
 #include "database.h"
@@ -185,6 +186,7 @@ bool Photo::isValid(const QFileInfo& file)
 Photo::Photo(const QFileInfo& file)
     : MediaSource(file),
       m_editRevision(0),
+      m_editThread(0),
       m_caches(file),
       m_originalSize(),
       m_originalOrientation(TOP_LEFT_ORIGIN),
@@ -201,6 +203,10 @@ Photo::Photo(const QFileInfo& file)
  */
 Photo::~Photo()
 {
+    if (m_editThread) {
+        m_editThread->wait();
+        finishEditing();
+    }
     delete(d_ptr);
 }
 
@@ -352,8 +358,11 @@ void Photo::undo()
     PhotoEditState prev = d->editStack()->current();
     PhotoEditState next = d->editStack()->undo();
     if (next != prev) {
-        save(next, old_orientation);
-        emit editStackChanged();
+        if (busy()) {
+            qWarning() << "Don't start edit operation, while another one is running";
+            return;
+        }
+        asyncEdit(next);
     }
 }
 
@@ -368,8 +377,11 @@ void Photo::redo()
     PhotoEditState prev = d->editStack()->current();
     PhotoEditState next = d->editStack()->redo();
     if (next != prev) {
-        save(next, old_orientation);
-        emit editStackChanged();
+        if (busy()) {
+            qWarning() << "Don't start edit operation, while another one is running";
+            return;
+        }
+        asyncEdit(next);
     }
 }
 
@@ -556,6 +568,14 @@ void Photo::destroySource(bool destroyBacking, bool asOrphan)
 }
 
 /*!
+ * \brief Photo::resetToOriginalSize set the size to the one of the orifinal photo
+ */
+void Photo::resetToOriginalSize()
+{
+    setSize(originalSize(PhotoEditState::ORIGINAL_ORIENTATION));
+}
+
+/*!
  * \brief Photo::currentState
  * \return
  */
@@ -607,26 +627,43 @@ QSize Photo::originalSize(Orientation orientation)
  */
 void Photo::makeUndoableEdit(const PhotoEditState& state)
 {
-    Q_D(Photo);
-    Orientation old_orientation = orientation();
+    if (busy()) {
+        qWarning() << "Don't start edit operation, while another one is running";
+        return;
+    }
 
+    Q_D(Photo);
     d->editStack()->pushEdit(state);
-    save(state, old_orientation);
-    emit editStackChanged();
+    asyncEdit(state);
 }
 
 /*!
- * \brief Photo::save
- * \param state
- * \param oldOrientation
+ * \brief Photo::asyncEdit does edit the photo according to the given state
+ * in a background task
+ * \param state the new editing state
  */
-void Photo::save(const PhotoEditState& state, Orientation oldOrientation)
+void Photo::asyncEdit(const PhotoEditState& state)
 {
     setBusy(true);
-    editFile(state);
+    m_editThread = new PhotoEditThread(this, state);
+    connect(m_editThread, SIGNAL(finished()), this, SLOT(finishEditing()));
+    connect(m_editThread, SIGNAL(newSize(QSize)), this, SLOT(setSize(QSize)));
+    connect(m_editThread, SIGNAL(resetToOriginalSize()), this, SLOT(resetToOriginalSize()));
+    m_editThread->start();
+}
+
+/*!
+ * \brief Photo::finishEditing do all the updates once the editing is done
+ */
+void Photo::finishEditing()
+{
+    if (!m_editThread || m_editThread->isRunning())
+        return;
+
+    const PhotoEditState &state = m_editThread->editState();
     GalleryManager::instance()->database()->getPhotoEditTable()->setEditState(id(), state);
 
-    if (orientation() != oldOrientation)
+    if (orientation() != m_editThread->oldOrientation())
         emit orientationChanged();
     notifyDataChanged();
 
@@ -635,244 +672,10 @@ void Photo::save(const PhotoEditState& state, Orientation oldOrientation)
     emit galleryPathChanged();
     emit galleryPreviewPathChanged();
     emit galleryThumbnailPathChanged();
+    m_editThread->deleteLater();
+    m_editThread = 0;
     setBusy(false);
-}
-
-/*!
- * \brief Photo::handleSimpleMetadataRotation
- * Handler for the case of an image whose only change is to its
- * orientation; used to skip re-encoding of JPEGs.
- * \param state
- */
-void Photo::handleSimpleMetadataRotation(const PhotoEditState& state)
-{
-    PhotoMetadata* metadata = PhotoMetadata::fromFile(file());
-    metadata->setOrientation(state.orientation_);
-
-    metadata->save();
-    delete(metadata);
-
-    OrientationCorrection orig_correction =
-            OrientationCorrection::fromOrientation(m_originalOrientation);
-    OrientationCorrection dest_correction =
-            OrientationCorrection::fromOrientation(state.orientation_);
-
-    QSize new_size = m_originalSize;
-    int angle = dest_correction.getNormalizedRotationDifference(orig_correction);
-
-    if ((angle == 90) || (angle == 270)) {
-        new_size = m_originalSize.transposed();
-    }
-
-    setSize(new_size);
-}
-
-/*!
- * \brief Photo::editFile
- * \param state
- */
-void Photo::editFile(const PhotoEditState& state)
-{
-    // As a special case, if editing to the original version, we simply restore
-    // from the original and call it a day.
-    if (state.isOriginal()) {
-        if (!m_caches.restoreOriginal())
-            qDebug("Error restoring original for %s", qPrintable(file().filePath()));
-        else
-            setSize(originalSize(PhotoEditState::ORIGINAL_ORIENTATION));
-
-        // As a courtesy, when the original goes away, we get rid of the other
-        // cached files too.
-        m_caches.discardCachedEnhanced();
-        return;
-    }
-
-    if (!m_caches.cacheOriginal())
-        qDebug("Error caching original for %s", qPrintable(file().filePath()));
-
-    if (state.is_enhanced_ && !m_caches.hasCachedEnhanced())
-        createCachedEnhanced();
-
-    if (!m_caches.overwriteFromCache(state.is_enhanced_))
-        qDebug("Error overwriting %s from cache", qPrintable(file().filePath()));
-
-    // Have we been rotated and _not_ cropped?
-    if (fileFormatHasOrientation() && (!state.crop_rectangle_.isValid()) &&
-            state.exposureCompensation_ == 0 &&
-            (state.orientation_ != PhotoEditState::ORIGINAL_ORIENTATION)) {
-        // Yes; skip out on decoding and re-encoding the image.
-        handleSimpleMetadataRotation(state);
-        return;
-    }
-
-    // TODO: we might be able to avoid reading/writing pixel data (and other
-    // more general optimizations) under certain conditions here.  Might be worth
-    // doing if it doesn't make the code too much worse.
-    //
-    // At the moment, we are skipping at least one decode and one encode in cases
-    // where a .jpeg file has been rotated, but not cropped, since rotation can be
-    // controlled by manipulating its metadata without having to modify pixel data;
-    // please see the method handle_simple_metadata_rotation() for details.
-
-    QImage image(file().filePath(), m_fileFormat.toStdString().c_str());
-    if (image.isNull()) {
-        qDebug("Error loading %s for editing", qPrintable(file().filePath()));
-        return;
-    }
-    PhotoMetadata* metadata = PhotoMetadata::fromFile(file());
-
-    if (fileFormatHasOrientation() &&
-            state.orientation_ != PhotoEditState::ORIGINAL_ORIENTATION)
-        metadata->setOrientation(state.orientation_);
-
-    if (fileFormatHasOrientation() &&
-            metadata->orientation() != TOP_LEFT_ORIGIN)
-        image = image.transformed(metadata->orientationTransform());
-    else if (state.orientation_ != PhotoEditState::ORIGINAL_ORIENTATION &&
-             state.orientation_ != TOP_LEFT_ORIGIN)
-        image = image.transformed(
-                    OrientationCorrection::fromOrientation(state.orientation_).toTransform());
-
-    // Cache this here so we may be able to avoid another JPEG decode later just
-    // to find the dimensions.
-    if (!m_originalSize.isValid())
-        m_originalSize = image.size();
-
-    if (state.crop_rectangle_.isValid())
-        image = image.copy(state.crop_rectangle_);
-
-    // exposure compensation
-    if (state.exposureCompensation_ != 0.0) {
-        image = compensateExposure(image, state.exposureCompensation_);
-    }
-
-    // exposure compensation
-    if (!state.colorBalance_.isNull()) {
-        const QVector4D &v = state.colorBalance_;
-        image = doColorBalance(image, v.x(), v.y(), v.z(), v.w());
-    }
-
-    QSize new_size = image.size();
-
-    // We need to apply the reverse transformation so that when we reload the
-    // file and reapply the transformation it comes out correctly.
-    if (fileFormatHasOrientation() &&
-            metadata->orientation() != TOP_LEFT_ORIGIN)
-        image = image.transformed(metadata->orientationTransform().inverted());
-
-    bool saved = image.save(file().filePath(), m_fileFormat.toStdString().c_str(), 90);
-    if (saved && fileFormatHasMetadata())
-        saved = metadata->save();
-    if (!saved)
-        qDebug("Error saving edited %s", qPrintable(file().filePath()));
-
-    delete metadata;
-
-    setSize(new_size);
-}
-
-/*!
- * \brief Photo::createCachedEnhanced
- */
-void Photo::createCachedEnhanced()
-{
-    if (!m_caches.cacheEnhancedFromOriginal()) {
-        qDebug("Error creating enhanced file for %s", qPrintable(file().filePath()));
-        return;
-    }
-
-    QFileInfo to_enhance = m_caches.enhancedFile();
-    PhotoMetadata* metadata = PhotoMetadata::fromFile(to_enhance);
-
-    QImage unenhanced_img(to_enhance.filePath(), m_fileFormat.toStdString().c_str());
-    int width = unenhanced_img.width();
-    int height = unenhanced_img.height();
-
-    QImage sample_img = (unenhanced_img.width() > 400) ?
-                unenhanced_img.scaledToWidth(400) : unenhanced_img;
-
-    AutoEnhanceTransformation enhance_txn = AutoEnhanceTransformation(sample_img);
-
-    QImage::Format dest_format = unenhanced_img.format();
-
-    // Can't write into indexed images, due to a limitation in Qt.
-    if (dest_format == QImage::Format_Indexed8)
-        dest_format = QImage::Format_RGB32;
-
-    QImage enhanced_image(width, height, dest_format);
-
-    for (int j = 0; j < height; j++) {
-        //QApplication::processEvents();
-        for (int i = 0; i < width; i++) {
-            QColor px = enhance_txn.transformPixel(
-                        QColor(unenhanced_img.pixel(i, j)));
-            enhanced_image.setPixel(i, j, px.rgb());
-        }
-    }
-
-    bool saved = enhanced_image.save(to_enhance.filePath(),
-                                     m_fileFormat.toStdString().c_str(), 99);
-    if (saved && fileFormatHasMetadata())
-        saved = metadata->save();
-    if (!saved) {
-        qDebug("Error saving enhanced file for %s", qPrintable(file().filePath()));
-        m_caches.discardCachedEnhanced();
-    }
-
-    delete metadata;
-}
-
-/*!
- * \brief Photo::compensateExposure Compensates the exposure
- * Compensating the exposure is a change in brightnes
- * \param image Image to change the brightnes
- * \param compansation -1.0 is total dark, +1.0 is total bright
- * \return The image with adjusted brightnes
- */
-QImage Photo::compensateExposure(const QImage &image, qreal compansation)
-{
-    int shift = qBound(-255, (int)(255*compansation), 255);
-    QImage result(image.width(), image.height(), image.format());
-
-    for (int j = 0; j < image.height(); j++) {
-        QApplication::processEvents();
-        for (int i = 0; i <image.width(); i++) {
-            QColor px = image.pixel(i, j);
-            int red = qBound(0, px.red() + shift, 255);
-            int green = qBound(0, px.green() + shift, 255);
-            int blue = qBound(0, px.blue() + shift, 255);
-            result.setPixel(i, j, qRgb(red, green, blue));
-        }
-    }
-
-    return result;
-}
-
-/*!
- * \brief Photo::colorBalance
- * \param image
- * \param brightness 0 is total dark, 1 is as the original, grater than 1 is brigther
- * \param contrast from 0 maybe 5. 1 is as the original
- * \param saturation from 0 maybe 5. 1 is as the original
- * \param hue from 0 to 360. 0 and 360 is as the original
- * \return
- */
-QImage Photo::doColorBalance(const QImage &image, qreal brightness, qreal contrast, qreal saturation, qreal hue)
-{
-    QImage result(image.width(), image.height(), image.format());
-
-    ColorBalance cb(brightness, contrast, saturation, hue);
-
-    for (int j = 0; j < image.height(); j++) {
-        QApplication::processEvents();
-        for (int i = 0; i <image.width(); i++) {
-            QColor px = image.pixel(i, j);
-            QColor tpx = cb.transformPixel(px);
-            result.setPixel(i, j, tpx.rgb());
-        }
-    }
-
-    return result;
+    emit editStackChanged();
 }
 
 /*!
@@ -901,6 +704,15 @@ void Photo::appendPathParams(QUrl* url, Orientation orientation, const int sizeL
 }
 
 /*!
+ * \brief Photo::fileFormat returns the file format as QString
+ * \return
+ */
+const QString &Photo::fileFormat() const
+{
+    return m_fileFormat;
+}
+
+/*!
  * \brief Photo::fileFormatHasMetadata
  * \return
  */
@@ -926,4 +738,23 @@ bool Photo::fileFormatHasOrientation() const
 void Photo::setOriginalOrientation(Orientation orientation)
 {
     m_originalOrientation = orientation;
+}
+
+/*!
+ * \brief Photo::originalOrientation returns the original orientation
+ * \return
+ */
+Orientation Photo::originalOrientation() const
+{
+    return m_originalOrientation;
+}
+
+/*!
+ * \brief Photo::originalSize
+ * \return
+ */
+const QSize &Photo::originalSize()
+{
+    originalSize(PhotoEditState::ORIGINAL_ORIENTATION);
+    return m_originalSize;
 }
