@@ -103,7 +103,6 @@ public:
     void setFileTimestamp(const QDateTime& timestamp);
 
     const QSize& size();
-    void setSize(const QSize& size);
 
     qint64 id() const;
     void setId(qint64 id);
@@ -111,6 +110,9 @@ public:
     bool busy() const;
 
     void setMediaTable(MediaTable *mediaTable);
+
+public Q_SLOTS:
+    void setSize(const QSize& size);
 
 protected:
     bool isSizeSet() const;
