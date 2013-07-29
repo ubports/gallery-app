@@ -1,3 +1,13 @@
+gallery-app (0.0.67+13.10.20130729-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Run edit operations in a background task. (LP: #1011710)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 788
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 29 Jul 2013 08:17:31 +0000
+
 gallery-app (0.0.67+13.10.20130725-0ubuntu1) saucy; urgency=low
 
   [ Kaleo ]
