@@ -1,3 +1,13 @@
+gallery-app (0.0.67+13.10.20130801-0ubuntu1) saucy; urgency=low
+
+  [ David Henningsson ]
+  * qtubuntu-media dependency should be part of the touch seeds instead.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 790
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 01 Aug 2013 05:03:01 +0000
+
 gallery-app (0.0.67+13.10.20130729-0ubuntu1) saucy; urgency=low
 
   [ Guenter Schwann ]
