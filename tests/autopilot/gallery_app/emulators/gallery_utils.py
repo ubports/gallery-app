@@ -62,7 +62,7 @@ class GalleryUtils(object):
 
     def get_tabs_bar(self):
         """Returns the top tabs bar."""
-        return self.app.select_single("NewTabBar")
+        return self.app.select_single("TabBar")
 
     def get_albums_tab_button(self):
         """Returns the photos tab."""
@@ -143,4 +143,4 @@ class GalleryUtils(object):
         return self.app.select_single("QQuickPathView").width
 
     def get_tabs_bar_potential_width(self):
-        return self.app.select_single("NewTabBar").width
+        return self.get_tabs_bar().width
