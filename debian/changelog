@@ -1,3 +1,13 @@
+gallery-app (0.0.67+13.10.20130802-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Update autopilot test to newest SDK. (LP: #1207647)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 792
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 02 Aug 2013 09:09:47 +0000
+
 gallery-app (0.0.67+13.10.20130801-0ubuntu1) saucy; urgency=low
 
   [ David Henningsson ]
