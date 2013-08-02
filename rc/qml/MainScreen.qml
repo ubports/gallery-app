@@ -54,6 +54,7 @@ MainView {
         }
 
         Tab {
+            objectName: "albumsTab"
             title: i18n.tr("Albums")
             page: Loader {
                 id: albumsCheckerboardLoader

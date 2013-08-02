@@ -125,7 +125,7 @@ class TestAlbumEditor(GalleryTestCase):
         self.open_first_album()
         num_photos_start = self.album_view.number_of_photos()
         self.assertThat(num_photos_start, Equals(1))
-        self.reveal_toolbar()
+        self.main_view.open_toolbar()
         back = self.album_view.get_toolbar_back_icon()
         self.click_item(back)
         self.ensure_album_viewer_is_fully_closed()

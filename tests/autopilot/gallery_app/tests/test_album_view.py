@@ -61,7 +61,7 @@ class TestAlbumView(GalleryTestCase):
         self.assertThat(num_photos_start, Equals(1))
 
         # open media selector but cancel
-        self.reveal_toolbar()
+        self.main_view.open_toolbar()
         add_button = self.album_view.get_toolbar_add_button()
         self.click_item(add_button)
         self.ensure_media_selector_is_fully_open()
@@ -74,7 +74,7 @@ class TestAlbumView(GalleryTestCase):
         self.assertThat(num_photos, Equals(num_photos_start))
 
         # open media selector and add a photo
-        self.reveal_toolbar()
+        self.main_view.open_toolbar()
         add_button = self.album_view.get_toolbar_add_button()
         self.click_item(add_button)
         self.ensure_media_selector_is_fully_open()
@@ -89,7 +89,7 @@ class TestAlbumView(GalleryTestCase):
             Eventually(Equals(num_photos_start + 1)))
 
     def test_add_photo_to_new_album(self):
-        self.reveal_toolbar()
+        self.main_view.open_toolbar()
         add_button = self.albums_view.get_toolbar_add_button()
         self.click_item(add_button)
         self.ui_update()

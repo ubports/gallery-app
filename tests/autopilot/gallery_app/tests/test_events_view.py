@@ -13,18 +13,14 @@ from __future__ import absolute_import
 from testtools.matchers import Equals
 from autopilot.matchers import Eventually
 
-from gallery_app.emulators.events_view import EventsView
 from gallery_app.tests import GalleryTestCase
 
 from os.path import exists
+from time import sleep
 
 
 class TestEventsView(GalleryTestCase):
     """Tests the main gallery features"""
-
-    @property
-    def events_view(self):
-        return EventsView(self.app)
 
     def setUp(self):
         self.ARGS = []
@@ -36,15 +32,10 @@ class TestEventsView(GalleryTestCase):
         super(TestEventsView, self).tearDown()
 
     def enable_select_mode(self):
-        self.reveal_toolbar()
-        self.click_select_icon()
-
-    def click_select_icon(self):
-        select_icon = self.events_view.get_toolbar_select_button()
-        self.click_item(select_icon)
+        self.main_view.open_toolbar().click_button("selectButton")
 
     def click_first_photo(self):
-        first_photo = self.events_view.get_first_image_in_event_view()
+        first_photo = self.gallery_utils.get_first_image_in_event_view()
         self.click_item(first_photo)
 
     def get_delete_dialog(self):
@@ -52,51 +43,52 @@ class TestEventsView(GalleryTestCase):
         self.assertThat(delete_dialog.opacity, Eventually(Equals(1)))
         return delete_dialog
 
-    def click_delete_action(self):
-        trash_button = self.events_view.get_toolbar_delete_button()
-        self.click_item(trash_button)
-
     def test_select_button_cancel(self):
         """Clicking the cancel button after clicking the select button must
            hide the toolbar automatically."""
         self.enable_select_mode()
 
-        cancel_icon = self.events_view.get_toolbar_cancel_icon()
+        # TODO: test to be in select mode
+
+        cancel_icon = self.gallery_utils.get_toolbar_cancel_icon()
         self.click_item(cancel_icon)
 
-        toolbar = self.events_view.get_toolbar()
-        self.assertThat(toolbar.active, Eventually(Equals(False)))
+        toolbar = self.main_view.get_toolbar()
+        self.assertThat(toolbar.opened, Eventually(Equals(False)))
 
     def test_delete_a_photo(self):
         """Selecting a photo must make the delete button clickable."""
-        number_of_photos = self.events_view.number_of_photos_in_events()
+        number_of_photos = self.gallery_utils.number_of_photos_in_events()
         self.enable_select_mode()
         self.click_first_photo()
-        self.click_delete_action()
+        self.main_view.open_toolbar().click_button("deleteButton")
 
         delete_dialog = self.get_delete_dialog()
 
-        cancel_item = self.events_view.get_delete_dialog_cancel_button()
+        cancel_item = self.gallery_utils.get_delete_dialog_cancel_button()
         self.click_item(cancel_item)
 
         self.assertThat(lambda: exists(self.sample_file),
                         Eventually(Equals(True)))
 
-        new_number_of_photos = self.events_view.number_of_photos_in_events()
+        new_number_of_photos = self.gallery_utils.number_of_photos_in_events()
         self.assertThat(new_number_of_photos, Equals(number_of_photos))
 
-        self.click_delete_action()
+        # TODO: find a better way to wait for dialog being closed
+        sleep(1)
+
+        self.main_view.open_toolbar().click_button("deleteButton")
 
         delete_dialog = self.get_delete_dialog()
 
-        delete_item = self.events_view.get_delete_dialog_delete_button()
+        delete_item = self.gallery_utils.get_delete_dialog_delete_button()
         self.click_item(delete_item)
 
         self.assertThat(lambda: exists(self.sample_file),
                         Eventually(Equals(False)))
 
         self.ui_update()
-        new_number_of_photos = self.events_view.number_of_photos_in_events()
+        new_number_of_photos = self.gallery_utils.number_of_photos_in_events()
         self.assertThat(new_number_of_photos, Equals(number_of_photos - 1))
 
     def test_adding_a_video(self):

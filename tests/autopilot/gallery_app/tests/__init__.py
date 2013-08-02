@@ -16,6 +16,8 @@ from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
 from testtools.matchers import Equals, GreaterThan
 
+from ubuntuuitoolkit import emulators as toolkit_emulators
+from gallery_app.emulators import main_screen
 from gallery_app.emulators.gallery_utils import GalleryUtils
 
 from time import sleep
@@ -50,6 +52,10 @@ class GalleryTestCase(AutopilotTestCase):
     @property
     def gallery_utils(self):
         return GalleryUtils(self.app)
+
+    @property
+    def main_view(self):
+        return self.app.select_single("MainScreen")
 
     def setUp(self):
         self.pointing_device = Pointer(self.input_device_class.create())
@@ -93,14 +99,16 @@ class GalleryTestCase(AutopilotTestCase):
         self.ARGS.append(self.sample_destination_dir)
         self.app = self.launch_test_application(
             self.local_location,
-            *self.ARGS)
+            *self.ARGS,
+            emulator_base=toolkit_emulators.UbuntuUIToolkitEmulatorBase)
 
     def launch_test_installed(self):
         if model() == 'Desktop':
             self.ARGS.append(self.sample_destination_dir)
             self.app = self.launch_test_application(
                 "gallery-app",
-                *self.ARGS)
+                *self.ARGS,
+                emulator_base=toolkit_emulators.UbuntuUIToolkitEmulatorBase)
         else:
             self.ARGS.append("--desktop_file_hint="
                              "/usr/share/applications/gallery-app.desktop")
@@ -108,7 +116,8 @@ class GalleryTestCase(AutopilotTestCase):
             self.app = self.launch_test_application(
                 "gallery-app",
                 *self.ARGS,
-                app_type='qt')
+                app_type='qt',
+                emulator_base=toolkit_emulators.UbuntuUIToolkitEmulatorBase)
 
     def ui_update(self):
         """ Gives the program the time to update the UI"""
@@ -133,23 +142,6 @@ class GalleryTestCase(AutopilotTestCase):
         self.pointing_device.press()
         sleep(1)
         self.pointing_device.release()
-
-    def reveal_toolbar(self):
-        toolbar = self.gallery_utils.get_toolbar()
-        self.assertThat(toolbar.animating, Eventually(Equals(False)))
-
-        if toolbar.active:
-            # Toolbar already open
-            return
-
-        main_view = self.gallery_utils.get_qml_view()
-        x, y, w, h = toolbar.globalRect
-        x_line = main_view.x + main_view.width * 0.5
-        start_y = main_view.y + main_view.height - 1
-        stop_y = start_y - 2 * h
-
-        self.pointing_device.drag(x_line, start_y, x_line, stop_y)
-        self.assertThat(toolbar.state, Eventually(Equals("spread")))
 
     def ensure_at_least_one_event(self):
         """The event view has to have at least one event

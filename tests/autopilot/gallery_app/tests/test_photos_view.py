@@ -45,7 +45,7 @@ class TestPhotosView(GalleryTestCase):
         self.ensure_tabs_dont_move()
 
     def enable_select_mode(self):
-        self.reveal_toolbar()
+        self.main_view.open_toolbar()
         self.click_select_icon()
 
     def click_select_icon(self):
