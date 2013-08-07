@@ -239,6 +239,10 @@ Item {
                 visible: false
                 photo: galleryPhotoViewer.media
                 cropper: viewerWrapper.cropper
+
+                onButtonPressed: {
+                    viewerWrapper.tools.opened = false;
+                }
             }
         }
 

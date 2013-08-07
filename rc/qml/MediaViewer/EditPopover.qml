@@ -21,12 +21,16 @@ import Ubuntu.Components.ListItems 0.1 as ListItem
 /*!
 */
 Popover {
+    id: root
     /*!
     */
     property variant photo: null
     /*!
     */
     property CropInteractor cropper
+
+    ///
+    signal buttonPressed()
 
     Column {
         anchors {
@@ -40,6 +44,7 @@ Popover {
             onClicked: {
                 hide();
                 photo.rotateRight();
+                root.buttonPressed();
             }
         }
         ListItem.Standard {
@@ -48,6 +53,7 @@ Popover {
             onClicked: {
                 hide();
                 cropper.show(photo);
+                root.buttonPressed();
             }
         }
         ListItem.Standard {
@@ -56,6 +62,7 @@ Popover {
             onClicked: {
                 hide();
                 photo.autoEnhance();
+                root.buttonPressed();
             }
         }
         ListItem.Standard {
@@ -65,6 +72,7 @@ Popover {
             onClicked: {
                 hide();
                 photo.undo();
+                root.buttonPressed();
             }
         }
         ListItem.Standard {
@@ -74,6 +82,7 @@ Popover {
             onClicked: {
                 hide();
                 photo.redo();
+                root.buttonPressed();
             }
         }
         ListItem.Standard {
@@ -83,6 +92,7 @@ Popover {
             onClicked: {
                 hide();
                 photo.revertToOriginal();
+                root.buttonPressed();
             }
         }
     }
