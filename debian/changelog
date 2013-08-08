@@ -1,3 +1,13 @@
+gallery-app (0.0.67+13.10.20130808.1-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Close the toolbar when an editing operation was selected.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 795
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 08 Aug 2013 06:28:40 +0000
+
 gallery-app (0.0.67+13.10.20130802-0ubuntu1) saucy; urgency=low
 
   [ Guenter Schwann ]
