@@ -10,7 +10,7 @@
 
 from __future__ import absolute_import
 
-from testtools.matchers import Equals
+from testtools.matchers import Equals, Is
 from autopilot.matchers import Eventually
 
 from gallery_app.tests import GalleryTestCase
@@ -31,6 +31,10 @@ class TestEventsView(GalleryTestCase):
     def tearDown(self):
         super(TestEventsView, self).tearDown()
 
+    def get_events_view(self):
+        return self.gallery_utils.select_single_retry("EventsOverview",
+                                                      objectName="organicEventView")
+
     def enable_select_mode(self):
         self.main_view.open_toolbar().click_button("selectButton")
 
@@ -46,15 +50,18 @@ class TestEventsView(GalleryTestCase):
     def test_select_button_cancel(self):
         """Clicking the cancel button after clicking the select button must
            hide the toolbar automatically."""
-        self.enable_select_mode()
+        events_view = self.get_events_view()
+        self.assertFalse(events_view.inSelectionMode)
 
-        # TODO: test to be in select mode
+        self.enable_select_mode()
+        self.assertTrue(events_view.inSelectionMode)
 
         cancel_icon = self.gallery_utils.get_toolbar_cancel_icon()
         self.click_item(cancel_icon)
 
         toolbar = self.main_view.get_toolbar()
         self.assertThat(toolbar.opened, Eventually(Equals(False)))
+        self.assertFalse(events_view.inSelectionMode)
 
     def test_delete_a_photo(self):
         """Selecting a photo must make the delete button clickable."""
@@ -74,8 +81,8 @@ class TestEventsView(GalleryTestCase):
         new_number_of_photos = self.gallery_utils.number_of_photos_in_events()
         self.assertThat(new_number_of_photos, Equals(number_of_photos))
 
-        # TODO: find a better way to wait for dialog being closed
-        sleep(1)
+        self.assertThat(lambda: self.gallery_utils.get_delete_dialog(),
+                        Eventually(Is(None)))
 
         self.main_view.open_toolbar().click_button("deleteButton")
 
