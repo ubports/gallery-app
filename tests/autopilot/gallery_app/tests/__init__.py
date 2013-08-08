@@ -17,7 +17,6 @@ from autopilot.testcase import AutopilotTestCase
 from testtools.matchers import Equals, GreaterThan
 
 from ubuntuuitoolkit import emulators as toolkit_emulators
-from gallery_app.emulators import main_screen
 from gallery_app.emulators.gallery_utils import GalleryUtils
 
 from time import sleep

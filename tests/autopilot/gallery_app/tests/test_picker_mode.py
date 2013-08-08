@@ -16,9 +16,6 @@ from autopilot.matchers import Eventually
 from gallery_app.emulators.picker_mode import PickerMode
 from gallery_app.tests import GalleryTestCase
 
-from os.path import exists
-from time import sleep
-
 
 class TestPickerMode(GalleryTestCase):
 

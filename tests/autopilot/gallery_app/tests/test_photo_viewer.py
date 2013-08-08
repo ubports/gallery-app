@@ -75,8 +75,6 @@ class TestPhotoViewer(TestPhotoViewerBase):
         self.pointing_device.move_to_object(trash_button)
         self.pointing_device.click()
 
-        delete_dialog = self.get_delete_dialog()
-
         cancel_item = self.photo_viewer.get_delete_popover_cancel_item()
         self.click_item(cancel_item)
 
@@ -88,8 +86,6 @@ class TestPhotoViewer(TestPhotoViewerBase):
         self.pointing_device.move_to_object(trash_button)
         self.pointing_device.click()
 
-        delete_dialog = self.get_delete_dialog()
-
         delete_item = self.photo_viewer.get_delete_popover_delete_item()
         self.click_item(delete_item)
 
@@ -98,8 +94,6 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
         self.main_view.open_toolbar()
         self.pointing_device.click_object(trash_button)
-
-        delete_dialog = self.get_delete_dialog()
 
         delete_item = self.photo_viewer.get_delete_popover_delete_item()
         self.click_item(delete_item)

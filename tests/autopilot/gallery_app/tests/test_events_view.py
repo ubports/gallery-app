@@ -16,7 +16,6 @@ from autopilot.matchers import Eventually
 from gallery_app.tests import GalleryTestCase
 
 from os.path import exists
-from time import sleep
 
 
 class TestEventsView(GalleryTestCase):
@@ -70,8 +69,6 @@ class TestEventsView(GalleryTestCase):
         self.click_first_photo()
         self.main_view.open_toolbar().click_button("deleteButton")
 
-        delete_dialog = self.get_delete_dialog()
-
         cancel_item = self.gallery_utils.get_delete_dialog_cancel_button()
         self.click_item(cancel_item)
 
@@ -85,8 +82,6 @@ class TestEventsView(GalleryTestCase):
                         Eventually(Is(None)))
 
         self.main_view.open_toolbar().click_button("deleteButton")
-
-        delete_dialog = self.get_delete_dialog()
 
         delete_item = self.gallery_utils.get_delete_dialog_delete_button()
         self.click_item(delete_item)
