@@ -1,3 +1,10 @@
+gallery-app (0.0.67+13.10.20130808.2-0ubuntu1) saucy; urgency=low
+
+  * New rebuild forced
+  * Automatic snapshot from revision 796
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 08 Aug 2013 13:18:44 +0000
+
 gallery-app (0.0.67+13.10.20130808.1-0ubuntu1) saucy; urgency=low
 
   [ Guenter Schwann ]
