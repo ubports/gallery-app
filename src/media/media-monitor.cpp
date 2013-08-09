@@ -208,7 +208,8 @@ QStringList MediaMonitorWorker::getManifest(const QStringList &dirs)
         QDir dir(dirName);
         QStringList fileList = dir.entryList(QDir::Files, QDir::Time);
         foreach (const QString &fileName, fileList) {
-            allFiles.append(dirName + QDir::separator() + fileName);
+            const QFileInfo fi(dirName + QDir::separator() + fileName);
+            allFiles.append(fi.absoluteFilePath());
         }
     }
     return allFiles;
