@@ -1,3 +1,13 @@
+gallery-app (0.0.67+13.10.20130809.2-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Handle file names correctly to not accidentially delete photos.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 800
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 09 Aug 2013 16:17:46 +0000
+
 gallery-app (0.0.67+13.10.20130809.1-0ubuntu1) saucy; urgency=low
 
   [ Guenter Schwann ]
