@@ -1,3 +1,13 @@
+gallery-app (0.0.67+13.10.20130809.1-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Start to use the UITK emulators.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 798
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 09 Aug 2013 12:31:34 +0000
+
 gallery-app (0.0.67+13.10.20130808.2-0ubuntu1) saucy; urgency=low
 
   * New rebuild forced
