@@ -55,8 +55,9 @@ class TestEventsView(GalleryTestCase):
         self.enable_select_mode()
         self.assertTrue(events_view.inSelectionMode)
 
-        cancel_icon = self.gallery_utils.get_toolbar_cancel_icon()
-        self.click_item(cancel_icon)
+        #cancel_icon = self.gallery_utils.get_toolbar_cancel_icon()
+        #self.click_item(cancel_icon)
+        self.main_view.get_toolbar().click_custom_button("cancelButton")
 
         toolbar = self.main_view.get_toolbar()
         self.assertThat(toolbar.opened, Eventually(Equals(False)))

@@ -6,7 +6,12 @@
 # by the Free Software Foundation.
 
 from ubuntuuitoolkit import emulators as toolkit_emulators
+from toolbar import Toolbar
 
 
 class MainScreen(toolkit_emulators.MainView):
     """An emulator class that makes it easy to interact with the gallery app"""
+
+    def toolbar(self):
+        """Use get_toolbar() instad, but this is used to make pyflakes happy"""
+        return self.select_single(Toolbar)

@@ -21,14 +21,6 @@ class PhotosView(GalleryUtils):
         """Returns the photos view."""
         return self.app.select_single("Tab", objectName="photosView")
 
-    def get_toolbar_select_button(self):
-        """Returns the select button of the tollbar in the events view."""
-        return self.get_toolbar_named_toolbarbutton("selectButton")
-
-    def get_toolbar_delete_button(self):
-        """Returns the delete button of the tollbar in the events view."""
-        return self.get_toolbar_named_toolbarbutton("deleteButton")
-
     def get_first_photo_in_photos_view(self):
         """Returns the very first photo in the photos view."""
         return self.select_many_retry("QQuickItem",

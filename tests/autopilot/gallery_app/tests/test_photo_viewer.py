@@ -10,7 +10,7 @@
 
 from __future__ import absolute_import
 
-from testtools.matchers import Equals, NotEquals, GreaterThan
+from testtools.matchers import Equals, NotEquals, GreaterThan, Is
 from autopilot.matchers import Eventually
 
 from gallery_app.emulators.photo_viewer import PhotoViewer
@@ -61,30 +61,27 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
     def test_nav_bar_back_button(self):
         """Clicking the back button must close the photo."""
+        self.main_view.open_toolbar().click_button("backButton")
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
-        back_button = self.photo_viewer.get_toolbar_back_icon()
-        self.click_item(back_button)
-
         self.assertThat(photo_viewer.visible, Eventually(Equals(False)))
 
     def test_photo_delete_works(self):
         """Clicking the trash button must show the delete dialog."""
-        trash_button = self.photo_viewer.get_toolbar_delete_button()
-        photo_viewer = self.photo_viewer.get_main_photo_viewer()
+        self.main_view.open_toolbar().click_button("deleteButton")
+        delete_dialog = self.photo_viewer.get_delete_dialog()
+        self.assertThat(delete_dialog.opacity, Eventually(Equals(1.0)))
 
-        self.pointing_device.move_to_object(trash_button)
-        self.pointing_device.click()
+        photo_viewer = self.photo_viewer.get_main_photo_viewer()
 
         cancel_item = self.photo_viewer.get_delete_popover_cancel_item()
         self.click_item(cancel_item)
+        self.assertThat(lambda: self.photo_viewer.get_delete_dialog(),
+                        Eventually(Is(None)))
 
         self.assertThat(lambda: exists(self.sample_file),
                         Eventually(Equals(True)))
 
-        self.main_view.open_toolbar()
-
-        self.pointing_device.move_to_object(trash_button)
-        self.pointing_device.click()
+        self.main_view.open_toolbar().click_button("deleteButton")
 
         delete_item = self.photo_viewer.get_delete_popover_delete_item()
         self.click_item(delete_item)
@@ -92,41 +89,24 @@ class TestPhotoViewer(TestPhotoViewerBase):
         self.assertThat(lambda: exists(self.sample_file),
                         Eventually(Equals(False)))
 
-        self.main_view.open_toolbar()
-        self.pointing_device.click_object(trash_button)
+        self.main_view.open_toolbar().click_button("deleteButton")
 
         delete_item = self.photo_viewer.get_delete_popover_delete_item()
         self.click_item(delete_item)
 
         self.assertThat(photo_viewer.visible, Eventually(Equals(False)))
 
-    # def test_nav_bar_album_picker_button(self):
-    #     """Clicking the album picker must show the picker dialog."""
-    #     album_button = self.photo_viewer.get_toolbar_album_button()
-    #     album_picker = self.photo_viewer.get_popup_album_picker()
-
-    #     self.pointing_device.move_to_object(album_button)
-    #     self.pointing_device.click()
-
-    #     self.assertThat(album_picker.visible, Eventually(Equals(True)))
+    def test_nav_bar_album_picker_button(self):
+        """Clicking the album picker must show the picker dialog."""
+        self.main_view.open_toolbar().click_button("addButton")
+        album_picker = self.photo_viewer.get_popup_album_picker()
+        self.assertThat(album_picker.visible, Eventually(Equals(True)))
 
     def test_nav_bar_share_button(self):
         """Clicking the share button must show the share dialog."""
-        share_button = self.photo_viewer.get_toolbar_share_button()
-
-        self.click_item(share_button)
-
+        self.main_view.open_toolbar().click_button("shareButton")
         share_menu = self.photo_viewer.get_share_dialog()
         self.assertThat(share_menu.visible, Eventually(Equals(True)))
-
-    def test_nav_bar_edit_button(self):
-        """Clicking the edit button must show the edit dialog."""
-        edit_button = self.photo_viewer.get_toolbar_edit_button()
-
-        self.click_item(edit_button)
-
-        edit_dialog = self.photo_viewer.get_photo_edit_dialog()
-        self.assertThat(edit_dialog.visible, Eventually(Equals(True)))
 
     def test_double_click_zoom(self):
         """Double clicking an opened photo must zoom it."""
@@ -151,8 +131,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.click_edit_button()
 
     def click_edit_button(self):
-        edit_button = self.photo_viewer.get_toolbar_edit_button()
-        self.click_item(edit_button)
+        self.main_view.open_toolbar().click_button("editButton")
         edit_dialog = self.photo_viewer.get_photo_edit_dialog()
         self.assertThat(edit_dialog.opacity, (Eventually(Equals(1))))
 
@@ -281,7 +260,6 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.click_rotate_item()
 
-        self.main_view.open_toolbar()
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
         redo_item = self.photo_viewer.get_redo_menu_item()
@@ -293,7 +271,6 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.click_undo_item()
 
-        self.main_view.open_toolbar()
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
         redo_item = self.photo_viewer.get_redo_menu_item()
@@ -305,7 +282,6 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.click_redo_item()
 
-        self.main_view.open_toolbar()
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
         redo_item = self.photo_viewer.get_redo_menu_item()
@@ -317,7 +293,6 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.click_revert_item()
 
-        self.main_view.open_toolbar()
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
         redo_item = self.photo_viewer.get_redo_menu_item()
@@ -329,7 +304,6 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.click_enhance_item()
 
-        self.main_view.open_toolbar()
         self.click_edit_button()
 
         revert_item = self.photo_viewer.get_revert_menu_item()

@@ -55,7 +55,7 @@ class GalleryTestCase(AutopilotTestCase):
 
     @property
     def main_view(self):
-        return self.app.select_single("MainScreen")
+        return self.app.select_single(main_screen.MainScreen)
 
     def setUp(self):
         self.pointing_device = Pointer(self.input_device_class.create())

@@ -61,37 +61,29 @@ class TestAlbumView(GalleryTestCase):
         self.assertThat(num_photos_start, Equals(1))
 
         # open media selector but cancel
-        self.main_view.open_toolbar()
-        add_button = self.album_view.get_toolbar_add_button()
-        self.click_item(add_button)
+        self.main_view.open_toolbar().click_button("addButton")
         self.ensure_media_selector_is_fully_open()
 
-        cancel = self.media_selector.get_toolbar_cancel_icon()
-        self.click_item(cancel)
+        self.main_view.get_toolbar().click_custom_button("cancelButton")
         self.ensure_media_selector_is_fully_closed()
 
         num_photos = self.album_view.number_of_photos()
         self.assertThat(num_photos, Equals(num_photos_start))
 
         # open media selector and add a photo
-        self.main_view.open_toolbar()
-        add_button = self.album_view.get_toolbar_add_button()
-        self.click_item(add_button)
+        self.main_view.open_toolbar().click_button("addButton")
         self.ensure_media_selector_is_fully_open()
 
         photo = self.media_selector.get_second_photo()
         self.click_item(photo)
-        add_button = self.media_selector.get_toolbar_add_button()
-        self.click_item(add_button)
+        self.main_view.get_toolbar().click_custom_button("addButton")
 
         self.assertThat(
             lambda: self.album_view.number_of_photos(),
             Eventually(Equals(num_photos_start + 1)))
 
     def test_add_photo_to_new_album(self):
-        self.main_view.open_toolbar()
-        add_button = self.albums_view.get_toolbar_add_button()
-        self.click_item(add_button)
+        self.main_view.open_toolbar().click_button("addButton")
         self.ui_update()
 
         self.open_first_album()
@@ -104,8 +96,7 @@ class TestAlbumView(GalleryTestCase):
 
         photo = self.media_selector.get_second_photo()
         self.click_item(photo)
-        add_button = self.media_selector.get_toolbar_add_button()
-        self.click_item(add_button, delay=0.5)
+        self.main_view.get_toolbar().click_custom_button("addButton")
 
         self.assertThat(
             lambda: self.album_view.number_of_photos(),
