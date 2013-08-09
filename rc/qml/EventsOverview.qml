@@ -39,8 +39,6 @@ OrganicView {
 
     selection: SelectionState {
         id: select
-        // avoid entering selection mode by long-pressing on a photo:
-        allowSelectionModeChange: false
     }
 
     model: EventCollectionModel {
