@@ -55,8 +55,9 @@ class TestPhotoViewer(TestPhotoViewerBase):
         super(TestPhotoViewer, self).setUp()
 
     def get_delete_dialog(self):
+        self.assertThat(lambda: self.photo_viewer.get_delete_dialog(),
+                        Eventually(Not(Is(None))))
         delete_dialog = self.photo_viewer.get_delete_dialog()
-        self.assertThat(lambda: delete_dialog, Eventually(Not(Is(None))))
         self.assertThat(delete_dialog.opacity, Eventually(Equals(1)))
         return delete_dialog
 

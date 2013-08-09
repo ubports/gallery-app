@@ -48,11 +48,6 @@ class TestPhotosView(GalleryTestCase):
         photo = self.photos_view.get_first_photo_in_photos_view()
         self.click_item(photo)
 
-    def get_delete_dialog(self):
-        delete_dialog = self.gallery_utils.get_delete_dialog()
-        self.assertThat(delete_dialog.opacity, Eventually(Equals(1)))
-        return delete_dialog
-
     def test_open_photo(self):
         self.click_first_photo()
         photo_viewer = self.photos_view.get_main_photo_viewer()
