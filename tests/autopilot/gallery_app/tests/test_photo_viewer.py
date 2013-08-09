@@ -34,7 +34,7 @@ class TestPhotoViewerBase(GalleryTestCase):
         self.ARGS = []
         super(TestPhotoViewerBase, self).setUp()
         self.open_first_photo()
-        self.reveal_toolbar()
+        self.main_view.open_toolbar()
 
     def open_first_photo(self):
         self.assertThat(lambda: self.photo_viewer.number_of_photos_in_events(),
@@ -75,20 +75,16 @@ class TestPhotoViewer(TestPhotoViewerBase):
         self.pointing_device.move_to_object(trash_button)
         self.pointing_device.click()
 
-        delete_dialog = self.get_delete_dialog()
-
         cancel_item = self.photo_viewer.get_delete_popover_cancel_item()
         self.click_item(cancel_item)
 
         self.assertThat(lambda: exists(self.sample_file),
                         Eventually(Equals(True)))
 
-        self.reveal_toolbar()
+        self.main_view.open_toolbar()
 
         self.pointing_device.move_to_object(trash_button)
         self.pointing_device.click()
-
-        delete_dialog = self.get_delete_dialog()
 
         delete_item = self.photo_viewer.get_delete_popover_delete_item()
         self.click_item(delete_item)
@@ -96,10 +92,8 @@ class TestPhotoViewer(TestPhotoViewerBase):
         self.assertThat(lambda: exists(self.sample_file),
                         Eventually(Equals(False)))
 
-        self.reveal_toolbar()
+        self.main_view.open_toolbar()
         self.pointing_device.click_object(trash_button)
-
-        delete_dialog = self.get_delete_dialog()
 
         delete_item = self.photo_viewer.get_delete_popover_delete_item()
         self.click_item(delete_item)
@@ -240,7 +234,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
         self.assertThat(is_landscape, Equals(False))
 
-        self.reveal_toolbar()
+        self.main_view.open_toolbar()
         self.click_edit_button()
         self.click_undo_item()
 
@@ -249,7 +243,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
         self.assertThat(is_landscape, Equals(True))
 
-        self.reveal_toolbar()
+        self.main_view.open_toolbar()
         self.click_edit_button()
         self.click_redo_item()
 
@@ -258,10 +252,10 @@ class TestPhotoEditor(TestPhotoViewerBase):
         is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
         self.assertThat(is_landscape, Equals(False))
 
-        self.reveal_toolbar()
+        self.main_view.open_toolbar()
         self.click_edit_button()
         self.click_rotate_item()
-        self.reveal_toolbar()
+        self.main_view.open_toolbar()
         self.click_edit_button()
         self.click_revert_item()
 
@@ -287,7 +281,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.click_rotate_item()
 
-        self.reveal_toolbar()
+        self.main_view.open_toolbar()
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
         redo_item = self.photo_viewer.get_redo_menu_item()
@@ -299,7 +293,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.click_undo_item()
 
-        self.reveal_toolbar()
+        self.main_view.open_toolbar()
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
         redo_item = self.photo_viewer.get_redo_menu_item()
@@ -311,7 +305,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.click_redo_item()
 
-        self.reveal_toolbar()
+        self.main_view.open_toolbar()
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
         redo_item = self.photo_viewer.get_redo_menu_item()
@@ -323,7 +317,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.click_revert_item()
 
-        self.reveal_toolbar()
+        self.main_view.open_toolbar()
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
         redo_item = self.photo_viewer.get_redo_menu_item()
@@ -333,12 +327,10 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(redo_item.enabled, Eventually(Equals(False)))
         self.assertThat(revert_item.enabled, Eventually(Equals(False)))
 
-        # disabled the test, as with the current implementation the UI is 
-        # blocked. This causes troubles on jenkins
-        #self.click_enhance_item()
+        self.click_enhance_item()
 
-        #self.reveal_toolbar()
-        #self.click_edit_button()
+        self.main_view.open_toolbar()
+        self.click_edit_button()
 
-        #revert_item = self.photo_viewer.get_revert_menu_item()
-        #self.assertThat(lambda: revert_item.enabled, Eventually(Equals(True)))
+        revert_item = self.photo_viewer.get_revert_menu_item()
+        self.assertThat(lambda: revert_item.enabled, Eventually(Equals(True)))

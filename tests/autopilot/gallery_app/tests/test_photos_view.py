@@ -45,7 +45,7 @@ class TestPhotosView(GalleryTestCase):
         self.ensure_tabs_dont_move()
 
     def enable_select_mode(self):
-        self.reveal_toolbar()
+        self.main_view.open_toolbar()
         self.click_select_icon()
 
     def click_select_icon(self):
@@ -88,8 +88,6 @@ class TestPhotosView(GalleryTestCase):
         self.click_first_photo()
         self.click_delete_action()
 
-        delete_dialog = self.get_delete_dialog()
-
         cancel_item = self.photos_view.get_delete_dialog_cancel_button()
         self.click_item(cancel_item)
 
@@ -100,8 +98,6 @@ class TestPhotosView(GalleryTestCase):
         self.assertThat(new_number_of_photos, Equals(number_of_photos))
 
         self.click_delete_action()
-
-        delete_dialog = self.get_delete_dialog()
 
         delete_item = self.photos_view.get_delete_dialog_delete_button()
         self.click_item(delete_item)

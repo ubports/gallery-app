@@ -44,6 +44,7 @@ Depends: ${misc:Depends},
          gallery-app (>= ${source:Version}),
          libautopilot-qt,
          libqt5test5,
+         ubuntu-ui-toolkit-autopilot,
 Description: Autopilot tests for the photo gallery for Ubuntu
  gallery-app is a photo gallery for the Ubuntu platform. This package contains
  autopilot tests for it.

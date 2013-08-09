@@ -43,7 +43,7 @@ class TestPhotosView(GalleryTestCase):
            2"""
         self.compare_number_of_albums(1)
 
-        self.reveal_toolbar()
+        self.main_view.open_toolbar()
         add_button = self.albums_view.get_toolbar_add_button()
         self.click_item(add_button)
 
