@@ -10,7 +10,7 @@
 
 from __future__ import absolute_import
 
-from testtools.matchers import Equals, NotEquals, GreaterThan, Is
+from testtools.matchers import Equals, NotEquals, GreaterThan, Is, Not
 from autopilot.matchers import Eventually
 
 from gallery_app.emulators.photo_viewer import PhotoViewer
@@ -56,6 +56,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
     def get_delete_dialog(self):
         delete_dialog = self.photo_viewer.get_delete_dialog()
+        self.assertThat(lambda: delete_dialog, Eventually(Not(Is(None))))
         self.assertThat(delete_dialog.opacity, Eventually(Equals(1)))
         return delete_dialog
 
@@ -68,8 +69,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
     def test_photo_delete_works(self):
         """Clicking the trash button must show the delete dialog."""
         self.main_view.open_toolbar().click_button("deleteButton")
-        delete_dialog = self.photo_viewer.get_delete_dialog()
-        self.assertThat(delete_dialog.opacity, Eventually(Equals(1.0)))
+        delete_dialog = self.get_delete_dialog()
 
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
 
