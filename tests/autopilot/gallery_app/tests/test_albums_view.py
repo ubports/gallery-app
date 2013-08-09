@@ -39,7 +39,7 @@ class TestAlbumsView(GalleryTestCase):
         self.assertThat(num_of_albums, Equals(target))
 
     def test_add_album(self):
-        """Add one album, and checks if the bumber of albums went from 1 to
+        """Add one album, and checks if the number of albums went from 1 to
            2"""
         self.compare_number_of_albums(1)
         self.main_view.open_toolbar().click_button("addButton")
