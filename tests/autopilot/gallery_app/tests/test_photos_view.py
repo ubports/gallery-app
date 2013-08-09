@@ -65,7 +65,7 @@ class TestPhotosView(GalleryTestCase):
 
         self.main_view.open_toolbar().click_custom_button("cancelButton")
 
-        toolbar = self.photos_view.get_toolbar()
+        toolbar = self.main_view.get_toolbar()
         self.assertThat(toolbar.active, Eventually(Equals(False)))
 
     def test_delete_a_photo(self):
