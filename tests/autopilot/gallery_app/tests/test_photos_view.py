@@ -10,7 +10,7 @@
 
 from __future__ import absolute_import
 
-from testtools.matchers import Equals, GreaterThan, Is
+from testtools.matchers import Equals, Is
 from autopilot.matchers import Eventually
 
 from gallery_app.tests import GalleryTestCase
