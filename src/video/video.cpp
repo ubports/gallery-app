@@ -49,30 +49,6 @@ QImage Video::image(bool respectOrientation, const QSize &scaleSize)
 }
 
 /*!
- * \reimp
- */
-QUrl Video::galleryPath() const
-{
-    return Resource::getRcUrl("img/video-thumbnail.png");
-}
-
-/*!
- * \reimp
- */
-QUrl Video::galleryPreviewPath() const
-{
-    return Resource::getRcUrl("img/video-thumbnail.png");
-}
-
-/*!
- * \reimp
- */
-QUrl Video::galleryThumbnailPath() const
-{
-    return Resource::getRcUrl("img/video-thumbnail.png");
-}
-
-/*!
  * \brief Video::isCameraVideo return true if the video file was created by the
  * camera-app
  * \param file the file to check
