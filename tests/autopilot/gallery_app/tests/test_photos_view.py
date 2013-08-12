@@ -31,17 +31,7 @@ class TestPhotosView(GalleryTestCase):
         self.switch_to_photos_tab()
 
     def switch_to_photos_tab(self):
-        tabs_bar = self.photos_view.get_tabs_bar()
-        self.click_item(tabs_bar)
-
-        photos_tab_button = self.photos_view.get_photos_tab_button()
-        # Due to some timing issues sometimes mouse moves to the location a bit
-        # earlier even though the tab item is not fully visible, hence the tab
-        # does not activate.
-        self.assertThat(photos_tab_button.opacity,
-                        Eventually(GreaterThan(0.2)))
-        self.click_item(photos_tab_button)
-
+        self.main_view.switch_to_tab("photosTab")
         self.ensure_tabs_dont_move()
 
     def click_first_photo(self):
