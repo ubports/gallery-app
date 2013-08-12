@@ -28,6 +28,8 @@
 #include <QImageReader>
 #include <QMutexLocker>
 
+#include <gst/gst.h>
+
 // FIXME adapt to different sizes. This is fixed size for the demo device
 const int PreviewManager::PREVIEW_SIZE = 360; // in pixel
 const int PreviewManager::THUMBNAIL_SIZE = 216; // in pixel
@@ -53,6 +55,8 @@ PreviewManager::PreviewManager(const QString &thumbnailDirectory, QObject *paren
     QDir dir;
     dir.mkpath(m_thumbnailDir + PREVIEW_DIR);
     dir.mkpath(m_thumbnailDir + THUMBNAIL_DIR);
+
+    gst_init(0, 0);
 }
 
 /*!
@@ -144,9 +148,15 @@ bool PreviewManager::ensurePreview(QFileInfo file, bool regen)
     QImage thumbMaster;
     if (updateNeeded(file, QFileInfo(preview)) || regen) {
         QSize previewSize(PREVIEW_SIZE, PREVIEW_SIZE);
-        QImage fullsized = loadPhoto(file.canonicalFilePath(), previewSize);
+        QImage fullsized;
+        if (file.suffix().compare("mp4", Qt::CaseInsensitive) == 0) {
+            fullsized = grabVideoThumbnail(file.canonicalFilePath());
+        } else {
+            fullsized = loadPhoto(file.canonicalFilePath(), previewSize);
+        }
         if (fullsized.isNull()) {
-            qDebug() << "Unable to generate fullsized image for " << file.filePath() << "not generating preview";
+            qDebug() << "Unable to generate fullsized image for " << file.filePath()
+                     << "not generating preview";
             return false;
         }
 
@@ -312,4 +322,91 @@ QImage PreviewManager::loadPhoto(const QString &fileName, const QSize& maxSize) 
     }
 
     return image;
+}
+
+/*!
+ * \brief destroyFrameData cleanup function for the video thumbnail QImage
+ * \param data
+ */
+static void destroyFrameData (void *data)
+{
+    gst_buffer_unref(GST_BUFFER (data));
+}
+
+/*!
+ * \brief PreviewManager::grabVideoThumbnail grabs a frame from the given video file
+ * \param fileName
+ * \return
+ */
+QImage PreviewManager::grabVideoThumbnail(const QString &fileName) const
+{
+    QUrl url("file://"+fileName);
+    gchar *guri = g_strdup(url.toString().toUtf8().data());
+
+    GstElement *asink;
+    GstElement *vsink;
+
+    GstElement *pipeline = gst_element_factory_make("playbin2", "play");
+    GstCaps *caps = gst_caps_new_simple("video/x-raw-rgb",
+                                        "bpp", G_TYPE_INT, 24,
+                                        "depth", G_TYPE_INT, 24,
+                                        "pixel-aspect-ratio", GST_TYPE_FRACTION, 1, 1,
+                                        "endianness", G_TYPE_INT, G_BIG_ENDIAN,
+                                        "red_mask", G_TYPE_INT, 0xff0000,
+                                        "green_mask", G_TYPE_INT, 0x00ff00,
+                                        "blue_mask", G_TYPE_INT, 0x0000ff,
+                                        NULL);
+    asink = gst_element_factory_make("fakesink", "audio-fake-sink");
+    vsink = gst_element_factory_make("fakesink", "video-fake-sink");
+    g_object_set(vsink, "sync", TRUE, NULL);
+    g_object_set(pipeline,
+                 "flags", 0x00000001, // Make sure to render only the video stream (we do not need audio here)
+                 "audio-sink", asink,
+                 "video-sink", vsink,
+                 NULL);
+
+    g_object_set(pipeline, "uri", guri, NULL);
+    GstStateChangeReturn ret = gst_element_set_state(pipeline, GST_STATE_PAUSED);
+    switch (ret)
+    {
+        case GST_STATE_CHANGE_FAILURE:
+            qWarning() << "Fail to start thumbnail pipeline";
+            return QImage();
+        case GST_STATE_CHANGE_NO_PREROLL:
+            qWarning() << "Thumbnail not supported for live sources";
+            return QImage();
+        default:
+            break;
+    }
+
+    gst_element_seek(pipeline, 1.0,
+                     GST_FORMAT_TIME,  static_cast<GstSeekFlags>(GST_SEEK_FLAG_FLUSH | GST_SEEK_FLAG_KEY_UNIT),
+                     GST_SEEK_TYPE_SET, 100 * GST_MSECOND,
+                     GST_SEEK_TYPE_NONE, GST_CLOCK_TIME_NONE);
+    /* And wait for this seek to complete */
+    gst_element_get_state(pipeline, NULL, NULL, GST_CLOCK_TIME_NONE);
+
+    GstBuffer *buf = 0;
+    g_signal_emit_by_name(pipeline, "convert-frame", caps, &buf);
+
+    QImage thumb;
+    if (buf && GST_BUFFER_CAPS(buf)) {
+        gint width, height;
+        GstStructure *s = gst_caps_get_structure(GST_BUFFER_CAPS (buf), 0);
+        gboolean res = gst_structure_get_int(s, "width", &width);
+        res |= gst_structure_get_int (s, "height", &height);
+        if (!res) {
+            qWarning() << "could not get snapshot dimension";
+            return QImage();
+        }
+
+        thumb = QImage(GST_BUFFER_DATA(buf), width, height, QImage::Format_RGB888, destroyFrameData, buf);
+    }
+
+    gst_caps_unref(caps);
+    gst_element_set_state(pipeline, GST_STATE_NULL);
+    gst_object_unref(pipeline);
+    g_free(guri);
+
+    return thumb;
 }

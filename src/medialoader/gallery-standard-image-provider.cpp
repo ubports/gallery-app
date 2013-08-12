@@ -103,18 +103,24 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
     QFileInfo photoFile(url.path());
     m_previewManager->ensurePreview(photoFile);
 
-    CachedImage* cachedImage = claimCachedImageEntry(id, loggingStr);
-    Q_ASSERT(cachedImage != NULL);
-
+    QImage readyImage;
     uint bytesLoaded = 0;
-    QImage readyImage = fetchCachedImage(cachedImage, requestedSize, &bytesLoaded,
-                                           loggingStr);
-    if (readyImage.isNull())
-        LOG_IMAGE_STATUS("load-failure ");
-
     long currentCachedBytes = 0;
     int currentCacheEntries = 0;
-    releaseCachedImageEntry(cachedImage, bytesLoaded, &currentCachedBytes, &currentCacheEntries);
+
+    if (photoFile.suffix().compare("mp4", Qt::CaseInsensitive) == 0) {
+        readyImage = QImage(m_previewManager->previewFileName(photoFile.absoluteFilePath()));
+    } else {
+        CachedImage* cachedImage = claimCachedImageEntry(id, loggingStr);
+        Q_ASSERT(cachedImage != NULL);
+
+        readyImage = fetchCachedImage(cachedImage, requestedSize, &bytesLoaded,
+                                               loggingStr);
+        if (readyImage.isNull())
+            LOG_IMAGE_STATUS("load-failure ");
+
+        releaseCachedImageEntry(cachedImage, bytesLoaded, &currentCachedBytes, &currentCacheEntries);
+    }
 
     if (m_logImageLoading) {
         if (bytesLoaded > 0) {

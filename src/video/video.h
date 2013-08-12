@@ -36,10 +36,6 @@ public:
 
     virtual QImage image(bool respectOrientation = true, const QSize &scaleSize=QSize());
 
-    virtual QUrl galleryPath() const;
-    virtual QUrl galleryPreviewPath() const;
-    virtual QUrl galleryThumbnailPath() const;
-
     static bool isCameraVideo(const QFileInfo& file);
 
 private:
