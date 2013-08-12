@@ -118,14 +118,14 @@ class TestPhotoViewer(TestPhotoViewerBase):
         self.pointing_device.click()
 
         self.assertThat(opened_photo.isZoomAnimationInProgress,
-            Eventually(Equals(0)))
+            Eventually(Equals(False)))
         self.assertThat(opened_photo.fullyZoomed, Eventually(Equals(True)))
 
         self.pointing_device.click()
         self.pointing_device.click()
 
         self.assertThat(opened_photo.isZoomAnimationInProgress,
-            Eventually(Equals(0)))
+            Eventually(Equals(False)))
         self.assertThat(opened_photo.fullyUnzoomed, Eventually(Equals(True)))
 
 
