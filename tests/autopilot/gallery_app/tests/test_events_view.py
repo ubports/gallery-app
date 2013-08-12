@@ -41,11 +41,6 @@ class TestEventsView(GalleryTestCase):
         first_photo = self.gallery_utils.get_first_image_in_event_view()
         self.click_item(first_photo)
 
-    def get_delete_dialog(self):
-        delete_dialog = self.gallery_utils.get_delete_dialog()
-        self.assertThat(delete_dialog.opacity, Eventually(Equals(1)))
-        return delete_dialog
-
     def test_select_button_cancel(self):
         """Clicking the cancel button after clicking the select button must
            hide the toolbar automatically."""
@@ -55,8 +50,7 @@ class TestEventsView(GalleryTestCase):
         self.enable_select_mode()
         self.assertTrue(events_view.inSelectionMode)
 
-        cancel_icon = self.gallery_utils.get_toolbar_cancel_icon()
-        self.click_item(cancel_icon)
+        self.main_view.get_toolbar().click_custom_button("cancelButton")
 
         toolbar = self.main_view.get_toolbar()
         self.assertThat(toolbar.opened, Eventually(Equals(False)))

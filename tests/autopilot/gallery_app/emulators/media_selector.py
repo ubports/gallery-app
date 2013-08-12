@@ -18,11 +18,6 @@ class MediaSelector(GalleryUtils):
         """Returns the media selector"""
         return self.select_single_retry("MediaSelector")
 
-    def get_toolbar_add_button(self):
-        """Returns the add button of the tollbar in the media selector"""
-        toolbar = self.get_toolbar()
-        return toolbar.select_single("Button", objectName="addButton")
-
     def get_second_photo(self):
         """Returns the second photo item"""
         selector = self.get_media_selector()

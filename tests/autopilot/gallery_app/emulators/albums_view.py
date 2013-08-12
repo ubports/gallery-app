@@ -17,10 +17,6 @@ class AlbumsView(GalleryUtils):
         """Returns the photos tab."""
         return self.app.select_single("AbstractButton", buttonIndex=0)
 
-    def get_toolbar_add_button(self):
-        """Returns the add button of the tollbar in the events view."""
-        return self.get_toolbar_named_toolbarbutton("addButton")
-
     def number_of_albums_in_albums_view(self):
         """Returns the number of albums shown in albums overview"""
         albums = self.app.select_many("CheckerboardDelegate",

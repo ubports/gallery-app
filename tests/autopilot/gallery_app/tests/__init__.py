@@ -14,7 +14,7 @@ from autopilot.input import Mouse, Touch, Pointer
 from autopilot.matchers import Eventually
 from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
-from testtools.matchers import Equals, GreaterThan
+from testtools.matchers import Equals, GreaterThan, Not, Is
 
 from ubuntuuitoolkit import emulators as toolkit_emulators
 from gallery_app.emulators import main_screen
@@ -55,7 +55,7 @@ class GalleryTestCase(AutopilotTestCase):
 
     @property
     def main_view(self):
-        return self.app.select_single("MainScreen")
+        return self.app.select_single(main_screen.MainScreen)
 
     def setUp(self):
         self.pointing_device = Pointer(self.input_device_class.create())
@@ -206,3 +206,11 @@ class GalleryTestCase(AutopilotTestCase):
                         self.sample_destination_dir+"/"+video_file)
         self.assertThat(lambda: self.gallery_utils.number_of_photos_in_events(),
                         Eventually(Equals(3)))
+
+    def get_delete_dialog(self):
+        self.assertThat(lambda: self.gallery_utils.get_delete_dialog(),
+                        Eventually(Not(Is(None))))
+        delete_dialog = self.gallery_utils.get_delete_dialog()
+        self.assertThat(delete_dialog.opacity, Eventually(Equals(1)))
+        return delete_dialog
+

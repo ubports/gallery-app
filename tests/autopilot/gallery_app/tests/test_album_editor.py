@@ -118,16 +118,13 @@ class TestAlbumEditor(GalleryTestCase):
         self.click_item(plus_icon)
         self.ensure_media_selector_is_fully_open()
 
-        cancel = self.media_selector.get_toolbar_cancel_icon()
-        self.click_item(cancel)
+        self.main_view.get_toolbar().click_custom_button("cancelButton")
         self.ensure_album_editor_is_fully_closed()
 
         self.open_first_album()
         num_photos_start = self.album_view.number_of_photos()
         self.assertThat(num_photos_start, Equals(1))
-        self.main_view.open_toolbar()
-        back = self.album_view.get_toolbar_back_icon()
-        self.click_item(back)
+        self.main_view.open_toolbar().click_button("backButton")
         self.ensure_album_viewer_is_fully_closed()
 
         # now open to add a photo
@@ -138,8 +135,7 @@ class TestAlbumEditor(GalleryTestCase):
 
         photo = self.media_selector.get_second_photo()
         self.click_item(photo)
-        add_button = self.media_selector.get_toolbar_add_button()
-        self.click_item(add_button)
+        self.main_view.get_toolbar().click_custom_button("addButton")
         self.ensure_album_editor_is_fully_closed()
 
         self.open_first_album()

@@ -68,29 +68,6 @@ class GalleryUtils(object):
         """Returns the photos tab."""
         return self.app.select_single("AbstractButton", buttonIndex=0)
 
-    def get_toolbar(self):
-        """Returns the toolbar in the main events view."""
-        return self.app.select_single("Toolbar")
-
-    def get_toolbar_named_toolbarbutton(self, name):
-        """Returns the ToolbarButton with the specified objectName"""
-        toolbar = self.get_toolbar()
-        return toolbar.select_single("ActionItem", objectName=name)
-
-    def get_toolbar_cancel_icon(self):
-        """Returns the cancel icon of the events view."""
-        toolbar = self.get_toolbar()
-        return toolbar.select_single("Button",
-                                     objectName="cancelButton",
-                                     visible=True)
-
-    def get_toolbar_back_icon(self):
-        """Returns the back icon of the toolbar."""
-        toolbar = self.get_toolbar()
-        return toolbar.select_single("ActionItem",
-                                     objectName="backButton",
-                                     visible=True)
-
     def get_delete_dialog(self):
         """Returns the delete dialog in the events view."""
         return self.select_single_retry("DeleteDialog",

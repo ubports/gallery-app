@@ -18,7 +18,7 @@ from gallery_app.emulators.albums_view import AlbumsView
 from time import sleep
 
 
-class TestPhotosView(GalleryTestCase):
+class TestAlbumsView(GalleryTestCase):
 
     @property
     def albums_view(self):
@@ -26,7 +26,7 @@ class TestPhotosView(GalleryTestCase):
 
     def setUp(self):
         self.ARGS = []
-        super(TestPhotosView, self).setUp()
+        super(TestAlbumsView, self).setUp()
         self.switch_to_albums_tab()
 
     def compare_number_of_albums(self, target):
@@ -39,12 +39,8 @@ class TestPhotosView(GalleryTestCase):
         self.assertThat(num_of_albums, Equals(target))
 
     def test_add_album(self):
-        """Add one album, ench checks if the bumber of albums went from 1 to
+        """Add one album, and checks if the number of albums went from 1 to
            2"""
         self.compare_number_of_albums(1)
-
-        self.main_view.open_toolbar()
-        add_button = self.albums_view.get_toolbar_add_button()
-        self.click_item(add_button)
-
+        self.main_view.open_toolbar().click_button("addButton")
         self.compare_number_of_albums(2)

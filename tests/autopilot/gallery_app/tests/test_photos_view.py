@@ -10,7 +10,7 @@
 
 from __future__ import absolute_import
 
-from testtools.matchers import Equals, GreaterThan
+from testtools.matchers import Equals, GreaterThan, Is
 from autopilot.matchers import Eventually
 
 from gallery_app.tests import GalleryTestCase
@@ -44,26 +44,9 @@ class TestPhotosView(GalleryTestCase):
 
         self.ensure_tabs_dont_move()
 
-    def enable_select_mode(self):
-        self.main_view.open_toolbar()
-        self.click_select_icon()
-
-    def click_select_icon(self):
-        select_icon = self.photos_view.get_toolbar_select_button()
-        self.click_item(select_icon)
-
     def click_first_photo(self):
         photo = self.photos_view.get_first_photo_in_photos_view()
         self.click_item(photo)
-
-    def click_delete_action(self):
-        trash_button = self.photos_view.get_toolbar_delete_button()
-        self.click_item(trash_button)
-
-    def get_delete_dialog(self):
-        delete_dialog = self.gallery_utils.get_delete_dialog()
-        self.assertThat(delete_dialog.opacity, Eventually(Equals(1)))
-        return delete_dialog
 
     def test_open_photo(self):
         self.click_first_photo()
@@ -73,23 +56,24 @@ class TestPhotosView(GalleryTestCase):
     def test_select_button_cancel(self):
         """Clicking the cancel button after clicking the select button must
         hide the toolbar automatically."""
-        self.enable_select_mode()
+        self.main_view.open_toolbar().click_button("selectButton")
 
-        cancel_icon = self.photos_view.get_toolbar_cancel_icon()
-        self.click_item(cancel_icon)
+        self.main_view.open_toolbar().click_custom_button("cancelButton")
 
-        toolbar = self.photos_view.get_toolbar()
+        toolbar = self.main_view.get_toolbar()
         self.assertThat(toolbar.active, Eventually(Equals(False)))
 
     def test_delete_a_photo(self):
         """Selecting a photo must make the delete button clickable."""
         number_of_photos = self.photos_view.number_of_photos()
-        self.enable_select_mode()
+        self.main_view.open_toolbar().click_button("selectButton")
         self.click_first_photo()
-        self.click_delete_action()
+        self.main_view.open_toolbar().click_button("deleteButton")
 
         cancel_item = self.photos_view.get_delete_dialog_cancel_button()
         self.click_item(cancel_item)
+        self.assertThat(lambda: self.gallery_utils.get_delete_dialog(),
+                        Eventually(Is(None)))
 
         self.assertThat(lambda: exists(self.sample_file),
                         Eventually(Equals(True)))
@@ -97,7 +81,7 @@ class TestPhotosView(GalleryTestCase):
         new_number_of_photos = self.photos_view.number_of_photos()
         self.assertThat(new_number_of_photos, Equals(number_of_photos))
 
-        self.click_delete_action()
+        self.main_view.open_toolbar().click_button("deleteButton")
 
         delete_item = self.photos_view.get_delete_dialog_delete_button()
         self.click_item(delete_item)
