@@ -174,11 +174,6 @@ void GalleryApplication::createView()
     // Set ourselves up to expose functionality to run external commands from QML...
     m_view->engine()->rootContext()->setContextProperty("APP", this);
 
-    m_view->engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
-                                     m_galleryManager->galleryStandardImageProvider());
-    m_view->engine()->addImageProvider(GalleryThumbnailImageProvider::PROVIDER_ID,
-                                     m_galleryManager->galleryThumbnailImageProvider());
-
     m_view->setSource(Resource::getRcUrl("qml/GalleryApplication.qml"));
     QObject::connect(m_view->engine(), SIGNAL(quit()), this, SLOT(quit()));
 
@@ -209,6 +204,11 @@ void GalleryApplication::initCollections()
     QApplication::processEvents();
 
     m_galleryManager->postInit();
+    m_view->engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
+                                       m_galleryManager->takeGalleryStandardImageProvider());
+    m_view->engine()->addImageProvider(GalleryThumbnailImageProvider::PROVIDER_ID,
+                                       m_galleryManager->takeGalleryThumbnailImageProvider());
+
     QApplication::processEvents();
     if (m_cmdLineParser->startupTimer())
         qDebug() << "GalleryManager initialized" << m_timer->elapsed() << "ms";
