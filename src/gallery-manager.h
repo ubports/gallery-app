@@ -70,10 +70,9 @@ public:
     MediaCollection *mediaCollection() { return m_mediaCollection; }
     AlbumCollection *albumCollection();
     EventCollection *eventCollection();
-    PreviewManager *previewManager() { return m_previewManager; }
     Resource *resource() { return m_resource; }
-    GalleryStandardImageProvider *galleryStandardImageProvider() { return m_standardImageProvider; }
-    GalleryThumbnailImageProvider *galleryThumbnailImageProvider() { return m_thumbnailImageProvider; }
+    GalleryStandardImageProvider *takeGalleryStandardImageProvider();
+    GalleryThumbnailImageProvider *takeGalleryThumbnailImageProvider();
 
     void logImageLoading(bool log);
 
