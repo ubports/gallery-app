@@ -11,7 +11,6 @@ include_directories(
     ${gallery_media_src_SOURCE_DIR}
     ${gallery_medialoader_src_SOURCE_DIR}
     ${gallery_util_src_SOURCE_DIR}
-    ${GSTLIB_INCLUDE_DIRS}
     )
 
 QT_WRAP_CPP(gallerystandardimageprovider GALLERYSTANDARDIMAGEPROVIDIER_MOCS
@@ -36,6 +35,4 @@ set_tests_properties(gallerystandardimageprovider PROPERTIES
     TIMEOUT ${CTEST_TESTING_TIMEOUT}
     ENVIRONMENT "QT_QPA_PLATFORM=minimal"
     )
-target_link_libraries(gallerystandardimageprovider
-    ${GSTLIB_LDFLAGS}
-    )
+
