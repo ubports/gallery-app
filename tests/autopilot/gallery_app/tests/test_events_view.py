@@ -86,6 +86,8 @@ class TestEventsView(GalleryTestCase):
 
         delete_item = self.gallery_utils.get_delete_dialog_delete_button()
         self.click_item(delete_item)
+        self.assertThat(lambda: self.gallery_utils.get_delete_dialog(),
+                        Eventually(Is(None)))
 
         self.assertThat(lambda: exists(self.sample_file),
                         Eventually(Equals(False)))
