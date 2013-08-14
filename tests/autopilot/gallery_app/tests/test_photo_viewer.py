@@ -14,6 +14,7 @@ from testtools.matchers import Equals, NotEquals, GreaterThan, Is, Not
 from autopilot.matchers import Eventually
 
 from gallery_app.emulators.photo_viewer import PhotoViewer
+from gallery_app.emulators.media_viewer import MediaViewer
 from gallery_app.tests import GalleryTestCase
 
 from os.path import exists
@@ -172,7 +173,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.click_item(enhance_item)
 
     def ensure_spinner_not_running(self):
-        spinner = self.app.select_single("ActivityIndicator", objectName="busySpinner")
+        media_view = self.app.select_single(MediaViewer)
+        spinner = media_view.get_edit_spinner()
         self.assertThat(spinner.running, Eventually(Equals(False)))
 
     def test_photo_editor_crop(self):
