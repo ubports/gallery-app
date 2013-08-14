@@ -171,6 +171,10 @@ class TestPhotoEditor(TestPhotoViewerBase):
         enhance_item = self.photo_viewer.get_auto_enhance_menu_item()
         self.click_item(enhance_item)
 
+    def ensure_spinner_not_running(self):
+        spinner = self.app.select_single("ActivityIndicator", objectName="busySpinner")
+        self.assertThat(spinner.running, Eventually(Equals(False)))
+
     def test_photo_editor_crop(self):
         """Cropping a photo must crop it."""
         old_file_size = os.path.getsize(self.sample_file)
@@ -198,8 +202,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         crop_button = self.photo_viewer.get_crop_overlays_crop_icon()
         self.click_item(crop_button)
-        spinner = self.app.select_single("ActivityIndicator", objectName="busySpinner")
-        self.assertThat(spinner.running, Eventually(Equals(False)))
+        self.ensure_spinner_not_running()
 
         # wait for new photo being set/reloaded, so saving thumbnailing etc.
         # is done
@@ -221,8 +224,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(is_landscape, Equals(True))
 
         self.click_rotate_item()
-        spinner = self.app.select_single("ActivityIndicator", objectName="busySpinner")
-        self.assertThat(spinner.running, Eventually(Equals(False)))
+        self.ensure_spinner_not_running()
 
         self.assertThat(opened_photo.paintedHeight,
                         Eventually(Equals(item_height)))
@@ -232,7 +234,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.main_view.open_toolbar()
         self.click_edit_button()
         self.click_undo_item()
-        self.assertThat(spinner.running, Eventually(Equals(False)))
+        self.ensure_spinner_not_running()
 
         self.assertThat(opened_photo.paintedHeight,
                         Eventually(NotEquals(item_height)))
@@ -242,7 +244,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.main_view.open_toolbar()
         self.click_edit_button()
         self.click_redo_item()
-        self.assertThat(spinner.running, Eventually(Equals(False)))
+        self.ensure_spinner_not_running()
 
         self.assertThat(opened_photo.paintedHeight,
                         Eventually(Equals(item_height)))
@@ -277,8 +279,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(revert_item.enabled, Eventually(Equals(False)))
 
         self.click_rotate_item()
-        spinner = self.app.select_single("ActivityIndicator", objectName="busySpinner")
-        self.assertThat(spinner.running, Eventually(Equals(False)))
+        self.ensure_spinner_not_running()
 
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
@@ -290,7 +291,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(revert_item.enabled, Eventually(Equals(True)))
 
         self.click_undo_item()
-        self.assertThat(spinner.running, Eventually(Equals(False)))
+        self.ensure_spinner_not_running()
 
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
@@ -302,7 +303,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(revert_item.enabled, Eventually(Equals(False)))
 
         self.click_redo_item()
-        self.assertThat(spinner.running, Eventually(Equals(False)))
+        self.ensure_spinner_not_running()
 
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
@@ -314,7 +315,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(revert_item.enabled, Eventually(Equals(True)))
 
         self.click_revert_item()
-        self.assertThat(spinner.running, Eventually(Equals(False)))
+        self.ensure_spinner_not_running()
 
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
@@ -326,7 +327,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(revert_item.enabled, Eventually(Equals(False)))
 
         self.click_enhance_item()
-        self.assertThat(spinner.running, Eventually(Equals(False)))
+        self.ensure_spinner_not_running()
 
         self.click_edit_button()
 
