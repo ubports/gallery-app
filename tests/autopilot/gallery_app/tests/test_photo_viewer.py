@@ -138,6 +138,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
     def click_edit_button(self):
         self.main_view.open_toolbar().click_button("editButton")
         edit_dialog = self.photo_viewer.get_photo_edit_dialog()
+        self.assertThat(edit_dialog.visible, (Eventually(Equals(True))))
         self.assertThat(edit_dialog.opacity, (Eventually(Equals(1))))
 
     def click_rotate_item(self):
