@@ -189,6 +189,7 @@ class GalleryTestCase(AutopilotTestCase):
         self.assertThat(lambda: self.gallery_utils.get_delete_dialog(),
                         Eventually(Not(Is(None))))
         delete_dialog = self.gallery_utils.get_delete_dialog()
+        self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
         self.assertThat(delete_dialog.opacity, Eventually(Equals(1)))
         return delete_dialog
 
