@@ -157,6 +157,6 @@ class TestAlbumEditor(GalleryTestCase):
         green_item = self.album_editor.get_cover_menu_item(2)
         self.click_item(green_item)
 
-        self.assertThat(
+        self.assertThat(lambda:
             cover_image.source.endswith("album-cover-green-large.png"),
-            Equals(True))
+            Eventually(Equals(True)))
