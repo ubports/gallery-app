@@ -11,7 +11,6 @@ include_directories(
     ${gallery_src_SOURCE_DIR}/photo
     ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
-    ${GSTLIB_INCLUDE_DIRS}
     )
 
 set(gallery_database_HDRS
@@ -34,6 +33,4 @@ add_library(${GALLERY_DATABASE_LIB}
 
 qt5_use_modules(${GALLERY_DATABASE_LIB} Widgets Core Qml Quick Sql)
 
-target_link_libraries( ${GALLERY_DATABASE_LIB}
-    ${GSTLIB_LDFLAGS}
-    )
+target_link_libraries( ${GALLERY_DATABASE_LIB} )

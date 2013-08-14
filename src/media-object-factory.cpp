@@ -22,6 +22,7 @@
 
 // medialoader
 #include "photo-metadata.h"
+#include "video-metadata.h"
 
 // photo
 #include "photo.h"
@@ -239,6 +240,7 @@ bool MediaObjectFactory::readPhotoMetadata(const QFileInfo &file)
                 QDateTime(metadata->exposureTime()) : m_timeStamp;
     m_size = QSize();
 
+    delete metadata;
     return true;
 }
 
@@ -252,11 +254,24 @@ bool MediaObjectFactory::readVideoMetadata(const QFileInfo &file)
     if (!file.exists())
         return false;
 
+    VideoMetadata metadata;
+    bool ok = metadata.parseMetadata(file);
+    if (!ok)
+        return false;
+
     m_timeStamp = file.created();
-    m_orientation = TOP_LEFT_ORIGIN;
+    if (metadata.rotation() == 90) {
+        m_orientation = LEFT_BOTTOM_ORIGIN;
+    } else if (metadata.rotation() == 180) {
+        m_orientation = BOTTOM_RIGHT_ORIGIN;
+    } else if (metadata.rotation() == 270) {
+        m_orientation = RIGHT_TOP_ORIGIN;
+    } else {
+        m_orientation = TOP_LEFT_ORIGIN;
+    }
     m_fileSize = file.size();
-    m_exposureTime = file.created();
-    m_size = QSize(256, 256);
+    m_exposureTime = metadata.exposureTime();
+    m_size = metadata.frameSize();
 
     return true;
 }

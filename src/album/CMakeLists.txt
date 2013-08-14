@@ -10,7 +10,6 @@ include_directories(
     ${gallery_src_SOURCE_DIR}/media
     ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
-    ${GSTLIB_INCLUDE_DIRS}
     )
 
 set(gallery_album_HDRS
@@ -37,6 +36,4 @@ add_library(${GALLERY_ALBUM_LIB}
 
 qt5_use_modules(${GALLERY_ALBUM_LIB} Widgets Core Qml)
 
-target_link_libraries( ${GALLERY_ALBUM_LIB}
-    ${GSTLIB_LDFLAGS}
-    )
+target_link_libraries( ${GALLERY_ALBUM_LIB} )

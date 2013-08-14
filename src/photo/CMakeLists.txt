@@ -11,7 +11,6 @@ include_directories(
     ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
     ${EXIV2_INCLUDEDIR}
-    ${GSTLIB_INCLUDE_DIRS}
     )
 
 set(gallery_photo_HDRS
@@ -36,5 +35,4 @@ qt5_use_modules(${GALLERY_PHOTO_LIB} Widgets Core Quick)
 
 target_link_libraries( ${GALLERY_PHOTO_LIB}
     ${EXIV2_LIBRARIES}
-    ${GSTLIB_LDFLAGS}
     )
