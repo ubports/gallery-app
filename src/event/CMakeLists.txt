@@ -27,4 +27,3 @@ add_library(${GALLERY_EVENT_LIB}
 
 qt5_use_modules(${GALLERY_EVENT_LIB} Widgets Core Qml)
 
-target_link_libraries( ${GALLERY_EVENT_LIB} )

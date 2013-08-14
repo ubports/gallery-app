@@ -35,4 +35,4 @@ set_tests_properties(gallerystandardimageprovider PROPERTIES
     TIMEOUT ${CTEST_TESTING_TIMEOUT}
     ENVIRONMENT "QT_QPA_PLATFORM=minimal"
     )
-target_link_libraries( gallerystandardimageprovider )
+

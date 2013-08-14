@@ -33,4 +33,3 @@ add_library(${GALLERY_DATABASE_LIB}
 
 qt5_use_modules(${GALLERY_DATABASE_LIB} Widgets Core Qml Quick Sql)
 
-target_link_libraries( ${GALLERY_DATABASE_LIB} )

@@ -32,4 +32,3 @@ add_library(${GALLERY_PHOTO_LIB}
 
 qt5_use_modules(${GALLERY_PHOTO_LIB} Widgets Core Quick)
 
-target_link_libraries( ${GALLERY_PHOTO_LIB} )
