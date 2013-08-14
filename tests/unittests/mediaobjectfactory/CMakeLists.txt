@@ -16,7 +16,6 @@ include_directories(
     ${gallery_photo_src_SOURCE_DIR}
     ${gallery_util_src_SOURCE_DIR}
     ${gallery_video_src_SOURCE_DIR}
-    ${GSTLIB_INCLUDE_DIRS}
     )
 
 QT_WRAP_CPP(mediaobjectfactory MEDIAOBJECTFACTORY_MOCS
@@ -65,5 +64,4 @@ target_link_libraries(mediaobjectfactory
     gallery-qml
     gallery-util
     gallery-video
-    ${GSTLIB_LDFLAGS}
     )

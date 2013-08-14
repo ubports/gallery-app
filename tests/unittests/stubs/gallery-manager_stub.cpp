@@ -118,3 +118,13 @@ void GalleryManager::onMediaItemRemoved(qint64 mediaId)
 {
     Q_UNUSED(mediaId);
 }
+
+GalleryStandardImageProvider* GalleryManager::takeGalleryStandardImageProvider()
+{
+    return 0;
+}
+
+GalleryThumbnailImageProvider* GalleryManager::takeGalleryThumbnailImageProvider()
+{
+    return 0;
+}

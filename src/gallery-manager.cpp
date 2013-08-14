@@ -84,41 +84,18 @@ GalleryManager::GalleryManager(const QString& picturesDir,
  */
 GalleryManager::~GalleryManager()
 {
-    delete m_mediaLibrary;
-    m_mediaLibrary = 0;
-
     delete m_monitor;
-    m_monitor = 0;
-
-    delete m_resource;
-    m_resource = 0;
-
-    delete m_standardImageProvider;
-    m_standardImageProvider = 0;
-
-    delete m_thumbnailImageProvider;
-    m_thumbnailImageProvider = 0;
-
     delete m_mediaFactory;
-    m_mediaFactory = 0;
-
-    delete m_database;
-    m_database = 0;
-
-    delete m_defaultTemplate;
-    m_defaultTemplate = 0;
-
-    delete m_mediaCollection;
-    m_mediaCollection = 0;
-
+    delete m_mediaLibrary;
     delete m_albumCollection;
-    m_albumCollection = 0;
-
     delete m_eventCollection;
-    m_eventCollection = 0;
-
+    delete m_database;
+    delete m_defaultTemplate;
+    delete m_resource;
+    delete m_mediaCollection;
     delete m_previewManager;
-    m_previewManager = 0;
+    delete m_standardImageProvider;
+    delete m_thumbnailImageProvider;
 }
 
 /*!
@@ -287,8 +264,7 @@ void GalleryManager::initPreviewManager()
     if (m_previewManager)
         return;
 
-    m_previewManager = new PreviewManager(m_resource->thumbnailDirectory(),
-                                          m_mediaCollection);
+    m_previewManager = new PreviewManager(m_resource->thumbnailDirectory());
 
     m_standardImageProvider->setPreviewManager(m_previewManager);
     m_thumbnailImageProvider->setPreviewManager(m_previewManager);
@@ -364,4 +340,26 @@ void GalleryManager::onMediaItemAdded(QString file)
 void GalleryManager::onMediaItemRemoved(qint64 mediaId)
 {
     m_mediaCollection->destroy(mediaId);
+}
+
+/*!
+ * \brief GalleryManager::takeGalleryStandardImageProvider returns the standard image provider
+ * and gives up the owndership 
+ */
+GalleryStandardImageProvider* GalleryManager::takeGalleryStandardImageProvider()
+{
+    GalleryStandardImageProvider *provider = m_standardImageProvider;
+    m_standardImageProvider = 0;
+    return provider;
+}
+
+/*!
+ * \brief GalleryManager::takeGalleryThumbnailImageProvider returns the thumbnail image provider
+ * and gives up the owndership 
+ */
+GalleryThumbnailImageProvider* GalleryManager::takeGalleryThumbnailImageProvider()
+{
+    GalleryThumbnailImageProvider *provider = m_thumbnailImageProvider;
+    m_thumbnailImageProvider = 0;
+    return provider;
 }

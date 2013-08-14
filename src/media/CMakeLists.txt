@@ -9,7 +9,8 @@ include_directories(
     ${gallery_src_SOURCE_DIR}/database
     ${gallery_src_SOURCE_DIR}/medialoader
     ${gallery_util_src_SOURCE_DIR}
-    ${CMAKE_BINARY_DIR} )
+    ${CMAKE_BINARY_DIR}
+    )
 
 set(gallery_media_HDRS
     media-collection.h
@@ -28,5 +29,3 @@ add_library(${GALLERY_MEDIA_LIB}
     )
 
 qt5_use_modules(${GALLERY_MEDIA_LIB} Core Quick)
-
-target_link_libraries( ${GALLERY_MEDIA_LIB} )
