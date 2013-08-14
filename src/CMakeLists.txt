@@ -31,7 +31,6 @@ include_directories(
     ${gallery_video_src_SOURCE_DIR}
     ${gallery_qml_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
-    ${GSTLIB_INCLUDE_DIRS}
     )
 
 set(gallery_HDRS

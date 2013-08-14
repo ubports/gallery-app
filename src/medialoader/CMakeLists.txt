@@ -9,6 +9,7 @@ include_directories(
     ${gallery_src_SOURCE_DIR}/media
     ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
+    ${EXIV2_INCLUDEDIR}
     ${GSTLIB_INCLUDE_DIRS}
     )
 
@@ -33,5 +34,6 @@ add_library(${GALLERY_MEDIALOADER_LIB}
 qt5_use_modules(${GALLERY_MEDIALOADER_LIB} Core Quick)
 
 target_link_libraries( ${GALLERY_MEDIALOADER_LIB}
+    ${EXIV2_LIBRARIES}
     ${GSTLIB_LDFLAGS}
     )

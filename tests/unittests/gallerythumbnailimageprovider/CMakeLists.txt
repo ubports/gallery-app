@@ -10,7 +10,6 @@ include_directories(
     ${gallery_medialoader_src_SOURCE_DIR}
     ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
-    ${GSTLIB_INCLUDE_DIRS}
     )
 
 QT_WRAP_CPP(gallerythumbnailimageprovider GALLERYTHUMBNAILIMAGEPROVIDIER_MOCS
@@ -32,6 +31,4 @@ set_tests_properties(gallerythumbnailimageprovider PROPERTIES
     TIMEOUT ${CTEST_TESTING_TIMEOUT}
     ENVIRONMENT "QT_QPA_PLATFORM=minimal"
     )
-target_link_libraries(gallerythumbnailimageprovider 
-    ${GSTLIB_LDFLAGS}
-    )
+target_link_libraries( gallerythumbnailimageprovider )

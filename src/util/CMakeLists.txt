@@ -5,7 +5,6 @@ set(GALLERY_UTIL_LIB gallery-util)
 include_directories(
     ${gallery_src_BINARY_DIR}
     ${CMAKE_BINARY_DIR}
-    ${GSTLIB_INCLUDE_DIRS}
     )
 
 set(gallery_util_HDRS
@@ -40,5 +39,4 @@ endif()
 
 target_link_libraries( ${GALLERY_UTIL_LIB}
     ${GL_LIBRARIES}
-    ${GSTLIB_LDFLAGS}
     )
