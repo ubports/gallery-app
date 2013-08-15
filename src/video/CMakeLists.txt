@@ -19,3 +19,4 @@ add_library(${GALLERY_VIDEO_LIB}
     )
 
 qt5_use_modules(${GALLERY_VIDEO_LIB} Widgets Core Qml)
+

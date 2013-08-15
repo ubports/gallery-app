@@ -30,8 +30,7 @@ set(gallery_medialoader_SRCS
     video-metadata.cpp
     )
 
-set( CMAKE_CXX_FLAGS "-D_UNICODE" )
-#set( CMAKE_CXX_FLAGS ${MEDIAINFO_DEFINES})
+set(CMAKE_CXX_FLAGS ${MEDIAINFO_CFLAGS_OTHER})
 
 add_library(${GALLERY_MEDIALOADER_LIB}
     ${gallery_medialoader_SRCS}

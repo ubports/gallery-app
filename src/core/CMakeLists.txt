@@ -34,3 +34,4 @@ add_library(${GALLERY_CORE_LIB}
     )
 
 qt5_use_modules(${GALLERY_CORE_LIB} Core Quick)
+
