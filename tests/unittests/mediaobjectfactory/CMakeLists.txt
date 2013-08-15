@@ -27,6 +27,7 @@ QT_WRAP_CPP(mediaobjectfactory MEDIAOBJECTFACTORY_MOCS
     ${gallery_medialoader_src_SOURCE_DIR}/gallery-standard-image-provider.h
     ${gallery_medialoader_src_SOURCE_DIR}/photo-metadata.h
     ${gallery_medialoader_src_SOURCE_DIR}/preview-manager.h
+    ${gallery_medialoader_src_SOURCE_DIR}/video-metadata.h
     ${gallery_photo_src_SOURCE_DIR}/photo.h
     )
 
@@ -41,6 +42,7 @@ add_executable(mediaobjectfactory
     ../stubs/photo-edit-table_stub.cpp
     ../stubs/photometa-data_stub.cpp
     ../stubs/preview-manager_stub.cpp
+    ../stubs/video-metadata_stub.cpp
     ../stubs/gallery-standard-image-provider_stub.cpp
     ../stubs/gallery-thumbnail-image-provider_stub.cpp
     ../stubs/gallery-manager_stub.cpp

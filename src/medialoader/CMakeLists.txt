@@ -11,6 +11,7 @@ include_directories(
     ${CMAKE_BINARY_DIR}
     ${EXIV2_INCLUDEDIR}
     ${GSTLIB_INCLUDE_DIRS}
+    ${MEDIAINFO_INCLUDE_DIR}
     )
 
 set(gallery_medialoader_HDRS
@@ -18,6 +19,7 @@ set(gallery_medialoader_HDRS
     gallery-thumbnail-image-provider.h
     photo-metadata.h
     preview-manager.h
+    video-metadata.h
     )
 
 set(gallery_medialoader_SRCS
@@ -25,7 +27,10 @@ set(gallery_medialoader_SRCS
     gallery-thumbnail-image-provider.cpp
     photo-metadata.cpp
     preview-manager.cpp
+    video-metadata.cpp
     )
+
+set(CMAKE_CXX_FLAGS ${MEDIAINFO_CFLAGS_OTHER})
 
 add_library(${GALLERY_MEDIALOADER_LIB}
     ${gallery_medialoader_SRCS}
@@ -36,4 +41,5 @@ qt5_use_modules(${GALLERY_MEDIALOADER_LIB} Core Quick)
 target_link_libraries( ${GALLERY_MEDIALOADER_LIB}
     ${EXIV2_LIBRARIES}
     ${GSTLIB_LDFLAGS}
+    ${MEDIAINFO_LIBRARIES}
     )

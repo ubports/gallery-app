@@ -40,6 +40,7 @@ endif()
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(EXIV2 REQUIRED exiv2)
 pkg_check_modules(GSTLIB REQUIRED gstreamer-0.10)
+pkg_check_modules(MEDIAINFO REQUIRED libmediainfo)
 
 # Standard install paths
 include(GNUInstallDirs)

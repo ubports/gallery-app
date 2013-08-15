@@ -19,6 +19,7 @@
 
 #include "preview-manager.h"
 #include "photo-metadata.h"
+#include "video-metadata.h"
 
 // media
 #include "media-source.h"
@@ -407,6 +408,15 @@ QImage PreviewManager::grabVideoThumbnail(const QString &fileName) const
     gst_element_set_state(pipeline, GST_STATE_NULL);
     gst_object_unref(pipeline);
     g_free(guri);
+
+    VideoMetadata metadata;
+    metadata.parseMetadata(QFileInfo(fileName));
+    int rotation = metadata.rotation();
+    if (rotation != 0) {
+        QTransform transform;
+        transform.rotate(rotation);
+        thumb = thumb.transformed(transform);
+    }
 
     return thumb;
 }
