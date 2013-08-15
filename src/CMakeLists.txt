@@ -34,12 +34,14 @@ include_directories(
     )
 
 set(gallery_HDRS
+    content-communicator.h
     gallery-application.h
     gallery-manager.h
     media-object-factory.h
     )
 
 set(gallery_SRCS
+    content-communicator.cpp
     gallery-application.cpp
     gallery-manager.cpp
     main.cpp
@@ -64,6 +66,7 @@ target_link_libraries( ${GALLERY}
     gallery-util
     gallery-video
     ${GSTLIB_LDFLAGS}
+    "content-hub"
     )
 
 install(TARGETS ${GALLERY} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

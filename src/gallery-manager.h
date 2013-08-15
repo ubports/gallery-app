@@ -32,6 +32,7 @@ class QQuickView;
 
 class AlbumCollection;
 class AlbumDefaultTemplate;
+class ContentCommunicator;
 class Database;
 class EventCollection;
 class GalleryManager;
@@ -108,6 +109,7 @@ private:
     PreviewManager* m_previewManager;
     MediaObjectFactory *m_mediaFactory;
     MediaMonitor *m_monitor;
+    ContentCommunicator *m_contentCommunicator;
 
     mutable QmlMediaCollectionModel *m_mediaLibrary;
 };

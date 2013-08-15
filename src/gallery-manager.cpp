@@ -19,6 +19,7 @@
  */
 
 #include "gallery-manager.h"
+#include "content-communicator.h"
 #include "media-object-factory.h"
 
 // album
@@ -70,6 +71,7 @@ GalleryManager::GalleryManager(const QString& picturesDir,
       m_eventCollection(0),
       m_previewManager(0),
       m_monitor(0),
+      m_contentCommunicator(new ContentCommunicator(this)),
       m_mediaLibrary(0)
 {
     const int maxTextureSize = m_resource->maxTextureSize();
@@ -125,11 +127,13 @@ void GalleryManager::returnPickedContent(QVariant variant)
     }
 
     QList<MediaSource*> sources = qvariant_cast<QList<MediaSource*> >(variant);
-
+    QVector<QUrl> selectedMedias;
+    selectedMedias.reserve(sources.size());
     foreach (const MediaSource *media, sources) {
-        //FIXME call content manager API
-        qDebug() << "Picked media:" << media->path();
+        QUrl url(media->path().toLocalFile());
+        selectedMedias.append(url);
     }
+    m_contentCommunicator->returnPhotos(selectedMedias);
 }
 
 /*!
@@ -138,7 +142,7 @@ void GalleryManager::returnPickedContent(QVariant variant)
  */
 void GalleryManager::contentPickingCanceled()
 {
-    //FIXME call content manager API
+    m_contentCommunicator->cancelTransfer();
 }
 
 /*!

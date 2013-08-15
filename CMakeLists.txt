@@ -38,8 +38,11 @@ else()
 endif()
 
 find_package(PkgConfig REQUIRED)
+#pkg_check_modules(CONTENTHUB REQUIRED libcontent-hub)
 pkg_check_modules(EXIV2 REQUIRED exiv2)
 pkg_check_modules(GSTLIB REQUIRED gstreamer-0.10)
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 # Standard install paths
 include(GNUInstallDirs)
