@@ -10,7 +10,11 @@ Build-Depends: debhelper (>= 9),
                libexiv2-dev,
                libgl1-mesa-dev | libgl-dev,
                libgles2-mesa-dev,
+               libmediainfo-dev,
                libqt5opengl5-dev,
+# needed as the dependency is not set in libmediainfo-dev
+# https://bugs.launchpad.net/ubuntu/+source/libmediainfo/+bug/1212569
+               libzen-dev,
                qt5-default,
                qtbase5-dev,
                qtdeclarative5-dev,
