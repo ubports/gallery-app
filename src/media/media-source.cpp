@@ -97,7 +97,6 @@ QUrl MediaSource::galleryPreviewPath() const
 }
 
 /*!
-/*!
  * \brief MediaSource::galleryThumbnailPath
  * \return
  */

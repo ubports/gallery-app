@@ -332,7 +332,7 @@ Page {
             }
             onClosed: {
                 albumViewer.active = true;
-                photoViewerLoader.visible = false;
+                source = "";
             }
 
         }
