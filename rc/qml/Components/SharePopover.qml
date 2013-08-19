@@ -27,6 +27,7 @@ Popover {
     /*!
     */
     property alias picturePath: shareMenu.picturePath
+    signal shareRequested(string accountId, string picturePath)
 
     ShareMenu {
         id: shareMenu
@@ -35,6 +36,11 @@ Popover {
             right: parent.right
             top: parent.top
         }
-        onSelected: sharePopover.hide()
+        onSelected: {
+            if (accountId !== null && picturePath !== null) {
+                sharePopover.shareRequested(accountId, picturePath)
+            }
+            sharePopover.hide()
+        }
     }
 }

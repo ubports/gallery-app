@@ -31,7 +31,7 @@ Item {
     property string picturePath
     /*!
     */
-    signal selected()
+    signal selected(string accountId, string picturePath)
 
     height: childrenRect.height
 
@@ -67,12 +67,11 @@ Item {
                 __iconWidth: units.gu(5)
 
                 onClicked: {
-                    sharemenu.selected()
                     if (accts.provider.displayName == "Facebook") {
-                        shareFile.writeShareFile(accountId, shareMenu.picturePath);
-                        appManager.switchToShareApplication();
+                        sharemenu.selected(accountId, shareMenu.picturePath);
                     } else {
                         console.log("Sharing to this service is not supported yet.")
+                        sharemenu.selected(null, null);
                     }
                 }
             }
