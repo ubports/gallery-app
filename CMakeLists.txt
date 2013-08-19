@@ -43,7 +43,8 @@ pkg_check_modules(EXIV2 REQUIRED exiv2)
 pkg_check_modules(GSTLIB REQUIRED gstreamer-0.10)
 pkg_check_modules(MEDIAINFO REQUIRED libmediainfo)
 
-set(CONTENTHUB_INCLUDE_DIRS "/usr/include/com/ununtu/content")
+# FIXME use cmake to find the proper variables
+set(CONTENTHUB_INCLUDE_DIRS "/usr/include/com/ubuntu/content")
 set(CONTENTHUB_LIBRARIES "content-hub")
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror")
