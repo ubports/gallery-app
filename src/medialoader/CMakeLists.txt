@@ -30,7 +30,8 @@ set(gallery_medialoader_SRCS
     video-metadata.cpp
     )
 
-set(CMAKE_CXX_FLAGS ${MEDIAINFO_CFLAGS_OTHER})
+string(REPLACE ";" " " OTHER_CFLAGS "${MEDIAINFO_CFLAGS_OTHER}")
+set(CMAKE_CXX_FLAGS ${OTHER_CFLAGS})
 
 add_library(${GALLERY_MEDIALOADER_LIB}
     ${gallery_medialoader_SRCS}
