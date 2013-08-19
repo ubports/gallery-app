@@ -46,12 +46,21 @@ class TestPhotosView(GalleryTestCase):
     def test_select_button_cancel(self):
         """Clicking the cancel button after clicking the select button must
         hide the toolbar automatically."""
+        photos_overview = self.app.select_single("PhotosOverview")
+        self.assertFalse(photos_overview.inSelectionMode)
+
         self.main_view.open_toolbar().click_button("selectButton")
+        self.assertTrue(photos_overview.inSelectionMode)
 
         self.main_view.open_toolbar().click_custom_button("cancelButton")
 
         toolbar = self.main_view.get_toolbar()
         self.assertThat(toolbar.active, Eventually(Equals(False)))
+        self.assertFalse(photos_overview.inSelectionMode)
+
+        first_photo = self.photos_view.get_first_photo_in_photos_view()
+        self.tap_item(first_photo)
+        self.assertTrue(photos_overview.inSelectionMode)
 
     def test_delete_a_photo(self):
         """Selecting a photo must make the delete button clickable."""

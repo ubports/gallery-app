@@ -13,14 +13,6 @@ class PhotosView(GalleryUtils):
     def __init__(self, app):
         self.app = app
 
-    def get_photos_tab_button(self):
-        """Returns the photos tab."""
-        return self.app.select_single("AbstractButton", buttonIndex=5)
-
-    def get_photos_view(self):
-        """Returns the photos view."""
-        return self.app.select_single("Tab", objectName="photosTab")
-
     def get_first_photo_in_photos_view(self):
         """Returns the very first photo in the photos view."""
         return self.select_many_retry("QQuickItem",
