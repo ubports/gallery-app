@@ -1,3 +1,25 @@
+gallery-app (0.0.67+13.10.20130820.2-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Additional test when opening the edit popover.
+  * Clean up cmake files.
+  * * read video metadata from video file * rotate video thumbnail for
+    portrait videos.
+  * * be more strict about compiler warnings and errors * delete the
+    MediaViewer after opening it from an album * add script to compile
+    and run gallery on the device.
+
+  [ Robert Bruce Park ]
+  * Put the dependency in the right place, not here.
+
+  [ Olivier Tilloy ]
+  * Fix FTBFS. (LP: #1213776)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 817
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 20 Aug 2013 10:42:06 +0000
+
 gallery-app (0.0.67+13.10.20130813.2-0ubuntu1) saucy; urgency=low
 
   [ Guenter Schwann ]
