@@ -5,23 +5,20 @@
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
 
-from gallery_utils import GalleryUtils
+from ubuntuuitoolkit import emulators as toolkit_emulators
 
 
-class PickerMode(GalleryUtils):
-
-    def __init__(self, app):
-        self.app = app
+class PickerScreen(toolkit_emulators.MainView):
 
     def pick_button(self):
-        return self.app.select_single("Button", objectName="pickButton")
+        return self.select_single("Button", objectName="pickButton")
 
     def get_photos_tab_button(self):
         """Returns the photos tab."""
-        return self.app.select_single("AbstractButton", buttonIndex=3)
+        return self.select_single("AbstractButton", buttonIndex=3)
 
     def events_view(self):
-        return self.app.select_single("OrganicView", objectName="eventSelectView")
+        return self.select_single("OrganicView", objectName="eventSelectView")
 
     def first_media_in_events_view(self):
         events_view = self.events_view()
@@ -29,7 +26,7 @@ class PickerMode(GalleryUtils):
                                        objectName="eventsViewPhoto")[0]
 
     def grid_view(self):
-        return self.app.select_single("MediaGrid")
+        return self.select_single("MediaGrid")
 
     def first_media_in_grid_view(self):
         grid_view = self.grid_view()

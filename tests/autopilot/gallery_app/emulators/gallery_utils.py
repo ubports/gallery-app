@@ -60,14 +60,6 @@ class GalleryUtils(object):
         return self.app.select_single("QQuickLoader",
                                       objectName="albumsCheckerboardLoader")
 
-    def get_tabs_bar(self):
-        """Returns the top tabs bar."""
-        return self.app.select_single("TabBar")
-
-    def get_albums_tab_button(self):
-        """Returns the photos tab."""
-        return self.app.select_single("AbstractButton", buttonIndex=0)
-
     def get_delete_dialog(self):
         """Returns the delete dialog in the events view."""
         return self.select_single_retry("DeleteDialog",
