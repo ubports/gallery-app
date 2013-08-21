@@ -1,3 +1,14 @@
+gallery-app (0.0.67+13.10.20130821-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * * cleanups for the autopilot tests * test if long press on media
+    switches to select mode.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 819
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 21 Aug 2013 08:08:40 +0000
+
 gallery-app (0.0.67+13.10.20130820.2-0ubuntu1) saucy; urgency=low
 
   [ Guenter Schwann ]
