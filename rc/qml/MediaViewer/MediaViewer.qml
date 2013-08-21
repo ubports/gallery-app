@@ -228,9 +228,8 @@ Item {
                 id: sharePopover
                 objectName: "sharePopover"
                 visible: false
-                picturePath: viewerWrapper.media.path
-                onShareRequested: {
-                    sharePanel.fileToShare = picturePath
+                onSelected: {
+                    sharePanel.fileToShare = viewerWrapper.media.path
                     sharePanel.userAccountId = accountId
                     sharePanel.visible = true;
                     viewerWrapper.tools.opened = false;
