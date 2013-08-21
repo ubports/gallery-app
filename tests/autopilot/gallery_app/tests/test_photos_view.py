@@ -10,7 +10,7 @@
 
 from __future__ import absolute_import
 
-from testtools.matchers import Equals, GreaterThan, Is
+from testtools.matchers import Equals, Is
 from autopilot.matchers import Eventually
 
 from gallery_app.tests import GalleryTestCase
@@ -31,17 +31,7 @@ class TestPhotosView(GalleryTestCase):
         self.switch_to_photos_tab()
 
     def switch_to_photos_tab(self):
-        tabs_bar = self.photos_view.get_tabs_bar()
-        self.click_item(tabs_bar)
-
-        photos_tab_button = self.photos_view.get_photos_tab_button()
-        # Due to some timing issues sometimes mouse moves to the location a bit
-        # earlier even though the tab item is not fully visible, hence the tab
-        # does not activate.
-        self.assertThat(photos_tab_button.opacity,
-                        Eventually(GreaterThan(0.2)))
-        self.click_item(photos_tab_button)
-
+        self.main_view.switch_to_tab("photosTab")
         self.ensure_tabs_dont_move()
 
     def click_first_photo(self):
@@ -56,12 +46,21 @@ class TestPhotosView(GalleryTestCase):
     def test_select_button_cancel(self):
         """Clicking the cancel button after clicking the select button must
         hide the toolbar automatically."""
+        photos_overview = self.app.select_single("PhotosOverview")
+        self.assertFalse(photos_overview.inSelectionMode)
+
         self.main_view.open_toolbar().click_button("selectButton")
+        self.assertTrue(photos_overview.inSelectionMode)
 
         self.main_view.open_toolbar().click_custom_button("cancelButton")
 
         toolbar = self.main_view.get_toolbar()
         self.assertThat(toolbar.active, Eventually(Equals(False)))
+        self.assertFalse(photos_overview.inSelectionMode)
+
+        first_photo = self.photos_view.get_first_photo_in_photos_view()
+        self.tap_item(first_photo)
+        self.assertTrue(photos_overview.inSelectionMode)
 
     def test_delete_a_photo(self):
         """Selecting a photo must make the delete button clickable."""
@@ -85,6 +84,8 @@ class TestPhotosView(GalleryTestCase):
 
         delete_item = self.photos_view.get_delete_dialog_delete_button()
         self.click_item(delete_item)
+        self.assertThat(lambda: self.gallery_utils.get_delete_dialog(),
+                        Eventually(Is(None)))
 
         self.assertThat(lambda: exists(self.sample_file),
                         Eventually(Equals(False)))

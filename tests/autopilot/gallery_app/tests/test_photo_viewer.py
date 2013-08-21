@@ -14,6 +14,7 @@ from testtools.matchers import Equals, NotEquals, GreaterThan, Is, Not
 from autopilot.matchers import Eventually
 
 from gallery_app.emulators.photo_viewer import PhotoViewer
+from gallery_app.emulators.media_viewer import MediaViewer
 from gallery_app.tests import GalleryTestCase
 
 from os.path import exists
@@ -58,8 +59,13 @@ class TestPhotoViewer(TestPhotoViewerBase):
         self.assertThat(lambda: self.photo_viewer.get_delete_dialog(),
                         Eventually(Not(Is(None))))
         delete_dialog = self.photo_viewer.get_delete_dialog()
+        self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
         self.assertThat(delete_dialog.opacity, Eventually(Equals(1)))
         return delete_dialog
+
+    def ensure_closed_delete_dialog(self):
+        self.assertThat(lambda: self.photo_viewer.get_delete_dialog(),
+                        Eventually(Is(None)))
 
     def test_nav_bar_back_button(self):
         """Clicking the back button must close the photo."""
@@ -76,8 +82,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
         cancel_item = self.photo_viewer.get_delete_popover_cancel_item()
         self.click_item(cancel_item)
-        self.assertThat(lambda: self.photo_viewer.get_delete_dialog(),
-                        Eventually(Is(None)))
+        self.ensure_closed_delete_dialog()
 
         self.assertThat(lambda: exists(self.sample_file),
                         Eventually(Equals(True)))
@@ -86,6 +91,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
         delete_item = self.photo_viewer.get_delete_popover_delete_item()
         self.click_item(delete_item)
+        self.ensure_closed_delete_dialog()
 
         self.assertThat(lambda: exists(self.sample_file),
                         Eventually(Equals(False)))
@@ -94,6 +100,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
         delete_item = self.photo_viewer.get_delete_popover_delete_item()
         self.click_item(delete_item)
+        self.ensure_closed_delete_dialog()
 
         self.assertThat(photo_viewer.visible, Eventually(Equals(False)))
 
@@ -117,11 +124,15 @@ class TestPhotoViewer(TestPhotoViewerBase):
         self.pointing_device.click()
         self.pointing_device.click()
 
+        self.assertThat(opened_photo.isZoomAnimationInProgress,
+            Eventually(Equals(False)))
         self.assertThat(opened_photo.fullyZoomed, Eventually(Equals(True)))
 
         self.pointing_device.click()
         self.pointing_device.click()
 
+        self.assertThat(opened_photo.isZoomAnimationInProgress,
+            Eventually(Equals(False)))
         self.assertThat(opened_photo.fullyUnzoomed, Eventually(Equals(True)))
 
 
@@ -134,6 +145,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
     def click_edit_button(self):
         self.main_view.open_toolbar().click_button("editButton")
         edit_dialog = self.photo_viewer.get_photo_edit_dialog()
+        self.assertThat(edit_dialog.visible, (Eventually(Equals(True))))
         self.assertThat(edit_dialog.opacity, (Eventually(Equals(1))))
 
     def click_rotate_item(self):
@@ -159,6 +171,11 @@ class TestPhotoEditor(TestPhotoViewerBase):
     def click_enhance_item(self):
         enhance_item = self.photo_viewer.get_auto_enhance_menu_item()
         self.click_item(enhance_item)
+
+    def ensure_spinner_not_running(self):
+        media_view = self.app.select_single(MediaViewer)
+        spinner = media_view.get_edit_spinner()
+        self.assertThat(spinner.running, Eventually(Equals(False)))
 
     def test_photo_editor_crop(self):
         """Cropping a photo must crop it."""
@@ -187,6 +204,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         crop_button = self.photo_viewer.get_crop_overlays_crop_icon()
         self.click_item(crop_button)
+        self.ensure_spinner_not_running()
 
         # wait for new photo being set/reloaded, so saving thumbnailing etc.
         # is done
@@ -208,6 +226,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(is_landscape, Equals(True))
 
         self.click_rotate_item()
+        self.ensure_spinner_not_running()
 
         self.assertThat(opened_photo.paintedHeight,
                         Eventually(Equals(item_height)))
@@ -217,6 +236,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.main_view.open_toolbar()
         self.click_edit_button()
         self.click_undo_item()
+        self.ensure_spinner_not_running()
 
         self.assertThat(opened_photo.paintedHeight,
                         Eventually(NotEquals(item_height)))
@@ -226,6 +246,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.main_view.open_toolbar()
         self.click_edit_button()
         self.click_redo_item()
+        self.ensure_spinner_not_running()
 
         self.assertThat(opened_photo.paintedHeight,
                         Eventually(Equals(item_height)))
@@ -260,6 +281,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(revert_item.enabled, Eventually(Equals(False)))
 
         self.click_rotate_item()
+        self.ensure_spinner_not_running()
 
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
@@ -271,6 +293,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(revert_item.enabled, Eventually(Equals(True)))
 
         self.click_undo_item()
+        self.ensure_spinner_not_running()
 
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
@@ -282,6 +305,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(revert_item.enabled, Eventually(Equals(False)))
 
         self.click_redo_item()
+        self.ensure_spinner_not_running()
 
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
@@ -293,6 +317,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(revert_item.enabled, Eventually(Equals(True)))
 
         self.click_revert_item()
+        self.ensure_spinner_not_running()
 
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
@@ -304,6 +329,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(revert_item.enabled, Eventually(Equals(False)))
 
         self.click_enhance_item()
+        self.ensure_spinner_not_running()
 
         self.click_edit_button()
 

@@ -413,6 +413,7 @@ Item {
 
     ActivityIndicator {
         id: busySpinner
+        objectName: "busySpinner"
         anchors.centerIn: parent
         visible: media ? media.busy : false
         running: visible

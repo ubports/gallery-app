@@ -22,7 +22,6 @@ include_directories(
     ${gallery_qml_src_SOURCE_DIR}
     ${gallery_util_src_SOURCE_DIR}
     ${gallery_video_src_SOURCE_DIR}
-    ${GSTLIB_INCLUDE_DIRS}
     )
 
 add_executable(video
@@ -49,6 +48,4 @@ target_link_libraries(video
     gallery-qml
     gallery-util
     gallery-video
-    ${EXIV2_LIBRARIES}
-    ${GSTLIB_LDFLAGS}
     )

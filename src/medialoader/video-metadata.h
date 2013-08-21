@@ -14,32 +14,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef GALLERY_VIDEO_H_
-#define GALLERY_VIDEO_H_
+#ifndef GALLERY_VIDEO_METADATA_H_
+#define GALLERY_VIDEO_METADATA_H_
 
-// media
-#include "media-source.h"
+#include <QDateTime>
+#include <QMap>
+#include <QObject>
+#include <QSize>
+#include <QString>
+#include <QVariant>
 
-#include <QFileInfo>
+class QFileInfo;
 
 /*!
- * \brief The Video class represents one video file
+ * \brief The VideoMetadata class
  */
-class Video : public MediaSource
+class VideoMetadata : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit Video(const QFileInfo& file);
+    VideoMetadata(QObject *parent=0);
 
-    virtual MediaType type() const;
+    bool parseMetadata(const QFileInfo& file);
 
-    virtual QImage image(bool respectOrientation = true, const QSize &scaleSize=QSize());
-
-    static bool isCameraVideo(const QFileInfo& file);
+    QDateTime exposureTime() const;
+    int rotation() const;
+    int duration() const;
+    QSize frameSize() const;
 
 private:
-    friend class tst_Video;
+    QMap<QString, QVariant> m_tags;
 };
 
-#endif  // GALLERY_VIDEO_H_
+#endif // GALLERY_VIDEO_METADATA_H_

@@ -71,6 +71,7 @@ MainView {
 
         Tab {
             id: eventTab
+            objectName: "eventsTab"
             title: i18n.tr("Events")
             page: EventsOverview {
                 id: eventView
@@ -104,7 +105,7 @@ MainView {
         Tab {
             id: photosTab
             title: i18n.tr("Photos")
-            objectName: "photosView"
+            objectName: "photosTab"
             page: Loader {
                 id: photosOverviewLoader
                 anchors.fill: parent

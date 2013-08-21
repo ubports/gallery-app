@@ -78,6 +78,7 @@ private:
     QString thumbnailFileName(const QString& fileName, const QString& levelName) const;
     bool updateNeeded(const QFileInfo& mediaFile, const QFileInfo& previewFile) const;
     QImage loadPhoto(const QString& fileName, const QSize &maxSize) const;
+    QImage grabVideoThumbnail(const QString& fileName) const;
 
     static QMutex m_createMutex;
     QString m_thumbnailDir;

@@ -150,28 +150,7 @@ class GalleryTestCase(AutopilotTestCase):
                         Eventually(GreaterThan(0)))
 
     def switch_to_albums_tab(self):
-        tabs_bar = self.gallery_utils.get_tabs_bar()
-        tabs_bar_abs_width = self.gallery_utils.get_tabs_bar_absolute_width()
-        tabs_bar_potential_width = \
-            self.gallery_utils.get_tabs_bar_potential_width()
-
-        if tabs_bar_abs_width == tabs_bar_potential_width:
-            x, y, w, h = tabs_bar.globalRect
-
-            tx = x + (w / 1.5)
-            ty = y + (h / 2)
-
-            self.pointing_device.drag(tx, ty, tx / 8, ty)
-        else:
-            self.click_item(tabs_bar, delay=0.5)
-
-        albums_tab_button = self.gallery_utils.get_albums_tab_button()
-        # Due to some timing issues sometimes mouse moves to the location a bit
-        # earlier. Even though the tab item is not fully visible, hence the tab
-        # does not activate.
-        self.assertThat(albums_tab_button.opacity,
-                        Eventually(GreaterThan(0.35)))
-        self.click_item(albums_tab_button)
+        self.main_view.switch_to_tab("albumsTab")
 
         albums_loader = self.gallery_utils.get_albums_viewer_loader()
         self.assertThat(albums_loader.progress, Eventually(Equals(1)))
@@ -180,7 +159,6 @@ class GalleryTestCase(AutopilotTestCase):
         # Check if the albums are availabe - they need some time to load.
         self.assertThat(lambda: len(self.gallery_utils.get_all_albums()),
                         Eventually(GreaterThan(0)))
-
         self.ensure_tabs_dont_move()
 
     def ensure_tabs_dont_move(self):
@@ -211,6 +189,7 @@ class GalleryTestCase(AutopilotTestCase):
         self.assertThat(lambda: self.gallery_utils.get_delete_dialog(),
                         Eventually(Not(Is(None))))
         delete_dialog = self.gallery_utils.get_delete_dialog()
+        self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
         self.assertThat(delete_dialog.opacity, Eventually(Equals(1)))
         return delete_dialog
 

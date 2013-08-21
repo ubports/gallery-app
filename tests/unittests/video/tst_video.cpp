@@ -24,32 +24,8 @@ class tst_Video : public QObject
   Q_OBJECT
 
 private slots:
-    void galleryPath();
-    void galleryPreviewPath();
-    void galleryThumbnailPath();
     void isCameraVideo();
 };
-
-void tst_Video::galleryPath()
-{
-    QFileInfo fi;
-    Video video(fi);
-    QCOMPARE(video.galleryPath().toString().endsWith(QString("img/video-thumbnail.png")), true);
-}
-
-void tst_Video::galleryPreviewPath()
-{
-    QFileInfo fi;
-    Video video(fi);
-    QCOMPARE(video.galleryPreviewPath().toString().endsWith(QString("img/video-thumbnail.png")), true);
-}
-
-void tst_Video::galleryThumbnailPath()
-{
-    QFileInfo fi;
-    Video video(fi);
-    QCOMPARE(video.galleryThumbnailPath().toString().endsWith(QString("img/video-thumbnail.png")), true);
-}
 
 void tst_Video::isCameraVideo()
 {
