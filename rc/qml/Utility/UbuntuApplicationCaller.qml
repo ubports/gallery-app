@@ -21,15 +21,6 @@ import QtQuick 2.0
   On platforms where the ApplicationManager is not available, warnings will be printed.
 */
 Item {
-    /// Opens the share application
-    function switchToShareApplication() {
-        if (appManager.status === Loader.Ready) {
-            appManager.item.switchToShareApplication();
-        } else {
-            console.log("Application launching not available on this platform");
-        }
-    }
-
     /// Opens the camera applications
     function switchToCameraApplication() {
         if (appManager.status === Loader.Ready) {

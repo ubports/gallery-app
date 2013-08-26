@@ -46,7 +46,6 @@
 // util
 #include "command-line-parser.h"
 #include "resource.h"
-#include "sharefile.h"
 
 #include <QQuickItem>
 #include <QQuickView>
@@ -135,7 +134,6 @@ void GalleryApplication::registerQML()
     qmlRegisterType<QmlEventCollectionModel>("Gallery", 1, 0, "EventCollectionModel");
     qmlRegisterType<QmlEventOverviewModel>("Gallery", 1, 0, "EventOverviewModel");
     qmlRegisterType<QmlMediaCollectionModel>("Gallery", 1, 0, "MediaCollectionModel");
-    qmlRegisterType<ShareFile>("Gallery", 1, 0, "ShareFile");
 
     qRegisterMetaType<QList<MediaSource*> >("MediaSourceList");
 }
