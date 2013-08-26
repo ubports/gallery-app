@@ -37,7 +37,7 @@ Depends: ${misc:Depends},
          qtdeclarative5-qtquick2-plugin,
          qtdeclarative5-qtmultimedia-plugin,
          qtdeclarative5-ubuntu-ui-toolkit-plugin,
-         qtdeclarative5-ubuntu-ui-extras-plugin,
+         qtdeclarative5-ubuntu-ui-extras0.1,
          qtdeclarative5-window-plugin,
 Description: Photo gallery for Ubuntu
  gallery-app is a photo gallery for the Ubuntu platform.
