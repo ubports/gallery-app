@@ -13,7 +13,6 @@ set(gallery_util_HDRS
     imaging.h
     orientation.h
     resource.h
-    sharefile.h
     variants.h
     )
 
@@ -22,7 +21,6 @@ set(gallery_util_SRCS
     imaging.cpp
     orientation.cpp
     resource.cpp
-    sharefile.cpp
     )
 
 add_library(${GALLERY_UTIL_LIB}
