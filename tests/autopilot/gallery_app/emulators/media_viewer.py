@@ -15,4 +15,4 @@ class MediaViewer(toolkit_emulators.UbuntuUIToolkitEmulatorBase):
         super(MediaViewer, self).__init__(*args)
 
     def get_edit_spinner(self):
-        return self.select_single("ActivityIndicator")
+        return self.select_single("ActivityIndicator", objectName="busySpinner")
