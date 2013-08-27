@@ -1,3 +1,14 @@
+gallery-app (0.0.67+13.10.20130827-0ubuntu1) saucy; urgency=low
+
+  [ Ugo Riboni ]
+  * Use the share component from ubuntu-ui-extras instead of launching
+    the share app.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 823
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 27 Aug 2013 02:44:04 +0000
+
 gallery-app (0.0.67+13.10.20130821-0ubuntu1) saucy; urgency=low
 
   [ Guenter Schwann ]
