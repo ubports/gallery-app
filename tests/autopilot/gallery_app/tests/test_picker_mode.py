@@ -24,7 +24,7 @@ class TestPickerMode(GalleryTestCase):
         return self.app.select_single(PickerScreen)
 
     def setUp(self):
-        self.ARGS.append("--pick-photo")
+        self.ARGS.append("--pick-mode")
         super(TestPickerMode, self).setUp()
 
     def select_first_event_media(self):
