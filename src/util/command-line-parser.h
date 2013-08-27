@@ -42,8 +42,6 @@ public:
     bool startupTimer() const { return m_startupTimer; }
     bool logImageLoading() const { return m_logImageLoading; }
     bool pickModeEnabled() const { return m_pickMode; }
-    bool pickPhoto() const { return m_pickPhoto; }
-    bool pickVideo() const { return m_pickVideo; }
     const QString &formFactor() const { return m_formFactor; }
 
 private:
@@ -55,8 +53,6 @@ private:
     bool m_isPortrait;
     QString m_picturesDir;
     bool m_pickMode;
-    bool m_pickPhoto;
-    bool m_pickVideo;
     bool m_logImageLoading;
 
     const QHash<QString, QSize> m_formFactors;
