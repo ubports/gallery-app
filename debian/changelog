@@ -1,3 +1,13 @@
+gallery-app (0.0.67+13.10.20130827.1-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Pick mode always shows photos and videos and is multiselection.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 825
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 27 Aug 2013 11:20:53 +0000
+
 gallery-app (0.0.67+13.10.20130827-0ubuntu1) saucy; urgency=low
 
   [ Ugo Riboni ]
