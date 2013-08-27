@@ -1,3 +1,47 @@
+gallery-app (0.0.67+13.10.20130827-0ubuntu1) saucy; urgency=low
+
+  [ Ugo Riboni ]
+  * Use the share component from ubuntu-ui-extras instead of launching
+    the share app.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 823
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 27 Aug 2013 02:44:04 +0000
+
+gallery-app (0.0.67+13.10.20130821-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * * cleanups for the autopilot tests * test if long press on media
+    switches to select mode.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 819
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 21 Aug 2013 08:08:40 +0000
+
+gallery-app (0.0.67+13.10.20130820.2-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Additional test when opening the edit popover.
+  * Clean up cmake files.
+  * * read video metadata from video file * rotate video thumbnail for
+    portrait videos.
+  * * be more strict about compiler warnings and errors * delete the
+    MediaViewer after opening it from an album * add script to compile
+    and run gallery on the device.
+
+  [ Robert Bruce Park ]
+  * Put the dependency in the right place, not here.
+
+  [ Olivier Tilloy ]
+  * Fix FTBFS. (LP: #1213776)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 817
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 20 Aug 2013 10:42:06 +0000
+
 gallery-app (0.0.67+13.10.20130813.2-0ubuntu1) saucy; urgency=low
 
   [ Guenter Schwann ]

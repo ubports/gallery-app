@@ -36,7 +36,7 @@ MainView {
     /// Holds the selection
     property SelectionState selection: SelectionState {
         inSelectionMode: true
-        singleSelect: true
+        singleSelect: false
         model: mediaLibrary
     }
 

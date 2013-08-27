@@ -46,7 +46,6 @@
 // util
 #include "command-line-parser.h"
 #include "resource.h"
-#include "sharefile.h"
 
 #include <QQuickItem>
 #include <QQuickView>
@@ -135,7 +134,6 @@ void GalleryApplication::registerQML()
     qmlRegisterType<QmlEventCollectionModel>("Gallery", 1, 0, "EventCollectionModel");
     qmlRegisterType<QmlEventOverviewModel>("Gallery", 1, 0, "EventOverviewModel");
     qmlRegisterType<QmlMediaCollectionModel>("Gallery", 1, 0, "MediaCollectionModel");
-    qmlRegisterType<ShareFile>("Gallery", 1, 0, "ShareFile");
 
     qRegisterMetaType<QList<MediaSource*> >("MediaSourceList");
 }
@@ -164,10 +162,6 @@ void GalleryApplication::createView()
     rootContext->setContextProperty("DEVICE_HEIGHT", QVariant(size.height()));
     rootContext->setContextProperty("FORM_FACTOR", QVariant(m_cmdLineParser->formFactor()));
     rootContext->setContextProperty("PICK_MODE_ENABLED", QVariant(m_cmdLineParser->pickModeEnabled()));
-    if (m_cmdLineParser->pickPhoto())
-        rootContext->setContextProperty("PICK_TYPE", QVariant(MediaSource::Photo));
-    else
-        rootContext->setContextProperty("PICK_TYPE", QVariant(MediaSource::Video));
     rootContext->setContextProperty("MAX_GL_TEXTURE_SIZE",
                                     QVariant(m_galleryManager->resource()->maxTextureSize()));
 
@@ -195,12 +189,6 @@ void GalleryApplication::createView()
  */
 void GalleryApplication::initCollections()
 {
-    if (m_cmdLineParser->pickModeEnabled()) {
-        MediaSource::MediaType filterType = MediaSource::Video;
-        if (m_cmdLineParser->pickPhoto())
-            filterType = MediaSource::Photo;
-        m_galleryManager->enableContentLoadFilter(filterType);
-    }
     QApplication::processEvents();
 
     m_galleryManager->postInit();

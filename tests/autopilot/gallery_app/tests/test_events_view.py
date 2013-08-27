@@ -61,6 +61,10 @@ class TestEventsView(GalleryTestCase):
         self.assertThat(toolbar.opened, Eventually(Equals(False)))
         self.assertFalse(events_view.inSelectionMode)
 
+        first_photo = self.gallery_utils.get_first_image_in_event_view()
+        self.tap_item(first_photo)
+        self.assertTrue(events_view.inSelectionMode)
+
     def test_delete_a_photo(self):
         """Selecting a photo must make the delete button clickable."""
         number_of_photos = self.gallery_utils.number_of_photos_in_events()
