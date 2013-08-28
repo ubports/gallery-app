@@ -119,6 +119,15 @@ void GalleryManager::onMediaItemRemoved(qint64 mediaId)
     Q_UNUSED(mediaId);
 }
 
+bool GalleryManager::pickModeEnabled() const
+{
+    return false;
+}
+
+void GalleryManager::switchToPickMode()
+{
+}
+
 GalleryStandardImageProvider* GalleryManager::takeGalleryStandardImageProvider()
 {
     return 0;

@@ -31,15 +31,18 @@ include_directories(
     ${gallery_video_src_SOURCE_DIR}
     ${gallery_qml_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
+    ${CONTENTHUB_INCLUDE_DIRS}
     )
 
 set(gallery_HDRS
+    content-communicator.h
     gallery-application.h
     gallery-manager.h
     media-object-factory.h
     )
 
 set(gallery_SRCS
+    content-communicator.cpp
     gallery-application.cpp
     gallery-manager.cpp
     main.cpp
@@ -63,7 +66,7 @@ target_link_libraries( ${GALLERY}
     gallery-qml
     gallery-util
     gallery-video
-    ${GSTLIB_LDFLAGS}
+    ${CONTENTHUB_LIBRARIES}
     )
 
 install(TARGETS ${GALLERY} RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})

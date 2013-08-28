@@ -5,6 +5,7 @@ Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends: debhelper (>= 9),
                cmake,
                dh-translations,
+               libcontent-hub-dev,
                libgstreamer0.10-dev,
                libexiv2-dev,
                libgl1-mesa-dev | libgl-dev,

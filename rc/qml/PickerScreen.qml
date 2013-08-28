@@ -102,7 +102,6 @@ MainView {
                     return;
 
                 MANAGER.returnPickedContent(mediaLibrary.selectedMedias);
-                Qt.quit();
             }
         }
 
@@ -113,7 +112,6 @@ MainView {
             width: units.gu(10)
             onClicked: {
                 MANAGER.contentPickingCanceled()
-                Qt.quit();
             }
         }
         opened: true

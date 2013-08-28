@@ -81,6 +81,8 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
 
     m_galleryManager = new GalleryManager(m_cmdLineParser->picturesDir(), m_view);
     m_galleryManager->logImageLoading(m_cmdLineParser->logImageLoading());
+    if (m_cmdLineParser->pickModeEnabled())
+        m_galleryManager->setDefaultUiMode(GalleryManager::PickContentMode);
 
     if (m_cmdLineParser->startupTimer())
         qDebug() << "Construct GalleryApplication" << m_timer->elapsed() << "ms";
@@ -161,7 +163,6 @@ void GalleryApplication::createView()
     rootContext->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
     rootContext->setContextProperty("DEVICE_HEIGHT", QVariant(size.height()));
     rootContext->setContextProperty("FORM_FACTOR", QVariant(m_cmdLineParser->formFactor()));
-    rootContext->setContextProperty("PICK_MODE_ENABLED", QVariant(m_cmdLineParser->pickModeEnabled()));
     rootContext->setContextProperty("MAX_GL_TEXTURE_SIZE",
                                     QVariant(m_galleryManager->resource()->maxTextureSize()));
 

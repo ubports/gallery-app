@@ -24,10 +24,16 @@ include_directories(
     ${gallery_video_src_SOURCE_DIR}
     )
 
+QT_WRAP_CPP(mediaobjectfactory TST_VIDEO_MOCS
+    ${gallery_src_SOURCE_DIR}/content-communicator.h
+    )
+
 add_executable(video
     tst_video.cpp
     ${gallery_src_SOURCE_DIR}/gallery-manager.cpp
     ${gallery_src_SOURCE_DIR}/media-object-factory.cpp
+    ../stubs/content-communicator_stub.cpp
+    ${TST_VIDEO_MOCS}
     )
 
 qt5_use_modules(video Widgets Core Qml Quick Test)
@@ -48,4 +54,5 @@ target_link_libraries(video
     gallery-qml
     gallery-util
     gallery-video
+    "content-hub"
     )
