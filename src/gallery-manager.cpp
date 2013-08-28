@@ -74,7 +74,7 @@ GalleryManager::GalleryManager(const QString& picturesDir,
       m_monitor(0),
       m_contentCommunicator(new ContentCommunicator(this)),
       m_pickModeEnabled(false),
-      m_defaultUiMode(BrowseMediasMode),
+      m_defaultUiMode(BrowseContentMode),
       m_mediaLibrary(0)
 {
     const int maxTextureSize = m_resource->maxTextureSize();
@@ -141,8 +141,8 @@ void GalleryManager::returnPickedContent(QVariant variant)
     }
     m_contentCommunicator->returnPhotos(selectedMedias);
 
-    if (m_defaultUiMode == BrowseMediasMode) {
-        setUiMode(BrowseMediasMode);
+    if (m_defaultUiMode == BrowseContentMode) {
+        setUiMode(BrowseContentMode);
     } else {
         qApp->quit();
     }
@@ -156,8 +156,8 @@ void GalleryManager::contentPickingCanceled()
 {
     m_contentCommunicator->cancelTransfer();
 
-    if (m_defaultUiMode == BrowseMediasMode) {
-        setUiMode(BrowseMediasMode);
+    if (m_defaultUiMode == BrowseContentMode) {
+        setUiMode(BrowseContentMode);
     } else {
         qApp->quit();
     }
@@ -287,7 +287,7 @@ void GalleryManager::setUiMode(GalleryManager::UiMode mode)
 }
 
 /*!
- * \brief GalleryManager::pickMode returns if the current UI mode should be for
+ * \brief GalleryManager::pickModeEnabled returns if the current UI mode should be for
  * picking acontent
  * \return
  */

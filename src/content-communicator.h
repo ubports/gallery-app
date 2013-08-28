@@ -26,7 +26,7 @@
 using namespace com::ubuntu;
 
 /*!
- * Simple class which encapsulates instantiates objects which require only one instance.
+ * Class to handle the communication with the content manager
  */
 class ContentCommunicator : public content::ImportExportHandler
 {
@@ -36,7 +36,7 @@ public:
     ContentCommunicator(QObject *parent = nullptr);
 
     virtual void handle_import(content::Transfer*);
-    virtual void handle_export(content::Transfer*transfer);
+    virtual void handle_export(content::Transfer *transfer);
 
     void cancelTransfer();
     void returnPhotos(const QVector<QUrl> &urls);

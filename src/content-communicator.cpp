@@ -88,7 +88,7 @@ void ContentCommunicator::returnPhotos(const QVector<QUrl> &urls)
 
     QVector<Item> items;
     items.reserve(urls.size());
-    foreach (const QUrl url, urls) {
+    foreach (const QUrl &url, urls) {
         items.append(Item(url));
     }
     m_transfer->charge(items);
