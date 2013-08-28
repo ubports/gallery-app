@@ -56,7 +56,7 @@ class GalleryManager : public QObject
 
 public:
     enum UiMode{
-        BrowseMediasMode,
+        BrowseContentMode,
         PickContentMode
     };
     GalleryManager(const QString &picturesDir, QQuickView *view);
