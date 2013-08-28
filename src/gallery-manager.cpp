@@ -269,6 +269,7 @@ QmlMediaCollectionModel *GalleryManager::mediaLibrary() const
 void GalleryManager::setDefaultUiMode(GalleryManager::UiMode mode)
 {
     m_defaultUiMode = mode;
+    m_pickModeEnabled = true;
 }
 
 /*!
