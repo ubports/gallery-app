@@ -46,6 +46,7 @@
 // util
 #include "resource.h"
 
+#include <QApplication>
 #include <QElapsedTimer>
 
 #include <exiv2/exiv2.hpp>
@@ -72,6 +73,8 @@ GalleryManager::GalleryManager(const QString& picturesDir,
       m_previewManager(0),
       m_monitor(0),
       m_contentCommunicator(new ContentCommunicator(this)),
+      m_pickModeEnabled(false),
+      m_defaultUiMode(BrowseMediasMode),
       m_mediaLibrary(0)
 {
     const int maxTextureSize = m_resource->maxTextureSize();
@@ -79,6 +82,9 @@ GalleryManager::GalleryManager(const QString& picturesDir,
     m_mediaFactory = new MediaObjectFactory();
 
     m_galleryManager = this;
+
+    QObject::connect(m_contentCommunicator, SIGNAL(photoRequested()),
+                     this, SLOT(switchToPickMode()));
 }
 
 /*!
@@ -134,6 +140,12 @@ void GalleryManager::returnPickedContent(QVariant variant)
         selectedMedias.append(url);
     }
     m_contentCommunicator->returnPhotos(selectedMedias);
+
+    if (m_defaultUiMode == BrowseMediasMode) {
+        setUiMode(BrowseMediasMode);
+    } else {
+        qApp->quit();
+    }
 }
 
 /*!
@@ -143,6 +155,12 @@ void GalleryManager::returnPickedContent(QVariant variant)
 void GalleryManager::contentPickingCanceled()
 {
     m_contentCommunicator->cancelTransfer();
+
+    if (m_defaultUiMode == BrowseMediasMode) {
+        setUiMode(BrowseMediasMode);
+    } else {
+        qApp->quit();
+    }
 }
 
 /*!
@@ -241,6 +259,40 @@ QmlMediaCollectionModel *GalleryManager::mediaLibrary() const
     }
 
     return m_mediaLibrary;
+}
+
+/*!
+ * \brief GalleryManager::setDefaultUiMode set the default UI mode. This might
+ * get overridden during the lifetime
+ * \param mode
+ */
+void GalleryManager::setDefaultUiMode(GalleryManager::UiMode mode)
+{
+    m_defaultUiMode = mode;
+}
+
+/*!
+ * \brief GalleryManager::setUiMode set's the current UI mode
+ * \param mode
+ */
+void GalleryManager::setUiMode(GalleryManager::UiMode mode)
+{
+    bool enablePickMode = (mode == PickContentMode);
+
+    if (enablePickMode != m_pickModeEnabled) {
+        m_pickModeEnabled = enablePickMode;
+        Q_EMIT pickModeEnabledChanged();
+    }
+}
+
+/*!
+ * \brief GalleryManager::pickMode returns if the current UI mode should be for
+ * picking acontent
+ * \return
+ */
+bool GalleryManager::pickModeEnabled() const
+{
+    return m_pickModeEnabled;
 }
 
 /*!
@@ -344,6 +396,14 @@ void GalleryManager::onMediaItemAdded(QString file)
 void GalleryManager::onMediaItemRemoved(qint64 mediaId)
 {
     m_mediaCollection->destroy(mediaId);
+}
+
+/*!
+ * \brief GalleryManager::switchToPickMode
+ */
+void GalleryManager::switchToPickMode()
+{
+    setUiMode(PickContentMode);
 }
 
 /*!

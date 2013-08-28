@@ -56,7 +56,6 @@ private:
     void registerQML();
     void createView();
 
-
     QQuickView *m_view;
     GalleryManager *m_galleryManager;
     CommandLineParser* m_cmdLineParser;

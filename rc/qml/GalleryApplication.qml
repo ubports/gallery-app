@@ -37,6 +37,9 @@ Item {
 
     property bool automaticOrientation: true
 
+    /// Indicates if the backend is loaded and the UI can be shown
+    property bool allLoaded: false
+
     // Big list of form factor-specific values.  'default' is used if the key
     // can't be found under any other form_factor (otherwise, form_factors should
     // match the FORM_FACTOR values passed from main.cpp).  Just add Portrait to
@@ -141,8 +144,7 @@ Item {
     /*!
     */
     function onLoaded() {
-        mainScreenLoader.load();
-        loadingScreen.visible = false;
+        allLoaded = true;
     }
 
     width: units.gu(DEVICE_WIDTH)
@@ -161,26 +163,22 @@ Item {
         }
     }
 
-    LoadingScreen {
+    Loader {
         id: loadingScreen
-
         anchors.fill: parent
+        visible: mainScreenLoader.status !== Loader.Ready
+        source: visible ? Qt.resolvedUrl("LoadingScreen.qml") : ""
     }
 
     Loader {
         id: mainScreenLoader
-
         // find the loader with autopilot:
         objectName: "mainLoader"
 
-        function load() {
-            if (PICK_MODE_ENABLED)
-                source = "PickerScreen.qml";
-            else
-                source = "MainScreen.qml";
-        }
-
         anchors.fill: parent
+        source: allLoaded ? (MANAGER.pickModeEnabled ? Qt.resolvedUrl("PickerScreen.qml")
+                                                     : Qt.resolvedUrl("MainScreen.qml"))
+                          : ""
     }
 
     HUD.HUD {

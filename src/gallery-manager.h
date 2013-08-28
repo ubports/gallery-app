@@ -52,9 +52,13 @@ class GalleryManager : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QmlMediaCollectionModel* mediaLibrary READ mediaLibrary NOTIFY mediaLibraryChanged)
-
+    Q_PROPERTY(bool pickModeEnabled READ pickModeEnabled NOTIFY pickModeEnabledChanged)
 
 public:
+    enum UiMode{
+        BrowseMediasMode,
+        PickContentMode
+    };
     GalleryManager(const QString &picturesDir, QQuickView *view);
     ~GalleryManager();
 
@@ -79,12 +83,18 @@ public:
 
     QmlMediaCollectionModel *mediaLibrary() const;
 
+    void setDefaultUiMode(UiMode mode);
+    void setUiMode(UiMode mode);
+    bool pickModeEnabled() const;
+
 signals:
     void mediaLibraryChanged();
+    void pickModeEnabledChanged();
 
 private slots:
     void onMediaItemAdded(QString file);
     void onMediaItemRemoved(qint64 mediaId);
+    void switchToPickMode();
 
 private:
     GalleryManager(const GalleryManager&);
@@ -110,6 +120,8 @@ private:
     MediaObjectFactory *m_mediaFactory;
     MediaMonitor *m_monitor;
     ContentCommunicator *m_contentCommunicator;
+    bool m_pickModeEnabled;
+    UiMode m_defaultUiMode;
 
     mutable QmlMediaCollectionModel *m_mediaLibrary;
 };
