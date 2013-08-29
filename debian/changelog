@@ -1,3 +1,13 @@
+gallery-app (0.0.67+13.10.20130829.1-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Use content hub for content picking.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 827
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 29 Aug 2013 03:40:05 +0000
+
 gallery-app (0.0.67+13.10.20130827.1-0ubuntu1) saucy; urgency=low
 
   [ Guenter Schwann ]
