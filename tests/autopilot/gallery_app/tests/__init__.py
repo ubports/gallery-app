@@ -150,7 +150,7 @@ class GalleryTestCase(AutopilotTestCase):
                         Eventually(GreaterThan(0)))
 
     def switch_to_albums_tab(self):
-        self.main_view.switch_to_tab("albumsTab")
+        self.main_view.switch_to_previous_tab()
 
         albums_loader = self.gallery_utils.get_albums_viewer_loader()
         self.assertThat(albums_loader.progress, Eventually(Equals(1)))
