@@ -163,7 +163,7 @@ class GalleryTestCase(AutopilotTestCase):
 
     def ensure_tabs_dont_move(self):
         # FIXME find a (functional) way to test if the tabs still move
-        sleep(1)
+        sleep(2)
 
     def open_first_album(self):
         first_album = self.album_view.get_first_album()
