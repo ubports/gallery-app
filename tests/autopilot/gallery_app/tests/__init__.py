@@ -150,7 +150,7 @@ class GalleryTestCase(AutopilotTestCase):
                         Eventually(GreaterThan(0)))
 
     def switch_to_albums_tab(self):
-        self.main_view.switch_to_previous_tab()
+        self.main_view.switch_to_tab("albumsTab")
 
         albums_loader = self.gallery_utils.get_albums_viewer_loader()
         self.assertThat(albums_loader.progress, Eventually(Equals(1)))
@@ -163,7 +163,7 @@ class GalleryTestCase(AutopilotTestCase):
 
     def ensure_tabs_dont_move(self):
         # FIXME find a (functional) way to test if the tabs still move
-        sleep(2)
+        sleep(1)
 
     def open_first_album(self):
         first_album = self.album_view.get_first_album()
