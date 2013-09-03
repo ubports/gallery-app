@@ -1,3 +1,14 @@
+gallery-app (0.0.67+13.10.20130903-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Fix test for the toolbar using the old active property. (LP:
+    #1218953)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 831
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 03 Sep 2013 15:59:09 +0000
+
 gallery-app (0.0.67+13.10.20130829.1-0ubuntu1) saucy; urgency=low
 
   [ Guenter Schwann ]
