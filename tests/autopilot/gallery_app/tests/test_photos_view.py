@@ -55,7 +55,7 @@ class TestPhotosView(GalleryTestCase):
         self.main_view.open_toolbar().click_custom_button("cancelButton")
 
         toolbar = self.main_view.get_toolbar()
-        self.assertThat(toolbar.active, Eventually(Equals(False)))
+        self.assertThat(toolbar.opened, Eventually(Equals(False)))
         self.assertFalse(photos_overview.inSelectionMode)
 
         first_photo = self.photos_view.get_first_photo_in_photos_view()
