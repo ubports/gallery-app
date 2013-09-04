@@ -136,8 +136,7 @@ void GalleryManager::returnPickedContent(QVariant variant)
     QVector<QUrl> selectedMedias;
     selectedMedias.reserve(sources.size());
     foreach (const MediaSource *media, sources) {
-        QUrl url(media->path().toLocalFile());
-        selectedMedias.append(url);
+        selectedMedias.append(media->path());
     }
     m_contentCommunicator->returnPhotos(selectedMedias);
 
