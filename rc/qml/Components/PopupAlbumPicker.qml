@@ -143,7 +143,6 @@ Popover {
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     color: "black"
-                    font.family: "Ubuntu"
                     text: i18n.tr("Add Photo to Album")
                 }
             }

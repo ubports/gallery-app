@@ -35,7 +35,6 @@ UbuntuShape {
     property variant event
     /*!
     */
-    property color textColor: "#888888"
 
     radius: "medium"
     color: "#dddddd"
@@ -51,9 +50,7 @@ UbuntuShape {
         width: parent.width
         height: units.gu(1)
 
-        font.family: "Ubuntu"
         font.pixelSize: units.dp(15)
-        color: textColor
 
         font.capitalization: Font.AllUppercase
         horizontalAlignment: Text.AlignHCenter
@@ -67,9 +64,7 @@ UbuntuShape {
         anchors.top: eventMonthYear.bottom
         width: parent.width
 
-        font.family: "Ubuntu"
         font.pixelSize: units.dp(67)
-        color: textColor
 
         horizontalAlignment: Text.AlignHCenter
 
