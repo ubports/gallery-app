@@ -161,6 +161,7 @@ bool PreviewManager::ensurePreview(QFileInfo file, bool regen)
             return false;
         }
 
+        fullsized.setText("Thumb::URI", QUrl::fromLocalFile(file.canonicalFilePath()).toEncoded());
         // scale the preview so it will fill the viewport specified by PREVIEW_*_MAX
         // these values are replicated in the QML so that the preview will fill each
         // grid cell, cropping down to the center of the image if necessary
