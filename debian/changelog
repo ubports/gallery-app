@@ -1,3 +1,21 @@
+gallery-app (0.0.67+13.10.20130905-0ubuntu1) saucy; urgency=low
+
+  [ Chris Wayne ]
+  * In EventCard.qml, there's no reason to explictly set the font or the
+    color for label, as that should just be inherited by the theme. (LP:
+    #1220352)
+
+  [ Jussi Pakkanen ]
+  * Store original path as an image attribute.
+
+  [ Guenter Schwann ]
+  * Return urls not filenames to content hub.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 835
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 05 Sep 2013 08:02:48 +0000
+
 gallery-app (0.0.67+13.10.20130903-0ubuntu1) saucy; urgency=low
 
   [ Guenter Schwann ]
