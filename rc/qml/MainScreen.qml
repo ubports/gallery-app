@@ -191,7 +191,7 @@ MainView {
     actionManager.localContexts: [
         UnityActions.ActionContext {
             id: hudCtx
-            active: false
+            active: __isPhotoViewerOpen
         }
     ]
 }
