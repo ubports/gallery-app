@@ -19,6 +19,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Ubuntu.Unity.Action 1.0 as UnityActions
 import Gallery 1.0
 import "../js/GalleryUtility.js" as GalleryUtility
 import "AlbumEditor"
@@ -186,4 +187,11 @@ MainView {
         anchors.fill: parent
         enabled: photoViewerLoader.item && photoViewerLoader.item.animationRunning
     }
+
+    actionManager.localContexts: [
+        UnityActions.ActionContext {
+            id: hudCtx
+            active: false
+        }
+    ]
 }
