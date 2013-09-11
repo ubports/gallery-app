@@ -16,7 +16,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Application 0.1
+import Unity.Application 0.1
 
 /*!
 */
