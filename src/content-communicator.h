@@ -19,6 +19,7 @@
 #define CONTENTCOMMUNICATOR_H
 
 #include <com/ubuntu/content/import_export_handler.h>
+#include <com/ubuntu/content/transfer.h>
 
 #include <QUrl>
 #include <QVector>
