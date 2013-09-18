@@ -118,7 +118,7 @@ Item {
         expandAlbum.height = rect.height;
 
         hideStayingOpen = stayOpen;
-        expandAlbum.showCover = !stayOpen
+        albumOpenerLandscape.showCover = !stayOpen
 
         hideAlbumViewerAnimation.thumbnailRect = thumbnailRect;
         hideAlbumViewerAnimation.start();
