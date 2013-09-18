@@ -1,3 +1,18 @@
+gallery-app (0.0.67+13.10.20130918.1-0ubuntu1) saucy; urgency=low
+
+  [ Gerry Boland ]
+  * Application module name changed, update the
+    UbuntuApplicationWrapper.
+
+  [ Ugo Riboni ]
+  * Use the Actions API instead of using the HUD directly. (LP:
+    #1221344, #1220279)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 839
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 18 Sep 2013 08:02:09 +0000
+
 gallery-app (0.0.67+13.10.20130905-0ubuntu1) saucy; urgency=low
 
   [ Chris Wayne ]
