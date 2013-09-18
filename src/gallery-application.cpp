@@ -272,11 +272,13 @@ void GalleryApplication::returnPickedContent(QVariant variant)
     }
     m_contentCommunicator->returnPhotos(selectedMedias);
 
-    if (m_defaultUiMode == BrowseContentMode) {
-        setUiMode(BrowseContentMode);
-    } else {
-        qApp->quit();
-    }
+// FIXME once content hub handles opening closing correctly, close gallery only when needed
+//    if (m_defaultUiMode == BrowseContentMode) {
+//        setUiMode(BrowseContentMode);
+//    } else {
+//        qApp->quit();
+//    }
+    qApp->quit();
 }
 
 /*!
@@ -287,11 +289,13 @@ void GalleryApplication::contentPickingCanceled()
 {
     m_contentCommunicator->cancelTransfer();
 
-    if (m_defaultUiMode == BrowseContentMode) {
-        setUiMode(BrowseContentMode);
-    } else {
-        qApp->quit();
-    }
+// FIXME once content hub handles opening closing correctly, close gallery only when needed
+//    if (m_defaultUiMode == BrowseContentMode) {
+//        setUiMode(BrowseContentMode);
+//    } else {
+//        qApp->quit();
+//    }
+    qApp->quit();
 }
 
 /*!
