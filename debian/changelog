@@ -1,3 +1,15 @@
+gallery-app (0.0.67+13.10.20130919.3-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Enable delete in album view (close view without animation) fixes LP:
+    #1163437. (LP: #1163437)
+  * Fix bug closing the album view LP: #1207395. (LP: #1207395)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 842
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 19 Sep 2013 15:52:26 +0000
+
 gallery-app (0.0.67+13.10.20130918.1-0ubuntu1) saucy; urgency=low
 
   [ Gerry Boland ]
