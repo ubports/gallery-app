@@ -175,7 +175,7 @@ Item {
         objectName: "mainLoader"
 
         anchors.fill: parent
-        source: allLoaded ? (MANAGER.pickModeEnabled ? Qt.resolvedUrl("PickerScreen.qml")
+        source: allLoaded ? (APP.pickModeEnabled ? Qt.resolvedUrl("PickerScreen.qml")
                                                      : Qt.resolvedUrl("MainScreen.qml"))
                           : ""
     }

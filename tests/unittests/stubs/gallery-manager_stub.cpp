@@ -90,15 +90,6 @@ QmlMediaCollectionModel *GalleryManager::mediaLibrary() const
     return m_mediaLibrary;
 }
 
-void GalleryManager::returnPickedContent(QVariant variant)
-{
-    Q_UNUSED(variant);
-}
-
-void GalleryManager::contentPickingCanceled()
-{
-}
-
 GalleryManager::~GalleryManager()
 {
     delete m_standardImageProvider;
@@ -117,15 +108,6 @@ void GalleryManager::onMediaItemAdded(QString file)
 void GalleryManager::onMediaItemRemoved(qint64 mediaId)
 {
     Q_UNUSED(mediaId);
-}
-
-bool GalleryManager::pickModeEnabled() const
-{
-    return false;
-}
-
-void GalleryManager::switchToPickMode()
-{
 }
 
 GalleryStandardImageProvider* GalleryManager::takeGalleryStandardImageProvider()
