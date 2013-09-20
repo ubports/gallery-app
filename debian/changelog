@@ -1,3 +1,16 @@
+gallery-app (0.0.67+13.10.20130920-0ubuntu1) saucy; urgency=low
+
+  [ Ted Gould ]
+  * Adding single instance marker to the desktop file.
+
+  [ Guenter Schwann ]
+  * Get and use single/multiselection in pick mode from transfer object.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 846
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 20 Sep 2013 11:24:47 +0000
+
 gallery-app (0.0.67+13.10.20130919.3-0ubuntu1) saucy; urgency=low
 
   [ Guenter Schwann ]
