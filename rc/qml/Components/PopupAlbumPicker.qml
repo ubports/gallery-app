@@ -30,6 +30,7 @@ import "../../js/Gallery.js" as Gallery
 */
 Popover {
     id: popupAlbumPicker
+    objectName: "popupAlbumPicker"
 
     /// Emitted when an album is clicked
     signal albumPicked(variant album)

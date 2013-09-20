@@ -15,7 +15,7 @@ class AlbumEditorAnimated(toolkit_emulators.UbuntuUIToolkitEmulatorBase):
         cover_image = self.album_cover_image()
         # click left of the cover
         x, y, w, h = cover_image.globalRect
-        self.pointing_device.move(x/2, y + h/2)
+        self.pointing_device.move(x + w/2, y + h + 1)
         self.pointing_device.click()
         self.ensure_fully_closed
 
