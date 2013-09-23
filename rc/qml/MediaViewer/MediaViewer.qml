@@ -285,19 +285,20 @@ Item {
             }
         }
 
-        PopupAlbumPicker {
-            id: popupAlbumPicker
-            objectName: "popupAlbumPicker"
-
-            visible: false
-            contentHeight: parent.height - units.gu(10)
-            onAlbumPicked: {
-                album.addMediaSource(media)
-            }
-        }
-
         onCloseRequested: viewerWrapper.closeRequested()
         onEditRequested: viewerWrapper.editRequested(media)
+    }
+
+    property int __pickerContentHeight: galleryPhotoViewer.height - units.gu(10)
+    property PopupAlbumPicker __albumPicker
+    Connections {
+        target: __albumPicker
+        onAlbumPicked: {
+            album.addMediaSource(galleryPhotoViewer.media);
+        }
+        onNewAlbumPicked: {
+            viewerWrapper.closeRequested();
+        }
     }
 
     property alias cropper: cropper
@@ -448,8 +449,9 @@ Item {
                     text: i18n.tr("Add photo to album")
                     iconSource: "../../img/add.png"
                     onTriggered: {
-                        popupAlbumPicker.caller = photoAddButton;
-                        popupAlbumPicker.show();
+                        __albumPicker = PopupUtils.open(Qt.resolvedUrl("../Components/PopupAlbumPicker.qml"),
+                                                        photoAddButton,
+                                                        {contentHeight: viewerWrapper.__pickerContentHeight});
                     }
                 }
                 text: i18n.tr("Add")
@@ -509,8 +511,9 @@ Item {
                 text: i18n.tr("Add")
                 iconSource: "../../img/add.png"
                 onTriggered: {
-                    popupAlbumPicker.caller = videoAddButton;
-                    popupAlbumPicker.show();
+                    __albumPicker = PopupUtils.open(Qt.resolvedUrl("../Components/PopupAlbumPicker.qml"),
+                                                    videoAddButton,
+                                                    {contentHeight: viewerWrapper.__pickerContentHeight});
                 }
             }
             ToolbarButton {

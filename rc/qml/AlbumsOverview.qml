@@ -172,6 +172,11 @@ Checkerboard {
                 onTriggered: {
                     var album = albumCollectionModel.createOrphan();
                     albumCollectionModel.addOrphan(album);
+
+                    albumEditor.album = album;
+                    albumEditor.origin = null;
+                    albumEditor.previewItem = null;
+                    albumEditor.open();
                 }
             }
             text: "Add" // text in toolbar
