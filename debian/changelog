@@ -1,3 +1,14 @@
+gallery-app (0.0.67+13.10.20130924.1-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * When adding a new album, go to album edit directly Fixes LP:
+    #1163414. (LP: #1163414)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 849
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 24 Sep 2013 07:05:12 +0000
+
 gallery-app (0.0.67+13.10.20130920-0ubuntu1) saucy; urgency=low
 
   [ Ted Gould ]
