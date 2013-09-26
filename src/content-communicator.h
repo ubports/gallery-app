@@ -32,6 +32,7 @@ using namespace com::ubuntu;
 class ContentCommunicator : public content::ImportExportHandler
 {
     Q_OBJECT
+    Q_PROPERTY(bool singleContentPickMode READ singleContentPickMode NOTIFY singleContentPickModeChanged)
     Q_PROPERTY(SelectionType selectionType READ selectionType NOTIFY selectionTypeChanged)
     Q_ENUMS(SelectionType)
 
@@ -50,12 +51,16 @@ public:
     void returnPhotos(const QVector<QUrl> &urls);
 
     SelectionType selectionType() const;
+    bool singleContentPickMode() const;
 
 signals:
     void photoRequested();
     void selectionTypeChanged();
+    void singleContentPickModeChanged();
 
 private:
+    Q_SLOT void quitApp();
+
     content::Transfer *m_transfer;
 };
 

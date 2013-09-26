@@ -46,3 +46,12 @@ ContentCommunicator::SelectionType ContentCommunicator::selectionType() const
 {
     return SingleSelect;
 }
+
+bool ContentCommunicator::singleContentPickMode() const
+{
+    return true;
+}
+
+void ContentCommunicator::quitApp()
+{
+}
