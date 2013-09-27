@@ -121,9 +121,9 @@ ContentCommunicator::SelectionType ContentCommunicator::selectionType() const
 bool ContentCommunicator::singleContentPickMode() const
 {
     if (!m_transfer)
-        return SingleSelect;
+        return true;
 
-    return m_transfer->selectionType() == Transfer::single;
+    return m_transfer->selectionType() == Transfer::SelectionType::single;
 }
 
 /*!
