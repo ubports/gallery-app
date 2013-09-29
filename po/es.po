@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-20 12:56+0000\n"
-"PO-Revision-Date: 2013-07-25 12:49+0000\n"
-"Last-Translator: Adolfo Jayme Barrientos <fitoschido@gmail.com>\n"
+"PO-Revision-Date: 2013-09-28 09:47+0000\n"
+"Last-Translator: Paco Molinero <paco@byasl.com>\n"
 "Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-09-20 06:02+0000\n"
-"X-Generator: Launchpad (build 16765)\n"
+"X-Launchpad-Export-Date: 2013-09-29 05:46+0000\n"
+"X-Generator: Launchpad (build 16774)\n"
 
 #: desktop/gallery-app.desktop.in:3
 msgid "Gallery"
@@ -91,7 +91,7 @@ msgstr "Añadir"
 #: rc/qml/MediaViewer/MediaViewer.qml:467
 #: rc/qml/MediaViewer/MediaViewer.qml:518
 msgid "Back"
-msgstr "Atrás"
+msgstr "Anterior"
 
 #: rc/qml/AlbumsOverview.qml:177 rc/qml/Components/PopupAlbumPicker.qml:87
 msgid "Add new album"
@@ -156,7 +156,7 @@ msgstr "Recortar"
 
 #: rc/qml/MediaViewer/EditPopover.qml:38 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr "Girar"
+msgstr "Rotar"
 
 #: rc/qml/MediaViewer/EditPopover.qml:54
 msgid "Auto enhance"
@@ -236,7 +236,7 @@ msgstr "Girar a la derecha"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr "Girar la imagen a la derecha"
+msgstr "Rota la imagen en sentido horario"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
