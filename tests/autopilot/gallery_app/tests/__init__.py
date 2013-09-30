@@ -28,15 +28,6 @@ class GalleryTestCase(AutopilotTestCase):
     """A common test case class that provides several useful methods for
        gallery tests."""
 
-    if model() == 'Desktop':
-        scenarios = [
-            ('with mouse', dict(input_device_class=Mouse)),
-        ]
-    else:
-        scenarios = [
-            ('with touch', dict(input_device_class=Touch)),
-        ]
-
     sample_destination_dir = "/tmp/gallery-ap_sd"
     sample_file = sample_destination_dir + "/sample01.jpg"
     sample_file_source = "/sample01.jpg"
@@ -58,7 +49,7 @@ class GalleryTestCase(AutopilotTestCase):
         return self.app.select_single(main_screen.MainScreen)
 
     def setUp(self):
-        self.pointing_device = Pointer(self.input_device_class.create())
+        self.pointing_device = toolkit_emulators.get_pointing_device()
         super(GalleryTestCase, self).setUp()
 
         if (os.path.exists(self.sample_destination_dir)):
