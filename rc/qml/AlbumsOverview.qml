@@ -186,14 +186,8 @@ Checkerboard {
             action: Action {
                 text: i18n.tr("Camera")
                 iconSource: Qt.resolvedUrl("../img/camera.png")
-                onTriggered: {
-                    appManager.switchToCameraApplication();
-                }
+                onTriggered: Qt.openUrlExternally("application:///camera-app.desktop")
             }
         }
-    }
-
-    UbuntuApplicationCaller {
-        id: appManager
     }
 }

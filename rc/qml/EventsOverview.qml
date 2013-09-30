@@ -74,11 +74,7 @@ OrganicView {
 
     property Item overviewTools: PhotosToolbarActions {
         selection: organicEventView.selection
-        onStartCamera: appManager.switchToCameraApplication();
-    }
-
-    UbuntuApplicationCaller {
-        id: appManager
+        onStartCamera: Qt.openUrlExternally("application:///camera-app.desktop")
     }
 
     property int __pickerContentHeight: height - units.gu(20)
