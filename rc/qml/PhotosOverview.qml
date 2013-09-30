@@ -101,11 +101,6 @@ Page {
 
         property Item overviewTools: PhotosToolbarActions {
             selection: d.selection
-            onStartCamera: appManager.switchToCameraApplication();
-        }
-
-        UbuntuApplicationCaller {
-            id: appManager
         }
 
         property Item selectionTools: SelectionToolbarAction {

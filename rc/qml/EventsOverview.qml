@@ -74,11 +74,6 @@ OrganicView {
 
     property Item overviewTools: PhotosToolbarActions {
         selection: organicEventView.selection
-        onStartCamera: appManager.switchToCameraApplication();
-    }
-
-    UbuntuApplicationCaller {
-        id: appManager
     }
 
     property int __pickerContentHeight: height - units.gu(20)
