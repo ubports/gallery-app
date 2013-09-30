@@ -74,7 +74,6 @@ OrganicView {
 
     property Item overviewTools: PhotosToolbarActions {
         selection: organicEventView.selection
-        onStartCamera: Qt.openUrlExternally("application:///camera-app.desktop")
     }
 
     property int __pickerContentHeight: height - units.gu(20)

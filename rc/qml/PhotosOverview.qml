@@ -101,7 +101,6 @@ Page {
 
         property Item overviewTools: PhotosToolbarActions {
             selection: d.selection
-            onStartCamera: Qt.openUrlExternally("application:///camera-app.desktop")
         }
 
         property Item selectionTools: SelectionToolbarAction {
