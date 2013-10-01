@@ -1,3 +1,9 @@
+gallery-app (0.0.67+13.10.20130924.1-0ubuntu2) saucy; urgency=low
+
+  * No change rebuild with the current content-hub (lp: #1231368)
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Tue, 01 Oct 2013 11:53:32 +0200
+
 gallery-app (0.0.67+13.10.20130924.1-0ubuntu1) saucy; urgency=low
 
   [ Guenter Schwann ]
