@@ -19,6 +19,7 @@
 #define CONTENTCOMMUNICATOR_H
 
 #include <com/ubuntu/content/import_export_handler.h>
+#include <com/ubuntu/content/transfer.h>
 
 #include <QUrl>
 #include <QVector>
@@ -31,8 +32,15 @@ using namespace com::ubuntu;
 class ContentCommunicator : public content::ImportExportHandler
 {
     Q_OBJECT
+    Q_PROPERTY(SelectionType selectionType READ selectionType NOTIFY selectionTypeChanged)
+    Q_ENUMS(SelectionType)
 
 public:
+    enum SelectionType {
+        SingleSelect = content::Transfer::single,
+        MultiSelect = content::Transfer::multiple
+    };
+
     ContentCommunicator(QObject *parent = nullptr);
 
     virtual void handle_import(content::Transfer*);
@@ -41,8 +49,11 @@ public:
     void cancelTransfer();
     void returnPhotos(const QVector<QUrl> &urls);
 
+    SelectionType selectionType() const;
+
 signals:
     void photoRequested();
+    void selectionTypeChanged();
 
 private:
     content::Transfer *m_transfer;

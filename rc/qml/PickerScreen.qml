@@ -36,7 +36,7 @@ MainView {
     /// Holds the selection
     property SelectionState selection: SelectionState {
         inSelectionMode: true
-        singleSelect: false
+        singleSelect: PICKER_HUB.singleContentPickMode
         model: mediaLibrary
     }
 
@@ -101,7 +101,7 @@ MainView {
                 if (!enabled)
                     return;
 
-                MANAGER.returnPickedContent(mediaLibrary.selectedMedias);
+                APP.returnPickedContent(mediaLibrary.selectedMedias);
             }
         }
 
@@ -111,7 +111,7 @@ MainView {
             objectName: "cancelButton"
             width: units.gu(10)
             onClicked: {
-                MANAGER.contentPickingCanceled()
+                APP.contentPickingCanceled()
             }
         }
         opened: true

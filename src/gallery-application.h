@@ -25,6 +25,7 @@
 #include <QFileInfo>
 
 class CommandLineParser;
+class ContentCommunicator;
 class GalleryManager;
 
 class QQuickView;
@@ -35,22 +36,36 @@ class QQuickView;
 class GalleryApplication : public QApplication
 {
     Q_OBJECT
+    Q_PROPERTY(bool pickModeEnabled READ pickModeEnabled NOTIFY pickModeEnabledChanged)
 
 public:
+    enum UiMode{
+        BrowseContentMode,
+        PickContentMode
+    };
+
     explicit GalleryApplication(int& argc, char** argv);
     virtual ~GalleryApplication();
 
     int exec();
 
-    Q_INVOKABLE bool runCommand(const QString &cmd, const QString &arg);
+    void setDefaultUiMode(UiMode mode);
+    UiMode defaultUiMode() const;
+    void setUiMode(UiMode mode);
+    bool pickModeEnabled() const;
+
+    Q_INVOKABLE void returnPickedContent(QVariant variant);
+    Q_INVOKABLE void contentPickingCanceled();
 
     static void startStartupTimer();
 
 signals:
     void mediaLoaded();
+    void pickModeEnabledChanged();
 
 private slots:
     void initCollections();
+    void switchToPickMode();
 
 private:
     void registerQML();
@@ -59,8 +74,11 @@ private:
     QQuickView *m_view;
     GalleryManager *m_galleryManager;
     CommandLineParser* m_cmdLineParser;
+    ContentCommunicator *m_contentCommunicator;
     QHash<QString, QSize> m_formFactors;
     int m_bguSize;
+    bool m_pickModeEnabled;
+    UiMode m_defaultUiMode;
 
     static QElapsedTimer *m_timer;
 };

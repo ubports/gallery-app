@@ -30,9 +30,13 @@ import "../../js/Gallery.js" as Gallery
 */
 Popover {
     id: popupAlbumPicker
+    objectName: "popupAlbumPicker"
 
     /// Emitted when an album is clicked
-    signal albumPicked(variant album);
+    signal albumPicked(variant album)
+    /// Emitted when a new album was created to add the photo(s) to
+    signal newAlbumPicked(variant album)
+
     /// height of the content
     property int contentHeight: -1
     contentWidth: units.gu(34)
@@ -93,8 +97,17 @@ Popover {
                             MouseArea {
                                 anchors.fill: parent
                                 onClicked: {
-                                    var album = albumCollectionModel.createOrphan();
-                                    albumCollectionModel.addOrphan(album);
+                                    var album = albumGrid.albumCollectionModel.createOrphan();
+                                    albumGrid.albumCollectionModel.addOrphan(album);
+
+                                    popupAlbumPicker.hide();
+                                    popupAlbumPicker.albumPicked(album);
+                                    popupAlbumPicker.newAlbumPicked(album);
+
+                                    albumEditor.album = album;
+                                    albumEditor.origin = null;
+                                    albumEditor.previewItem = null;
+                                    albumEditor.open();
                                 }
                             }
                         }

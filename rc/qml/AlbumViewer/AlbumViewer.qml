@@ -54,6 +54,8 @@ Page {
 
     // When the user clicks the back button or pages back to the cover.
     signal closeRequested(bool stayOpen, int viewingPage)
+    // When the user clicks the back button or pages back to the cover.
+    signal quickCloseRequested()
 
     Image {
         anchors.fill: parent
@@ -72,6 +74,11 @@ Page {
     /// Closes the view as stores the page number the page number currently viewed
     function __close() {
         closeRequested(album.containedCount > 0, albumSpreadViewer.viewingPage)
+    }
+
+    /// Closes the view without animation or storing anything
+    function __quickClose() {
+        quickCloseRequested()
     }
 
     FadeOutAnimation {
@@ -374,12 +381,10 @@ Page {
         id: albumTrashDialog
         visible: false
         onDeleteClicked: {
-            // FIXME do not show the close animation
-            __close()
+            __quickClose();
         }
         onDeleteWithContentsClicked: {
-            // FIXME do not show the close animation
-            __close()
+            __quickClose();
         }
     }
 
@@ -397,15 +402,15 @@ Page {
             text: i18n.tr("Add") // text in toolbar
         }
         ToolbarButton {
+            id: deleteButton
             objectName: "deleteButton"
             text: i18n.tr("Delete")
             iconSource: Qt.resolvedUrl("../../img/delete.png")
             onTriggered: {
                 albumTrashDialog.album = album
-                albumTrashDialog.caller = caller
+                albumTrashDialog.caller = deleteButton
                 albumTrashDialog.show()
             }
-            enabled: false // FIXME enable once the close animation is not shown anymore
         }
         back: ToolbarButton {
             text: i18n.tr("Back")

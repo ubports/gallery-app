@@ -23,7 +23,6 @@ import QtQuick 2.0
 import QtQuick.Window 2.0
 import "../js/Gallery.js" as Gallery
 import Ubuntu.Components 0.1 // Necessary to make filename@GU.ext images load
-import Ubuntu.HUD 1.0 as HUD
 
 /*!
 */
@@ -176,18 +175,9 @@ Item {
         objectName: "mainLoader"
 
         anchors.fill: parent
-        source: allLoaded ? (MANAGER.pickModeEnabled ? Qt.resolvedUrl("PickerScreen.qml")
+        source: allLoaded ? (APP.pickModeEnabled ? Qt.resolvedUrl("PickerScreen.qml")
                                                      : Qt.resolvedUrl("MainScreen.qml"))
                           : ""
-    }
-
-    HUD.HUD {
-        id: hud
-        applicationIdentifier: "gallery-app" // this must match the .desktop file!
-
-        HUD.Context {
-            id: hudCtx
-        }
     }
 
     Component.onCompleted: {

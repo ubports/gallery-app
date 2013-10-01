@@ -72,38 +72,18 @@ OrganicView {
         }
     }
 
-    Loader {
-        id: albumPickerLoader
-
-        /// Holds the target height for the conent
-        property int contentHeight: parent.height - units.gu(20)
-
-        /// Opens the album picker, at proper position for the caller
-        function show(caller) {
-            if (status === Loader.Null)
-                setSource(Qt.resolvedUrl("Components/PopupAlbumPicker.qml"),
-                          {contentHeight: albumPickerLoader.contentHeight});
-
-            albumPickerLoader.item.caller = caller
-            albumPickerLoader.item.show()
-        }
-
-        Connections {
-            target: albumPickerLoader.item
-            onAlbumPicked: {
-                album.addSelectedMediaSources(selection.model.selectedMedias);
-                organicEventView.leaveSelectionMode()
-            }
-        }
-    }
-
     property Item overviewTools: PhotosToolbarActions {
         selection: organicEventView.selection
-        onStartCamera: appManager.switchToCameraApplication();
     }
 
-    UbuntuApplicationCaller {
-        id: appManager
+    property int __pickerContentHeight: height - units.gu(20)
+    property PopupAlbumPicker __albumPicker
+    Connections {
+        target: __albumPicker
+        onAlbumPicked: {
+            album.addSelectedMediaSources(selection.model.selectedMedias);
+            organicEventView.leaveSelectionMode();
+        }
     }
 
     property Item selectionTools: SelectionToolbarAction {
@@ -113,7 +93,9 @@ OrganicView {
             organicEventView.leaveSelectionMode();
         }
         onAddClicked: {
-            albumPickerLoader.show(caller)
+            __albumPicker = PopupUtils.open(Qt.resolvedUrl("Components/PopupAlbumPicker.qml"),
+                                            caller,
+                                            {contentHeight: organicEventView.__pickerContentHeight});
         }
         onDeleteClicked: {
             PopupUtils.open(deleteDialog, null);

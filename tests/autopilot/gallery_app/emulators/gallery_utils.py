@@ -108,8 +108,12 @@ class GalleryUtils(object):
                                         objectName="checkerboardDelegate")
         return albums[-1]
 
-    def get_tabs_bar_absolute_width(self):
-        return self.app.select_single("QQuickPathView").width
+    def get_edit_album_button(self):
+        """Returns the edit album button in the album popover"""
+        return self.app.select_single("Standard",
+                                      objectName="editAlbumListItem")
 
-    def get_tabs_bar_potential_width(self):
-        return self.get_tabs_bar().width
+    def get_cover_menu_item(self, idx):
+        """Returns the item of the cover menu with index idx"""
+        return self.app.select_many("Standard",
+                                    objectName="albumCoverMenuItem")[idx]
