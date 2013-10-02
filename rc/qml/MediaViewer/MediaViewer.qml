@@ -243,14 +243,22 @@ Item {
         FacebookAccount {
             id: facebook
 
+            property ActionSelectionPopover _lastPopover: null
+
             function configureOrStartSharing(button) {
-                if (facebook.id == -1) {
-                    PopupUtils.open(shareConfigurePopover, button);
+                if (_lastPopover) {
+                    PopupUtils.close(_lastPopover);
+                    _lastPopover = null;
                 } else {
-                    sharePanel.fileToShare = viewerWrapper.media.path;
-                    sharePanel.userAccountId = facebook.id;
-                    sharePanel.visible = true;
-                    viewerWrapper.tools.opened = false;
+                    if (facebook.id == -1) {
+                        _lastPopover = PopupUtils.open(shareConfigurePopover, button);
+                    } else {
+                        sharePanel.fileToShare = viewerWrapper.media.path;
+                        sharePanel.userAccountId = facebook.id;
+                        sharePanel.visible = true;
+                        viewerWrapper.tools.opened = false;
+                         _lastPopover = null;
+                    }
                 }
             }
         }
