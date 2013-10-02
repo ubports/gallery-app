@@ -17,6 +17,7 @@
 
 #include <content-communicator.h>
 
+#include <QApplication>
 #include <QDebug>
 #include <QFileInfo>
 
@@ -59,6 +60,10 @@ void ContentCommunicator::handle_export(content::Transfer *transfer)
 
     m_transfer = transfer;
     emit photoRequested();
+    emit selectionTypeChanged();
+    emit singleContentPickModeChanged();
+
+    QObject::connect(m_transfer, SIGNAL(stateChanged()), this, SLOT(quitApp()));
 }
 
 /*!
@@ -72,6 +77,7 @@ void ContentCommunicator::cancelTransfer()
     }
 
     m_transfer->abort();
+    m_transfer = nullptr;
 }
 
 /*!
@@ -106,4 +112,27 @@ ContentCommunicator::SelectionType ContentCommunicator::selectionType() const
         return SingleSelect;
 
     return static_cast<SelectionType>(m_transfer->selectionType());
+}
+
+/*!
+ * \brief ContentCommunicator::singleContentPickMode
+ * \return
+ */
+bool ContentCommunicator::singleContentPickMode() const
+{
+    if (!m_transfer)
+        return true;
+
+    return m_transfer->selectionType() == Transfer::SelectionType::single;
+}
+
+/*!
+ * \brief ContentCommunicator::quitApp
+ * FIXME
+ * As long as the content hub soes not close gallery -use this as fallback
+ */
+void ContentCommunicator::quitApp()
+{
+    if (!m_transfer)
+        qApp->quit();
 }

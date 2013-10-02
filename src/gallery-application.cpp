@@ -272,13 +272,10 @@ void GalleryApplication::returnPickedContent(QVariant variant)
     }
     m_contentCommunicator->returnPhotos(selectedMedias);
 
-// FIXME once content hub handles opening closing correctly, close gallery only when needed
+// do not switch UI, as gallery anyway always quits atm.
 //    if (m_defaultUiMode == BrowseContentMode) {
 //        setUiMode(BrowseContentMode);
-//    } else {
-//        qApp->quit();
 //    }
-    qApp->quit();
 }
 
 /*!
@@ -289,13 +286,10 @@ void GalleryApplication::contentPickingCanceled()
 {
     m_contentCommunicator->cancelTransfer();
 
-// FIXME once content hub handles opening closing correctly, close gallery only when needed
+// do not switch UI, as gallery anyway always quits atm.
 //    if (m_defaultUiMode == BrowseContentMode) {
 //        setUiMode(BrowseContentMode);
-//    } else {
-//        qApp->quit();
 //    }
-    qApp->quit();
 }
 
 /*!
