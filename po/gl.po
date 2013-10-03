@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-20 12:56+0000\n"
-"PO-Revision-Date: 2013-09-30 16:23+0000\n"
-"Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>\n"
+"PO-Revision-Date: 2013-10-02 11:23+0000\n"
+"Last-Translator: Marcos Lans <Unknown>\n"
 "Language-Team: Galician <gl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-10-01 05:39+0000\n"
-"X-Generator: Launchpad (build 16774)\n"
+"X-Launchpad-Export-Date: 2013-10-03 05:56+0000\n"
+"X-Generator: Launchpad (build 16791)\n"
 
 #: desktop/gallery-app.desktop.in:3
 msgid "Gallery"
@@ -27,7 +27,7 @@ msgstr "Visor de fotos de Ubuntu"
 
 #: desktop/gallery-app.desktop.in:6
 msgid "Browse your photographs"
-msgstr "Examine as súas fotografías"
+msgstr "Examine as súas fotos"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:45
 msgid "Edit album"
@@ -126,7 +126,7 @@ msgstr "Engadir ao álbum"
 
 #: rc/qml/Components/PopupAlbumPicker.qml:147 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr "Engadir unha foto ao álbum"
+msgstr "Engadir foto ao álbum"
 
 #: rc/qml/LoadingScreen.qml:36
 msgid "Loading…"
@@ -192,7 +192,7 @@ msgstr "Compartir foto"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:480
 msgid "Pause"
-msgstr "Pausa"
+msgstr "Pausar"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:480
 msgid "Play"
@@ -224,11 +224,11 @@ msgstr "Realce automático"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr "Axustar a imaxe automaticamente"
+msgstr "Axustar imaxe automaticamente"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr "Axustar a foto automaticamente"
+msgstr "Axustar foto automaticamente"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
