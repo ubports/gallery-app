@@ -22,6 +22,7 @@ import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
+import Ubuntu.Components.ListItems 0.1 as ListItem
 import Ubuntu.Components.Extras 0.1
 import "../Components"
 import "../Utility"
@@ -223,16 +224,41 @@ Item {
                      !editHUD.actionActive
 
         Component {
-            id: sharePopoverComponent
-            SharePopover {
-                id: sharePopover
-                objectName: "sharePopover"
+            id: shareConfigurePopover
+
+            ActionSelectionPopover {
+                objectName: "shareConfigurePopover"
                 visible: false
-                onSelected: {
-                    sharePanel.fileToShare = viewerWrapper.media.path
-                    sharePanel.userAccountId = accountId
-                    sharePanel.visible = true;
-                    viewerWrapper.tools.opened = false;
+                actions: ActionList {
+                    Action {
+                        text: i18n.tr("Configure Facebook for photo sharing...")
+                        onTriggered: {
+                            Qt.openUrlExternally("settings:///system/online-accounts");
+                        }
+                    }
+                }
+            }
+        }
+
+        FacebookAccount {
+            id: facebook
+
+            property ActionSelectionPopover _lastPopover: null
+
+            function configureOrStartSharing(button) {
+                if (_lastPopover) {
+                    PopupUtils.close(_lastPopover);
+                    _lastPopover = null;
+                } else {
+                    if (facebook.id == -1) {
+                        _lastPopover = PopupUtils.open(shareConfigurePopover, button);
+                    } else {
+                        sharePanel.fileToShare = viewerWrapper.media.path;
+                        sharePanel.userAccountId = facebook.id;
+                        sharePanel.visible = true;
+                        viewerWrapper.tools.opened = false;
+                         _lastPopover = null;
+                    }
                 }
             }
         }
@@ -474,7 +500,7 @@ Item {
                     text: i18n.tr("Share photo")
                     iconSource: "../../img/share.png"
                     onTriggered: {
-                        PopupUtils.open(sharePopoverComponent, photoShareButton);
+                        facebook.configureOrStartSharing(photoShareButton);
                     }
                 }
                 text: i18n.tr("Share")
@@ -530,7 +556,7 @@ Item {
                 text: i18n.tr("Share")
                 iconSource: "../../img/share.png"
                 onTriggered: {
-                    PopupUtils.open(sharePopoverComponent, videoShareButton);
+                    facebook.configureOrStartSharing(videoShareButton);
                 }
             }
 
