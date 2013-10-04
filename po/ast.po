@@ -1,4 +1,4 @@
-# Polish translation for gallery-app
+# Asturian translation for gallery-app
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
 # This file is distributed under the same license as the gallery-app package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-20 12:56+0000\n"
-"PO-Revision-Date: 2013-10-03 06:09+0000\n"
-"Last-Translator: GTriderXC <gtriderxc@yahoo.com>\n"
-"Language-Team: Polish <pl@li.org>\n"
+"PO-Revision-Date: 2013-10-03 14:43+0000\n"
+"Last-Translator: ivarela <ivarela@ubuntu.com>\n"
+"Language-Team: Asturian <ast@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,19 +19,19 @@ msgstr ""
 
 #: desktop/gallery-app.desktop.in:3
 msgid "Gallery"
-msgstr "Galeria"
+msgstr "Galería"
 
 #: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
 msgid "Ubuntu Photo Viewer"
-msgstr "Przeglądarka obrazów Ubuntu"
+msgstr "Visor de semeyes d'Ubuntu"
 
 #: desktop/gallery-app.desktop.in:6
 msgid "Browse your photographs"
-msgstr "Przeglądanie obrazów"
+msgstr "Restolar pente les semeyes"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:45
 msgid "Edit album"
-msgstr "Edycja albumu"
+msgstr "Editar álbum"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:52
 #: rc/qml/AlbumViewer/AlbumViewer.qml:489
@@ -39,7 +39,7 @@ msgstr "Edycja albumu"
 #: rc/qml/MediaViewer/MediaViewer.qml:509 rc/qml/Utility/EditingHUD.qml:72
 #: rc/qml/Utility/SelectionToolbarAction.qml:57
 msgid "Share"
-msgstr "Udostępnij"
+msgstr "Compartir"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:59
 #: rc/qml/AlbumViewer/AlbumViewer.qml:478
@@ -48,264 +48,264 @@ msgstr "Udostępnij"
 #: rc/qml/MediaViewer/MediaViewer.qml:501 rc/qml/Utility/EditingHUD.qml:67
 #: rc/qml/Utility/SelectionToolbarAction.qml:50
 msgid "Delete"
-msgstr "Usuń"
+msgstr "Desaniciar"
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:40
 #: rc/qml/Components/MediaSelector.qml:94
 #: rc/qml/Utility/SelectionToolbarAction.qml:65
 msgid "Cancel"
-msgstr "Anuluj"
+msgstr "Encaboxar"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
-msgstr "Domyślnie"
+msgstr "Por defeutu"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:114
 msgid "Blue"
-msgstr "Niebieski"
+msgstr "Azul"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:115
 msgid "Green"
-msgstr "Zielony"
+msgstr "Verde"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:116
 msgid "Pattern"
-msgstr "Wzorzec"
+msgstr "Patrón"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:117
 msgid "Red"
-msgstr "Czerwony"
+msgstr "Bermeyu"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:468
 msgid "Add to album"
-msgstr "Dodaj do albumu"
+msgstr "Amestar al álbum"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:474
 #: rc/qml/MediaViewer/MediaViewer.qml:440
 #: rc/qml/MediaViewer/MediaViewer.qml:492 rc/qml/Utility/EditingHUD.qml:77
 #: rc/qml/Utility/SelectionToolbarAction.qml:43
 msgid "Add"
-msgstr "Dodaj"
+msgstr "Amestar"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:494
 #: rc/qml/MediaViewer/MediaViewer.qml:467
 #: rc/qml/MediaViewer/MediaViewer.qml:518
 msgid "Back"
-msgstr "Wstecz"
+msgstr "Atrás"
 
 #: rc/qml/AlbumsOverview.qml:177 rc/qml/Components/PopupAlbumPicker.qml:87
 msgid "Add new album"
-msgstr "Dodaj nowy album"
+msgstr "Amestar álbum nuevu"
 
 #: rc/qml/AlbumsOverview.qml:189 rc/qml/Utility/PhotosToolbarActions.qml:46
 msgid "Camera"
-msgstr "Aparat"
+msgstr "Cámara"
 
 #: rc/qml/Components/DeleteDialog.qml:36
 #: rc/qml/MediaViewer/MediaViewer.qml:261
 msgid "Yes"
-msgstr "Tak"
+msgstr "Sí"
 
 #: rc/qml/Components/DeleteDialog.qml:45
 #: rc/qml/MediaViewer/MediaViewer.qml:272
 msgid "No"
-msgstr "Nie"
+msgstr "Non"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr "Usunięcie albumu"
+msgstr "Desaniciar álbum"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr "Usunięcie albumu i zawartości"
+msgstr "Desaniciar álbum y conteníu"
 
 #: rc/qml/Components/MediaSelector.qml:56
 #: rc/qml/Components/MediaSelector.qml:82
 msgid "Add to Album"
-msgstr "Dodaj do albumu"
+msgstr "Amestar al álbum"
 
 #: rc/qml/Components/PopupAlbumPicker.qml:147 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr "Dodawanie zdjęć do albumu"
+msgstr "Amestar semeya al álbum"
 
 #: rc/qml/LoadingScreen.qml:36
 msgid "Loading…"
-msgstr "Wczytywanie…"
+msgstr "Cargando…"
 
 #: rc/qml/MainScreen.qml:58
 msgid "Albums"
-msgstr "Albumy"
+msgstr "Álbumes"
 
 #: rc/qml/MainScreen.qml:74 rc/qml/MainScreen.qml:96
 msgid "Events"
-msgstr "Zdarzenia"
+msgstr "Eventos"
 
 #: rc/qml/MainScreen.qml:94 rc/qml/MainScreen.qml:126
 #: rc/qml/Utility/PhotosToolbarActions.qml:33
 msgid "Select"
-msgstr "Wybierz"
+msgstr "Seleicionar"
 
 #: rc/qml/MainScreen.qml:106 rc/qml/MainScreen.qml:128
 msgid "Photos"
-msgstr "Zdjęcia"
+msgstr "Semeyes"
 
 #: rc/qml/MediaViewer/CropOverlay.qml:352
 #: rc/qml/MediaViewer/EditPopover.qml:46 rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr "Kadrowanie"
+msgstr "Cortar"
 
 #: rc/qml/MediaViewer/EditPopover.qml:38 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr "Obrót"
+msgstr "Xirar"
 
 #: rc/qml/MediaViewer/EditPopover.qml:54
 msgid "Auto enhance"
-msgstr "Automatyczna poprawa"
+msgstr "Meyora automática"
 
 #: rc/qml/MediaViewer/EditPopover.qml:62 rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
-msgstr "Cofnij"
+msgstr "Desfacer"
 
 #: rc/qml/MediaViewer/EditPopover.qml:71 rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr "Przywróć"
+msgstr "Refacer"
 
 #: rc/qml/MediaViewer/EditPopover.qml:80
 msgid "Revert to original"
-msgstr "Przywróć oryginał"
+msgstr "Revertir a orixinal"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:250 rc/qml/PhotosOverview.qml:149
 msgid "Delete a photo"
-msgstr "Usuń zdjęcie"
+msgstr "Desaniciar una semeya"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:424
 msgid "Edit"
-msgstr "Edycja"
+msgstr "Editar"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:433
 msgid "Add photo to album"
-msgstr "Dodaj zdjęcie do albumu"
+msgstr "Amestar semeya al álbum"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:456
 msgid "Share photo"
-msgstr "Udostępnij zdjęcie"
+msgstr "Compartir semeya"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:480
 msgid "Pause"
-msgstr "Wstrzymaj"
+msgstr "Posar"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:480
 msgid "Play"
-msgstr "Odtwarzanie"
+msgstr "Reproducir"
 
 #: rc/qml/PhotosOverview.qml:148
 msgid "Delete photos"
-msgstr "Usuń zdjęcia"
+msgstr "Desaniciar semeyes"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr "Kosz;Kasuj"
+msgstr "Papelera;Desaniciar"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
-msgstr "Wyślij;Pobierz;Załącz"
+msgstr "Espublizar;Xubir;Cargar;Axuntar"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr "Anuluj działanie;Cofnij"
+msgstr "Encaboxar aición;Pasu atrás"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr "Zatwierdź ponownie;Wykonaj ponownie"
+msgstr "Reaplicar;De nuevu"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr "Automatyczna poprawa"
+msgstr "Meyora automática"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr "Automatyczna korekcja obrazu"
+msgstr "Axustar la imaxe automáticamente"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr "Automatyczna korekcja zdjęcia"
+msgstr "Axustar semeya automáticamente"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr "Obrót w prawo"
+msgstr "Xirar a la derecha"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr "Obrót obrazu zgodnie ze wskazówkami zegara"
+msgstr "Xira la imaxe en sen horariu"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr "Wyostrzenie;Obcięcie"
+msgstr "Recortar;Cortar"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr "Kadrowanie obrazu"
+msgstr "Recortar la imaxe"
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr "Przywróć oryginalną wersję"
+msgstr "Revertir al orixinal"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr "Odrzuć zmiany"
+msgstr "Descartar los cambeos"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr "Odrzucenie wszystkich zmian"
+msgstr "Descartar tolos cambeos"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr "Ekspozycja"
+msgstr "Esposición"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr "Ustawnienie ilości światła"
+msgstr "Axustar esposición"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr "Niedoświetlone;Prześwietlone"
+msgstr "Subespuesta;Sobreespuesta"
 
 #: rc/qml/Utility/EditingHUD.qml:123 rc/qml/Utility/EditingHUD.qml:165
 msgid "Confirm"
-msgstr "Potwierdź"
+msgstr "Confirmar"
 
 #: rc/qml/Utility/EditingHUD.qml:127
 msgid "Compensation"
-msgstr "Kompensacja"
+msgstr "Compensación"
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Color Balance"
-msgstr "Balans kolorów"
+msgstr "Balance de color"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Adjust color balance"
-msgstr "Modyfikacja balansu kolorów"
+msgstr "Axustar el balance de colores"
 
 #: rc/qml/Utility/EditingHUD.qml:163
 msgid "Saturation;Hue"
-msgstr "Nasycenie;Barwa"
+msgstr "Saturación;Matiz"
 
 #: rc/qml/Utility/EditingHUD.qml:169
 msgid "Brightness"
-msgstr "Jasność"
+msgstr "Brillu"
 
 #: rc/qml/Utility/EditingHUD.qml:181
 msgid "Contrast"
-msgstr "Kontrast"
+msgstr "Contraste"
 
 #: rc/qml/Utility/EditingHUD.qml:193
 msgid "Saturation"
-msgstr "Nasycenie"
+msgstr "Saturación"
 
 #: rc/qml/Utility/EditingHUD.qml:205
 msgid "Hue"
-msgstr "Barwa"
+msgstr "Tonu"
 
 #: rc/qml/Utility/PhotosToolbarActions.qml:40
 msgid "Import"
-msgstr "Importuj"
+msgstr "Importar"
