@@ -13,9 +13,15 @@ add_custom_target(${POT_FILE}
                           --from-code=UTF-8
                           --c++ --qt --add-comments=TRANSLATORS
                           --keyword=tr --keyword=tr:1,2
-                          --package-name='gallery-app'
+                          --package-name='${GALLERY}'
                           --copyright-holder='Canonical Ltd.'
                           ${I18N_SRC_FILES})
+
+if(CLICK_MODE)
+    set(INSTALL_DIR /locale/${LANG}/LC_MESSAGES)
+else(CLICK_MODE)
+    set(INSTALL_DIR ${CMAKE_INSTALL_LOCALEDIR}/${LANG}/LC_MESSAGES)
+endif(CLICK_MODE)
 
 foreach(PO_FILE ${PO_FILES})
     get_filename_component(LANG ${PO_FILE} NAME_WE)

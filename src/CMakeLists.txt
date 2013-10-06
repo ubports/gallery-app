@@ -17,8 +17,6 @@ configure_file(
     @ONLY
     )
 
-set(GALLERY gallery-app)
-
 include_directories(
     ${gallery_util_src_SOURCE_DIR}
     ${gallery_core_src_SOURCE_DIR}

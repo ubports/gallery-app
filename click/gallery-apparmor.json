@@ -1,0 +1,11 @@
+{
+    "policy_groups": ["accounts",
+                      "audio",
+                      "content_exchange",
+                      "content_exchange_source",
+                      "picture_files",
+                      "video",
+                      "video_files"
+                      ], 
+    "policy_version": 1.0
+}
