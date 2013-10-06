@@ -38,13 +38,10 @@ class GalleryTestCase(AutopilotTestCase):
         ]
 
     sample_destination_dir = "/tmp/gallery-ap_sd"
-    sample_file = sample_destination_dir + "/sample01.jpg"
     sample_file_source = "/sample01.jpg"
-    sample_dir = ""
     installed_sample_dir = "/usr/lib/python2.7/dist-packages/gallery_app/data"
     local_sample_dir = "gallery_app/data"
     tap_press_time = 1
-
     local_location = "../../src/gallery-app"
 
     ARGS = []
@@ -57,31 +54,41 @@ class GalleryTestCase(AutopilotTestCase):
     def main_view(self):
         return self.app.select_single(main_screen.MainScreen)
 
-    def setUp(self):
-        self.pointing_device = Pointer(self.input_device_class.create())
-        super(GalleryTestCase, self).setUp()
-
-        if (os.path.exists(self.sample_destination_dir)):
-            shutil.rmtree(self.sample_destination_dir)
-        self.assertFalse(os.path.exists(self.sample_destination_dir))
+    def environment_setup(self):
         # Lets assume we are installed system wide if this file is somewhere
         # in /usr
         if os.path.realpath(__file__).startswith("/usr/"):
             self.sample_dir = self.installed_sample_dir
-            default_data_dir = self.installed_sample_dir+"/default"
-            shutil.copytree(default_data_dir, self.sample_destination_dir)
-            self.assertTrue(os.path.isfile(self.sample_file))
-            self.sample_file_source = \
-                default_data_dir + self.sample_file_source
-            self.launch_test_installed()
+            self.launch = self.launch_test_installed
         else:
             self.sample_dir = self.local_sample_dir
-            default_data_dir = self.local_sample_dir+"/default"
-            shutil.copytree(default_data_dir, self.sample_destination_dir)
-            self.assertTrue(os.path.isfile(self.sample_file))
-            self.sample_file_source = \
-                default_data_dir + self.sample_file_source
-            self.launch_test_local()
+            if os.path.exists(self.local_location):
+                self.launch = self.launch_test_local
+            else:
+                # For click we are under confinement and restricted
+                # to ~/Pictures
+                self.sample_destination_dir = os.path.expanduser("~/Pictures")
+                self.launch = self.launch_test_click
+        self.sample_file = os.path.join(
+            self.sample_destination_dir, "sample01.jpg")
+
+    def setUp(self):
+        self.pointing_device = Pointer(self.input_device_class.create())
+        super(GalleryTestCase, self).setUp()
+
+        self.environment_setup()
+
+        if (os.path.exists(self.sample_destination_dir)):
+            shutil.rmtree(self.sample_destination_dir)
+        self.assertFalse(os.path.exists(self.sample_destination_dir))
+
+        default_data_dir = os.path.join(
+            self.sample_dir, "default")
+        shutil.copytree(default_data_dir, self.sample_destination_dir)
+        self.assertTrue(os.path.isfile(self.sample_file))
+        self.sample_file_source = \
+            default_data_dir + self.sample_file_source
+        self.launch()
 
         self.addCleanup(shutil.rmtree, self.sample_destination_dir)
 
@@ -118,6 +125,15 @@ class GalleryTestCase(AutopilotTestCase):
                 *self.ARGS,
                 app_type='qt',
                 emulator_base=toolkit_emulators.UbuntuUIToolkitEmulatorBase)
+
+    def launch_test_click(self):
+        '''
+        Since this test runs under confinement, the only location photos
+        are searchable in is ~/Pictures.
+        '''
+        self.app = self.launch_click_package(
+            package_id="com.ubuntu.gallery",
+            emulator_base=toolkit_emulators.UbuntuUIToolkitEmulatorBase)
 
     def ui_update(self):
         """ Gives the program the time to update the UI"""
@@ -182,8 +198,9 @@ class GalleryTestCase(AutopilotTestCase):
         video_file = "video20130618_0002.mp4"
         shutil.copyfile(self.sample_dir+"/option01/"+video_file,
                         self.sample_destination_dir+"/"+video_file)
-        self.assertThat(lambda: self.gallery_utils.number_of_photos_in_events(),
-                        Eventually(Equals(3)))
+        self.assertThat(
+            lambda: self.gallery_utils.number_of_photos_in_events(),
+            Eventually(Equals(3)))
 
     def get_delete_dialog(self):
         self.assertThat(lambda: self.gallery_utils.get_delete_dialog(),
@@ -192,4 +209,3 @@ class GalleryTestCase(AutopilotTestCase):
         self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
         self.assertThat(delete_dialog.opacity, Eventually(Equals(1)))
         return delete_dialog
-
