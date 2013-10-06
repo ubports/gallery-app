@@ -16,6 +16,7 @@ from autopilot.matchers import Eventually
 from gallery_app.emulators.album_view import AlbumView
 from gallery_app.emulators.albums_view import AlbumsView
 from gallery_app.emulators.media_selector import MediaSelector
+from gallery_app.emulators import album_editor
 from gallery_app.tests import GalleryTestCase
 
 
@@ -85,6 +86,10 @@ class TestAlbumView(GalleryTestCase):
     def test_add_photo_to_new_album(self):
         self.main_view.open_toolbar().click_button("addButton")
         self.ui_update()
+
+        editor = self.app.select_single(album_editor.AlbumEditorAnimated)
+        editor.ensure_fully_open()
+        editor.close()
 
         self.open_first_album()
         num_photos_start = self.album_view.number_of_photos()

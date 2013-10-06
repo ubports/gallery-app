@@ -10,7 +10,6 @@
 import os.path
 import shutil
 
-from autopilot.input import Mouse, Touch, Pointer
 from autopilot.matchers import Eventually
 from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
@@ -27,15 +26,6 @@ class GalleryTestCase(AutopilotTestCase):
 
     """A common test case class that provides several useful methods for
        gallery tests."""
-
-    if model() == 'Desktop':
-        scenarios = [
-            ('with mouse', dict(input_device_class=Mouse)),
-        ]
-    else:
-        scenarios = [
-            ('with touch', dict(input_device_class=Touch)),
-        ]
 
     sample_destination_dir = "/tmp/gallery-ap_sd"
     sample_file_source = "/sample01.jpg"
@@ -73,7 +63,7 @@ class GalleryTestCase(AutopilotTestCase):
             self.sample_destination_dir, "sample01.jpg")
 
     def setUp(self):
-        self.pointing_device = Pointer(self.input_device_class.create())
+        self.pointing_device = toolkit_emulators.get_pointing_device()
         super(GalleryTestCase, self).setUp()
 
         self.environment_setup()

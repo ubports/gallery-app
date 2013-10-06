@@ -87,6 +87,13 @@ Item {
                     inner_albumViewer.visible = false
                     isOpen = false
                 }
+                onQuickCloseRequested: {
+                    inner_albumViewer.visible = false
+                    isOpen = false
+                    if (previewItem)
+                        previewItem.visible = true;
+                    loader_albumViewer.unload();
+                }
             }
 
             AlbumViewerTransition {

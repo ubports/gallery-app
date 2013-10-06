@@ -110,12 +110,6 @@ class TestPhotoViewer(TestPhotoViewerBase):
         album_picker = self.photo_viewer.get_popup_album_picker()
         self.assertThat(album_picker.visible, Eventually(Equals(True)))
 
-    def test_nav_bar_share_button(self):
-        """Clicking the share button must show the share dialog."""
-        self.main_view.open_toolbar().click_button("shareButton")
-        share_menu = self.photo_viewer.get_share_dialog()
-        self.assertThat(share_menu.visible, Eventually(Equals(True)))
-
     def test_double_click_zoom(self):
         """Double clicking an opened photo must zoom it."""
         opened_photo = self.photo_viewer.get_photo_component()

@@ -81,11 +81,10 @@ Page {
         }
     }
 
-    PopupAlbumPicker {
-        id: albumPicker
-        objectName: "photosPopupAlbumPicker"
-
-        contentHeight: parent.height - units.gu(20)
+    property int __pickerContentHeight: height - units.gu(20)
+    property PopupAlbumPicker __albumPicker
+    Connections {
+        target: __albumPicker
         onAlbumPicked: {
             album.addSelectedMediaSources(d.selection.model.selectedMedias);
             photosOverview.leaveSelectionMode();
@@ -102,11 +101,6 @@ Page {
 
         property Item overviewTools: PhotosToolbarActions {
             selection: d.selection
-            onStartCamera: appManager.switchToCameraApplication();
-        }
-
-        UbuntuApplicationCaller {
-            id: appManager
         }
 
         property Item selectionTools: SelectionToolbarAction {
@@ -116,8 +110,9 @@ Page {
                 photosOverview.leaveSelectionMode();
             }
             onAddClicked: {
-                albumPicker.caller = caller;
-                albumPicker.show();
+                __albumPicker = PopupUtils.open(Qt.resolvedUrl("Components/PopupAlbumPicker.qml"),
+                                                caller,
+                                                {contentHeight: photosOverview.__pickerContentHeight});
             }
             onDeleteClicked: {
                 PopupUtils.open(deleteDialog, null);

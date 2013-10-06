@@ -1,3 +1,70 @@
+gallery-app (0.0.67+13.10.20131001.3-0ubuntu1) saucy; urgency=low
+
+  [ Ugo Riboni ]
+  * Use the URL dispatcher to launch the camera app. (LP: #1233236)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 855
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 01 Oct 2013 19:49:44 +0000
+
+gallery-app (0.0.67+13.10.20130924.1-0ubuntu2) saucy; urgency=low
+
+  * No change rebuild with the current content-hub (lp: #1231368)
+
+ -- Sebastien Bacher <seb128@ubuntu.com>  Tue, 01 Oct 2013 11:53:32 +0200
+
+gallery-app (0.0.67+13.10.20130924.1-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * When adding a new album, go to album edit directly Fixes LP:
+    #1163414. (LP: #1163414)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 849
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 24 Sep 2013 07:05:12 +0000
+
+gallery-app (0.0.67+13.10.20130920-0ubuntu1) saucy; urgency=low
+
+  [ Ted Gould ]
+  * Adding single instance marker to the desktop file.
+
+  [ Guenter Schwann ]
+  * Get and use single/multiselection in pick mode from transfer object.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 846
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 20 Sep 2013 11:24:47 +0000
+
+gallery-app (0.0.67+13.10.20130919.3-0ubuntu1) saucy; urgency=low
+
+  [ Guenter Schwann ]
+  * Enable delete in album view (close view without animation) fixes LP:
+    #1163437. (LP: #1163437)
+  * Fix bug closing the album view LP: #1207395. (LP: #1207395)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 842
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 19 Sep 2013 15:52:26 +0000
+
+gallery-app (0.0.67+13.10.20130918.1-0ubuntu1) saucy; urgency=low
+
+  [ Gerry Boland ]
+  * Application module name changed, update the
+    UbuntuApplicationWrapper.
+
+  [ Ugo Riboni ]
+  * Use the Actions API instead of using the HUD directly. (LP:
+    #1221344, #1220279)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 839
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 18 Sep 2013 08:02:09 +0000
+
 gallery-app (0.0.67+13.10.20130905-0ubuntu1) saucy; urgency=low
 
   [ Chris Wayne ]

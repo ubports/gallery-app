@@ -1,4 +1,4 @@
-# Arabic translation for gallery-app
+# Indonesian translation for gallery-app
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
 # This file is distributed under the same license as the gallery-app package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
@@ -8,30 +8,30 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-20 12:56+0000\n"
-"PO-Revision-Date: 2013-06-22 16:17+0000\n"
-"Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
-"Language-Team: Arabic <ar@li.org>\n"
+"PO-Revision-Date: 2013-09-23 15:42+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Indonesian <id@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-09-20 06:02+0000\n"
-"X-Generator: Launchpad (build 16765)\n"
+"X-Launchpad-Export-Date: 2013-09-24 06:38+0000\n"
+"X-Generator: Launchpad (build 16771)\n"
 
 #: desktop/gallery-app.desktop.in:3
 msgid "Gallery"
-msgstr "المعرض"
+msgstr ""
 
 #: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
 msgid "Ubuntu Photo Viewer"
-msgstr "عارض صور أبونتو"
+msgstr ""
 
 #: desktop/gallery-app.desktop.in:6
 msgid "Browse your photographs"
-msgstr "تصفح صورك"
+msgstr ""
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:45
 msgid "Edit album"
-msgstr "عدّل الألبوم"
+msgstr ""
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:52
 #: rc/qml/AlbumViewer/AlbumViewer.qml:489
@@ -39,7 +39,7 @@ msgstr "عدّل الألبوم"
 #: rc/qml/MediaViewer/MediaViewer.qml:509 rc/qml/Utility/EditingHUD.qml:72
 #: rc/qml/Utility/SelectionToolbarAction.qml:57
 msgid "Share"
-msgstr "شارك"
+msgstr ""
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:59
 #: rc/qml/AlbumViewer/AlbumViewer.qml:478
@@ -48,264 +48,264 @@ msgstr "شارك"
 #: rc/qml/MediaViewer/MediaViewer.qml:501 rc/qml/Utility/EditingHUD.qml:67
 #: rc/qml/Utility/SelectionToolbarAction.qml:50
 msgid "Delete"
-msgstr "احذف"
+msgstr ""
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:40
 #: rc/qml/Components/MediaSelector.qml:94
 #: rc/qml/Utility/SelectionToolbarAction.qml:65
 msgid "Cancel"
-msgstr "ألغِ"
+msgstr ""
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
-msgstr "الأصلي"
+msgstr ""
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:114
 msgid "Blue"
-msgstr "أزرق"
+msgstr ""
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:115
 msgid "Green"
-msgstr "أخضر"
+msgstr ""
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:116
 msgid "Pattern"
-msgstr "قالب"
+msgstr ""
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:117
 msgid "Red"
-msgstr "أحمر"
+msgstr ""
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:468
 msgid "Add to album"
-msgstr "أضف إلى الألبوم"
+msgstr ""
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:474
 #: rc/qml/MediaViewer/MediaViewer.qml:440
 #: rc/qml/MediaViewer/MediaViewer.qml:492 rc/qml/Utility/EditingHUD.qml:77
 #: rc/qml/Utility/SelectionToolbarAction.qml:43
 msgid "Add"
-msgstr "أضف"
+msgstr ""
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:494
 #: rc/qml/MediaViewer/MediaViewer.qml:467
 #: rc/qml/MediaViewer/MediaViewer.qml:518
 msgid "Back"
-msgstr "عودة"
+msgstr ""
 
 #: rc/qml/AlbumsOverview.qml:177 rc/qml/Components/PopupAlbumPicker.qml:87
 msgid "Add new album"
-msgstr "أضف ألبوما جديدا"
+msgstr ""
 
 #: rc/qml/AlbumsOverview.qml:189 rc/qml/Utility/PhotosToolbarActions.qml:46
 msgid "Camera"
-msgstr "آلة التصوير"
+msgstr ""
 
 #: rc/qml/Components/DeleteDialog.qml:36
 #: rc/qml/MediaViewer/MediaViewer.qml:261
 msgid "Yes"
-msgstr "نعم"
+msgstr ""
 
 #: rc/qml/Components/DeleteDialog.qml:45
 #: rc/qml/MediaViewer/MediaViewer.qml:272
 msgid "No"
-msgstr "لا"
+msgstr ""
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr "احذف الألبوم"
+msgstr ""
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr "احذف الألبوم + محتوياته"
+msgstr ""
 
 #: rc/qml/Components/MediaSelector.qml:56
 #: rc/qml/Components/MediaSelector.qml:82
 msgid "Add to Album"
-msgstr "أضف إلى ألبوم"
+msgstr ""
 
 #: rc/qml/Components/PopupAlbumPicker.qml:147 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr "أضف الصورة إلى ألبوم"
+msgstr ""
 
 #: rc/qml/LoadingScreen.qml:36
 msgid "Loading…"
-msgstr "يجري التحميل..."
+msgstr ""
 
 #: rc/qml/MainScreen.qml:58
 msgid "Albums"
-msgstr "الألبومات"
+msgstr ""
 
 #: rc/qml/MainScreen.qml:74 rc/qml/MainScreen.qml:96
 msgid "Events"
-msgstr "الأحداث"
+msgstr ""
 
 #: rc/qml/MainScreen.qml:94 rc/qml/MainScreen.qml:126
 #: rc/qml/Utility/PhotosToolbarActions.qml:33
 msgid "Select"
-msgstr "حدّد"
+msgstr ""
 
 #: rc/qml/MainScreen.qml:106 rc/qml/MainScreen.qml:128
 msgid "Photos"
-msgstr "الصور"
+msgstr ""
 
 #: rc/qml/MediaViewer/CropOverlay.qml:352
 #: rc/qml/MediaViewer/EditPopover.qml:46 rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr "اقتصاص"
+msgstr ""
 
 #: rc/qml/MediaViewer/EditPopover.qml:38 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr "تدوير"
+msgstr ""
 
 #: rc/qml/MediaViewer/EditPopover.qml:54
 msgid "Auto enhance"
-msgstr "تحسين آلي"
+msgstr ""
 
 #: rc/qml/MediaViewer/EditPopover.qml:62 rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
-msgstr "تراجع"
+msgstr ""
 
 #: rc/qml/MediaViewer/EditPopover.qml:71 rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr "أعِد"
+msgstr ""
 
 #: rc/qml/MediaViewer/EditPopover.qml:80
 msgid "Revert to original"
-msgstr "استرجع الأصل"
+msgstr ""
 
 #: rc/qml/MediaViewer/MediaViewer.qml:250 rc/qml/PhotosOverview.qml:149
 msgid "Delete a photo"
-msgstr "احذف صورة"
+msgstr ""
 
 #: rc/qml/MediaViewer/MediaViewer.qml:424
 msgid "Edit"
-msgstr "حرّر"
+msgstr ""
 
 #: rc/qml/MediaViewer/MediaViewer.qml:433
 msgid "Add photo to album"
-msgstr "أضف الصورة إلى الألبوم"
+msgstr ""
 
 #: rc/qml/MediaViewer/MediaViewer.qml:456
 msgid "Share photo"
-msgstr "شارك الصورة"
+msgstr ""
 
 #: rc/qml/MediaViewer/MediaViewer.qml:480
 msgid "Pause"
-msgstr "ألبث"
+msgstr ""
 
 #: rc/qml/MediaViewer/MediaViewer.qml:480
 msgid "Play"
-msgstr "شغّل"
+msgstr ""
 
 #: rc/qml/PhotosOverview.qml:148
 msgid "Delete photos"
-msgstr "احذف الصور"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr "احذف;امسح"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
-msgstr "أرسل;ارفع;أرفق"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr "ألغِ الإجراء الأخير;تراجع عن آخر إجراء;تراجع خطوة واحدة"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr "أعِد ما تراجعت عنه;طبّقه مجددا"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr "تحسين آلي"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr "اضبط الصورة آليا"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr "اضبط الصورة آليا"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr "تدوير مع عقارب الساعة"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr "تدوير الصورة في إتجاه عقارب الساعة"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr "اقتصاص الأطراف;تشذيب الصورة"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr "اقتص الصورة"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr "استرجع الأصل"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr "تجاهل التغييرات"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr "تجاهل جميع التغييرات"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr "التعرض"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr "اضبط التعرض"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr "ضبط تعرُض الصورة"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:123 rc/qml/Utility/EditingHUD.qml:165
 msgid "Confirm"
-msgstr "التأكيد"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:127
 msgid "Compensation"
-msgstr "تعويض"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Color Balance"
-msgstr "توازن الألوان"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Adjust color balance"
-msgstr "ضبط توازن اللون"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:163
 msgid "Saturation;Hue"
-msgstr "تشبيع؛صبغ"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:169
 msgid "Brightness"
-msgstr "السطوع"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:181
 msgid "Contrast"
-msgstr "التباين"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:193
 msgid "Saturation"
-msgstr "التشبّع"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:205
 msgid "Hue"
-msgstr "الصبغة"
+msgstr ""
 
 #: rc/qml/Utility/PhotosToolbarActions.qml:40
 msgid "Import"
-msgstr "استورد"
+msgstr ""

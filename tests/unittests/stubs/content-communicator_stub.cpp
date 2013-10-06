@@ -41,3 +41,17 @@ void ContentCommunicator::returnPhotos(const QVector<QUrl> &urls)
 {
     Q_UNUSED(urls);
 }
+
+ContentCommunicator::SelectionType ContentCommunicator::selectionType() const
+{
+    return SingleSelect;
+}
+
+bool ContentCommunicator::singleContentPickMode() const
+{
+    return true;
+}
+
+void ContentCommunicator::quitApp()
+{
+}

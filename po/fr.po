@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-20 12:56+0000\n"
-"PO-Revision-Date: 2013-08-28 10:20+0000\n"
-"Last-Translator: Anne <anneonyme017@gmail.com>\n"
+"PO-Revision-Date: 2013-09-30 19:51+0000\n"
+"Last-Translator: Olivier Febwin <febwin@free.fr>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-09-11 05:25+0000\n"
-"X-Generator: Launchpad (build 16761)\n"
+"X-Launchpad-Export-Date: 2013-10-01 05:39+0000\n"
+"X-Generator: Launchpad (build 16774)\n"
 
 #: desktop/gallery-app.desktop.in:3
 msgid "Gallery"
@@ -70,7 +70,7 @@ msgstr "Vert"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:116
 msgid "Pattern"
-msgstr ""
+msgstr "Motif"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:117
 msgid "Red"
@@ -156,7 +156,7 @@ msgstr "Rogner"
 
 #: rc/qml/MediaViewer/EditPopover.qml:38 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr ""
+msgstr "Pivoter"
 
 #: rc/qml/MediaViewer/EditPopover.qml:54
 msgid "Auto enhance"
@@ -216,7 +216,7 @@ msgstr "Annuler l'action;Revenir en arrière"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr ""
+msgstr "Ré-appliquer;Recommencer"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"

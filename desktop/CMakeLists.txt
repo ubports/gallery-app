@@ -10,5 +10,6 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE}
 
 install(DIRECTORY icons/hicolor DESTINATION DESTINATION
         ${CMAKE_INSTALL_DATADIR}/icons FILES_MATCHING PATTERN *.png)
-install(DIRECTORY icons/ubuntu-mobile DESTINATION DESTINATION
-        ${CMAKE_INSTALL_DATADIR}/icons FILES_MATCHING PATTERN *.png)
+# ubuntu-mobile-icons already installs this file
+#install(DIRECTORY icons/ubuntu-mobile DESTINATION DESTINATION
+#        ${CMAKE_INSTALL_DATADIR}/icons FILES_MATCHING PATTERN *.png)

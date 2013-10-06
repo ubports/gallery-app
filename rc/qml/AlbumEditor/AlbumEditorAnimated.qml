@@ -48,8 +48,7 @@ Item {
     function open() {
         loader_albumEditor.load()
         loader_albumEditor.item.albumEditor.album = album
-        if (root.origin)
-            loader_albumEditor.item.albumEditorTransition.enterEditor(root.album, root.origin)
+        loader_albumEditor.item.albumEditorTransition.enterEditor(root.album, root.origin)
         if (previewItem)
             previewItem.visible = false
         isOpen = true;
@@ -95,7 +94,8 @@ Item {
                 editor: inner_albumEditor
                 onEditorExited: {
                     if (previewItem)
-                        previewItem.visible = true
+                        previewItem.visible = true;
+                    loader_albumEditor.sourceComponent = undefined;
                 }
             }
         }

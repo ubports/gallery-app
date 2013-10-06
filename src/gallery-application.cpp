@@ -18,6 +18,7 @@
  */
 
 #include "gallery-application.h"
+#include "content-communicator.h"
 #include "gallery-manager.h"
 
 // album
@@ -61,7 +62,10 @@ QElapsedTimer* GalleryApplication::m_timer = 0;
  */
 GalleryApplication::GalleryApplication(int& argc, char** argv)
     : QApplication(argc, argv),
-      m_view(new QQuickView())
+      m_view(new QQuickView()),
+      m_contentCommunicator(new ContentCommunicator(this)),
+      m_pickModeEnabled(false),
+      m_defaultUiMode(BrowseContentMode)
 {
     m_bguSize = QProcessEnvironment::systemEnvironment().value("GRID_UNIT_PX", "8").toInt();
     if (m_bguSize <= 0)
@@ -82,7 +86,10 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
     m_galleryManager = new GalleryManager(m_cmdLineParser->picturesDir(), m_view);
     m_galleryManager->logImageLoading(m_cmdLineParser->logImageLoading());
     if (m_cmdLineParser->pickModeEnabled())
-        m_galleryManager->setDefaultUiMode(GalleryManager::PickContentMode);
+        setDefaultUiMode(GalleryApplication::PickContentMode);
+
+    QObject::connect(m_contentCommunicator, SIGNAL(photoRequested()),
+                     this, SLOT(switchToPickMode()));
 
     if (m_cmdLineParser->startupTimer())
         qDebug() << "Construct GalleryApplication" << m_timer->elapsed() << "ms";
@@ -110,17 +117,6 @@ int GalleryApplication::exec()
     QTimer::singleShot(0, this, SLOT(initCollections()));
 
     return QApplication::exec();
-}
-
-/*!
- * \brief GalleryApplication::runCommand is used for content sharing.
- * \param cmd
- * \param arg
- * \return
- */
-bool GalleryApplication::runCommand(const QString &cmd, const QString &arg)
-{
-    return QProcess::startDetached(cmd, QStringList(arg));
 }
 
 /*!
@@ -160,6 +156,7 @@ void GalleryApplication::createView()
 
     QQmlContext *rootContext = m_view->engine()->rootContext();
     rootContext->setContextProperty("MANAGER", m_galleryManager);
+    rootContext->setContextProperty("PICKER_HUB", m_contentCommunicator);
     rootContext->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
     rootContext->setContextProperty("DEVICE_HEIGHT", QVariant(size.height()));
     rootContext->setContextProperty("FORM_FACTOR", QVariant(m_cmdLineParser->formFactor()));
@@ -210,6 +207,89 @@ void GalleryApplication::initCollections()
 
     delete m_timer;
     m_timer = 0;
+}
+
+/*!
+ * \brief GalleryApplication::setDefaultUiMode set the default UI mode. This might
+ * get overridden during the lifetime
+ * \param mode
+ */
+void GalleryApplication::setDefaultUiMode(GalleryApplication::UiMode mode)
+{
+    m_defaultUiMode = mode;
+    setUiMode(mode);
+}
+
+/*!
+ * \brief GalleryApplication::setUiMode set's the current UI mode
+ * \param mode
+ */
+void GalleryApplication::setUiMode(GalleryApplication::UiMode mode)
+{
+    bool enablePickMode = (mode == PickContentMode);
+
+    if (enablePickMode != m_pickModeEnabled) {
+        m_pickModeEnabled = enablePickMode;
+        Q_EMIT pickModeEnabledChanged();
+    }
+}
+
+/*!
+ * \brief GalleryApplication::pickModeEnabled returns true if the current UI
+ * mode should be for picking acontent
+ * \return
+ */
+bool GalleryApplication::pickModeEnabled() const
+{
+    return m_pickModeEnabled;
+}
+
+/*!
+ * \brief GalleryApplication::switchToPickMode
+ */
+void GalleryApplication::switchToPickMode()
+{
+    setUiMode(PickContentMode);
+}
+
+/*!
+ * \brief GalleryApplication::returnPickedContent passes the selcted items to the
+ * content manager
+ * \param variant
+ */
+void GalleryApplication::returnPickedContent(QVariant variant)
+{
+    if (!variant.canConvert<QList<MediaSource*> >()) {
+        qWarning() << Q_FUNC_INFO << variant << "is not a QList<MediaSource*>";
+        return;
+    }
+
+    QList<MediaSource*> sources = qvariant_cast<QList<MediaSource*> >(variant);
+    QVector<QUrl> selectedMedias;
+    selectedMedias.reserve(sources.size());
+    foreach (const MediaSource *media, sources) {
+        selectedMedias.append(media->path());
+    }
+    m_contentCommunicator->returnPhotos(selectedMedias);
+
+// do not switch UI, as gallery anyway always quits atm.
+//    if (m_defaultUiMode == BrowseContentMode) {
+//        setUiMode(BrowseContentMode);
+//    }
+}
+
+/*!
+ * \brief GalleryApplication::contentPickingCanceled tell the content manager, that
+ * the picking was canceled
+ */
+void GalleryApplication::contentPickingCanceled()
+{
+    m_contentCommunicator->cancelTransfer();
+
+// do not switch UI, as gallery anyway always quits atm.
+//    if (m_defaultUiMode == BrowseContentMode) {
+//        setUiMode(BrowseContentMode);
+//    }
 }
 
 /*!

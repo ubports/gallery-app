@@ -17,7 +17,7 @@
 import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 0.1
-import Ubuntu.HUD 1.0 as HUD
+import Ubuntu.Unity.Action 1.0 as UnityActions
 
 /*!
   EditingHUD is an itme to connect to the HUD services.
@@ -62,74 +62,72 @@ Item {
         hudCtx.addAction(colorBalanceAction);
     }
 
-    HUD.Action {
+    UnityActions.Action {
         id: deleteAction
-        label: i18n.tr("Delete")
+        text: i18n.tr("Delete")
         keywords: i18n.tr("Trash;Erase")
     }
-    HUD.Action {
+    UnityActions.Action {
         id: shareAction
-        label: i18n.tr("Share")
+        text: i18n.tr("Share")
         keywords: i18n.tr("Post;Upload;Attach")
     }
-    HUD.Action {
+    UnityActions.Action {
         id: addAction
-        label: i18n.tr("Add")
+        text: i18n.tr("Add")
         keywords: i18n.tr("Add Photo to Album")
     }
-    HUD.Action {
+    UnityActions.Action {
         id: undoAction
-        label: i18n.tr("Undo")
+        text: i18n.tr("Undo")
         keywords: i18n.tr("Cancel Action;Backstep")
     }
-    HUD.Action {
+    UnityActions.Action {
         id: redoAction
-        label: i18n.tr("Redo")
+        text: i18n.tr("Redo")
         keywords: i18n.tr("Reapply;Make Again")
     }
-    HUD.Action {
+    UnityActions.Action {
         id: autoEnhanceAction
-        label: i18n.tr("Auto Enhance")
+        text: i18n.tr("Auto Enhance")
         description: i18n.tr("Adjust the image automatically")
         keywords: i18n.tr("Automatically Adjust Photo")
         onTriggered: photo.autoEnhance()
     }
-    HUD.Action {
+    UnityActions.Action {
         id: rotateAction
-        label: i18n.tr("Rotate")
+        text: i18n.tr("Rotate")
         keywords: i18n.tr("Turn Clockwise")
         description: i18n.tr("Rotate the image clockwise")
         onTriggered: photo.rotateRight()
     }
-    HUD.Action {
+    UnityActions.Action {
         id: cropAction
-        label: i18n.tr("Crop")
+        text: i18n.tr("Crop")
         keywords: i18n.tr("Trim;Cut")
         description: i18n.tr("Crop the image")
         onTriggered: cropper.show(photo)
     }
-    HUD.Action {
+    UnityActions.Action {
         id: revertAction
-        label: i18n.tr("Revert to Original")
+        text: i18n.tr("Revert to Original")
         keywords: i18n.tr("Discard Changes")
         description: i18n.tr("Discard all changes")
     }
-    HUD.Action {
+    UnityActions.PreviewAction {
         id: exposureAction
-        label: i18n.tr("Exposure")
+        text: i18n.tr("Exposure")
         description: i18n.tr("Adjust the exposure")
         keywords: i18n.tr("Underexposed;Overexposed")
-        hasLivePreview: true
         commitLabel: i18n.tr("Confirm") // string to show in the confirm button
 
-        HUD.SliderParameter {
+        UnityActions.PreviewRangeParameter {
             id: compensationParam
-            label: i18n.tr("Compensation")
+            text: i18n.tr("Compensation")
 
             minimumValue: 0.0
             maximumValue: 100.0
             value: 50.0
-            live: true
 
             onValueChanged: root.exposureValue = (value / 50.0) - 1.0
         }
@@ -156,58 +154,54 @@ Item {
             root.actionActive = false
         }
     }
-    HUD.Action {
+
+    UnityActions.PreviewAction {
         id: colorBalanceAction
-        label: i18n.tr("Color Balance")
+        text: i18n.tr("Color Balance")
         description: i18n.tr("Adjust color balance")
         keywords: i18n.tr("Saturation;Hue")
-        hasLivePreview: true
         commitLabel: i18n.tr("Confirm")
 
-        HUD.SliderParameter {
+        UnityActions.PreviewRangeParameter {
             id: brightnessParam
-            label: i18n.tr("Brightness")
+            text: i18n.tr("Brightness")
 
             minimumValue: 0.0
             maximumValue: 100.0
             value: 20.0
-            live: true
 
             onValueChanged: root.brightness = value / 20.0
         }
 
-        HUD.SliderParameter {
+        UnityActions.PreviewRangeParameter {
             id: contrastParam
-            label: i18n.tr("Contrast")
+            text: i18n.tr("Contrast")
 
             minimumValue: 0.0
             maximumValue: 100.0
             value: 20.0
-            live: true
 
             onValueChanged: root.contrast = value / 20.0
         }
 
-        HUD.SliderParameter {
+        UnityActions.PreviewRangeParameter {
             id: saturationParam
-            label: i18n.tr("Saturation")
+            text: i18n.tr("Saturation")
 
             minimumValue: 0.0
             maximumValue: 100.0
             value: 20.0
-            live: true
 
             onValueChanged: root.saturation = value / 20.0
         }
 
-        HUD.SliderParameter {
+        UnityActions.PreviewRangeParameter {
             id: hueParam
-            label: i18n.tr("Hue")
+            text: i18n.tr("Hue")
 
             minimumValue: 0.0
             maximumValue: 100.0
             value: 0.0
-            live: true
 
             onValueChanged: root.hue = value * 3.6
         }
