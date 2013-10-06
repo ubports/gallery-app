@@ -183,7 +183,6 @@ Item {
 
     HUD.HUD {
         id: hud
-        applicationIdentifier: "gallery-app" // this must match the .desktop file!
 
         HUD.Context {
             id: hudCtx
