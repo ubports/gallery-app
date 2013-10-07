@@ -1,3 +1,29 @@
+gallery-app (0.0.67+13.10.20131007.1-0ubuntu1) saucy; urgency=low
+
+  [ Ken VanDine ]
+  * use pkgconfig provided in content-hub >= 0.0+13.10.20130930.1 .
+
+  [ Guenter Schwann ]
+  * Fix getting the correct selection type fixes LP: #1229801 Do not
+    close gallery directly after charging, but wait for the transfer to
+    be aborted or collected. (LP: #1229801)
+
+  [ Ugo Riboni ]
+  * If facebook is configured, share to it immediately. If not give the
+    option to configure it. (LP: #1229430)
+
+  [ Omer Akram ]
+  * use pointing device creation code from the UIToolkit emulators.
+
+  [ Matthew Fischer ]
+  * Fix the path for the icon.
+  * Remove the icon from the package. (LP: #1235070)
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 865
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 07 Oct 2013 05:18:49 +0000
+
 gallery-app (0.0.67+13.10.20131001.3-0ubuntu1) saucy; urgency=low
 
   [ Ugo Riboni ]
