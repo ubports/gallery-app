@@ -48,11 +48,26 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror")
 # Standard install paths
 include(GNUInstallDirs)
 
-set(GALLERY_DIR ${CMAKE_INSTALL_DATADIR}/gallery-app)
+option(INSTALL_TESTS "Install the tests on make install" on)
+option(CLICK_MODE "Installs to a contained location" off)
+
+set(GALLERY gallery-app)
+set(DESKTOP_FILE ${GALLERY}.desktop)
+
+if(CLICK_MODE)
+    set(APP_PACKAGE_NAME "com.ubuntu.gallery")
+    set(CMAKE_INSTALL_PREFIX /)
+    set(CMAKE_INSTALL_BINDIR /)
+    set(GALLERY_DIR "")
+    set(CLICK_TAG click)
+else(CLICK_MODE)
+    set(GALLERY_DIR ${CMAKE_INSTALL_DATADIR}/${GALLERY})
+endif(CLICK_MODE)
+
 
 # for dh_translations to extract the domain
 # (regarding syntax consistency, see http://pad.lv/1181187)
-set (GETTEXT_PACKAGE "gallery-app")
+set (GETTEXT_PACKAGE "${GALLERY}")
 
 file(GLOB_RECURSE I18N_SRC_FILES
      RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
@@ -62,6 +77,7 @@ list(SORT I18N_SRC_FILES)
 # Tests
 enable_testing()
 
+add_subdirectory(click)
 add_subdirectory(desktop)
 add_subdirectory(po)
 add_subdirectory(rc)

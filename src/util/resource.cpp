@@ -41,6 +41,9 @@ Resource::Resource(const QString &pictureDir, QQuickView *view)
       m_view(view),
       m_maxTextureSize(0)
 {
+    if (isClick()) {
+        setOrganization();
+    }
     if (!pictureDir.isEmpty() && QDir(pictureDir).exists()) {
         m_mediaDirectories.append(pictureDir);
     } else {

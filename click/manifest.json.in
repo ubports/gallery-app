@@ -1,0 +1,21 @@
+{
+    "description": 
+        "Gallery application for your photo collection",
+    "framework": "ubuntu-sdk-13.10", 
+    "architecture": "armhf",
+    "hooks": {
+        "gallery": {
+            "apparmor": "gallery-apparmor.json", 
+            "desktop": "@CMAKE_INSTALL_DATADIR@/applications/@DESKTOP_FILE@"
+        }
+    }, 
+    "icon": "share/icons/ubuntu-mobile/app/144/gallery-app.png",
+    "maintainer": "Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>",
+    "name": "@APP_PACKAGE_NAME@", 
+    "title": "Gallery", 
+    "version": "2.9.1",
+    "x-source": {
+        "vcs-bzr": "lp:gallery-app", 
+        "vcs-bzr-revno": "@BZR_REVNO@"
+    }
+}
