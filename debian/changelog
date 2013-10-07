@@ -1,3 +1,14 @@
+gallery-app (0.0.67+13.10.20131007.2-0ubuntu1) saucy; urgency=low
+
+  [ Sergio Schvezov ]
+  * Click building support and fixing tests to work for click and
+    minimizing code duplication.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 867
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 07 Oct 2013 21:30:56 +0000
+
 gallery-app (0.0.67+13.10.20131007.1-0ubuntu1) saucy; urgency=low
 
   [ Ken VanDine ]
