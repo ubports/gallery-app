@@ -58,7 +58,6 @@ if(CLICK_MODE)
     set(APP_PACKAGE_NAME "com.ubuntu.gallery")
     set(CMAKE_INSTALL_PREFIX /)
     set(CMAKE_INSTALL_BINDIR /)
-    set(PLUGIN_BASE lib/${CMAKE_LIBRARY_ARCHITECTURE})
     set(CLICK_TAG click)
 endif(CLICK_MODE)
 
