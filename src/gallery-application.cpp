@@ -272,10 +272,9 @@ void GalleryApplication::returnPickedContent(QVariant variant)
     }
     m_contentCommunicator->returnPhotos(selectedMedias);
 
-// do not switch UI, as gallery anyway always quits atm.
-//    if (m_defaultUiMode == BrowseContentMode) {
-//        setUiMode(BrowseContentMode);
-//    }
+    if (m_defaultUiMode == BrowseContentMode) {
+        setUiMode(BrowseContentMode);
+    }
 }
 
 /*!
@@ -286,10 +285,9 @@ void GalleryApplication::contentPickingCanceled()
 {
     m_contentCommunicator->cancelTransfer();
 
-// do not switch UI, as gallery anyway always quits atm.
-//    if (m_defaultUiMode == BrowseContentMode) {
-//        setUiMode(BrowseContentMode);
-//    }
+    if (m_defaultUiMode == BrowseContentMode) {
+        setUiMode(BrowseContentMode);
+    }
 }
 
 /*!

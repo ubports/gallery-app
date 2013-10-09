@@ -51,7 +51,3 @@ bool ContentCommunicator::singleContentPickMode() const
 {
     return true;
 }
-
-void ContentCommunicator::quitApp()
-{
-}
