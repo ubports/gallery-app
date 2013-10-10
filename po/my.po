@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-20 12:56+0000\n"
-"PO-Revision-Date: 2013-05-29 04:10+0000\n"
-"Last-Translator: Pyae Sone <Unknown>\n"
+"PO-Revision-Date: 2013-10-09 11:34+0000\n"
+"Last-Translator: Htike Aung Kyaw <htikeaungkyaw@gmail.com>\n"
 "Language-Team: Burmese <my@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-09-20 06:02+0000\n"
-"X-Generator: Launchpad (build 16765)\n"
+"X-Launchpad-Export-Date: 2013-10-10 05:26+0000\n"
+"X-Generator: Launchpad (build 16799)\n"
 
 #: desktop/gallery-app.desktop.in:3
 msgid "Gallery"
-msgstr ""
+msgstr "ဓာတ်ပုံသိမ်းထားသည့်နေရာ"
 
 #: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
 msgid "Ubuntu Photo Viewer"
@@ -27,11 +27,11 @@ msgstr ""
 
 #: desktop/gallery-app.desktop.in:6
 msgid "Browse your photographs"
-msgstr ""
+msgstr "သင့်ဓာတ်ပုံများကိုရှာမည်"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:45
 msgid "Edit album"
-msgstr ""
+msgstr "အယ်လ်ဘမ်အားပြင်ဆင်မည်"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:52
 #: rc/qml/AlbumViewer/AlbumViewer.qml:489
@@ -58,27 +58,27 @@ msgstr "ပယ်ဖျက်မည်"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
-msgstr ""
+msgstr "မူလပုံစံ"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:114
 msgid "Blue"
-msgstr ""
+msgstr "အ​ပြာ"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:115
 msgid "Green"
-msgstr ""
+msgstr "အစိမ်း"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:116
 msgid "Pattern"
-msgstr ""
+msgstr "အကွက်ပုံစံ"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:117
 msgid "Red"
-msgstr ""
+msgstr "အနီ"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:468
 msgid "Add to album"
-msgstr ""
+msgstr "အယ်လ်ဘမ်သို့ထည့်မည်"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:474
 #: rc/qml/MediaViewer/MediaViewer.qml:440
@@ -91,11 +91,11 @@ msgstr "ပေါင်းထည့်"
 #: rc/qml/MediaViewer/MediaViewer.qml:467
 #: rc/qml/MediaViewer/MediaViewer.qml:518
 msgid "Back"
-msgstr ""
+msgstr "နောက်သို့"
 
 #: rc/qml/AlbumsOverview.qml:177 rc/qml/Components/PopupAlbumPicker.qml:87
 msgid "Add new album"
-msgstr ""
+msgstr "အယ်လ်ဘမ်အသစ်ပြုလုပ်မည်"
 
 #: rc/qml/AlbumsOverview.qml:189 rc/qml/Utility/PhotosToolbarActions.qml:46
 msgid "Camera"
@@ -113,24 +113,24 @@ msgstr "မဟုတ်ဘူး"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr ""
+msgstr "အယ်လ်ဘမ်အား ဖျက်မည်"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr ""
+msgstr "အယ်လ်ဘမ်+ပါသည့်အရာများလည်းဖျက်မည်"
 
 #: rc/qml/Components/MediaSelector.qml:56
 #: rc/qml/Components/MediaSelector.qml:82
 msgid "Add to Album"
-msgstr ""
+msgstr "အယ်လ်ဘမ်သို့ ပေါင်းထည့်မည်"
 
 #: rc/qml/Components/PopupAlbumPicker.qml:147 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr ""
+msgstr "အယ်လ်ဘမ်သို့ ဓါတ်ပုံ ပေါင်းထည့်မည်"
 
 #: rc/qml/LoadingScreen.qml:36
 msgid "Loading…"
-msgstr ""
+msgstr "ဖွင့်နေသည်"
 
 #: rc/qml/MainScreen.qml:58
 msgid "Albums"
@@ -168,11 +168,11 @@ msgstr "နောက်ပြန်"
 
 #: rc/qml/MediaViewer/EditPopover.qml:71 rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr ""
+msgstr "ပြန်ပြင်ပါ"
 
 #: rc/qml/MediaViewer/EditPopover.qml:80
 msgid "Revert to original"
-msgstr ""
+msgstr "မူလအတိုင်းပြန်ပြောင်းမည်"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:250 rc/qml/PhotosOverview.qml:149
 msgid "Delete a photo"
@@ -184,23 +184,23 @@ msgstr "ပြင်ဆင်"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:433
 msgid "Add photo to album"
-msgstr ""
+msgstr "အယ်လ်ဘမ်သို့ဓာတ်ပုံပေါင်းထည့်မည်"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:456
 msgid "Share photo"
-msgstr ""
+msgstr "ပုံကိုဝေမျှမည်"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:480
 msgid "Pause"
-msgstr ""
+msgstr "ခဏနား"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:480
 msgid "Play"
-msgstr ""
+msgstr "ဖွင့်"
 
 #: rc/qml/PhotosOverview.qml:148
 msgid "Delete photos"
-msgstr ""
+msgstr "ဓါတ်ပုံများ ဖျက်မည်"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
@@ -272,7 +272,7 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:123 rc/qml/Utility/EditingHUD.qml:165
 msgid "Confirm"
-msgstr ""
+msgstr "အတည်ပြုပါ"
 
 #: rc/qml/Utility/EditingHUD.qml:127
 msgid "Compensation"
@@ -280,7 +280,7 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Color Balance"
-msgstr ""
+msgstr "အရောင်ချိန်ရန်"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Adjust color balance"
@@ -292,7 +292,7 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:169
 msgid "Brightness"
-msgstr ""
+msgstr "အလင်းပမာဏ"
 
 #: rc/qml/Utility/EditingHUD.qml:181
 msgid "Contrast"
