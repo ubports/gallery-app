@@ -51,6 +51,7 @@
 #include <QQuickItem>
 #include <QQuickView>
 #include <QString>
+#include <QTimer>
 #include <QUrl>
 
 QElapsedTimer* GalleryApplication::m_timer = 0;
@@ -272,10 +273,12 @@ void GalleryApplication::returnPickedContent(QVariant variant)
     }
     m_contentCommunicator->returnPhotos(selectedMedias);
 
-// do not switch UI, as gallery anyway always quits atm.
-//    if (m_defaultUiMode == BrowseContentMode) {
-//        setUiMode(BrowseContentMode);
-//    }
+    if (m_defaultUiMode == BrowseContentMode) {
+        setUiMode(BrowseContentMode);
+    } else {
+        // give the app and content-hub some time to finish taks (run the event loop)
+        QTimer::singleShot(10, this, SLOT(quit()));
+    }
 }
 
 /*!
@@ -286,10 +289,12 @@ void GalleryApplication::contentPickingCanceled()
 {
     m_contentCommunicator->cancelTransfer();
 
-// do not switch UI, as gallery anyway always quits atm.
-//    if (m_defaultUiMode == BrowseContentMode) {
-//        setUiMode(BrowseContentMode);
-//    }
+    if (m_defaultUiMode == BrowseContentMode) {
+        setUiMode(BrowseContentMode);
+    } else {
+        // give the app and content-hub some time to finish taks (run the event loop)
+        QTimer::singleShot(10, this, SLOT(quit()));
+    }
 }
 
 /*!

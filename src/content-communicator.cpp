@@ -62,8 +62,6 @@ void ContentCommunicator::handle_export(content::Transfer *transfer)
     emit photoRequested();
     emit selectionTypeChanged();
     emit singleContentPickModeChanged();
-
-    QObject::connect(m_transfer, SIGNAL(stateChanged()), this, SLOT(quitApp()));
 }
 
 /*!
@@ -124,15 +122,4 @@ bool ContentCommunicator::singleContentPickMode() const
         return true;
 
     return m_transfer->selectionType() == Transfer::SelectionType::single;
-}
-
-/*!
- * \brief ContentCommunicator::quitApp
- * FIXME
- * As long as the content hub soes not close gallery -use this as fallback
- */
-void ContentCommunicator::quitApp()
-{
-    if (!m_transfer)
-        qApp->quit();
 }

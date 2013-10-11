@@ -59,8 +59,6 @@ signals:
     void singleContentPickModeChanged();
 
 private:
-    Q_SLOT void quitApp();
-
     content::Transfer *m_transfer;
 };
 

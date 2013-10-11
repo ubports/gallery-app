@@ -175,9 +175,18 @@ Item {
         objectName: "mainLoader"
 
         anchors.fill: parent
-        source: allLoaded ? (APP.pickModeEnabled ? Qt.resolvedUrl("PickerScreen.qml")
-                                                     : Qt.resolvedUrl("MainScreen.qml"))
-                          : ""
+        source: allLoaded ? Qt.resolvedUrl("MainScreen.qml") : ""
+        visible: !pickScreenLoader.visible
+    }
+
+    /// FIXME use state saving instead of loading the UI twice
+    Loader {
+        id: pickScreenLoader
+        objectName: "pickLoader"
+
+        anchors.fill: parent
+        source: (allLoaded && APP.pickModeEnabled) ? Qt.resolvedUrl("PickerScreen.qml") : ""
+        visible: source != ""
     }
 
     Component.onCompleted: {
