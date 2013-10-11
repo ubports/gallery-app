@@ -1,3 +1,13 @@
+gallery-app (0.0.67+13.10.20131011.1-0ubuntu1) saucy; urgency=low
+
+  [ Bill Filler ]
+  * merged lp:~schwann/gallery-app/gallery-pick-return
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 872
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 11 Oct 2013 11:17:59 +0000
+
 gallery-app (0.0.67+13.10.20131007.2-0ubuntu1) saucy; urgency=low
 
   [ Sergio Schvezov ]
