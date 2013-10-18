@@ -572,11 +572,24 @@ Item {
         }
     }
 
-    Share {
+    Loader {
         id: sharePanel
         anchors.fill: parent
         visible: false
-        onUploadCompleted: visible = false
-        onCanceled: visible = false
+        sourceComponent: (fileToShare !== "" && userAccountId !== "") ? component_sharePanel : null
+
+        property string fileToShare
+        property string userAccountId
+
+        Component {
+            id: component_sharePanel
+            Share {
+                fileToShare: sharePanel.fileToShare
+                userAccountId: sharePanel.userAccountId
+                onUploadCompleted: sharePanel.visible = false;
+                onCanceled: sharePanel.visible = false;
+            }
+        }
     }
+
 }
