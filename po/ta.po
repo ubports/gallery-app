@@ -1,0 +1,311 @@
+# Tamil translation for gallery-app
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the gallery-app package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gallery-app\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-06-20 12:56+0000\n"
+"PO-Revision-Date: 2013-10-25 08:51+0000\n"
+"Last-Translator: Thangamani Arun - தங்கமணி அருண் <thangam.arunx@gmail.com>\n"
+"Language-Team: Tamil <ta@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2013-10-26 06:26+0000\n"
+"X-Generator: Launchpad (build 16810)\n"
+
+#: desktop/gallery-app.desktop.in:3
+msgid "Gallery"
+msgstr "படத்தொகுப்பு"
+
+#: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
+msgid "Ubuntu Photo Viewer"
+msgstr "உபுண்டு புகைப்படம் பார்க்கும் பயன்பாடு"
+
+#: desktop/gallery-app.desktop.in:6
+msgid "Browse your photographs"
+msgstr "உங்களுடைய புகைப்படங்களை உலாவு"
+
+#: rc/qml/AlbumEditor/AlbumEditMenu.qml:45
+msgid "Edit album"
+msgstr "படத்தொகுப்பை தொகு"
+
+#: rc/qml/AlbumEditor/AlbumEditMenu.qml:52
+#: rc/qml/AlbumViewer/AlbumViewer.qml:489
+#: rc/qml/MediaViewer/MediaViewer.qml:462
+#: rc/qml/MediaViewer/MediaViewer.qml:509 rc/qml/Utility/EditingHUD.qml:72
+#: rc/qml/Utility/SelectionToolbarAction.qml:57
+msgid "Share"
+msgstr "பகிர்"
+
+#: rc/qml/AlbumEditor/AlbumEditMenu.qml:59
+#: rc/qml/AlbumViewer/AlbumViewer.qml:478
+#: rc/qml/MediaViewer/MediaViewer.qml:445
+#: rc/qml/MediaViewer/MediaViewer.qml:451
+#: rc/qml/MediaViewer/MediaViewer.qml:501 rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/Utility/SelectionToolbarAction.qml:50
+msgid "Delete"
+msgstr "நீக்கு"
+
+#: rc/qml/AlbumEditor/AlbumEditor.qml:40
+#: rc/qml/Components/MediaSelector.qml:94
+#: rc/qml/Utility/SelectionToolbarAction.qml:65
+msgid "Cancel"
+msgstr "ரத்துசெய்"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:113
+msgid "Default"
+msgstr "இயல்புநிலை"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:114
+msgid "Blue"
+msgstr "நீலம்"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:115
+msgid "Green"
+msgstr "பச்சை"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:116
+msgid "Pattern"
+msgstr "பாணி"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:117
+msgid "Red"
+msgstr "சிகப்பு"
+
+#: rc/qml/AlbumViewer/AlbumViewer.qml:468
+msgid "Add to album"
+msgstr "படத்தொகுப்பில் சேர்"
+
+#: rc/qml/AlbumViewer/AlbumViewer.qml:474
+#: rc/qml/MediaViewer/MediaViewer.qml:440
+#: rc/qml/MediaViewer/MediaViewer.qml:492 rc/qml/Utility/EditingHUD.qml:77
+#: rc/qml/Utility/SelectionToolbarAction.qml:43
+msgid "Add"
+msgstr "சேர்"
+
+#: rc/qml/AlbumViewer/AlbumViewer.qml:494
+#: rc/qml/MediaViewer/MediaViewer.qml:467
+#: rc/qml/MediaViewer/MediaViewer.qml:518
+msgid "Back"
+msgstr "பின்னால்"
+
+#: rc/qml/AlbumsOverview.qml:177 rc/qml/Components/PopupAlbumPicker.qml:87
+msgid "Add new album"
+msgstr "பதிய படத்தொகுப்பை சேர்"
+
+#: rc/qml/AlbumsOverview.qml:189 rc/qml/Utility/PhotosToolbarActions.qml:46
+msgid "Camera"
+msgstr "புகைப்பட கருவி"
+
+#: rc/qml/Components/DeleteDialog.qml:36
+#: rc/qml/MediaViewer/MediaViewer.qml:261
+msgid "Yes"
+msgstr "ஆம்"
+
+#: rc/qml/Components/DeleteDialog.qml:45
+#: rc/qml/MediaViewer/MediaViewer.qml:272
+msgid "No"
+msgstr "இல்லை"
+
+#: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
+msgid "Delete album"
+msgstr "படத்தொகுப்பை நீக்கு"
+
+#: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
+msgid "Delete album + contents"
+msgstr "படத்தொகுப்பு + உள்ளடக்கங்கள் நீக்கு"
+
+#: rc/qml/Components/MediaSelector.qml:56
+#: rc/qml/Components/MediaSelector.qml:82
+msgid "Add to Album"
+msgstr "படத்தொகுப்பில் சேர்"
+
+#: rc/qml/Components/PopupAlbumPicker.qml:147 rc/qml/Utility/EditingHUD.qml:78
+msgid "Add Photo to Album"
+msgstr "படத்தை படத்தொகுப்பில் சேர்"
+
+#: rc/qml/LoadingScreen.qml:36
+msgid "Loading…"
+msgstr "ஏற்றுகிறது..."
+
+#: rc/qml/MainScreen.qml:58
+msgid "Albums"
+msgstr "படத்தொகுப்புகள்"
+
+#: rc/qml/MainScreen.qml:74 rc/qml/MainScreen.qml:96
+msgid "Events"
+msgstr "நிகழ்வுகள்"
+
+#: rc/qml/MainScreen.qml:94 rc/qml/MainScreen.qml:126
+#: rc/qml/Utility/PhotosToolbarActions.qml:33
+msgid "Select"
+msgstr "தேர்ந்தெடு"
+
+#: rc/qml/MainScreen.qml:106 rc/qml/MainScreen.qml:128
+msgid "Photos"
+msgstr "புகைப்படங்கள்"
+
+#: rc/qml/MediaViewer/CropOverlay.qml:352
+#: rc/qml/MediaViewer/EditPopover.qml:46 rc/qml/Utility/EditingHUD.qml:106
+msgid "Crop"
+msgstr "செதுக்கு"
+
+#: rc/qml/MediaViewer/EditPopover.qml:38 rc/qml/Utility/EditingHUD.qml:99
+msgid "Rotate"
+msgstr "சுழற்று"
+
+#: rc/qml/MediaViewer/EditPopover.qml:54
+msgid "Auto enhance"
+msgstr "தன்னிச்சையான உயர்வு"
+
+#: rc/qml/MediaViewer/EditPopover.qml:62 rc/qml/Utility/EditingHUD.qml:82
+msgid "Undo"
+msgstr "ரத்து செய்க"
+
+#: rc/qml/MediaViewer/EditPopover.qml:71 rc/qml/Utility/EditingHUD.qml:87
+msgid "Redo"
+msgstr "மீளச்செய்"
+
+#: rc/qml/MediaViewer/EditPopover.qml:80
+msgid "Revert to original"
+msgstr "அசலை மீட்டெடு"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:250 rc/qml/PhotosOverview.qml:149
+msgid "Delete a photo"
+msgstr "ஒரு புகைப்படத்தை நீக்கு"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:424
+msgid "Edit"
+msgstr "திருத்து"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:433
+msgid "Add photo to album"
+msgstr "படத்தை படத்தொகுப்புடன் சேர்"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:456
+msgid "Share photo"
+msgstr "படத்தை பகிர்"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:480
+msgid "Pause"
+msgstr "இடைநிறுத்து"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:480
+msgid "Play"
+msgstr "இயக்கு"
+
+#: rc/qml/PhotosOverview.qml:148
+msgid "Delete photos"
+msgstr "படங்களை நீக்கு"
+
+#: rc/qml/Utility/EditingHUD.qml:68
+msgid "Trash;Erase"
+msgstr "குப்பை;அழி"
+
+#: rc/qml/Utility/EditingHUD.qml:73
+msgid "Post;Upload;Attach"
+msgstr "பதிவு; பதிவேற்றம்; இணை"
+
+#: rc/qml/Utility/EditingHUD.qml:83
+msgid "Cancel Action;Backstep"
+msgstr "செயலை ரத்துசெய்;பின்செல்"
+
+#: rc/qml/Utility/EditingHUD.qml:88
+msgid "Reapply;Make Again"
+msgstr "மீண்டும்செலுத்து;மீண்டும் உருவாக்கு"
+
+#: rc/qml/Utility/EditingHUD.qml:92
+msgid "Auto Enhance"
+msgstr "தன்னிச்சை மேம்பாடு"
+
+#: rc/qml/Utility/EditingHUD.qml:93
+msgid "Adjust the image automatically"
+msgstr "படத்தை தன்னிச்சையாக சரிசெய்"
+
+#: rc/qml/Utility/EditingHUD.qml:94
+msgid "Automatically Adjust Photo"
+msgstr "படத்தை தன்னிச்சையாக சரிசெய்"
+
+#: rc/qml/Utility/EditingHUD.qml:100
+msgid "Turn Clockwise"
+msgstr "கடிகார முள் திசையில் திருப்பு"
+
+#: rc/qml/Utility/EditingHUD.qml:101
+msgid "Rotate the image clockwise"
+msgstr "படத்தை முள் திசையில் சுழற்று"
+
+#: rc/qml/Utility/EditingHUD.qml:107
+msgid "Trim;Cut"
+msgstr "சீவு; வெட்டு"
+
+#: rc/qml/Utility/EditingHUD.qml:108
+msgid "Crop the image"
+msgstr "படத்தை செதுக்க"
+
+#: rc/qml/Utility/EditingHUD.qml:113
+msgid "Revert to Original"
+msgstr "அசலுக்கு மீட்டமை"
+
+#: rc/qml/Utility/EditingHUD.qml:114
+msgid "Discard Changes"
+msgstr "மாற்றங்களை தவிர்"
+
+#: rc/qml/Utility/EditingHUD.qml:115
+msgid "Discard all changes"
+msgstr "அனைத்து மாற்றங்களையும் தவிர்"
+
+#: rc/qml/Utility/EditingHUD.qml:119
+msgid "Exposure"
+msgstr "வெளிக்காட்டு"
+
+#: rc/qml/Utility/EditingHUD.qml:120
+msgid "Adjust the exposure"
+msgstr "வெளிக்காட்டலை சரிசெய்"
+
+#: rc/qml/Utility/EditingHUD.qml:121
+msgid "Underexposed;Overexposed"
+msgstr "வெளிக்காட்டாத;மிஞ்சிய வெளிக்காட்டல்"
+
+#: rc/qml/Utility/EditingHUD.qml:123 rc/qml/Utility/EditingHUD.qml:165
+msgid "Confirm"
+msgstr "உறுதிப்படுத்து"
+
+#: rc/qml/Utility/EditingHUD.qml:127
+msgid "Compensation"
+msgstr "சன்மானம்"
+
+#: rc/qml/Utility/EditingHUD.qml:161
+msgid "Color Balance"
+msgstr "வண்ண சமநிலை"
+
+#: rc/qml/Utility/EditingHUD.qml:162
+msgid "Adjust color balance"
+msgstr "வண்ண சமநிலையை சரிசெய்"
+
+#: rc/qml/Utility/EditingHUD.qml:163
+msgid "Saturation;Hue"
+msgstr "தெவிட்டுநிலை; சாயலிடு"
+
+#: rc/qml/Utility/EditingHUD.qml:169
+msgid "Brightness"
+msgstr "பிரகாசம்"
+
+#: rc/qml/Utility/EditingHUD.qml:181
+msgid "Contrast"
+msgstr "நிறவேறுபாடு"
+
+#: rc/qml/Utility/EditingHUD.qml:193
+msgid "Saturation"
+msgstr "தெவிட்டிய"
+
+#: rc/qml/Utility/EditingHUD.qml:205
+msgid "Hue"
+msgstr "வண்ணச் சாயல்"
+
+#: rc/qml/Utility/PhotosToolbarActions.qml:40
+msgid "Import"
+msgstr "இறக்குமதி"
