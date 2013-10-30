@@ -68,10 +68,6 @@ class TestPhotoViewer(TestPhotoViewerBase):
     def ensure_closed_delete_dialog(self):
         self.assertThat(self.photo_viewer.delete_dialog_shown,
                         Eventually(Is(False)))
-        # self.assertThat(
-        #     lambda: self.photo_viewer.get_delete_dialog(wait=False),
-        #     Eventually(Is(None))
-        # )
 
     def test_nav_bar_back_button(self):
         """Clicking the back button must close the photo."""
