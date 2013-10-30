@@ -41,6 +41,10 @@ class TestPhotoViewerBase(GalleryTestCase):
         self.assertThat(lambda: self.photo_viewer.number_of_photos_in_events(),
                         Eventually(GreaterThan(0)))
         single_photo = self.photo_viewer.get_first_image_in_event_view()
+
+        # toolbar needs to be gone to click on an image.
+        self.main_view.close_toolbar()
+
         self.click_item(single_photo)
 
         photo_viewer_loader = self.photo_viewer.get_main_photo_viewer_loader()

@@ -94,7 +94,8 @@ class GalleryUtils(object):
     def get_first_image_in_event_view(self):
         """Returns the first photo of the gallery."""
         event = self.get_first_event()
-        return event.select_many("OrganicItemInteraction")[1]
+        return event.select_many("OrganicItemInteraction",
+                                 objectName='eventsViewPhoto')[0]
 
     def get_all_albums(self):
         """Returns all albums in the albums view"""
