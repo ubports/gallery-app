@@ -7,6 +7,7 @@
 
 """gallery autopilot tests."""
 
+import logging
 import os.path
 import shutil
 
@@ -21,18 +22,32 @@ from gallery_app.emulators.gallery_utils import GalleryUtils
 
 from time import sleep
 
+logger = logging.getLogger(__name__)
+
+
+class EnvironmentTypes:
+    installed = "installed"
+    local = "local"
+    click = "click"
+
 
 class GalleryTestCase(AutopilotTestCase):
 
     """A common test case class that provides several useful methods for
        gallery tests."""
 
-    sample_destination_dir = "/tmp/gallery-ap_sd"
     sample_file_source = "/sample01.jpg"
-    installed_sample_dir = "/usr/lib/python2.7/dist-packages/gallery_app/data"
-    local_sample_dir = "gallery_app/data"
     tap_press_time = 1
     local_location = "../../src/gallery-app"
+
+    _default_sample_destination_dir = "/tmp/gallery-ap_sd"
+
+    _sample_dirs = {
+        EnvironmentTypes.installed:
+        "/usr/lib/python2.7/dist-packages/gallery_app/data",
+        EnvironmentTypes.local: "gallery_app/data",
+        EnvironmentTypes.click: "gallery_app/data",
+    }
 
     ARGS = []
 
@@ -44,41 +59,58 @@ class GalleryTestCase(AutopilotTestCase):
     def main_view(self):
         return self.app.select_single(main_screen.MainScreen)
 
-    def environment_setup(self):
+    def _get_environment_launch_type(self):
+        """Returns the type of the environment in which to setup and launch
+        gallery-app.
+
+        """
         # Lets assume we are installed system wide if this file is somewhere
         # in /usr
         if os.path.realpath(__file__).startswith("/usr/"):
-            self.sample_dir = self.installed_sample_dir
-            self.launch = self.launch_test_installed
+            return EnvironmentTypes.installed
         else:
-            self.sample_dir = self.local_sample_dir
             if os.path.exists(self.local_location):
-                self.launch = self.launch_test_local
+                return EnvironmentTypes.local
             else:
-                # For click we are under confinement and restricted
-                # to ~/Pictures
-                self.sample_destination_dir = os.path.expanduser("~/Pictures")
-                self.launch = self.launch_test_click
+                return EnvironmentTypes.click
+
+    def _get_sample_destination_dir(self, env_type):
+        if env_type == EnvironmentTypes.click:
+            return os.path.expanduser("~/Pictures")
+        else:
+            return self._default_sample_destination_dir
+
+    def configure_sample_files(self, env_type):
+        self.sample_dir = self._sample_dirs[env_type]
+        self.sample_destination_dir = self._get_sample_destination_dir(
+            env_type
+        )
+        if (os.path.exists(self.sample_destination_dir)):
+            shutil.rmtree(self.sample_destination_dir)
+        self.assertFalse(os.path.exists(self.sample_destination_dir))
+
         self.sample_file = os.path.join(
-            self.sample_destination_dir, "sample01.jpg")
+            self.sample_destination_dir,
+            "sample01.jpg"
+        )
+
+        default_data_dir = os.path.join(
+            self.sample_dir,
+            "default")
+        shutil.copytree(default_data_dir, self.sample_destination_dir)
+        self.assertTrue(os.path.isfile(self.sample_file))
+
+        self.sample_file_source = \
+            default_data_dir + self.sample_file_source
 
     def setUp(self):
         self.pointing_device = toolkit_emulators.get_pointing_device()
         super(GalleryTestCase, self).setUp()
 
-        self.environment_setup()
+        env_type = self._get_environment_launch_type()
+        self.configure_sample_files(env_type)
 
-        if (os.path.exists(self.sample_destination_dir)):
-            shutil.rmtree(self.sample_destination_dir)
-        self.assertFalse(os.path.exists(self.sample_destination_dir))
-
-        default_data_dir = os.path.join(
-            self.sample_dir, "default")
-        shutil.copytree(default_data_dir, self.sample_destination_dir)
-        self.assertTrue(os.path.isfile(self.sample_file))
-        self.sample_file_source = \
-            default_data_dir + self.sample_file_source
-        self.launch()
+        self.launch_gallery_app(env_type)
 
         self.addCleanup(shutil.rmtree, self.sample_destination_dir)
 
@@ -92,7 +124,18 @@ class GalleryTestCase(AutopilotTestCase):
         for switching to the albums view. Therefore this hack of a second"""
         sleep(1)
 
+    def launch_gallery_app(self, env_type):
+        if env_type == EnvironmentTypes.installed:
+            self.launch_test_installed()
+        elif env_type == EnvironmentTypes.local:
+            self.launch_test_local()
+        elif env_type == EnvironmentTypes.click:
+            self.launch_test_click()
+        else:
+            raise ValueError("Unknown environment type: %s", env_type)
+
     def launch_test_local(self):
+        logger.debug("Launching local gallery-app binary.")
         self.ARGS.append(self.sample_destination_dir)
         self.app = self.launch_test_application(
             self.local_location,
@@ -101,12 +144,18 @@ class GalleryTestCase(AutopilotTestCase):
 
     def launch_test_installed(self):
         if model() == 'Desktop':
+            logger.debug(
+                "Launching installed gallery-app binary for desktop."
+            )
             self.ARGS.append(self.sample_destination_dir)
             self.app = self.launch_test_application(
                 "gallery-app",
                 *self.ARGS,
                 emulator_base=toolkit_emulators.UbuntuUIToolkitEmulatorBase)
         else:
+            logger.debug(
+                "Launching installed gallery-app binary for device."
+            )
             self.ARGS.append("--desktop_file_hint="
                              "/usr/share/applications/gallery-app.desktop")
             self.ARGS.append(self.sample_destination_dir)
@@ -121,6 +170,7 @@ class GalleryTestCase(AutopilotTestCase):
         Since this test runs under confinement, the only location photos
         are searchable in is ~/Pictures.
         '''
+        logger.debug("Launching gallery-app via click package.")
         self.app = self.launch_click_package(
             package_id="com.ubuntu.gallery",
             emulator_base=toolkit_emulators.UbuntuUIToolkitEmulatorBase)
