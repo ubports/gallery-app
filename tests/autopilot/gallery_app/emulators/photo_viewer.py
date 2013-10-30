@@ -39,8 +39,8 @@ class PhotoViewer(GalleryUtils):
                                            objectName="editPopover")
 
     def get_photo_component(self):
-        return self.app.select_many_retry("ZoomablePhotoComponent",
-                                          ownerName="photoViewerDelegate")[0]
+        return self.select_many_retry("ZoomablePhotoComponent",
+                                      ownerName="photoViewerDelegate")[0]
 
     def get_crop_menu_item(self):
         """Returns the crop item of the edit dialog."""
