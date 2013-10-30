@@ -17,18 +17,6 @@ class GalleryUtils(object):
     def __init__(self, app):
         self.app = app
 
-    def select_single_retry(self, object_type, **kwargs):
-        """Returns the item that is searched for with app.select_single
-        In case of the item was not found (not created yet) a second attempt is
-        taken 1 second later."""
-        item = self.app.select_single(object_type, **kwargs)
-        tries = 10
-        while item is None and tries > 0:
-            sleep(self.retry_delay)
-            item = self.app.select_single(object_type, **kwargs)
-            tries = tries - 1
-        return item
-
     def select_many_retry(self, object_type, **kwargs):
         """Returns the item that is searched for with app.select_many
         In case of no item was not found (not created yet) a second attempt is
@@ -52,8 +40,8 @@ class GalleryUtils(object):
 
     def get_main_photo_viewer(self):
         """Returns the MediaListView."""
-        return self.select_single_retry("MediaListView",
-                                        objectName="mediaListView")
+        return self.app.wait_select_single("MediaListView",
+                                       objectName="mediaListView")
 
     def get_albums_viewer_loader(self):
         """Returns the loader item for the AlbumsOverview."""
@@ -62,8 +50,14 @@ class GalleryUtils(object):
 
     def get_delete_dialog(self):
         """Returns the delete dialog in the events view."""
-        return self.select_single_retry("DeleteDialog",
-                                        objectName="deleteDialog")
+        return self.app.wait_select_single("DeleteDialog",
+                                           objectName="deleteDialog")
+
+    def delete_dialog_shown(self):
+        dialog = self.app.select_many(
+            "DeleteDialog",
+            objectName="deleteDialog")
+        return len(dialog) >= 1
 
     def get_delete_dialog_delete_button(self):
         """Returns the delete button of the delete popover."""
@@ -95,7 +89,7 @@ class GalleryUtils(object):
         """Returns the first photo of the gallery."""
         event = self.get_first_event()
         return event.select_many("OrganicItemInteraction",
-                                 objectName='eventsViewPhoto')[0]
+                                 objectName='eventsViewPhoto')[1]
 
     def get_all_albums(self):
         """Returns all albums in the albums view"""

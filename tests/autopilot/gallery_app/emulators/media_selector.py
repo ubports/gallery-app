@@ -16,7 +16,7 @@ class MediaSelector(GalleryUtils):
 
     def get_media_selector(self):
         """Returns the media selector"""
-        return self.select_single_retry("MediaSelector")
+        return self.app.wait_select_single("MediaSelector")
 
     def get_second_photo(self):
         """Returns the second photo item"""

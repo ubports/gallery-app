@@ -31,8 +31,8 @@ class TestEventsView(GalleryTestCase):
         super(TestEventsView, self).tearDown()
 
     def get_events_view(self):
-        return self.gallery_utils.select_single_retry("EventsOverview",
-                                                      objectName="organicEventView")
+        return self.app.wait_select_single("EventsOverview",
+                                           objectName="organicEventView")
 
     def enable_select_mode(self):
         self.main_view.open_toolbar().click_button("selectButton")
@@ -82,16 +82,16 @@ class TestEventsView(GalleryTestCase):
         new_number_of_photos = self.gallery_utils.number_of_photos_in_events()
         self.assertThat(new_number_of_photos, Equals(number_of_photos))
 
-        self.assertThat(lambda: self.gallery_utils.get_delete_dialog(),
-                        Eventually(Is(None)))
+        self.assertThat(self.gallery_utils.delete_dialog_shown,
+                        Eventually(Is(False)))
 
         self.main_view.open_toolbar().click_button("deleteButton")
         self.assert_delete_dialog_visible()
 
         delete_item = self.gallery_utils.get_delete_dialog_delete_button()
         self.click_item(delete_item)
-        self.assertThat(lambda: self.gallery_utils.get_delete_dialog(),
-                        Eventually(Is(None)))
+        self.assertThat(self.gallery_utils.delete_dialog_shown,
+                        Eventually(Is(False)))
 
         self.assertThat(lambda: exists(self.sample_file),
                         Eventually(Equals(False)))

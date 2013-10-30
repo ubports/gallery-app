@@ -71,8 +71,8 @@ class TestPhotosView(GalleryTestCase):
 
         cancel_item = self.photos_view.get_delete_dialog_cancel_button()
         self.click_item(cancel_item)
-        self.assertThat(lambda: self.gallery_utils.get_delete_dialog(),
-                        Eventually(Is(None)))
+        self.assertThat(self.gallery_utils.delete_dialog_shown,
+                        Eventually(Is(False)))
 
         self.assertThat(lambda: exists(self.sample_file),
                         Eventually(Equals(True)))
@@ -84,9 +84,10 @@ class TestPhotosView(GalleryTestCase):
 
         delete_item = self.photos_view.get_delete_dialog_delete_button()
         self.click_item(delete_item)
-        self.assertThat(lambda: self.gallery_utils.get_delete_dialog(),
-                        Eventually(Is(None)))
-
+        self.assertThat(
+            self.gallery_utils.delete_dialog_shown,
+            Eventually(Is(False))
+        )
         self.assertThat(lambda: exists(self.sample_file),
                         Eventually(Equals(False)))
 

@@ -14,7 +14,7 @@ import shutil
 from autopilot.matchers import Eventually
 from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
-from testtools.matchers import Equals, GreaterThan, Not, Is
+from testtools.matchers import Equals, GreaterThan
 
 from ubuntuuitoolkit import emulators as toolkit_emulators
 from gallery_app.emulators import main_screen
@@ -243,8 +243,7 @@ class GalleryTestCase(AutopilotTestCase):
             Eventually(Equals(3)))
 
     def get_delete_dialog(self):
-        self.assertThat(lambda: self.gallery_utils.get_delete_dialog(),
-                        Eventually(Not(Is(None))))
+        """Raises StateNotFound if get_delete_dialog fails."""
         delete_dialog = self.gallery_utils.get_delete_dialog()
         self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
         self.assertThat(delete_dialog.opacity, Eventually(Equals(1)))
