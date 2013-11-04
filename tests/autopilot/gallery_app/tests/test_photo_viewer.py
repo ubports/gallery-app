@@ -42,6 +42,7 @@ class TestPhotoViewerBase(GalleryTestCase):
                         Eventually(GreaterThan(0)))
         single_photo = self.photo_viewer.get_first_image_in_event_view()
 
+        # workaround lp:1247698
         # toolbar needs to be gone to click on an image.
         self.main_view.close_toolbar()
 

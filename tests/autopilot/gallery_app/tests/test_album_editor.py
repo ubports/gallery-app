@@ -38,6 +38,8 @@ class TestAlbumEditor(GalleryTestCase):
 
     def edit_first_album(self):
         first_album = self.gallery_utils.get_first_album()
+        # workaround lp:1247698
+        self.main_view.close_toolbar()
         self.tap_item(first_album)
         edit_button = self.gallery_utils.get_edit_album_button()
         self.click_item(edit_button)
@@ -66,6 +68,8 @@ class TestAlbumEditor(GalleryTestCase):
         text = "Ubuntu"
         self.assertThat(subtitle_field.text, Eventually(Equals(text)))
 
+        # workaround lp:1247698
+        self.main_view.close_toolbar()
         editor.click_title_field()
         self.keyboard.press_and_release("Ctrl+a")
         self.keyboard.press_and_release("P")
@@ -91,6 +95,8 @@ class TestAlbumEditor(GalleryTestCase):
         """Tests adding a photo using the media selector"""
         # first open, but cancel before adding a photo
         editor = self.app.select_single(album_editor.AlbumEditorAnimated)
+        # workaround lp:1247698
+        self.main_view.close_toolbar()
         editor.add_photos()
         self.ensure_media_selector_is_fully_open()
 
@@ -106,6 +112,8 @@ class TestAlbumEditor(GalleryTestCase):
         # now open to add a photo
         self.edit_first_album()
         editor = self.app.select_single(album_editor.AlbumEditorAnimated)
+        # workaround lp:1247698
+        self.main_view.close_toolbar()
         editor.add_photos()
         self.ensure_media_selector_is_fully_open()
 
@@ -128,11 +136,13 @@ class TestAlbumEditor(GalleryTestCase):
             Equals(True))
 
         # click somewhere rather at the bottom of the cover
+        # workaround lp:1247698
+        self.main_view.close_toolbar()
         x, y, w, h = cover_image.globalRect
         self.pointing_device.move(x + int(w / 2), y + h - int(h / 10))
         self.pointing_device.click()
 
-        green_item = self.gallery_utils.get_cover_menu_item(2)
+        green_item = self.gallery_utils.get_cover_menu_item("Green")
         self.click_item(green_item)
 
         self.assertThat(lambda:

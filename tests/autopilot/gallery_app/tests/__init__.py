@@ -223,6 +223,8 @@ class GalleryTestCase(AutopilotTestCase):
 
     def open_first_album(self):
         first_album = self.album_view.get_first_album()
+        # workaround lp:1247698
+        self.main_view.close_toolbar()
         self.click_item(first_album)
         self.ensure_view_is_fully_open()
 
@@ -243,7 +245,7 @@ class GalleryTestCase(AutopilotTestCase):
             Eventually(Equals(3)))
 
     def get_delete_dialog(self):
-        """Raises StateNotFound if get_delete_dialog fails."""
+        """Raises StateNotFoundError if get_delete_dialog fails."""
         delete_dialog = self.gallery_utils.get_delete_dialog()
         self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
         self.assertThat(delete_dialog.opacity, Eventually(Equals(1)))
