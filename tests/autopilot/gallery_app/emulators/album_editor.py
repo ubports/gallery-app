@@ -15,7 +15,9 @@ class AlbumEditorAnimated(toolkit_emulators.UbuntuUIToolkitEmulatorBase):
         cover_image = self.album_cover_image()
         # click left of the cover
         x, y, w, h = cover_image.globalRect
-        self.pointing_device.move(x + w/2, y + h + 1)
+        self.pointing_device.move(x - 10, y + (h/2))
+        # workaround lp:1247698 (get rid of toolbar)
+        self.pointing_device.click()
         self.pointing_device.click()
         self.ensure_fully_closed
 
@@ -41,14 +43,21 @@ class AlbumEditorAnimated(toolkit_emulators.UbuntuUIToolkitEmulatorBase):
 
     def album_subtitle_entry_field(self):
         """Returns the album subtitle input box."""
-        return self.select_many("TextEditOnClick",
-                                objectName="albumSubtitleField")[0]
+        return self.select_single(
+            "TextEditOnClick",
+            objectName="albumSubtitleField",
+            editable=True
+        )
 
     def click_subtitle_field(self):
         self.pointing_device.click_object(self.album_subtitle_entry_field())
 
     def album_cover_image(self):
-        return self.select_many("QQuickImage", objectName="albumCoverImage")[0]
+        album_cover = self.select_single("AlbumCover", visible=True)
+        return album_cover.select_single(
+            "QQuickImage",
+            objectName="albumCoverImage"
+        )
 
     def add_photos(self):
         self.pointing_device.click_object(self._plus_icon())
