@@ -23,4 +23,5 @@ class MediaSelector(GalleryUtils):
         selector = self.get_media_selector()
         medias = selector.select_many("OrganicItemInteraction",
                                       objectName="eventsViewPhoto")
-        return medias[1]
+        # needs fixing: can't rely no list ordering lp:1247711
+        return medias[0]

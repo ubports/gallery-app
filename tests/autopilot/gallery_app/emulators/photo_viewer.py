@@ -39,8 +39,13 @@ class PhotoViewer(GalleryUtils):
                                            objectName="editPopover")
 
     def get_photo_component(self):
-        return self.select_many_retry("ZoomablePhotoComponent",
-                                      ownerName="photoViewerDelegate")[0]
+        # Was using a list index (lp:1247711). Still needs fixing, I'm not
+        # convinced this is a suitable way to select the correct item.
+        return self.app.wait_select_single(
+            "ZoomablePhotoComponent",
+            ownerName="photoViewerDelegate",
+            objectName="openedPhoto0"
+        )
 
     def get_crop_menu_item(self):
         """Returns the crop item of the edit dialog."""

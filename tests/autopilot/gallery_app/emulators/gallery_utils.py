@@ -108,7 +108,14 @@ class GalleryUtils(object):
         return self.app.select_single("Standard",
                                       objectName="editAlbumListItem")
 
-    def get_cover_menu_item(self, idx):
-        """Returns the item of the cover menu with index idx"""
-        return self.app.select_many("Standard",
-                                    objectName="albumCoverMenuItem")[idx]
+    def get_cover_menu_item(self, text):
+        """Returns the item of the cover menu with the text *text*
+
+        :raises StateNotFoundError: if there is no item with the text *text*
+
+        """
+        return self.app.select_single(
+            "Standard",
+            objectName="albumCoverMenuItem",
+            text=text
+        )
