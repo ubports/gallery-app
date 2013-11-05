@@ -107,6 +107,7 @@ class TestAlbumEditor(GalleryTestCase):
         self.ensure_album_viewer_is_fully_closed()
 
         # now open to add a photo
+        self.main_view.close_toolbar()
         self.edit_first_album()
         editor = self.app.select_single(album_editor.AlbumEditorAnimated)
         self.main_view.close_toolbar()
