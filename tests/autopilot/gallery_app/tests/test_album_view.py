@@ -49,7 +49,9 @@ class TestAlbumView(GalleryTestCase):
         self.assertThat(loader.status, Eventually(Equals(0)))
 
     def test_album_view_open_photo(self):
+        self.main_view.close_toolbar()
         self.open_first_album()
+        self.main_view.close_toolbar()
         photo = self.album_view.get_first_photo()
         self.click_item(photo)
         photo_view = self.album_view.get_album_photo_view()
@@ -57,6 +59,7 @@ class TestAlbumView(GalleryTestCase):
         self.assertThat(photo_view.isPoppedUp, Eventually(Equals(True)))
 
     def test_add_photo(self):
+        self.main_view.close_toolbar()
         self.open_first_album()
         num_photos_start = self.album_view.number_of_photos()
         self.assertThat(num_photos_start, Equals(1))
@@ -89,9 +92,11 @@ class TestAlbumView(GalleryTestCase):
 
         editor = self.app.select_single(album_editor.AlbumEditorAnimated)
         editor.ensure_fully_open()
+        self.main_view.close_toolbar()
         editor.close()
 
         self.open_first_album()
+        self.main_view.close_toolbar()
         num_photos_start = self.album_view.number_of_photos()
         self.assertThat(num_photos_start, Equals(0))
 

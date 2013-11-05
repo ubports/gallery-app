@@ -34,6 +34,7 @@ class TestAlbumEditor(GalleryTestCase):
         self.ARGS = []
         super(TestAlbumEditor, self).setUp()
         self.switch_to_albums_tab()
+        self.main_view.close_toolbar()
         self.edit_first_album()
 
     def edit_first_album(self):
@@ -66,6 +67,7 @@ class TestAlbumEditor(GalleryTestCase):
         text = "Ubuntu"
         self.assertThat(subtitle_field.text, Eventually(Equals(text)))
 
+        self.main_view.close_toolbar()
         editor.click_title_field()
         self.keyboard.press_and_release("Ctrl+a")
         self.keyboard.press_and_release("P")
@@ -94,9 +96,10 @@ class TestAlbumEditor(GalleryTestCase):
         editor.add_photos()
         self.ensure_media_selector_is_fully_open()
 
-        self.main_view.get_toolbar().click_custom_button("cancelButton")
+        self.main_view.open_toolbar().click_custom_button("cancelButton")
         editor.ensure_fully_closed()
 
+        self.main_view.close_toolbar()
         self.open_first_album()
         num_photos_start = self.album_view.number_of_photos()
         self.assertThat(num_photos_start, Equals(1))
@@ -104,8 +107,10 @@ class TestAlbumEditor(GalleryTestCase):
         self.ensure_album_viewer_is_fully_closed()
 
         # now open to add a photo
+        self.main_view.close_toolbar()
         self.edit_first_album()
         editor = self.app.select_single(album_editor.AlbumEditorAnimated)
+        self.main_view.close_toolbar()
         editor.add_photos()
         self.ensure_media_selector_is_fully_open()
 
@@ -115,6 +120,7 @@ class TestAlbumEditor(GalleryTestCase):
         editor = self.app.select_single(album_editor.AlbumEditorAnimated)
         editor.ensure_fully_closed()
 
+        self.main_view.close_toolbar()
         self.open_first_album()
         num_photos = self.album_view.number_of_photos()
         self.assertThat(num_photos, Equals(num_photos_start + 1))
@@ -126,6 +132,7 @@ class TestAlbumEditor(GalleryTestCase):
         self.assertThat(
             cover_image.source.endswith("album-cover-default-large.png"),
             Equals(True))
+        self.main_view.close_toolbar()
 
         # click somewhere rather at the bottom of the cover
         x, y, w, h = cover_image.globalRect
