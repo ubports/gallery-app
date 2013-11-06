@@ -39,6 +39,7 @@ class TestPhotosView(GalleryTestCase):
         self.click_item(photo)
 
     def test_open_photo(self):
+        self.main_view.close_toolbar()
         self.click_first_photo()
         photo_viewer = self.photos_view.get_main_photo_viewer()
         self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
@@ -46,6 +47,7 @@ class TestPhotosView(GalleryTestCase):
     def test_select_button_cancel(self):
         """Clicking the cancel button after clicking the select button must
         hide the toolbar automatically."""
+        self.main_view.close_toolbar()
         photos_overview = self.app.select_single("PhotosOverview")
         self.assertFalse(photos_overview.inSelectionMode)
 
@@ -64,6 +66,7 @@ class TestPhotosView(GalleryTestCase):
 
     def test_delete_photo_dialog_appears(self):
         """Selecting a photo must make the delete button clickable."""
+        self.main_view.close_toolbar()
         number_of_photos = self.photos_view.number_of_photos()
         self.main_view.open_toolbar().click_button("selectButton")
         self.click_first_photo()
