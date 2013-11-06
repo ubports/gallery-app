@@ -1,3 +1,13 @@
+gallery-app (0.0.67+14.04.20131106-0ubuntu1) trusty; urgency=low
+
+  [ Łukasz 'sil2100' Zemczak ]
+  * Updating tests in preparation of autopilot 1.4 release.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 882
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 06 Nov 2013 13:29:43 +0000
+
 gallery-app (0.0.67+14.04.20131105-0ubuntu1) trusty; urgency=low
 
   [ Guenter Schwann ]
