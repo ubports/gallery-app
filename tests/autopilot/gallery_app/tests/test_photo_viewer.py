@@ -41,6 +41,11 @@ class TestPhotoViewerBase(GalleryTestCase):
         self.assertThat(lambda: self.photo_viewer.number_of_photos_in_events(),
                         Eventually(GreaterThan(0)))
         single_photo = self.photo_viewer.get_first_image_in_event_view()
+
+        # workaround lp:1247698
+        # toolbar needs to be gone to click on an image.
+        self.main_view.close_toolbar()
+
         self.click_item(single_photo)
 
         photo_viewer_loader = self.photo_viewer.get_main_photo_viewer_loader()
@@ -56,16 +61,14 @@ class TestPhotoViewer(TestPhotoViewerBase):
         super(TestPhotoViewer, self).setUp()
 
     def get_delete_dialog(self):
-        self.assertThat(lambda: self.photo_viewer.get_delete_dialog(),
-                        Eventually(Not(Is(None))))
         delete_dialog = self.photo_viewer.get_delete_dialog()
         self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
         self.assertThat(delete_dialog.opacity, Eventually(Equals(1)))
         return delete_dialog
 
     def ensure_closed_delete_dialog(self):
-        self.assertThat(lambda: self.photo_viewer.get_delete_dialog(),
-                        Eventually(Is(None)))
+        self.assertThat(self.photo_viewer.delete_dialog_shown,
+                        Eventually(Is(False)))
 
     def test_nav_bar_back_button(self):
         """Clicking the back button must close the photo."""

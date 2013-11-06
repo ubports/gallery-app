@@ -53,6 +53,8 @@ class TestAlbumView(GalleryTestCase):
         self.open_first_album()
         self.main_view.close_toolbar()
         photo = self.album_view.get_first_photo()
+        # workaround lp:1247698
+        self.main_view.close_toolbar()
         self.click_item(photo)
         photo_view = self.album_view.get_album_photo_view()
         self.assertThat(photo_view.visible, Eventually(Equals(True)))
@@ -101,6 +103,8 @@ class TestAlbumView(GalleryTestCase):
         self.assertThat(num_photos_start, Equals(0))
 
         plus = self.album_view.get_plus_icon_empty_album()
+        # workaround lp:1247698
+        self.main_view.close_toolbar()
         self.click_item(plus)
         self.ensure_media_selector_is_fully_open()
 

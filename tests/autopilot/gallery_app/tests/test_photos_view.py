@@ -64,7 +64,7 @@ class TestPhotosView(GalleryTestCase):
         self.tap_item(first_photo)
         self.assertTrue(photos_overview.inSelectionMode)
 
-    def test_delete_a_photo(self):
+    def test_delete_photo_dialog_appears(self):
         """Selecting a photo must make the delete button clickable."""
         self.main_view.close_toolbar()
         number_of_photos = self.photos_view.number_of_photos()
@@ -72,27 +72,32 @@ class TestPhotosView(GalleryTestCase):
         self.click_first_photo()
         self.main_view.open_toolbar().click_button("deleteButton")
 
+        self.assertThat(self.gallery_utils.delete_dialog_shown,
+                        Eventually(Is(True)))
+
         cancel_item = self.photos_view.get_delete_dialog_cancel_button()
         self.click_item(cancel_item)
-        self.assertThat(lambda: self.gallery_utils.get_delete_dialog(),
-                        Eventually(Is(None)))
+        self.assertThat(self.gallery_utils.delete_dialog_shown,
+                        Eventually(Is(False)))
 
-        self.assertThat(lambda: exists(self.sample_file),
-                        Eventually(Equals(True)))
+    def test_delete_a_photo(self):
+        """Must be able to select a photo and use the dialog to delete it."""
+        number_of_photos = self.photos_view.number_of_photos()
+        self.main_view.open_toolbar().click_button("selectButton")
+        self.click_first_photo()
+        self.main_view.open_toolbar().click_button("deleteButton")
 
-        new_number_of_photos = self.photos_view.number_of_photos()
-        self.assertThat(new_number_of_photos, Equals(number_of_photos))
+        self.assertThat(self.gallery_utils.delete_dialog_shown,
+                        Eventually(Is(True)))
 
         self.main_view.open_toolbar().click_button("deleteButton")
 
         delete_item = self.photos_view.get_delete_dialog_delete_button()
         self.click_item(delete_item)
-        self.assertThat(lambda: self.gallery_utils.get_delete_dialog(),
-                        Eventually(Is(None)))
+        self.assertThat(
+            self.gallery_utils.delete_dialog_shown,
+            Eventually(Is(False))
+        )
 
-        self.assertThat(lambda: exists(self.sample_file),
-                        Eventually(Equals(False)))
-
-        self.ui_update()
-        new_number_of_photos = self.photos_view.number_of_photos()
-        self.assertThat(new_number_of_photos, Equals(number_of_photos - 1))
+        self.assertThat(lambda: self.photos_view.number_of_photos(),
+                        Eventually(Equals(number_of_photos - 1)))

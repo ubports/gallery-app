@@ -16,11 +16,12 @@ class MediaSelector(GalleryUtils):
 
     def get_media_selector(self):
         """Returns the media selector"""
-        return self.select_single_retry("MediaSelector")
+        return self.app.wait_select_single("MediaSelector")
 
     def get_second_photo(self):
         """Returns the second photo item"""
         selector = self.get_media_selector()
         medias = selector.select_many("OrganicItemInteraction",
                                       objectName="eventsViewPhoto")
-        return medias[1]
+        # needs fixing: can't rely no list ordering lp:1247711
+        return medias[0]

@@ -15,27 +15,37 @@ class PhotoViewer(GalleryUtils):
 
     def get_delete_dialog(self):
         """Returns the photo viewer delete dialog."""
-        return self.select_single_retry("Dialog",
-                                        objectName="deletePhotoDialog")
+        return self.app.wait_select_single("Dialog",
+                                           objectName="deletePhotoDialog")
+
+    def delete_dialog_shown(self):
+        dialog = self.app.select_many("Dialog",
+                                      objectName="deletePhotoDialog")
+        return len(dialog) >= 1
 
     def get_popup_album_picker(self):
         """Returns the photo viewer album pickers."""
-        return self.select_single_retry("PopupAlbumPicker",
-                                        objectName="popupAlbumPicker")
+        return self.app.wait_select_single("PopupAlbumPicker",
+                                           objectName="popupAlbumPicker")
 
     def get_share_dialog(self):
         """Returns the photo viewer share dialog."""
-        return self.select_single_retry("SharePopover",
-                                        objectName="sharePopover")
+        return self.app.wait_select_single("SharePopover",
+                                           objectName="sharePopover")
 
     def get_photo_edit_dialog(self):
         """Returns the photo edit dialog."""
-        return self.select_single_retry("EditPopover",
-                                        objectName="editPopover")
+        return self.app.wait_select_single("EditPopover",
+                                           objectName="editPopover")
 
     def get_photo_component(self):
-        return self.select_many_retry("ZoomablePhotoComponent",
-                                      ownerName="photoViewerDelegate")[0]
+        # Was using a list index (lp:1247711). Still needs fixing, I'm not
+        # convinced this is a suitable way to select the correct item.
+        return self.app.wait_select_single(
+            "ZoomablePhotoComponent",
+            ownerName="photoViewerDelegate",
+            objectName="openedPhoto0"
+        )
 
     def get_crop_menu_item(self):
         """Returns the crop item of the edit dialog."""
@@ -75,30 +85,31 @@ class PhotoViewer(GalleryUtils):
 
     def get_opened_photo(self):
         """Returns the first opened photo."""
-        return self.select_single_retry("ZoomablePhotoComponent",
-                                        objectName="openedPhoto0")
+        return self.app.wait_select_single("ZoomablePhotoComponent",
+                                           objectName="openedPhoto0")
 
     def get_crop_interactor(self):
         """Returns the crop interactor."""
-        return self.select_single_retry("CropInteractor",
-                                        objectName="cropInteractor")
+        return self.app.wait_select_single("CropInteractor",
+                                           objectName="cropInteractor")
 
     def get_crop_overlay(self):
         """Returns the crop overlay."""
-        return self.select_single_retry("CropOverlay",
-                                        objectName="cropOverlay")
+        return self.app.wait_select_single("CropOverlay",
+                                           objectName="cropOverlay")
 
     def get_top_left_crop_corner(self):
         """Returns the top left corner of the crop overlay for dragging."""
-        return self.select_single_retry("CropCorner",
-                                        objectName="topLeftCropCorner")
+        return self.app.wait_select_single("CropCorner",
+                                           objectName="topLeftCropCorner")
 
     def get_crop_overlays_crop_icon(self):
         """Returns the crop icon of the crop overlay."""
-        return self.select_single_retry("Button", objectName="centerCropIcon",
-                                        visible=True)
+        return self.app.wait_select_single("Button",
+                                           objectName="centerCropIcon",
+                                           visible=True)
 
     def get_edit_preview(self):
         """Returns the edit preview."""
-        return self.select_single_retry("EditPreview",
-                                        objectName="editPreview")
+        return self.app.wait_select_single("EditPreview",
+                                           objectName="editPreview")

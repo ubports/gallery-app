@@ -48,7 +48,7 @@ Replaces: ubuntu-gallery-autopilot
 Conflicts: ubuntu-gallery-autopilot
 Depends: ${misc:Depends},
          gallery-app (>= ${source:Version}),
-         libautopilot-qt,
+         libautopilot-qt (>= 1.4),
          libqt5test5,
          ubuntu-ui-toolkit-autopilot,
 Description: Autopilot tests for the photo gallery for Ubuntu
