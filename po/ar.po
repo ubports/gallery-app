@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-20 12:56+0000\n"
-"PO-Revision-Date: 2013-06-22 16:17+0000\n"
+"PO-Revision-Date: 2013-11-15 13:32+0000\n"
 "Last-Translator: Ibrahim Saed <ibraheem5000@gmail.com>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-11-13 06:09+0000\n"
-"X-Generator: Launchpad (build 16820)\n"
+"X-Launchpad-Export-Date: 2013-11-16 06:26+0000\n"
+"X-Generator: Launchpad (build 16831)\n"
 
 #: desktop/gallery-app.desktop.in:3
 msgid "Gallery"
@@ -122,7 +122,7 @@ msgstr "احذف الألبوم + محتوياته"
 #: rc/qml/Components/MediaSelector.qml:56
 #: rc/qml/Components/MediaSelector.qml:82
 msgid "Add to Album"
-msgstr "أضف إلى ألبوم"
+msgstr "أضف إلى الألبوم"
 
 #: rc/qml/Components/PopupAlbumPicker.qml:147 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
