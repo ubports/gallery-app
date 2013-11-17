@@ -43,6 +43,7 @@ Dialog {
     Button {
         objectName: "deleteDialogNo"
         text: i18n.tr("No")
+        gradient: UbuntuColors.greyGradient
         onClicked: PopupUtils.close(dialogue);
     }
 }
