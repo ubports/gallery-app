@@ -48,6 +48,8 @@ MainView {
         id: tabs
         anchors.fill: parent
 
+        StateSaver.properties: "selectedTabIndex"
+
         Tab {
             title: i18n.tr("Events")
             page: OrganicView {

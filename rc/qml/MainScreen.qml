@@ -43,6 +43,7 @@ MainView {
         active: visible && !albumViewer.isOpen && !albumEditor.isOpen
 
         selectedTabIndex: 1
+        StateSaver.properties: "selectedTabIndex"
 
         onSelectedTabIndexChanged: {
             if (selectedTabIndex == 0)
