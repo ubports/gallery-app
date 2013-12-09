@@ -171,22 +171,10 @@ Item {
 
     Loader {
         id: mainScreenLoader
-        // find the loader with autopilot:
-        objectName: "mainLoader"
-
         anchors.fill: parent
-        source: allLoaded ? Qt.resolvedUrl("MainScreen.qml") : ""
-        visible: !pickScreenLoader.visible
-    }
-
-    /// FIXME use state saving instead of loading the UI twice
-    Loader {
-        id: pickScreenLoader
-        objectName: "pickLoader"
-
-        anchors.fill: parent
-        source: (allLoaded && APP.pickModeEnabled) ? Qt.resolvedUrl("PickerScreen.qml") : ""
-        visible: source != ""
+        source: allLoaded ? ((APP.pickModeEnabled) ? Qt.resolvedUrl("PickerScreen.qml") :
+                                                     Qt.resolvedUrl("MainScreen.qml")) : ""
+        visible: status === Loader.Ready
     }
 
     Component.onCompleted: {
