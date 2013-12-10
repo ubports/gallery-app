@@ -149,7 +149,7 @@ MainView {
                     target: photosOverviewLoader.item
                     onMediaSourcePressed: {
                         photoViewerLoader.load();
-                        lastOpenedPicture = mediaSource.path;
+                        overview.lastOpenedPicture = mediaSource.path;
 
                         var rect = GalleryUtility.translateRect(thumbnailRect,
                                                                 photosOverviewLoader,
@@ -171,6 +171,7 @@ MainView {
         id: albumViewer
         objectName: "albumViewerAnimated"
         anchors.fill: parent
+        onIsOpenChanged: if (!isOpen) albumsCheckerboardLoader.item.lastOpenedAlbum = -1
     }
 
     AlbumEditorAnimated {
