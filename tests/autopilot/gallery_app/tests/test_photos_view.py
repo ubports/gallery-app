@@ -101,3 +101,29 @@ class TestPhotosView(GalleryTestCase):
 
         self.assertThat(lambda: self.photos_view.number_of_photos(),
                         Eventually(Equals(number_of_photos - 1)))
+
+    def get_selected_tab(self):
+        """ This is a workaround for the fact that the Tabs object we get
+        doesn't seem to have any selectedTab property."""
+
+        tabs_list = self.main_view.select_single("Tabs")
+        tabs = self.main_view.select_many("Tab")
+        for tab in tabs:
+            if tab.index == tabs_list.selectedTabIndex:
+                return tab
+        return None
+
+    def test_save_state(self):
+        self.switch_to_photos_tab()
+
+        tab = self.get_selected_tab()
+        self.assertThat(tab.objectName, Equals("photosTab"))
+        index = tab.index
+
+        self.ensure_app_has_quit()
+        self.start_app()
+
+        tabs = self.main_view.select_single("Tabs")
+        self.assertThat(tabs.selectedTabIndex, Eventually(Equals(index)))
+        tab = self.get_selected_tab()
+        self.assertThat(tab.objectName, Equals("photosTab"))
