@@ -13,10 +13,11 @@ import shutil
 import getpass
 import signal
 
+from testtools.matchers import Equals, NotEquals, GreaterThan
 from autopilot.matchers import Eventually
 from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
-from testtools.matchers import Equals, GreaterThan
+from autopilot.introspection import get_proxy_object_for_existing_process
 
 from ubuntuuitoolkit import emulators as toolkit_emulators
 from gallery_app.emulators import main_screen
@@ -150,11 +151,6 @@ class GalleryTestCase(AutopilotTestCase):
         else:
             raise ValueError("Unknown environment type: %s", self.env_type)
 
-    def ensure_app_has_quit(self):
-        self.app.process.send_signal(signal.SIGINT)
-        self.app.process.wait()
-        self.assertIsNotNone(self.app.process.returncode)
-
     def launch_test_local(self):
         logger.debug("Launching local gallery-app binary.")
         self.ARGS.append(self.sample_destination_dir)
@@ -256,6 +252,30 @@ class GalleryTestCase(AutopilotTestCase):
         self.assertThat(view.visible, Eventually(Equals(True)))
         self.assertThat(animated_view.animationRunning,
                         Eventually(Equals(False)))
+
+    def ensure_app_has_quit(self):
+        """Terminate as gracefully as possible the application and ensure
+        that it has fully quit before returning"""
+
+        if model() == "Desktop":
+            # On desktop to cleanly quit an app we just do the
+            # equivalent of clicking on the close button in the window.
+            self.keyboard.press_and_release("Alt+F4")
+        else:
+            # On unity8 at the moment we have no clean way to close the app.
+            # So we ask the shell first to show the home, unfocusing our app, which will
+            # save its state. Then we simply send it a SIGINT to force it to quit.
+            from unity8 import process_helpers
+            pid = process_helpers._get_unity_pid()
+            unity8 = get_proxy_object_for_existing_process(pid)
+            shell = unity8.select_single("Shell")
+            shell.slots.showHome()
+            self.assertThat(shell.currentFocusedAppId, Eventually(NotEquals("gallery-app")))
+            self.app.process.send_signal(signal.SIGINT)
+
+        # Either way, we wait for the underlying process to be fully finished.
+        self.app.process.wait()
+        self.assertIsNotNone(self.app.process.returncode)
 
     def add_video_sample(self):
         video_file = "video20130618_0002.mp4"

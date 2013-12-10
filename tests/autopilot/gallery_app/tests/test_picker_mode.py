@@ -79,7 +79,6 @@ class TestPickerMode(GalleryTestCase):
         return None
 
     def test_save_picker_state(self):
-
         self.picker_view.switch_to_tab("photosTab")
         self.ensure_tabs_dont_move()
 
@@ -91,8 +90,6 @@ class TestPickerMode(GalleryTestCase):
         self.start_app()
 
         tabs = self.picker_view.select_single("Tabs")
-        print tabs.selectedTab # <<<< This will give an error, as selectedTab doesn't seem to exist
-
         self.assertThat(tabs.selectedTabIndex, Eventually(Equals(index)))
         tab = self.get_selected_tab()
         self.assertThat(tab.objectName, Equals("photosTab"))
