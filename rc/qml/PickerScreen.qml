@@ -52,6 +52,7 @@ MainView {
 
         Tab {
             title: i18n.tr("Events")
+            objectName: "eventsTab"
             page: OrganicView {
                 id: eventSelectView
                 objectName: "eventSelectView"
@@ -71,6 +72,7 @@ MainView {
 
         Tab {
             title: i18n.tr("Photos")
+            objectName: "photosTab"
             page: Page {
                 id: photosOverview
 

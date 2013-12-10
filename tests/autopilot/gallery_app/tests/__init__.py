@@ -10,6 +10,8 @@
 import logging
 import os.path
 import shutil
+import getpass
+import signal
 
 from autopilot.matchers import Eventually
 from autopilot.platform import model
@@ -21,6 +23,7 @@ from gallery_app.emulators import main_screen
 from gallery_app.emulators.gallery_utils import GalleryUtils
 
 from time import sleep
+from os import remove
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +53,8 @@ class GalleryTestCase(AutopilotTestCase):
     }
 
     ARGS = []
+    reset_config = True
+    env_type = None
 
     @property
     def gallery_utils(self):
@@ -74,17 +79,15 @@ class GalleryTestCase(AutopilotTestCase):
             else:
                 return EnvironmentTypes.click
 
-    def _get_sample_destination_dir(self, env_type):
-        if env_type == EnvironmentTypes.click:
+    def _get_sample_destination_dir(self):
+        if self.env_type == EnvironmentTypes.click:
             return os.path.expanduser("~/Pictures")
         else:
             return self._default_sample_destination_dir
 
-    def configure_sample_files(self, env_type):
-        self.sample_dir = self._sample_dirs[env_type]
-        self.sample_destination_dir = self._get_sample_destination_dir(
-            env_type
-        )
+    def configure_sample_files(self):
+        self.sample_dir = self._sample_dirs[self.env_type]
+        self.sample_destination_dir = self._get_sample_destination_dir()
         if (os.path.exists(self.sample_destination_dir)):
             shutil.rmtree(self.sample_destination_dir)
         self.assertFalse(os.path.exists(self.sample_destination_dir))
@@ -103,16 +106,25 @@ class GalleryTestCase(AutopilotTestCase):
         self.sample_file_source = \
             default_data_dir + self.sample_file_source
 
-    def setUp(self):
+    def do_reset_config(self):
+        if self.reset_config:
+            config = os.path.join("/home", getpass.getuser(), ".config", "gallery-app.conf")
+            if os.path.exists(config):
+                remove(config)
+
+    def prepare(self):
         self.pointing_device = toolkit_emulators.get_pointing_device()
         super(GalleryTestCase, self).setUp()
 
-        env_type = self._get_environment_launch_type()
-        self.configure_sample_files(env_type)
+        self.env_type = self._get_environment_launch_type()
+        self.configure_sample_files()
+        self.do_reset_config()
 
-        self.launch_gallery_app(env_type)
+    def start_app(self, cleanup = False):
+        self.launch_gallery_app()
 
-        self.addCleanup(shutil.rmtree, self.sample_destination_dir)
+        if cleanup:
+            self.addCleanup(shutil.rmtree, self.sample_destination_dir)
 
         """ This is needed to wait for the application to start.
         In the testfarm, the application may take some time to show up."""
@@ -124,15 +136,24 @@ class GalleryTestCase(AutopilotTestCase):
         for switching to the albums view. Therefore this hack of a second"""
         sleep(1)
 
-    def launch_gallery_app(self, env_type):
-        if env_type == EnvironmentTypes.installed:
+    def setUp(self):
+        self.prepare()
+        self.start_app(True)
+
+    def launch_gallery_app(self):
+        if self.env_type == EnvironmentTypes.installed:
             self.launch_test_installed()
-        elif env_type == EnvironmentTypes.local:
+        elif self.env_type == EnvironmentTypes.local:
             self.launch_test_local()
-        elif env_type == EnvironmentTypes.click:
+        elif self.env_type == EnvironmentTypes.click:
             self.launch_test_click()
         else:
-            raise ValueError("Unknown environment type: %s", env_type)
+            raise ValueError("Unknown environment type: %s", self.env_type)
+
+    def ensure_app_has_quit(self):
+        self.app.process.send_signal(signal.SIGINT)
+        self.app.process.wait()
+        self.assertIsNotNone(self.app.process.returncode)
 
     def launch_test_local(self):
         logger.debug("Launching local gallery-app binary.")

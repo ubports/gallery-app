@@ -66,3 +66,33 @@ class TestPickerMode(GalleryTestCase):
 
         first_grid_media = self.picker_view.first_media_in_grid_view()
         self.assertThat(first_grid_media.isSelected, Eventually(Equals(True)))
+
+    def get_selected_tab(self):
+        """ This is a workaround for the fact that the Tabs object we get
+        doesn't seem to have any selectedTab property."""
+
+        tabs_list = self.picker_view.select_single("Tabs")
+        tabs = self.picker_view.select_many("Tab")
+        for tab in tabs:
+            if tab.index == tabs_list.selectedTabIndex:
+                return tab
+        return None
+
+    def test_save_picker_state(self):
+
+        self.picker_view.switch_to_tab("photosTab")
+        self.ensure_tabs_dont_move()
+
+        tab = self.get_selected_tab()
+        self.assertThat(tab.objectName, Equals("photosTab"))
+        index = tab.index
+
+        self.ensure_app_has_quit()
+        self.start_app()
+
+        tabs = self.picker_view.select_single("Tabs")
+        print tabs.selectedTab # <<<< This will give an error, as selectedTab doesn't seem to exist
+
+        self.assertThat(tabs.selectedTabIndex, Eventually(Equals(index)))
+        tab = self.get_selected_tab()
+        self.assertThat(tab.objectName, Equals("photosTab"))
