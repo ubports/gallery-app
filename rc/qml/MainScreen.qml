@@ -35,6 +35,25 @@ MainView {
     applicationName: "gallery-app"
     automaticOrientation: application.automaticOrientation
 
+    property string lastOpenedPicture
+    StateSaver.properties: "lastOpenedPicture"
+
+    Component.onCompleted: {
+        if (lastOpenedPicture !== "") {
+            var target = lastOpenedPicture;
+            lastOpenedPicture = "";
+
+            for (var i = 0; i < MANAGER.mediaLibrary.count; i++) {
+                if (MANAGER.mediaLibrary.getAt(i).path == target) {
+                    photoViewerLoader.load();
+                    photoViewerLoader.item.animateOpen(MANAGER.mediaLibrary.getAt(i),
+                                                       Qt.rect(0,0,0,0));
+                    return;
+                }
+            }
+        }
+    }
+
     Tabs {
         id: tabs
         anchors.fill: parent
@@ -84,6 +103,7 @@ MainView {
 
                 onMediaSourcePressed: {
                     photoViewerLoader.load();
+                    overview.lastOpenedPicture = mediaSource.path;
 
                     var rect = GalleryUtility.translateRect(thumbnailRect, eventView, photoViewerLoader);
                     photoViewerLoader.item.animateOpen(mediaSource, rect);
@@ -129,6 +149,7 @@ MainView {
                     target: photosOverviewLoader.item
                     onMediaSourcePressed: {
                         photoViewerLoader.load();
+                        lastOpenedPicture = mediaSource.path;
 
                         var rect = GalleryUtility.translateRect(thumbnailRect,
                                                                 photosOverviewLoader,
@@ -179,7 +200,10 @@ MainView {
 
         Connections {
             target: photoViewerLoader.item
-            onCloseRequested: photoViewerLoader.item.fadeClosed();
+            onCloseRequested: {
+                photoViewerLoader.item.fadeClosed();
+                overview.lastOpenedPicture = "";
+            }
         }
     }
 
