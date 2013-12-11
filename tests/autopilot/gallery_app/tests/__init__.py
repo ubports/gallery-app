@@ -291,3 +291,16 @@ class GalleryTestCase(AutopilotTestCase):
         self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
         self.assertThat(delete_dialog.opacity, Eventually(Equals(1)))
         return delete_dialog
+
+    def get_selected_tab(self, view):
+        """ This is a workaround for the fact that the Tabs object we get
+        doesn't seem to have any selectedTab property when accessed
+        by autopilot, even though it's there in QML."""
+
+        tabs_list = view.select_single("Tabs")
+        tabs = view.select_many("Tab")
+        for tab in tabs:
+            if tab.index == tabs_list.selectedTabIndex:
+                return tab
+        return None
+
