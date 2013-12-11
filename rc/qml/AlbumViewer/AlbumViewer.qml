@@ -34,6 +34,10 @@ Page {
     /// The album that is shown by this viewer
     property Album album
 
+    /// This property exists only for the benefit of autopilot tests
+    /// which cannot access the album property directy as it's not primitive
+    property int albumId: (album) ? album.id : -1
+
     // Read-only
     /*!
     */

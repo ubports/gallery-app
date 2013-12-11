@@ -115,3 +115,27 @@ class TestAlbumView(GalleryTestCase):
         self.assertThat(
             lambda: self.album_view.number_of_photos(),
             Eventually(Equals(num_photos_start + 1)))
+
+    def test_save_state(self):
+        self.main_view.close_toolbar()
+        self.open_first_album()
+
+        id = self.album_view.get_album_view().albumId
+
+        self.ensure_app_has_quit()
+        self.start_app()
+
+        view = self.album_view.get_album_view()
+        self.assertThat(view.visible, Eventually(Equals(True)))
+        self.assertThat(view.albumId, Eventually(Equals(id)))
+
+    def test_no_save_state_on_back(self):
+        self.main_view.close_toolbar()
+        self.open_first_album()
+        self.main_view.open_toolbar().click_button("backButton")
+
+        self.ensure_app_has_quit()
+        self.start_app()
+
+        view = self.album_view.get_animated_album_view()
+        self.assertThat(view.isOpen, Equals(False))
