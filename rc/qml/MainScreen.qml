@@ -75,6 +75,7 @@ MainView {
         }
 
         Tab {
+            id: albumsTab
             objectName: "albumsTab"
             title: i18n.tr("Albums")
             page: Loader {
