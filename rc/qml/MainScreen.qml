@@ -40,11 +40,8 @@ MainView {
 
     Component.onCompleted: {
         if (lastOpenedPicture !== "") {
-            var target = lastOpenedPicture;
-            lastOpenedPicture = "";
-
             for (var i = 0; i < MANAGER.mediaLibrary.count; i++) {
-                if (MANAGER.mediaLibrary.getAt(i).path == target) {
+                if (MANAGER.mediaLibrary.getAt(i).path == lastOpenedPicture) {
                     photoViewerLoader.load();
                     photoViewerLoader.item.animateOpen(MANAGER.mediaLibrary.getAt(i),
                                                        Qt.rect(0,0,0,0));

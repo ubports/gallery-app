@@ -33,10 +33,8 @@ Checkerboard {
 
     Component.onCompleted: {
         if (lastOpenedAlbum != -1) {
-            var target = lastOpenedAlbum;
-            lastOpenedAlbum = -1;
             for (var i = 0; i < albumCollectionModel.count; i++) {
-                if (albumCollectionModel.getAt(i).id == target) {
+                if (albumCollectionModel.getAt(i).id == lastOpenedAlbum) {
                     albumViewer.album = albumCollectionModel.getAt(i);
 // TODO: find the delegate, scroll the list to it, then pass it on when opening the album
 // TODO: this is necessary for the opening animation but for the "back" animation.
