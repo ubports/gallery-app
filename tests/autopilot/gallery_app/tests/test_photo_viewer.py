@@ -52,13 +52,37 @@ class TestPhotoViewerBase(GalleryTestCase):
         self.assertThat(photo_viewer_loader.loaded, Eventually(Equals(True)))
 
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
-        self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
-
+        self.assertThat(photo_viewer.visible, Eventually(Equals(True)))    
 
 class TestPhotoViewer(TestPhotoViewerBase):
 
     def setUp(self):
         super(TestPhotoViewer, self).setUp()
+
+    def test_save_state(self):
+        """Quitting the app once a photo has been opened will return
+        to that same photo on restart"""
+        path = self.photo_viewer.get_photo_component().select_single("QQuickImage").source
+
+        self.ensure_app_has_quit()
+        self.start_app()
+
+        photo_viewer = self.photo_viewer.get_main_photo_viewer()
+        self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
+        new_path = self.photo_viewer.get_photo_component().select_single("QQuickImage").source
+
+        self.assertThat(path, Equals(new_path))
+
+    def test_no_save_state_on_back(self):
+        """Quitting the app once a photo has been opened and then closed
+        will not reopen a photo on restart"""
+        self.main_view.open_toolbar().click_button("backButton")
+
+        self.ensure_app_has_quit()
+        self.start_app()
+
+        photo_viewer_loader = self.photo_viewer.get_main_photo_viewer_loader()
+        self.assertThat(photo_viewer_loader.source, Equals(""))
 
     def get_delete_dialog(self):
         delete_dialog = self.photo_viewer.get_delete_dialog()
