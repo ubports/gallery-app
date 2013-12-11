@@ -45,6 +45,26 @@ Page {
                                     albumSpreadViewerForTransition.freeze ||
                                     photoViewerLoader.animationRunning
 
+    property string lastOpenedPicture
+    StateSaver.properties: "lastOpenedPicture"
+
+    function reopenPicture() {
+        if (album && albumViewer.lastOpenedPicture !== "") {
+            for (var i in album.allMediaSources) {
+                var source = album.allMediaSources[i];
+
+                if (source.path == albumViewer.lastOpenedPicture) {
+                    photoViewerLoader.fadeOpen(source);
+                    return;
+                }
+            }
+        }
+    }
+
+    onVisibleChanged: {
+        if (visible) reopenPicture();
+    }
+
     // Automatically hide the header when album viewer becomes active
     onActiveChanged: {
         if (active && albumViewer.header) {
@@ -217,6 +237,7 @@ Page {
                 if (!hit.mediaSource)
                     return;
 
+                albumViewer.lastOpenedPicture = hit.mediaSource.path;
                 photoViewerLoader.fadeOpen(hit.mediaSource);
             }
 
@@ -328,6 +349,7 @@ Page {
                 albumSpreadViewer.visible = false;
             }
             onCloseRequested: {
+                albumViewer.lastOpenedPicture = "";
                 var page = albumViewer.album.getPageForMediaSource(photoViewerLoader.item.photo);
                 if (page >= 0) {
                     albumViewer.album.currentPage = albumSpreadViewer.getLeftHandPageNumber(page);

@@ -61,6 +61,7 @@ Item {
     Component {
         id: component_ViewerItem
         Item {
+            id: viewerItem
             property alias albumViewer: inner_albumViewer
             property alias albumViewerTransition: inner_albumViewerTransition
 
