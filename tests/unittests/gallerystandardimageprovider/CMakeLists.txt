@@ -13,7 +13,7 @@ include_directories(
     ${gallery_util_src_SOURCE_DIR}
     )
 
-QT_WRAP_CPP(gallerystandardimageprovider GALLERYSTANDARDIMAGEPROVIDIER_MOCS
+QT5_WRAP_CPP(GALLERYSTANDARDIMAGEPROVIDIER_MOCS
     ${gallery_medialoader_src_SOURCE_DIR}/preview-manager.h
     ${gallery_medialoader_src_SOURCE_DIR}/photo-metadata.h
     )

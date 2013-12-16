@@ -27,6 +27,7 @@ if(cmake_build_type_lower MATCHES coverage)
     ENABLE_COVERAGE_REPORT(TARGETS ${SHELL_APP})
 endif()
 
+find_package(Qt5Core)
 find_package(Qt5Gui)
 find_package(Qt5Qml)
 find_package(Qt5Quick)

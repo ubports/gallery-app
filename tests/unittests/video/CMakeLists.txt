@@ -24,7 +24,7 @@ include_directories(
     ${gallery_video_src_SOURCE_DIR}
     )
 
-QT_WRAP_CPP(mediaobjectfactory TST_VIDEO_MOCS
+QT5_WRAP_CPP(TST_VIDEO_MOCS
     ${gallery_src_SOURCE_DIR}/content-communicator.h
     )
 

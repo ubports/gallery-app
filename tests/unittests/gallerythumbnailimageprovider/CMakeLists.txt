@@ -12,7 +12,7 @@ include_directories(
     ${CMAKE_BINARY_DIR}
     )
 
-QT_WRAP_CPP(gallerythumbnailimageprovider GALLERYTHUMBNAILIMAGEPROVIDIER_MOCS
+QT5_WRAP_CPP(GALLERYTHUMBNAILIMAGEPROVIDIER_MOCS
     ${gallery_medialoader_src_SOURCE_DIR}/preview-manager.h
     )
 
