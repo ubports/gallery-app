@@ -79,7 +79,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
     def test_photo_delete_works(self):
         """Clicking the trash button must show the delete dialog."""
         self.main_view.open_toolbar().click_button("deleteButton")
-        delete_dialog = self.get_delete_dialog()
+        self.get_delete_dialog()
 
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
 
@@ -91,6 +91,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
                         Eventually(Equals(True)))
 
         self.main_view.open_toolbar().click_button("deleteButton")
+        self.get_delete_dialog()
 
         delete_item = self.photo_viewer.get_delete_popover_delete_item()
         self.click_item(delete_item)
@@ -100,6 +101,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
                         Eventually(Equals(False)))
 
         self.main_view.open_toolbar().click_button("deleteButton")
+        self.get_delete_dialog()
 
         delete_item = self.photo_viewer.get_delete_popover_delete_item()
         self.click_item(delete_item)
