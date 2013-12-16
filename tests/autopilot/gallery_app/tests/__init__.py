@@ -109,7 +109,7 @@ class GalleryTestCase(AutopilotTestCase):
 
     def do_reset_config(self):
         if self.reset_config:
-            config = os.path.join("/home", getpass.getuser(), ".config", "gallery-app.conf")
+            config = os.path.expanduser(os.path.join("~", ".config", "gallery-app.conf"))
             if os.path.exists(config):
                 remove(config)
 
