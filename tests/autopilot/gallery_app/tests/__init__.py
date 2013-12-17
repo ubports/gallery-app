@@ -261,6 +261,7 @@ class GalleryTestCase(AutopilotTestCase):
             # On unity8 at the moment we have no clean way to close the app.
             # So we ask the shell first to show the home, unfocusing our app, which will
             # save its state. Then we simply send it a SIGINT to force it to quit.
+            # See bug https://bugs.launchpad.net/unity8/+bug/1261720 for more details.
             from unity8 import process_helpers
             pid = process_helpers._get_unity_pid()
             unity8 = get_proxy_object_for_existing_process(pid)
