@@ -10,7 +10,6 @@
 import logging
 import os.path
 import shutil
-import getpass
 import signal
 
 from testtools.matchers import Equals, NotEquals, GreaterThan
@@ -54,8 +53,6 @@ class GalleryTestCase(AutopilotTestCase):
     }
 
     ARGS = []
-    reset_config = True
-    env_type = None
 
     @property
     def gallery_utils(self):
@@ -108,10 +105,9 @@ class GalleryTestCase(AutopilotTestCase):
             default_data_dir + self.sample_file_source
 
     def do_reset_config(self):
-        if self.reset_config:
-            config = os.path.expanduser(os.path.join("~", ".config", "gallery-app.conf"))
-            if os.path.exists(config):
-                remove(config)
+        config = os.path.expanduser(os.path.join("~", ".config", "gallery-app.conf"))
+        if os.path.exists(config):
+            remove(config)
 
     def prepare(self):
         self.pointing_device = toolkit_emulators.get_pointing_device()
@@ -271,7 +267,7 @@ class GalleryTestCase(AutopilotTestCase):
             shell = unity8.select_single("Shell")
             shell.slots.showHome()
             self.assertThat(shell.currentFocusedAppId, Eventually(NotEquals("gallery-app")))
-            self.app.process.send_signal(signal.SIGINT)
+            self.app.process.send_signal(signal.SIGTERM)
 
         # Either way, we wait for the underlying process to be fully finished.
         self.app.process.wait()
