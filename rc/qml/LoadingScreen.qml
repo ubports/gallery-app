@@ -18,6 +18,7 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 
 /*!
 */
@@ -26,14 +27,24 @@ Item {
 
     Image {
         anchors.fill: parent
-
         source: "../img/background-paper.png"
         fillMode: Image.Tile
     }
 
-    Text {
+    Item {
         anchors.centerIn: parent
-        text: i18n.tr("Loading…")
-        font.pointSize: pointUnits(20)
+
+        ActivityIndicator {
+            id: loading
+            anchors.verticalCenter: parent.verticalCenter
+            running: true
+        }
+
+        Label {
+            anchors.top: loading.bottom
+            text: i18n.tr("Loading…")
+            anchors.horizontalCenter: parent.horizontalCenter
+            fontSize: "large"
+        }
     }
 }
