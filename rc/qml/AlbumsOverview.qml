@@ -36,11 +36,6 @@ Checkerboard {
             for (var i = 0; i < albumCollectionModel.count; i++) {
                 if (albumCollectionModel.getAt(i).id == albumCurrentlyInView) {
                     albumViewer.album = albumCollectionModel.getAt(i);
-// TODO: find the delegate, scroll the list to it, then pass it on when opening the album
-// TODO: this is necessary for the opening animation but for the "back" animation.
-// TODO: In fact the opening animation shouldn't happen at all
-//                    albumViewer.origin = root.getRectOfAlbumPreview(object, albumViewer)
-//                    albumViewer.previewItem = activatingItem
                     albumViewer.open();
                     return;
                 }
