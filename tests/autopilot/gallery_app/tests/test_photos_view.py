@@ -105,7 +105,8 @@ class TestPhotosView(GalleryTestCase):
     def test_save_state(self):
         self.switch_to_photos_tab()
 
-        tab = self.get_selected_tab(self.main_view)
+        tabs = self.main_view.select_single("Tabs")
+        tab = tabs.get_current_tab()
         self.assertThat(tab.objectName, Equals("photosTab"))
         index = tab.index
 
@@ -113,6 +114,6 @@ class TestPhotosView(GalleryTestCase):
         self.start_app()
 
         tabs = self.main_view.select_single("Tabs")
+        tab = tabs.get_current_tab()
         self.assertThat(tabs.selectedTabIndex, Eventually(Equals(index)))
-        tab = self.get_selected_tab(self.main_view)
         self.assertThat(tab.objectName, Equals("photosTab"))

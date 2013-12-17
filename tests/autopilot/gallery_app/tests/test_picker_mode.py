@@ -71,7 +71,8 @@ class TestPickerMode(GalleryTestCase):
         self.picker_view.switch_to_tab("photosTab")
         self.ensure_tabs_dont_move()
 
-        tab = self.get_selected_tab(self.picker_view)
+        tabs = self.picker_view.select_single("Tabs")
+        tab = tabs.get_current_tab()
         self.assertThat(tab.objectName, Equals("photosTab"))
         index = tab.index
 
@@ -79,6 +80,6 @@ class TestPickerMode(GalleryTestCase):
         self.start_app()
 
         tabs = self.picker_view.select_single("Tabs")
+        tab = tabs.get_current_tab()
         self.assertThat(tabs.selectedTabIndex, Eventually(Equals(index)))
-        tab = self.get_selected_tab(self.picker_view)
         self.assertThat(tab.objectName, Equals("photosTab"))
