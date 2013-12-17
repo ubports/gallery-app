@@ -18,7 +18,7 @@ include_directories(
     ${gallery_video_src_SOURCE_DIR}
     )
 
-QT_WRAP_CPP(mediaobjectfactory MEDIAOBJECTFACTORY_MOCS
+QT5_WRAP_CPP(MEDIAOBJECTFACTORY_MOCS
     ${gallery_src_SOURCE_DIR}/gallery-manager.h
     ${gallery_database_src_SOURCE_DIR}/album-table.h
     ${gallery_database_src_SOURCE_DIR}/database.h
