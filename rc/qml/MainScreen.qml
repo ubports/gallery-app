@@ -35,13 +35,13 @@ MainView {
     applicationName: "gallery-app"
     automaticOrientation: application.automaticOrientation
 
-    property string lastOpenedPicture
-    StateSaver.properties: "lastOpenedPicture"
+    property string mediaCurrentlyInView
+    StateSaver.properties: "mediaCurrentlyInView"
 
     Component.onCompleted: {
-        if (lastOpenedPicture !== "") {
+        if (mediaCurrentlyInView !== "") {
             for (var i = 0; i < MANAGER.mediaLibrary.count; i++) {
-                if (MANAGER.mediaLibrary.getAt(i).path == lastOpenedPicture) {
+                if (MANAGER.mediaLibrary.getAt(i).path == mediaCurrentlyInView) {
                     photoViewerLoader.load();
                     photoViewerLoader.item.animateOpen(MANAGER.mediaLibrary.getAt(i),
                                                        Qt.rect(0,0,0,0));
@@ -101,7 +101,7 @@ MainView {
 
                 onMediaSourcePressed: {
                     photoViewerLoader.load();
-                    overview.lastOpenedPicture = mediaSource.path;
+                    overview.mediaCurrentlyInView = mediaSource.path;
 
                     var rect = GalleryUtility.translateRect(thumbnailRect, eventView, photoViewerLoader);
                     photoViewerLoader.item.animateOpen(mediaSource, rect);
@@ -147,7 +147,7 @@ MainView {
                     target: photosOverviewLoader.item
                     onMediaSourcePressed: {
                         photoViewerLoader.load();
-                        overview.lastOpenedPicture = mediaSource.path;
+                        overview.mediaCurrentlyInView = mediaSource.path;
 
                         var rect = GalleryUtility.translateRect(thumbnailRect,
                                                                 photosOverviewLoader,
@@ -169,7 +169,7 @@ MainView {
         id: albumViewer
         objectName: "albumViewerAnimated"
         anchors.fill: parent
-        onIsOpenChanged: if (!isOpen) albumsCheckerboardLoader.item.lastOpenedAlbum = -1
+        onIsOpenChanged: if (!isOpen) albumsCheckerboardLoader.item.albumCurrentlyInView = -1
     }
 
     AlbumEditorAnimated {
@@ -201,7 +201,7 @@ MainView {
             target: photoViewerLoader.item
             onCloseRequested: {
                 photoViewerLoader.item.fadeClosed();
-                overview.lastOpenedPicture = "";
+                overview.mediaCurrentlyInView = "";
             }
         }
     }

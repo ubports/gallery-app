@@ -28,13 +28,13 @@ import "Utility"
 Checkerboard {
     id: root
 
-    property int lastOpenedAlbum: -1
-    StateSaver.properties: "lastOpenedAlbum"
+    property int albumCurrentlyInView: -1
+    StateSaver.properties: "albumCurrentlyInView"
 
     Component.onCompleted: {
-        if (lastOpenedAlbum != -1) {
+        if (albumCurrentlyInView != -1) {
             for (var i = 0; i < albumCollectionModel.count; i++) {
-                if (albumCollectionModel.getAt(i).id == lastOpenedAlbum) {
+                if (albumCollectionModel.getAt(i).id == albumCurrentlyInView) {
                     albumViewer.album = albumCollectionModel.getAt(i);
 // TODO: find the delegate, scroll the list to it, then pass it on when opening the album
 // TODO: this is necessary for the opening animation but for the "back" animation.
@@ -139,7 +139,7 @@ Checkerboard {
     }
 
     onActivated: {
-        lastOpenedAlbum = object.id
+        albumCurrentlyInView = object.id
         albumViewer.album = object
         albumViewer.origin = root.getRectOfAlbumPreview(object, albumViewer)
         albumViewer.previewItem = activatingItem
