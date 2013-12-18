@@ -20,8 +20,7 @@
 import QtQuick 2.0
 import Ubuntu.Components 0.1
 
-/*!
-*/
+
 Item {
     id: loadingScreen
 
@@ -31,20 +30,24 @@ Item {
         fillMode: Image.Tile
     }
 
-    Item {
+    Column {
         anchors.centerIn: parent
+        width: parent.width
+        spacing: units.gu(2)
 
         ActivityIndicator {
             id: loading
-            anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
             running: true
         }
 
         Label {
-            anchors.top: loading.bottom
-            text: i18n.tr("Loading…")
             anchors.horizontalCenter: parent.horizontalCenter
-            fontSize: "large"
+            horizontalAlignment: Text.AlignHCenter
+            width: parent.width
+            text: i18n.tr("Loading…")
+            wrapMode: Text.WordWrap
+            textFormat: Text.RichText
         }
     }
 }
