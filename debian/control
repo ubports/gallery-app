@@ -4,6 +4,7 @@ Priority: optional
 Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>
 Build-Depends: debhelper (>= 9),
                cmake,
+               pkg-config,
                dh-translations,
                libcontent-hub-dev (>= 0.0+13.10.20130930.1),
                libgstreamer0.10-dev,
