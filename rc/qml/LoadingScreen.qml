@@ -36,7 +36,6 @@ Item {
         spacing: units.gu(2)
 
         ActivityIndicator {
-            id: loading
             anchors.horizontalCenter: parent.horizontalCenter
             running: true
         }
@@ -44,10 +43,7 @@ Item {
         Label {
             anchors.horizontalCenter: parent.horizontalCenter
             horizontalAlignment: Text.AlignHCenter
-            width: parent.width
             text: i18n.tr("Loading…")
-            wrapMode: Text.WordWrap
-            textFormat: Text.RichText
         }
     }
 }
