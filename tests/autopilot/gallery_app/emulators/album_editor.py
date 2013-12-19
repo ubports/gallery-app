@@ -35,19 +35,18 @@ class AlbumEditorAnimated(toolkit_emulators.UbuntuUIToolkitEmulatorBase):
 
     def album_title_entry_field(self):
         """Returns the album title input box."""
-        return self.select_many("TextEditOnClick",
-                                objectName="albumTitleField")[0]
+        editor = self.album_editor()
+        return editor.select_single("TextEditOnClick",
+                                    objectName="albumTitleField")
 
     def click_title_field(self):
         self.pointing_device.click_object(self.album_title_entry_field())
 
     def album_subtitle_entry_field(self):
         """Returns the album subtitle input box."""
-        return self.select_single(
-            "TextEditOnClick",
-            objectName="albumSubtitleField",
-            editable=True
-        )
+        editor = self.album_editor()
+        return editor.select_single("TextEditOnClick",
+                                    objectName="albumSubtitleField")
 
     def click_subtitle_field(self):
         self.pointing_device.click_object(self.album_subtitle_entry_field())

@@ -72,23 +72,19 @@ class TestAlbumEditor(GalleryTestCase):
         # workaround lp:1247698
         self.main_view.close_toolbar()
         editor.click_title_field()
+        self.assertThat(title_field.activeFocus, Eventually(Equals(True)))
         self.keyboard.press_and_release("Ctrl+a")
-        self.keyboard.press_and_release("P")
-        self.keyboard.press_and_release("h")
-        self.keyboard.press_and_release("o")
-        self.keyboard.press_and_release("t")
-        self.keyboard.press_and_release("o")
-        self.keyboard.press_and_release("s")
         text = "Photos"
+        self.keyboard.type(text)
         #due to some reason the album title is not updated unless it loses the
         #focus. So we click on the subtitle field.
         editor.click_subtitle_field()
+        self.assertThat(subtitle_field.activeFocus, Eventually(Equals(True)))
         self.assertThat(title_field.text, Eventually(Equals(text)))
 
         self.keyboard.press_and_release("Ctrl+a")
-        self.keyboard.press_and_release("U")
-        self.keyboard.press_and_release("1")
         text = "U1"
+        self.keyboard.type(text)
         editor.click_title_field()
         self.assertThat(subtitle_field.text, Eventually(Equals(text)))
 

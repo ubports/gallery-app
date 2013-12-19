@@ -25,7 +25,7 @@ import QtQuick 2.0
 //
 // Note that this will switch between a Text and TextEdit for performance
 // reasons, as TextEdit's performance is quite sluggish.
-Item {
+FocusScope {
     id: textEditOnClick
 
     // Fired when the user hits enter to complete the text.
@@ -65,8 +65,7 @@ Item {
     property int maximumLineCount: 2
 
     // Indicates when we're in editing mode.
-    // This field is read-only.
-    property bool isEditing: state == "editable"
+    readonly property bool isEditing: state == "editable"
 
     height: childrenRect.height
 
@@ -104,16 +103,8 @@ Item {
     ]
 
     Loader {
-        id: loader
-        sourceComponent: staticTextContainer
-    }
-
-    onStateChanged: {
-        if (state == "readOnly") {
-            loader.sourceComponent = staticTextContainer;
-        } else if (state == "editable") {
-            loader.sourceComponent = editableTextContainer;
-        }
+        focus: true
+        sourceComponent: isEditing ? editableTextContainer : staticTextContainer
     }
 
     Component {
