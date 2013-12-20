@@ -97,7 +97,7 @@ class TestAlbumEditor(GalleryTestCase):
         editor.add_photos()
         self.ensure_media_selector_is_fully_open()
 
-        self.main_view.open_toolbar().click_custom_button("cancelButton")
+        self.main_view.get_toolbar().click_custom_button("cancelButton")
         editor.ensure_fully_closed()
 
         self.main_view.close_toolbar()
