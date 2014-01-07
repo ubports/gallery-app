@@ -18,22 +18,32 @@
  */
 
 import QtQuick 2.0
+import Ubuntu.Components 0.1
 
-/*!
-*/
+
 Item {
     id: loadingScreen
 
     Image {
         anchors.fill: parent
-
         source: "../img/background-paper.png"
         fillMode: Image.Tile
     }
 
-    Text {
+    Column {
         anchors.centerIn: parent
-        text: i18n.tr("Loading…")
-        font.pointSize: pointUnits(20)
+        width: parent.width
+        spacing: units.gu(2)
+
+        ActivityIndicator {
+            anchors.horizontalCenter: parent.horizontalCenter
+            running: true
+        }
+
+        Label {
+            anchors.horizontalCenter: parent.horizontalCenter
+            horizontalAlignment: Text.AlignHCenter
+            text: i18n.tr("Loading…")
+        }
     }
 }
