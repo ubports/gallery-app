@@ -1,3 +1,28 @@
+gallery-app (0.0.67+14.04.20140108.2-0ubuntu1) trusty; urgency=low
+
+  [ Adnane Belmadiaf ]
+  * Fixed the loading screen. (LP: #1262004)
+
+  [ Ugo Riboni ]
+  * Explicitly depend on pkg-config instead of having it pulled in by
+    some other package.
+
+  [ daker ]
+  * Fixed the loading screen. (LP: #1262004)
+
+  [ Olivier Tilloy ]
+  * Explicitly depend on pkg-config instead of having it pulled in by
+    some other package.
+  * Ensure the fields have active focus before interacting with them.
+  * Revert a few changes that are now rendered useless by the updated
+    emulator that ensures the toolbar is open before actually clicking a
+    button.
+
+  [ Ubuntu daily release ]
+  * Automatic snapshot from revision 902
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 08 Jan 2014 17:08:20 +0000
+
 gallery-app (0.0.67+14.04.20131217-0ubuntu1) trusty; urgency=low
 
   [ Omer Akram ]
