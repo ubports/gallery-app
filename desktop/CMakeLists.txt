@@ -1,11 +1,13 @@
 if(CLICK_MODE)
     install(FILES gallery-app.svg DESTINATION
         ${CMAKE_INSTALL_DATADIR}/icons)
-    set(ICON "${CMAKE_INSTALL_DATADIR}/icons/gallery-app.svg")
+	set(ICON "${CMAKE_INSTALL_DATADIR}/icons/${GALLERY}.svg")
+	set(APP_EXEC "./${GALLERY}")
 else(CLICK_MODE)
     install(DIRECTORY icons/hicolor DESTINATION DESTINATION
             ${CMAKE_INSTALL_DATADIR}/icons FILES_MATCHING PATTERN *.png)
-    set(ICON "gallery-app")
+	set(APP_EXEC "${GALLERY}")
+	set(ICON "${GALLERY}")
 endif(CLICK_MODE)
 
 file(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE})

@@ -64,14 +64,13 @@ if(CLICK_MODE)
     set(CMAKE_INSTALL_BINDIR /)
     set(GALLERY_DIR "")
     set(CLICK_TAG click)
+	set (GETTEXT_PACKAGE "${APP_PACKAGE_NAME}")
 else(CLICK_MODE)
     set(GALLERY_DIR ${CMAKE_INSTALL_DATADIR}/${GALLERY})
+	# for dh_translations to extract the domain
+	# (regarding syntax consistency, see http://pad.lv/1181187)
+	set (GETTEXT_PACKAGE "${GALLERY}")
 endif(CLICK_MODE)
-
-
-# for dh_translations to extract the domain
-# (regarding syntax consistency, see http://pad.lv/1181187)
-set (GETTEXT_PACKAGE "${GALLERY}")
 
 file(GLOB_RECURSE I18N_SRC_FILES
      RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
