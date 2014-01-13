@@ -37,6 +37,7 @@ class GalleryApplication : public QApplication
 {
     Q_OBJECT
     Q_PROPERTY(bool pickModeEnabled READ pickModeEnabled NOTIFY pickModeEnabledChanged)
+    Q_PROPERTY(bool desktopMode READ isDesktopMode)
 
 public:
     enum UiMode{
@@ -53,6 +54,7 @@ public:
     UiMode defaultUiMode() const;
     void setUiMode(UiMode mode);
     bool pickModeEnabled() const;
+    bool isDesktopMode() const;
 
     Q_INVOKABLE void returnPickedContent(QVariant variant);
     Q_INVOKABLE void contentPickingCanceled();
