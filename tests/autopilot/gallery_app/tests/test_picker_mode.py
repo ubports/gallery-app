@@ -67,6 +67,7 @@ class TestPickerMode(GalleryTestCase):
         first_grid_media = self.picker_view.first_media_in_grid_view()
         self.assertThat(first_grid_media.isSelected, Eventually(Equals(True)))
 
+    @unittest.skip("Temporarily disable as it fails in some cases, supposedly due to problems with the infrastructure")
     def test_save_picker_state(self):
         self.picker_view.switch_to_tab("photosTab")
         self.ensure_tabs_dont_move()
