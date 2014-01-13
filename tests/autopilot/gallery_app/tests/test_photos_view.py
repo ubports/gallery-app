@@ -17,7 +17,7 @@ from gallery_app.tests import GalleryTestCase
 from gallery_app.emulators.photos_view import PhotosView
 
 from os.path import exists
-
+import unittest
 
 class TestPhotosView(GalleryTestCase):
 

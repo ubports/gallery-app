@@ -18,7 +18,7 @@ from gallery_app.emulators.albums_view import AlbumsView
 from gallery_app.emulators.media_selector import MediaSelector
 from gallery_app.emulators import album_editor
 from gallery_app.tests import GalleryTestCase
-
+import unittest
 
 class TestAlbumView(GalleryTestCase):
     """Tests the album view of the gallery app"""

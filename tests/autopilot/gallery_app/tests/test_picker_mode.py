@@ -15,7 +15,7 @@ from autopilot.matchers import Eventually
 
 from gallery_app.emulators.picker_screen import PickerScreen
 from gallery_app.tests import GalleryTestCase
-
+import unittest
 
 class TestPickerMode(GalleryTestCase):
 
