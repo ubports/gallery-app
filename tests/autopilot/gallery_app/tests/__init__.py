@@ -76,7 +76,12 @@ class GalleryTestCase(AutopilotTestCase):
 
     def _get_sample_destination_dir(self, env_type):
         if env_type == EnvironmentTypes.click:
-            return os.path.expanduser("~/Pictures")
+            pic_dir = os.path.expanduser("~/Pictures")
+            shutil.move(pic_dir, pic_dir + '.bak')
+            self.addCleanup(
+                logger.debug, "Restoring backed up pics to %s" % pic_dir)
+            self.addCleanup(shutil.move, pic_dir + '.bak', pic_dir)
+            return pic_dir
         else:
             return self._default_sample_destination_dir
 
@@ -113,6 +118,8 @@ class GalleryTestCase(AutopilotTestCase):
         self.launch_gallery_app(env_type)
 
         self.addCleanup(shutil.rmtree, self.sample_destination_dir)
+        self.addCleanup(logger.debug,
+                        "Deleting %s" % self.sample_destination_dir)
 
         """ This is needed to wait for the application to start.
         In the testfarm, the application may take some time to show up."""
@@ -173,6 +180,7 @@ class GalleryTestCase(AutopilotTestCase):
         logger.debug("Launching gallery-app via click package.")
         self.app = self.launch_click_package(
             package_id="com.ubuntu.gallery",
+            app_uris=' '.join(self.ARGS),
             emulator_base=toolkit_emulators.UbuntuUIToolkitEmulatorBase)
 
     def ui_update(self):
