@@ -35,6 +35,22 @@ MainView {
     applicationName: "gallery-app"
     automaticOrientation: application.automaticOrientation
 
+    property string mediaCurrentlyInView
+    StateSaver.properties: "mediaCurrentlyInView"
+
+    Component.onCompleted: {
+        if (mediaCurrentlyInView !== "") {
+            for (var i = 0; i < MANAGER.mediaLibrary.count; i++) {
+                if (MANAGER.mediaLibrary.getAt(i).path == mediaCurrentlyInView) {
+                    photoViewerLoader.load();
+                    photoViewerLoader.item.animateOpen(MANAGER.mediaLibrary.getAt(i),
+                                                       Qt.rect(0,0,0,0));
+                    return;
+                }
+            }
+        }
+    }
+
     Tabs {
         id: tabs
         anchors.fill: parent
@@ -43,6 +59,7 @@ MainView {
         active: visible && !albumViewer.isOpen && !albumEditor.isOpen
 
         selectedTabIndex: 1
+        StateSaver.properties: "selectedTabIndex"
 
         onSelectedTabIndexChanged: {
             if (selectedTabIndex == 0)
@@ -55,6 +72,7 @@ MainView {
         }
 
         Tab {
+            id: albumsTab
             objectName: "albumsTab"
             title: i18n.tr("Albums")
             page: Loader {
@@ -83,6 +101,7 @@ MainView {
 
                 onMediaSourcePressed: {
                     photoViewerLoader.load();
+                    overview.mediaCurrentlyInView = mediaSource.path;
 
                     var rect = GalleryUtility.translateRect(thumbnailRect, eventView, photoViewerLoader);
                     photoViewerLoader.item.animateOpen(mediaSource, rect);
@@ -128,6 +147,7 @@ MainView {
                     target: photosOverviewLoader.item
                     onMediaSourcePressed: {
                         photoViewerLoader.load();
+                        overview.mediaCurrentlyInView = mediaSource.path;
 
                         var rect = GalleryUtility.translateRect(thumbnailRect,
                                                                 photosOverviewLoader,
@@ -149,6 +169,7 @@ MainView {
         id: albumViewer
         objectName: "albumViewerAnimated"
         anchors.fill: parent
+        onIsOpenChanged: if (!isOpen) albumsCheckerboardLoader.item.albumCurrentlyInView = -1
     }
 
     AlbumEditorAnimated {
@@ -178,7 +199,10 @@ MainView {
 
         Connections {
             target: photoViewerLoader.item
-            onCloseRequested: photoViewerLoader.item.fadeClosed();
+            onCloseRequested: {
+                photoViewerLoader.item.fadeClosed();
+                overview.mediaCurrentlyInView = "";
+            }
         }
     }
 

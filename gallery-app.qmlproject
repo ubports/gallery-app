@@ -17,4 +17,8 @@ Project {
             "rc/qml/Widgets/img", "rc/qml/Utility/img",
             "../rc/qml/Components/img", "../rc/qml/Components/AlbumInternalsimg"]
     }
+    Files {
+        directory: "tests"
+        filter: "*.h;*.cpp;*.py"
+    }
 }
