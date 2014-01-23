@@ -138,6 +138,15 @@ void GalleryApplication::registerQML()
 }
 
 /*!
+ * \brief GalleryApplication::isDesktopMode
+ * Returns true if the DESKTOP_MODE env var is set
+ */
+bool GalleryApplication::isDesktopMode() const
+{
+  return (qEnvironmentVariableIsSet("DESKTOP_MODE") && (qgetenv("DESKTOP_MODE") == "1"));
+}
+
+/*!
  * \brief GalleryApplication::createView
  * Create the master QDeclarativeView that all the pages will operate within
  */
@@ -151,7 +160,7 @@ void GalleryApplication::createView()
         size.transpose();
 
     m_view->setResizeMode(QQuickView::SizeRootObjectToView);
-    if (m_cmdLineParser->formFactor() == "desktop") {
+    if (m_cmdLineParser->formFactor() == "desktop" || isDesktopMode()) {
         m_view->setMinimumSize(QSize(60 * m_bguSize, 60 * m_bguSize));
     }
 
@@ -174,7 +183,8 @@ void GalleryApplication::createView()
     QObject* rootObject = dynamic_cast<QObject*>(m_view->rootObject());
     QObject::connect(this, SIGNAL(mediaLoaded()), rootObject, SLOT(onLoaded()));
 
-    if (m_cmdLineParser->isFullscreen())
+    //run fullscreen if specified at command line or not in DESKTOP_MODE (i.e. on a device)
+    if (m_cmdLineParser->isFullscreen() || !isDesktopMode())
         m_view->showFullScreen();
     else
         m_view->show();
