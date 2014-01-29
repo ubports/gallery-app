@@ -6,6 +6,7 @@
     "hooks": {
         "gallery": {
             "apparmor": "gallery-apparmor.json", 
+            "content-hub": "gallery-content.json",
             "desktop": "@CMAKE_INSTALL_DATADIR@/applications/@DESKTOP_FILE@"
         }
     }, 
