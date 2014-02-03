@@ -146,19 +146,45 @@ Item {
         allLoaded = true;
     }
 
+    function swapDimensions() {
+        var temp = width;
+        width = height;
+        height = temp;
+    }
+
     width: units.gu(DEVICE_WIDTH)
     height: units.gu(DEVICE_HEIGHT)
 
     focus: true
     Keys.onPressed: {
-        if (Gallery.isDesktop())
+        // Key presses only makes sense on Desktop
+        if (!Gallery.isDesktop()) {
             return;
+        }
 
-        if ((event.key == Qt.Key_L && isPortrait) ||
-                (event.key == Qt.Key_P && !isPortrait)) {
-            var temp = width;
-            width = height;
-            height = temp;
+        switch(event.key) {
+        case Qt.Key_F11:
+            APP.fullScreen = !APP.fullScreen;
+            break;
+
+        case Qt.Key_Escape:
+            APP.fullScreen = false;
+            break;
+
+        case Qt.Key_L:
+            if (isPortrait) {
+                swapDimensions();
+            }
+            break;
+
+        case Qt.Key_P:
+            if (!isPortrait) {
+                swapDimensions();
+            }
+            break;
+
+        default:
+            break;
         }
     }
 
