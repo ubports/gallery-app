@@ -38,6 +38,8 @@ MainView {
     property string mediaCurrentlyInView
     StateSaver.properties: "mediaCurrentlyInView"
 
+    property bool fullScreen: APP.fullScreen
+
     Component.onCompleted: {
         if (mediaCurrentlyInView !== "") {
             for (var i = 0; i < MANAGER.mediaLibrary.count; i++) {
