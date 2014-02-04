@@ -162,6 +162,38 @@ class TestPhotoViewer(TestPhotoViewerBase):
             Eventually(Equals(False)))
         self.assertThat(opened_photo.fullyUnzoomed, Eventually(Equals(True)))
 
+    def test_swipe_change_image(self):
+        """Swiping left and right on a photo should move to another photo"""
+        list = self.photo_viewer.get_photos_list()
+        self.assertThat(list.currentIndex, Eventually(Equals(0)))
+
+        # Slide left should move to the next image
+        x, y, h, w = list.globalRect
+        self.pointing_device.move(x + w - 10, y + h / 2)
+        self.pointing_device.press()
+        self.pointing_device.move(x + 10, y + h / 2)
+        self.pointing_device.release()
+
+        self.assertThat(list.moving, Eventually(Equals(False)))
+        self.assertThat(list.currentIndex, Eventually(Equals(1)))
+
+        # Slide right should get us back to the start
+        self.pointing_device.move(x + 10, y + h / 2)
+        self.pointing_device.press()
+        self.pointing_device.move(x + w - 10, y + h / 2)
+        self.pointing_device.release()
+
+        self.assertThat(list.moving, Eventually(Equals(False)))
+        self.assertThat(list.currentIndex, Eventually(Equals(0)))
+
+        # Slide right again shouldn't go anywhere
+        self.pointing_device.move(x + 10, y + h / 2)
+        self.pointing_device.press()
+        self.pointing_device.move(x + w - 10, y + h / 2)
+        self.pointing_device.release()
+
+        self.assertThat(list.moving, Eventually(Equals(False)))
+        self.assertThat(list.currentIndex, Eventually(Equals(0)))
 
 class TestPhotoEditor(TestPhotoViewerBase):
 
