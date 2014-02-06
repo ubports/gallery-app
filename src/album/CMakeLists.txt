@@ -36,3 +36,6 @@ add_library(${GALLERY_ALBUM_LIB}
 
 qt5_use_modules(${GALLERY_ALBUM_LIB} Widgets Core Qml)
 
+target_link_libraries( ${GALLERY_ALBUM_LIB}
+    gallery-core
+    )
