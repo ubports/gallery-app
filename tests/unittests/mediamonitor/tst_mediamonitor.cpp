@@ -67,7 +67,6 @@ void tst_MediaMonitor::tst_scanning_sub_folders()
     // Launch the monitoring process
     m_monitor->startMonitoring(QStringList(m_tmpDir->path()));
 
-
     // Save sample image allover the tree
     m_sampleImage->save(m_tmpDir->path() + "/A/A/sample_AA.jpg", "JPG");
     m_sampleImage->save(m_tmpDir->path() + "/A/B/sample_AB.jpg", "JPG");
@@ -80,6 +79,8 @@ void tst_MediaMonitor::tst_scanning_sub_folders()
     m_sampleImage->save(m_tmpDir->path() + "/sample.jpg", "JPG");
 
     QTRY_COMPARE(filesFound.count(), 7);
+
+    qDebug() << "filesFound: " << filesFound;
 }
 
 void tst_MediaMonitor::cleanupTestCase()
