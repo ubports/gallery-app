@@ -28,6 +28,21 @@ import "Utility"
 Checkerboard {
     id: root
 
+    property int albumCurrentlyInView: -1
+    StateSaver.properties: "albumCurrentlyInView"
+
+    Component.onCompleted: {
+        if (albumCurrentlyInView != -1) {
+            for (var i = 0; i < albumCollectionModel.count; i++) {
+                if (albumCollectionModel.getAt(i).id == albumCurrentlyInView) {
+                    albumViewer.album = albumCollectionModel.getAt(i);
+                    albumViewer.open();
+                    return;
+                }
+            }
+        }
+    }
+
     /*!
     */
     function getRectOfAlbumPreview(album, relativeTo) {
@@ -119,6 +134,7 @@ Checkerboard {
     }
 
     onActivated: {
+        albumCurrentlyInView = object.id
         albumViewer.album = object
         albumViewer.origin = root.getRectOfAlbumPreview(object, albumViewer)
         albumViewer.previewItem = activatingItem

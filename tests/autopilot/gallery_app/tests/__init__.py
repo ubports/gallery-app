@@ -10,17 +10,20 @@
 import logging
 import os.path
 import shutil
+import signal
 
+from testtools.matchers import Equals, NotEquals, GreaterThan
 from autopilot.matchers import Eventually
 from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
-from testtools.matchers import Equals, GreaterThan
+from autopilot.introspection import get_proxy_object_for_existing_process
 
 from ubuntuuitoolkit import emulators as toolkit_emulators
 from gallery_app.emulators import main_screen
 from gallery_app.emulators.gallery_utils import GalleryUtils
 
 from time import sleep
+from os import remove
 
 logger = logging.getLogger(__name__)
 
@@ -74,17 +77,15 @@ class GalleryTestCase(AutopilotTestCase):
             else:
                 return EnvironmentTypes.click
 
-    def _get_sample_destination_dir(self, env_type):
-        if env_type == EnvironmentTypes.click:
+    def _get_sample_destination_dir(self):
+        if self.env_type == EnvironmentTypes.click:
             return os.path.expanduser("~/Pictures")
         else:
             return self._default_sample_destination_dir
 
-    def configure_sample_files(self, env_type):
-        self.sample_dir = self._sample_dirs[env_type]
-        self.sample_destination_dir = self._get_sample_destination_dir(
-            env_type
-        )
+    def configure_sample_files(self):
+        self.sample_dir = self._sample_dirs[self.env_type]
+        self.sample_destination_dir = self._get_sample_destination_dir()
         if (os.path.exists(self.sample_destination_dir)):
             shutil.rmtree(self.sample_destination_dir)
         self.assertFalse(os.path.exists(self.sample_destination_dir))
@@ -103,16 +104,24 @@ class GalleryTestCase(AutopilotTestCase):
         self.sample_file_source = \
             default_data_dir + self.sample_file_source
 
-    def setUp(self):
+    def do_reset_config(self):
+        config = os.path.expanduser(os.path.join("~", ".config", "gallery-app.conf"))
+        if os.path.exists(config):
+            remove(config)
+
+    def prepare(self):
         self.pointing_device = toolkit_emulators.get_pointing_device()
         super(GalleryTestCase, self).setUp()
 
-        env_type = self._get_environment_launch_type()
-        self.configure_sample_files(env_type)
+        self.env_type = self._get_environment_launch_type()
+        self.configure_sample_files()
+        self.do_reset_config()
 
-        self.launch_gallery_app(env_type)
+    def start_app(self, cleanup = False):
+        self.launch_gallery_app()
 
-        self.addCleanup(shutil.rmtree, self.sample_destination_dir)
+        if cleanup:
+            self.addCleanup(shutil.rmtree, self.sample_destination_dir)
 
         """ This is needed to wait for the application to start.
         In the testfarm, the application may take some time to show up."""
@@ -124,15 +133,19 @@ class GalleryTestCase(AutopilotTestCase):
         for switching to the albums view. Therefore this hack of a second"""
         sleep(1)
 
-    def launch_gallery_app(self, env_type):
-        if env_type == EnvironmentTypes.installed:
+    def setUp(self):
+        self.prepare()
+        self.start_app(True)
+
+    def launch_gallery_app(self):
+        if self.env_type == EnvironmentTypes.installed:
             self.launch_test_installed()
-        elif env_type == EnvironmentTypes.local:
+        elif self.env_type == EnvironmentTypes.local:
             self.launch_test_local()
-        elif env_type == EnvironmentTypes.click:
+        elif self.env_type == EnvironmentTypes.click:
             self.launch_test_click()
         else:
-            raise ValueError("Unknown environment type: %s", env_type)
+            raise ValueError("Unknown environment type: %s", self.env_type)
 
     def launch_test_local(self):
         logger.debug("Launching local gallery-app binary.")
@@ -236,6 +249,31 @@ class GalleryTestCase(AutopilotTestCase):
         self.assertThat(animated_view.animationRunning,
                         Eventually(Equals(False)))
 
+    def ensure_app_has_quit(self):
+        """Terminate as gracefully as possible the application and ensure
+        that it has fully quit before returning"""
+
+        if model() == "Desktop":
+            # On desktop to cleanly quit an app we just do the
+            # equivalent of clicking on the close button in the window.
+            self.keyboard.press_and_release("Alt+F4")
+        else:
+            # On unity8 at the moment we have no clean way to close the app.
+            # So we ask the shell first to show the home, unfocusing our app, which will
+            # save its state. Then we simply send it a SIGTERM to force it to quit.
+            # See bug https://bugs.launchpad.net/unity8/+bug/1261720 for more details.
+            from unity8 import process_helpers
+            pid = process_helpers._get_unity_pid()
+            unity8 = get_proxy_object_for_existing_process(pid)
+            shell = unity8.select_single("Shell")
+            shell.slots.showHome()
+            self.assertThat(shell.currentFocusedAppId, Eventually(NotEquals("gallery-app")))
+            self.app.process.send_signal(signal.SIGTERM)
+
+        # Either way, we wait for the underlying process to be fully finished.
+        self.app.process.wait()
+        self.assertIsNotNone(self.app.process.returncode)
+
     def add_video_sample(self):
         video_file = "video20130618_0002.mp4"
         shutil.copyfile(self.sample_dir+"/option01/"+video_file,
@@ -250,3 +288,4 @@ class GalleryTestCase(AutopilotTestCase):
         self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
         self.assertThat(delete_dialog.opacity, Eventually(Equals(1)))
         return delete_dialog
+

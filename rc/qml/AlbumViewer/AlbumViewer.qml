@@ -34,6 +34,10 @@ Page {
     /// The album that is shown by this viewer
     property Album album
 
+    /// This property exists only for the benefit of autopilot tests
+    /// which cannot access the album property directy as it's not primitive
+    property int albumId: (album) ? album.id : -1
+
     // Read-only
     /*!
     */
@@ -44,6 +48,26 @@ Page {
                                     removeCrossfadeAnimation.running ||
                                     albumSpreadViewerForTransition.freeze ||
                                     photoViewerLoader.animationRunning
+
+    property string mediaCurrentlyInView
+    StateSaver.properties: "mediaCurrentlyInView"
+
+    function reopenPicture() {
+        if (album && albumViewer.mediaCurrentlyInView !== "") {
+            for (var i in album.allMediaSources) {
+                var source = album.allMediaSources[i];
+
+                if (source.path == albumViewer.mediaCurrentlyInView) {
+                    photoViewerLoader.fadeOpen(source);
+                    return;
+                }
+            }
+        }
+    }
+
+    onVisibleChanged: {
+        if (visible) reopenPicture();
+    }
 
     // Automatically hide the header when album viewer becomes active
     onActiveChanged: {
@@ -217,6 +241,7 @@ Page {
                 if (!hit.mediaSource)
                     return;
 
+                albumViewer.mediaCurrentlyInView = hit.mediaSource.path;
                 photoViewerLoader.fadeOpen(hit.mediaSource);
             }
 
@@ -328,6 +353,7 @@ Page {
                 albumSpreadViewer.visible = false;
             }
             onCloseRequested: {
+                albumViewer.mediaCurrentlyInView = "";
                 var page = albumViewer.album.getPageForMediaSource(photoViewerLoader.item.photo);
                 if (page >= 0) {
                     albumViewer.album.currentPage = albumSpreadViewer.getLeftHandPageNumber(page);

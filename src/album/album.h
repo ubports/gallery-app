@@ -55,6 +55,7 @@ class AlbumTable;
 class Album : public ContainerSource
 {
     Q_OBJECT
+    Q_PROPERTY(qint64 id READ id NOTIFY idChanged)
     Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
     Q_PROPERTY(QString subtitle READ subtitle WRITE setSubtitle NOTIFY subtitleChanged)
     Q_PROPERTY(QDateTime creationDateTime READ creationDateTime
@@ -88,6 +89,7 @@ signals:
     void contentPagesChanged();
     void pageCountChanged();
     void coverNicknameChanged();
+    void idChanged();
 
 public:
     static const char *DEFAULT_TITLE;

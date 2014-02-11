@@ -1,3 +1,16 @@
+gallery-app (0.0.67+14.04.20140131-0ubuntu1) trusty; urgency=low
+
+  [ Bill Filler ]
+  * don't run in fullscreen if DESKTOP_MODE=1.
+
+  [ CI bot ]
+  * release trunk into CI Train
+
+  [ Ugo Riboni ]
+  * Save the state of the view when restarting the app.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 31 Jan 2014 11:37:20 +0000
+
 gallery-app (0.0.67+14.04.20140108.2-0ubuntu1) trusty; urgency=low
 
   [ Adnane Belmadiaf ]
