@@ -25,7 +25,6 @@
 
 // qml
 #include "gallery-standard-image-provider.h"
-#include "gallery-thumbnail-image-provider.h"
 
 #include <QUrl>
 

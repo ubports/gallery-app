@@ -35,7 +35,6 @@
 
 // medialoader
 #include "gallery-standard-image-provider.h"
-#include "gallery-thumbnail-image-provider.h"
 #include "photo-metadata.h"
 
 // util

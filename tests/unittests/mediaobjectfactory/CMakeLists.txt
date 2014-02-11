@@ -44,7 +44,6 @@ add_executable(mediaobjectfactory
     ../stubs/preview-manager_stub.cpp
     ../stubs/video-metadata_stub.cpp
     ../stubs/gallery-standard-image-provider_stub.cpp
-    ../stubs/gallery-thumbnail-image-provider_stub.cpp
     ../stubs/gallery-manager_stub.cpp
     ${MEDIAOBJECTFACTORY_MOCS}
     )

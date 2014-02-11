@@ -39,7 +39,6 @@
 
 // qml
 #include "gallery-standard-image-provider.h"
-#include "gallery-thumbnail-image-provider.h"
 #include "qml-media-collection-model.h"
 
 // util
@@ -63,7 +62,6 @@ GalleryManager::GalleryManager(const QString& picturesDir,
     : collectionsInitialised(false),
       m_resource(new Resource(picturesDir, view)),
       m_standardImageProvider(new GalleryStandardImageProvider()),
-      m_thumbnailImageProvider(new GalleryThumbnailImageProvider()),
       m_database(0),
       m_defaultTemplate(0),
       m_mediaCollection(0),
@@ -96,7 +94,6 @@ GalleryManager::~GalleryManager()
     delete m_mediaCollection;
     delete m_previewManager;
     delete m_standardImageProvider;
-    delete m_thumbnailImageProvider;
 }
 
 /*!
@@ -219,7 +216,6 @@ QmlMediaCollectionModel *GalleryManager::mediaLibrary() const
 void GalleryManager::logImageLoading(bool log)
 {
     m_standardImageProvider->setLogging(log);
-    m_thumbnailImageProvider->setLogging(log);
 }
 
 /*!
@@ -231,7 +227,6 @@ void GalleryManager::initPreviewManager()
     Q_ASSERT(m_resource);
     Q_ASSERT(m_mediaCollection);
     Q_ASSERT(m_standardImageProvider);
-    Q_ASSERT(m_thumbnailImageProvider);
 
     if (m_previewManager)
         return;
@@ -239,7 +234,6 @@ void GalleryManager::initPreviewManager()
     m_previewManager = new PreviewManager(m_resource->thumbnailDirectory());
 
     m_standardImageProvider->setPreviewManager(m_previewManager);
-    m_thumbnailImageProvider->setPreviewManager(m_previewManager);
 
     // Monitor MediaCollection for all new MediaSources
     QObject::connect(m_mediaCollection,
@@ -322,16 +316,5 @@ GalleryStandardImageProvider* GalleryManager::takeGalleryStandardImageProvider()
 {
     GalleryStandardImageProvider *provider = m_standardImageProvider;
     m_standardImageProvider = 0;
-    return provider;
-}
-
-/*!
- * \brief GalleryManager::takeGalleryThumbnailImageProvider returns the thumbnail image provider
- * and gives up the owndership 
- */
-GalleryThumbnailImageProvider* GalleryManager::takeGalleryThumbnailImageProvider()
-{
-    GalleryThumbnailImageProvider *provider = m_thumbnailImageProvider;
-    m_thumbnailImageProvider = 0;
     return provider;
 }

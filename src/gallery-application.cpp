@@ -38,7 +38,6 @@
 
 // qml
 #include "gallery-standard-image-provider.h"
-#include "gallery-thumbnail-image-provider.h"
 #include "qml-album-collection-model.h"
 #include "qml-event-collection-model.h"
 #include "qml-event-overview-model.h"
@@ -203,8 +202,6 @@ void GalleryApplication::initCollections()
     m_galleryManager->postInit();
     m_view->engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
                                        m_galleryManager->takeGalleryStandardImageProvider());
-    m_view->engine()->addImageProvider(GalleryThumbnailImageProvider::PROVIDER_ID,
-                                       m_galleryManager->takeGalleryThumbnailImageProvider());
 
     QApplication::processEvents();
     if (m_cmdLineParser->startupTimer())
