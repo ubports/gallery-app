@@ -8,26 +8,26 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-20 12:56+0000\n"
-"PO-Revision-Date: 2013-05-29 03:58+0000\n"
-"Last-Translator: Gheyret T.Kenji <Unknown>\n"
+"PO-Revision-Date: 2014-02-09 10:49+0000\n"
+"Last-Translator: omarjan <bahadiromar@outlook.com>\n"
 "Language-Team: Uyghur <ug@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2013-11-24 05:48+0000\n"
-"X-Generator: Launchpad (build 16831)\n"
+"X-Launchpad-Export-Date: 2014-02-10 05:54+0000\n"
+"X-Generator: Launchpad (build 16916)\n"
 
 #: desktop/gallery-app.desktop.in:3
 msgid "Gallery"
-msgstr ""
+msgstr "رەسىم كارىدورى"
 
 #: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
 msgid "Ubuntu Photo Viewer"
-msgstr ""
+msgstr "Ubuntuسۈرەت كۆرگۈ"
 
 #: desktop/gallery-app.desktop.in:6
 msgid "Browse your photographs"
-msgstr ""
+msgstr "سۈرەتلىرىڭىزگە كۆز يۈگۈرتۈڭ"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:45
 msgid "Edit album"
@@ -54,7 +54,7 @@ msgstr "ئۆچۈر"
 #: rc/qml/Components/MediaSelector.qml:94
 #: rc/qml/Utility/SelectionToolbarAction.qml:65
 msgid "Cancel"
-msgstr "ئەمەلدىن قالدۇر"
+msgstr "ۋاز كەچ"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
@@ -78,7 +78,7 @@ msgstr "قىزىل"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:468
 msgid "Add to album"
-msgstr ""
+msgstr "ئالبوم قوش"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:474
 #: rc/qml/MediaViewer/MediaViewer.qml:440
@@ -95,7 +95,7 @@ msgstr "كەينى"
 
 #: rc/qml/AlbumsOverview.qml:177 rc/qml/Components/PopupAlbumPicker.qml:87
 msgid "Add new album"
-msgstr ""
+msgstr "يېڭى ئالبۇم قوش"
 
 #: rc/qml/AlbumsOverview.qml:189 rc/qml/Utility/PhotosToolbarActions.qml:46
 msgid "Camera"
@@ -152,7 +152,7 @@ msgstr "سۈرەتلەر"
 #: rc/qml/MediaViewer/CropOverlay.qml:352
 #: rc/qml/MediaViewer/EditPopover.qml:46 rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr ""
+msgstr "كەس"
 
 #: rc/qml/MediaViewer/EditPopover.qml:38 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
@@ -160,7 +160,7 @@ msgstr "چۆرگىلەت"
 
 #: rc/qml/MediaViewer/EditPopover.qml:54
 msgid "Auto enhance"
-msgstr ""
+msgstr "ئاپتوماتىك گەۋدىلەندۈر"
 
 #: rc/qml/MediaViewer/EditPopover.qml:62 rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
@@ -172,7 +172,7 @@ msgstr "قايتىلا"
 
 #: rc/qml/MediaViewer/EditPopover.qml:80
 msgid "Revert to original"
-msgstr ""
+msgstr "ئەسلىگە قايتۇرۇش"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:250 rc/qml/PhotosOverview.qml:149
 msgid "Delete a photo"
@@ -184,19 +184,19 @@ msgstr "تەھرىر"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:433
 msgid "Add photo to album"
-msgstr ""
+msgstr "سۈرەتنى ئالبومغا قوش"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:456
 msgid "Share photo"
-msgstr ""
+msgstr "سۈرەتنى ھەمبەھىرلە"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:480
 msgid "Pause"
-msgstr ""
+msgstr "ۋاقىتلىق توختا"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:480
 msgid "Play"
-msgstr ""
+msgstr "قوي"
 
 #: rc/qml/PhotosOverview.qml:148
 msgid "Delete photos"
@@ -212,15 +212,15 @@ msgstr "ئەۋەت;يۈكلە;قوش"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr ""
+msgstr "مەشغۇلاتتىدىن ۋاز كەچ؛ئارقىغا"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr ""
+msgstr "قايتا قوللان؛يەنە"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr ""
+msgstr "ئاپتوماتىك گەۋدىلەندۈر"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
@@ -232,19 +232,19 @@ msgstr "سۈرەتنى ئاپتوماتىك تەڭشە"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr ""
+msgstr "ئوڭغا ئايلاندۇر"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr ""
+msgstr "رەسىمنى ئوڭغا ئايلاندۇر"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr ""
+msgstr "كەس؛كەس"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr ""
+msgstr "سۈرەت كېسىش"
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
@@ -260,15 +260,15 @@ msgstr "بارلىق ئۆزگەرتىشلەرنى يوق قىل"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr ""
+msgstr "نۇر ئۆتۈش"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr ""
+msgstr "نۇر ئۆتۈشنى تەكشەش"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr ""
+msgstr "نۇر ئۆتمەسلىك؛نۇر ئۆتۈش زىيادە"
 
 #: rc/qml/Utility/EditingHUD.qml:123 rc/qml/Utility/EditingHUD.qml:165
 msgid "Confirm"
@@ -276,7 +276,7 @@ msgstr "جەزملە"
 
 #: rc/qml/Utility/EditingHUD.qml:127
 msgid "Compensation"
-msgstr ""
+msgstr "تۆلەم"
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Color Balance"
@@ -284,11 +284,11 @@ msgstr "رەڭ تەڭپۇڭى"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Adjust color balance"
-msgstr ""
+msgstr "رەڭ تەڭپۇڭىنى تەڭشە"
 
 #: rc/qml/Utility/EditingHUD.qml:163
 msgid "Saturation;Hue"
-msgstr ""
+msgstr "تويۇنۇش دەرىجىسى ؛رەڭ  ڧازىسى"
 
 #: rc/qml/Utility/EditingHUD.qml:169
 msgid "Brightness"
