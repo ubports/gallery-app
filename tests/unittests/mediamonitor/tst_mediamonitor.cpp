@@ -18,6 +18,7 @@
 #include <QtTest>
 
 #include <QDir>
+#include <QTemporaryDir>
 #include <QImage>
 #include <QColor>
 #include <QStringList>
@@ -34,17 +35,17 @@ private slots:
     void cleanupTestCase();
 
 private:
-    QString m_tmpPath;
+    QTemporaryDir *m_tmpDir;
     QImage *m_sampleImage;
     MediaMonitor *m_monitor;
 };
 
 void tst_MediaMonitor::initTestCase()
 {
-    m_tmpPath = QString("/tmp/pics/");
+    m_tmpDir = new QTemporaryDir();
 
     // Create a simple directories tree
-    QDir *dir = new QDir(m_tmpPath);
+    QDir *dir = new QDir(m_tmpDir->path());
     dir->mkpath("A/A");
     dir->mkpath("A/B");
     dir->mkpath("B/A");
@@ -64,19 +65,19 @@ void tst_MediaMonitor::tst_scanning_sub_folders()
     QSignalSpy filesFound(m_monitor, SIGNAL(mediaItemAdded(QString)));
 
     // Launch the monitoring process
-    m_monitor->startMonitoring(QStringList(m_tmpPath));
+    m_monitor->startMonitoring(QStringList(m_tmpDir->path()));
 
 
     // Save sample image allover the tree
-    m_sampleImage->save(m_tmpPath + "A/A/sample_AA.jpg", "JPG");
-    m_sampleImage->save(m_tmpPath + "A/B/sample_AB.jpg", "JPG");
-    m_sampleImage->save(m_tmpPath + "B/A/sample_BA.jpg", "JPG");
-    m_sampleImage->save(m_tmpPath + "B/B/sample_BB.jpg", "JPG");
+    m_sampleImage->save(m_tmpDir->path() + "/A/A/sample_AA.jpg", "JPG");
+    m_sampleImage->save(m_tmpDir->path() + "/A/B/sample_AB.jpg", "JPG");
+    m_sampleImage->save(m_tmpDir->path() + "/B/A/sample_BA.jpg", "JPG");
+    m_sampleImage->save(m_tmpDir->path() + "/B/B/sample_BB.jpg", "JPG");
 
-    m_sampleImage->save(m_tmpPath + "A/sample_A.jpg", "JPG");
-    m_sampleImage->save(m_tmpPath + "B/sample_B.jpg", "JPG");
+    m_sampleImage->save(m_tmpDir->path() + "/A/sample_A.jpg", "JPG");
+    m_sampleImage->save(m_tmpDir->path() + "/B/sample_B.jpg", "JPG");
 
-    m_sampleImage->save(m_tmpPath + "sample.jpg", "JPG");
+    m_sampleImage->save(m_tmpDir->path() + "/sample.jpg", "JPG");
 
     QTRY_COMPARE(filesFound.count(), 7);
 }
@@ -84,7 +85,7 @@ void tst_MediaMonitor::tst_scanning_sub_folders()
 void tst_MediaMonitor::cleanupTestCase()
 {
     //Remove the previously created files
-    QDir *dir = new QDir(m_tmpPath);
+    QDir *dir = new QDir(m_tmpDir->path());
     dir->removeRecursively();
 }
 
