@@ -82,6 +82,7 @@ GridView {
             image: Image {
                 source: mediaSource.galleryThumbnailPath
                 asynchronous: true
+                fillMode: Image.PreserveAspectCrop
             }
 
             OrganicItemInteraction {

@@ -27,6 +27,8 @@
 #include "gallery-standard-image-provider.h"
 #include "gallery-thumbnail-image-provider.h"
 
+#include <QUrl>
+
 /*!
  * \brief MediaSource::MediaSource
  */
@@ -93,7 +95,9 @@ QUrl MediaSource::galleryPath() const
  */
 QUrl MediaSource::galleryPreviewPath() const
 {
-    return GalleryStandardImageProvider::toURL(m_file);
+    QString path("image://thumbnailer/");
+    path.append(m_file.absoluteFilePath());
+    return QUrl(path);
 }
 
 /*!
@@ -102,7 +106,9 @@ QUrl MediaSource::galleryPreviewPath() const
  */
 QUrl MediaSource::galleryThumbnailPath() const
 {
-    return GalleryThumbnailImageProvider::toURL(m_file);
+    QString path("image://thumbnailer/");
+    path.append(m_file.absoluteFilePath());
+    return QUrl(path);
 }
 
 /*!

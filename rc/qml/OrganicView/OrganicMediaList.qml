@@ -163,6 +163,13 @@ Item {
                 image: Image {
                     source: model.mediaSource.galleryThumbnailPath
                     asynchronous: true
+
+                    /* The SDK thumbnailer respects the freedesktop.org standard and uses 128 for the small
+                     * thumbnail size, while the previous thumbnailer used 216. To maintain the same visual
+                     * result as the previous thumbnailer, we force it to generate a large thumbnail, which
+                     * is closer to the older one in size and looks identical when downscaled */
+                    sourceSize.width: 256
+                    fillMode: Image.PreserveAspectCrop
                 }
 
                 OrganicItemInteraction {
