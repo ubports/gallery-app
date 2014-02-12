@@ -77,15 +77,20 @@ class GalleryTestCase(AutopilotTestCase):
             else:
                 return EnvironmentTypes.click
 
-    def _get_sample_destination_dir(self):
-        if self.env_type == EnvironmentTypes.click:
-            return os.path.expanduser("~/Pictures")
+    def _get_sample_destination_dir(self, env_type):
+        if env_type == EnvironmentTypes.click:
+            pic_dir = os.path.expanduser("~/Pictures")
+            shutil.move(pic_dir, pic_dir + '.bak')
+            self.addCleanup(
+                logger.debug, "Restoring backed up pics to %s" % pic_dir)
+            self.addCleanup(shutil.move, pic_dir + '.bak', pic_dir)
+            return pic_dir
         else:
             return self._default_sample_destination_dir
 
-    def configure_sample_files(self):
-        self.sample_dir = self._sample_dirs[self.env_type]
-        self.sample_destination_dir = self._get_sample_destination_dir()
+    def configure_sample_files(self, env_type):
+        self.sample_dir = self._sample_dirs[env_type]
+        self.sample_destination_dir = self._get_sample_destination_dir(env_type)
         if (os.path.exists(self.sample_destination_dir)):
             shutil.rmtree(self.sample_destination_dir)
         self.assertFalse(os.path.exists(self.sample_destination_dir))
@@ -109,19 +114,18 @@ class GalleryTestCase(AutopilotTestCase):
         if os.path.exists(config):
             remove(config)
 
-    def prepare(self):
+    def setUp(self):
         self.pointing_device = toolkit_emulators.get_pointing_device()
         super(GalleryTestCase, self).setUp()
 
-        self.env_type = self._get_environment_launch_type()
-        self.configure_sample_files()
-        self.do_reset_config()
+        env_type = self._get_environment_launch_type()
+        self.configure_sample_files(env_type)
 
-    def start_app(self, cleanup = False):
-        self.launch_gallery_app()
+        self.launch_gallery_app(env_type)
 
-        if cleanup:
-            self.addCleanup(shutil.rmtree, self.sample_destination_dir)
+        self.addCleanup(shutil.rmtree, self.sample_destination_dir)
+        self.addCleanup(logger.debug,
+                        "Deleting %s" % self.sample_destination_dir)
 
         """ This is needed to wait for the application to start.
         In the testfarm, the application may take some time to show up."""
@@ -133,19 +137,15 @@ class GalleryTestCase(AutopilotTestCase):
         for switching to the albums view. Therefore this hack of a second"""
         sleep(1)
 
-    def setUp(self):
-        self.prepare()
-        self.start_app(True)
-
-    def launch_gallery_app(self):
-        if self.env_type == EnvironmentTypes.installed:
+    def launch_gallery_app(self, env_type):
+        if env_type == EnvironmentTypes.installed:
             self.launch_test_installed()
-        elif self.env_type == EnvironmentTypes.local:
+        elif env_type == EnvironmentTypes.local:
             self.launch_test_local()
-        elif self.env_type == EnvironmentTypes.click:
+        elif env_type == EnvironmentTypes.click:
             self.launch_test_click()
         else:
-            raise ValueError("Unknown environment type: %s", self.env_type)
+            raise ValueError("Unknown environment type: %s", env_type)
 
     def launch_test_local(self):
         logger.debug("Launching local gallery-app binary.")
@@ -186,6 +186,7 @@ class GalleryTestCase(AutopilotTestCase):
         logger.debug("Launching gallery-app via click package.")
         self.app = self.launch_click_package(
             package_id="com.ubuntu.gallery",
+            app_uris=' '.join(self.ARGS),
             emulator_base=toolkit_emulators.UbuntuUIToolkitEmulatorBase)
 
     def ui_update(self):
