@@ -137,12 +137,6 @@ void GalleryApplication::registerQML()
     qRegisterMetaType<QList<MediaSource*> >("MediaSourceList");
 }
 
-bool GalleryApplication::isDesktopMode() const
-{
-    return (qEnvironmentVariableIsSet("DESKTOP_MODE") && (qgetenv("DESKTOP_MODE") == "1"));
-}
-
-
 /*!
  * \brief GalleryApplication::isDesktopMode
  * Returns true if the DESKTOP_MODE env var is set
