@@ -12,6 +12,7 @@ from __future__ import absolute_import
 
 from testtools.matchers import Equals, Is
 from autopilot.matchers import Eventually
+from autopilot.platform import model
 
 from gallery_app.tests import GalleryTestCase
 
@@ -102,3 +103,16 @@ class TestEventsView(GalleryTestCase):
 
     def test_adding_a_video(self):
         self.add_video_sample()
+
+    # Check if Camera Button is not visible at Desktop mode
+    def test_camera_button_visable(self):
+        self.main_view.open_toolbar()
+        toolbar = self.main_view.get_toolbar()
+        bl = toolbar.select_single("QQuickRow")
+        for b in bl.get_children():
+            if b.objectName == "cameraButton":
+                if model() == "Desktop":
+                    self.assertThat(b.visible, Equals(False))
+                else:
+                    self.assertThat(b.visible, Equals(True))
+
