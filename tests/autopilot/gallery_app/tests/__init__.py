@@ -43,6 +43,10 @@ class GalleryTestCase(AutopilotTestCase):
     tap_press_time = 1
     local_location = "../../src/gallery-app"
 
+    _db = '~/.local/share/com.ubuntu.gallery/gallery-app/' \
+          'database/gallery.sqlite'
+    _thumbs = '~/.cache/com.ubuntu.gallery/gallery-app/thumbnails'
+
     _default_sample_destination_dir = "/tmp/gallery-ap_sd"
 
     _sample_dirs = {
@@ -88,9 +92,25 @@ class GalleryTestCase(AutopilotTestCase):
         else:
             return self._default_sample_destination_dir
 
+    def configure_db(self):
+        db = os.path.expanduser(self._db)
+        shutil.move(db, db + '.apbak')
+        self.addCleanup(shutil.move, db + '.apbak', db)
+        mock_db = os.path.join(self.sample_destination_dir, '.database',
+                               'gallery_confined.sqlite')
+        shutil.move(mock_db, db)
+
+    def configure_thumbnails(self):
+        thumbs = os.path.expanduser(self._thumbs)
+        shutil.move(thumbs, thumbs + '.apbak')
+        self.addCleanup(shutil.move, thumbs + '.apbak', thumbs)
+        mock_thumbs = os.path.join(self.sample_destination_dir, '.thumbnails')
+        shutil.move(mock_thumbs, thumbs)
+
     def configure_sample_files(self, env_type):
         self.sample_dir = self._sample_dirs[env_type]
-        self.sample_destination_dir = self._get_sample_destination_dir(env_type)
+        self.sample_destination_dir = \
+            self._get_sample_destination_dir(env_type)
         if (os.path.exists(self.sample_destination_dir)):
             shutil.rmtree(self.sample_destination_dir)
         self.assertFalse(os.path.exists(self.sample_destination_dir))
@@ -109,8 +129,13 @@ class GalleryTestCase(AutopilotTestCase):
         self.sample_file_source = \
             default_data_dir + self.sample_file_source
 
+        if env_type == EnvironmentTypes.click:
+            self.configure_db()
+            self.configure_thumbnails()
+
     def do_reset_config(self):
-        config = os.path.expanduser(os.path.join("~", ".config", "gallery-app.conf"))
+        config = os.path.expanduser(
+            os.path.join("~", ".config", "gallery-app.conf"))
         if os.path.exists(config):
             remove(config)
 
@@ -260,15 +285,18 @@ class GalleryTestCase(AutopilotTestCase):
             self.keyboard.press_and_release("Alt+F4")
         else:
             # On unity8 at the moment we have no clean way to close the app.
-            # So we ask the shell first to show the home, unfocusing our app, which will
-            # save its state. Then we simply send it a SIGTERM to force it to quit.
-            # See bug https://bugs.launchpad.net/unity8/+bug/1261720 for more details.
+            # So we ask the shell first to show the home, unfocusing our app,
+            # which will save its state. Then we simply send it a SIGTERM to
+            # force it to quit.
+            # See bug https://bugs.launchpad.net/unity8/+bug/1261720 for more
+            # details.
             from unity8 import process_helpers
             pid = process_helpers._get_unity_pid()
             unity8 = get_proxy_object_for_existing_process(pid)
             shell = unity8.select_single("Shell")
             shell.slots.showHome()
-            self.assertThat(shell.currentFocusedAppId, Eventually(NotEquals("gallery-app")))
+            self.assertThat(shell.currentFocusedAppId,
+                            Eventually(NotEquals("gallery-app")))
             self.app.process.send_signal(signal.SIGTERM)
 
         # Either way, we wait for the underlying process to be fully finished.
@@ -289,4 +317,3 @@ class GalleryTestCase(AutopilotTestCase):
         self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
         self.assertThat(delete_dialog.opacity, Eventually(Equals(1)))
         return delete_dialog
-
