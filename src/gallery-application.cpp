@@ -143,7 +143,10 @@ void GalleryApplication::registerQML()
  */
 bool GalleryApplication::isDesktopMode() const
 {
-  return (qEnvironmentVariableIsSet("DESKTOP_MODE") && (qgetenv("DESKTOP_MODE") == "1"));
+    bool desktopMode = qEnvironmentVariableIsSet("DESKTOP_MODE") && (qgetenv("DESKTOP_MODE") == "1");
+    bool formFactor = m_cmdLineParser->formFactor() != "desktop";
+
+    return (desktopMode || formFactor);
 }
 
 /*!
@@ -160,7 +163,7 @@ void GalleryApplication::createView()
         size.transpose();
 
     m_view->setResizeMode(QQuickView::SizeRootObjectToView);
-    if (m_cmdLineParser->formFactor() == "desktop" || isDesktopMode()) {
+    if (isDesktopMode()) {
         m_view->setMinimumSize(QSize(60 * m_bguSize, 60 * m_bguSize));
     }
 

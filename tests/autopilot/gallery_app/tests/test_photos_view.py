@@ -17,10 +17,11 @@ from autopilot.platform import model
 from gallery_app.tests import GalleryTestCase
 from gallery_app.emulators.photos_view import PhotosView
 
-from os.path import exists
+from os import environ as env
 import unittest
 
 class TestPhotosView(GalleryTestCase):
+    envDesktopMode = None
 
     @property
     def photos_view(self):
@@ -28,8 +29,23 @@ class TestPhotosView(GalleryTestCase):
 
     def setUp(self):
         self.ARGS = []
+        self.envDesktopMode = env.get("DESKTOP_MODE")
+
+        if model() == "Desktop":
+            env["DESKTOP_MODE"] = "1"
+        else:
+            env["DESKTOP_MODE"] = "0"
+
         super(TestPhotosView, self).setUp()
         self.switch_to_photos_tab()
+
+    def tearDown(self):
+        if self.envDesktopMode:
+            env["DESKTOP_MODE"] = self.envDesktopMode
+        else:
+            del env["DESKTOP_MODE"]
+
+        super(TestPhotosView, self).tearDown()
 
     def switch_to_photos_tab(self):
         self.main_view.switch_to_tab("photosTab")
@@ -119,13 +135,11 @@ class TestPhotosView(GalleryTestCase):
         self.assertThat(tab.objectName, Equals("photosTab"))
 
     # Check if Camera Button is not visible at Desktop mode
-    def test_camera_button_visable(self):
+    def test_camera_button_visible(self):
         self.main_view.open_toolbar()
         toolbar = self.main_view.get_toolbar()
-        bl = toolbar.select_single("QQuickRow")
-        for b in bl.get_children():
-            if b.objectName == "cameraButton":
-                if model() == "Desktop":
-                    self.assertThat(b.visible, Equals(False))
-                else:
-                    self.assertThat(b.visible, Equals(True))
+        cameraButton = toolbar.select_single("ActionItem", objectName="cameraButton")
+        if model() == "Desktop":
+            self.assertThat(cameraButton.visible, Equals(False))
+        else:
+            self.assertThat(cameraButton.visible, Equals(True))
