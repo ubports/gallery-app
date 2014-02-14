@@ -47,6 +47,9 @@ class PhotoViewer(GalleryUtils):
             objectName="openedPhoto0"
         )
 
+    def get_photos_list(self):
+        return self.app.wait_select_single("MediaListView")
+
     def get_crop_menu_item(self):
         """Returns the crop item of the edit dialog."""
         return self.app.select_single("Standard", objectName="cropListItem")
