@@ -143,10 +143,7 @@ void GalleryApplication::registerQML()
  */
 bool GalleryApplication::isDesktopMode() const
 {
-    bool desktopMode = qEnvironmentVariableIsSet("DESKTOP_MODE") && (qgetenv("DESKTOP_MODE") == "1");
-    bool formFactor = m_cmdLineParser->formFactor() != "desktop";
-
-    return (desktopMode || formFactor);
+    return(qEnvironmentVariableIsSet("DESKTOP_MODE") && (qgetenv("DESKTOP_MODE") == "1"));
 }
 
 /*!
