@@ -1,3 +1,17 @@
+gallery-app (0.0.67+14.04.20140214-0ubuntu1) trusty; urgency=low
+
+  [ Arthur Mello ]
+  * Add support to toggle fullscreen using F11 and Escape keys on
+    Desktop platform. (LP: #1272813)
+
+  [ Ugo Riboni ]
+  * fix navigating of photos requiring 2 swipes (LP: #1268744)
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 14 Feb 2014 15:03:59 +0000
+
 gallery-app (0.0.67+14.04.20140131-0ubuntu1) trusty; urgency=low
 
   [ Bill Filler ]
