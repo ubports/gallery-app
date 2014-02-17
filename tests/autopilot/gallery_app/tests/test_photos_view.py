@@ -11,15 +11,20 @@
 from __future__ import absolute_import
 
 from testtools.matchers import Equals, Is
+from testtools import skipUnless
 from autopilot.matchers import Eventually
+from autopilot.platform import model
 
 from gallery_app.tests import GalleryTestCase
 from gallery_app.emulators.photos_view import PhotosView
 
 from os.path import exists
+from os import environ
+
 import unittest
 
 class TestPhotosView(GalleryTestCase):
+    envDesktopMode = None
 
     @property
     def photos_view(self):
@@ -27,8 +32,23 @@ class TestPhotosView(GalleryTestCase):
 
     def setUp(self):
         self.ARGS = []
+        self.envDesktopMode = environ.get("DESKTOP_MODE")
+
+        if model() == "Desktop":
+            environ["DESKTOP_MODE"] = "1"
+        else:
+            environ["DESKTOP_MODE"] = "0"
+
         super(TestPhotosView, self).setUp()
         self.switch_to_photos_tab()
+
+    def tearDown(self):
+        if self.envDesktopMode:
+            environ["DESKTOP_MODE"] = self.envDesktopMode
+        else:
+            del environ["DESKTOP_MODE"]
+
+        super(TestPhotosView, self).tearDown()
 
     def switch_to_photos_tab(self):
         self.main_view.switch_to_tab("photosTab")
@@ -116,3 +136,19 @@ class TestPhotosView(GalleryTestCase):
         tab = tabs.get_current_tab()
         self.assertThat(tabs.selectedTabIndex, Eventually(Equals(index)))
         self.assertThat(tab.objectName, Equals("photosTab"))
+
+    @skipUnless(model() == 'Desktop', 'Key based tests only make sense on Desktop')
+    def test_toggle_fullscreen(self):
+        self.switch_to_photos_tab()
+        view = self.main_view
+        self.assertThat(view.fullScreen, Eventually(Equals(False)))
+        self.keyboard.press_and_release('F11')
+        self.assertThat(view.fullScreen, Eventually(Equals(True)))
+        self.keyboard.press_and_release('F11')
+        self.assertThat(view.fullScreen, Eventually(Equals(False)))
+        self.keyboard.press_and_release('F11')
+        self.assertThat(view.fullScreen, Eventually(Equals(True)))
+        self.keyboard.press_and_release('Escape')
+        self.assertThat(view.fullScreen, Eventually(Equals(False)))
+        self.keyboard.press_and_release('Escape')
+        self.assertThat(view.fullScreen, Eventually(Equals(False)))
