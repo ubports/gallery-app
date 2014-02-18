@@ -38,6 +38,7 @@ class GalleryApplication : public QApplication
     Q_OBJECT
     Q_PROPERTY(bool pickModeEnabled READ pickModeEnabled NOTIFY pickModeEnabledChanged)
     Q_PROPERTY(bool desktopMode READ isDesktopMode)
+    Q_PROPERTY(bool fullScreen READ isFullScreen WRITE setFullScreen NOTIFY fullScreenChanged)
 
 public:
     enum UiMode{
@@ -55,6 +56,7 @@ public:
     void setUiMode(UiMode mode);
     bool pickModeEnabled() const;
     bool isDesktopMode() const;
+    bool isFullScreen() const;
 
     Q_INVOKABLE void returnPickedContent(QVariant variant);
     Q_INVOKABLE void contentPickingCanceled();
@@ -64,10 +66,12 @@ public:
 signals:
     void mediaLoaded();
     void pickModeEnabledChanged();
+    void fullScreenChanged();
 
 private slots:
     void initCollections();
     void switchToPickMode();
+    void setFullScreen(bool fullScreen);
 
 private:
     void registerQML();

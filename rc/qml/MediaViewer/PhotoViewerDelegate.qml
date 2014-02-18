@@ -86,7 +86,7 @@ Item {
         z: 1
         asynchronous: true
         anchors.fill: parent
-        visible: isLoaded && !useInteractivePreview
+        opacity: (isLoaded && !useInteractivePreview) ? 1.0 : 0.0
 
         sourceComponent: (!useInteractivePreview && !sourceComponent) ?
                              fullPhotoComponent : sourceComponent;
