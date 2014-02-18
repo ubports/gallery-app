@@ -1,6 +1,4 @@
-/*
- * Copyright (C) 2014 Canonical, Ltd.
- *
+/* * Copyright (C) 2014 Canonical, Ltd.  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3.
@@ -64,6 +62,11 @@ void tst_MediaMonitor::tst_scanning_sub_folders()
     // Emitted every time a new photo/video found
     QSignalSpy filesFound(m_monitor, SIGNAL(mediaItemAdded(QString)));
 
+    // Add some debug to check which media was found
+    connect(m_monitor, &MediaMonitor::mediaItemAdded, [](const QString &file) {
+        qDebug() << "File Found:" << file;
+    });
+
     // Launch the monitoring process
     m_monitor->startMonitoring(QStringList(m_tmpDir->path()));
 
@@ -78,9 +81,7 @@ void tst_MediaMonitor::tst_scanning_sub_folders()
 
     m_sampleImage->save(m_tmpDir->path() + "/sample.jpg", "JPG");
 
-    QTRY_COMPARE(filesFound.count(), 7);
-
-    qDebug() << "filesFound: " << filesFound;
+    QTRY_COMPARE_WITH_TIMEOUT(filesFound.count(), 7, 10000);
 }
 
 void tst_MediaMonitor::cleanupTestCase()
