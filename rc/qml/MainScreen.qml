@@ -38,6 +38,9 @@ MainView {
     property string mediaCurrentlyInView
     StateSaver.properties: "mediaCurrentlyInView"
 
+    //fullScreen property is used on autopilot tests
+    property bool fullScreen: APP.fullScreen
+
     Component.onCompleted: {
         if (mediaCurrentlyInView !== "") {
             for (var i = 0; i < MANAGER.mediaLibrary.count; i++) {

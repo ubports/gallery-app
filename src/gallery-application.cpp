@@ -147,6 +147,15 @@ bool GalleryApplication::isDesktopMode() const
 }
 
 /*!
+ * \brief GalleryApplication::isFullScreen
+ * Returns true if window is on FullScreen mode
+ */
+bool GalleryApplication::isFullScreen() const
+{
+    return m_view->windowState() == Qt::WindowFullScreen;
+}
+
+/*!
  * \brief GalleryApplication::createView
  * Create the master QDeclarativeView that all the pages will operate within
  */
@@ -184,10 +193,11 @@ void GalleryApplication::createView()
     QObject::connect(this, SIGNAL(mediaLoaded()), rootObject, SLOT(onLoaded()));
 
     //run fullscreen if specified at command line or not in DESKTOP_MODE (i.e. on a device)
-    if (m_cmdLineParser->isFullscreen() || !isDesktopMode())
-        m_view->showFullScreen();
-    else
-        m_view->show();
+    m_view->show();
+
+    if (m_cmdLineParser->isFullscreen() || !isDesktopMode()) {
+        setFullScreen(true);
+    }
 
     if (m_cmdLineParser->startupTimer())
         qDebug() << "GalleryApplication view created" << m_timer->elapsed() << "ms";
@@ -261,6 +271,21 @@ bool GalleryApplication::pickModeEnabled() const
 void GalleryApplication::switchToPickMode()
 {
     setUiMode(PickContentMode);
+}
+
+/*!
+ * \brief GalleryApplication::setFullScreen
+ * Change window state to fullScreen or no state
+ */
+void GalleryApplication::setFullScreen(bool fullScreen)
+{
+    if(fullScreen) {
+        m_view->setWindowState(Qt::WindowFullScreen);
+    } else {
+        m_view->setWindowState(Qt::WindowNoState);
+    }
+
+    Q_EMIT fullScreenChanged();
 }
 
 /*!
