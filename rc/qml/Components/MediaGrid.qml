@@ -80,9 +80,19 @@ GridView {
             radius: "medium"
 
             image: Image {
+                id: thumbImage
                 source: mediaSource.galleryThumbnailPath
                 asynchronous: true
                 fillMode: Image.PreserveAspectCrop
+
+                Connections {
+                    target: mediaSource
+                    onDataChanged: {
+                        // data changed but filename didn't, so we need to bypass the qml image
+                        // cache by tacking a timestamp to the filename so sees it as different.
+                        thumbImage.source = mediaSource.galleryThumbnailPath + "?at=" + Date.now()
+                    }
+                }
             }
 
             OrganicItemInteraction {

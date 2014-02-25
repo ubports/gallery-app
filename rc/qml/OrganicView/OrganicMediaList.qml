@@ -161,6 +161,7 @@ Item {
                 radius: "medium"
 
                 image: Image {
+                    id: thumbImage
                     source: model.mediaSource.galleryThumbnailPath
                     asynchronous: true
 
@@ -170,6 +171,15 @@ Item {
                      * is closer to the older one in size and looks identical when downscaled */
                     sourceSize.width: 256
                     fillMode: Image.PreserveAspectCrop
+                }
+
+                Connections {
+                    target: model.mediaSource
+                    onDataChanged: {
+                        // data changed but filename didn't, so we need to bypass the qml image
+                        // cache by tacking a timestamp to the filename so sees it as different.
+                        thumbImage.source = model.mediaSource.galleryThumbnailPath + "?at=" + Date.now()
+                    }
                 }
 
                 OrganicItemInteraction {

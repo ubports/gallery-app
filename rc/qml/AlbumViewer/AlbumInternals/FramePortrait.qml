@@ -45,6 +45,15 @@ Item {
         visible: fullImage.opacity < 1
         source: load && mediaSource ? mediaSource.galleryPreviewPath : ""
         fillMode: fullImage.fillMode
+
+        Connections {
+            target: mediaSource ? mediaSource : null
+            onDataChanged: {
+                // data changed but filename didn't, so we need to bypass the qml image
+                // cache by tacking a timestamp to the filename so sees it as different.
+                preview.source = mediaSource.galleryPreviewPath + "?at=" + Date.now()
+            }
+        }
     }
     Image {
         id: fullImage
