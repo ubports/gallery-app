@@ -19,7 +19,6 @@
  */
 
 #include "gallery-standard-image-provider.h"
-#include "preview-manager.h"
 
 const char* GalleryStandardImageProvider::PROVIDER_ID = "gallery-standard";
 const char* GalleryStandardImageProvider::PROVIDER_ID_SCHEME = "image://gallery-standard/";
@@ -32,13 +31,11 @@ const char* GalleryStandardImageProvider::SIZE_KEY = "size_level";
 const long MAX_CACHE_BYTES = 20L * 1024L * 1024L;
 
 // fully load previews into memory when requested
-const int SCALED_LOAD_FLOOR_DIM_PIXELS =
-        qMax(PreviewManager::PREVIEW_SIZE, PreviewManager::PREVIEW_SIZE);
+const int SCALED_LOAD_FLOOR_DIM_PIXELS = 360;
 
 GalleryStandardImageProvider::GalleryStandardImageProvider()
     : QQuickImageProvider(QQuickImageProvider::Image),
       m_cachedBytes(0),
-      m_previewManager(0),
       m_logImageLoading(false),
       m_maxLoadResolution(INT_MAX)
 {
@@ -60,11 +57,6 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
 QUrl GalleryStandardImageProvider::toURL(const QFileInfo& file)
 {
     return QUrl::fromUserInput(PROVIDER_ID_SCHEME + file.absoluteFilePath());
-}
-
-void GalleryStandardImageProvider::setPreviewManager(PreviewManager *previewManager)
-{
-    m_previewManager = previewManager;
 }
 
 void GalleryStandardImageProvider::setLogging(bool enableLogging)

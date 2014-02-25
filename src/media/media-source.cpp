@@ -85,7 +85,17 @@ QUrl MediaSource::path() const
  */
 QUrl MediaSource::galleryPath() const
 {
-    return GalleryStandardImageProvider::toURL(m_file);
+    /* At the moment the only video files we recognize are mp4
+     * files. This was maintained hardcoded from the previous
+     * version of gallery app, and should be fixed in the future.
+     * For those files the full image is the thumbnail/preview itself */
+    if (m_file.suffix().toLower() == "mp4") {
+        QString path("image://thumbnailer/");
+        path.append(m_file.absoluteFilePath());
+        return QUrl(path);
+    } else {
+        return GalleryStandardImageProvider::toURL(m_file);
+    }
 }
 
 /*!

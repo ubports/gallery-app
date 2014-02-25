@@ -47,7 +47,6 @@ GalleryManager::GalleryManager(const QString& picturesDir, QQuickView *view)
       m_mediaCollection(0),
       m_albumCollection(0),
       m_eventCollection(0),
-      m_previewManager(0),
       m_monitor(0),
       m_mediaLibrary(0)
 {

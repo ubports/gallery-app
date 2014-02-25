@@ -39,7 +39,6 @@ class GalleryStandardImageProvider;
 class MediaCollection;
 class MediaMonitor;
 class MediaObjectFactory;
-class PreviewManager;
 class QmlMediaCollectionModel;
 class Resource;
 
@@ -83,7 +82,6 @@ private:
     GalleryManager(const GalleryManager&);
     void operator=(const GalleryManager&);
 
-    void initPreviewManager();
     void fillMediaCollection();
     void startFileMonitoring();
 
@@ -98,7 +96,6 @@ private:
     MediaCollection* m_mediaCollection;
     AlbumCollection* m_albumCollection;
     EventCollection* m_eventCollection;
-    PreviewManager* m_previewManager;
     MediaObjectFactory *m_mediaFactory;
     MediaMonitor *m_monitor;
 

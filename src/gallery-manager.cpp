@@ -35,7 +35,6 @@
 // media
 #include "media-collection.h"
 #include "media-monitor.h"
-#include "preview-manager.h"
 
 // qml
 #include "gallery-standard-image-provider.h"
@@ -67,7 +66,6 @@ GalleryManager::GalleryManager(const QString& picturesDir,
       m_mediaCollection(0),
       m_albumCollection(0),
       m_eventCollection(0),
-      m_previewManager(0),
       m_monitor(0),
       m_mediaLibrary(0)
 {
@@ -92,7 +90,6 @@ GalleryManager::~GalleryManager()
     delete m_defaultTemplate;
     delete m_resource;
     delete m_mediaCollection;
-    delete m_previewManager;
     delete m_standardImageProvider;
 }
 
@@ -142,7 +139,6 @@ void GalleryManager::postInit()
         m_defaultTemplate = new AlbumDefaultTemplate();
         m_mediaCollection = new MediaCollection(m_database->getMediaTable());
 
-        initPreviewManager();
         fillMediaCollection();
         startFileMonitoring();
 
@@ -216,38 +212,6 @@ QmlMediaCollectionModel *GalleryManager::mediaLibrary() const
 void GalleryManager::logImageLoading(bool log)
 {
     m_standardImageProvider->setLogging(log);
-}
-
-/*!
- * \brief GalleryManager::initPreviewManager creates the PreviewManager,
- * assigns it to all needed objects and creates all signal slot connection.
- */
-void GalleryManager::initPreviewManager()
-{
-    Q_ASSERT(m_resource);
-    Q_ASSERT(m_mediaCollection);
-    Q_ASSERT(m_standardImageProvider);
-
-    if (m_previewManager)
-        return;
-
-    m_previewManager = new PreviewManager(m_resource->thumbnailDirectory());
-
-    m_standardImageProvider->setPreviewManager(m_previewManager);
-
-    // Monitor MediaCollection for all new MediaSources
-    QObject::connect(m_mediaCollection,
-                     SIGNAL(contentsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*)),
-                     m_previewManager,
-                     SLOT(onMediaAddedRemoved(const QSet<DataObject*>*,const QSet<DataObject*>*)));
-
-    QObject::connect(m_mediaCollection,
-                     SIGNAL(destroying(const QSet<DataObject*>*)),
-                     m_previewManager,
-                     SLOT(onMediaDestroying(const QSet<DataObject*>*)));
-
-    // Verify previews for all existing added MediaSources
-    m_previewManager->onMediaAddedRemoved(&m_mediaCollection->getAsSet(), NULL);
 }
 
 /*!

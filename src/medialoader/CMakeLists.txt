@@ -17,14 +17,12 @@ include_directories(
 set(gallery_medialoader_HDRS
     gallery-standard-image-provider.h
     photo-metadata.h
-    preview-manager.h
     video-metadata.h
     )
 
 set(gallery_medialoader_SRCS
     gallery-standard-image-provider.cpp
     photo-metadata.cpp
-    preview-manager.cpp
     video-metadata.cpp
     )
 

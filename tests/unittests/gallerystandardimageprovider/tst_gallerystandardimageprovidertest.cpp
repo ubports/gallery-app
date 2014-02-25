@@ -24,7 +24,6 @@
 #include <QUrl>
 
 #include "gallery-standard-image-provider.h"
-#include "preview-manager.h"
 #include "media-collection.h"
 
 class tst_GalleryStandardImageProvider : public QObject
@@ -63,8 +62,6 @@ void tst_GalleryStandardImageProvider::idToFile_data()
 
     QTest::newRow("FullSize") << "/home/user/Pictures/logo.jpg?size_level=0&orientation=1" <<
                                  "/home/user/Pictures/logo.jpg";
-    QTest::newRow("Thumbnail") << "/home/user/Pictures/logo.jpg?size_level=1&orientation=1" <<
-                                 "/home/user/Pictures/.thumbs/logo_th.JPG";
 }
 
 void tst_GalleryStandardImageProvider::idToFile()
@@ -72,9 +69,7 @@ void tst_GalleryStandardImageProvider::idToFile()
     QFETCH(QString, id);
     QFETCH(QString, fileName);
 
-    PreviewManager previewManager("/home/user/thumbnails");
     GalleryStandardImageProvider provider;
-    provider.setPreviewManager(&previewManager);
     QCOMPARE(provider.idToFile(id), fileName);
 }
 
