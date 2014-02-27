@@ -32,3 +32,8 @@ class PickerScreen(toolkit_emulators.MainView):
         grid_view = self.grid_view()
         return grid_view.select_many("OrganicItemInteraction")[0]
 
+    def get_named_photo(self, photo_name):
+        """Returns the named photo"""
+        photo = self.grid_view().select_single("QQuickImage",
+                                               source=photo_name)
+        return photo.get_parent()
