@@ -56,8 +56,9 @@ QImage Video::image(bool respectOrientation, const QSize &scaleSize)
  */
 bool Video::isCameraVideo(const QFileInfo &file)
 {
-    if (file.suffix() == QLatin1String("mp4") &&
-            file.baseName().startsWith("video")) {
+    QMimeDatabase mimedb;
+    QMimeType mimeType = mimedb.mimeTypeForFile(file);
+    if (mimeType.name().contains("video")) {
         return true;
     }
 
