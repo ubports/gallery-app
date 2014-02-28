@@ -58,14 +58,6 @@ class TestPhotosView(GalleryTestCase):
         photo = self.photos_view.get_first_photo_in_photos_view()
         self.click_item(photo)
 
-    def test_select_named_photo(self):
-        """Select the specific photo required for the contact"""
-        self.main_view.close_toolbar()
-        self.switch_to_photos_tab()
-        photo = self.photos_view.get_named_photo(
-            "image://gallery-thumbnail//tmp/gallery-ap_sd/new_user.png")
-        self.click_item(photo)
-
     def test_open_photo(self):
         self.main_view.close_toolbar()
         self.click_first_photo()

@@ -23,9 +23,3 @@ class PhotosView(GalleryUtils):
         photo_delegates = self.app.select_many("QQuickItem",
                                                objectName="allPotosGridPhoto")
         return len(photo_delegates)
-
-    def get_named_photo(self, photo_name):
-        """Returns the named photo"""
-        photos = self.app.select_single("Tab", objectName="photosTab")
-        photo = photos.select_single("QQuickImage", source=photo_name)
-        return photo.get_parent()
