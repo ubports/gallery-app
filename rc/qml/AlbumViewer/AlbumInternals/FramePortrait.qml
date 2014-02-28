@@ -62,4 +62,10 @@ Item {
             NumberAnimation { duration: Gallery.SNAP_DURATION }
         }
     }
+    Image {
+        // Display a play icon if the thumbnail is from a video
+        source: "../../../img/icon_play.png"
+        anchors.centerIn: parent
+        visible: isLoaded && mediaSource.type === 2? true : false
+    }
 }

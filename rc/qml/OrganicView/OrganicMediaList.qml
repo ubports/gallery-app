@@ -165,6 +165,13 @@ Item {
                     asynchronous: true
                 }
 
+                Image {
+                    // Display a play icon if the thumbnail is from a video
+                    source: "../../img/icon_play.png"
+                    anchors.centerIn: parent
+                    visible: mediaSource.type == 2? true : false
+                }
+
                 OrganicItemInteraction {
                     objectName: "eventsViewPhoto"
                     selectionItem: model.mediaSource
