@@ -33,10 +33,10 @@ void tst_Video::isCameraVideo()
     QVERIFY(Video::isCameraVideo(fi));
 
     fi.setFileName("/dir/video20130612_0001.avi");
-    QVERIFY(!Video::isCameraVideo(fi));
+    QVERIFY(Video::isCameraVideo(fi));
 
     fi.setFileName("/dir/home_video.mp4");
-    QVERIFY(!Video::isCameraVideo(fi));
+    QVERIFY(Video::isCameraVideo(fi));
 }
 
 QTEST_MAIN(tst_Video);
