@@ -202,7 +202,7 @@ Checkerboard {
             action: Action {
                 text: i18n.tr("Camera")
                 iconSource: Qt.resolvedUrl("../img/camera.png")
-                onTriggered: Qt.openUrlExternally("application:///camera-app.desktop")
+                onTriggered: Qt.openUrlExternally("appid://com.ubuntu.camera/camera/current-user-version")
             }
         }
     }
