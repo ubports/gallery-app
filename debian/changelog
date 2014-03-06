@@ -1,3 +1,13 @@
+gallery-app (0.0.67+14.04.20140306-0ubuntu1) trusty; urgency=low
+
+  [ Bill Filler ]
+  * Click support
+
+  [ Sergio Schvezov ]
+  * Click support
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 06 Mar 2014 16:39:13 +0000
+
 gallery-app (0.0.67+14.04.20140214-0ubuntu1) trusty; urgency=low
 
   [ Arthur Mello ]
