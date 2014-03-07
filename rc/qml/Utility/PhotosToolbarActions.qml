@@ -44,6 +44,7 @@ ToolbarItems {
     ToolbarButton {
         objectName: "cameraButton"
         text: i18n.tr("Camera")
+        visible: !APP.desktopMode
         iconSource: Qt.resolvedUrl("../../img/camera.png")
         onTriggered: Qt.openUrlExternally("application:///camera-app.desktop")
     }
