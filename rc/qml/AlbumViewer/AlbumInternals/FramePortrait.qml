@@ -18,6 +18,7 @@
  */
 
 import QtQuick 2.0
+import Gallery 1.0
 import "../../../js/Gallery.js" as Gallery
 
 /*!
@@ -70,5 +71,11 @@ Item {
         Behavior on opacity {
             NumberAnimation { duration: Gallery.SNAP_DURATION }
         }
+    }
+    Image {
+        // Display a play icon if the thumbnail is from a video
+        source: "../../../img/icon_play.png"
+        anchors.centerIn: parent
+        visible: isLoaded && mediaSource.type === MediaSource.Video
     }
 }

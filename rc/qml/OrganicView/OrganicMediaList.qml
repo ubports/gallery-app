@@ -182,6 +182,13 @@ Item {
                     }
                 }
 
+                Image {
+                    // Display a play icon if the thumbnail is from a video
+                    source: "../../img/icon_play.png"
+                    anchors.centerIn: parent
+                    visible: mediaSource.type === MediaSource.Video
+                }
+
                 OrganicItemInteraction {
                     objectName: "eventsViewPhoto"
                     selectionItem: model.mediaSource

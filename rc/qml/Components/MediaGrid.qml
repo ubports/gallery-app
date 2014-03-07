@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Gallery 1.0
 import "../OrganicView"
 import "../Utility"
 import "../../js/Gallery.js" as Gallery
@@ -93,6 +94,13 @@ GridView {
                         thumbImage.source = mediaSource.galleryThumbnailPath + "?at=" + Date.now()
                     }
                 }
+            }
+
+            Image {
+                // Display a play icon if the thumbnail is from a video
+                source: "../../img/icon_play.png"
+                anchors.centerIn: parent
+                visible: mediaSource.type === MediaSource.Video
             }
 
             OrganicItemInteraction {
