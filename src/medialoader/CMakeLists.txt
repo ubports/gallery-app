@@ -39,4 +39,5 @@ target_link_libraries( ${GALLERY_MEDIALOADER_LIB}
     ${EXIV2_LIBRARIES}
     ${GSTLIB_LDFLAGS}
     ${MEDIAINFO_LIBRARIES}
+    gallery-util
     )

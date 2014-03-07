@@ -135,15 +135,50 @@ void MediaMonitorWorker::setMonitoringOnHold(bool onHold)
 }
 
 /*!
+ * \brief MediaMonitor::expandSubDirectories List all sub directories under
+ * the base one. Use it to add to watch list
+ * \param dirPath
+ */
+QStringList MediaMonitorWorker::expandSubDirectories(const QString& dirPath)
+{
+    QStack<QString> dirStack;
+    dirStack.push(dirPath);
+
+    QStringList dirList;
+    while(!dirStack.isEmpty()) {
+        QDir dir(dirStack.pop());
+        dirList.append(dir.absolutePath());
+
+        foreach(const QFileInfo &info, dir.entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs)) {
+            QString path(info.absoluteFilePath());
+            if (info.isSymLink() && info.exists()) {
+                // If it's a SymLink and points to a valid target need to get the target path
+                path = info.symLinkTarget();
+            }
+            if(!dirList.contains(path)) {
+                // In case we already visited the folder we didn't expand it anymore
+                dirStack.push(path);
+            }
+        }
+    }
+
+    return dirList;
+}
+
+/*!
  * \brief MediaMonitor::startMonitoring
  * \param targetDirectories
  */
 void MediaMonitorWorker::startMonitoring(const QStringList &targetDirectories)
 {
     QStringList newDirectories;
-    foreach (const QString& dir, targetDirectories) {
-        if (!m_targetDirectories.contains(dir))
-            newDirectories.append(dir);
+    foreach (const QString& dirPath, targetDirectories) {
+        foreach (const QString& d, expandSubDirectories(dirPath)) {
+            // Add all sub folders from target directory on watch list
+            if (!m_targetDirectories.contains(d)) {
+                newDirectories.append(d);
+            }
+        }
     }
     m_targetDirectories += newDirectories;
     m_manifest = getManifest(m_targetDirectories);

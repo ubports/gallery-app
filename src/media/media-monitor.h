@@ -75,6 +75,7 @@ public:
 
 public slots:
     void startMonitoring(const QStringList& targetDirectories);
+    QStringList expandSubDirectories(const QString& dirPath);
     void checkConsitency();
 
 signals:
