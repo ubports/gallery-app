@@ -55,14 +55,13 @@ class TestPickerMode(GalleryTestCase):
         self.assertThat(first_events_media.isSelected, Eventually(Equals(False)))
 
     def test_pick_named_photo(self):
-        """Select a named photo and press Pick button"""
-        self.picker_view.switch_to_tab("photosTab")
+        """Select a named photo and press Pick button."""
+        self.picker_view.switch_to_tab('photosTab')
         pick_button = self.picker_view.pick_button()
         self.assertFalse(pick_button.enabled)
 
-        photo = self.picker_view.get_named_photo(
-            "image://gallery-thumbnail//tmp/gallery-ap_sd/new_user.png")
-        self.click_item(photo)
+        self.picker_view.select_named_photo(
+            'image://gallery-thumbnail//tmp/gallery-ap_sd/new_user.png')
 
         self.assertTrue(pick_button.enabled)
         self.click_item(pick_button)
