@@ -84,26 +84,39 @@ class GalleryTestCase(AutopilotTestCase):
     def _get_sample_destination_dir(self, env_type):
         if env_type == EnvironmentTypes.click:
             pic_dir = os.path.expanduser("~/Pictures")
-            shutil.move(pic_dir, pic_dir + '.bak')
-            self.addCleanup(
-                logger.debug, "Restoring backed up pics to %s" % pic_dir)
-            self.addCleanup(shutil.move, pic_dir + '.bak', pic_dir)
+            pic_bak_dir = pic_dir + '.apbak'
+            # Only save and restore if it previously existed
+            if os.path.exists(pic_dir):
+                shutil.move(pic_dir, pic_bak_dir)
+                self.addCleanup(
+                    logger.debug, "Restoring backed up pics to %s" % pic_dir)
+                self.addCleanup(shutil.move, pic_bak_dir, pic_dir)
             return pic_dir
         else:
             return self._default_sample_destination_dir
 
     def configure_db(self):
         db = os.path.expanduser(self._db)
-        shutil.move(db, db + '.apbak')
-        self.addCleanup(shutil.move, db + '.apbak', db)
+        db_bak = db + '.apbak'
+        # Only save and restore if it previously existed
+        if os.path.exists(db):
+            shutil.move(db, db_bak)
+            self.addCleanup(shutil.move, db_bak, db)
+        if not os.path.exists(os.path.dirname(db)):
+            os.makedirs(os.path.dirname(db))
         mock_db = os.path.join(self.sample_destination_dir, '.database',
                                'gallery_confined.sqlite')
         shutil.move(mock_db, db)
 
     def configure_thumbnails(self):
         thumbs = os.path.expanduser(self._thumbs)
-        shutil.move(thumbs, thumbs + '.apbak')
-        self.addCleanup(shutil.move, thumbs + '.apbak', thumbs)
+        thumbs_bak = thumbs + '.apbak'
+        # Only save and restore if it previously existed
+        if os.path.exists(thumbs):
+            shutil.move(thumbs, thumbs_bak)
+            self.addCleanup(shutil.move, thumbs_bak, thumbs)
+        if not os.path.exists(os.path.dirname(thumbs)):
+            os.makedirs(os.path.dirname(thumbs))
         mock_thumbs = os.path.join(self.sample_destination_dir, '.thumbnails')
         shutil.move(mock_thumbs, thumbs)
 
