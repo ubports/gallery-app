@@ -99,9 +99,13 @@ class GalleryUtils(object):
 
     def get_first_album(self):
         """Returns the first album in the albums view"""
+        return self.get_album_at(0)
+
+    def get_album_at(self, position):
+        """Returns the albums at this position in the albums view"""
         albums = self.select_many_retry("CheckerboardDelegate",
                                         objectName="checkerboardDelegate")
-        return albums[-1]
+        return albums[position]
 
     def get_edit_album_button(self):
         """Returns the edit album button in the album popover"""

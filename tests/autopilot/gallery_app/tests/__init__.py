@@ -79,7 +79,8 @@ class GalleryTestCase(AutopilotTestCase):
 
     def _get_sample_destination_dir(self):
         if self.env_type == EnvironmentTypes.click:
-            return os.path.expanduser("~/Pictures")
+             return os.path.expanduser("~/Pictures")
+            pass
         else:
             return self._default_sample_destination_dir
 
@@ -234,12 +235,15 @@ class GalleryTestCase(AutopilotTestCase):
         # FIXME find a (functional) way to test if the tabs still move
         sleep(1)
 
-    def open_first_album(self):
-        first_album = self.album_view.get_first_album()
+    def open_album_at(self, position):
+        album = self.album_view.get_album_at(position)
         # workaround lp:1247698
         self.main_view.close_toolbar()
-        self.click_item(first_album)
+        self.click_item(album)
         self.ensure_view_is_fully_open()
+
+    def open_first_album(self):
+        self.open_album_at(0)
 
     def ensure_view_is_fully_open(self):
         animated_view = self.album_view.get_animated_album_view()

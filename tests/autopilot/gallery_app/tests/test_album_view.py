@@ -10,7 +10,7 @@
 
 from __future__ import absolute_import
 
-from testtools.matchers import Equals
+from testtools.matchers import Equals, GreaterThan
 from autopilot.matchers import Eventually
 
 from gallery_app.emulators.album_view import AlbumView
@@ -59,6 +59,41 @@ class TestAlbumView(GalleryTestCase):
         photo_view = self.album_view.get_album_photo_view()
         self.assertThat(photo_view.visible, Eventually(Equals(True)))
         self.assertThat(photo_view.isPoppedUp, Eventually(Equals(True)))
+
+    def test_album_view_flipping(self):
+        self.main_view.close_toolbar()
+
+        # For some reason here the album at position 0 in the autopilot list is
+        # actually the second album, they seem to be returned in reverse order.
+        self.open_album_at(0)
+        self.main_view.close_toolbar()
+
+        album = self.album_view.get_album_view()
+        spread = self.album_view.get_spread_view()
+
+        self.assertThat(album.animationRunning, Eventually(Equals(False)))
+        self.assertThat(spread.viewingPage, Eventually(Equals(1)))
+        self.main_view.close_toolbar()
+
+        x, y, w, h = spread.globalRect
+        mid_y = y + h / 2
+        mid_x = x + w / 2
+        self.pointing_device.drag(mid_x + mid_x / 2, mid_y, x + 10, mid_y)
+
+        # can't check for 2 because depending on form factor and orientation
+        # we display 1 or two pages at the same time.
+        self.assertThat(album.animationRunning, Eventually(Equals(False)))
+        self.assertThat(spread.viewingPage, Eventually(GreaterThan(1)))
+
+        # check that we can page back to where we started
+        self.pointing_device.drag(mid_x - mid_x / 2, mid_y, x + w - 10, mid_y)
+        self.assertThat(album.animationRunning, Eventually(Equals(False)))
+        self.assertThat(spread.viewingPage, Eventually(Equals(1)))
+
+        # check that we can close an album by paging to the cover
+        self.pointing_device.drag(mid_x - mid_x / 2, mid_y, x + w - 10, mid_y)
+        animview = self.album_view.get_animated_album_view()
+        self.assertThat(animview.isOpen, Eventually(Equals(False)))
 
     def test_add_photo(self):
         self.main_view.close_toolbar()
