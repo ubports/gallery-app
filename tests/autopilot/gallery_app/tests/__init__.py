@@ -130,7 +130,7 @@ class GalleryTestCase(AutopilotTestCase):
 
         self.sample_file = os.path.join(
             self.sample_destination_dir,
-            "sample01.jpg"
+            "sample04.jpg"
         )
 
         default_data_dir = os.path.join(
@@ -320,12 +320,13 @@ class GalleryTestCase(AutopilotTestCase):
         self.assertIsNotNone(self.app.process.returncode)
 
     def add_video_sample(self):
+        events_before = self.gallery_utils.number_of_events()
         video_file = "video20130618_0002.mp4"
         shutil.copyfile(self.sample_dir+"/option01/"+video_file,
                         self.sample_destination_dir+"/"+video_file)
         self.assertThat(
-            lambda: self.gallery_utils.number_of_photos_in_events(),
-            Eventually(Equals(3)))
+            lambda: self.gallery_utils.number_of_events(),
+            Eventually(Equals(events_before + 1)))
 
     def get_delete_dialog(self):
         """Raises StateNotFoundError if get_delete_dialog fails."""

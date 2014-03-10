@@ -75,9 +75,8 @@ class GalleryUtils(object):
                                       objectName="organicEventItem0")
 
     def number_of_events(self):
-        """Returns the number of events in the event view (might differ to the
-        total number in the model, because of the listview"""
-        return len(self.app.select_many("OrganicMediaList"))
+        """Returns the number of events in the model behind the event view"""
+        return self.app.select_single("EventsOverview")._eventCount
 
     def number_of_photos_in_events(self):
         """Returns the number of events"""

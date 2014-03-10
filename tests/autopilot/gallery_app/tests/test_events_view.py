@@ -26,6 +26,7 @@ class TestEventsView(GalleryTestCase):
         # This is needed to wait for the application to start.
         # In the testfarm, the application may take some time to show up.
         super(TestEventsView, self).setUp()
+        self.main_view.switch_to_tab("eventsTab")
 
     def tearDown(self):
         super(TestEventsView, self).tearDown()
