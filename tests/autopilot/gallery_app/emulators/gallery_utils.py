@@ -98,8 +98,10 @@ class GalleryUtils(object):
         return albums
 
     def get_first_album(self):
-        """Returns the first album in the albums view"""
-        return self.get_album_at(0)
+        """Returns the first album in the albums view."""
+        # For some reasons the albums are returned in inverse order, so
+        # the first album is acutally the last in the array
+        return self.get_album_at(-1)
 
     def get_album_at(self, position):
         """Returns the albums at this position in the albums view"""

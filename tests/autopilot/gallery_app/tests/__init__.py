@@ -281,7 +281,7 @@ class GalleryTestCase(AutopilotTestCase):
         self.ensure_view_is_fully_open()
 
     def open_first_album(self):
-        self.open_album_at(0)
+        self.open_album_at(-1)
 
     def ensure_view_is_fully_open(self):
         animated_view = self.album_view.get_animated_album_view()
