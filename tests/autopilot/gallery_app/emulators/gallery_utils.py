@@ -76,7 +76,7 @@ class GalleryUtils(object):
 
     def number_of_events(self):
         """Returns the number of events in the model behind the event view"""
-        return self.app.select_single("EventsOverview")._eventCount
+        return self.app.select_single("OrganicView")._eventCount
 
     def number_of_photos_in_events(self):
         """Returns the number of events"""

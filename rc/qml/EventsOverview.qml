@@ -44,10 +44,6 @@ OrganicView {
     model: EventCollectionModel {
     }
 
-    // This property exists only for the benefit of AP tests that
-    // can't access C++ objects
-    property int _eventCount: model.count
-
     delegate: OrganicMediaList {
         id: photosList
         objectName: "organicEventItem" + index
