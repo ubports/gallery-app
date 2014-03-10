@@ -187,6 +187,7 @@ Page {
 
     AlbumSpreadViewer {
         id: albumSpreadViewer
+        objectName: "spreadViewer"
 
         anchors.fill: parent
 
