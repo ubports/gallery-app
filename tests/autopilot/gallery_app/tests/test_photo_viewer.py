@@ -15,6 +15,7 @@ from autopilot.matchers import Eventually
 
 from gallery_app.emulators.photo_viewer import PhotoViewer
 from gallery_app.emulators.media_viewer import MediaViewer
+from gallery_app.emulators.events_view import EventsView
 from gallery_app.tests import GalleryTestCase
 
 from os.path import exists
@@ -32,6 +33,10 @@ class TestPhotoViewerBase(GalleryTestCase):
     def photo_viewer(self):
         return PhotoViewer(self.app)
 
+    @property
+    def events_view(self):
+        return EventsView(self.app)
+
     def setUp(self):
         self.ARGS = []
         super(TestPhotoViewerBase, self).setUp()
@@ -40,9 +45,9 @@ class TestPhotoViewerBase(GalleryTestCase):
         self.main_view.open_toolbar()
 
     def open_first_photo(self):
-        self.assertThat(lambda: self.photo_viewer.number_of_photos_in_events(),
+        self.assertThat(lambda: self.events_view.number_of_photos_in_events(),
                         Eventually(GreaterThan(0)))
-        single_photo = self.photo_viewer.get_first_image_in_event_view()
+        single_photo = self.events_view.get_first_image_in_event_view()
 
         # workaround lp:1247698
         # toolbar needs to be gone to click on an image.
