@@ -35,6 +35,7 @@ class TestPhotoViewerBase(GalleryTestCase):
     def setUp(self):
         self.ARGS = []
         super(TestPhotoViewerBase, self).setUp()
+        self.main_view.switch_to_tab("eventsTab")
         self.open_first_photo()
         self.main_view.open_toolbar()
 
@@ -274,16 +275,17 @@ class TestPhotoEditor(TestPhotoViewerBase):
         opened_photo = self.photo_viewer.get_opened_photo()
         item_height = opened_photo.height
 
-        is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
-        self.assertThat(is_landscape, Equals(True))
+        def is_landscape():
+            return opened_photo.paintedWidth > opened_photo.paintedHeight
+        self.assertThat(is_landscape(), Equals(True))
 
         self.click_rotate_item()
         self.ensure_spinner_not_running()
 
         self.assertThat(opened_photo.paintedHeight,
                         Eventually(Equals(item_height)))
-        is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
-        self.assertThat(is_landscape, Equals(False))
+        self.assertThat(lambda: is_landscape(),
+                        Eventually(Equals(False)))
 
         self.main_view.open_toolbar()
         self.click_edit_button()
@@ -292,8 +294,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.assertThat(opened_photo.paintedHeight,
                         Eventually(NotEquals(item_height)))
-        is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
-        self.assertThat(is_landscape, Equals(True))
+        self.assertThat(lambda: is_landscape(),
+                        Eventually(Equals(True)))
 
         self.main_view.open_toolbar()
         self.click_edit_button()

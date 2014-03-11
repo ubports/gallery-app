@@ -27,6 +27,8 @@ class TestEventsView(GalleryTestCase):
         # In the testfarm, the application may take some time to show up.
         super(TestEventsView, self).setUp()
         self.main_view.switch_to_tab("eventsTab")
+        """Wait for the data to be loaded and displayed"""
+        self.ensure_at_least_one_event()
 
     def tearDown(self):
         super(TestEventsView, self).tearDown()
