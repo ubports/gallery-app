@@ -49,13 +49,6 @@ class GalleryTestCase(AutopilotTestCase):
 
     _default_sample_destination_dir = "/tmp/gallery-ap_sd"
 
-    _sample_dirs = {
-        EnvironmentTypes.installed:
-        "/usr/lib/python2.7/dist-packages/gallery_app/data",
-        EnvironmentTypes.local: "gallery_app/data",
-        EnvironmentTypes.click: "gallery_app/data",
-    }
-
     ARGS = []
 
     @property
@@ -121,7 +114,8 @@ class GalleryTestCase(AutopilotTestCase):
         shutil.move(mock_thumbs, thumbs)
 
     def configure_sample_files(self, env_type):
-        self.sample_dir = self._sample_dirs[env_type]
+        self.sample_dir = os.path.join(
+            os.path.dirname(__file__), '..', 'data')
         self.sample_destination_dir = \
             self._get_sample_destination_dir(env_type)
         if (os.path.exists(self.sample_destination_dir)):
