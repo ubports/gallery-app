@@ -249,12 +249,6 @@ class GalleryTestCase(AutopilotTestCase):
         sleep(1)
         self.pointing_device.release()
 
-    def ensure_at_least_one_event(self):
-        """The event view has to have at least one event
-        In case gallery is not yet fully loaded wait a while and test again"""
-        self.assertThat(lambda: self.gallery_utils.number_of_events(),
-                        Eventually(GreaterThan(0)))
-
     def switch_to_albums_tab(self):
         self.main_view.switch_to_tab("albumsTab")
 
@@ -316,15 +310,6 @@ class GalleryTestCase(AutopilotTestCase):
         # Either way, we wait for the underlying process to be fully finished.
         self.app.process.wait()
         self.assertIsNotNone(self.app.process.returncode)
-
-    def add_video_sample(self):
-        events_before = self.gallery_utils.number_of_events()
-        video_file = "video20130618_0002.mp4"
-        shutil.copyfile(self.sample_dir+"/option01/"+video_file,
-                        self.sample_destination_dir+"/"+video_file)
-        self.assertThat(
-            lambda: self.gallery_utils.number_of_events(),
-            Eventually(Equals(events_before + 1)))
 
     def get_delete_dialog(self):
         """Raises StateNotFoundError if get_delete_dialog fails."""
