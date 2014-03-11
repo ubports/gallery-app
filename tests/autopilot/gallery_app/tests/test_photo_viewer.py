@@ -110,6 +110,13 @@ class TestPhotoViewer(TestPhotoViewerBase):
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
         self.assertThat(photo_viewer.visible, Eventually(Equals(False)))
 
+    def delete_one_picture(self):
+        self.main_view.open_toolbar().click_button("deleteButton")
+        self.get_delete_dialog()
+        delete_item = self.photo_viewer.get_delete_popover_delete_item()
+        self.click_item(delete_item)
+        self.ensure_closed_delete_dialog()
+
     def test_photo_delete_works(self):
         """Clicking the trash button must show the delete dialog."""
         self.main_view.open_toolbar().click_button("deleteButton")
@@ -124,22 +131,15 @@ class TestPhotoViewer(TestPhotoViewerBase):
         self.assertThat(lambda: exists(self.sample_file),
                         Eventually(Equals(True)))
 
-        self.main_view.open_toolbar().click_button("deleteButton")
-        self.get_delete_dialog()
-
-        delete_item = self.photo_viewer.get_delete_popover_delete_item()
-        self.click_item(delete_item)
-        self.ensure_closed_delete_dialog()
-
+        self.delete_one_picture()
         self.assertThat(lambda: exists(self.sample_file),
                         Eventually(Equals(False)))
 
-        self.main_view.open_toolbar().click_button("deleteButton")
-        self.get_delete_dialog()
-
-        delete_item = self.photo_viewer.get_delete_popover_delete_item()
-        self.click_item(delete_item)
-        self.ensure_closed_delete_dialog()
+        # Delete all other pictures and make sure the photo viewer closes
+        self.delete_one_picture()
+        self.delete_one_picture()
+        self.delete_one_picture()
+        self.delete_one_picture()
 
         self.assertThat(photo_viewer.visible, Eventually(Equals(False)))
 
