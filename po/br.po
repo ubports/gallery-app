@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-06-20 12:56+0000\n"
-"PO-Revision-Date: 2014-03-10 12:54+0000\n"
+"PO-Revision-Date: 2014-03-11 08:20+0000\n"
 "Last-Translator: Fohanno Thierry <thierry.fohanno@ofis-bzh.org>\n"
 "Language-Team: Breton <br@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-03-11 06:10+0000\n"
-"X-Generator: Launchpad (build 16948)\n"
+"X-Launchpad-Export-Date: 2014-03-12 05:28+0000\n"
+"X-Generator: Launchpad (build 16963)\n"
 
 #: desktop/gallery-app.desktop.in:3
 msgid "Gallery"
@@ -27,7 +27,7 @@ msgstr "Gwelerez luc'hskeudennoù Ubuntu"
 
 #: desktop/gallery-app.desktop.in:6
 msgid "Browse your photographs"
-msgstr "Ergerzhet ho luc'hskeudennoù"
+msgstr "Furchal ho luc'hskeudennoù"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:45
 msgid "Edit album"
@@ -200,7 +200,7 @@ msgstr "Lenn"
 
 #: rc/qml/PhotosOverview.qml:148
 msgid "Delete photos"
-msgstr "Diverkañ luc'hskeudennoù"
+msgstr "Diverkañ al luc'hskeudennoù"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
@@ -260,15 +260,15 @@ msgstr "Disteurel an holl gemmoù"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr "Kizvezh"
+msgstr "Louc'hañ"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr "Reizhañ ar c'hizvezh"
+msgstr "Reizhañ al louc'hañ"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr "Kizvezh re verr;Kizvezh re hir"
+msgstr "Islouc'het;Uslouc'het"
 
 #: rc/qml/Utility/EditingHUD.qml:123 rc/qml/Utility/EditingHUD.qml:165
 msgid "Confirm"
@@ -284,7 +284,7 @@ msgstr "Mentel al livioù"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Adjust color balance"
-msgstr "Reizhañ mentel al livioù"
+msgstr "Keidañ mentel al livioù"
 
 #: rc/qml/Utility/EditingHUD.qml:163
 msgid "Saturation;Hue"
