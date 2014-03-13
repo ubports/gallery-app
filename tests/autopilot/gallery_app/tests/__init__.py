@@ -115,7 +115,7 @@ class GalleryTestCase(AutopilotTestCase):
         shutil.move(mock_thumbs, thumbs)
 
     def configure_sample_files(self, env_type):
-        self.sample_dir = resource_filename('gallery_app.tests', 'data')
+        self.sample_dir = resource_filename('gallery_app', 'data')
         self.sample_destination_dir = \
             self._get_sample_destination_dir(env_type)
         if (os.path.exists(self.sample_destination_dir)):
