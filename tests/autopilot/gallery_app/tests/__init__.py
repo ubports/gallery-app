@@ -17,6 +17,7 @@ from autopilot.matchers import Eventually
 from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
 from autopilot.introspection import get_proxy_object_for_existing_process
+from pkg_resources import resource_filename
 
 from ubuntuuitoolkit import emulators as toolkit_emulators
 from gallery_app.emulators import main_screen
@@ -114,8 +115,7 @@ class GalleryTestCase(AutopilotTestCase):
         shutil.move(mock_thumbs, thumbs)
 
     def configure_sample_files(self, env_type):
-        self.sample_dir = os.path.join(
-            os.path.dirname(__file__), '..', 'data')
+        self.sample_dir = resource_filename('gallery_app.tests', 'data')
         self.sample_destination_dir = \
             self._get_sample_destination_dir(env_type)
         if (os.path.exists(self.sample_destination_dir)):
