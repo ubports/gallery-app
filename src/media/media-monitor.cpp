@@ -181,7 +181,7 @@ void MediaMonitorWorker::startMonitoring(const QStringList &targetDirectories)
         }
     }
     m_targetDirectories += newDirectories;
-    m_manifest = getManifest(m_targetDirectories);
+    m_manifest = generateManifest(m_targetDirectories);
     m_watcher.addPaths(newDirectories);
 }
 
@@ -214,7 +214,7 @@ void MediaMonitorWorker::onFileActivityCeased()
         return;
     }
 
-    QStringList new_manifest = getManifest(m_targetDirectories);
+    QStringList new_manifest = generateManifest(m_targetDirectories);
 
     QStringList added = subtractManifest(new_manifest, m_manifest);
     for (int i = 0; i < added.size(); i++)
@@ -232,11 +232,11 @@ void MediaMonitorWorker::onFileActivityCeased()
 }
 
 /*!
- * \brief MediaMonitor::getManifest
+ * \brief MediaMonitor::generateManifest
  * \param dir
  * \return
  */
-QStringList MediaMonitorWorker::getManifest(const QStringList &dirs)
+QStringList MediaMonitorWorker::generateManifest(const QStringList &dirs)
 {
     QStringList allFiles;
     foreach (const QString &dirName, dirs) {
