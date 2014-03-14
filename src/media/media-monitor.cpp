@@ -88,6 +88,13 @@ void MediaMonitor::setMonitoringOnHold(bool onHold)
     m_worker->setMonitoringOnHold(onHold);
 }
 
+/*!
+ * \brief MediaMonitor::manifest return a list of all files found on monitoring process.
+ * It is beeing used on unit tests to check if monitoring process is correct.
+ */
+QStringList MediaMonitor::manifest() {
+    return m_worker->getManifest();
+}
 
 /*!
  * \brief MediaMonitor::MediaMonitor
@@ -132,6 +139,14 @@ void MediaMonitorWorker::setMediaCollection(const MediaCollection *mediaCollecti
 void MediaMonitorWorker::setMonitoringOnHold(bool onHold)
 {
     m_onHold = onHold;
+}
+
+/*!
+ * \brief MediaMonitor::getManifest is a getter for m_manifest
+ */
+QStringList MediaMonitorWorker::getManifest()
+{
+    return m_manifest;
 }
 
 /*!

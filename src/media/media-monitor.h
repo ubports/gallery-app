@@ -44,6 +44,7 @@ public:
 
     void startMonitoring(const QStringList& targetDirectories);
     void checkConsitency(const MediaCollection *mediaCollection);
+    QStringList manifest();
 
 public slots:
     void setMonitoringOnHold(bool onHold);
@@ -72,6 +73,7 @@ public:
 
     void setMediaCollection(const MediaCollection *mediaCollection);
     void setMonitoringOnHold(bool onHold);
+    QStringList getManifest();
 
 public slots:
     void startMonitoring(const QStringList& targetDirectories);
@@ -87,7 +89,7 @@ private slots:
     void onFileActivityCeased();
 
 private:
-    QStringList getManifest(const QStringList& dirs);
+    QStringList generateManifest(const QStringList& dirs);
     QStringList subtractManifest(const QStringList& m1, const QStringList& m2);
     void checkForNewMedias();
     void checkForRemovedMedias();

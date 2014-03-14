@@ -59,14 +59,6 @@ void tst_MediaMonitor::tst_scanning_sub_folders()
     // Create a Media Monitor
     m_monitor = new MediaMonitor();
 
-    // Emitted every time a new photo/video found
-    QSignalSpy filesFound(m_monitor, SIGNAL(mediaItemAdded(QString)));
-
-    // Add some debug to check which media was found
-    connect(m_monitor, &MediaMonitor::mediaItemAdded, [](const QString &file) {
-        qDebug() << "File Found:" << file;
-    });
-
     // Launch the monitoring process
     m_monitor->startMonitoring(QStringList(m_tmpDir->path()));
 
@@ -81,7 +73,7 @@ void tst_MediaMonitor::tst_scanning_sub_folders()
 
     m_sampleImage->save(m_tmpDir->path() + "/sample.jpg", "JPG");
 
-    QTRY_COMPARE_WITH_TIMEOUT(filesFound.count(), 7, 10000);
+    QTRY_COMPARE_WITH_TIMEOUT(m_monitor->manifest().count(), 7, 10000);
 }
 
 void tst_MediaMonitor::cleanupTestCase()
