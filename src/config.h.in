@@ -24,8 +24,11 @@
 #include <QtCore/QString>
 
 inline bool isClick() {
-    static bool click = (QString("@CLICK_TAG@") == QString("click"));
-    return click;
+#ifdef CLICK_MODE
+    return true;
+#else
+    return false;
+#endif
 }
 
 inline bool isRunningInstalled()
@@ -41,8 +44,7 @@ inline void setOrganization() {
 inline QString galleryDirectory()
 {
     if (isClick()) {
-        return QString(QDir::currentPath() + QDir::separator() + 
-            "@GALLERY_DIR@");
+        return QString(".");
     } else if (isRunningInstalled()) {
         return QString("@CMAKE_INSTALL_PREFIX@/@GALLERY_DIR@");
     } else {
