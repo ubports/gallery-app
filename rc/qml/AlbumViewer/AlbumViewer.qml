@@ -315,12 +315,10 @@ Page {
                     if (albumSpreadViewer.destinationPage === minValidPage) {
                         albumViewer.__close();
                     } else if (albumSpreadViewer.destinationPage > minValidPage &&
-                               albumSpreadViewer.destinationPage < maxValidPage) {
+                               albumSpreadViewer.destinationPage <= maxValidPage) {
                         albumSpreadViewer.flip();
-                    }
-                }
-                else
-                    albumSpreadViewer.release();
+                    } else albumSpreadViewer.release();
+                } else albumSpreadViewer.release();
             }
         }
     }
