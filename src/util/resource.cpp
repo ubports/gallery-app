@@ -61,9 +61,11 @@ Resource::Resource(const QString &pictureDir, QQuickView *view)
  */
 QUrl Resource::getRcUrl(const QString& path)
 {
-    return isRunningInstalled() ?
-                QUrl::fromLocalFile(galleryDirectory() + "/rc/" + path) :
-                QUrl::fromLocalFile(galleryDirectory() + "/../rc/" + path);
+    if (isClick() || isRunningInstalled()) {
+        return QUrl::fromLocalFile(galleryDirectory() + "/rc/" + path);
+    } else {
+        return QUrl::fromLocalFile(galleryDirectory() + "/../rc/" + path);
+    }
 }
 
 /*!
