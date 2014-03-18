@@ -279,8 +279,8 @@ Item {
     AlbumCover {
         id: cover
 
-        width: pixelWidth
-        height: pixelHeight
+        width: /* albumPageContents.width */ pixelWidth
+        height: /* albumPageContents.height */ pixelHeight
 
         xScale: scaleFactorX
         yScale: scaleFactorY
