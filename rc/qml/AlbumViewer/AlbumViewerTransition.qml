@@ -88,7 +88,7 @@ Item {
         expandAlbum.width = thumbnailRect.width;
         expandAlbum.height = thumbnailRect.height;
 
-        expandAlbum.showCover = album.closed
+        expandAlbum.showCover = album.closed;
 
         showAlbumViewerAnimation.screenRect = getFullscreenRect(album.closed);
         showAlbumViewerAnimation.start();
@@ -99,7 +99,8 @@ Item {
     function transitionFromAlbumViewer(album, thumbnailRect, stayOpen, viewingPage) {
         // Set up portrait mode even-numbered page close transition.
         albumOpenerPortrait.viewingPage = viewingPage;
-        flipOnClose = isPortrait && viewingPage !== album.currentPage && stayOpen;
+        flipOnClose = isPortrait && viewingPage !== album.currentPage && stayOpen &&
+                      !viewingPage == 0;
 
         albumViewerTransition.album = album;
         expandAlbum = flipOnClose ? albumOpenerPortrait : albumOpenerLandscape;
@@ -118,8 +119,13 @@ Item {
         expandAlbum.height = rect.height;
 
         hideStayingOpen = stayOpen;
-        albumOpenerLandscape.showCover = !stayOpen
+        albumOpenerLandscape.showCover = !stayOpen || viewingPage == 0;
 
+        /* The Album preview doesn't like when the album is set to page zero,
+           it actually expects its property closed to be set to true in that case.
+           But we cant set that during the animation or it will think we're
+           flipping to closed, so we set it at the end */
+        hideAlbumViewerAnimation.setAlbumClosedAtEnd = viewingPage == 0;
         hideAlbumViewerAnimation.thumbnailRect = thumbnailRect;
         hideAlbumViewerAnimation.start();
     }
@@ -284,6 +290,7 @@ Item {
         id: hideAlbumViewerAnimation
 
         property variant thumbnailRect: {"x": 0, "y": 0, "width": 0, "height": 0}
+        property bool setAlbumClosedAtEnd: false
 
         PropertyAction { target: expandAlbum; property: "visible"; value: true; }
 
@@ -372,7 +379,7 @@ Item {
                 return;
 
             if (album)
-                album.closed = !hideStayingOpen;
+                album.closed = !hideStayingOpen || setAlbumClosedAtEnd;
 
             transitionFromAlbumViewerCompleted();
         }
