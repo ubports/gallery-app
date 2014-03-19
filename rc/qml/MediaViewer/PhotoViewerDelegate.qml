@@ -78,6 +78,7 @@ Item {
             fillMode: Image.PreserveAspectFit
 
             source: mediaSource ? mediaSource.galleryPreviewPath : ""
+            sourceSize.width: 256
             cache: false
         }
     }

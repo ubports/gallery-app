@@ -46,6 +46,7 @@ Item {
         visible: fullImage.opacity < 1
         source: load && mediaSource ? mediaSource.galleryPreviewPath : ""
         fillMode: fullImage.fillMode
+        sourceSize.width: 256
 
         Connections {
             target: mediaSource ? mediaSource : null
