@@ -18,6 +18,7 @@
  */
 
 import QtQuick 2.0
+import Gallery 1.0
 import "../../../js/Gallery.js" as Gallery
 
 /*!
@@ -45,6 +46,15 @@ Item {
         visible: fullImage.opacity < 1
         source: load && mediaSource ? mediaSource.galleryPreviewPath : ""
         fillMode: fullImage.fillMode
+
+        Connections {
+            target: mediaSource ? mediaSource : null
+            onDataChanged: {
+                // data changed but filename didn't, so we need to bypass the qml image
+                // cache by tacking a timestamp to the filename so sees it as different.
+                preview.source = mediaSource.galleryPreviewPath + "?at=" + Date.now()
+            }
+        }
     }
     Image {
         id: fullImage
@@ -61,5 +71,11 @@ Item {
         Behavior on opacity {
             NumberAnimation { duration: Gallery.SNAP_DURATION }
         }
+    }
+    Image {
+        // Display a play icon if the thumbnail is from a video
+        source: "../../../img/icon_play.png"
+        anchors.centerIn: parent
+        visible: isLoaded && mediaSource.type === MediaSource.Video
     }
 }

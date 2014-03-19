@@ -38,7 +38,6 @@
 
 // qml
 #include "gallery-standard-image-provider.h"
-#include "gallery-thumbnail-image-provider.h"
 #include "qml-album-collection-model.h"
 #include "qml-event-collection-model.h"
 #include "qml-event-overview-model.h"
@@ -143,7 +142,7 @@ void GalleryApplication::registerQML()
  */
 bool GalleryApplication::isDesktopMode() const
 {
-  return (qEnvironmentVariableIsSet("DESKTOP_MODE") && (qgetenv("DESKTOP_MODE") == "1"));
+    return(qEnvironmentVariableIsSet("DESKTOP_MODE") && (qgetenv("DESKTOP_MODE") == "1"));
 }
 
 /*!
@@ -169,7 +168,7 @@ void GalleryApplication::createView()
         size.transpose();
 
     m_view->setResizeMode(QQuickView::SizeRootObjectToView);
-    if (m_cmdLineParser->formFactor() == "desktop" || isDesktopMode()) {
+    if (isDesktopMode()) {
         m_view->setMinimumSize(QSize(60 * m_bguSize, 60 * m_bguSize));
     }
 
@@ -213,8 +212,6 @@ void GalleryApplication::initCollections()
     m_galleryManager->postInit();
     m_view->engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
                                        m_galleryManager->takeGalleryStandardImageProvider());
-    m_view->engine()->addImageProvider(GalleryThumbnailImageProvider::PROVIDER_ID,
-                                       m_galleryManager->takeGalleryThumbnailImageProvider());
 
     QApplication::processEvents();
     if (m_cmdLineParser->startupTimer())

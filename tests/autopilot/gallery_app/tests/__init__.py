@@ -320,9 +320,12 @@ class GalleryTestCase(AutopilotTestCase):
         video_file = "video20130618_0002.mp4"
         shutil.copyfile(self.sample_dir+"/option01/"+video_file,
                         self.sample_destination_dir+"/"+video_file)
+        video_file = "clip_0001.mkv"
+        shutil.copyfile(self.sample_dir+"/option01/"+video_file,
+                        self.sample_destination_dir+"/"+video_file)
         self.assertThat(
             lambda: self.gallery_utils.number_of_photos_in_events(),
-            Eventually(Equals(3)))
+            Eventually(Equals(4)))
 
     def get_delete_dialog(self):
         """Raises StateNotFoundError if get_delete_dialog fails."""

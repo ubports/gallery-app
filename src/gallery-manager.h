@@ -36,11 +36,9 @@ class Database;
 class EventCollection;
 class GalleryManager;
 class GalleryStandardImageProvider;
-class GalleryThumbnailImageProvider;
 class MediaCollection;
 class MediaMonitor;
 class MediaObjectFactory;
-class PreviewManager;
 class QmlMediaCollectionModel;
 class Resource;
 
@@ -68,7 +66,6 @@ public:
     EventCollection *eventCollection();
     Resource *resource() { return m_resource; }
     GalleryStandardImageProvider *takeGalleryStandardImageProvider();
-    GalleryThumbnailImageProvider *takeGalleryThumbnailImageProvider();
 
     void logImageLoading(bool log);
 
@@ -85,7 +82,6 @@ private:
     GalleryManager(const GalleryManager&);
     void operator=(const GalleryManager&);
 
-    void initPreviewManager();
     void fillMediaCollection();
     void startFileMonitoring();
 
@@ -95,13 +91,11 @@ private:
 
     Resource* m_resource;
     GalleryStandardImageProvider* m_standardImageProvider;
-    GalleryThumbnailImageProvider* m_thumbnailImageProvider;
     Database* m_database;
     AlbumDefaultTemplate* m_defaultTemplate;
     MediaCollection* m_mediaCollection;
     AlbumCollection* m_albumCollection;
     EventCollection* m_eventCollection;
-    PreviewManager* m_previewManager;
     MediaObjectFactory *m_mediaFactory;
     MediaMonitor *m_monitor;
 
