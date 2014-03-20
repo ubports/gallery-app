@@ -173,7 +173,7 @@ void MediaCollection::addMany(const QSet<DataObject *> &objects)
  */
 void MediaCollection::destroy(MediaSource *media)
 {
-    SourceCollection::destroy(media, true, true);
+    SourceCollection::destroy(media, false, true);
 }
 
 /*!
@@ -184,6 +184,6 @@ void MediaCollection::destroy(qint64 id)
 {
     if (m_idMap.contains(id)) {
         MediaSource *media = qobject_cast<MediaSource*>(m_idMap[id]);
-        SourceCollection::destroy(media, true, true);
+        SourceCollection::destroy(media, false, true);
     }
 }
