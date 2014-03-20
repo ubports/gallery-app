@@ -246,7 +246,7 @@ void GalleryManager::startFileMonitoring()
                      this, SLOT(onMediaItemRemoved(qint64)));
 
     m_monitor->startMonitoring(m_resource->mediaDirectories());
-    m_monitor->checkConsitency(m_mediaCollection);
+    m_monitor->checkConsistency(m_mediaCollection);
 }
 
 /*!
