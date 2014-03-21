@@ -103,12 +103,12 @@ void QmlMediaCollectionModel::destroySelectedMedia()
  * \brief QmlMediaCollectionModel::destroyMedia
  * \param vmedia
  */
-void QmlMediaCollectionModel::destroyMedia(QVariant vmedia)
+void QmlMediaCollectionModel::destroyMedia(QVariant vmedia, bool destroy_backing)
 {
     MediaSource* media = VariantToObject<MediaSource*>(vmedia);
 
     if (media != NULL)
-        GalleryManager::instance()->mediaCollection()->destroy(media);
+        GalleryManager::instance()->mediaCollection()->destroy(media, destroy_backing);
 }
 
 /*!

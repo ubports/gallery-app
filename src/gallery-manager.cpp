@@ -269,7 +269,7 @@ void GalleryManager::onMediaItemAdded(QString file)
  */
 void GalleryManager::onMediaItemRemoved(qint64 mediaId)
 {
-    m_mediaCollection->destroy(mediaId);
+    m_mediaCollection->destroy(mediaId, false);
 }
 
 /*!
