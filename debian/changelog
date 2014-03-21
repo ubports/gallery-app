@@ -1,3 +1,13 @@
+gallery-app (0.0.67+14.04.20140321-0ubuntu1) trusty; urgency=low
+
+  [ Ken VanDine ]
+  * Updated to build against changes in content-hub
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 21 Mar 2014 00:32:38 +0000
+
 gallery-app (0.0.67+14.04.20140319-0ubuntu1) trusty; urgency=low
 
   [ Barry Warsaw ]
