@@ -50,7 +50,7 @@ add_executable(${GALLERY}
     ${gallery_SRCS}
     )
 
-qt5_use_modules(${GALLERY} Widgets Core Qml Quick Sql)
+qt5_use_modules(${GALLERY} Widgets Core Qml Quick Sql DBus)
 
 target_link_libraries( ${GALLERY}
     gallery-album
