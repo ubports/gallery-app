@@ -199,6 +199,7 @@ Checkerboard {
         }
         ToolbarButton {
             objectName: "cameraButton"
+            visible: !APP.desktopMode
             action: Action {
                 text: i18n.tr("Camera")
                 iconSource: Qt.resolvedUrl("../img/camera.png")

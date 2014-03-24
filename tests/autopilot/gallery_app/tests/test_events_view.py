@@ -12,15 +12,18 @@ from __future__ import absolute_import
 
 from testtools.matchers import Equals, Is, GreaterThan
 from autopilot.matchers import Eventually
+from autopilot.platform import model
 
 from gallery_app.tests import GalleryTestCase
 from gallery_app.emulators.events_view import EventsView
 
+from os import environ as env
 from os.path import exists
 import shutil
 
 class TestEventsView(GalleryTestCase):
     """Tests the main gallery features"""
+    envDesktopMode = None
 
     @property
     def events_view(self):
@@ -28,6 +31,14 @@ class TestEventsView(GalleryTestCase):
 
     def setUp(self):
         self.ARGS = []
+
+        self.envDesktopMode = env.get("DESKTOP_MODE")
+
+        if model() == "Desktop":
+            env["DESKTOP_MODE"] = "1"
+        else:
+            env["DESKTOP_MODE"] = "0"
+
         # This is needed to wait for the application to start.
         # In the testfarm, the application may take some time to show up.
         super(TestEventsView, self).setUp()
@@ -37,6 +48,11 @@ class TestEventsView(GalleryTestCase):
                         Eventually(GreaterThan(0)))
 
     def tearDown(self):
+        if self.envDesktopMode:
+            env["DESKTOP_MODE"] = self.envDesktopMode
+        else:
+            del env["DESKTOP_MODE"]
+
         super(TestEventsView, self).tearDown()
 
     def get_events_view(self):
@@ -114,7 +130,21 @@ class TestEventsView(GalleryTestCase):
         video_file = "video20130618_0002.mp4"
         shutil.copyfile(self.sample_dir+"/option01/"+video_file,
                         self.sample_destination_dir+"/"+video_file)
+        video_file = "clip_0001.mkv"
+        shutil.copyfile(self.sample_dir+"/option01/"+video_file,
+                        self.sample_destination_dir+"/"+video_file)
         self.assertThat(
             lambda: self.events_view.number_of_events(),
-            Eventually(Equals(events_before + 1)))
+            Eventually(Equals(events_before + 2)))
+        self.add_video_sample()
+
+    # Check if Camera Button is not visible at Desktop mode
+    def test_camera_button_visible(self):
+        self.main_view.open_toolbar()
+        toolbar = self.main_view.get_toolbar()
+        cameraButton = toolbar.select_single("ActionItem", objectName="cameraButton")
+        if model() == "Desktop":
+            self.assertThat(cameraButton.visible, Equals(False))
+        else:
+            self.assertThat(cameraButton.visible, Equals(True))
 

@@ -1,3 +1,48 @@
+gallery-app (0.0.67+14.04.20140319-0ubuntu1) trusty; urgency=low
+
+  [ Barry Warsaw ]
+  * Use pkg_resources API to retrieve sample_dir.
+
+  [ Ugo Riboni ]
+  * multiple gallery-app bug fixes Bug #907870: [desktop] Gallery does
+    not display photos in sub folders, Bug #1221968: use libthumbnailer
+    for gallery thumbnails, Bug #1268748: videos are not displayed when
+    running on desktop, Bug #1271327: disable switching between camera
+    and gallery on desktop, Bug #1287272: Black flash at the end of the
+    zoom animation" (LP: #1221968, #1287272, #1268748, #907870,
+    #1271327)
+
+  [ Arthur Mello ]
+  * multiple gallery-app bug fixes Bug #907870: [desktop] Gallery does
+    not display photos in sub folders, Bug #1221968: use libthumbnailer
+    for gallery thumbnails, Bug #1268748: videos are not displayed when
+    running on desktop, Bug #1271327: disable switching between camera
+    and gallery on desktop, Bug #1287272: Black flash at the end of the
+    zoom animation" (LP: #1221968, #1287272, #1268748, #907870,
+    #1271327)
+
+  [ Bill Filler ]
+  * updated framework version
+  * multiple gallery-app bug fixes Bug #907870: [desktop] Gallery does
+    not display photos in sub folders, Bug #1221968: use libthumbnailer
+    for gallery thumbnails, Bug #1268748: videos are not displayed when
+    running on desktop, Bug #1271327: disable switching between camera
+    and gallery on desktop, Bug #1287272: Black flash at the end of the
+    zoom animation" (LP: #1221968, #1287272, #1268748, #907870,
+    #1271327)
+  * fix blurry thumbnails when navigating photos
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Sergio Schvezov ]
+  * Fixing click launching
+
+  [ Dimitri John Ledkov ]
+  * Use pkg_resources API to retrieve sample_dir.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 19 Mar 2014 20:20:32 +0000
+
 gallery-app (0.0.67+14.04.20140307-0ubuntu1) trusty; urgency=low
 
   * New rebuild forced

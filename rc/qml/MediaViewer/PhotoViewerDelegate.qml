@@ -56,6 +56,15 @@ Item {
         fullPhotoComponentLoader.item.unzoom();
     }
 
+    Connections {
+        target: mediaSource
+        onDataChanged: {
+            // Force the image to be reloaded, to pick up the new thumbnail
+            interactivePreviewImage.active = false;
+            interactivePreviewImage.active = true;
+        }
+    }
+
     // Note that we haven't defined a state set in this component, even though
     // we bind the "state" property here. This is intentional and is necessary
     // to work around a binding issue on Qt 5.0 beta 1. Given a later version
@@ -63,19 +72,24 @@ Item {
     state: (fullPhotoComponentLoader.item &&
             !fullPhotoComponentLoader.item.fullyUnzoomed) ? "zoomed" :
                                                             "unzoomed";
+    Component {
+        id: interactivePreviewImageSource
+        Image {
+            fillMode: Image.PreserveAspectFit
 
-    Image {
+            source: mediaSource ? mediaSource.galleryPreviewPath : ""
+            sourceSize.width: 256
+            cache: false
+        }
+    }
+
+    Loader {
         id: interactivePreviewImage
-
         z: 0
-
         anchors.fill: parent
 
         visible: photoViewerDelegate.state == "unzoomed"
-
-        fillMode: Image.PreserveAspectFit
-
-        source: mediaSource ? mediaSource.galleryPreviewPath : ""
+        sourceComponent: interactivePreviewImageSource
     }
 
     Loader {

@@ -389,7 +389,8 @@ Rectangle {
                     transformOrigin: Item.TopLeft
 
                     visible: zoomablePhotoComponent.isZoomAnimationInProgress ||
-                             zoomablePhotoComponent.state == "pinching"
+                             zoomablePhotoComponent.state == "pinching" ||
+                             !zoomedPhoto.isLoaded
 
                     color: zoomablePhotoComponent.color
 

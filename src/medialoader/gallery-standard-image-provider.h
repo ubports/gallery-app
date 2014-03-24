@@ -34,8 +34,6 @@
 #include <QString>
 #include <QUrl>
 
-class PreviewManager;
-
 /*!
  * Gallery uses a custom image provider for three reasons:
  *
@@ -73,7 +71,6 @@ public:
     virtual QImage requestImage(const QString& id, QSize* size,
                                 const QSize& requestedSize);
 
-    void setPreviewManager(PreviewManager* previewManager);
     void setLogging(bool enableLogging);
     void setMaxLoadResolution(int resolution);
 
@@ -109,7 +106,6 @@ private:
     QList<QString> m_fifo;
     QMutex m_cacheMutex;
     long m_cachedBytes;
-    PreviewManager* m_previewManager;
     bool m_logImageLoading;
     int m_maxLoadResolution;
 

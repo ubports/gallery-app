@@ -16,17 +16,13 @@ include_directories(
 
 set(gallery_medialoader_HDRS
     gallery-standard-image-provider.h
-    gallery-thumbnail-image-provider.h
     photo-metadata.h
-    preview-manager.h
     video-metadata.h
     )
 
 set(gallery_medialoader_SRCS
     gallery-standard-image-provider.cpp
-    gallery-thumbnail-image-provider.cpp
     photo-metadata.cpp
-    preview-manager.cpp
     video-metadata.cpp
     )
 
@@ -43,4 +39,5 @@ target_link_libraries( ${GALLERY_MEDIALOADER_LIB}
     ${EXIV2_LIBRARIES}
     ${GSTLIB_LDFLAGS}
     ${MEDIAINFO_LIBRARIES}
+    gallery-util
     )

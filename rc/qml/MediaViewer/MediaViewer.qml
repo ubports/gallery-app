@@ -195,7 +195,7 @@ Item {
             Component {
                 id: component_delegatePhotoView
                 PhotoViewerDelegate {
-                    useInteractivePreview: galleryPhotoViewer.moving
+                    useInteractivePreview: false
                     mediaSource: model.mediaSource
                 }
             }

@@ -267,8 +267,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
         # wait for new photo being set/reloaded, so saving thumbnailing etc.
         # is done
         edit_preview = self.photo_viewer.get_edit_preview()
-        new_source = "image://gallery-standard/" + self.sample_file + \
-                     "?size_level=1&orientation=1&edit=2"
+        new_source = "image://thumbnailer/" + self.sample_file
+
         self.assertThat(edit_preview.source, Eventually(Equals(new_source)))
 
         new_file_size = os.path.getsize(self.sample_file)

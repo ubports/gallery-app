@@ -19,8 +19,7 @@ from gallery_app.tests import GalleryTestCase
 from gallery_app.emulators.photos_view import PhotosView
 
 from os.path import exists
-from os import environ
-
+from os import environ as env
 import unittest
 
 class TestPhotosView(GalleryTestCase):
@@ -32,21 +31,21 @@ class TestPhotosView(GalleryTestCase):
 
     def setUp(self):
         self.ARGS = []
-        self.envDesktopMode = environ.get("DESKTOP_MODE")
+        self.envDesktopMode = env.get("DESKTOP_MODE")
 
         if model() == "Desktop":
-            environ["DESKTOP_MODE"] = "1"
+            env["DESKTOP_MODE"] = "1"
         else:
-            environ["DESKTOP_MODE"] = "0"
+            env["DESKTOP_MODE"] = "0"
 
         super(TestPhotosView, self).setUp()
         self.switch_to_photos_tab()
 
     def tearDown(self):
         if self.envDesktopMode:
-            environ["DESKTOP_MODE"] = self.envDesktopMode
+            env["DESKTOP_MODE"] = self.envDesktopMode
         else:
-            del environ["DESKTOP_MODE"]
+            del env["DESKTOP_MODE"]
 
         super(TestPhotosView, self).tearDown()
 
@@ -152,3 +151,13 @@ class TestPhotosView(GalleryTestCase):
         self.assertThat(view.fullScreen, Eventually(Equals(False)))
         self.keyboard.press_and_release('Escape')
         self.assertThat(view.fullScreen, Eventually(Equals(False)))
+
+    # Check if Camera Button is not visible at Desktop mode
+    def test_camera_button_visible(self):
+        self.main_view.open_toolbar()
+        toolbar = self.main_view.get_toolbar()
+        cameraButton = toolbar.select_single("ActionItem", objectName="cameraButton")
+        if model() == "Desktop":
+            self.assertThat(cameraButton.visible, Equals(False))
+        else:
+            self.assertThat(cameraButton.visible, Equals(True))

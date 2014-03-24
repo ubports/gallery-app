@@ -20,7 +20,6 @@
 
 #include "gallery-standard-image-provider.h"
 #include "photo-metadata.h"
-#include "preview-manager.h"
 
 #include <QDebug>
 #include <QElapsedTimer>
@@ -38,9 +37,7 @@ const char* GalleryStandardImageProvider::SIZE_KEY = "size_level";
 
 const long MAX_CACHE_BYTES = 20L * 1024L * 1024L;
 
-// fully load previews into memory when requested
-const int SCALED_LOAD_FLOOR_DIM_PIXELS =
-        qMax(PreviewManager::PREVIEW_SIZE, PreviewManager::PREVIEW_SIZE);
+const int SCALED_LOAD_FLOOR_DIM_PIXELS = 360;
 
 /*!
  * \brief GalleryStandardImageProvider::GalleryStandardImageProvider
@@ -48,7 +45,6 @@ const int SCALED_LOAD_FLOOR_DIM_PIXELS =
 GalleryStandardImageProvider::GalleryStandardImageProvider()
     : QQuickImageProvider(QQuickImageProvider::Image),
       m_cachedBytes(0),
-      m_previewManager(0),
       m_logImageLoading(false),
       m_maxLoadResolution(INT_MAX)
 {
@@ -89,11 +85,6 @@ QUrl GalleryStandardImageProvider::toURL(const QFileInfo& file)
 QImage GalleryStandardImageProvider::requestImage(const QString& id,
                                                   QSize* size, const QSize& requestedSize)
 {
-    if (!m_previewManager) {
-        qWarning() << Q_FUNC_INFO << "no PreviewManager set";
-        return QImage();
-    }
-
     // for LOG_IMAGE_STATUS
     QString loggingStr = "";
     QElapsedTimer timer;
@@ -101,26 +92,21 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
 
     QUrl url(id);
     QFileInfo photoFile(url.path());
-    m_previewManager->ensurePreview(photoFile);
 
     QImage readyImage;
     uint bytesLoaded = 0;
     long currentCachedBytes = 0;
     int currentCacheEntries = 0;
 
-    if (photoFile.suffix().compare("mp4", Qt::CaseInsensitive) == 0) {
-        readyImage = QImage(m_previewManager->previewFileName(photoFile.absoluteFilePath()));
-    } else {
-        CachedImage* cachedImage = claimCachedImageEntry(id, loggingStr);
-        Q_ASSERT(cachedImage != NULL);
+    CachedImage* cachedImage = claimCachedImageEntry(id, loggingStr);
+    Q_ASSERT(cachedImage != NULL);
 
-        readyImage = fetchCachedImage(cachedImage, requestedSize, &bytesLoaded,
-                                               loggingStr);
-        if (readyImage.isNull())
-            LOG_IMAGE_STATUS("load-failure ");
+    readyImage = fetchCachedImage(cachedImage, requestedSize, &bytesLoaded,
+                                           loggingStr);
+    if (readyImage.isNull())
+        LOG_IMAGE_STATUS("load-failure ");
 
-        releaseCachedImageEntry(cachedImage, bytesLoaded, &currentCachedBytes, &currentCacheEntries);
-    }
+    releaseCachedImageEntry(cachedImage, bytesLoaded, &currentCachedBytes, &currentCacheEntries);
 
     if (m_logImageLoading) {
         if (bytesLoaded > 0) {
@@ -139,15 +125,6 @@ QImage GalleryStandardImageProvider::requestImage(const QString& id,
         *size = readyImage.size();
 
     return readyImage;
-}
-
-/*!
- * \brief GalleryStandardImageProvider::setPreviewManager
- * \param previewManager
- */
-void GalleryStandardImageProvider::setPreviewManager(PreviewManager *previewManager)
-{
-    m_previewManager = previewManager;
 }
 
 /*!
@@ -414,30 +391,15 @@ QSize GalleryStandardImageProvider::orientSize(const QSize& size, Orientation or
  */
 QString GalleryStandardImageProvider::idToFile(const QString& id) const
 {
-    if (!m_previewManager) {
-        qWarning() << Q_FUNC_INFO << "no PreviewManager set";
-        return QString();
-    }
-
     QUrl url = QUrl(id);
     QString fileName = url.path();
-
-    //Get our item value from our query by it's key.
-    QUrlQuery url_query(url);
-    url_query.hasQueryItem(GalleryStandardImageProvider::SIZE_KEY);
-    QString value = url_query.queryItemValue(GalleryStandardImageProvider::SIZE_KEY);
-
-    if (value == "1") {
-        fileName = m_previewManager->previewFileName(fileName);
-    }
-
     return fileName;
 }
 
 /*!
  * \brief GalleryStandardImageProvider::CachedImage::CachedImage
  * \param id the full URI of the image
- * \param fileName the filename for the URI (can be the file itself or the preview)
+ * \param fileName the filename for the URI (the file itself)
  */
 GalleryStandardImageProvider::CachedImage::CachedImage(const QString& fileId,
                                                        const QString& filename)

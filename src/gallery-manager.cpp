@@ -35,11 +35,9 @@
 // media
 #include "media-collection.h"
 #include "media-monitor.h"
-#include "preview-manager.h"
 
 // qml
 #include "gallery-standard-image-provider.h"
-#include "gallery-thumbnail-image-provider.h"
 #include "qml-media-collection-model.h"
 
 // util
@@ -63,13 +61,11 @@ GalleryManager::GalleryManager(const QString& picturesDir,
     : collectionsInitialised(false),
       m_resource(new Resource(picturesDir, view)),
       m_standardImageProvider(new GalleryStandardImageProvider()),
-      m_thumbnailImageProvider(new GalleryThumbnailImageProvider()),
       m_database(0),
       m_defaultTemplate(0),
       m_mediaCollection(0),
       m_albumCollection(0),
       m_eventCollection(0),
-      m_previewManager(0),
       m_monitor(0),
       m_mediaLibrary(0)
 {
@@ -94,9 +90,7 @@ GalleryManager::~GalleryManager()
     delete m_defaultTemplate;
     delete m_resource;
     delete m_mediaCollection;
-    delete m_previewManager;
     delete m_standardImageProvider;
-    delete m_thumbnailImageProvider;
 }
 
 /*!
@@ -145,7 +139,6 @@ void GalleryManager::postInit()
         m_defaultTemplate = new AlbumDefaultTemplate();
         m_mediaCollection = new MediaCollection(m_database->getMediaTable());
 
-        initPreviewManager();
         fillMediaCollection();
         startFileMonitoring();
 
@@ -219,41 +212,6 @@ QmlMediaCollectionModel *GalleryManager::mediaLibrary() const
 void GalleryManager::logImageLoading(bool log)
 {
     m_standardImageProvider->setLogging(log);
-    m_thumbnailImageProvider->setLogging(log);
-}
-
-/*!
- * \brief GalleryManager::initPreviewManager creates the PreviewManager,
- * assigns it to all needed objects and creates all signal slot connection.
- */
-void GalleryManager::initPreviewManager()
-{
-    Q_ASSERT(m_resource);
-    Q_ASSERT(m_mediaCollection);
-    Q_ASSERT(m_standardImageProvider);
-    Q_ASSERT(m_thumbnailImageProvider);
-
-    if (m_previewManager)
-        return;
-
-    m_previewManager = new PreviewManager(m_resource->thumbnailDirectory());
-
-    m_standardImageProvider->setPreviewManager(m_previewManager);
-    m_thumbnailImageProvider->setPreviewManager(m_previewManager);
-
-    // Monitor MediaCollection for all new MediaSources
-    QObject::connect(m_mediaCollection,
-                     SIGNAL(contentsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*)),
-                     m_previewManager,
-                     SLOT(onMediaAddedRemoved(const QSet<DataObject*>*,const QSet<DataObject*>*)));
-
-    QObject::connect(m_mediaCollection,
-                     SIGNAL(destroying(const QSet<DataObject*>*)),
-                     m_previewManager,
-                     SLOT(onMediaDestroying(const QSet<DataObject*>*)));
-
-    // Verify previews for all existing added MediaSources
-    m_previewManager->onMediaAddedRemoved(&m_mediaCollection->getAsSet(), NULL);
 }
 
 /*!
@@ -322,16 +280,5 @@ GalleryStandardImageProvider* GalleryManager::takeGalleryStandardImageProvider()
 {
     GalleryStandardImageProvider *provider = m_standardImageProvider;
     m_standardImageProvider = 0;
-    return provider;
-}
-
-/*!
- * \brief GalleryManager::takeGalleryThumbnailImageProvider returns the thumbnail image provider
- * and gives up the owndership 
- */
-GalleryThumbnailImageProvider* GalleryManager::takeGalleryThumbnailImageProvider()
-{
-    GalleryThumbnailImageProvider *provider = m_thumbnailImageProvider;
-    m_thumbnailImageProvider = 0;
     return provider;
 }
