@@ -80,22 +80,21 @@ class TestAlbumView(GalleryTestCase):
         x, y, w, h = spread.globalRect
         mid_y = y + h / 2
         mid_x = x + w / 2
-        self.pointing_device.drag(mid_x + mid_x / 2, mid_y, x + 10, mid_y)
 
-        # can't check for 2 because depending on form factor and orientation
-        # we display 1 or two pages at the same time.
-        self.assertThat(album.animationRunning, Eventually(Equals(False)))
-        self.assertThat(spread.viewingPage, Eventually(GreaterThan(1)))
-
-        # check that we can page back to where we started
-        self.pointing_device.drag(mid_x - mid_x / 2, mid_y, x + w - 10, mid_y)
-        self.assertThat(album.animationRunning, Eventually(Equals(False)))
-        self.assertThat(spread.viewingPage, Eventually(Equals(1)))
-
-        # check that we can close an album by paging to the cover
+        # check that we can page to the cover and back
         self.pointing_device.drag(mid_x - mid_x / 2, mid_y, x + w - 10, mid_y)
         animview = self.album_view.get_animated_album_view()
-        self.assertThat(animview.isOpen, Eventually(Equals(False)))
+        self.assertThat(spread.viewingPage, Eventually(Equals(0)))
+        self.pointing_device.drag(mid_x + mid_x / 2, mid_y, x + 10, mid_y)
+        animview = self.album_view.get_animated_album_view()
+        self.assertThat(spread.viewingPage, Eventually(Equals(1)))
+
+        # drag to next page and check we have flipped away from page 1
+        # can't check precisely for page 2 because depending on form factor
+        # and orientation we might be displaying two pages at the same time
+        self.pointing_device.drag(mid_x + mid_x / 2, mid_y, x + 10, mid_y)
+        self.assertThat(album.animationRunning, Eventually(Equals(False)))
+        self.assertThat(spread.viewingPage, Eventually(GreaterThan(1)))
 
     def test_add_photo(self):
         self.main_view.close_toolbar()
