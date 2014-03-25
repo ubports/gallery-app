@@ -38,7 +38,7 @@
 
 GalleryManager* GalleryManager::m_galleryManager = NULL;
 
-GalleryManager::GalleryManager(const QString& picturesDir, QQuickView *view)
+GalleryManager::GalleryManager(bool desktopMode, const QString& picturesDir, QQuickView *view)
     : collectionsInitialised(false),
       m_resource(0),
       m_standardImageProvider(new GalleryStandardImageProvider()),

@@ -83,7 +83,7 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
 
     registerQML();
 
-    m_galleryManager = new GalleryManager(m_cmdLineParser->picturesDir(), m_view);
+    m_galleryManager = new GalleryManager(isDesktopMode(), m_cmdLineParser->picturesDir(), m_view);
     m_galleryManager->logImageLoading(m_cmdLineParser->logImageLoading());
     if (m_cmdLineParser->pickModeEnabled())
         setDefaultUiMode(GalleryApplication::PickContentMode);
