@@ -56,10 +56,11 @@ GalleryManager* GalleryManager::m_galleryManager = NULL;
  * \param view
  * \param logImageLoading
  */
-GalleryManager::GalleryManager(const QString& picturesDir,
+GalleryManager::GalleryManager(bool desktopMode,
+                               const QString& picturesDir,
                                QQuickView *view)
     : collectionsInitialised(false),
-      m_resource(new Resource(picturesDir, view)),
+      m_resource(new Resource(desktopMode, picturesDir, view)),
       m_standardImageProvider(new GalleryStandardImageProvider()),
       m_database(0),
       m_defaultTemplate(0),

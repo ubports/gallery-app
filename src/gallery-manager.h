@@ -51,7 +51,7 @@ class GalleryManager : public QObject
     Q_PROPERTY(QmlMediaCollectionModel* mediaLibrary READ mediaLibrary NOTIFY mediaLibraryChanged)
 
 public:
-    GalleryManager(const QString &picturesDir, QQuickView *view);
+    GalleryManager(bool desktopMode, const QString &picturesDir, QQuickView *view);
     ~GalleryManager();
 
     static GalleryManager* instance();
