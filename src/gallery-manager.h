@@ -98,6 +98,7 @@ private:
     EventCollection* m_eventCollection;
     MediaObjectFactory *m_mediaFactory;
     MediaMonitor *m_monitor;
+    bool m_desktopMode;
 
     mutable QmlMediaCollectionModel *m_mediaLibrary;
 };

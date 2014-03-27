@@ -68,6 +68,7 @@ GalleryManager::GalleryManager(bool desktopMode,
       m_albumCollection(0),
       m_eventCollection(0),
       m_monitor(0),
+      m_desktopMode(desktopMode),
       m_mediaLibrary(0)
 {
     const int maxTextureSize = m_resource->maxTextureSize();
@@ -259,6 +260,13 @@ void GalleryManager::onMediaItemAdded(QString file)
     if (! m_mediaCollection->containsFile(file)) {
         QFileInfo fi(file);
         MediaSource *media = m_mediaFactory->create(fi);
+
+        if (m_desktopMode && media->type() == MediaSource::Video) {
+            if (m_resource->isVideoPath(file)) {
+                return;
+            };
+        }
+
         if (media)
             m_mediaCollection->add(media);
     }
