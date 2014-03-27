@@ -66,11 +66,11 @@ void tst_MediaObjectFactory::cleanup()
 void tst_MediaObjectFactory::create()
 {
     // invalid file
-    MediaSource *media = m_factory->create(QFileInfo("no_valid_file"));
+    MediaSource *media = m_factory->create(QFileInfo("no_valid_file"), true, 0);
     QCOMPARE(media, (MediaSource*)0);
 
     // new file
-    media = m_factory->create(QFileInfo("/some/photo.jpg"));
+    media = m_factory->create(QFileInfo("/some/photo.jpg"), true, 0);
     Photo *photo = qobject_cast<Photo*>(media);
     QVERIFY(photo != 0);
     QCOMPARE(photo->id(), (qint64)0);
@@ -78,13 +78,13 @@ void tst_MediaObjectFactory::create()
     QCOMPARE(photo->orientation(), BOTTOM_LEFT_ORIGIN);
 
     // another new file
-    media = m_factory->create(QFileInfo("/some/other_photo.jpg"));
+    media = m_factory->create(QFileInfo("/some/other_photo.jpg"), true, 0);
     photo = qobject_cast<Photo*>(media);
     QVERIFY(photo != 0);
     QCOMPARE(photo->id(), (qint64)1);
 
     // existing from DB
-    media = m_factory->create(QFileInfo("/some/photo.jpg"));
+    media = m_factory->create(QFileInfo("/some/photo.jpg"), true, 0);
     photo = qobject_cast<Photo*>(media);
     QVERIFY(photo != 0);
     QCOMPARE(photo->id(), (qint64)0);
@@ -92,7 +92,7 @@ void tst_MediaObjectFactory::create()
     // update DB from file
     setOrientationOfFirstRow(TOP_RIGHT_ORIGIN); // change the DB
 
-    media = m_factory->create(QFileInfo("/some/photo.jpg"));
+    media = m_factory->create(QFileInfo("/some/photo.jpg"), true, 0);
     photo = qobject_cast<Photo*>(media);
     QVERIFY(photo != 0);
     QCOMPARE(photo->id(), (qint64)0);
@@ -135,12 +135,12 @@ void tst_MediaObjectFactory::readVideoMetadata()
 
 void tst_MediaObjectFactory::enableContentLoadFilter()
 {
-    MediaSource *media = m_factory->create(QFileInfo("/some/photo.jpg"));
+    MediaSource *media = m_factory->create(QFileInfo("/some/photo.jpg"), true, 0);
     QVERIFY(media != 0);
 
     m_factory->enableContentLoadFilter(MediaSource::Video);
 
-    media = m_factory->create(QFileInfo("/some/photo.jpg"));
+    media = m_factory->create(QFileInfo("/some/photo.jpg"), true, 0);
     QVERIFY(media == 0);
 }
 

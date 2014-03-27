@@ -21,6 +21,7 @@
 #include "media-source.h"
 
 // utils
+#include "resource.h"
 #include <orientation.h>
 
 #include <QDateTime>
@@ -46,7 +47,7 @@ public:
     QSet<DataObject*> mediasFromDB();
     void clear();
 
-    MediaSource *create(const QFileInfo& file);
+    MediaSource *create(const QFileInfo& file, bool desktopMode, Resource *res);
 
 private slots:
     void addMedia(qint64 mediaId, const QString& filename, const QSize& size,

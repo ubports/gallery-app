@@ -259,13 +259,7 @@ void GalleryManager::onMediaItemAdded(QString file)
 {
     if (! m_mediaCollection->containsFile(file)) {
         QFileInfo fi(file);
-        MediaSource *media = m_mediaFactory->create(fi);
-
-        if (!m_desktopMode && media->type() == MediaSource::Video) {
-            if (m_resource->isVideoPath(file)) {
-                return;
-            };
-        }
+        MediaSource *media = m_mediaFactory->create(fi, m_desktopMode, m_resource);
 
         if (media)
             m_mediaCollection->add(media);
