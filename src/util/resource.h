@@ -32,7 +32,7 @@ class QQuickView;
 class Resource
 {
 public:
-    explicit Resource(const QString& pictureDir, QQuickView *view);
+    explicit Resource(bool desktopMode, const QString& pictureDir, QQuickView *view);
 
     static QUrl getRcUrl(const QString& path);
 
@@ -54,6 +54,8 @@ private:
     static const QLatin1String DATABASE_DIR;
     // Path to database, relative to application cache path.
     static const QLatin1String THUMBNAIL_DIR;
+    // Path to camera recording videos, relative to movies standard path.
+    static const QLatin1String CAMERA_RECORD_DIR;
 
     friend class tst_Resource;
 };
