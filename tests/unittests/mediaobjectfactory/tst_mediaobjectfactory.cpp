@@ -156,7 +156,7 @@ void tst_MediaObjectFactory::addMedia()
 
     m_factory->addMedia(id, filename, size, timestamp,
                                              exposureTime, originalOrientation,
-                                             filesize);
+                                             filesize, true, 0);
 
     QCOMPARE(m_factory->m_mediasFromDB.size(), 1);
     QSet<DataObject*>::iterator it;

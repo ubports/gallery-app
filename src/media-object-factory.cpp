@@ -66,7 +66,7 @@ void MediaObjectFactory::enableContentLoadFilter(MediaSource::MediaType filterTy
  * You should call clear() afterwards, to remove temporary data.
  * \return All medias stored in the DB
  */
-QSet<DataObject *> MediaObjectFactory::mediasFromDB()
+QSet<DataObject *> MediaObjectFactory::mediasFromDB(bool desktopMode, Resource *res)
 {
     Q_ASSERT(m_mediaTable);
 
@@ -75,14 +75,14 @@ QSet<DataObject *> MediaObjectFactory::mediasFromDB()
     connect(m_mediaTable,
             SIGNAL(row(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)),
             this,
-            SLOT(addMedia(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)));
+            SLOT(addMedia(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64,desktopMode,res)));
 
     m_mediaTable->emitAllRows();
 
     disconnect(m_mediaTable,
                SIGNAL(row(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)),
                this,
-               SLOT(addMedia(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)));
+               SLOT(addMedia(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64,desktopMode,res)));
 
     return m_mediasFromDB;
 }
@@ -186,7 +186,8 @@ MediaSource *MediaObjectFactory::create(const QFileInfo &file, bool desktopMode,
 void MediaObjectFactory::addMedia(qint64 mediaId, const QString &filename,
                                   const QSize &size, const QDateTime &timestamp,
                                   const QDateTime &exposureTime,
-                                  Orientation originalOrientation, qint64 filesize)
+                                  Orientation originalOrientation, qint64 filesize,
+                                  bool desktopMode, Resource *res)
 {
     Q_UNUSED(filesize);
 
@@ -194,6 +195,12 @@ void MediaObjectFactory::addMedia(qint64 mediaId, const QString &filename,
     MediaSource::MediaType mediaType = MediaSource::Photo;
     if (Video::isCameraVideo(file))
         mediaType = MediaSource::Video;
+
+    if (!desktopMode && mediaType == MediaSource::Video) {
+        if (res && !res->isVideoPath(file.absoluteFilePath())) {
+            return;
+        }
+    }
 
     MediaSource *media = 0;
     Photo *photo = 0;

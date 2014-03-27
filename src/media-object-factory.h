@@ -44,7 +44,7 @@ public:
     void setMediaTable(MediaTable *mediaTable);
     void enableContentLoadFilter(MediaSource::MediaType filterType);
 
-    QSet<DataObject*> mediasFromDB();
+    QSet<DataObject*> mediasFromDB(bool desktopMode, Resource *res);
     void clear();
 
     MediaSource *create(const QFileInfo& file, bool desktopMode, Resource *res);
@@ -52,7 +52,8 @@ public:
 private slots:
     void addMedia(qint64 mediaId, const QString& filename, const QSize& size,
                   const QDateTime& timestamp, const QDateTime& exposureTime,
-                  Orientation originalOrientation, qint64 filesize);
+                  Orientation originalOrientation, qint64 filesize,
+                  bool desktopMode, Resource *res);
 
 private:    
     void clearMetadata();

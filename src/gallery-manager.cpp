@@ -225,7 +225,7 @@ void GalleryManager::fillMediaCollection()
     Q_ASSERT(m_mediaCollection);
 
     QSet<DataObject*> medias;
-    medias = m_mediaFactory->mediasFromDB();
+    medias = m_mediaFactory->mediasFromDB(m_desktopMode, m_resource);
     m_mediaCollection->addMany(medias);
     m_mediaFactory->clear();
 }
