@@ -157,7 +157,9 @@ QStringList MediaMonitorWorker::getManifest()
 QStringList MediaMonitorWorker::expandSubDirectories(const QString& dirPath)
 {
     QStack<QString> dirStack;
-    dirStack.push(dirPath);
+    if(QDir(dirPath).exists()) {
+        dirStack.push(dirPath);
+    }
 
     QStringList dirList;
     while(!dirStack.isEmpty()) {
