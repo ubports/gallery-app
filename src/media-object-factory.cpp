@@ -34,9 +34,11 @@
  * \brief MediaObjectFactory::MediaObjectFactory
  * \param mediaTable
  */
-MediaObjectFactory::MediaObjectFactory()
+MediaObjectFactory::MediaObjectFactory(bool desktopMode, Resource *res)
     : m_mediaTable(),
-      m_filterType(MediaSource::None)
+      m_filterType(MediaSource::None),
+      m_resource(res),
+      m_desktopMode(desktopMode)
 {
 }
 
@@ -66,7 +68,7 @@ void MediaObjectFactory::enableContentLoadFilter(MediaSource::MediaType filterTy
  * You should call clear() afterwards, to remove temporary data.
  * \return All medias stored in the DB
  */
-QSet<DataObject *> MediaObjectFactory::mediasFromDB(bool desktopMode, Resource *res)
+QSet<DataObject *> MediaObjectFactory::mediasFromDB()
 {
     Q_ASSERT(m_mediaTable);
 
@@ -75,14 +77,14 @@ QSet<DataObject *> MediaObjectFactory::mediasFromDB(bool desktopMode, Resource *
     connect(m_mediaTable,
             SIGNAL(row(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)),
             this,
-            SLOT(addMedia(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64,desktopMode,res)));
+            SLOT(addMedia(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)));
 
     m_mediaTable->emitAllRows();
 
     disconnect(m_mediaTable,
                SIGNAL(row(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)),
                this,
-               SLOT(addMedia(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64,desktopMode,res)));
+               SLOT(addMedia(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)));
 
     return m_mediasFromDB;
 }
@@ -186,8 +188,7 @@ MediaSource *MediaObjectFactory::create(const QFileInfo &file, bool desktopMode,
 void MediaObjectFactory::addMedia(qint64 mediaId, const QString &filename,
                                   const QSize &size, const QDateTime &timestamp,
                                   const QDateTime &exposureTime,
-                                  Orientation originalOrientation, qint64 filesize,
-                                  bool desktopMode, Resource *res)
+                                  Orientation originalOrientation, qint64 filesize)
 {
     Q_UNUSED(filesize);
 
@@ -196,8 +197,8 @@ void MediaObjectFactory::addMedia(qint64 mediaId, const QString &filename,
     if (Video::isCameraVideo(file))
         mediaType = MediaSource::Video;
 
-    if (!desktopMode && mediaType == MediaSource::Video) {
-        if (res && !res->isVideoPath(file.absoluteFilePath())) {
+    if (!m_desktopMode && mediaType == MediaSource::Video) {
+        if (m_resource && !m_resource->isVideoPath(file.absoluteFilePath())) {
             return;
         }
     }

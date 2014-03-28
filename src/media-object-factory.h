@@ -39,12 +39,12 @@ class MediaObjectFactory : public QObject
     Q_OBJECT
 
 public:
-    explicit MediaObjectFactory();
+    explicit MediaObjectFactory(bool desktopMode, Resource *res);
 
     void setMediaTable(MediaTable *mediaTable);
     void enableContentLoadFilter(MediaSource::MediaType filterType);
 
-    QSet<DataObject*> mediasFromDB(bool desktopMode, Resource *res);
+    QSet<DataObject*> mediasFromDB();
     void clear();
 
     MediaSource *create(const QFileInfo& file, bool desktopMode, Resource *res);
@@ -52,8 +52,7 @@ public:
 private slots:
     void addMedia(qint64 mediaId, const QString& filename, const QSize& size,
                   const QDateTime& timestamp, const QDateTime& exposureTime,
-                  Orientation originalOrientation, qint64 filesize,
-                  bool desktopMode, Resource *res);
+                  Orientation originalOrientation, qint64 filesize);
 
 private:    
     void clearMetadata();
@@ -70,6 +69,9 @@ private:
     MediaSource::MediaType m_filterType;
 
     QSet<DataObject*> m_mediasFromDB;
+
+    Resource* m_resource;
+    bool m_desktopMode;
 
     friend class tst_MediaObjectFactory;
 };

@@ -51,7 +51,7 @@ private:
 void tst_MediaObjectFactory::init()
 {
     m_mediaTable = new MediaTable(0, 0);
-    m_factory = new MediaObjectFactory();
+    m_factory = new MediaObjectFactory(true, 0);
     m_factory->setMediaTable(m_mediaTable);
 }
 
@@ -156,7 +156,7 @@ void tst_MediaObjectFactory::addMedia()
 
     m_factory->addMedia(id, filename, size, timestamp,
                                              exposureTime, originalOrientation,
-                                             filesize, true, 0);
+                                             filesize);
 
     QCOMPARE(m_factory->m_mediasFromDB.size(), 1);
     QSet<DataObject*>::iterator it;

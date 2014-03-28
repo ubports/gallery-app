@@ -73,7 +73,7 @@ GalleryManager::GalleryManager(bool desktopMode,
 {
     const int maxTextureSize = m_resource->maxTextureSize();
     m_standardImageProvider->setMaxLoadResolution(maxTextureSize);
-    m_mediaFactory = new MediaObjectFactory();
+    m_mediaFactory = new MediaObjectFactory(m_desktopMode, m_resource);
 
     m_galleryManager = this;
 }
@@ -225,7 +225,7 @@ void GalleryManager::fillMediaCollection()
     Q_ASSERT(m_mediaCollection);
 
     QSet<DataObject*> medias;
-    medias = m_mediaFactory->mediasFromDB(m_desktopMode, m_resource);
+    medias = m_mediaFactory->mediasFromDB();
     m_mediaCollection->addMany(medias);
     m_mediaFactory->clear();
 }
