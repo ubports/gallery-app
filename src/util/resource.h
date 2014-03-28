@@ -43,8 +43,11 @@ public:
     int maxTextureSize() const;
     void setView(QQuickView* view);
 
+    bool isVideoPath(const QString& filePath);
+
 private:
     QStringList m_mediaDirectories;
+    QStringList m_videoDirectories;
     mutable QString m_databaseDirectory;
     mutable QString m_thumbnailDirectory;
     QQuickView* m_view;
