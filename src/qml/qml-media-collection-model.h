@@ -47,7 +47,7 @@ public:
 
     Q_INVOKABLE QVariant createAlbumFromSelected();
     Q_INVOKABLE void destroySelectedMedia();
-    Q_INVOKABLE void destroyMedia(QVariant vmedia);
+    Q_INVOKABLE void destroyMedia(QVariant vmedia, bool destroy_backing);
 
     bool monitored() const;
     void setMonitored(bool monitor);

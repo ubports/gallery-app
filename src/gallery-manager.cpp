@@ -247,7 +247,7 @@ void GalleryManager::startFileMonitoring()
                      this, SLOT(onMediaItemRemoved(qint64)));
 
     m_monitor->startMonitoring(m_resource->mediaDirectories());
-    m_monitor->checkConsitency(m_mediaCollection);
+    m_monitor->checkConsistency(m_mediaCollection);
 }
 
 /*!
@@ -270,7 +270,7 @@ void GalleryManager::onMediaItemAdded(QString file)
  */
 void GalleryManager::onMediaItemRemoved(qint64 mediaId)
 {
-    m_mediaCollection->destroy(mediaId);
+    m_mediaCollection->destroy(mediaId, false);
 }
 
 /*!
