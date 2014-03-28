@@ -52,6 +52,7 @@
 #include <QString>
 #include <QTimer>
 #include <QUrl>
+#include <QtGui/QGuiApplication>
 
 QElapsedTimer* GalleryApplication::m_timer = 0;
 
@@ -142,7 +143,13 @@ void GalleryApplication::registerQML()
  */
 bool GalleryApplication::isDesktopMode() const
 {
-    return(qEnvironmentVariableIsSet("DESKTOP_MODE") && (qgetenv("DESKTOP_MODE") == "1"));
+
+  // Assume that platformName (QtUbuntu) with ubuntu
+  // in name means it's running on device
+  // TODO: replace this check with SDK call for formfactor
+  QString platform = QGuiApplication::platformName();
+  return !((platform == "ubuntu") || (platform == "ubuntumirclient"));
+
 }
 
 /*!
