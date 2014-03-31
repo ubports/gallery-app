@@ -127,7 +127,7 @@ class TestEventsView(GalleryTestCase):
 
     def test_adding_a_video(self):
         if model() == "Desktop":
-            events_before = self.events_view.number_of_events()
+            events_before = self.events_view.number_of_photos_in_events()
             video_file = "video20130618_0002.mp4"
             shutil.copyfile(self.sample_dir+"/option01/"+video_file,
                             self.sample_destination_dir+"/"+video_file)
@@ -135,7 +135,7 @@ class TestEventsView(GalleryTestCase):
             shutil.copyfile(self.sample_dir+"/option01/"+video_file,
                             self.sample_destination_dir+"/"+video_file)
             self.assertThat(
-                lambda: self.gallery_utils.number_of_photos_in_events(),
+                lambda: self.events_view.number_of_photos_in_events(),
                 Eventually(Equals(events_before + 2)))
 
     # Check if Camera Button is not visible at Desktop mode
