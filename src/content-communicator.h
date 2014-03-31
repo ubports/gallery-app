@@ -46,6 +46,7 @@ public:
 
     virtual void handle_import(content::Transfer*);
     virtual void handle_export(content::Transfer *transfer);
+    virtual void handle_share(content::Transfer*);
 
     void cancelTransfer();
     void returnPhotos(const QVector<QUrl> &urls);

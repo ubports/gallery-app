@@ -68,14 +68,14 @@ void MediaMonitor::startMonitoring(const QStringList &targetDirectories)
 }
 
 /*!
- * \brief MediaMonitor::checkConsitency checks the given datastructure, if it is
+ * \brief MediaMonitor::checkConsistency checks the given datastructure, if it is
  * in sync with the file system (files got added, deleted meanwhile)
  * \param mediaCollection
  */
-void MediaMonitor::checkConsitency(const MediaCollection *mediaCollection)
+void MediaMonitor::checkConsistency(const MediaCollection *mediaCollection)
 {
     m_worker->setMediaCollection(mediaCollection);
-    QMetaObject::invokeMethod(m_worker, "checkConsitency", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(m_worker, "checkConsistency", Qt::QueuedConnection);
 }
 
 /*!
@@ -157,7 +157,9 @@ QStringList MediaMonitorWorker::getManifest()
 QStringList MediaMonitorWorker::expandSubDirectories(const QString& dirPath)
 {
     QStack<QString> dirStack;
-    dirStack.push(dirPath);
+    if(QDir(dirPath).exists()) {
+        dirStack.push(dirPath);
+    }
 
     QStringList dirList;
     while(!dirStack.isEmpty()) {
@@ -201,10 +203,10 @@ void MediaMonitorWorker::startMonitoring(const QStringList &targetDirectories)
 }
 
 /*!
- * \brief MediaMonitorWorker::checkConsitency
+ * \brief MediaMonitorWorker::checkConsistency
  * \param mediaCollection
  */
-void MediaMonitorWorker::checkConsitency()
+void MediaMonitorWorker::checkConsistency()
 {
     checkForRemovedMedias();
     checkForNewMedias();

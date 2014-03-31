@@ -43,7 +43,7 @@ public:
     virtual ~MediaMonitor();
 
     void startMonitoring(const QStringList& targetDirectories);
-    void checkConsitency(const MediaCollection *mediaCollection);
+    void checkConsistency(const MediaCollection *mediaCollection);
     QStringList manifest();
 
 public slots:
@@ -78,7 +78,7 @@ public:
 public slots:
     void startMonitoring(const QStringList& targetDirectories);
     QStringList expandSubDirectories(const QString& dirPath);
-    void checkConsitency();
+    void checkConsistency();
 
 signals:
     void mediaItemAdded(QString newItem);
