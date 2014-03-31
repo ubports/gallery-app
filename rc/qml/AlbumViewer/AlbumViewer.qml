@@ -273,7 +273,8 @@ Page {
                 var destination = albumSpreadViewer.viewingPage +
                                   direction * albumSpreadViewer.pagesPerSpread;
 
-                if (destination > album.firstValidCurrentPage &&
+                if ((destination > album.firstValidCurrentPage ||
+                     pagesPerSpread == 2 && destination == album.firstValidCurrentPage) &&
                     destination <= album.lastPopulatedContentPage) {
                     albumSpreadViewer.destinationPage = destination;
                     prevSwipingX = mouseX;
