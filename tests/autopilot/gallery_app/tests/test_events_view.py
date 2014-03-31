@@ -126,16 +126,17 @@ class TestEventsView(GalleryTestCase):
         self.assertThat(new_number_of_photos, Equals(number_of_photos - 1))
 
     def test_adding_a_video(self):
-        events_before = self.events_view.number_of_events()
-        video_file = "video20130618_0002.mp4"
-        shutil.copyfile(self.sample_dir+"/option01/"+video_file,
-                        self.sample_destination_dir+"/"+video_file)
-        video_file = "clip_0001.mkv"
-        shutil.copyfile(self.sample_dir+"/option01/"+video_file,
-                        self.sample_destination_dir+"/"+video_file)
-        self.assertThat(
-            lambda: self.events_view.number_of_events(),
-            Eventually(Equals(events_before + 2)))
+        if model() == "Desktop":
+            events_before = self.events_view.number_of_events()
+            video_file = "video20130618_0002.mp4"
+            shutil.copyfile(self.sample_dir+"/option01/"+video_file,
+                            self.sample_destination_dir+"/"+video_file)
+            video_file = "clip_0001.mkv"
+            shutil.copyfile(self.sample_dir+"/option01/"+video_file,
+                            self.sample_destination_dir+"/"+video_file)
+            self.assertThat(
+                lambda: self.gallery_utils.number_of_photos_in_events(),
+                Eventually(Equals(events_before + 2)))
 
     # Check if Camera Button is not visible at Desktop mode
     def test_camera_button_visible(self):

@@ -50,8 +50,8 @@ public:
 
     virtual void addMany(const QSet<DataObject*>& objects);
 
-    void destroy(MediaSource *media);
-    void destroy(qint64 id);
+    void destroy(MediaSource *media, bool destroy_backing);
+    void destroy(qint64 id, bool destroy_backing);
 
 signals:
     void mediaIsBusy(bool busy);
