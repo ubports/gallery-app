@@ -228,6 +228,7 @@ Page {
             // Per the convention used elsewhere, true for right, false for left.
             property bool lastSwipeLeftToRight: true
             property int prevSwipingX: -1
+            property bool canceled: false
 
             // Normal press/click.
             function pressed(x, y) {
@@ -269,14 +270,20 @@ Page {
 
             onStartSwipe: {
                 var direction = (leftToRight ? -1 : 1);
-                albumSpreadViewer.destinationPage =
-                        albumSpreadViewer.viewingPage +
-                        direction * albumSpreadViewer.pagesPerSpread;
+                var destination = albumSpreadViewer.viewingPage +
+                                  direction * albumSpreadViewer.pagesPerSpread;
 
-                prevSwipingX = mouseX;
+                if (destination > album.firstValidCurrentPage &&
+                    destination <= album.lastPopulatedContentPage) {
+                    albumSpreadViewer.destinationPage = destination;
+                    prevSwipingX = mouseX;
+                } else {
+                    canceled = true;
+                }
             }
 
             onSwiping: {
+                if (canceled) return;
                 lastSwipeLeftToRight = (mouseX > prevSwipingX);
 
                 var availableDistance = (leftToRight) ? (width - start) : start;
@@ -296,6 +303,10 @@ Page {
             }
 
             onSwiped: {
+                if (canceled) {
+                    canceled = false;
+                    return;
+                }
                 var minValidPage = album.firstValidCurrentPage
                 var maxValidPage = album.lastValidCurrentPage
                 if (isPortrait) {
