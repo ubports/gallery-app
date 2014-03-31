@@ -45,6 +45,8 @@ public:
 
     bool isVideoPath(const QString& filePath);
 
+    void setVideoDirectories(const QStringList &dirs);
+
 private:
     QStringList m_mediaDirectories;
     QStringList m_videoDirectories;
