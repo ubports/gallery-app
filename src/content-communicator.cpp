@@ -57,7 +57,7 @@ void ContentCommunicator::handle_import(content::Transfer *transfer)
             } while(QFile::exists(newDestination));
             destination = newDestination;
         }
-        QFile::copy(hubItem.url().toLocalFile(), QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + fi.fileName());
+        QFile::copy(hubItem.url().toLocalFile(), destination);
     }
 }
 
