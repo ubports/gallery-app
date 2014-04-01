@@ -68,11 +68,12 @@ GalleryManager::GalleryManager(bool desktopMode,
       m_albumCollection(0),
       m_eventCollection(0),
       m_monitor(0),
+      m_desktopMode(desktopMode),
       m_mediaLibrary(0)
 {
     const int maxTextureSize = m_resource->maxTextureSize();
     m_standardImageProvider->setMaxLoadResolution(maxTextureSize);
-    m_mediaFactory = new MediaObjectFactory();
+    m_mediaFactory = new MediaObjectFactory(m_desktopMode, m_resource);
 
     m_galleryManager = this;
 }
@@ -247,7 +248,7 @@ void GalleryManager::startFileMonitoring()
                      this, SLOT(onMediaItemRemoved(qint64)));
 
     m_monitor->startMonitoring(m_resource->mediaDirectories());
-    m_monitor->checkConsitency(m_mediaCollection);
+    m_monitor->checkConsistency(m_mediaCollection);
 }
 
 /*!
@@ -258,7 +259,8 @@ void GalleryManager::onMediaItemAdded(QString file)
 {
     if (! m_mediaCollection->containsFile(file)) {
         QFileInfo fi(file);
-        MediaSource *media = m_mediaFactory->create(fi);
+        MediaSource *media = m_mediaFactory->create(fi, m_desktopMode, m_resource);
+
         if (media)
             m_mediaCollection->add(media);
     }
@@ -270,7 +272,7 @@ void GalleryManager::onMediaItemAdded(QString file)
  */
 void GalleryManager::onMediaItemRemoved(qint64 mediaId)
 {
-    m_mediaCollection->destroy(mediaId);
+    m_mediaCollection->destroy(mediaId, false);
 }
 
 /*!

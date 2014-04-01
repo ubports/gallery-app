@@ -298,7 +298,7 @@ Item {
                     color: Gallery.HIGHLIGHT_BUTTON_COLOR
                     onClicked: {
                         PopupUtils.close(dialogue)
-                        viewerWrapper.model.destroyMedia(galleryPhotoViewer.media);
+                        viewerWrapper.model.destroyMedia(galleryPhotoViewer.media, true);
                         galleryPhotoViewer.currentIndexChanged();
                         dialogue.finishRemove();
                     }

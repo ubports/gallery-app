@@ -1,3 +1,17 @@
+gallery-app (0.0.67+14.04.20140328-0ubuntu1) trusty; urgency=low
+
+  [ Bill Filler ]
+  * change check for desktopMode to use platform name rather than env
+    var
+
+  [ Arthur Mello ]
+  * Make sure that gallery will not be able to remove media files from
+    disk if it finds any sort of inconsistency (LP: #1295344)
+  * Make sure that videos placed out the video directory will be not
+    displayed on devices (LP: #1296634)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 28 Mar 2014 15:34:43 +0000
+
 gallery-app (0.0.67+14.04.20140325-0ubuntu1) trusty; urgency=low
 
   [ CI bot ]

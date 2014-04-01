@@ -51,6 +51,7 @@ Resource::Resource(bool desktopMode, const QString &pictureDir, QQuickView *view
         m_mediaDirectories.append(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation));
         if (desktopMode) {
             m_mediaDirectories.append(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
+            m_videoDirectories.append(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
         } else {
             // If running on device, we must just display videos recorded by Camera, those videos
             // are gonna be saved on a specific directory
@@ -58,6 +59,7 @@ Resource::Resource(bool desktopMode, const QString &pictureDir, QQuickView *view
             if (!moviesPath.isEmpty()) {
                 moviesPath += "/" + CAMERA_RECORD_DIR;
                 m_mediaDirectories.append(moviesPath);
+                m_videoDirectories.append(moviesPath);
             }
         }
     }
@@ -142,4 +144,15 @@ int Resource::maxTextureSize() const
     }
 
     return m_maxTextureSize;
+}
+
+bool Resource::isVideoPath(const QString& filePath)
+{
+    foreach (const QString& videoPath, m_videoDirectories) {
+        if (filePath.contains(videoPath)) {
+            return true;
+        }
+    }
+
+    return false;
 }

@@ -34,9 +34,11 @@
  * \brief MediaObjectFactory::MediaObjectFactory
  * \param mediaTable
  */
-MediaObjectFactory::MediaObjectFactory()
+MediaObjectFactory::MediaObjectFactory(bool desktopMode, Resource *res)
     : m_mediaTable(),
-      m_filterType(MediaSource::None)
+      m_filterType(MediaSource::None),
+      m_resource(res),
+      m_desktopMode(desktopMode)
 {
 }
 
@@ -102,7 +104,7 @@ void MediaObjectFactory::clear()
  * \param file the file to load
  * \return 0 if this no valid photo/video file
  */
-MediaSource *MediaObjectFactory::create(const QFileInfo &file)
+MediaSource *MediaObjectFactory::create(const QFileInfo &file, bool desktopMode, Resource *res)
 {
     Q_ASSERT(m_mediaTable);
 
@@ -111,6 +113,12 @@ MediaSource *MediaObjectFactory::create(const QFileInfo &file)
     MediaSource::MediaType mediaType = MediaSource::Photo;
     if (Video::isCameraVideo(file))
         mediaType = MediaSource::Video;
+
+    if (!desktopMode && mediaType == MediaSource::Video) {
+        if (res && !res->isVideoPath(file.absoluteFilePath())) {
+            return 0;
+        }
+    }
 
     if (m_filterType != MediaSource::None && mediaType != m_filterType)
         return 0;
@@ -188,6 +196,12 @@ void MediaObjectFactory::addMedia(qint64 mediaId, const QString &filename,
     MediaSource::MediaType mediaType = MediaSource::Photo;
     if (Video::isCameraVideo(file))
         mediaType = MediaSource::Video;
+
+    if (!m_desktopMode && mediaType == MediaSource::Video) {
+        if (m_resource && !m_resource->isVideoPath(file.absoluteFilePath())) {
+            return;
+        }
+    }
 
     MediaSource *media = 0;
     Photo *photo = 0;

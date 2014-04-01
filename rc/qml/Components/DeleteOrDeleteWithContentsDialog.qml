@@ -66,7 +66,7 @@ Popover {
                 // Remove contents.
                 var list = album.allMediaSources;
                 for (var i = 0; i < list.length; i++)
-                    __mediaCollection.destroyMedia(list[i]);
+                    __mediaCollection.destroyMedia(list[i], true);
 
                 // Remove album.
                 __albumCollection.destroyAlbum(album);
