@@ -6,7 +6,7 @@
 # by the Free Software Foundation.
 
 from ubuntuuitoolkit import emulators as toolkit_emulators
-from galllery_app.emulators import toolbar
+from gallery_app.emulators import toolbar
 
 
 class MainScreen(toolkit_emulators.MainView):
