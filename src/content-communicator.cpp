@@ -42,9 +42,23 @@ ContentCommunicator::ContentCommunicator(QObject *parent)
 /*!
  * \brief \reimp
  */
-void ContentCommunicator::handle_import(content::Transfer *)
+void ContentCommunicator::handle_import(content::Transfer *transfer)
 {
-    qDebug() << Q_FUNC_INFO << "gallery does not import content";
+    QVector<Item> transferedItems = transfer->collect();
+    foreach (const Item &hubItem, transferedItems) {
+        QFileInfo fi(hubItem.url().toLocalFile());
+        QString destination = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + fi.fileName();
+        if(QFile::exists(destination)) {
+            int append = 1;
+            QString newDestination;
+            do {
+                newDestination = destination + "." + QString::number(append);
+                append++;
+            } while(QFile::exists(newDestination));
+            destination = newDestination;
+        }
+        QFile::copy(hubItem.url().toLocalFile(), QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + fi.fileName());
+    }
 }
 
 /*!
