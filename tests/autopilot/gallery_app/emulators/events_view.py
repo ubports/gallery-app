@@ -27,6 +27,12 @@ class EventsView(GalleryUtils):
                                                objectName="eventPhoto")
         return len(photo_delegates)
 
+    def number_of_photos_in_event(self, event):
+        """Returns the number of photo delgated in an event"""
+        photo_delegates = event.select_many("QQuickItem",
+                                            objectName="eventPhoto")
+        return len(photo_delegates)
+
     def get_first_image_in_event_view(self):
         """Returns the first photo of the gallery."""
         event = self.get_first_event()
