@@ -6,8 +6,16 @@
 # by the Free Software Foundation.
 
 from ubuntuuitoolkit import emulators as toolkit_emulators
-from toolbar import Toolbar
+from galllery_app.emulators import toolbar
 
 
 class MainScreen(toolkit_emulators.MainView):
     """An emulator class that makes it easy to interact with the gallery app"""
+
+    def get_toolbar(self):
+        """Return the Toolbar emulator of the MainView.
+
+        Overriden because the gallery app has custom buttons.
+
+        """
+        return self.select_single(toolbar.Toolbar)
