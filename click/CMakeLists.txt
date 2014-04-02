@@ -5,6 +5,6 @@ if(CLICK_MODE)
     configure_file(manifest.json.in ${CMAKE_CURRENT_BINARY_DIR}/manifest.json)
     install(FILES ${CMAKE_CURRENT_BINARY_DIR}/manifest.json
             DESTINATION ${CMAKE_INSTALL_PREFIX})
-    install(FILES gallery-apparmor.json
+    install(FILES gallery-apparmor.json gallery-content.json
             DESTINATION ${CMAKE_INSTALL_PREFIX})
 endif(CLICK_MODE)

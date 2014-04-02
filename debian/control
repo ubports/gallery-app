@@ -7,7 +7,6 @@ Build-Depends: debhelper (>= 9),
                pkg-config,
                dh-translations,
                libcontent-hub-dev (>= 0.0+13.10.20130930.1),
-               libgstreamer0.10-dev,
                libexiv2-dev,
                libgl1-mesa-dev | libgl-dev,
                libgles2-mesa-dev,
@@ -30,8 +29,6 @@ Replaces: ubuntu-gallery
 Conflicts: ubuntu-gallery
 Depends: ${misc:Depends},
          ${shlibs:Depends},
-         gstreamer0.10-plugins-base,
-         gstreamer0.10-plugins-good,
          qtdeclarative5-accounts-plugin,
          libqt5sql5-sqlite,
          qtdeclarative5-qtquick2-plugin,
@@ -52,6 +49,7 @@ Depends: ${misc:Depends},
          libqt5test5,
          ubuntu-ui-toolkit-autopilot,
          unity8-autopilot,
+         python-pkg-resources,
 Description: Autopilot tests for the photo gallery for Ubuntu
  gallery-app is a photo gallery for the Ubuntu platform. This package contains
  autopilot tests for it.

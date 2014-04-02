@@ -161,8 +161,32 @@ Item {
                 radius: "medium"
 
                 image: Image {
+                    id: thumbImage
                     source: model.mediaSource.galleryThumbnailPath
                     asynchronous: true
+
+                    /* The SDK thumbnailer respects the freedesktop.org standard and uses 128 for the small
+                     * thumbnail size, while the previous thumbnailer used 216. To maintain the same visual
+                     * result as the previous thumbnailer, we force it to generate a large thumbnail, which
+                     * is closer to the older one in size and looks identical when downscaled */
+                    sourceSize.width: 256
+                    fillMode: Image.PreserveAspectCrop
+                }
+
+                Connections {
+                    target: model.mediaSource
+                    onDataChanged: {
+                        // data changed but filename didn't, so we need to bypass the qml image
+                        // cache by tacking a timestamp to the filename so sees it as different.
+                        thumbImage.source = model.mediaSource.galleryThumbnailPath + "?at=" + Date.now()
+                    }
+                }
+
+                Image {
+                    // Display a play icon if the thumbnail is from a video
+                    source: "../../img/icon_play.png"
+                    anchors.centerIn: parent
+                    visible: mediaSource.type === MediaSource.Video
                 }
 
                 OrganicItemInteraction {

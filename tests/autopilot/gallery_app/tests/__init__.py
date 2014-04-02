@@ -17,6 +17,7 @@ from autopilot.matchers import Eventually
 from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
 from autopilot.introspection import get_proxy_object_for_existing_process
+from pkg_resources import resource_filename
 
 from ubuntuuitoolkit import emulators as toolkit_emulators
 from gallery_app.emulators import main_screen
@@ -43,14 +44,11 @@ class GalleryTestCase(AutopilotTestCase):
     tap_press_time = 1
     local_location = "../../src/gallery-app"
 
-    _default_sample_destination_dir = "/tmp/gallery-ap_sd"
+    _db = '~/.local/share/com.ubuntu.gallery/gallery-app/' \
+          'database/gallery.sqlite'
+    _thumbs = '~/.cache/com.ubuntu.gallery/gallery-app/thumbnails'
 
-    _sample_dirs = {
-        EnvironmentTypes.installed:
-        "/usr/lib/python2.7/dist-packages/gallery_app/data",
-        EnvironmentTypes.local: "gallery_app/data",
-        EnvironmentTypes.click: "gallery_app/data",
-    }
+    _default_sample_destination_dir = "/tmp/gallery-ap_sd"
 
     ARGS = []
 
@@ -77,15 +75,49 @@ class GalleryTestCase(AutopilotTestCase):
             else:
                 return EnvironmentTypes.click
 
-    def _get_sample_destination_dir(self):
-        if self.env_type == EnvironmentTypes.click:
-            return os.path.expanduser("~/Pictures")
+    def _get_sample_destination_dir(self, env_type):
+        if env_type == EnvironmentTypes.click:
+            pic_dir = os.path.expanduser("~/Pictures")
+            pic_bak_dir = pic_dir + '.apbak'
+            # Only save and restore if it previously existed
+            if os.path.exists(pic_dir):
+                shutil.move(pic_dir, pic_bak_dir)
+                self.addCleanup(
+                    logger.debug, "Restoring backed up pics to %s" % pic_dir)
+                self.addCleanup(shutil.move, pic_bak_dir, pic_dir)
+            return pic_dir
         else:
             return self._default_sample_destination_dir
 
-    def configure_sample_files(self):
-        self.sample_dir = self._sample_dirs[self.env_type]
-        self.sample_destination_dir = self._get_sample_destination_dir()
+    def configure_db(self):
+        db = os.path.expanduser(self._db)
+        db_bak = db + '.apbak'
+        # Only save and restore if it previously existed
+        if os.path.exists(db):
+            shutil.move(db, db_bak)
+            self.addCleanup(shutil.move, db_bak, db)
+        if not os.path.exists(os.path.dirname(db)):
+            os.makedirs(os.path.dirname(db))
+        mock_db = os.path.join(self.sample_destination_dir, '.database',
+                               'gallery_confined.sqlite')
+        shutil.move(mock_db, db)
+
+    def configure_thumbnails(self):
+        thumbs = os.path.expanduser(self._thumbs)
+        thumbs_bak = thumbs + '.apbak'
+        # Only save and restore if it previously existed
+        if os.path.exists(thumbs):
+            shutil.move(thumbs, thumbs_bak)
+            self.addCleanup(shutil.move, thumbs_bak, thumbs)
+        if not os.path.exists(os.path.dirname(thumbs)):
+            os.makedirs(os.path.dirname(thumbs))
+        mock_thumbs = os.path.join(self.sample_destination_dir, '.thumbnails')
+        shutil.move(mock_thumbs, thumbs)
+
+    def configure_sample_files(self, env_type):
+        self.sample_dir = resource_filename('gallery_app', 'data')
+        self.sample_destination_dir = \
+            self._get_sample_destination_dir(env_type)
         if (os.path.exists(self.sample_destination_dir)):
             shutil.rmtree(self.sample_destination_dir)
         self.assertFalse(os.path.exists(self.sample_destination_dir))
@@ -104,24 +136,28 @@ class GalleryTestCase(AutopilotTestCase):
         self.sample_file_source = \
             default_data_dir + self.sample_file_source
 
+        if env_type == EnvironmentTypes.click:
+            self.configure_db()
+            self.configure_thumbnails()
+
     def do_reset_config(self):
-        config = os.path.expanduser(os.path.join("~", ".config", "gallery-app.conf"))
+        config = os.path.expanduser(
+            os.path.join("~", ".config", "gallery-app.conf"))
         if os.path.exists(config):
             remove(config)
 
-    def prepare(self):
+    def setUp(self):
         self.pointing_device = toolkit_emulators.get_pointing_device()
         super(GalleryTestCase, self).setUp()
 
-        self.env_type = self._get_environment_launch_type()
-        self.configure_sample_files()
-        self.do_reset_config()
+        env_type = self._get_environment_launch_type()
+        self.configure_sample_files(env_type)
 
-    def start_app(self, cleanup = False):
-        self.launch_gallery_app()
+        self.launch_gallery_app(env_type)
 
-        if cleanup:
-            self.addCleanup(shutil.rmtree, self.sample_destination_dir)
+        self.addCleanup(shutil.rmtree, self.sample_destination_dir)
+        self.addCleanup(logger.debug,
+                        "Deleting %s" % self.sample_destination_dir)
 
         """ This is needed to wait for the application to start.
         In the testfarm, the application may take some time to show up."""
@@ -133,19 +169,15 @@ class GalleryTestCase(AutopilotTestCase):
         for switching to the albums view. Therefore this hack of a second"""
         sleep(1)
 
-    def setUp(self):
-        self.prepare()
-        self.start_app(True)
-
-    def launch_gallery_app(self):
-        if self.env_type == EnvironmentTypes.installed:
+    def launch_gallery_app(self, env_type):
+        if env_type == EnvironmentTypes.installed:
             self.launch_test_installed()
-        elif self.env_type == EnvironmentTypes.local:
+        elif env_type == EnvironmentTypes.local:
             self.launch_test_local()
-        elif self.env_type == EnvironmentTypes.click:
+        elif env_type == EnvironmentTypes.click:
             self.launch_test_click()
         else:
-            raise ValueError("Unknown environment type: %s", self.env_type)
+            raise ValueError("Unknown environment type: %s", env_type)
 
     def launch_test_local(self):
         logger.debug("Launching local gallery-app binary.")
@@ -186,6 +218,7 @@ class GalleryTestCase(AutopilotTestCase):
         logger.debug("Launching gallery-app via click package.")
         self.app = self.launch_click_package(
             package_id="com.ubuntu.gallery",
+            app_uris=' '.join(self.ARGS),
             emulator_base=toolkit_emulators.UbuntuUIToolkitEmulatorBase)
 
     def ui_update(self):
@@ -259,15 +292,18 @@ class GalleryTestCase(AutopilotTestCase):
             self.keyboard.press_and_release("Alt+F4")
         else:
             # On unity8 at the moment we have no clean way to close the app.
-            # So we ask the shell first to show the home, unfocusing our app, which will
-            # save its state. Then we simply send it a SIGTERM to force it to quit.
-            # See bug https://bugs.launchpad.net/unity8/+bug/1261720 for more details.
+            # So we ask the shell first to show the home, unfocusing our app,
+            # which will save its state. Then we simply send it a SIGTERM to
+            # force it to quit.
+            # See bug https://bugs.launchpad.net/unity8/+bug/1261720 for more
+            # details.
             from unity8 import process_helpers
             pid = process_helpers._get_unity_pid()
             unity8 = get_proxy_object_for_existing_process(pid)
             shell = unity8.select_single("Shell")
             shell.slots.showHome()
-            self.assertThat(shell.currentFocusedAppId, Eventually(NotEquals("gallery-app")))
+            self.assertThat(shell.currentFocusedAppId,
+                            Eventually(NotEquals("gallery-app")))
             self.app.process.send_signal(signal.SIGTERM)
 
         # Either way, we wait for the underlying process to be fully finished.
@@ -275,12 +311,16 @@ class GalleryTestCase(AutopilotTestCase):
         self.assertIsNotNone(self.app.process.returncode)
 
     def add_video_sample(self):
-        video_file = "video20130618_0002.mp4"
-        shutil.copyfile(self.sample_dir+"/option01/"+video_file,
-                        self.sample_destination_dir+"/"+video_file)
-        self.assertThat(
-            lambda: self.gallery_utils.number_of_photos_in_events(),
-            Eventually(Equals(3)))
+        if model() == "Desktop":
+            video_file = "video20130618_0002.mp4"
+            shutil.copyfile(self.sample_dir+"/option01/"+video_file,
+                            self.sample_destination_dir+"/"+video_file)
+            video_file = "clip_0001.mkv"
+            shutil.copyfile(self.sample_dir+"/option01/"+video_file,
+                            self.sample_destination_dir+"/"+video_file)
+            self.assertThat(
+                lambda: self.gallery_utils.number_of_photos_in_events(),
+                Eventually(Equals(4)))
 
     def get_delete_dialog(self):
         """Raises StateNotFoundError if get_delete_dialog fails."""
@@ -288,4 +328,3 @@ class GalleryTestCase(AutopilotTestCase):
         self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
         self.assertThat(delete_dialog.opacity, Eventually(Equals(1)))
         return delete_dialog
-

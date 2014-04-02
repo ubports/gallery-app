@@ -27,6 +27,7 @@
 
 const QLatin1String Resource::DATABASE_DIR = QLatin1String("database");
 const QLatin1String Resource::THUMBNAIL_DIR = QLatin1String("thumbnails");
+const QLatin1String Resource::CAMERA_RECORD_DIR = QLatin1String("camera");
 
 /*!
  * \brief Resource::Resource
@@ -34,7 +35,7 @@ const QLatin1String Resource::THUMBNAIL_DIR = QLatin1String("thumbnails");
  * \param install_dir the directory, where apps are installed to
  * \param view the view is used to determine the max texture size
  */
-Resource::Resource(const QString &pictureDir, QQuickView *view)
+Resource::Resource(bool desktopMode, const QString &pictureDir, QQuickView *view)
     : m_mediaDirectories(),
       m_databaseDirectory(""),
       m_thumbnailDirectory(""),
@@ -48,7 +49,19 @@ Resource::Resource(const QString &pictureDir, QQuickView *view)
         m_mediaDirectories.append(pictureDir);
     } else {
         m_mediaDirectories.append(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation));
-        m_mediaDirectories.append(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
+        if (desktopMode) {
+            m_mediaDirectories.append(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
+            m_videoDirectories.append(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
+        } else {
+            // If running on device, we must just display videos recorded by Camera, those videos
+            // are gonna be saved on a specific directory
+            QString moviesPath = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation);
+            if (!moviesPath.isEmpty()) {
+                moviesPath += "/" + CAMERA_RECORD_DIR;
+                m_mediaDirectories.append(moviesPath);
+                m_videoDirectories.append(moviesPath);
+            }
+        }
     }
 }
 
@@ -61,9 +74,11 @@ Resource::Resource(const QString &pictureDir, QQuickView *view)
  */
 QUrl Resource::getRcUrl(const QString& path)
 {
-    return isRunningInstalled() ?
-                QUrl::fromLocalFile(galleryDirectory() + "/rc/" + path) :
-                QUrl::fromLocalFile(galleryDirectory() + "/../rc/" + path);
+    if (isClick() || isRunningInstalled()) {
+        return QUrl::fromLocalFile(galleryDirectory() + "/rc/" + path);
+    } else {
+        return QUrl::fromLocalFile(galleryDirectory() + "/../rc/" + path);
+    }
 }
 
 /*!
@@ -129,4 +144,15 @@ int Resource::maxTextureSize() const
     }
 
     return m_maxTextureSize;
+}
+
+bool Resource::isVideoPath(const QString& filePath)
+{
+    foreach (const QString& videoPath, m_videoDirectories) {
+        if (filePath.contains(videoPath)) {
+            return true;
+        }
+    }
+
+    return false;
 }

@@ -33,6 +33,10 @@ void ContentCommunicator::handle_export(content::Transfer *)
 {
 }
 
+void ContentCommunicator::handle_share(content::Transfer *)
+{
+}
+
 void ContentCommunicator::cancelTransfer()
 {
 }

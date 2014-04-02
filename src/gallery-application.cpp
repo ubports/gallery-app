@@ -38,7 +38,6 @@
 
 // qml
 #include "gallery-standard-image-provider.h"
-#include "gallery-thumbnail-image-provider.h"
 #include "qml-album-collection-model.h"
 #include "qml-event-collection-model.h"
 #include "qml-event-overview-model.h"
@@ -53,6 +52,7 @@
 #include <QString>
 #include <QTimer>
 #include <QUrl>
+#include <QtGui/QGuiApplication>
 
 QElapsedTimer* GalleryApplication::m_timer = 0;
 
@@ -84,7 +84,7 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
 
     registerQML();
 
-    m_galleryManager = new GalleryManager(m_cmdLineParser->picturesDir(), m_view);
+    m_galleryManager = new GalleryManager(isDesktopMode(), m_cmdLineParser->picturesDir(), m_view);
     m_galleryManager->logImageLoading(m_cmdLineParser->logImageLoading());
     if (m_cmdLineParser->pickModeEnabled())
         setDefaultUiMode(GalleryApplication::PickContentMode);
@@ -143,7 +143,13 @@ void GalleryApplication::registerQML()
  */
 bool GalleryApplication::isDesktopMode() const
 {
-  return (qEnvironmentVariableIsSet("DESKTOP_MODE") && (qgetenv("DESKTOP_MODE") == "1"));
+
+  // Assume that platformName (QtUbuntu) with ubuntu
+  // in name means it's running on device
+  // TODO: replace this check with SDK call for formfactor
+  QString platform = QGuiApplication::platformName();
+  return !((platform == "ubuntu") || (platform == "ubuntumirclient"));
+
 }
 
 /*!
@@ -169,7 +175,7 @@ void GalleryApplication::createView()
         size.transpose();
 
     m_view->setResizeMode(QQuickView::SizeRootObjectToView);
-    if (m_cmdLineParser->formFactor() == "desktop" || isDesktopMode()) {
+    if (isDesktopMode()) {
         m_view->setMinimumSize(QSize(60 * m_bguSize, 60 * m_bguSize));
     }
 
@@ -213,8 +219,6 @@ void GalleryApplication::initCollections()
     m_galleryManager->postInit();
     m_view->engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
                                        m_galleryManager->takeGalleryStandardImageProvider());
-    m_view->engine()->addImageProvider(GalleryThumbnailImageProvider::PROVIDER_ID,
-                                       m_galleryManager->takeGalleryThumbnailImageProvider());
 
     QApplication::processEvents();
     if (m_cmdLineParser->startupTimer())

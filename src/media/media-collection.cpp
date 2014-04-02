@@ -171,19 +171,19 @@ void MediaCollection::addMany(const QSet<DataObject *> &objects)
  * \brief MediaCollection::destroy
  * \param media
  */
-void MediaCollection::destroy(MediaSource *media)
+void MediaCollection::destroy(MediaSource *media, bool destroy_backing)
 {
-    SourceCollection::destroy(media, true, true);
+    SourceCollection::destroy(media, destroy_backing, true);
 }
 
 /*!
  * \brief MediaCollection::remove
  * \param id
  */
-void MediaCollection::destroy(qint64 id)
+void MediaCollection::destroy(qint64 id, bool destroy_backing)
 {
     if (m_idMap.contains(id)) {
         MediaSource *media = qobject_cast<MediaSource*>(m_idMap[id]);
-        SourceCollection::destroy(media, true, true);
+        SourceCollection::destroy(media, destroy_backing, true);
     }
 }

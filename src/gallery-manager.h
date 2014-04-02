@@ -36,11 +36,9 @@ class Database;
 class EventCollection;
 class GalleryManager;
 class GalleryStandardImageProvider;
-class GalleryThumbnailImageProvider;
 class MediaCollection;
 class MediaMonitor;
 class MediaObjectFactory;
-class PreviewManager;
 class QmlMediaCollectionModel;
 class Resource;
 
@@ -53,7 +51,7 @@ class GalleryManager : public QObject
     Q_PROPERTY(QmlMediaCollectionModel* mediaLibrary READ mediaLibrary NOTIFY mediaLibraryChanged)
 
 public:
-    GalleryManager(const QString &picturesDir, QQuickView *view);
+    GalleryManager(bool desktopMode, const QString &picturesDir, QQuickView *view);
     ~GalleryManager();
 
     static GalleryManager* instance();
@@ -68,7 +66,6 @@ public:
     EventCollection *eventCollection();
     Resource *resource() { return m_resource; }
     GalleryStandardImageProvider *takeGalleryStandardImageProvider();
-    GalleryThumbnailImageProvider *takeGalleryThumbnailImageProvider();
 
     void logImageLoading(bool log);
 
@@ -85,7 +82,6 @@ private:
     GalleryManager(const GalleryManager&);
     void operator=(const GalleryManager&);
 
-    void initPreviewManager();
     void fillMediaCollection();
     void startFileMonitoring();
 
@@ -95,15 +91,14 @@ private:
 
     Resource* m_resource;
     GalleryStandardImageProvider* m_standardImageProvider;
-    GalleryThumbnailImageProvider* m_thumbnailImageProvider;
     Database* m_database;
     AlbumDefaultTemplate* m_defaultTemplate;
     MediaCollection* m_mediaCollection;
     AlbumCollection* m_albumCollection;
     EventCollection* m_eventCollection;
-    PreviewManager* m_previewManager;
     MediaObjectFactory *m_mediaFactory;
     MediaMonitor *m_monitor;
+    bool m_desktopMode;
 
     mutable QmlMediaCollectionModel *m_mediaLibrary;
 };
