@@ -90,7 +90,7 @@ ListView {
     MouseAreaWithMultipoint {
         desktop: APP.desktopMode
         anchors.fill: parent
-        enabled: currentItem.state === "unzoomed"
+        enabled: APP.desktopMode && currentItem.state === "unzoomed"
         propagateComposedEvents: true
 
         onWheel: {
