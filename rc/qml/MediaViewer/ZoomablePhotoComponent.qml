@@ -272,6 +272,7 @@ Rectangle {
         onPinchFinished: zoomablePhotoComponent.state = (zoomingIn ? "full_zoom" : "unzoomed")
 
         MouseAreaWithMultipoint {
+            desktop: APP.desktopMode
             anchors.fill: parent
             enabled: fullyUnzoomed
 
@@ -364,6 +365,7 @@ Rectangle {
                         ownerName: zoomablePhotoComponent.ownerName + "zoomedPhoto"
 
                         MouseAreaWithMultipoint {
+                            desktop: APP.desktopMode
                             anchors.fill: parent
 
                             onClicked: zoomablePhotoComponent.clicked()
