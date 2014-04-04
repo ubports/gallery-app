@@ -20,6 +20,8 @@ Item {
 
     signal clicked(var mouse)
     signal doubleClicked(var mouse)
+    signal wheel(var wheel)
+    signal pressed(var mouse)
 
     property bool desktop: true
 
@@ -29,8 +31,12 @@ Item {
         anchors.fill: parent
         enabled: mouseareawithmultipoint.desktop
 
+        propagateComposedEvents: true
+
         onClicked: mouseareawithmultipoint.clicked(mouse);
         onDoubleClicked: mouseareawithmultipoint.doubleClicked(mouse);
+        onWheel: mouseareawithmultipoint.wheel(wheel);
+        onPressed: mouseareawithmultipoint.pressed(mouse);
     }
 
     MultiPointTouchArea {
