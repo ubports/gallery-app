@@ -60,9 +60,9 @@ Item {
                     dblTapTimeout.running = true;
                 } else {
                     if (pressCount == 1) {
-                        mouseareawithmultipoint.clicked({ x: dblTapHandler.x, y: dblTapHandler.y });
+                        mouseAreaWithMultipoint.clicked({ x: dblTapHandler.x, y: dblTapHandler.y });
                     } else if (pressCount === 2) {
-                        mouseareawithmultipoint.doubleClicked({ x: dblTapHandler.x, y: dblTapHandler.y });
+                        mouseAreaWithMultipoint.doubleClicked({ x: dblTapHandler.x, y: dblTapHandler.y });
                         pressCount = 0;
                         dblTapTimeout.stop();
                     }
