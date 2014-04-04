@@ -91,6 +91,7 @@ ListView {
         desktop: APP.desktopMode
         anchors.fill: parent
         enabled: currentItem.state === "unzoomed"
+        propagateComposedEvents: true
 
         onWheel: {
             if (wheel.angleDelta.x < 0) {

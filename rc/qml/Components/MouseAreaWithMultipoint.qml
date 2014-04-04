@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 Item {
-    id: mouseareawithmultipoint
+    id: mouseAreaWithMultipoint
 
     signal clicked(var mouse)
     signal doubleClicked(var mouse)
@@ -24,24 +24,25 @@ Item {
     signal pressed(var mouse)
 
     property bool desktop: true
+    property bool propagateComposedEvents: false
 
     anchors.fill: parent
 
     MouseArea {
         anchors.fill: parent
-        enabled: mouseareawithmultipoint.desktop
+        enabled: mouseAreaWithMultipoint.desktop
 
-        propagateComposedEvents: true
+        propagateComposedEvents: mouseAreaWithMultipoint.propagateComposedEvents
 
-        onClicked: mouseareawithmultipoint.clicked(mouse);
-        onDoubleClicked: mouseareawithmultipoint.doubleClicked(mouse);
-        onWheel: mouseareawithmultipoint.wheel(wheel);
-        onPressed: mouseareawithmultipoint.pressed(mouse);
+        onClicked: mouseAreaWithMultipoint.clicked(mouse);
+        onDoubleClicked: mouseAreaWithMultipoint.doubleClicked(mouse);
+        onWheel: mouseAreaWithMultipoint.wheel(wheel);
+        onPressed: mouseAreaWithMultipoint.pressed(mouse);
     }
 
     MultiPointTouchArea {
         anchors.fill: parent
-        enabled: !mouseareawithmultipoint.desktop
+        enabled: !mouseAreaWithMultipoint.desktop
 
         Timer {
             id: dblTapTimeout
