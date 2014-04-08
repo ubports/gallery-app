@@ -38,6 +38,8 @@ public:
 
     static bool isCameraVideo(const QFileInfo& file);
 
+    static bool isValid(const QFileInfo& file);
+
 private:
     friend class tst_Video;
 };

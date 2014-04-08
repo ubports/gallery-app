@@ -37,6 +37,7 @@ add_executable(mediaobjectfactory
     ../stubs/database_stub.cpp
     ../stubs/media-table_stub.cpp
     ../stubs/photo_stub.cpp
+    ../stubs/video_stub.cpp
     ../stubs/photo-caches_stub.cpp
     ../stubs/photo-edit-table_stub.cpp
     ../stubs/photometa-data_stub.cpp

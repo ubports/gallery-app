@@ -21,43 +21,29 @@
 
 #include <QUrl>
 
-/*!
- * \brief Video::Video
- * \param file
- */
 Video::Video(const QFileInfo &file)
     :MediaSource(file)
 {
+    Q_UNUSED(file);
 }
 
-/*!
- * \reimp
- */
 MediaSource::MediaType Video::type() const
 {
     return MediaSource::Video;
 }
 
-/*!
- * \reimp
- */
 QImage Video::image(bool respectOrientation, const QSize &scaleSize)
 {
     Q_UNUSED(respectOrientation);
     Q_UNUSED(scaleSize);
-    return QImage(Resource::getRcUrl("img/video-thumbnail.png").toLocalFile());
+    return QImage();
 }
 
-/*!
- * \brief Video::isCameraVideo return true if the video file was created by the
- * camera-app
- * \param file the file to check
- * \return
- */
 bool Video::isCameraVideo(const QFileInfo &file)
 {
     QMimeDatabase mimedb;
     QMimeType mimeType = mimedb.mimeTypeForFile(file);
+    qWarning() << mimeType.name();
     if (mimeType.name().contains("video")) {
         return true;
     }
@@ -65,7 +51,9 @@ bool Video::isCameraVideo(const QFileInfo &file)
     return false;
 }
 
-bool Video::isValid(const QFileInfo& file)
+bool Video::isValid(const QFileInfo &file)
 {
-    return file.exists();
+    Q_UNUSED(file);
+
+    return true;
 }
