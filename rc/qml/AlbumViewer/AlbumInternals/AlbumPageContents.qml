@@ -114,10 +114,10 @@ Item {
     property real frameContentOffsetY: frameInsetMarginY
 
     // GU/pixel scale factor of preview frame
-    property real scaleFactorX: width / (pixelWidth - pixelWidthOffset)
+    property real scaleFactorX: ((isPreview) ? width : (width - gutterMargin)) / (pixelWidth - pixelWidthOffset)
     /*!
     */
-    property real scaleFactorY: height / (pixelHeight - pixelHeightOffset)
+    property real scaleFactorY: ((isPreview) ? height : (height - topMargin * 2 - bottomMargin)) / (pixelHeight - pixelHeightOffset)
 
     // Frame dimensions
     property real frameContentWidth: frame.contentWidth
@@ -281,6 +281,7 @@ Item {
 
         width: pixelWidth
         height: pixelHeight
+        y: albumPageContents.isPreview ? 0 : topMargin
 
         xScale: scaleFactorX
         yScale: scaleFactorY
@@ -289,6 +290,9 @@ Item {
 
         album: albumPageContents.album
         isBack: !isRight
-        isPreview: albumPageContents.isPreview
+
+        // Always consider this as preview, so it matches the preview display when animating out
+        // from the cover.
+        isPreview: true
     }
 }

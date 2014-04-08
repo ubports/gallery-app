@@ -69,28 +69,6 @@ class GalleryUtils(object):
         return self.app.select_single("Button", objectName="deleteDialogNo",
                                       visible=True)
 
-    def get_first_event(self):
-        """Returns the first event in the event view"""
-        return self.app.select_single("OrganicMediaList",
-                                      objectName="organicEventItem0")
-
-    def number_of_events(self):
-        """Returns the number of events in the event view (might differ to the
-        total number in the model, because of the listview"""
-        return len(self.app.select_many("OrganicMediaList"))
-
-    def number_of_photos_in_events(self):
-        """Returns the number of events"""
-        photo_delegates = self.app.select_many("QQuickItem",
-                                               objectName="eventPhoto")
-        return len(photo_delegates)
-
-    def get_first_image_in_event_view(self):
-        """Returns the first photo of the gallery."""
-        event = self.get_first_event()
-        return event.select_many("OrganicItemInteraction",
-                                 objectName='eventsViewPhoto')[1]
-
     def get_all_albums(self):
         """Returns all albums in the albums view"""
         albums = self.select_many_retry("CheckerboardDelegate",
@@ -98,10 +76,16 @@ class GalleryUtils(object):
         return albums
 
     def get_first_album(self):
-        """Returns the first album in the albums view"""
+        """Returns the first album in the albums view."""
+        # For some reasons the albums are returned in inverse order, so
+        # the first album is acutally the last in the array
+        return self.get_album_at(-1)
+
+    def get_album_at(self, position):
+        """Returns the albums at this position in the albums view"""
         albums = self.select_many_retry("CheckerboardDelegate",
                                         objectName="checkerboardDelegate")
-        return albums[-1]
+        return albums[position]
 
     def get_edit_album_button(self):
         """Returns the edit album button in the album popover"""

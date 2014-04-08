@@ -57,6 +57,10 @@ function interpolateRect(start, end, factor) {
  * Return the new scaled-up and translated Geometry for 'item'.
  */
 function fitRect(viewport, item) {
+  if (item.width == 0 || item.height == 0) {
+      return viewport;
+  }
+
   var itemAspectRatio = item.width / item.height;
   var viewportAspectRatio = viewport.width / viewport.height;
 
