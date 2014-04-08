@@ -62,7 +62,7 @@ class TestPickerMode(GalleryTestCase):
         self.assertFalse(pick_button.enabled)
 
         self.picker_view.select_named_photo(
-            'image://thumbnailer//tmp/gallery-ap_sd/test_new_user.png')
+            'image://thumbnailer//tmp/gallery-ap_sd/sample02.jpg')
 
         self.assertTrue(pick_button.enabled)
         self.click_item(pick_button)
