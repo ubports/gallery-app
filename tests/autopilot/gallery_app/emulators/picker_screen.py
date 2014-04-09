@@ -37,7 +37,7 @@ class PickerScreen(toolkit_emulators.MainView):
         Return the ShapeItem container object for the named photo.
         This object can be clicked to enable the photo to be selected.
         """
-        photo_element = self.grid_view().select_single('QQuickImage',
+        photo_element = self.grid_view().wait_select_single('QQuickImage',
                                                        source=photo_name)
         return photo_element.get_parent()
 
