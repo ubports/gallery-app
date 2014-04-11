@@ -51,6 +51,7 @@ Album::Album(QObject *parent)
       m_albumTemplate(0),
       m_title(DEFAULT_TITLE),
       m_subtitle(DEFAULT_SUBTITLE),
+      m_closed(false),
       m_albumTable(0)
 {
     initInstance();
@@ -75,6 +76,7 @@ Album::Album(QObject *parent, const QString& title, const QString& subtitle,
       m_albumTemplate(0),
       m_title(title),
       m_subtitle(subtitle),
+      m_closed(false),
       m_albumTable(0)
 {
     initInstance();
@@ -356,6 +358,15 @@ bool Album::isClosed() const
 }
 
 /*!
+ * \brief Album::isClosed
+ * \return
+ */
+bool Album::isNewAlbum() const
+{
+    return m_newAlbum;
+}
+
+/*!
  * \brief Album::totalPageCount
  * \return
  */
@@ -462,6 +473,19 @@ void Album::setClosed(bool closed)
 
     m_closed = closed;
     notifyClosedChanged();
+}
+
+/*!
+ * \brief Album::setNewAlbum
+ * \param closed
+ */
+void Album::setNewAlbum(bool newAlbum)
+{
+    if (m_newAlbum == newAlbum)
+        return;
+
+    m_newAlbum = newAlbum;
+    emit newAlbumChanged();
 }
 
 /*!

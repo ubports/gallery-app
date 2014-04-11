@@ -40,6 +40,8 @@ Page {
             text: i18n.tr("Cancel")
             width: units.gu(10)
             onClicked: {
+                if(album.newAlbum)
+                    albumModel.destroyAlbum(album);
                 albumEditor.closeRequested(albumEditor.album, false);
             }
         }
@@ -204,9 +206,13 @@ Page {
         onAddClicked: {
             var album  = albumEditor.album;
             var firstPhoto = album.addSelectedMediaSources(selection.model.selectedMedias);
+            if(album.newAlbum && selection.model.selectedCount > 0)
+                album.newAlbum = false;
         }
 
         onHidden: {
+            if(album.newAlbum)
+                albumModel.destroyAlbum(album);
             albumEditor.closeRequested(albumEditor.album, true);
         }
     }

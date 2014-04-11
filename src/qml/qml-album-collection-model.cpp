@@ -82,6 +82,7 @@ void QmlAlbumCollectionModel::destroyAlbum(QVariant valbum)
 QVariant QmlAlbumCollectionModel::createOrphan()
 {
     Album *album = new Album();
+    album->setNewAlbum(true);
     album->setAlbumTable(GalleryManager::instance()->database()->getAlbumTable());
     album->setAlbumTemplate(GalleryManager::instance()->albumDefaultTemplate());
     return QVariant::fromValue(album);
