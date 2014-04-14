@@ -1,3 +1,10 @@
+gallery-app (0.0.67+14.04.20140408.1-0ubuntu2) trusty; urgency=medium
+
+  * debian/control: alternatively depend on the OpenGLES version of
+    qtdeclarative5-qtmultimedia-plugin and qtdeclarative5-ubuntu-ui-toolkit-plugin
+
+ -- Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>  Mon, 14 Apr 2014 17:18:47 -0300
+
 gallery-app (0.0.67+14.04.20140408.1-0ubuntu1) trusty; urgency=low
 
   [ Bill Filler ]
