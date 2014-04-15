@@ -51,7 +51,7 @@ Album::Album(QObject *parent)
       m_albumTemplate(0),
       m_title(DEFAULT_TITLE),
       m_subtitle(DEFAULT_SUBTITLE),
-      m_closed(false),
+      m_newAlbum(false),
       m_albumTable(0)
 {
     initInstance();
@@ -76,7 +76,7 @@ Album::Album(QObject *parent, const QString& title, const QString& subtitle,
       m_albumTemplate(0),
       m_title(title),
       m_subtitle(subtitle),
-      m_closed(false),
+      m_newAlbum(false),
       m_albumTable(0)
 {
     initInstance();
@@ -358,7 +358,7 @@ bool Album::isClosed() const
 }
 
 /*!
- * \brief Album::isClosed
+ * \brief Album::isNewAlbum
  * \return
  */
 bool Album::isNewAlbum() const
@@ -477,7 +477,7 @@ void Album::setClosed(bool closed)
 
 /*!
  * \brief Album::setNewAlbum
- * \param closed
+ * \param newAlbum
  */
 void Album::setNewAlbum(bool newAlbum)
 {

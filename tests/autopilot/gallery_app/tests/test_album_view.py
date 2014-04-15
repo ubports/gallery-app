@@ -108,7 +108,7 @@ class TestAlbumView(GalleryTestCase):
         self.main_view.open_toolbar().click_button("addButton")
         self.ensure_media_selector_is_fully_open()
 
-        self.main_view.open_toolbar().click_custom_button("cancelButton")
+        self.main_view.get_toolbar().click_custom_button("cancelButton")
         self.ensure_media_selector_is_fully_closed()
 
         num_photos = self.album_view.number_of_photos()
