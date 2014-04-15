@@ -358,7 +358,8 @@ bool Album::isClosed() const
 }
 
 /*!
- * \brief Album::isNewAlbum
+ * \brief Album::isNewAlbum Check if the album is beeing created, that changes
+ * the behavior of some options on the gallery interface
  * \return
  */
 bool Album::isNewAlbum() const
@@ -476,7 +477,8 @@ void Album::setClosed(bool closed)
 }
 
 /*!
- * \brief Album::setNewAlbum
+ * \brief Album::setNewAlbum Set if the album is beeing created, that changes
+ * the behavior of some options on the gallery interface
  * \param newAlbum
  */
 void Album::setNewAlbum(bool newAlbum)
