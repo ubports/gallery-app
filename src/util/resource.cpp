@@ -156,3 +156,9 @@ bool Resource::isVideoPath(const QString& filePath)
 
     return false;
 }
+
+void Resource::setVideoDirectories(const QStringList &dirs)
+{
+    m_videoDirectories = dirs;
+}
+

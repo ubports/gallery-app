@@ -127,7 +127,7 @@ MediaSource *MediaObjectFactory::create(const QFileInfo &file, bool desktopMode,
     qint64 id = m_mediaTable->getIdForMedia(file.absoluteFilePath());
 
     if (id == INVALID_ID) {
-        if (mediaType == MediaSource::Video && (!file.exists()))
+        if (mediaType == MediaSource::Video && !Video::isValid(file))
             return 0;
         if (mediaType == MediaSource::Photo && !Photo::isValid(file))
             return 0;
@@ -265,7 +265,7 @@ bool MediaObjectFactory::readPhotoMetadata(const QFileInfo &file)
  */
 bool MediaObjectFactory::readVideoMetadata(const QFileInfo &file)
 {
-    if (!file.exists())
+    if (!Video::isValid(file))
         return false;
 
     VideoMetadata metadata;

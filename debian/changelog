@@ -1,3 +1,41 @@
+gallery-app (0.0.67+14.04.20140408.1-0ubuntu2) trusty; urgency=medium
+
+  * debian/control: alternatively depend on the OpenGLES version of
+    qtdeclarative5-qtmultimedia-plugin and qtdeclarative5-ubuntu-ui-toolkit-plugin
+
+ -- Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>  Mon, 14 Apr 2014 17:18:47 -0300
+
+gallery-app (0.0.67+14.04.20140408.1-0ubuntu1) trusty; urgency=low
+
+  [ Bill Filler ]
+  * skip broken test until root cause can be found
+
+  [ Arthur Mello ]
+  * Make sure that album cover will be not behind header at album edit
+    screen (LP: #1294291)
+  * Add unittest to check if only videos on the correct path are beeing
+    added to gallery on device
+  * Add an overlay play icon over Video preview on media navigation (LP:
+    #1294282)
+  * Apply a similar workaround to the one suggested by Zsombor to work
+    around bug #1296832 to temporarily replace MouseAreas within
+    PinchAreas (LP: #1296832, #1288695)
+
+  [ Ugo Riboni ]
+  * Fix album navigation, allowing to page all the way to the last page,
+    and to close the album by paging to the cover. (LP: #1287355)
+  * Apply a similar workaround to the one suggested by Zsombor to work
+    around bug #1296832 to temporarily replace MouseAreas within
+    PinchAreas (LP: #1296832, #1288695)
+  * fix autopilot test
+
+  [ Leo Arias ]
+  * Properly override the toolkit toolbar autopilot helper.
+  * On the autopilot helpers to click a toolbar button, check that the
+    toolbar is opened first. (LP: #1302706)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 08 Apr 2014 18:51:30 +0000
+
 gallery-app (0.0.67+14.04.20140328-0ubuntu1) trusty; urgency=low
 
   [ Bill Filler ]

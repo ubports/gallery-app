@@ -22,8 +22,9 @@
 // database
 #include "media-table.h"
 
-// photo
+// photo / video
 #include <photo.h>
+#include <video.h>
 
 // for controlling the fake MediaTable
 extern void setOrientationOfFirstRow(Orientation orientation);
@@ -46,6 +47,7 @@ private slots:
 private:
     MediaTable *m_mediaTable;
     MediaObjectFactory *m_factory;
+    Resource *m_resource;
 };
 
 void tst_MediaObjectFactory::init()
@@ -97,6 +99,27 @@ void tst_MediaObjectFactory::create()
     QVERIFY(photo != 0);
     QCOMPARE(photo->id(), (qint64)0);
     QCOMPARE(photo->orientation(), TOP_RIGHT_ORIGIN);
+
+    // new video ...
+    bool isDesktop = true;
+    m_resource = new Resource(true, "", 0);
+    m_resource->setVideoDirectories(QStringList("/video_path/"));
+
+    // ... at desktop
+    media = m_factory->create(QFileInfo("/not_video_path/video.ogv"), isDesktop, m_resource);
+    Video *video = qobject_cast<Video*>(media);
+    QVERIFY(video != 0);
+    media = m_factory->create(QFileInfo("/video_path/video.ogv"), isDesktop, m_resource);
+    video = qobject_cast<Video*>(media);
+    QVERIFY(video != 0);
+
+    // ... at device
+    media = m_factory->create(QFileInfo("/not_video_path/video.ogv"), !isDesktop, m_resource);
+    video = qobject_cast<Video*>(media);
+    QVERIFY(video == 0);
+    media = m_factory->create(QFileInfo("/video_path/video.ogv"), !isDesktop, m_resource);
+    video = qobject_cast<Video*>(media);
+    QVERIFY(video != 0);
 }
 
 void tst_MediaObjectFactory::clearMetadata()

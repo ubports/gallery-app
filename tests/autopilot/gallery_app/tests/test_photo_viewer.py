@@ -15,6 +15,7 @@ from autopilot.matchers import Eventually
 
 from gallery_app.emulators.photo_viewer import PhotoViewer
 from gallery_app.emulators.media_viewer import MediaViewer
+from gallery_app.emulators.events_view import EventsView
 from gallery_app.tests import GalleryTestCase
 
 from os.path import exists
@@ -32,16 +33,21 @@ class TestPhotoViewerBase(GalleryTestCase):
     def photo_viewer(self):
         return PhotoViewer(self.app)
 
+    @property
+    def events_view(self):
+        return EventsView(self.app)
+
     def setUp(self):
         self.ARGS = []
         super(TestPhotoViewerBase, self).setUp()
+        self.main_view.switch_to_tab("eventsTab")
         self.open_first_photo()
         self.main_view.open_toolbar()
 
     def open_first_photo(self):
-        self.assertThat(lambda: self.photo_viewer.number_of_photos_in_events(),
+        self.assertThat(lambda: self.events_view.number_of_photos_in_events(),
                         Eventually(GreaterThan(0)))
-        single_photo = self.photo_viewer.get_first_image_in_event_view()
+        single_photo = self.events_view.get_first_image_in_event_view()
 
         # workaround lp:1247698
         # toolbar needs to be gone to click on an image.
@@ -104,6 +110,13 @@ class TestPhotoViewer(TestPhotoViewerBase):
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
         self.assertThat(photo_viewer.visible, Eventually(Equals(False)))
 
+    def delete_one_picture(self):
+        self.main_view.open_toolbar().click_button("deleteButton")
+        self.get_delete_dialog()
+        delete_item = self.photo_viewer.get_delete_popover_delete_item()
+        self.click_item(delete_item)
+        self.ensure_closed_delete_dialog()
+
     def test_photo_delete_works(self):
         """Clicking the trash button must show the delete dialog."""
         self.main_view.open_toolbar().click_button("deleteButton")
@@ -118,22 +131,15 @@ class TestPhotoViewer(TestPhotoViewerBase):
         self.assertThat(lambda: exists(self.sample_file),
                         Eventually(Equals(True)))
 
-        self.main_view.open_toolbar().click_button("deleteButton")
-        self.get_delete_dialog()
-
-        delete_item = self.photo_viewer.get_delete_popover_delete_item()
-        self.click_item(delete_item)
-        self.ensure_closed_delete_dialog()
-
+        self.delete_one_picture()
         self.assertThat(lambda: exists(self.sample_file),
                         Eventually(Equals(False)))
 
-        self.main_view.open_toolbar().click_button("deleteButton")
-        self.get_delete_dialog()
-
-        delete_item = self.photo_viewer.get_delete_popover_delete_item()
-        self.click_item(delete_item)
-        self.ensure_closed_delete_dialog()
+        # Delete all other pictures and make sure the photo viewer closes
+        self.delete_one_picture()
+        self.delete_one_picture()
+        self.delete_one_picture()
+        self.delete_one_picture()
 
         self.assertThat(photo_viewer.visible, Eventually(Equals(False)))
 
@@ -274,16 +280,17 @@ class TestPhotoEditor(TestPhotoViewerBase):
         opened_photo = self.photo_viewer.get_opened_photo()
         item_height = opened_photo.height
 
-        is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
-        self.assertThat(is_landscape, Equals(True))
+        def is_landscape():
+            return opened_photo.paintedWidth > opened_photo.paintedHeight
+        self.assertThat(is_landscape(), Equals(True))
 
         self.click_rotate_item()
         self.ensure_spinner_not_running()
 
         self.assertThat(opened_photo.paintedHeight,
                         Eventually(Equals(item_height)))
-        is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
-        self.assertThat(is_landscape, Equals(False))
+        self.assertThat(lambda: is_landscape(),
+                        Eventually(Equals(False)))
 
         self.main_view.open_toolbar()
         self.click_edit_button()
@@ -292,8 +299,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.assertThat(opened_photo.paintedHeight,
                         Eventually(NotEquals(item_height)))
-        is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
-        self.assertThat(is_landscape, Equals(True))
+        self.assertThat(lambda: is_landscape(),
+                        Eventually(Equals(True)))
 
         self.main_view.open_toolbar()
         self.click_edit_button()

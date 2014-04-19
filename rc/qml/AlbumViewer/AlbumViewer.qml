@@ -187,6 +187,7 @@ Page {
 
     AlbumSpreadViewer {
         id: albumSpreadViewer
+        objectName: "spreadViewer"
 
         anchors.fill: parent
 
@@ -227,6 +228,7 @@ Page {
             // Per the convention used elsewhere, true for right, false for left.
             property bool lastSwipeLeftToRight: true
             property int prevSwipingX: -1
+            property bool canceled: false
 
             // Normal press/click.
             function pressed(x, y) {
@@ -268,14 +270,21 @@ Page {
 
             onStartSwipe: {
                 var direction = (leftToRight ? -1 : 1);
-                albumSpreadViewer.destinationPage =
-                        albumSpreadViewer.viewingPage +
-                        direction * albumSpreadViewer.pagesPerSpread;
+                var destination = albumSpreadViewer.viewingPage +
+                                  direction * albumSpreadViewer.pagesPerSpread;
 
-                prevSwipingX = mouseX;
+                if ((destination > album.firstValidCurrentPage ||
+                     pagesPerSpread == 2 && destination == album.firstValidCurrentPage) &&
+                    destination <= album.lastPopulatedContentPage) {
+                    albumSpreadViewer.destinationPage = destination;
+                    prevSwipingX = mouseX;
+                } else {
+                    canceled = true;
+                }
             }
 
             onSwiping: {
+                if (canceled) return;
                 lastSwipeLeftToRight = (mouseX > prevSwipingX);
 
                 var availableDistance = (leftToRight) ? (width - start) : start;
@@ -287,14 +296,7 @@ Page {
                 var flipFraction =
                         Math.max(0, Math.min(0.999, distance / availableDistance));
                 if (!albumSpreadViewer.isPopulatedContentPage(albumSpreadViewer.destinationPage)) {
-                    var maxFraction = 0.425
-                    if (isPortrait) {
-                        if (albumSpreadViewer.destinationPage === 0)
-                            maxFraction = 0.15 // for the front
-                        else
-                            maxFraction = 0.75 // for the back
-                    }
-
+                    var maxFraction = (isPortrait) ? 0.75 : 0.425
                     flipFraction = Math.min(maxFraction, flipFraction)
                 }
                 albumSpreadViewer.flipFraction = flipFraction;
@@ -302,7 +304,10 @@ Page {
             }
 
             onSwiped: {
-                // Can turn toward the cover, but never close the album in the viewer
+                if (canceled) {
+                    canceled = false;
+                    return;
+                }
                 var minValidPage = album.firstValidCurrentPage
                 var maxValidPage = album.lastValidCurrentPage
                 if (isPortrait) {
@@ -310,13 +315,12 @@ Page {
                     maxValidPage -= 1
                 }
                 if (albumSpreadViewer.flipFraction >= commitTurnFraction &&
-                        leftToRight === lastSwipeLeftToRight &&
-                        albumSpreadViewer.destinationPage > minValidPage &&
-                        albumSpreadViewer.destinationPage < maxValidPage) {
-                    albumSpreadViewer.flip();
-                }
-                else
-                    albumSpreadViewer.release();
+                        leftToRight === lastSwipeLeftToRight) {
+                    if (albumSpreadViewer.destinationPage >= minValidPage &&
+                               albumSpreadViewer.destinationPage <= maxValidPage) {
+                        albumSpreadViewer.flip();
+                    } else albumSpreadViewer.release();
+                } else albumSpreadViewer.release();
             }
         }
     }

@@ -38,6 +38,11 @@ class AlbumView(GalleryUtils):
         view = self.get_album_view()
         return view.select_single("PopupPhotoViewer")
 
+    def get_spread_view(self):
+        """Returns the inner spread view to access the pages"""
+        view = self.get_album_view()
+        return view.select_single("AlbumSpreadViewer", objectName="spreadViewer")
+
     def number_of_photos(self):
         """Returns the numer of visible photos"""
         return len(self.app.select_many("FramePortrait",

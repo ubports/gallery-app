@@ -66,6 +66,12 @@ Item {
         asynchronous: true
     }
 
+    Image {
+        // Display a play icon if the media is a video
+        source: "../../img/icon_play.png"
+        anchors.centerIn: parent
+    }
+
     MouseArea {
         anchors.fill: parent
         onClicked: {

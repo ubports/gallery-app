@@ -64,3 +64,8 @@ bool Video::isCameraVideo(const QFileInfo &file)
 
     return false;
 }
+
+bool Video::isValid(const QFileInfo& file)
+{
+    return file.exists();
+}

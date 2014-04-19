@@ -50,6 +50,10 @@ Page {
     */
     property real organicMediaListMargin: units.gu(1)
 
+    // This property exists only for the benefit of AP tests that
+    // can't access C++ objects
+    property int _eventCount: model.count
+
     Image {
         anchors.fill: parent
 
