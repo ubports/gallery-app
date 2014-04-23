@@ -10,7 +10,7 @@
 
 from __future__ import absolute_import
 
-from testtools.matchers import Equals, NotEquals, GreaterThan, Is, Not
+from testtools.matchers import Equals, NotEquals, GreaterThan, Is
 from autopilot.matchers import Eventually
 
 from gallery_app.emulators.photo_viewer import PhotoViewer
@@ -67,22 +67,26 @@ class TestPhotoViewer(TestPhotoViewerBase):
     def setUp(self):
         super(TestPhotoViewer, self).setUp()
 
-    @unittest.skip("Temporarily disable as it fails in some cases, supposedly due to problems with the infrastructure")
+    @unittest.skip("Temporarily disable as it fails in some cases, "
+                   "supposedly due to problems with the infrastructure")
     def test_save_state(self):
         """Quitting the app once a photo has been opened will return
         to that same photo on restart"""
-        path = self.photo_viewer.get_photo_component().select_single("QQuickImage").source
+        path = self.photo_viewer.get_photo_component().select_single(
+            "QQuickImage").source
 
         self.ensure_app_has_quit()
         self.start_app()
 
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
         self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
-        new_path = self.photo_viewer.get_photo_component().select_single("QQuickImage").source
+        new_path = self.photo_viewer.get_photo_component().select_single(
+            "QQuickImage").source
 
         self.assertThat(path, Equals(new_path))
 
-    @unittest.skip("Temporarily disable as it fails in some cases, supposedly due to problems with the infrastructure")
+    @unittest.skip("Temporarily disable as it fails in some cases, "
+                   "supposedly due to problems with the infrastructure")
     def test_no_save_state_on_back(self):
         """Quitting the app once a photo has been opened and then closed
         will not reopen a photo on restart"""
@@ -157,15 +161,19 @@ class TestPhotoViewer(TestPhotoViewerBase):
         self.pointing_device.click()
         self.pointing_device.click()
 
-        self.assertThat(opened_photo.isZoomAnimationInProgress,
-            Eventually(Equals(False)))
+        self.assertThat(
+            opened_photo.isZoomAnimationInProgress,
+            Eventually(Equals(False))
+        )
         self.assertThat(opened_photo.fullyZoomed, Eventually(Equals(True)))
 
         self.pointing_device.click()
         self.pointing_device.click()
 
-        self.assertThat(opened_photo.isZoomAnimationInProgress,
-            Eventually(Equals(False)))
+        self.assertThat(
+            opened_photo.isZoomAnimationInProgress,
+            Eventually(Equals(False))
+        )
         self.assertThat(opened_photo.fullyUnzoomed, Eventually(Equals(True)))
 
     def test_swipe_change_image(self):
@@ -193,6 +201,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
         self.assertThat(list.moving, Eventually(Equals(False)))
         self.assertThat(list.currentIndex, Eventually(Equals(0)))
+
 
 class TestPhotoEditor(TestPhotoViewerBase):
 

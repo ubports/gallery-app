@@ -81,10 +81,10 @@ class TestAlbumView(GalleryTestCase):
         # than 1 because it can either be 0 if we are on a one page spread
         # or -1 if we are on a two page spread, for example on desktop)
         self.pointing_device.drag(mid_x - mid_x / 2, mid_y, x + w - 10, mid_y)
-        animview = self.album_view.get_animated_album_view()
+        self.album_view.get_animated_album_view()
         self.assertThat(spread.viewingPage, Eventually(LessThan(1)))
         self.pointing_device.drag(mid_x + mid_x / 2, mid_y, x + 10, mid_y)
-        animview = self.album_view.get_animated_album_view()
+        self.album_view.get_animated_album_view()
         self.assertThat(spread.viewingPage, Eventually(Equals(1)))
 
         # drag to next page and check we have flipped away from page 1

@@ -21,6 +21,7 @@ from os import environ as env
 from os.path import exists
 import shutil
 
+
 class TestEventsView(GalleryTestCase):
     """Tests the main gallery features"""
     envDesktopMode = None
@@ -145,9 +146,11 @@ class TestEventsView(GalleryTestCase):
     def test_camera_button_visible(self):
         self.main_view.open_toolbar()
         toolbar = self.main_view.get_toolbar()
-        cameraButton = toolbar.select_single("ActionItem", objectName="cameraButton")
+        cameraButton = toolbar.select_single(
+            "ActionItem",
+            objectName="cameraButton"
+        )
         if model() == "Desktop":
             self.assertThat(cameraButton.visible, Equals(False))
         else:
             self.assertThat(cameraButton.visible, Equals(True))
-
