@@ -63,6 +63,6 @@ class AlbumView(GalleryUtils):
 
     def ensure_animated_fully_closed(self):
         """Ensure the animated album view is fully closed"""
-        animated_viewer = self.album_view.get_animated_album_view()
+        animated_viewer = self.get_animated_album_view()
         animated_viewer.isOpen.wait_for(False)
         animated_viewer.animationRunning.wait_for(False)
