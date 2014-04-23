@@ -42,10 +42,6 @@ class TestAlbumView(GalleryTestCase):
         super(TestAlbumView, self).setUp()
         self.switch_to_albums_tab()
 
-    def ensure_media_selector_is_fully_open(self):
-        media_selector = self.media_selector.get_media_selector()
-        self.assertThat(media_selector.opacity, Eventually(Equals(1.0)))
-
     def ensure_media_selector_is_fully_closed(self):
         loader = self.album_view.media_selector_loader()
         self.assertThat(loader.status, Eventually(Equals(0)))
@@ -106,7 +102,7 @@ class TestAlbumView(GalleryTestCase):
 
         # open media selector but cancel
         self.main_view.open_toolbar().click_button("addButton")
-        self.ensure_media_selector_is_fully_open()
+        self.media_selector.ensure_fully_open()
 
         self.main_view.get_toolbar().click_custom_button("cancelButton")
         self.ensure_media_selector_is_fully_closed()
@@ -116,7 +112,7 @@ class TestAlbumView(GalleryTestCase):
 
         # open media selector and add a photo
         self.main_view.open_toolbar().click_button("addButton")
-        self.ensure_media_selector_is_fully_open()
+        self.media_selector.ensure_fully_open()
 
         photo = self.media_selector.get_second_photo()
         self.click_item(photo)
@@ -145,7 +141,7 @@ class TestAlbumView(GalleryTestCase):
         # workaround lp:1247698
         self.main_view.close_toolbar()
         self.click_item(plus)
-        self.ensure_media_selector_is_fully_open()
+        self.media_selector.ensure_fully_open()
 
         photo = self.media_selector.get_second_photo()
         self.click_item(photo)

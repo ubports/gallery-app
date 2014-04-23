@@ -41,7 +41,10 @@ class AlbumView(GalleryUtils):
     def get_spread_view(self):
         """Returns the inner spread view to access the pages"""
         view = self.get_album_view()
-        return view.select_single("AlbumSpreadViewer", objectName="spreadViewer")
+        return view.select_single(
+            "AlbumSpreadViewer",
+            objectName="spreadViewer"
+        )
 
     def number_of_photos(self):
         """Returns the numer of visible photos"""
@@ -57,3 +60,9 @@ class AlbumView(GalleryUtils):
         """Returns the plus icon visible in empty albums"""
         return self.app.select_single("QQuickImage",
                                       objectName="addButton", visible=True)
+
+    def ensure_animated_fully_closed(self):
+        """Ensure the animated album view is fully closed"""
+        animated_viewer = self.album_view.get_animated_album_view()
+        animated_viewer.isOpen.wait_for(False)
+        animated_viewer.animationRunning.wait_for(False)

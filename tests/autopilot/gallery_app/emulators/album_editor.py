@@ -9,7 +9,7 @@ from ubuntuuitoolkit import emulators as toolkit_emulators
 
 
 class AlbumEditorAnimated(toolkit_emulators.UbuntuUIToolkitEmulatorBase):
-    """An emulator class that makes it easy to interact with the album editor"""
+    """A class that makes it easy to interact with the album editor"""
 
     def close(self):
         cover_image = self.album_cover_image()

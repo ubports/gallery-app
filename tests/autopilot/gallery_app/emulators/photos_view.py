@@ -15,8 +15,9 @@ class PhotosView(GalleryUtils):
 
     def get_first_photo_in_photos_view(self):
         """Returns the very first photo in the photos view."""
-        return self.select_many_retry("QQuickItem",
-                                    objectName="allPotosGridPhoto")[0]
+        return self.select_many_retry(
+            "QQuickItem",
+            objectName="allPotosGridPhoto")[0]
 
     def number_of_photos(self):
         """Returns the number of events"""

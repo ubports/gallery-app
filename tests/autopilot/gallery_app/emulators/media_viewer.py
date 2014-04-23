@@ -9,10 +9,13 @@ from ubuntuuitoolkit import emulators as toolkit_emulators
 
 
 class MediaViewer(toolkit_emulators.UbuntuUIToolkitEmulatorBase):
-    """An emulator class that makes it easy to interact with the media viewer"""
+    """A class that makes it easy to interact with the media viewer"""
 
     def __init__(self, *args):
         super(MediaViewer, self).__init__(*args)
 
     def get_edit_spinner(self):
-        return self.select_single("ActivityIndicator", objectName="busySpinner")
+        return self.select_single(
+            "ActivityIndicator",
+            objectName="busySpinner"
+        )

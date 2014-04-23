@@ -31,4 +31,3 @@ class PickerScreen(toolkit_emulators.MainView):
     def first_media_in_grid_view(self):
         grid_view = self.grid_view()
         return grid_view.select_many("OrganicItemInteraction")[0]
-

@@ -7,6 +7,7 @@
 
 from gallery_utils import GalleryUtils
 
+
 class EventsView(GalleryUtils):
 
     def __init__(self, app):
