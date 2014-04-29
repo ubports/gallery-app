@@ -49,7 +49,20 @@ Page {
 
     // updating active will automatically set the tools of the toolbar when activating.
     active: isPoppedUp
-    onActiveChanged: if (active && popupPhotoViewer.header) popupPhotoViewer.header.hide()
+    onActiveChanged: {
+        if (active && popupPhotoViewer.header) {
+            popupPhotoViewer.header.hide();
+            // FIXME: The hide function of header is not hiding it sometimes.
+            // The issue started after we changed the page title
+            popupPhotoViewer.header.visible = false;
+        }
+
+        if (!active && popupPhotoViewer.header && popupPhotoViewer.header.visible == false) {
+            popupPhotoViewer.header.visible = true;
+        }
+    }
+
+    title: i18n.tr("Gallery")
 
     /*!
     */
