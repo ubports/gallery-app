@@ -4,6 +4,7 @@
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
+import ubuntuuitoolkit.emulators
 
 from time import sleep
 
@@ -16,6 +17,7 @@ class GalleryUtils(object):
 
     def __init__(self, app):
         self.app = app
+        self.pointing_device = ubuntuuitoolkit.emulators.get_pointing_device()
 
     def select_many_retry(self, object_type, **kwargs):
         """Returns the item that is searched for with app.select_many
@@ -103,3 +105,19 @@ class GalleryUtils(object):
             objectName="albumCoverMenuItem",
             text=text
         )
+
+    def _ensure_delete_dialog_visible(self):
+        delete_dialog = self.get_delete_dialog()
+        delete_dialog.opacity.wait_for(1)
+
+    def _click_dialog_button(self, button):
+        self._ensure_delete_dialog_visible()
+        self.pointing_device.click_object(button)
+
+    def click_delete_dialog_cancel_button(self):
+        button = self.get_delete_dialog_cancel_button()
+        self._click_dialog_button(button)
+
+    def click_delete_dialog_delete_button(self):
+        button = self.get_delete_dialog_delete_button()
+        self._click_dialog_button(button)

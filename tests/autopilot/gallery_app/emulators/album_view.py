@@ -4,8 +4,11 @@
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
+import ubuntuuitoolkit.emulators
 
-from gallery_utils import GalleryUtils
+from testtools.matchers import GreaterThan, LessThan
+
+from gallery_app.emulators.gallery_utils import GalleryUtils
 
 
 class AlbumView(GalleryUtils):
@@ -13,6 +16,7 @@ class AlbumView(GalleryUtils):
 
     def __init__(self, app):
         self.app = app
+        self.pointing_device = ubuntuuitoolkit.emulators.get_pointing_device()
 
     def get_animated_album_view(self):
         """Returns the album view"""
@@ -66,3 +70,46 @@ class AlbumView(GalleryUtils):
         animated_viewer = self.get_animated_album_view()
         animated_viewer.isOpen.wait_for(False)
         animated_viewer.animationRunning.wait_for(False)
+
+    def ensure_media_selector_is_fully_closed(self):
+            loader = self.media_selector_loader()
+            loader.status.wait_for(0)
+
+    def _swipe_setup(self):
+        self.album = self.get_album_view()
+        self.spread = self.get_spread_view()
+        self.album.animationRunning.wait_for(False)
+
+        self.x, self.y, self.w, self.h = self.spread.globalRect
+        self.mid_y = self.y + self.h / 2
+        self.mid_x = self.x + self.w / 2
+
+    def swipe_page_left(self, page_number):
+        '''Swipe page to the left
+
+        :param page_number: The starting page number you are swiping from
+        '''
+        self._swipe_setup()
+
+        self.pointing_device.drag(
+            self.mid_x, self.mid_y,  # Start
+            self.x + self.w, self.mid_y  # Finish
+        )
+
+        self.album.animationRunning.wait_for(False)
+        self.spread.viewingPage.wait_for(LessThan(page_number))
+
+    def swipe_page_right(self, page_number):
+        '''Swipe page to the right
+
+        :param page_number: The starting page number you are swiping from
+        '''
+        self._swipe_setup()
+
+        self.pointing_device.drag(
+            self.mid_x, self.mid_y,  # Start
+            self.x, self.mid_y  # Finish
+        )
+
+        self.album.animationRunning.wait_for(False)
+        self.spread.viewingPage.wait_for(GreaterThan(page_number))

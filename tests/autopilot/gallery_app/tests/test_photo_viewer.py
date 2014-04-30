@@ -45,15 +45,16 @@ class TestPhotoViewerBase(GalleryTestCase):
         self.main_view.open_toolbar()
 
     def open_first_photo(self):
-        self.assertThat(lambda: self.events_view.number_of_photos_in_events(),
-                        Eventually(GreaterThan(0)))
-        single_photo = self.events_view.get_first_image_in_event_view()
+        self.assertThat(
+            lambda: self.events_view.number_of_photos_in_events(),
+            Eventually(GreaterThan(0))
+        )
 
         # workaround lp:1247698
         # toolbar needs to be gone to click on an image.
         self.main_view.close_toolbar()
 
-        self.click_item(single_photo)
+        self.events_view.click_photo(self.sample_file)
 
         photo_viewer_loader = self.photo_viewer.get_main_photo_viewer_loader()
         self.assertThat(photo_viewer_loader.loaded, Eventually(Equals(True)))
@@ -63,9 +64,6 @@ class TestPhotoViewerBase(GalleryTestCase):
 
 
 class TestPhotoViewer(TestPhotoViewerBase):
-
-    def setUp(self):
-        super(TestPhotoViewer, self).setUp()
 
     @unittest.skip("Temporarily disable as it fails in some cases, "
                    "supposedly due to problems with the infrastructure")
@@ -205,6 +203,10 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
 class TestPhotoEditor(TestPhotoViewerBase):
 
+    @property
+    def media_view(self):
+        return self.app.select_single(MediaViewer)
+
     def setUp(self):
         super(TestPhotoEditor, self).setUp()
         self.click_edit_button()
@@ -215,35 +217,6 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(edit_dialog.visible, (Eventually(Equals(True))))
         self.assertThat(edit_dialog.opacity, (Eventually(Equals(1))))
 
-    def click_rotate_item(self):
-        rotate_item = self.photo_viewer.get_rotate_menu_item()
-        self.click_item(rotate_item)
-
-    def click_crop_item(self):
-        crop_item = self.photo_viewer.get_crop_menu_item()
-        self.click_item(crop_item)
-
-    def click_undo_item(self):
-        undo_item = self.photo_viewer.get_undo_menu_item()
-        self.click_item(undo_item)
-
-    def click_redo_item(self):
-        redo_item = self.photo_viewer.get_redo_menu_item()
-        self.click_item(redo_item)
-
-    def click_revert_item(self):
-        revert_item = self.photo_viewer.get_revert_menu_item()
-        self.click_item(revert_item)
-
-    def click_enhance_item(self):
-        enhance_item = self.photo_viewer.get_auto_enhance_menu_item()
-        self.click_item(enhance_item)
-
-    def ensure_spinner_not_running(self):
-        media_view = self.app.select_single(MediaViewer)
-        spinner = media_view.get_edit_spinner()
-        self.assertThat(spinner.running, Eventually(Equals(False)))
-
     def test_photo_editor_crop(self):
         """Cropping a photo must crop it."""
         old_file_size = os.path.getsize(self.sample_file)
@@ -252,7 +225,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         item_width = crop_box.width
         item_height = crop_box.height
 
-        self.click_crop_item()
+        self.photo_viewer.click_crop_item()
 
         self.assertThat(crop_box.state, Eventually(Equals("shown")))
         self.assertThat(crop_box.opacity, Eventually(Equals(1)))
@@ -271,7 +244,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         crop_button = self.photo_viewer.get_crop_overlays_crop_icon()
         self.click_item(crop_button)
-        self.ensure_spinner_not_running()
+        self.media_view.ensure_spinner_not_running()
 
         # wait for new photo being set/reloaded, so saving thumbnailing etc.
         # is done
@@ -293,8 +266,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
             return opened_photo.paintedWidth > opened_photo.paintedHeight
         self.assertThat(is_landscape(), Equals(True))
 
-        self.click_rotate_item()
-        self.ensure_spinner_not_running()
+        self.photo_viewer.click_rotate_item()
+        self.media_view.ensure_spinner_not_running()
 
         self.assertThat(opened_photo.paintedHeight,
                         Eventually(Equals(item_height)))
@@ -303,8 +276,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.main_view.open_toolbar()
         self.click_edit_button()
-        self.click_undo_item()
-        self.ensure_spinner_not_running()
+        self.photo_viewer.click_undo_item()
+        self.media_view.ensure_spinner_not_running()
 
         self.assertThat(opened_photo.paintedHeight,
                         Eventually(NotEquals(item_height)))
@@ -313,8 +286,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.main_view.open_toolbar()
         self.click_edit_button()
-        self.click_redo_item()
-        self.ensure_spinner_not_running()
+        self.photo_viewer.click_redo_item()
+        self.media_view.ensure_spinner_not_running()
 
         self.assertThat(opened_photo.paintedHeight,
                         Eventually(Equals(item_height)))
@@ -323,10 +296,10 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.main_view.open_toolbar()
         self.click_edit_button()
-        self.click_rotate_item()
+        self.photo_viewer.click_rotate_item()
         self.main_view.open_toolbar()
         self.click_edit_button()
-        self.click_revert_item()
+        self.photo_viewer.click_revert_item()
 
         self.assertThat(opened_photo.paintedHeight,
                         Eventually(NotEquals(item_height)))
@@ -348,8 +321,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(redo_item.enabled, Eventually(Equals(False)))
         self.assertThat(revert_item.enabled, Eventually(Equals(False)))
 
-        self.click_rotate_item()
-        self.ensure_spinner_not_running()
+        self.photo_viewer.click_rotate_item()
+        self.media_view.ensure_spinner_not_running()
 
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
@@ -360,8 +333,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(redo_item.enabled, Eventually(Equals(False)))
         self.assertThat(revert_item.enabled, Eventually(Equals(True)))
 
-        self.click_undo_item()
-        self.ensure_spinner_not_running()
+        self.photo_viewer.click_undo_item()
+        self.media_view.ensure_spinner_not_running()
 
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
@@ -372,8 +345,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(redo_item.enabled, Eventually(Equals(True)))
         self.assertThat(revert_item.enabled, Eventually(Equals(False)))
 
-        self.click_redo_item()
-        self.ensure_spinner_not_running()
+        self.photo_viewer.click_redo_item()
+        self.media_view.ensure_spinner_not_running()
 
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
@@ -384,8 +357,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(redo_item.enabled, Eventually(Equals(False)))
         self.assertThat(revert_item.enabled, Eventually(Equals(True)))
 
-        self.click_revert_item()
-        self.ensure_spinner_not_running()
+        self.photo_viewer.click_revert_item()
+        self.media_view.ensure_spinner_not_running()
 
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
@@ -396,8 +369,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(redo_item.enabled, Eventually(Equals(False)))
         self.assertThat(revert_item.enabled, Eventually(Equals(False)))
 
-        self.click_enhance_item()
-        self.ensure_spinner_not_running()
+        self.photo_viewer.click_enhance_item()
+        self.media_view.ensure_spinner_not_running()
 
         self.click_edit_button()
 

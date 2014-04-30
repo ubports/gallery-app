@@ -11,11 +11,13 @@ from ubuntuuitoolkit import emulators as toolkit_emulators
 class MediaViewer(toolkit_emulators.UbuntuUIToolkitEmulatorBase):
     """A class that makes it easy to interact with the media viewer"""
 
-    def __init__(self, *args):
-        super(MediaViewer, self).__init__(*args)
-
     def get_edit_spinner(self):
         return self.select_single(
             "ActivityIndicator",
             objectName="busySpinner"
         )
+
+    def ensure_spinner_not_running(self):
+        """Wait for spinner to stop running"""
+        spinner = self.get_edit_spinner()
+        spinner.running.wait_for(False)

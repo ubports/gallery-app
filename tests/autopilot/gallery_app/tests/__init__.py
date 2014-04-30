@@ -69,6 +69,8 @@ class GalleryTestCase(AutopilotTestCase):
         # in /usr
         if os.path.realpath(__file__).startswith("/usr/"):
             return EnvironmentTypes.installed
+        if model() == 'Desktop':
+            return EnvironmentTypes.installed
         else:
             if os.path.exists(self.local_location):
                 return EnvironmentTypes.local
@@ -164,8 +166,8 @@ class GalleryTestCase(AutopilotTestCase):
         self.assertThat(self.gallery_utils.get_qml_view().visible,
                         Eventually(Equals(True)))
         """FIXME somehow on the server gallery sometimes is not fully started
-        for switching to the albums view. Therefore this hack of a second"""
-        sleep(1)
+        for switching to the albums view. Therefore this hack of sleeping"""
+        sleep(2)
 
     def launch_gallery_app(self, env_type):
         if env_type == EnvironmentTypes.installed:
