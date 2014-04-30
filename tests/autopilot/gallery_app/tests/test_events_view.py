@@ -20,7 +20,6 @@ from gallery_app.emulators.events_view import EventsView
 from os import environ as env
 from os.path import exists
 import shutil
-import time
 
 
 class TestEventsView(GalleryTestCase):
@@ -110,7 +109,6 @@ class TestEventsView(GalleryTestCase):
 
     def test_adding_a_video(self):
         if model() == "Desktop":
-            time.sleep(4)
             before = self.events_view.get_event(0)
             video_file = "video.mp4"
             shutil.copyfile(self.sample_dir+"/option01/"+video_file,
