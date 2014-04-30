@@ -79,6 +79,7 @@ GridView {
             height: photosGrid.thumbnailSize
 
             radius: "medium"
+            property bool isLoading: image.status === Image.Loading
 
             image: Image {
                 id: thumbImage
@@ -113,6 +114,20 @@ GridView {
                     photosOverview.mediaSourcePressed(mediaSource, rect);
                 }
             }
+
+            Component {
+                id: component_loadIndicator
+                ActivityIndicator {
+                    id: loadIndicator
+                    running: true
+                }
+            }
+            Loader {
+                id: loader_loadIndicator
+                anchors.centerIn: roundedThumbnail
+                sourceComponent: roundedThumbnail.isLoading ? component_loadIndicator : undefined
+                asynchronous: true
+           }
         }
     }
 
