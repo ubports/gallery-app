@@ -7,7 +7,7 @@
 
 import ubuntuuitoolkit.emulators
 
-from gallery_utils import GalleryUtils
+from gallery_app.emulators.gallery_utils import GalleryUtils
 
 
 class PhotoViewer(GalleryUtils):

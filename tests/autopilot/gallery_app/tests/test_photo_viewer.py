@@ -8,8 +8,6 @@
 
 """Tests the Photo editor of the gallery app."""
 
-from __future__ import absolute_import
-
 from testtools.matchers import Equals, NotEquals, GreaterThan, Is
 from autopilot.matchers import Eventually
 
@@ -18,7 +16,6 @@ from gallery_app.emulators.media_viewer import MediaViewer
 from gallery_app.emulators.events_view import EventsView
 from gallery_app.tests import GalleryTestCase
 
-from os.path import exists
 import os
 from time import sleep
 import unittest
@@ -130,11 +127,11 @@ class TestPhotoViewer(TestPhotoViewerBase):
         self.click_item(cancel_item)
         self.ensure_closed_delete_dialog()
 
-        self.assertThat(lambda: exists(self.sample_file),
+        self.assertThat(lambda: os.path.exists(self.sample_file),
                         Eventually(Equals(True)))
 
         self.delete_one_picture()
-        self.assertThat(lambda: exists(self.sample_file),
+        self.assertThat(lambda: os.path.exists(self.sample_file),
                         Eventually(Equals(False)))
 
         # Delete all other pictures and make sure the photo viewer closes
@@ -181,8 +178,8 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
         # Slide left should move to the next image
         x, y, w, h = list.globalRect
-        mid_y = y + h / 2
-        mid_x = x + w / 2
+        mid_y = y + h // 2
+        mid_x = x + w // 2
         self.pointing_device.drag(mid_x, mid_y, x + 10, mid_y)
 
         self.assertThat(list.moving, Eventually(Equals(False)))
@@ -232,10 +229,10 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         crop_corner = self.photo_viewer.get_top_left_crop_corner()
         x, y, h, w = crop_corner.globalRect
-        x = x + w / 2
-        y = y + h / 2
+        x = x + w // 2
+        y = y + h // 2
         self.pointing_device.drag(x, y,
-                                  x + item_width / 2, y + item_height / 2)
+                                  x + item_width // 2, y + item_height // 2)
 
         # wait for animation being finished
         crop_overlay = self.photo_viewer.get_crop_overlay()

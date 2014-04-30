@@ -7,8 +7,8 @@
 
 """gallery autopilot tests."""
 
+import os
 import logging
-import os.path
 import shutil
 import signal
 
@@ -24,7 +24,6 @@ from gallery_app.emulators import main_screen
 from gallery_app.emulators.gallery_utils import GalleryUtils
 
 from time import sleep
-from os import remove
 
 logger = logging.getLogger(__name__)
 
@@ -146,7 +145,7 @@ class GalleryTestCase(AutopilotTestCase):
         config = os.path.expanduser(
             os.path.join("~", ".config", "gallery-app.conf"))
         if os.path.exists(config):
-            remove(config)
+            os.remove(config)
 
     def setUp(self):
         self.pointing_device = toolkit_emulators.get_pointing_device()

@@ -28,7 +28,7 @@ class GalleryUtils(object):
         while len(items) < 1 and tries > 0:
             sleep(self.retry_delay)
             items = self.app.select_many(object_type, **kwargs)
-            tries = tries - 1
+            tries -= 1
         return items
 
     def get_qml_view(self):

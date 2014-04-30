@@ -15,7 +15,7 @@ class AlbumEditorAnimated(toolkit_emulators.UbuntuUIToolkitEmulatorBase):
         cover_image = self.album_cover_image()
         # click left of the cover
         x, y, w, h = cover_image.globalRect
-        self.pointing_device.move(x - 10, y + (h/2))
+        self.pointing_device.move(x - 10, y + (h // 2))
         # workaround lp:1247698 (get rid of toolbar)
         self.pointing_device.click()
         self.pointing_device.click()

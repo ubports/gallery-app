@@ -8,8 +8,6 @@
 
 """Tests the album view of the gallery app"""
 
-from __future__ import absolute_import
-
 from testtools.matchers import Equals, GreaterThan, LessThan
 from autopilot.matchers import Eventually
 

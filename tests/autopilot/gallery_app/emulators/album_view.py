@@ -81,8 +81,8 @@ class AlbumView(GalleryUtils):
         self.album.animationRunning.wait_for(False)
 
         self.x, self.y, self.w, self.h = self.spread.globalRect
-        self.mid_y = self.y + self.h / 2
-        self.mid_x = self.x + self.w / 2
+        self.mid_y = self.y + self.h // 2
+        self.mid_x = self.x + self.w // 2
 
     def swipe_page_left(self, page_number):
         '''Swipe page to the left

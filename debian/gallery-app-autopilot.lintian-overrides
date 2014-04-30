@@ -1,1 +1,1 @@
-gallery-app-autopilot: image-file-in-usr-lib usr/lib/python2.7/dist-packages/gallery_app/data/sample.jpg
+gallery-app-autopilot: image-file-in-usr-lib usr/lib/python*/dist-packages/gallery_app/data/sample.jpg
