@@ -172,7 +172,9 @@ QStringList MediaMonitorWorker::expandSubDirectories(const QString& dirPath)
                 // If it's a SymLink and points to a valid target need to get the target path
                 path = info.symLinkTarget();
             }
-            if(!dirList.contains(path)) {
+
+            QFileInfo pathInfo(path);
+            if(!dirList.contains(path) && !pathInfo.isHidden()) {
                 // In case we already visited the folder we didn't expand it anymore
                 dirStack.push(path);
             }

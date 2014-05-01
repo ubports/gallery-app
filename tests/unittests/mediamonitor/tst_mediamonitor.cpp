@@ -49,6 +49,13 @@ void tst_MediaMonitor::initTestCase()
     dir->mkpath("B/A");
     dir->mkpath("B/B");
 
+    // Create a hidden directory
+    dir->mkpath(".H/A");
+    dir->mkpath(".H/B");
+
+    // Create symlink
+    QFile::link(m_tmpDir->path() + "/.H", m_tmpDir->path() + "L");
+
     // Create sample image
     m_sampleImage = new QImage(400, 600, QImage::Format_RGB32);
     m_sampleImage->fill(QColor(Qt::red));
@@ -68,8 +75,13 @@ void tst_MediaMonitor::tst_scanning_sub_folders()
     m_sampleImage->save(m_tmpDir->path() + "/B/A/sample_BA.jpg", "JPG");
     m_sampleImage->save(m_tmpDir->path() + "/B/B/sample_BB.jpg", "JPG");
 
+    m_sampleImage->save(m_tmpDir->path() + "/.H/A/sample_HA.jpg", "JPG");
+    m_sampleImage->save(m_tmpDir->path() + "/.H/B/sample_HB.jpg", "JPG");
+
     m_sampleImage->save(m_tmpDir->path() + "/A/sample_A.jpg", "JPG");
     m_sampleImage->save(m_tmpDir->path() + "/B/sample_B.jpg", "JPG");
+
+    m_sampleImage->save(m_tmpDir->path() + "/.H/sample_H.jpg", "JPG");
 
     m_sampleImage->save(m_tmpDir->path() + "/sample.jpg", "JPG");
 
