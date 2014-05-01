@@ -9,6 +9,10 @@ import ubuntuuitoolkit.emulators
 from time import sleep
 
 
+class GalleryAppException(Exception):
+    pass
+
+
 class GalleryUtils(object):
     """An emulator class that makes it easy to interact with
        general components of the gallery app."""

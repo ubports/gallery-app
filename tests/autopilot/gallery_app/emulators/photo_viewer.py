@@ -5,16 +5,14 @@
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
 
-import ubuntuuitoolkit.emulators
-
 from gallery_app.emulators.gallery_utils import GalleryUtils
 
 
 class PhotoViewer(GalleryUtils):
 
     def __init__(self, app):
+        super(PhotoViewer, self).__init__(self)
         self.app = app
-        self.pointing_device = ubuntuuitoolkit.emulators.get_pointing_device()
 
     def get_delete_dialog(self):
         """Returns the photo viewer delete dialog."""

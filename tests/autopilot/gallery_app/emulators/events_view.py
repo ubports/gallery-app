@@ -4,20 +4,18 @@
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
-import ubuntuuitoolkit.emulators
 
-from gallery_app.emulators.gallery_utils import GalleryUtils
-
-
-class EventsViewException(Exception):
-    pass
+from gallery_app.emulators.gallery_utils import(
+    GalleryAppException,
+    GalleryUtils
+)
 
 
 class EventsView(GalleryUtils):
 
     def __init__(self, app):
+        super(EventsView, self).__init__(self)
         self.app = app
-        self.pointing_device = ubuntuuitoolkit.emulators.get_pointing_device()
 
     def get_event(self, event_number=0):
         """Return an event in the event view based on index number
@@ -34,7 +32,7 @@ class EventsView(GalleryUtils):
         return self.app.select_single('EventsOverview')._eventCount
 
     def number_of_photos_in_events(self):
-        """Return the number of events"""
+        """Return the number of photos in events"""
 
         overview = self.app.select_single('EventsOverview')
         photo_delegates = overview.select_many(
@@ -62,7 +60,7 @@ class EventsView(GalleryUtils):
             for image in images:
                 if str(image.source).endswith(image_name):
                     return image
-        raise EventsViewException(
+        raise GalleryAppException(
             'Photo with image name {} could not be found'.format(image_name))
 
     def click_photo(self, photo_name, event_index_num=0):

@@ -200,13 +200,10 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
 class TestPhotoEditor(TestPhotoViewerBase):
 
-    @property
-    def media_view(self):
-        return self.app.select_single(MediaViewer)
-
     def setUp(self):
         super(TestPhotoEditor, self).setUp()
         self.click_edit_button()
+        self.media_view = self.app.select_single(MediaViewer)
 
     def click_edit_button(self):
         self.main_view.open_toolbar().click_button("editButton")
