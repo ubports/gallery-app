@@ -75,6 +75,7 @@ class Album : public ContainerSource
     Q_PROPERTY(int currentPage READ currentPage WRITE setCurrentPage
                NOTIFY currentPageChanged)
     Q_PROPERTY(bool closed READ isClosed WRITE setClosed NOTIFY closedChanged)
+    Q_PROPERTY(bool newAlbum READ isNewAlbum WRITE setNewAlbum NOTIFY newAlbumChanged)
     Q_PROPERTY(QString coverNickname READ coverNickname WRITE setCoverNickname
                NOTIFY coverNicknameChanged)
 
@@ -86,6 +87,7 @@ signals:
     void titleChanged();
     void subtitleChanged();
     void closedChanged();
+    void newAlbumChanged();
     void contentPagesChanged();
     void pageCountChanged();
     void coverNicknameChanged();
@@ -122,6 +124,7 @@ public:
     AlbumTemplate* albumTemplate() const;
     void setAlbumTemplate(AlbumTemplate *albumTemplate);
     bool isClosed() const;
+    bool isNewAlbum() const;
     int totalPageCount() const;
     int contentPageCount() const;
     int populatedContentPageCount() const;
@@ -133,6 +136,7 @@ public:
     int currentPage() const;
     void setCurrentPage(int page);
     void setClosed(bool closed);
+    void setNewAlbum(bool newAlbum);
     void setId(qint64 id);
     qint64 id() const;
     QString coverNickname() const;
@@ -177,6 +181,7 @@ private:
     QDateTime m_creationDateDime;
     int m_currentPage; // Page number of the left page of the current spread.
     bool m_closed;
+    bool m_newAlbum;
     int m_populatedPagesCount;
     SourceCollection* m_contentPages;
     QList<MediaSource*> m_allMediaSources;
