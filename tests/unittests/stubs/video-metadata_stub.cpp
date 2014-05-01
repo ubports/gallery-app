@@ -18,14 +18,14 @@
 
 #include <QFileInfo>
 
-VideoMetadata::VideoMetadata(QObject *parent)
+VideoMetadata::VideoMetadata(const QFileInfo& file, QObject *parent)
     :QObject(parent)
 {
+    Q_UNUSED(file);
 }
 
-bool VideoMetadata::parseMetadata(const QFileInfo &file)
+bool VideoMetadata::parseMetadata()
 {
-    Q_UNUSED(file);
     return true;
 }
 

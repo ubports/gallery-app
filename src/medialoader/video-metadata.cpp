@@ -33,9 +33,10 @@ using namespace MediaInfoLib;
  * \brief VideoMetadata::VideoMetadata
  * \param parent
  */
-VideoMetadata::VideoMetadata(QObject *parent)
+VideoMetadata::VideoMetadata(const QFileInfo &file, QObject *parent)
     :QObject(parent)
 {
+    m_file = file;
 }
 
 /*!
@@ -44,13 +45,13 @@ VideoMetadata::VideoMetadata(QObject *parent)
  * \param file the video file
  * \return true if the parsing was successful, false if an error occured
  */
-bool VideoMetadata::parseMetadata(const QFileInfo &file)
+bool VideoMetadata::parseMetadata()
 {
-    String filename = file.absoluteFilePath().toStdWString();
+    String filename = m_file.absoluteFilePath().toStdWString();
     MediaInfo mediaInfo;
     size_t ret = mediaInfo.Open(filename);
     if (ret == 0) {
-        qWarning() << "Can't read metadata from file" << file.absoluteFilePath();
+        qWarning() << "Can't read metadata from file" << m_file.absoluteFilePath();
         return false;
     }
 
@@ -91,8 +92,10 @@ QDateTime VideoMetadata::exposureTime() const
 {
     QMap<QString, QVariant>::const_iterator it;
     it = m_tags.find(ENCODED_DATE_KEY);
-    if ( it == m_tags.end())
-        return QDateTime();
+    if ( it == m_tags.end()) {
+        // Fallback for date that the file was created
+        return m_file.created();
+    }
 
     return it.value().toDateTime();
 }
