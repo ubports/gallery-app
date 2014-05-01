@@ -496,6 +496,7 @@ Item {
             ToolbarButton {
                 id: photoShareButton
                 objectName: "shareButton"
+                visible: !APP.desktopMode
                 action: Action {
                     text: i18n.tr("Share photo")
                     iconSource: "../../img/share.png"
@@ -553,6 +554,7 @@ Item {
             ToolbarButton {
                 id: videoShareButton
                 objectName: "shareButton"
+                visible: !APP.desktopMode
                 text: i18n.tr("Share")
                 iconSource: "../../img/share.png"
                 onTriggered: {
