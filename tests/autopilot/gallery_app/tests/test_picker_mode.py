@@ -55,6 +55,20 @@ class TestPickerMode(GalleryTestCase):
         self.assertThat(pick_button.enabled, Eventually(Equals(False)))
         self.assertThat(first_events_media.isSelected, Eventually(Equals(False)))
 
+    def test_pick_named_photo(self):
+        """Select a named photo and press Pick button."""
+        self.picker_view.switch_to_tab('photosTab')
+        pick_button = self.picker_view.pick_button()
+        self.assertFalse(pick_button.enabled)
+
+        # create the image location path based on sample location
+        image_path = 'image://thumbnailer/{}/sample02.jpg'.format(
+            self.sample_destination_dir)
+        self.picker_view.select_named_photo(image_path)
+
+        self.assertTrue(pick_button.enabled)
+        self.click_item(pick_button)
+
     @unittest.skip("Temporarily disable as it fails in some cases, supposedly due to problems with the infrastructure")
     def test_selection_synchronisation(self):
         """Checks if the selection is the same for both views"""
