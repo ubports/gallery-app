@@ -14,6 +14,7 @@ from autopilot.platform import model
 
 from gallery_app.tests import GalleryTestCase
 from gallery_app.emulators.albums_view import AlbumsView
+from gallery_app.emulators import album_editor
 
 from os import environ as env
 
@@ -53,6 +54,20 @@ class TestAlbumsView(GalleryTestCase):
         self.assertThat(
             lambda: self.albums_view.number_of_albums_in_albums_view(),
             Eventually(Equals(albums+1))
+        )
+
+    def test_add_album_and_cancel(self):
+        """Add one album, cancel it and checks if the number of albums does
+        not change
+        """
+        albums = self.albums_view.number_of_albums_in_albums_view()
+        self.main_view.open_toolbar().click_button("addButton")
+        editor = self.app.select_single(album_editor.AlbumEditorAnimated)
+        editor.ensure_fully_open()
+        self.main_view.get_toolbar().click_custom_button("cancelButton")
+        self.assertThat(
+            lambda: self.albums_view.number_of_albums_in_albums_view(),
+            Eventually(Equals(albums))
         )
 
     # Check if Camera Button is not visible at Desktop mode

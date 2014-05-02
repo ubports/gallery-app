@@ -81,6 +81,8 @@ Page {
     // When the user clicks the back button or pages back to the cover.
     signal quickCloseRequested()
 
+    title: i18n.tr("Album")
+
     Image {
         anchors.fill: parent
         source: "../../img/background-paper.png"

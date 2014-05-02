@@ -31,3 +31,17 @@ class PickerScreen(toolkit_emulators.MainView):
     def first_media_in_grid_view(self):
         grid_view = self.grid_view()
         return grid_view.select_many("OrganicItemInteraction")[0]
+
+    def _get_named_photo_element(self, photo_name):
+        """
+        Return the ShapeItem container object for the named photo.
+        This object can be clicked to enable the photo to be selected.
+        """
+        photo_element = self.grid_view().wait_select_single('QQuickImage',
+                                                       source=photo_name)
+        return photo_element.get_parent()
+
+    def select_named_photo(self, photo_name):
+        """Select the named photo from the picker view."""
+        photo_element = self._get_named_photo_element(photo_name)
+        self.pointing_device.click_object(photo_element)
