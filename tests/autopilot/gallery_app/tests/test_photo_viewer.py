@@ -8,9 +8,7 @@
 
 """Tests the Photo editor of the gallery app."""
 
-from __future__ import absolute_import
-
-from testtools.matchers import Equals, NotEquals, GreaterThan, Is, Not
+from testtools.matchers import Equals, NotEquals, GreaterThan, Is
 from autopilot.matchers import Eventually
 
 from gallery_app.emulators.photo_viewer import PhotoViewer
@@ -18,7 +16,6 @@ from gallery_app.emulators.media_viewer import MediaViewer
 from gallery_app.emulators.events_view import EventsView
 from gallery_app.tests import GalleryTestCase
 
-from os.path import exists
 import os
 from time import sleep
 import unittest
@@ -45,15 +42,16 @@ class TestPhotoViewerBase(GalleryTestCase):
         self.main_view.open_toolbar()
 
     def open_first_photo(self):
-        self.assertThat(lambda: self.events_view.number_of_photos_in_events(),
-                        Eventually(GreaterThan(0)))
-        single_photo = self.events_view.get_first_image_in_event_view()
+        self.assertThat(
+            lambda: self.events_view.number_of_photos_in_events(),
+            Eventually(GreaterThan(0))
+        )
 
         # workaround lp:1247698
         # toolbar needs to be gone to click on an image.
         self.main_view.close_toolbar()
 
-        self.click_item(single_photo)
+        self.events_view.click_photo(self.sample_file)
 
         photo_viewer_loader = self.photo_viewer.get_main_photo_viewer_loader()
         self.assertThat(photo_viewer_loader.loaded, Eventually(Equals(True)))
@@ -64,25 +62,26 @@ class TestPhotoViewerBase(GalleryTestCase):
 
 class TestPhotoViewer(TestPhotoViewerBase):
 
-    def setUp(self):
-        super(TestPhotoViewer, self).setUp()
-
-    @unittest.skip("Temporarily disable as it fails in some cases, supposedly due to problems with the infrastructure")
+    @unittest.skip("Temporarily disable as it fails in some cases, "
+                   "supposedly due to problems with the infrastructure")
     def test_save_state(self):
         """Quitting the app once a photo has been opened will return
         to that same photo on restart"""
-        path = self.photo_viewer.get_photo_component().select_single("QQuickImage").source
+        path = self.photo_viewer.get_photo_component().select_single(
+            "QQuickImage").source
 
         self.ensure_app_has_quit()
         self.start_app()
 
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
         self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
-        new_path = self.photo_viewer.get_photo_component().select_single("QQuickImage").source
+        new_path = self.photo_viewer.get_photo_component().select_single(
+            "QQuickImage").source
 
         self.assertThat(path, Equals(new_path))
 
-    @unittest.skip("Temporarily disable as it fails in some cases, supposedly due to problems with the infrastructure")
+    @unittest.skip("Temporarily disable as it fails in some cases, "
+                   "supposedly due to problems with the infrastructure")
     def test_no_save_state_on_back(self):
         """Quitting the app once a photo has been opened and then closed
         will not reopen a photo on restart"""
@@ -128,11 +127,11 @@ class TestPhotoViewer(TestPhotoViewerBase):
         self.click_item(cancel_item)
         self.ensure_closed_delete_dialog()
 
-        self.assertThat(lambda: exists(self.sample_file),
+        self.assertThat(lambda: os.path.exists(self.sample_file),
                         Eventually(Equals(True)))
 
         self.delete_one_picture()
-        self.assertThat(lambda: exists(self.sample_file),
+        self.assertThat(lambda: os.path.exists(self.sample_file),
                         Eventually(Equals(False)))
 
         # Delete all other pictures and make sure the photo viewer closes
@@ -157,15 +156,19 @@ class TestPhotoViewer(TestPhotoViewerBase):
         self.pointing_device.click()
         self.pointing_device.click()
 
-        self.assertThat(opened_photo.isZoomAnimationInProgress,
-            Eventually(Equals(False)))
+        self.assertThat(
+            opened_photo.isZoomAnimationInProgress,
+            Eventually(Equals(False))
+        )
         self.assertThat(opened_photo.fullyZoomed, Eventually(Equals(True)))
 
         self.pointing_device.click()
         self.pointing_device.click()
 
-        self.assertThat(opened_photo.isZoomAnimationInProgress,
-            Eventually(Equals(False)))
+        self.assertThat(
+            opened_photo.isZoomAnimationInProgress,
+            Eventually(Equals(False))
+        )
         self.assertThat(opened_photo.fullyUnzoomed, Eventually(Equals(True)))
 
     def test_swipe_change_image(self):
@@ -175,8 +178,8 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
         # Slide left should move to the next image
         x, y, w, h = list.globalRect
-        mid_y = y + h / 2
-        mid_x = x + w / 2
+        mid_y = y + h // 2
+        mid_x = x + w // 2
         self.pointing_device.drag(mid_x, mid_y, x + 10, mid_y)
 
         self.assertThat(list.moving, Eventually(Equals(False)))
@@ -194,46 +197,19 @@ class TestPhotoViewer(TestPhotoViewerBase):
         self.assertThat(list.moving, Eventually(Equals(False)))
         self.assertThat(list.currentIndex, Eventually(Equals(0)))
 
+
 class TestPhotoEditor(TestPhotoViewerBase):
 
     def setUp(self):
         super(TestPhotoEditor, self).setUp()
         self.click_edit_button()
+        self.media_view = self.app.select_single(MediaViewer)
 
     def click_edit_button(self):
         self.main_view.open_toolbar().click_button("editButton")
         edit_dialog = self.photo_viewer.get_photo_edit_dialog()
         self.assertThat(edit_dialog.visible, (Eventually(Equals(True))))
         self.assertThat(edit_dialog.opacity, (Eventually(Equals(1))))
-
-    def click_rotate_item(self):
-        rotate_item = self.photo_viewer.get_rotate_menu_item()
-        self.click_item(rotate_item)
-
-    def click_crop_item(self):
-        crop_item = self.photo_viewer.get_crop_menu_item()
-        self.click_item(crop_item)
-
-    def click_undo_item(self):
-        undo_item = self.photo_viewer.get_undo_menu_item()
-        self.click_item(undo_item)
-
-    def click_redo_item(self):
-        redo_item = self.photo_viewer.get_redo_menu_item()
-        self.click_item(redo_item)
-
-    def click_revert_item(self):
-        revert_item = self.photo_viewer.get_revert_menu_item()
-        self.click_item(revert_item)
-
-    def click_enhance_item(self):
-        enhance_item = self.photo_viewer.get_auto_enhance_menu_item()
-        self.click_item(enhance_item)
-
-    def ensure_spinner_not_running(self):
-        media_view = self.app.select_single(MediaViewer)
-        spinner = media_view.get_edit_spinner()
-        self.assertThat(spinner.running, Eventually(Equals(False)))
 
     def test_photo_editor_crop(self):
         """Cropping a photo must crop it."""
@@ -243,17 +219,17 @@ class TestPhotoEditor(TestPhotoViewerBase):
         item_width = crop_box.width
         item_height = crop_box.height
 
-        self.click_crop_item()
+        self.photo_viewer.click_crop_item()
 
         self.assertThat(crop_box.state, Eventually(Equals("shown")))
         self.assertThat(crop_box.opacity, Eventually(Equals(1)))
 
         crop_corner = self.photo_viewer.get_top_left_crop_corner()
         x, y, h, w = crop_corner.globalRect
-        x = x + w / 2
-        y = y + h / 2
+        x = x + w // 2
+        y = y + h // 2
         self.pointing_device.drag(x, y,
-                                  x + item_width / 2, y + item_height / 2)
+                                  x + item_width // 2, y + item_height // 2)
 
         # wait for animation being finished
         crop_overlay = self.photo_viewer.get_crop_overlay()
@@ -262,7 +238,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         crop_button = self.photo_viewer.get_crop_overlays_crop_icon()
         self.click_item(crop_button)
-        self.ensure_spinner_not_running()
+        self.media_view.ensure_spinner_not_running()
 
         # wait for new photo being set/reloaded, so saving thumbnailing etc.
         # is done
@@ -284,8 +260,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
             return opened_photo.paintedWidth > opened_photo.paintedHeight
         self.assertThat(is_landscape(), Equals(True))
 
-        self.click_rotate_item()
-        self.ensure_spinner_not_running()
+        self.photo_viewer.click_rotate_item()
+        self.media_view.ensure_spinner_not_running()
 
         self.assertThat(opened_photo.paintedHeight,
                         Eventually(Equals(item_height)))
@@ -294,8 +270,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.main_view.open_toolbar()
         self.click_edit_button()
-        self.click_undo_item()
-        self.ensure_spinner_not_running()
+        self.photo_viewer.click_undo_item()
+        self.media_view.ensure_spinner_not_running()
 
         self.assertThat(opened_photo.paintedHeight,
                         Eventually(NotEquals(item_height)))
@@ -304,8 +280,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.main_view.open_toolbar()
         self.click_edit_button()
-        self.click_redo_item()
-        self.ensure_spinner_not_running()
+        self.photo_viewer.click_redo_item()
+        self.media_view.ensure_spinner_not_running()
 
         self.assertThat(opened_photo.paintedHeight,
                         Eventually(Equals(item_height)))
@@ -314,10 +290,10 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
         self.main_view.open_toolbar()
         self.click_edit_button()
-        self.click_rotate_item()
+        self.photo_viewer.click_rotate_item()
         self.main_view.open_toolbar()
         self.click_edit_button()
-        self.click_revert_item()
+        self.photo_viewer.click_revert_item()
 
         self.assertThat(opened_photo.paintedHeight,
                         Eventually(NotEquals(item_height)))
@@ -339,8 +315,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(redo_item.enabled, Eventually(Equals(False)))
         self.assertThat(revert_item.enabled, Eventually(Equals(False)))
 
-        self.click_rotate_item()
-        self.ensure_spinner_not_running()
+        self.photo_viewer.click_rotate_item()
+        self.media_view.ensure_spinner_not_running()
 
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
@@ -351,8 +327,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(redo_item.enabled, Eventually(Equals(False)))
         self.assertThat(revert_item.enabled, Eventually(Equals(True)))
 
-        self.click_undo_item()
-        self.ensure_spinner_not_running()
+        self.photo_viewer.click_undo_item()
+        self.media_view.ensure_spinner_not_running()
 
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
@@ -363,8 +339,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(redo_item.enabled, Eventually(Equals(True)))
         self.assertThat(revert_item.enabled, Eventually(Equals(False)))
 
-        self.click_redo_item()
-        self.ensure_spinner_not_running()
+        self.photo_viewer.click_redo_item()
+        self.media_view.ensure_spinner_not_running()
 
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
@@ -375,8 +351,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(redo_item.enabled, Eventually(Equals(False)))
         self.assertThat(revert_item.enabled, Eventually(Equals(True)))
 
-        self.click_revert_item()
-        self.ensure_spinner_not_running()
+        self.photo_viewer.click_revert_item()
+        self.media_view.ensure_spinner_not_running()
 
         self.click_edit_button()
         undo_item = self.photo_viewer.get_undo_menu_item()
@@ -387,8 +363,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(redo_item.enabled, Eventually(Equals(False)))
         self.assertThat(revert_item.enabled, Eventually(Equals(False)))
 
-        self.click_enhance_item()
-        self.ensure_spinner_not_running()
+        self.photo_viewer.click_enhance_item()
+        self.media_view.ensure_spinner_not_running()
 
         self.click_edit_button()
 

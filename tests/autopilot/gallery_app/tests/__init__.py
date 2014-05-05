@@ -7,8 +7,8 @@
 
 """gallery autopilot tests."""
 
+import os
 import logging
-import os.path
 import shutil
 import signal
 
@@ -24,7 +24,6 @@ from gallery_app.emulators import main_screen
 from gallery_app.emulators.gallery_utils import GalleryUtils
 
 from time import sleep
-from os import remove
 
 logger = logging.getLogger(__name__)
 
@@ -68,6 +67,8 @@ class GalleryTestCase(AutopilotTestCase):
         # Lets assume we are installed system wide if this file is somewhere
         # in /usr
         if os.path.realpath(__file__).startswith("/usr/"):
+            return EnvironmentTypes.installed
+        if model() == 'Desktop':
             return EnvironmentTypes.installed
         else:
             if os.path.exists(self.local_location):
@@ -144,7 +145,7 @@ class GalleryTestCase(AutopilotTestCase):
         config = os.path.expanduser(
             os.path.join("~", ".config", "gallery-app.conf"))
         if os.path.exists(config):
-            remove(config)
+            os.remove(config)
 
     def setUp(self):
         self.pointing_device = toolkit_emulators.get_pointing_device()
@@ -164,8 +165,8 @@ class GalleryTestCase(AutopilotTestCase):
         self.assertThat(self.gallery_utils.get_qml_view().visible,
                         Eventually(Equals(True)))
         """FIXME somehow on the server gallery sometimes is not fully started
-        for switching to the albums view. Therefore this hack of a second"""
-        sleep(1)
+        for switching to the albums view. Therefore this hack of sleeping"""
+        sleep(2)
 
     def launch_gallery_app(self, env_type):
         if env_type == EnvironmentTypes.installed:
