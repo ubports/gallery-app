@@ -53,6 +53,7 @@ option(CLICK_MODE "Installs to a contained location" off)
 
 set(GALLERY gallery-app)
 set(DESKTOP_FILE ${GALLERY}.desktop)
+set(AUTOPILOT_DIR gallery_app)
 
 if(CLICK_MODE)
     if(NOT DEFINED BZR_SOURCE)
