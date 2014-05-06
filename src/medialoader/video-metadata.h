@@ -23,8 +23,7 @@
 #include <QSize>
 #include <QString>
 #include <QVariant>
-
-class QFileInfo;
+#include <QFileInfo>
 
 /*!
  * \brief The VideoMetadata class
@@ -34,9 +33,9 @@ class VideoMetadata : public QObject
     Q_OBJECT
 
 public:
-    VideoMetadata(QObject *parent=0);
+    VideoMetadata(const QFileInfo& file, QObject *parent=0);
 
-    bool parseMetadata(const QFileInfo& file);
+    bool parseMetadata();
 
     QDateTime exposureTime() const;
     int rotation() const;
@@ -45,6 +44,7 @@ public:
 
 private:
     QMap<QString, QVariant> m_tags;
+    QFileInfo m_file;
 };
 
 #endif // GALLERY_VIDEO_METADATA_H_

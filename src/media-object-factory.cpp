@@ -268,8 +268,8 @@ bool MediaObjectFactory::readVideoMetadata(const QFileInfo &file)
     if (!Video::isValid(file))
         return false;
 
-    VideoMetadata metadata;
-    bool ok = metadata.parseMetadata(file);
+    VideoMetadata metadata(file);
+    bool ok = metadata.parseMetadata();
     if (!ok)
         return false;
 

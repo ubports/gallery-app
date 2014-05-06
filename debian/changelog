@@ -1,3 +1,30 @@
+gallery-app (0.0.67+14.10.20140501-0ubuntu1) utopic; urgency=low
+
+  [ Bill Filler ]
+  * disable sharing option on desktop (LP: #1311123)
+
+  [ Arthur Mello ]
+  * Make sure we do not monitor hidden directories (LP: #907870)
+  * Make gallery does not create a new album if process is canceled (LP:
+    #1300337)
+  * Make sure gallery deletes all album content when it is requested.
+    (LP: #1300344)
+  * Change the page title so it does not show the app name. (LP:
+    #1312123)
+  * Fallback for date that file was created if no information about
+    encoded date was found on video metadata (LP: #1314632)
+
+  [ Richard Huddie ]
+  * A new emulator method for selecting a specific photo from the picker
+    view. A new test is also added to use this method and then click on
+    the Pick button.
+
+  [ Ugo Riboni ]
+  * Show progress indicator while loading thumbnails in photo view (LP:
+    #1295124)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 01 May 2014 14:38:33 +0000
+
 gallery-app (0.0.67+14.04.20140408.1-0ubuntu2) trusty; urgency=medium
 
   * debian/control: alternatively depend on the OpenGLES version of
