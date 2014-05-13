@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-06-20 12:56+0000\n"
+"POT-Creation-Date: 2014-05-09 16:45-0300\n"
 "PO-Revision-Date: 2014-02-09 10:49+0000\n"
 "Last-Translator: omarjan <bahadiromar@outlook.com>\n"
 "Language-Team: Uyghur <ug@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-10 07:57+0000\n"
-"X-Generator: Launchpad (build 16996)\n"
+"X-Launchpad-Export-Date: 2014-05-13 06:30+0000\n"
+"X-Generator: Launchpad (build 17002)\n"
 
-#: desktop/gallery-app.desktop.in:3
+#: desktop/gallery-app.desktop.in:3 rc/qml/MediaViewer/PopupPhotoViewer.qml:65
 msgid "Gallery"
 msgstr "رەسىم كارىدورى"
 
@@ -29,30 +29,22 @@ msgstr "Ubuntuسۈرەت كۆرگۈ"
 msgid "Browse your photographs"
 msgstr "سۈرەتلىرىڭىزگە كۆز يۈگۈرتۈڭ"
 
-#: rc/qml/AlbumEditor/AlbumEditMenu.qml:45
+#: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 msgid "Edit album"
 msgstr "ئالبومنى تەھرىرلە"
 
-#: rc/qml/AlbumEditor/AlbumEditMenu.qml:52
-#: rc/qml/AlbumViewer/AlbumViewer.qml:489
-#: rc/qml/MediaViewer/MediaViewer.qml:462
-#: rc/qml/MediaViewer/MediaViewer.qml:509 rc/qml/Utility/EditingHUD.qml:72
-#: rc/qml/Utility/SelectionToolbarAction.qml:57
-msgid "Share"
-msgstr "ھەمبەھىرلە"
-
-#: rc/qml/AlbumEditor/AlbumEditMenu.qml:59
-#: rc/qml/AlbumViewer/AlbumViewer.qml:478
-#: rc/qml/MediaViewer/MediaViewer.qml:445
-#: rc/qml/MediaViewer/MediaViewer.qml:451
-#: rc/qml/MediaViewer/MediaViewer.qml:501 rc/qml/Utility/EditingHUD.qml:67
-#: rc/qml/Utility/SelectionToolbarAction.qml:50
+#: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
+#: rc/qml/AlbumViewer/AlbumViewer.qml:439
+#: rc/qml/MediaViewer/MediaViewer.qml:488
+#: rc/qml/MediaViewer/MediaViewer.qml:494
+#: rc/qml/MediaViewer/MediaViewer.qml:548 rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/Utility/SelectionToolbarAction.qml:51
 msgid "Delete"
 msgstr "ئۆچۈر"
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:40
-#: rc/qml/Components/MediaSelector.qml:94
-#: rc/qml/Utility/SelectionToolbarAction.qml:65
+#: rc/qml/Components/MediaSelector.qml:90 rc/qml/PickerScreen.qml:114
+#: rc/qml/Utility/SelectionToolbarAction.qml:66
 msgid "Cancel"
 msgstr "ۋاز كەچ"
 
@@ -76,38 +68,42 @@ msgstr "ئەندىزە"
 msgid "Red"
 msgstr "قىزىل"
 
-#: rc/qml/AlbumViewer/AlbumViewer.qml:468
+#: rc/qml/AlbumViewer/AlbumViewer.qml:84
+msgid "Album"
+msgstr ""
+
+#: rc/qml/AlbumViewer/AlbumViewer.qml:428
 msgid "Add to album"
 msgstr "ئالبوم قوش"
 
-#: rc/qml/AlbumViewer/AlbumViewer.qml:474
-#: rc/qml/MediaViewer/MediaViewer.qml:440
-#: rc/qml/MediaViewer/MediaViewer.qml:492 rc/qml/Utility/EditingHUD.qml:77
-#: rc/qml/Utility/SelectionToolbarAction.qml:43
+#: rc/qml/AlbumViewer/AlbumViewer.qml:434
+#: rc/qml/MediaViewer/MediaViewer.qml:483
+#: rc/qml/MediaViewer/MediaViewer.qml:538 rc/qml/Utility/EditingHUD.qml:77
+#: rc/qml/Utility/SelectionToolbarAction.qml:44
 msgid "Add"
 msgstr "قوش"
 
-#: rc/qml/AlbumViewer/AlbumViewer.qml:494
-#: rc/qml/MediaViewer/MediaViewer.qml:467
-#: rc/qml/MediaViewer/MediaViewer.qml:518
+#: rc/qml/AlbumViewer/AlbumViewer.qml:448
+#: rc/qml/MediaViewer/MediaViewer.qml:512
+#: rc/qml/MediaViewer/MediaViewer.qml:567
 msgid "Back"
 msgstr "كەينى"
 
-#: rc/qml/AlbumsOverview.qml:177 rc/qml/Components/PopupAlbumPicker.qml:87
+#: rc/qml/AlbumsOverview.qml:186 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
 msgstr "يېڭى ئالبۇم قوش"
 
-#: rc/qml/AlbumsOverview.qml:189 rc/qml/Utility/PhotosToolbarActions.qml:46
+#: rc/qml/AlbumsOverview.qml:204 rc/qml/Utility/PhotosToolbarActions.qml:46
 msgid "Camera"
 msgstr "كامېرا"
 
 #: rc/qml/Components/DeleteDialog.qml:36
-#: rc/qml/MediaViewer/MediaViewer.qml:261
+#: rc/qml/MediaViewer/MediaViewer.qml:297
 msgid "Yes"
 msgstr "ھەئە"
 
 #: rc/qml/Components/DeleteDialog.qml:45
-#: rc/qml/MediaViewer/MediaViewer.qml:272
+#: rc/qml/MediaViewer/MediaViewer.qml:308
 msgid "No"
 msgstr "ياق"
 
@@ -120,87 +116,103 @@ msgid "Delete album + contents"
 msgstr "ئالبوم+مەزمۇنلارنى ئۆچۈر"
 
 #: rc/qml/Components/MediaSelector.qml:56
-#: rc/qml/Components/MediaSelector.qml:82
+#: rc/qml/Components/MediaSelector.qml:78
 msgid "Add to Album"
 msgstr "ئالبومغا قوش"
 
-#: rc/qml/Components/PopupAlbumPicker.qml:147 rc/qml/Utility/EditingHUD.qml:78
+#: rc/qml/Components/PopupAlbumPicker.qml:159 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
 msgstr "ئالبومغا سۈرەت قوش"
 
-#: rc/qml/LoadingScreen.qml:36
+#: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
 msgstr "يۈكلەۋاتىدۇ…"
 
-#: rc/qml/MainScreen.qml:58
+#: rc/qml/MainScreen.qml:80
 msgid "Albums"
 msgstr "ئالبوملار"
 
-#: rc/qml/MainScreen.qml:74 rc/qml/MainScreen.qml:96
+#: rc/qml/MainScreen.qml:97 rc/qml/MainScreen.qml:120
+#: rc/qml/PickerScreen.qml:54
 msgid "Events"
 msgstr "ھادىسىلەر"
 
-#: rc/qml/MainScreen.qml:94 rc/qml/MainScreen.qml:126
+#: rc/qml/MainScreen.qml:118 rc/qml/MainScreen.qml:162
 #: rc/qml/Utility/PhotosToolbarActions.qml:33
 msgid "Select"
 msgstr "تاللا"
 
-#: rc/qml/MainScreen.qml:106 rc/qml/MainScreen.qml:128
+#: rc/qml/MainScreen.qml:130 rc/qml/MainScreen.qml:164
+#: rc/qml/PickerScreen.qml:74
 msgid "Photos"
 msgstr "سۈرەتلەر"
 
 #: rc/qml/MediaViewer/CropOverlay.qml:352
-#: rc/qml/MediaViewer/EditPopover.qml:46 rc/qml/Utility/EditingHUD.qml:106
+#: rc/qml/MediaViewer/EditPopover.qml:51 rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
 msgstr "كەس"
 
-#: rc/qml/MediaViewer/EditPopover.qml:38 rc/qml/Utility/EditingHUD.qml:99
+#: rc/qml/MediaViewer/EditPopover.qml:42 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
 msgstr "چۆرگىلەت"
 
-#: rc/qml/MediaViewer/EditPopover.qml:54
+#: rc/qml/MediaViewer/EditPopover.qml:60
 msgid "Auto enhance"
 msgstr "ئاپتوماتىك گەۋدىلەندۈر"
 
-#: rc/qml/MediaViewer/EditPopover.qml:62 rc/qml/Utility/EditingHUD.qml:82
+#: rc/qml/MediaViewer/EditPopover.qml:69 rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
 msgstr "يېنىۋال"
 
-#: rc/qml/MediaViewer/EditPopover.qml:71 rc/qml/Utility/EditingHUD.qml:87
+#: rc/qml/MediaViewer/EditPopover.qml:79 rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
 msgstr "قايتىلا"
 
-#: rc/qml/MediaViewer/EditPopover.qml:80
+#: rc/qml/MediaViewer/EditPopover.qml:89
 msgid "Revert to original"
 msgstr "ئەسلىگە قايتۇرۇش"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:250 rc/qml/PhotosOverview.qml:149
+#: rc/qml/MediaViewer/MediaViewer.qml:234
+msgid "Configure Facebook for photo sharing..."
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:286 rc/qml/PhotosOverview.qml:75
 msgid "Delete a photo"
 msgstr "بىر سۈرەتنى ئۆچۈر"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:424
+#: rc/qml/MediaViewer/MediaViewer.qml:464
 msgid "Edit"
 msgstr "تەھرىر"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:433
+#: rc/qml/MediaViewer/MediaViewer.qml:475
 msgid "Add photo to album"
 msgstr "سۈرەتنى ئالبومغا قوش"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:456
+#: rc/qml/MediaViewer/MediaViewer.qml:501
 msgid "Share photo"
 msgstr "سۈرەتنى ھەمبەھىرلە"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:480
+#: rc/qml/MediaViewer/MediaViewer.qml:507
+#: rc/qml/MediaViewer/MediaViewer.qml:558 rc/qml/Utility/EditingHUD.qml:72
+#: rc/qml/Utility/SelectionToolbarAction.qml:58
+msgid "Share"
+msgstr "ھەمبەھىرلە"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:525
 msgid "Pause"
 msgstr "ۋاقىتلىق توختا"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:480
+#: rc/qml/MediaViewer/MediaViewer.qml:525
 msgid "Play"
 msgstr "قوي"
 
-#: rc/qml/PhotosOverview.qml:148
+#: rc/qml/PhotosOverview.qml:74
 msgid "Delete photos"
 msgstr "سۈرەتلەرنى ئۆچۈر"
+
+#: rc/qml/PickerScreen.qml:99
+msgid "Pick"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
@@ -270,39 +282,39 @@ msgstr "نۇر ئۆتۈشنى تەكشەش"
 msgid "Underexposed;Overexposed"
 msgstr "نۇر ئۆتمەسلىك؛نۇر ئۆتۈش زىيادە"
 
-#: rc/qml/Utility/EditingHUD.qml:123 rc/qml/Utility/EditingHUD.qml:165
+#: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
 msgid "Confirm"
 msgstr "جەزملە"
 
-#: rc/qml/Utility/EditingHUD.qml:127
+#: rc/qml/Utility/EditingHUD.qml:126
 msgid "Compensation"
 msgstr "تۆلەم"
 
-#: rc/qml/Utility/EditingHUD.qml:161
+#: rc/qml/Utility/EditingHUD.qml:160
 msgid "Color Balance"
 msgstr "رەڭ تەڭپۇڭى"
 
-#: rc/qml/Utility/EditingHUD.qml:162
+#: rc/qml/Utility/EditingHUD.qml:161
 msgid "Adjust color balance"
 msgstr "رەڭ تەڭپۇڭىنى تەڭشە"
 
-#: rc/qml/Utility/EditingHUD.qml:163
+#: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
 msgstr "تويۇنۇش دەرىجىسى ؛رەڭ  ڧازىسى"
 
-#: rc/qml/Utility/EditingHUD.qml:169
+#: rc/qml/Utility/EditingHUD.qml:167
 msgid "Brightness"
 msgstr "يورۇقلۇق"
 
-#: rc/qml/Utility/EditingHUD.qml:181
+#: rc/qml/Utility/EditingHUD.qml:178
 msgid "Contrast"
 msgstr "ئاق-قارىلىقى"
 
-#: rc/qml/Utility/EditingHUD.qml:193
+#: rc/qml/Utility/EditingHUD.qml:189
 msgid "Saturation"
 msgstr "تويۇنۇش"
 
-#: rc/qml/Utility/EditingHUD.qml:205
+#: rc/qml/Utility/EditingHUD.qml:200
 msgid "Hue"
 msgstr "رەڭگى"
 

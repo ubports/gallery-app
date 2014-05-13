@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-06-20 12:56+0000\n"
+"POT-Creation-Date: 2014-05-09 16:45-0300\n"
 "PO-Revision-Date: 2013-12-14 05:34+0000\n"
 "Last-Translator: abuyop <Unknown>\n"
 "Language-Team: Malay <ms@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-10 07:57+0000\n"
-"X-Generator: Launchpad (build 16996)\n"
+"X-Launchpad-Export-Date: 2014-05-13 06:30+0000\n"
+"X-Generator: Launchpad (build 17002)\n"
 
-#: desktop/gallery-app.desktop.in:3
+#: desktop/gallery-app.desktop.in:3 rc/qml/MediaViewer/PopupPhotoViewer.qml:65
 msgid "Gallery"
 msgstr "Galeri"
 
@@ -29,30 +29,22 @@ msgstr "Pelihat Foto Ubuntu"
 msgid "Browse your photographs"
 msgstr "Layar foto anda"
 
-#: rc/qml/AlbumEditor/AlbumEditMenu.qml:45
+#: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 msgid "Edit album"
 msgstr "Sunting album"
 
-#: rc/qml/AlbumEditor/AlbumEditMenu.qml:52
-#: rc/qml/AlbumViewer/AlbumViewer.qml:489
-#: rc/qml/MediaViewer/MediaViewer.qml:462
-#: rc/qml/MediaViewer/MediaViewer.qml:509 rc/qml/Utility/EditingHUD.qml:72
-#: rc/qml/Utility/SelectionToolbarAction.qml:57
-msgid "Share"
-msgstr "Kongsi"
-
-#: rc/qml/AlbumEditor/AlbumEditMenu.qml:59
-#: rc/qml/AlbumViewer/AlbumViewer.qml:478
-#: rc/qml/MediaViewer/MediaViewer.qml:445
-#: rc/qml/MediaViewer/MediaViewer.qml:451
-#: rc/qml/MediaViewer/MediaViewer.qml:501 rc/qml/Utility/EditingHUD.qml:67
-#: rc/qml/Utility/SelectionToolbarAction.qml:50
+#: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
+#: rc/qml/AlbumViewer/AlbumViewer.qml:439
+#: rc/qml/MediaViewer/MediaViewer.qml:488
+#: rc/qml/MediaViewer/MediaViewer.qml:494
+#: rc/qml/MediaViewer/MediaViewer.qml:548 rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/Utility/SelectionToolbarAction.qml:51
 msgid "Delete"
 msgstr "Padam"
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:40
-#: rc/qml/Components/MediaSelector.qml:94
-#: rc/qml/Utility/SelectionToolbarAction.qml:65
+#: rc/qml/Components/MediaSelector.qml:90 rc/qml/PickerScreen.qml:114
+#: rc/qml/Utility/SelectionToolbarAction.qml:66
 msgid "Cancel"
 msgstr "Batal"
 
@@ -76,38 +68,42 @@ msgstr "Corak"
 msgid "Red"
 msgstr "Merah"
 
-#: rc/qml/AlbumViewer/AlbumViewer.qml:468
+#: rc/qml/AlbumViewer/AlbumViewer.qml:84
+msgid "Album"
+msgstr ""
+
+#: rc/qml/AlbumViewer/AlbumViewer.qml:428
 msgid "Add to album"
 msgstr "Tambah ke album"
 
-#: rc/qml/AlbumViewer/AlbumViewer.qml:474
-#: rc/qml/MediaViewer/MediaViewer.qml:440
-#: rc/qml/MediaViewer/MediaViewer.qml:492 rc/qml/Utility/EditingHUD.qml:77
-#: rc/qml/Utility/SelectionToolbarAction.qml:43
+#: rc/qml/AlbumViewer/AlbumViewer.qml:434
+#: rc/qml/MediaViewer/MediaViewer.qml:483
+#: rc/qml/MediaViewer/MediaViewer.qml:538 rc/qml/Utility/EditingHUD.qml:77
+#: rc/qml/Utility/SelectionToolbarAction.qml:44
 msgid "Add"
 msgstr "Tambah"
 
-#: rc/qml/AlbumViewer/AlbumViewer.qml:494
-#: rc/qml/MediaViewer/MediaViewer.qml:467
-#: rc/qml/MediaViewer/MediaViewer.qml:518
+#: rc/qml/AlbumViewer/AlbumViewer.qml:448
+#: rc/qml/MediaViewer/MediaViewer.qml:512
+#: rc/qml/MediaViewer/MediaViewer.qml:567
 msgid "Back"
 msgstr "Undur"
 
-#: rc/qml/AlbumsOverview.qml:177 rc/qml/Components/PopupAlbumPicker.qml:87
+#: rc/qml/AlbumsOverview.qml:186 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
 msgstr "Tambah album baharu"
 
-#: rc/qml/AlbumsOverview.qml:189 rc/qml/Utility/PhotosToolbarActions.qml:46
+#: rc/qml/AlbumsOverview.qml:204 rc/qml/Utility/PhotosToolbarActions.qml:46
 msgid "Camera"
 msgstr "Kamera"
 
 #: rc/qml/Components/DeleteDialog.qml:36
-#: rc/qml/MediaViewer/MediaViewer.qml:261
+#: rc/qml/MediaViewer/MediaViewer.qml:297
 msgid "Yes"
 msgstr "Ya"
 
 #: rc/qml/Components/DeleteDialog.qml:45
-#: rc/qml/MediaViewer/MediaViewer.qml:272
+#: rc/qml/MediaViewer/MediaViewer.qml:308
 msgid "No"
 msgstr "Tidak"
 
@@ -120,87 +116,103 @@ msgid "Delete album + contents"
 msgstr "Padam album + kandungan"
 
 #: rc/qml/Components/MediaSelector.qml:56
-#: rc/qml/Components/MediaSelector.qml:82
+#: rc/qml/Components/MediaSelector.qml:78
 msgid "Add to Album"
 msgstr "Tambah ke Album"
 
-#: rc/qml/Components/PopupAlbumPicker.qml:147 rc/qml/Utility/EditingHUD.qml:78
+#: rc/qml/Components/PopupAlbumPicker.qml:159 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
 msgstr "Tambah Foto ke Album"
 
-#: rc/qml/LoadingScreen.qml:36
+#: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
 msgstr "Memuatkan..."
 
-#: rc/qml/MainScreen.qml:58
+#: rc/qml/MainScreen.qml:80
 msgid "Albums"
 msgstr "Album"
 
-#: rc/qml/MainScreen.qml:74 rc/qml/MainScreen.qml:96
+#: rc/qml/MainScreen.qml:97 rc/qml/MainScreen.qml:120
+#: rc/qml/PickerScreen.qml:54
 msgid "Events"
 msgstr "Peristiwa"
 
-#: rc/qml/MainScreen.qml:94 rc/qml/MainScreen.qml:126
+#: rc/qml/MainScreen.qml:118 rc/qml/MainScreen.qml:162
 #: rc/qml/Utility/PhotosToolbarActions.qml:33
 msgid "Select"
 msgstr "Pilih"
 
-#: rc/qml/MainScreen.qml:106 rc/qml/MainScreen.qml:128
+#: rc/qml/MainScreen.qml:130 rc/qml/MainScreen.qml:164
+#: rc/qml/PickerScreen.qml:74
 msgid "Photos"
 msgstr "Foto"
 
 #: rc/qml/MediaViewer/CropOverlay.qml:352
-#: rc/qml/MediaViewer/EditPopover.qml:46 rc/qml/Utility/EditingHUD.qml:106
+#: rc/qml/MediaViewer/EditPopover.qml:51 rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
 msgstr "Pangkas"
 
-#: rc/qml/MediaViewer/EditPopover.qml:38 rc/qml/Utility/EditingHUD.qml:99
+#: rc/qml/MediaViewer/EditPopover.qml:42 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
 msgstr "Putar"
 
-#: rc/qml/MediaViewer/EditPopover.qml:54
+#: rc/qml/MediaViewer/EditPopover.qml:60
 msgid "Auto enhance"
 msgstr "Pertingkat automatik"
 
-#: rc/qml/MediaViewer/EditPopover.qml:62 rc/qml/Utility/EditingHUD.qml:82
+#: rc/qml/MediaViewer/EditPopover.qml:69 rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
 msgstr "Buat Asal"
 
-#: rc/qml/MediaViewer/EditPopover.qml:71 rc/qml/Utility/EditingHUD.qml:87
+#: rc/qml/MediaViewer/EditPopover.qml:79 rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
 msgstr "Buat Semula"
 
-#: rc/qml/MediaViewer/EditPopover.qml:80
+#: rc/qml/MediaViewer/EditPopover.qml:89
 msgid "Revert to original"
 msgstr "Kembali ke asal"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:250 rc/qml/PhotosOverview.qml:149
+#: rc/qml/MediaViewer/MediaViewer.qml:234
+msgid "Configure Facebook for photo sharing..."
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:286 rc/qml/PhotosOverview.qml:75
 msgid "Delete a photo"
 msgstr "Padam satu foto"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:424
+#: rc/qml/MediaViewer/MediaViewer.qml:464
 msgid "Edit"
 msgstr "Sunting"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:433
+#: rc/qml/MediaViewer/MediaViewer.qml:475
 msgid "Add photo to album"
 msgstr "Tambah foto ke album"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:456
+#: rc/qml/MediaViewer/MediaViewer.qml:501
 msgid "Share photo"
 msgstr "Kongsi foto"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:480
+#: rc/qml/MediaViewer/MediaViewer.qml:507
+#: rc/qml/MediaViewer/MediaViewer.qml:558 rc/qml/Utility/EditingHUD.qml:72
+#: rc/qml/Utility/SelectionToolbarAction.qml:58
+msgid "Share"
+msgstr "Kongsi"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:525
 msgid "Pause"
 msgstr "Jeda"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:480
+#: rc/qml/MediaViewer/MediaViewer.qml:525
 msgid "Play"
 msgstr "Main"
 
-#: rc/qml/PhotosOverview.qml:148
+#: rc/qml/PhotosOverview.qml:74
 msgid "Delete photos"
 msgstr "Padam foto"
+
+#: rc/qml/PickerScreen.qml:99
+msgid "Pick"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
@@ -270,39 +282,39 @@ msgstr "Laras dedahan"
 msgid "Underexposed;Overexposed"
 msgstr "Kurang Dedahan;Lebih Dedahan"
 
-#: rc/qml/Utility/EditingHUD.qml:123 rc/qml/Utility/EditingHUD.qml:165
+#: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
 msgid "Confirm"
 msgstr "Sahkan"
 
-#: rc/qml/Utility/EditingHUD.qml:127
+#: rc/qml/Utility/EditingHUD.qml:126
 msgid "Compensation"
 msgstr "Pemampasan"
 
-#: rc/qml/Utility/EditingHUD.qml:161
+#: rc/qml/Utility/EditingHUD.qml:160
 msgid "Color Balance"
 msgstr "Imbangan Warna"
 
-#: rc/qml/Utility/EditingHUD.qml:162
+#: rc/qml/Utility/EditingHUD.qml:161
 msgid "Adjust color balance"
 msgstr "Laras imbangan warna"
 
-#: rc/qml/Utility/EditingHUD.qml:163
+#: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
 msgstr "Ketepuan;Rona"
 
-#: rc/qml/Utility/EditingHUD.qml:169
+#: rc/qml/Utility/EditingHUD.qml:167
 msgid "Brightness"
 msgstr "Kecerahan"
 
-#: rc/qml/Utility/EditingHUD.qml:181
+#: rc/qml/Utility/EditingHUD.qml:178
 msgid "Contrast"
 msgstr "Beza Jelas"
 
-#: rc/qml/Utility/EditingHUD.qml:193
+#: rc/qml/Utility/EditingHUD.qml:189
 msgid "Saturation"
 msgstr "Ketepuan"
 
-#: rc/qml/Utility/EditingHUD.qml:205
+#: rc/qml/Utility/EditingHUD.qml:200
 msgid "Hue"
 msgstr "Rona"
 
