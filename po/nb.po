@@ -8,30 +8,30 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-05-09 16:45-0300\n"
-"PO-Revision-Date: 2013-05-29 09:05+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2014-05-19 06:21+0000\n"
+"Last-Translator: Åka Sikrom <Unknown>\n"
 "Language-Team: Norwegian Bokmal <nb@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-13 06:30+0000\n"
-"X-Generator: Launchpad (build 17002)\n"
+"X-Launchpad-Export-Date: 2014-05-19 06:22+0000\n"
+"X-Generator: Launchpad (build 17007)\n"
 
 #: desktop/gallery-app.desktop.in:3 rc/qml/MediaViewer/PopupPhotoViewer.qml:65
 msgid "Gallery"
-msgstr ""
+msgstr "Galleri"
 
 #: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
 msgid "Ubuntu Photo Viewer"
-msgstr ""
+msgstr "Ubuntu fotovisning"
 
 #: desktop/gallery-app.desktop.in:6
 msgid "Browse your photographs"
-msgstr ""
+msgstr "Se gjennom bilder"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 msgid "Edit album"
-msgstr ""
+msgstr "Rediger album"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
 #: rc/qml/AlbumViewer/AlbumViewer.qml:439
@@ -40,121 +40,121 @@ msgstr ""
 #: rc/qml/MediaViewer/MediaViewer.qml:548 rc/qml/Utility/EditingHUD.qml:67
 #: rc/qml/Utility/SelectionToolbarAction.qml:51
 msgid "Delete"
-msgstr ""
+msgstr "Slett"
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:40
 #: rc/qml/Components/MediaSelector.qml:90 rc/qml/PickerScreen.qml:114
 #: rc/qml/Utility/SelectionToolbarAction.qml:66
 msgid "Cancel"
-msgstr ""
+msgstr "Avbryt"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
-msgstr ""
+msgstr "Standard"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:114
 msgid "Blue"
-msgstr ""
+msgstr "Blå"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:115
 msgid "Green"
-msgstr ""
+msgstr "Grønn"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:116
 msgid "Pattern"
-msgstr ""
+msgstr "Mønster"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:117
 msgid "Red"
-msgstr ""
+msgstr "Rød"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:84
 msgid "Album"
-msgstr ""
+msgstr "Album"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:428
 msgid "Add to album"
-msgstr ""
+msgstr "Legg til i album"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:434
 #: rc/qml/MediaViewer/MediaViewer.qml:483
 #: rc/qml/MediaViewer/MediaViewer.qml:538 rc/qml/Utility/EditingHUD.qml:77
 #: rc/qml/Utility/SelectionToolbarAction.qml:44
 msgid "Add"
-msgstr ""
+msgstr "Legg til"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:448
 #: rc/qml/MediaViewer/MediaViewer.qml:512
 #: rc/qml/MediaViewer/MediaViewer.qml:567
 msgid "Back"
-msgstr ""
+msgstr "Tilbake"
 
 #: rc/qml/AlbumsOverview.qml:186 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
-msgstr ""
+msgstr "Lag nytt album"
 
 #: rc/qml/AlbumsOverview.qml:204 rc/qml/Utility/PhotosToolbarActions.qml:46
 msgid "Camera"
-msgstr ""
+msgstr "Kamera"
 
 #: rc/qml/Components/DeleteDialog.qml:36
 #: rc/qml/MediaViewer/MediaViewer.qml:297
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: rc/qml/Components/DeleteDialog.qml:45
 #: rc/qml/MediaViewer/MediaViewer.qml:308
 msgid "No"
-msgstr ""
+msgstr "Nei"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr ""
+msgstr "Slett album"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr ""
+msgstr "Slett album + innhold"
 
 #: rc/qml/Components/MediaSelector.qml:56
 #: rc/qml/Components/MediaSelector.qml:78
 msgid "Add to Album"
-msgstr ""
+msgstr "Legg til i album"
 
 #: rc/qml/Components/PopupAlbumPicker.qml:159 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr ""
+msgstr "Legg til foto i album"
 
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
-msgstr ""
+msgstr "Laster …"
 
 #: rc/qml/MainScreen.qml:80
 msgid "Albums"
-msgstr ""
+msgstr "Album"
 
 #: rc/qml/MainScreen.qml:97 rc/qml/MainScreen.qml:120
 #: rc/qml/PickerScreen.qml:54
 msgid "Events"
-msgstr ""
+msgstr "Hendelser"
 
 #: rc/qml/MainScreen.qml:118 rc/qml/MainScreen.qml:162
 #: rc/qml/Utility/PhotosToolbarActions.qml:33
 msgid "Select"
-msgstr ""
+msgstr "Velg"
 
 #: rc/qml/MainScreen.qml:130 rc/qml/MainScreen.qml:164
 #: rc/qml/PickerScreen.qml:74
 msgid "Photos"
-msgstr ""
+msgstr "Bilder"
 
 #: rc/qml/MediaViewer/CropOverlay.qml:352
 #: rc/qml/MediaViewer/EditPopover.qml:51 rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr ""
+msgstr "Beskjær"
 
 #: rc/qml/MediaViewer/EditPopover.qml:42 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr ""
+msgstr "Roter"
 
 #: rc/qml/MediaViewer/EditPopover.qml:60
 msgid "Auto enhance"
