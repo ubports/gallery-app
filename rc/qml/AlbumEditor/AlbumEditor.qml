@@ -228,6 +228,7 @@ Page {
             onHidden: {
                 if(album.newAlbum)
                     albumModel.destroyAlbum(album);
+                overview.popPage();
                 albumEditor.closeRequested(albumEditor.album, true);
             }
         }
