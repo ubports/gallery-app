@@ -65,8 +65,10 @@ Item {
             thumbnail.width = thumbnailRect.width;
             thumbnail.height = thumbnailRect.height;
 
+            overview.pushPage(editor);
             enterExpandAnimation.restart();
         } else {
+            overview.pushPage(editor);
             enterFadeAnimation.restart();
         }
     }
@@ -84,8 +86,10 @@ Item {
             thumbnail.width = editor.editorRect.width;
             thumbnail.height = editor.editorRect.height;
 
+            overview.popPage();
             exitExpandAnimation.restart();
         } else {
+            overview.popPage();
             exitFadeAnimation.restart();
         }
     }

@@ -89,6 +89,8 @@ Page {
     */
     property real canonicalHeight: units.gu(80)
 
+    property Rectangle backgroundGlass: overviewGlass
+
     /*!
     */
     function editNewAlbum() {
@@ -129,6 +131,16 @@ Page {
     */
     function resetEditorRect() {
         editorRect = GalleryUtility.getRectRelativeTo(cover.internalRect, albumEditor);
+    }
+
+    Rectangle {
+        id: overviewGlass
+        width: parent.width
+        height: header ? parent.height - header.height : parent.height
+        y: header.height
+
+        color: "black"
+        opacity: 0.0
     }
 
     onAlbumChanged: resetEditorRect() // HACK: works, but not conceptually correct.

@@ -60,18 +60,10 @@ Item {
             property alias albumEditorTransition: inner_albumEditorTransition
             property alias albumEditor: inner_albumEditor
 
-            Rectangle {
-                id: overviewGlass
-                anchors.fill: parent
-                color: "black"
-                opacity: 0.0
-            }
-
             AlbumEditor {
                 id: inner_albumEditor
                 anchors.fill: parent
                 visible: false
-                //active: root.isOpen
 
                 onMediaSelectorHidden: {
                     albumEditorCheckerboardHidden(newScrollPos);
@@ -90,16 +82,12 @@ Item {
             AlbumEditorTransition {
                 id: inner_albumEditorTransition
                 anchors.fill: parent
-                backgroundGlass: overviewGlass
+                backgroundGlass: inner_albumEditor.backgroundGlass
                 editor: inner_albumEditor
-                onEditorEntered: {
-                    overview.pushPage(editor);
-                }
                 onEditorExited: {
                     if (previewItem)
                         previewItem.visible = true;
                     loader_albumEditor.sourceComponent = undefined;
-                    overview.popPage();
                 }
             }
         }
