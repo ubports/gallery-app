@@ -48,7 +48,6 @@ Page {
     property bool isPoppedUp: popupPhotoViewer.visible && viewer.visible && !animationRunning
 
     // updating active will automatically set the tools of the toolbar when activating.
-    active: isPoppedUp
     onActiveChanged: {
         if (active && popupPhotoViewer.header) {
             popupPhotoViewer.header.hide();
@@ -165,6 +164,7 @@ Page {
             setCurrentPhoto(forMediaSource);
             viewer.openCompleted = true;
             opened();
+            overview.pushPage(popupPhotoViewer);
             viewer.playVideo();
         }
 

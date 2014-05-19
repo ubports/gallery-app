@@ -37,6 +37,11 @@ OrganicView {
     /// Emitted when fully hidden
     signal hidden()
 
+    onActiveChanged: {
+        if (active)
+            header.show();
+    }
+
     /// Shows the item in an animated way
     function show() {
         visible = true;
@@ -44,17 +49,14 @@ OrganicView {
         blendAnimation.to = 1;
         blendAnimation.start();
         header.show();
-        active = true
     }
     /// Hides the item in an animated way
     function hide() {
         blendAnimation.to = 0;
         blendAnimation.start();
-        active = false;
     }
 
     title: i18n.tr("Add to Album")
-    active: false
     visible: false
 
     selection: SelectionState {

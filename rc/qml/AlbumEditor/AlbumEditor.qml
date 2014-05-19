@@ -79,7 +79,7 @@ Page {
     property variant editorRect
     /*!
     */
-    property alias animationRunning: mediaSelector.animationRunning
+    property bool animationRunning: overview.currentPage.animationRunning ? overview.currentPage.animationRunning : false
 
     // internal
     /*!
@@ -106,7 +106,7 @@ Page {
     /*!
     */
     function setMediaSelectorScrollPos(newScrollPos) {
-        mediaSelector.setCheckerboardScrollPos(newScrollPos);
+        mediaSelectorComponent.setCheckerboardScrollPos(newScrollPos);
     }
 
     // internal
@@ -190,7 +190,7 @@ Page {
                     coverMenu.hide();
             }
 
-            onAddPhotos: mediaSelector.show();
+            onAddPhotos: overview.pushPage(mediaSelectorComponent);
         }
     }
 
@@ -200,20 +200,24 @@ Page {
         onNewCoverSelected: albumEditor.album.coverNickname = coverName;
     }
 
-    MediaSelector {
-        id: mediaSelector
+    Component {
+        id: mediaSelectorComponent
 
-        onAddClicked: {
-            var album  = albumEditor.album;
-            var firstPhoto = album.addSelectedMediaSources(selection.model.selectedMedias);
-            if(album.newAlbum && selection.model.selectedCount > 0)
-                album.newAlbum = false;
-        }
+        MediaSelector {
+            id: mediaSelector
 
-        onHidden: {
-            if(album.newAlbum)
-                albumModel.destroyAlbum(album);
-            albumEditor.closeRequested(albumEditor.album, true);
+            onAddClicked: {
+                var album  = albumEditor.album;
+                var firstPhoto = album.addSelectedMediaSources(selection.model.selectedMedias);
+                if(album.newAlbum && selection.model.selectedCount > 0)
+                    album.newAlbum = false;
+            }
+
+            onHidden: {
+                if(album.newAlbum)
+                    albumModel.destroyAlbum(album);
+                albumEditor.closeRequested(albumEditor.album, true);
+            }
         }
     }
 }

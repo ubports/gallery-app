@@ -71,7 +71,7 @@ Item {
                 id: inner_albumEditor
                 anchors.fill: parent
                 visible: false
-                active: root.isOpen
+                //active: root.isOpen
 
                 onMediaSelectorHidden: {
                     albumEditorCheckerboardHidden(newScrollPos);
@@ -92,10 +92,14 @@ Item {
                 anchors.fill: parent
                 backgroundGlass: overviewGlass
                 editor: inner_albumEditor
+                onEditorEntered: {
+                    overview.pushPage(editor);
+                }
                 onEditorExited: {
                     if (previewItem)
                         previewItem.visible = true;
                     loader_albumEditor.sourceComponent = undefined;
+                    overview.popPage();
                 }
             }
         }

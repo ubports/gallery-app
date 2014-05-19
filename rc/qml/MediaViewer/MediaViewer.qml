@@ -506,16 +506,6 @@ Item {
                 }
                 text: i18n.tr("Share")
             }
-
-            back: ToolbarButton {
-                objectName: "backButton"
-                text: i18n.tr("Back")
-                iconSource: "../../img/back.png"
-                onTriggered: {
-                    galleryPhotoViewer.currentItem.reset();
-                    closeRequested();
-                }
-            }
         }
 
         property Item videoToolbar: ToolbarItems {

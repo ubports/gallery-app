@@ -78,7 +78,6 @@ Item {
 
                 anchors.fill: parent
                 visible: false
-                active: root.isOpen
 
                 onCloseRequested: {
                     if (root.origin) {
@@ -86,10 +85,12 @@ Item {
                                     album, root.origin, stayOpen, viewingPage);
                     }
                     inner_albumViewer.visible = false
+                    overview.popPage();
                     isOpen = false
                 }
                 onQuickCloseRequested: {
                     inner_albumViewer.visible = false
+                    overview.popPage();
                     isOpen = false
                     if (previewItem)
                         previewItem.visible = true;
@@ -106,6 +107,7 @@ Item {
 
                 onTransitionToAlbumViewerCompleted: {
                     inner_albumViewer.visible = true
+                    overview.pushPage(inner_albumViewer);
                 }
                 onTransitionFromAlbumViewerCompleted: {
                     if (previewItem)
