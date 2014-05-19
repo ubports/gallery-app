@@ -1,3 +1,17 @@
+gallery-app (0.0.67+14.10.20140515.1-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Sergio Schvezov ]
+  * Correct click manifest for python3.
+
+  [ Michael Sheldon ]
+  * Add a content-hub import handler, allowing other applications to add
+    images to the gallery.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 15 May 2014 20:56:41 +0000
+
 gallery-app (0.0.67+14.10.20140509-0ubuntu1) utopic; urgency=low
 
   [ Arthur Mello ]

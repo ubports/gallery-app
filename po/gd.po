@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-05-09 16:45-0300\n"
-"PO-Revision-Date: 2013-09-29 21:47+0000\n"
+"PO-Revision-Date: 2014-05-17 21:33+0000\n"
 "Last-Translator: Akerbeltz <fios@akerbeltz.org>\n"
 "Language-Team: Gaelic; Scottish <gd@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-05-13 06:30+0000\n"
-"X-Generator: Launchpad (build 17002)\n"
+"X-Launchpad-Export-Date: 2014-05-18 05:54+0000\n"
+"X-Generator: Launchpad (build 17007)\n"
 
 #: desktop/gallery-app.desktop.in:3 rc/qml/MediaViewer/PopupPhotoViewer.qml:65
 msgid "Gallery"
@@ -70,7 +70,7 @@ msgstr "Dearg"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:84
 msgid "Album"
-msgstr ""
+msgstr "Albam"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:428
 msgid "Add to album"
@@ -113,48 +113,48 @@ msgstr "Sguab às an t-albam"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr ""
+msgstr "Sguab às an t-albam ⁊ an t-susbaint"
 
 #: rc/qml/Components/MediaSelector.qml:56
 #: rc/qml/Components/MediaSelector.qml:78
 msgid "Add to Album"
-msgstr ""
+msgstr "Cuir ris an albam"
 
 #: rc/qml/Components/PopupAlbumPicker.qml:159 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr ""
+msgstr "Cuir an dealbh ris an albam"
 
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
-msgstr ""
+msgstr "'Ga luchdadh…"
 
 #: rc/qml/MainScreen.qml:80
 msgid "Albums"
-msgstr ""
+msgstr "Albaman"
 
 #: rc/qml/MainScreen.qml:97 rc/qml/MainScreen.qml:120
 #: rc/qml/PickerScreen.qml:54
 msgid "Events"
-msgstr ""
+msgstr "Tachartasan"
 
 #: rc/qml/MainScreen.qml:118 rc/qml/MainScreen.qml:162
 #: rc/qml/Utility/PhotosToolbarActions.qml:33
 msgid "Select"
-msgstr ""
+msgstr "Tagh"
 
 #: rc/qml/MainScreen.qml:130 rc/qml/MainScreen.qml:164
 #: rc/qml/PickerScreen.qml:74
 msgid "Photos"
-msgstr ""
+msgstr "Dealbhan"
 
 #: rc/qml/MediaViewer/CropOverlay.qml:352
 #: rc/qml/MediaViewer/EditPopover.qml:51 rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr ""
+msgstr "Bearr"
 
 #: rc/qml/MediaViewer/EditPopover.qml:42 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr ""
+msgstr "Cuairtich"
 
 #: rc/qml/MediaViewer/EditPopover.qml:60
 msgid "Auto enhance"
@@ -162,35 +162,35 @@ msgstr ""
 
 #: rc/qml/MediaViewer/EditPopover.qml:69 rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
-msgstr ""
+msgstr "Neo-dhèan"
 
 #: rc/qml/MediaViewer/EditPopover.qml:79 rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr ""
+msgstr "Ath-dhèan"
 
 #: rc/qml/MediaViewer/EditPopover.qml:89
 msgid "Revert to original"
-msgstr ""
+msgstr "Aisig an tionndadh tùsail"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:234
 msgid "Configure Facebook for photo sharing..."
-msgstr ""
+msgstr "Rèitich Facebook airson co-roinneadh dhealbhan..."
 
 #: rc/qml/MediaViewer/MediaViewer.qml:286 rc/qml/PhotosOverview.qml:75
 msgid "Delete a photo"
-msgstr ""
+msgstr "Sguab às dealbh"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:464
 msgid "Edit"
-msgstr ""
+msgstr "Deasaich"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:475
 msgid "Add photo to album"
-msgstr ""
+msgstr "Cuir dealbh ri albam"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:501
 msgid "Share photo"
-msgstr ""
+msgstr "Co-roinn dealbh"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:507
 #: rc/qml/MediaViewer/MediaViewer.qml:558 rc/qml/Utility/EditingHUD.qml:72
@@ -200,35 +200,35 @@ msgstr "Co-roinn"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:525
 msgid "Pause"
-msgstr ""
+msgstr "Cuir 'na stad"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:525
 msgid "Play"
-msgstr ""
+msgstr "Cluich"
 
 #: rc/qml/PhotosOverview.qml:74
 msgid "Delete photos"
-msgstr ""
+msgstr "Sguab às na dealbhan"
 
 #: rc/qml/PickerScreen.qml:99
 msgid "Pick"
-msgstr ""
+msgstr "Tagh"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr ""
+msgstr "Trash;Erase;sgudal;sguab às"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
-msgstr ""
+msgstr "Post;Upload;Attach;postaich;luchdaich suas;ceangail"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr ""
+msgstr "Cancel Action;Backstep;sguir dheth"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr ""
+msgstr "Reapply;Make Again;cuir an sàs a-rithist;dèan a-rithist"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
@@ -236,47 +236,47 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr ""
+msgstr "Cuir air gleus an dealbh gu fèin-obrachail"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr ""
+msgstr "Cuir air gleus an dealbh gu fèin-obrachail"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr ""
+msgstr "Cuirtich deiseil"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr ""
+msgstr "Cuirtich an dealbh deiseil"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr ""
+msgstr "Trim;Cut;bearr;gearr"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr ""
+msgstr "Bearr an dealbh"
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr ""
+msgstr "Till an tionndadh tùsail"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr ""
+msgstr "Tilg air falbh na h-atharraichean"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr ""
+msgstr "Tilg air falbh gach atharrachadh"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr ""
+msgstr "Deisearas"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr ""
+msgstr "Cuir an deisearas air gleus"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
