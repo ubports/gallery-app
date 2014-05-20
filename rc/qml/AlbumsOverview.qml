@@ -36,10 +36,20 @@ Checkerboard {
             for (var i = 0; i < albumCollectionModel.count; i++) {
                 if (albumCollectionModel.getAt(i).id == albumCurrentlyInView) {
                     albumViewer.album = albumCollectionModel.getAt(i);
+                    root.visible = false;
                     albumViewer.open();
                     return;
                 }
             }
+        }
+    }
+
+    onActiveChanged: {
+        if (active) {
+            root.visible = true;
+            // FIXME: contentY is not correct after we return of an AlbumViewer animation
+            if (contentY != 0)
+                contentY = header.height * -1;
         }
     }
 
@@ -138,6 +148,7 @@ Checkerboard {
         albumViewer.album = object
         albumViewer.origin = root.getRectOfAlbumPreview(object, albumViewer)
         albumViewer.previewItem = activatingItem
+        root.visible = false;
         albumViewer.open()
     }
 
