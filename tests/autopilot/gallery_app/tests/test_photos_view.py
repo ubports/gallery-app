@@ -59,7 +59,7 @@ class TestPhotosView(GalleryTestCase):
     def test_open_photo(self):
         self.main_view.close_toolbar()
         self.click_first_photo()
-        sleep(1)
+        sleep(5)
         photo_viewer = self.photos_view.get_main_photo_viewer()
         self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
 
