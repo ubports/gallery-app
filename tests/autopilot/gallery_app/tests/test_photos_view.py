@@ -16,6 +16,7 @@ from autopilot.platform import model
 from gallery_app.tests import GalleryTestCase
 from gallery_app.emulators.photos_view import PhotosView
 
+from time import sleep
 from os import environ as env
 import unittest
 
@@ -58,6 +59,7 @@ class TestPhotosView(GalleryTestCase):
     def test_open_photo(self):
         self.main_view.close_toolbar()
         self.click_first_photo()
+        sleep(1)
         photo_viewer = self.photos_view.get_main_photo_viewer()
         self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
 

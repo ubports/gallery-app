@@ -53,7 +53,6 @@ Item {
             loader_albumViewer.item.albumViewerTransition.transitionToAlbumViewer(root.album, root.origin);
         else
             loader_albumViewer.item.albumViewer.visible = true
-        isOpen = true
         if (previewItem)
             previewItem.visible = false
     }
@@ -120,6 +119,11 @@ Item {
     Loader {
         id: loader_albumViewer
         anchors.fill: parent
+
+        onStatusChanged: {
+            if (status == Loader.Ready)
+                isOpen = true;
+        }
 
         function load() {
             if (sourceComponent == undefined) {

@@ -108,7 +108,7 @@ class TestAlbumView(GalleryTestCase):
         self.main_view.open_toolbar().click_button("addButton")
         self.ui_update()
 
-        editor = self.app.select_single(album_editor.AlbumEditorAnimated)
+        editor = self.app.select_single(album_editor.AlbumEditor)
         editor.ensure_fully_open()
         self.main_view.close_toolbar()
         editor.close()
