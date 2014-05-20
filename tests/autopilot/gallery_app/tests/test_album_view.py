@@ -17,6 +17,7 @@ from gallery_app.emulators.media_selector import MediaSelector
 from gallery_app.emulators import album_editor
 from gallery_app.tests import GalleryTestCase
 
+from time import sleep
 from unittest import skip
 
 
@@ -87,7 +88,7 @@ class TestAlbumView(GalleryTestCase):
         self.media_selector.ensure_fully_open()
 
         self.main_view.get_toolbar().click_custom_button("cancelButton")
-        self.album_view.ensure_media_selector_is_fully_closed()
+        sleep(1)
 
         num_photos = self.album_view.number_of_photos()
         self.assertThat(num_photos, Equals(num_photos_start))

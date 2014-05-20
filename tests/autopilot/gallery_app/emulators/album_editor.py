@@ -51,8 +51,8 @@ class AlbumEditor(toolkit_emulators.UbuntuUIToolkitEmulatorBase):
         self.pointing_device.click_object(self.album_subtitle_entry_field())
 
     def album_cover_image(self):
-        album_cover = self.select_single("AlbumCover", visible=True)
-        return album_cover.select_single(
+        album_cover = self.wait_select_single("AlbumCover", visible=True)
+        return album_cover.wait_select_single(
             "QQuickImage",
             objectName="albumCoverImage"
         )
