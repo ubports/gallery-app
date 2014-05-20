@@ -161,6 +161,7 @@ Item {
         }
 
         PropertyAction { target: thumbnail; property: "visible"; value: true; }
+        PropertyAction { target: editor; property: "showAlbumCover"; value: false; }
 
         ParallelAnimation {
             ExpandAnimation {
@@ -190,7 +191,7 @@ Item {
         }
 
         PropertyAction { target: thumbnail; property: "visible"; value: false; }
-        PropertyAction { target: editor; property: "visible"; value: true; }
+        PropertyAction { target: editor; property: "showAlbumCover"; value: true; }
     }
 
     SequentialAnimation {

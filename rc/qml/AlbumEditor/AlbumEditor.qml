@@ -91,6 +91,8 @@ Page {
 
     property Rectangle backgroundGlass: overviewGlass
 
+    property bool showAlbumCover: true
+
     /*!
     */
     function editNewAlbum() {
@@ -186,6 +188,7 @@ Page {
 
             album: albumEditor.album
             isPreview: false
+            visible: showAlbumCover
 
             onPressed: {
                 mouse.accepted = true;
