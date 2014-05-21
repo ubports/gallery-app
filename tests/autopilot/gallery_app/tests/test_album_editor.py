@@ -16,6 +16,7 @@ from gallery_app.emulators.media_selector import MediaSelector
 from gallery_app.emulators import album_editor
 from gallery_app.tests import GalleryTestCase
 
+from time import sleep
 
 class TestAlbumEditor(GalleryTestCase):
     """Tests the album editor of the gallery app"""
@@ -85,7 +86,7 @@ class TestAlbumEditor(GalleryTestCase):
         editor.add_photos()
         self.media_selector.ensure_fully_open()
 
-        sleep(1)
+        sleep(5)
         self.main_view.get_toolbar().click_custom_button("cancelButton")
         editor.ensure_fully_closed()
 
