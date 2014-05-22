@@ -49,10 +49,8 @@ class TestAlbumView(GalleryTestCase):
         # workaround lp:1247698
         self.main_view.close_toolbar()
         self.click_item(photo)
-        sleep(5)
         photo_view = self.main_view.wait_select_single("PopupPhotoViewer")
         self.assertThat(photo_view.visible, Eventually(Equals(True)))
-        self.assertThat(photo_view.isPoppedUp, Eventually(Equals(True)))
 
     def test_album_view_flipping(self):
         self.main_view.close_toolbar()
