@@ -365,6 +365,7 @@ Page {
             }
 
             onOpened: {
+                overview.pushPage(target);
                 albumSpreadViewer.visible = false;
             }
             onCloseRequested: {
@@ -379,6 +380,7 @@ Page {
                 photoViewerLoader.item.fadeClosed();
             }
             onClosed: {
+                overview.popPage();
                 source = "";
             }
 
