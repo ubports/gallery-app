@@ -1,3 +1,13 @@
+gallery-app (0.0.67+14.10.20140522.3-0ubuntu1) utopic; urgency=low
+
+  [ Arthur Mello ]
+  * Fix autopilot issue caused by the change to use Page Stack
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 22 May 2014 17:13:28 +0000
+
 gallery-app (0.0.67+14.10.20140522-0ubuntu1) utopic; urgency=low
 
   [ Arthur Mello ]
