@@ -49,6 +49,7 @@ class TestAlbumView(GalleryTestCase):
         # workaround lp:1247698
         self.main_view.close_toolbar()
         self.click_item(photo)
+        sleep(5)
         photo_view = self.main_view.wait_select_single("PopupPhotoViewer")
         self.assertThat(photo_view.visible, Eventually(Equals(True)))
 
