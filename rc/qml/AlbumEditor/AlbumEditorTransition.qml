@@ -65,8 +65,10 @@ Item {
             thumbnail.width = thumbnailRect.width;
             thumbnail.height = thumbnailRect.height;
 
+            overview.pushPage(editor);
             enterExpandAnimation.restart();
         } else {
+            overview.pushPage(editor);
             enterFadeAnimation.restart();
         }
     }
@@ -84,8 +86,10 @@ Item {
             thumbnail.width = editor.editorRect.width;
             thumbnail.height = editor.editorRect.height;
 
+            overview.popPage();
             exitExpandAnimation.restart();
         } else {
+            overview.popPage();
             exitFadeAnimation.restart();
         }
     }
@@ -157,6 +161,7 @@ Item {
         }
 
         PropertyAction { target: thumbnail; property: "visible"; value: true; }
+        PropertyAction { target: editor; property: "showAlbumCover"; value: false; }
 
         ParallelAnimation {
             ExpandAnimation {
@@ -186,7 +191,7 @@ Item {
         }
 
         PropertyAction { target: thumbnail; property: "visible"; value: false; }
-        PropertyAction { target: editor; property: "visible"; value: true; }
+        PropertyAction { target: editor; property: "showAlbumCover"; value: true; }
     }
 
     SequentialAnimation {

@@ -16,6 +16,7 @@ from gallery_app.emulators.media_selector import MediaSelector
 from gallery_app.emulators import album_editor
 from gallery_app.tests import GalleryTestCase
 
+from time import sleep
 
 class TestAlbumEditor(GalleryTestCase):
     """Tests the album editor of the gallery app"""
@@ -42,12 +43,12 @@ class TestAlbumEditor(GalleryTestCase):
         self.tap_item(first_album)
         edit_button = self.gallery_utils.get_edit_album_button()
         self.click_item(edit_button)
-        editor = self.app.select_single(album_editor.AlbumEditorAnimated)
+        editor = self.app.select_single(album_editor.AlbumEditor)
         editor.ensure_fully_open()
 
     def test_album_title_fields(self):
         """tests the title and sub title"""
-        editor = self.app.select_single(album_editor.AlbumEditorAnimated)
+        editor = self.app.select_single(album_editor.AlbumEditor)
         title_field = editor.album_title_entry_field()
         subtitle_field = editor.album_subtitle_entry_field()
 
@@ -79,12 +80,13 @@ class TestAlbumEditor(GalleryTestCase):
     def test_add_photo(self):
         """Tests adding a photo using the media selector"""
         # first open, but cancel before adding a photo
-        editor = self.app.select_single(album_editor.AlbumEditorAnimated)
+        editor = self.app.select_single(album_editor.AlbumEditor)
         # workaround lp:1247698
         self.main_view.close_toolbar()
         editor.add_photos()
         self.media_selector.ensure_fully_open()
 
+        sleep(5)
         self.main_view.get_toolbar().click_custom_button("cancelButton")
         editor.ensure_fully_closed()
 
@@ -98,7 +100,7 @@ class TestAlbumEditor(GalleryTestCase):
         # now open to add a photo
         self.main_view.close_toolbar()
         self.edit_first_album()
-        editor = self.app.select_single(album_editor.AlbumEditorAnimated)
+        editor = self.app.select_single(album_editor.AlbumEditor)
         # workaround lp:1247698
         self.main_view.close_toolbar()
         editor.add_photos()
@@ -107,7 +109,7 @@ class TestAlbumEditor(GalleryTestCase):
         photo = self.media_selector.get_second_photo()
         self.click_item(photo)
         self.main_view.get_toolbar().click_custom_button("addButton")
-        editor = self.app.select_single(album_editor.AlbumEditorAnimated)
+        editor = self.app.select_single(album_editor.AlbumEditor)
         editor.ensure_fully_closed()
 
         self.main_view.close_toolbar()
@@ -117,7 +119,7 @@ class TestAlbumEditor(GalleryTestCase):
 
     def test_cover_image(self):
         """Test to change the album cover image"""
-        editor = self.app.select_single(album_editor.AlbumEditorAnimated)
+        editor = self.app.select_single(album_editor.AlbumEditor)
         cover_image = editor.album_cover_image()
         self.assertThat(
             cover_image.source.endswith("album-cover-default-large.png"),

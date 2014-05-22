@@ -273,10 +273,10 @@ class GalleryTestCase(AutopilotTestCase):
     def ensure_view_is_fully_open(self):
         animated_view = self.album_view.get_animated_album_view()
         self.assertThat(animated_view.isOpen, Eventually(Equals(True)))
-        view = self.album_view.get_album_view()
-        self.assertThat(view.visible, Eventually(Equals(True)))
         self.assertThat(animated_view.animationRunning,
                         Eventually(Equals(False)))
+        view = self.album_view.get_album_view()
+        self.assertThat(view.visible, Eventually(Equals(True)))
 
     def ensure_app_has_quit(self):
         """Terminate as gracefully as possible the application and ensure
