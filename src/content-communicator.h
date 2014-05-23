@@ -54,6 +54,8 @@ public:
     SelectionType selectionType() const;
     bool singleContentPickMode() const;
 
+    void registerWithHub();
+
 signals:
     void photoRequested();
     void selectionTypeChanged();

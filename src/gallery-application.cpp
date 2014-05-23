@@ -225,6 +225,11 @@ void GalleryApplication::initCollections()
         qDebug() << "GalleryManager initialized" << m_timer->elapsed() << "ms";
 
     emit mediaLoaded();
+
+    // Register content hub integration after gallery manager has fully
+    // initialised, as new images may be added by the import handler at start-up.
+    m_contentCommunicator->registerWithHub();
+
     if (m_cmdLineParser->startupTimer()) {
         qDebug() << "MainView loaded" << m_timer->elapsed() << "ms";
         qDebug() << "Startup took" << m_timer->elapsed() << "ms";
