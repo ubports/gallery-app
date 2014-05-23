@@ -53,7 +53,6 @@ Item {
             loader_albumViewer.item.albumViewerTransition.transitionToAlbumViewer(root.album, root.origin);
         else
             loader_albumViewer.item.albumViewer.visible = true
-        isOpen = true
         if (previewItem)
             previewItem.visible = false
     }
@@ -78,7 +77,6 @@ Item {
 
                 anchors.fill: parent
                 visible: false
-                active: root.isOpen
 
                 onCloseRequested: {
                     if (root.origin) {
@@ -86,10 +84,12 @@ Item {
                                     album, root.origin, stayOpen, viewingPage);
                     }
                     inner_albumViewer.visible = false
+                    overview.popPage();
                     isOpen = false
                 }
                 onQuickCloseRequested: {
                     inner_albumViewer.visible = false
+                    overview.popPage();
                     isOpen = false
                     if (previewItem)
                         previewItem.visible = true;
@@ -106,6 +106,7 @@ Item {
 
                 onTransitionToAlbumViewerCompleted: {
                     inner_albumViewer.visible = true
+                    overview.pushPage(inner_albumViewer);
                 }
                 onTransitionFromAlbumViewerCompleted: {
                     if (previewItem)
@@ -118,6 +119,11 @@ Item {
     Loader {
         id: loader_albumViewer
         anchors.fill: parent
+
+        onStatusChanged: {
+            if (status == Loader.Ready)
+                isOpen = true;
+        }
 
         function load() {
             if (sourceComponent == undefined) {

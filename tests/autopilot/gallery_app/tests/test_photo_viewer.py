@@ -55,7 +55,7 @@ class TestPhotoViewerBase(GalleryTestCase):
 
         photo_viewer_loader = self.photo_viewer.get_main_photo_viewer_loader()
         self.assertThat(photo_viewer_loader.loaded, Eventually(Equals(True)))
-
+        sleep(1)
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
         self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
 

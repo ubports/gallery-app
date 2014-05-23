@@ -506,7 +506,6 @@ Item {
                 }
                 text: i18n.tr("Share")
             }
-
             back: ToolbarButton {
                 objectName: "backButton"
                 text: i18n.tr("Back")

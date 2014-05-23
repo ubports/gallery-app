@@ -71,8 +71,14 @@ Page {
 
     // Automatically hide the header when album viewer becomes active
     onActiveChanged: {
-        if (active && albumViewer.header) {
-            albumViewer.header.hide();
+        if (albumViewer.header) {
+            if (active) {
+                albumViewer.header.hide();
+                albumViewer.header.visible = false;
+            }
+            else {
+                albumViewer.header.visible = true;
+            }
         }
     }
 
@@ -162,6 +168,10 @@ Page {
         albumSpreadViewer.viewingPage = album.currentPage;
     }
 
+    function showMediaSelector() {
+        overview.pushPage(component_mediaSelector);
+    }
+
     // Used for the cross-fade transition.
     AlbumSpreadViewer {
         id: albumSpreadViewerForTransition
@@ -240,7 +250,7 @@ Page {
 
                 // Handle add button.
                 if (hit.objectName === "addButton")
-                    loader_mediaSelector.show();
+                    showMediaSelector();
 
                 if (!hit.mediaSource)
                     return;
@@ -352,10 +362,10 @@ Page {
             target: photoViewerLoader.item
             onOpening: {
                 photoViewerLoader.visible = true;
-                albumViewer.active = false;
             }
 
             onOpened: {
+                overview.pushPage(target);
                 albumSpreadViewer.visible = false;
             }
             onCloseRequested: {
@@ -370,7 +380,7 @@ Page {
                 photoViewerLoader.item.fadeClosed();
             }
             onClosed: {
-                albumViewer.active = true;
+                overview.popPage();
                 source = "";
             }
 
@@ -393,19 +403,8 @@ Page {
             }
 
             onHidden: {
-                loader_mediaSelector.sourceComponent = undefined;
-                albumViewer.active = true;
+                overview.popPage();
             }
-        }
-    }
-    Loader {
-        id: loader_mediaSelector
-        objectName: "albumMediaSelectorLoader"
-        anchors.fill: parent
-        function show() {
-            sourceComponent = component_mediaSelector;
-            item.show();
-            albumViewer.active = false;
         }
     }
 
@@ -428,7 +427,7 @@ Page {
                 text: i18n.tr("Add to album") // text in HUD
                 iconSource: Qt.resolvedUrl("../../img/add.png")
                 onTriggered: {
-                    loader_mediaSelector.show()
+                    showMediaSelector();
                 }
             }
             text: i18n.tr("Add") // text in toolbar

@@ -62,7 +62,7 @@ class TestAlbumsView(GalleryTestCase):
         """
         albums = self.albums_view.number_of_albums_in_albums_view()
         self.main_view.open_toolbar().click_button("addButton")
-        editor = self.app.select_single(album_editor.AlbumEditorAnimated)
+        editor = self.app.select_single(album_editor.AlbumEditor)
         editor.ensure_fully_open()
         self.main_view.get_toolbar().click_custom_button("cancelButton")
         self.assertThat(

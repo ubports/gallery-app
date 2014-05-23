@@ -17,6 +17,7 @@ from gallery_app.emulators.media_selector import MediaSelector
 from gallery_app.emulators import album_editor
 from gallery_app.tests import GalleryTestCase
 
+from time import sleep
 from unittest import skip
 
 
@@ -48,9 +49,9 @@ class TestAlbumView(GalleryTestCase):
         # workaround lp:1247698
         self.main_view.close_toolbar()
         self.click_item(photo)
-        photo_view = self.album_view.get_album_photo_view()
+        sleep(5)
+        photo_view = self.main_view.wait_select_single("PopupPhotoViewer")
         self.assertThat(photo_view.visible, Eventually(Equals(True)))
-        self.assertThat(photo_view.isPoppedUp, Eventually(Equals(True)))
 
     def test_album_view_flipping(self):
         self.main_view.close_toolbar()
@@ -87,7 +88,7 @@ class TestAlbumView(GalleryTestCase):
         self.media_selector.ensure_fully_open()
 
         self.main_view.get_toolbar().click_custom_button("cancelButton")
-        self.album_view.ensure_media_selector_is_fully_closed()
+        sleep(1)
 
         num_photos = self.album_view.number_of_photos()
         self.assertThat(num_photos, Equals(num_photos_start))
@@ -108,7 +109,7 @@ class TestAlbumView(GalleryTestCase):
         self.main_view.open_toolbar().click_button("addButton")
         self.ui_update()
 
-        editor = self.app.select_single(album_editor.AlbumEditorAnimated)
+        editor = self.app.select_single(album_editor.AlbumEditor)
         editor.ensure_fully_open()
         self.main_view.close_toolbar()
         editor.close()

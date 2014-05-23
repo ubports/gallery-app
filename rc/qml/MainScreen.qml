@@ -41,6 +41,8 @@ MainView {
     //fullScreen property is used on autopilot tests
     property bool fullScreen: APP.fullScreen
 
+    property alias currentPage: pageStack.currentPage
+
     Component.onCompleted: {
         if (mediaCurrentlyInView !== "") {
             for (var i = 0; i < MANAGER.mediaLibrary.count; i++) {
@@ -52,6 +54,21 @@ MainView {
                 }
             }
         }
+
+        pageStack.push(tabs);
+    }
+
+    function pushPage(page) {
+        pageStack.push(page);
+    }
+
+    function popPage() {
+        pageStack.pop();
+    }
+
+    PageStack {
+        id: pageStack
+        anchors.fill: parent
     }
 
     Tabs {
@@ -59,7 +76,6 @@ MainView {
         anchors.fill: parent
 
         visible: !(photoViewerLoader.item && photoViewerLoader.item.isPoppedUp)
-        active: visible && !albumViewer.isOpen && !albumEditor.isOpen
 
         selectedTabIndex: 1
         StateSaver.properties: "selectedTabIndex"
@@ -203,6 +219,7 @@ MainView {
         Connections {
             target: photoViewerLoader.item
             onCloseRequested: {
+                popPage();
                 photoViewerLoader.item.fadeClosed();
                 overview.mediaCurrentlyInView = "";
             }

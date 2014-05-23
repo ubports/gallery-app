@@ -8,7 +8,7 @@
 from ubuntuuitoolkit import emulators as toolkit_emulators
 
 
-class AlbumEditorAnimated(toolkit_emulators.UbuntuUIToolkitEmulatorBase):
+class AlbumEditor(toolkit_emulators.UbuntuUIToolkitEmulatorBase):
     """A class that makes it easy to interact with the album editor"""
 
     def close(self):
@@ -23,15 +23,14 @@ class AlbumEditorAnimated(toolkit_emulators.UbuntuUIToolkitEmulatorBase):
 
     def ensure_fully_open(self):
         self.animationRunning.wait_for(False)
-        self.isOpen.wait_for(True)
+        self.active.wait_for(True)
 
     def ensure_fully_closed(self):
-        self.isOpen.wait_for(False)
-        self.animationRunning.wait_for(False)
+        self.active.wait_for(False)
 
     def album_editor(self):
         """Returns the album editor."""
-        return self.select_single("AlbumEditor", objectName="mainAlbumEditor")
+        return self
 
     def album_title_entry_field(self):
         """Returns the album title input box."""
@@ -52,8 +51,8 @@ class AlbumEditorAnimated(toolkit_emulators.UbuntuUIToolkitEmulatorBase):
         self.pointing_device.click_object(self.album_subtitle_entry_field())
 
     def album_cover_image(self):
-        album_cover = self.select_single("AlbumCover", visible=True)
-        return album_cover.select_single(
+        album_cover = self.wait_select_single("AlbumCover", visible=True)
+        return album_cover.wait_select_single(
             "QQuickImage",
             objectName="albumCoverImage"
         )
@@ -63,6 +62,6 @@ class AlbumEditorAnimated(toolkit_emulators.UbuntuUIToolkitEmulatorBase):
 
     def _plus_icon(self):
         """Returns the plus icon to add photos"""
-        return self.select_single("QQuickImage",
+        return self.wait_select_single("QQuickImage",
                                   objectName="albumCoverAddPhotosImage",
                                   visible=True)
