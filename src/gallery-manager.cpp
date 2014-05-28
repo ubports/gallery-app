@@ -246,6 +246,8 @@ void GalleryManager::startFileMonitoring()
                      this, SLOT(onMediaItemAdded(QString)));
     QObject::connect(m_monitor, SIGNAL(mediaItemRemoved(qint64)),
                      this, SLOT(onMediaItemRemoved(qint64)));
+    QObject::connect(m_monitor, SIGNAL(consistencyCheckFinished()),
+                     this, SIGNAL(consistencyCheckFinished()));
 
     m_monitor->startMonitoring(m_resource->mediaDirectories());
     m_monitor->checkConsistency(m_mediaCollection);
