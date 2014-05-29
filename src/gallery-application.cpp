@@ -360,6 +360,5 @@ void GalleryApplication::consistencyCheckFinished()
     // Register content hub integration after media monitor has finished
     // its consistency check, as new images may be added by the import handler
     // during start-up.
-    qDebug() << "Consistency check finished, registering with hub";
     m_contentCommunicator->registerWithHub();
 }
