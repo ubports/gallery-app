@@ -23,7 +23,6 @@ import Gallery 1.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
-import Ubuntu.Components.Extras 0.1
 import Ubuntu.Content 0.1
 import "../Components"
 import "../Utility"
@@ -235,8 +234,9 @@ Item {
             visible: false
 
             ContentPeerPicker {
-                visible: true
+                objectName: "sharePicker"
                 anchors.fill: parent
+                visible: parent.visible
                 contentType: galleryPhotoViewer.media.type === MediaSource.Video ? ContentType.Videos : ContentType.Pictures
                 handler: ContentHandler.Share
 
