@@ -229,35 +229,27 @@ Item {
             ContentItem {}
         }
 
-        Component {
-            id: sharePopover
+        Rectangle {
+            id: sharePicker
+            anchors.fill: parent
+            visible: false
 
-            Popover {
-                id: sharePopover2
-                //anchors.fill: parent
-                Column {
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                        top: parent.top
-                        fill: parent
-                    }
-                    ContentPeerPicker {
-                        visible: true
-                        anchors.fill: parent
-                        contentType: ContentType.Pictures
-                        handler: ContentHandler.Share
+            ContentPeerPicker {
+                visible: true
+                anchors.fill: parent
+                contentType: galleryPhotoViewer.media.type === MediaSource.Video ? ContentType.Videos : ContentType.Pictures
+                handler: ContentHandler.Share
 
-                        onPeerSelected: {
-                            var curTransfer = peer.request();
-                            if (curTransfer.state === ContentTransfer.InProgress)
-                            {
-                                curTransfer.items = [ contentItemComp.createObject(parent, {"url": viewerWrapper.media.path}) ];
-                                curTransfer.state = ContentTransfer.Charged;
-                            }
-                        }
+                onPeerSelected: {
+                    parent.visible = false;
+                    var curTransfer = peer.request();
+                    if (curTransfer.state === ContentTransfer.InProgress)
+                    {
+                        curTransfer.items = [ contentItemComp.createObject(parent, {"url": viewerWrapper.media.path}) ];
+                        curTransfer.state = ContentTransfer.Charged;
                     }
                 }
+                onCancelPressed: parent.visible = false;
             }
         }
 
@@ -499,7 +491,7 @@ Item {
                     text: i18n.tr("Share photo")
                     iconSource: "../../img/share.png"
                     onTriggered: {
-                        PopupUtils.open(sharePopover);
+                        sharePicker.visible = true;
                     }
                 }
                 text: i18n.tr("Share")
@@ -555,7 +547,7 @@ Item {
                 text: i18n.tr("Share")
                 iconSource: "../../img/share.png"
                 onTriggered: {
-                    PopupUtils.open(sharePopover);
+                    sharePicker.visible = true;
                 }
             }
 
