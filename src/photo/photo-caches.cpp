@@ -20,6 +20,7 @@
 #include "photo-caches.h"
 
 #include <QDir>
+#include <utime.h>
 
 const QString PhotoCaches::ORIGINAL_DIR = ".original";
 const QString PhotoCaches::ENHANCED_DIR = ".enhanced";
@@ -118,6 +119,8 @@ bool PhotoCaches::restoreOriginal()
     }
 
     remove(m_file);
+    // touch the file so that the thumbnails will correctly regenerate
+    utime(m_originalFile.absoluteFilePath().toUtf8(), NULL);
     return rename(m_originalFile, m_file);
 }
 

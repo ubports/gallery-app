@@ -34,9 +34,11 @@
  * \brief MediaObjectFactory::MediaObjectFactory
  * \param mediaTable
  */
-MediaObjectFactory::MediaObjectFactory()
+MediaObjectFactory::MediaObjectFactory(bool desktopMode, Resource *res)
     : m_mediaTable(),
-      m_filterType(MediaSource::None)
+      m_filterType(MediaSource::None),
+      m_resource(res),
+      m_desktopMode(desktopMode)
 {
 }
 
@@ -102,7 +104,7 @@ void MediaObjectFactory::clear()
  * \param file the file to load
  * \return 0 if this no valid photo/video file
  */
-MediaSource *MediaObjectFactory::create(const QFileInfo &file)
+MediaSource *MediaObjectFactory::create(const QFileInfo &file, bool desktopMode, Resource *res)
 {
     Q_ASSERT(m_mediaTable);
 
@@ -112,6 +114,12 @@ MediaSource *MediaObjectFactory::create(const QFileInfo &file)
     if (Video::isCameraVideo(file))
         mediaType = MediaSource::Video;
 
+    if (!desktopMode && mediaType == MediaSource::Video) {
+        if (res && !res->isVideoPath(file.absoluteFilePath())) {
+            return 0;
+        }
+    }
+
     if (m_filterType != MediaSource::None && mediaType != m_filterType)
         return 0;
 
@@ -119,7 +127,7 @@ MediaSource *MediaObjectFactory::create(const QFileInfo &file)
     qint64 id = m_mediaTable->getIdForMedia(file.absoluteFilePath());
 
     if (id == INVALID_ID) {
-        if (mediaType == MediaSource::Video && (!file.exists()))
+        if (mediaType == MediaSource::Video && !Video::isValid(file))
             return 0;
         if (mediaType == MediaSource::Photo && !Photo::isValid(file))
             return 0;
@@ -189,6 +197,12 @@ void MediaObjectFactory::addMedia(qint64 mediaId, const QString &filename,
     if (Video::isCameraVideo(file))
         mediaType = MediaSource::Video;
 
+    if (!m_desktopMode && mediaType == MediaSource::Video) {
+        if (m_resource && !m_resource->isVideoPath(file.absoluteFilePath())) {
+            return;
+        }
+    }
+
     MediaSource *media = 0;
     Photo *photo = 0;
     if (mediaType == MediaSource::Photo) {
@@ -251,11 +265,11 @@ bool MediaObjectFactory::readPhotoMetadata(const QFileInfo &file)
  */
 bool MediaObjectFactory::readVideoMetadata(const QFileInfo &file)
 {
-    if (!file.exists())
+    if (!Video::isValid(file))
         return false;
 
-    VideoMetadata metadata;
-    bool ok = metadata.parseMetadata(file);
+    VideoMetadata metadata(file);
+    bool ok = metadata.parseMetadata();
     if (!ok)
         return false;
 

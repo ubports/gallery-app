@@ -8,8 +8,6 @@
 
 """Tests the Photos view of the gallery app."""
 
-from __future__ import absolute_import
-
 from testtools.matchers import Equals, Is
 from testtools import skipUnless
 from autopilot.matchers import Eventually
@@ -18,10 +16,10 @@ from autopilot.platform import model
 from gallery_app.tests import GalleryTestCase
 from gallery_app.emulators.photos_view import PhotosView
 
-from os.path import exists
-from os import environ
-
+from time import sleep
+from os import environ as env
 import unittest
+
 
 class TestPhotosView(GalleryTestCase):
     envDesktopMode = None
@@ -32,21 +30,21 @@ class TestPhotosView(GalleryTestCase):
 
     def setUp(self):
         self.ARGS = []
-        self.envDesktopMode = environ.get("DESKTOP_MODE")
+        self.envDesktopMode = env.get("DESKTOP_MODE")
 
         if model() == "Desktop":
-            environ["DESKTOP_MODE"] = "1"
+            env["DESKTOP_MODE"] = "1"
         else:
-            environ["DESKTOP_MODE"] = "0"
+            env["DESKTOP_MODE"] = "0"
 
         super(TestPhotosView, self).setUp()
         self.switch_to_photos_tab()
 
     def tearDown(self):
         if self.envDesktopMode:
-            environ["DESKTOP_MODE"] = self.envDesktopMode
+            env["DESKTOP_MODE"] = self.envDesktopMode
         else:
-            del environ["DESKTOP_MODE"]
+            del env["DESKTOP_MODE"]
 
         super(TestPhotosView, self).tearDown()
 
@@ -61,6 +59,7 @@ class TestPhotosView(GalleryTestCase):
     def test_open_photo(self):
         self.main_view.close_toolbar()
         self.click_first_photo()
+        sleep(5)
         photo_viewer = self.photos_view.get_main_photo_viewer()
         self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
 
@@ -85,7 +84,6 @@ class TestPhotosView(GalleryTestCase):
 
     def test_delete_photo_dialog_appears(self):
         """Selecting a photo must make the delete button clickable."""
-        number_of_photos = self.photos_view.number_of_photos()
         self.main_view.open_toolbar().click_button("selectButton")
         self.click_first_photo()
         self.main_view.open_toolbar().click_button("deleteButton")
@@ -120,7 +118,8 @@ class TestPhotosView(GalleryTestCase):
         self.assertThat(lambda: self.photos_view.number_of_photos(),
                         Eventually(Equals(number_of_photos - 1)))
 
-    @unittest.skip("Temporarily disable as it fails in some cases, supposedly due to problems with the infrastructure")
+    @unittest.skip("Temporarily disable as it fails in some cases, "
+                   "supposedly due to problems with the infrastructure")
     def test_save_state(self):
         self.switch_to_photos_tab()
 
@@ -137,7 +136,10 @@ class TestPhotosView(GalleryTestCase):
         self.assertThat(tabs.selectedTabIndex, Eventually(Equals(index)))
         self.assertThat(tab.objectName, Equals("photosTab"))
 
-    @skipUnless(model() == 'Desktop', 'Key based tests only make sense on Desktop')
+    @skipUnless(
+        model() == 'Desktop',
+        'Key based tests only make sense on Desktop'
+    )
     def test_toggle_fullscreen(self):
         self.switch_to_photos_tab()
         view = self.main_view
@@ -152,3 +154,16 @@ class TestPhotosView(GalleryTestCase):
         self.assertThat(view.fullScreen, Eventually(Equals(False)))
         self.keyboard.press_and_release('Escape')
         self.assertThat(view.fullScreen, Eventually(Equals(False)))
+
+    # Check if Camera Button is not visible at Desktop mode
+    def test_camera_button_visible(self):
+        self.main_view.open_toolbar()
+        toolbar = self.main_view.get_toolbar()
+        cameraButton = toolbar.select_single(
+            "ActionItem",
+            objectName="cameraButton"
+        )
+        if model() == "Desktop":
+            self.assertThat(cameraButton.visible, Equals(False))
+        else:
+            self.assertThat(cameraButton.visible, Equals(True))

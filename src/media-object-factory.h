@@ -21,6 +21,7 @@
 #include "media-source.h"
 
 // utils
+#include "resource.h"
 #include <orientation.h>
 
 #include <QDateTime>
@@ -38,7 +39,7 @@ class MediaObjectFactory : public QObject
     Q_OBJECT
 
 public:
-    explicit MediaObjectFactory();
+    explicit MediaObjectFactory(bool desktopMode, Resource *res);
 
     void setMediaTable(MediaTable *mediaTable);
     void enableContentLoadFilter(MediaSource::MediaType filterType);
@@ -46,7 +47,7 @@ public:
     QSet<DataObject*> mediasFromDB();
     void clear();
 
-    MediaSource *create(const QFileInfo& file);
+    MediaSource *create(const QFileInfo& file, bool desktopMode, Resource *res);
 
 private slots:
     void addMedia(qint64 mediaId, const QString& filename, const QSize& size,
@@ -68,6 +69,9 @@ private:
     MediaSource::MediaType m_filterType;
 
     QSet<DataObject*> m_mediasFromDB;
+
+    Resource* m_resource;
+    bool m_desktopMode;
 
     friend class tst_MediaObjectFactory;
 };

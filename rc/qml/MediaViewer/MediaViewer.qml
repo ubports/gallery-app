@@ -196,7 +196,7 @@ Item {
             Component {
                 id: component_delegatePhotoView
                 PhotoViewerDelegate {
-                    useInteractivePreview: galleryPhotoViewer.moving
+                    useInteractivePreview: false
                     mediaSource: model.mediaSource
                 }
             }
@@ -296,7 +296,7 @@ Item {
                     color: Gallery.HIGHLIGHT_BUTTON_COLOR
                     onClicked: {
                         PopupUtils.close(dialogue)
-                        viewerWrapper.model.destroyMedia(galleryPhotoViewer.media);
+                        viewerWrapper.model.destroyMedia(galleryPhotoViewer.media, true);
                         galleryPhotoViewer.currentIndexChanged();
                         dialogue.finishRemove();
                     }
@@ -494,6 +494,7 @@ Item {
             ToolbarButton {
                 id: photoShareButton
                 objectName: "shareButton"
+                visible: !APP.desktopMode
                 action: Action {
                     text: i18n.tr("Share photo")
                     iconSource: "../../img/share.png"
@@ -503,7 +504,6 @@ Item {
                 }
                 text: i18n.tr("Share")
             }
-
             back: ToolbarButton {
                 objectName: "backButton"
                 text: i18n.tr("Back")
@@ -551,6 +551,7 @@ Item {
             ToolbarButton {
                 id: videoShareButton
                 objectName: "shareButton"
+                visible: !APP.desktopMode
                 text: i18n.tr("Share")
                 iconSource: "../../img/share.png"
                 onTriggered: {

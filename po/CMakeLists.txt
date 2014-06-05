@@ -8,7 +8,7 @@ set(POT_FILE ${DOMAIN}.pot)
 file(GLOB PO_FILES *.po)
 
 add_custom_target(${POT_FILE}
-                  COMMAND ${GETTEXT_XGETTEXT_EXECUTABLE} -o ${POT_FILE}
+                  COMMAND ${GETTEXT_XGETTEXT_EXECUTABLE} -o ${CMAKE_SOURCE_DIR}/po/${POT_FILE}
                           -D ${CMAKE_SOURCE_DIR}
                           --from-code=UTF-8
                           --c++ --qt --add-comments=TRANSLATORS

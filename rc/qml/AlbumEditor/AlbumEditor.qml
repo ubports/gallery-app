@@ -40,6 +40,8 @@ Page {
             text: i18n.tr("Cancel")
             width: units.gu(10)
             onClicked: {
+                if(album.newAlbum)
+                    albumModel.destroyAlbum(album);
                 albumEditor.closeRequested(albumEditor.album, false);
             }
         }
@@ -77,7 +79,7 @@ Page {
     property variant editorRect
     /*!
     */
-    property alias animationRunning: mediaSelector.animationRunning
+    property bool animationRunning: overview.currentPage.animationRunning ? overview.currentPage.animationRunning : false
 
     // internal
     /*!
@@ -86,6 +88,10 @@ Page {
     /*!
     */
     property real canonicalHeight: units.gu(80)
+
+    property Rectangle backgroundGlass: overviewGlass
+
+    property bool showAlbumCover: true
 
     /*!
     */
@@ -104,7 +110,7 @@ Page {
     /*!
     */
     function setMediaSelectorScrollPos(newScrollPos) {
-        mediaSelector.setCheckerboardScrollPos(newScrollPos);
+        mediaSelectorComponent.setCheckerboardScrollPos(newScrollPos);
     }
 
     // internal
@@ -127,6 +133,16 @@ Page {
     */
     function resetEditorRect() {
         editorRect = GalleryUtility.getRectRelativeTo(cover.internalRect, albumEditor);
+    }
+
+    Rectangle {
+        id: overviewGlass
+        width: parent.width
+        height: header ? parent.height - header.height : parent.height
+        y: header.height
+
+        color: "black"
+        opacity: 0.0
     }
 
     onAlbumChanged: resetEditorRect() // HACK: works, but not conceptually correct.
@@ -155,7 +171,7 @@ Page {
         id: coverArea
 
         x: (parent.width - width) / 2
-        y: Math.max((parent.height - height) / 2, minimumTopMargin)
+        y: Math.max((parent.height - height) / 2, minimumTopMargin, header.height)
 
         width: GraphicsRoutines.clamp(
                    preferredCoverWidth, minimumCoverWidth, canonicalWidth)
@@ -172,6 +188,7 @@ Page {
 
             album: albumEditor.album
             isPreview: false
+            visible: showAlbumCover
 
             onPressed: {
                 mouse.accepted = true;
@@ -188,7 +205,7 @@ Page {
                     coverMenu.hide();
             }
 
-            onAddPhotos: mediaSelector.show();
+            onAddPhotos: overview.pushPage(mediaSelectorComponent);
         }
     }
 
@@ -198,16 +215,25 @@ Page {
         onNewCoverSelected: albumEditor.album.coverNickname = coverName;
     }
 
-    MediaSelector {
-        id: mediaSelector
+    Component {
+        id: mediaSelectorComponent
 
-        onAddClicked: {
-            var album  = albumEditor.album;
-            var firstPhoto = album.addSelectedMediaSources(selection.model.selectedMedias);
-        }
+        MediaSelector {
+            id: mediaSelector
 
-        onHidden: {
-            albumEditor.closeRequested(albumEditor.album, true);
+            onAddClicked: {
+                var album  = albumEditor.album;
+                var firstPhoto = album.addSelectedMediaSources(selection.model.selectedMedias);
+                if(album.newAlbum && selection.model.selectedCount > 0)
+                    album.newAlbum = false;
+            }
+
+            onHidden: {
+                if(album.newAlbum)
+                    albumModel.destroyAlbum(album);
+                overview.popPage();
+                albumEditor.closeRequested(albumEditor.album, true);
+            }
         }
     }
 }

@@ -7,7 +7,6 @@ Build-Depends: debhelper (>= 9),
                pkg-config,
                dh-translations,
                libcontent-hub-dev (>= 0.0+13.10.20130930.1),
-               libgstreamer0.10-dev,
                libexiv2-dev,
                libgl1-mesa-dev | libgl-dev,
                libgles2-mesa-dev,
@@ -16,8 +15,8 @@ Build-Depends: debhelper (>= 9),
                qt5-default,
                qtbase5-dev,
                qtdeclarative5-dev,
-               python,
-Standards-Version: 3.9.4
+               python3-all,
+Standards-Version: 3.9.5
 # If you don't have commit rights to lp:gallery-app but need to upload
 # packaging changes, just go ahead.  The developers will notice and sync
 # up the code again.
@@ -30,13 +29,11 @@ Replaces: ubuntu-gallery
 Conflicts: ubuntu-gallery
 Depends: ${misc:Depends},
          ${shlibs:Depends},
-         gstreamer0.10-plugins-base,
-         gstreamer0.10-plugins-good,
          qtdeclarative5-accounts-plugin,
          libqt5sql5-sqlite,
          qtdeclarative5-qtquick2-plugin,
-         qtdeclarative5-qtmultimedia-plugin,
-         qtdeclarative5-ubuntu-ui-toolkit-plugin,
+         qml-module-qtmultimedia | qml-module-qtmultimedia-gles,
+         qtdeclarative5-ubuntu-ui-toolkit-plugin | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles,
          qtdeclarative5-ubuntu-ui-extras0.1 (>= 0.1+13.10.20130829-0ubuntu1),
          qtdeclarative5-window-plugin,
 Description: Photo gallery for Ubuntu
@@ -52,6 +49,8 @@ Depends: ${misc:Depends},
          libqt5test5,
          ubuntu-ui-toolkit-autopilot,
          unity8-autopilot,
+         python3-pkg-resources,
+         python3-autopilot,
 Description: Autopilot tests for the photo gallery for Ubuntu
  gallery-app is a photo gallery for the Ubuntu platform. This package contains
  autopilot tests for it.

@@ -5,12 +5,13 @@
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
 
-from gallery_utils import GalleryUtils
+from gallery_app.emulators.gallery_utils import GalleryUtils
 
 
 class PhotoViewer(GalleryUtils):
 
     def __init__(self, app):
+        super(PhotoViewer, self).__init__(self)
         self.app = app
 
     def get_delete_dialog(self):
@@ -116,3 +117,30 @@ class PhotoViewer(GalleryUtils):
         """Returns the edit preview."""
         return self.app.wait_select_single("EditPreview",
                                            objectName="editPreview")
+
+    def _click_item(self, item):
+        self.pointing_device.click_object(item)
+
+    def click_rotate_item(self):
+        rotate_item = self.get_rotate_menu_item()
+        self._click_item(rotate_item)
+
+    def click_crop_item(self):
+        crop_item = self.get_crop_menu_item()
+        self._click_item(crop_item)
+
+    def click_undo_item(self):
+        undo_item = self.get_undo_menu_item()
+        self._click_item(undo_item)
+
+    def click_redo_item(self):
+        redo_item = self.get_redo_menu_item()
+        self._click_item(redo_item)
+
+    def click_revert_item(self):
+        revert_item = self.get_revert_menu_item()
+        self._click_item(revert_item)
+
+    def click_enhance_item(self):
+        enhance_item = self.get_auto_enhance_menu_item()
+        self._click_item(enhance_item)

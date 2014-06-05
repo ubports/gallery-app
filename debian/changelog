@@ -1,3 +1,218 @@
+gallery-app (0.0.67+14.10.20140528-0ubuntu1) utopic; urgency=low
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+  [ Olivier Tilloy ]
+  * No change rebuild to pick up the latest translation updates.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 28 May 2014 10:06:31 +0000
+
+gallery-app (0.0.67+14.10.20140522.3-0ubuntu1) utopic; urgency=low
+
+  [ Arthur Mello ]
+  * Fix autopilot issue caused by the change to use Page Stack
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 22 May 2014 17:13:28 +0000
+
+gallery-app (0.0.67+14.10.20140522-0ubuntu1) utopic; urgency=low
+
+  [ Arthur Mello ]
+  * Change to use PageStack to fix issue with toolbar while activating
+    and deactivating Pages. (LP: #1319927)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 22 May 2014 07:43:23 +0000
+
+gallery-app (0.0.67+14.10.20140515.1-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Sergio Schvezov ]
+  * Correct click manifest for python3.
+
+  [ Michael Sheldon ]
+  * Add a content-hub import handler, allowing other applications to add
+    images to the gallery.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 15 May 2014 20:56:41 +0000
+
+gallery-app (0.0.67+14.10.20140509-0ubuntu1) utopic; urgency=low
+
+  [ Arthur Mello ]
+  * Update po and pot files
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 09 May 2014 20:23:47 +0000
+
+gallery-app (0.0.67+14.10.20140505-0ubuntu2) utopic; urgency=medium
+
+  * Renaming dep package qtdeclarative5-qtmultimedia-plugin to
+    qml-module-qtmultimedia
+
+ -- Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>  Fri, 09 May 2014 13:06:48 -0300
+
+gallery-app (0.0.67+14.10.20140505-0ubuntu1) utopic; urgency=low
+
+  [ Chris Gagnon ]
+  * fix tests on desktop, fix flaky test, pep8 fixes, refactor test to
+    make failures easier to diagnose. [barry] py3 port (LP: #1304950)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 05 May 2014 14:43:25 +0000
+
+gallery-app (0.0.67+14.10.20140501-0ubuntu1) utopic; urgency=low
+
+  [ Bill Filler ]
+  * disable sharing option on desktop (LP: #1311123)
+
+  [ Arthur Mello ]
+  * Make sure we do not monitor hidden directories (LP: #907870)
+  * Make gallery does not create a new album if process is canceled (LP:
+    #1300337)
+  * Make sure gallery deletes all album content when it is requested.
+    (LP: #1300344)
+  * Change the page title so it does not show the app name. (LP:
+    #1312123)
+  * Fallback for date that file was created if no information about
+    encoded date was found on video metadata (LP: #1314632)
+
+  [ Richard Huddie ]
+  * A new emulator method for selecting a specific photo from the picker
+    view. A new test is also added to use this method and then click on
+    the Pick button.
+
+  [ Ugo Riboni ]
+  * Show progress indicator while loading thumbnails in photo view (LP:
+    #1295124)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 01 May 2014 14:38:33 +0000
+
+gallery-app (0.0.67+14.04.20140408.1-0ubuntu2) trusty; urgency=medium
+
+  * debian/control: alternatively depend on the OpenGLES version of
+    qtdeclarative5-qtmultimedia-plugin and qtdeclarative5-ubuntu-ui-toolkit-plugin
+
+ -- Ricardo Salveti de Araujo <ricardo.salveti@canonical.com>  Mon, 14 Apr 2014 17:18:47 -0300
+
+gallery-app (0.0.67+14.04.20140408.1-0ubuntu1) trusty; urgency=low
+
+  [ Bill Filler ]
+  * skip broken test until root cause can be found
+
+  [ Arthur Mello ]
+  * Make sure that album cover will be not behind header at album edit
+    screen (LP: #1294291)
+  * Add unittest to check if only videos on the correct path are beeing
+    added to gallery on device
+  * Add an overlay play icon over Video preview on media navigation (LP:
+    #1294282)
+  * Apply a similar workaround to the one suggested by Zsombor to work
+    around bug #1296832 to temporarily replace MouseAreas within
+    PinchAreas (LP: #1296832, #1288695)
+
+  [ Ugo Riboni ]
+  * Fix album navigation, allowing to page all the way to the last page,
+    and to close the album by paging to the cover. (LP: #1287355)
+  * Apply a similar workaround to the one suggested by Zsombor to work
+    around bug #1296832 to temporarily replace MouseAreas within
+    PinchAreas (LP: #1296832, #1288695)
+  * fix autopilot test
+
+  [ Leo Arias ]
+  * Properly override the toolkit toolbar autopilot helper.
+  * On the autopilot helpers to click a toolbar button, check that the
+    toolbar is opened first. (LP: #1302706)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 08 Apr 2014 18:51:30 +0000
+
+gallery-app (0.0.67+14.04.20140328-0ubuntu1) trusty; urgency=low
+
+  [ Bill Filler ]
+  * change check for desktopMode to use platform name rather than env
+    var
+
+  [ Arthur Mello ]
+  * Make sure that gallery will not be able to remove media files from
+    disk if it finds any sort of inconsistency (LP: #1295344)
+  * Make sure that videos placed out the video directory will be not
+    displayed on devices (LP: #1296634)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 28 Mar 2014 15:34:43 +0000
+
+gallery-app (0.0.67+14.04.20140325-0ubuntu1) trusty; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Arthur Mello ]
+  * Make gallery-app only search for videos on the path where camera-app
+    will save recording files on devices. (LP: #1296634)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 25 Mar 2014 22:49:08 +0000
+
+gallery-app (0.0.67+14.04.20140321-0ubuntu1) trusty; urgency=low
+
+  [ Ken VanDine ]
+  * Updated to build against changes in content-hub
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 21 Mar 2014 00:32:38 +0000
+
+gallery-app (0.0.67+14.04.20140319-0ubuntu1) trusty; urgency=low
+
+  [ Barry Warsaw ]
+  * Use pkg_resources API to retrieve sample_dir.
+
+  [ Ugo Riboni ]
+  * multiple gallery-app bug fixes Bug #907870: [desktop] Gallery does
+    not display photos in sub folders, Bug #1221968: use libthumbnailer
+    for gallery thumbnails, Bug #1268748: videos are not displayed when
+    running on desktop, Bug #1271327: disable switching between camera
+    and gallery on desktop, Bug #1287272: Black flash at the end of the
+    zoom animation" (LP: #1221968, #1287272, #1268748, #907870,
+    #1271327)
+
+  [ Arthur Mello ]
+  * multiple gallery-app bug fixes Bug #907870: [desktop] Gallery does
+    not display photos in sub folders, Bug #1221968: use libthumbnailer
+    for gallery thumbnails, Bug #1268748: videos are not displayed when
+    running on desktop, Bug #1271327: disable switching between camera
+    and gallery on desktop, Bug #1287272: Black flash at the end of the
+    zoom animation" (LP: #1221968, #1287272, #1268748, #907870,
+    #1271327)
+
+  [ Bill Filler ]
+  * updated framework version
+  * multiple gallery-app bug fixes Bug #907870: [desktop] Gallery does
+    not display photos in sub folders, Bug #1221968: use libthumbnailer
+    for gallery thumbnails, Bug #1268748: videos are not displayed when
+    running on desktop, Bug #1271327: disable switching between camera
+    and gallery on desktop, Bug #1287272: Black flash at the end of the
+    zoom animation" (LP: #1221968, #1287272, #1268748, #907870,
+    #1271327)
+  * fix blurry thumbnails when navigating photos
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Sergio Schvezov ]
+  * Fixing click launching
+
+  [ Dimitri John Ledkov ]
+  * Use pkg_resources API to retrieve sample_dir.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 19 Mar 2014 20:20:32 +0000
+
+gallery-app (0.0.67+14.04.20140307-0ubuntu1) trusty; urgency=low
+
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 07 Mar 2014 08:41:09 +0000
+
 gallery-app (0.0.67+14.04.20140306-0ubuntu1) trusty; urgency=low
 
   [ Bill Filler ]

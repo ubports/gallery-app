@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import Gallery 1.0
 import "../OrganicView"
 import "../Utility"
 import "../../js/Gallery.js" as Gallery
@@ -78,10 +79,29 @@ GridView {
             height: photosGrid.thumbnailSize
 
             radius: "medium"
+            property bool isLoading: image.status === Image.Loading
 
             image: Image {
+                id: thumbImage
                 source: mediaSource.galleryThumbnailPath
                 asynchronous: true
+                fillMode: Image.PreserveAspectCrop
+
+                Connections {
+                    target: mediaSource
+                    onDataChanged: {
+                        // data changed but filename didn't, so we need to bypass the qml image
+                        // cache by tacking a timestamp to the filename so sees it as different.
+                        thumbImage.source = mediaSource.galleryThumbnailPath + "?at=" + Date.now()
+                    }
+                }
+            }
+
+            Image {
+                // Display a play icon if the thumbnail is from a video
+                source: "../../img/icon_play.png"
+                anchors.centerIn: parent
+                visible: mediaSource.type === MediaSource.Video
             }
 
             OrganicItemInteraction {
@@ -94,6 +114,20 @@ GridView {
                     photosOverview.mediaSourcePressed(mediaSource, rect);
                 }
             }
+
+            Component {
+                id: component_loadIndicator
+                ActivityIndicator {
+                    id: loadIndicator
+                    running: true
+                }
+            }
+            Loader {
+                id: loader_loadIndicator
+                anchors.centerIn: roundedThumbnail
+                sourceComponent: roundedThumbnail.isLoading ? component_loadIndicator : undefined
+                asynchronous: true
+           }
         }
     }
 

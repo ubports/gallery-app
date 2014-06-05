@@ -22,8 +22,9 @@
 // database
 #include "media-table.h"
 
-// photo
+// photo / video
 #include <photo.h>
+#include <video.h>
 
 // for controlling the fake MediaTable
 extern void setOrientationOfFirstRow(Orientation orientation);
@@ -46,12 +47,13 @@ private slots:
 private:
     MediaTable *m_mediaTable;
     MediaObjectFactory *m_factory;
+    Resource *m_resource;
 };
 
 void tst_MediaObjectFactory::init()
 {
     m_mediaTable = new MediaTable(0, 0);
-    m_factory = new MediaObjectFactory();
+    m_factory = new MediaObjectFactory(true, 0);
     m_factory->setMediaTable(m_mediaTable);
 }
 
@@ -66,11 +68,11 @@ void tst_MediaObjectFactory::cleanup()
 void tst_MediaObjectFactory::create()
 {
     // invalid file
-    MediaSource *media = m_factory->create(QFileInfo("no_valid_file"));
+    MediaSource *media = m_factory->create(QFileInfo("no_valid_file"), true, 0);
     QCOMPARE(media, (MediaSource*)0);
 
     // new file
-    media = m_factory->create(QFileInfo("/some/photo.jpg"));
+    media = m_factory->create(QFileInfo("/some/photo.jpg"), true, 0);
     Photo *photo = qobject_cast<Photo*>(media);
     QVERIFY(photo != 0);
     QCOMPARE(photo->id(), (qint64)0);
@@ -78,13 +80,13 @@ void tst_MediaObjectFactory::create()
     QCOMPARE(photo->orientation(), BOTTOM_LEFT_ORIGIN);
 
     // another new file
-    media = m_factory->create(QFileInfo("/some/other_photo.jpg"));
+    media = m_factory->create(QFileInfo("/some/other_photo.jpg"), true, 0);
     photo = qobject_cast<Photo*>(media);
     QVERIFY(photo != 0);
     QCOMPARE(photo->id(), (qint64)1);
 
     // existing from DB
-    media = m_factory->create(QFileInfo("/some/photo.jpg"));
+    media = m_factory->create(QFileInfo("/some/photo.jpg"), true, 0);
     photo = qobject_cast<Photo*>(media);
     QVERIFY(photo != 0);
     QCOMPARE(photo->id(), (qint64)0);
@@ -92,11 +94,32 @@ void tst_MediaObjectFactory::create()
     // update DB from file
     setOrientationOfFirstRow(TOP_RIGHT_ORIGIN); // change the DB
 
-    media = m_factory->create(QFileInfo("/some/photo.jpg"));
+    media = m_factory->create(QFileInfo("/some/photo.jpg"), true, 0);
     photo = qobject_cast<Photo*>(media);
     QVERIFY(photo != 0);
     QCOMPARE(photo->id(), (qint64)0);
     QCOMPARE(photo->orientation(), TOP_RIGHT_ORIGIN);
+
+    // new video ...
+    bool isDesktop = true;
+    m_resource = new Resource(true, "", 0);
+    m_resource->setVideoDirectories(QStringList("/video_path/"));
+
+    // ... at desktop
+    media = m_factory->create(QFileInfo("/not_video_path/video.ogv"), isDesktop, m_resource);
+    Video *video = qobject_cast<Video*>(media);
+    QVERIFY(video != 0);
+    media = m_factory->create(QFileInfo("/video_path/video.ogv"), isDesktop, m_resource);
+    video = qobject_cast<Video*>(media);
+    QVERIFY(video != 0);
+
+    // ... at device
+    media = m_factory->create(QFileInfo("/not_video_path/video.ogv"), !isDesktop, m_resource);
+    video = qobject_cast<Video*>(media);
+    QVERIFY(video == 0);
+    media = m_factory->create(QFileInfo("/video_path/video.ogv"), !isDesktop, m_resource);
+    video = qobject_cast<Video*>(media);
+    QVERIFY(video != 0);
 }
 
 void tst_MediaObjectFactory::clearMetadata()
@@ -135,12 +158,12 @@ void tst_MediaObjectFactory::readVideoMetadata()
 
 void tst_MediaObjectFactory::enableContentLoadFilter()
 {
-    MediaSource *media = m_factory->create(QFileInfo("/some/photo.jpg"));
+    MediaSource *media = m_factory->create(QFileInfo("/some/photo.jpg"), true, 0);
     QVERIFY(media != 0);
 
     m_factory->enableContentLoadFilter(MediaSource::Video);
 
-    media = m_factory->create(QFileInfo("/some/photo.jpg"));
+    media = m_factory->create(QFileInfo("/some/photo.jpg"), true, 0);
     QVERIFY(media == 0);
 }
 

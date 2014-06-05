@@ -21,6 +21,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 0.1
+import "../Components"
 
 // Displays a flickable photo stream.
 //
@@ -78,6 +79,32 @@ ListView {
         } else if (event.key === Qt.Key_Right) {
             incrementCurrentIndex();
             event.accepted = true;
+        }
+    }
+
+    /* FIXME: We need to handle the onWheel event to be able to navigate
+       between photos/videos on MediaListView using two fingers swipe on
+       desktop touchpad. There is an issue on Qt 5.2 where wheelEvents
+       are not able to flick between items of a ListView with snapMode
+       set as SnapOneItem. */
+    MouseAreaWithMultipoint {
+        desktop: APP.desktopMode
+        anchors.fill: parent
+        enabled: APP.desktopMode && (currentItem.state === "unzoomed" || currentItem.state === "stopped")
+        propagateComposedEvents: true
+
+        onWheel: {
+            if (wheel.angleDelta.x < 0) {
+                decrementCurrentIndex();
+                wheel.accepted = true;
+            } else if (wheel.angleDelta.x > 0) {
+                incrementCurrentIndex();
+                wheel.accepted = true;
+            }
+        }
+
+        onPressed: {
+            mouse.accepted = false;
         }
     }
 }

@@ -4,8 +4,13 @@
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
+import ubuntuuitoolkit.emulators
 
 from time import sleep
+
+
+class GalleryAppException(Exception):
+    pass
 
 
 class GalleryUtils(object):
@@ -16,6 +21,7 @@ class GalleryUtils(object):
 
     def __init__(self, app):
         self.app = app
+        self.pointing_device = ubuntuuitoolkit.emulators.get_pointing_device()
 
     def select_many_retry(self, object_type, **kwargs):
         """Returns the item that is searched for with app.select_many
@@ -26,7 +32,7 @@ class GalleryUtils(object):
         while len(items) < 1 and tries > 0:
             sleep(self.retry_delay)
             items = self.app.select_many(object_type, **kwargs)
-            tries = tries - 1
+            tries -= 1
         return items
 
     def get_qml_view(self):
@@ -41,7 +47,7 @@ class GalleryUtils(object):
     def get_main_photo_viewer(self):
         """Returns the MediaListView."""
         return self.app.wait_select_single("MediaListView",
-                                       objectName="mediaListView")
+                                           objectName="mediaListView")
 
     def get_albums_viewer_loader(self):
         """Returns the loader item for the AlbumsOverview."""
@@ -69,28 +75,6 @@ class GalleryUtils(object):
         return self.app.select_single("Button", objectName="deleteDialogNo",
                                       visible=True)
 
-    def get_first_event(self):
-        """Returns the first event in the event view"""
-        return self.app.select_single("OrganicMediaList",
-                                      objectName="organicEventItem0")
-
-    def number_of_events(self):
-        """Returns the number of events in the event view (might differ to the
-        total number in the model, because of the listview"""
-        return len(self.app.select_many("OrganicMediaList"))
-
-    def number_of_photos_in_events(self):
-        """Returns the number of events"""
-        photo_delegates = self.app.select_many("QQuickItem",
-                                               objectName="eventPhoto")
-        return len(photo_delegates)
-
-    def get_first_image_in_event_view(self):
-        """Returns the first photo of the gallery."""
-        event = self.get_first_event()
-        return event.select_many("OrganicItemInteraction",
-                                 objectName='eventsViewPhoto')[1]
-
     def get_all_albums(self):
         """Returns all albums in the albums view"""
         albums = self.select_many_retry("CheckerboardDelegate",
@@ -98,10 +82,16 @@ class GalleryUtils(object):
         return albums
 
     def get_first_album(self):
-        """Returns the first album in the albums view"""
+        """Returns the first album in the albums view."""
+        # For some reasons the albums are returned in inverse order, so
+        # the first album is acutally the last in the array
+        return self.get_album_at(-1)
+
+    def get_album_at(self, position):
+        """Returns the albums at this position in the albums view"""
         albums = self.select_many_retry("CheckerboardDelegate",
                                         objectName="checkerboardDelegate")
-        return albums[-1]
+        return albums[position]
 
     def get_edit_album_button(self):
         """Returns the edit album button in the album popover"""
@@ -119,3 +109,19 @@ class GalleryUtils(object):
             objectName="albumCoverMenuItem",
             text=text
         )
+
+    def _ensure_delete_dialog_visible(self):
+        delete_dialog = self.get_delete_dialog()
+        delete_dialog.opacity.wait_for(1)
+
+    def _click_dialog_button(self, button):
+        self._ensure_delete_dialog_visible()
+        self.pointing_device.click_object(button)
+
+    def click_delete_dialog_cancel_button(self):
+        button = self.get_delete_dialog_cancel_button()
+        self._click_dialog_button(button)
+
+    def click_delete_dialog_delete_button(self):
+        button = self.get_delete_dialog_delete_button()
+        self._click_dialog_button(button)

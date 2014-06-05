@@ -22,6 +22,7 @@ import QtQuick 2.0
 import "../../js/Gallery.js" as Gallery
 import "../../js/GalleryUtility.js" as GalleryUtility
 import "../../js/GraphicsRoutines.js" as GraphicsRoutines
+import "../Components"
 
 // PhotoComponent that allows you to zoom in on the photo.
 Rectangle {
@@ -270,7 +271,8 @@ Rectangle {
 
         onPinchFinished: zoomablePhotoComponent.state = (zoomingIn ? "full_zoom" : "unzoomed")
 
-        MouseArea {
+        MouseAreaWithMultipoint {
+            desktop: APP.desktopMode
             anchors.fill: parent
             enabled: fullyUnzoomed
 
@@ -362,7 +364,8 @@ Rectangle {
                         isPreview: zoomablePhotoComponent.isPreview
                         ownerName: zoomablePhotoComponent.ownerName + "zoomedPhoto"
 
-                        MouseArea {
+                        MouseAreaWithMultipoint {
+                            desktop: APP.desktopMode
                             anchors.fill: parent
 
                             onClicked: zoomablePhotoComponent.clicked()
@@ -389,7 +392,8 @@ Rectangle {
                     transformOrigin: Item.TopLeft
 
                     visible: zoomablePhotoComponent.isZoomAnimationInProgress ||
-                             zoomablePhotoComponent.state == "pinching"
+                             zoomablePhotoComponent.state == "pinching" ||
+                             !zoomedPhoto.isLoaded
 
                     color: zoomablePhotoComponent.color
 

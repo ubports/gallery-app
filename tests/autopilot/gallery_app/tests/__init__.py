@@ -7,8 +7,8 @@
 
 """gallery autopilot tests."""
 
+import os
 import logging
-import os.path
 import shutil
 import signal
 
@@ -17,13 +17,13 @@ from autopilot.matchers import Eventually
 from autopilot.platform import model
 from autopilot.testcase import AutopilotTestCase
 from autopilot.introspection import get_proxy_object_for_existing_process
+from pkg_resources import resource_filename
 
 from ubuntuuitoolkit import emulators as toolkit_emulators
 from gallery_app.emulators import main_screen
 from gallery_app.emulators.gallery_utils import GalleryUtils
 
 from time import sleep
-from os import remove
 
 logger = logging.getLogger(__name__)
 
@@ -49,13 +49,6 @@ class GalleryTestCase(AutopilotTestCase):
 
     _default_sample_destination_dir = "/tmp/gallery-ap_sd"
 
-    _sample_dirs = {
-        EnvironmentTypes.installed:
-        "/usr/lib/python2.7/dist-packages/gallery_app/data",
-        EnvironmentTypes.local: "gallery_app/data",
-        EnvironmentTypes.click: "gallery_app/data",
-    }
-
     ARGS = []
 
     @property
@@ -74,6 +67,8 @@ class GalleryTestCase(AutopilotTestCase):
         # Lets assume we are installed system wide if this file is somewhere
         # in /usr
         if os.path.realpath(__file__).startswith("/usr/"):
+            return EnvironmentTypes.installed
+        if model() == 'Desktop':
             return EnvironmentTypes.installed
         else:
             if os.path.exists(self.local_location):
@@ -121,7 +116,7 @@ class GalleryTestCase(AutopilotTestCase):
         shutil.move(mock_thumbs, thumbs)
 
     def configure_sample_files(self, env_type):
-        self.sample_dir = self._sample_dirs[env_type]
+        self.sample_dir = resource_filename('gallery_app', 'data')
         self.sample_destination_dir = \
             self._get_sample_destination_dir(env_type)
         if (os.path.exists(self.sample_destination_dir)):
@@ -130,7 +125,7 @@ class GalleryTestCase(AutopilotTestCase):
 
         self.sample_file = os.path.join(
             self.sample_destination_dir,
-            "sample01.jpg"
+            "sample04.jpg"
         )
 
         default_data_dir = os.path.join(
@@ -150,7 +145,7 @@ class GalleryTestCase(AutopilotTestCase):
         config = os.path.expanduser(
             os.path.join("~", ".config", "gallery-app.conf"))
         if os.path.exists(config):
-            remove(config)
+            os.remove(config)
 
     def setUp(self):
         self.pointing_device = toolkit_emulators.get_pointing_device()
@@ -169,11 +164,9 @@ class GalleryTestCase(AutopilotTestCase):
         In the testfarm, the application may take some time to show up."""
         self.assertThat(self.gallery_utils.get_qml_view().visible,
                         Eventually(Equals(True)))
-        """Wait for the data to be loaded and displayed"""
-        self.ensure_at_least_one_event()
         """FIXME somehow on the server gallery sometimes is not fully started
-        for switching to the albums view. Therefore this hack of a second"""
-        sleep(1)
+        for switching to the albums view. Therefore this hack of sleeping"""
+        sleep(2)
 
     def launch_gallery_app(self, env_type):
         if env_type == EnvironmentTypes.installed:
@@ -251,12 +244,6 @@ class GalleryTestCase(AutopilotTestCase):
         sleep(1)
         self.pointing_device.release()
 
-    def ensure_at_least_one_event(self):
-        """The event view has to have at least one event
-        In case gallery is not yet fully loaded wait a while and test again"""
-        self.assertThat(lambda: self.gallery_utils.number_of_events(),
-                        Eventually(GreaterThan(0)))
-
     def switch_to_albums_tab(self):
         self.main_view.switch_to_tab("albumsTab")
 
@@ -273,20 +260,23 @@ class GalleryTestCase(AutopilotTestCase):
         # FIXME find a (functional) way to test if the tabs still move
         sleep(1)
 
-    def open_first_album(self):
-        first_album = self.album_view.get_first_album()
+    def open_album_at(self, position):
+        album = self.album_view.get_album_at(position)
         # workaround lp:1247698
         self.main_view.close_toolbar()
-        self.click_item(first_album)
+        self.click_item(album)
         self.ensure_view_is_fully_open()
+
+    def open_first_album(self):
+        self.open_album_at(-1)
 
     def ensure_view_is_fully_open(self):
         animated_view = self.album_view.get_animated_album_view()
         self.assertThat(animated_view.isOpen, Eventually(Equals(True)))
-        view = self.album_view.get_album_view()
-        self.assertThat(view.visible, Eventually(Equals(True)))
         self.assertThat(animated_view.animationRunning,
                         Eventually(Equals(False)))
+        view = self.album_view.get_album_view()
+        self.assertThat(view.visible, Eventually(Equals(True)))
 
     def ensure_app_has_quit(self):
         """Terminate as gracefully as possible the application and ensure
@@ -315,14 +305,6 @@ class GalleryTestCase(AutopilotTestCase):
         # Either way, we wait for the underlying process to be fully finished.
         self.app.process.wait()
         self.assertIsNotNone(self.app.process.returncode)
-
-    def add_video_sample(self):
-        video_file = "video20130618_0002.mp4"
-        shutil.copyfile(self.sample_dir+"/option01/"+video_file,
-                        self.sample_destination_dir+"/"+video_file)
-        self.assertThat(
-            lambda: self.gallery_utils.number_of_photos_in_events(),
-            Eventually(Equals(3)))
 
     def get_delete_dialog(self):
         """Raises StateNotFoundError if get_delete_dialog fails."""

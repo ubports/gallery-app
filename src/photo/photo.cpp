@@ -35,7 +35,6 @@
 
 // medialoader
 #include "gallery-standard-image-provider.h"
-#include "gallery-thumbnail-image-provider.h"
 #include "photo-metadata.h"
 
 // util
@@ -274,12 +273,7 @@ QUrl Photo::galleryPath() const
  */
 QUrl Photo::galleryPreviewPath() const
 {
-    QUrl url = MediaSource::galleryPreviewPath();
-    // previews are always stored fully transformed
-
-    appendPathParams(&url, TOP_LEFT_ORIGIN, 1);
-
-    return url;
+    return MediaSource::galleryPreviewPath();
 }
 
 /*!
@@ -287,16 +281,7 @@ QUrl Photo::galleryPreviewPath() const
  */
 QUrl Photo::galleryThumbnailPath() const
 {
-    QUrl url = MediaSource::galleryThumbnailPath();
-    // same as in append_path_params() this is needed to trigger an update of the image in QML
-    // so the URL is changed by adding/chageing the edit parameter
-    QUrlQuery query;
-    if (m_editRevision != 0) {
-        query.addQueryItem(GalleryThumbnailImageProvider::REVISION_PARAM_NAME,
-                           QString::number(m_editRevision));
-    }
-    url.setQuery(query);
-    return url;
+    return MediaSource::galleryThumbnailPath();
 }
 
 /*!

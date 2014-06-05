@@ -14,7 +14,6 @@ include_directories(
     )
 
 QT5_WRAP_CPP(GALLERYSTANDARDIMAGEPROVIDIER_MOCS
-    ${gallery_medialoader_src_SOURCE_DIR}/preview-manager.h
     ${gallery_medialoader_src_SOURCE_DIR}/photo-metadata.h
     )
 
@@ -22,7 +21,6 @@ add_executable(gallerystandardimageprovider
     tst_gallerystandardimageprovidertest.cpp
     ${gallery_src_SOURCE_DIR}/medialoader/gallery-standard-image-provider.cpp
     ../stubs/orientation_stub.cpp
-    ../stubs/preview-manager_stub.cpp
     ../stubs/photometa-data_stub.cpp
     ${GALLERYSTANDARDIMAGEPROVIDIER_MOCS}
     )
