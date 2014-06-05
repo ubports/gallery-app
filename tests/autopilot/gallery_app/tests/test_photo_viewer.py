@@ -109,6 +109,16 @@ class TestPhotoViewer(TestPhotoViewerBase):
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
         self.assertThat(photo_viewer.visible, Eventually(Equals(False)))
 
+    def test_share_button(self):
+        """Clicking the share button must show the ContentPeerPicker."""
+        photo_viewer = self.photo_viewer.get_main_photo_viewer()
+        self.main_view.open_toolbar().click_button("shareButton")
+        share_picker = self.photo_viewer.get_share_peer_picker()
+        self.assertThat(share_picker.visible, Eventually(Equals(True)))
+        cancel_button = self.photo_viewer.get_content_peer_picker_cancel_button()
+        self.click_item(cancel_button)
+        self.assertThat(share_picker.visible, Eventually(Equals(False)))
+
     def delete_one_picture(self):
         self.main_view.open_toolbar().click_button("deleteButton")
         self.get_delete_dialog()
