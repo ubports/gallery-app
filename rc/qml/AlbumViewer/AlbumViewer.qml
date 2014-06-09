@@ -52,6 +52,15 @@ Page {
     property string mediaCurrentlyInView
     StateSaver.properties: "mediaCurrentlyInView"
 
+    /// Indicates if this view is open
+    property bool isOpen: false
+    /// Origin (rectangle) where this view is animated from when calling open()
+    /// And where it is animated to when this view is closed
+    property variant origin
+    /// The preview item that was used to open the view, or null, if it was opend another way
+    /// This item will be hidden when this view is opened. And shown again after closing this view
+    property Item previewItem: null
+
     function reopenPicture() {
         if (album && albumViewer.mediaCurrentlyInView !== "") {
             for (var i in album.allMediaSources) {
@@ -80,6 +89,25 @@ Page {
                 albumViewer.header.visible = true;
             }
         }
+    }
+
+    onCloseRequested: {
+        if (origin) {
+            if (album)
+                album.closed = !stayOpen || (viewingPage == 0);
+            if (previewItem)
+                previewItem.visible = true
+        }
+        visible = false
+        overview.popPage();
+        isOpen = false
+    }
+    onQuickCloseRequested: {
+        visible = false
+        overview.popPage();
+        isOpen = false
+        if (previewItem)
+            previewItem.visible = true;
     }
 
     // When the user clicks the back button or pages back to the cover.

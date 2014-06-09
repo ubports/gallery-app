@@ -184,10 +184,11 @@ MainView {
         }
     }
 
-    AlbumViewerAnimated {
+    AlbumViewer {
         id: albumViewer
         objectName: "albumViewerAnimated"
         anchors.fill: parent
+        visible: false
         onIsOpenChanged: if (!isOpen) albumsCheckerboardLoader.item.albumCurrentlyInView = -1
     }
 

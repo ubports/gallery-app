@@ -37,7 +37,19 @@ Checkerboard {
                 if (albumCollectionModel.getAt(i).id == albumCurrentlyInView) {
                     albumViewer.album = albumCollectionModel.getAt(i);
                     root.visible = false;
-                    albumViewer.open();
+
+                    if (albumViewer.album.currentPage < 0)
+                        albumViewer.album.currentPage = 1
+                    if (albumViewer.origin) {
+                        albumViewer.visible = true
+                        overview.pushPage(albumViewer);
+                    }
+                    else
+                        albumViewer.visible = true
+
+                    if (albumViewer.previewItem)
+                        albumViewer.previewItem.visible = false
+
                     return;
                 }
             }
@@ -149,7 +161,18 @@ Checkerboard {
         albumViewer.origin = root.getRectOfAlbumPreview(object, albumViewer)
         albumViewer.previewItem = activatingItem
         root.visible = false;
-        albumViewer.open()
+
+        if (albumViewer.album.currentPage < 0)
+            albumViewer.album.currentPage = 1
+        if (albumViewer.origin) {
+            albumViewer.visible = true
+            overview.pushPage(albumViewer);
+        }
+        else
+            albumViewer.visible = true
+
+        if (albumViewer.previewItem)
+            albumViewer.previewItem.visible = false
     }
 
     Rectangle {
