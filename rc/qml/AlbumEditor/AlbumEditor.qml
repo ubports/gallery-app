@@ -205,7 +205,11 @@ Page {
                     coverMenu.hide();
             }
 
-            onAddPhotos: overview.pushPage(mediaSelectorComponent);
+            onAddPhotos: {
+                if (isTextEditing)
+                    cover.editingDone();
+                overview.pushPage(mediaSelectorComponent);
+            }
         }
     }
 
