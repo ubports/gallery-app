@@ -394,7 +394,6 @@ Page {
 
             onOpened: {
                 overview.pushPage(target);
-                albumSpreadViewer.visible = false;
             }
             onCloseRequested: {
                 albumViewer.mediaCurrentlyInView = "";
@@ -404,12 +403,10 @@ Page {
                     albumSpreadViewer.viewingPage = isPortrait? page : albumViewer.album.currentPage;
                 }
 
-                albumSpreadViewer.visible = true;
                 photoViewerLoader.item.fadeClosed();
             }
             onClosed: {
                 overview.popPage();
-                source = "";
             }
 
         }
