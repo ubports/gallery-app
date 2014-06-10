@@ -81,6 +81,7 @@ OrganicView {
             objectName: "addButton"
             color: Gallery.HIGHLIGHT_BUTTON_COLOR
             width: units.gu(16)
+            enabled: mediaSelector.selection.selectedCount
             onTriggered: {
                 mediaSelector.addClicked();
                 mediaSelector.hide();
