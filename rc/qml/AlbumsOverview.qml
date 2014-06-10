@@ -32,6 +32,7 @@ Checkerboard {
     StateSaver.properties: "albumCurrentlyInView"
 
     Component.onCompleted: {
+        /* FIXME: Does not working after PageStack
         if (albumCurrentlyInView != -1) {
             for (var i = 0; i < albumCollectionModel.count; i++) {
                 if (albumCollectionModel.getAt(i).id == albumCurrentlyInView) {
@@ -55,6 +56,7 @@ Checkerboard {
                 }
             }
         }
+        */
     }
 
     onActiveChanged: {
@@ -167,7 +169,9 @@ Checkerboard {
         root.visible = false;
 
         if (albumViewer.origin) {
-            albumViewer.visible = true
+            if (header.visible)
+                header.visible = false;
+            albumViewer.visible = true;
             overview.pushPage(albumViewer);
         }
         else
