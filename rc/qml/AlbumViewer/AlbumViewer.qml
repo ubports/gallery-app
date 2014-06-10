@@ -45,8 +45,6 @@ Page {
     /*!
     */
     property bool animationRunning: albumSpreadViewer.isFlipping ||
-                                    removeCrossfadeAnimation.running ||
-                                    albumSpreadViewerForTransition.freeze ||
                                     photoViewerLoader.animationRunning
 
     property string mediaCurrentlyInView
@@ -122,15 +120,6 @@ Page {
         source: "../../img/background-paper.png"
     }
 
-    function crossfadeRemove() {
-        removeCrossfadeAnimation.restart();
-    }
-
-    function fadeOutAndFlipRemove(flipToPage) {
-        fadeOutAnimation.flipToPage = flipToPage;
-        fadeOutAnimation.restart();
-    }
-
     /// Closes the view as stores the page number the page number currently viewed
     function __close() {
         closeRequested(album.containedCount > 0, albumSpreadViewer.viewingPage)
@@ -139,51 +128,6 @@ Page {
     /// Closes the view without animation or storing anything
     function __quickClose() {
         quickCloseRequested()
-    }
-
-    FadeOutAnimation {
-        id: fadeOutAnimation
-
-        property int flipToPage: 0
-
-        target: isPortrait ? albumSpreadViewerForTransition.rightPageComponent :
-                             albumSpreadViewerForTransition.leftPageComponent
-        duration: 200
-        easingType: Easing.Linear
-
-        onRunningChanged: {
-            if (running)
-                return;
-
-            flipTimer.restart()
-
-            albumSpreadViewerForTransition.flipTo(flipToPage);
-            albumSpreadViewer.flipTo(flipToPage);
-        }
-    }
-
-    Timer {
-        id: flipTimer
-
-        interval: albumSpreadViewer.duration
-
-        onTriggered: albumSpreadViewerForTransition.freeze = false
-    }
-
-    DissolveAnimation {
-        id: removeCrossfadeAnimation
-
-        duration: 200
-        fadeOutTarget: albumSpreadViewerForTransition
-        fadeInTarget: albumSpreadViewer
-        easingType: Easing.Linear
-
-        onRunningChanged: {
-            if (running)
-                return;
-
-            albumSpreadViewerForTransition.freeze = false;
-        }
     }
 
     function resetView(album) {
@@ -200,31 +144,6 @@ Page {
         overview.pushPage(component_mediaSelector);
     }
 
-    // Used for the cross-fade transition.
-    AlbumSpreadViewer {
-        id: albumSpreadViewerForTransition
-
-        anchors.fill: parent
-        album: albumViewer.album
-        z: 100
-        visible: freeze
-        load: parent.visible && freeze
-
-        Connections {
-            target: albumSpreadViewer
-
-            onViewingPageChanged: {
-                if (!albumSpreadViewerForTransition.freeze)
-                    albumSpreadViewerForTransition.flipTo(albumSpreadViewer.viewingPage);
-            }
-        }
-
-        onFreezeChanged: {
-            if (!freeze)
-                flipTo(albumSpreadViewer.viewingPage);
-        }
-    }
-
     AlbumSpreadViewer {
         id: albumSpreadViewer
         objectName: "spreadViewer"
@@ -237,7 +156,7 @@ Page {
         // Keyboard focus while visible and viewer is not visible
         focus: visible
 
-        showCover: !albumSpreadViewerForTransition.freeze
+        showCover: true
 
         Keys.onPressed: {
             if (event.key !== Qt.Key_Left && event.key !== Qt.Key_Right)
@@ -250,8 +169,6 @@ Page {
             if (!albumSpreadViewer.isFlipping &&
                     albumSpreadViewer.isPopulatedContentPage(destination)) {
                 chrome.hide(true);
-
-                albumSpreadViewerForTransition.flipTo(destination);
 
                 event.accepted = true;
             }
