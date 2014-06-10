@@ -35,6 +35,14 @@ ContentCommunicator::ContentCommunicator(QObject *parent)
     : ImportExportHandler(parent),
       m_transfer(nullptr)
 {
+}
+
+/*!
+ * \brief ContentCommunicator::registerWithHub Register the handlers provided
+ * by ContentCommunicator with the content hub
+ */
+void ContentCommunicator::registerWithHub()
+{
     Hub *hub = Hub::Client::instance();
     hub->register_import_export_handler(this);
 }

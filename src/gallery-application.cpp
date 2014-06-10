@@ -104,6 +104,9 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
     if (m_cmdLineParser->pickModeEnabled())
         setDefaultUiMode(GalleryApplication::PickContentMode);
 
+    QObject::connect(m_galleryManager, SIGNAL(consistencyCheckFinished()),
+                     this, SLOT(consistencyCheckFinished()));
+
     QObject::connect(m_contentCommunicator, SIGNAL(photoRequested()),
                      this, SLOT(switchToPickMode()));
 
@@ -240,6 +243,7 @@ void GalleryApplication::initCollections()
         qDebug() << "GalleryManager initialized" << m_timer->elapsed() << "ms";
 
     emit mediaLoaded();
+
     if (m_cmdLineParser->startupTimer()) {
         qDebug() << "MainView loaded" << m_timer->elapsed() << "ms";
         qDebug() << "Startup took" << m_timer->elapsed() << "ms";
@@ -360,4 +364,16 @@ void GalleryApplication::startStartupTimer()
         m_timer = new QElapsedTimer();
 
     m_timer->restart();
+}
+
+/*!
+ * \brief GalleryApplication::consistencyCheckFinished triggered when the media
+ * monitor finishes its consistency check
+ */
+void GalleryApplication::consistencyCheckFinished()
+{
+    // Register content hub integration after media monitor has finished
+    // its consistency check, as new images may be added by the import handler
+    // during start-up.
+    m_contentCommunicator->registerWithHub();
 }
