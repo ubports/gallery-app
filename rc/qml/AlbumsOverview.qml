@@ -35,11 +35,12 @@ Checkerboard {
         if (albumCurrentlyInView != -1) {
             for (var i = 0; i < albumCollectionModel.count; i++) {
                 if (albumCollectionModel.getAt(i).id == albumCurrentlyInView) {
+                    if (albumCollectionModel.getAt(i).currentPage < 0)
+                        albumCollectionModel.getAt(i).currentPage = 1
+
                     albumViewer.album = albumCollectionModel.getAt(i);
                     root.visible = false;
 
-                    if (albumViewer.album.currentPage < 0)
-                        albumViewer.album.currentPage = 1
                     if (albumViewer.origin) {
                         albumViewer.visible = true
                         overview.pushPage(albumViewer);
@@ -156,14 +157,15 @@ Checkerboard {
     }
 
     onActivated: {
+        if (object.currentPage < 0)
+            object.currentPage = 1
+
         albumCurrentlyInView = object.id
         albumViewer.album = object
         albumViewer.origin = root.getRectOfAlbumPreview(object, albumViewer)
         albumViewer.previewItem = activatingItem
         root.visible = false;
 
-        if (albumViewer.album.currentPage < 0)
-            albumViewer.album.currentPage = 1
         if (albumViewer.origin) {
             albumViewer.visible = true
             overview.pushPage(albumViewer);
