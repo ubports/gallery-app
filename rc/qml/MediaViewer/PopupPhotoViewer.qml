@@ -26,15 +26,9 @@ Page {
     id: popupPhotoViewer
 
     anchors.fill: parent
-    /*!
-    */
     property alias model: viewer.model
 
-    /*!
-    */
     property alias photo: viewer.media
-    /*!
-    */
     property alias index: viewer.index
 
     // Optional: set this when launching from an album view
@@ -43,8 +37,6 @@ Page {
     // Read-only
     property bool animationRunning: transition.animationRunning ||
                                     fadeIn.running || fadeOut.running
-    /*!
-    */
     property bool isPoppedUp: popupPhotoViewer.visible && viewer.visible && !animationRunning
 
     // updating active will automatically set the tools of the toolbar when activating.
@@ -63,71 +55,48 @@ Page {
 
     title: i18n.tr("Gallery")
 
-    /*!
-    */
     function setCurrentPhoto(photo) {
         viewer.setCurrentPhoto(photo);
     }
 
-    /*!
-    */
     function setCurrentIndex(index) {
         viewer.setCurrentIndex(index);
     }
 
-    /*!
-    */
     signal opening()
-    /*!
-    */
     signal opened() // The photo viewer's opening animation is finished.
-    /*!
-    */
     signal closeRequested() // The user pressed the back button.  Call animateClosed() or close().
-    /*!
-    */
     signal closed() // The photo viewer's closing animation is finished.
-    /*!
-    */
     signal editRequested(variant photo) // The user wants to edit this photo.
 
-    /*!
-    */
     function animateOpen(photo, thumbnailRect) {
         opening();
         viewer.openCompleted = false;
         transition.transitionToPhotoViewer(photo, thumbnailRect);
     }
 
-    /*!
-    */
     function animateClosed(thumbnailRect) {
         transition.transitionFromPhotoViewer(photo, thumbnailRect);
         viewer.visible = false;
     }
 
-    /*!
-    */
     function fadeOpen(photo) {
         opening();
         viewer.setCurrentPhoto(photo);
         fadeIn.restart();
     }
 
-    /*!
-    */
     function fadeClosed() {
         fadeOut.restart();
     }
 
-    /*!
-    */
     function close() {
         viewer.visible = false;
         closed();
     }
 
     tools: viewer.tools
+
     MediaViewer {
         id: viewer
 
@@ -163,8 +132,8 @@ Page {
         onTransitionToPhotoViewerCompleted: {
             setCurrentPhoto(forMediaSource);
             viewer.openCompleted = true;
-            opened();
             overview.pushPage(popupPhotoViewer);
+            opened();
             viewer.playVideo();
         }
 
