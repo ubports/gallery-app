@@ -318,6 +318,11 @@ Item {
                 objectName: "removePhotoFromAlbumDialog"
                 title: i18n.tr("Remove a photo from album")
 
+                function finishRemove() {
+                    if (model.count === 0)
+                        galleryPhotoViewer.closeRequested();
+                }
+
                 Button {
                     objectName: "removeFromAlbumButton"
                     text: i18n.tr("Remove from Album")
@@ -326,6 +331,7 @@ Item {
                         PopupUtils.close(dialogue)
                         viewerWrapper.model.removeMediaFromAlbum(album, galleryPhotoViewer.media);
                         galleryPhotoViewer.currentIndexChanged();
+                        dialogue.finishRemove();
                     }
                 }
 
@@ -336,6 +342,7 @@ Item {
                         PopupUtils.close(dialogue)
                         viewerWrapper.model.destroyMedia(galleryPhotoViewer.media, true);
                         galleryPhotoViewer.currentIndexChanged();
+                        dialogue.finishRemove();
                     }
                 }
 
