@@ -8,12 +8,13 @@
 
 """Tests the album view of the gallery app"""
 
-from testtools.matchers import Equals, GreaterThan, LessThan
+from testtools.matchers import Equals, GreaterThan, LessThan, Is
 from autopilot.matchers import Eventually
 
 from gallery_app.emulators.album_view import AlbumView
 from gallery_app.emulators.albums_view import AlbumsView
 from gallery_app.emulators.media_selector import MediaSelector
+from gallery_app.emulators.photo_viewer import PhotoViewer
 from gallery_app.emulators import album_editor
 from gallery_app.tests import GalleryTestCase
 
@@ -35,6 +36,10 @@ class TestAlbumView(GalleryTestCase):
     @property
     def media_selector(self):
         return MediaSelector(self.app)
+
+    @property
+    def photo_viewer(self):
+        return PhotoViewer(self.app)
 
     def setUp(self):
         self.ARGS = []
@@ -104,6 +109,33 @@ class TestAlbumView(GalleryTestCase):
         self.assertThat(
             lambda: self.album_view.number_of_photos(),
             Eventually(Equals(num_photos_start + 1)))
+
+    def test_remove_photo_from_album(self):
+        self.main_view.close_toolbar()
+        self.open_first_album()
+        num_photos_start = self.album_view.number_of_photos()
+        self.assertThat(num_photos_start, Equals(1))
+
+        photo = self.album_view.get_first_photo()
+        self.main_view.close_toolbar()
+        self.click_item(photo)
+
+        photo_view = self.album_view.get_album_photo_view()
+        self.assertThat(photo_view.visible, Eventually(Equals(True)))
+
+        self.main_view.open_toolbar().click_button("deleteButton")
+        remove_dialog = self.photo_viewer.get_remove_from_album_dialog()
+        self.assertThat(remove_dialog.visible, Eventually(Equals(True)))
+        self.assertThat(remove_dialog.opacity, Eventually(Equals(1)))
+
+        remove_item = self.photo_viewer.get_remove_from_album_popover_remove_item()
+        self.click_item(remove_item)
+        self.assertThat(self.photo_viewer.remove_from_album_dialog_shown,
+                        Eventually(Is(False)))
+
+        self.assertThat(
+            lambda: self.album_view.number_of_photos(),
+            Eventually(Equals(num_photos_start - 1)))
 
     def test_add_photo_to_new_album(self):
         self.main_view.open_toolbar().click_button("addButton")

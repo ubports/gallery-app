@@ -41,8 +41,7 @@ class AlbumView(GalleryUtils):
 
     def get_album_photo_view(self):
         """Returns the photo view of the album viewer"""
-        view = self.get_album_view()
-        return view.select_single("PopupPhotoViewer")
+        return self.app.select_single("PopupPhotoViewer")
 
     def get_spread_view(self):
         """Returns the inner spread view to access the pages"""
