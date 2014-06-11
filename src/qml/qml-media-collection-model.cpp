@@ -112,6 +112,24 @@ void QmlMediaCollectionModel::destroyMedia(QVariant vmedia, bool destroy_backing
 }
 
 /*!
+ * \brief QmlMediaCollectionModel::removeMediaFromAlbum
+ * \param valbum
+ * \param vmedia
+ */
+void QmlMediaCollectionModel::removeMediaFromAlbum(QVariant valbum, QVariant vmedia)
+{
+    Album* album = VariantToObject<Album*>(valbum);
+    if (album == NULL)
+        return;
+
+    MediaSource* media = VariantToObject<MediaSource*>(vmedia);
+    if (media == NULL)
+        return;
+
+    album->detach(media);
+}
+
+/*!
  * \brief QmlMediaCollectionModel::monitored
  * \return
  */
