@@ -18,6 +18,8 @@ from gallery_app.emulators.photo_viewer import PhotoViewer
 from gallery_app.emulators import album_editor
 from gallery_app.tests import GalleryTestCase
 
+import re
+import os
 from time import sleep
 from unittest import skip
 
@@ -117,6 +119,11 @@ class TestAlbumView(GalleryTestCase):
         self.assertThat(num_photos_start, Equals(1))
 
         photo = self.album_view.get_first_photo()
+        images = photo.select_many('QQuickImage')
+        path = ''
+        for i in images:
+            if str(i.source).startswith('image://gallery-standard/'):
+                path = re.sub('^image://gallery-standard/', '', i.source).split('?')[0]
         self.main_view.close_toolbar()
         self.click_item(photo)
 
@@ -133,9 +140,11 @@ class TestAlbumView(GalleryTestCase):
         self.assertThat(self.photo_viewer.remove_from_album_dialog_shown,
                         Eventually(Is(False)))
 
-        self.assertThat(
-            lambda: self.album_view.number_of_photos(),
+        self.assertThat(lambda: self.album_view.number_of_photos(),
             Eventually(Equals(num_photos_start - 1)))
+
+        self.assertThat(lambda: os.path.exists(path),
+                        Eventually(Equals(True)))
 
     def test_add_photo_to_new_album(self):
         self.main_view.open_toolbar().click_button("addButton")
