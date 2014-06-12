@@ -19,19 +19,9 @@ class PhotoViewer(GalleryUtils):
         return self.app.wait_select_single("Dialog",
                                            objectName="deletePhotoDialog")
 
-    def get_remove_from_album_dialog(self):
-        """Returns the photo viewer remove from album dialog."""
-        return self.app.wait_select_single("Dialog",
-                                           objectName="removePhotoFromAlbumDialog")
-
     def delete_dialog_shown(self):
         dialog = self.app.select_many("Dialog",
                                       objectName="deletePhotoDialog")
-        return len(dialog) >= 1
-
-    def remove_from_album_dialog_shown(self):
-        dialog = self.app.select_many("Dialog",
-                                      objectName="removePhotoFromAlbumDialog")
         return len(dialog) >= 1
 
     def get_popup_album_picker(self):
@@ -96,24 +86,6 @@ class PhotoViewer(GalleryUtils):
         return self.app.select_single("Button",
                                       objectName="deletePhotoDialogNo",
                                       visible=True)
-    def get_remove_from_album_popover_remove_item(self):
-        """Returns the remove from album button of the remove from album popover."""
-        return self.app.select_single("Button",
-                                      objectName="removeFromAlbumButton",
-                                      visible=True)
-
-    def get_remove_from_album_popover_delete_item(self):
-        """Returns the remove and delete button of the remove from album popover."""
-        return self.app.select_single("Button",
-                                      objectName="removeFromAlbumAndDeleteButton",
-                                      visible=True)
-
-    def get_remove_from_album_popover_cancel_item(self):
-        """Returns the cancel button of the remove from album popover."""
-        return self.app.select_single("Button",
-                                      objectName="removeFromAlbumCancelButton",
-                                      visible=True)
-
     def get_opened_photo(self):
         """Returns the first opened photo."""
         return self.app.wait_select_single("ZoomablePhotoComponent",
