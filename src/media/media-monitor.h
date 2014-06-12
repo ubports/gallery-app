@@ -52,6 +52,7 @@ public slots:
 signals:
     void mediaItemAdded(QString newItem);
     void mediaItemRemoved(qint64 mediaId);
+    void consistencyCheckFinished();
 
 private:
     MediaMonitorWorker* m_worker;
@@ -83,6 +84,7 @@ public slots:
 signals:
     void mediaItemAdded(QString newItem);
     void mediaItemRemoved(qint64 mediaId);
+    void consistencyCheckFinished();
 
 private slots:
     void onDirectoryEvent(const QString& eventSource);
