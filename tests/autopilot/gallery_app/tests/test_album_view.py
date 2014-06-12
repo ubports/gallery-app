@@ -180,6 +180,44 @@ class TestAlbumView(GalleryTestCase):
         self.assertThat(lambda: os.path.exists(path),
                         Eventually(Equals(False)))
 
+    def test_cancel_remove_photo_from_album(self):
+        self.main_view.close_toolbar()
+        self.open_first_album()
+        num_photos_start = self.album_view.number_of_photos()
+        self.assertThat(num_photos_start, Equals(1))
+
+        photo = self.album_view.get_first_photo()
+        images = photo.select_many('QQuickImage')
+        path = ''
+        for i in images:
+            if str(i.source).startswith('image://gallery-standard/'):
+                path = re.sub('^image://gallery-standard/', '', i.source).split('?')[0]
+        self.main_view.close_toolbar()
+        self.click_item(photo)
+
+        photo_view = self.album_view.get_album_photo_view()
+        self.assertThat(photo_view.visible, Eventually(Equals(True)))
+
+        self.main_view.open_toolbar().click_button("deleteButton")
+        remove_dialog = self.photo_viewer.get_remove_from_album_dialog()
+        self.assertThat(remove_dialog.visible, Eventually(Equals(True)))
+        self.assertThat(remove_dialog.opacity, Eventually(Equals(1)))
+
+        cancel_item = self.photo_viewer.get_remove_from_album_popover_cancel_item()
+        self.click_item(cancel_item)
+        self.assertThat(self.photo_viewer.remove_from_album_dialog_shown,
+                        Eventually(Is(False)))
+
+        self.main_view.open_toolbar().click_button("backButton")
+
+        self.assertThat(lambda: self.album_view.number_of_photos(),
+            Eventually(Equals(num_photos_start)))
+
+        self.assertThat(lambda: os.path.exists(path),
+                        Eventually(Equals(True)))
+
+
+
     def test_add_photo_to_new_album(self):
         self.main_view.open_toolbar().click_button("addButton")
         self.ui_update()
