@@ -8,7 +8,7 @@
 
 """Tests the album view of the gallery app"""
 
-from testtools.matchers import Equals, GreaterThan, LessThan, Is
+from testtools.matchers import Equals, GreaterThan, LessThan
 from autopilot.matchers import Eventually
 
 from gallery_app.emulators.album_view import AlbumView
@@ -119,6 +119,9 @@ class TestAlbumView(GalleryTestCase):
 
         path = self.album_view.click_first_photo()
 
+        self.assertThat(lambda: os.path.exists(path),
+                        Eventually(Equals(True)))
+
         photo_view = self.album_view.get_album_photo_view()
         self.assertThat(photo_view.visible, Eventually(Equals(True)))
 
@@ -126,7 +129,7 @@ class TestAlbumView(GalleryTestCase):
         self.album_view.click_remove_from_album_remove_button()
 
         self.assertThat(lambda: self.album_view.number_of_photos(),
-            Eventually(Equals(num_photos_start - 1)))
+                        Eventually(Equals(num_photos_start - 1)))
 
         self.assertThat(lambda: os.path.exists(path),
                         Eventually(Equals(True)))
@@ -139,6 +142,9 @@ class TestAlbumView(GalleryTestCase):
 
         path = self.album_view.click_first_photo()
 
+        self.assertThat(lambda: os.path.exists(path),
+                        Eventually(Equals(True)))
+
         photo_view = self.album_view.get_album_photo_view()
         self.assertThat(photo_view.visible, Eventually(Equals(True)))
 
@@ -146,7 +152,7 @@ class TestAlbumView(GalleryTestCase):
         self.album_view.click_remove_from_album_delete_button()
 
         self.assertThat(lambda: self.album_view.number_of_photos(),
-            Eventually(Equals(num_photos_start - 1)))
+                        Eventually(Equals(num_photos_start - 1)))
 
         self.assertThat(lambda: os.path.exists(path),
                         Eventually(Equals(False)))
@@ -159,6 +165,9 @@ class TestAlbumView(GalleryTestCase):
 
         path = self.album_view.click_first_photo()
 
+        self.assertThat(lambda: os.path.exists(path),
+                        Eventually(Equals(True)))
+
         photo_view = self.album_view.get_album_photo_view()
         self.assertThat(photo_view.visible, Eventually(Equals(True)))
 
@@ -168,7 +177,7 @@ class TestAlbumView(GalleryTestCase):
         self.main_view.open_toolbar().click_button("backButton")
 
         self.assertThat(lambda: self.album_view.number_of_photos(),
-            Eventually(Equals(num_photos_start)))
+                        Eventually(Equals(num_photos_start)))
 
         self.assertThat(lambda: os.path.exists(path),
                         Eventually(Equals(True)))

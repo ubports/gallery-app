@@ -7,7 +7,6 @@
 
 import logging
 import re
-import os
 
 from testtools.matchers import GreaterThan, LessThan, Equals, Is
 from autopilot.matchers import Eventually
@@ -138,7 +137,8 @@ class AlbumView(GalleryUtils):
     def _get_remove_from_album_dialog(self):
         """Returns the photo viewer remove from album dialog."""
         return self.app.wait_select_single("Dialog",
-                                           objectName="removePhotoFromAlbumDialog")
+                                           objectName=
+                                           "removePhotoFromAlbumDialog")
 
     def _remove_from_album_dialog_shown(self):
         dialog = self.app.select_many("Dialog",
@@ -146,19 +146,20 @@ class AlbumView(GalleryUtils):
         return len(dialog) >= 1
 
     def _get_remove_from_album_popover_remove_item(self):
-        """Returns the remove from album button of the remove from album popover."""
+        """Returns remove button of the remove from album popover."""
         return self.app.select_single("Button",
                                       objectName="removeFromAlbumButton",
                                       visible=True)
 
     def _get_remove_from_album_popover_delete_item(self):
-        """Returns the remove and delete button of the remove from album popover."""
+        """Returns delete button of the remove from album popover."""
         return self.app.select_single("Button",
-                                      objectName="removeFromAlbumAndDeleteButton",
+                                      objectName=
+                                      "removeFromAlbumAndDeleteButton",
                                       visible=True)
 
     def _get_remove_from_album_popover_cancel_item(self):
-        """Returns the cancel button of the remove from album popover."""
+        """Returns cancel button of the remove from album popover."""
         return self.app.select_single("Button",
                                       objectName="removeFromAlbumCancelButton",
                                       visible=True)
@@ -177,32 +178,32 @@ class AlbumView(GalleryUtils):
     @autopilot_logging.log_action(logger.info)
     def click_remove_from_album_remove_button(self):
         """Click on the remove from album button of the remove dialog."""
-    	self._ensure_remove_from_album_dialog_is_open()
+        self._ensure_remove_from_album_dialog_is_open()
 
         remove_item = self._get_remove_from_album_popover_remove_item()
         self.pointing_device.click_object(remove_item)
 
-    	self._ensure_remove_from_album_dialog_is_close()
+        self._ensure_remove_from_album_dialog_is_close()
 
     @autopilot_logging.log_action(logger.info)
     def click_remove_from_album_delete_button(self):
         """Click on the remove and delete of the remove dialog."""
-    	self._ensure_remove_from_album_dialog_is_open()
+        self._ensure_remove_from_album_dialog_is_open()
 
         delete_item = self._get_remove_from_album_popover_delete_item()
         self.pointing_device.click_object(delete_item)
 
-    	self._ensure_remove_from_album_dialog_is_close()
+        self._ensure_remove_from_album_dialog_is_close()
 
     @autopilot_logging.log_action(logger.info)
     def click_remove_from_album_cancel_button(self):
         """Click on the cancel of the remove dialog."""
-    	self._ensure_remove_from_album_dialog_is_open()
+        self._ensure_remove_from_album_dialog_is_open()
 
         cancel_item = self._get_remove_from_album_popover_cancel_item()
         self.pointing_device.click_object(cancel_item)
 
-    	self._ensure_remove_from_album_dialog_is_close()
+        self._ensure_remove_from_album_dialog_is_close()
 
     @autopilot_logging.log_action(logger.info)
     def click_first_photo(self):
@@ -212,6 +213,7 @@ class AlbumView(GalleryUtils):
         path = ''
         for i in images:
             if str(i.source).startswith('image://gallery-standard/'):
-                path = re.sub('^image://gallery-standard/', '', i.source).split('?')[0]
+                path = re.sub('^image://gallery-standard/', '',
+                              i.source).split('?')[0]
         self.pointing_device.click_object(photo)
         return path
