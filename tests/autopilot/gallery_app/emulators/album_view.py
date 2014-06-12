@@ -73,6 +73,11 @@ class AlbumView(GalleryUtils):
         animated_viewer.isOpen.wait_for(False)
         animated_viewer.animationRunning.wait_for(False)
 
+    def ensure_album_view_fully_closed(self):
+        """Ensure the album view is fully closed"""
+        view = self.get_album_view()
+        view.visible.wait_for(False)
+
     def ensure_media_selector_is_fully_closed(self):
         """Ensure media selector is fully closed"""
         loader = self.media_selector_loader()

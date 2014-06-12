@@ -36,10 +36,7 @@ Item {
     /// This item will be hidden when this view is opened. And shown again after closing this view
     property Item previewItem: null
     /// Is true if the opne or close animation is running
-    property bool animationRunning: loader_albumViewer.status === Loader.Ready ?
-                                        loader_albumViewer.item.albumViewerTransition.animationRunning ||
-                                        loader_albumViewer.item.albumViewer.animationRunning
-                                      : false
+    property bool animationRunning: false
     /// Indicates if this view is open
     property bool isOpen: false
 
@@ -49,8 +46,10 @@ Item {
         if (album.currentPage < 0)
             album.currentPage = 1
         loader_albumViewer.item.albumViewer.album = album
-        if (root.origin)
-            loader_albumViewer.item.albumViewerTransition.transitionToAlbumViewer(root.album, root.origin);
+        if (root.origin) {
+            loader_albumViewer.item.albumViewer.visible = true
+            overview.pushPage(loader_albumViewer.item.albumViewer);
+        }
         else
             loader_albumViewer.item.albumViewer.visible = true
         if (previewItem)
@@ -62,7 +61,6 @@ Item {
         Item {
             id: viewerItem
             property alias albumViewer: inner_albumViewer
-            property alias albumViewerTransition: inner_albumViewerTransition
 
             Rectangle {
                 id: overviewGlass
@@ -80,8 +78,11 @@ Item {
 
                 onCloseRequested: {
                     if (root.origin) {
-                        inner_albumViewerTransition.transitionFromAlbumViewer(
-                                    album, root.origin, stayOpen, viewingPage);
+                        if (album)
+                            album.closed = !stayOpen || (viewingPage == 0);
+                        if (previewItem)
+                            previewItem.visible = true
+                        loader_albumViewer.unload()
                     }
                     inner_albumViewer.visible = false
                     overview.popPage();
@@ -94,24 +95,6 @@ Item {
                     if (previewItem)
                         previewItem.visible = true;
                     loader_albumViewer.unload();
-                }
-            }
-
-            AlbumViewerTransition {
-                id: inner_albumViewerTransition
-
-                anchors.fill: inner_albumViewer
-                backgroundGlass: overviewGlass
-                isPortrait: application.isPortrait
-
-                onTransitionToAlbumViewerCompleted: {
-                    inner_albumViewer.visible = true
-                    overview.pushPage(inner_albumViewer);
-                }
-                onTransitionFromAlbumViewerCompleted: {
-                    if (previewItem)
-                        previewItem.visible = true
-                    loader_albumViewer.unload()
                 }
             }
         }
