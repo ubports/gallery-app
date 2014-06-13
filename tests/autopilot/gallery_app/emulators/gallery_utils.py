@@ -10,6 +10,7 @@ from autopilot.testcase import AutopilotTestCase
 
 from time import sleep
 
+
 class GalleryAppException(Exception):
     pass
 

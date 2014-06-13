@@ -86,6 +86,7 @@ class PhotoViewer(GalleryUtils):
         return self.app.select_single("Button",
                                       objectName="deletePhotoDialogNo",
                                       visible=True)
+
     def get_opened_photo(self):
         """Returns the first opened photo."""
         return self.app.wait_select_single("ZoomablePhotoComponent",
