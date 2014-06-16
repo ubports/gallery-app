@@ -119,7 +119,7 @@ class TestEventsView(GalleryTestCase):
                             Eventually(NotEquals(str(before))))
             self.assertThat(
                 lambda: self.events_view.number_of_photos_in_events(),
-                Eventually(Equals(3)))
+                Eventually(Equals(4)))
 
     # Check if Camera Button is not visible at Desktop mode
     def test_camera_button_visible(self):
