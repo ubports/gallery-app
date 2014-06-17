@@ -330,7 +330,6 @@ Item {
                     onClicked: {
                         PopupUtils.close(dialogue)
                         viewerWrapper.model.removeMediaFromAlbum(album, galleryPhotoViewer.media);
-                        galleryPhotoViewer.currentIndexChanged();
                         dialogue.finishRemove();
                     }
                 }
@@ -341,7 +340,6 @@ Item {
                     onClicked: {
                         PopupUtils.close(dialogue)
                         viewerWrapper.model.destroyMedia(galleryPhotoViewer.media, true);
-                        galleryPhotoViewer.currentIndexChanged();
                         dialogue.finishRemove();
                     }
                 }
