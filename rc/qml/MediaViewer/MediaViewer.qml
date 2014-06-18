@@ -65,8 +65,8 @@ Item {
 
     // tooolbar actions for the full view
     property Item tools: media ? (media.type === MediaSource.Photo ?
-                                            d.photoToolbar : d.videoToolbar)
-                                         : null
+                                      d.photoToolbar : d.videoToolbar)
+                               : null
 
     /*!
     */
@@ -257,7 +257,7 @@ Item {
                         sharePanel.userAccountId = facebook.id;
                         sharePanel.visible = true;
                         viewerWrapper.tools.opened = false;
-                         _lastPopover = null;
+                        _lastPopover = null;
                     }
                 }
             }
@@ -309,6 +309,48 @@ Item {
                     onClicked: PopupUtils.close(dialogue)
                 }
             }
+        }
+
+        Component {
+            id: removeFromAlbumDialog
+            Dialog {
+                id: dialogue
+                objectName: "removePhotoFromAlbumDialog"
+                title: i18n.tr("Remove a photo from album")
+
+                function finishRemove() {
+                    if (model.count === 0)
+                        galleryPhotoViewer.closeRequested();
+                }
+
+                Button {
+                    objectName: "removeFromAlbumButton"
+                    text: i18n.tr("Remove from Album")
+                    color: Gallery.HIGHLIGHT_BUTTON_COLOR
+                    onClicked: {
+                        PopupUtils.close(dialogue)
+                        viewerWrapper.model.removeMediaFromAlbum(album, galleryPhotoViewer.media);
+                        dialogue.finishRemove();
+                    }
+                }
+
+                Button {
+                    objectName: "removeFromAlbumAndDeleteButton"
+                    text: i18n.tr("Remove from Album and Delete")
+                    onClicked: {
+                        PopupUtils.close(dialogue)
+                        viewerWrapper.model.destroyMedia(galleryPhotoViewer.media, true);
+                        dialogue.finishRemove();
+                    }
+                }
+
+                Button {
+                    objectName: "removeFromAlbumCancelButton"
+                    text: i18n.tr("Cancel")
+                    onClicked: PopupUtils.close(dialogue)
+                }
+            }
+
         }
 
         onCloseRequested: viewerWrapper.closeRequested()
@@ -488,7 +530,10 @@ Item {
                     text: i18n.tr("Delete")
                     iconSource: "../../img/delete.png"
                     onTriggered: {
-                        PopupUtils.open(deleteDialog, null);
+                        if (album)
+                            PopupUtils.open(removeFromAlbumDialog, null);
+                        else
+                            PopupUtils.open(deleteDialog, null);
                     }
                 }
                 text: i18n.tr("Delete")
@@ -592,5 +637,4 @@ Item {
             }
         }
     }
-
 }
