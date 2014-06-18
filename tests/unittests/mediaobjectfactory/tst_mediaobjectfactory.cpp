@@ -116,7 +116,7 @@ void tst_MediaObjectFactory::create()
     // ... at device
     media = m_factory->create(QFileInfo("/not_video_path/video.ogv"), !isDesktop, m_resource);
     video = qobject_cast<Video*>(media);
-    QVERIFY(video == 0);
+    QVERIFY(video != 0);
     media = m_factory->create(QFileInfo("/video_path/video.ogv"), !isDesktop, m_resource);
     video = qobject_cast<Video*>(media);
     QVERIFY(video != 0);
