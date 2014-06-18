@@ -1,3 +1,13 @@
+gallery-app (0.0.67+14.10.20140618.1-0ubuntu1) utopic; urgency=low
+
+  [ Arthur Mello ]
+  * Add option to remove from album or delete from gallery when viewing
+    photos from an album (LP: #1322095)
+  * Display all videos on Videos directory on device (LP: #1324617)
+  * Fix the way we hide the header on AlbumViewer (LP: #1331382)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 18 Jun 2014 19:02:14 +0000
+
 gallery-app (0.0.67+14.10.20140610-0ubuntu1) utopic; urgency=low
 
   [ Arthur Mello ]
