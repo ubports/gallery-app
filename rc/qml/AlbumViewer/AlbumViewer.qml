@@ -74,18 +74,9 @@ Page {
 
     onVisibleChanged: {
         if (visible) reopenPicture();
-    }
 
-    // Automatically hide the header when album viewer becomes active
-    onActiveChanged: {
         if (albumViewer.header) {
-            if (active) {
-                albumViewer.header.hide();
-                albumViewer.header.visible = false;
-            }
-            else {
-                albumViewer.header.visible = true;
-            }
+            albumViewer.header.visible = !visible;
         }
     }
 
