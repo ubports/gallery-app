@@ -1,29 +1,29 @@
 # Uyghur translation for gallery-app
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
 # This file is distributed under the same license as the gallery-app package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# Gheyret Kenji <gheyret@gmail.com>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-05-09 16:45-0300\n"
-"PO-Revision-Date: 2014-02-09 10:49+0000\n"
-"Last-Translator: omarjan <bahadiromar@outlook.com>\n"
-"Language-Team: Uyghur <ug@li.org>\n"
+"PO-Revision-Date: 2014-06-13 11:57+0000\n"
+"Last-Translator: Gheyret T.Kenji <Unknown>\n"
+"Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-05 06:04+0000\n"
-"X-Generator: Launchpad (build 17031)\n"
+"X-Launchpad-Export-Date: 2014-06-14 06:44+0000\n"
+"X-Generator: Launchpad (build 17045)\n"
 
 #: desktop/gallery-app.desktop.in:3 rc/qml/MediaViewer/PopupPhotoViewer.qml:65
 msgid "Gallery"
-msgstr "رەسىم كارىدورى"
+msgstr "سۈرەت يىغقۇچ"
 
 #: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
 msgid "Ubuntu Photo Viewer"
-msgstr "Ubuntuسۈرەت كۆرگۈ"
+msgstr "ئۇبۇنتۇ سۈرەت كۆرگۈ"
 
 #: desktop/gallery-app.desktop.in:6
 msgid "Browse your photographs"
@@ -46,7 +46,7 @@ msgstr "ئۆچۈر"
 #: rc/qml/Components/MediaSelector.qml:90 rc/qml/PickerScreen.qml:114
 #: rc/qml/Utility/SelectionToolbarAction.qml:66
 msgid "Cancel"
-msgstr "ۋاز كەچ"
+msgstr "ئەمەلدىن قالدۇر"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
@@ -70,7 +70,7 @@ msgstr "قىزىل"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:84
 msgid "Album"
-msgstr ""
+msgstr "ئالبوم"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:428
 msgid "Add to album"
@@ -91,7 +91,7 @@ msgstr "كەينى"
 
 #: rc/qml/AlbumsOverview.qml:186 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
-msgstr "يېڭى ئالبۇم قوش"
+msgstr "يېڭى ئالبوم قوش"
 
 #: rc/qml/AlbumsOverview.qml:204 rc/qml/Utility/PhotosToolbarActions.qml:46
 msgid "Camera"
@@ -126,7 +126,7 @@ msgstr "ئالبومغا سۈرەت قوش"
 
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
-msgstr "يۈكلەۋاتىدۇ…"
+msgstr "ئوقۇۋاتىدۇ…"
 
 #: rc/qml/MainScreen.qml:80
 msgid "Albums"
@@ -135,7 +135,7 @@ msgstr "ئالبوملار"
 #: rc/qml/MainScreen.qml:97 rc/qml/MainScreen.qml:120
 #: rc/qml/PickerScreen.qml:54
 msgid "Events"
-msgstr "ھادىسىلەر"
+msgstr "ھادىسە"
 
 #: rc/qml/MainScreen.qml:118 rc/qml/MainScreen.qml:162
 #: rc/qml/Utility/PhotosToolbarActions.qml:33
@@ -150,7 +150,7 @@ msgstr "سۈرەتلەر"
 #: rc/qml/MediaViewer/CropOverlay.qml:352
 #: rc/qml/MediaViewer/EditPopover.qml:51 rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr "كەس"
+msgstr "قىرقى"
 
 #: rc/qml/MediaViewer/EditPopover.qml:42 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
@@ -174,7 +174,7 @@ msgstr "ئەسلىگە قايتۇرۇش"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:234
 msgid "Configure Facebook for photo sharing..."
-msgstr ""
+msgstr "فېيىسبۇكنى سۈرەت ھەمبەھىرلەيدىغان قىلىپ تەڭشەش…"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:286 rc/qml/PhotosOverview.qml:75
 msgid "Delete a photo"
@@ -182,7 +182,7 @@ msgstr "بىر سۈرەتنى ئۆچۈر"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:464
 msgid "Edit"
-msgstr "تەھرىر"
+msgstr "تەھرىرلەش"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:475
 msgid "Add photo to album"
@@ -196,7 +196,7 @@ msgstr "سۈرەتنى ھەمبەھىرلە"
 #: rc/qml/MediaViewer/MediaViewer.qml:558 rc/qml/Utility/EditingHUD.qml:72
 #: rc/qml/Utility/SelectionToolbarAction.qml:58
 msgid "Share"
-msgstr "ھەمبەھىرلە"
+msgstr "ھەمبەھىر"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:525
 msgid "Pause"
@@ -212,7 +212,7 @@ msgstr "سۈرەتلەرنى ئۆچۈر"
 
 #: rc/qml/PickerScreen.qml:99
 msgid "Pick"
-msgstr ""
+msgstr "تاللا"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
@@ -224,7 +224,7 @@ msgstr "ئەۋەت;يۈكلە;قوش"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr "مەشغۇلاتتىدىن ۋاز كەچ؛ئارقىغا"
+msgstr "مەشغۇلاتتىن ۋاز كەچ؛ئارقىغا"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
@@ -260,7 +260,7 @@ msgstr "سۈرەت كېسىش"
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr "ئەسلىدىكى سۈرەتكە قايتۇر"
+msgstr "ئەسلىدىكى سۈرەتكە قايتۇرۇش"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
@@ -276,7 +276,7 @@ msgstr "نۇر ئۆتۈش"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr "نۇر ئۆتۈشنى تەكشەش"
+msgstr "نۇر ئۆتۈشنى تەڭشەش"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
@@ -300,7 +300,7 @@ msgstr "رەڭ تەڭپۇڭىنى تەڭشە"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
-msgstr "تويۇنۇش دەرىجىسى ؛رەڭ  ڧازىسى"
+msgstr "تويۇنۇش دەرىجىسى;رەڭ  فازىسى"
 
 #: rc/qml/Utility/EditingHUD.qml:167
 msgid "Brightness"

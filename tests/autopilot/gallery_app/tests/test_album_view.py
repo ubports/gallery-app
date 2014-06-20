@@ -14,9 +14,11 @@ from autopilot.matchers import Eventually
 from gallery_app.emulators.album_view import AlbumView
 from gallery_app.emulators.albums_view import AlbumsView
 from gallery_app.emulators.media_selector import MediaSelector
+from gallery_app.emulators.photo_viewer import PhotoViewer
 from gallery_app.emulators import album_editor
 from gallery_app.tests import GalleryTestCase
 
+import os
 from time import sleep
 from unittest import skip
 
@@ -35,6 +37,10 @@ class TestAlbumView(GalleryTestCase):
     @property
     def media_selector(self):
         return MediaSelector(self.app)
+
+    @property
+    def photo_viewer(self):
+        return PhotoViewer(self.app)
 
     def setUp(self):
         self.ARGS = []
@@ -104,6 +110,77 @@ class TestAlbumView(GalleryTestCase):
         self.assertThat(
             lambda: self.album_view.number_of_photos(),
             Eventually(Equals(num_photos_start + 1)))
+
+    def test_remove_photo_from_album(self):
+        self.main_view.close_toolbar()
+        self.open_first_album()
+        num_photos_start = self.album_view.number_of_photos()
+        self.assertThat(num_photos_start, Equals(1))
+
+        path = self.album_view.click_first_photo()
+
+        self.assertThat(lambda: os.path.exists(path),
+                        Eventually(Equals(True)))
+
+        photo_view = self.album_view.get_album_photo_view()
+        self.assertThat(photo_view.visible, Eventually(Equals(True)))
+
+        self.main_view.open_toolbar().click_button("deleteButton")
+        self.album_view.click_remove_from_album_remove_button()
+
+        self.assertThat(lambda: self.album_view.number_of_photos(),
+                        Eventually(Equals(num_photos_start - 1)))
+
+        self.assertThat(lambda: os.path.exists(path),
+                        Eventually(Equals(True)))
+
+    def test_remove_photo_from_album_and_delete(self):
+        self.main_view.close_toolbar()
+        self.open_first_album()
+        num_photos_start = self.album_view.number_of_photos()
+        self.assertThat(num_photos_start, Equals(1))
+
+        path = self.album_view.click_first_photo()
+
+        self.assertThat(lambda: os.path.exists(path),
+                        Eventually(Equals(True)))
+
+        photo_view = self.album_view.get_album_photo_view()
+        self.assertThat(photo_view.visible, Eventually(Equals(True)))
+
+        self.main_view.open_toolbar().click_button("deleteButton")
+        self.album_view.click_remove_from_album_delete_button()
+
+        self.assertThat(lambda: self.album_view.number_of_photos(),
+                        Eventually(Equals(num_photos_start - 1)))
+
+        self.assertThat(lambda: os.path.exists(path),
+                        Eventually(Equals(False)))
+
+    def test_cancel_remove_photo_from_album(self):
+        self.main_view.close_toolbar()
+        self.open_first_album()
+        num_photos_start = self.album_view.number_of_photos()
+        self.assertThat(num_photos_start, Equals(1))
+
+        path = self.album_view.click_first_photo()
+
+        self.assertThat(lambda: os.path.exists(path),
+                        Eventually(Equals(True)))
+
+        photo_view = self.album_view.get_album_photo_view()
+        self.assertThat(photo_view.visible, Eventually(Equals(True)))
+
+        self.main_view.open_toolbar().click_button("deleteButton")
+        self.album_view.click_remove_from_album_cancel_button()
+
+        self.main_view.open_toolbar().click_button("backButton")
+
+        self.assertThat(lambda: self.album_view.number_of_photos(),
+                        Eventually(Equals(num_photos_start)))
+
+        self.assertThat(lambda: os.path.exists(path),
+                        Eventually(Equals(True)))
 
     def test_add_photo_to_new_album(self):
         self.main_view.open_toolbar().click_button("addButton")

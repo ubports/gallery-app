@@ -72,6 +72,7 @@ private slots:
     void initCollections();
     void switchToPickMode();
     void setFullScreen(bool fullScreen);
+    void consistencyCheckFinished();
 
 private:
     void registerQML();

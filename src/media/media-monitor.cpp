@@ -43,6 +43,8 @@ MediaMonitor::MediaMonitor(QObject *parent)
                      this, SIGNAL(mediaItemAdded(QString)), Qt::QueuedConnection);
     QObject::connect(m_worker, SIGNAL(mediaItemRemoved(qint64)),
                      this, SIGNAL(mediaItemRemoved(qint64)), Qt::QueuedConnection);
+    QObject::connect(m_worker, SIGNAL(consistencyCheckFinished()),
+                     this, SIGNAL(consistencyCheckFinished()), Qt::QueuedConnection);
 
     m_workerThread.start(QThread::LowPriority);
 }
@@ -212,6 +214,7 @@ void MediaMonitorWorker::checkConsistency()
 {
     checkForRemovedMedias();
     checkForNewMedias();
+    emit consistencyCheckFinished();
 }
 
 /*!

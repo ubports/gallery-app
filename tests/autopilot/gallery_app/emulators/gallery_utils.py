@@ -6,6 +6,8 @@
 # by the Free Software Foundation.
 import ubuntuuitoolkit.emulators
 
+from autopilot.testcase import AutopilotTestCase
+
 from time import sleep
 
 
@@ -13,7 +15,7 @@ class GalleryAppException(Exception):
     pass
 
 
-class GalleryUtils(object):
+class GalleryUtils(AutopilotTestCase):
     """An emulator class that makes it easy to interact with
        general components of the gallery app."""
 

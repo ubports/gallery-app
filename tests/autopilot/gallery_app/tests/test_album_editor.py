@@ -95,7 +95,7 @@ class TestAlbumEditor(GalleryTestCase):
         num_photos_start = self.album_view.number_of_photos()
         self.assertThat(num_photos_start, Equals(1))
         self.main_view.open_toolbar().click_button("backButton")
-        self.album_view.ensure_animated_fully_closed()
+        self.album_view.ensure_album_view_fully_closed()
 
         # now open to add a photo
         self.main_view.close_toolbar()

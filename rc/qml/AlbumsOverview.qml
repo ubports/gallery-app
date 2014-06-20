@@ -32,16 +32,31 @@ Checkerboard {
     StateSaver.properties: "albumCurrentlyInView"
 
     Component.onCompleted: {
+        /* FIXME: Does not working after PageStack
         if (albumCurrentlyInView != -1) {
             for (var i = 0; i < albumCollectionModel.count; i++) {
                 if (albumCollectionModel.getAt(i).id == albumCurrentlyInView) {
+                    if (albumCollectionModel.getAt(i).currentPage < 0)
+                        albumCollectionModel.getAt(i).currentPage = 1
+
                     albumViewer.album = albumCollectionModel.getAt(i);
                     root.visible = false;
-                    albumViewer.open();
+
+                    if (albumViewer.origin) {
+                        albumViewer.visible = true
+                        overview.pushPage(albumViewer);
+                    }
+                    else
+                        albumViewer.visible = true
+
+                    if (albumViewer.previewItem)
+                        albumViewer.previewItem.visible = false
+
                     return;
                 }
             }
         }
+        */
     }
 
     onActiveChanged: {
@@ -144,12 +159,26 @@ Checkerboard {
     }
 
     onActivated: {
+        if (object.currentPage < 0)
+            object.currentPage = 1
+
         albumCurrentlyInView = object.id
         albumViewer.album = object
         albumViewer.origin = root.getRectOfAlbumPreview(object, albumViewer)
         albumViewer.previewItem = activatingItem
         root.visible = false;
-        albumViewer.open()
+
+        if (albumViewer.origin) {
+            if (header.visible)
+                header.visible = false;
+            albumViewer.visible = true;
+            overview.pushPage(albumViewer);
+        }
+        else
+            albumViewer.visible = true
+
+        if (albumViewer.previewItem)
+            albumViewer.previewItem.visible = false
     }
 
     Rectangle {

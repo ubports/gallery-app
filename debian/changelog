@@ -1,3 +1,28 @@
+gallery-app (0.0.67+14.10.20140618.1-0ubuntu1) utopic; urgency=low
+
+  [ Arthur Mello ]
+  * Add option to remove from album or delete from gallery when viewing
+    photos from an album (LP: #1322095)
+  * Display all videos on Videos directory on device (LP: #1324617)
+  * Fix the way we hide the header on AlbumViewer (LP: #1331382)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 18 Jun 2014 19:02:14 +0000
+
+gallery-app (0.0.67+14.10.20140610-0ubuntu1) utopic; urgency=low
+
+  [ Arthur Mello ]
+  * Disable "Add" button if no media is selected on selection screen
+  * Add support to load qttestability using env var QT_LOAD_TESTABILITY
+    (LP: #1321783)
+  * Remove album opening/closing transition to reduce load timer on
+    devices. (LP: #1090122)
+
+  [ Michael Sheldon ]
+  * Wait until the media monitor has completed its consistency checks
+    before connecting to the content hub.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 10 Jun 2014 20:01:12 +0000
+
 gallery-app (0.0.67+14.10.20140528-0ubuntu1) utopic; urgency=low
 
   [ Ubuntu daily release ]

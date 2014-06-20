@@ -45,12 +45,19 @@ Page {
     /*!
     */
     property bool animationRunning: albumSpreadViewer.isFlipping ||
-                                    removeCrossfadeAnimation.running ||
-                                    albumSpreadViewerForTransition.freeze ||
                                     photoViewerLoader.animationRunning
 
     property string mediaCurrentlyInView
     StateSaver.properties: "mediaCurrentlyInView"
+
+    /// Indicates if this view is open
+    property bool isOpen: false
+    /// Origin (rectangle) where this view is animated from when calling open()
+    /// And where it is animated to when this view is closed
+    property variant origin
+    /// The preview item that was used to open the view, or null, if it was opend another way
+    /// This item will be hidden when this view is opened. And shown again after closing this view
+    property Item previewItem: null
 
     function reopenPicture() {
         if (album && albumViewer.mediaCurrentlyInView !== "") {
@@ -67,19 +74,29 @@ Page {
 
     onVisibleChanged: {
         if (visible) reopenPicture();
+
+        if (albumViewer.header) {
+            albumViewer.header.visible = !visible;
+        }
     }
 
-    // Automatically hide the header when album viewer becomes active
-    onActiveChanged: {
-        if (albumViewer.header) {
-            if (active) {
-                albumViewer.header.hide();
-                albumViewer.header.visible = false;
-            }
-            else {
-                albumViewer.header.visible = true;
-            }
+    onCloseRequested: {
+        if (origin) {
+            if (album)
+                album.closed = !stayOpen || (viewingPage == 0);
+            if (previewItem)
+                previewItem.visible = true
         }
+        visible = false
+        overview.popPage();
+        isOpen = false
+    }
+    onQuickCloseRequested: {
+        visible = false
+        overview.popPage();
+        isOpen = false
+        if (previewItem)
+            previewItem.visible = true;
     }
 
     // When the user clicks the back button or pages back to the cover.
@@ -94,15 +111,6 @@ Page {
         source: "../../img/background-paper.png"
     }
 
-    function crossfadeRemove() {
-        removeCrossfadeAnimation.restart();
-    }
-
-    function fadeOutAndFlipRemove(flipToPage) {
-        fadeOutAnimation.flipToPage = flipToPage;
-        fadeOutAnimation.restart();
-    }
-
     /// Closes the view as stores the page number the page number currently viewed
     function __close() {
         closeRequested(album.containedCount > 0, albumSpreadViewer.viewingPage)
@@ -111,51 +119,6 @@ Page {
     /// Closes the view without animation or storing anything
     function __quickClose() {
         quickCloseRequested()
-    }
-
-    FadeOutAnimation {
-        id: fadeOutAnimation
-
-        property int flipToPage: 0
-
-        target: isPortrait ? albumSpreadViewerForTransition.rightPageComponent :
-                             albumSpreadViewerForTransition.leftPageComponent
-        duration: 200
-        easingType: Easing.Linear
-
-        onRunningChanged: {
-            if (running)
-                return;
-
-            flipTimer.restart()
-
-            albumSpreadViewerForTransition.flipTo(flipToPage);
-            albumSpreadViewer.flipTo(flipToPage);
-        }
-    }
-
-    Timer {
-        id: flipTimer
-
-        interval: albumSpreadViewer.duration
-
-        onTriggered: albumSpreadViewerForTransition.freeze = false
-    }
-
-    DissolveAnimation {
-        id: removeCrossfadeAnimation
-
-        duration: 200
-        fadeOutTarget: albumSpreadViewerForTransition
-        fadeInTarget: albumSpreadViewer
-        easingType: Easing.Linear
-
-        onRunningChanged: {
-            if (running)
-                return;
-
-            albumSpreadViewerForTransition.freeze = false;
-        }
     }
 
     function resetView(album) {
@@ -172,31 +135,6 @@ Page {
         overview.pushPage(component_mediaSelector);
     }
 
-    // Used for the cross-fade transition.
-    AlbumSpreadViewer {
-        id: albumSpreadViewerForTransition
-
-        anchors.fill: parent
-        album: albumViewer.album
-        z: 100
-        visible: freeze
-        load: parent.visible && freeze
-
-        Connections {
-            target: albumSpreadViewer
-
-            onViewingPageChanged: {
-                if (!albumSpreadViewerForTransition.freeze)
-                    albumSpreadViewerForTransition.flipTo(albumSpreadViewer.viewingPage);
-            }
-        }
-
-        onFreezeChanged: {
-            if (!freeze)
-                flipTo(albumSpreadViewer.viewingPage);
-        }
-    }
-
     AlbumSpreadViewer {
         id: albumSpreadViewer
         objectName: "spreadViewer"
@@ -209,7 +147,7 @@ Page {
         // Keyboard focus while visible and viewer is not visible
         focus: visible
 
-        showCover: !albumSpreadViewerForTransition.freeze
+        showCover: true
 
         Keys.onPressed: {
             if (event.key !== Qt.Key_Left && event.key !== Qt.Key_Right)
@@ -222,8 +160,6 @@ Page {
             if (!albumSpreadViewer.isFlipping &&
                     albumSpreadViewer.isPopulatedContentPage(destination)) {
                 chrome.hide(true);
-
-                albumSpreadViewerForTransition.flipTo(destination);
 
                 event.accepted = true;
             }
@@ -366,7 +302,6 @@ Page {
 
             onOpened: {
                 overview.pushPage(target);
-                albumSpreadViewer.visible = false;
             }
             onCloseRequested: {
                 albumViewer.mediaCurrentlyInView = "";
@@ -376,12 +311,10 @@ Page {
                     albumSpreadViewer.viewingPage = isPortrait? page : albumViewer.album.currentPage;
                 }
 
-                albumSpreadViewer.visible = true;
                 photoViewerLoader.item.fadeClosed();
             }
             onClosed: {
                 overview.popPage();
-                source = "";
             }
 
         }
