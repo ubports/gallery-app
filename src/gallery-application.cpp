@@ -219,7 +219,7 @@ void GalleryApplication::createView()
     //run fullscreen if specified at command line or not in DESKTOP_MODE (i.e. on a device)
     m_view->show();
 
-    if (m_cmdLineParser->isFullscreen() || !isDesktopMode()) {
+    if (m_cmdLineParser->isFullscreen()) {
         setFullScreen(true);
     }
 
