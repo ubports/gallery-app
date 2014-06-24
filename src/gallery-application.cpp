@@ -221,7 +221,7 @@ void GalleryApplication::createView()
 
     m_view->show();
 
-    // To define maxTextureSize we need to make sure QPA is running and that need to be called after show
+    // To define maxTextureSize we need to make sure QPA is running and that needs to be called after show
     rootContext->setContextProperty("MAX_GL_TEXTURE_SIZE",
                                     QVariant(m_galleryManager->resource()->maxTextureSize()));
 
