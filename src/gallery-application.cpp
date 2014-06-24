@@ -203,8 +203,6 @@ void GalleryApplication::createView()
     rootContext->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
     rootContext->setContextProperty("DEVICE_HEIGHT", QVariant(size.height()));
     rootContext->setContextProperty("FORM_FACTOR", QVariant(m_cmdLineParser->formFactor()));
-    rootContext->setContextProperty("MAX_GL_TEXTURE_SIZE",
-                                    QVariant(m_galleryManager->resource()->maxTextureSize()));
 
     // Set ourselves up to expose functionality to run external commands from QML...
     m_view->engine()->rootContext()->setContextProperty("APP", this);
@@ -217,11 +215,15 @@ void GalleryApplication::createView()
     QObject::connect(this, SIGNAL(mediaLoaded()), rootObject, SLOT(onLoaded()));
 
     //run fullscreen if specified at command line or not in DESKTOP_MODE (i.e. on a device)
-    m_view->show();
-
-    if (m_cmdLineParser->isFullscreen()) {
+    if (m_cmdLineParser->isFullscreen() || !isDesktopMode()) {
         setFullScreen(true);
     }
+
+    m_view->show();
+
+    // To define maxTextureSize we need to make sure QPA is running and that need to be called after show
+    rootContext->setContextProperty("MAX_GL_TEXTURE_SIZE",
+                                    QVariant(m_galleryManager->resource()->maxTextureSize()));
 
     if (m_cmdLineParser->startupTimer())
         qDebug() << "GalleryApplication view created" << m_timer->elapsed() << "ms";

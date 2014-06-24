@@ -71,8 +71,6 @@ GalleryManager::GalleryManager(bool desktopMode,
       m_desktopMode(desktopMode),
       m_mediaLibrary(0)
 {
-    const int maxTextureSize = m_resource->maxTextureSize();
-    m_standardImageProvider->setMaxLoadResolution(maxTextureSize);
     m_mediaFactory = new MediaObjectFactory(m_desktopMode, m_resource);
 
     m_galleryManager = this;
@@ -283,6 +281,9 @@ void GalleryManager::onMediaItemRemoved(qint64 mediaId)
  */
 GalleryStandardImageProvider* GalleryManager::takeGalleryStandardImageProvider()
 {
+    const int maxTextureSize = m_resource->maxTextureSize();
+    m_standardImageProvider->setMaxLoadResolution(maxTextureSize);
+
     GalleryStandardImageProvider *provider = m_standardImageProvider;
     m_standardImageProvider = 0;
     return provider;
