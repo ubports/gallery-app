@@ -217,9 +217,10 @@ void GalleryApplication::createView()
     //run fullscreen if specified at command line or not in DESKTOP_MODE (i.e. on a device)
     if (m_cmdLineParser->isFullscreen() || !isDesktopMode()) {
         setFullScreen(true);
+        m_view->showFullScreen();
+    } else {
+        m_view->show();
     }
-
-    m_view->show();
 
     // To define maxTextureSize we need to make sure QPA is running and that needs to be called after show
     rootContext->setContextProperty("MAX_GL_TEXTURE_SIZE",
