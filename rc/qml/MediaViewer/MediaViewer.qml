@@ -283,7 +283,7 @@ Item {
             Dialog {
                 id: dialogue
                 objectName: "deletePhotoDialog"
-                title: i18n.tr("Delete a photo")
+                title: (galleryPhotoViewer.media.type === MediaSource.Photo) ? i18n.tr("Delete a photo") : i18n.tr("Delete a video")
 
                 function finishRemove() {
                     if (!album === undefined)
