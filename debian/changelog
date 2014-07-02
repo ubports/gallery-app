@@ -1,3 +1,16 @@
+gallery-app (0.0.67+14.10.20140625.1-0ubuntu1) utopic; urgency=low
+
+  [ Arthur Mello ]
+  * Ensure the window is made fullscreen before it is shown, to work
+    around an issue with calculating window coordinates. Also ensure
+    that the window has been shown before querying for
+    MAX_GL_TEXTURE_SIZE. (LP: #1332632)
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 25 Jun 2014 19:08:54 +0000
+
 gallery-app (0.0.67+14.10.20140618.1-0ubuntu1) utopic; urgency=low
 
   [ Arthur Mello ]
