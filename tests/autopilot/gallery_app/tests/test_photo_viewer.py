@@ -11,6 +11,7 @@
 from testtools.matchers import Equals, NotEquals, GreaterThan, Is
 from autopilot.matchers import Eventually
 from testtools import skipIf
+from autopilot.platform import model
 
 from gallery_app.emulators.photo_viewer import PhotoViewer
 from gallery_app.emulators.media_viewer import MediaViewer
