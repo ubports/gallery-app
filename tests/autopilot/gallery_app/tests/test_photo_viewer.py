@@ -10,6 +10,7 @@
 
 from testtools.matchers import Equals, NotEquals, GreaterThan, Is
 from autopilot.matchers import Eventually
+from testtools import skipIf
 
 from gallery_app.emulators.photo_viewer import PhotoViewer
 from gallery_app.emulators.media_viewer import MediaViewer
@@ -109,6 +110,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
         self.assertThat(photo_viewer.visible, Eventually(Equals(False)))
 
+    @skipIf(model() == 'Desktop')
     def test_share_button(self):
         """Clicking the share button must show the ContentPeerPicker."""
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
