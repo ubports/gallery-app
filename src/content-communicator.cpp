@@ -56,29 +56,32 @@ void ContentCommunicator::handle_import(content::Transfer *transfer)
     foreach (const Item &hubItem, transferedItems) {
         QFileInfo fi(hubItem.url().toLocalFile());
         QString filename = fi.fileName();
-        QString destination;
+        QString dir;
         QMimeDatabase mdb;
         QMimeType mt = mdb.mimeTypeForFile(hubItem.url().toLocalFile());
-        if(!filename.contains('.')) {
+        QString suffix = fi.completeSuffix();
+        QString filenameWithoutSuffix = filename.left(filename.size() - suffix.size());
+        if(suffix.isEmpty()) {
             // If the filename doesn't have an extension add one from the
             // detected mimetype
             if(!mt.preferredSuffix().isEmpty()) {
-                filename += "." + mt.preferredSuffix();
+                suffix = "." + mt.preferredSuffix();
             }
         }
         if(mt.name().startsWith("video/")) {
-            destination = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation) + QDir::separator() + filename;
+            dir = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation) + QDir::separator();
         } else {
-            destination = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + filename;
+            dir = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator();
         }
+        QString destination = QString("%1%2").arg(dir + filenameWithoutSuffix, suffix);
+        // If we already have a file of this name reformat to "filename.x.png"
+        // (where x is a number, incremented until we find an available filename)
         if(QFile::exists(destination)) {
             int append = 1;
-            QString newDestination;
             do {
-                newDestination = destination + "." + QString::number(append);
+                destination = QString("%1%2.%3").arg(dir + filenameWithoutSuffix, QString::number(append), suffix);
                 append++;
-            } while(QFile::exists(newDestination));
-            destination = newDestination;
+            } while(QFile::exists(destination));
         }
         QFile::copy(hubItem.url().toLocalFile(), destination);
     }
