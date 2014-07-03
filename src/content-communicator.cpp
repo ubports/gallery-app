@@ -55,13 +55,21 @@ void ContentCommunicator::handle_import(content::Transfer *transfer)
     QVector<Item> transferedItems = transfer->collect();
     foreach (const Item &hubItem, transferedItems) {
         QFileInfo fi(hubItem.url().toLocalFile());
+        QString filename = fi.fileName();
+        QString destination;
         QMimeDatabase mdb;
         QMimeType mt = mdb.mimeTypeForFile(hubItem.url().toLocalFile());
-        QString destination;
+        if(!filename.contains('.')) {
+            // If the filename doesn't have an extension add one from the
+            // detected mimetype
+            if(!mt.preferredSuffix().isEmpty()) {
+                filename += "." + mt.preferredSuffix();
+            }
+        }
         if(mt.name().startsWith("video/")) {
-            destination = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation) + QDir::separator() + fi.fileName();
+            destination = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation) + QDir::separator() + filename;
         } else {
-            destination = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + fi.fileName();
+            destination = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + filename;
         }
         if(QFile::exists(destination)) {
             int append = 1;
