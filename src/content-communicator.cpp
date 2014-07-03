@@ -65,7 +65,8 @@ void ContentCommunicator::handle_import(content::Transfer *transfer)
             // If the filename doesn't have an extension add one from the
             // detected mimetype
             if(!mt.preferredSuffix().isEmpty()) {
-                suffix = "." + mt.preferredSuffix();
+                suffix = mt.preferredSuffix();
+                filenameWithoutSuffix += ".";
             }
         }
         if(mt.name().startsWith("video/")) {
