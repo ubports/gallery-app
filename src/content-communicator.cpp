@@ -55,7 +55,14 @@ void ContentCommunicator::handle_import(content::Transfer *transfer)
     QVector<Item> transferedItems = transfer->collect();
     foreach (const Item &hubItem, transferedItems) {
         QFileInfo fi(hubItem.url().toLocalFile());
-        QString destination = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + fi.fileName();
+        QMimeDatabase mdb;
+        QMimeType mt = mdb.mimeTypeForFile(hubItem.url().toLocalFile());
+        QString destination;
+        if(mt.name().startsWith("video/")) {
+            destination = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation) + QDir::separator() + fi.fileName();
+        } else {
+            destination = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + fi.fileName();
+        }
         if(QFile::exists(destination)) {
             int append = 1;
             QString newDestination;
