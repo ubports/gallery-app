@@ -23,7 +23,7 @@ import Gallery 1.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
-import Ubuntu.Components.Extras 0.1
+import Ubuntu.Content 0.1
 import "../Components"
 import "../Utility"
 import "../../js/Gallery.js" as Gallery
@@ -224,42 +224,32 @@ Item {
                      !editHUD.actionActive
 
         Component {
-            id: shareConfigurePopover
-
-            ActionSelectionPopover {
-                objectName: "shareConfigurePopover"
-                visible: false
-                actions: ActionList {
-                    Action {
-                        text: i18n.tr("Configure Facebook for photo sharing...")
-                        onTriggered: {
-                            Qt.openUrlExternally("settings:///system/online-accounts");
-                        }
-                    }
-                }
-            }
+            id: contentItemComp
+            ContentItem {}
         }
 
-        FacebookAccount {
-            id: facebook
+        Rectangle {
+            id: sharePicker
+            anchors.fill: parent
+            visible: false
 
-            property ActionSelectionPopover _lastPopover: null
+            ContentPeerPicker {
+                objectName: "sharePicker"
+                anchors.fill: parent
+                visible: parent.visible
+                contentType: galleryPhotoViewer.media.type === MediaSource.Video ? ContentType.Videos : ContentType.Pictures
+                handler: ContentHandler.Share
 
-            function configureOrStartSharing(button) {
-                if (_lastPopover) {
-                    PopupUtils.close(_lastPopover);
-                    _lastPopover = null;
-                } else {
-                    if (facebook.id == -1) {
-                        _lastPopover = PopupUtils.open(shareConfigurePopover, button);
-                    } else {
-                        sharePanel.fileToShare = viewerWrapper.media.path;
-                        sharePanel.userAccountId = facebook.id;
-                        sharePanel.visible = true;
-                        viewerWrapper.tools.opened = false;
-                        _lastPopover = null;
+                onPeerSelected: {
+                    parent.visible = false;
+                    var curTransfer = peer.request();
+                    if (curTransfer.state === ContentTransfer.InProgress)
+                    {
+                        curTransfer.items = [ contentItemComp.createObject(parent, {"url": viewerWrapper.media.path}) ];
+                        curTransfer.state = ContentTransfer.Charged;
                     }
                 }
+                onCancelPressed: parent.visible = false;
             }
         }
 
@@ -546,7 +536,7 @@ Item {
                     text: i18n.tr("Share photo")
                     iconSource: "../../img/share.png"
                     onTriggered: {
-                        facebook.configureOrStartSharing(photoShareButton);
+                        sharePicker.visible = true;
                     }
                 }
                 text: i18n.tr("Share")
@@ -602,7 +592,7 @@ Item {
                 text: i18n.tr("Share")
                 iconSource: "../../img/share.png"
                 onTriggered: {
-                    facebook.configureOrStartSharing(videoShareButton);
+                    sharePicker.visible = true;
                 }
             }
 
@@ -614,26 +604,6 @@ Item {
                     galleryPhotoViewer.currentItem.reset();
                     closeRequested();
                 }
-            }
-        }
-    }
-
-    Loader {
-        id: sharePanel
-        anchors.fill: parent
-        visible: false
-        sourceComponent: (fileToShare !== "" && userAccountId !== "") ? component_sharePanel : null
-
-        property string fileToShare
-        property string userAccountId
-
-        Component {
-            id: component_sharePanel
-            Share {
-                fileToShare: sharePanel.fileToShare
-                userAccountId: sharePanel.userAccountId
-                onUploadCompleted: sharePanel.visible = false;
-                onCanceled: sharePanel.visible = false;
             }
         }
     }
