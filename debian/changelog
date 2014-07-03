@@ -1,3 +1,23 @@
+gallery-app (0.0.67+14.10.20140703-0ubuntu1) utopic; urgency=low
+
+  [ Bill Filler ]
+  * Switch to using the content-hub for sharing. When selecting the
+    share action, the ContentPeerPicker will be shown with a list of
+    apps that provide sharing.
+
+  [ Michael Sheldon ]
+  * Add videos as supported content-hub destination and source type.
+
+  [ Ken VanDine ]
+  * Switch to using the content-hub for sharing. When selecting the
+    share action, the ContentPeerPicker will be shown with a list of
+    apps that provide sharing.
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 03 Jul 2014 16:26:56 +0000
+
 gallery-app (0.0.67+14.10.20140701-0ubuntu1) utopic; urgency=low
 
   [ Michał Sawicz ]
