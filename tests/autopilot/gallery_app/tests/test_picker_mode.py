@@ -77,7 +77,7 @@ class TestPickerMode(GalleryTestCase):
             self.sample_destination_dir)
         photos_page.click_named_photo(image_path)
         self.assertTrue(pick_button.enabled)
-        self.click_item(pick_button)
+        self.picker_view.click_pick_button()
 
     @unittest.skip("Temporarily disable as it fails in some cases, "
                    "supposedly due to problems with the infrastructure")
