@@ -68,15 +68,14 @@ class TestPickerMode(GalleryTestCase):
     @skip("Temporarily disable as it fails in some cases")
     def test_pick_named_photo(self):
         """Select a named photo and press Pick button."""
-        self.picker_view.switch_to_tab('photosTab')
+        photos_page = self.picker_view.go_to_photos()
         pick_button = self.picker_view.pick_button()
         self.assertFalse(pick_button.enabled)
 
         # create the image location path based on sample location
         image_path = 'image://thumbnailer/{}/sample02.jpg'.format(
             self.sample_destination_dir)
-        self.picker_view.select_named_photo(image_path)
-
+        photos_page.click_named_photo(image_path)
         self.assertTrue(pick_button.enabled)
         self.click_item(pick_button)
 
