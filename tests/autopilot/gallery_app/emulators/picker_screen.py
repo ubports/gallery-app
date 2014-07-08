@@ -44,6 +44,12 @@ class PickerScreen(toolkit_emulators.MainView):
         """Click on the pick button"""
         self.pointing_device.click_object(self.pick_button())
 
+    def select_photo(self, photo_name):
+        """Go to the photos view and pick the named photo"""
+        photos_page = self.go_to_photos()
+        photos_page.click_named_photo(photo_name)
+        self.click_pick_button()
+
 
 class Page(PickerScreen):
     """Class to represent photos page view from picker screen"""
