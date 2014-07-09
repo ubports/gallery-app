@@ -15,7 +15,6 @@ from gallery_app.emulators.picker_screen import PickerScreen
 from gallery_app.tests import GalleryTestCase
 import unittest
 
-from unittest import skip
 
 class TestPickerMode(GalleryTestCase):
 
@@ -65,7 +64,6 @@ class TestPickerMode(GalleryTestCase):
             Eventually(Equals(False))
         )
 
-    @skip("Temporarily disable as it fails in some cases")
     def test_pick_named_photo(self):
         """Select a named photo and press Pick button."""
         photos_page = self.picker_view.go_to_photos()
