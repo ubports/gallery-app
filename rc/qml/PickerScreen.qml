@@ -75,6 +75,7 @@ MainView {
             objectName: "photosTab"
             page: Page {
                 id: photosOverview
+                objectName: "photosPage"
 
                 tools: pickTools
 

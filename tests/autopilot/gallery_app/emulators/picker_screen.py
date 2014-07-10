@@ -38,7 +38,7 @@ class PickerScreen(toolkit_emulators.MainView):
         Return the Page object representing the photos
         """
         self.switch_to_tab('photosTab')
-        return self.select_single(Page, title='Photos')
+        return self.select_single(Page10, objectName='photosPage')
 
     def click_pick_button(self):
         """Click on the pick button"""
@@ -51,7 +51,7 @@ class PickerScreen(toolkit_emulators.MainView):
         self.click_pick_button()
 
 
-class Page(PickerScreen):
+class Page10(PickerScreen):
     """Class to represent photos page view from picker screen"""
 
     def _get_named_photo_element(self, photo_name):
