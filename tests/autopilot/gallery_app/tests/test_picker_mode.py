@@ -20,7 +20,10 @@ class TestPickerMode(GalleryTestCase):
 
     @property
     def picker_view(self):
-        return self.app.wait_select_single(PickerScreen)
+        self.app._poll_time = 30
+        picker_view = self.app.wait_select_single(PickerScreen)
+        self.app._poll_time = 10
+        return picker_view
 
     def setUp(self):
         self.ARGS.append("--pick-mode")
