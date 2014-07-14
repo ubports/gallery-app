@@ -26,7 +26,8 @@ class TestPickerMode(GalleryTestCase):
         return picker_view
 
     def setUp(self):
-        self.ARGS.append("--pick-mode")
+        if '--pick-mode' not in self.ARGS:
+            self.ARGS.append('--pick-mode')
         super(TestPickerMode, self).setUp()
 
     def select_first_event_media(self):
