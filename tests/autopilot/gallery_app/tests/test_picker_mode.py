@@ -20,14 +20,10 @@ class TestPickerMode(GalleryTestCase):
 
     @property
     def picker_view(self):
-        self.app._poll_time = 30
-        picker_view = self.app.wait_select_single(PickerScreen)
-        self.app._poll_time = 10
-        return picker_view
+        return self.app.wait_select_single(PickerScreen)
 
     def setUp(self):
-        if '--pick-mode' not in self.ARGS:
-            self.ARGS.append('--pick-mode')
+        self.ARGS = ['--pick-mode']
         super(TestPickerMode, self).setUp()
 
     def select_first_event_media(self):
