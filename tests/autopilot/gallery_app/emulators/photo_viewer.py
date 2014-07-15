@@ -29,10 +29,15 @@ class PhotoViewer(GalleryUtils):
         return self.app.wait_select_single("PopupAlbumPicker",
                                            objectName="popupAlbumPicker")
 
-    def get_share_dialog(self):
-        """Returns the photo viewer share dialog."""
-        return self.app.wait_select_single("SharePopover",
-                                           objectName="sharePopover")
+    def get_content_peer_picker_cancel_button(self):
+        """Returns the ContentPeerPicker cancel button."""
+        return self.app.wait_select_single("Button",
+                                           objectName="contentPeerPickerCancelButton")
+
+    def get_share_peer_picker(self):
+        """Returns the photo viewer share picker."""
+        return self.app.wait_select_single("ContentPeerPicker",
+                                           objectName="sharePicker")
 
     def get_photo_edit_dialog(self):
         """Returns the photo edit dialog."""
