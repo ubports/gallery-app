@@ -64,7 +64,7 @@ Item {
                            (galleryPhotoViewer.currentItem ? galleryPhotoViewer.currentItem.isLoaded : false)
 
     // tooolbar actions for the full view
-    property Item tools: media ? (media.type === MediaSource.Photo ?
+    property Item tools: (media && !sharePicker.visible) ? (media.type === MediaSource.Photo ?
                                       d.photoToolbar : d.videoToolbar)
                                : null
 
