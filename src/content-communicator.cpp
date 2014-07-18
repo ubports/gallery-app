@@ -86,6 +86,9 @@ void ContentCommunicator::handle_import(content::Transfer *transfer)
         }
         QFile::copy(hubItem.url().toLocalFile(), destination);
     }
+    // Allow content-hub to clean up temporary files in .cache/ once we've
+    // moved them
+    transfer->finalize();
 }
 
 /*!
