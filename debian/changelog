@@ -1,3 +1,18 @@
+gallery-app (0.0.67+14.10.20140718-0ubuntu1) utopic; urgency=low
+
+  [ Michael Sheldon ]
+  * Hide the media viewer toolbar when displaying the share picker.
+  * Finalize content-hub transfers so that temporary files in ~/.cache
+    can be cleaned up by content-hub.
+
+  [ Colin Watson ]
+  * Link exiv2 statically in click mode. (LP: #1342840)
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 18 Jul 2014 14:41:06 +0000
+
 gallery-app (0.0.67+14.10.20140703-0ubuntu1) utopic; urgency=low
 
   [ Bill Filler ]
