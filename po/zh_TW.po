@@ -8,18 +8,18 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-06-05 11:23-0400\n"
-"PO-Revision-Date: 2014-07-15 14:03+0000\n"
+"PO-Revision-Date: 2014-07-18 10:11+0000\n"
 "Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-16 07:25+0000\n"
-"X-Generator: Launchpad (build 17112)\n"
+"X-Launchpad-Export-Date: 2014-07-19 06:14+0000\n"
+"X-Generator: Launchpad (build 17114)\n"
 
 #: desktop/gallery-app.desktop.in:3 rc/qml/MediaViewer/PopupPhotoViewer.qml:64
 msgid "Gallery"
-msgstr "畫廊"
+msgstr "照相館"
 
 #: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
 msgid "Ubuntu Photo Viewer"
@@ -91,7 +91,7 @@ msgstr "返回"
 
 #: rc/qml/AlbumsOverview.qml:197 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
-msgstr "增添新相簿"
+msgstr "新增相簿"
 
 #: rc/qml/AlbumsOverview.qml:215 rc/qml/Utility/PhotosToolbarActions.qml:46
 msgid "Camera"
@@ -118,11 +118,11 @@ msgstr "刪除相簿 + 內容"
 #: rc/qml/Components/MediaSelector.qml:59
 #: rc/qml/Components/MediaSelector.qml:80
 msgid "Add to Album"
-msgstr "新增至相簿"
+msgstr "加入相簿中"
 
 #: rc/qml/Components/PopupAlbumPicker.qml:159 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr "新增相片至相簿"
+msgstr "將相片加入相簿"
 
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
@@ -158,7 +158,7 @@ msgstr "旋轉"
 
 #: rc/qml/MediaViewer/EditPopover.qml:60
 msgid "Auto enhance"
-msgstr "自動增強"
+msgstr "自動補強"
 
 #: rc/qml/MediaViewer/EditPopover.qml:69 rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
@@ -212,7 +212,7 @@ msgstr "挑選"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr "垃圾;抹除"
+msgstr "Trash;Erase;垃圾;抹除"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
@@ -228,7 +228,7 @@ msgstr "Reapply;Make Again;再次動作"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr "自動增強"
+msgstr "自動補強"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
@@ -248,7 +248,7 @@ msgstr "順時針旋轉影像"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr "Trim;Cut;裁剪"
+msgstr "Trim;Cut;裁剪;裁切"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
