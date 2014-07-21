@@ -8,30 +8,30 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-06-05 11:23-0400\n"
-"PO-Revision-Date: 2013-07-02 13:00+0000\n"
+"PO-Revision-Date: 2014-07-19 11:02+0000\n"
 "Last-Translator: Joachim Johansson <Unknown>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-04 06:28+0000\n"
-"X-Generator: Launchpad (build 17086)\n"
+"X-Launchpad-Export-Date: 2014-07-20 06:15+0000\n"
+"X-Generator: Launchpad (build 17114)\n"
 
 #: desktop/gallery-app.desktop.in:3 rc/qml/MediaViewer/PopupPhotoViewer.qml:64
 msgid "Gallery"
-msgstr ""
+msgstr "Fotoalbum"
 
 #: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
 msgid "Ubuntu Photo Viewer"
-msgstr ""
+msgstr "Ubuntu bildvisare"
 
 #: desktop/gallery-app.desktop.in:6
 msgid "Browse your photographs"
-msgstr ""
+msgstr "Bläddra bland dina bilder"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 msgid "Edit album"
-msgstr ""
+msgstr "Redigera album"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
 #: rc/qml/AlbumViewer/AlbumViewer.qml:438
@@ -40,17 +40,17 @@ msgstr ""
 #: rc/qml/MediaViewer/MediaViewer.qml:538 rc/qml/Utility/EditingHUD.qml:67
 #: rc/qml/Utility/SelectionToolbarAction.qml:51
 msgid "Delete"
-msgstr ""
+msgstr "Ta bort"
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:40
 #: rc/qml/Components/MediaSelector.qml:92 rc/qml/PickerScreen.qml:114
 #: rc/qml/Utility/SelectionToolbarAction.qml:66
 msgid "Cancel"
-msgstr ""
+msgstr "Avbryt"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
-msgstr ""
+msgstr "Standard"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:114
 msgid "Blue"
@@ -62,7 +62,7 @@ msgstr "Grön"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:116
 msgid "Pattern"
-msgstr ""
+msgstr "Mönster"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:117
 msgid "Red"
@@ -70,32 +70,32 @@ msgstr "Röd"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:90
 msgid "Album"
-msgstr ""
+msgstr "Album"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:427
 msgid "Add to album"
-msgstr ""
+msgstr "Lägg till i album"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:433
 #: rc/qml/MediaViewer/MediaViewer.qml:474
 #: rc/qml/MediaViewer/MediaViewer.qml:528 rc/qml/Utility/EditingHUD.qml:77
 #: rc/qml/Utility/SelectionToolbarAction.qml:44
 msgid "Add"
-msgstr ""
+msgstr "Lägg till"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:447
 #: rc/qml/MediaViewer/MediaViewer.qml:502
 #: rc/qml/MediaViewer/MediaViewer.qml:557
 msgid "Back"
-msgstr ""
+msgstr "Bakåt"
 
 #: rc/qml/AlbumsOverview.qml:197 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
-msgstr ""
+msgstr "Lägg till nytt album"
 
 #: rc/qml/AlbumsOverview.qml:215 rc/qml/Utility/PhotosToolbarActions.qml:46
 msgid "Camera"
-msgstr ""
+msgstr "Kamera"
 
 #: rc/qml/Components/DeleteDialog.qml:36
 #: rc/qml/MediaViewer/MediaViewer.qml:288
@@ -109,211 +109,211 @@ msgstr "Nej"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr ""
+msgstr "Ta bort album"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr ""
+msgstr "Radera album och innehåll"
 
 #: rc/qml/Components/MediaSelector.qml:59
 #: rc/qml/Components/MediaSelector.qml:80
 msgid "Add to Album"
-msgstr ""
+msgstr "Lägg till i album"
 
 #: rc/qml/Components/PopupAlbumPicker.qml:159 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr ""
+msgstr "Lägg till bild i album"
 
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
-msgstr ""
+msgstr "Laddar..."
 
 #: rc/qml/MainScreen.qml:96
 msgid "Albums"
-msgstr ""
+msgstr "Album"
 
 #: rc/qml/MainScreen.qml:113 rc/qml/MainScreen.qml:136
 #: rc/qml/PickerScreen.qml:54
 msgid "Events"
-msgstr ""
+msgstr "Händelser"
 
 #: rc/qml/MainScreen.qml:134 rc/qml/MainScreen.qml:178
 #: rc/qml/Utility/PhotosToolbarActions.qml:33
 msgid "Select"
-msgstr ""
+msgstr "Välj"
 
 #: rc/qml/MainScreen.qml:146 rc/qml/MainScreen.qml:180
 #: rc/qml/PickerScreen.qml:74
 msgid "Photos"
-msgstr ""
+msgstr "Bilder"
 
 #: rc/qml/MediaViewer/CropOverlay.qml:352
 #: rc/qml/MediaViewer/EditPopover.qml:51 rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr ""
+msgstr "Beskär"
 
 #: rc/qml/MediaViewer/EditPopover.qml:42 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr ""
+msgstr "Rotera"
 
 #: rc/qml/MediaViewer/EditPopover.qml:60
 msgid "Auto enhance"
-msgstr ""
+msgstr "Automatisk förbättring"
 
 #: rc/qml/MediaViewer/EditPopover.qml:69 rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
-msgstr ""
+msgstr "Ångra"
 
 #: rc/qml/MediaViewer/EditPopover.qml:79 rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr ""
+msgstr "Gör om"
 
 #: rc/qml/MediaViewer/EditPopover.qml:89
 msgid "Revert to original"
-msgstr ""
+msgstr "Återgå till original"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:277 rc/qml/PhotosOverview.qml:75
 msgid "Delete a photo"
-msgstr ""
+msgstr "Ta bort en bild"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:455
 msgid "Edit"
-msgstr ""
+msgstr "Redigera"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:466
 msgid "Add photo to album"
-msgstr ""
+msgstr "Lägg till bild i album"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:492
 msgid "Share photo"
-msgstr ""
+msgstr "Dela bild"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:498
 #: rc/qml/MediaViewer/MediaViewer.qml:548 rc/qml/Utility/EditingHUD.qml:72
 #: rc/qml/Utility/SelectionToolbarAction.qml:58
 msgid "Share"
-msgstr ""
+msgstr "Dela ut"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:515
 msgid "Pause"
-msgstr ""
+msgstr "Pausa"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:515
 msgid "Play"
-msgstr ""
+msgstr "Spela"
 
 #: rc/qml/PhotosOverview.qml:74
 msgid "Delete photos"
-msgstr ""
+msgstr "Ta bort bilder"
 
 #: rc/qml/PickerScreen.qml:99
 msgid "Pick"
-msgstr ""
+msgstr "Välj"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr ""
+msgstr "Papperskorg;Radera"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
-msgstr ""
+msgstr "Publicera;Ladda upp;Bifoga"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr ""
+msgstr "Avbryt åtgärden;Stega tillbaka"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr ""
+msgstr "Applicera igen;Gör igen"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr ""
+msgstr "Automatisk förbättring"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr ""
+msgstr "Justera bilden automatiskt"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr ""
+msgstr "Automatisk bildjustering"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr ""
+msgstr "Rotera medurs"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr ""
+msgstr "Rotera bilden medurs"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr ""
+msgstr "Trimma;Klipp"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr ""
+msgstr "Beskär bilden"
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr ""
+msgstr "Återställ till original"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr ""
+msgstr "Förkasta ändringar"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr ""
+msgstr "Förkasta alla ändringar"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr ""
+msgstr "Exponering"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr ""
+msgstr "Justera exponeringen"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr ""
+msgstr "Underexponerad;Överexponerad"
 
 #: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
 msgid "Confirm"
-msgstr ""
+msgstr "Bekräfta"
 
 #: rc/qml/Utility/EditingHUD.qml:126
 msgid "Compensation"
-msgstr ""
+msgstr "Kompensering"
 
 #: rc/qml/Utility/EditingHUD.qml:160
 msgid "Color Balance"
-msgstr ""
+msgstr "Färgbalans"
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Adjust color balance"
-msgstr ""
+msgstr "Justera färgbalans"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
-msgstr ""
+msgstr "Mättnad;Nyans"
 
 #: rc/qml/Utility/EditingHUD.qml:167
 msgid "Brightness"
-msgstr ""
+msgstr "Ljusstyrka"
 
 #: rc/qml/Utility/EditingHUD.qml:178
 msgid "Contrast"
-msgstr ""
+msgstr "Kontrast"
 
 #: rc/qml/Utility/EditingHUD.qml:189
 msgid "Saturation"
-msgstr ""
+msgstr "Mättnad"
 
 #: rc/qml/Utility/EditingHUD.qml:200
 msgid "Hue"
-msgstr ""
+msgstr "Nyans"
 
 #: rc/qml/Utility/PhotosToolbarActions.qml:40
 msgid "Import"
-msgstr ""
+msgstr "Importera"
