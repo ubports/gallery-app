@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-06-05 11:23-0400\n"
-"PO-Revision-Date: 2014-07-19 20:10+0000\n"
+"PO-Revision-Date: 2014-07-20 14:41+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-20 06:15+0000\n"
+"X-Launchpad-Export-Date: 2014-07-21 06:54+0000\n"
 "X-Generator: Launchpad (build 17114)\n"
 
 #: desktop/gallery-app.desktop.in:3 rc/qml/MediaViewer/PopupPhotoViewer.qml:64
@@ -23,15 +23,15 @@ msgstr "አዳራሽ"
 
 #: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
 msgid "Ubuntu Photo Viewer"
-msgstr ""
+msgstr "የ ኡቡንቱ ፎቶ መመልከቻ"
 
 #: desktop/gallery-app.desktop.in:6
 msgid "Browse your photographs"
-msgstr ""
+msgstr "ፎቶዎች መቃኛ"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 msgid "Edit album"
-msgstr ""
+msgstr "አልበም ማረሚያ"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
 #: rc/qml/AlbumViewer/AlbumViewer.qml:438
@@ -74,7 +74,7 @@ msgstr "አልበም"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:427
 msgid "Add to album"
-msgstr ""
+msgstr "ወደ አልበም መጨመሪያ"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:433
 #: rc/qml/MediaViewer/MediaViewer.qml:474
@@ -91,7 +91,7 @@ msgstr "ወደ ኋላ"
 
 #: rc/qml/AlbumsOverview.qml:197 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
-msgstr ""
+msgstr "አዲስ አልበም መጨመሪያ"
 
 #: rc/qml/AlbumsOverview.qml:215 rc/qml/Utility/PhotosToolbarActions.qml:46
 msgid "Camera"
@@ -109,20 +109,20 @@ msgstr "አይ"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr ""
+msgstr "አልበም ማጥፊያ"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr ""
+msgstr "አልበም + ይዞታውን ማጥፊያ"
 
 #: rc/qml/Components/MediaSelector.qml:59
 #: rc/qml/Components/MediaSelector.qml:80
 msgid "Add to Album"
-msgstr ""
+msgstr "ወደ አልበም መጨመሪያ"
 
 #: rc/qml/Components/PopupAlbumPicker.qml:159 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr ""
+msgstr "ወደ ፎቶ አልበም መጨመሪያ"
 
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
@@ -150,7 +150,7 @@ msgstr "ፎቶዎች"
 #: rc/qml/MediaViewer/CropOverlay.qml:352
 #: rc/qml/MediaViewer/EditPopover.qml:51 rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr ""
+msgstr "መከርከሚያ"
 
 #: rc/qml/MediaViewer/EditPopover.qml:42 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
@@ -170,11 +170,11 @@ msgstr "እንደገና መስሪያ"
 
 #: rc/qml/MediaViewer/EditPopover.qml:89
 msgid "Revert to original"
-msgstr ""
+msgstr "ወደ ነበረበት መመለሻ"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:277 rc/qml/PhotosOverview.qml:75
 msgid "Delete a photo"
-msgstr ""
+msgstr "ፎቶ ማጥፊያ"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:455
 msgid "Edit"
@@ -182,11 +182,11 @@ msgstr "ማረሚያ"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:466
 msgid "Add photo to album"
-msgstr ""
+msgstr "ፎቶ ወደ አልበም መጨመሪያ"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:492
 msgid "Share photo"
-msgstr ""
+msgstr "ፎቶ ማካፈያ"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:498
 #: rc/qml/MediaViewer/MediaViewer.qml:548 rc/qml/Utility/EditingHUD.qml:72
@@ -204,7 +204,7 @@ msgstr "ማጫወቻ"
 
 #: rc/qml/PhotosOverview.qml:74
 msgid "Delete photos"
-msgstr ""
+msgstr "ፎቶዎች ማጥፊያ"
 
 #: rc/qml/PickerScreen.qml:99
 msgid "Pick"
@@ -224,7 +224,7 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr ""
+msgstr "እንደገና መፈጸሚያ: እንደገና መስሪያ"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
@@ -232,23 +232,23 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr ""
+msgstr "ራሱ በራሱ ምስል ማስተካከያ"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr ""
+msgstr "ራሱ በራሱ ፎት ማስተካከያ"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr ""
+msgstr "ከ ግራ ወደ ቀኝ ማዞሪያ"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr ""
+msgstr "ምድሉን ከ ግራ ወደ ቀኝ ማዞሪያ"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr ""
+msgstr "መከርከሚያ:  መቁረጫ"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
@@ -256,23 +256,23 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr ""
+msgstr "ወደ ነበረበት መመለሻ"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr ""
+msgstr "ለውጦቹን ማስወገጃ"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr ""
+msgstr "ሁሉንም ለውጦች ማስወገጃ"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr ""
+msgstr "የተጋለጠበት"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr ""
+msgstr "የተጋለጠበትን ማስተካከያ"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
@@ -280,7 +280,7 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
 msgid "Confirm"
-msgstr ""
+msgstr "ማረጋገጫ"
 
 #: rc/qml/Utility/EditingHUD.qml:126
 msgid "Compensation"
@@ -300,7 +300,7 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:167
 msgid "Brightness"
-msgstr ""
+msgstr "ብሩህነት"
 
 #: rc/qml/Utility/EditingHUD.qml:178
 msgid "Contrast"
@@ -312,8 +312,8 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:200
 msgid "Hue"
-msgstr ""
+msgstr "ቀለሞች"
 
 #: rc/qml/Utility/PhotosToolbarActions.qml:40
 msgid "Import"
-msgstr ""
+msgstr "ማምጫ"
