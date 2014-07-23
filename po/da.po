@@ -1,37 +1,38 @@
 # Danish translation for gallery-app
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
 # This file is distributed under the same license as the gallery-app package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+# Ask Hjorth Larsen <asklarsen@gmail.com>, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-06-05 11:23-0400\n"
-"PO-Revision-Date: 2013-06-04 00:01+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Danish <da@li.org>\n"
+"PO-Revision-Date: 2014-07-22 15:43+0000\n"
+"Last-Translator: Simon André Pedersen <simon@dk-designer.dk>\n"
+"Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-04 06:27+0000\n"
-"X-Generator: Launchpad (build 17086)\n"
+"X-Launchpad-Export-Date: 2014-07-23 06:58+0000\n"
+"X-Generator: Launchpad (build 17114)\n"
 
 #: desktop/gallery-app.desktop.in:3 rc/qml/MediaViewer/PopupPhotoViewer.qml:64
 msgid "Gallery"
-msgstr ""
+msgstr "Galleri"
 
 #: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
 msgid "Ubuntu Photo Viewer"
-msgstr ""
+msgstr "Ubuntu-billedfremviser"
 
 #: desktop/gallery-app.desktop.in:6
 msgid "Browse your photographs"
-msgstr ""
+msgstr "Gennemse dine billeder"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 msgid "Edit album"
-msgstr ""
+msgstr "Redigér album"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
 #: rc/qml/AlbumViewer/AlbumViewer.qml:438
@@ -40,280 +41,280 @@ msgstr ""
 #: rc/qml/MediaViewer/MediaViewer.qml:538 rc/qml/Utility/EditingHUD.qml:67
 #: rc/qml/Utility/SelectionToolbarAction.qml:51
 msgid "Delete"
-msgstr ""
+msgstr "Slet"
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:40
 #: rc/qml/Components/MediaSelector.qml:92 rc/qml/PickerScreen.qml:114
 #: rc/qml/Utility/SelectionToolbarAction.qml:66
 msgid "Cancel"
-msgstr ""
+msgstr "Annullér"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
-msgstr ""
+msgstr "Standard"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:114
 msgid "Blue"
-msgstr ""
+msgstr "Blå"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:115
 msgid "Green"
-msgstr ""
+msgstr "Grøn"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:116
 msgid "Pattern"
-msgstr ""
+msgstr "Mønster"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:117
 msgid "Red"
-msgstr ""
+msgstr "Rød"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:90
 msgid "Album"
-msgstr ""
+msgstr "Album"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:427
 msgid "Add to album"
-msgstr ""
+msgstr "Føj til album"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:433
 #: rc/qml/MediaViewer/MediaViewer.qml:474
 #: rc/qml/MediaViewer/MediaViewer.qml:528 rc/qml/Utility/EditingHUD.qml:77
 #: rc/qml/Utility/SelectionToolbarAction.qml:44
 msgid "Add"
-msgstr ""
+msgstr "Tilføj"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:447
 #: rc/qml/MediaViewer/MediaViewer.qml:502
 #: rc/qml/MediaViewer/MediaViewer.qml:557
 msgid "Back"
-msgstr ""
+msgstr "Tilbage"
 
 #: rc/qml/AlbumsOverview.qml:197 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
-msgstr ""
+msgstr "Tilføj nyt album"
 
 #: rc/qml/AlbumsOverview.qml:215 rc/qml/Utility/PhotosToolbarActions.qml:46
 msgid "Camera"
-msgstr ""
+msgstr "Kamera"
 
 #: rc/qml/Components/DeleteDialog.qml:36
 #: rc/qml/MediaViewer/MediaViewer.qml:288
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: rc/qml/Components/DeleteDialog.qml:45
 #: rc/qml/MediaViewer/MediaViewer.qml:299
 msgid "No"
-msgstr ""
+msgstr "Nej"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr ""
+msgstr "Slet album"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr ""
+msgstr "Slet album + indhold"
 
 #: rc/qml/Components/MediaSelector.qml:59
 #: rc/qml/Components/MediaSelector.qml:80
 msgid "Add to Album"
-msgstr ""
+msgstr "Føj til album"
 
 #: rc/qml/Components/PopupAlbumPicker.qml:159 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr ""
+msgstr "Føj billede til album"
 
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
-msgstr ""
+msgstr "Indlæser…"
 
 #: rc/qml/MainScreen.qml:96
 msgid "Albums"
-msgstr ""
+msgstr "Albummer"
 
 #: rc/qml/MainScreen.qml:113 rc/qml/MainScreen.qml:136
 #: rc/qml/PickerScreen.qml:54
 msgid "Events"
-msgstr ""
+msgstr "Begivenheder"
 
 #: rc/qml/MainScreen.qml:134 rc/qml/MainScreen.qml:178
 #: rc/qml/Utility/PhotosToolbarActions.qml:33
 msgid "Select"
-msgstr ""
+msgstr "Vælg"
 
 #: rc/qml/MainScreen.qml:146 rc/qml/MainScreen.qml:180
 #: rc/qml/PickerScreen.qml:74
 msgid "Photos"
-msgstr ""
+msgstr "Billeder"
 
 #: rc/qml/MediaViewer/CropOverlay.qml:352
 #: rc/qml/MediaViewer/EditPopover.qml:51 rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr ""
+msgstr "Beskær"
 
 #: rc/qml/MediaViewer/EditPopover.qml:42 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr ""
+msgstr "Rotér"
 
 #: rc/qml/MediaViewer/EditPopover.qml:60
 msgid "Auto enhance"
-msgstr ""
+msgstr "Autoforbedring"
 
 #: rc/qml/MediaViewer/EditPopover.qml:69 rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
-msgstr ""
+msgstr "Fortryd"
 
 #: rc/qml/MediaViewer/EditPopover.qml:79 rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr ""
+msgstr "Omgør"
 
 #: rc/qml/MediaViewer/EditPopover.qml:89
 msgid "Revert to original"
-msgstr ""
+msgstr "Gendan original"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:277 rc/qml/PhotosOverview.qml:75
 msgid "Delete a photo"
-msgstr ""
+msgstr "Slet et billede"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:455
 msgid "Edit"
-msgstr ""
+msgstr "Redigér"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:466
 msgid "Add photo to album"
-msgstr ""
+msgstr "Føj billede til album"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:492
 msgid "Share photo"
-msgstr ""
+msgstr "Del billede"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:498
 #: rc/qml/MediaViewer/MediaViewer.qml:548 rc/qml/Utility/EditingHUD.qml:72
 #: rc/qml/Utility/SelectionToolbarAction.qml:58
 msgid "Share"
-msgstr ""
+msgstr "Del"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:515
 msgid "Pause"
-msgstr ""
+msgstr "Pause"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:515
 msgid "Play"
-msgstr ""
+msgstr "Afspil"
 
 #: rc/qml/PhotosOverview.qml:74
 msgid "Delete photos"
-msgstr ""
+msgstr "Slet billeder"
 
 #: rc/qml/PickerScreen.qml:99
 msgid "Pick"
-msgstr ""
+msgstr "Vælg"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr ""
+msgstr "Skrald;Papirkurv;Slet"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
-msgstr ""
+msgstr "Post;Send;Upload;Vedhæft"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr ""
+msgstr "Annullér handling;Tilbage"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr ""
+msgstr "Genanvend;Omgør"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr ""
+msgstr "Autoforbedring"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr ""
+msgstr "Justér billedet automatisk"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr ""
+msgstr "Justér billedet automatisk"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr ""
+msgstr "Rotér med uret"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr ""
+msgstr "Rotér billedet med uret"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr ""
+msgstr "Beskær;Skær"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr ""
+msgstr "Beskær billedet"
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr ""
+msgstr "Gendan originalen"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr ""
+msgstr "Forkast ændringer"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr ""
+msgstr "Forkast alle ændringer"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr ""
+msgstr "Eksponering"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr ""
+msgstr "Justér eksponeringen"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr ""
+msgstr "Undereksponeret;Overeksponeret"
 
 #: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
 msgid "Confirm"
-msgstr ""
+msgstr "Bekræft"
 
 #: rc/qml/Utility/EditingHUD.qml:126
 msgid "Compensation"
-msgstr ""
+msgstr "Kompensation"
 
 #: rc/qml/Utility/EditingHUD.qml:160
 msgid "Color Balance"
-msgstr ""
+msgstr "Farvebalance"
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Adjust color balance"
-msgstr ""
+msgstr "Justér farvebalance"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
-msgstr ""
+msgstr "Mætning;Tone"
 
 #: rc/qml/Utility/EditingHUD.qml:167
 msgid "Brightness"
-msgstr ""
+msgstr "Lysstyrke"
 
 #: rc/qml/Utility/EditingHUD.qml:178
 msgid "Contrast"
-msgstr ""
+msgstr "Kontrast"
 
 #: rc/qml/Utility/EditingHUD.qml:189
 msgid "Saturation"
-msgstr ""
+msgstr "Mætning"
 
 #: rc/qml/Utility/EditingHUD.qml:200
 msgid "Hue"
-msgstr ""
+msgstr "Tone"
 
 #: rc/qml/Utility/PhotosToolbarActions.qml:40
 msgid "Import"
-msgstr ""
+msgstr "Importér"
