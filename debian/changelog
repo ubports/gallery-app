@@ -1,3 +1,22 @@
+gallery-app (0.0.67+14.10.20140726-0ubuntu1) utopic; urgency=low
+
+  [ Bill Filler ]
+  * bump framework and security version of the click package
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Richard Huddie ]
+  * A new Page view to represent photos page in picker view with method
+    to select the named photo. Fix issue with existing failing picker
+    mode tests where launch parameters were appended incorrectly. (LP:
+    #1336414)
+
+  [ Colin Watson ]
+  * bump framework and security version of the click package
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Sat, 26 Jul 2014 03:38:08 +0000
+
 gallery-app (0.0.67+14.10.20140718-0ubuntu1) utopic; urgency=low
 
   [ Michael Sheldon ]
