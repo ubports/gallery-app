@@ -1,6 +1,5 @@
 {
-    "policy_groups": ["accounts",
-                      "audio",
+    "policy_groups": ["audio",
                       "content_exchange",
                       "content_exchange_source",
                       "picture_files",
