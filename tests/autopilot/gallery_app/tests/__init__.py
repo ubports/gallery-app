@@ -291,10 +291,10 @@ class GalleryTestCase(AutopilotTestCase):
             # details.
             from unity8 import process_helpers
             pid = process_helpers._get_unity_pid()
-            unity8 = get_proxy_object_for_existing_process(pid)
+            unity8 = get_proxy_object_for_existing_process(pid=pid)
             shell = unity8.select_single("Shell")
             shell.slots.showHome()
-            self.assertThat(shell.currentFocusedAppId,
+            self.assertThat(shell.focusedApplicationId,
                             Eventually(NotEquals("gallery-app")))
             self.app.process.send_signal(signal.SIGTERM)
 

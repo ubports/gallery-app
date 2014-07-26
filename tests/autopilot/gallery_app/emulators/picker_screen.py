@@ -32,16 +32,38 @@ class PickerScreen(toolkit_emulators.MainView):
         grid_view = self.grid_view()
         return grid_view.select_many("OrganicItemInteraction")[0]
 
+    def go_to_photos(self):
+        """
+        Switch to the photos tab on picker screen
+        Return the Page object representing the photos
+        """
+        self.switch_to_tab('photosTab')
+        return self.select_single(Page10, objectName='photosPage')
+
+    def click_pick_button(self):
+        """Click on the pick button"""
+        self.pointing_device.click_object(self.pick_button())
+
+    def select_photo(self, photo_name):
+        """Go to the photos view and pick the named photo"""
+        photos_page = self.go_to_photos()
+        photos_page.click_named_photo(photo_name)
+        self.click_pick_button()
+
+
+class Page10(PickerScreen):
+    """Class to represent photos page view from picker screen"""
+
     def _get_named_photo_element(self, photo_name):
         """
         Return the ShapeItem container object for the named photo.
         This object can be clicked to enable the photo to be selected.
         """
-        photo_element = self.grid_view().wait_select_single('QQuickImage',
-                                                       source=photo_name)
+        photo_element = self.grid_view().wait_select_single(
+            'QQuickImage', source=photo_name)
         return photo_element.get_parent()
 
-    def select_named_photo(self, photo_name):
+    def click_named_photo(self, photo_name):
         """Select the named photo from the picker view."""
         photo_element = self._get_named_photo_element(photo_name)
         self.pointing_device.click_object(photo_element)
