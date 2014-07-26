@@ -32,7 +32,6 @@ Replaces: ubuntu-gallery
 Conflicts: ubuntu-gallery
 Depends: ${misc:Depends},
          ${shlibs:Depends},
-         qtdeclarative5-accounts-plugin,
          libqt5sql5-sqlite,
          qtdeclarative5-qtquick2-plugin,
          qml-module-qtmultimedia | qml-module-qtmultimedia-gles,
