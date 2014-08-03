@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-06-05 11:23-0400\n"
-"PO-Revision-Date: 2014-07-20 14:41+0000\n"
+"PO-Revision-Date: 2014-08-02 15:16+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-22 07:14+0000\n"
-"X-Generator: Launchpad (build 17114)\n"
+"X-Launchpad-Export-Date: 2014-08-03 06:11+0000\n"
+"X-Generator: Launchpad (build 17147)\n"
 
 #: desktop/gallery-app.desktop.in:3 rc/qml/MediaViewer/PopupPhotoViewer.qml:64
 msgid "Gallery"
@@ -158,7 +158,7 @@ msgstr "ማዞሪያ"
 
 #: rc/qml/MediaViewer/EditPopover.qml:60
 msgid "Auto enhance"
-msgstr ""
+msgstr "በራሱ መጨመሪያ"
 
 #: rc/qml/MediaViewer/EditPopover.qml:69 rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
@@ -212,11 +212,11 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr ""
+msgstr "ቆሻሻ:መሰረዣ"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
-msgstr ""
+msgstr "መለጠፊያ:መጫኛ:ማያያዣ:"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
@@ -228,7 +228,7 @@ msgstr "እንደገና መፈጸሚያ: እንደገና መስሪያ"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr ""
+msgstr "በራሱ መጨመሪያ"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
@@ -252,7 +252,7 @@ msgstr "መከርከሚያ:  መቁረጫ"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr ""
+msgstr "ምስል መከርከሚያ"
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
@@ -284,15 +284,15 @@ msgstr "ማረጋገጫ"
 
 #: rc/qml/Utility/EditingHUD.qml:126
 msgid "Compensation"
-msgstr ""
+msgstr "ማካካሻ"
 
 #: rc/qml/Utility/EditingHUD.qml:160
 msgid "Color Balance"
-msgstr ""
+msgstr "ቀለም ማስተካከያ"
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Adjust color balance"
-msgstr ""
+msgstr "ቀለም ማስተካከያ ማረሚያ"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
@@ -304,7 +304,7 @@ msgstr "ብሩህነት"
 
 #: rc/qml/Utility/EditingHUD.qml:178
 msgid "Contrast"
-msgstr ""
+msgstr "ማነፃፀሪያ"
 
 #: rc/qml/Utility/EditingHUD.qml:189
 msgid "Saturation"
