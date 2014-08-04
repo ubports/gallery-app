@@ -1,16 +1,16 @@
-# Persian translation for gallery-app
-# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# Romanian translation for gallery-app
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
 # This file is distributed under the same license as the gallery-app package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-06-05 11:23-0400\n"
-"PO-Revision-Date: 2014-08-03 21:51+0000\n"
-"Last-Translator: Arash Badie Modiri <arashbm@gmail.com>\n"
-"Language-Team: Persian <fa@li.org>\n"
+"PO-Revision-Date: 2014-08-03 12:56+0000\n"
+"Last-Translator: Marian Vasile <marianvasile1972@gmail.com>\n"
+"Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,19 +19,19 @@ msgstr ""
 
 #: desktop/gallery-app.desktop.in:3 rc/qml/MediaViewer/PopupPhotoViewer.qml:64
 msgid "Gallery"
-msgstr "نگارخانه"
+msgstr "Galerie"
 
 #: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
 msgid "Ubuntu Photo Viewer"
-msgstr "بیننده‌ی عکس اوبونتو"
+msgstr "Vizualizator fotografii pentru Ubuntu"
 
 #: desktop/gallery-app.desktop.in:6
 msgid "Browse your photographs"
-msgstr "عکس‌هایتان را مرور کنید"
+msgstr "Răsfoiți fotografiile dumneavoastră"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 msgid "Edit album"
-msgstr "ویرایش آلبوم"
+msgstr "Editare album"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
 #: rc/qml/AlbumViewer/AlbumViewer.qml:438
@@ -40,280 +40,280 @@ msgstr "ویرایش آلبوم"
 #: rc/qml/MediaViewer/MediaViewer.qml:538 rc/qml/Utility/EditingHUD.qml:67
 #: rc/qml/Utility/SelectionToolbarAction.qml:51
 msgid "Delete"
-msgstr "حذف"
+msgstr "Șterge"
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:40
 #: rc/qml/Components/MediaSelector.qml:92 rc/qml/PickerScreen.qml:114
 #: rc/qml/Utility/SelectionToolbarAction.qml:66
 msgid "Cancel"
-msgstr "لغو"
+msgstr "Anulează"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
-msgstr "پیش‌گزیده"
+msgstr "Implicit"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:114
 msgid "Blue"
-msgstr "آبی"
+msgstr "Albastru"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:115
 msgid "Green"
-msgstr "سبز"
+msgstr "Verde"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:116
 msgid "Pattern"
-msgstr "الگو"
+msgstr "Tipar"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:117
 msgid "Red"
-msgstr "قرمز"
+msgstr "Roșu"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:90
 msgid "Album"
-msgstr "آلبوم"
+msgstr "Album"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:427
 msgid "Add to album"
-msgstr "افزودن به آلبوم"
+msgstr "Adaugă la album"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:433
 #: rc/qml/MediaViewer/MediaViewer.qml:474
 #: rc/qml/MediaViewer/MediaViewer.qml:528 rc/qml/Utility/EditingHUD.qml:77
 #: rc/qml/Utility/SelectionToolbarAction.qml:44
 msgid "Add"
-msgstr "افزودن"
+msgstr "Adaugă"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:447
 #: rc/qml/MediaViewer/MediaViewer.qml:502
 #: rc/qml/MediaViewer/MediaViewer.qml:557
 msgid "Back"
-msgstr "بازگشت"
+msgstr "Înapoi"
 
 #: rc/qml/AlbumsOverview.qml:197 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
-msgstr "افزودن آلبوم جدید"
+msgstr "Adaugă un album nou"
 
 #: rc/qml/AlbumsOverview.qml:215 rc/qml/Utility/PhotosToolbarActions.qml:46
 msgid "Camera"
-msgstr "دوربین"
+msgstr "Aparat foto"
 
 #: rc/qml/Components/DeleteDialog.qml:36
 #: rc/qml/MediaViewer/MediaViewer.qml:288
 msgid "Yes"
-msgstr "بله"
+msgstr "Da"
 
 #: rc/qml/Components/DeleteDialog.qml:45
 #: rc/qml/MediaViewer/MediaViewer.qml:299
 msgid "No"
-msgstr "خیر"
+msgstr "Nu"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr "حذف آلبوم"
+msgstr "Ștergere album"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr "حذف آلبوم به همراه محتویات"
+msgstr "Ștergere album + conținut"
 
 #: rc/qml/Components/MediaSelector.qml:59
 #: rc/qml/Components/MediaSelector.qml:80
 msgid "Add to Album"
-msgstr "افزودن به آلبوم"
+msgstr "Adaugă la album"
 
 #: rc/qml/Components/PopupAlbumPicker.qml:159 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr "افزودن عکس به آلبوم"
+msgstr "Adaugă fotografia la album"
 
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
-msgstr "درحال بارکردن…"
+msgstr "Se încarcă…"
 
 #: rc/qml/MainScreen.qml:96
 msgid "Albums"
-msgstr "آلبوم‌ها"
+msgstr "Albume"
 
 #: rc/qml/MainScreen.qml:113 rc/qml/MainScreen.qml:136
 #: rc/qml/PickerScreen.qml:54
 msgid "Events"
-msgstr "رویدادها"
+msgstr "Evenimente"
 
 #: rc/qml/MainScreen.qml:134 rc/qml/MainScreen.qml:178
 #: rc/qml/Utility/PhotosToolbarActions.qml:33
 msgid "Select"
-msgstr "گزینش"
+msgstr "Selectați"
 
 #: rc/qml/MainScreen.qml:146 rc/qml/MainScreen.qml:180
 #: rc/qml/PickerScreen.qml:74
 msgid "Photos"
-msgstr "عکس‌ها"
+msgstr "Fotografii"
 
 #: rc/qml/MediaViewer/CropOverlay.qml:352
 #: rc/qml/MediaViewer/EditPopover.qml:51 rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr "بریدن"
+msgstr "Trunchiere"
 
 #: rc/qml/MediaViewer/EditPopover.qml:42 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr "چرخاندن"
+msgstr "Rotire"
 
 #: rc/qml/MediaViewer/EditPopover.qml:60
 msgid "Auto enhance"
-msgstr "بهبود خودکار"
+msgstr "Îmbunătățire automată"
 
 #: rc/qml/MediaViewer/EditPopover.qml:69 rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
-msgstr "بر‌گرداندن"
+msgstr "Anulare"
 
 #: rc/qml/MediaViewer/EditPopover.qml:79 rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr "انجام دوباره"
+msgstr "Refă ultima acțiune"
 
 #: rc/qml/MediaViewer/EditPopover.qml:89
 msgid "Revert to original"
-msgstr "بازگرداندن به تصویر اصلی"
+msgstr "Întoarcere la original"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:277 rc/qml/PhotosOverview.qml:75
 msgid "Delete a photo"
-msgstr "حذف یک عکس"
+msgstr "Șterge o fotografie"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:455
 msgid "Edit"
-msgstr "ویرایش"
+msgstr "Editare"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:466
 msgid "Add photo to album"
-msgstr "افزودن عکس به آلبوم"
+msgstr "Adaugă fotografia la album"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:492
 msgid "Share photo"
-msgstr "به‌اشتراک گذاری عکس"
+msgstr "Partajează fotografia"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:498
 #: rc/qml/MediaViewer/MediaViewer.qml:548 rc/qml/Utility/EditingHUD.qml:72
 #: rc/qml/Utility/SelectionToolbarAction.qml:58
 msgid "Share"
-msgstr "به‌اشتراک گذاری"
+msgstr "Partajare"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:515
 msgid "Pause"
-msgstr "مکث"
+msgstr "Pauză"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:515
 msgid "Play"
-msgstr "پخش"
+msgstr "Redare"
 
 #: rc/qml/PhotosOverview.qml:74
 msgid "Delete photos"
-msgstr "حذف عکس‌ها"
+msgstr "Șterge fotografiile"
 
 #: rc/qml/PickerScreen.qml:99
 msgid "Pick"
-msgstr "برداشتن"
+msgstr "Alegeți"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr "زباله;پاک کردن"
+msgstr "Coș de gunoi;Șterge"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
-msgstr "ارسال;بارگذاری;پیوست"
+msgstr "Postează;Încarcă;Atașează"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr "انصراف;عقب"
+msgstr "Anulare acțiune;Înapoi"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr "اعمال مجدّد;ساخت دوباره"
+msgstr "Reaplică;Execută din nou"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr "بهبود خودکار"
+msgstr "Îmbunătățire automată"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr "تنظیم عکس به صورت خودکار"
+msgstr "Ajustează imaginea automat"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr "عکس را به صورت خودکار تنظیم می‌کند"
+msgstr "Ajustează automat imaginea"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr "چرخاندن ساعت‌گرد"
+msgstr "Rotește în sens orar"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr "چرخاندن عکس به صورت ساعت‌گرد"
+msgstr "Roteşte imaginea în sensul acelor de ceasornic"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr "برش;بریدن"
+msgstr "Trunchiere;Tăiere"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr "بریدن از تصویر"
+msgstr "Trunchiază imaginea"
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr "برگرداندن به تصویر اصلی"
+msgstr "Revenire la original"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr "دور انداختن تغییرات"
+msgstr "Renunță la modificări"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr "صرف‌نطر کردن از همه‌ی تغییرات"
+msgstr "Renunță la toate modificările"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr "آشکارسازی"
+msgstr "Expunere"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr "تنظیم اشکارسازی"
+msgstr "Ajustare expunere"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr "کم‌نور;پرنور"
+msgstr "Subexpus;Supraexpus"
 
 #: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
 msgid "Confirm"
-msgstr "تأیید"
+msgstr "Confirmare"
 
 #: rc/qml/Utility/EditingHUD.qml:126
 msgid "Compensation"
-msgstr "جبران"
+msgstr "Compensare"
 
 #: rc/qml/Utility/EditingHUD.qml:160
 msgid "Color Balance"
-msgstr "توازن رنگ"
+msgstr "Balans de culoare"
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Adjust color balance"
-msgstr "تنظیم توازن رنگ"
+msgstr "Ajustează balanța de culori"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
-msgstr "اشباع;تن رنگ"
+msgstr "Colorare;Nuanță"
 
 #: rc/qml/Utility/EditingHUD.qml:167
 msgid "Brightness"
-msgstr "روشنی"
+msgstr "Luminozitate"
 
 #: rc/qml/Utility/EditingHUD.qml:178
 msgid "Contrast"
-msgstr "ضدّیت"
+msgstr "Contrast"
 
 #: rc/qml/Utility/EditingHUD.qml:189
 msgid "Saturation"
-msgstr "اشباع رنگ"
+msgstr "Culoare"
 
 #: rc/qml/Utility/EditingHUD.qml:200
 msgid "Hue"
-msgstr "تن رنگ"
+msgstr "Nuanță"
 
 #: rc/qml/Utility/PhotosToolbarActions.qml:40
 msgid "Import"
-msgstr "وارد کردن"
+msgstr "Importare"
