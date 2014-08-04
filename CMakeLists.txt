@@ -10,6 +10,10 @@ set(CMAKE_AUTOMOC ON)
 
 string(TOLOWER "${CMAKE_BUILD_TYPE}" cmake_build_type_lower)
 
+# make non compiled files visible in qtcreator
+file(GLOB_RECURSE NON_COMPILED_FILES *.qml *.js *.py *.svg *.png *.in *.json *.desktop *.pot qmldir)
+add_custom_target(NON_COMPILED_TARGET ALL SOURCES ${NON_COMPILED_FILES})
+
 include(EnableCoverageReport)
 #####################################################################
 # Enable code coverage calculation with gcov/gcovr/lcov
