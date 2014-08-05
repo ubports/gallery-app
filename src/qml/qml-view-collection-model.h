@@ -29,6 +29,7 @@
 
 // core
 #include <data-collection.h>
+#include <view-collection.h>
 
 class DataObject;
 class ContainerSource;
@@ -39,7 +40,7 @@ class SourceCollection;
 /*!
  * \brief The QmlViewCollectionModel class
  */
-class QmlViewCollectionModel : public QAbstractListModel
+class QmlViewCollectionModel : public QAbstractListModel, IDataFilter
 {
     Q_OBJECT
     Q_PROPERTY(int count READ count NOTIFY countChanged)
@@ -53,7 +54,8 @@ class QmlViewCollectionModel : public QAbstractListModel
                WRITE setMonitorSelection NOTIFY monitorSelectionChanged)
     Q_PROPERTY(int head READ head WRITE setHead NOTIFY headChanged)
     Q_PROPERTY(int limit READ limit WRITE setLimit NOTIFY limitChanged)
-
+    Q_PROPERTY(QString mediaTypeFilter READ mediaTypeFilter WRITE setMediaTypeFilter
+               NOTIFY mediaTypeFilterChanged)
 signals:
     void countChanged();
     void rawCountChanged();
@@ -64,6 +66,7 @@ signals:
     void limitChanged();
     void orderingChanged();
     void monitorSelectionChanged();
+    void mediaTypeFilterChanged();
 
 public:
     // These roles are available for all subclasses of QmlViewCollectionModel.
@@ -112,6 +115,8 @@ public:
     int limit() const;
     void setLimit(int limit);
     void clearLimit();
+    QString mediaTypeFilter() const;
+    void setMediaTypeFilter(QString mediaTypeFilter);
 
     QList<MediaSource*> selectedMedias() const;
 
@@ -119,12 +124,14 @@ public:
 
     DataObjectComparator defaultComparator() const;
     void setDefaultComparator(DataObjectComparator comparator);
+    bool isAccepted(DataObject* item);
 
 protected:
     virtual void notifyBackingCollectionChanged();
 
     void monitorSourceCollection(SourceCollection* sources);
     void monitorContainerSource(ContainerSource* container);
+    void monitorCollection(const DataCollection* collection, QString viewName);
     bool isMonitoring() const;
     void stopMonitoring();
 
@@ -160,6 +167,7 @@ private:
     int m_head;
     int m_limit;
     QHash<int, QByteArray> m_roles;
+    QString m_mediaTypeFilter;
 
     static bool intLessThan(int a, int b);
     static bool intReverseLessThan(int a, int b);

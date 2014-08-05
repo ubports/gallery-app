@@ -23,7 +23,10 @@
 #include "data-collection.h"
 #include "source-collection.h"
 
-typedef bool (*SourceFilter)(DataObject* object);
+class IDataFilter {
+public:
+    virtual bool isAccepted(DataObject* item) = 0;
+};
 
 /**
   * A ViewCollection is the logical complement to a SourceCollection.  Where
@@ -47,15 +50,21 @@ class ViewCollection : public DataCollection
 {
     Q_OBJECT
 
+    Q_PROPERTY(const DataCollection* collection READ collection NOTIFY collectionChanged)
+
 public:
     ViewCollection(const QString& name);
 
     // TODO: Allow multiple SourceCollections to be monitored.  Without a
     // DataView as a mediator, this means ViewCollection (and, hence,
     // DataCollection) will hold DataSources of varied finalized types.
-    void monitorDataCollection(const DataCollection* collection, SourceFilter filter,
+    void monitorDataCollection(const DataCollection* collection, IDataFilter* filter,
                                bool monitor_ordering);
     bool isMonitoring() const;
+    const DataCollection* collection() const;
+
+signals:
+    void collectionChanged();
 
 protected:
     virtual void notifyOrderingChanged();
@@ -67,7 +76,7 @@ private slots:
 
 private:
     const DataCollection* m_monitoring;
-    SourceFilter m_monitorFilter;
+    IDataFilter* m_monitorFilter;
     bool m_monitorOrdering;
 };
 
