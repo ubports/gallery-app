@@ -63,19 +63,19 @@ if(CLICK_MODE)
     set(CMAKE_INSTALL_PREFIX /)
     set(CMAKE_INSTALL_BINDIR /)
     set(GALLERY_DIR "")
-    set(GETTEXT_PACKAGE "${APP_PACKAGE_NAME}")
     add_definitions("-DCLICK_MODE=1")
 else(CLICK_MODE)
     set(GALLERY_DIR ${CMAKE_INSTALL_DATADIR}/${GALLERY})
-	# for dh_translations to extract the domain
-	# (regarding syntax consistency, see http://pad.lv/1181187)
-	set (GETTEXT_PACKAGE "${GALLERY}")
 endif(CLICK_MODE)
 
 file(GLOB_RECURSE I18N_SRC_FILES
      RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
      rc/**.qml desktop/**.desktop.in)
 list(SORT I18N_SRC_FILES)
+
+# for dh_translations to extract the domain
+# (regarding syntax consistency, see http://pad.lv/1181187)
+set (GETTEXT_PACKAGE "${GALLERY}")
 
 # Tests
 enable_testing()
