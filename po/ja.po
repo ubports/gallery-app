@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-06-05 11:23-0400\n"
-"PO-Revision-Date: 2014-01-18 15:34+0000\n"
+"PO-Revision-Date: 2014-08-08 04:47+0000\n"
 "Last-Translator: Shushi Kurose <md81bird@hitaki.net>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-04 06:28+0000\n"
-"X-Generator: Launchpad (build 17086)\n"
+"X-Launchpad-Export-Date: 2014-08-08 06:59+0000\n"
+"X-Generator: Launchpad (build 17156)\n"
 
 #: desktop/gallery-app.desktop.in:3 rc/qml/MediaViewer/PopupPhotoViewer.qml:64
 msgid "Gallery"
@@ -23,15 +23,15 @@ msgstr "ギャラリー"
 
 #: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
 msgid "Ubuntu Photo Viewer"
-msgstr ""
+msgstr "Ubuntu写真ビューアー"
 
 #: desktop/gallery-app.desktop.in:6
 msgid "Browse your photographs"
-msgstr ""
+msgstr "写真を閲覧する"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 msgid "Edit album"
-msgstr ""
+msgstr "アルバムを編集"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
 #: rc/qml/AlbumViewer/AlbumViewer.qml:438
@@ -74,7 +74,7 @@ msgstr ""
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:427
 msgid "Add to album"
-msgstr ""
+msgstr "アルバムに追加"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:433
 #: rc/qml/MediaViewer/MediaViewer.qml:474
@@ -91,7 +91,7 @@ msgstr "戻る"
 
 #: rc/qml/AlbumsOverview.qml:197 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
-msgstr ""
+msgstr "新しいアルバムを追加"
 
 #: rc/qml/AlbumsOverview.qml:215 rc/qml/Utility/PhotosToolbarActions.qml:46
 msgid "Camera"
@@ -109,7 +109,7 @@ msgstr "いいえ"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr ""
+msgstr "アルバムを削除"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
@@ -118,11 +118,11 @@ msgstr ""
 #: rc/qml/Components/MediaSelector.qml:59
 #: rc/qml/Components/MediaSelector.qml:80
 msgid "Add to Album"
-msgstr ""
+msgstr "アルバムに追加"
 
 #: rc/qml/Components/PopupAlbumPicker.qml:159 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr ""
+msgstr "アルバムに写真を追加"
 
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
@@ -170,7 +170,7 @@ msgstr "やり直す"
 
 #: rc/qml/MediaViewer/EditPopover.qml:89
 msgid "Revert to original"
-msgstr ""
+msgstr "オリジナルに戻す"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:277 rc/qml/PhotosOverview.qml:75
 msgid "Delete a photo"
@@ -182,7 +182,7 @@ msgstr "編集"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:466
 msgid "Add photo to album"
-msgstr ""
+msgstr "アルバムに写真を追加"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:492
 msgid "Share photo"
@@ -204,7 +204,7 @@ msgstr "再生"
 
 #: rc/qml/PhotosOverview.qml:74
 msgid "Delete photos"
-msgstr ""
+msgstr "写真を削除"
 
 #: rc/qml/PickerScreen.qml:99
 msgid "Pick"
@@ -212,7 +212,7 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr ""
+msgstr "Trash;Erase;ゴミ箱;ごみ箱;削除;消去"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
@@ -228,19 +228,19 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr ""
+msgstr "自動補正"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr ""
+msgstr "画像を自動的に補正"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr ""
+msgstr "自動的に写真を補正"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr ""
+msgstr "時計回りに回転"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
@@ -252,7 +252,7 @@ msgstr "Trim;Cut;トリミング;カット"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr ""
+msgstr "画像をトリミング"
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
@@ -264,7 +264,7 @@ msgstr "変更を破棄"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr ""
+msgstr "すべての変更を破棄"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
@@ -272,7 +272,7 @@ msgstr "露出"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr ""
+msgstr "露出を補正"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
@@ -296,7 +296,7 @@ msgstr "カラーバランスの調整"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
-msgstr ""
+msgstr "Saturation;Hue;彩度;色相"
 
 #: rc/qml/Utility/EditingHUD.qml:167
 msgid "Brightness"
