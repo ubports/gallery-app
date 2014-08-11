@@ -102,7 +102,7 @@ void tst_MediaObjectFactory::create()
 
     // new video ...
     bool isDesktop = true;
-    m_resource = new Resource(true, "", 0);
+    m_resource = new Resource(true, "");
     m_resource->setVideoDirectories(QStringList("/video_path/"));
 
     // ... at desktop
