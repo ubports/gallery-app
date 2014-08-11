@@ -33,14 +33,11 @@ const QLatin1String Resource::CAMERA_RECORD_DIR = QLatin1String("camera");
  * \brief Resource::Resource
  * \param application_dir the directory of where the executable is
  * \param install_dir the directory, where apps are installed to
- * \param view the view is used to determine the max texture size
  */
-Resource::Resource(bool desktopMode, const QString &pictureDir, QQuickView *view)
+Resource::Resource(bool desktopMode, const QString &pictureDir)
     : m_mediaDirectories(),
       m_databaseDirectory(""),
-      m_thumbnailDirectory(""),
-      m_view(view),
-      m_maxTextureSize(0)
+      m_thumbnailDirectory("")
 {
     if (isClick()) {
         setOrganization();
@@ -112,28 +109,6 @@ const QString &Resource::thumbnailDirectory() const
         }
     }
     return m_thumbnailDirectory;
-}
-
-/*!
- * \brief maxTextureSize
- * \return max texture size provided by OpenGL
- */
-int Resource::maxTextureSize() const
-{
-    if (m_maxTextureSize == 0 && m_view != 0) {
-        // QtQuick uses a dedicated rendering thread we can't access. A temporary
-        // graphics context has to be created to access implementation limits.
-        QOpenGLContext context;
-        context.create();
-        m_view->winId();  // Ensure the QPA window is created.
-        context.makeCurrent(m_view);
-        glGetIntegerv(GL_MAX_TEXTURE_SIZE, &m_maxTextureSize);
-        if (m_maxTextureSize == 0) {
-            m_maxTextureSize = 1024;
-        }
-    }
-
-    return m_maxTextureSize;
 }
 
 bool Resource::isVideoPath(const QString& filePath)

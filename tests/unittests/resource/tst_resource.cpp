@@ -31,7 +31,6 @@ private slots:
     void picturesDirectory();
     void databaseDirectory();
     void thumbnailDirectory();
-    void maxTextureSize();
 };
 
 void tst_Resource::picturesDirectory()
@@ -70,12 +69,6 @@ void tst_Resource::thumbnailDirectory()
     Resource resource2(false, picDir, 0);
     dbDir = picDir + "/." + Resource::THUMBNAIL_DIR;
     QCOMPARE(resource2.thumbnailDirectory(), dbDir);
-}
-
-void tst_Resource::maxTextureSize()
-{
-    Resource resource(false, "", 0);
-    QCOMPARE(resource.maxTextureSize(), 0);
 }
 
 QTEST_MAIN(tst_Resource);

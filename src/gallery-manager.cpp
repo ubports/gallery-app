@@ -53,14 +53,12 @@ GalleryManager* GalleryManager::m_galleryManager = NULL;
 /*!
  * \brief GalleryManager::GalleryManager
  * \param picturesDir
- * \param view
  * \param logImageLoading
  */
 GalleryManager::GalleryManager(bool desktopMode,
-                               const QString& picturesDir,
-                               QQuickView *view)
+                               const QString& picturesDir)
     : collectionsInitialised(false),
-      m_resource(new Resource(desktopMode, picturesDir, view)),
+      m_resource(new Resource(desktopMode, picturesDir)),
       m_standardImageProvider(new GalleryStandardImageProvider()),
       m_database(0),
       m_defaultTemplate(0),
@@ -97,7 +95,6 @@ GalleryManager::~GalleryManager()
  * \brief GalleryManager::instance
  * \param application_path_dir the directory of where the executable is
  * \param picturesDir the directory of the images
- * \param view the view is used to determine the max texture size
  * \param logImageLoading if true, the image loadings times are printed to stdout
  * \return
  */
@@ -281,8 +278,7 @@ void GalleryManager::onMediaItemRemoved(qint64 mediaId)
  */
 GalleryStandardImageProvider* GalleryManager::takeGalleryStandardImageProvider()
 {
-    const int maxTextureSize = m_resource->maxTextureSize();
-    m_standardImageProvider->setMaxLoadResolution(maxTextureSize);
+    m_standardImageProvider->setMaxLoadResolution(2048);
 
     GalleryStandardImageProvider *provider = m_standardImageProvider;
     m_standardImageProvider = 0;

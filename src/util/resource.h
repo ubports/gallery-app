@@ -32,16 +32,13 @@ class QQuickView;
 class Resource
 {
 public:
-    explicit Resource(bool desktopMode, const QString& pictureDir, QQuickView *view);
+    explicit Resource(bool desktopMode, const QString& pictureDir);
 
     static QUrl getRcUrl(const QString& path);
 
     const QStringList &mediaDirectories() const;
     const QString &databaseDirectory() const;
     const QString &thumbnailDirectory() const;
-
-    int maxTextureSize() const;
-    void setView(QQuickView* view);
 
     bool isVideoPath(const QString& filePath);
 
@@ -52,8 +49,6 @@ private:
     QStringList m_videoDirectories;
     mutable QString m_databaseDirectory;
     mutable QString m_thumbnailDirectory;
-    QQuickView* m_view;
-    mutable int m_maxTextureSize;
 
     // Path to database, relative to application data path.
     static const QLatin1String DATABASE_DIR;
