@@ -24,15 +24,10 @@ include_directories(
     ${gallery_video_src_SOURCE_DIR}
     )
 
-QT5_WRAP_CPP(TST_VIDEO_MOCS
-    ${gallery_src_SOURCE_DIR}/content-communicator.h
-    )
-
 add_executable(video
     tst_video.cpp
     ${gallery_src_SOURCE_DIR}/gallery-manager.cpp
     ${gallery_src_SOURCE_DIR}/media-object-factory.cpp
-    ../stubs/content-communicator_stub.cpp
     ${TST_VIDEO_MOCS}
     )
 
