@@ -99,7 +99,7 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
 
     registerQML();
 
-    m_galleryManager = new GalleryManager(isDesktopMode(), m_cmdLineParser->picturesDir(), m_view);
+    m_galleryManager = new GalleryManager(isDesktopMode(), m_cmdLineParser->picturesDir());
     m_galleryManager->logImageLoading(m_cmdLineParser->logImageLoading());
     if (m_cmdLineParser->pickModeEnabled())
         setDefaultUiMode(GalleryApplication::PickContentMode);
@@ -221,10 +221,6 @@ void GalleryApplication::createView()
     } else {
         m_view->show();
     }
-
-    // To define maxTextureSize we need to make sure QPA is running and that needs to be called after show
-    rootContext->setContextProperty("MAX_GL_TEXTURE_SIZE",
-                                    QVariant(m_galleryManager->resource()->maxTextureSize()));
 
     if (m_cmdLineParser->startupTimer())
         qDebug() << "GalleryApplication view created" << m_timer->elapsed() << "ms";
