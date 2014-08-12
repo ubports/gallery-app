@@ -201,6 +201,7 @@ Item {
         source: allLoaded ? ((APP.pickModeEnabled) ? Qt.resolvedUrl("PickerScreen.qml") :
                                                      Qt.resolvedUrl("MainScreen.qml")) : ""
         visible: status === Loader.Ready
+        asynchronous: true
     }
 
     Component.onCompleted: {
