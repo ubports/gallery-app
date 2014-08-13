@@ -235,7 +235,7 @@ Checkerboard {
                     albumEditor.open();
                 }
             }
-            text: "Add" // text in toolbar
+            text: i18n.tr("Add") // text in toolbar
         }
         ToolbarButton {
             objectName: "cameraButton"
