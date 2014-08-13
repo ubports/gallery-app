@@ -103,7 +103,7 @@ void ContentCommunicator::handle_export(content::Transfer *transfer)
     }
 
     m_transfer = transfer;
-    emit photoRequested();
+    emit mediaRequested(transfer->contentType());
     emit selectionTypeChanged();
     emit singleContentPickModeChanged();
 }

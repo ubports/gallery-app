@@ -37,6 +37,7 @@ class GalleryApplication : public QApplication
 {
     Q_OBJECT
     Q_PROPERTY(bool pickModeEnabled READ pickModeEnabled NOTIFY pickModeEnabledChanged)
+    Q_PROPERTY(QString contentTypeFilter READ contentTypeFilter NOTIFY contentTypeFilterChanged)
     Q_PROPERTY(bool desktopMode READ isDesktopMode CONSTANT)
     Q_PROPERTY(bool fullScreen READ isFullScreen WRITE setFullScreen NOTIFY fullScreenChanged)
 
@@ -57,6 +58,7 @@ public:
     bool pickModeEnabled() const;
     bool isDesktopMode() const;
     bool isFullScreen() const;
+    QString contentTypeFilter() const;
 
     Q_INVOKABLE void returnPickedContent(QVariant variant);
     Q_INVOKABLE void contentPickingCanceled();
@@ -67,10 +69,11 @@ signals:
     void mediaLoaded();
     void pickModeEnabledChanged();
     void fullScreenChanged();
+    void contentTypeFilterChanged();
 
 private slots:
     void initCollections();
-    void switchToPickMode();
+    void switchToPickMode(QString mediaTypeFilter);
     void setFullScreen(bool fullScreen);
     void consistencyCheckFinished();
 
@@ -86,6 +89,7 @@ private:
     int m_bguSize;
     bool m_pickModeEnabled;
     UiMode m_defaultUiMode;
+    QString m_contentTypeFilter;
 
     static QElapsedTimer *m_timer;
 };
