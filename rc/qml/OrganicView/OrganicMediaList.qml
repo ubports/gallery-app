@@ -80,6 +80,8 @@ Item {
     /// Used to generate a spacing between the events
     property real __photosTopMargin: __margin / 2
 
+    property alias mediaTypeFilter: mediaModel.mediaTypeFilter
+
     height: __bigSize + __smallSize + __photosTopMargin + __margin + __margin/2
 
     Behavior on height {
