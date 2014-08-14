@@ -47,6 +47,7 @@ public:
 
     bool ascendingOrder() const;
     void setAscendingOrder(bool ascending);
+    bool isAccepted(DataObject* item);
 
 protected:
     virtual void notifyBackingCollectionChanged();

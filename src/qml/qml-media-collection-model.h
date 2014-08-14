@@ -52,6 +52,7 @@ public:
 
     bool monitored() const;
     void setMonitored(bool monitor);
+    bool isAccepted(DataObject *item);
 
 protected:
     virtual QVariant toVariant(DataObject* object) const;

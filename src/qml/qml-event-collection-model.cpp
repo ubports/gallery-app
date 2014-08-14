@@ -54,3 +54,28 @@ DataObject* QmlEventCollectionModel::fromVariant(QVariant var) const
 {
     return UncheckedVariantToObject<Event*>(var);
 }
+
+/*!
+ * \brief QmlEventCollectionModel::isAccepted
+ * \param item the item to be accepted or refused
+ * \return true if at least one of the contents of this item (an Event)
+ *         matches the mediaTypeFilter or if the mediaTypeFilter is emtpy
+ */
+bool QmlEventCollectionModel::isAccepted(DataObject* item)
+{
+    QString filter = mediaTypeFilter();
+    if (filter.isEmpty()) return true;
+
+    Event *event = qobject_cast<Event*>(item);
+    if (event == 0) return false;
+
+    const ViewCollection* contents = event->contained();
+    if (contents == 0) return false;
+
+    QList<DataObject*> items = contents->getAll();
+    foreach (DataObject* item, items) {
+        if (filter == item->metaObject()->className()) return true;
+    }
+    return false;
+}
+
