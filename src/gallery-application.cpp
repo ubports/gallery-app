@@ -67,7 +67,7 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
       m_contentCommunicator(new ContentCommunicator(this)),
       m_pickModeEnabled(false),
       m_defaultUiMode(BrowseContentMode),
-      m_contentTypeFilter(QString())
+      m_mediaTypeFilter(QString())
 {
     m_bguSize = QProcessEnvironment::systemEnvironment().value("GRID_UNIT_PX", "8").toInt();
     if (m_bguSize <= 0)
@@ -294,21 +294,26 @@ bool GalleryApplication::pickModeEnabled() const
  * no content filter is in place.
  * \return
  */
-QString GalleryApplication::contentTypeFilter() const
+QString GalleryApplication::mediaTypeFilter() const
 {
-    return m_contentTypeFilter;
+    return m_mediaTypeFilter;
 }
 
 /*!
  * \brief GalleryApplication::switchToPickMode
  * \param QString the type of media to pick or blank string for any type
  */
-void GalleryApplication::switchToPickMode(QString contentTypeFilter)
+void GalleryApplication::switchToPickMode(QString mediaTypeFilter)
 {
     setUiMode(PickContentMode);
-    if (contentTypeFilter != m_contentTypeFilter) {
-        m_contentTypeFilter = contentTypeFilter;
-        Q_EMIT contentTypeFilterChanged();
+
+    if (mediaTypeFilter == "pictures") mediaTypeFilter = "Photo";
+    else if (mediaTypeFilter == "videos") mediaTypeFilter = "Video";
+    else mediaTypeFilter = "";
+
+    if (mediaTypeFilter != m_mediaTypeFilter) {
+        m_mediaTypeFilter = mediaTypeFilter;
+        Q_EMIT mediaTypeFilterChanged();
     }
 }
 

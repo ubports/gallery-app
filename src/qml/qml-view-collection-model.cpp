@@ -531,8 +531,12 @@ void QmlViewCollectionModel::setDefaultComparator(DataObjectComparator comparato
  */
 bool QmlViewCollectionModel::isAccepted(DataObject* item)
 {
+    qDebug() << "CHECK" << this->metaObject()->className() << " :: " <<
+                item->metaObject()->className() << m_mediaTypeFilter << "=>" <<
+                (item->metaObject()->className() == m_mediaTypeFilter);
+
     if (m_mediaTypeFilter.isEmpty()) return true;
-    else return item->inherits(m_mediaTypeFilter.toLatin1());
+    else return item->metaObject()->className() == m_mediaTypeFilter;
 }
 
 /*!
