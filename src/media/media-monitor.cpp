@@ -236,6 +236,19 @@ void MediaMonitorWorker::onFileActivityCeased()
         return;
     }
 
+    QStringList newDirectories;
+    QStringList currentDirectories = QStringList(m_targetDirectories);
+    foreach (const QString& dirPath, currentDirectories) {
+        foreach (const QString& d, expandSubDirectories(dirPath)) {
+            if (!m_targetDirectories.contains(d)) {
+                newDirectories.append(d);
+            }
+        }
+    }
+
+    m_targetDirectories += newDirectories;
+    m_watcher.addPaths(newDirectories);
+
     QStringList new_manifest = generateManifest(m_targetDirectories);
 
     QStringList added = subtractManifest(new_manifest, m_manifest);
