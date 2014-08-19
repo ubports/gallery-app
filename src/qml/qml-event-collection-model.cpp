@@ -63,8 +63,7 @@ DataObject* QmlEventCollectionModel::fromVariant(QVariant var) const
  */
 bool QmlEventCollectionModel::isAccepted(DataObject* item)
 {
-    QString filter = mediaTypeFilter();
-    if (filter.isEmpty()) return true;
+    if (mediaTypeFilter() == MediaSource::None) return true;
 
     Event *event = qobject_cast<Event*>(item);
     if (event == 0) return false;
@@ -74,7 +73,8 @@ bool QmlEventCollectionModel::isAccepted(DataObject* item)
 
     QList<DataObject*> items = contents->getAll();
     foreach (DataObject* item, items) {
-        if (filter == item->metaObject()->className()) return true;
+        MediaSource *source = qobject_cast<MediaSource*>(item);
+        if (source != 0 && mediaTypeFilter() == source->type()) return true;
     }
     return false;
 }

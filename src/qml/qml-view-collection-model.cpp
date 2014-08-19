@@ -24,9 +24,6 @@
 #include "data-object.h"
 #include "selectable-view-collection.h"
 
-// media
-#include "media-source.h"
-
 // util
 #include "variants.h"
 
@@ -39,7 +36,7 @@
 QmlViewCollectionModel::QmlViewCollectionModel(QObject* parent, const QString& objectTypeName,
                                                DataObjectComparator defaultComparator)
     : QAbstractListModel(parent), m_view(NULL), m_defaultComparator(defaultComparator),
-      m_head(0), m_limit(-1), m_mediaTypeFilter(QString())
+      m_head(0), m_limit(-1)
 {
     m_roles.insert(ObjectRole, "object");
     m_roles.insert(SelectionRole, "isSelected");
@@ -567,12 +564,12 @@ void QmlViewCollectionModel::monitorCollection(const DataCollection* collection,
     setBackingViewCollection(view);
 }
 
-QString QmlViewCollectionModel::mediaTypeFilter() const
+MediaSource::MediaType QmlViewCollectionModel::mediaTypeFilter() const
 {
     return m_mediaTypeFilter;
 }
 
-void QmlViewCollectionModel::setMediaTypeFilter(QString mediaTypeFilter)
+void QmlViewCollectionModel::setMediaTypeFilter(MediaSource::MediaType mediaTypeFilter)
 {
     if (m_mediaTypeFilter != mediaTypeFilter) {
         const DataCollection* collection = 0;

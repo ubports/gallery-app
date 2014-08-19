@@ -184,6 +184,7 @@ DataObject* QmlMediaCollectionModel::fromVariant(QVariant var) const
  */
 bool QmlMediaCollectionModel::isAccepted(DataObject *item)
 {
-    if (mediaTypeFilter().isEmpty()) return true;
-    else return item->metaObject()->className() == mediaTypeFilter();
+    if (mediaTypeFilter() == MediaSource::None) return true;
+    MediaSource* source = qobject_cast<MediaSource*>(item);
+    return source != 0 && source->type() == mediaTypeFilter();
 }

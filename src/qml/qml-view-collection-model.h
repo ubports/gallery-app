@@ -30,10 +30,10 @@
 // core
 #include <data-collection.h>
 #include <view-collection.h>
+#include <media-source.h>
 
 class DataObject;
 class ContainerSource;
-class MediaSource;
 class SelectableViewCollection;
 class SourceCollection;
 
@@ -54,7 +54,7 @@ class QmlViewCollectionModel : public QAbstractListModel, IDataFilter
                WRITE setMonitorSelection NOTIFY monitorSelectionChanged)
     Q_PROPERTY(int head READ head WRITE setHead NOTIFY headChanged)
     Q_PROPERTY(int limit READ limit WRITE setLimit NOTIFY limitChanged)
-    Q_PROPERTY(QString mediaTypeFilter READ mediaTypeFilter WRITE setMediaTypeFilter
+    Q_PROPERTY(MediaSource::MediaType mediaTypeFilter READ mediaTypeFilter WRITE setMediaTypeFilter
                NOTIFY mediaTypeFilterChanged)
 signals:
     void countChanged();
@@ -115,8 +115,8 @@ public:
     int limit() const;
     void setLimit(int limit);
     void clearLimit();
-    QString mediaTypeFilter() const;
-    void setMediaTypeFilter(QString mediaTypeFilter);
+    MediaSource::MediaType mediaTypeFilter() const;
+    void setMediaTypeFilter(MediaSource::MediaType mediaTypeFilter);
 
     QList<MediaSource*> selectedMedias() const;
 
@@ -167,7 +167,7 @@ private:
     int m_head;
     int m_limit;
     QHash<int, QByteArray> m_roles;
-    QString m_mediaTypeFilter;
+    MediaSource::MediaType m_mediaTypeFilter;
 
     static bool intLessThan(int a, int b);
     static bool intReverseLessThan(int a, int b);
