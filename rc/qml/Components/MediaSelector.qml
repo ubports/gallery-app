@@ -75,16 +75,17 @@ OrganicView {
     }
 
     tools: ToolbarItems {
-        Button {
-            anchors.verticalCenter: parent.verticalCenter
-            text: i18n.tr("Add to Album")
+        ToolbarButton {
+            id: addButton
             objectName: "addButton"
-            color: Gallery.HIGHLIGHT_BUTTON_COLOR
-            width: units.gu(16)
-            enabled: mediaSelector.selection.selectedCount
-            onTriggered: {
-                mediaSelector.addClicked();
-                mediaSelector.hide();
+            action: Action {
+                text: i18n.tr("Add to Album")
+                iconName: "add"
+                enabled: mediaSelector.selection.selectedCount
+                onTriggered: {
+                    mediaSelector.addClicked();
+                    mediaSelector.hide();
+                }
             }
         }
 

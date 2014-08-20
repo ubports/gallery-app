@@ -504,8 +504,8 @@ Item {
                 id: photoAddButton
                 objectName: "addButton"
                 action: Action {
-                    text: i18n.tr("Add photo to album")
-                    iconSource: "../../img/add.png"
+                    text: i18n.tr("Add to album")
+                    iconName: "add"
                     onTriggered: {
                         __albumPicker = PopupUtils.open(Qt.resolvedUrl("../Components/PopupAlbumPicker.qml"),
                                                         photoAddButton,
@@ -518,7 +518,7 @@ Item {
                 objectName: "deleteButton"
                 action: Action {
                     text: i18n.tr("Delete")
-                    iconSource: "../../img/delete.png"
+                    iconName: "delete"
                     onTriggered: {
                         if (album)
                             PopupUtils.open(removeFromAlbumDialog, null);
@@ -534,7 +534,7 @@ Item {
                 visible: !APP.desktopMode
                 action: Action {
                     text: i18n.tr("Share photo")
-                    iconSource: "../../img/share.png"
+                    iconName: "share"
                     onTriggered: {
                         sharePicker.visible = true;
                     }
