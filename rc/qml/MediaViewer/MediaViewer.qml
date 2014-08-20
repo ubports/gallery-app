@@ -496,7 +496,7 @@ Item {
                     text: i18n.tr("Edit")
                     iconSource: "../../img/edit.png"
                     onTriggered: {
-                        PopupUtils.open(editPopoverComponent, photoEditButton);
+                        PopupUtils.open(editPopoverComponent, null);
                     }
                 }
             }
@@ -508,7 +508,7 @@ Item {
                     iconName: "add"
                     onTriggered: {
                         __albumPicker = PopupUtils.open(Qt.resolvedUrl("../Components/PopupAlbumPicker.qml"),
-                                                        photoAddButton,
+                                                        null,
                                                         {contentHeight: viewerWrapper.__pickerContentHeight});
                     }
                 }
