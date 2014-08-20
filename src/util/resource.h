@@ -56,6 +56,8 @@ private:
     static const QLatin1String THUMBNAIL_DIR;
     // Path to camera recording videos, relative to movies standard path.
     static const QLatin1String CAMERA_RECORD_DIR;
+    // Path to removable storage directory.
+    static const QLatin1String MEDIA_DIR;
 
     friend class tst_Resource;
 };
