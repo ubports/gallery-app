@@ -607,4 +607,11 @@ Item {
             }
         }
     }
+
+    Rectangle{
+        id: headerBackground
+        width: parent.width
+        height: header.height
+        visible: header.visible
+    }
 }
