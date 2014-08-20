@@ -66,7 +66,8 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
       m_view(new QQuickView()),
       m_contentCommunicator(new ContentCommunicator(this)),
       m_pickModeEnabled(false),
-      m_defaultUiMode(BrowseContentMode)
+      m_defaultUiMode(BrowseContentMode),
+      m_mediaTypeFilter(MediaSource::None)
 {
     m_bguSize = QProcessEnvironment::systemEnvironment().value("GRID_UNIT_PX", "8").toInt();
     if (m_bguSize <= 0)

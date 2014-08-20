@@ -36,7 +36,7 @@
 QmlViewCollectionModel::QmlViewCollectionModel(QObject* parent, const QString& objectTypeName,
                                                DataObjectComparator defaultComparator)
     : QAbstractListModel(parent), m_view(NULL), m_defaultComparator(defaultComparator),
-      m_head(0), m_limit(-1)
+      m_head(0), m_limit(-1), m_mediaTypeFilter(MediaSource::None)
 {
     m_roles.insert(ObjectRole, "object");
     m_roles.insert(SelectionRole, "isSelected");
