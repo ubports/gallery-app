@@ -28,6 +28,7 @@
 const QLatin1String Resource::DATABASE_DIR = QLatin1String("database");
 const QLatin1String Resource::THUMBNAIL_DIR = QLatin1String("thumbnails");
 const QLatin1String Resource::CAMERA_RECORD_DIR = QLatin1String("camera");
+const QLatin1String Resource::MEDIA_DIR = QLatin1String("/media/phablet/");
 
 /*!
  * \brief Resource::Resource
@@ -49,6 +50,11 @@ Resource::Resource(bool desktopMode, const QString &pictureDir)
 
         m_mediaDirectories.append(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
         m_videoDirectories.append(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
+    }
+    QDir media(MEDIA_DIR);
+    QStringList mediaDirs = media.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
+    if (mediaDirs.size() > 0) {
+        m_mediaDirectories.append(MEDIA_DIR + mediaDirs.at(0) + "/Pictures");
     }
 }
 
