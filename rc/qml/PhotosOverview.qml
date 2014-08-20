@@ -111,7 +111,7 @@ Page {
             }
             onAddClicked: {
                 __albumPicker = PopupUtils.open(Qt.resolvedUrl("Components/PopupAlbumPicker.qml"),
-                                                caller,
+                                                null,
                                                 {contentHeight: photosOverview.__pickerContentHeight});
             }
             onDeleteClicked: {
