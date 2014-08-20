@@ -531,10 +531,10 @@ Item {
             ToolbarButton {
                 id: photoShareButton
                 objectName: "shareButton"
-                visible: !APP.desktopMode
                 action: Action {
                     text: i18n.tr("Share photo")
                     iconName: "share"
+                    visible: !APP.desktopMode
                     onTriggered: {
                         sharePicker.visible = true;
                     }
@@ -554,45 +554,53 @@ Item {
 
         property Item videoToolbar: ToolbarItems {
             ToolbarButton {
-                text: galleryPhotoViewer.currentItem ?
-                          (galleryPhotoViewer.currentItem.isPlayingVideo ?
-                               i18n.tr("Pause") : i18n.tr("Play"))
-                        : ""
-                iconSource: galleryPhotoViewer.currentItem ?
-                                (galleryPhotoViewer.currentItem.isPlayingVideo ?
-                                     "../../img/icon_pause.png" : "../../img/icon_play.png")
-                              : ""
-                onTriggered: {
-                    galleryPhotoViewer.currentItem.togglePlayPause();
+                action: Action {
+                    text: galleryPhotoViewer.currentItem ?
+                              (galleryPhotoViewer.currentItem.isPlayingVideo ?
+                                   i18n.tr("Pause") : i18n.tr("Play"))
+                            : ""
+                    iconSource: galleryPhotoViewer.currentItem ?
+                                    (galleryPhotoViewer.currentItem.isPlayingVideo ?
+                                         "../../img/icon_pause.png" : "../../img/icon_play.png")
+                                  : ""
+                    onTriggered: {
+                        galleryPhotoViewer.currentItem.togglePlayPause();
+                    }
                 }
             }
             ToolbarButton {
                 id: videoAddButton
                 objectName: "addButton"
-                text: i18n.tr("Add")
-                iconSource: "../../img/add.png"
-                onTriggered: {
-                    __albumPicker = PopupUtils.open(Qt.resolvedUrl("../Components/PopupAlbumPicker.qml"),
-                                                    videoAddButton,
-                                                    {contentHeight: viewerWrapper.__pickerContentHeight});
+                action: Action {
+                    text: i18n.tr("Add")
+                    iconName: "add"
+                    onTriggered: {
+                        __albumPicker = PopupUtils.open(Qt.resolvedUrl("../Components/PopupAlbumPicker.qml"),
+                                                        null,
+                                                        {contentHeight: viewerWrapper.__pickerContentHeight});
+                    }
                 }
             }
             ToolbarButton {
                 objectName: "deleteButton"
-                text: i18n.tr("Delete")
-                iconSource: "../../img/delete.png"
-                onTriggered: {
-                    PopupUtils.open(deleteDialog, null);
+                action: Action {
+                    text: i18n.tr("Delete")
+                    iconName: "delete"
+                    onTriggered: {
+                        PopupUtils.open(deleteDialog, null);
+                    }
                 }
             }
             ToolbarButton {
                 id: videoShareButton
                 objectName: "shareButton"
-                visible: !APP.desktopMode
-                text: i18n.tr("Share")
-                iconSource: "../../img/share.png"
-                onTriggered: {
-                    sharePicker.visible = true;
+                action: Action {
+                    visible: !APP.desktopMode
+                    text: i18n.tr("Share")
+                    iconName: "share"
+                    onTriggered: {
+                        sharePicker.visible = true;
+                    }
                 }
             }
 
