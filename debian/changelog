@@ -1,3 +1,14 @@
+gallery-app (0.0.67+14.10.20140821-0ubuntu1) utopic; urgency=low
+
+  [ Arthur Mello ]
+  * Search for new directories when there is any change on the watched
+    directories (LP: #1357155)
+
+  [ Leo Arias ]
+  * Update the content picker version on autopilot tests. (LP: #1358968)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 21 Aug 2014 13:42:05 +0000
+
 gallery-app (0.0.67+14.10.20140814-0ubuntu1) utopic; urgency=low
 
   [ Bill Filler ]
