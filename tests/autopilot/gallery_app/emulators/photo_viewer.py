@@ -36,7 +36,7 @@ class PhotoViewer(GalleryUtils):
 
     def get_share_peer_picker(self):
         """Returns the photo viewer share picker."""
-        return self.app.wait_select_single("ContentPeerPicker",
+        return self.app.wait_select_single("ContentPeerPicker10",
                                            objectName="sharePicker")
 
     def get_photo_edit_dialog(self):
