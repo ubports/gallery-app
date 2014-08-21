@@ -85,7 +85,11 @@ void tst_MediaMonitor::tst_scanning_sub_folders()
 
     m_sampleImage->save(m_tmpDir->path() + "/sample.jpg", "JPG");
 
-    QTRY_COMPARE_WITH_TIMEOUT(m_monitor->manifest().count(), 7, 10000);
+    QDir *dir = new QDir(m_tmpDir->path());
+    dir->mkpath("ND");
+    m_sampleImage->save(m_tmpDir->path() + "/ND/sample_ND.jpg", "JPG");
+
+    QTRY_COMPARE_WITH_TIMEOUT(m_monitor->manifest().count(), 8, 10000);
 }
 
 void tst_MediaMonitor::cleanupTestCase()

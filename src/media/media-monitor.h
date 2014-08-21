@@ -78,6 +78,7 @@ public:
 
 public slots:
     void startMonitoring(const QStringList& targetDirectories);
+    QStringList findNewSubDirectories(const QStringList& currentDirectories);
     QStringList expandSubDirectories(const QString& dirPath);
     void checkConsistency();
 
