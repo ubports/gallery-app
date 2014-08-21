@@ -68,6 +68,8 @@ Item {
                                       d.photoToolbar : d.videoToolbar)
                                : null
 
+    Component.onCompleted: header.visible = false
+
     /*!
     */
     signal closeRequested()
@@ -111,6 +113,11 @@ Item {
             return;
 
         galleryPhotoViewer.currentItem.togglePlayPause();
+    }
+
+    function toggleHeaderVisibility()
+    {
+        header.visible = !header.visible;    
     }
 
     Rectangle{
@@ -197,6 +204,8 @@ Item {
                 PhotoViewerDelegate {
                     useInteractivePreview: false
                     mediaSource: model.mediaSource
+
+                    onClicked: viewerWrapper.toggleHeaderVisibility()
                 }
             }
             Component {
