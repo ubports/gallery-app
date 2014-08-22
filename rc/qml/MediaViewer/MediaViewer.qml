@@ -68,8 +68,6 @@ Item {
                                       d.photoToolbar : d.videoToolbar)
                                : null
 
-    Component.onCompleted: header.visible = false
-
     /*!
     */
     signal closeRequested()

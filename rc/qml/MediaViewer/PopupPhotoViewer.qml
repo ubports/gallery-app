@@ -133,6 +133,7 @@ Page {
             setCurrentPhoto(forMediaSource);
             viewer.openCompleted = true;
             overview.pushPage(popupPhotoViewer);
+            header.visible = false;
             opened();
             viewer.playVideo();
         }

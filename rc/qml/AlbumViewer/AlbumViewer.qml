@@ -305,6 +305,7 @@ Page {
 
             onOpened: {
                 overview.pushPage(target);
+                header.visible = false;
             }
             onCloseRequested: {
                 albumViewer.mediaCurrentlyInView = "";
