@@ -42,7 +42,7 @@ ToolbarItems {
         action: Action {
             text: i18n.tr("Import")
             iconSource: Qt.resolvedUrl("../../img/import-image.png")
-            enabled: false
+            visible: false
         }
     }
     ToolbarButton {
