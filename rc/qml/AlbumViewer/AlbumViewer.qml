@@ -131,6 +131,11 @@ Page {
         overview.pushPage(component_mediaSelector);
     }
 
+    function toggleHeaderVisibility()
+    {
+        header.visible = !header.visible;
+    }
+
     AlbumSpreadViewer {
         id: albumSpreadViewer
         objectName: "spreadViewer"
@@ -184,8 +189,10 @@ Page {
                 if (hit.objectName === "addButton")
                     showMediaSelector();
 
-                if (!hit.mediaSource)
+                if (!hit.mediaSource) {
+                    albumViewer.toggleHeaderVisibility();
                     return;
+                }
 
                 albumViewer.mediaCurrentlyInView = hit.mediaSource.path;
                 photoViewerLoader.fadeOpen(hit.mediaSource);
