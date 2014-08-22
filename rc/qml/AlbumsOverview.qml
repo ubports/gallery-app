@@ -169,8 +169,6 @@ Checkerboard {
         root.visible = false;
 
         if (albumViewer.origin) {
-            if (header.visible)
-                header.visible = false;
             albumViewer.visible = true;
             overview.pushPage(albumViewer);
         }

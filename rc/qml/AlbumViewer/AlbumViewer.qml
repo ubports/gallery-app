@@ -74,10 +74,6 @@ Page {
 
     onVisibleChanged: {
         if (visible) reopenPicture();
-
-        if (albumViewer.header) {
-            albumViewer.header.visible = !visible;
-        }
     }
 
     onCloseRequested: {
@@ -384,5 +380,14 @@ Page {
                 __close()
             }
         }
+    }
+
+    Rectangle {
+        id: headerBackground
+
+        width: parent.width
+        height: header.height
+
+        visible: header.visible
     }
 }

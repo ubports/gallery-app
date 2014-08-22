@@ -33,6 +33,8 @@ ToolbarItems {
     signal addClicked(var caller)
     ///Emitted when delete was clicked
     signal deleteClicked()
+    ///Emitted when share was clicked
+    signal shareClicked()
 
     // in selection mode, never hide the toolbar:
     opened: true
@@ -62,7 +64,8 @@ ToolbarItems {
         action: Action {
             text: i18n.tr("Share")
             iconName: "share"
-            enabled: false
+            enabled: root.selection.selectedCount > 0
+            onTriggered: root.shareClicked();
         }
     }
 
