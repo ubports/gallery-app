@@ -19,7 +19,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 import Gallery 1.0
 import "../../js/Gallery.js" as Gallery
 import "../../js/GalleryUtility.js" as GalleryUtility
@@ -357,37 +357,25 @@ Page {
     }
 
     /// Contains the actions for the toolbar in the album view
-    tools: ToolbarItems {
-        ToolbarButton {
-            objectName: "addButton"
-            action: Action {
-                text: i18n.tr("Add to album") // text in HUD
-                iconSource: Qt.resolvedUrl("../../img/add.png")
-                onTriggered: {
-                    showMediaSelector();
-                }
-            }
-            text: i18n.tr("Add") // text in toolbar
-        }
-        ToolbarButton {
-            id: deleteButton
-            objectName: "deleteButton"
+    head.actions: [
+        Action {
+            text: i18n.tr("Add to album") // text in HUD
+            iconName: "add"
+            onTriggered: showMediaSelector();
+        },
+        Action {
             text: i18n.tr("Delete")
-            iconSource: Qt.resolvedUrl("../../img/delete.png")
+            iconName: "delete"
             onTriggered: {
-                albumTrashDialog.album = album
-                albumTrashDialog.caller = deleteButton
-                albumTrashDialog.show()
+                albumTrashDialog.album = album;
+                albumTrashDialog.show();
             }
         }
-        back: ToolbarButton {
-            text: i18n.tr("Back")
-            objectName: "backButton"
-            iconSource: Qt.resolvedUrl("../../img/back.png")
-            onTriggered: {
-                __close()
-            }
-        }
+    ]
+
+    head.backAction: Action {
+        iconName: "back"
+        onTriggered: __close();
     }
 
     Rectangle {
