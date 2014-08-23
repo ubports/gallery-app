@@ -66,7 +66,7 @@ Item {
     // tooolbar actions for the full view
     property variant actions: (media && !sharePicker.visible) ? (media.type === MediaSource.Photo ?
                                       d.photoActions : d.videoActions)
-                               : null
+                               : []
 
     property variant backAction: d.backAction
 
@@ -115,9 +115,14 @@ Item {
         galleryPhotoViewer.currentItem.togglePlayPause();
     }
 
+    function setHeaderVisibility(visible)
+    {
+        header.visible = visible;    
+    }
+
     function toggleHeaderVisibility()
     {
-        header.visible = !header.visible;    
+        setHeaderVisibility(!header.visible);    
     }
 
     Rectangle{
@@ -241,6 +246,8 @@ Item {
             id: sharePicker
             anchors.fill: parent
             visible: false
+
+            onVisibleChanged: viewerWrapper.setHeaderVisibility(!visible)
 
             ContentPeerPicker {
                 objectName: "sharePicker"
