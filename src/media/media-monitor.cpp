@@ -152,6 +152,24 @@ QStringList MediaMonitorWorker::getManifest()
 }
 
 /*!
+ * \brief MediaMonitor::findNewSubDirectories List all sub directories under
+ * that are not on the current directories list
+ * \param currentDirectories
+ */
+QStringList MediaMonitorWorker::findNewSubDirectories(const QStringList& currentDirectories)
+{
+    QStringList newDirectories;
+    foreach (const QString& dirPath, currentDirectories) {
+        foreach (const QString& d, expandSubDirectories(dirPath)) {
+            if (!m_targetDirectories.contains(d)) {
+                newDirectories.append(d);
+            }
+        }
+    }
+    return newDirectories;
+}
+
+/*!
  * \brief MediaMonitor::expandSubDirectories List all sub directories under
  * the base one. Use it to add to watch list
  * \param dirPath
@@ -192,15 +210,7 @@ QStringList MediaMonitorWorker::expandSubDirectories(const QString& dirPath)
  */
 void MediaMonitorWorker::startMonitoring(const QStringList &targetDirectories)
 {
-    QStringList newDirectories;
-    foreach (const QString& dirPath, targetDirectories) {
-        foreach (const QString& d, expandSubDirectories(dirPath)) {
-            // Add all sub folders from target directory on watch list
-            if (!m_targetDirectories.contains(d)) {
-                newDirectories.append(d);
-            }
-        }
-    }
+    QStringList newDirectories = findNewSubDirectories(targetDirectories);
     m_targetDirectories += newDirectories;
     m_manifest = generateManifest(m_targetDirectories);
     m_watcher.addPaths(newDirectories);
@@ -235,6 +245,12 @@ void MediaMonitorWorker::onFileActivityCeased()
         m_fileActivityTimer.start();
         return;
     }
+
+    QStringList currentDirectories = QStringList(m_targetDirectories);
+    QStringList newDirectories = findNewSubDirectories(currentDirectories);
+
+    m_targetDirectories += newDirectories;
+    m_watcher.addPaths(newDirectories);
 
     QStringList new_manifest = generateManifest(m_targetDirectories);
 
