@@ -18,7 +18,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 import "../Utility"
 
 // A PhotoViewer that is opened and closed with the PhotoViewerTransition.
@@ -95,7 +95,8 @@ Page {
         closed();
     }
 
-    tools: viewer.tools
+    head.actions: viewer.actions
+    head.backAction: viewer.backAction
 
     MediaViewer {
         id: viewer
