@@ -506,6 +506,7 @@ Item {
 
         property list<Action> photoActions: [
             Action {
+                objectName: "editButton"
                 text: i18n.tr("Edit")
                 iconSource: "../../img/edit.png"
                 onTriggered: PopupUtils.open(editPopoverComponent, null);

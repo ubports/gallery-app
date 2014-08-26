@@ -41,17 +41,14 @@ class TestPhotoViewerBase(GalleryTestCase):
         super(TestPhotoViewerBase, self).setUp()
         self.main_view.switch_to_tab("eventsTab")
         self.open_first_photo()
-        self.main_view.open_toolbar()
+        # Need to click on the photo to toggle header
+        self.pointing_device.click()
 
     def open_first_photo(self):
         self.assertThat(
             lambda: self.events_view.number_of_photos_in_events(),
             Eventually(GreaterThan(0))
         )
-
-        # workaround lp:1247698
-        # toolbar needs to be gone to click on an image.
-        self.main_view.close_toolbar()
 
         self.events_view.click_photo(self.sample_file)
 
@@ -219,7 +216,7 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.media_view = self.app.select_single(MediaViewer)
 
     def click_edit_button(self):
-        self.main_view.open_toolbar().click_button("editButton")
+        self.main_view.get_header().click_action_button("editButton")
         edit_dialog = self.photo_viewer.get_photo_edit_dialog()
         self.assertThat(edit_dialog.visible, (Eventually(Equals(True))))
         self.assertThat(edit_dialog.opacity, (Eventually(Equals(1))))
@@ -281,7 +278,6 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(lambda: is_landscape(),
                         Eventually(Equals(False)))
 
-        self.main_view.open_toolbar()
         self.click_edit_button()
         self.photo_viewer.click_undo_item()
         self.media_view.ensure_spinner_not_running()
@@ -291,7 +287,6 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.assertThat(lambda: is_landscape(),
                         Eventually(Equals(True)))
 
-        self.main_view.open_toolbar()
         self.click_edit_button()
         self.photo_viewer.click_redo_item()
         self.media_view.ensure_spinner_not_running()
@@ -301,10 +296,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
         is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
         self.assertThat(is_landscape, Equals(False))
 
-        self.main_view.open_toolbar()
         self.click_edit_button()
         self.photo_viewer.click_rotate_item()
-        self.main_view.open_toolbar()
         self.click_edit_button()
         self.photo_viewer.click_revert_item()
 
