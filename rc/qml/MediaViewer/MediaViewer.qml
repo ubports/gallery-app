@@ -512,6 +512,7 @@ Item {
                 onTriggered: PopupUtils.open(editPopoverComponent, null);
             },
             Action {
+                objectName: "addButton"
                 text: i18n.tr("Add to album")
                 iconName: "add"
                 onTriggered: {
@@ -521,6 +522,7 @@ Item {
                 }
             },
             Action {
+                objectName: "deleteButton"
                 text: i18n.tr("Delete")
                 iconName: "delete"
                 onTriggered: {

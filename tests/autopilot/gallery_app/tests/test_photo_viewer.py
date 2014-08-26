@@ -104,7 +104,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
     def test_nav_bar_back_button(self):
         """Clicking the back button must close the photo."""
-        self.main_view.open_toolbar().click_button("backButton")
+        self.main_view.get_header().click_custom_back_button()
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
         self.assertThat(photo_viewer.visible, Eventually(Equals(False)))
 
@@ -120,7 +120,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
         self.assertThat(share_picker.visible, Eventually(Equals(False)))
 
     def delete_one_picture(self):
-        self.main_view.open_toolbar().click_button("deleteButton")
+        self.main_view.get_header().click_action_button("deleteButton")
         self.get_delete_dialog()
         delete_item = self.photo_viewer.get_delete_popover_delete_item()
         self.click_item(delete_item)
@@ -128,7 +128,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
     def test_photo_delete_works(self):
         """Clicking the trash button must show the delete dialog."""
-        self.main_view.open_toolbar().click_button("deleteButton")
+        self.main_view.get_header().click_action_button("deleteButton")
         self.get_delete_dialog()
 
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
@@ -154,7 +154,7 @@ class TestPhotoViewer(TestPhotoViewerBase):
 
     def test_nav_bar_album_picker_button(self):
         """Clicking the album picker must show the picker dialog."""
-        self.main_view.open_toolbar().click_button("addButton")
+        self.main_view.get_header().click_action_button("addButton")
         album_picker = self.photo_viewer.get_popup_album_picker()
         self.assertThat(album_picker.visible, Eventually(Equals(True)))
 
