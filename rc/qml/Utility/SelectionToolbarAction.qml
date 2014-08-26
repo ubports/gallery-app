@@ -51,8 +51,8 @@ ToolbarItems {
         }
     }
     ToolbarButton {
-        objectName: "deleteButton"
         action: Action {
+            objectName: "deleteButton"
             text: i18n.tr("Delete")
             iconName: "delete"
             enabled: root.selection.selectedCount > 0

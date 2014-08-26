@@ -29,8 +29,8 @@ ToolbarItems {
     signal startCamera()
 
     ToolbarButton {
-        objectName: "selectButton"
         action: Action {
+            objectName: "selectButton"
             text: i18n.tr("Select")
             iconSource: Qt.resolvedUrl("../../img/select.png")
             enabled: root.selection !== null
@@ -46,8 +46,8 @@ ToolbarItems {
         }
     }
     ToolbarButton {
-        objectName: "cameraButton"
         action: Action {
+            objectName: "cameraButton"
             text: i18n.tr("Camera")
             visible: !APP.desktopMode
             iconSource: Qt.resolvedUrl("../../img/camera.png")
