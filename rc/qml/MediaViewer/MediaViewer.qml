@@ -60,8 +60,7 @@ Item {
     //
     // Since there is no current item if there are no more photo objects left in the model,
     // the check catches this before we can inadvertently follow a stale pointer.
-    property bool isReady: model != null && model.count > 0 &&
-                           (galleryPhotoViewer.currentItem ? galleryPhotoViewer.currentItem.isLoaded : false)
+    property bool isReady: model != null && model.count > 0 && galleryPhotoViewer.currentItem
 
     // tooolbar actions for the full view
     property variant actions: (media && !sharePicker.visible) ? (media.type === MediaSource.Photo ?
@@ -164,37 +163,18 @@ Item {
                 media = model.getAt(currentIndex);
         }
 
-        delegate: Item {
-            /// Is true while the media content is loaded
-            property bool isLoaded: delegateView.item.isLoaded
-            /// Is true when the view is in a state, where the user possibly
-            /// interacts with the media (and not swipe to another media)
-            property bool userInteracting: delegateView.item.state === "zoomed"
-            /// Needed as ListView.isCurrentItem can't be used directly
-            property bool isActive: ListView.isCurrentItem
-            /// True if a video is currently played
-            property bool isPlayingVideo: galleryPhotoViewer.currentItem ?
-                                              galleryPhotoViewer.currentItem.state === "playing"
-                                            : false
-
-            // set the view to it's original state
-            function reset() {
-                delegateView.item.reset();
-            }
-            /// Toggles between play and pause - only usful when a video is shown
-            function togglePlayPause() {
-                if (model.mediaSource.type === MediaSource.Video)
-                    delegateView.item.togglePlayPause();
-            }
-
-            onIsActiveChanged: {
-                if (!isActive)
-                    reset()
-            }
+        delegate: SingleMediaViewer {
+            id: media
+            mediaFileURL: model.mediaSource.path
+            mediaFileType: model.mediaSource.type
+            maxDimension: Math.max(galleryPhotoViewer.width, galleryPhotoViewer.height)
 
             width: galleryPhotoViewer.width
             height: galleryPhotoViewer.height
-            state: delegateView.item.state
+
+            // Needed as ListView.isCurrentItem can't be used directly in a change handler
+            property bool isActive: ListView.isCurrentItem
+            onIsActiveChanged: if (!isActive) reset();
 
             opacity: {
                 if (!galleryPhotoViewer.moving || galleryPhotoViewer.contentX < 0
@@ -204,28 +184,12 @@ Item {
                 return 1.0 - Math.abs((galleryPhotoViewer.contentX - x) / width);
             }
 
-            Component {
-                id: component_delegatePhotoView
-                PhotoViewerDelegate {
-                    useInteractivePreview: false
-                    mediaSource: model.mediaSource
-
-                    onClicked: viewerWrapper.toggleHeaderVisibility()
-                }
+            onClicked: viewerWrapper.toggleHeaderVisibility()
+            
+            Connections {
+                target: model.mediaSource
+                onDataChanged: media.reload()
             }
-            Component {
-                id: component_delegateVideoView
-                VideoViewerDelegate {
-                    mediaSource: model.mediaSource
-                }
-            }
-            Loader {
-                id: delegateView
-                anchors.fill: parent
-                sourceComponent: model.mediaSource.type === MediaSource.Photo ?
-                                     component_delegatePhotoView : component_delegateVideoView
-            }
-
         }
 
         // Don't allow flicking while the chrome is actively displaying a popup
