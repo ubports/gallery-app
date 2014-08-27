@@ -220,8 +220,8 @@ Checkerboard {
     tools: ToolbarItems {
         id: albumOverviewTools
         ToolbarButton {
-            objectName: "addButton"
             action: Action {
+                objectName: "addButton"
                 text: i18n.tr("Add new album") // Text in HUD
                 iconName: "add"
                 onTriggered: {

@@ -359,11 +359,13 @@ Page {
     /// Contains the actions for the toolbar in the album view
     head.actions: [
         Action {
+            objectName: "addButton"
             text: i18n.tr("Add to album") // text in HUD
             iconName: "add"
             onTriggered: showMediaSelector();
         },
         Action {
+            objectName: "deleteButton"
             text: i18n.tr("Delete")
             iconName: "delete"
             onTriggered: {

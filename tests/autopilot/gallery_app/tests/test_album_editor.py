@@ -33,13 +33,10 @@ class TestAlbumEditor(GalleryTestCase):
         self.ARGS = []
         super(TestAlbumEditor, self).setUp()
         self.switch_to_albums_tab()
-        self.main_view.close_toolbar()
         self.edit_first_album()
 
     def edit_first_album(self):
         first_album = self.gallery_utils.get_first_album()
-        # workaround lp:1247698
-        self.main_view.close_toolbar()
         self.tap_item(first_album)
         edit_button = self.gallery_utils.get_edit_album_button()
         self.click_item(edit_button)
@@ -58,8 +55,7 @@ class TestAlbumEditor(GalleryTestCase):
         text = "Ubuntu"
         self.assertThat(subtitle_field.text, Eventually(Equals(text)))
 
-        # workaround lp:1247698
-        self.main_view.close_toolbar()
+        sleep(5)
         editor.click_title_field()
         self.assertThat(title_field.activeFocus, Eventually(Equals(True)))
         self.keyboard.press_and_release("Ctrl+a")
@@ -81,38 +77,40 @@ class TestAlbumEditor(GalleryTestCase):
         """Tests adding a photo using the media selector"""
         # first open, but cancel before adding a photo
         editor = self.app.select_single(album_editor.AlbumEditor)
-        # workaround lp:1247698
-        self.main_view.close_toolbar()
         editor.add_photos()
         self.media_selector.ensure_fully_open()
 
         sleep(5)
-        self.main_view.get_toolbar().click_custom_button("cancelButton")
+        self.main_view.get_header().click_custom_back_button()
+
         editor.ensure_fully_closed()
 
-        self.main_view.close_toolbar()
+        sleep(5)
         self.open_first_album()
         num_photos_start = self.album_view.number_of_photos()
         self.assertThat(num_photos_start, Equals(1))
-        self.main_view.open_toolbar().click_button("backButton")
+
+        # should click away of any photo to toggle header
+        photo = self.album_view.get_first_photo()
+        x, y, w, h = photo.globalRect
+        self.pointing_device.move(x + 40 , y + h + 40)
+        self.pointing_device.click()
+
+        self.main_view.get_header().click_custom_back_button()
         self.album_view.ensure_album_view_fully_closed()
 
         # now open to add a photo
-        self.main_view.close_toolbar()
         self.edit_first_album()
         editor = self.app.select_single(album_editor.AlbumEditor)
-        # workaround lp:1247698
-        self.main_view.close_toolbar()
         editor.add_photos()
         self.media_selector.ensure_fully_open()
 
         photo = self.media_selector.get_second_photo()
         self.click_item(photo)
-        self.main_view.get_toolbar().click_custom_button("addButton")
+        self.main_view.get_header().click_action_button("addButton")
         editor = self.app.select_single(album_editor.AlbumEditor)
         editor.ensure_fully_closed()
 
-        self.main_view.close_toolbar()
         self.open_first_album()
         num_photos = self.album_view.number_of_photos()
         self.assertThat(num_photos, Equals(num_photos_start + 1))
@@ -124,11 +122,8 @@ class TestAlbumEditor(GalleryTestCase):
         self.assertThat(
             cover_image.source.endswith("album-cover-default-large.png"),
             Equals(True))
-        self.main_view.close_toolbar()
 
         # click somewhere rather at the bottom of the cover
-        # workaround lp:1247698
-        self.main_view.close_toolbar()
         x, y, w, h = cover_image.globalRect
         self.pointing_device.move(x + int(w / 2), y + h - int(h / 10))
         self.pointing_device.click()

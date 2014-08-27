@@ -262,8 +262,6 @@ class GalleryTestCase(AutopilotTestCase):
 
     def open_album_at(self, position):
         album = self.album_view.get_album_at(position)
-        # workaround lp:1247698
-        self.main_view.close_toolbar()
         self.click_item(album)
         self.ensure_view_is_fully_open()
 

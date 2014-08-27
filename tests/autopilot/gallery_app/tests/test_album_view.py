@@ -48,24 +48,17 @@ class TestAlbumView(GalleryTestCase):
         self.switch_to_albums_tab()
 
     def test_album_view_open_photo(self):
-        self.main_view.close_toolbar()
         self.open_first_album()
-        self.main_view.close_toolbar()
         photo = self.album_view.get_first_photo()
-        # workaround lp:1247698
-        self.main_view.close_toolbar()
         self.click_item(photo)
         sleep(5)
         photo_view = self.main_view.wait_select_single("PopupPhotoViewer")
         self.assertThat(photo_view.visible, Eventually(Equals(True)))
 
     def test_album_view_flipping(self):
-        self.main_view.close_toolbar()
-
         # For some reason here the album at position 0 in the autopilot list is
         # actually the second album, they seem to be returned in reverse order.
         self.open_album_at(0)
-        self.main_view.close_toolbar()
 
         spread = self.album_view.get_spread_view()
 
@@ -84,35 +77,39 @@ class TestAlbumView(GalleryTestCase):
         self.assertThat(spread.viewingPage, Eventually(GreaterThan(1)))
 
     def test_add_photo(self):
-        self.main_view.close_toolbar()
         self.open_first_album()
         num_photos_start = self.album_view.number_of_photos()
         self.assertThat(num_photos_start, Equals(1))
 
+        # should click away of any photo to toggle header
+        photo = self.album_view.get_first_photo()
+        x, y, w, h = photo.globalRect
+        self.pointing_device.move(x + 40 , y + h + 40)
+        self.pointing_device.click()
+
         # open media selector but cancel
-        self.main_view.open_toolbar().click_button("addButton")
+        self.main_view.get_header().click_action_button("addButton")
         self.media_selector.ensure_fully_open()
 
-        self.main_view.get_toolbar().click_custom_button("cancelButton")
+        self.main_view.get_header().click_custom_back_button()
         sleep(1)
 
         num_photos = self.album_view.number_of_photos()
         self.assertThat(num_photos, Equals(num_photos_start))
 
         # open media selector and add a photo
-        self.main_view.open_toolbar().click_button("addButton")
+        self.main_view.get_header().click_action_button("addButton")
         self.media_selector.ensure_fully_open()
 
         photo = self.media_selector.get_second_photo()
         self.click_item(photo)
-        self.main_view.get_toolbar().click_custom_button("addButton")
+        self.main_view.get_header().click_action_button("addButton")
 
         self.assertThat(
             lambda: self.album_view.number_of_photos(),
             Eventually(Equals(num_photos_start + 1)))
 
     def test_remove_photo_from_album(self):
-        self.main_view.close_toolbar()
         self.open_first_album()
         num_photos_start = self.album_view.number_of_photos()
         self.assertThat(num_photos_start, Equals(1))
@@ -125,7 +122,11 @@ class TestAlbumView(GalleryTestCase):
         photo_view = self.album_view.get_album_photo_view()
         self.assertThat(photo_view.visible, Eventually(Equals(True)))
 
-        self.main_view.open_toolbar().click_button("deleteButton")
+        x, y, w, h = photo_view.globalRect
+        self.pointing_device.move(x + int(w/2), y + int(h/2))
+        self.pointing_device.click()
+
+        self.main_view.get_header().click_action_button("deleteButton")
         self.album_view.click_remove_from_album_remove_button()
 
         self.assertThat(lambda: self.album_view.number_of_photos(),
@@ -135,7 +136,6 @@ class TestAlbumView(GalleryTestCase):
                         Eventually(Equals(True)))
 
     def test_remove_photo_from_album_and_delete(self):
-        self.main_view.close_toolbar()
         self.open_first_album()
         num_photos_start = self.album_view.number_of_photos()
         self.assertThat(num_photos_start, Equals(1))
@@ -148,7 +148,11 @@ class TestAlbumView(GalleryTestCase):
         photo_view = self.album_view.get_album_photo_view()
         self.assertThat(photo_view.visible, Eventually(Equals(True)))
 
-        self.main_view.open_toolbar().click_button("deleteButton")
+        x, y, w, h = photo_view.globalRect
+        self.pointing_device.move(x + int(w/2), y + int(h/2))
+        self.pointing_device.click()
+
+        self.main_view.get_header().click_action_button("deleteButton")
         self.album_view.click_remove_from_album_delete_button()
 
         self.assertThat(lambda: self.album_view.number_of_photos(),
@@ -158,7 +162,6 @@ class TestAlbumView(GalleryTestCase):
                         Eventually(Equals(False)))
 
     def test_cancel_remove_photo_from_album(self):
-        self.main_view.close_toolbar()
         self.open_first_album()
         num_photos_start = self.album_view.number_of_photos()
         self.assertThat(num_photos_start, Equals(1))
@@ -171,10 +174,13 @@ class TestAlbumView(GalleryTestCase):
         photo_view = self.album_view.get_album_photo_view()
         self.assertThat(photo_view.visible, Eventually(Equals(True)))
 
-        self.main_view.open_toolbar().click_button("deleteButton")
+        x, y, w, h = photo_view.globalRect
+        self.pointing_device.move(x + int(w/2), y + int(h/2))
+        self.pointing_device.click()
+        self.main_view.get_header().click_action_button("deleteButton")
         self.album_view.click_remove_from_album_cancel_button()
 
-        self.main_view.open_toolbar().click_button("backButton")
+        self.main_view.get_header().click_custom_back_button()
 
         self.assertThat(lambda: self.album_view.number_of_photos(),
                         Eventually(Equals(num_photos_start)))
@@ -183,28 +189,24 @@ class TestAlbumView(GalleryTestCase):
                         Eventually(Equals(True)))
 
     def test_add_photo_to_new_album(self):
-        self.main_view.open_toolbar().click_button("addButton")
+        self.main_view.get_header().click_action_button("addButton")
         self.ui_update()
 
         editor = self.app.select_single(album_editor.AlbumEditor)
         editor.ensure_fully_open()
-        self.main_view.close_toolbar()
         editor.close()
 
         self.open_first_album()
-        self.main_view.close_toolbar()
         num_photos_start = self.album_view.number_of_photos()
         self.assertThat(num_photos_start, Equals(0))
 
         plus = self.album_view.get_plus_icon_empty_album()
-        # workaround lp:1247698
-        self.main_view.close_toolbar()
         self.click_item(plus)
         self.media_selector.ensure_fully_open()
 
         photo = self.media_selector.get_second_photo()
         self.click_item(photo)
-        self.main_view.get_toolbar().click_custom_button("addButton")
+        self.main_view.get_header().click_action_button("addButton")
 
         self.assertThat(
             lambda: self.album_view.number_of_photos(),
