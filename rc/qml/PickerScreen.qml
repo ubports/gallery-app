@@ -32,6 +32,7 @@ MainView {
     /// Model of all media
     property MediaCollectionModel mediaLibrary: MediaCollectionModel {
         monitored: true
+        mediaTypeFilter: APP.mediaTypeFilter
     }
     /// Holds the selection
     property SelectionState selection: SelectionState {
@@ -60,12 +61,14 @@ MainView {
                 tools: pickTools
                 selection: pickerMainView.selection
                 model: EventCollectionModel {
+                    mediaTypeFilter: APP.mediaTypeFilter
                 }
 
                 delegate: OrganicMediaList {
                     width: eventSelectView.width
                     event: model.event
                     selection: eventSelectView.selection
+                    mediaTypeFilter: APP.mediaTypeFilter
                 }
             }
         }

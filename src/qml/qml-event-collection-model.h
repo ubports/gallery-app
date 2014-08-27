@@ -41,6 +41,7 @@ public:
 protected:
     virtual QVariant toVariant(DataObject *object) const;
     virtual DataObject* fromVariant(QVariant var) const;
+    bool isAccepted(DataObject* item);
 };
 
 QML_DECLARE_TYPE(QmlEventCollectionModel)

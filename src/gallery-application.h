@@ -24,6 +24,8 @@
 #include <QElapsedTimer>
 #include <QFileInfo>
 
+#include "media-source.h"
+
 class CommandLineParser;
 class ContentCommunicator;
 class GalleryManager;
@@ -37,6 +39,7 @@ class GalleryApplication : public QApplication
 {
     Q_OBJECT
     Q_PROPERTY(bool pickModeEnabled READ pickModeEnabled NOTIFY pickModeEnabledChanged)
+    Q_PROPERTY(MediaSource::MediaType mediaTypeFilter READ mediaTypeFilter NOTIFY mediaTypeFilterChanged)
     Q_PROPERTY(bool desktopMode READ isDesktopMode CONSTANT)
     Q_PROPERTY(bool fullScreen READ isFullScreen WRITE setFullScreen NOTIFY fullScreenChanged)
 
@@ -57,6 +60,7 @@ public:
     bool pickModeEnabled() const;
     bool isDesktopMode() const;
     bool isFullScreen() const;
+    MediaSource::MediaType mediaTypeFilter() const;
 
     Q_INVOKABLE void returnPickedContent(QVariant variant);
     Q_INVOKABLE void contentPickingCanceled();
@@ -67,10 +71,11 @@ signals:
     void mediaLoaded();
     void pickModeEnabledChanged();
     void fullScreenChanged();
+    void mediaTypeFilterChanged();
 
 private slots:
     void initCollections();
-    void switchToPickMode();
+    void switchToPickMode(QString mediaTypeFilter);
     void setFullScreen(bool fullScreen);
     void consistencyCheckFinished();
 
@@ -86,6 +91,7 @@ private:
     int m_bguSize;
     bool m_pickModeEnabled;
     UiMode m_defaultUiMode;
+    MediaSource::MediaType m_mediaTypeFilter;
 
     static QElapsedTimer *m_timer;
 };

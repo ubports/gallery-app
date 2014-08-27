@@ -57,7 +57,7 @@ public:
     void registerWithHub();
 
 signals:
-    void photoRequested();
+    void mediaRequested(QString mediaType);
     void selectionTypeChanged();
     void singleContentPickModeChanged();
 
