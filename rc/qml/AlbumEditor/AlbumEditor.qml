@@ -20,7 +20,7 @@
 
 import QtQuick 2.0
 import Gallery 1.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 import "../../js/GalleryUtility.js" as GalleryUtility
 import "../../js/GraphicsRoutines.js" as GraphicsRoutines
 import "../AlbumViewer"
@@ -33,17 +33,14 @@ Page {
     objectName: "mainAlbumEditor"
 
     title: "Edit album"
-    tools: ToolbarItems {
-        back: Button {
-            objectName: "cancelButton"
-            anchors.verticalCenter: parent.verticalCenter
-            text: i18n.tr("Cancel")
-            width: units.gu(10)
-            onClicked: {
-                if(album.newAlbum)
-                    albumModel.destroyAlbum(album);
-                albumEditor.closeRequested(albumEditor.album, false);
-            }
+    head.backAction: Action {
+        objectName: "cancelButton"
+        text: i18n.tr("Cancel")
+        iconName: "back"
+        onTriggered: {
+            if(album.newAlbum)
+                albumModel.destroyAlbum(album);
+            albumEditor.closeRequested(albumEditor.album, false);
         }
     }
 
