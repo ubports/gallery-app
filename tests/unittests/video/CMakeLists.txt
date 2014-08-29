@@ -49,5 +49,4 @@ target_link_libraries(video
     gallery-qml
     gallery-util
     gallery-video
-    "content-hub"
     )

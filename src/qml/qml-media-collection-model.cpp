@@ -176,3 +176,15 @@ DataObject* QmlMediaCollectionModel::fromVariant(QVariant var) const
 {
     return UncheckedVariantToObject<MediaSource*>(var);
 }
+
+/*!
+ * \brief QmlMediaCollectionModel::isAccepted
+ * \param item
+ * \return
+ */
+bool QmlMediaCollectionModel::isAccepted(DataObject *item)
+{
+    if (mediaTypeFilter() == MediaSource::None) return true;
+    MediaSource* source = qobject_cast<MediaSource*>(item);
+    return source != 0 && source->type() == mediaTypeFilter();
+}

@@ -155,6 +155,12 @@ void QmlEventOverviewModel::onEventsChanged(const QSet<DataObject*>* added,
     }
 }
 
+bool QmlEventOverviewModel::isAccepted(DataObject* item)
+{
+    Q_UNUSED(item);
+    return true;
+}
+
 /*!
  * \brief QmlEventOverviewModel::onEventOverviewContentsChanged
  * \param added
