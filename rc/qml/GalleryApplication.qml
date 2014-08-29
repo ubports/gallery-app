@@ -190,6 +190,7 @@ Item {
 
     Loader {
         id: loadingScreen
+        objectName: 'loadingScreen'
         anchors.fill: parent
         visible: mainScreenLoader.status !== Loader.Ready
         source: visible ? Qt.resolvedUrl("LoadingScreen.qml") : ""
