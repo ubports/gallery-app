@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 import Gallery 1.0
 import "Components"
 import "OrganicView"
@@ -28,6 +28,8 @@ The main view for picking content
 MainView {
     id: pickerMainView
     objectName: "pickerMainView"
+
+    useDeprecatedToolbar: false
 
     /// Model of all media
     property MediaCollectionModel mediaLibrary: MediaCollectionModel {
@@ -57,7 +59,8 @@ MainView {
                 id: eventSelectView
                 objectName: "eventSelectView"
 
-                tools: pickTools
+                head.actions: pickActions
+
                 selection: pickerMainView.selection
                 model: EventCollectionModel {
                 }
@@ -77,7 +80,7 @@ MainView {
                 id: photosOverview
                 objectName: "photosPage"
 
-                tools: pickTools
+                head.actions: pickActions
 
                 Image {
                     anchors.fill: parent
@@ -94,32 +97,24 @@ MainView {
         }
     }
 
-    property ToolbarItems pickTools: ToolbarItems {
-        Button {
-            anchors.verticalCenter: parent.verticalCenter
+    property list<Action> pickActions: [
+        Action {
             text: i18n.tr("Pick")
             objectName: "pickButton"
-            color: Gallery.HIGHLIGHT_BUTTON_COLOR
-            width: units.gu(16)
             enabled: pickerMainView.selection.selectedCount > 0
-            onClicked: {
+            iconName: "ok"
+            onTriggered: {
                 if (!enabled)
                     return;
 
                 APP.returnPickedContent(mediaLibrary.selectedMedias);
             }
-        }
-
-        back: Button {
-            anchors.verticalCenter: parent.verticalCenter
+        },
+        Action {
             text: i18n.tr("Cancel")
             objectName: "cancelButton"
-            width: units.gu(10)
-            onClicked: {
-                APP.contentPickingCanceled()
-            }
+            iconName: "close"
+            onTriggered: APP.contentPickingCanceled()
         }
-        opened: true
-        locked: true
-    }
+    ]
 }

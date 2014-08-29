@@ -11,7 +11,7 @@ from ubuntuuitoolkit import emulators as toolkit_emulators
 class PickerScreen(toolkit_emulators.MainView):
 
     def pick_button(self):
-        return self.select_single("Button", objectName="pickButton")
+        return self.select_single(objectName="pickButton_header_button")
 
     def get_photos_tab_button(self):
         """Returns the photos tab."""
@@ -38,7 +38,7 @@ class PickerScreen(toolkit_emulators.MainView):
         Return the Page object representing the photos
         """
         self.switch_to_tab('photosTab')
-        return self.select_single(Page10, objectName='photosPage')
+        return self.select_single(Page11, objectName='photosPage')
 
     def click_pick_button(self):
         """Click on the pick button"""
@@ -51,7 +51,7 @@ class PickerScreen(toolkit_emulators.MainView):
         self.click_pick_button()
 
 
-class Page10(PickerScreen):
+class Page11(PickerScreen):
     """Class to represent photos page view from picker screen"""
 
     def _get_named_photo_element(self, photo_name):
