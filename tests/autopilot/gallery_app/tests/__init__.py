@@ -68,8 +68,8 @@ class GalleryTestCase(AutopilotTestCase):
         # in /usr
         if os.path.realpath(__file__).startswith("/usr/"):
             return EnvironmentTypes.installed
-        #if model() == 'Desktop':
-        #    return EnvironmentTypes.installed
+        if model() == 'Desktop':
+            return EnvironmentTypes.installed
         else:
             if os.path.exists(self.local_location):
                 return EnvironmentTypes.local
