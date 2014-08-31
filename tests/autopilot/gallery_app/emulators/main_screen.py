@@ -16,14 +16,6 @@ class MainScreen(ubuntuuitoolkit.MainView):
         """Return the Header emulator of the MainView."""
         return self.select_single(AppHeader, objectName='MainView_Header')
 
-    def get_toolbar(self):
-        """Return the Toolbar emulator of the MainView.
-
-        Overriden because the gallery app has custom buttons.
-
-        """
-        return self.select_single(toolbar.Toolbar)
-
 
 class AppHeader(ubuntuuitoolkit.Header):
     """Header Autopilot helper.
