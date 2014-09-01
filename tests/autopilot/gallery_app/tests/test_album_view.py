@@ -58,7 +58,7 @@ class TestAlbumView(GalleryTestCase):
     def test_album_view_flipping(self):
         # For some reason here the album at position 0 in the autopilot list is
         # actually the second album, they seem to be returned in reverse order.
-        self.open_album_at(0)
+        self.open_album_at(1)
 
         spread = self.album_view.get_spread_view()
 

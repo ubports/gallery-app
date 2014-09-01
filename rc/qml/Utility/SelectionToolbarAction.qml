@@ -60,8 +60,8 @@ ToolbarItems {
         }
     }
     ToolbarButton {
-        objectName: "shareButton"
         action: Action {
+            objectName: "shareButton"
             text: i18n.tr("Share")
             iconName: "share"
             enabled: root.selection.selectedCount > 0

@@ -237,8 +237,8 @@ Checkerboard {
             text: "Add" // text in toolbar
         }
         ToolbarButton {
-            objectName: "cameraButton"
             action: Action {
+                objectName: "cameraButton"
                 text: i18n.tr("Camera")
                 visible: !APP.desktopMode
                 iconSource: Qt.resolvedUrl("../img/camera.png")
