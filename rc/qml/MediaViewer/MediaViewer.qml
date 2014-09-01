@@ -533,6 +533,7 @@ Item {
                 }
             },
             Action {
+                objectName: "shareButton"
                 text: i18n.tr("Share photo")
                 iconName: "share"
                 visible: !APP.desktopMode

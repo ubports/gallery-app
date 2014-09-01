@@ -111,6 +111,7 @@ class TestAlbumEditor(GalleryTestCase):
         editor = self.app.select_single(album_editor.AlbumEditor)
         editor.ensure_fully_closed()
 
+        self.album_view.ensure_album_view_fully_closed()
         self.open_first_album()
         num_photos = self.album_view.number_of_photos()
         self.assertThat(num_photos, Equals(num_photos_start + 1))
