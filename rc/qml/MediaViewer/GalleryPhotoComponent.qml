@@ -108,10 +108,8 @@ Rectangle {
         //           prevent this segfault & crash from occurring.
         visible: isLoaded;
 
-        sourceSize: {
-            width: width
-            height: height
-        }
+        sourceSize.width: width
+        sourceSize.height: height
 
         // use cache: !isAnimate setting for flicker-free animations and reflows
         asynchronous: !isAnimate
