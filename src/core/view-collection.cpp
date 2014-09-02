@@ -35,7 +35,7 @@ ViewCollection::ViewCollection(const QString& name)
  * \param monitor_ordering
  */
 void ViewCollection::monitorDataCollection(const DataCollection* collection,
-                                           SourceFilter filter, bool monitor_ordering)
+                                           IDataFilter* filter, bool monitor_ordering)
 {
     Q_ASSERT(collection != NULL);
 
@@ -66,6 +66,16 @@ void ViewCollection::monitorDataCollection(const DataCollection* collection,
     // DataCollection
     QSet<DataObject*> all(collection->getAsSet());
     onMonitoredContentsChanged(&all, NULL);
+    emit collectionChanged();
+}
+
+/*!
+ * \brief ViewCollection::collection
+ * \return
+ */
+const DataCollection* ViewCollection::collection() const
+{
+    return m_monitoring;
 }
 
 /*!
@@ -105,7 +115,7 @@ void ViewCollection::onMonitoredContentsChanged(const QSet<DataObject*>* added,
             QSet<DataObject*> to_add;
             DataObject* object;
             foreach (object, *added) {
-                if (m_monitorFilter(object))
+                if (m_monitorFilter->isAccepted(object))
                     to_add.insert(object);
             }
 

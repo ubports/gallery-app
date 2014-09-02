@@ -66,7 +66,8 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
       m_view(new QQuickView()),
       m_contentCommunicator(new ContentCommunicator(this)),
       m_pickModeEnabled(false),
-      m_defaultUiMode(BrowseContentMode)
+      m_defaultUiMode(BrowseContentMode),
+      m_mediaTypeFilter(MediaSource::None)
 {
     m_bguSize = QProcessEnvironment::systemEnvironment().value("GRID_UNIT_PX", "8").toInt();
     if (m_bguSize <= 0)
@@ -107,8 +108,8 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
     QObject::connect(m_galleryManager, SIGNAL(consistencyCheckFinished()),
                      this, SLOT(consistencyCheckFinished()));
 
-    QObject::connect(m_contentCommunicator, SIGNAL(photoRequested()),
-                     this, SLOT(switchToPickMode()));
+    QObject::connect(m_contentCommunicator, SIGNAL(mediaRequested(QString)),
+                     this, SLOT(switchToPickMode(QString)));
 
     if (m_cmdLineParser->startupTimer())
         qDebug() << "Construct GalleryApplication" << m_timer->elapsed() << "ms";
@@ -288,11 +289,33 @@ bool GalleryApplication::pickModeEnabled() const
 }
 
 /*!
- * \brief GalleryApplication::switchToPickMode
+ * \brief GalleryApplication::contentTypeFilter returns the type of
+ * content to display in the UI. If the empty string is returned then
+ * no content filter is in place.
+ * \return
  */
-void GalleryApplication::switchToPickMode()
+MediaSource::MediaType GalleryApplication::mediaTypeFilter() const
+{
+    return m_mediaTypeFilter;
+}
+
+/*!
+ * \brief GalleryApplication::switchToPickMode
+ * \param QString the type of media to pick or blank string for any type
+ */
+void GalleryApplication::switchToPickMode(QString mediaTypeFilter)
 {
     setUiMode(PickContentMode);
+
+    MediaSource::MediaType newFilter;
+    if (mediaTypeFilter == "pictures") newFilter = MediaSource::Photo;
+    else if (mediaTypeFilter == "videos") newFilter = MediaSource::Video;
+    else newFilter = MediaSource::None;
+
+    if (newFilter != m_mediaTypeFilter) {
+        m_mediaTypeFilter = newFilter;
+        Q_EMIT mediaTypeFilterChanged();
+    }
 }
 
 /*!

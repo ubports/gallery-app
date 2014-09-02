@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-06-05 11:23-0400\n"
-"PO-Revision-Date: 2014-01-06 19:40+0000\n"
-"Last-Translator: Emin Mastizada <emin25@ovi.com>\n"
+"PO-Revision-Date: 2014-08-30 17:06+0000\n"
+"Last-Translator: Nicat Məmmədov <n1c4t97@gmail.com>\n"
 "Language-Team: Azerbaijani <az@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-07-04 06:27+0000\n"
-"X-Generator: Launchpad (build 17086)\n"
+"X-Launchpad-Export-Date: 2014-08-31 07:23+0000\n"
+"X-Generator: Launchpad (build 17176)\n"
 
 #: desktop/gallery-app.desktop.in:3 rc/qml/MediaViewer/PopupPhotoViewer.qml:64
 msgid "Gallery"
@@ -23,7 +23,7 @@ msgstr "Qalereya"
 
 #: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
 msgid "Ubuntu Photo Viewer"
-msgstr "Ubuntu Şəkil Göstərici"
+msgstr "Ubuntu Şәkil Nümayişçisi"
 
 #: desktop/gallery-app.desktop.in:6
 msgid "Browse your photographs"
@@ -31,7 +31,7 @@ msgstr "Şəkillərinizi nəzərdən keçirin"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 msgid "Edit album"
-msgstr "Albomu redaktə et"
+msgstr "Alboma düzәliş et"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
 #: rc/qml/AlbumViewer/AlbumViewer.qml:438
@@ -46,15 +46,15 @@ msgstr "Sil"
 #: rc/qml/Components/MediaSelector.qml:92 rc/qml/PickerScreen.qml:114
 #: rc/qml/Utility/SelectionToolbarAction.qml:66
 msgid "Cancel"
-msgstr "Ləğv et"
+msgstr "İmtina"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
-msgstr "Susmaya görə"
+msgstr "Varsayılan"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:114
 msgid "Blue"
-msgstr "Göy"
+msgstr "Mavi"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:115
 msgid "Green"
@@ -70,7 +70,7 @@ msgstr "Qırmızı"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:90
 msgid "Album"
-msgstr ""
+msgstr "Albom"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:427
 msgid "Add to album"
@@ -100,12 +100,12 @@ msgstr "Kamera"
 #: rc/qml/Components/DeleteDialog.qml:36
 #: rc/qml/MediaViewer/MediaViewer.qml:288
 msgid "Yes"
-msgstr "Bəli"
+msgstr "Hə"
 
 #: rc/qml/Components/DeleteDialog.qml:45
 #: rc/qml/MediaViewer/MediaViewer.qml:299
 msgid "No"
-msgstr "Xeyr"
+msgstr "Yox"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
@@ -122,7 +122,7 @@ msgstr "Alboma əlavə et"
 
 #: rc/qml/Components/PopupAlbumPicker.qml:159 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr "Şəkli Alboma əlavə et"
+msgstr "Alboma şәkil әlavә et."
 
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
@@ -154,7 +154,7 @@ msgstr "Kəs"
 
 #: rc/qml/MediaViewer/EditPopover.qml:42 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr "Fırlat"
+msgstr "Çevir"
 
 #: rc/qml/MediaViewer/EditPopover.qml:60
 msgid "Auto enhance"
@@ -280,7 +280,7 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
 msgid "Confirm"
-msgstr ""
+msgstr "Təsdiqlə"
 
 #: rc/qml/Utility/EditingHUD.qml:126
 msgid "Compensation"
@@ -300,7 +300,7 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:167
 msgid "Brightness"
-msgstr ""
+msgstr "Parlaqlıq"
 
 #: rc/qml/Utility/EditingHUD.qml:178
 msgid "Contrast"
