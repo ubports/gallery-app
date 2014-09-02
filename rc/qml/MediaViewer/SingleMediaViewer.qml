@@ -218,7 +218,7 @@ Item {
 
                 Timer {
                     id: clickTimer
-                    interval: APP.doubleClickInterval + 20
+                    interval: 20
                     onTriggered: viewer.clicked()
                 }
             }
