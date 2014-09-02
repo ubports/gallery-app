@@ -98,6 +98,8 @@ Popover {
                                 anchors.fill: parent
                                 onClicked: {
                                     var album = albumGrid.albumCollectionModel.createOrphan();
+                                    album.title = i18n.tr("New Photo Album");
+                                    album.subtitle = i18n.tr("Subtitle");
                                     albumGrid.albumCollectionModel.addOrphan(album);
 
                                     popupAlbumPicker.hide();

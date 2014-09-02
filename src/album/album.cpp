@@ -35,8 +35,6 @@
 // util
 #include "variants.h"
 
-const char *Album::DEFAULT_TITLE = "New Photo Album";
-const char *Album::DEFAULT_SUBTITLE = "Subtitle";
 const int Album::PAGES_PER_COVER = 1;
 // We use the left page's number as current_page_.  -1 because the cover is 0
 // and we want it to show up on the right.
@@ -47,10 +45,8 @@ const int Album::FIRST_VALID_CURRENT_PAGE = -1;
  * \param parent
  */
 Album::Album(QObject *parent)
-    : ContainerSource(parent, DEFAULT_TITLE, MediaCollection::exposureDateTimeAscendingComparator),
+    : ContainerSource(parent, "New Album", MediaCollection::exposureDateTimeAscendingComparator),
       m_albumTemplate(0),
-      m_title(DEFAULT_TITLE),
-      m_subtitle(DEFAULT_SUBTITLE),
       m_newAlbum(false),
       m_albumTable(0)
 {
