@@ -99,14 +99,16 @@ class AlbumView(GalleryUtils):
             matcher = LessThan
             self.pointing_device.drag(
                 mid_x, mid_y,  # Start
-                x + w, mid_y  # Finish
+                x + w, mid_y,  # Finish
+                rate=3
             )
 
         elif 'right' == direction:
             matcher = GreaterThan
             self.pointing_device.drag(
                 mid_x, mid_y,  # Start
-                x, mid_y  # Finish
+                x, mid_y,  # Finish
+                rate=3
             )
         else:
             raise GalleryAppException(
