@@ -34,6 +34,11 @@ Item {
     property bool isVideo: mediaFileType === MediaSource.Video
     property bool isPlayingVideo: isVideo && video.isPlaying
     property bool userInteracting: pinchInProgress || flickable.sizeScale != 1.0
+    property bool fullyZoomed: flickable.sizeScale == zoomPinchArea.maximumZoom
+    property bool fullyUnzoomed: flickable.sizeScale == zoomPinchArea.minimumZoom
+
+    property alias paintedHeight: image.paintedHeight
+    property alias paintedWidth: image.paintedWidth
 
     signal clicked()
 
@@ -141,7 +146,7 @@ Item {
                 width: flickable.width * flickable.sizeScale
                 height: flickable.height * flickable.sizeScale
 
-                Image {
+               Image {
                     id: image
                     anchors.fill: parent
                     asynchronous: true
