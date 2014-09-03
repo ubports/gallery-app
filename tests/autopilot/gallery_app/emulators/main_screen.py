@@ -6,7 +6,6 @@
 # by the Free Software Foundation.
 
 import ubuntuuitoolkit
-from gallery_app.emulators import toolbar
 
 
 class MainScreen(ubuntuuitoolkit.MainView):
@@ -34,3 +33,4 @@ class AppHeader(ubuntuuitoolkit.Header):
 
     def _show(self):
         self.pointing_device.click_object(self._get_top_container())
+        self.visible.wait_for(True)
