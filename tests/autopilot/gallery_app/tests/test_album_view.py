@@ -122,10 +122,6 @@ class TestAlbumView(GalleryTestCase):
         photo_view = self.album_view.get_album_photo_view()
         self.assertThat(photo_view.visible, Eventually(Equals(True)))
 
-        x, y, w, h = photo_view.globalRect
-        self.pointing_device.move(x + int(w/2), y + int(h/2))
-        self.pointing_device.click()
-
         self.main_view.get_header().click_action_button("deleteButton")
         self.album_view.click_remove_from_album_remove_button()
 
@@ -147,10 +143,6 @@ class TestAlbumView(GalleryTestCase):
 
         photo_view = self.album_view.get_album_photo_view()
         self.assertThat(photo_view.visible, Eventually(Equals(True)))
-
-        x, y, w, h = photo_view.globalRect
-        self.pointing_device.move(x + int(w/2), y + int(h/2))
-        self.pointing_device.click()
 
         self.main_view.get_header().click_action_button("deleteButton")
         self.album_view.click_remove_from_album_delete_button()
@@ -174,9 +166,6 @@ class TestAlbumView(GalleryTestCase):
         photo_view = self.album_view.get_album_photo_view()
         self.assertThat(photo_view.visible, Eventually(Equals(True)))
 
-        x, y, w, h = photo_view.globalRect
-        self.pointing_device.move(x + int(w/2), y + int(h/2))
-        self.pointing_device.click()
         self.main_view.get_header().click_action_button("deleteButton")
         self.album_view.click_remove_from_album_cancel_button()
 

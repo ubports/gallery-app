@@ -100,7 +100,7 @@ class AlbumView(GalleryUtils):
             self.pointing_device.drag(
                 mid_x, mid_y,  # Start
                 x + w, mid_y,  # Finish
-                rate=5
+                rate=3
             )
 
         elif 'right' == direction:
@@ -108,7 +108,7 @@ class AlbumView(GalleryUtils):
             self.pointing_device.drag(
                 mid_x, mid_y,  # Start
                 x, mid_y,      # Finish
-                rate=5
+                rate=3
             )
         else:
             raise GalleryAppException(
