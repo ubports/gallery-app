@@ -11,6 +11,7 @@
 from testtools.matchers import Equals, NotEquals, Is, GreaterThan
 from autopilot.matchers import Eventually
 from autopilot.platform import model
+from autopilot.introspection.dbus import StateNotFoundError
 
 from gallery_app.tests import GalleryTestCase
 from gallery_app.emulators.events_view import EventsView
@@ -59,7 +60,16 @@ class TestEventsView(GalleryTestCase):
                                            objectName="organicEventView")
 
     def enable_select_mode(self):
-        self.main_view.open_toolbar().click_button("selectButton")
+        self.main_view.get_header().click_action_button("selectButton")
+
+    def check_header_button_exist(self, button):
+        header = self.main_view.get_header()
+        buttonName = button + "_header_button"
+        try:
+            header.select_single(objectName=buttonName)
+        except StateNotFoundError:
+            return False
+        return True
 
     def test_select_button_cancel(self):
         """Clicking the cancel button after clicking the select button must
@@ -70,10 +80,8 @@ class TestEventsView(GalleryTestCase):
         self.enable_select_mode()
         self.assertTrue(events_view.inSelectionMode)
 
-        self.main_view.get_toolbar().click_custom_button("cancelButton")
+        self.main_view.get_header().click_custom_back_button()
 
-        toolbar = self.main_view.get_toolbar()
-        self.assertThat(toolbar.opened, Eventually(Equals(False)))
         self.assertFalse(events_view.inSelectionMode)
 
     def test_delete_a_photo(self):
@@ -83,7 +91,7 @@ class TestEventsView(GalleryTestCase):
 
         self.enable_select_mode()
         self.events_view.click_photo(self.sample_file)
-        self.main_view.open_toolbar().click_button("deleteButton")
+        self.main_view.get_header().click_action_button("deleteButton")
         self.assertThat(self.gallery_utils.delete_dialog_shown,
                         Eventually(Is(True)))
 
@@ -94,7 +102,7 @@ class TestEventsView(GalleryTestCase):
         self.assertThat(lambda: exists(self.sample_file),
                         Eventually(Equals(True)))
 
-        self.main_view.open_toolbar().click_button("deleteButton")
+        self.main_view.get_header().click_action_button("deleteButton")
         self.assertThat(self.gallery_utils.delete_dialog_shown,
                         Eventually(Is(True)))
 
@@ -123,13 +131,8 @@ class TestEventsView(GalleryTestCase):
 
     # Check if Camera Button is not visible at Desktop mode
     def test_camera_button_visible(self):
-        self.main_view.open_toolbar()
-        toolbar = self.main_view.get_toolbar()
-        cameraButton = toolbar.select_single(
-            "ActionItem",
-            objectName="cameraButton"
-        )
+        cameraButtonVisible = self.check_header_button_exist("cameraButton")
         if model() == "Desktop":
-            self.assertThat(cameraButton.visible, Equals(False))
+            self.assertThat(cameraButtonVisible, Equals(False))
         else:
-            self.assertThat(cameraButton.visible, Equals(True))
+            self.assertThat(cameraButtonVisible, Equals(True))

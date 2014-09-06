@@ -94,7 +94,7 @@ OrganicView {
         }
         onAddClicked: {
             __albumPicker = PopupUtils.open(Qt.resolvedUrl("Components/PopupAlbumPicker.qml"),
-                                            caller,
+                                            null,
                                             {contentHeight: organicEventView.__pickerContentHeight});
         }
         onDeleteClicked: {

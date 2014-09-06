@@ -33,6 +33,8 @@ ToolbarItems {
     signal addClicked(var caller)
     ///Emitted when delete was clicked
     signal deleteClicked()
+    ///Emitted when share was clicked
+    signal shareClicked()
 
     // in selection mode, never hide the toolbar:
     opened: true
@@ -41,32 +43,40 @@ ToolbarItems {
     ToolbarButton {
         id: addButton
         objectName: "addButton"
-        text: i18n.tr("Add")
-        iconSource: Qt.resolvedUrl("../../img/add.png")
-        enabled: root.selection.selectedCount > 0
-        onTriggered: root.addClicked(addButton);
+        action: Action {
+            text: i18n.tr("Add")
+            iconName: "add"
+            enabled: root.selection.selectedCount > 0
+            onTriggered: root.addClicked(addButton);
+        }
     }
     ToolbarButton {
-        objectName: "deleteButton"
-        text: i18n.tr("Delete")
-        iconSource: Qt.resolvedUrl("../../img/delete.png")
-        enabled: root.selection.selectedCount > 0
-        onTriggered:root.deleteClicked();
+        action: Action {
+            objectName: "deleteButton"
+            text: i18n.tr("Delete")
+            iconName: "delete"
+            enabled: root.selection.selectedCount > 0
+            onTriggered:root.deleteClicked();
+        }
     }
     ToolbarButton {
-        objectName: "shareButton"
-        text: i18n.tr("Share")
-        iconSource: Qt.resolvedUrl("../../img/share.png")
-        enabled: false
+        action: Action {
+            objectName: "shareButton"
+            text: i18n.tr("Share")
+            iconName: "share"
+            enabled: root.selection.selectedCount > 0
+            onTriggered: root.shareClicked();
+        }
     }
 
     back:  Button {
         objectName: "cancelButton"
-        anchors.verticalCenter: parent.verticalCenter
-        text: i18n.tr("Cancel")
-        width: units.gu(10)
-        onClicked: {
-            root.cancelClicked();
+        action: Action {
+            text: i18n.tr("Cancel")
+            iconName: "back"
+            onTriggered: {
+                root.cancelClicked();
+            }
         }
     }
 }

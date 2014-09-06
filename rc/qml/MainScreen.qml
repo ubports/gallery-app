@@ -31,6 +31,8 @@ MainView {
     id: overview
     objectName: "overview"
 
+    useDeprecatedToolbar: false
+
     anchors.fill: parent
     applicationName: "gallery-app"
     automaticOrientation: application.automaticOrientation

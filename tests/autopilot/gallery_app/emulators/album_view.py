@@ -38,10 +38,6 @@ class AlbumView(GalleryUtils):
         return self.app.wait_select_single("AlbumViewer",
                                            objectName="albumViewer")
 
-    def get_toolbar_add_button(self):
-        """Returns the add button of the tollbar in the events view."""
-        return self.get_toolbar_named_toolbarbutton("addButton")
-
     def get_first_photo(self):
         """Returns the first photo in a newly opened album"""
         return self.app.select_many(
@@ -103,14 +99,16 @@ class AlbumView(GalleryUtils):
             matcher = LessThan
             self.pointing_device.drag(
                 mid_x, mid_y,  # Start
-                x + w, mid_y  # Finish
+                x + w, mid_y,  # Finish
+                rate=3
             )
 
         elif 'right' == direction:
             matcher = GreaterThan
             self.pointing_device.drag(
                 mid_x, mid_y,  # Start
-                x, mid_y  # Finish
+                x, mid_y,      # Finish
+                rate=3
             )
         else:
             raise GalleryAppException(

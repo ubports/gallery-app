@@ -20,7 +20,7 @@
 
 import QtQuick 2.0
 import Gallery 1.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 import Ubuntu.Components.Popups 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import Ubuntu.Content 0.1
@@ -60,13 +60,14 @@ Item {
     //
     // Since there is no current item if there are no more photo objects left in the model,
     // the check catches this before we can inadvertently follow a stale pointer.
-    property bool isReady: model != null && model.count > 0 &&
-                           (galleryPhotoViewer.currentItem ? galleryPhotoViewer.currentItem.isLoaded : false)
+    property bool isReady: model != null && model.count > 0 && galleryPhotoViewer.currentItem
 
     // tooolbar actions for the full view
-    property Item tools: (media && !sharePicker.visible) ? (media.type === MediaSource.Photo ?
-                                      d.photoToolbar : d.videoToolbar)
-                               : null
+    property variant actions: (media && !sharePicker.visible) ? (media.type === MediaSource.Photo ?
+                                      d.photoActions : d.videoActions)
+                               : []
+
+    property variant backAction: d.backAction
 
     /*!
     */
@@ -113,6 +114,16 @@ Item {
         galleryPhotoViewer.currentItem.togglePlayPause();
     }
 
+    function setHeaderVisibility(visible)
+    {
+        header.visible = visible;    
+    }
+
+    function toggleHeaderVisibility()
+    {
+        setHeaderVisibility(!header.visible);    
+    }
+
     Rectangle{
         color: "black"
         anchors.fill: parent
@@ -152,37 +163,19 @@ Item {
                 media = model.getAt(currentIndex);
         }
 
-        delegate: Item {
-            /// Is true while the media content is loaded
-            property bool isLoaded: delegateView.item.isLoaded
-            /// Is true when the view is in a state, where the user possibly
-            /// interacts with the media (and not swipe to another media)
-            property bool userInteracting: delegateView.item.state === "zoomed"
-            /// Needed as ListView.isCurrentItem can't be used directly
-            property bool isActive: ListView.isCurrentItem
-            /// True if a video is currently played
-            property bool isPlayingVideo: galleryPhotoViewer.currentItem ?
-                                              galleryPhotoViewer.currentItem.state === "playing"
-                                            : false
-
-            // set the view to it's original state
-            function reset() {
-                delegateView.item.reset();
-            }
-            /// Toggles between play and pause - only usful when a video is shown
-            function togglePlayPause() {
-                if (model.mediaSource.type === MediaSource.Video)
-                    delegateView.item.togglePlayPause();
-            }
-
-            onIsActiveChanged: {
-                if (!isActive)
-                    reset()
-            }
+        delegate: SingleMediaViewer {
+            id: media
+            objectName: "openedMedia" + index
+            mediaFileURL: model.mediaSource.path
+            mediaFileType: model.mediaSource.type
+            maxDimension: Math.max(galleryPhotoViewer.width, galleryPhotoViewer.height)
 
             width: galleryPhotoViewer.width
             height: galleryPhotoViewer.height
-            state: delegateView.item.state
+
+            // Needed as ListView.isCurrentItem can't be used directly in a change handler
+            property bool isActive: ListView.isCurrentItem
+            onIsActiveChanged: if (!isActive) reset();
 
             opacity: {
                 if (!galleryPhotoViewer.moving || galleryPhotoViewer.contentX < 0
@@ -192,26 +185,12 @@ Item {
                 return 1.0 - Math.abs((galleryPhotoViewer.contentX - x) / width);
             }
 
-            Component {
-                id: component_delegatePhotoView
-                PhotoViewerDelegate {
-                    useInteractivePreview: false
-                    mediaSource: model.mediaSource
-                }
-            }
-            Component {
-                id: component_delegateVideoView
-                VideoViewerDelegate {
-                    mediaSource: model.mediaSource
-                }
-            }
-            Loader {
-                id: delegateView
-                anchors.fill: parent
-                sourceComponent: model.mediaSource.type === MediaSource.Photo ?
-                                     component_delegatePhotoView : component_delegateVideoView
-            }
+            onClicked: viewerWrapper.toggleHeaderVisibility()
 
+            Connections {
+                target: model.mediaSource
+                onDataChanged: media.reload()
+            }
         }
 
         // Don't allow flicking while the chrome is actively displaying a popup
@@ -232,6 +211,8 @@ Item {
             id: sharePicker
             anchors.fill: parent
             visible: false
+
+            onVisibleChanged: viewerWrapper.setHeaderVisibility(!visible)
 
             ContentPeerPicker {
                 objectName: "sharePicker"
@@ -488,123 +469,96 @@ Item {
     Item {
         id: d
 
-        property Item photoToolbar: ToolbarItems {
-            ToolbarButton {
-                id: photoEditButton
+        property list<Action> photoActions: [
+            Action {
                 objectName: "editButton"
-                action: Action {
-                    text: i18n.tr("Edit")
-                    iconSource: "../../img/edit.png"
-                    onTriggered: {
-                        PopupUtils.open(editPopoverComponent, photoEditButton);
-                    }
-                }
-            }
-            ToolbarButton {
-                id: photoAddButton
+                text: i18n.tr("Edit")
+                iconSource: "../../img/edit.png"
+                onTriggered: PopupUtils.open(editPopoverComponent, null);
+            },
+            Action {
                 objectName: "addButton"
-                action: Action {
-                    text: i18n.tr("Add photo to album")
-                    iconSource: "../../img/add.png"
-                    onTriggered: {
-                        __albumPicker = PopupUtils.open(Qt.resolvedUrl("../Components/PopupAlbumPicker.qml"),
-                                                        photoAddButton,
-                                                        {contentHeight: viewerWrapper.__pickerContentHeight});
-                    }
-                }
-                text: i18n.tr("Add")
-            }
-            ToolbarButton {
-                objectName: "deleteButton"
-                action: Action {
-                    text: i18n.tr("Delete")
-                    iconSource: "../../img/delete.png"
-                    onTriggered: {
-                        if (album)
-                            PopupUtils.open(removeFromAlbumDialog, null);
-                        else
-                            PopupUtils.open(deleteDialog, null);
-                    }
-                }
-                text: i18n.tr("Delete")
-            }
-            ToolbarButton {
-                id: photoShareButton
-                objectName: "shareButton"
-                visible: !APP.desktopMode
-                action: Action {
-                    text: i18n.tr("Share photo")
-                    iconSource: "../../img/share.png"
-                    onTriggered: {
-                        sharePicker.visible = true;
-                    }
-                }
-                text: i18n.tr("Share")
-            }
-            back: ToolbarButton {
-                objectName: "backButton"
-                text: i18n.tr("Back")
-                iconSource: "../../img/back.png"
-                onTriggered: {
-                    galleryPhotoViewer.currentItem.reset();
-                    closeRequested();
-                }
-            }
-        }
-
-        property Item videoToolbar: ToolbarItems {
-            ToolbarButton {
-                text: galleryPhotoViewer.currentItem ?
-                          (galleryPhotoViewer.currentItem.isPlayingVideo ?
-                               i18n.tr("Pause") : i18n.tr("Play"))
-                        : ""
-                iconSource: galleryPhotoViewer.currentItem ?
-                                (galleryPhotoViewer.currentItem.isPlayingVideo ?
-                                     "../../img/icon_pause.png" : "../../img/icon_play.png")
-                              : ""
-                onTriggered: {
-                    galleryPhotoViewer.currentItem.togglePlayPause();
-                }
-            }
-            ToolbarButton {
-                id: videoAddButton
-                objectName: "addButton"
-                text: i18n.tr("Add")
-                iconSource: "../../img/add.png"
+                text: i18n.tr("Add to album")
+                iconName: "add"
                 onTriggered: {
                     __albumPicker = PopupUtils.open(Qt.resolvedUrl("../Components/PopupAlbumPicker.qml"),
-                                                    videoAddButton,
+                                                    null,
                                                     {contentHeight: viewerWrapper.__pickerContentHeight});
                 }
-            }
-            ToolbarButton {
+            },
+            Action {
                 objectName: "deleteButton"
                 text: i18n.tr("Delete")
-                iconSource: "../../img/delete.png"
+                iconName: "delete"
                 onTriggered: {
-                    PopupUtils.open(deleteDialog, null);
+                    if (album)
+                        PopupUtils.open(removeFromAlbumDialog, null);
+                    else
+                        PopupUtils.open(deleteDialog, null);
                 }
-            }
-            ToolbarButton {
-                id: videoShareButton
+            },
+            Action {
                 objectName: "shareButton"
+                text: i18n.tr("Share photo")
+                iconName: "share"
                 visible: !APP.desktopMode
-                text: i18n.tr("Share")
-                iconSource: "../../img/share.png"
-                onTriggered: {
-                    sharePicker.visible = true;
-                }
+                onTriggered: sharePicker.visible = true;
             }
+        ]
+ 
 
-            back: ToolbarButton {
-                objectName: "backButton"
-                text: i18n.tr("Back")
-                iconSource: "../../img/back.png"
+        property list<Action> videoActions: [
+            Action {
+                text: galleryPhotoViewer.currentItem ?
+                    (galleryPhotoViewer.currentItem.isPlayingVideo ?
+                        i18n.tr("Pause") : i18n.tr("Play"))
+                    : ""
+                iconSource: galleryPhotoViewer.currentItem ?
+                    (galleryPhotoViewer.currentItem.isPlayingVideo ?
+                        "../../img/icon_pause.png" : "../../img/icon_play.png")
+                    : ""
+                onTriggered: galleryPhotoViewer.currentItem.togglePlayPause();
+            },
+            Action {
+                text: i18n.tr("Add to album")
+                iconName: "add"
                 onTriggered: {
-                    galleryPhotoViewer.currentItem.reset();
-                    closeRequested();
+                    __albumPicker = PopupUtils.open(Qt.resolvedUrl("../Components/PopupAlbumPicker.qml"),
+                                                    null,
+                                                    {contentHeight: viewerWrapper.__pickerContentHeight});
                 }
+            },
+            Action {
+                text: i18n.tr("Delete")
+                iconName: "delete"
+                onTriggered: {
+                    if (album)
+                        PopupUtils.open(removeFromAlbumDialog, null);
+                    else
+                        PopupUtils.open(deleteDialog, null);
+                }
+            },
+            Action {
+                text: i18n.tr("Share photo")
+                iconName: "share"
+                visible: !APP.desktopMode
+                onTriggered: sharePicker.visible = true;
+            }
+        ]
+
+        property Action backAction: Action {
+            iconName: "back"
+            onTriggered: {
+                galleryPhotoViewer.currentItem.reset();
+                closeRequested();
             }
         }
+    }
+
+    Rectangle{
+        id: headerBackground
+        width: parent.width
+        height: header.height
+        visible: header.visible
     }
 }

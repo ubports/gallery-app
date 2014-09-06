@@ -48,9 +48,8 @@ class PhotoViewer(GalleryUtils):
         # Was using a list index (lp:1247711). Still needs fixing, I'm not
         # convinced this is a suitable way to select the correct item.
         return self.app.wait_select_single(
-            "ZoomablePhotoComponent",
-            ownerName="photoViewerDelegate",
-            objectName="openedPhoto0"
+            "SingleMediaViewer",
+            objectName="openedMedia0"
         )
 
     def get_photos_list(self):
@@ -94,8 +93,8 @@ class PhotoViewer(GalleryUtils):
 
     def get_opened_photo(self):
         """Returns the first opened photo."""
-        return self.app.wait_select_single("ZoomablePhotoComponent",
-                                           objectName="openedPhoto0")
+        return self.app.wait_select_single("SingleMediaViewer",
+                                           objectName="openedMedia0")
 
     def get_crop_interactor(self):
         """Returns the crop interactor."""

@@ -85,14 +85,14 @@ class GalleryUtils(AutopilotTestCase):
 
     def get_first_album(self):
         """Returns the first album in the albums view."""
-        # For some reasons the albums are returned in inverse order, so
-        # the first album is acutally the last in the array
-        return self.get_album_at(-1)
+        return self.get_album_at(0)
 
     def get_album_at(self, position):
         """Returns the albums at this position in the albums view"""
         albums = self.select_many_retry("CheckerboardDelegate",
                                         objectName="checkerboardDelegate")
+        albums = sorted(
+            albums, key=lambda album: (album.globalRect.y, album.globalRect.x))
         return albums[position]
 
     def get_edit_album_button(self):

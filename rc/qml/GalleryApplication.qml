@@ -190,6 +190,7 @@ Item {
 
     Loader {
         id: loadingScreen
+        objectName: 'loadingScreen'
         anchors.fill: parent
         visible: mainScreenLoader.status !== Loader.Ready
         source: visible ? Qt.resolvedUrl("LoadingScreen.qml") : ""
@@ -201,9 +202,7 @@ Item {
         source: allLoaded ? ((APP.pickModeEnabled) ? Qt.resolvedUrl("PickerScreen.qml") :
                                                      Qt.resolvedUrl("MainScreen.qml")) : ""
         visible: status === Loader.Ready
-	// FIXME: this causes https://bugs.launchpad.net/bugs/1356841 
-	// even though it fixes the spinner loading animation, comment out for now
-        //asynchronous: true
+        asynchronous: true
     }
 
     Component.onCompleted: {

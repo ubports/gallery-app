@@ -18,7 +18,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 import "../Utility"
 
 // A PhotoViewer that is opened and closed with the PhotoViewerTransition.
@@ -40,18 +40,18 @@ Page {
     property bool isPoppedUp: popupPhotoViewer.visible && viewer.visible && !animationRunning
 
     // updating active will automatically set the tools of the toolbar when activating.
-    onActiveChanged: {
-        if (active && popupPhotoViewer.header) {
-            popupPhotoViewer.header.hide();
-            // FIXME: The hide function of header is not hiding it sometimes.
-            // The issue started after we changed the page title
-            popupPhotoViewer.header.visible = false;
-        }
-
-        if (!active && popupPhotoViewer.header && popupPhotoViewer.header.visible == false) {
-            popupPhotoViewer.header.visible = true;
-        }
-    }
+    //onActiveChanged: {
+    //    if (active && popupPhotoViewer.header) {
+    //        popupPhotoViewer.header.hide();
+    //        // FIXME: The hide function of header is not hiding it sometimes.
+    //        // The issue started after we changed the page title
+    //        popupPhotoViewer.header.visible = false;
+    //    }
+    //
+    //    if (!active && popupPhotoViewer.header && popupPhotoViewer.header.visible == false) {
+    //        popupPhotoViewer.header.visible = true;
+    //    }
+    //}
 
     title: i18n.tr("Gallery")
 
@@ -95,7 +95,8 @@ Page {
         closed();
     }
 
-    tools: viewer.tools
+    head.actions: viewer.actions
+    head.backAction: viewer.backAction
 
     MediaViewer {
         id: viewer
@@ -133,6 +134,7 @@ Page {
             setCurrentPhoto(forMediaSource);
             viewer.openCompleted = true;
             overview.pushPage(popupPhotoViewer);
+            header.visible = false;
             opened();
             viewer.playVideo();
         }

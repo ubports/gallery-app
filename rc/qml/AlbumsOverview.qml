@@ -169,10 +169,9 @@ Checkerboard {
         root.visible = false;
 
         if (albumViewer.origin) {
-            if (header.visible)
-                header.visible = false;
             albumViewer.visible = true;
             overview.pushPage(albumViewer);
+            header.visible = false;
         }
         else
             albumViewer.visible = true
@@ -221,10 +220,10 @@ Checkerboard {
     tools: ToolbarItems {
         id: albumOverviewTools
         ToolbarButton {
-            objectName: "addButton"
             action: Action {
+                objectName: "addButton"
                 text: i18n.tr("Add new album") // Text in HUD
-                iconSource: Qt.resolvedUrl("../img/add.png")
+                iconName: "add"
                 onTriggered: {
                     var album = albumCollectionModel.createOrphan();
                     albumCollectionModel.addOrphan(album);
@@ -238,10 +237,10 @@ Checkerboard {
             text: "Add" // text in toolbar
         }
         ToolbarButton {
-            objectName: "cameraButton"
-            visible: !APP.desktopMode
             action: Action {
+                objectName: "cameraButton"
                 text: i18n.tr("Camera")
+                visible: !APP.desktopMode
                 iconSource: Qt.resolvedUrl("../img/camera.png")
                 onTriggered: Qt.openUrlExternally("appid://com.ubuntu.camera/camera/current-user-version")
             }

@@ -162,8 +162,11 @@ class GalleryTestCase(AutopilotTestCase):
 
         """ This is needed to wait for the application to start.
         In the testfarm, the application may take some time to show up."""
-        self.assertThat(self.gallery_utils.get_qml_view().visible,
-                        Eventually(Equals(True)))
+        qml_view = self.gallery_utils.get_qml_view()
+        self.assertThat(qml_view.visible, Eventually(Equals(True)))
+        loading_screen = qml_view.select_single(
+            'QQuickLoader', objectName='loadingScreen')
+        loading_screen.visible.wait_for(False)
         """FIXME somehow on the server gallery sometimes is not fully started
         for switching to the albums view. Therefore this hack of sleeping"""
         sleep(2)
@@ -262,13 +265,11 @@ class GalleryTestCase(AutopilotTestCase):
 
     def open_album_at(self, position):
         album = self.album_view.get_album_at(position)
-        # workaround lp:1247698
-        self.main_view.close_toolbar()
         self.click_item(album)
         self.ensure_view_is_fully_open()
 
     def open_first_album(self):
-        self.open_album_at(-1)
+        self.open_album_at(0)
 
     def ensure_view_is_fully_open(self):
         view = self.album_view.get_album_view()
