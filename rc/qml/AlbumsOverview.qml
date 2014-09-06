@@ -226,6 +226,8 @@ Checkerboard {
                 iconName: "add"
                 onTriggered: {
                     var album = albumCollectionModel.createOrphan();
+                    album.title = i18n.tr("New Photo Album");
+                    album.subtitle = i18n.tr("Subtitle");
                     albumCollectionModel.addOrphan(album);
 
                     albumEditor.album = album;

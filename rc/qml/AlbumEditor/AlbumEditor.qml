@@ -92,20 +92,6 @@ Page {
 
     /*!
     */
-    function editNewAlbum() {
-        albumEditor.album = albumModel.createOrphan();
-        coverMenu.hide()
-    }
-
-    /*!
-    */
-    function editAlbum(album) {
-        albumEditor.album = album;
-        coverMenu.hide()
-    }
-
-    /*!
-    */
     function setMediaSelectorScrollPos(newScrollPos) {
         mediaSelectorComponent.setCheckerboardScrollPos(newScrollPos);
     }
