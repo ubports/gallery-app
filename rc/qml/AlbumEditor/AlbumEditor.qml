@@ -32,7 +32,7 @@ Page {
     id: albumEditor
     objectName: "mainAlbumEditor"
 
-    title: "Edit album"
+    title: i18n.tr("Edit album")
     head.backAction: Action {
         objectName: "cancelButton"
         text: i18n.tr("Cancel")
