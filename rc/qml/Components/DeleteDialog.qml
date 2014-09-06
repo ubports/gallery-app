@@ -29,7 +29,7 @@ Dialog {
     /// Emitted if delete should be performed
     signal deleteClicked()
 
-    title: "Delete"
+    title: i18n.tr("Delete")
 
     Button {
         objectName: "deleteDialogYes"
