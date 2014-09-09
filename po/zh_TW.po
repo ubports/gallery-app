@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-06-05 11:23-0400\n"
+"POT-Creation-Date: 2014-08-29 16:32+0100\n"
 "PO-Revision-Date: 2014-07-18 10:11+0000\n"
 "Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-08-30 07:34+0000\n"
-"X-Generator: Launchpad (build 17176)\n"
+"X-Launchpad-Export-Date: 2014-09-09 07:51+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
-#: desktop/gallery-app.desktop.in:3 rc/qml/MediaViewer/PopupPhotoViewer.qml:64
+#: desktop/gallery-app.desktop.in:3 rc/qml/MediaViewer/PopupPhotoViewer.qml:56
 msgid "Gallery"
 msgstr "照相館"
 
@@ -30,20 +30,23 @@ msgid "Browse your photographs"
 msgstr "瀏覽您的相片"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
+#: rc/qml/AlbumEditor/AlbumEditor.qml:35
 msgid "Edit album"
 msgstr "編輯相簿"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
-#: rc/qml/AlbumViewer/AlbumViewer.qml:438
-#: rc/qml/MediaViewer/MediaViewer.qml:479
-#: rc/qml/MediaViewer/MediaViewer.qml:485
-#: rc/qml/MediaViewer/MediaViewer.qml:538 rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/AlbumViewer/AlbumViewer.qml:371
+#: rc/qml/Components/DeleteDialog.qml:32
+#: rc/qml/MediaViewer/MediaViewer.qml:520
+#: rc/qml/MediaViewer/MediaViewer.qml:529
+#: rc/qml/MediaViewer/MediaViewer.qml:582 rc/qml/Utility/EditingHUD.qml:67
 #: rc/qml/Utility/SelectionToolbarAction.qml:51
 msgid "Delete"
 msgstr "刪除"
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:40
-#: rc/qml/Components/MediaSelector.qml:92 rc/qml/PickerScreen.qml:114
+#: rc/qml/Components/MediaSelector.qml:93
+#: rc/qml/MediaViewer/MediaViewer.qml:339 rc/qml/PickerScreen.qml:115
 #: rc/qml/Utility/SelectionToolbarAction.qml:66
 msgid "Cancel"
 msgstr "取消"
@@ -68,42 +71,42 @@ msgstr "樣式"
 msgid "Red"
 msgstr "紅"
 
-#: rc/qml/AlbumViewer/AlbumViewer.qml:90
+#: rc/qml/AlbumViewer/AlbumViewer.qml:107
 msgid "Album"
 msgstr "相簿"
 
-#: rc/qml/AlbumViewer/AlbumViewer.qml:427
+#: rc/qml/AlbumViewer/AlbumViewer.qml:360
 msgid "Add to album"
 msgstr "加入相簿中"
 
-#: rc/qml/AlbumViewer/AlbumViewer.qml:433
-#: rc/qml/MediaViewer/MediaViewer.qml:474
-#: rc/qml/MediaViewer/MediaViewer.qml:528 rc/qml/Utility/EditingHUD.qml:77
+#: rc/qml/AlbumViewer/AlbumViewer.qml:366 rc/qml/AlbumsOverview.qml:238
+#: rc/qml/MediaViewer/MediaViewer.qml:515
+#: rc/qml/MediaViewer/MediaViewer.qml:572 rc/qml/Utility/EditingHUD.qml:77
 #: rc/qml/Utility/SelectionToolbarAction.qml:44
 msgid "Add"
 msgstr "新增"
 
-#: rc/qml/AlbumViewer/AlbumViewer.qml:447
-#: rc/qml/MediaViewer/MediaViewer.qml:502
-#: rc/qml/MediaViewer/MediaViewer.qml:557
+#: rc/qml/AlbumViewer/AlbumViewer.qml:380
+#: rc/qml/MediaViewer/MediaViewer.qml:546
+#: rc/qml/MediaViewer/MediaViewer.qml:601
 msgid "Back"
 msgstr "返回"
 
-#: rc/qml/AlbumsOverview.qml:197 rc/qml/Components/PopupAlbumPicker.qml:91
+#: rc/qml/AlbumsOverview.qml:226 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
 msgstr "新增相簿"
 
-#: rc/qml/AlbumsOverview.qml:215 rc/qml/Utility/PhotosToolbarActions.qml:46
+#: rc/qml/AlbumsOverview.qml:244 rc/qml/Utility/PhotosToolbarActions.qml:46
 msgid "Camera"
 msgstr "相機"
 
 #: rc/qml/Components/DeleteDialog.qml:36
-#: rc/qml/MediaViewer/MediaViewer.qml:288
+#: rc/qml/MediaViewer/MediaViewer.qml:287
 msgid "Yes"
 msgstr "是"
 
 #: rc/qml/Components/DeleteDialog.qml:45
-#: rc/qml/MediaViewer/MediaViewer.qml:299
+#: rc/qml/MediaViewer/MediaViewer.qml:298
 msgid "No"
 msgstr "否"
 
@@ -172,33 +175,45 @@ msgstr "重做"
 msgid "Revert to original"
 msgstr "還原至原始狀態"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:277 rc/qml/PhotosOverview.qml:75
+#: rc/qml/MediaViewer/MediaViewer.qml:276 rc/qml/PhotosOverview.qml:75
 msgid "Delete a photo"
 msgstr "刪除相片"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:455
+#: rc/qml/MediaViewer/MediaViewer.qml:309
+msgid "Remove a photo from album"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:318
+msgid "Remove from Album"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:329
+msgid "Remove from Album and Delete"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:496
 msgid "Edit"
 msgstr "編輯"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:466
+#: rc/qml/MediaViewer/MediaViewer.qml:507
 msgid "Add photo to album"
 msgstr "將相片加入相簿中"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:492
+#: rc/qml/MediaViewer/MediaViewer.qml:536
 msgid "Share photo"
 msgstr "分享相片"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:498
-#: rc/qml/MediaViewer/MediaViewer.qml:548 rc/qml/Utility/EditingHUD.qml:72
+#: rc/qml/MediaViewer/MediaViewer.qml:542
+#: rc/qml/MediaViewer/MediaViewer.qml:592 rc/qml/Utility/EditingHUD.qml:72
 #: rc/qml/Utility/SelectionToolbarAction.qml:58
 msgid "Share"
 msgstr "分享"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:515
+#: rc/qml/MediaViewer/MediaViewer.qml:559
 msgid "Pause"
 msgstr "暫停"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:515
+#: rc/qml/MediaViewer/MediaViewer.qml:559
 msgid "Play"
 msgstr "播放"
 
@@ -206,7 +221,7 @@ msgstr "播放"
 msgid "Delete photos"
 msgstr "刪除相片"
 
-#: rc/qml/PickerScreen.qml:99
+#: rc/qml/PickerScreen.qml:100
 msgid "Pick"
 msgstr "挑選"
 
