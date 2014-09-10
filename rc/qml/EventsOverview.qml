@@ -18,6 +18,7 @@ import QtQuick 2.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
 import Gallery 1.0
+import Ubuntu.Content 0.1
 import "Components"
 import "OrganicView"
 import "Utility"
@@ -100,8 +101,42 @@ OrganicView {
         onDeleteClicked: {
             PopupUtils.open(deleteDialog, null);
         }
+
+        onShareClicked: sharePicker.visible = true
     }
 
     property bool selectionMode: selection.inSelectionMode
     tools: selectionMode ? selectionTools : overviewTools
+
+    Component {
+        id: contentItemComp
+        ContentItem {}
+    }
+
+    Rectangle {
+        id: sharePicker
+        anchors.fill: parent
+        visible: false
+
+        ContentPeerPicker {
+            objectName: "sharePicker"
+            anchors.fill: parent
+            visible: parent.visible
+            contentType: organicEventView.selection.mediaType === MediaSource.Video ? ContentType.Videos : ContentType.Pictures
+            handler: ContentHandler.Share
+
+            onPeerSelected: {
+                parent.visible = false;
+                var curTransfer = peer.request();
+                if (curTransfer.state === ContentTransfer.InProgress)
+                {
+                    curTransfer.items = organicEventView.selection.model.selectedMediasQML.map(function(data) {
+                        return contentItemComp.createObject(parent, {"url": data.path});
+                    });
+                    curTransfer.state = ContentTransfer.Charged;
+                }
+            }
+            onCancelPressed: parent.visible = false;
+        }
+    }
 }

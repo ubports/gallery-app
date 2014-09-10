@@ -31,11 +31,35 @@ Item {
     property bool allowSelectionModeChange: true
     /// It true, only one item can be selected
     property bool singleSelect: false
+    /// If true, a mix of videos and pictures is selected.
+    /// Should be ignored if only one item is selected.
+    property bool isMixed: false
+    /// The type of all the selected media.
+    /// Should be ignored if isMixed is true.
+    property var mediaType
 
     /*!
     */
     property var model: EventOverviewModel {
         monitored: true
+    }
+
+    Connections {
+        target: model
+        onSelectionChanged: {
+            var data = model.selectedMediasQML;
+            var photos = 0;
+            var videos = 0;
+            for (var i in data) {
+                data[i].type === MediaSource.Photo ? photos++ : videos++;
+                if (photos > 0 && videos > 0) {
+                    organicSelectionState.isMixed = true;
+                    return;
+                }
+            }
+            organicSelectionState.mediaType = (photos > videos) ? MediaSource.Photo : MediaSource.Video;
+            organicSelectionState.isMixed = false;
+        }
     }
 
     // readonly

@@ -64,7 +64,7 @@ ToolbarItems {
             objectName: "shareButton"
             text: i18n.tr("Share")
             iconName: "share"
-            enabled: root.selection.selectedCount > 0
+            enabled: root.selection.selectedCount == 1
             onTriggered: root.shareClicked();
         }
     }
