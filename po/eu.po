@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-29 16:32+0100\n"
-"PO-Revision-Date: 2014-07-16 21:41+0000\n"
+"PO-Revision-Date: 2014-09-09 13:53+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <Unknown>\n"
 "Language-Team: Basque <eu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-09 07:51+0000\n"
+"X-Launchpad-Export-Date: 2014-09-10 07:56+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: desktop/gallery-app.desktop.in:3 rc/qml/MediaViewer/PopupPhotoViewer.qml:56
@@ -181,15 +181,15 @@ msgstr "Ezabatu argazki bat"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:309
 msgid "Remove a photo from album"
-msgstr ""
+msgstr "Kendu argazki bat albumetik"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:318
 msgid "Remove from Album"
-msgstr ""
+msgstr "Kendu albumetik"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:329
 msgid "Remove from Album and Delete"
-msgstr ""
+msgstr "Kendu albumetik eta ezabatu"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:496
 msgid "Edit"

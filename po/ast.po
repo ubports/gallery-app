@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-29 16:32+0100\n"
-"PO-Revision-Date: 2014-07-03 17:16+0000\n"
-"Last-Translator: albacoru <albacoru@gmail.com>\n"
+"PO-Revision-Date: 2014-09-09 11:55+0000\n"
+"Last-Translator: ivarela <ivarela@ubuntu.com>\n"
 "Language-Team: Asturian <ast@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-09 07:51+0000\n"
+"X-Launchpad-Export-Date: 2014-09-10 07:56+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: desktop/gallery-app.desktop.in:3 rc/qml/MediaViewer/PopupPhotoViewer.qml:56
@@ -181,15 +181,15 @@ msgstr "Desaniciar una semeya"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:309
 msgid "Remove a photo from album"
-msgstr ""
+msgstr "Desaniciar una semeya del álbum"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:318
 msgid "Remove from Album"
-msgstr ""
+msgstr "Desaniciar del álbum"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:329
 msgid "Remove from Album and Delete"
-msgstr ""
+msgstr "Quitar del álbum y desaniciar"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:496
 msgid "Edit"
