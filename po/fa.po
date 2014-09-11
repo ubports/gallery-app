@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-29 16:32+0100\n"
-"PO-Revision-Date: 2014-08-03 21:51+0000\n"
-"Last-Translator: Arash Badie Modiri <arashbm@gmail.com>\n"
+"PO-Revision-Date: 2014-09-10 12:55+0000\n"
+"Last-Translator: Danial Behzadi <dani.behzi@gmail.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-09 07:51+0000\n"
+"X-Launchpad-Export-Date: 2014-09-11 07:19+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: desktop/gallery-app.desktop.in:3 rc/qml/MediaViewer/PopupPhotoViewer.qml:56
@@ -181,15 +181,15 @@ msgstr "حذف یک عکس"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:309
 msgid "Remove a photo from album"
-msgstr ""
+msgstr "برداشتن یک عکس از آلبوم"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:318
 msgid "Remove from Album"
-msgstr ""
+msgstr "برداشتن از آلبوم"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:329
 msgid "Remove from Album and Delete"
-msgstr ""
+msgstr "برداشتن از آلبوم و حذف"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:496
 msgid "Edit"
