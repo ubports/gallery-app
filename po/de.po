@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: gallery-app VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-08-29 16:32+0100\n"
-"PO-Revision-Date: 2014-07-20 08:24+0000\n"
-"Last-Translator: Phillip Sz <Unknown>\n"
+"PO-Revision-Date: 2014-09-11 06:45+0000\n"
+"Last-Translator: Niklas Wenzel <nikwen.developer@gmail.com>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-09 07:51+0000\n"
+"X-Launchpad-Export-Date: 2014-09-12 06:52+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 "Language: de\n"
 
@@ -181,15 +181,15 @@ msgstr "Ein Foto löschen"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:309
 msgid "Remove a photo from album"
-msgstr ""
+msgstr "Entferne ein Foto aus Album"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:318
 msgid "Remove from Album"
-msgstr ""
+msgstr "Entferne aus Album"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:329
 msgid "Remove from Album and Delete"
-msgstr ""
+msgstr "Entferne aus Album und lösche"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:496
 msgid "Edit"
