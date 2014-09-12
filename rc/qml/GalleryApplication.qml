@@ -189,19 +189,9 @@ Item {
     }
 
     Loader {
-        id: loadingScreen
-        objectName: 'loadingScreen'
-        anchors.fill: parent
-        visible: mainScreenLoader.status !== Loader.Ready
-        source: visible ? Qt.resolvedUrl("LoadingScreen.qml") : ""
-    }
-
-    Loader {
         id: mainScreenLoader
         anchors.fill: parent
-        source: allLoaded ? ((APP.pickModeEnabled) ? Qt.resolvedUrl("PickerScreen.qml") :
-                                                     Qt.resolvedUrl("MainScreen.qml")) : ""
-        visible: status === Loader.Ready
+        source: APP.pickModeEnabled ? Qt.resolvedUrl("PickerScreen.qml") : Qt.resolvedUrl("MainScreen.qml")
         asynchronous: true
     }
 
