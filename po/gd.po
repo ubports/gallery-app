@@ -2,20 +2,21 @@
 # Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
 # This file is distributed under the same license as the gallery-app package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
-#
+# GunChleoc <fios@foramnagaidhlig.net>, 2014.
 msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-08-29 16:32+0100\n"
-"PO-Revision-Date: 2014-05-19 10:01+0000\n"
-"Last-Translator: Akerbeltz <fios@akerbeltz.org>\n"
-"Language-Team: Gaelic; Scottish <gd@li.org>\n"
+"PO-Revision-Date: 2014-09-12 19:39+0000\n"
+"Last-Translator: GunChleoc <Unknown>\n"
+"Language-Team: Fòram na Gàidhlig\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-09 07:51+0000\n"
+"X-Launchpad-Export-Date: 2014-09-13 08:33+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
+"Language: gd\n"
 
 #: desktop/gallery-app.desktop.in:3 rc/qml/MediaViewer/PopupPhotoViewer.qml:56
 msgid "Gallery"
@@ -181,15 +182,15 @@ msgstr "Sguab às dealbh"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:309
 msgid "Remove a photo from album"
-msgstr ""
+msgstr "Thoir dealbh air falbh on albam"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:318
 msgid "Remove from Album"
-msgstr ""
+msgstr "Thoir air falbh on albam"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:329
 msgid "Remove from Album and Delete"
-msgstr ""
+msgstr "Thoir air falbh on albam 's sguab às"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:496
 msgid "Edit"
