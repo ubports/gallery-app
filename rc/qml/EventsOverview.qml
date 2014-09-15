@@ -102,7 +102,7 @@ OrganicView {
             PopupUtils.open(deleteDialog, null);
         }
 
-        onShareClicked: sharePicker.visible = true
+        onShareClicked: overview.pushPage(sharePicker);
     }
 
     property bool selectionMode: selection.inSelectionMode
@@ -113,15 +113,13 @@ OrganicView {
         ContentItem {}
     }
 
-    Rectangle {
+    Page {
         id: sharePicker
-        anchors.fill: parent
-        visible: false
 
         ContentPeerPicker {
             objectName: "sharePicker"
             anchors.fill: parent
-            visible: parent.visible
+
             contentType: organicEventView.selection.mediaType === MediaSource.Video ? ContentType.Videos : ContentType.Pictures
             handler: ContentHandler.Share
 
@@ -136,7 +134,7 @@ OrganicView {
                     curTransfer.state = ContentTransfer.Charged;
                 }
             }
-            onCancelPressed: parent.visible = false;
+            onCancelPressed: overview.popPage();
         }
     }
 }

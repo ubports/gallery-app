@@ -50,21 +50,27 @@ Item {
             var data = model.selectedMediasQML;
             var photos = 0;
             var videos = 0;
+            var medias = 0;
             for (var i in data) {
+                if (data[i].hasOwnProperty('type')) medias++;
                 data[i].type === MediaSource.Photo ? photos++ : videos++;
                 if (photos > 0 && videos > 0) {
                     organicSelectionState.isMixed = true;
-                    return;
                 }
             }
             organicSelectionState.mediaType = (photos > videos) ? MediaSource.Photo : MediaSource.Video;
             organicSelectionState.isMixed = false;
+            organicSelectionState.selectedMediaCount = medias;
         }
     }
 
     // readonly
     /// The number of currently selected items
     property int selectedCount: model.selectedCount
+
+    // readonly
+    /// The number of currently selected media items
+    property int selectedMediaCount: 0
 
     //internal
     // HACK: this is used as a spurious extra QML condition in our isSelected

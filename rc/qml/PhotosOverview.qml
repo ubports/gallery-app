@@ -121,7 +121,7 @@ Page {
                 PopupUtils.open(deleteDialog, null);
             }
 
-            onShareClicked: sharePicker.visible = true;
+            onShareClicked: overview.pushPage(sharePicker)
         }
     }
 
@@ -130,15 +130,12 @@ Page {
         ContentItem {}
     }
 
-    Rectangle {
+    Page {
         id: sharePicker
-        anchors.fill: parent
-        visible: false
 
         ContentPeerPicker {
             objectName: "sharePicker"
             anchors.fill: parent
-            visible: parent.visible
             contentType: d.selection.mediaType === MediaSource.Video ? ContentType.Videos : ContentType.Pictures
             handler: ContentHandler.Share
 
@@ -153,7 +150,7 @@ Page {
                     curTransfer.state = ContentTransfer.Charged;
                 }
             }
-            onCancelPressed: parent.visible = false;
+            onCancelPressed: overview.popPage()
         }
     }
 }
