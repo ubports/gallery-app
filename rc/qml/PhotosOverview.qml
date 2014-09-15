@@ -70,9 +70,7 @@ Page {
     Component {
         id: deleteDialog
         DeleteDialog {
-            //FIXME this count > 1 thing needs to be properly replaced by translation wrappers allowing for multiple plural forms
-            title: d.selection.selectedCount > 1 ? i18n.tr("Delete photos") :
-                                                   i18n.tr("Delete a photo")
+            title: i18n.tr("Delete a photo", "Delete %1 photos", d.selection.selectedCount)
 
             onDeleteClicked: {
                 d.selection.model.destroySelectedMedia();
