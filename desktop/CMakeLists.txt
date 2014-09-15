@@ -10,13 +10,11 @@ else(CLICK_MODE)
 	set(ICON "${GALLERY}")
 endif(CLICK_MODE)
 
-file(REMOVE ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE})
-file(STRINGS ${DESKTOP_FILE}.in DESKTOP_FILE_CONTENTS)
-foreach(LINE ${DESKTOP_FILE_CONTENTS})
-    string(REGEX REPLACE "tr\\\(\"(.*)\"\\\)" "\\1" LINE "${LINE}")
-    string(CONFIGURE "${LINE}" LINE)
-    file(APPEND ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE} "${LINE}\n")
-endforeach(LINE)
+configure_file(${DESKTOP_FILE}.in.in ${DESKTOP_FILE}.in @ONLY)
+add_custom_target(${DESKTOP_FILE} ALL
+                  COMMENT "Merging translations into ${DESKTOP_FILE}"
+                  COMMAND ${INTLTOOL_MERGE} -d -u ${CMAKE_SOURCE_DIR}/po
+                          ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE}.in ${DESKTOP_FILE})
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${DESKTOP_FILE}
         DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
