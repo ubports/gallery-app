@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-15 09:59+0200\n"
+"POT-Creation-Date: 2014-09-15 12:36+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -128,6 +128,15 @@ msgstr ""
 msgid "Add Photo to Album"
 msgstr ""
 
+#: rc/qml/EventsOverview.qml:66 rc/qml/PhotosOverview.qml:74
+msgid "Delete photos"
+msgstr ""
+
+#: rc/qml/EventsOverview.qml:67 rc/qml/MediaViewer/MediaViewer.qml:257
+#: rc/qml/PhotosOverview.qml:75
+msgid "Delete a photo"
+msgstr ""
+
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
 msgstr ""
@@ -176,10 +185,6 @@ msgstr ""
 msgid "Revert to original"
 msgstr ""
 
-#: rc/qml/MediaViewer/MediaViewer.qml:257 rc/qml/PhotosOverview.qml:75
-msgid "Delete a photo"
-msgstr ""
-
 #: rc/qml/MediaViewer/MediaViewer.qml:290
 msgid "Remove a photo from album"
 msgstr ""
@@ -207,10 +212,6 @@ msgstr ""
 
 #: rc/qml/MediaViewer/MediaViewer.qml:514
 msgid "Play"
-msgstr ""
-
-#: rc/qml/PhotosOverview.qml:74
-msgid "Delete photos"
 msgstr ""
 
 #: rc/qml/PickerScreen.qml:105
