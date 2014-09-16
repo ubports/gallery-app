@@ -51,15 +51,16 @@ Item {
             var photos = 0;
             var videos = 0;
             var medias = 0;
+
             for (var i in data) {
-                if (data[i].hasOwnProperty('type')) medias++;
-                data[i].type === MediaSource.Photo ? photos++ : videos++;
-                if (photos > 0 && videos > 0) {
-                    organicSelectionState.isMixed = true;
+                if (data[i].hasOwnProperty('type')) {
+                    medias++;
+                    (data[i].type === MediaSource.Photo) ? photos++ : videos++;
                 }
             }
+
             organicSelectionState.mediaType = (photos > videos) ? MediaSource.Photo : MediaSource.Video;
-            organicSelectionState.isMixed = false;
+            organicSelectionState.isMixed = (photos > 0 && videos > 0);
             organicSelectionState.selectedMediaCount = medias;
         }
     }
