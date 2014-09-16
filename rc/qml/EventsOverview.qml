@@ -117,7 +117,7 @@ OrganicView {
         id: sharePicker
 
         ContentPeerPicker {
-            objectName: "sharePicker"
+            objectName: "sharePickerEvents"
             anchors.fill: parent
 
             contentType: organicEventView.selection.mediaType === MediaSource.Video ? ContentType.Videos : ContentType.Pictures

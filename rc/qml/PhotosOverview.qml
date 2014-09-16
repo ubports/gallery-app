@@ -134,7 +134,7 @@ Page {
         id: sharePicker
 
         ContentPeerPicker {
-            objectName: "sharePicker"
+            objectName: "sharePickerPhotos"
             anchors.fill: parent
             contentType: d.selection.mediaType === MediaSource.Video ? ContentType.Videos : ContentType.Pictures
             handler: ContentHandler.Share
