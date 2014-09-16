@@ -28,7 +28,7 @@ add_custom_target(${POT_FILE} ALL
                           --package-name='${GALLERY}'
                           --copyright-holder='Canonical Ltd.'
                           -D ${CMAKE_SOURCE_DIR} ${I18N_SRC_FILES}
-                          -D ${CMAKE_BINARY_DIR} ${DESKTOP_FILE_IN_IN_H})
+                          ${DESKTOP_FILE_IN_IN_H})
 
 foreach(PO_FILE ${PO_FILES})
     get_filename_component(LANG ${PO_FILE} NAME_WE)
