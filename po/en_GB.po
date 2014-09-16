@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-08-29 16:32+0100\n"
-"PO-Revision-Date: 2014-09-11 11:00+0000\n"
+"POT-Creation-Date: 2014-09-15 09:59+0200\n"
+"PO-Revision-Date: 2014-09-15 12:37+0000\n"
 "Last-Translator: Andi Chandler <Unknown>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-12 06:52+0000\n"
+"X-Launchpad-Export-Date: 2014-09-16 08:26+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: desktop/gallery-app.desktop.in:3 rc/qml/MediaViewer/PopupPhotoViewer.qml:56
@@ -35,19 +35,18 @@ msgid "Edit album"
 msgstr "Edit album"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
-#: rc/qml/AlbumViewer/AlbumViewer.qml:371
+#: rc/qml/AlbumViewer/AlbumViewer.qml:369
 #: rc/qml/Components/DeleteDialog.qml:32
-#: rc/qml/MediaViewer/MediaViewer.qml:520
-#: rc/qml/MediaViewer/MediaViewer.qml:529
-#: rc/qml/MediaViewer/MediaViewer.qml:582 rc/qml/Utility/EditingHUD.qml:67
-#: rc/qml/Utility/SelectionToolbarAction.qml:51
+#: rc/qml/MediaViewer/MediaViewer.qml:491
+#: rc/qml/MediaViewer/MediaViewer.qml:532 rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/Utility/SelectionToolbarAction.qml:56
 msgid "Delete"
 msgstr "Delete"
 
-#: rc/qml/AlbumEditor/AlbumEditor.qml:40
-#: rc/qml/Components/MediaSelector.qml:93
-#: rc/qml/MediaViewer/MediaViewer.qml:339 rc/qml/PickerScreen.qml:115
-#: rc/qml/Utility/SelectionToolbarAction.qml:66
+#: rc/qml/AlbumEditor/AlbumEditor.qml:38
+#: rc/qml/Components/MediaSelector.qml:92
+#: rc/qml/MediaViewer/MediaViewer.qml:320 rc/qml/PickerScreen.qml:117
+#: rc/qml/Utility/SelectionToolbarAction.qml:75
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -71,42 +70,44 @@ msgstr "Pattern"
 msgid "Red"
 msgstr "Red"
 
-#: rc/qml/AlbumViewer/AlbumViewer.qml:107
+#: rc/qml/AlbumViewer/AlbumViewer.qml:103
 msgid "Album"
 msgstr "Album"
 
-#: rc/qml/AlbumViewer/AlbumViewer.qml:360
+#: rc/qml/AlbumViewer/AlbumViewer.qml:363
+#: rc/qml/MediaViewer/MediaViewer.qml:481
+#: rc/qml/MediaViewer/MediaViewer.qml:523
 msgid "Add to album"
 msgstr "Add to album"
 
-#: rc/qml/AlbumViewer/AlbumViewer.qml:366 rc/qml/AlbumsOverview.qml:238
-#: rc/qml/MediaViewer/MediaViewer.qml:515
-#: rc/qml/MediaViewer/MediaViewer.qml:572 rc/qml/Utility/EditingHUD.qml:77
-#: rc/qml/Utility/SelectionToolbarAction.qml:44
-msgid "Add"
-msgstr "Add"
-
-#: rc/qml/AlbumViewer/AlbumViewer.qml:380
-#: rc/qml/MediaViewer/MediaViewer.qml:546
-#: rc/qml/MediaViewer/MediaViewer.qml:601
-msgid "Back"
-msgstr "Back"
-
-#: rc/qml/AlbumsOverview.qml:226 rc/qml/Components/PopupAlbumPicker.qml:91
+#: rc/qml/AlbumsOverview.qml:225 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
 msgstr "Add new album"
 
-#: rc/qml/AlbumsOverview.qml:244 rc/qml/Utility/PhotosToolbarActions.qml:46
+#: rc/qml/AlbumsOverview.qml:229 rc/qml/Components/PopupAlbumPicker.qml:101
+msgid "New Photo Album"
+msgstr "New Photo Album"
+
+#: rc/qml/AlbumsOverview.qml:230 rc/qml/Components/PopupAlbumPicker.qml:102
+msgid "Subtitle"
+msgstr "Subtitle"
+
+#: rc/qml/AlbumsOverview.qml:239 rc/qml/Utility/EditingHUD.qml:77
+#: rc/qml/Utility/SelectionToolbarAction.qml:47
+msgid "Add"
+msgstr "Add"
+
+#: rc/qml/AlbumsOverview.qml:244 rc/qml/Utility/PhotosToolbarActions.qml:51
 msgid "Camera"
 msgstr "Camera"
 
 #: rc/qml/Components/DeleteDialog.qml:36
-#: rc/qml/MediaViewer/MediaViewer.qml:287
+#: rc/qml/MediaViewer/MediaViewer.qml:268
 msgid "Yes"
 msgstr "Yes"
 
 #: rc/qml/Components/DeleteDialog.qml:45
-#: rc/qml/MediaViewer/MediaViewer.qml:298
+#: rc/qml/MediaViewer/MediaViewer.qml:279
 msgid "No"
 msgstr "No"
 
@@ -123,7 +124,7 @@ msgstr "Delete album + contents"
 msgid "Add to Album"
 msgstr "Add to Album"
 
-#: rc/qml/Components/PopupAlbumPicker.qml:159 rc/qml/Utility/EditingHUD.qml:78
+#: rc/qml/Components/PopupAlbumPicker.qml:161 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
 msgstr "Add Photo to Album"
 
@@ -131,22 +132,22 @@ msgstr "Add Photo to Album"
 msgid "Loading…"
 msgstr "Loading…"
 
-#: rc/qml/MainScreen.qml:96
+#: rc/qml/MainScreen.qml:98
 msgid "Albums"
 msgstr "Albums"
 
-#: rc/qml/MainScreen.qml:113 rc/qml/MainScreen.qml:136
-#: rc/qml/PickerScreen.qml:54
+#: rc/qml/MainScreen.qml:115 rc/qml/MainScreen.qml:138
+#: rc/qml/PickerScreen.qml:57
 msgid "Events"
 msgstr "Events"
 
-#: rc/qml/MainScreen.qml:134 rc/qml/MainScreen.qml:178
-#: rc/qml/Utility/PhotosToolbarActions.qml:33
+#: rc/qml/MainScreen.qml:136 rc/qml/MainScreen.qml:180
+#: rc/qml/Utility/PhotosToolbarActions.qml:34
 msgid "Select"
 msgstr "Select"
 
-#: rc/qml/MainScreen.qml:146 rc/qml/MainScreen.qml:180
-#: rc/qml/PickerScreen.qml:74
+#: rc/qml/MainScreen.qml:148 rc/qml/MainScreen.qml:182
+#: rc/qml/PickerScreen.qml:80
 msgid "Photos"
 msgstr "Photos"
 
@@ -175,45 +176,36 @@ msgstr "Redo"
 msgid "Revert to original"
 msgstr "Revert to original"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:276 rc/qml/PhotosOverview.qml:75
+#: rc/qml/MediaViewer/MediaViewer.qml:257 rc/qml/PhotosOverview.qml:75
 msgid "Delete a photo"
 msgstr "Delete a photo"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:309
+#: rc/qml/MediaViewer/MediaViewer.qml:290
 msgid "Remove a photo from album"
 msgstr "Remove a photo from album"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:318
+#: rc/qml/MediaViewer/MediaViewer.qml:299
 msgid "Remove from Album"
 msgstr "Remove from Album"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:329
+#: rc/qml/MediaViewer/MediaViewer.qml:310
 msgid "Remove from Album and Delete"
 msgstr "Remove from Album and Delete"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:496
+#: rc/qml/MediaViewer/MediaViewer.qml:475
 msgid "Edit"
 msgstr "Edit"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:507
-msgid "Add photo to album"
-msgstr "Add photo to album"
-
-#: rc/qml/MediaViewer/MediaViewer.qml:536
+#: rc/qml/MediaViewer/MediaViewer.qml:502
+#: rc/qml/MediaViewer/MediaViewer.qml:542
 msgid "Share photo"
 msgstr "Share photo"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:542
-#: rc/qml/MediaViewer/MediaViewer.qml:592 rc/qml/Utility/EditingHUD.qml:72
-#: rc/qml/Utility/SelectionToolbarAction.qml:58
-msgid "Share"
-msgstr "Share"
-
-#: rc/qml/MediaViewer/MediaViewer.qml:559
+#: rc/qml/MediaViewer/MediaViewer.qml:514
 msgid "Pause"
 msgstr "Pause"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:559
+#: rc/qml/MediaViewer/MediaViewer.qml:514
 msgid "Play"
 msgstr "Play"
 
@@ -221,13 +213,18 @@ msgstr "Play"
 msgid "Delete photos"
 msgstr "Delete photos"
 
-#: rc/qml/PickerScreen.qml:100
+#: rc/qml/PickerScreen.qml:105
 msgid "Pick"
 msgstr "Pick"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
 msgstr "Rubbish Bin;Erase"
+
+#: rc/qml/Utility/EditingHUD.qml:72
+#: rc/qml/Utility/SelectionToolbarAction.qml:65
+msgid "Share"
+msgstr "Share"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
@@ -329,6 +326,6 @@ msgstr "Saturation"
 msgid "Hue"
 msgstr "Hue"
 
-#: rc/qml/Utility/PhotosToolbarActions.qml:40
+#: rc/qml/Utility/PhotosToolbarActions.qml:43
 msgid "Import"
 msgstr "Import"
