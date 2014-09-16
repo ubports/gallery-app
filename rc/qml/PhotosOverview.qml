@@ -121,7 +121,10 @@ Page {
                 PopupUtils.open(deleteDialog, null);
             }
 
-            onShareClicked: overview.pushPage(sharePicker)
+            onShareClicked: {
+                overview.pushPage(sharePicker)
+                sharePicker.visible = true;
+            }
         }
     }
 
@@ -132,6 +135,7 @@ Page {
 
     Page {
         id: sharePicker
+        visible: false
 
         ContentPeerPicker {
             objectName: "sharePickerPhotos"
@@ -140,7 +144,9 @@ Page {
             handler: ContentHandler.Share
 
             onPeerSelected: {
-                parent.visible = false;
+                overview.popPage();
+                sharePicker.visible = false;
+
                 var curTransfer = peer.request();
                 if (curTransfer.state === ContentTransfer.InProgress)
                 {
@@ -150,7 +156,10 @@ Page {
                     curTransfer.state = ContentTransfer.Charged;
                 }
             }
-            onCancelPressed: overview.popPage()
+            onCancelPressed: {
+                overview.popPage();
+                sharePicker.visible = false;
+            }
         }
     }
 }

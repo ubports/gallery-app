@@ -102,7 +102,10 @@ OrganicView {
             PopupUtils.open(deleteDialog, null);
         }
 
-        onShareClicked: overview.pushPage(sharePicker);
+        onShareClicked: {
+            overview.pushPage(sharePicker);
+            sharePicker.visible = true;
+        }
     }
 
     property bool selectionMode: selection.inSelectionMode
@@ -115,6 +118,7 @@ OrganicView {
 
     Page {
         id: sharePicker
+        visible: false
 
         ContentPeerPicker {
             objectName: "sharePickerEvents"
@@ -124,17 +128,25 @@ OrganicView {
             handler: ContentHandler.Share
 
             onPeerSelected: {
-                parent.visible = false;
+                overview.popPage();
+                sharePicker.visible = false;
+
                 var curTransfer = peer.request();
                 if (curTransfer.state === ContentTransfer.InProgress)
                 {
-                    curTransfer.items = organicEventView.selection.model.selectedMediasQML.map(function(data) {
+                    var medias = organicEventView.selection.model.selectedMediasQML;
+                    curTransfer.items = medias.filter(function(data) {
+                        return data.hasOwnProperty('type'); // filter out event headers
+                    }).map(function(data) {
                         return contentItemComp.createObject(parent, {"url": data.path});
                     });
                     curTransfer.state = ContentTransfer.Charged;
                 }
             }
-            onCancelPressed: overview.popPage();
+            onCancelPressed: {
+                overview.popPage();
+                sharePicker.visible = false;
+            }
         }
     }
 }
