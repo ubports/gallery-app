@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-16 12:51+0200\n"
+"POT-Creation-Date: 2014-09-16 14:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -198,7 +198,7 @@ msgid "Play"
 msgstr ""
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:56
-#: po/desktop/gallery-app.desktop.in.in.h:1
+#: desktop/gallery-app.desktop.in.in.h:1
 msgid "Gallery"
 msgstr ""
 
@@ -323,14 +323,14 @@ msgstr ""
 msgid "Import"
 msgstr ""
 
-#: po/desktop/gallery-app.desktop.in.in.h:2
+#: desktop/gallery-app.desktop.in.in.h:2
 msgid "Ubuntu Photo Viewer"
 msgstr ""
 
-#: po/desktop/gallery-app.desktop.in.in.h:3
+#: desktop/gallery-app.desktop.in.in.h:3
 msgid "Browse your photographs"
 msgstr ""
 
-#: po/desktop/gallery-app.desktop.in.in.h:4
+#: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
 msgstr ""

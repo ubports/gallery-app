@@ -4,7 +4,7 @@ include(FindGettext)
 find_program(GETTEXT_XGETTEXT_EXECUTABLE xgettext)
 
 set(DESKTOP_FILE_IN_IN desktop/${DESKTOP_FILE}.in.in)
-set(DESKTOP_FILE_IN_IN_H ${CMAKE_CURRENT_BINARY_DIR}/desktop/${DESKTOP_FILE}.in.in.h)
+set(DESKTOP_FILE_IN_IN_H ${DESKTOP_FILE_IN_IN}.h)
 
 file(GLOB_RECURSE I18N_SRC_FILES
      RELATIVE ${CMAKE_SOURCE_DIR}
@@ -26,7 +26,7 @@ add_custom_target(${POT_FILE} ALL
                           --package-name='${GALLERY}'
                           --copyright-holder='Canonical Ltd.'
                           -D ${CMAKE_SOURCE_DIR} ${I18N_SRC_FILES}
-                          ${DESKTOP_FILE_IN_IN_H})
+                          -D ${CMAKE_CURRENT_BINARY_DIR} ${DESKTOP_FILE_IN_IN_H})
 
 foreach(PO_FILE ${PO_FILES})
     get_filename_component(LANG ${PO_FILE} NAME_WE)
