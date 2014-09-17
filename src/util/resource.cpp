@@ -28,7 +28,6 @@
 const QLatin1String Resource::DATABASE_DIR = QLatin1String("database");
 const QLatin1String Resource::THUMBNAIL_DIR = QLatin1String("thumbnails");
 const QLatin1String Resource::CAMERA_RECORD_DIR = QLatin1String("camera");
-const QLatin1String Resource::MEDIA_DIR = QLatin1String("/media/phablet/");
 
 /*!
  * \brief Resource::Resource
@@ -51,10 +50,19 @@ Resource::Resource(bool desktopMode, const QString &pictureDir)
         m_mediaDirectories.append(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
         m_videoDirectories.append(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
     }
-    QDir media(MEDIA_DIR);
+    QString userName = qgetenv("USER");
+    QDir media("/media/" + userName);
     QStringList mediaDirs = media.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
     if (mediaDirs.size() > 0) {
-        m_mediaDirectories.append(MEDIA_DIR + mediaDirs.at(0) + "/Pictures");
+        foreach (const QString &mediaDir, mediaDirs) { 
+            QString dir = "/media/" + userName + "/" + mediaDir;
+            if (QDir(dir).exists()) {
+                m_mediaDirectories.append( dir + "/" + 
+                  QStandardPaths::writableLocation(QStandardPaths::PicturesLocation).split("/").value(3));
+                m_mediaDirectories.append( dir + "/" + 
+                  QStandardPaths::writableLocation(QStandardPaths::MoviesLocation).split("/").value(3));
+            }
+        }
     }
 }
 
