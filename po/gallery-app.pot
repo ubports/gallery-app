@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-15 13:06+0100\n"
+"POT-Creation-Date: 2014-09-17 17:58+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -129,10 +129,9 @@ msgstr ""
 msgid "Add Photo to Album"
 msgstr ""
 
-#: rc/qml/EventsOverview.qml:65 rc/qml/MediaViewer/MediaViewer.qml:257
-#: rc/qml/PhotosOverview.qml:73
+#: rc/qml/EventsOverview.qml:65 rc/qml/PhotosOverview.qml:73
 #, qt-format
-msgid "Delete a photo"
+msgid "Delete %1 photo"
 msgid_plural "Delete %1 photos"
 msgstr[0] ""
 msgstr[1] ""
@@ -183,6 +182,10 @@ msgstr ""
 
 #: rc/qml/MediaViewer/EditPopover.qml:89
 msgid "Revert to original"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:257
+msgid "Delete a photo"
 msgstr ""
 
 #: rc/qml/MediaViewer/MediaViewer.qml:290
