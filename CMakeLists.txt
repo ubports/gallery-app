@@ -45,6 +45,9 @@ pkg_check_modules(MEDIAINFO REQUIRED libmediainfo)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror")
 
+find_program(INTLTOOL_MERGE intltool-merge)
+find_program(INTLTOOL_EXTRACT intltool-extract)
+
 # Standard install paths
 include(GNUInstallDirs)
 
@@ -67,11 +70,6 @@ if(CLICK_MODE)
 else(CLICK_MODE)
     set(GALLERY_DIR ${CMAKE_INSTALL_DATADIR}/${GALLERY})
 endif(CLICK_MODE)
-
-file(GLOB_RECURSE I18N_SRC_FILES
-     RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
-     rc/**.qml desktop/**.desktop.in)
-list(SORT I18N_SRC_FILES)
 
 # for dh_translations to extract the domain
 # (regarding syntax consistency, see http://pad.lv/1181187)
