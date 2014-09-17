@@ -1,3 +1,30 @@
+gallery-app (0.0.67+14.10.20140917-0ubuntu1) utopic; urgency=low
+
+  [ Ugo Riboni ]
+  * Translate the .desktop file inline (LP: #1325626)
+
+  [ Albert Astals ]
+  * Update .pot
+
+  [ Benjamin Zeller ]
+  * Make sure gallery-app cmake project works out of the box in the SDK:
+    Enable click mode by default. Disable click mode in debian rules
+    file. Add variable UBUNTU_MANIFEST_PATH variable so QtC knows where
+    to look. for the manifest file Rename gallery-apparmor.json =>
+    gallery.apparmor (editor support). Automatically substitute the
+    click architecture in the manifest file .
+
+  [ Víctor R. Ruiz ]
+  * Mark photo deletion strings for translation (LP: #1365032)
+
+  [ David Planella ]
+  * Mark photo deletion strings for translation (LP: #1365032)
+
+  [ CI bot ]
+  * Resync trunk
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 17 Sep 2014 17:38:32 +0000
+
 gallery-app (0.0.67+14.10.20140906-0ubuntu1) utopic; urgency=low
 
   [ Bill Filler ]
