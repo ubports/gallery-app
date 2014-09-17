@@ -51,12 +51,17 @@ find_program(INTLTOOL_EXTRACT intltool-extract)
 # Standard install paths
 include(GNUInstallDirs)
 
-option(INSTALL_TESTS "Install the tests on make install" on)
-option(CLICK_MODE "Installs to a contained location" off)
+option(INSTALL_TESTS "Install the tests on make install" off)
+option(CLICK_MODE "Installs to a contained location" on)
 
 set(GALLERY gallery-app)
 set(DESKTOP_FILE ${GALLERY}.desktop)
 set(AUTOPILOT_DIR gallery_app)
+set(UBUNTU_MANIFEST_PATH "click/manifest.json.in" CACHE INTERNAL "Relative path to the manifest file")
+
+# make non compiled files visible in qtcreator
+file(GLOB_RECURSE NON_COMPILED_FILES *.qml *.js *.py *.svg *.png *.in *.json *.desktop *.pot *.apparmor qmldir)
+add_custom_target(NON_COMPILED_TARGET ALL SOURCES ${NON_COMPILED_FILES})
 
 if(CLICK_MODE)
     if(NOT DEFINED BZR_SOURCE)
