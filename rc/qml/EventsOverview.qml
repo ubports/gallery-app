@@ -62,8 +62,7 @@ OrganicView {
     Component {
         id: deleteDialog
         DeleteDialog {
-            //FIXME this count > 1 thing needs to be properly replaced by translation wrappers allowing for multiple plural forms
-            title: organicEventView.selection.selectedCount > 1 ? "Delete photos" : "Delete a photo"
+            title: i18n.tr("Delete %1 photo", "Delete %1 photos", organicEventView.selection.selectedCount).arg(organicEventView.selection.selectedCount)
 
             onDeleteClicked: {
                 organicEventView.selection.model.destroySelectedMedia();
