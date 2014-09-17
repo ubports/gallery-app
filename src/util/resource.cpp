@@ -61,6 +61,8 @@ Resource::Resource(bool desktopMode, const QString &pictureDir)
                   QStandardPaths::writableLocation(QStandardPaths::PicturesLocation).split("/").value(3));
                 m_mediaDirectories.append( dir + "/" + 
                   QStandardPaths::writableLocation(QStandardPaths::MoviesLocation).split("/").value(3));
+                m_videoDirectories.append( dir + "/" + 
+                  QStandardPaths::writableLocation(QStandardPaths::MoviesLocation).split("/").value(3));
             }
         }
     }
