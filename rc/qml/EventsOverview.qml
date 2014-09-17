@@ -62,7 +62,7 @@ OrganicView {
     Component {
         id: deleteDialog
         DeleteDialog {
-            title: i18n.tr("Delete a photo", "Delete %1 photos", organicEventView.selection.selectedCount)
+            title: i18n.tr("Delete a photo", "Delete %1 photos", organicEventView.selection.selectedCount).arg(organicEventView.selection.selectedCount)
 
             onDeleteClicked: {
                 organicEventView.selection.model.destroySelectedMedia();

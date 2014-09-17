@@ -70,7 +70,7 @@ Page {
     Component {
         id: deleteDialog
         DeleteDialog {
-            title: i18n.tr("Delete a photo", "Delete %1 photos", d.selection.selectedCount)
+            title: i18n.tr("Delete a photo", "Delete %1 photos", d.selection.selectedCount).arg(d.selection.selectedCount)
 
             onDeleteClicked: {
                 d.selection.model.destroySelectedMedia();
