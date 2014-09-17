@@ -31,16 +31,31 @@ MainView {
 
     useDeprecatedToolbar: false
 
-    /// Model of all media
-    property MediaCollectionModel mediaLibrary: MediaCollectionModel {
-        monitored: true
-        mediaTypeFilter: APP.mediaTypeFilter
+    Loader {
+        id: mediaLibraryLoader
+        sourceComponent: allLoaded ? mediaLibraryComponent : ""        
+
+        Component {
+            id: mediaLibraryComponent
+            MediaCollectionModel {
+                monitored: true
+                mediaTypeFilter: APP.mediaTypeFilter
+            }
+        }
     }
-    /// Holds the selection
-    property SelectionState selection: SelectionState {
-        inSelectionMode: true
-        singleSelect: PICKER_HUB.singleContentPickMode
-        model: mediaLibrary
+
+    Loader {
+        id: selectionLoader
+        sourceComponent: allLoaded ? selectionComponent : ""
+      
+        Component {
+            id: selectionComponent
+            SelectionState {
+                inSelectionMode: true
+                singleSelect: PICKER_HUB.singleContentPickMode
+                model: mediaLibraryLoader.item
+            }
+        }
     }
 
     anchors.fill: parent
@@ -56,22 +71,33 @@ MainView {
         Tab {
             title: i18n.tr("Events")
             objectName: "eventsTab"
-            page: OrganicView {
-                id: eventSelectView
-                objectName: "eventSelectView"
+            page: Loader {
+                id: eventSelectViewLoader
+                objectName: 'eventSelectViewLoader'
+                anchors.fill: parent
+                sourceComponent: allLoaded ? eventSelectViewComponent : loadingScreenComponent
 
-                head.actions: pickActions
+                Component {
+                    id: eventSelectViewComponent
 
-                selection: pickerMainView.selection
-                model: EventCollectionModel {
-                    mediaTypeFilter: APP.mediaTypeFilter
-                }
+                    OrganicView {
+                        id: eventSelectView
+                        objectName: "eventSelectView"
 
-                delegate: OrganicMediaList {
-                    width: eventSelectView.width
-                    event: model.event
-                    selection: eventSelectView.selection
-                    mediaTypeFilter: APP.mediaTypeFilter
+                        head.actions: pickActions
+
+                        selection: allLoaded ? selectionLoader.item : ""
+                        model: EventCollectionModel {
+                            mediaTypeFilter: APP.mediaTypeFilter
+                        }
+
+                        delegate: OrganicMediaList {
+                            width: eventSelectView.width
+                            event: model.event
+                            selection: eventSelectView.selection
+                            mediaTypeFilter: APP.mediaTypeFilter
+                        }
+                    }
                 }
             }
         }
@@ -79,24 +105,43 @@ MainView {
         Tab {
             title: i18n.tr("Photos")
             objectName: "photosTab"
-            page: Page {
-                id: photosOverview
-                objectName: "photosPage"
+            page: Loader {
+                id: photosOverviewLoader
+                objectName: 'photosOverviewLoader'
+                anchors.fill: parent
+                sourceComponent: allLoaded ? photosOverviewComponent : loadingScreenComponent
 
-                head.actions: pickActions
+                Component {
+                    id: photosOverviewComponent
+            
+                    Page {
+                        id: photosOverview
+                        objectName: "photosPage"
 
-                Image {
-                    anchors.fill: parent
-                    source: "../img/background-paper.png"
-                    fillMode: Image.Tile
-                }
+                        head.actions: pickActions
 
-                MediaGrid {
-                    anchors.fill: parent
-                    model: mediaLibrary
-                    selection: pickerMainView.selection
+                        Image {
+                            anchors.fill: parent
+                            source: "../img/background-paper.png"
+                            fillMode: Image.Tile
+                        }
+
+                        MediaGrid {
+                            anchors.fill: parent
+                            model: allLoaded ? mediaLibraryLoader.item : ""
+                            selection: allLoaded ? selectionLoader.item : ""
+                        }
+                    }
                 }
             }
+        }
+    }
+
+    Component {
+        id: loadingScreenComponent
+        LoadingScreen {
+            id: loadingScreen
+            anchors.fill: parent
         }
     }
 
@@ -104,13 +149,13 @@ MainView {
         Action {
             text: i18n.tr("Pick")
             objectName: "pickButton"
-            enabled: pickerMainView.selection.selectedCount > 0
+            enabled: allLoaded ? selectionLoader.item.selectedCount > 0 : false
             iconName: "ok"
             onTriggered: {
                 if (!enabled)
                     return;
-
-                APP.returnPickedContent(mediaLibrary.selectedMedias);
+                if (allLoaded)
+                    APP.returnPickedContent(mediaLibraryLoader.item.selectedMedias);
             }
         },
         Action {
