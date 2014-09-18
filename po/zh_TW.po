@@ -7,27 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-09-15 09:59+0200\n"
+"POT-Creation-Date: 2014-09-16 14:16+0200\n"
 "PO-Revision-Date: 2014-07-18 10:11+0000\n"
 "Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-16 08:26+0000\n"
+"X-Launchpad-Export-Date: 2014-09-18 07:12+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
-
-#: desktop/gallery-app.desktop.in:3 rc/qml/MediaViewer/PopupPhotoViewer.qml:56
-msgid "Gallery"
-msgstr "照相館"
-
-#: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
-msgid "Ubuntu Photo Viewer"
-msgstr "Ubuntu 相片檢視器"
-
-#: desktop/gallery-app.desktop.in:6
-msgid "Browse your photographs"
-msgstr "瀏覽您的相片"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:35
@@ -209,6 +197,11 @@ msgstr "暫停"
 msgid "Play"
 msgstr "播放"
 
+#: rc/qml/MediaViewer/PopupPhotoViewer.qml:56
+#: desktop/gallery-app.desktop.in.in.h:1
+msgid "Gallery"
+msgstr "照相館"
+
 #: rc/qml/PhotosOverview.qml:74
 msgid "Delete photos"
 msgstr "刪除相片"
@@ -329,3 +322,15 @@ msgstr "色相"
 #: rc/qml/Utility/PhotosToolbarActions.qml:43
 msgid "Import"
 msgstr "匯入"
+
+#: desktop/gallery-app.desktop.in.in.h:2
+msgid "Ubuntu Photo Viewer"
+msgstr "Ubuntu 相片檢視器"
+
+#: desktop/gallery-app.desktop.in.in.h:3
+msgid "Browse your photographs"
+msgstr "瀏覽您的相片"
+
+#: desktop/gallery-app.desktop.in.in.h:4
+msgid "Photographs;Pictures;Albums"
+msgstr ""

@@ -7,27 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-09-15 09:59+0200\n"
+"POT-Creation-Date: 2014-09-16 14:16+0200\n"
 "PO-Revision-Date: 2014-01-18 19:01+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Marathi <mr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-16 08:26+0000\n"
+"X-Launchpad-Export-Date: 2014-09-18 07:12+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
-
-#: desktop/gallery-app.desktop.in:3 rc/qml/MediaViewer/PopupPhotoViewer.qml:56
-msgid "Gallery"
-msgstr ""
-
-#: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
-msgid "Ubuntu Photo Viewer"
-msgstr ""
-
-#: desktop/gallery-app.desktop.in:6
-msgid "Browse your photographs"
-msgstr ""
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:35
@@ -209,6 +197,11 @@ msgstr ""
 msgid "Play"
 msgstr ""
 
+#: rc/qml/MediaViewer/PopupPhotoViewer.qml:56
+#: desktop/gallery-app.desktop.in.in.h:1
+msgid "Gallery"
+msgstr ""
+
 #: rc/qml/PhotosOverview.qml:74
 msgid "Delete photos"
 msgstr ""
@@ -328,4 +321,16 @@ msgstr ""
 
 #: rc/qml/Utility/PhotosToolbarActions.qml:43
 msgid "Import"
+msgstr ""
+
+#: desktop/gallery-app.desktop.in.in.h:2
+msgid "Ubuntu Photo Viewer"
+msgstr ""
+
+#: desktop/gallery-app.desktop.in.in.h:3
+msgid "Browse your photographs"
+msgstr ""
+
+#: desktop/gallery-app.desktop.in.in.h:4
+msgid "Photographs;Pictures;Albums"
 msgstr ""
