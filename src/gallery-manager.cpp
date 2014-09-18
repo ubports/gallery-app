@@ -130,8 +130,11 @@ void GalleryManager::postInit()
 
         Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute);
 
+        qDebug() << "[DEBUG] databaseDirectory(): " << m_resource->databaseDirectory();
+        qDebug() << "[DEBUG] path(): " << m_resource->getRcUrl("sql").path();
         m_database = new Database(m_resource->databaseDirectory(),
                                  m_resource->getRcUrl("sql").path());
+        qDebug() << "[DEBUG] m_database: " << m_database;
         m_mediaFactory->setMediaTable(m_database->getMediaTable());
         m_defaultTemplate = new AlbumDefaultTemplate();
         m_mediaCollection = new MediaCollection(m_database->getMediaTable());
