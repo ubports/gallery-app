@@ -26,7 +26,6 @@
 #include <QFile>
 #include <QSqlTableModel>
 #include <QtSql>
-#include <QDebug>
 
 /*!
  * \brief Database::Database
@@ -41,9 +40,7 @@ Database::Database(const QString &databaseDir, const QString &schemaDirectory,
     m_sqlSchemaDirectory(schemaDirectory),
     m_db(new QSqlDatabase())
 {
-    qDebug() << "[DEBUG] Check id db directory exists";
     if (!QFile::exists(m_databaseDirectory)) {
-        qDebug() << "[DEBUG] Creating...";
         QDir dir;
         bool createOk = dir.mkpath(m_databaseDirectory);
         if (!createOk)
@@ -112,8 +109,6 @@ void Database::logSqlError(QSqlQuery& q) const
 bool Database::openDB()
 {
     *m_db = QSqlDatabase::addDatabase("QSQLITE");
-    qDebug() << "[DEBUG] Opening DB...";
-    qDebug() << "[DEBUG] DBname: " << getDBname();
     m_db->setDatabaseName(getDBname());
     if (!m_db->open()) {
         qDebug() << "Error opening DB: " << m_db->lastError().text();

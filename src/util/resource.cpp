@@ -83,21 +83,14 @@ const QStringList &Resource::mediaDirectories() const
  */
 const QString &Resource::databaseDirectory() const
 {
-    qDebug() << "[DEBUG] databseDirectory()";
-    qDebug() << "[DEBUG] m_databaseDirectory: " << m_databaseDirectory;
     if (m_databaseDirectory.isEmpty()) {
-        qDebug() << "[DEBUG] m_mediaDirectories: " << m_mediaDirectories;
-        qDebug() << "[DEBUG] PicturesLocation: " << QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
         if (m_mediaDirectories.contains(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation))) {
-            qDebug() << "[DEBUG] IF: DataLocation: " << QStandardPaths::writableLocation(QStandardPaths::DataLocation);
             m_databaseDirectory = QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
                     QDir::separator() + DATABASE_DIR;
         } else {
-            qDebug() << "[DEBUG] ELSE: m_mediaDirectories.at(0): " << m_mediaDirectories.at(0);
             m_databaseDirectory = m_mediaDirectories.at(0) + QDir::separator() + "." + DATABASE_DIR;
         }
     }
-    qDebug() << "[DEBUG] m_databaseDirectory: " << m_databaseDirectory;
     return m_databaseDirectory;
 }
 

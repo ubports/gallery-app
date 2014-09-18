@@ -59,7 +59,7 @@ MainView {
     }
 
     anchors.fill: parent
-    //applicationName: "gallery-app"
+    applicationName: "gallery-app"
     automaticOrientation: application.automaticOrientation
 
     Tabs {
