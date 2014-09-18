@@ -254,7 +254,7 @@ Checkerboard {
         objectName: "albumViewer"
         anchors.fill: parent
         visible: false
-        onIsOpenChanged: if (!isOpen) albumsCheckerboardLoader.item.albumCurrentlyInView = -1
+        onIsOpenChanged: if (!isOpen) albumCurrentlyInView = -1
     }
 
     AlbumEditorAnimated {
