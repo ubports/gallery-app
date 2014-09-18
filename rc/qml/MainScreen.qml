@@ -32,7 +32,7 @@ MainView {
     useDeprecatedToolbar: false
 
     anchors.fill: parent
-    applicationName: "gallery-app"
+    //applicationName: "gallery-app"
     automaticOrientation: application.automaticOrientation
 
     property string mediaCurrentlyInView
