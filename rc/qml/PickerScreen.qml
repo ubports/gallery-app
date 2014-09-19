@@ -59,6 +59,7 @@ MainView {
     }
 
     anchors.fill: parent
+    applicationName: "com.ubuntu.gallery"
     automaticOrientation: application.automaticOrientation
 
     Tabs {

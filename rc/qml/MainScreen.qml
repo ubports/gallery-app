@@ -32,6 +32,7 @@ MainView {
     useDeprecatedToolbar: false
 
     anchors.fill: parent
+    applicationName: "com.ubuntu.gallery"
     automaticOrientation: application.automaticOrientation
 
     property string mediaCurrentlyInView
