@@ -43,9 +43,9 @@ class GalleryTestCase(AutopilotTestCase):
     tap_press_time = 1
     local_location = "../../src/gallery-app"
 
-    _db = '~/.local/share/com.ubuntu.gallery/gallery-app/' \
+    _db = '~/.local/share/com.ubuntu.gallery/' \
           'database/gallery.sqlite'
-    _thumbs = '~/.cache/com.ubuntu.gallery/gallery-app/thumbnails'
+    _thumbs = '~/.cache/com.ubuntu.gallery/thumbnails'
 
     _default_sample_destination_dir = "/tmp/gallery-ap_sd"
 
