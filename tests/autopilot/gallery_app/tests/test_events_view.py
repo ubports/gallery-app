@@ -56,8 +56,7 @@ class TestEventsView(GalleryTestCase):
         super(TestEventsView, self).tearDown()
 
     def get_events_view(self):
-        return self.app.wait_select_single("EventsOverview",
-                                           objectName="organicEventView")
+        return self.app.wait_select_single("EventsOverview")
 
     def enable_select_mode(self):
         self.main_view.get_header().click_action_button("selectButton")

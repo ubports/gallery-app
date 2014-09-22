@@ -24,14 +24,10 @@ import QtQuick.Window 2.0
 import "../js/Gallery.js" as Gallery
 import Ubuntu.Components 0.1 // Necessary to make filename@GU.ext images load
 
-/*!
-*/
 Item {
     id: application
 
     // readonly
-    /*!
-    */
     property bool isPortrait: (height > width)
 
     property bool automaticOrientation: true
@@ -140,8 +136,6 @@ Item {
         return Math.round(1.6 * amt);
     }
 
-    /*!
-    */
     function onLoaded() {
         allLoaded = true;
     }
@@ -189,20 +183,10 @@ Item {
     }
 
     Loader {
-        id: loadingScreen
-        objectName: 'loadingScreen'
-        anchors.fill: parent
-        visible: mainScreenLoader.status !== Loader.Ready
-        source: visible ? Qt.resolvedUrl("LoadingScreen.qml") : ""
-    }
-
-    Loader {
         id: mainScreenLoader
         anchors.fill: parent
-        source: allLoaded ? ((APP.pickModeEnabled) ? Qt.resolvedUrl("PickerScreen.qml") :
-                                                     Qt.resolvedUrl("MainScreen.qml")) : ""
         visible: status === Loader.Ready
-        asynchronous: true
+        source: APP.pickModeEnabled ? Qt.resolvedUrl("PickerScreen.qml") : Qt.resolvedUrl("MainScreen.qml")
     }
 
     Component.onCompleted: {

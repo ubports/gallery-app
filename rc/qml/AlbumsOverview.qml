@@ -248,4 +248,18 @@ Checkerboard {
             }
         }
     }
+
+    AlbumViewer {
+        id: albumViewer
+        objectName: "albumViewer"
+        anchors.fill: parent
+        visible: false
+        onIsOpenChanged: if (!isOpen) albumCurrentlyInView = -1
+    }
+
+    AlbumEditorAnimated {
+        id: albumEditor
+        objectName: "albumEditorAnimated"
+        anchors.fill: parent
+    }
 }
