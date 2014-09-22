@@ -152,6 +152,7 @@ FocusScope {
             color: textEditOnClick.color
             font.pointSize: textEditOnClick.fontPointSize
             font.family: textEditOnClick.fontFamily
+            inputMethodHints: Qt.ImhNoPredictiveText
 
             readOnly: false
             smooth: true
