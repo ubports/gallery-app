@@ -133,9 +133,11 @@ Page {
     Page {
         id: sharePicker
         visible: false
+        title: i18n.tr("Share to")
 
         ContentPeerPicker {
             objectName: "sharePickerPhotos"
+            showTitle: false
             anchors.fill: parent
             contentType: d.selection.mediaType === MediaSource.Video ? ContentType.Videos : ContentType.Pictures
             handler: ContentHandler.Share
