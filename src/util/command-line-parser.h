@@ -25,6 +25,8 @@
 #include <QSize>
 #include <QString>
 
+class UrlHandler;
+
 /*!
  * @brief The CommandLineParser is used to parse our commandline inputs and set
  * parameters accordingly.
@@ -43,11 +45,13 @@ public:
     bool logImageLoading() const { return m_logImageLoading; }
     bool pickModeEnabled() const { return m_pickMode; }
     const QString &formFactor() const { return m_formFactor; }
+    const QString &mediaFile() const { return m_mediaFile; }
 
 private:
     bool invalidArg(QString arg);
     void usage();
 
+    UrlHandler *m_urlHandler;
     bool m_startupTimer;
     bool m_isFullscreen;
     bool m_isPortrait;
@@ -57,6 +61,7 @@ private:
 
     const QHash<QString, QSize> m_formFactors;
     QString m_formFactor;
+    QString m_mediaFile;
 };
 
 #endif // COMMANDLINEPARSER_H
