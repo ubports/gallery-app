@@ -79,7 +79,15 @@ bool CommandLineParser::processArguments(const QStringList& args)
         }
         else if (args[i] == "--media-file") {
             if (!value.isEmpty()) {
-                m_mediaFile = value;
+                QFileInfo fi(value);
+
+                if (fi.exists())
+                    m_mediaFile = "file://" + fi.absoluteFilePath();
+                else {
+                    QTextStream(stderr) << m_mediaFile << ": Not found" << endl;
+                    valid_args = false;
+                }
+
                 i++;
             }
             else {
@@ -106,17 +114,6 @@ bool CommandLineParser::processArguments(const QStringList& args)
             else {
                 valid_args = !invalidArg(args[i]);
             }
-        }
-    }
-
-    if (!m_mediaFile.isEmpty()) {
-        QFileInfo fi(m_mediaFile);
-
-        if (fi.exists())
-            m_mediaFile = fi.absoluteFilePath();
-        else {
-            QTextStream(stderr) << m_mediaFile << ": Not found" << endl;
-            valid_args = false;
         }
     }
 
