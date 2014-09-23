@@ -82,7 +82,7 @@ bool CommandLineParser::processArguments(const QStringList& args)
                 QFileInfo fi(value);
 
                 if (fi.exists())
-                    m_mediaFile = "file://" + fi.absoluteFilePath();
+                    m_mediaFile = fi.absoluteFilePath();
                 else {
                     QTextStream(stderr) << m_mediaFile << ": Not found" << endl;
                     valid_args = false;

@@ -351,7 +351,7 @@ void GalleryApplication::setFullScreen(bool fullScreen)
 void GalleryApplication::setMediaFile(const QString &mediaFile)
 {
     if(!mediaFile.isEmpty()) {
-        m_mediaFile = mediaFile;
+        m_mediaFile = "file://" + mediaFile;
         Q_EMIT mediaFileChanged();
     }
 }
