@@ -147,6 +147,12 @@ MainView {
 
     property list<Action> pickActions: [
         Action {
+            text: i18n.tr("Cancel")
+            objectName: "cancelButton"
+            iconName: "close"
+            onTriggered: APP.contentPickingCanceled()
+        },
+        Action {
             text: i18n.tr("Pick")
             objectName: "pickButton"
             enabled: allLoaded ? selectionLoader.item.selectedCount > 0 : false
@@ -157,12 +163,6 @@ MainView {
                 if (allLoaded)
                     APP.returnPickedContent(mediaLibraryLoader.item.selectedMedias);
             }
-        },
-        Action {
-            text: i18n.tr("Cancel")
-            objectName: "cancelButton"
-            iconName: "close"
-            onTriggered: APP.contentPickingCanceled()
         }
     ]
 }
