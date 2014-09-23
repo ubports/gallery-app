@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-23 10:37-0300\n"
+"POT-Creation-Date: 2014-09-23 15:51-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -128,21 +128,21 @@ msgstr[1] ""
 msgid "Loading…"
 msgstr ""
 
-#: rc/qml/MainScreen.qml:99
+#: rc/qml/MainScreen.qml:107
 msgid "Albums"
 msgstr ""
 
-#: rc/qml/MainScreen.qml:112 rc/qml/MainScreen.qml:139
+#: rc/qml/MainScreen.qml:120 rc/qml/MainScreen.qml:147
 #: rc/qml/PickerScreen.qml:72
 msgid "Events"
 msgstr ""
 
-#: rc/qml/MainScreen.qml:137 rc/qml/MainScreen.qml:175
+#: rc/qml/MainScreen.qml:145 rc/qml/MainScreen.qml:183
 #: rc/qml/Utility/PhotosToolbarActions.qml:34
 msgid "Select"
 msgstr ""
 
-#: rc/qml/MainScreen.qml:148 rc/qml/MainScreen.qml:177
+#: rc/qml/MainScreen.qml:156 rc/qml/MainScreen.qml:185
 #: rc/qml/PickerScreen.qml:106
 msgid "Photos"
 msgstr ""

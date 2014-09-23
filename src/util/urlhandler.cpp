@@ -30,7 +30,6 @@ UrlHandler::UrlHandler()
     : m_mediaFile("")
 {
     m_validSchemes << "photo";
-    m_validSchemes << "video";
 }
 
 /*!
@@ -46,7 +45,7 @@ bool UrlHandler::processUri(const QString& arg)
         return false;
     }
 
-    if (uri.scheme() == "photo" || uri.scheme() == "video") {
+    if (uri.scheme() == "photo") {
         uri.setScheme("file");
     }
 
