@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: gallery-app VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-16 14:16+0200\n"
-"PO-Revision-Date: 2014-09-11 06:45+0000\n"
-"Last-Translator: Niklas Wenzel <nikwen.developer@gmail.com>\n"
+"PO-Revision-Date: 2014-09-22 16:54+0000\n"
+"Last-Translator: Tobias Bannert <Unknown>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-19 08:07+0000\n"
+"X-Launchpad-Export-Date: 2014-09-23 07:10+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 "Language: de\n"
 
@@ -66,7 +66,7 @@ msgstr "Album"
 #: rc/qml/MediaViewer/MediaViewer.qml:481
 #: rc/qml/MediaViewer/MediaViewer.qml:523
 msgid "Add to album"
-msgstr "Zu Album hinzufügen"
+msgstr "Zum Album hinzufügen"
 
 #: rc/qml/AlbumsOverview.qml:225 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
@@ -74,11 +74,11 @@ msgstr "Neues Album hinzufügen"
 
 #: rc/qml/AlbumsOverview.qml:229 rc/qml/Components/PopupAlbumPicker.qml:101
 msgid "New Photo Album"
-msgstr ""
+msgstr "Neues Fotoalbum"
 
 #: rc/qml/AlbumsOverview.qml:230 rc/qml/Components/PopupAlbumPicker.qml:102
 msgid "Subtitle"
-msgstr ""
+msgstr "Untertitel"
 
 #: rc/qml/AlbumsOverview.qml:239 rc/qml/Utility/EditingHUD.qml:77
 #: rc/qml/Utility/SelectionToolbarAction.qml:47
@@ -114,7 +114,7 @@ msgstr "Zum Album hinzufügen"
 
 #: rc/qml/Components/PopupAlbumPicker.qml:161 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr "Foto zu Album hinzufügen"
+msgstr "Foto zum Album hinzufügen"
 
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
@@ -170,15 +170,15 @@ msgstr "Ein Foto löschen"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:290
 msgid "Remove a photo from album"
-msgstr "Entferne ein Foto aus Album"
+msgstr "Ein Foto aus dem Album entfernen"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:299
 msgid "Remove from Album"
-msgstr "Entferne aus Album"
+msgstr "Aus Album entfernen"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:310
 msgid "Remove from Album and Delete"
-msgstr "Entferne aus Album und lösche"
+msgstr "Aus Album entfernen und löschen"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:475
 msgid "Edit"
@@ -332,8 +332,8 @@ msgstr "Ubuntu-Fotobetrachter"
 
 #: desktop/gallery-app.desktop.in.in.h:3
 msgid "Browse your photographs"
-msgstr "Durchsuchen Sie Ihre Fotos"
+msgstr "Ihre Fotos durchsuchen"
 
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
-msgstr ""
+msgstr "Fotos;Photos;Bilder;Alben;Pictures"

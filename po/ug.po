@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-09-16 14:16+0200\n"
-"PO-Revision-Date: 2014-06-13 11:57+0000\n"
+"PO-Revision-Date: 2014-09-23 02:28+0000\n"
 "Last-Translator: Gheyret T.Kenji <Unknown>\n"
 "Language-Team: Uyghur Computer Science Association <UKIJ@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-09-19 08:07+0000\n"
+"X-Launchpad-Export-Date: 2014-09-23 07:10+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
@@ -74,11 +74,11 @@ msgstr "يېڭى ئالبوم قوش"
 
 #: rc/qml/AlbumsOverview.qml:229 rc/qml/Components/PopupAlbumPicker.qml:101
 msgid "New Photo Album"
-msgstr ""
+msgstr "يېڭى سۈرەت ئالبومى"
 
 #: rc/qml/AlbumsOverview.qml:230 rc/qml/Components/PopupAlbumPicker.qml:102
 msgid "Subtitle"
-msgstr ""
+msgstr "فىلىم خېتى"
 
 #: rc/qml/AlbumsOverview.qml:239 rc/qml/Utility/EditingHUD.qml:77
 #: rc/qml/Utility/SelectionToolbarAction.qml:47
@@ -170,15 +170,15 @@ msgstr "بىر سۈرەتنى ئۆچۈر"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:290
 msgid "Remove a photo from album"
-msgstr ""
+msgstr "سۈرەت ئالبومىنى چىقىرىۋەت"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:299
 msgid "Remove from Album"
-msgstr ""
+msgstr "ئالبومدىن چىقىرىۋەت"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:310
 msgid "Remove from Album and Delete"
-msgstr ""
+msgstr "ئالبومدىن چىقىرىۋەت ۋە ئۆچۈر"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:475
 msgid "Edit"
@@ -333,4 +333,4 @@ msgstr "سۈرەتلىرىڭىزگە كۆز يۈگۈرتۈڭ"
 
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
-msgstr ""
+msgstr "سۈرەتلەر;رەسىملەر;ئالبوملار"
