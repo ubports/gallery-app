@@ -38,6 +38,8 @@ MainView {
     property string mediaCurrentlyInView
     StateSaver.properties: "mediaCurrentlyInView"
 
+    property bool applicationLoaded: application.allLoaded
+
     //fullScreen property is used on autopilot tests
     property bool fullScreen: APP.fullScreen
 
@@ -58,17 +60,23 @@ MainView {
     }
 
     Component.onCompleted: {
-        if (mediaFileSelected !== "")
-            openMediaFile(mediaFileSelected);
-        else if (mediaCurrentlyInView !== "")
-            openMediaFile(mediaCurrentlyInView);
-
         pageStack.push(tabs);
     }
 
+    onApplicationLoadedChanged: {
+        if (applicationLoaded) {
+            if (mediaFileSelected !== "")
+                openMediaFile(mediaFileSelected);
+            else if (mediaCurrentlyInView !== "")
+                openMediaFile(mediaCurrentlyInView);
+        }
+    }
+
     onMediaFileSelectedChanged: {
-        if (mediaFileSelected !== "")
-            openMediaFile(mediaFileSelected);
+        if (applicationLoaded) {
+            if (mediaFileSelected !== "")
+                openMediaFile(mediaFileSelected);
+        }
     }
 
     function pushPage(page) {
