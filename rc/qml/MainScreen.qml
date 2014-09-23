@@ -43,19 +43,32 @@ MainView {
 
     property alias currentPage: pageStack.currentPage
 
-    Component.onCompleted: {
-        if (mediaCurrentlyInView !== "") {
-            for (var i = 0; i < MANAGER.mediaLibrary.count; i++) {
-                if (MANAGER.mediaLibrary.getAt(i).path == mediaCurrentlyInView) {
-                    photoViewerLoader.load();
-                    photoViewerLoader.item.animateOpen(MANAGER.mediaLibrary.getAt(i),
-                                                       Qt.rect(0,0,0,0));
-                    return;
-                }
+    property string mediaFileSelected: APP.mediaFile
+
+    function openMediaFile(media) {
+        mediaCurrentlyInView = media;
+        for (var i = 0; i < MANAGER.mediaLibrary.count; i++) {
+            if (MANAGER.mediaLibrary.getAt(i).path == mediaCurrentlyInView) {
+                photoViewerLoader.load();
+                photoViewerLoader.item.animateOpen(MANAGER.mediaLibrary.getAt(i),
+                                                   Qt.rect(0,0,0,0));
+                return;
             }
         }
+    }
+
+    Component.onCompleted: {
+        if (mediaFileSelected !== "")
+            openMediaFile(mediaFileSelected);
+        else if (mediaCurrentlyInView !== "")
+            openMediaFile(mediaCurrentlyInView);
 
         pageStack.push(tabs);
+    }
+
+    onMediaFileSelectedChanged: {
+        if (mediaFileSelected !== "")
+            openMediaFile(mediaFileSelected);
     }
 
     function pushPage(page) {
@@ -216,4 +229,13 @@ MainView {
             active: __isPhotoViewerOpen
         }
     ]
+
+    Connections {
+        target: UriHandler
+        onOpened: {
+            for (var i = 0; i < uris.length; ++i) {
+                APP.parseUri(uris[i])
+            }
+        }
+    }
 }
