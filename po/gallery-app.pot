@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-09-16 14:16+0200\n"
+"POT-Creation-Date: 2014-09-23 10:37-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:35
@@ -33,7 +34,7 @@ msgstr ""
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:38
 #: rc/qml/Components/MediaSelector.qml:92
-#: rc/qml/MediaViewer/MediaViewer.qml:320 rc/qml/PickerScreen.qml:117
+#: rc/qml/MediaViewer/MediaViewer.qml:320 rc/qml/PickerScreen.qml:162
 #: rc/qml/Utility/SelectionToolbarAction.qml:75
 msgid "Cancel"
 msgstr ""
@@ -116,26 +117,33 @@ msgstr ""
 msgid "Add Photo to Album"
 msgstr ""
 
+#: rc/qml/EventsOverview.qml:65 rc/qml/PhotosOverview.qml:73
+#, qt-format
+msgid "Delete %1 photo"
+msgid_plural "Delete %1 photos"
+msgstr[0] ""
+msgstr[1] ""
+
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
 msgstr ""
 
-#: rc/qml/MainScreen.qml:98
+#: rc/qml/MainScreen.qml:99
 msgid "Albums"
 msgstr ""
 
-#: rc/qml/MainScreen.qml:115 rc/qml/MainScreen.qml:138
-#: rc/qml/PickerScreen.qml:57
+#: rc/qml/MainScreen.qml:112 rc/qml/MainScreen.qml:139
+#: rc/qml/PickerScreen.qml:72
 msgid "Events"
 msgstr ""
 
-#: rc/qml/MainScreen.qml:136 rc/qml/MainScreen.qml:180
+#: rc/qml/MainScreen.qml:137 rc/qml/MainScreen.qml:175
 #: rc/qml/Utility/PhotosToolbarActions.qml:34
 msgid "Select"
 msgstr ""
 
-#: rc/qml/MainScreen.qml:148 rc/qml/MainScreen.qml:182
-#: rc/qml/PickerScreen.qml:80
+#: rc/qml/MainScreen.qml:148 rc/qml/MainScreen.qml:177
+#: rc/qml/PickerScreen.qml:106
 msgid "Photos"
 msgstr ""
 
@@ -164,7 +172,7 @@ msgstr ""
 msgid "Revert to original"
 msgstr ""
 
-#: rc/qml/MediaViewer/MediaViewer.qml:257 rc/qml/PhotosOverview.qml:75
+#: rc/qml/MediaViewer/MediaViewer.qml:257
 msgid "Delete a photo"
 msgstr ""
 
@@ -202,11 +210,7 @@ msgstr ""
 msgid "Gallery"
 msgstr ""
 
-#: rc/qml/PhotosOverview.qml:74
-msgid "Delete photos"
-msgstr ""
-
-#: rc/qml/PickerScreen.qml:105
+#: rc/qml/PickerScreen.qml:150
 msgid "Pick"
 msgstr ""
 
