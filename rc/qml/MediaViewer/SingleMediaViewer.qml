@@ -30,6 +30,7 @@ Item {
     property var mediaFileType
     property string mediaFileURL
     property real maxDimension
+    property bool showThumbnail: true
 
     property bool isVideo: mediaFileType === MediaSource.Video
     property bool isPlayingVideo: isVideo && video.isPlaying
@@ -157,6 +158,7 @@ Item {
                         height: viewer.maxDimension
                     }
                     fillMode: Image.PreserveAspectFit
+                    visible: viewer.showThumbnail && video.status !== Loader.Ready
                     opacity: status == Image.Ready ? 1.0 : 0.0
                     Behavior on opacity { UbuntuNumberAnimation {duration: UbuntuAnimation.FastDuration} }
 
@@ -188,8 +190,12 @@ Item {
 
                 property bool isPlaying: item && item.playbackState === MediaPlayer.PlayingState
                 function play() {
-                    if (item) item.play();
-                    else sourceComponent = component_video;
+                    if (item) {
+                        item.play();
+                    } else {
+                        viewer.showThumbnail = false;
+                        sourceComponent = component_video;
+                    }
                 }
                 function pause() {
                     if (item) item.pause();
