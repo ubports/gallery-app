@@ -539,7 +539,7 @@ Item {
                 }
             },
             Action {
-                text: i18n.tr("Share photo")
+                text: i18n.tr("Share")
                 iconName: "share"
                 visible: !APP.desktopMode
                 onTriggered: sharePicker.visible = true;
