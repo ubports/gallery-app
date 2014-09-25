@@ -413,6 +413,18 @@ QList<MediaSource*> QmlViewCollectionModel::selectedMedias() const
     return selectedList;
 }
 
+QVariantList QmlViewCollectionModel::selectedMediasQML() const
+{
+    QVariantList selectedList;
+    QSet<DataObject*> totalSelection = m_view->getSelected();
+    foreach (DataObject* data, totalSelection) {
+        QVariant var;
+        var.setValue(data);
+        selectedList << var;
+    }
+    return selectedList;
+}
+
 /*!
  * \brief QmlViewCollectionModel::setBackingViewCollection
  * \param view

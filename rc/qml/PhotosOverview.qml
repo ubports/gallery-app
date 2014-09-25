@@ -21,6 +21,7 @@ import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
+import Ubuntu.Content 0.1
 import "Components"
 import "OrganicView"
 import "Utility"
@@ -49,6 +50,8 @@ Page {
         d.selection.unselectAll();
         d.selection.inSelectionMode = false;
     }
+
+    property string pageTitle
 
     tools: inSelectionMode ? d.selectionTools : d.overviewTools
 
@@ -113,6 +116,48 @@ Page {
             }
             onDeleteClicked: {
                 PopupUtils.open(deleteDialog, null);
+            }
+
+            onShareClicked: {
+                overview.pushPage(sharePicker)
+                sharePicker.visible = true;
+            }
+        }
+    }
+
+    Component {
+        id: contentItemComp
+        ContentItem {}
+    }
+
+    Page {
+        id: sharePicker
+        visible: false
+        title: i18n.tr("Share to")
+
+        ContentPeerPicker {
+            objectName: "sharePickerPhotos"
+            showTitle: false
+            anchors.fill: parent
+            contentType: d.selection.mediaType === MediaSource.Video ? ContentType.Videos : ContentType.Pictures
+            handler: ContentHandler.Share
+
+            onPeerSelected: {
+                overview.popPage();
+                sharePicker.visible = false;
+
+                var curTransfer = peer.request();
+                if (curTransfer.state === ContentTransfer.InProgress)
+                {
+                    curTransfer.items = d.selection.model.selectedMediasQML.map(function(data) {
+                        return contentItemComp.createObject(parent, {"url": data.path});
+                    });
+                    curTransfer.state = ContentTransfer.Charged;
+                }
+            }
+            onCancelPressed: {
+                overview.popPage();
+                sharePicker.visible = false;
             }
         }
     }

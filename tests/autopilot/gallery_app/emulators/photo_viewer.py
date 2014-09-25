@@ -31,8 +31,8 @@ class PhotoViewer(GalleryUtils):
 
     def get_content_peer_picker_cancel_button(self):
         """Returns the ContentPeerPicker cancel button."""
-        return self.app.wait_select_single("Button",
-                                           objectName="contentPeerPickerCancelButton")
+        return self.get_share_peer_picker().wait_select_single("Button",
+                                            objectName="contentPeerPickerCancelButton")
 
     def get_share_peer_picker(self):
         """Returns the photo viewer share picker."""
