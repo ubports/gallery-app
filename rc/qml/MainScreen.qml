@@ -45,8 +45,6 @@ MainView {
 
     property alias currentPage: pageStack.currentPage
 
-    property string mediaFileSelected: APP.mediaFile
-
     function openMediaFile(media) {
         if (__isPhotoViewerOpen) {
             popPage();
@@ -70,17 +68,10 @@ MainView {
 
     onApplicationLoadedChanged: {
         if (applicationLoaded) {
-            if (mediaFileSelected !== "")
-                openMediaFile(mediaFileSelected);
+            if (APP.mediaFile !== "")
+                openMediaFile(APP.mediaFile);
             else if (mediaCurrentlyInView !== "")
                 openMediaFile(mediaCurrentlyInView);
-        }
-    }
-
-    onMediaFileSelectedChanged: {
-        if (applicationLoaded) {
-            if (mediaFileSelected !== "")
-                openMediaFile(mediaFileSelected);
         }
     }
 
@@ -248,6 +239,15 @@ MainView {
         onOpened: {
             for (var i = 0; i < uris.length; ++i) {
                 APP.parseUri(uris[i])
+            }
+        }
+    }
+
+    Connections {
+        target: APP
+        onMediaFileChanged: {
+            if (applicationLoaded) {
+                openMediaFile(APP.mediaFile);
             }
         }
     }
