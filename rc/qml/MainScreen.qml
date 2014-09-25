@@ -48,6 +48,11 @@ MainView {
     property string mediaFileSelected: APP.mediaFile
 
     function openMediaFile(media) {
+        if (__isPhotoViewerOpen) {
+            popPage();
+            photoViewerLoader.item.fadeClosed();
+        }
+
         mediaCurrentlyInView = media;
         for (var i = 0; i < MANAGER.mediaLibrary.count; i++) {
             if (MANAGER.mediaLibrary.getAt(i).path == mediaCurrentlyInView) {
