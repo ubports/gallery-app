@@ -45,6 +45,7 @@
 
 // util
 #include "command-line-parser.h"
+#include "urlhandler.h"
 #include "resource.h"
 
 #include <QQuickItem>
@@ -67,7 +68,8 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
       m_contentCommunicator(new ContentCommunicator(this)),
       m_pickModeEnabled(false),
       m_defaultUiMode(BrowseContentMode),
-      m_mediaTypeFilter(MediaSource::None)
+      m_mediaTypeFilter(MediaSource::None),
+      m_mediaFile("")
 {
     m_bguSize = QProcessEnvironment::systemEnvironment().value("GRID_UNIT_PX", "8").toInt();
     if (m_bguSize <= 0)
@@ -97,6 +99,8 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
             qCritical("Library qttestability load failed!");
         }
     }
+
+    m_urlHandler = new UrlHandler();
 
     registerQML();
 
@@ -181,6 +185,15 @@ bool GalleryApplication::isFullScreen() const
 }
 
 /*!
+ * \brief GalleryApplication::getMediaFile
+ * Returns the media file passed as a parameter
+ */
+const QString& GalleryApplication::getMediaFile() const
+{
+    return m_mediaFile;
+}
+
+/*!
  * \brief GalleryApplication::createView
  * Create the master QDeclarativeView that all the pages will operate within
  */
@@ -225,6 +238,8 @@ void GalleryApplication::createView()
 
     if (m_cmdLineParser->startupTimer())
         qDebug() << "GalleryApplication view created" << m_timer->elapsed() << "ms";
+
+    setMediaFile(m_cmdLineParser->mediaFile());
 }
 
 /*!
@@ -333,6 +348,14 @@ void GalleryApplication::setFullScreen(bool fullScreen)
     Q_EMIT fullScreenChanged();
 }
 
+void GalleryApplication::setMediaFile(const QString &mediaFile)
+{
+    if(!mediaFile.isEmpty()) {
+        m_mediaFile = "file://" + mediaFile;
+        Q_EMIT mediaFileChanged();
+    }
+}
+
 /*!
  * \brief GalleryApplication::returnPickedContent passes the selcted items to the
  * content manager
@@ -398,4 +421,11 @@ void GalleryApplication::consistencyCheckFinished()
     // its consistency check, as new images may be added by the import handler
     // during start-up.
     m_contentCommunicator->registerWithHub();
+}
+
+void GalleryApplication::parseUri(const QString &arg)
+{
+    if (m_urlHandler->processUri(arg)) {
+        setMediaFile(m_urlHandler->mediaFile());
+    }
 }

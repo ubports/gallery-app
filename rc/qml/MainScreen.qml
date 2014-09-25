@@ -38,24 +38,41 @@ MainView {
     property string mediaCurrentlyInView
     StateSaver.properties: "mediaCurrentlyInView"
 
+    property bool applicationLoaded: application.allLoaded
+
     //fullScreen property is used on autopilot tests
     property bool fullScreen: APP.fullScreen
 
     property alias currentPage: pageStack.currentPage
 
-    Component.onCompleted: {
-        if (mediaCurrentlyInView !== "") {
-            for (var i = 0; i < MANAGER.mediaLibrary.count; i++) {
-                if (MANAGER.mediaLibrary.getAt(i).path == mediaCurrentlyInView) {
-                    photoViewerLoader.load();
-                    photoViewerLoader.item.animateOpen(MANAGER.mediaLibrary.getAt(i),
-                                                       Qt.rect(0,0,0,0));
-                    return;
-                }
-            }
+    function openMediaFile(media) {
+        if (__isPhotoViewerOpen) {
+            popPage();
+            photoViewerLoader.item.fadeClosed();
         }
 
+        mediaCurrentlyInView = media;
+        for (var i = 0; i < MANAGER.mediaLibrary.count; i++) {
+            if (MANAGER.mediaLibrary.getAt(i).path == mediaCurrentlyInView) {
+                photoViewerLoader.load();
+                photoViewerLoader.item.animateOpen(MANAGER.mediaLibrary.getAt(i),
+                                                   Qt.rect(0,0,0,0));
+                return;
+            }
+        }
+    }
+
+    Component.onCompleted: {
         pageStack.push(tabs);
+    }
+
+    onApplicationLoadedChanged: {
+        if (applicationLoaded) {
+            if (APP.mediaFile !== "")
+                openMediaFile(APP.mediaFile);
+            else if (mediaCurrentlyInView !== "")
+                openMediaFile(mediaCurrentlyInView);
+        }
     }
 
     function pushPage(page) {
@@ -216,4 +233,22 @@ MainView {
             active: __isPhotoViewerOpen
         }
     ]
+
+    Connections {
+        target: UriHandler
+        onOpened: {
+            for (var i = 0; i < uris.length; ++i) {
+                APP.parseUri(uris[i])
+            }
+        }
+    }
+
+    Connections {
+        target: APP
+        onMediaFileChanged: {
+            if (applicationLoaded) {
+                openMediaFile(APP.mediaFile);
+            }
+        }
+    }
 }

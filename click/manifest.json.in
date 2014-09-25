@@ -6,7 +6,8 @@
         "gallery": {
             "apparmor": "gallery.apparmor",
             "content-hub": "gallery-content.json",
-            "desktop": "@CMAKE_INSTALL_DATADIR@/applications/@DESKTOP_FILE@"
+            "desktop": "@CMAKE_INSTALL_DATADIR@/applications/@DESKTOP_FILE@",
+            "urls": "share/url-dispatcher/urls/gallery-app.url-dispatcher"
         }
     },
     "icon": "share/icons/gallery-app.svg",
