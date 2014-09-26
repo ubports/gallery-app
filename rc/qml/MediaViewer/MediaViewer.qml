@@ -287,7 +287,7 @@ Item {
             Dialog {
                 id: dialogue
                 objectName: "removePhotoFromAlbumDialog"
-                title: i18n.tr("Remove a photo from album")
+                title: (galleryPhotoViewer.media.type === MediaSource.Photo) ? i18n.tr("Remove a photo from album") : i18n.tr("Remove a video from album")
 
                 function finishRemove() {
                     if (model.count === 0)
