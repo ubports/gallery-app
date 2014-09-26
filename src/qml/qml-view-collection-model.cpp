@@ -24,9 +24,6 @@
 #include "data-object.h"
 #include "selectable-view-collection.h"
 
-// media
-#include "media-source.h"
-
 // util
 #include "variants.h"
 
@@ -39,7 +36,7 @@
 QmlViewCollectionModel::QmlViewCollectionModel(QObject* parent, const QString& objectTypeName,
                                                DataObjectComparator defaultComparator)
     : QAbstractListModel(parent), m_view(NULL), m_defaultComparator(defaultComparator),
-      m_head(0), m_limit(-1)
+      m_head(0), m_limit(-1), m_mediaTypeFilter(MediaSource::None)
 {
     m_roles.insert(ObjectRole, "object");
     m_roles.insert(SelectionRole, "isSelected");
@@ -416,6 +413,18 @@ QList<MediaSource*> QmlViewCollectionModel::selectedMedias() const
     return selectedList;
 }
 
+QVariantList QmlViewCollectionModel::selectedMediasQML() const
+{
+    QVariantList selectedList;
+    QSet<DataObject*> totalSelection = m_view->getSelected();
+    foreach (DataObject* data, totalSelection) {
+        QVariant var;
+        var.setValue(data);
+        selectedList << var;
+    }
+    return selectedList;
+}
+
 /*!
  * \brief QmlViewCollectionModel::setBackingViewCollection
  * \param view
@@ -526,17 +535,22 @@ void QmlViewCollectionModel::setDefaultComparator(DataObjectComparator comparato
 }
 
 /*!
+ * \brief QmlViewCollectionModel::isAccepted
+ * \param item
+ */
+bool QmlViewCollectionModel::isAccepted(DataObject* item)
+{
+    Q_UNUSED(item);
+    return true;
+}
+
+/*!
  * \brief QmlViewCollectionModel::monitorSourceCollection
  * \param sources
  */
 void QmlViewCollectionModel::monitorSourceCollection(SourceCollection* sources)
 {
-    SelectableViewCollection* view = new SelectableViewCollection("MonitorSourceCollection");
-    if (m_defaultComparator != NULL)
-        view->setComparator(m_defaultComparator);
-    view->monitorDataCollection(sources, NULL, (m_defaultComparator == NULL));
-
-    setBackingViewCollection(view);
+    monitorCollection(sources, "MonitorSourceCollection");
 }
 
 /*!
@@ -545,13 +559,47 @@ void QmlViewCollectionModel::monitorSourceCollection(SourceCollection* sources)
  */
 void QmlViewCollectionModel::monitorContainerSource(ContainerSource* container)
 {
-    SelectableViewCollection* view = new SelectableViewCollection("MonitorContainerSource");
+    monitorCollection(container->contained(), "MonitorContainerSource");
+}
+
+/*!
+ * \brief QmlViewCollectionModel::monitorCollection
+ * \param container
+ */
+void QmlViewCollectionModel::monitorCollection(const DataCollection* collection, QString viewName)
+{
+    SelectableViewCollection* view = new SelectableViewCollection(viewName);
     if (m_defaultComparator != NULL)
         view->setComparator(m_defaultComparator);
-    view->monitorDataCollection(container->contained(), NULL,
-                                (m_defaultComparator == NULL));
+    view->monitorDataCollection(collection, this, (m_defaultComparator == NULL));
 
     setBackingViewCollection(view);
+}
+
+MediaSource::MediaType QmlViewCollectionModel::mediaTypeFilter() const
+{
+    return m_mediaTypeFilter;
+}
+
+void QmlViewCollectionModel::setMediaTypeFilter(MediaSource::MediaType mediaTypeFilter)
+{
+    if (m_mediaTypeFilter != mediaTypeFilter) {
+        const DataCollection* collection = 0;
+        QString viewName;
+
+        if (m_view) {
+            collection = m_view->collection();
+            viewName = m_view->toString();
+            disconnectBackingViewCollection();
+        }
+
+        m_mediaTypeFilter = mediaTypeFilter;
+        if (collection) {
+            monitorCollection(collection, viewName);
+        }
+
+        Q_EMIT mediaTypeFilterChanged();
+    }
 }
 
 /*!

@@ -11,6 +11,7 @@
 from testtools.matchers import Equals
 from autopilot.matchers import Eventually
 from autopilot.platform import model
+from autopilot.introspection.dbus import StateNotFoundError
 
 from gallery_app.tests import GalleryTestCase
 from gallery_app.emulators.albums_view import AlbumsView
@@ -47,10 +48,19 @@ class TestAlbumsView(GalleryTestCase):
 
         super(TestAlbumsView, self).tearDown()
 
+    def check_header_button_exist(self, button):
+        header = self.main_view.get_header()
+        buttonName = button + "_header_button"
+        try:
+            header.select_single(objectName=buttonName)
+        except StateNotFoundError:
+            return False
+        return True
+
     def test_add_album(self):
         """Add one album, and checks if the number of albums went up by one"""
         albums = self.albums_view.number_of_albums_in_albums_view()
-        self.main_view.open_toolbar().click_button("addButton")
+        self.main_view.get_header().click_action_button("addButton")
         self.assertThat(
             lambda: self.albums_view.number_of_albums_in_albums_view(),
             Eventually(Equals(albums+1))
@@ -61,10 +71,10 @@ class TestAlbumsView(GalleryTestCase):
         not change
         """
         albums = self.albums_view.number_of_albums_in_albums_view()
-        self.main_view.open_toolbar().click_button("addButton")
+        self.main_view.get_header().click_action_button("addButton")
         editor = self.app.select_single(album_editor.AlbumEditor)
         editor.ensure_fully_open()
-        self.main_view.get_toolbar().click_custom_button("cancelButton")
+        self.main_view.get_header().click_custom_back_button()
         self.assertThat(
             lambda: self.albums_view.number_of_albums_in_albums_view(),
             Eventually(Equals(albums))
@@ -72,13 +82,8 @@ class TestAlbumsView(GalleryTestCase):
 
     # Check if Camera Button is not visible at Desktop mode
     def test_camera_button_visible(self):
-        self.main_view.open_toolbar()
-        toolbar = self.main_view.get_toolbar()
-        cameraButton = toolbar.select_single(
-            "ActionItem",
-            objectName="cameraButton"
-        )
+        cameraButtonVisible = self.check_header_button_exist("cameraButton")
         if model() == "Desktop":
-            self.assertThat(cameraButton.visible, Equals(False))
+            self.assertThat(cameraButtonVisible, Equals(False))
         else:
-            self.assertThat(cameraButton.visible, Equals(True))
+            self.assertThat(cameraButtonVisible, Equals(True))

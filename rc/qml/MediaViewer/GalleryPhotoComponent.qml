@@ -108,25 +108,8 @@ Rectangle {
         //           prevent this segfault & crash from occurring.
         visible: isLoaded;
 
-        //       Note: the max size is limited by OpenGL max. texture size
-
-        //       Note: We want to keep using the source size determined below even
-        //       during scaling animations to prevent extraneous loads and decodes.
-        sourceSize.width: {
-            if (width < 1024)
-                return 1024;
-            else if (mediaSource && width > MAX_GL_TEXTURE_SIZE)
-                return MAX_GL_TEXTURE_SIZE;
-            return width;
-        }
-
-        sourceSize.height: {
-            if (height < 1024)
-                return 1024;
-            else if (mediaSource && height > MAX_GL_TEXTURE_SIZE)
-                return MAX_GL_TEXTURE_SIZE;
-            return height;
-        }
+        sourceSize.width: width
+        sourceSize.height: height
 
         // use cache: !isAnimate setting for flicker-free animations and reflows
         asynchronous: !isAnimate

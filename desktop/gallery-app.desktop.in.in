@@ -1,9 +1,9 @@
 [Desktop Entry]
 Version=1.0
-Name=tr("Gallery")
-GenericName=tr("Ubuntu Photo Viewer")
-X-GNOME-Fullname=tr("Ubuntu Photo Viewer")
-Comment=tr("Browse your photographs")
+_Name=Gallery
+_GenericName=Ubuntu Photo Viewer
+_Comment=Browse your photographs
+_Keywords=Photographs;Pictures;Albums
 Exec=@APP_EXEC@ %u
 Icon=@ICON@
 StartupNotify=true
@@ -13,5 +13,4 @@ MimeType=image/jpg;image/jpeg;
 Categories=Graphics;Photography;RasterGraphics;Viewer;
 X-Ayatana-Appmenu-Show-Stubs=false
 X-Ubuntu-Touch=true
-X-Ubuntu-Gettext-Domain=@GETTEXT_PACKAGE@
 X-Ubuntu-Single-Instance=true

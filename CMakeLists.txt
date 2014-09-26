@@ -45,15 +45,23 @@ pkg_check_modules(MEDIAINFO REQUIRED libmediainfo)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror")
 
+find_program(INTLTOOL_MERGE intltool-merge)
+find_program(INTLTOOL_EXTRACT intltool-extract)
+
 # Standard install paths
 include(GNUInstallDirs)
 
-option(INSTALL_TESTS "Install the tests on make install" on)
-option(CLICK_MODE "Installs to a contained location" off)
+option(INSTALL_TESTS "Install the tests on make install" off)
+option(CLICK_MODE "Installs to a contained location" on)
 
 set(GALLERY gallery-app)
 set(DESKTOP_FILE ${GALLERY}.desktop)
 set(AUTOPILOT_DIR gallery_app)
+set(UBUNTU_MANIFEST_PATH "click/manifest.json.in" CACHE INTERNAL "Relative path to the manifest file")
+
+# make non compiled files visible in qtcreator
+file(GLOB_RECURSE NON_COMPILED_FILES *.qml *.js *.py *.svg *.png *.in *.json *.desktop *.pot *.apparmor qmldir)
+add_custom_target(NON_COMPILED_TARGET ALL SOURCES ${NON_COMPILED_FILES})
 
 if(CLICK_MODE)
     if(NOT DEFINED BZR_SOURCE)
@@ -63,19 +71,14 @@ if(CLICK_MODE)
     set(CMAKE_INSTALL_PREFIX /)
     set(CMAKE_INSTALL_BINDIR /)
     set(GALLERY_DIR "")
-    set(GETTEXT_PACKAGE "${APP_PACKAGE_NAME}")
     add_definitions("-DCLICK_MODE=1")
 else(CLICK_MODE)
     set(GALLERY_DIR ${CMAKE_INSTALL_DATADIR}/${GALLERY})
-	# for dh_translations to extract the domain
-	# (regarding syntax consistency, see http://pad.lv/1181187)
-	set (GETTEXT_PACKAGE "${GALLERY}")
 endif(CLICK_MODE)
 
-file(GLOB_RECURSE I18N_SRC_FILES
-     RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
-     rc/**.qml desktop/**.desktop.in)
-list(SORT I18N_SRC_FILES)
+# for dh_translations to extract the domain
+# (regarding syntax consistency, see http://pad.lv/1181187)
+set (GETTEXT_PACKAGE "${GALLERY}")
 
 # Tests
 enable_testing()

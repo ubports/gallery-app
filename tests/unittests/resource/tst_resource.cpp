@@ -31,51 +31,44 @@ private slots:
     void picturesDirectory();
     void databaseDirectory();
     void thumbnailDirectory();
-    void maxTextureSize();
 };
 
 void tst_Resource::picturesDirectory()
 {
-    Resource resource(false, "", 0);
+    Resource resource(false, "");
     QCOMPARE(resource.mediaDirectories().size(), 2);
     QCOMPARE(resource.mediaDirectories().at(0), QStandardPaths::writableLocation(QStandardPaths::PicturesLocation));
 
     QString picDir("/tmp");
-    Resource resource2(false, picDir, 0);
+    Resource resource2(false, picDir);
     QCOMPARE(resource2.mediaDirectories().size(), 1);
     QCOMPARE(resource2.mediaDirectories().at(0), picDir);
 }
 
 void tst_Resource::databaseDirectory()
 {
-    Resource resource(false, "", 0);
+    Resource resource(false, "");
     QString dbDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) +
             QDir::separator() + Resource::DATABASE_DIR;
     QCOMPARE(resource.databaseDirectory(), dbDir);
 
     QString picDir("/tmp");
-    Resource resource2(false, picDir, 0);
+    Resource resource2(false, picDir);
     dbDir = picDir + "/." + Resource::DATABASE_DIR;
     QCOMPARE(resource2.databaseDirectory(), dbDir);
 }
 
 void tst_Resource::thumbnailDirectory()
 {
-    Resource resource(false, "", 0);
+    Resource resource(false, "");
     QString dbDir = QStandardPaths::writableLocation(QStandardPaths::CacheLocation) +
             QDir::separator() + Resource::THUMBNAIL_DIR;
     QCOMPARE(resource.thumbnailDirectory(), dbDir);
 
     QString picDir("/tmp");
-    Resource resource2(false, picDir, 0);
+    Resource resource2(false, picDir);
     dbDir = picDir + "/." + Resource::THUMBNAIL_DIR;
     QCOMPARE(resource2.thumbnailDirectory(), dbDir);
-}
-
-void tst_Resource::maxTextureSize()
-{
-    Resource resource(false, "", 0);
-    QCOMPARE(resource.maxTextureSize(), 0);
 }
 
 QTEST_MAIN(tst_Resource);

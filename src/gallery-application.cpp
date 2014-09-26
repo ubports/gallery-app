@@ -45,6 +45,7 @@
 
 // util
 #include "command-line-parser.h"
+#include "urlhandler.h"
 #include "resource.h"
 
 #include <QQuickItem>
@@ -66,7 +67,9 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
       m_view(new QQuickView()),
       m_contentCommunicator(new ContentCommunicator(this)),
       m_pickModeEnabled(false),
-      m_defaultUiMode(BrowseContentMode)
+      m_defaultUiMode(BrowseContentMode),
+      m_mediaTypeFilter(MediaSource::None),
+      m_mediaFile("")
 {
     m_bguSize = QProcessEnvironment::systemEnvironment().value("GRID_UNIT_PX", "8").toInt();
     if (m_bguSize <= 0)
@@ -97,9 +100,11 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
         }
     }
 
+    m_urlHandler = new UrlHandler();
+
     registerQML();
 
-    m_galleryManager = new GalleryManager(isDesktopMode(), m_cmdLineParser->picturesDir(), m_view);
+    m_galleryManager = new GalleryManager(isDesktopMode(), m_cmdLineParser->picturesDir());
     m_galleryManager->logImageLoading(m_cmdLineParser->logImageLoading());
     if (m_cmdLineParser->pickModeEnabled())
         setDefaultUiMode(GalleryApplication::PickContentMode);
@@ -107,8 +112,8 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
     QObject::connect(m_galleryManager, SIGNAL(consistencyCheckFinished()),
                      this, SLOT(consistencyCheckFinished()));
 
-    QObject::connect(m_contentCommunicator, SIGNAL(photoRequested()),
-                     this, SLOT(switchToPickMode()));
+    QObject::connect(m_contentCommunicator, SIGNAL(mediaRequested(QString)),
+                     this, SLOT(switchToPickMode(QString)));
 
     if (m_cmdLineParser->startupTimer())
         qDebug() << "Construct GalleryApplication" << m_timer->elapsed() << "ms";
@@ -180,6 +185,15 @@ bool GalleryApplication::isFullScreen() const
 }
 
 /*!
+ * \brief GalleryApplication::getMediaFile
+ * Returns the media file passed as a parameter
+ */
+const QString& GalleryApplication::getMediaFile() const
+{
+    return m_mediaFile;
+}
+
+/*!
  * \brief GalleryApplication::createView
  * Create the master QDeclarativeView that all the pages will operate within
  */
@@ -222,12 +236,10 @@ void GalleryApplication::createView()
         m_view->show();
     }
 
-    // To define maxTextureSize we need to make sure QPA is running and that needs to be called after show
-    rootContext->setContextProperty("MAX_GL_TEXTURE_SIZE",
-                                    QVariant(m_galleryManager->resource()->maxTextureSize()));
-
     if (m_cmdLineParser->startupTimer())
         qDebug() << "GalleryApplication view created" << m_timer->elapsed() << "ms";
+
+    setMediaFile(m_cmdLineParser->mediaFile());
 }
 
 /*!
@@ -292,11 +304,33 @@ bool GalleryApplication::pickModeEnabled() const
 }
 
 /*!
- * \brief GalleryApplication::switchToPickMode
+ * \brief GalleryApplication::contentTypeFilter returns the type of
+ * content to display in the UI. If the empty string is returned then
+ * no content filter is in place.
+ * \return
  */
-void GalleryApplication::switchToPickMode()
+MediaSource::MediaType GalleryApplication::mediaTypeFilter() const
+{
+    return m_mediaTypeFilter;
+}
+
+/*!
+ * \brief GalleryApplication::switchToPickMode
+ * \param QString the type of media to pick or blank string for any type
+ */
+void GalleryApplication::switchToPickMode(QString mediaTypeFilter)
 {
     setUiMode(PickContentMode);
+
+    MediaSource::MediaType newFilter;
+    if (mediaTypeFilter == "pictures") newFilter = MediaSource::Photo;
+    else if (mediaTypeFilter == "videos") newFilter = MediaSource::Video;
+    else newFilter = MediaSource::None;
+
+    if (newFilter != m_mediaTypeFilter) {
+        m_mediaTypeFilter = newFilter;
+        Q_EMIT mediaTypeFilterChanged();
+    }
 }
 
 /*!
@@ -312,6 +346,14 @@ void GalleryApplication::setFullScreen(bool fullScreen)
     }
 
     Q_EMIT fullScreenChanged();
+}
+
+void GalleryApplication::setMediaFile(const QString &mediaFile)
+{
+    if(!mediaFile.isEmpty()) {
+        m_mediaFile = "file://" + mediaFile;
+        Q_EMIT mediaFileChanged();
+    }
 }
 
 /*!
@@ -379,4 +421,11 @@ void GalleryApplication::consistencyCheckFinished()
     // its consistency check, as new images may be added by the import handler
     // during start-up.
     m_contentCommunicator->registerWithHub();
+}
+
+void GalleryApplication::parseUri(const QString &arg)
+{
+    if (m_urlHandler->processUri(arg)) {
+        setMediaFile(m_urlHandler->mediaFile());
+    }
 }

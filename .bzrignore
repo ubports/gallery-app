@@ -1,6 +1,7 @@
 /CMakeLists.txt.user
 /gallery-app.qmlproject.user
 /desktop/gallery-app.desktop
+/desktop/gallery-app.desktop.in
 /src/config.h
 /src/gallery-app
 /tests/unittests/command-line-parser/command-line-parser
@@ -14,6 +15,7 @@
 /tests/unittests/*/test_*.xml
 /Testing
 /po/*.gmo
+/po/desktop
 CMakeCache.txt
 CMakeFiles
 CTestTestfile.cmake

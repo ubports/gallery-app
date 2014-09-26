@@ -29,23 +29,29 @@ ToolbarItems {
     signal startCamera()
 
     ToolbarButton {
-        objectName: "selectButton"
-        text: i18n.tr("Select")
-        iconSource: Qt.resolvedUrl("../../img/select.png")
-        enabled: root.selection !== null
-        onTriggered: root.selection.inSelectionMode = true;
+        action: Action {
+            objectName: "selectButton"
+            text: i18n.tr("Select")
+            iconSource: Qt.resolvedUrl("../../img/select.png")
+            enabled: root.selection !== null
+            onTriggered: root.selection.inSelectionMode = true;
+        }
     }
     ToolbarButton {
         objectName: "importButton"
-        text: i18n.tr("Import")
-        iconSource: Qt.resolvedUrl("../../img/import-image.png")
-        enabled: false
+        action: Action {
+            text: i18n.tr("Import")
+            iconSource: Qt.resolvedUrl("../../img/import-image.png")
+            visible: false
+        }
     }
     ToolbarButton {
-        objectName: "cameraButton"
-        text: i18n.tr("Camera")
-        visible: !APP.desktopMode
-        iconSource: Qt.resolvedUrl("../../img/camera.png")
-        onTriggered: Qt.openUrlExternally("appid://com.ubuntu.camera/camera/current-user-version")
+        action: Action {
+            objectName: "cameraButton"
+            text: i18n.tr("Camera")
+            visible: !APP.desktopMode
+            iconSource: Qt.resolvedUrl("../../img/camera.png")
+            onTriggered: Qt.openUrlExternally("appid://com.ubuntu.camera/camera/current-user-version")
+        }
     }
 }

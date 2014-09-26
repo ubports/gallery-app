@@ -20,10 +20,13 @@
 
 #include "command-line-parser.h"
 
+#include "urlhandler.h"
+
 #include <QDebug>
 #include <QDir>
 #include <QStandardPaths>
 #include <QTextStream>
+#include <QUrl>
 
 CommandLineParser::CommandLineParser(const QHash<QString, QSize>& form_factors)
     : m_startupTimer(false),
@@ -33,8 +36,10 @@ CommandLineParser::CommandLineParser(const QHash<QString, QSize>& form_factors)
       m_pickMode(false),
       m_logImageLoading(false),
       m_formFactors(form_factors),
-      m_formFactor("desktop")
+      m_formFactor("desktop"),
+      m_mediaFile("")
 {
+    m_urlHandler = new UrlHandler();
 }
 
 /*!
@@ -72,6 +77,25 @@ bool CommandLineParser::processArguments(const QStringList& args)
         else if (args[i] == "--pick-mode") {
             m_pickMode = true;
         }
+        else if (args[i] == "--media-file") {
+            if (!value.isEmpty()) {
+                QFileInfo fi(value);
+
+                if (fi.exists())
+                    m_mediaFile = fi.absoluteFilePath();
+                else {
+                    QTextStream(stderr) << m_mediaFile << ": Not found" << endl;
+                    valid_args = false;
+                }
+
+                i++;
+            }
+            else {
+                QTextStream(stderr) << "Missing FILE argument for --media-file'" << endl;
+                usage();
+                valid_args = false;
+            }
+        }
         else {
             QString form_factor = args[i].mid(2); // minus initial "--"
 
@@ -80,6 +104,9 @@ bool CommandLineParser::processArguments(const QStringList& args)
             }
             else if (args[i].startsWith("--desktop_file_hint")) {
                 // ignore this command line switch, hybris uses it to get application info
+            }
+            else if (m_urlHandler->processUri(args.at(i))) {
+                m_mediaFile = m_urlHandler->mediaFile();
             }
             else if (i == args.count() - 1 && QDir(args[i]).exists()) {
                 m_picturesDir = args[i];
@@ -112,6 +139,7 @@ void CommandLineParser::usage()
     out << "  --startup-timer\n\t\tdebug-print startup time" << endl;
     out << "  --log-image-loading\n\t\tlog image loading" << endl;
     out << "  --pick-mode\n\t\tEnable mode to pick photos" << endl;
+    out << "  --media-file FILE\n\t\tOpens gallery displaying the selected file" << endl;
     out << "pictures_dir defaults to ~/Pictures, and must exist prior to running gallery" << endl;
 }
 

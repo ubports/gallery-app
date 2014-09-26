@@ -15,7 +15,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 import Gallery 1.0
 import "Components"
 import "OrganicView"
@@ -29,19 +29,37 @@ MainView {
     id: pickerMainView
     objectName: "pickerMainView"
 
-    /// Model of all media
-    property MediaCollectionModel mediaLibrary: MediaCollectionModel {
-        monitored: true
+    useDeprecatedToolbar: false
+
+    Loader {
+        id: mediaLibraryLoader
+        sourceComponent: allLoaded ? mediaLibraryComponent : ""        
+
+        Component {
+            id: mediaLibraryComponent
+            MediaCollectionModel {
+                monitored: true
+                mediaTypeFilter: APP.mediaTypeFilter
+            }
+        }
     }
-    /// Holds the selection
-    property SelectionState selection: SelectionState {
-        inSelectionMode: true
-        singleSelect: PICKER_HUB.singleContentPickMode
-        model: mediaLibrary
+
+    Loader {
+        id: selectionLoader
+        sourceComponent: allLoaded ? selectionComponent : ""
+      
+        Component {
+            id: selectionComponent
+            SelectionState {
+                inSelectionMode: true
+                singleSelect: PICKER_HUB.singleContentPickMode
+                model: mediaLibraryLoader.item
+            }
+        }
     }
 
     anchors.fill: parent
-    applicationName: "gallery-app"
+    applicationName: "com.ubuntu.gallery"
     automaticOrientation: application.automaticOrientation
 
     Tabs {
@@ -53,19 +71,33 @@ MainView {
         Tab {
             title: i18n.tr("Events")
             objectName: "eventsTab"
-            page: OrganicView {
-                id: eventSelectView
-                objectName: "eventSelectView"
+            page: Loader {
+                id: eventSelectViewLoader
+                objectName: 'eventSelectViewLoader'
+                anchors.fill: parent
+                sourceComponent: allLoaded ? eventSelectViewComponent : loadingScreenComponent
 
-                tools: pickTools
-                selection: pickerMainView.selection
-                model: EventCollectionModel {
-                }
+                Component {
+                    id: eventSelectViewComponent
 
-                delegate: OrganicMediaList {
-                    width: eventSelectView.width
-                    event: model.event
-                    selection: eventSelectView.selection
+                    OrganicView {
+                        id: eventSelectView
+                        objectName: "eventSelectView"
+
+                        head.actions: pickActions
+
+                        selection: allLoaded ? selectionLoader.item : ""
+                        model: EventCollectionModel {
+                            mediaTypeFilter: APP.mediaTypeFilter
+                        }
+
+                        delegate: OrganicMediaList {
+                            width: eventSelectView.width
+                            event: model.event
+                            selection: eventSelectView.selection
+                            mediaTypeFilter: APP.mediaTypeFilter
+                        }
+                    }
                 }
             }
         }
@@ -73,52 +105,64 @@ MainView {
         Tab {
             title: i18n.tr("Photos")
             objectName: "photosTab"
-            page: Page {
-                id: photosOverview
+            page: Loader {
+                id: photosOverviewLoader
+                objectName: 'photosOverviewLoader'
+                anchors.fill: parent
+                sourceComponent: allLoaded ? photosOverviewComponent : loadingScreenComponent
 
-                tools: pickTools
+                Component {
+                    id: photosOverviewComponent
+            
+                    Page {
+                        id: photosOverview
+                        objectName: "photosPage"
 
-                Image {
-                    anchors.fill: parent
-                    source: "../img/background-paper.png"
-                    fillMode: Image.Tile
-                }
+                        head.actions: pickActions
 
-                MediaGrid {
-                    anchors.fill: parent
-                    model: mediaLibrary
-                    selection: pickerMainView.selection
+                        Image {
+                            anchors.fill: parent
+                            source: "../img/background-paper.png"
+                            fillMode: Image.Tile
+                        }
+
+                        MediaGrid {
+                            anchors.fill: parent
+                            model: allLoaded ? mediaLibraryLoader.item : ""
+                            selection: allLoaded ? selectionLoader.item : ""
+                        }
+                    }
                 }
             }
         }
     }
 
-    property ToolbarItems pickTools: ToolbarItems {
-        Button {
-            anchors.verticalCenter: parent.verticalCenter
+    Component {
+        id: loadingScreenComponent
+        LoadingScreen {
+            id: loadingScreen
+            anchors.fill: parent
+        }
+    }
+
+    property list<Action> pickActions: [
+        Action {
             text: i18n.tr("Pick")
             objectName: "pickButton"
-            color: Gallery.HIGHLIGHT_BUTTON_COLOR
-            width: units.gu(16)
-            enabled: pickerMainView.selection.selectedCount > 0
-            onClicked: {
+            enabled: allLoaded ? selectionLoader.item.selectedCount > 0 : false
+            iconName: "ok"
+            onTriggered: {
                 if (!enabled)
                     return;
-
-                APP.returnPickedContent(mediaLibrary.selectedMedias);
+                if (allLoaded)
+                    APP.returnPickedContent(mediaLibraryLoader.item.selectedMedias);
             }
-        }
-
-        back: Button {
-            anchors.verticalCenter: parent.verticalCenter
+        },
+        Action {
             text: i18n.tr("Cancel")
             objectName: "cancelButton"
-            width: units.gu(10)
-            onClicked: {
-                APP.contentPickingCanceled()
-            }
+            iconName: "close"
+            onTriggered: APP.contentPickingCanceled()
         }
-        opened: true
-        locked: true
-    }
+    ]
 }

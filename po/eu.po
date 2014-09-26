@@ -1,0 +1,336 @@
+# Basque translation for gallery-app
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# This file is distributed under the same license as the gallery-app package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gallery-app\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-09-16 14:16+0200\n"
+"PO-Revision-Date: 2014-09-18 14:25+0000\n"
+"Last-Translator: Ibai Oihanguren Sala <Unknown>\n"
+"Language-Team: Basque <eu@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2014-09-19 08:07+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
+
+#: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
+#: rc/qml/AlbumEditor/AlbumEditor.qml:35
+msgid "Edit album"
+msgstr "Editatu albuma"
+
+#: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
+#: rc/qml/AlbumViewer/AlbumViewer.qml:369
+#: rc/qml/Components/DeleteDialog.qml:32
+#: rc/qml/MediaViewer/MediaViewer.qml:491
+#: rc/qml/MediaViewer/MediaViewer.qml:532 rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/Utility/SelectionToolbarAction.qml:56
+msgid "Delete"
+msgstr "Ezabatu"
+
+#: rc/qml/AlbumEditor/AlbumEditor.qml:38
+#: rc/qml/Components/MediaSelector.qml:92
+#: rc/qml/MediaViewer/MediaViewer.qml:320 rc/qml/PickerScreen.qml:117
+#: rc/qml/Utility/SelectionToolbarAction.qml:75
+msgid "Cancel"
+msgstr "Utzi"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:113
+msgid "Default"
+msgstr "Lehenetsia"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:114
+msgid "Blue"
+msgstr "Urdina"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:115
+msgid "Green"
+msgstr "Berdea"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:116
+msgid "Pattern"
+msgstr "Eredua"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:117
+msgid "Red"
+msgstr "Gorria"
+
+#: rc/qml/AlbumViewer/AlbumViewer.qml:103
+msgid "Album"
+msgstr "Albuma"
+
+#: rc/qml/AlbumViewer/AlbumViewer.qml:363
+#: rc/qml/MediaViewer/MediaViewer.qml:481
+#: rc/qml/MediaViewer/MediaViewer.qml:523
+msgid "Add to album"
+msgstr "Gehitu albumari"
+
+#: rc/qml/AlbumsOverview.qml:225 rc/qml/Components/PopupAlbumPicker.qml:91
+msgid "Add new album"
+msgstr "Gehitu album berria"
+
+#: rc/qml/AlbumsOverview.qml:229 rc/qml/Components/PopupAlbumPicker.qml:101
+msgid "New Photo Album"
+msgstr "Argazki-album berria"
+
+#: rc/qml/AlbumsOverview.qml:230 rc/qml/Components/PopupAlbumPicker.qml:102
+msgid "Subtitle"
+msgstr "Azpititulua"
+
+#: rc/qml/AlbumsOverview.qml:239 rc/qml/Utility/EditingHUD.qml:77
+#: rc/qml/Utility/SelectionToolbarAction.qml:47
+msgid "Add"
+msgstr "Gehitu"
+
+#: rc/qml/AlbumsOverview.qml:244 rc/qml/Utility/PhotosToolbarActions.qml:51
+msgid "Camera"
+msgstr "Kamera"
+
+#: rc/qml/Components/DeleteDialog.qml:36
+#: rc/qml/MediaViewer/MediaViewer.qml:268
+msgid "Yes"
+msgstr "Bai"
+
+#: rc/qml/Components/DeleteDialog.qml:45
+#: rc/qml/MediaViewer/MediaViewer.qml:279
+msgid "No"
+msgstr "Ez"
+
+#: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
+msgid "Delete album"
+msgstr "Ezabatu albuma"
+
+#: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
+msgid "Delete album + contents"
+msgstr "Ezabatu albuma + edukiak"
+
+#: rc/qml/Components/MediaSelector.qml:59
+#: rc/qml/Components/MediaSelector.qml:80
+msgid "Add to Album"
+msgstr "Gehitu albumari"
+
+#: rc/qml/Components/PopupAlbumPicker.qml:161 rc/qml/Utility/EditingHUD.qml:78
+msgid "Add Photo to Album"
+msgstr "Gehitu argazkia albumari"
+
+#: rc/qml/LoadingScreen.qml:46
+msgid "Loading…"
+msgstr "Kargatzen..."
+
+#: rc/qml/MainScreen.qml:98
+msgid "Albums"
+msgstr "Albumak"
+
+#: rc/qml/MainScreen.qml:115 rc/qml/MainScreen.qml:138
+#: rc/qml/PickerScreen.qml:57
+msgid "Events"
+msgstr "Gertaerak"
+
+#: rc/qml/MainScreen.qml:136 rc/qml/MainScreen.qml:180
+#: rc/qml/Utility/PhotosToolbarActions.qml:34
+msgid "Select"
+msgstr "Hautatu"
+
+#: rc/qml/MainScreen.qml:148 rc/qml/MainScreen.qml:182
+#: rc/qml/PickerScreen.qml:80
+msgid "Photos"
+msgstr "Argazkiak"
+
+#: rc/qml/MediaViewer/CropOverlay.qml:352
+#: rc/qml/MediaViewer/EditPopover.qml:51 rc/qml/Utility/EditingHUD.qml:106
+msgid "Crop"
+msgstr "Moztu"
+
+#: rc/qml/MediaViewer/EditPopover.qml:42 rc/qml/Utility/EditingHUD.qml:99
+msgid "Rotate"
+msgstr "Biratu"
+
+#: rc/qml/MediaViewer/EditPopover.qml:60
+msgid "Auto enhance"
+msgstr "Automatikoki hobetu"
+
+#: rc/qml/MediaViewer/EditPopover.qml:69 rc/qml/Utility/EditingHUD.qml:82
+msgid "Undo"
+msgstr "Desegin"
+
+#: rc/qml/MediaViewer/EditPopover.qml:79 rc/qml/Utility/EditingHUD.qml:87
+msgid "Redo"
+msgstr "Berregin"
+
+#: rc/qml/MediaViewer/EditPopover.qml:89
+msgid "Revert to original"
+msgstr "Leheneratu jatorrizkora"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:257 rc/qml/PhotosOverview.qml:75
+msgid "Delete a photo"
+msgstr "Ezabatu argazki bat"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:290
+msgid "Remove a photo from album"
+msgstr "Kendu argazki bat albumetik"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:299
+msgid "Remove from Album"
+msgstr "Kendu albumetik"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:310
+msgid "Remove from Album and Delete"
+msgstr "Kendu albumetik eta ezabatu"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:475
+msgid "Edit"
+msgstr "Editatu"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:502
+#: rc/qml/MediaViewer/MediaViewer.qml:542
+msgid "Share photo"
+msgstr "Partekatu argazkia"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:514
+msgid "Pause"
+msgstr "Pausatu"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:514
+msgid "Play"
+msgstr "Erreproduzitu"
+
+#: rc/qml/MediaViewer/PopupPhotoViewer.qml:56
+#: desktop/gallery-app.desktop.in.in.h:1
+msgid "Gallery"
+msgstr "Galeria"
+
+#: rc/qml/PhotosOverview.qml:74
+msgid "Delete photos"
+msgstr "Ezabatu argazkiak"
+
+#: rc/qml/PickerScreen.qml:105
+msgid "Pick"
+msgstr "Aukeratu"
+
+#: rc/qml/Utility/EditingHUD.qml:68
+msgid "Trash;Erase"
+msgstr "Zakarrontzia;Ezabatu"
+
+#: rc/qml/Utility/EditingHUD.qml:72
+#: rc/qml/Utility/SelectionToolbarAction.qml:65
+msgid "Share"
+msgstr "Partekatu"
+
+#: rc/qml/Utility/EditingHUD.qml:73
+msgid "Post;Upload;Attach"
+msgstr "Bidali;Igo;Erantsi"
+
+#: rc/qml/Utility/EditingHUD.qml:83
+msgid "Cancel Action;Backstep"
+msgstr "Utzi ekintza;Atzera egin"
+
+#: rc/qml/Utility/EditingHUD.qml:88
+msgid "Reapply;Make Again"
+msgstr "Berriro aplikatu;Berregin"
+
+#: rc/qml/Utility/EditingHUD.qml:92
+msgid "Auto Enhance"
+msgstr "Automatikoki hobetu"
+
+#: rc/qml/Utility/EditingHUD.qml:93
+msgid "Adjust the image automatically"
+msgstr "Doitu irudia automatikoki"
+
+#: rc/qml/Utility/EditingHUD.qml:94
+msgid "Automatically Adjust Photo"
+msgstr "Doitu argazkia automatikoki"
+
+#: rc/qml/Utility/EditingHUD.qml:100
+msgid "Turn Clockwise"
+msgstr "Biratu erloju-orratzen norantzan"
+
+#: rc/qml/Utility/EditingHUD.qml:101
+msgid "Rotate the image clockwise"
+msgstr "Biratu irudia erloju-orratzen norantzan"
+
+#: rc/qml/Utility/EditingHUD.qml:107
+msgid "Trim;Cut"
+msgstr "Moztu;Ebaki"
+
+#: rc/qml/Utility/EditingHUD.qml:108
+msgid "Crop the image"
+msgstr "Moztu irudia"
+
+#: rc/qml/Utility/EditingHUD.qml:113
+msgid "Revert to Original"
+msgstr "Leheneratu jatorrizkora"
+
+#: rc/qml/Utility/EditingHUD.qml:114
+msgid "Discard Changes"
+msgstr "Baztertu aldaketak"
+
+#: rc/qml/Utility/EditingHUD.qml:115
+msgid "Discard all changes"
+msgstr "Baztertu aldaketa guztiak"
+
+#: rc/qml/Utility/EditingHUD.qml:119
+msgid "Exposure"
+msgstr "Esposizioa"
+
+#: rc/qml/Utility/EditingHUD.qml:120
+msgid "Adjust the exposure"
+msgstr "Doitu esposizioa"
+
+#: rc/qml/Utility/EditingHUD.qml:121
+msgid "Underexposed;Overexposed"
+msgstr "Gainesposizioa;Azpiesposizioa"
+
+#: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
+msgid "Confirm"
+msgstr "Berretsi"
+
+#: rc/qml/Utility/EditingHUD.qml:126
+msgid "Compensation"
+msgstr "Konpentsazioa"
+
+#: rc/qml/Utility/EditingHUD.qml:160
+msgid "Color Balance"
+msgstr "Kolore-balantzea"
+
+#: rc/qml/Utility/EditingHUD.qml:161
+msgid "Adjust color balance"
+msgstr "Doitu kolore-balantzea"
+
+#: rc/qml/Utility/EditingHUD.qml:162
+msgid "Saturation;Hue"
+msgstr "Asetasuna;Ñabardura"
+
+#: rc/qml/Utility/EditingHUD.qml:167
+msgid "Brightness"
+msgstr "Distira"
+
+#: rc/qml/Utility/EditingHUD.qml:178
+msgid "Contrast"
+msgstr "Kontrastea"
+
+#: rc/qml/Utility/EditingHUD.qml:189
+msgid "Saturation"
+msgstr "Asetasuna"
+
+#: rc/qml/Utility/EditingHUD.qml:200
+msgid "Hue"
+msgstr "Ñabardura"
+
+#: rc/qml/Utility/PhotosToolbarActions.qml:43
+msgid "Import"
+msgstr "Inportatu"
+
+#: desktop/gallery-app.desktop.in.in.h:2
+msgid "Ubuntu Photo Viewer"
+msgstr "Ubunturen argazki-ikustailea"
+
+#: desktop/gallery-app.desktop.in.in.h:3
+msgid "Browse your photographs"
+msgstr "Arakatu zure argazkiak"
+
+#: desktop/gallery-app.desktop.in.in.h:4
+msgid "Photographs;Pictures;Albums"
+msgstr "Argazkiak;Irudiak;Albumak"

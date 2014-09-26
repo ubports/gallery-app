@@ -55,18 +55,40 @@ void ContentCommunicator::handle_import(content::Transfer *transfer)
     QVector<Item> transferedItems = transfer->collect();
     foreach (const Item &hubItem, transferedItems) {
         QFileInfo fi(hubItem.url().toLocalFile());
-        QString destination = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + fi.fileName();
+        QString filename = fi.fileName();
+        QString dir;
+        QMimeDatabase mdb;
+        QMimeType mt = mdb.mimeTypeForFile(hubItem.url().toLocalFile());
+        QString suffix = fi.completeSuffix();
+        QString filenameWithoutSuffix = filename.left(filename.size() - suffix.size());
+        if(suffix.isEmpty()) {
+            // If the filename doesn't have an extension add one from the
+            // detected mimetype
+            if(!mt.preferredSuffix().isEmpty()) {
+                suffix = mt.preferredSuffix();
+                filenameWithoutSuffix += ".";
+            }
+        }
+        if(mt.name().startsWith("video/")) {
+            dir = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation) + QDir::separator();
+        } else {
+            dir = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator();
+        }
+        QString destination = QString("%1%2").arg(dir + filenameWithoutSuffix, suffix);
+        // If we already have a file of this name reformat to "filename.x.png"
+        // (where x is a number, incremented until we find an available filename)
         if(QFile::exists(destination)) {
             int append = 1;
-            QString newDestination;
             do {
-                newDestination = destination + "." + QString::number(append);
+                destination = QString("%1%2.%3").arg(dir + filenameWithoutSuffix, QString::number(append), suffix);
                 append++;
-            } while(QFile::exists(newDestination));
-            destination = newDestination;
+            } while(QFile::exists(destination));
         }
         QFile::copy(hubItem.url().toLocalFile(), destination);
     }
+    // Allow content-hub to clean up temporary files in .cache/ once we've
+    // moved them
+    transfer->finalize();
 }
 
 /*!
@@ -81,7 +103,7 @@ void ContentCommunicator::handle_export(content::Transfer *transfer)
     }
 
     m_transfer = transfer;
-    emit photoRequested();
+    emit mediaRequested(transfer->contentType());
     emit selectionTypeChanged();
     emit singleContentPickModeChanged();
 }

@@ -1,0 +1,336 @@
+# Telugu translation for gallery-app
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# This file is distributed under the same license as the gallery-app package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gallery-app\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-09-16 14:16+0200\n"
+"PO-Revision-Date: 2014-07-19 10:11+0000\n"
+"Last-Translator: Praveen Illa <mail2ipn@gmail.com>\n"
+"Language-Team: Telugu <te@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2014-09-19 08:07+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
+
+#: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
+#: rc/qml/AlbumEditor/AlbumEditor.qml:35
+msgid "Edit album"
+msgstr "ఆల్బమ్ సవరించు"
+
+#: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
+#: rc/qml/AlbumViewer/AlbumViewer.qml:369
+#: rc/qml/Components/DeleteDialog.qml:32
+#: rc/qml/MediaViewer/MediaViewer.qml:491
+#: rc/qml/MediaViewer/MediaViewer.qml:532 rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/Utility/SelectionToolbarAction.qml:56
+msgid "Delete"
+msgstr "తీసివేయు"
+
+#: rc/qml/AlbumEditor/AlbumEditor.qml:38
+#: rc/qml/Components/MediaSelector.qml:92
+#: rc/qml/MediaViewer/MediaViewer.qml:320 rc/qml/PickerScreen.qml:117
+#: rc/qml/Utility/SelectionToolbarAction.qml:75
+msgid "Cancel"
+msgstr "రద్దుచేయి"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:113
+msgid "Default"
+msgstr "అప్రమేయం"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:114
+msgid "Blue"
+msgstr "నీలం"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:115
+msgid "Green"
+msgstr "పచ్చ"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:116
+msgid "Pattern"
+msgstr "సరళి"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:117
+msgid "Red"
+msgstr "ఎరుపు"
+
+#: rc/qml/AlbumViewer/AlbumViewer.qml:103
+msgid "Album"
+msgstr "ఆల్బమ్"
+
+#: rc/qml/AlbumViewer/AlbumViewer.qml:363
+#: rc/qml/MediaViewer/MediaViewer.qml:481
+#: rc/qml/MediaViewer/MediaViewer.qml:523
+msgid "Add to album"
+msgstr "ఆల్బమ్​కు చేర్చు"
+
+#: rc/qml/AlbumsOverview.qml:225 rc/qml/Components/PopupAlbumPicker.qml:91
+msgid "Add new album"
+msgstr "కొత్త ఆల్బమ్​ను చేర్చు"
+
+#: rc/qml/AlbumsOverview.qml:229 rc/qml/Components/PopupAlbumPicker.qml:101
+msgid "New Photo Album"
+msgstr ""
+
+#: rc/qml/AlbumsOverview.qml:230 rc/qml/Components/PopupAlbumPicker.qml:102
+msgid "Subtitle"
+msgstr ""
+
+#: rc/qml/AlbumsOverview.qml:239 rc/qml/Utility/EditingHUD.qml:77
+#: rc/qml/Utility/SelectionToolbarAction.qml:47
+msgid "Add"
+msgstr "జతచేయి"
+
+#: rc/qml/AlbumsOverview.qml:244 rc/qml/Utility/PhotosToolbarActions.qml:51
+msgid "Camera"
+msgstr "కెమేరా"
+
+#: rc/qml/Components/DeleteDialog.qml:36
+#: rc/qml/MediaViewer/MediaViewer.qml:268
+msgid "Yes"
+msgstr "అవును"
+
+#: rc/qml/Components/DeleteDialog.qml:45
+#: rc/qml/MediaViewer/MediaViewer.qml:279
+msgid "No"
+msgstr "వద్దు"
+
+#: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
+msgid "Delete album"
+msgstr "ఆల్బమ్ తొలగించు"
+
+#: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
+msgid "Delete album + contents"
+msgstr ""
+
+#: rc/qml/Components/MediaSelector.qml:59
+#: rc/qml/Components/MediaSelector.qml:80
+msgid "Add to Album"
+msgstr ""
+
+#: rc/qml/Components/PopupAlbumPicker.qml:161 rc/qml/Utility/EditingHUD.qml:78
+msgid "Add Photo to Album"
+msgstr ""
+
+#: rc/qml/LoadingScreen.qml:46
+msgid "Loading…"
+msgstr "లోడవుతోంది…"
+
+#: rc/qml/MainScreen.qml:98
+msgid "Albums"
+msgstr "ఆల్బమ్లు"
+
+#: rc/qml/MainScreen.qml:115 rc/qml/MainScreen.qml:138
+#: rc/qml/PickerScreen.qml:57
+msgid "Events"
+msgstr "కార్యక్రమాలు"
+
+#: rc/qml/MainScreen.qml:136 rc/qml/MainScreen.qml:180
+#: rc/qml/Utility/PhotosToolbarActions.qml:34
+msgid "Select"
+msgstr "ఎంచుకోండి"
+
+#: rc/qml/MainScreen.qml:148 rc/qml/MainScreen.qml:182
+#: rc/qml/PickerScreen.qml:80
+msgid "Photos"
+msgstr "ఛాయాచిత్రాలు"
+
+#: rc/qml/MediaViewer/CropOverlay.qml:352
+#: rc/qml/MediaViewer/EditPopover.qml:51 rc/qml/Utility/EditingHUD.qml:106
+msgid "Crop"
+msgstr "కత్తిరించు"
+
+#: rc/qml/MediaViewer/EditPopover.qml:42 rc/qml/Utility/EditingHUD.qml:99
+msgid "Rotate"
+msgstr "తిప్పు"
+
+#: rc/qml/MediaViewer/EditPopover.qml:60
+msgid "Auto enhance"
+msgstr ""
+
+#: rc/qml/MediaViewer/EditPopover.qml:69 rc/qml/Utility/EditingHUD.qml:82
+msgid "Undo"
+msgstr ""
+
+#: rc/qml/MediaViewer/EditPopover.qml:79 rc/qml/Utility/EditingHUD.qml:87
+msgid "Redo"
+msgstr ""
+
+#: rc/qml/MediaViewer/EditPopover.qml:89
+msgid "Revert to original"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:257 rc/qml/PhotosOverview.qml:75
+msgid "Delete a photo"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:290
+msgid "Remove a photo from album"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:299
+msgid "Remove from Album"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:310
+msgid "Remove from Album and Delete"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:475
+msgid "Edit"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:502
+#: rc/qml/MediaViewer/MediaViewer.qml:542
+msgid "Share photo"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:514
+msgid "Pause"
+msgstr "నిలిపివేయి"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:514
+msgid "Play"
+msgstr ""
+
+#: rc/qml/MediaViewer/PopupPhotoViewer.qml:56
+#: desktop/gallery-app.desktop.in.in.h:1
+msgid "Gallery"
+msgstr "చిత్రశాల"
+
+#: rc/qml/PhotosOverview.qml:74
+msgid "Delete photos"
+msgstr ""
+
+#: rc/qml/PickerScreen.qml:105
+msgid "Pick"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:68
+msgid "Trash;Erase"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:72
+#: rc/qml/Utility/SelectionToolbarAction.qml:65
+msgid "Share"
+msgstr "పంచుకోండి"
+
+#: rc/qml/Utility/EditingHUD.qml:73
+msgid "Post;Upload;Attach"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:83
+msgid "Cancel Action;Backstep"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:88
+msgid "Reapply;Make Again"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:92
+msgid "Auto Enhance"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:93
+msgid "Adjust the image automatically"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:94
+msgid "Automatically Adjust Photo"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:100
+msgid "Turn Clockwise"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:101
+msgid "Rotate the image clockwise"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:107
+msgid "Trim;Cut"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:108
+msgid "Crop the image"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:113
+msgid "Revert to Original"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:114
+msgid "Discard Changes"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:115
+msgid "Discard all changes"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:119
+msgid "Exposure"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:120
+msgid "Adjust the exposure"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:121
+msgid "Underexposed;Overexposed"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
+msgid "Confirm"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:126
+msgid "Compensation"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:160
+msgid "Color Balance"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:161
+msgid "Adjust color balance"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:162
+msgid "Saturation;Hue"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:167
+msgid "Brightness"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:178
+msgid "Contrast"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:189
+msgid "Saturation"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:200
+msgid "Hue"
+msgstr ""
+
+#: rc/qml/Utility/PhotosToolbarActions.qml:43
+msgid "Import"
+msgstr ""
+
+#: desktop/gallery-app.desktop.in.in.h:2
+msgid "Ubuntu Photo Viewer"
+msgstr "ఉబుంటు ఛాయాచిత్ర చూపకం"
+
+#: desktop/gallery-app.desktop.in.in.h:3
+msgid "Browse your photographs"
+msgstr "మీ ఛాయాచిత్రాలను విహరించండి"
+
+#: desktop/gallery-app.desktop.in.in.h:4
+msgid "Photographs;Pictures;Albums"
+msgstr ""

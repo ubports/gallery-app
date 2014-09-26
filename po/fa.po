@@ -7,317 +7,330 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-05-09 16:45-0300\n"
-"PO-Revision-Date: 2013-11-01 11:37+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-09-16 14:16+0200\n"
+"PO-Revision-Date: 2014-09-19 21:13+0000\n"
+"Last-Translator: Danial Behzadi <dani.behzi@gmail.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-06-26 07:09+0000\n"
-"X-Generator: Launchpad (build 17065)\n"
-
-#: desktop/gallery-app.desktop.in:3 rc/qml/MediaViewer/PopupPhotoViewer.qml:65
-msgid "Gallery"
-msgstr ""
-
-#: desktop/gallery-app.desktop.in:4 desktop/gallery-app.desktop.in:5
-msgid "Ubuntu Photo Viewer"
-msgstr ""
-
-#: desktop/gallery-app.desktop.in:6
-msgid "Browse your photographs"
-msgstr ""
+"X-Launchpad-Export-Date: 2014-09-20 06:30+0000\n"
+"X-Generator: Launchpad (build 17196)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
+#: rc/qml/AlbumEditor/AlbumEditor.qml:35
 msgid "Edit album"
-msgstr ""
+msgstr "ویرایش آلبوم"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
-#: rc/qml/AlbumViewer/AlbumViewer.qml:439
-#: rc/qml/MediaViewer/MediaViewer.qml:488
-#: rc/qml/MediaViewer/MediaViewer.qml:494
-#: rc/qml/MediaViewer/MediaViewer.qml:548 rc/qml/Utility/EditingHUD.qml:67
-#: rc/qml/Utility/SelectionToolbarAction.qml:51
+#: rc/qml/AlbumViewer/AlbumViewer.qml:369
+#: rc/qml/Components/DeleteDialog.qml:32
+#: rc/qml/MediaViewer/MediaViewer.qml:491
+#: rc/qml/MediaViewer/MediaViewer.qml:532 rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/Utility/SelectionToolbarAction.qml:56
 msgid "Delete"
-msgstr ""
+msgstr "حذف"
 
-#: rc/qml/AlbumEditor/AlbumEditor.qml:40
-#: rc/qml/Components/MediaSelector.qml:90 rc/qml/PickerScreen.qml:114
-#: rc/qml/Utility/SelectionToolbarAction.qml:66
+#: rc/qml/AlbumEditor/AlbumEditor.qml:38
+#: rc/qml/Components/MediaSelector.qml:92
+#: rc/qml/MediaViewer/MediaViewer.qml:320 rc/qml/PickerScreen.qml:117
+#: rc/qml/Utility/SelectionToolbarAction.qml:75
 msgid "Cancel"
-msgstr ""
+msgstr "لغو"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
-msgstr ""
+msgstr "پیش‌گزیده"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:114
 msgid "Blue"
-msgstr ""
+msgstr "آبی"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:115
 msgid "Green"
-msgstr ""
+msgstr "سبز"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:116
 msgid "Pattern"
-msgstr ""
+msgstr "الگو"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:117
 msgid "Red"
-msgstr ""
+msgstr "قرمز"
 
-#: rc/qml/AlbumViewer/AlbumViewer.qml:84
+#: rc/qml/AlbumViewer/AlbumViewer.qml:103
 msgid "Album"
-msgstr ""
+msgstr "آلبوم"
 
-#: rc/qml/AlbumViewer/AlbumViewer.qml:428
+#: rc/qml/AlbumViewer/AlbumViewer.qml:363
+#: rc/qml/MediaViewer/MediaViewer.qml:481
+#: rc/qml/MediaViewer/MediaViewer.qml:523
 msgid "Add to album"
-msgstr ""
+msgstr "افزودن به آلبوم"
 
-#: rc/qml/AlbumViewer/AlbumViewer.qml:434
-#: rc/qml/MediaViewer/MediaViewer.qml:483
-#: rc/qml/MediaViewer/MediaViewer.qml:538 rc/qml/Utility/EditingHUD.qml:77
-#: rc/qml/Utility/SelectionToolbarAction.qml:44
-msgid "Add"
-msgstr ""
-
-#: rc/qml/AlbumViewer/AlbumViewer.qml:448
-#: rc/qml/MediaViewer/MediaViewer.qml:512
-#: rc/qml/MediaViewer/MediaViewer.qml:567
-msgid "Back"
-msgstr ""
-
-#: rc/qml/AlbumsOverview.qml:186 rc/qml/Components/PopupAlbumPicker.qml:91
+#: rc/qml/AlbumsOverview.qml:225 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
-msgstr ""
+msgstr "افزودن آلبوم جدید"
 
-#: rc/qml/AlbumsOverview.qml:204 rc/qml/Utility/PhotosToolbarActions.qml:46
+#: rc/qml/AlbumsOverview.qml:229 rc/qml/Components/PopupAlbumPicker.qml:101
+msgid "New Photo Album"
+msgstr "آلبوم عکس جدید"
+
+#: rc/qml/AlbumsOverview.qml:230 rc/qml/Components/PopupAlbumPicker.qml:102
+msgid "Subtitle"
+msgstr "زیرنویس"
+
+#: rc/qml/AlbumsOverview.qml:239 rc/qml/Utility/EditingHUD.qml:77
+#: rc/qml/Utility/SelectionToolbarAction.qml:47
+msgid "Add"
+msgstr "افزودن"
+
+#: rc/qml/AlbumsOverview.qml:244 rc/qml/Utility/PhotosToolbarActions.qml:51
 msgid "Camera"
-msgstr ""
+msgstr "دوربین"
 
 #: rc/qml/Components/DeleteDialog.qml:36
-#: rc/qml/MediaViewer/MediaViewer.qml:297
+#: rc/qml/MediaViewer/MediaViewer.qml:268
 msgid "Yes"
-msgstr ""
+msgstr "بله"
 
 #: rc/qml/Components/DeleteDialog.qml:45
-#: rc/qml/MediaViewer/MediaViewer.qml:308
+#: rc/qml/MediaViewer/MediaViewer.qml:279
 msgid "No"
-msgstr ""
+msgstr "خیر"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr ""
+msgstr "حذف آلبوم"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr ""
+msgstr "حذف آلبوم به همراه محتویات"
 
-#: rc/qml/Components/MediaSelector.qml:56
-#: rc/qml/Components/MediaSelector.qml:78
+#: rc/qml/Components/MediaSelector.qml:59
+#: rc/qml/Components/MediaSelector.qml:80
 msgid "Add to Album"
-msgstr ""
+msgstr "افزودن به آلبوم"
 
-#: rc/qml/Components/PopupAlbumPicker.qml:159 rc/qml/Utility/EditingHUD.qml:78
+#: rc/qml/Components/PopupAlbumPicker.qml:161 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr ""
+msgstr "افزودن عکس به آلبوم"
 
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
-msgstr ""
+msgstr "درحال بارکردن…"
 
-#: rc/qml/MainScreen.qml:80
+#: rc/qml/MainScreen.qml:98
 msgid "Albums"
-msgstr ""
+msgstr "آلبوم‌ها"
 
-#: rc/qml/MainScreen.qml:97 rc/qml/MainScreen.qml:120
-#: rc/qml/PickerScreen.qml:54
+#: rc/qml/MainScreen.qml:115 rc/qml/MainScreen.qml:138
+#: rc/qml/PickerScreen.qml:57
 msgid "Events"
-msgstr ""
+msgstr "رویدادها"
 
-#: rc/qml/MainScreen.qml:118 rc/qml/MainScreen.qml:162
-#: rc/qml/Utility/PhotosToolbarActions.qml:33
+#: rc/qml/MainScreen.qml:136 rc/qml/MainScreen.qml:180
+#: rc/qml/Utility/PhotosToolbarActions.qml:34
 msgid "Select"
-msgstr ""
+msgstr "گزینش"
 
-#: rc/qml/MainScreen.qml:130 rc/qml/MainScreen.qml:164
-#: rc/qml/PickerScreen.qml:74
+#: rc/qml/MainScreen.qml:148 rc/qml/MainScreen.qml:182
+#: rc/qml/PickerScreen.qml:80
 msgid "Photos"
-msgstr ""
+msgstr "عکس‌ها"
 
 #: rc/qml/MediaViewer/CropOverlay.qml:352
 #: rc/qml/MediaViewer/EditPopover.qml:51 rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr ""
+msgstr "بریدن"
 
 #: rc/qml/MediaViewer/EditPopover.qml:42 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr ""
+msgstr "چرخاندن"
 
 #: rc/qml/MediaViewer/EditPopover.qml:60
 msgid "Auto enhance"
-msgstr ""
+msgstr "بهبود خودکار"
 
 #: rc/qml/MediaViewer/EditPopover.qml:69 rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
-msgstr ""
+msgstr "بر‌گرداندن"
 
 #: rc/qml/MediaViewer/EditPopover.qml:79 rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr ""
+msgstr "انجام دوباره"
 
 #: rc/qml/MediaViewer/EditPopover.qml:89
 msgid "Revert to original"
-msgstr ""
+msgstr "بازگرداندن به تصویر اصلی"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:234
-msgid "Configure Facebook for photo sharing..."
-msgstr ""
-
-#: rc/qml/MediaViewer/MediaViewer.qml:286 rc/qml/PhotosOverview.qml:75
+#: rc/qml/MediaViewer/MediaViewer.qml:257 rc/qml/PhotosOverview.qml:75
 msgid "Delete a photo"
-msgstr ""
+msgstr "حذف یک عکس"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:464
-msgid "Edit"
-msgstr ""
+#: rc/qml/MediaViewer/MediaViewer.qml:290
+msgid "Remove a photo from album"
+msgstr "برداشتن یک عکس از آلبوم"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:299
+msgid "Remove from Album"
+msgstr "برداشتن از آلبوم"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:310
+msgid "Remove from Album and Delete"
+msgstr "برداشتن از آلبوم و حذف"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:475
-msgid "Add photo to album"
-msgstr ""
+msgid "Edit"
+msgstr "ویرایش"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:501
+#: rc/qml/MediaViewer/MediaViewer.qml:502
+#: rc/qml/MediaViewer/MediaViewer.qml:542
 msgid "Share photo"
-msgstr ""
+msgstr "به‌اشتراک گذاری عکس"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:507
-#: rc/qml/MediaViewer/MediaViewer.qml:558 rc/qml/Utility/EditingHUD.qml:72
-#: rc/qml/Utility/SelectionToolbarAction.qml:58
-msgid "Share"
-msgstr ""
-
-#: rc/qml/MediaViewer/MediaViewer.qml:525
+#: rc/qml/MediaViewer/MediaViewer.qml:514
 msgid "Pause"
-msgstr ""
+msgstr "مکث"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:525
+#: rc/qml/MediaViewer/MediaViewer.qml:514
 msgid "Play"
-msgstr ""
+msgstr "پخش"
+
+#: rc/qml/MediaViewer/PopupPhotoViewer.qml:56
+#: desktop/gallery-app.desktop.in.in.h:1
+msgid "Gallery"
+msgstr "نگارخانه"
 
 #: rc/qml/PhotosOverview.qml:74
 msgid "Delete photos"
-msgstr ""
+msgstr "حذف عکس‌ها"
 
-#: rc/qml/PickerScreen.qml:99
+#: rc/qml/PickerScreen.qml:105
 msgid "Pick"
-msgstr ""
+msgstr "برداشتن"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr ""
+msgstr "زباله;پاک کردن"
+
+#: rc/qml/Utility/EditingHUD.qml:72
+#: rc/qml/Utility/SelectionToolbarAction.qml:65
+msgid "Share"
+msgstr "به‌اشتراک گذاری"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
-msgstr ""
+msgstr "ارسال;بارگذاری;پیوست"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr ""
+msgstr "انصراف;عقب"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr ""
+msgstr "اعمال مجدّد;ساخت دوباره"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr ""
+msgstr "بهبود خودکار"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr ""
+msgstr "تنظیم عکس به صورت خودکار"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr ""
+msgstr "عکس را به صورت خودکار تنظیم می‌کند"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr ""
+msgstr "چرخاندن ساعت‌گرد"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr ""
+msgstr "چرخاندن عکس به صورت ساعت‌گرد"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr ""
+msgstr "برش;بریدن"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr ""
+msgstr "بریدن از تصویر"
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr ""
+msgstr "برگرداندن به تصویر اصلی"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr ""
+msgstr "دور انداختن تغییرات"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr ""
+msgstr "صرف‌نطر کردن از همه‌ی تغییرات"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr ""
+msgstr "آشکارسازی"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr ""
+msgstr "تنظیم اشکارسازی"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr ""
+msgstr "کم‌نور;پرنور"
 
 #: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
 msgid "Confirm"
-msgstr ""
+msgstr "تأیید"
 
 #: rc/qml/Utility/EditingHUD.qml:126
 msgid "Compensation"
-msgstr ""
+msgstr "جبران"
 
 #: rc/qml/Utility/EditingHUD.qml:160
 msgid "Color Balance"
-msgstr ""
+msgstr "توازن رنگ"
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Adjust color balance"
-msgstr ""
+msgstr "تنظیم توازن رنگ"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
-msgstr ""
+msgstr "اشباع;تن رنگ"
 
 #: rc/qml/Utility/EditingHUD.qml:167
 msgid "Brightness"
-msgstr ""
+msgstr "روشنی"
 
 #: rc/qml/Utility/EditingHUD.qml:178
 msgid "Contrast"
-msgstr ""
+msgstr "ضدّیت"
 
 #: rc/qml/Utility/EditingHUD.qml:189
 msgid "Saturation"
-msgstr ""
+msgstr "اشباع رنگ"
 
 #: rc/qml/Utility/EditingHUD.qml:200
 msgid "Hue"
-msgstr ""
+msgstr "تن رنگ"
 
-#: rc/qml/Utility/PhotosToolbarActions.qml:40
+#: rc/qml/Utility/PhotosToolbarActions.qml:43
 msgid "Import"
-msgstr ""
+msgstr "وارد کردن"
+
+#: desktop/gallery-app.desktop.in.in.h:2
+msgid "Ubuntu Photo Viewer"
+msgstr "بیننده‌ی عکس اوبونتو"
+
+#: desktop/gallery-app.desktop.in.in.h:3
+msgid "Browse your photographs"
+msgstr "عکس‌هایتان را مرور کنید"
+
+#: desktop/gallery-app.desktop.in.in.h:4
+msgid "Photographs;Pictures;Albums"
+msgstr "عکس‌ها;عکس;آلبوم‌ها"

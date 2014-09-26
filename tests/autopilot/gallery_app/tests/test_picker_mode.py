@@ -15,16 +15,15 @@ from gallery_app.emulators.picker_screen import PickerScreen
 from gallery_app.tests import GalleryTestCase
 import unittest
 
-from unittest import skip
 
 class TestPickerMode(GalleryTestCase):
 
     @property
     def picker_view(self):
-        return self.app.select_single(PickerScreen)
+        return self.app.wait_select_single(PickerScreen)
 
     def setUp(self):
-        self.ARGS.append("--pick-mode")
+        self.ARGS = ['--pick-mode']
         super(TestPickerMode, self).setUp()
 
     def select_first_event_media(self):
@@ -35,8 +34,6 @@ class TestPickerMode(GalleryTestCase):
         first_media = self.picker_view.first_media_in_events_view()
         self.click_item(first_media)
 
-    @unittest.skip("Temporarily disable as it fails in some cases, "
-                   "supposedly due to problems with the infrastructure")
     def test_pick_first_photo(self):
         """Check if the button enabled state follows the selection"""
         pick_button = self.picker_view.pick_button()
@@ -65,23 +62,19 @@ class TestPickerMode(GalleryTestCase):
             Eventually(Equals(False))
         )
 
-    @skip("Temporarily disable as it fails in some cases")
     def test_pick_named_photo(self):
         """Select a named photo and press Pick button."""
-        self.picker_view.switch_to_tab('photosTab')
+        photos_page = self.picker_view.go_to_photos()
         pick_button = self.picker_view.pick_button()
         self.assertFalse(pick_button.enabled)
 
         # create the image location path based on sample location
         image_path = 'image://thumbnailer/{}/sample02.jpg'.format(
             self.sample_destination_dir)
-        self.picker_view.select_named_photo(image_path)
-
+        photos_page.click_named_photo(image_path)
         self.assertTrue(pick_button.enabled)
-        self.click_item(pick_button)
+        self.picker_view.click_pick_button()
 
-    @unittest.skip("Temporarily disable as it fails in some cases, "
-                   "supposedly due to problems with the infrastructure")
     def test_selection_synchronisation(self):
         """Checks if the selection is the same for both views"""
         first_events_media = self.picker_view.first_media_in_events_view()

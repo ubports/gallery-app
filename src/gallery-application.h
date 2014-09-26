@@ -24,7 +24,10 @@
 #include <QElapsedTimer>
 #include <QFileInfo>
 
+#include "media-source.h"
+
 class CommandLineParser;
+class UrlHandler;
 class ContentCommunicator;
 class GalleryManager;
 
@@ -37,8 +40,10 @@ class GalleryApplication : public QApplication
 {
     Q_OBJECT
     Q_PROPERTY(bool pickModeEnabled READ pickModeEnabled NOTIFY pickModeEnabledChanged)
+    Q_PROPERTY(MediaSource::MediaType mediaTypeFilter READ mediaTypeFilter NOTIFY mediaTypeFilterChanged)
     Q_PROPERTY(bool desktopMode READ isDesktopMode CONSTANT)
     Q_PROPERTY(bool fullScreen READ isFullScreen WRITE setFullScreen NOTIFY fullScreenChanged)
+    Q_PROPERTY(QString mediaFile READ getMediaFile WRITE setMediaFile NOTIFY mediaFileChanged)
 
 public:
     enum UiMode{
@@ -57,9 +62,12 @@ public:
     bool pickModeEnabled() const;
     bool isDesktopMode() const;
     bool isFullScreen() const;
+    MediaSource::MediaType mediaTypeFilter() const;
+    const QString &getMediaFile() const;
 
     Q_INVOKABLE void returnPickedContent(QVariant variant);
     Q_INVOKABLE void contentPickingCanceled();
+    Q_INVOKABLE void parseUri(const QString &arg);
 
     static void startStartupTimer();
 
@@ -67,12 +75,15 @@ signals:
     void mediaLoaded();
     void pickModeEnabledChanged();
     void fullScreenChanged();
+    void mediaTypeFilterChanged();
+    void mediaFileChanged();
 
 private slots:
     void initCollections();
-    void switchToPickMode();
+    void switchToPickMode(QString mediaTypeFilter);
     void setFullScreen(bool fullScreen);
     void consistencyCheckFinished();
+    void setMediaFile(const QString &mediaFile);
 
 private:
     void registerQML();
@@ -81,11 +92,14 @@ private:
     QQuickView *m_view;
     GalleryManager *m_galleryManager;
     CommandLineParser* m_cmdLineParser;
+    UrlHandler *m_urlHandler;
     ContentCommunicator *m_contentCommunicator;
     QHash<QString, QSize> m_formFactors;
     int m_bguSize;
     bool m_pickModeEnabled;
     UiMode m_defaultUiMode;
+    MediaSource::MediaType m_mediaTypeFilter;
+    QString m_mediaFile;
 
     static QElapsedTimer *m_timer;
 };

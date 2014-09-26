@@ -21,6 +21,7 @@ import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 0.1
 import Ubuntu.Components.Popups 0.1
+import Ubuntu.Content 0.1
 import "Components"
 import "OrganicView"
 import "Utility"
@@ -50,6 +51,8 @@ Page {
         d.selection.inSelectionMode = false;
     }
 
+    property string pageTitle
+
     tools: inSelectionMode ? d.selectionTools : d.overviewTools
 
     Image {
@@ -70,10 +73,7 @@ Page {
     Component {
         id: deleteDialog
         DeleteDialog {
-            //FIXME this count > 1 thing needs to be properly replaced by translation wrappers allowing for multiple plural forms
-            title: d.selection.selectedCount > 1 ? i18n.tr("Delete photos") :
-                                                   i18n.tr("Delete a photo")
-
+            title: i18n.tr("Delete %1 photo", "Delete %1 photos", d.selection.selectedCount).arg(d.selection.selectedCount)
             onDeleteClicked: {
                 d.selection.model.destroySelectedMedia();
                 photosOverview.leaveSelectionMode();
@@ -111,11 +111,53 @@ Page {
             }
             onAddClicked: {
                 __albumPicker = PopupUtils.open(Qt.resolvedUrl("Components/PopupAlbumPicker.qml"),
-                                                caller,
+                                                null,
                                                 {contentHeight: photosOverview.__pickerContentHeight});
             }
             onDeleteClicked: {
                 PopupUtils.open(deleteDialog, null);
+            }
+
+            onShareClicked: {
+                overview.pushPage(sharePicker)
+                sharePicker.visible = true;
+            }
+        }
+    }
+
+    Component {
+        id: contentItemComp
+        ContentItem {}
+    }
+
+    Page {
+        id: sharePicker
+        visible: false
+        title: i18n.tr("Share to")
+
+        ContentPeerPicker {
+            objectName: "sharePickerPhotos"
+            showTitle: false
+            anchors.fill: parent
+            contentType: d.selection.mediaType === MediaSource.Video ? ContentType.Videos : ContentType.Pictures
+            handler: ContentHandler.Share
+
+            onPeerSelected: {
+                overview.popPage();
+                sharePicker.visible = false;
+
+                var curTransfer = peer.request();
+                if (curTransfer.state === ContentTransfer.InProgress)
+                {
+                    curTransfer.items = d.selection.model.selectedMediasQML.map(function(data) {
+                        return contentItemComp.createObject(parent, {"url": data.path});
+                    });
+                    curTransfer.state = ContentTransfer.Charged;
+                }
+            }
+            onCancelPressed: {
+                overview.popPage();
+                sharePicker.visible = false;
             }
         }
     }

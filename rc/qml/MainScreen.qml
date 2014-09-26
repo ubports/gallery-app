@@ -25,37 +25,54 @@ import "../js/GalleryUtility.js" as GalleryUtility
 import "AlbumEditor"
 import "AlbumViewer"
 
-/*!
-*/
 MainView {
     id: overview
     objectName: "overview"
 
+    useDeprecatedToolbar: false
+
     anchors.fill: parent
-    applicationName: "gallery-app"
+    applicationName: "com.ubuntu.gallery"
     automaticOrientation: application.automaticOrientation
 
     property string mediaCurrentlyInView
     StateSaver.properties: "mediaCurrentlyInView"
+
+    property bool applicationLoaded: application.allLoaded
 
     //fullScreen property is used on autopilot tests
     property bool fullScreen: APP.fullScreen
 
     property alias currentPage: pageStack.currentPage
 
-    Component.onCompleted: {
-        if (mediaCurrentlyInView !== "") {
-            for (var i = 0; i < MANAGER.mediaLibrary.count; i++) {
-                if (MANAGER.mediaLibrary.getAt(i).path == mediaCurrentlyInView) {
-                    photoViewerLoader.load();
-                    photoViewerLoader.item.animateOpen(MANAGER.mediaLibrary.getAt(i),
-                                                       Qt.rect(0,0,0,0));
-                    return;
-                }
-            }
+    function openMediaFile(media) {
+        if (__isPhotoViewerOpen) {
+            popPage();
+            photoViewerLoader.item.fadeClosed();
         }
 
+        mediaCurrentlyInView = media;
+        for (var i = 0; i < MANAGER.mediaLibrary.count; i++) {
+            if (MANAGER.mediaLibrary.getAt(i).path == mediaCurrentlyInView) {
+                photoViewerLoader.load();
+                photoViewerLoader.item.animateOpen(MANAGER.mediaLibrary.getAt(i),
+                                                   Qt.rect(0,0,0,0));
+                return;
+            }
+        }
+    }
+
+    Component.onCompleted: {
         pageStack.push(tabs);
+    }
+
+    onApplicationLoadedChanged: {
+        if (applicationLoaded) {
+            if (APP.mediaFile !== "")
+                openMediaFile(APP.mediaFile);
+            else if (mediaCurrentlyInView !== "")
+                openMediaFile(mediaCurrentlyInView);
+        }
     }
 
     function pushPage(page) {
@@ -80,16 +97,6 @@ MainView {
         selectedTabIndex: 1
         StateSaver.properties: "selectedTabIndex"
 
-        onSelectedTabIndexChanged: {
-            if (selectedTabIndex == 0)
-                albumsCheckerboardLoader.load();
-            if (selectedTabIndex == 2)
-                photosOverviewLoader.load();
-            // prevent leaving views in selection mode
-            eventView.leaveSelectionMode();
-            photosOverviewLoader.leaveSelectionMode();
-        }
-
         Tab {
             id: albumsTab
             objectName: "albumsTab"
@@ -98,12 +105,8 @@ MainView {
                 id: albumsCheckerboardLoader
                 objectName: "albumsCheckerboardLoader"
                 anchors.fill: parent
+                source: allLoaded ? Qt.resolvedUrl("AlbumsOverview.qml") : Qt.resolvedUrl("LoadingScreen.qml")
                 asynchronous: true
-
-                function load() {
-                    if (source == "")
-                        source = "AlbumsOverview.qml"
-                }
             }
         }
 
@@ -111,36 +114,39 @@ MainView {
             id: eventTab
             objectName: "eventsTab"
             title: i18n.tr("Events")
-            page: EventsOverview {
-                id: eventView
-                objectName: "organicEventView"
-
+            page: Loader {
+                id: eventsOverviewLoader
+                objectName: 'eventsOverviewLoader'
                 anchors.fill: parent
-                visible: true
+                sourceComponent: allLoaded ? eventsOverviewComponent : loadingScreenComponent
 
-                onMediaSourcePressed: {
-                    photoViewerLoader.load();
-                    overview.mediaCurrentlyInView = mediaSource.path;
+                Component {
+                    id: eventsOverviewComponent
+                    EventsOverview {
+                        id: eventsOverview
+                        anchors.fill: parent
 
-                    var rect = GalleryUtility.translateRect(thumbnailRect, eventView, photoViewerLoader);
-                    photoViewerLoader.item.animateOpen(mediaSource, rect);
-                }
+                        onMediaSourcePressed: {
+                            photoViewerLoader.load();
+                            overview.mediaCurrentlyInView = mediaSource.path;
 
-                // FIXME setting the title via a binding has wrong text placement at startup
-                // so it is done here as a workaround.
-                // The new implementation of the Tab header will hopefully fix this
-                onInSelectionModeChanged: {
-                    if (inSelectionMode)
-                        eventTab.title = i18n.tr("Select")
-                    else
-                        eventTab.title = i18n.tr("Events")
+                            var rect = GalleryUtility.translateRect(thumbnailRect,
+                                                                    eventsOverview,
+                                                                    photoViewerLoader);
+                            photoViewerLoader.item.animateOpen(mediaSource, rect);
+                        }
+
+                        onInSelectionModeChanged: {
+                            if (eventsOverview.inSelectionMode)
+                                eventTab.title = i18n.tr("Select")
+                            else
+                                eventTab.title = i18n.tr("Events")
+                        }
+                    }
                 }
             }
         }
 
-        // TODO: Although not using a Loader for the Photo Overview today
-        // (see above TODO), will make sense in future when component becomes
-        // more heavyweight and causes a longer startup time
         Tab {
             id: photosTab
             title: i18n.tr("Photos")
@@ -149,53 +155,43 @@ MainView {
                 id: photosOverviewLoader
                 anchors.fill: parent
 
-                /// Load the PhotosOverview if not done already
-                function load() {
-                    if (status === Loader.Null)
-                        setSource(Qt.resolvedUrl("PhotosOverview.qml"),
-                                  {model: MANAGER.mediaLibrary})
-                }
+                sourceComponent: allLoaded ? photosOverviewComponent : loadingScreenComponent
 
-                /// Quit selection mode, and unselect all photos
-                function leaveSelectionMode() {
-                    if (item)
-                        item.leaveSelectionMode();
-                }
+                Component {
+                    id: photosOverviewComponent
+                    PhotosOverview {
+                        id: photosOverview
+                        anchors.fill: parent
+                        model: MANAGER.mediaLibrary
 
-                Connections {
-                    target: photosOverviewLoader.item
-                    onMediaSourcePressed: {
-                        photoViewerLoader.load();
-                        overview.mediaCurrentlyInView = mediaSource.path;
+                        onMediaSourcePressed: {
+                            photoViewerLoader.load();
+                            overview.mediaCurrentlyInView = mediaSource.path;
 
-                        var rect = GalleryUtility.translateRect(thumbnailRect,
-                                                                photosOverviewLoader,
-                                                                photoViewerLoader);
-                        photoViewerLoader.item.animateOpen(mediaSource, rect);
-                    }
-                    onInSelectionModeChanged: {
-                        if (photosOverviewLoader.item.inSelectionMode)
-                            photosTab.title = i18n.tr("Select")
-                        else
-                            photosTab.title = i18n.tr("Photos")
+                            var rect = GalleryUtility.translateRect(thumbnailRect,
+                                                                    photosOverview,
+                                                                    photoViewerLoader);
+                            photoViewerLoader.item.animateOpen(mediaSource, rect);
+                        }
+
+                        onInSelectionModeChanged: {
+                            if (photosOverview.inSelectionMode)
+                                photosTab.title = i18n.tr("Select")
+                            else
+                                photosTab.title = i18n.tr("Photos")
+                        }
                     }
                 }
             }
         }
     }
 
-    AlbumViewer {
-        id: albumViewer
-        objectName: "albumViewer"
-        anchors.fill: parent
-        visible: false
-        onIsOpenChanged: if (!isOpen) albumsCheckerboardLoader.item.albumCurrentlyInView = -1
-    }
-
-    AlbumEditorAnimated {
-        id: albumEditor
-        objectName: "albumEditorAnimated"
-        anchors.fill: parent
+    Component {
+        id: loadingScreenComponent
+        LoadingScreen {
+            id: loadingScreen
+            anchors.fill: parent
+        }
     }
 
     /// Indicates if the photo viewer is currently open (shown to the user)
@@ -208,9 +204,7 @@ MainView {
         property bool loaded: photoViewerLoader.status === Loader.Ready
 
         function load() {
-            if (status === Loader.Null)
-                setSource(Qt.resolvedUrl("MediaViewer/PopupPhotoViewer.qml"),
-                          {model: MANAGER.mediaLibrary});
+            setSource(Qt.resolvedUrl("MediaViewer/PopupPhotoViewer.qml"), {model: MANAGER.mediaLibrary});
         }
 
         anchors.fill: parent
@@ -239,4 +233,22 @@ MainView {
             active: __isPhotoViewerOpen
         }
     ]
+
+    Connections {
+        target: UriHandler
+        onOpened: {
+            for (var i = 0; i < uris.length; ++i) {
+                APP.parseUri(uris[i])
+            }
+        }
+    }
+
+    Connections {
+        target: APP
+        onMediaFileChanged: {
+            if (applicationLoaded) {
+                openMediaFile(APP.mediaFile);
+            }
+        }
+    }
 }

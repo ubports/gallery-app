@@ -35,6 +35,15 @@ add_library(${GALLERY_MEDIALOADER_LIB}
 
 qt5_use_modules(${GALLERY_MEDIALOADER_LIB} Core Quick)
 
+if(CLICK_MODE)
+    set(EXIV2_LIBRARIES
+        ${CMAKE_EXE_LINK_STATIC_CXX_FLAGS}
+        ${EXIV2_STATIC_LIBRARIES}
+        -ldl
+        ${CMAKE_EXE_LINK_DYNAMIC_CXX_FLAGS})
+    install(FILES exiv2.copyright DESTINATION ${CMAKE_INSTALL_PREFIX})
+endif(CLICK_MODE)
+
 target_link_libraries( ${GALLERY_MEDIALOADER_LIB}
     ${EXIV2_LIBRARIES}
     ${GSTLIB_LDFLAGS}

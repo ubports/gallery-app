@@ -1,3 +1,193 @@
+gallery-app (0.0.67+14.10.20140925.3~rtm-0ubuntu1) 14.09; urgency=low
+
+  [ Bill Filler ]
+  * using "Share" instead of "Share photo" in action as it may be a
+    video
+
+  [ Arthur Mello ]
+  * Add support for the photo and video url schema (LP: #1369652)
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 25 Sep 2014 20:23:30 +0000
+
+gallery-app (0.0.67+14.10.20140925.1~rtm-0ubuntu1) 14.09; urgency=low
+
+  [ Víctor R. Ruiz ]
+  * Remove X-Ubuntu-Gettext-Domain to activate .desktop file
+    localization.
+
+  [ Ugo Riboni ]
+  * Allow sharing from the events or photo view, while selecting. (LP:
+    #1366820)
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 25 Sep 2014 13:05:26 +0000
+
+gallery-app (0.0.67+14.10.20140922-0ubuntu1) utopic; urgency=low
+
+  [ Arthur Mello ]
+  * Move the Loading Screen to inside the tabs (LP: #1325001)
+  * Fix the editing of the album name by setting the hint to turn off
+    predictive text
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 22 Sep 2014 13:36:36 +0000
+
+gallery-app (0.0.67+14.10.20140917-0ubuntu1) utopic; urgency=low
+
+  [ Ugo Riboni ]
+  * Translate the .desktop file inline (LP: #1325626)
+
+  [ Albert Astals ]
+  * Update .pot
+
+  [ Benjamin Zeller ]
+  * Make sure gallery-app cmake project works out of the box in the SDK:
+    Enable click mode by default. Disable click mode in debian rules
+    file. Add variable UBUNTU_MANIFEST_PATH variable so QtC knows where
+    to look. for the manifest file Rename gallery-apparmor.json =>
+    gallery.apparmor (editor support). Automatically substitute the
+    click architecture in the manifest file .
+
+  [ Víctor R. Ruiz ]
+  * Mark photo deletion strings for translation (LP: #1365032)
+
+  [ David Planella ]
+  * Mark photo deletion strings for translation (LP: #1365032)
+
+  [ CI bot ]
+  * Resync trunk
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 17 Sep 2014 17:38:32 +0000
+
+gallery-app (0.0.67+14.10.20140906-0ubuntu1) utopic; urgency=low
+
+  [ Bill Filler ]
+  * Mark strings for translation
+
+  [ Arthur Mello ]
+  * Make gallery-app uses the new header (LP: #1289160)
+
+  [ Ugo Riboni ]
+  * Move the new album strings to QML to make them translatable. Remove
+    some dead code. (LP: #1364310)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Sat, 06 Sep 2014 21:09:12 +0000
+
+gallery-app (0.0.67+14.10.20140827-0ubuntu1) utopic; urgency=low
+
+  [ Ugo Riboni ]
+  * Filter the picker lists according to the content type that is being
+    requested by the content hub. (LP: #1349493)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 27 Aug 2014 20:29:06 +0000
+
+gallery-app (0.0.67+14.10.20140821-0ubuntu1) utopic; urgency=low
+
+  [ Arthur Mello ]
+  * Search for new directories when there is any change on the watched
+    directories (LP: #1357155)
+
+  [ Leo Arias ]
+  * Update the content picker version on autopilot tests. (LP: #1358968)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 21 Aug 2014 13:42:05 +0000
+
+gallery-app (0.0.67+14.10.20140814-0ubuntu1) utopic; urgency=low
+
+  [ Bill Filler ]
+  * revert change to async loader as it's causing lp:1356841 (LP:
+    #1356841)
+
+  [ CI bot ]
+  * Resync trunk
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 14 Aug 2014 22:03:13 +0000
+
+gallery-app (0.0.67+14.10.20140812-0ubuntu1) utopic; urgency=low
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Florian Boucault ]
+  * Remove retrieval of maximum texture size. It is not useful and
+    causing crashes.
+
+  [ Ugo Riboni ]
+  * Load the main screen asynchronously to prevent blocking (LP:
+    #1349124)
+
+  [ Arthur Mello ]
+  * Remove unnecessary dependencies of video unittes
+  * Fix definition on GETTEXT_PACKAGE on CMakeLists to make translations
+    works for click pkgs (LP: #1349958)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 12 Aug 2014 20:06:54 +0000
+
+gallery-app (0.0.67+14.10.20140726-0ubuntu1) utopic; urgency=low
+
+  [ Bill Filler ]
+  * bump framework and security version of the click package
+
+  [ CI bot ]
+  * Resync trunk
+
+  [ Richard Huddie ]
+  * A new Page view to represent photos page in picker view with method
+    to select the named photo. Fix issue with existing failing picker
+    mode tests where launch parameters were appended incorrectly. (LP:
+    #1336414)
+
+  [ Colin Watson ]
+  * bump framework and security version of the click package
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Sat, 26 Jul 2014 03:38:08 +0000
+
+gallery-app (0.0.67+14.10.20140718-0ubuntu1) utopic; urgency=low
+
+  [ Michael Sheldon ]
+  * Hide the media viewer toolbar when displaying the share picker.
+  * Finalize content-hub transfers so that temporary files in ~/.cache
+    can be cleaned up by content-hub.
+
+  [ Colin Watson ]
+  * Link exiv2 statically in click mode. (LP: #1342840)
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 18 Jul 2014 14:41:06 +0000
+
+gallery-app (0.0.67+14.10.20140703-0ubuntu1) utopic; urgency=low
+
+  [ Bill Filler ]
+  * Switch to using the content-hub for sharing. When selecting the
+    share action, the ContentPeerPicker will be shown with a list of
+    apps that provide sharing.
+
+  [ Michael Sheldon ]
+  * Add videos as supported content-hub destination and source type.
+
+  [ Ken VanDine ]
+  * Switch to using the content-hub for sharing. When selecting the
+    share action, the ContentPeerPicker will be shown with a list of
+    apps that provide sharing.
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 03 Jul 2014 16:26:56 +0000
+
+gallery-app (0.0.67+14.10.20140701-0ubuntu1) utopic; urgency=low
+
+  [ Michał Sawicz ]
+  * New icon from suru theme.
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 01 Jul 2014 07:21:22 +0000
+
 gallery-app (0.0.67+14.10.20140625.1-0ubuntu1) utopic; urgency=low
 
   [ Arthur Mello ]

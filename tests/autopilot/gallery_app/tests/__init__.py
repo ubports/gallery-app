@@ -43,9 +43,9 @@ class GalleryTestCase(AutopilotTestCase):
     tap_press_time = 1
     local_location = "../../src/gallery-app"
 
-    _db = '~/.local/share/com.ubuntu.gallery/gallery-app/' \
+    _db = '~/.local/share/com.ubuntu.gallery/' \
           'database/gallery.sqlite'
-    _thumbs = '~/.cache/com.ubuntu.gallery/gallery-app/thumbnails'
+    _thumbs = '~/.cache/com.ubuntu.gallery/thumbnails'
 
     _default_sample_destination_dir = "/tmp/gallery-ap_sd"
 
@@ -162,8 +162,8 @@ class GalleryTestCase(AutopilotTestCase):
 
         """ This is needed to wait for the application to start.
         In the testfarm, the application may take some time to show up."""
-        self.assertThat(self.gallery_utils.get_qml_view().visible,
-                        Eventually(Equals(True)))
+        qml_view = self.gallery_utils.get_qml_view()
+        self.assertThat(qml_view.visible, Eventually(Equals(True)))
         """FIXME somehow on the server gallery sometimes is not fully started
         for switching to the albums view. Therefore this hack of sleeping"""
         sleep(2)
@@ -262,13 +262,11 @@ class GalleryTestCase(AutopilotTestCase):
 
     def open_album_at(self, position):
         album = self.album_view.get_album_at(position)
-        # workaround lp:1247698
-        self.main_view.close_toolbar()
         self.click_item(album)
         self.ensure_view_is_fully_open()
 
     def open_first_album(self):
-        self.open_album_at(-1)
+        self.open_album_at(0)
 
     def ensure_view_is_fully_open(self):
         view = self.album_view.get_album_view()
@@ -291,10 +289,10 @@ class GalleryTestCase(AutopilotTestCase):
             # details.
             from unity8 import process_helpers
             pid = process_helpers._get_unity_pid()
-            unity8 = get_proxy_object_for_existing_process(pid)
+            unity8 = get_proxy_object_for_existing_process(pid=pid)
             shell = unity8.select_single("Shell")
             shell.slots.showHome()
-            self.assertThat(shell.currentFocusedAppId,
+            self.assertThat(shell.focusedApplicationId,
                             Eventually(NotEquals("gallery-app")))
             self.app.process.send_signal(signal.SIGTERM)
 

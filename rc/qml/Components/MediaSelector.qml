@@ -16,7 +16,7 @@
 
 import QtQuick 2.0
 import Gallery 1.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 import "../../js/Gallery.js" as Gallery
 import "../OrganicView"
 import "../Utility"
@@ -74,31 +74,26 @@ OrganicView {
         selection: mediaSelector.selection
     }
 
-    tools: ToolbarItems {
-        Button {
-            anchors.verticalCenter: parent.verticalCenter
-            text: i18n.tr("Add to Album")
+    head.actions: [
+        Action {
             objectName: "addButton"
-            color: Gallery.HIGHLIGHT_BUTTON_COLOR
-            width: units.gu(16)
+            text: i18n.tr("Add to Album")
+            iconName: "add"
             enabled: mediaSelector.selection.selectedCount
             onTriggered: {
                 mediaSelector.addClicked();
                 mediaSelector.hide();
             }
         }
+    ]
 
-        back: Button {
-            anchors.verticalCenter: parent.verticalCenter
-            text: i18n.tr("Cancel")
-            objectName: "cancelButton"
-            width: units.gu(10)
-            onClicked: {
-                mediaSelector.hide();
-            }
+    head.backAction: Action {
+        objectName: "cancelButton"
+        text: i18n.tr("Cancel")
+        iconName: "back"
+        onTriggered: {
+            mediaSelector.hide();
         }
-        opened: true
-        locked: true
     }
 
     PropertyAnimation {

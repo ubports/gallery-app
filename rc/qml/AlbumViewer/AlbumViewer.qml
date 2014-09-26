@@ -19,7 +19,7 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.1
 import Gallery 1.0
 import "../../js/Gallery.js" as Gallery
 import "../../js/GalleryUtility.js" as GalleryUtility
@@ -74,10 +74,6 @@ Page {
 
     onVisibleChanged: {
         if (visible) reopenPicture();
-
-        if (albumViewer.header) {
-            albumViewer.header.visible = !visible;
-        }
     }
 
     onCloseRequested: {
@@ -135,6 +131,11 @@ Page {
         overview.pushPage(component_mediaSelector);
     }
 
+    function toggleHeaderVisibility()
+    {
+        header.visible = !header.visible;
+    }
+
     AlbumSpreadViewer {
         id: albumSpreadViewer
         objectName: "spreadViewer"
@@ -188,8 +189,10 @@ Page {
                 if (hit.objectName === "addButton")
                     showMediaSelector();
 
-                if (!hit.mediaSource)
+                if (!hit.mediaSource) {
+                    albumViewer.toggleHeaderVisibility();
                     return;
+                }
 
                 albumViewer.mediaCurrentlyInView = hit.mediaSource.path;
                 photoViewerLoader.fadeOpen(hit.mediaSource);
@@ -302,6 +305,7 @@ Page {
 
             onOpened: {
                 overview.pushPage(target);
+                header.visible = false;
             }
             onCloseRequested: {
                 albumViewer.mediaCurrentlyInView = "";
@@ -353,36 +357,35 @@ Page {
     }
 
     /// Contains the actions for the toolbar in the album view
-    tools: ToolbarItems {
-        ToolbarButton {
+    head.actions: [
+        Action {
             objectName: "addButton"
-            action: Action {
-                text: i18n.tr("Add to album") // text in HUD
-                iconSource: Qt.resolvedUrl("../../img/add.png")
-                onTriggered: {
-                    showMediaSelector();
-                }
-            }
-            text: i18n.tr("Add") // text in toolbar
-        }
-        ToolbarButton {
-            id: deleteButton
+            text: i18n.tr("Add to album") // text in HUD
+            iconName: "add"
+            onTriggered: showMediaSelector();
+        },
+        Action {
             objectName: "deleteButton"
             text: i18n.tr("Delete")
-            iconSource: Qt.resolvedUrl("../../img/delete.png")
+            iconName: "delete"
             onTriggered: {
-                albumTrashDialog.album = album
-                albumTrashDialog.caller = deleteButton
-                albumTrashDialog.show()
+                albumTrashDialog.album = album;
+                albumTrashDialog.show();
             }
         }
-        back: ToolbarButton {
-            text: i18n.tr("Back")
-            objectName: "backButton"
-            iconSource: Qt.resolvedUrl("../../img/back.png")
-            onTriggered: {
-                __close()
-            }
-        }
+    ]
+
+    head.backAction: Action {
+        iconName: "back"
+        onTriggered: __close();
+    }
+
+    Rectangle {
+        id: headerBackground
+
+        width: parent.width
+        height: header.height
+
+        visible: header.visible
     }
 }
