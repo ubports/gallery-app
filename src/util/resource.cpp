@@ -50,21 +50,10 @@ Resource::Resource(bool desktopMode, const QString &pictureDir)
         m_mediaDirectories.append(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
         m_videoDirectories.append(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
     }
+
     QString userName = qgetenv("USER");
-    QDir media("/media/" + userName);
-    QStringList mediaDirs = media.entryList(QDir::Dirs | QDir::NoDotAndDotDot);
-    if (mediaDirs.size() > 0) {
-        foreach (const QString &mediaDir, mediaDirs) { 
-            QString dir = "/media/" + userName + "/" + mediaDir;
-            if (QDir(dir).exists()) {
-                m_mediaDirectories.append( dir + "/" + 
-                  QStandardPaths::writableLocation(QStandardPaths::PicturesLocation).split("/").value(3));
-                m_mediaDirectories.append( dir + "/" + 
-                  QStandardPaths::writableLocation(QStandardPaths::MoviesLocation).split("/").value(3));
-                m_videoDirectories.append( dir + "/" + 
-                  QStandardPaths::writableLocation(QStandardPaths::MoviesLocation).split("/").value(3));
-            }
-        }
+    if (QDir("/media/" + userName).exists()) {
+        m_mediaDirectories.append(QString("/media/" + userName));
     }
 }
 
