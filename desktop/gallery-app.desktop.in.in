@@ -14,3 +14,4 @@ Categories=Graphics;Photography;RasterGraphics;Viewer;
 X-Ayatana-Appmenu-Show-Stubs=false
 X-Ubuntu-Touch=true
 X-Ubuntu-Single-Instance=true
+X-Ubuntu-Default-Department-ID=accessories
