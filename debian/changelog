@@ -1,3 +1,22 @@
+gallery-app (0.0.67+14.10.20141002-0ubuntu1) 14.09; urgency=low
+
+  [ Arthur Mello ]
+  * Hide the video thumbnail when playing the video on gallery (LP:
+    #1371021)
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+  [ Pawel Stolowski ]
+  * Added X-Ubuntu-Default-Department-ID key to the desktop file. This
+    is required by click scope to support departments for preinstalled
+    applications.
+
+  [ Sebastien Bacher ]
+  * Have the affirmative action on the right (LP: #1372832)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 02 Oct 2014 00:19:11 +0000
+
 gallery-app (0.0.67+14.10.20140925.3~rtm-0ubuntu1) 14.09; urgency=low
 
   [ Bill Filler ]
