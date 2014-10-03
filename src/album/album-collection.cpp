@@ -139,9 +139,10 @@ void AlbumCollection::onMediaAddedRemoved(const QSet<DataObject *> *added,
  * \param removed
  */
 void AlbumCollection::notifyContentsChanged(const QSet<DataObject*>* added,
-                                              const QSet<DataObject*>* removed)
+                                              const QSet<DataObject*>* removed,
+                                              const bool notify)
 {
-    ContainerSourceCollection::notifyContentsChanged(added, removed);
+    ContainerSourceCollection::notifyContentsChanged(added, removed, notify);
 
     if (added != NULL) {
         foreach (DataObject* object, *added) {

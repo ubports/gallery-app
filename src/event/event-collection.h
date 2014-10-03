@@ -49,7 +49,8 @@ public slots:
 
 protected:
     virtual void notifyContentsChanged(const QSet<DataObject *> *added,
-                                       const QSet<DataObject *> *removed);
+                                       const QSet<DataObject *> *removed,
+                                       bool notify);
 
 private:
     static bool comparator(DataObject* a, DataObject* b);

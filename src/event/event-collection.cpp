@@ -127,7 +127,8 @@ void EventCollection::onMediaAddedRemoved(const QSet<DataObject *> *added,
  * \param removed
  */
 void EventCollection::notifyContentsChanged(const QSet<DataObject *> *added,
-                                             const QSet<DataObject *> *removed)
+                                            const QSet<DataObject *> *removed,
+                                            bool notify)
 {
     if (added != NULL) {
         DataObject* object;
@@ -152,5 +153,5 @@ void EventCollection::notifyContentsChanged(const QSet<DataObject *> *added,
         }
     }
 
-    SourceCollection::notifyContentsChanged(added, removed);
+    SourceCollection::notifyContentsChanged(added, removed, notify);
 }

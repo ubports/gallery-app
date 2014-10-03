@@ -50,9 +50,11 @@ void DataCollection::notifyContentsToBeChanged(const QSet<DataObject*>* added,
  * \param removed
  */
 void DataCollection::notifyContentsChanged(const QSet<DataObject*>* added,
-                                           const QSet<DataObject*>* removed)
+                                           const QSet<DataObject*>* removed,
+                                           bool notify)
 {
-    emit contentsChanged(added, removed);
+    if (notify)
+        emit contentsChanged(added, removed);
 }
 
 /*!
@@ -95,7 +97,7 @@ void DataCollection::add(DataObject* object)
     binaryListInsert(object);
     m_set.insert(object);
 
-    notifyContentsChanged(&to_add, NULL);
+    notifyContentsChanged(&to_add, NULL, true);
 
     sanity();
 }
@@ -145,7 +147,7 @@ void DataCollection::addMany(const QSet<DataObject*>& objects)
         resort(false);
     }
 
-    notifyContentsChanged(&to_add, NULL);
+    notifyContentsChanged(&to_add, NULL, true);
 
     sanity();
 }
@@ -172,8 +174,7 @@ void DataCollection::remove(DataObject* object, bool notify)
     Q_ASSERT(removed);
     Q_UNUSED(removed);
 
-    if (notify)
-        notifyContentsChanged(NULL, &to_remove);
+    notifyContentsChanged(NULL, &to_remove, notify);
 
     sanity();
 }
@@ -218,7 +219,7 @@ void DataCollection::removeMany(const QSet<DataObject *> &objects)
 
     m_set.subtract(to_remove);
 
-    notifyContentsChanged(NULL, &to_remove);
+    notifyContentsChanged(NULL, &to_remove, true);
 
     sanity();
 }
@@ -242,7 +243,7 @@ void DataCollection::clear()
     m_list.clear();
     m_set.clear();
 
-    notifyContentsChanged(NULL, &all);
+    notifyContentsChanged(NULL, &all, true);
 
     sanity();
 }

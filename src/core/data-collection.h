@@ -108,7 +108,8 @@ protected:
                                            const QSet<DataObject*>* removed);
 
     virtual void notifyContentsChanged(const QSet<DataObject*>* added,
-                                       const QSet<DataObject*>* removed);
+                                       const QSet<DataObject*>* removed,
+                                       bool notify);
 
     virtual void notifyOrderingChanged();
 

@@ -55,7 +55,8 @@ protected:
     virtual void notifyAlbumCurrentPageContentsChanged(Album* album);
 
     virtual void notifyContentsChanged(const QSet<DataObject*>* added,
-                                       const QSet<DataObject*>* removed);
+                                       const QSet<DataObject*>* removed,
+                                       bool notify);
 
 private slots:
     void onMediaAddedRemoved(const QSet<DataObject*>* added,

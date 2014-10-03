@@ -116,7 +116,8 @@ void SourceCollection::notifyDestroying(const QSet<DataObject*>* objects)
  * \param removed
  */
 void SourceCollection::notifyContentsChanged(const QSet<DataObject*>* added,
-                                               const QSet<DataObject*>* removed)
+                                               const QSet<DataObject*>* removed,
+                                               bool notify)
 {
     if (added != NULL) {
         // set membership of DataSource to this collection
@@ -137,7 +138,7 @@ void SourceCollection::notifyContentsChanged(const QSet<DataObject*>* added,
         }
     }
 
-    DataCollection::notifyContentsChanged(added, removed);
+    DataCollection::notifyContentsChanged(added, removed, true);
 }
 
 /*!
