@@ -46,7 +46,7 @@ public:
     void attach(DataObject* object);
     void attachMany(const QSet<DataObject*>& objects);
 
-    void detach(DataObject* object);
+    void detach(DataObject* object, bool notify);
     void detachMany(const QSet<DataObject*>& objects);
 
     bool contains(DataObject* object) const;

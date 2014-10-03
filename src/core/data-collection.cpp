@@ -154,7 +154,7 @@ void DataCollection::addMany(const QSet<DataObject*>& objects)
  * \brief DataCollection::remove
  * \param object
  */
-void DataCollection::remove(DataObject* object)
+void DataCollection::remove(DataObject* object, bool notify)
 {
     // Silently exit on bad removes
     if (object == NULL || !m_set.contains(object))
@@ -172,7 +172,8 @@ void DataCollection::remove(DataObject* object)
     Q_ASSERT(removed);
     Q_UNUSED(removed);
 
-    notifyContentsChanged(NULL, &to_remove);
+    if (notify)
+        notifyContentsChanged(NULL, &to_remove);
 
     sanity();
 }
@@ -184,7 +185,7 @@ void DataCollection::remove(DataObject* object)
 void DataCollection::removeAt(int index)
 {
     if (index >= 0 && index < count())
-        remove(getAt(index));
+        remove(getAt(index), true);
 }
 
 /*!

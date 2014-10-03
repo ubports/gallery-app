@@ -69,7 +69,7 @@ public:
     void add(DataObject* object);
     virtual void addMany(const QSet<DataObject*>& objects);
 
-    void remove(DataObject* object);
+    void remove(DataObject* object, bool notify);
     void removeAt(int index);
     void removeMany(const QSet<DataObject*>& objects);
     void clear();

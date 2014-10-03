@@ -94,7 +94,7 @@ void SourceCollection::destroy(DataSource* object, bool destroy_backing,
     notifyDestroying(&object_set);
 
     // remove before destroying
-    remove(object);
+    remove(object, true);
 
     object->destroy(destroy_backing);
     if (delete_object)

@@ -127,7 +127,7 @@ void AlbumCollection::onMediaAddedRemoved(const QSet<DataObject *> *added,
                 MediaSource* media = qobject_cast<MediaSource*>(object);
                 Q_ASSERT(media != NULL);
 
-                album->detach(media);
+                album->detach(media, true);
             }
         }
     }

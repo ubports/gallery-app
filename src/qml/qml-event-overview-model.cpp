@@ -150,7 +150,7 @@ void QmlEventOverviewModel::onEventsChanged(const QSet<DataObject*>* added,
             Q_ASSERT(event != NULL);
 
             if (view->contains(event))
-                view->remove(event);
+                view->remove(event, true);
         }
     }
 }

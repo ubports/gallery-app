@@ -126,7 +126,7 @@ void QmlMediaCollectionModel::removeMediaFromAlbum(QVariant valbum, QVariant vme
     if (media == NULL)
         return;
 
-    album->detach(media);
+    album->detach(media, true);
 }
 
 /*!

@@ -58,9 +58,9 @@ void ContainerSource::attachMany(const QSet<DataObject*>& objects)
  * \brief ContainerSource::detach
  * \param object
  */
-void ContainerSource::detach(DataObject* object)
+void ContainerSource::detach(DataObject* object, bool notify)
 {
-    m_contained.remove(object);
+    m_contained.remove(object, notify);
 }
 
 /*!

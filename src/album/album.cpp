@@ -181,7 +181,7 @@ void Album::removeMediaSource(QVariant vmedia)
 {
     MediaSource* media = UncheckedVariantToObject<MediaSource*>(vmedia);
     if (media != NULL)
-        detach(media);
+        detach(media, true);
 }
 
 /*!
