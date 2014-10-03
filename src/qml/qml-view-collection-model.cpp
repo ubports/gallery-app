@@ -783,6 +783,8 @@ void QmlViewCollectionModel::onContentsChanged(const QSet<DataObject*>* added,
 
             m_toBeRemoved.clear();
         } else {
+            //FIXME We are doing a notifyReset since we are facing model corruption after
+            // some deletes on the Events tab
             m_toBeRemoved.clear();
             notifyReset();
         }
