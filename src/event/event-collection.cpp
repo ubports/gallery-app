@@ -116,8 +116,8 @@ void EventCollection::onMediaAddedRemoved(const QSet<DataObject *> *added,
 
             event->detach(media, false);
 
-            //FIXME if (event->containedCount() == 0)
-            //FIXME    destroy(event, true, true);
+            if (event->containedCount() == 0)
+                destroy(event, true, true);
         }
     }
 }

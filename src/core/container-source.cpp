@@ -19,8 +19,6 @@
 
 #include "container-source.h"
 
-#include <QDebug>
-
 /*!
  * \brief ContainerSource::ContainerSource
  * \param parent

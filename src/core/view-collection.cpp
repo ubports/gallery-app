@@ -19,8 +19,6 @@
 
 #include "view-collection.h"
 
-#include <QDebug>
-
 /*!
  * \brief ViewCollection::ViewCollection
  * \param name

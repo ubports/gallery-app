@@ -140,11 +140,6 @@ void QmlEventOverviewModel::onEventsChanged(const QSet<DataObject*>* added,
                                             const QSet<DataObject*>* removed,
                                             bool notify)
 {
-    if (!notify) {
-        qDebug() << "[DEBUG] QmlEventOverviewModel::onEventsChanged with !notify";
-        return;
-    }
-
     SelectableViewCollection* view = backingViewCollection();
     if (view == NULL)
         return;
@@ -175,11 +170,6 @@ bool QmlEventOverviewModel::isAccepted(DataObject* item)
 void QmlEventOverviewModel::onEventOverviewContentsChanged(
         const QSet<DataObject*>* added, const QSet<DataObject*>* removed, bool notify)
 {
-    if (!notify) {
-        qDebug() << "[DEBUG] QmlEventOverviewModel::onEventOverviewContentsChanged with !notify";
-        return;
-    }
-
     SelectableViewCollection* view = backingViewCollection();
 
     if (added != NULL) {
