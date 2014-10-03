@@ -453,9 +453,9 @@ void QmlViewCollectionModel::setBackingViewCollection(SelectableViewCollection* 
                      SLOT(onContentsAboutToBeChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)));
 
     QObject::connect(m_view,
-                     SIGNAL(contentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)),
+                     SIGNAL(contentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*, bool)),
                      this,
-                     SLOT(onContentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)));
+                     SLOT(onContentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*, bool)));
 
     QObject::connect(m_view, SIGNAL(orderingChanged()),
                      this, SLOT(onOrderingChanged()));
@@ -492,9 +492,9 @@ void QmlViewCollectionModel::disconnectBackingViewCollection()
                         SLOT(onContentsAboutToBeChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)));
 
     QObject::disconnect(m_view,
-                        SIGNAL(contentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)),
+                        SIGNAL(contentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*, bool)),
                         this,
-                        SLOT(onContentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)));
+                        SLOT(onContentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*, bool)));
 
     QObject::disconnect(m_view, SIGNAL(orderingChanged()),
                         this, SLOT(onOrderingChanged()));
@@ -764,7 +764,8 @@ void QmlViewCollectionModel::onContentsAboutToBeChanged(const QSet<DataObject*>*
  * \param removed
  */
 void QmlViewCollectionModel::onContentsChanged(const QSet<DataObject*>* added,
-                                                 const QSet<DataObject*>* removed)
+                                                 const QSet<DataObject*>* removed,
+                                                 bool notify)
 {
     // Report removed items using indices gathered from on_contents_to_be_altered()
     if (m_toBeRemoved.count() > 0) {

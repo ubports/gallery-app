@@ -71,7 +71,8 @@ protected:
 
 private slots:
     void onMonitoredContentsChanged(const QSet<DataObject*>* added,
-                                    const QSet<DataObject*>* removed);
+                                    const QSet<DataObject*>* removed,
+                                    bool notify);
     void onMonitoredOrderingChanged();
 
 private:

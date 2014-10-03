@@ -19,6 +19,8 @@
 
 #include "view-collection.h"
 
+#include <QDebug>
+
 /*!
  * \brief ViewCollection::ViewCollection
  * \param name
@@ -49,9 +51,9 @@ void ViewCollection::monitorDataCollection(const DataCollection* collection,
     // monitor DataCollection for added/removed DataObjects and add them to this
     // ViewCollection according to the filter
     QObject::connect(m_monitoring,
-                     SIGNAL(contentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)),
+                     SIGNAL(contentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*, bool)),
                      this,
-                     SLOT(onMonitoredContentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)));
+                     SLOT(onMonitoredContentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*, bool)));
 
     // If monitoring the ordering, prime the local comparator with the monitored
     // and make sure it's continually reflected
@@ -65,7 +67,7 @@ void ViewCollection::monitorDataCollection(const DataCollection* collection,
     // prime the local ViewCollection with what's already in the monitored
     // DataCollection
     QSet<DataObject*> all(collection->getAsSet());
-    onMonitoredContentsChanged(&all, NULL);
+    onMonitoredContentsChanged(&all, NULL, true);
     emit collectionChanged();
 }
 
@@ -105,7 +107,8 @@ void ViewCollection::notifyOrderingChanged()
  * \param removed
  */
 void ViewCollection::onMonitoredContentsChanged(const QSet<DataObject*>* added,
-                                                   const QSet<DataObject*>* removed)
+                                                   const QSet<DataObject*>* removed,
+                                                   bool notify)
 {
     if (added != NULL) {
         // if no filter, add everything, otherwise run everything through the filter
@@ -124,7 +127,7 @@ void ViewCollection::onMonitoredContentsChanged(const QSet<DataObject*>* added,
     }
 
     if (removed != NULL)
-        removeMany(*removed);
+        removeMany(*removed, notify);
 }
 
 /*!

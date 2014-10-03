@@ -19,6 +19,8 @@
 
 #include "container-source.h"
 
+#include <QDebug>
+
 /*!
  * \brief ContainerSource::ContainerSource
  * \param parent
@@ -31,9 +33,9 @@ ContainerSource::ContainerSource(QObject * parent, const QString& name, DataObje
     m_contained.setComparator(comparator);
 
     QObject::connect(&m_contained,
-                     SIGNAL(contentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)),
+                     SIGNAL(contentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*, bool)),
                      this,
-                     SLOT(onContentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)));
+                     SLOT(onContentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*, bool)));
 }
 
 /*!
@@ -69,7 +71,7 @@ void ContainerSource::detach(DataObject* object, bool notify)
  */
 void ContainerSource::detachMany(const QSet<DataObject*>& objects)
 {
-    m_contained.removeMany(objects);
+    m_contained.removeMany(objects, true);
 }
 
 /*!
@@ -127,7 +129,8 @@ void ContainerSource::notifyContainerContentsChanged(const QSet<DataObject*>* ad
  * \param removed
  */
 void ContainerSource::onContentsChanged(const QSet<DataObject*>* added,
-                                        const QSet<DataObject*>* removed)
+                                        const QSet<DataObject*>* removed,
+                                        bool notify)
 {
     notifyContainerContentsChanged(added, removed);
 }

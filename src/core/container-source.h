@@ -60,7 +60,8 @@ protected:
 
 private slots:
     void onContentsChanged(const QSet<DataObject*>* added,
-                           const QSet<DataObject*>* removed);
+                           const QSet<DataObject*>* removed,
+                           bool notify);
 
 private:
     ViewCollection m_contained;

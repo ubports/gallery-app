@@ -110,9 +110,9 @@ void Album::initInstance()
     createAddPhotosPage();
 
     QObject::connect(m_contentPages,
-                     SIGNAL(contentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)),
+                     SIGNAL(contentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*, bool)),
                      this,
-                     SLOT(onAlbumPageContentChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)));
+                     SLOT(onAlbumPageContentChanged(const QSet<DataObject*>*, const QSet<DataObject*>*, bool)));
 }
 
 /*!
@@ -812,7 +812,8 @@ void Album::createAddPhotosPage()
  * \param removed
  */
 void Album::onAlbumPageContentChanged(const QSet<DataObject*>* added,
-                                      const QSet<DataObject*>* removed)
+                                      const QSet<DataObject*>* removed,
+                                      bool notify)
 {
     m_allAlbumPages = CastListToType<DataObject*, AlbumPage*>(m_contentPages->getAll());
 

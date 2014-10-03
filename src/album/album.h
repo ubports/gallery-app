@@ -169,7 +169,8 @@ protected:
 
 private slots:
     void onAlbumPageContentChanged(const QSet<DataObject*>* added,
-                                   const QSet<DataObject*>* removed);
+                                   const QSet<DataObject*>* removed,
+                                   bool notify);
 
 private:
     void initInstance();

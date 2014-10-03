@@ -40,9 +40,9 @@ QmlEventOverviewModel::QmlEventOverviewModel(QObject* parent)
     // them too.
     QObject::connect(
                 GalleryManager::instance()->eventCollection(),
-                SIGNAL(contentsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*)),
+                SIGNAL(contentsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*, bool)),
                 this,
-                SLOT(onEventsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*)));
+                SLOT(onEventsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*, bool)));
 }
 
 /*!
@@ -117,9 +117,9 @@ void QmlEventOverviewModel::monitorNewViewCollection()
 
     QObject::connect(
                 backingViewCollection(),
-                SIGNAL(contentsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*)),
+                SIGNAL(contentsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*, bool)),
                 this,
-                SLOT(onEventOverviewContentsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*)));
+                SLOT(onEventOverviewContentsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*, bool)));
 
     QObject::connect(
                 backingViewCollection(),
@@ -128,7 +128,7 @@ void QmlEventOverviewModel::monitorNewViewCollection()
                 SLOT(onEventOverviewSelectionChanged(const QSet<DataObject*>*,const QSet<DataObject*>*)));
 
     // seed existing contents with Events
-    onEventOverviewContentsChanged(&backingViewCollection()->getAsSet(), NULL);
+    onEventOverviewContentsChanged(&backingViewCollection()->getAsSet(), NULL, true);
 }
 
 /*!
@@ -137,8 +137,14 @@ void QmlEventOverviewModel::monitorNewViewCollection()
  * \param removed
  */
 void QmlEventOverviewModel::onEventsChanged(const QSet<DataObject*>* added,
-                                            const QSet<DataObject*>* removed)
+                                            const QSet<DataObject*>* removed,
+                                            bool notify)
 {
+    if (!notify) {
+        qDebug() << "[DEBUG] QmlEventOverviewModel::onEventsChanged with !notify";
+        return;
+    }
+
     SelectableViewCollection* view = backingViewCollection();
     if (view == NULL)
         return;
@@ -167,8 +173,13 @@ bool QmlEventOverviewModel::isAccepted(DataObject* item)
  * \param removed
  */
 void QmlEventOverviewModel::onEventOverviewContentsChanged(
-        const QSet<DataObject*>* added, const QSet<DataObject*>* removed)
+        const QSet<DataObject*>* added, const QSet<DataObject*>* removed, bool notify)
 {
+    if (!notify) {
+        qDebug() << "[DEBUG] QmlEventOverviewModel::onEventOverviewContentsChanged with !notify";
+        return;
+    }
+
     SelectableViewCollection* view = backingViewCollection();
 
     if (added != NULL) {

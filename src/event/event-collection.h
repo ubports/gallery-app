@@ -45,7 +45,8 @@ public:
 
 public slots:
     void onMediaAddedRemoved(const QSet<DataObject*>* added,
-                             const QSet<DataObject*>* removed);
+                             const QSet<DataObject*>* removed,
+                             bool notify);
 
 protected:
     virtual void notifyContentsChanged(const QSet<DataObject *> *added,

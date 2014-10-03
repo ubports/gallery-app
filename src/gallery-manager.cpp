@@ -176,11 +176,11 @@ EventCollection *GalleryManager::eventCollection()
         // media found
         QObject::connect(
                     m_mediaCollection,
-                    SIGNAL(contentsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*)),
+                    SIGNAL(contentsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*, bool)),
                     m_eventCollection,
-                    SLOT(onMediaAddedRemoved(const QSet<DataObject*>*,const QSet<DataObject*>*)));
+                    SLOT(onMediaAddedRemoved(const QSet<DataObject*>*,const QSet<DataObject*>*, bool)));
         // seed what's already present
-        m_eventCollection->onMediaAddedRemoved(&(m_mediaCollection->getAsSet()), NULL);
+        m_eventCollection->onMediaAddedRemoved(&(m_mediaCollection->getAsSet()), NULL, true);
     }
 
     return m_eventCollection;

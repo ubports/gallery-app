@@ -52,7 +52,8 @@ signals:
 
     // fired *after* the DataObjects have been added or removed from the collection
     void contentsChanged(const QSet<DataObject*>* added,
-                          const QSet<DataObject*>* removed);
+                          const QSet<DataObject*>* removed,
+                          bool notify);
 
     // fired after the the DataCollection has been reordered due to a new
     // DataObjectComparator being installed; if the new comparator doesn't
@@ -71,7 +72,7 @@ public:
 
     void remove(DataObject* object, bool notify);
     void removeAt(int index);
-    void removeMany(const QSet<DataObject*>& objects);
+    void removeMany(const QSet<DataObject*>& objects, bool notify);
     void clear();
 
     bool contains(DataObject* object) const;

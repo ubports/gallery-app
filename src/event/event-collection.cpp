@@ -85,7 +85,8 @@ bool EventCollection::comparator(DataObject* a, DataObject* b)
  * \param removed
  */
 void EventCollection::onMediaAddedRemoved(const QSet<DataObject *> *added,
-                                           const QSet<DataObject *> *removed)
+                                           const QSet<DataObject *> *removed,
+                                           bool notify)
 {
     if (added != NULL) {
         DataObject* object;

@@ -53,8 +53,7 @@ void DataCollection::notifyContentsChanged(const QSet<DataObject*>* added,
                                            const QSet<DataObject*>* removed,
                                            bool notify)
 {
-    if (notify)
-        emit contentsChanged(added, removed);
+    emit contentsChanged(added, removed, notify);
 }
 
 /*!
@@ -193,7 +192,7 @@ void DataCollection::removeAt(int index)
  * \brief DataCollection::removeMany
  * \param objects
  */
-void DataCollection::removeMany(const QSet<DataObject *> &objects)
+void DataCollection::removeMany(const QSet<DataObject *> &objects, bool notify)
 {
     if (objects.count() == 0)
         return;
@@ -219,7 +218,7 @@ void DataCollection::removeMany(const QSet<DataObject *> &objects)
 
     m_set.subtract(to_remove);
 
-    notifyContentsChanged(NULL, &to_remove, true);
+    notifyContentsChanged(NULL, &to_remove, notify);
 
     sanity();
 }

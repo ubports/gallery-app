@@ -69,7 +69,7 @@ void SourceCollection::destroyMany(const QSet<DataObject*>& objects,
 
     notifyDestroying(&intersection);
 
-    removeMany(intersection);
+    removeMany(intersection, true);
 
     destroyObjects(intersection, destroy_backing, delete_objects);
 }
