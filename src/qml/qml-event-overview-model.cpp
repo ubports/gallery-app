@@ -140,9 +140,6 @@ void QmlEventOverviewModel::onEventsChanged(const QSet<DataObject*>* added,
                                             const QSet<DataObject*>* removed,
                                             bool notify)
 {
-    if (!notify)
-        return;
-
     SelectableViewCollection* view = backingViewCollection();
     if (view == NULL)
         return;
