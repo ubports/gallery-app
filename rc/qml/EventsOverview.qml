@@ -63,7 +63,30 @@ OrganicView {
     Component {
         id: deleteDialog
         DeleteDialog {
-            title: i18n.tr("Delete %1 photo", "Delete %1 photos", organicEventView.selection.selectedMediaCount).arg(organicEventView.selection.selectedMediaCount)
+            title: {
+                if (organicEventView.selection.selectedMediaCount === 1) {
+                    if (organicEventView.selection.selectedVideosCount === 0) 
+                        return i18n.tr("Delete 1 photo");
+                    else
+                        return i18n.tr("Delete 1 video");
+                } else {
+                    if (organicEventView.selection.selectedVideosCount === 0)
+                        return i18n.tr("Delete %1 photos").arg(organicEventView.selection.selectedPhotosCount);
+                    else if (organicEventView.selection.selectedPhotosCount === 0)
+                        return i18n.tr("Delete %1 videos").arg(organicEventView.selection.selectedVideosCount);
+                    else {
+                        if (organicEventView.selection.selectedVideosCount === 1 && organicEventView.selection.selectedPhotosCount !== 1)
+                            return i18n.tr("Delete %1 photos and 1 video").arg(organicEventView.selection.selectedPhotosCount);
+                        else if (organicEventView.selection.selectedPhotosCount === 1 && organicEventView.selection.selectedVideosCount !== 1)
+                            return i18n.tr("Delete 1 photo and %1 videos").arg(organicEventView.selection.selectedVideosCount);
+                        else if (organicEventView.selection.selectedVideosCount === 1 && organicEventView.selection.selectedPhotosCount === 1)
+                            return i18n.tr("Delete 1 photo and 1 video");
+                        else
+                            return i18n.tr("Delete %1 photos and %2 videos").arg(organicEventView.selection.selectedPhotosCount)
+                                                                            .arg(organicEventView.selection.selectedVideosCount);
+                    }
+                }
+            }
 
             onDeleteClicked: {
                 organicEventView.selection.model.destroySelectedMedia();
