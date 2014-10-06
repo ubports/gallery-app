@@ -62,6 +62,9 @@ Item {
             organicSelectionState.mediaType = (photos > videos) ? MediaSource.Photo : MediaSource.Video;
             organicSelectionState.isMixed = (photos > 0 && videos > 0);
             organicSelectionState.selectedMediaCount = medias;
+
+            organicSelectionState.selectedPhotosCount = photos;
+            organicSelectionState.selectedVideosCount = videos;
         }
     }
 
@@ -72,6 +75,11 @@ Item {
     // readonly
     /// The number of currently selected media items
     property int selectedMediaCount: 0
+
+    // readonly
+    /// The number of currently selected photos and videos items
+    property int selectedPhotosCount: 0
+    property int selectedVideosCount: 0
 
     //internal
     // HACK: this is used as a spurious extra QML condition in our isSelected

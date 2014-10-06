@@ -73,7 +73,30 @@ Page {
     Component {
         id: deleteDialog
         DeleteDialog {
-            title: i18n.tr("Delete %1 photo", "Delete %1 photos", d.selection.selectedCount).arg(d.selection.selectedCount)
+            title: {
+                if (d.selection.selectedMediaCount === 1) {
+                    if (d.selection.selectedVideosCount === 0) 
+                        return i18n.tr("Delete 1 photo");
+                    else
+                        return i18n.tr("Delete 1 video");
+                } else {
+                    if (d.selection.selectedVideosCount === 0)
+                        return i18n.tr("Delete %1 photos").arg(d.selection.selectedPhotosCount);
+                    else if (d.selection.selectedPhotosCount === 0)
+                        return i18n.tr("Delete %1 videos").arg(d.selection.selectedVideosCount);
+                    else {
+                        if (d.selection.selectedVideosCount === 1 && d.selection.selectedPhotosCount !== 1)
+                            return i18n.tr("Delete %1 photos and 1 video").arg(d.selection.selectedPhotosCount);
+                        else if (d.selection.selectedPhotosCount === 1 && d.selection.selectedVideosCount !== 1)
+                            return i18n.tr("Delete 1 photo and %1 videos").arg(d.selection.selectedVideosCount);
+                        else if (d.selection.selectedVideosCount === 1 && d.selection.selectedPhotosCount === 1)
+                            return i18n.tr("Delete 1 photo and 1 video");
+                        else
+                            return i18n.tr("Delete %1 photos and %2 videos").arg(d.selection.selectedPhotosCount)
+                                                                            .arg(d.selection.selectedVideosCount);
+                    }
+                }
+            }
             onDeleteClicked: {
                 d.selection.model.destroySelectedMedia();
                 photosOverview.leaveSelectionMode();
