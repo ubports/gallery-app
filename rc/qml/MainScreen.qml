@@ -133,6 +133,7 @@ MainView {
                             var rect = GalleryUtility.translateRect(thumbnailRect,
                                                                     eventsOverview,
                                                                     photoViewerLoader);
+                            photoViewerLoader.item.title = eventTab.title;
                             photoViewerLoader.item.animateOpen(mediaSource, rect);
                         }
 
@@ -171,6 +172,7 @@ MainView {
                             var rect = GalleryUtility.translateRect(thumbnailRect,
                                                                     photosOverview,
                                                                     photoViewerLoader);
+                            photoViewerLoader.item.title = photosTab.title;
                             photoViewerLoader.item.animateOpen(mediaSource, rect);
                         }
 
