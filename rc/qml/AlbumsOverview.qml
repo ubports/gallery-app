@@ -28,6 +28,8 @@ import "Utility"
 Checkerboard {
     id: root
 
+    property bool isAlbumOpened: false
+
     property int albumCurrentlyInView: -1
     StateSaver.properties: "albumCurrentlyInView"
 
@@ -162,6 +164,7 @@ Checkerboard {
         if (object.currentPage < 0)
             object.currentPage = 1
 
+        isAlbumOpened = true
         albumCurrentlyInView = object.id
         albumViewer.album = object
         albumViewer.origin = root.getRectOfAlbumPreview(object, albumViewer)
@@ -255,6 +258,9 @@ Checkerboard {
         anchors.fill: parent
         visible: false
         onIsOpenChanged: if (!isOpen) albumCurrentlyInView = -1
+
+        onCloseRequested: isAlbumOpened = false;
+        onQuickCloseRequested: isAlbumOpened = false;
     }
 
     AlbumEditorAnimated {
