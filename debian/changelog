@@ -1,3 +1,24 @@
+gallery-app (0.0.67+14.10.20141008-0ubuntu1) 14.09; urgency=low
+
+  [ Bill Filler ]
+  * use header in splash screen (LP: #1378379)
+
+  [ Arthur Mello ]
+  * Fix the gallery-app crash when removing files (LP: #1334807)
+  * Fix header label not being updated correctly (LP: #1377765)
+
+  [ Ugo Riboni ]
+  * Do not upscale the thumbnail when viewing the unzoomed picture but
+    load a downscaled version of the picture instead (LP: #1376767)
+
+  [ Niklas Wenzel ]
+  * Correct the title for delete dialog based on video or photo.
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 08 Oct 2014 02:34:53 +0000
+
 gallery-app (0.0.67+14.10.20141002-0ubuntu1) 14.09; urgency=low
 
   [ Arthur Mello ]
