@@ -31,9 +31,9 @@ ContainerSource::ContainerSource(QObject * parent, const QString& name, DataObje
     m_contained.setComparator(comparator);
 
     QObject::connect(&m_contained,
-                     SIGNAL(contentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)),
+                     SIGNAL(contentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*, bool)),
                      this,
-                     SLOT(onContentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)));
+                     SLOT(onContentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*, bool)));
 }
 
 /*!
@@ -58,9 +58,9 @@ void ContainerSource::attachMany(const QSet<DataObject*>& objects)
  * \brief ContainerSource::detach
  * \param object
  */
-void ContainerSource::detach(DataObject* object)
+void ContainerSource::detach(DataObject* object, bool notify)
 {
-    m_contained.remove(object);
+    m_contained.remove(object, notify);
 }
 
 /*!
@@ -69,7 +69,7 @@ void ContainerSource::detach(DataObject* object)
  */
 void ContainerSource::detachMany(const QSet<DataObject*>& objects)
 {
-    m_contained.removeMany(objects);
+    m_contained.removeMany(objects, true);
 }
 
 /*!
@@ -127,7 +127,8 @@ void ContainerSource::notifyContainerContentsChanged(const QSet<DataObject*>* ad
  * \param removed
  */
 void ContainerSource::onContentsChanged(const QSet<DataObject*>* added,
-                                        const QSet<DataObject*>* removed)
+                                        const QSet<DataObject*>* removed,
+                                        bool notify)
 {
     notifyContainerContentsChanged(added, removed);
 }

@@ -53,7 +53,8 @@ protected:
     virtual void notifyDestroying(const QSet<DataObject*>* objects);
 
     virtual void notifyContentsChanged(const QSet<DataObject*>* added,
-                                         const QSet<DataObject*>* removed);
+                                         const QSet<DataObject*>* removed,
+                                         bool notify);
 
 private:
     void destroyObjects(const QSet<DataObject*>& objects, bool destroy_backing,

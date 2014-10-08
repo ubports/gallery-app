@@ -453,9 +453,9 @@ void QmlViewCollectionModel::setBackingViewCollection(SelectableViewCollection* 
                      SLOT(onContentsAboutToBeChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)));
 
     QObject::connect(m_view,
-                     SIGNAL(contentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)),
+                     SIGNAL(contentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*, bool)),
                      this,
-                     SLOT(onContentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)));
+                     SLOT(onContentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*, bool)));
 
     QObject::connect(m_view, SIGNAL(orderingChanged()),
                      this, SLOT(onOrderingChanged()));
@@ -492,9 +492,9 @@ void QmlViewCollectionModel::disconnectBackingViewCollection()
                         SLOT(onContentsAboutToBeChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)));
 
     QObject::disconnect(m_view,
-                        SIGNAL(contentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)),
+                        SIGNAL(contentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*, bool)),
                         this,
-                        SLOT(onContentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*)));
+                        SLOT(onContentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*, bool)));
 
     QObject::disconnect(m_view, SIGNAL(orderingChanged()),
                         this, SLOT(onOrderingChanged()));
@@ -764,22 +764,30 @@ void QmlViewCollectionModel::onContentsAboutToBeChanged(const QSet<DataObject*>*
  * \param removed
  */
 void QmlViewCollectionModel::onContentsChanged(const QSet<DataObject*>* added,
-                                                 const QSet<DataObject*>* removed)
+                                                 const QSet<DataObject*>* removed,
+                                                 bool notify)
 {
     // Report removed items using indices gathered from on_contents_to_be_altered()
     if (m_toBeRemoved.count() > 0) {
-        // sort indices in reverse order and walk in descending order so they're
-        // always accurate as items are "removed"
-        qSort(m_toBeRemoved.begin(), m_toBeRemoved.end(), intReverseLessThan);
+        if (notify) {
+            // sort indices in reverse order and walk in descending order so they're
+            // always accurate as items are "removed"
+            qSort(m_toBeRemoved.begin(), m_toBeRemoved.end(), intReverseLessThan);
 
-        // Only if we aren't getting a sub-view do we directly map these up to QML.
-        if (m_head == 0 && m_limit < 0) {
-            int index;
-            foreach (index, m_toBeRemoved)
-                notifyElementRemoved(index);
+            // Only if we aren't getting a sub-view do we directly map these up to QML.
+            if (m_head == 0 && m_limit < 0) {
+                int index;
+                foreach (index, m_toBeRemoved)
+                    notifyElementRemoved(index);
+            }
+
+            m_toBeRemoved.clear();
+        } else {
+            //FIXME We are doing a notifyReset since we are facing model corruption after
+            // some deletes on the Events tab
+            m_toBeRemoved.clear();
+            notifyReset();
         }
-
-        m_toBeRemoved.clear();
     }
 
     // Report inserted items after they've been inserted

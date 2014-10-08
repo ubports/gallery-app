@@ -50,9 +50,10 @@ void DataCollection::notifyContentsToBeChanged(const QSet<DataObject*>* added,
  * \param removed
  */
 void DataCollection::notifyContentsChanged(const QSet<DataObject*>* added,
-                                           const QSet<DataObject*>* removed)
+                                           const QSet<DataObject*>* removed,
+                                           bool notify)
 {
-    emit contentsChanged(added, removed);
+    emit contentsChanged(added, removed, notify);
 }
 
 /*!
@@ -95,7 +96,7 @@ void DataCollection::add(DataObject* object)
     binaryListInsert(object);
     m_set.insert(object);
 
-    notifyContentsChanged(&to_add, NULL);
+    notifyContentsChanged(&to_add, NULL, true);
 
     sanity();
 }
@@ -145,7 +146,7 @@ void DataCollection::addMany(const QSet<DataObject*>& objects)
         resort(false);
     }
 
-    notifyContentsChanged(&to_add, NULL);
+    notifyContentsChanged(&to_add, NULL, true);
 
     sanity();
 }
@@ -154,7 +155,7 @@ void DataCollection::addMany(const QSet<DataObject*>& objects)
  * \brief DataCollection::remove
  * \param object
  */
-void DataCollection::remove(DataObject* object)
+void DataCollection::remove(DataObject* object, bool notify)
 {
     // Silently exit on bad removes
     if (object == NULL || !m_set.contains(object))
@@ -172,7 +173,7 @@ void DataCollection::remove(DataObject* object)
     Q_ASSERT(removed);
     Q_UNUSED(removed);
 
-    notifyContentsChanged(NULL, &to_remove);
+    notifyContentsChanged(NULL, &to_remove, notify);
 
     sanity();
 }
@@ -184,14 +185,14 @@ void DataCollection::remove(DataObject* object)
 void DataCollection::removeAt(int index)
 {
     if (index >= 0 && index < count())
-        remove(getAt(index));
+        remove(getAt(index), true);
 }
 
 /*!
  * \brief DataCollection::removeMany
  * \param objects
  */
-void DataCollection::removeMany(const QSet<DataObject *> &objects)
+void DataCollection::removeMany(const QSet<DataObject *> &objects, bool notify)
 {
     if (objects.count() == 0)
         return;
@@ -217,7 +218,7 @@ void DataCollection::removeMany(const QSet<DataObject *> &objects)
 
     m_set.subtract(to_remove);
 
-    notifyContentsChanged(NULL, &to_remove);
+    notifyContentsChanged(NULL, &to_remove, notify);
 
     sanity();
 }
@@ -241,7 +242,7 @@ void DataCollection::clear()
     m_list.clear();
     m_set.clear();
 
-    notifyContentsChanged(NULL, &all);
+    notifyContentsChanged(NULL, &all, true);
 
     sanity();
 }

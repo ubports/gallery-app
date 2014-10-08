@@ -70,9 +70,9 @@ AlbumCollection::AlbumCollection(MediaCollection *mediaCollection,
     // from the system, they also get removed from all albums.
     QObject::connect(
                 m_mediaCollection,
-                SIGNAL(contentsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*)),
+                SIGNAL(contentsChanged(const QSet<DataObject*>*,const QSet<DataObject*>*, bool)),
                 this,
-                SLOT(onMediaAddedRemoved(const QSet<DataObject*>*,const QSet<DataObject*>*)));
+                SLOT(onMediaAddedRemoved(const QSet<DataObject*>*,const QSet<DataObject*>*, bool)));
 }
 
 /*!
@@ -112,7 +112,8 @@ void AlbumCollection::notifyAlbumCurrentPageContentsChanged(Album* album)
  * \param removed
  */
 void AlbumCollection::onMediaAddedRemoved(const QSet<DataObject *> *added,
-                                             const QSet<DataObject *> *removed)
+                                             const QSet<DataObject *> *removed,
+                                             bool notify)
 {
     if (removed != NULL) {
         // TODO: this could maybe be optimized.  Many albums might not care about
@@ -127,7 +128,7 @@ void AlbumCollection::onMediaAddedRemoved(const QSet<DataObject *> *added,
                 MediaSource* media = qobject_cast<MediaSource*>(object);
                 Q_ASSERT(media != NULL);
 
-                album->detach(media);
+                album->detach(media, true);
             }
         }
     }
@@ -139,9 +140,10 @@ void AlbumCollection::onMediaAddedRemoved(const QSet<DataObject *> *added,
  * \param removed
  */
 void AlbumCollection::notifyContentsChanged(const QSet<DataObject*>* added,
-                                              const QSet<DataObject*>* removed)
+                                              const QSet<DataObject*>* removed,
+                                              const bool notify)
 {
-    ContainerSourceCollection::notifyContentsChanged(added, removed);
+    ContainerSourceCollection::notifyContentsChanged(added, removed, notify);
 
     if (added != NULL) {
         foreach (DataObject* object, *added) {

@@ -57,9 +57,11 @@ protected:
 
 private slots:
     void onEventsChanged(const QSet<DataObject*>* added,
-                         const QSet<DataObject*>* removed);
+                         const QSet<DataObject*>* removed,
+                         bool notify);
     void onEventOverviewContentsChanged(const QSet<DataObject*>* added,
-                                        const QSet<DataObject*>* removed);
+                                        const QSet<DataObject*>* removed,
+                                        bool notify);
     void onEventOverviewSelectionChanged(const QSet<DataObject*>* selected,
                                          const QSet<DataObject*>* unselected);
 

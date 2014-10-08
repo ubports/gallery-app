@@ -69,7 +69,7 @@ void SourceCollection::destroyMany(const QSet<DataObject*>& objects,
 
     notifyDestroying(&intersection);
 
-    removeMany(intersection);
+    removeMany(intersection, true);
 
     destroyObjects(intersection, destroy_backing, delete_objects);
 }
@@ -94,7 +94,7 @@ void SourceCollection::destroy(DataSource* object, bool destroy_backing,
     notifyDestroying(&object_set);
 
     // remove before destroying
-    remove(object);
+    remove(object, true);
 
     object->destroy(destroy_backing);
     if (delete_object)
@@ -116,7 +116,8 @@ void SourceCollection::notifyDestroying(const QSet<DataObject*>* objects)
  * \param removed
  */
 void SourceCollection::notifyContentsChanged(const QSet<DataObject*>* added,
-                                               const QSet<DataObject*>* removed)
+                                               const QSet<DataObject*>* removed,
+                                               bool notify)
 {
     if (added != NULL) {
         // set membership of DataSource to this collection
@@ -137,7 +138,7 @@ void SourceCollection::notifyContentsChanged(const QSet<DataObject*>* added,
         }
     }
 
-    DataCollection::notifyContentsChanged(added, removed);
+    DataCollection::notifyContentsChanged(added, removed, true);
 }
 
 /*!

@@ -89,9 +89,10 @@ MediaSource* MediaCollection::mediaForId(qint64 id)
  * \param removed
  */
 void MediaCollection::notifyContentsChanged(const QSet<DataObject*>* added,
-                                              const QSet<DataObject*>* removed)
+                                            const QSet<DataObject*>* removed,
+                                            bool notify)
 {
-    SourceCollection::notifyContentsChanged(added, removed);
+    SourceCollection::notifyContentsChanged(added, removed, notify);
 
     // Track IDs of objects as they're added and removed.
     if (added != NULL) {

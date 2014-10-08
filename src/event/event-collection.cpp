@@ -85,7 +85,8 @@ bool EventCollection::comparator(DataObject* a, DataObject* b)
  * \param removed
  */
 void EventCollection::onMediaAddedRemoved(const QSet<DataObject *> *added,
-                                           const QSet<DataObject *> *removed)
+                                           const QSet<DataObject *> *removed,
+                                           bool notify)
 {
     if (added != NULL) {
         DataObject* object;
@@ -113,7 +114,7 @@ void EventCollection::onMediaAddedRemoved(const QSet<DataObject *> *added,
             Event* event = m_dateMap.value(media->exposureDate());
             Q_ASSERT(event != NULL);
 
-            event->detach(media);
+            event->detach(media, false);
 
             if (event->containedCount() == 0)
                 destroy(event, true, true);
@@ -127,7 +128,8 @@ void EventCollection::onMediaAddedRemoved(const QSet<DataObject *> *added,
  * \param removed
  */
 void EventCollection::notifyContentsChanged(const QSet<DataObject *> *added,
-                                             const QSet<DataObject *> *removed)
+                                            const QSet<DataObject *> *removed,
+                                            bool notify)
 {
     if (added != NULL) {
         DataObject* object;
@@ -152,5 +154,5 @@ void EventCollection::notifyContentsChanged(const QSet<DataObject *> *added,
         }
     }
 
-    SourceCollection::notifyContentsChanged(added, removed);
+    SourceCollection::notifyContentsChanged(added, removed, notify);
 }

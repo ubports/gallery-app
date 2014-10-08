@@ -158,7 +158,8 @@ private slots:
     void onContentsAboutToBeChanged(const QSet<DataObject*>* added,
                                     const QSet<DataObject*>* removed);
     void onContentsChanged(const QSet<DataObject*>* add,
-                             const QSet<DataObject*>* removed);
+                             const QSet<DataObject*>* removed,
+                             bool notify);
     void onOrderingChanged();
 
 private:
