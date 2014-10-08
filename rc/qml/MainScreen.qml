@@ -55,6 +55,17 @@ MainView {
         for (var i = 0; i < MANAGER.mediaLibrary.count; i++) {
             if (MANAGER.mediaLibrary.getAt(i).path == mediaCurrentlyInView) {
                 photoViewerLoader.load();
+                if (tabs.selectedTabIndex === 0) {
+                    if (albumsTab.isAlbumOpened) {
+                        photoViewerLoader.item.title = i18n.tr("Album");
+                    } else {
+                        photoViewerLoader.item.title = albumsTab.title;
+                    }
+                } else if (tabs.selectedTabIndex === 1) {
+                    photoViewerLoader.item.title = eventTab.title;
+                } else {
+                    photoViewerLoader.item.title = photosTab.title;
+                }
                 photoViewerLoader.item.animateOpen(MANAGER.mediaLibrary.getAt(i),
                                                    Qt.rect(0,0,0,0));
                 return;
@@ -101,6 +112,7 @@ MainView {
             id: albumsTab
             objectName: "albumsTab"
             title: i18n.tr("Albums")
+            property bool isAlbumOpened: page.item ? page.item.isAlbumOpened : false
             page: Loader {
                 id: albumsCheckerboardLoader
                 objectName: "albumsCheckerboardLoader"
@@ -133,6 +145,7 @@ MainView {
                             var rect = GalleryUtility.translateRect(thumbnailRect,
                                                                     eventsOverview,
                                                                     photoViewerLoader);
+                            photoViewerLoader.item.title = eventTab.title;
                             photoViewerLoader.item.animateOpen(mediaSource, rect);
                         }
 
@@ -171,6 +184,7 @@ MainView {
                             var rect = GalleryUtility.translateRect(thumbnailRect,
                                                                     photosOverview,
                                                                     photoViewerLoader);
+                            photoViewerLoader.item.title = photosTab.title;
                             photoViewerLoader.item.animateOpen(mediaSource, rect);
                         }
 

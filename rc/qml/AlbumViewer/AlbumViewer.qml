@@ -304,6 +304,7 @@ Page {
             }
 
             onOpened: {
+                photoViewerLoader.item.title = albumViewer.title;
                 overview.pushPage(target);
                 header.visible = false;
             }
