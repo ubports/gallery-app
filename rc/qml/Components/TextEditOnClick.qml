@@ -52,7 +52,7 @@ FocusScope {
     property variant color: "#000000"
     /*!
     */
-    property real fontPointSize: 12.0
+    property real fontPixelSize
     /*!
     */
     property string fontFamily: "sans-serif"
@@ -118,7 +118,7 @@ FocusScope {
             horizontalAlignment: textEditOnClick.horizontalAlignment
             wrapMode: textEditOnClick.wrapMode
             color: textEditOnClick.color
-            font.pointSize: textEditOnClick.fontPointSize
+            font.pixelSize: textEditOnClick.fontPixelSize
             font.family: textEditOnClick.fontFamily
             maximumLineCount: textEditOnClick.maximumLineCount
 
@@ -150,7 +150,7 @@ FocusScope {
             horizontalAlignment: textEditOnClick.horizontalAlignment
             wrapMode: textEditOnClick.wrapMode
             color: textEditOnClick.color
-            font.pointSize: textEditOnClick.fontPointSize
+            font.pixelSize: textEditOnClick.fontPixelSize
             font.family: textEditOnClick.fontFamily
             inputMethodHints: Qt.ImhNoPredictiveText
 
