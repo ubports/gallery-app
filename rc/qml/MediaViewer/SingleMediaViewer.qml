@@ -152,7 +152,7 @@ Item {
                     anchors.fill: parent
                     asynchronous: true
                     cache: false
-                    source: "image://thumbnailer/" + mediaFileURL.toString()
+                    source: viewer.isVideo ? ("image://thumbnailer/" + mediaFileURL) : mediaFileURL
                     sourceSize {
                         width: viewer.maxDimension
                         height: viewer.maxDimension
