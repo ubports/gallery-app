@@ -1,3 +1,25 @@
+gallery-app (0.0.67+14.10.20141010-0ubuntu1) 14.09; urgency=low
+
+  [ Bill Filler ]
+  * Scale the album title proportionally to the album itself, so it
+    works on all devices. (LP: #1377767)
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+  [ Florian Boucault ]
+  * Respect EXIF orientation when showing a photo by starting to use the
+    GalleryStandardImageProvider again. (LP: #1377298)
+
+  [ Jussi Pakkanen ]
+  * Fix thumbnailer import. (LP: #1368492)
+
+  [ Ugo Riboni ]
+  * Scale the album title proportionally to the album itself, so it
+    works on all devices. (LP: #1377767)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Fri, 10 Oct 2014 01:30:08 +0000
+
 gallery-app (0.0.67+14.10.20141008-0ubuntu1) 14.09; urgency=low
 
   [ Bill Filler ]
