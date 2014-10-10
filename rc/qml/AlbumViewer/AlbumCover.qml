@@ -257,7 +257,7 @@ Item {
                     color: "#ffffff"
 
                     fontFamily: "Ubuntu"
-                    fontPixelSize: albumCover.height * 0.08
+                    fontPixelSize: albumCover.height * 0.09
                     smooth: true
                     textFormat: TextEdit.PlainText
 
@@ -313,7 +313,7 @@ Item {
 
                     fontFamily: "Ubuntu"
 
-                    fontPixelSize: albumCover.height * 0.06
+                    fontPixelSize: albumCover.height * 0.07
                     smooth: true
                     textFormat: TextEdit.PlainText
 
