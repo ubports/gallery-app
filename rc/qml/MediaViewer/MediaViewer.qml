@@ -166,8 +166,7 @@ Item {
         delegate: SingleMediaViewer {
             id: media
             objectName: "openedMedia" + index
-            mediaFileURL: model.mediaSource.path
-            mediaFileType: model.mediaSource.type
+            mediaSource: model.mediaSource
             maxDimension: Math.max(galleryPhotoViewer.width, galleryPhotoViewer.height)
 
             width: galleryPhotoViewer.width

@@ -27,12 +27,11 @@ import "../Components"
 Item {
     id: viewer
     property bool pinchInProgress: zoomPinchArea.active
-    property var mediaFileType
-    property string mediaFileURL
+    property var mediaSource
     property real maxDimension
     property bool showThumbnail: true
 
-    property bool isVideo: mediaFileType === MediaSource.Video
+    property bool isVideo: mediaSource.type === MediaSource.Video
     property bool isPlayingVideo: isVideo && video.isPlaying
     property bool userInteracting: pinchInProgress || flickable.sizeScale != 1.0
     property bool fullyZoomed: flickable.sizeScale == zoomPinchArea.maximumZoom
@@ -152,7 +151,7 @@ Item {
                     anchors.fill: parent
                     asynchronous: true
                     cache: false
-                    source: viewer.isVideo ? ("image://thumbnailer/" + mediaFileURL) : mediaFileURL
+                    source: mediaSource.galleryPreviewPath
                     sourceSize {
                         width: viewer.maxDimension
                         height: viewer.maxDimension
@@ -169,7 +168,8 @@ Item {
                     anchors.fill: parent
                     asynchronous: true
                     cache: false
-                    source: flickable.sizeScale > 1.0 ? mediaFileURL : ""
+                    // Load image using the GalleryStandardImageProvider to ensure EXIF orientation
+                    source: flickable.sizeScale > 1.0 ? mediaSource.galleryPath : ""
                     sourceSize {
                         width: width
                         height: height
@@ -184,7 +184,7 @@ Item {
                 visible: viewer.isVideo && video.status == Loader.Ready &&
                          video.item.playbackState !== MediaPlayer.StoppedState
                 onLoaded: {
-                    item.source = mediaFileURL;
+                    item.source = mediaSource.path;
                     item.play()
                 }
 
