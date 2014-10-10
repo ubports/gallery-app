@@ -87,10 +87,6 @@ Item {
         height : xScale * (coverImageFull.height - 14)
     }
 
-    // internal
-    // Scale text and spacers by factor of cover size.
-    property real textScale: isPreview || width <= 0 || cover.previewPixelWidth <= 0
-                             ? 1 : coverImageFull.sourceSize.width / cover.previewPixelWidth
     /*!
   */
     property real spacerScale: cover.height / units.gu(33) // ratio of image height to canonical height
@@ -261,9 +257,7 @@ Item {
                     color: "#ffffff"
 
                     fontFamily: "Ubuntu"
-                    // Subtract small amount due to a slight mismatch in preview vs.
-                    // full album cover aspect ratios.
-                    fontPointSize: (pointUnits(16) * textScale) - (isPreview ? 2 : 0)
+                    fontPixelSize: albumCover.height * 0.09
                     smooth: true
                     textFormat: TextEdit.PlainText
 
@@ -319,9 +313,7 @@ Item {
 
                     fontFamily: "Ubuntu"
 
-                    // Subtract small amount due to a slight mismatch in preview vs.
-                    // full album cover aspect ratios.
-                    fontPointSize: (pointUnits(10) * textScale) - (isPreview ? 1 : 0)
+                    fontPixelSize: albumCover.height * 0.07
                     smooth: true
                     textFormat: TextEdit.PlainText
 
