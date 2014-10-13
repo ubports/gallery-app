@@ -71,6 +71,10 @@ Item {
 
                 onCloseRequested: {
                     root.isOpen = false;
+                    if (album && album.newAlbum && album.containedCount == 0) {
+                        inner_albumEditor.model.destroyAlbum(album);
+                        album = null;
+                    }
                     if (album) {
                         inner_albumEditorTransition.exitEditor(album, root.origin);
                     } else {
