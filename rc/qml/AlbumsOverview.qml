@@ -174,7 +174,10 @@ Checkerboard {
         if (albumViewer.origin) {
             albumViewer.visible = true;
             overview.pushPage(albumViewer);
-            header.visible = false;
+            if (object.containedCount > 0)
+                header.visible = false;
+            else
+                header.visible = true;
         }
         else
             albumViewer.visible = true
