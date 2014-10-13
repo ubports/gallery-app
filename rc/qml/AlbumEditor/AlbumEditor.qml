@@ -21,6 +21,7 @@
 import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 1.1
+import Ubuntu.Components.Popups 0.1
 import "../../js/GalleryUtility.js" as GalleryUtility
 import "../../js/GraphicsRoutines.js" as GraphicsRoutines
 import "../AlbumViewer"
@@ -176,7 +177,10 @@ Page {
             onPressed: {
                 mouse.accepted = true;
                 if (!isTextEditing) {
-                    coverMenu.show();
+                    coverMenu = PopupUtils.open(Qt.resolvedUrl("AlbumCoverMenu.qml"), null);
+                    coverMenu.newCoverSelected.connect(function(coverName) {
+                        albumEditor.album.coverNickname = coverName;
+                    });
                 } else {
                     cover.editingDone()
                 }
@@ -184,8 +188,9 @@ Page {
 
             onIsTextEditingChanged: {
                 // Hide menu when we start editing text.
-                if (isTextEditing && coverMenu.visible)
-                    coverMenu.hide();
+                if (isTextEditing && coverMenu.visible) {
+                    PopupUtils.close(coverMenu);
+                }
             }
 
             onAddPhotos: {
@@ -196,11 +201,7 @@ Page {
         }
     }
 
-    // Cover picker
-    AlbumCoverMenu {
-        id: coverMenu
-        onNewCoverSelected: albumEditor.album.coverNickname = coverName;
-    }
+    property AlbumCoverMenu coverMenu: null
 
     Component {
         id: mediaSelectorComponent
