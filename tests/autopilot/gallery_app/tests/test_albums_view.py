@@ -68,13 +68,26 @@ class TestAlbumsView(GalleryTestCase):
 
     def test_add_album_and_cancel(self):
         """Add one album, cancel it and checks if the number of albums does
-        not change
+        not change. Do this in the two different ways we have to cancel editing.
         """
+
+        # Cancel by pressing back in the header
         albums = self.albums_view.number_of_albums_in_albums_view()
         self.main_view.get_header().click_action_button("addButton")
         editor = self.app.select_single(album_editor.AlbumEditor)
         editor.ensure_fully_open()
         self.main_view.get_header().click_custom_back_button()
+        self.assertThat(
+            lambda: self.albums_view.number_of_albums_in_albums_view(),
+            Eventually(Equals(albums))
+        )
+
+        # Cancel by clicking outside of the album cover
+        self.main_view.get_header().click_action_button("addButton")
+        editor = self.app.select_single(album_editor.AlbumEditor)
+        editor.ensure_fully_open()
+        editor.close()
+
         self.assertThat(
             lambda: self.albums_view.number_of_albums_in_albums_view(),
             Eventually(Equals(albums))
