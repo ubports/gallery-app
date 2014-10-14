@@ -188,7 +188,6 @@ Page {
                 // Handle add button.
                 if (hit.objectName === "addButton")
                     showMediaSelector();
-
                 else if (!hit.mediaSource) {
                     albumViewer.toggleHeaderVisibility();
                     return;
