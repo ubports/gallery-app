@@ -189,7 +189,9 @@ Item {
         source: APP.pickModeEnabled ? Qt.resolvedUrl("PickerScreen.qml") : Qt.resolvedUrl("MainScreen.qml")
     }
 
-    Component.onCompleted: {
-        i18n.domain = "gallery-app";
+    Binding { 
+        target: i18n
+        property: "domain"
+        value: "gallery-app" 
     }
 }
