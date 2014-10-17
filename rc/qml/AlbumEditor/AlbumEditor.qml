@@ -132,7 +132,7 @@ Page {
     onWidthChanged: resetEditorRect()
     onHeightChanged: resetEditorRect()
 
-    AlbumCollectionModel {
+    property AlbumCollectionModel model: AlbumCollectionModel {
         id: albumModel
     }
 
