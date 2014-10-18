@@ -1,26 +1,26 @@
-# Catalan (Valencian) translation for gallery-app
-# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# Catalan translation for gallery-app
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
 # This file is distributed under the same license as the gallery-app package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-09-16 14:16+0200\n"
-"PO-Revision-Date: 2014-10-17 05:38+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Catalan (Valencian) <ca@valencia@li.org>\n"
+"PO-Revision-Date: 2014-10-17 14:28+0000\n"
+"Last-Translator: David Planella <david.planella@ubuntu.com>\n"
+"Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-10-17 06:20+0000\n"
+"X-Launchpad-Export-Date: 2014-10-18 07:06+0000\n"
 "X-Generator: Launchpad (build 17196)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:35
 msgid "Edit album"
-msgstr ""
+msgstr "Edita l'àlbum"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
 #: rc/qml/AlbumViewer/AlbumViewer.qml:369
@@ -29,308 +29,308 @@ msgstr ""
 #: rc/qml/MediaViewer/MediaViewer.qml:532 rc/qml/Utility/EditingHUD.qml:67
 #: rc/qml/Utility/SelectionToolbarAction.qml:56
 msgid "Delete"
-msgstr ""
+msgstr "Suprimeix"
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:38
 #: rc/qml/Components/MediaSelector.qml:92
 #: rc/qml/MediaViewer/MediaViewer.qml:320 rc/qml/PickerScreen.qml:117
 #: rc/qml/Utility/SelectionToolbarAction.qml:75
 msgid "Cancel"
-msgstr ""
+msgstr "Cancel·la"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
-msgstr ""
+msgstr "Predeterminat"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:114
 msgid "Blue"
-msgstr ""
+msgstr "Blau"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:115
 msgid "Green"
-msgstr ""
+msgstr "Verd"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:116
 msgid "Pattern"
-msgstr ""
+msgstr "Patró"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:117
 msgid "Red"
-msgstr ""
+msgstr "Roig"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:103
 msgid "Album"
-msgstr ""
+msgstr "Àlbum"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:363
 #: rc/qml/MediaViewer/MediaViewer.qml:481
 #: rc/qml/MediaViewer/MediaViewer.qml:523
 msgid "Add to album"
-msgstr ""
+msgstr "Afig a l'àlbum"
 
 #: rc/qml/AlbumsOverview.qml:225 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
-msgstr ""
+msgstr "Afig un àlbum nou"
 
 #: rc/qml/AlbumsOverview.qml:229 rc/qml/Components/PopupAlbumPicker.qml:101
 msgid "New Photo Album"
-msgstr ""
+msgstr "Àlbum de fotografies nou"
 
 #: rc/qml/AlbumsOverview.qml:230 rc/qml/Components/PopupAlbumPicker.qml:102
 msgid "Subtitle"
-msgstr ""
+msgstr "Subtítol"
 
 #: rc/qml/AlbumsOverview.qml:239 rc/qml/Utility/EditingHUD.qml:77
 #: rc/qml/Utility/SelectionToolbarAction.qml:47
 msgid "Add"
-msgstr ""
+msgstr "Afig"
 
 #: rc/qml/AlbumsOverview.qml:244 rc/qml/Utility/PhotosToolbarActions.qml:51
 msgid "Camera"
-msgstr ""
+msgstr "Càmera"
 
 #: rc/qml/Components/DeleteDialog.qml:36
 #: rc/qml/MediaViewer/MediaViewer.qml:268
 msgid "Yes"
-msgstr ""
+msgstr "Sí"
 
 #: rc/qml/Components/DeleteDialog.qml:45
 #: rc/qml/MediaViewer/MediaViewer.qml:279
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr ""
+msgstr "Suprimeix l'àlbum"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr ""
+msgstr "Suprimeix l'àlbum i els seu contingut"
 
 #: rc/qml/Components/MediaSelector.qml:59
 #: rc/qml/Components/MediaSelector.qml:80
 msgid "Add to Album"
-msgstr ""
+msgstr "Afig a l'àlbum"
 
 #: rc/qml/Components/PopupAlbumPicker.qml:161 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr ""
+msgstr "Afig la fotografia a l'àlbum"
 
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
-msgstr ""
+msgstr "S'està carregant..."
 
 #: rc/qml/MainScreen.qml:98
 msgid "Albums"
-msgstr ""
+msgstr "Àlbums"
 
 #: rc/qml/MainScreen.qml:115 rc/qml/MainScreen.qml:138
 #: rc/qml/PickerScreen.qml:57
 msgid "Events"
-msgstr ""
+msgstr "Esdeveniments"
 
 #: rc/qml/MainScreen.qml:136 rc/qml/MainScreen.qml:180
 #: rc/qml/Utility/PhotosToolbarActions.qml:34
 msgid "Select"
-msgstr ""
+msgstr "Selecciona"
 
 #: rc/qml/MainScreen.qml:148 rc/qml/MainScreen.qml:182
 #: rc/qml/PickerScreen.qml:80
 msgid "Photos"
-msgstr ""
+msgstr "Fotografies"
 
 #: rc/qml/MediaViewer/CropOverlay.qml:352
 #: rc/qml/MediaViewer/EditPopover.qml:51 rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr ""
+msgstr "Escapça"
 
 #: rc/qml/MediaViewer/EditPopover.qml:42 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr ""
+msgstr "Gira"
 
 #: rc/qml/MediaViewer/EditPopover.qml:60
 msgid "Auto enhance"
-msgstr ""
+msgstr "Millora automàtica"
 
 #: rc/qml/MediaViewer/EditPopover.qml:69 rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
-msgstr ""
+msgstr "Desfés"
 
 #: rc/qml/MediaViewer/EditPopover.qml:79 rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr ""
+msgstr "Refés"
 
 #: rc/qml/MediaViewer/EditPopover.qml:89
 msgid "Revert to original"
-msgstr ""
+msgstr "Torna a l'original"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:257 rc/qml/PhotosOverview.qml:75
 msgid "Delete a photo"
-msgstr ""
+msgstr "Suprimeix una foto"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:290
 msgid "Remove a photo from album"
-msgstr ""
+msgstr "Suprimeix una foto de l'àlbum"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:299
 msgid "Remove from Album"
-msgstr ""
+msgstr "Suprimeix de l'àlbum"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:310
 msgid "Remove from Album and Delete"
-msgstr ""
+msgstr "Suprimeix de l'àlbum i del dispositiu"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:475
 msgid "Edit"
-msgstr ""
+msgstr "Edita"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:502
 #: rc/qml/MediaViewer/MediaViewer.qml:542
 msgid "Share photo"
-msgstr ""
+msgstr "Comparteix la fotografia"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:514
 msgid "Pause"
-msgstr ""
+msgstr "Fes una pausa"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:514
 msgid "Play"
-msgstr ""
+msgstr "Reprodueix"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:56
 #: desktop/gallery-app.desktop.in.in.h:1
 msgid "Gallery"
-msgstr ""
+msgstr "Galeria"
 
 #: rc/qml/PhotosOverview.qml:74
 msgid "Delete photos"
-msgstr ""
+msgstr "Suprimeix les fotos"
 
 #: rc/qml/PickerScreen.qml:105
 msgid "Pick"
-msgstr ""
+msgstr "Tria"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr ""
+msgstr "Paperera;Esborra;Suprimeix"
 
 #: rc/qml/Utility/EditingHUD.qml:72
 #: rc/qml/Utility/SelectionToolbarAction.qml:65
 msgid "Share"
-msgstr ""
+msgstr "Comparteix"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
-msgstr ""
+msgstr "Publica;Puja;Adjunta"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr ""
+msgstr "Cancel·la l'acció;Torna arrere"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr ""
+msgstr "Torna a aplicar;Torna-ho a fer"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr ""
+msgstr "Millora automàticament"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr ""
+msgstr "Ajusta la imatge automàticament"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr ""
+msgstr "Ajusta la fotografia automàticament"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr ""
+msgstr "Gira en el sentit de les agulles del rellotge"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr ""
+msgstr "Gira la imatge en sentit horari"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr ""
+msgstr "Redueix;Retalla"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr ""
+msgstr "Escapça la imatge"
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr ""
+msgstr "Reverteix a l'original"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr ""
+msgstr "Descarta els canvis"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr ""
+msgstr "Descarta tots els canvis"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr ""
+msgstr "Exposició"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr ""
+msgstr "Ajusta l'exposició"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr ""
+msgstr "Subexposició;Sobreexposició"
 
 #: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
 msgid "Confirm"
-msgstr ""
+msgstr "Confirma"
 
 #: rc/qml/Utility/EditingHUD.qml:126
 msgid "Compensation"
-msgstr ""
+msgstr "Compensació"
 
 #: rc/qml/Utility/EditingHUD.qml:160
 msgid "Color Balance"
-msgstr ""
+msgstr "Balanç de color"
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Adjust color balance"
-msgstr ""
+msgstr "Ajusta el balanç de color"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
-msgstr ""
+msgstr "Saturació;Matís"
 
 #: rc/qml/Utility/EditingHUD.qml:167
 msgid "Brightness"
-msgstr ""
+msgstr "Brillantor"
 
 #: rc/qml/Utility/EditingHUD.qml:178
 msgid "Contrast"
-msgstr ""
+msgstr "Contrast"
 
 #: rc/qml/Utility/EditingHUD.qml:189
 msgid "Saturation"
-msgstr ""
+msgstr "Saturació"
 
 #: rc/qml/Utility/EditingHUD.qml:200
 msgid "Hue"
-msgstr ""
+msgstr "To"
 
 #: rc/qml/Utility/PhotosToolbarActions.qml:43
 msgid "Import"
-msgstr ""
+msgstr "Importa"
 
 #: desktop/gallery-app.desktop.in.in.h:2
 msgid "Ubuntu Photo Viewer"
-msgstr ""
+msgstr "Visualitzador d'imatges de l'Ubuntu"
 
 #: desktop/gallery-app.desktop.in.in.h:3
 msgid "Browse your photographs"
-msgstr ""
+msgstr "Navegueu per les vostres fotografies"
 
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
-msgstr ""
+msgstr "fotos;fotografies;àlbums"
