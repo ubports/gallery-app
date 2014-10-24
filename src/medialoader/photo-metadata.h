@@ -49,6 +49,7 @@ public:
     OrientationCorrection orientationCorrection() const;
 
     void setOrientation(Orientation orientation);
+    void setDateTimeDigitized(const QDateTime& digitized);
 
     bool save() const;
 
