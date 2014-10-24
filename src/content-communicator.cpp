@@ -25,6 +25,9 @@
 #include <com/ubuntu/content/item.h>
 #include <com/ubuntu/content/transfer.h>
 
+// medialoader
+#include "photo-metadata.h"
+
 using namespace com::ubuntu::content;
 
 /*!
@@ -73,6 +76,11 @@ void ContentCommunicator::handle_import(content::Transfer *transfer)
             dir = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation) + QDir::separator();
         } else {
             dir = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator();
+            // Set the TimeDigitized field of the Exif data to make imported photos
+            // to show up on imported date Event
+            PhotoMetadata* metadata = PhotoMetadata::fromFile(fi);
+            metadata->setDateTimeDigitized(QDateTime::currentDateTime());
+            metadata->save();
         }
         QString destination = QString("%1%2").arg(dir + filenameWithoutSuffix, suffix);
         // If we already have a file of this name reformat to "filename.x.png"
