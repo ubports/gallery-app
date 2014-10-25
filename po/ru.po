@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-09-16 14:16+0200\n"
-"PO-Revision-Date: 2014-09-09 09:39+0000\n"
-"Last-Translator: Jay ZDLin <Unknown>\n"
+"PO-Revision-Date: 2014-10-24 10:01+0000\n"
+"Last-Translator: ☠Jay ZDLin☠ <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-10-17 06:19+0000\n"
-"X-Generator: Launchpad (build 17196)\n"
+"X-Launchpad-Export-Date: 2014-10-25 05:59+0000\n"
+"X-Generator: Launchpad (build 17203)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:35
@@ -74,11 +74,11 @@ msgstr "Добавить новый альбом"
 
 #: rc/qml/AlbumsOverview.qml:229 rc/qml/Components/PopupAlbumPicker.qml:101
 msgid "New Photo Album"
-msgstr ""
+msgstr "Новый фотоальбом"
 
 #: rc/qml/AlbumsOverview.qml:230 rc/qml/Components/PopupAlbumPicker.qml:102
 msgid "Subtitle"
-msgstr ""
+msgstr "Подзаголовок"
 
 #: rc/qml/AlbumsOverview.qml:239 rc/qml/Utility/EditingHUD.qml:77
 #: rc/qml/Utility/SelectionToolbarAction.qml:47
@@ -333,4 +333,4 @@ msgstr "Просматривайте ваши фотографии"
 
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
-msgstr ""
+msgstr "Фотографии;Изображения;Альбомы"
