@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-09-16 14:16+0200\n"
-"PO-Revision-Date: 2013-10-25 08:51+0000\n"
-"Last-Translator: Arun Kumar - அருண் குமார் <thangam.arunx@gmail.com>\n"
+"PO-Revision-Date: 2014-10-26 03:19+0000\n"
+"Last-Translator: முரளி (murali) <Unknown>\n"
 "Language-Team: Tamil <ta@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2014-10-17 06:19+0000\n"
-"X-Generator: Launchpad (build 17196)\n"
+"X-Launchpad-Export-Date: 2014-10-26 05:55+0000\n"
+"X-Generator: Launchpad (build 17203)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:35
@@ -60,7 +60,7 @@ msgstr "சிகப்பு"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:103
 msgid "Album"
-msgstr ""
+msgstr "தொகுப்பு"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:363
 #: rc/qml/MediaViewer/MediaViewer.qml:481
@@ -74,11 +74,11 @@ msgstr "பதிய படத்தொகுப்பை சேர்"
 
 #: rc/qml/AlbumsOverview.qml:229 rc/qml/Components/PopupAlbumPicker.qml:101
 msgid "New Photo Album"
-msgstr ""
+msgstr "புதிய படத்தொகுப்பு"
 
 #: rc/qml/AlbumsOverview.qml:230 rc/qml/Components/PopupAlbumPicker.qml:102
 msgid "Subtitle"
-msgstr ""
+msgstr "துணை உரை"
 
 #: rc/qml/AlbumsOverview.qml:239 rc/qml/Utility/EditingHUD.qml:77
 #: rc/qml/Utility/SelectionToolbarAction.qml:47
@@ -170,15 +170,15 @@ msgstr "ஒரு புகைப்படத்தை நீக்கு"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:290
 msgid "Remove a photo from album"
-msgstr ""
+msgstr "தொகுப்பிலிருந்து ஒரு படத்தை நீக்கு"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:299
 msgid "Remove from Album"
-msgstr ""
+msgstr "தொகுப்பில் இருந்து நீக்கு"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:310
 msgid "Remove from Album and Delete"
-msgstr ""
+msgstr "தொகுப்பிலிருந்து நீக்கி அழி"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:475
 msgid "Edit"
@@ -208,7 +208,7 @@ msgstr "படங்களை நீக்கு"
 
 #: rc/qml/PickerScreen.qml:105
 msgid "Pick"
-msgstr ""
+msgstr "எடு"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
@@ -333,4 +333,4 @@ msgstr "உங்களுடைய புகைப்படங்களை உ�
 
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
-msgstr ""
+msgstr "புகைப்படங்கள்;படங்கள்;தொகுப்புகள்"
