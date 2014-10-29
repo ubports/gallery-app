@@ -58,6 +58,7 @@ public:
 
 signals:
     void mediaRequested(QString mediaType);
+    void mediaImported();
     void selectionTypeChanged();
     void singleContentPickModeChanged();
 

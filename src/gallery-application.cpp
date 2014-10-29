@@ -115,6 +115,10 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
     QObject::connect(m_contentCommunicator, SIGNAL(mediaRequested(QString)),
                      this, SLOT(switchToPickMode(QString)));
 
+    QObject::connect(m_contentCommunicator, SIGNAL(mediaImported()),
+                     this, SLOT(switchToEventsView()));
+
+
     if (m_cmdLineParser->startupTimer())
         qDebug() << "Construct GalleryApplication" << m_timer->elapsed() << "ms";
 }
@@ -326,6 +330,21 @@ void GalleryApplication::switchToPickMode(QString mediaTypeFilter)
     if (mediaTypeFilter == "pictures") newFilter = MediaSource::Photo;
     else if (mediaTypeFilter == "videos") newFilter = MediaSource::Video;
     else newFilter = MediaSource::None;
+
+    if (newFilter != m_mediaTypeFilter) {
+        m_mediaTypeFilter = newFilter;
+        Q_EMIT mediaTypeFilterChanged();
+    }
+}
+
+/*!
+ * \brief GalleryApplication::switchToEventsView
+ */
+void GalleryApplication::switchToEventsView()
+{
+    setUiMode(PickContentMode);
+
+    MediaSource::MediaType newFilter = MediaSource::Photo;
 
     if (newFilter != m_mediaTypeFilter) {
         m_mediaTypeFilter = newFilter;
