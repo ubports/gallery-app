@@ -45,6 +45,8 @@ MainView {
 
     property alias currentPage: pageStack.currentPage
 
+    property bool eventsViewRequested: APP.eventsViewRequested
+
     function openMediaFile(media) {
         if (__isPhotoViewerOpen) {
             popPage();
@@ -83,6 +85,18 @@ MainView {
                 openMediaFile(APP.mediaFile);
             else if (mediaCurrentlyInView !== "")
                 openMediaFile(mediaCurrentlyInView);
+        }
+    }
+
+    onEventsViewRequestedChanged: {
+        if (eventsViewRequested) {
+            if (__isPhotoViewerOpen) {
+               popPage();
+                photoViewerLoader.item.fadeClosed();
+            }
+
+            tabs.selectedTabIndex = 1;
+            APP.eventsViewRequested = false;
         }
     }
 

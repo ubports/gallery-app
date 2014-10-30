@@ -69,7 +69,8 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
       m_pickModeEnabled(false),
       m_defaultUiMode(BrowseContentMode),
       m_mediaTypeFilter(MediaSource::None),
-      m_mediaFile("")
+      m_mediaFile(""),
+      m_eventsViewRequested(false)
 {
     m_bguSize = QProcessEnvironment::systemEnvironment().value("GRID_UNIT_PX", "8").toInt();
     if (m_bguSize <= 0)
@@ -116,8 +117,7 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
                      this, SLOT(switchToPickMode(QString)));
 
     QObject::connect(m_contentCommunicator, SIGNAL(mediaImported()),
-                     this, SLOT(switchToEventsView()));
-
+                     this, SLOT(setEventsViewRequested(true)));
 
     if (m_cmdLineParser->startupTimer())
         qDebug() << "Construct GalleryApplication" << m_timer->elapsed() << "ms";
@@ -195,6 +195,14 @@ bool GalleryApplication::isFullScreen() const
 const QString& GalleryApplication::getMediaFile() const
 {
     return m_mediaFile;
+}
+
+/*!
+ * \brief GalleryApplication::eventsViewRequested
+ */
+bool GalleryApplication::eventsViewRequested() const
+{
+    return m_eventsViewRequested;
 }
 
 /*!
@@ -338,21 +346,6 @@ void GalleryApplication::switchToPickMode(QString mediaTypeFilter)
 }
 
 /*!
- * \brief GalleryApplication::switchToEventsView
- */
-void GalleryApplication::switchToEventsView()
-{
-    setUiMode(PickContentMode);
-
-    MediaSource::MediaType newFilter = MediaSource::Photo;
-
-    if (newFilter != m_mediaTypeFilter) {
-        m_mediaTypeFilter = newFilter;
-        Q_EMIT mediaTypeFilterChanged();
-    }
-}
-
-/*!
  * \brief GalleryApplication::setFullScreen
  * Change window state to fullScreen or no state
  */
@@ -372,6 +365,17 @@ void GalleryApplication::setMediaFile(const QString &mediaFile)
     if(!mediaFile.isEmpty()) {
         m_mediaFile = "file://" + mediaFile;
         Q_EMIT mediaFileChanged();
+    }
+}
+
+/*!
+ * \brief GalleryApplication::eventsViewRequested
+ */
+void GalleryApplication::setEventsViewRequested(bool eventsViewRequested)
+{
+    if (eventsViewRequested != m_eventsViewRequested) {
+        m_eventsViewRequested = eventsViewRequested;
+        Q_EMIT eventsViewRequestedChanged();
     }
 }
 
