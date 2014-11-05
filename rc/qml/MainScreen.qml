@@ -42,10 +42,10 @@ MainView {
 
     //fullScreen property is used on autopilot tests
     property bool fullScreen: APP.fullScreen
+   
+    property bool eventsViewRequested: APP.eventsViewRequested
 
     property alias currentPage: pageStack.currentPage
-
-    property bool eventsViewRequested: APP.eventsViewRequested
 
     function openMediaFile(media) {
         if (__isPhotoViewerOpen) {
@@ -89,15 +89,7 @@ MainView {
     }
 
     onEventsViewRequestedChanged: {
-        if (eventsViewRequested) {
-            if (__isPhotoViewerOpen) {
-               popPage();
-                photoViewerLoader.item.fadeClosed();
-            }
-
-            tabs.selectedTabIndex = 1;
-            APP.eventsViewRequested = false;
-        }
+        tabs.selectedTabIndex = 1;
     }
 
     function pushPage(page) {

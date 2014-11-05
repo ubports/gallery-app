@@ -67,10 +67,10 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
       m_view(new QQuickView()),
       m_contentCommunicator(new ContentCommunicator(this)),
       m_pickModeEnabled(false),
+      m_eventsViewRequested(false),
       m_defaultUiMode(BrowseContentMode),
       m_mediaTypeFilter(MediaSource::None),
-      m_mediaFile(""),
-      m_eventsViewRequested(false)
+      m_mediaFile("")
 {
     m_bguSize = QProcessEnvironment::systemEnvironment().value("GRID_UNIT_PX", "8").toInt();
     if (m_bguSize <= 0)
@@ -117,7 +117,8 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
                      this, SLOT(switchToPickMode(QString)));
 
     QObject::connect(m_contentCommunicator, SIGNAL(mediaImported()),
-                     this, SLOT(setEventsViewRequested(true)));
+                     this, SLOT(switchToEventsView()));
+
 
     if (m_cmdLineParser->startupTimer())
         qDebug() << "Construct GalleryApplication" << m_timer->elapsed() << "ms";
@@ -195,14 +196,6 @@ bool GalleryApplication::isFullScreen() const
 const QString& GalleryApplication::getMediaFile() const
 {
     return m_mediaFile;
-}
-
-/*!
- * \brief GalleryApplication::eventsViewRequested
- */
-bool GalleryApplication::eventsViewRequested() const
-{
-    return m_eventsViewRequested;
 }
 
 /*!
@@ -316,6 +309,14 @@ bool GalleryApplication::pickModeEnabled() const
 }
 
 /*!
+ * \brief GalleryApplication::eventsViewRequested
+ */
+bool GalleryApplication::eventsViewRequested() const
+{
+    return m_eventsViewRequested;
+}
+
+/*!
  * \brief GalleryApplication::contentTypeFilter returns the type of
  * content to display in the UI. If the empty string is returned then
  * no content filter is in place.
@@ -346,6 +347,15 @@ void GalleryApplication::switchToPickMode(QString mediaTypeFilter)
 }
 
 /*!
+ * \brief GalleryApplication::switchToEventsView
+ */
+void GalleryApplication::switchToEventsView()
+{
+    m_eventsViewRequested = true;
+    Q_EMIT eventsViewRequestedChanged();
+}
+
+/*!
  * \brief GalleryApplication::setFullScreen
  * Change window state to fullScreen or no state
  */
@@ -365,17 +375,6 @@ void GalleryApplication::setMediaFile(const QString &mediaFile)
     if(!mediaFile.isEmpty()) {
         m_mediaFile = "file://" + mediaFile;
         Q_EMIT mediaFileChanged();
-    }
-}
-
-/*!
- * \brief GalleryApplication::eventsViewRequested
- */
-void GalleryApplication::setEventsViewRequested(bool eventsViewRequested)
-{
-    if (eventsViewRequested != m_eventsViewRequested) {
-        m_eventsViewRequested = eventsViewRequested;
-        Q_EMIT eventsViewRequestedChanged();
     }
 }
 

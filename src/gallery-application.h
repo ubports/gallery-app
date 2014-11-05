@@ -40,11 +40,11 @@ class GalleryApplication : public QApplication
 {
     Q_OBJECT
     Q_PROPERTY(bool pickModeEnabled READ pickModeEnabled NOTIFY pickModeEnabledChanged)
+    Q_PROPERTY(bool eventsViewRequested READ eventsViewRequested NOTIFY eventsViewRequestedChanged)
     Q_PROPERTY(MediaSource::MediaType mediaTypeFilter READ mediaTypeFilter NOTIFY mediaTypeFilterChanged)
     Q_PROPERTY(bool desktopMode READ isDesktopMode CONSTANT)
     Q_PROPERTY(bool fullScreen READ isFullScreen WRITE setFullScreen NOTIFY fullScreenChanged)
     Q_PROPERTY(QString mediaFile READ getMediaFile WRITE setMediaFile NOTIFY mediaFileChanged)
-    Q_PROPERTY(bool eventsViewRequested READ eventsViewRequested WRITE setEventsViewRequested NOTIFY eventsViewRequestedChanged)
 
 public:
     enum UiMode{
@@ -61,11 +61,11 @@ public:
     UiMode defaultUiMode() const;
     void setUiMode(UiMode mode);
     bool pickModeEnabled() const;
+    bool eventsViewRequested() const;
     bool isDesktopMode() const;
     bool isFullScreen() const;
     MediaSource::MediaType mediaTypeFilter() const;
     const QString &getMediaFile() const;
-    bool eventsViewRequested() const;
 
     Q_INVOKABLE void returnPickedContent(QVariant variant);
     Q_INVOKABLE void contentPickingCanceled();
@@ -76,18 +76,18 @@ public:
 signals:
     void mediaLoaded();
     void pickModeEnabledChanged();
+    void eventsViewRequestedChanged();
     void fullScreenChanged();
     void mediaTypeFilterChanged();
     void mediaFileChanged();
-    void eventsViewRequestedChanged();
 
 private slots:
     void initCollections();
     void switchToPickMode(QString mediaTypeFilter);
+    void switchToEventsView();
     void setFullScreen(bool fullScreen);
     void consistencyCheckFinished();
     void setMediaFile(const QString &mediaFile);
-    void setEventsViewRequested(bool eventsViewRequested);
 
 private:
     void registerQML();
@@ -101,10 +101,10 @@ private:
     QHash<QString, QSize> m_formFactors;
     int m_bguSize;
     bool m_pickModeEnabled;
+    bool m_eventsViewRequested;
     UiMode m_defaultUiMode;
     MediaSource::MediaType m_mediaTypeFilter;
     QString m_mediaFile;
-    bool m_eventsViewRequested;
 
     static QElapsedTimer *m_timer;
 };
