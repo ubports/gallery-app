@@ -107,6 +107,13 @@ Page {
         source: "../../img/background-paper.png"
     }
 
+    function closeAlbum() {
+        if (photoViewerLoader.item && photoViewerLoader.item.isPoppedUp) {
+            photoViewerLoader.item.closePopupPhotoViewer();
+        }
+        __close();
+    }
+
     /// Closes the view as stores the page number the page number currently viewed
     function __close() {
         closeRequested(album.containedCount > 0, albumSpreadViewer.viewingPage)

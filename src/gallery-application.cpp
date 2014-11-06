@@ -67,7 +67,6 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
       m_view(new QQuickView()),
       m_contentCommunicator(new ContentCommunicator(this)),
       m_pickModeEnabled(false),
-      m_eventsViewRequested(false),
       m_defaultUiMode(BrowseContentMode),
       m_mediaTypeFilter(MediaSource::None),
       m_mediaFile("")
@@ -309,14 +308,6 @@ bool GalleryApplication::pickModeEnabled() const
 }
 
 /*!
- * \brief GalleryApplication::eventsViewRequested
- */
-bool GalleryApplication::eventsViewRequested() const
-{
-    return m_eventsViewRequested;
-}
-
-/*!
  * \brief GalleryApplication::contentTypeFilter returns the type of
  * content to display in the UI. If the empty string is returned then
  * no content filter is in place.
@@ -351,8 +342,7 @@ void GalleryApplication::switchToPickMode(QString mediaTypeFilter)
  */
 void GalleryApplication::switchToEventsView()
 {
-    m_eventsViewRequested = true;
-    Q_EMIT eventsViewRequestedChanged();
+    Q_EMIT eventsViewRequested();
 }
 
 /*!

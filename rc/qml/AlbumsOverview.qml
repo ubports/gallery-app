@@ -76,6 +76,11 @@ Checkerboard {
         return getRectOfItemAt(model.indexOf(album), relativeTo);
     }
 
+    function closeAlbum() {
+        if (isAlbumOpened)
+            albumViewer.closeAlbum();
+    }
+
     topExtraGutter: getDeviceSpecific("albumGridTopMargin")
     bottomExtraGutter: getDeviceSpecific("albumGridGutterHeight") / 2
     leftExtraGutter: getDeviceSpecific("albumGridLeftMargin")

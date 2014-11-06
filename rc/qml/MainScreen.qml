@@ -43,8 +43,6 @@ MainView {
     //fullScreen property is used on autopilot tests
     property bool fullScreen: APP.fullScreen
    
-    property bool eventsViewRequested: APP.eventsViewRequested
-
     property alias currentPage: pageStack.currentPage
 
     function openMediaFile(media) {
@@ -88,8 +86,20 @@ MainView {
         }
     }
 
-    onEventsViewRequestedChanged: {
-        tabs.selectedTabIndex = 1;
+    Connections {
+        target: APP
+        onEventsViewRequested: {
+            if (__isPhotoViewerOpen) {
+                photoViewerLoader.item.fadeClosed();
+                popPage();
+            } else if (allLoaded && albumsCheckerboardLoader.item) {
+                albumsCheckerboardLoader.item.closeAlbum();
+            }
+
+            header.visible = true;
+
+            tabs.selectedTabIndex = 1;
+        }
     }
 
     function pushPage(page) {

@@ -40,7 +40,6 @@ class GalleryApplication : public QApplication
 {
     Q_OBJECT
     Q_PROPERTY(bool pickModeEnabled READ pickModeEnabled NOTIFY pickModeEnabledChanged)
-    Q_PROPERTY(bool eventsViewRequested READ eventsViewRequested NOTIFY eventsViewRequestedChanged)
     Q_PROPERTY(MediaSource::MediaType mediaTypeFilter READ mediaTypeFilter NOTIFY mediaTypeFilterChanged)
     Q_PROPERTY(bool desktopMode READ isDesktopMode CONSTANT)
     Q_PROPERTY(bool fullScreen READ isFullScreen WRITE setFullScreen NOTIFY fullScreenChanged)
@@ -61,7 +60,6 @@ public:
     UiMode defaultUiMode() const;
     void setUiMode(UiMode mode);
     bool pickModeEnabled() const;
-    bool eventsViewRequested() const;
     bool isDesktopMode() const;
     bool isFullScreen() const;
     MediaSource::MediaType mediaTypeFilter() const;
@@ -76,10 +74,10 @@ public:
 signals:
     void mediaLoaded();
     void pickModeEnabledChanged();
-    void eventsViewRequestedChanged();
     void fullScreenChanged();
     void mediaTypeFilterChanged();
     void mediaFileChanged();
+    void eventsViewRequested();
 
 private slots:
     void initCollections();
@@ -101,7 +99,6 @@ private:
     QHash<QString, QSize> m_formFactors;
     int m_bguSize;
     bool m_pickModeEnabled;
-    bool m_eventsViewRequested;
     UiMode m_defaultUiMode;
     MediaSource::MediaType m_mediaTypeFilter;
     QString m_mediaFile;

@@ -95,6 +95,10 @@ Page {
         closed();
     }
 
+    function closePopupPhotoViewer() {
+        viewer.closeMediaViewer();
+    }
+
     head.actions: viewer.actions
     head.backAction: viewer.backAction
 

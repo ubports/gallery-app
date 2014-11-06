@@ -124,6 +124,12 @@ Item {
         setHeaderVisibility(!header.visible);    
     }
 
+    function closeMediaViewer()
+    {
+        galleryPhotoViewer.currentItem.reset();
+        closeRequested();
+    }
+
     Rectangle{
         color: "black"
         anchors.fill: parent
