@@ -49,6 +49,13 @@ OrganicView {
         id: photosList
         objectName: "organicEventItem" + index
 
+        Connections {
+            target: organicEventView
+            onPositionEventsAtBeginning: {
+                photosList.positionViewAtBeginning();
+            }
+        }
+
         width: organicEventView.width
         event: model.event
         selection: organicEventView.selection

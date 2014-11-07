@@ -29,6 +29,7 @@ Page {
     /*!
     */
     signal mediaSourcePressed(var mediaSource, var thumbnailRect)
+    signal positionEventsAtBeginning()
 
     /*!
     */
@@ -53,6 +54,12 @@ Page {
     // This property exists only for the benefit of AP tests that
     // can't access C++ objects
     property int _eventCount: model.count
+
+    function positionViewAtBeginning() {
+        organicList.positionViewAtBeginning();
+        organicList.contentY = header.height * -1;
+        positionEventsAtBeginning()
+    }
 
     Image {
         anchors.fill: parent

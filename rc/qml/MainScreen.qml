@@ -96,6 +96,10 @@ MainView {
                 albumsCheckerboardLoader.item.closeAlbum();
             }
 
+            if (allLoaded && eventsOverviewLoader.item) {
+                eventsOverviewLoader.item.positionViewAtBeginning();
+            }
+
             header.visible = true;
 
             tabs.selectedTabIndex = 1;
