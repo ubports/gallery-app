@@ -69,7 +69,9 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
       m_pickModeEnabled(false),
       m_defaultUiMode(BrowseContentMode),
       m_mediaTypeFilter(MediaSource::None),
-      m_mediaFile("")
+      m_mediaFile(""),
+      m_mediaLoadedTimer(this),
+      m_mediaLoaded(false)
 {
     m_bguSize = QProcessEnvironment::systemEnvironment().value("GRID_UNIT_PX", "8").toInt();
     if (m_bguSize <= 0)
@@ -117,6 +119,10 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
 
     if (m_cmdLineParser->startupTimer())
         qDebug() << "Construct GalleryApplication" << m_timer->elapsed() << "ms";
+
+    m_mediaLoadedTimer.setSingleShot(false);
+    m_mediaLoadedTimer.setInterval(100);
+    QObject::connect(&m_mediaLoadedTimer, SIGNAL(timeout()), this, SLOT(onMediaLoaded()));
 }
 
 /*!
@@ -258,6 +264,7 @@ void GalleryApplication::initCollections()
         qDebug() << "GalleryManager initialized" << m_timer->elapsed() << "ms";
 
     emit mediaLoaded();
+    m_mediaLoaded = true;
 
     if (m_cmdLineParser->startupTimer()) {
         qDebug() << "MainView loaded" << m_timer->elapsed() << "ms";
@@ -352,6 +359,14 @@ void GalleryApplication::setMediaFile(const QString &mediaFile)
 {
     if(!mediaFile.isEmpty()) {
         m_mediaFile = "file://" + mediaFile;
+        m_mediaLoadedTimer.start();
+    }
+}
+
+void GalleryApplication::onMediaLoaded()
+{
+    if (m_mediaLoaded) {
+        m_mediaLoadedTimer.stop();
         Q_EMIT mediaFileChanged();
     }
 }
