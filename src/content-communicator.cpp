@@ -25,6 +25,9 @@
 #include <com/ubuntu/content/item.h>
 #include <com/ubuntu/content/transfer.h>
 
+// medialoader
+#include "photo-metadata.h"
+
 using namespace com::ubuntu::content;
 
 /*!
@@ -85,6 +88,15 @@ void ContentCommunicator::handle_import(content::Transfer *transfer)
             } while(QFile::exists(destination));
         }
         QFile::copy(hubItem.url().toLocalFile(), destination);
+
+        if(!mt.name().startsWith("video/")) {
+            // Set the TimeDigitized field of the Exif data to make imported photos
+            // to show up on imported date Event
+            QFileInfo destfi(destination);
+            PhotoMetadata* metadata = PhotoMetadata::fromFile(destfi);
+            metadata->setDateTimeDigitized(QDateTime::currentDateTime());
+            metadata->save();
+        }
     }
     // Allow content-hub to clean up temporary files in .cache/ once we've
     // moved them
