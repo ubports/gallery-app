@@ -1,3 +1,17 @@
+gallery-app (0.0.67+15.04.20141112-0ubuntu1) vivid; urgency=low
+
+  [ Arthur Mello ]
+  * Delay the opening photo process until all media files are loaded
+    when called by url handler (LP: #1389514)
+  * Switch to events view after a media imported (LP: #1382109)
+  * Set the TimeDigitized Exif field for the import date on imported
+    files (LP: #1381583)
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 12 Nov 2014 22:27:36 +0000
+
 gallery-app (0.0.67+14.10.20141017-0ubuntu1) utopic; urgency=low
 
   [ Arthur Mello ]
