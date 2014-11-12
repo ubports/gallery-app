@@ -78,10 +78,12 @@ signals:
     void fullScreenChanged();
     void mediaTypeFilterChanged();
     void mediaFileChanged();
+    void eventsViewRequested();
 
 private slots:
     void initCollections();
     void switchToPickMode(QString mediaTypeFilter);
+    void switchToEventsView();
     void setFullScreen(bool fullScreen);
     void consistencyCheckFinished();
     void setMediaFile(const QString &mediaFile);

@@ -230,6 +230,10 @@ Item {
         }
     }
 
+    function positionViewAtBeginning() {
+        eventView.positionViewAtBeginning();
+    }
+
     ListView {
         id: eventView
         // the buffers are needed, as the listview does not draw items outside is visible area
