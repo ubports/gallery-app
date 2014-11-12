@@ -23,6 +23,7 @@
 #include <QApplication>
 #include <QElapsedTimer>
 #include <QFileInfo>
+#include <QTimer>
 
 #include "media-source.h"
 
@@ -84,6 +85,7 @@ private slots:
     void setFullScreen(bool fullScreen);
     void consistencyCheckFinished();
     void setMediaFile(const QString &mediaFile);
+    void onMediaLoaded();
 
 private:
     void registerQML();
@@ -100,6 +102,8 @@ private:
     UiMode m_defaultUiMode;
     MediaSource::MediaType m_mediaTypeFilter;
     QString m_mediaFile;
+    QTimer m_mediaLoadedTimer;
+    bool m_mediaLoaded;
 
     static QElapsedTimer *m_timer;
 };
