@@ -21,6 +21,7 @@
 import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 1.1
+import Ubuntu.Components.Extras 0.1 as Extras
 import Ubuntu.Components.Popups 0.1
 import Ubuntu.Components.ListItems 0.1 as ListItem
 import Ubuntu.Content 0.1
@@ -199,13 +200,10 @@ Item {
         }
 
         // Don't allow flicking while the chrome is actively displaying a popup
-        // menu, or the image is zoomed, or we're cropping. When images are zoomed,
-        // mouse drags should pan, not flick. Also don't flick during parameterized
-        // HUD action to prevent photo from changing during the action
+        // menu, or the image is zoomed. When images are zoomed,
+        // mouse drags should pan, not flick.
         interactive: currentItem != null &&
-                     !currentItem.userInteracting &&
-                     cropper.state == "hidden" &&
-                     !editHUD.actionActive
+                     !currentItem.userInteracting  // FIXME: disable when editing ??
 
         Component {
             id: contentItemComp
@@ -236,21 +234,6 @@ Item {
                     }
                 }
                 onCancelPressed: parent.visible = false;
-            }
-        }
-
-        Component {
-            id: editPopoverComponent
-            EditPopover {
-                id: editPopover
-                objectName: "editPopover"
-                visible: false
-                photo: galleryPhotoViewer.media
-                cropper: viewerWrapper.cropper
-
-                onButtonPressed: {
-                    viewerWrapper.tools.opened = false;
-                }
             }
         }
 
@@ -343,118 +326,7 @@ Item {
         onNewAlbumPicked: {
             viewerWrapper.closeRequested();
         }
-    }
-
-    property alias cropper: cropper
-    CropInteractor {
-        id: cropper
-
-        property var targetPhoto
-
-        function show(photo) {
-            targetPhoto = photo;
-
-            fadeOutPhotoAnimation.running = true;
-        }
-
-        function hide() {
-            state = "hidden";
-            galleryPhotoViewer.opacity = 0.0;
-            galleryPhotoViewer.visible = true;
-            fadeInPhotoAnimation.running = true;
-        }
-
-        state: "hidden"
-        states: [
-            State { name: "shown";
-                PropertyChanges { target: cropper; visible: true; }
-                PropertyChanges { target: cropper; opacity: 1.0; }
-            },
-            State { name: "hidden";
-                PropertyChanges { target: cropper; visible: false; }
-                PropertyChanges { target: cropper; opacity: 0.0; }
-            }
-        ]
-
-        Behavior on opacity {
-            NumberAnimation { duration: Gallery.FAST_DURATION }
-        }
-
-        anchors.fill: parent
-
-        MouseArea {
-            id: blocker
-
-            visible: cropper.state == "shown"
-            anchors.fill: parent
-
-            onClicked: { }
-        }
-
-        onCanceled: {
-            photo.cancelCropping();
-            hide();
-            targetPhoto = null;
-        }
-
-        onCropped: {
-            var qtRect = Qt.rect(rect.x, rect.y, rect.width, rect.height);
-            photo.crop(qtRect);
-            hide();
-            targetPhoto = null;
-        }
-
-        onOpacityChanged: {
-            if (opacity == 1.0)
-                galleryPhotoViewer.visible = false
-        }
-
-        NumberAnimation {
-            id: fadeOutPhotoAnimation
-
-            from: 1.0
-            to: 0.0
-            target: galleryPhotoViewer
-            property: "opacity"
-            duration: Gallery.FAST_DURATION
-            easing.type: Easing.InOutQuad
-
-            onRunningChanged: {
-                if (running == false) {
-                    var ratio_crop_rect = cropper.targetPhoto.prepareForCropping();
-                    cropper.enter(cropper.targetPhoto, ratio_crop_rect);
-                    cropper.state = "shown";
-                }
-            }
-        }
-
-        NumberAnimation {
-            id: fadeInPhotoAnimation
-
-            from: 0.0
-            to: 1.0
-            target: galleryPhotoViewer
-            property: "opacity"
-            duration: Gallery.FAST_DURATION
-            easing.type: Easing.InOutQuad
-        }
-    }
-
-    EditPreview {
-        id: editPreview
-        objectName: "editPreview"
-        anchors.fill: parent
-        source: galleryPhotoViewer.media ? galleryPhotoViewer.media.galleryPreviewPath : ""
-
-        visible: editHUD.actionActive
-
-        exposure: editHUD.exposureValue
-
-        brightness: editHUD.brightness
-        contrast: editHUD.contrast
-        saturation: editHUD.saturation
-        hue: editHUD.hue
-    }
+    }  
 
     ActivityIndicator {
         id: busySpinner
@@ -464,11 +336,12 @@ Item {
         running: visible
     }
 
-    EditingHUD {
-        id: editHUD
-        photo: galleryPhotoViewer.media
-        onExposureActivated: editPreview.useExposure()
-        onColorBalanceActivated: editPreview.useColorBalance()
+    Component {
+        id: photoEditorComponent
+        Extras.PhotoEditor {
+            anchors.fill: parent
+            Component.onCompleted: open(galleryPhotoViewer.media.path.toString().replace("file://", ""))
+        }
     }
 
     Item {
@@ -479,7 +352,9 @@ Item {
                 objectName: "editButton"
                 text: i18n.tr("Edit")
                 iconSource: "../../img/edit.png"
-                onTriggered: PopupUtils.open(editPopoverComponent, null);
+                onTriggered: {
+                    overview.pushPage(photoEditorComponent);
+                }
             },
             Action {
                 objectName: "addButton"

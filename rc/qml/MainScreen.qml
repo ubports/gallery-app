@@ -106,8 +106,8 @@ MainView {
         }
     }
 
-    function pushPage(page) {
-        pageStack.push(page);
+    function pushPage(page, properties) {
+        return pageStack.push(page, properties);
     }
 
     function popPage() {
