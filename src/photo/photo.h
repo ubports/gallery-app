@@ -31,7 +31,6 @@
 #include "orientation.h"
 
 class PhotoEditState;
-class PhotoEditThread;
 class PhotoPrivate;
 
 /*!
@@ -70,17 +69,6 @@ public:
     bool canRedo() const;
     bool isOriginal() const;
 
-    Q_INVOKABLE void revertToOriginal();
-    Q_INVOKABLE void undo();
-    Q_INVOKABLE void redo();
-    Q_INVOKABLE void rotateRight();
-    Q_INVOKABLE void autoEnhance();
-    Q_INVOKABLE void exposureCompensation(qreal value);
-    Q_INVOKABLE void colorBalance(qreal brightness, qreal contrast, qreal saturation, qreal hue);
-    Q_INVOKABLE QVariant prepareForCropping();
-    Q_INVOKABLE void cancelCropping();
-    Q_INVOKABLE void crop(QVariant vrect);
-
     void setOriginalOrientation(Orientation orientation);
     Orientation originalOrientation() const;
     const QSize &originalSize();
@@ -97,19 +85,14 @@ protected:
 
 private Q_SLOTS:
     void resetToOriginalSize();
-    void finishEditing();
 
 private:
     const PhotoEditState& currentState() const;
     QSize originalSize(Orientation orientation);
-    void makeUndoableEdit(const PhotoEditState& state);
-    void asyncEdit(const PhotoEditState& state);
-    void editFile(const PhotoEditState& state);
     void appendPathParams(QUrl* url, Orientation orientation, const int sizeLevel) const;
 
     QString m_fileFormat;
     int m_editRevision; // How many times the pixel data has been modified by us.
-    PhotoEditThread *m_editThread;
     PhotoCaches m_caches;
 
     // We cache this data to avoid an image read at various times.

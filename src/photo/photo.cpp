@@ -23,7 +23,6 @@
 
 #include "photo.h"
 #include "photo-edit-state.h"
-#include "photo-edit-thread.h"
 
 // database
 #include "database.h"
@@ -185,7 +184,6 @@ bool Photo::isValid(const QFileInfo& file)
 Photo::Photo(const QFileInfo& file)
     : MediaSource(file),
       m_editRevision(0),
-      m_editThread(0),
       m_caches(file),
       m_originalSize(),
       m_originalOrientation(TOP_LEFT_ORIGIN),
@@ -202,10 +200,6 @@ Photo::Photo(const QFileInfo& file)
  */
 Photo::~Photo()
 {
-    if (m_editThread) {
-        m_editThread->wait();
-        finishEditing();
-    }
     delete(d_ptr);
 }
 
@@ -324,51 +318,6 @@ const QFileInfo &Photo::pristineFile() const
 }
 
 /*!
- * \brief Photo::revertToOriginal
- */
-void Photo::revertToOriginal()
-{
-    if (!currentState().isOriginal())
-        makeUndoableEdit(PhotoEditState());
-}
-
-/*!
- * \brief Photo::undo
- */
-void Photo::undo()
-{
-    Q_D(Photo);
-    if (busy()) {
-        qWarning() << "Don't start edit operation, while another one is running";
-        return;
-    }
-
-    PhotoEditState prev = d->editStack()->current();
-    PhotoEditState next = d->editStack()->undo();
-    if (next != prev) {
-        asyncEdit(next);
-    }
-}
-
-/*!
- * \brief Photo::redo
- */
-void Photo::redo()
-{
-    Q_D(Photo);
-    if (busy()) {
-        qWarning() << "Don't start edit operation, while another one is running";
-        return;
-    }
-
-    PhotoEditState prev = d->editStack()->current();
-    PhotoEditState next = d->editStack()->redo();
-    if (next != prev) {
-        asyncEdit(next);
-    }
-}
-
-/*!
  * \brief Photo::canUndo
  */
 bool Photo::canUndo() const
@@ -392,150 +341,6 @@ bool Photo::canRedo() const
 bool Photo::isOriginal() const
 {
     return currentState().isOriginal();
-}
-
-/*!
- * \brief Photo::rotateRight
- */
-void Photo::rotateRight()
-{
-    Orientation new_orientation =
-            OrientationCorrection::rotateOrientation(orientation(), false);
-
-    QSize size = originalSize(orientation());
-
-    // A PhotoEditState object with an invalid orientation value (i.e. <
-    // MIN_ORIENTATION) means "use the existing (original) orientation", so
-    // set the current edit state's orientation to this photo object's
-    // orientation
-    PhotoEditState curr_state = currentState();
-    if (curr_state.orientation_ < MIN_ORIENTATION)
-        curr_state.orientation_ = orientation();
-
-    PhotoEditState next_state = curr_state.rotate(new_orientation, size.width(),
-                                                  size.height());
-
-    makeUndoableEdit(next_state);
-}
-
-/*!
- * \brief Photo::autoEnhance
- */
-void Photo::autoEnhance()
-{
-    if (currentState().is_enhanced_)
-        return;
-
-    PhotoEditState next_state = currentState();
-    next_state.is_enhanced_ = true;
-
-    makeUndoableEdit(next_state);
-}
-
-/*!
- * \brief Photo::exposureCompensation Changes the brightnes of the image
- * \param value Value for the compensation. -1.0 moves the image into total black.
- * +1.0 to total white. 0.0 leaves it as it is.
- */
-void Photo::exposureCompensation(qreal value)
-{
-    PhotoEditState next_state = currentState();
-    next_state.exposureCompensation_ = value;
-    makeUndoableEdit(next_state);
-}
-
-/*!
- * \brief Photo::colorBalance adjusts the colors
- * \param brightness 0 is total dark, 1 is as the original, grater than 1 is brigther
- * \param contrast from 0 maybe 5. 1 is as the original
- * \param saturation from 0 maybe 5. 1 is as the original
- * \param hue from 0 to 360. 0 and 360 is as the original
- */
-void Photo::colorBalance(qreal brightness, qreal contrast, qreal saturation, qreal hue)
-{
-    PhotoEditState next_state = currentState();
-    next_state.colorBalance_ = QVector4D(brightness, contrast, saturation, hue);
-    makeUndoableEdit(next_state);
-}
-
-/*!
- * \brief Photo::prepareForCropping
- * Edits the image to original size so you can recrop it.  Returns crop
- * coords in [0,1].  Should be followed by either cancelCropping() or crop().
- *
- * TODO: We COULD optimize this out if it hasn't been cropped yet, but I rely on
- *      this creating an undoable edit (to make the cancel button in the crop tool
- *      function correctly) so we do an edit anyway.
- * \return
- */
-QVariant Photo::prepareForCropping()
-{
-    QRectF ratio_crop_rect(0.0, 0.0, 1.0, 1.0);
-    if (currentState().crop_rectangle_.isValid()) {
-        QSize image_size = originalSize(currentState().orientation_);
-
-        QRect rect = currentState().crop_rectangle_;
-        qreal x = (qreal)rect.x() / image_size.width();
-        qreal y = (qreal)rect.y() / image_size.height();
-        qreal width = (qreal)rect.width() / image_size.width();
-        qreal height = (qreal)rect.height() / image_size.height();
-
-        if (x >= 0.0 && y >= 0.0 && width > 0.0 && height > 0.0 &&
-                x + width <= 1.0 && y + height <= 1.0)
-            ratio_crop_rect = QRectF(x, y, width, height);
-    }
-
-    PhotoEditState next_state = currentState();
-    next_state.crop_rectangle_ = QRect();
-
-    makeUndoableEdit(next_state);
-
-    return QVariant::fromValue(ratio_crop_rect);
-}
-
-/*!
- * \brief Photo::cancelCropping
- */
-void Photo::cancelCropping()
-{
-    Q_D(Photo);
-    undo();
-    d->editStack()->clearRedos();
-}
-
-/*!
- * \brief Photo::crop
- * You should call prepareForCropping() before calling this.  Specify all
- * coords in [0,1].
- * \param vrect
- */
-void Photo::crop(QVariant vrect)
-{
-    Q_D(Photo);
-    QRectF ratio_crop_rect = vrect.toRectF();
-
-    QSize image_size = originalSize(currentState().orientation_);
-
-    // Integer truncation is good enough here.
-    int x = ratio_crop_rect.x() * image_size.width();
-    int y = ratio_crop_rect.y() * image_size.height();
-    int width = ratio_crop_rect.width() * image_size.width();
-    int height = ratio_crop_rect.height() * image_size.height();
-
-    if (x < 0 || y < 0 || width <= 0 || height <= 0
-            || x + width > image_size.width() || y + height > image_size.height()) {
-        qDebug("Invalid cropping rectangle");
-        undo(); // Go back to the state before prepareForCropping() was called.
-        return;
-    }
-
-    PhotoEditState next_state = currentState();
-    next_state.crop_rectangle_ = QRect(x, y, width, height);
-
-    // We replace the top of the undo stack (which came from prepareForCropping)
-    // with the cropped version.
-    d->editStack()->undo();
-    makeUndoableEdit(next_state);
 }
 
 /*!
@@ -602,63 +407,6 @@ QSize Photo::originalSize(Orientation orientation)
     }
 
     return rotated_size;
-}
-
-/*!
- * \brief Photo::makeUndoableEdit
- * \param state
- */
-void Photo::makeUndoableEdit(const PhotoEditState& state)
-{
-    if (busy()) {
-        qWarning() << "Don't start edit operation, while another one is running";
-        return;
-    }
-
-    Q_D(Photo);
-    d->editStack()->pushEdit(state);
-    asyncEdit(state);
-}
-
-/*!
- * \brief Photo::asyncEdit does edit the photo according to the given state
- * in a background task
- * \param state the new editing state
- */
-void Photo::asyncEdit(const PhotoEditState& state)
-{
-    setBusy(true);
-    m_editThread = new PhotoEditThread(this, state);
-    connect(m_editThread, SIGNAL(finished()), this, SLOT(finishEditing()));
-    connect(m_editThread, SIGNAL(newSize(QSize)), this, SLOT(setSize(QSize)));
-    connect(m_editThread, SIGNAL(resetToOriginalSize()), this, SLOT(resetToOriginalSize()));
-    m_editThread->start();
-}
-
-/*!
- * \brief Photo::finishEditing do all the updates once the editing is done
- */
-void Photo::finishEditing()
-{
-    if (!m_editThread || m_editThread->isRunning())
-        return;
-
-    const PhotoEditState &state = m_editThread->editState();
-    GalleryManager::instance()->database()->getPhotoEditTable()->setEditState(id(), state);
-
-    if (orientation() != m_editThread->oldOrientation())
-        emit orientationChanged();
-    notifyDataChanged();
-
-    ++m_editRevision;
-
-    emit galleryPathChanged();
-    emit galleryPreviewPathChanged();
-    emit galleryThumbnailPathChanged();
-    m_editThread->deleteLater();
-    m_editThread = 0;
-    setBusy(false);
-    emit editStackChanged();
 }
 
 /*!

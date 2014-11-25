@@ -95,18 +95,6 @@ const QFileInfo &Photo::pristineFile() const
     return photoDummyFileInfo;
 }
 
-void Photo::revertToOriginal()
-{
-}
-
-void Photo::undo()
-{
-}
-
-void Photo::redo()
-{
-}
-
 bool Photo::canUndo() const
 {
     return false;
@@ -122,35 +110,6 @@ bool Photo::isOriginal() const
     return true;
 }
 
-void Photo::rotateRight()
-{
-}
-
-void Photo::autoEnhance()
-{
-}
-
-void Photo::exposureCompensation(qreal value)
-{
-}
-
-void Photo::colorBalance(qreal brightness, qreal contrast, qreal saturation, qreal hue)
-{
-}
-
-QVariant Photo::prepareForCropping()
-{
-    return QVariant();
-}
-
-void Photo::cancelCropping()
-{
-}
-
-void Photo::crop(QVariant vrect)
-{
-}
-
 void Photo::destroySource(bool destroyBacking, bool asOrphan)
 {
 }
@@ -161,10 +120,6 @@ void Photo::setOriginalOrientation(Orientation orientation)
 }
 
 void Photo::resetToOriginalSize()
-{
-}
-
-void Photo::finishEditing()
 {
 }
 
