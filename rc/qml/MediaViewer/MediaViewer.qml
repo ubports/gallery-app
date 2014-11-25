@@ -336,14 +336,6 @@ Item {
         running: visible
     }
 
-    Component {
-        id: photoEditorComponent
-        Extras.PhotoEditor {
-            anchors.fill: parent
-            Component.onCompleted: open(galleryPhotoViewer.media.path.toString().replace("file://", ""))
-        }
-    }
-
     Item {
         id: d
 
@@ -353,7 +345,13 @@ Item {
                 text: i18n.tr("Edit")
                 iconSource: "../../img/edit.png"
                 onTriggered: {
-                    overview.pushPage(photoEditorComponent);
+                    var path = galleryPhotoViewer.media.path.toString();
+                    path = path.replace("file://", "")
+                    var editor = overview.pushPage(Qt.resolvedUrl("PhotoEditorPage.qml"),
+                                                   { photo: path });
+                    editor.done.connect(function(photoWasModified) {
+                        overview.popPage();
+                    });
                 }
             },
             Action {
