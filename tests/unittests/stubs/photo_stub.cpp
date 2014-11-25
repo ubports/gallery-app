@@ -60,11 +60,6 @@ MediaSource::MediaType Photo::type() const
     return MediaSource::Photo;
 }
 
-QImage Photo::image(bool respectOrientation, const QSize &scaleSize)
-{
-    return QImage();
-}
-
 Orientation Photo::orientation() const
 {
     return m_originalOrientation;

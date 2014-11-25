@@ -45,7 +45,6 @@ public:
 
     static bool isValid(const QFileInfo& file);
 
-    virtual QImage image(bool respectOrientation, const QSize &scaleSize=QSize());
     virtual Orientation orientation() const;
 
     virtual QUrl galleryPath() const;
