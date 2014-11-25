@@ -22,12 +22,10 @@
  */
 
 #include "photo.h"
-#include "photo-edit-state.h"
 
 // database
 #include "database.h"
 #include "media-table.h"
-#include "photo-edit-table.h"
 
 // media
 #include "media-collection.h"
@@ -47,108 +45,6 @@
 #include <QImage>
 #include <QImageReader>
 #include <QImageWriter>
-#include <QStack>
-
-// A simple class for dealing with an undo-/redo-able stack of applied edits.
-class EditStack {
-public:
-    EditStack() : m_base(), m_undoable(), m_redoable() {
-    }
-
-    void setBase(const PhotoEditState& base) {
-        m_base = base;
-    }
-
-    void pushEdit(const PhotoEditState& edit_state) {
-        clearRedos();
-        m_undoable.push(edit_state);
-    }
-
-    void clearRedos() {
-        m_redoable.clear();
-    }
-
-    const PhotoEditState& undo() {
-        if (!m_undoable.isEmpty())
-            m_redoable.push(m_undoable.pop());
-        return current();
-    }
-
-    const PhotoEditState& redo() {
-        if (!m_redoable.isEmpty())
-            m_undoable.push(m_redoable.pop());
-        return current();
-    }
-
-    const PhotoEditState& current() const {
-        return (m_undoable.isEmpty() ? m_base : m_undoable.top());
-    }
-
-    int canUndo() const {
-        return !m_undoable.isEmpty();
-    }
-
-    int canRedo() const {
-        return !m_redoable.isEmpty();
-    }
-
-private:
-    PhotoEditState m_base; // What to return when we have no undo-able edits.
-    QStack<PhotoEditState> m_undoable;
-    QStack<PhotoEditState> m_redoable;
-};
-
-
-/*!
- * \brief The PhotoPrivate class implements some private data and functions for Photo
- */
-class PhotoPrivate {
-    PhotoPrivate(Photo* q=0)
-        : m_edits(0),
-          q_ptr(q)
-    {
-    }
-    ~PhotoPrivate()
-    {
-        delete m_edits;
-    }
-
-    EditStack* editStack() const;
-    void setBaseEditStack(const PhotoEditState& base);
-
-private:
-    mutable EditStack* m_edits;
-
-    Photo * const q_ptr;
-    Q_DECLARE_PUBLIC(Photo)
-};
-
-/*!
- * \brief PhotoPrivate::editStack returns the editStack.
- * As the edit stack is lazy loaded, it might take a while to load the last state from the DB
- * \return the edit stack
- */
-EditStack* PhotoPrivate::editStack() const
-{
-    if (m_edits == 0) {
-        Q_Q(const Photo);
-        m_edits = new EditStack;
-        Database* database = GalleryManager::instance()->database();
-        PhotoEditState editState = database->getPhotoEditTable()->editState(q->id());
-        m_edits->setBase(editState);
-    }
-    return m_edits;
-}
-
-void PhotoPrivate::setBaseEditStack(const PhotoEditState &base)
-{
-    if(m_edits == 0) {
-        m_edits = new EditStack;
-    }
-
-    m_edits->setBase(base);
-}
-
 
 /*!
  * \brief Photo::isValid
@@ -186,8 +82,7 @@ Photo::Photo(const QFileInfo& file)
       m_editRevision(0),
       m_caches(file),
       m_originalSize(),
-      m_originalOrientation(TOP_LEFT_ORIGIN),
-      d_ptr(new PhotoPrivate(this))
+      m_originalOrientation(TOP_LEFT_ORIGIN)
 {
     QByteArray format = QImageReader(file.filePath()).format();
     m_fileFormat = QString(format).toLower();
@@ -200,7 +95,6 @@ Photo::Photo(const QFileInfo& file)
  */
 Photo::~Photo()
 {
-    delete(d_ptr);
 }
 
 /*!
@@ -245,8 +139,7 @@ QImage Photo::image(bool respectOrientation, const QSize &scaleSize)
  */
 Orientation Photo::orientation() const
 {
-    return (currentState().orientation_ == PhotoEditState::ORIGINAL_ORIENTATION) ?
-                m_originalOrientation : currentState().orientation_;
+    return m_originalOrientation;
 }
 
 /*!
@@ -279,18 +172,6 @@ QUrl Photo::galleryThumbnailPath() const
 }
 
 /*!
- * \brief Photo::setBaseEditState
- * The "base state" is the PhotoEditState of the file when Gallery starts.
- * It's the bottom of the undo stack.  Comes from the DB.
- * \param base
- */
-void Photo::setBaseEditState(const PhotoEditState& base)
-{
-    Q_D(Photo);
-    d->editStack()->setBase(base);
-}
-
-/*!
  * \brief Photo::originalFile
  * \return
  */
@@ -318,32 +199,6 @@ const QFileInfo &Photo::pristineFile() const
 }
 
 /*!
- * \brief Photo::canUndo
- */
-bool Photo::canUndo() const
-{
-    Q_D(const Photo);
-    return d->editStack()->canUndo();
-}
-
-/*!
- * \brief Photo::canRedo
- */
-bool Photo::canRedo() const
-{
-    Q_D(const Photo);
-    return d->editStack()->canRedo();
-}
-
-/*!
- * \brief Photo::isOriginal
- */
-bool Photo::isOriginal() const
-{
-    return currentState().isOriginal();
-}
-
-/*!
  * \brief Photo::DestroySource
  * \param destroyBacking
  * \param asOrphan
@@ -353,60 +208,6 @@ void Photo::destroySource(bool destroyBacking, bool asOrphan)
     MediaSource::destroySource(destroyBacking, asOrphan);
 
     m_caches.discardAll();
-}
-
-/*!
- * \brief Photo::resetToOriginalSize set the size to the one of the orifinal photo
- */
-void Photo::resetToOriginalSize()
-{
-    setSize(originalSize(PhotoEditState::ORIGINAL_ORIENTATION));
-}
-
-/*!
- * \brief Photo::currentState
- * \return
- */
-const PhotoEditState& Photo::currentState() const
-{
-    Q_D(const Photo);
-    return d->editStack()->current();
-}
-
-/*!
- * \brief Photo::originalSize Returns the original image size translated to the desired orientation
- * \param orientation
- * \return Returns the original image size translated to the desired orientation
- */
-QSize Photo::originalSize(Orientation orientation)
-{
-    if (!m_originalSize.isValid()) {
-        QImage original(m_caches.pristineFile().filePath(),
-                        m_fileFormat.toStdString().c_str());
-        if (fileFormatHasOrientation()) {
-            original =
-                    original.transformed(OrientationCorrection::fromOrientation(
-                                             m_originalOrientation).toTransform());
-        }
-
-        m_originalSize = original.size();
-    }
-
-    QSize rotated_size = m_originalSize;
-
-    if (orientation != PhotoEditState::ORIGINAL_ORIENTATION) {
-        OrientationCorrection original_correction =
-                OrientationCorrection::fromOrientation(m_originalOrientation);
-        OrientationCorrection out_correction =
-                OrientationCorrection::fromOrientation(orientation);
-        int degrees_rotation =
-                original_correction.getNormalizedRotationDifference(out_correction);
-
-        if (degrees_rotation == 90 || degrees_rotation == 270)
-            rotated_size.transpose();
-    }
-
-    return rotated_size;
 }
 
 /*!
@@ -486,6 +287,5 @@ Orientation Photo::originalOrientation() const
  */
 const QSize &Photo::originalSize()
 {
-    originalSize(PhotoEditState::ORIGINAL_ORIENTATION);
     return m_originalSize;
 }

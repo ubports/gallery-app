@@ -22,7 +22,6 @@
  */
 
 #include "photo.h"
-#include "photo-edit-state.h"
 
 // util
 #include <orientation.h>
@@ -47,8 +46,7 @@ Photo::Photo(const QFileInfo& file)
       m_editRevision(0),
       m_caches(file),
       m_originalSize(),
-      m_originalOrientation(TOP_LEFT_ORIGIN),
-      d_ptr(0)
+      m_originalOrientation(TOP_LEFT_ORIGIN)
 {
     photoDummyFileInfo = file;
 }
@@ -95,21 +93,6 @@ const QFileInfo &Photo::pristineFile() const
     return photoDummyFileInfo;
 }
 
-bool Photo::canUndo() const
-{
-    return false;
-}
-
-bool Photo::canRedo() const
-{
-    return false;
-}
-
-bool Photo::isOriginal() const
-{
-    return true;
-}
-
 void Photo::destroySource(bool destroyBacking, bool asOrphan)
 {
 }
@@ -118,8 +101,3 @@ void Photo::setOriginalOrientation(Orientation orientation)
 {
     m_originalOrientation = orientation;
 }
-
-void Photo::resetToOriginalSize()
-{
-}
-

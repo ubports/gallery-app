@@ -17,14 +17,12 @@ set(gallery_database_HDRS
     album-table.h
     database.h
     media-table.h
-    photo-edit-table.h
     )
 
 set(gallery_database_SRCS
     album-table.cpp
     database.cpp
     media-table.cpp
-    photo-edit-table.cpp
     )
 
 add_library(${GALLERY_DATABASE_LIB}

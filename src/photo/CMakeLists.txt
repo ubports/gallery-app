@@ -15,13 +15,11 @@ include_directories(
 set(gallery_photo_HDRS
     photo.h
     photo-caches.h
-    photo-edit-state.h
     )
 
 set(gallery_photo_SRCS
     photo.cpp
     photo-caches.cpp
-    photo-edit-state.cpp
     )
 
 add_library(${GALLERY_PHOTO_LIB}

@@ -30,19 +30,12 @@
 // util
 #include "orientation.h"
 
-class PhotoEditState;
-class PhotoPrivate;
-
 /*!
  * \brief The Photo class
  */
 class Photo : public MediaSource
 {
     Q_OBJECT
-
-    Q_PROPERTY(bool canUndo READ canUndo NOTIFY editStackChanged)
-    Q_PROPERTY(bool canRedo READ canRedo NOTIFY editStackChanged)
-    Q_PROPERTY(bool isOriginal READ isOriginal NOTIFY editStackChanged)
 
 public:
     explicit Photo(const QFileInfo& file);
@@ -59,15 +52,9 @@ public:
     virtual QUrl galleryPreviewPath() const;
     virtual QUrl galleryThumbnailPath() const;
 
-    void setBaseEditState(const PhotoEditState& base);
-
     const QFileInfo &originalFile() const;
     const QFileInfo &enhancedFile() const;
     const QFileInfo &pristineFile() const;
-
-    bool canUndo() const;
-    bool canRedo() const;
-    bool isOriginal() const;
 
     void setOriginalOrientation(Orientation orientation);
     Orientation originalOrientation() const;
@@ -77,18 +64,10 @@ public:
     bool fileFormatHasMetadata() const;
     bool fileFormatHasOrientation() const;
 
-signals:
-    void editStackChanged();
-
 protected:
     virtual void destroySource(bool destroyBacking, bool asOrphan);
 
-private Q_SLOTS:
-    void resetToOriginalSize();
-
 private:
-    const PhotoEditState& currentState() const;
-    QSize originalSize(Orientation orientation);
     void appendPathParams(QUrl* url, Orientation orientation, const int sizeLevel) const;
 
     QString m_fileFormat;
@@ -98,9 +77,6 @@ private:
     // We cache this data to avoid an image read at various times.
     QSize m_originalSize;
     Orientation m_originalOrientation;
-
-    PhotoPrivate * const d_ptr;
-    Q_DECLARE_PRIVATE(Photo)
 };
 
 #endif  // GALLERY_PHOTO_H_
