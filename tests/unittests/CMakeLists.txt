@@ -1,5 +1,4 @@
 add_subdirectory(command-line-parser)
-add_subdirectory(gallerystandardimageprovider)
 add_subdirectory(imaging)
 add_subdirectory(mediamonitor)
 add_subdirectory(mediaobjectfactory)

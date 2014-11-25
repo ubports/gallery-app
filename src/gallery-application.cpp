@@ -37,7 +37,6 @@
 #include "photo.h"
 
 // qml
-#include "gallery-standard-image-provider.h"
 #include "qml-album-collection-model.h"
 #include "qml-event-collection-model.h"
 #include "qml-event-overview-model.h"
@@ -107,7 +106,6 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
     registerQML();
 
     m_galleryManager = new GalleryManager(isDesktopMode(), m_cmdLineParser->picturesDir());
-    m_galleryManager->logImageLoading(m_cmdLineParser->logImageLoading());
     if (m_cmdLineParser->pickModeEnabled())
         setDefaultUiMode(GalleryApplication::PickContentMode);
 
@@ -260,8 +258,6 @@ void GalleryApplication::initCollections()
     QApplication::processEvents();
 
     m_galleryManager->postInit();
-    m_view->engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
-                                       m_galleryManager->takeGalleryStandardImageProvider());
 
     QApplication::processEvents();
     if (m_cmdLineParser->startupTimer())

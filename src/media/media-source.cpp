@@ -23,9 +23,6 @@
 #include "database.h"
 #include "media-table.h"
 
-// qml
-#include "gallery-standard-image-provider.h"
-
 #include <QUrl>
 
 /*!
@@ -89,13 +86,10 @@ QUrl MediaSource::galleryPath() const
      * files. This was maintained hardcoded from the previous
      * version of gallery app, and should be fixed in the future.
      * For those files the full image is the thumbnail/preview itself */
-    if (m_file.suffix().toLower() == "mp4") {
-        QString path("image://thumbnailer/");
-        path.append(m_file.absoluteFilePath());
-        return QUrl(path);
-    } else {
-        return GalleryStandardImageProvider::toURL(m_file);
-    }
+    QString path("image://");
+    path.append(m_file.suffix().toLower() == "mp4" ? "thumbnailer/" : "photo/");
+    path.append(m_file.absoluteFilePath());
+    return QUrl(path);
 }
 
 /*!

@@ -35,7 +35,6 @@ class AlbumDefaultTemplate;
 class Database;
 class EventCollection;
 class GalleryManager;
-class GalleryStandardImageProvider;
 class MediaCollection;
 class MediaMonitor;
 class MediaObjectFactory;
@@ -65,7 +64,6 @@ public:
     AlbumCollection *albumCollection();
     EventCollection *eventCollection();
     Resource *resource() { return m_resource; }
-    GalleryStandardImageProvider *takeGalleryStandardImageProvider();
 
     void logImageLoading(bool log);
 
@@ -91,7 +89,6 @@ private:
     bool collectionsInitialised;
 
     Resource* m_resource;
-    GalleryStandardImageProvider* m_standardImageProvider;
     Database* m_database;
     AlbumDefaultTemplate* m_defaultTemplate;
     MediaCollection* m_mediaCollection;

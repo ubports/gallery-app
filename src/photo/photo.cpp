@@ -31,7 +31,6 @@
 #include "media-collection.h"
 
 // medialoader
-#include "gallery-standard-image-provider.h"
 #include "photo-metadata.h"
 
 // util
@@ -147,12 +146,7 @@ Orientation Photo::orientation() const
  */
 QUrl Photo::galleryPath() const
 {
-    QUrl url = MediaSource::galleryPath();
-    // We don't pass the orientation in if we saved the file already rotated,
-    // which is the case if the file format can't store rotation metadata.
-    appendPathParams(&url, (fileFormatHasOrientation() ? orientation() : TOP_LEFT_ORIGIN), 0);
-
-    return url;
+    return MediaSource::galleryPath();
 }
 
 /*!
@@ -208,31 +202,6 @@ void Photo::destroySource(bool destroyBacking, bool asOrphan)
     MediaSource::destroySource(destroyBacking, asOrphan);
 
     m_caches.discardAll();
-}
-
-/*!
- * \brief Photo::appendPathParams is called by either gallery_path or gallery_preview_path depending on what kind of photo.
- * \brief This sets our size_level parameter which will dictate what sort of image is eventually created.
- * \param url is the picture's url.
- * \param orientation of the image.
- * \param sizeLevel dictates whether or not the image is a full sized picture or a thumbnail. 0 == full sized, 1 == preview.
- */
-void Photo::appendPathParams(QUrl* url, Orientation orientation, const int sizeLevel) const
-{
-    QUrlQuery query;
-    query.addQueryItem(GalleryStandardImageProvider::SIZE_KEY, QString::number(sizeLevel));
-    query.addQueryItem(GalleryStandardImageProvider::ORIENTATION_PARAM_NAME, QString::number(orientation));
-
-    // Because of QML's aggressive, opaque caching of loaded images, we need to
-    // add an arbitrary URL parameter to gallery_path and gallery_preview_path so
-    // that loading the same image after an edit will go back to disk instead of
-    // just hitting the cache.
-    if (m_editRevision != 0) {
-        query.addQueryItem(GalleryStandardImageProvider::REVISION_PARAM_NAME,
-                           QString::number(m_editRevision));
-    }
-
-    url->setQuery(query);
 }
 
 /*!

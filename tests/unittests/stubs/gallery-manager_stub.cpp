@@ -33,15 +33,11 @@
 // media
 #include "media-collection.h"
 
-// qml
-#include "gallery-standard-image-provider.h"
-
 GalleryManager* GalleryManager::m_galleryManager = NULL;
 
 GalleryManager::GalleryManager(bool desktopMode, const QString& picturesDir)
     : collectionsInitialised(false),
       m_resource(0),
-      m_standardImageProvider(new GalleryStandardImageProvider()),
       m_database(0),
       m_defaultTemplate(0),
       m_mediaCollection(0),
@@ -88,7 +84,6 @@ QmlMediaCollectionModel *GalleryManager::mediaLibrary() const
 
 GalleryManager::~GalleryManager()
 {
-    delete m_standardImageProvider;
     delete m_defaultTemplate;
     delete m_mediaCollection;
     delete m_albumCollection;
@@ -103,9 +98,4 @@ void GalleryManager::onMediaItemAdded(QString file)
 void GalleryManager::onMediaItemRemoved(qint64 mediaId)
 {
     Q_UNUSED(mediaId);
-}
-
-GalleryStandardImageProvider* GalleryManager::takeGalleryStandardImageProvider()
-{
-    return 0;
 }
