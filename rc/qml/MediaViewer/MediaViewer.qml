@@ -350,6 +350,7 @@ Item {
                     var editor = overview.pushPage(Qt.resolvedUrl("PhotoEditorPage.qml"),
                                                    { photo: path });
                     editor.done.connect(function(photoWasModified) {
+                        if (photoWasModified) galleryPhotoViewer.media.dataChanged();
                         overview.popPage();
                     });
                 }
