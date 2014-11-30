@@ -43,8 +43,6 @@ bool Photo::isValid(const QFileInfo& file)
  */
 Photo::Photo(const QFileInfo& file)
     : MediaSource(file),
-      m_editRevision(0),
-      m_caches(file),
       m_originalSize(),
       m_originalOrientation(TOP_LEFT_ORIGIN)
 {
@@ -63,11 +61,6 @@ MediaSource::MediaType Photo::type() const
 Orientation Photo::orientation() const
 {
     return m_originalOrientation;
-}
-
-const QFileInfo &Photo::pristineFile() const
-{
-    return photoDummyFileInfo;
 }
 
 void Photo::destroySource(bool destroyBacking, bool asOrphan)

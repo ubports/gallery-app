@@ -22,8 +22,6 @@
 #ifndef GALLERY_PHOTO_H_
 #define GALLERY_PHOTO_H_
 
-#include "photo-caches.h"
-
 // media
 #include "media-source.h"
 
@@ -47,10 +45,6 @@ public:
 
     virtual Orientation orientation() const;
 
-    const QFileInfo &originalFile() const;
-    const QFileInfo &enhancedFile() const;
-    const QFileInfo &pristineFile() const;
-
     void setOriginalOrientation(Orientation orientation);
     Orientation originalOrientation() const;
     const QSize &originalSize();
@@ -66,8 +60,6 @@ private:
     void appendPathParams(QUrl* url, Orientation orientation, const int sizeLevel) const;
 
     QString m_fileFormat;
-    int m_editRevision; // How many times the pixel data has been modified by us.
-    PhotoCaches m_caches;
 
     // We cache this data to avoid an image read at various times.
     QSize m_originalSize;

@@ -78,8 +78,6 @@ bool Photo::isValid(const QFileInfo& file)
  */
 Photo::Photo(const QFileInfo& file)
     : MediaSource(file),
-      m_editRevision(0),
-      m_caches(file),
       m_originalSize(),
       m_originalOrientation(TOP_LEFT_ORIGIN)
 {
@@ -114,33 +112,6 @@ Orientation Photo::orientation() const
 }
 
 /*!
- * \brief Photo::originalFile
- * \return
- */
-const QFileInfo &Photo::originalFile() const
-{
-    return m_caches.originalFile();
-}
-
-/*!
- * \brief Photo::enhancedFile
- * \return
- */
-const QFileInfo &Photo::enhancedFile() const
-{
-    return m_caches.enhancedFile();
-}
-
-/*!
- * \brief Photo::pristineFile
- * \return
- */
-const QFileInfo &Photo::pristineFile() const
-{
-    return m_caches.pristineFile();
-}
-
-/*!
  * \brief Photo::DestroySource
  * \param destroyBacking
  * \param asOrphan
@@ -148,8 +119,6 @@ const QFileInfo &Photo::pristineFile() const
 void Photo::destroySource(bool destroyBacking, bool asOrphan)
 {
     MediaSource::destroySource(destroyBacking, asOrphan);
-
-    m_caches.discardAll();
 }
 
 /*!
