@@ -47,10 +47,6 @@ public:
 
     virtual Orientation orientation() const;
 
-    virtual QUrl galleryPath() const;
-    virtual QUrl galleryPreviewPath() const;
-    virtual QUrl galleryThumbnailPath() const;
-
     const QFileInfo &originalFile() const;
     const QFileInfo &enhancedFile() const;
     const QFileInfo &pristineFile() const;

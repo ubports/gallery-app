@@ -47,8 +47,8 @@ Rectangle {
         // are smaller than preview's and automatically use that instead of a
         // full image load
 
-        // Load image using the Gallery image provider to ensure EXIF orientation
-        return isPreview ? mediaSource.galleryPreviewPath : mediaSource.galleryPath
+        // Load image using the photo image provider to ensure EXIF orientation
+        return "image://" + (isPreview ? "thumbnailer/" : "photo:/") + mediaSource.path;
     }
 
     /*!

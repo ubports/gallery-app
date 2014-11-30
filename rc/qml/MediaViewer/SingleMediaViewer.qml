@@ -151,7 +151,7 @@ Item {
                     anchors.fill: parent
                     asynchronous: true
                     cache: false
-                    source: mediaSource.galleryPreviewPath
+                    source: "image://thumbnailer/" + mediaSource.path
                     sourceSize {
                         width: viewer.maxDimension
                         height: viewer.maxDimension
@@ -168,8 +168,8 @@ Item {
                     anchors.fill: parent
                     asynchronous: true
                     cache: false
-                    // Load image using the GalleryStandardImageProvider to ensure EXIF orientation
-                    source: flickable.sizeScale > 1.0 ? mediaSource.galleryPath : ""
+                    // Load image using the photo image provider to ensure EXIF orientation
+                    source: flickable.sizeScale > 1.0 ? "image://photo/" + mediaSource.path : ""
                     sourceSize {
                         width: width
                         height: height

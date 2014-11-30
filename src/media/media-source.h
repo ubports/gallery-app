@@ -47,9 +47,6 @@ class MediaSource : public DataSource
     Q_OBJECT
     Q_PROPERTY(MediaType type READ type NOTIFY typeChanged)
     Q_PROPERTY(QUrl path READ path NOTIFY pathChanged)
-    Q_PROPERTY(QUrl galleryPath READ galleryPath NOTIFY galleryPathChanged)
-    Q_PROPERTY(QUrl galleryPreviewPath READ galleryPreviewPath NOTIFY galleryPreviewPathChanged)
-    Q_PROPERTY(QUrl galleryThumbnailPath READ galleryThumbnailPath NOTIFY galleryThumbnailPathChanged)
     Q_PROPERTY(int orientation READ orientation NOTIFY orientationChanged)
     Q_PROPERTY(QDate exposureDate READ exposureDate NOTIFY exposureDateTimeChanged)
     Q_PROPERTY(QTime exposureTimeOfDay READ exposureTimeOfDay NOTIFY exposureDateTimeChanged)
@@ -62,9 +59,6 @@ class MediaSource : public DataSource
 signals:
     void typeChanged();
     void pathChanged();
-    void galleryPathChanged();
-    void galleryPreviewPathChanged();
-    void galleryThumbnailPathChanged();
     void orientationChanged();
     void exposureDateTimeChanged();
     void dataChanged();
@@ -85,10 +79,6 @@ public:
 
     QFileInfo file() const;
     QUrl path() const;
-    virtual QUrl galleryPath() const;
-
-    virtual QUrl galleryPreviewPath() const;
-    virtual QUrl galleryThumbnailPath() const;
 
     virtual QImage image(bool respectOrientation = true, const QSize &scaleSize=QSize());
     virtual Orientation orientation() const;

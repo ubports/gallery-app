@@ -114,30 +114,6 @@ Orientation Photo::orientation() const
 }
 
 /*!
- * \reimp
- */
-QUrl Photo::galleryPath() const
-{
-    return MediaSource::galleryPath();
-}
-
-/*!
- * \reimp
- */
-QUrl Photo::galleryPreviewPath() const
-{
-    return MediaSource::galleryPreviewPath();
-}
-
-/*!
- * \reimp
- */
-QUrl Photo::galleryThumbnailPath() const
-{
-    return MediaSource::galleryThumbnailPath();
-}
-
-/*!
  * \brief Photo::originalFile
  * \return
  */

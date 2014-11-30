@@ -65,24 +65,6 @@ Orientation Photo::orientation() const
     return m_originalOrientation;
 }
 
-QUrl Photo::galleryPath() const
-{
-    QUrl url = MediaSource::galleryPath();
-    return url;
-}
-
-QUrl Photo::galleryPreviewPath() const
-{
-    QUrl url = MediaSource::galleryPreviewPath();
-    return url;
-}
-
-QUrl Photo::galleryThumbnailPath() const
-{
-    QUrl url = MediaSource::galleryThumbnailPath();
-    return url;
-}
-
 const QFileInfo &Photo::pristineFile() const
 {
     return photoDummyFileInfo;
