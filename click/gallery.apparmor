@@ -6,7 +6,5 @@
                       "video",
                       "video_files"
                       ], 
-    "write_path": [ "/media/phablet/" ],
-    "read_path": [ "/media/phablet/" ],
     "policy_version": 1.2
 }
