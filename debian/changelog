@@ -1,3 +1,17 @@
+gallery-app (0.0.67+15.04.20141211-0ubuntu1) vivid; urgency=low
+
+  [ Arthur Mello ]
+  * Delay the adding of a new album until the editor is finished
+
+  [ Florian Boucault ]
+  * Append directory under /media/phablet to m_mediaDirectories, so
+    photos captured onto SD card can be listed.
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 11 Dec 2014 16:38:25 +0000
+
 gallery-app (0.0.67+15.04.20141209-0ubuntu1) vivid; urgency=low
 
   [ Arthur Mello ]
