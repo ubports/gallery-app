@@ -130,7 +130,6 @@ Checkerboard {
         onLongPressed: {
             albumMenu.album = album
             albumMenu.caller = content
-            albumEditor.previewItem = thisDelegate
             albumMenu.show()
         }
 
@@ -209,8 +208,7 @@ Checkerboard {
 
         onEditClicked: {
             albumEditor.album = album
-            albumEditor.origin = root.getRectOfAlbumPreview(album, albumEditor)
-            albumEditor.open()
+            overview.pushPage(albumEditor)
         }
 
         onDeleteClicked: {
@@ -239,12 +237,9 @@ Checkerboard {
                     var album = albumCollectionModel.createOrphan();
                     album.title = i18n.tr("New Photo Album");
                     album.subtitle = i18n.tr("Subtitle");
-                    albumCollectionModel.addOrphan(album);
 
                     albumEditor.album = album;
-                    albumEditor.origin = null;
-                    albumEditor.previewItem = null;
-                    albumEditor.open();
+                    overview.pushPage(albumEditor);
                 }
             }
             text: i18n.tr("Add") // text in toolbar
@@ -271,9 +266,13 @@ Checkerboard {
         onQuickCloseRequested: isAlbumOpened = false;
     }
 
-    AlbumEditorAnimated {
+    AlbumEditor {
         id: albumEditor
-        objectName: "albumEditorAnimated"
+        objectName: "albumEditor"
         anchors.fill: parent
+        visible: false 
+
+        onMediaSelectorHidden: albumEditorCheckerboardHidden(newScrollPos);
+        onCloseRequested: overview.popPage();
     }
 }

@@ -50,6 +50,11 @@ Resource::Resource(bool desktopMode, const QString &pictureDir)
         m_mediaDirectories.append(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
         m_videoDirectories.append(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation));
     }
+
+    QString userName = qgetenv("USER");
+    if (QDir("/media/" + userName).exists()) {
+        m_mediaDirectories.append(QString("/media/" + userName));
+    }
 }
 
 /*!

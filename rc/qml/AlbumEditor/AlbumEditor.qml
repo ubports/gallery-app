@@ -219,6 +219,9 @@ Page {
             onHidden: {
                 if(album.newAlbum)
                     albumModel.destroyAlbum(album);
+                else
+                    albumCollectionModel.addOrphan(album);
+
                 overview.popPage();
                 albumEditor.closeRequested(albumEditor.album, true);
             }
