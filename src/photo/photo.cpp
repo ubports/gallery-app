@@ -47,7 +47,6 @@
 #include <QFileInfo>
 #include <QImage>
 #include <QImageReader>
-#include <QImageWriter>
 #include <QStack>
 
 // A simple class for dealing with an undo-/redo-able stack of applied edits.
@@ -169,13 +168,7 @@ bool Photo::isValid(const QFileInfo& file)
             return false;
     }
 
-    PhotoMetadata* tmp = PhotoMetadata::fromFile(file);
-    if (tmp == NULL)
-        return false;
-
-    delete tmp;
-    return reader.canRead() &&
-            QImageWriter::supportedImageFormats().contains(reader.format());
+    return reader.canRead();
 }
 
 /*!
