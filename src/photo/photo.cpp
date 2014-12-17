@@ -47,6 +47,7 @@
 #include <QFileInfo>
 #include <QImage>
 #include <QImageReader>
+#include <QImageWriter>
 #include <QStack>
 
 // A simple class for dealing with an undo-/redo-able stack of applied edits.
@@ -385,6 +386,11 @@ bool Photo::canRedo() const
 bool Photo::isOriginal() const
 {
     return currentState().isOriginal();
+}
+
+bool Photo::canBeEdited() const
+{
+    return QImageWriter::supportedImageFormats().contains(m_fileFormat.toUtf8());
 }
 
 /*!

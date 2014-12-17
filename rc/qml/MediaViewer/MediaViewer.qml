@@ -479,6 +479,7 @@ Item {
                 objectName: "editButton"
                 text: i18n.tr("Edit")
                 iconSource: "../../img/edit.png"
+                enabled: galleryPhotoViewer.media.canBeEdited
                 onTriggered: PopupUtils.open(editPopoverComponent, null);
             },
             Action {
