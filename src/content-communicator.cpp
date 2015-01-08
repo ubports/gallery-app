@@ -94,8 +94,10 @@ void ContentCommunicator::handle_import(content::Transfer *transfer)
             // to show up on imported date Event
             QFileInfo destfi(destination);
             PhotoMetadata* metadata = PhotoMetadata::fromFile(destfi);
-            metadata->setDateTimeDigitized(QDateTime::currentDateTime());
-            metadata->save();
+            if (metadata != NULL) {
+                metadata->setDateTimeDigitized(QDateTime::currentDateTime());
+                metadata->save();
+            }
         }
     }
     // Allow content-hub to clean up temporary files in .cache/ once we've

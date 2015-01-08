@@ -215,12 +215,23 @@ QTransform PhotoMetadata::orientationTransform() const
  */
 void PhotoMetadata::setOrientation(Orientation orientation)
 {
-    Exiv2::ExifData& exif_data = m_image->exifData();
-
-    exif_data[EXIF_ORIENTATION_KEY] = orientation;
-
-    if (!m_keysPresent.contains(EXIF_ORIENTATION_KEY))
-        m_keysPresent.insert(EXIF_ORIENTATION_KEY);
+    try {
+        if (!m_image->good()) {
+            qDebug("Do not set Orientation, invalid image metadata.");
+            return;
+        }
+ 
+        Exiv2::ExifData& exif_data = m_image->exifData();
+ 
+        exif_data[EXIF_ORIENTATION_KEY] = orientation;
+ 
+        if (!m_keysPresent.contains(EXIF_ORIENTATION_KEY))
+            m_keysPresent.insert(EXIF_ORIENTATION_KEY);
+ 
+    } catch (Exiv2::AnyError& e) {
+        qDebug("Do not set Orientation, error reading image metadata; %s", e.what());
+        return;
+    }
 }
 
 /*!
@@ -229,12 +240,23 @@ void PhotoMetadata::setOrientation(Orientation orientation)
  */
 void PhotoMetadata::setDateTimeDigitized(const QDateTime& digitized)
 {
-    Exiv2::ExifData& exif_data = m_image->exifData();
-
-    exif_data[EXIF_DATETIMEDIGITIZED_KEY] = digitized.toString("yyyy:MM:dd hh:mm:ss").toStdString();
-
-    if (!m_keysPresent.contains(EXIF_DATETIMEDIGITIZED_KEY))
-        m_keysPresent.insert(EXIF_DATETIMEDIGITIZED_KEY);
+    try {
+        if (!m_image->good()) {
+            qDebug("Do not set DateTimeDigitized, invalid image metadata.");
+            return;
+        }
+ 
+        Exiv2::ExifData& exif_data = m_image->exifData();
+ 
+        exif_data[EXIF_DATETIMEDIGITIZED_KEY] = digitized.toString("yyyy:MM:dd hh:mm:ss").toStdString();
+ 
+        if (!m_keysPresent.contains(EXIF_DATETIMEDIGITIZED_KEY))
+            m_keysPresent.insert(EXIF_DATETIMEDIGITIZED_KEY);
+ 
+    } catch (Exiv2::AnyError& e) {
+        qDebug("Do not set DateTimeDigitized, error reading image metadata; %s", e.what());
+        return;
+    }
 }
 
 /*!
