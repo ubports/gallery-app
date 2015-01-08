@@ -44,6 +44,7 @@ class Photo : public MediaSource
     Q_PROPERTY(bool canUndo READ canUndo NOTIFY editStackChanged)
     Q_PROPERTY(bool canRedo READ canRedo NOTIFY editStackChanged)
     Q_PROPERTY(bool isOriginal READ isOriginal NOTIFY editStackChanged)
+    Q_PROPERTY(bool canBeEdited READ canBeEdited)
 
 public:
     explicit Photo(const QFileInfo& file);
@@ -69,6 +70,7 @@ public:
     bool canUndo() const;
     bool canRedo() const;
     bool isOriginal() const;
+    bool canBeEdited() const;
 
     Q_INVOKABLE void revertToOriginal();
     Q_INVOKABLE void undo();

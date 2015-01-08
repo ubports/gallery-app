@@ -169,13 +169,7 @@ bool Photo::isValid(const QFileInfo& file)
             return false;
     }
 
-    PhotoMetadata* tmp = PhotoMetadata::fromFile(file);
-    if (tmp == NULL)
-        return false;
-
-    delete tmp;
-    return reader.canRead() &&
-            QImageWriter::supportedImageFormats().contains(reader.format());
+    return reader.canRead();
 }
 
 /*!
@@ -392,6 +386,11 @@ bool Photo::canRedo() const
 bool Photo::isOriginal() const
 {
     return currentState().isOriginal();
+}
+
+bool Photo::canBeEdited() const
+{
+    return QImageWriter::supportedImageFormats().contains(m_fileFormat.toUtf8());
 }
 
 /*!

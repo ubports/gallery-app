@@ -122,6 +122,11 @@ bool Photo::isOriginal() const
     return true;
 }
 
+bool Photo::canBeEdited() const
+{
+    return true;
+}
+
 void Photo::rotateRight()
 {
 }
