@@ -232,8 +232,10 @@ QImage Photo::image(bool respectOrientation, const QSize &scaleSize)
                     .toTransform());
 
         // Cache this here since the image is already loaded.
-        if (!isSizeSet())
+        if (!isSizeSet()) {
             setSize(image.size());
+            qWarning() << "++++++++ setsize from Photo::image";
+        }
     }
 
     return image;
@@ -554,6 +556,7 @@ void Photo::destroySource(bool destroyBacking, bool asOrphan)
  */
 void Photo::resetToOriginalSize()
 {
+    qWarning() << "++++++++ setsize from Photo::resetToOriginalSize";
     setSize(originalSize(PhotoEditState::ORIGINAL_ORIENTATION));
 }
 
