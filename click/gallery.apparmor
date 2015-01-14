@@ -6,5 +6,6 @@
                       "video",
                       "video_files"
                       ], 
+    "read_path": [ "/media/" ],
     "policy_version": 1.2
 }
