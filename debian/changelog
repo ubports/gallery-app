@@ -1,3 +1,24 @@
+gallery-app (0.0.67+15.04.20150108.1-0ubuntu1) vivid; urgency=low
+
+  [ Bill Filler ]
+  * update framework version
+
+  [ Arthur Mello ]
+  * Add some checks to make sure the file has good metadata before
+    changing it
+  * Make gallery display files that are not supported by QImageWriter or
+    that do not have metadata Disable the editing options for files that
+    are not supported by QImageWriter (LP: #1403205)
+
+  [ Florian Boucault ]
+  * Support videos from SD card by adding /media/phablet folder to the
+    video directories.
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 08 Jan 2015 20:32:57 +0000
+
 gallery-app (0.0.67+15.04.20141211-0ubuntu1) vivid; urgency=low
 
   [ Arthur Mello ]

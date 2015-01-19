@@ -63,6 +63,11 @@ Orientation Photo::orientation() const
     return m_originalOrientation;
 }
 
+bool Photo::canBeEdited() const
+{
+    return true;
+}
+
 void Photo::destroySource(bool destroyBacking, bool asOrphan)
 {
 }

@@ -35,6 +35,7 @@ class Photo : public MediaSource
 {
     Q_OBJECT
 
+    Q_PROPERTY(bool canBeEdited READ canBeEdited)
 public:
     explicit Photo(const QFileInfo& file);
     virtual ~Photo();
@@ -44,6 +45,8 @@ public:
     static bool isValid(const QFileInfo& file);
 
     virtual Orientation orientation() const;
+
+    bool canBeEdited() const;
 
     void setOriginalOrientation(Orientation orientation);
     Orientation originalOrientation() const;

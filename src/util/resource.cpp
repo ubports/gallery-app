@@ -54,6 +54,7 @@ Resource::Resource(bool desktopMode, const QString &pictureDir)
     QString userName = qgetenv("USER");
     if (QDir("/media/" + userName).exists()) {
         m_mediaDirectories.append(QString("/media/" + userName));
+        m_videoDirectories.append(QString("/media/" + userName));
     }
 }
 
