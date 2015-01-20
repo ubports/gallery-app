@@ -56,22 +56,6 @@ Item {
         }
     }
 
-    function reload() {
-        if (!viewer.isVideo) {
-            var src = image.source
-            image.asynchronous = false
-            image.source = ""
-            image.asynchronous = true
-            image.source = src;
-
-            src = highResolutionImage.source
-            highResolutionImage.asynchronous = false
-            highResolutionImage.source = ""
-            highResolutionImage.asynchronous = true
-            highResolutionImage.source = src
-        }
-    }
-
     function reset() {
         if (viewer.isVideo) {
             if (video.item) {

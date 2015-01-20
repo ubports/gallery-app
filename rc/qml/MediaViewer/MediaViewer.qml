@@ -191,11 +191,6 @@ Item {
             }
 
             onClicked: viewerWrapper.toggleHeaderVisibility()
-
-            Connections {
-                target: model.mediaSource
-                onDataChanged: media.reload()
-            }
         }
 
         // Don't allow flicking while the chrome is actively displaying a popup
