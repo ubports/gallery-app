@@ -151,7 +151,7 @@ Item {
                     anchors.fill: parent
                     asynchronous: true
                     cache: false
-                    source: mediaSource.galleryPreviewPath
+                    source: mediaSource.galleryPath
                     sourceSize {
                         width: viewer.maxDimension
                         height: viewer.maxDimension
