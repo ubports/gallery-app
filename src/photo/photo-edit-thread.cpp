@@ -143,8 +143,10 @@ void PhotoEditThread::run()
         image = image.transformed(metadata->orientationTransform().inverted());
 
     bool saved = image.save(m_photo->file().filePath(),  m_photo->fileFormat().toStdString().c_str(), 90);
-    if (saved && m_photo->fileFormatHasMetadata())
+    if (saved && m_photo->fileFormatHasMetadata()) {
+        metadata->updateThumbnail(image);
         saved = metadata->save();
+    }
     if (!saved)
         qWarning() << "Error saving edited" << m_photo->file().filePath();
 
