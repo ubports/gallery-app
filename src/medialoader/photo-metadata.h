@@ -29,8 +29,12 @@
 #include <QString>
 #include <QSet>
 #include <QTransform>
+#include <QImage>
+#include <QBuffer>
 
 #include <exiv2/exiv2.hpp>
+
+#define THUMBNAIL_SCALE 8.5
 
 /*!
  * \brief The PhotoMetadata class
@@ -50,6 +54,7 @@ public:
 
     void setOrientation(Orientation orientation);
     void setDateTimeDigitized(const QDateTime& digitized);
+    void updateThumbnail(QImage image);
 
     bool save() const;
 
