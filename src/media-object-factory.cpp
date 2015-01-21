@@ -150,9 +150,12 @@ MediaSource *MediaObjectFactory::create(const QFileInfo &file, bool desktopMode,
             return 0;
         }
 
+        // This will cause the real size to be read from the file
+        if (photo) m_size = photo->size();
+
         // Add to DB.
         id = m_mediaTable->createIdForMedia(file.absoluteFilePath(), m_timeStamp,
-                                            m_exposureTime, m_orientation, m_fileSize);
+                                            m_exposureTime, m_orientation, m_fileSize, m_size);
     } else {
         // Load metadata from DB.
         m_mediaTable->getRow(id, m_size, m_orientation, m_timeStamp, m_exposureTime);

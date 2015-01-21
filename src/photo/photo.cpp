@@ -232,8 +232,9 @@ QImage Photo::image(bool respectOrientation, const QSize &scaleSize)
                     .toTransform());
 
         // Cache this here since the image is already loaded.
-        if (!isSizeSet())
+        if (!isSizeSet()) {
             setSize(image.size());
+        }
     }
 
     return image;
