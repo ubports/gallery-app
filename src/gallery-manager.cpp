@@ -71,6 +71,12 @@ GalleryManager::GalleryManager(bool desktopMode,
 {
     m_mediaFactory = new MediaObjectFactory(m_desktopMode, m_resource);
 
+    QObject::connect(m_mediaFactory, SIGNAL(mediaObjectCreated(MediaSource*)),
+                     this, SLOT(onMediaObjectCreated(MediaSource*)));
+    QObject::connect(m_mediaFactory, SIGNAL(mediasFromDBLoaded(QSet<DataObject *>)),
+                     this, SLOT(onMediasFromDBLoaded(QSet<DataObject *>)));
+
+
     m_galleryManager = this;
 }
 
@@ -220,9 +226,7 @@ void GalleryManager::fillMediaCollection()
     Q_ASSERT(m_mediaCollection);
 
     QSet<DataObject*> medias;
-    medias = m_mediaFactory->mediasFromDB();
-    m_mediaCollection->addMany(medias);
-    m_mediaFactory->clear();
+    m_mediaFactory->loadMediasFromDB();
 }
 
 /*!
@@ -256,10 +260,7 @@ void GalleryManager::onMediaItemAdded(QString file)
 {
     if (! m_mediaCollection->containsFile(file)) {
         QFileInfo fi(file);
-        MediaSource *media = m_mediaFactory->create(fi, m_desktopMode, m_resource);
-
-        if (media)
-            m_mediaCollection->add(media);
+        m_mediaFactory->create(fi, m_desktopMode, m_resource);
     }
 }
 
@@ -270,6 +271,25 @@ void GalleryManager::onMediaItemAdded(QString file)
 void GalleryManager::onMediaItemRemoved(qint64 mediaId)
 {
     m_mediaCollection->destroy(mediaId, false);
+}
+
+/*!
+ * \brief GalleryManager::onMediaObjectCreated
+ * \param mediaObject
+ */
+void GalleryManager::onMediaObjectCreated(MediaSource *mediaObject)
+{
+    m_mediaCollection->add(mediaObject);
+}
+
+/*!
+ * \brief GalleryManager::onMediasFromDBLoaded
+ * \param mediasFromDB
+ */
+void GalleryManager::onMediasFromDBLoaded(QSet<DataObject *> mediasFromDB)
+{
+    m_mediaCollection->addMany(mediasFromDB);
+    m_mediaFactory->clear();
 }
 
 /*!

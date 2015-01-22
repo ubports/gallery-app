@@ -78,6 +78,8 @@ signals:
 private slots:
     void onMediaItemAdded(QString file);
     void onMediaItemRemoved(qint64 mediaId);
+    void onMediaObjectCreated(MediaSource *mediaObject);
+    void onMediasFromDBLoaded(QSet<DataObject *> mediasFromDB);
 
 private:
     GalleryManager(const GalleryManager&);

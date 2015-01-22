@@ -30,16 +30,33 @@
 // video
 #include <video.h>
 
+#include <QApplication>
+
 /*!
  * \brief MediaObjectFactory::MediaObjectFactory
  * \param mediaTable
  */
 MediaObjectFactory::MediaObjectFactory(bool desktopMode, Resource *res)
-    : m_mediaTable(),
-      m_filterType(MediaSource::None),
-      m_resource(res),
-      m_desktopMode(desktopMode)
+    : m_workerThread(this)
 {
+    m_worker = new MediaObjectFactoryWorker(this);
+    m_worker->moveToThread(&m_workerThread);
+    QObject::connect(&m_workerThread, SIGNAL(finished()),
+                     m_worker, SLOT(deleteLater()));
+    
+    QObject::connect(m_worker, SIGNAL(mediaObjectCreated(MediaSource*)),
+                     this, SIGNAL(mediaObjectCreated(MediaSource*)), Qt::QueuedConnection);
+    QObject::connect(m_worker, SIGNAL(mediasFromDBLoaded(QSet<DataObject *>)),
+                     this, SIGNAL(mediasFromDBLoaded(QSet<DataObject *>)), Qt::QueuedConnection);
+
+
+    m_workerThread.start(QThread::LowPriority);
+}
+
+MediaObjectFactory::~MediaObjectFactory()
+{
+    m_workerThread.quit();
+    m_workerThread.wait();
 }
 
 /*!
@@ -48,7 +65,7 @@ MediaObjectFactory::MediaObjectFactory(bool desktopMode, Resource *res)
  */
 void MediaObjectFactory::setMediaTable(MediaTable *mediaTable)
 {
-    m_mediaTable = mediaTable;
+    m_worker->setMediaTable(mediaTable);
 }
 
 /*!
@@ -58,35 +75,7 @@ void MediaObjectFactory::setMediaTable(MediaTable *mediaTable)
  */
 void MediaObjectFactory::enableContentLoadFilter(MediaSource::MediaType filterType)
 {
-    m_filterType = filterType;
-}
-
-/*!
- * \brief MediaObjectFactory::photosFromDB creates a set with all photos and video
- * stored in the DB.
- * Someone else needs to take the responsibility to delete all the objects in the set.
- * You should call clear() afterwards, to remove temporary data.
- * \return All medias stored in the DB
- */
-QSet<DataObject *> MediaObjectFactory::mediasFromDB()
-{
-    Q_ASSERT(m_mediaTable);
-
-    m_mediasFromDB.clear();
-
-    connect(m_mediaTable,
-            SIGNAL(row(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)),
-            this,
-            SLOT(addMedia(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)));
-
-    m_mediaTable->emitAllRows();
-
-    disconnect(m_mediaTable,
-               SIGNAL(row(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)),
-               this,
-               SLOT(addMedia(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)));
-
-    return m_mediasFromDB;
+    m_worker->enableContentLoadFilter(filterType);
 }
 
 /*!
@@ -94,8 +83,7 @@ QSet<DataObject *> MediaObjectFactory::mediasFromDB()
  */
 void MediaObjectFactory::clear()
 {
-    clearMetadata();
-    m_mediasFromDB.clear();
+    QMetaObject::invokeMethod(m_worker, "clear", Qt::QueuedConnection);
 }
 
 /*!
@@ -104,9 +92,56 @@ void MediaObjectFactory::clear()
  * \param file the file to load
  * \return 0 if this no valid photo/video file
  */
-MediaSource *MediaObjectFactory::create(const QFileInfo &file, bool desktopMode, Resource *res)
+void MediaObjectFactory::create(const QFileInfo &file, bool desktopMode, Resource *res)
+{
+    QMetaObject::invokeMethod(m_worker, "create", Qt::QueuedConnection,
+                              Q_ARG(QString, file.absoluteFilePath()));
+}
+
+/*!
+ * \brief MediaObjectFactory::loadMediasFromDB creates a set with all photos and video
+ * stored in the DB.
+ * Someone else needs to take the responsibility to delete all the objects in the set.
+ * You should call clear() afterwards, to remove temporary data.
+ * \return All medias stored in the DB
+ */
+void MediaObjectFactory::loadMediasFromDB()
+{
+    QMetaObject::invokeMethod(m_worker, "mediasFromDB", Qt::QueuedConnection);
+}
+
+MediaObjectFactoryWorker::MediaObjectFactoryWorker(QObject *parent)
+    : QObject(parent),
+      m_mediaTable(),
+      m_filterType(MediaSource::None)
+{
+}
+
+MediaObjectFactoryWorker::~MediaObjectFactoryWorker()
+{
+}
+
+void MediaObjectFactoryWorker::setMediaTable(MediaTable *mediaTable)
+{
+    m_mediaTable = mediaTable;
+}
+
+void MediaObjectFactoryWorker::enableContentLoadFilter(MediaSource::MediaType filterType)
+{
+    m_filterType = filterType;
+}
+
+void MediaObjectFactoryWorker::clear()
+{
+    clearMetadata();
+    m_mediasFromDB.clear();
+}
+
+void MediaObjectFactoryWorker::create(const QString &path)
 {
     Q_ASSERT(m_mediaTable);
+
+    QFileInfo file(path);
 
     clearMetadata();
 
@@ -115,16 +150,16 @@ MediaSource *MediaObjectFactory::create(const QFileInfo &file, bool desktopMode,
         mediaType = MediaSource::Video;
 
     if (m_filterType != MediaSource::None && mediaType != m_filterType)
-        return 0;
+        return;
 
     // Look for video in the database.
     qint64 id = m_mediaTable->getIdForMedia(file.absoluteFilePath());
 
     if (id == INVALID_ID) {
         if (mediaType == MediaSource::Video && !Video::isValid(file))
-            return 0;
+            return;
         if (mediaType == MediaSource::Photo && !Photo::isValid(file))
-            return 0;
+            return;
     }
 
     MediaSource *media = 0;
@@ -147,7 +182,7 @@ MediaSource *MediaObjectFactory::create(const QFileInfo &file, bool desktopMode,
 
         if (!metadataOk) {
             delete media;
-            return 0;
+            return;
         }
 
         // This will cause the real size to be read from the file
@@ -167,7 +202,96 @@ MediaSource *MediaObjectFactory::create(const QFileInfo &file, bool desktopMode,
         photo->setOriginalOrientation(m_orientation);
     media->setId(id);
 
-    return media;
+    media->moveToThread(QApplication::instance()->thread());
+    emit mediaObjectCreated(media);
+}
+
+void MediaObjectFactoryWorker::mediasFromDB()
+{
+    Q_ASSERT(m_mediaTable);
+
+    m_mediasFromDB.clear();
+
+    connect(m_mediaTable,
+            SIGNAL(row(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)),
+            this,
+            SLOT(addMedia(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)));
+
+    m_mediaTable->emitAllRows();
+
+    disconnect(m_mediaTable,
+               SIGNAL(row(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)),
+               this,
+               SLOT(addMedia(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)));
+
+    emit mediasFromDBLoaded(m_mediasFromDB);
+}
+
+/*!
+ * \brief MediaObjectFactory::clearMetadata resets all memeber variables
+ * regarding metadata
+ */
+void MediaObjectFactoryWorker::clearMetadata()
+{
+    m_timeStamp = QDateTime();
+    m_exposureTime = QDateTime();
+    m_orientation = TOP_LEFT_ORIGIN;
+    m_fileSize = 0;
+    m_size = QSize();
+}
+
+/*!
+ * \brief MediaObjectFactory::readPhotoMetadata
+ * \param file
+ * \return 0 if there was an error reading the metadata
+ */
+bool MediaObjectFactoryWorker::readPhotoMetadata(const QFileInfo &file)
+{
+    PhotoMetadata* metadata = PhotoMetadata::fromFile(file);
+    if (metadata == 0)
+        return false;
+
+    m_timeStamp = file.lastModified();
+    m_orientation = metadata->orientation();
+    m_fileSize = file.size();
+    m_exposureTime = metadata->exposureTime().isValid() ?
+                QDateTime(metadata->exposureTime()) : m_timeStamp;
+    m_size = QSize();
+
+    delete metadata;
+    return true;
+}
+
+/*!
+ * \brief MediaObjectFactory::readVideoMetadata
+ * \param file
+ * \return 0 if there was an error reading the metadata
+ */
+bool MediaObjectFactoryWorker::readVideoMetadata(const QFileInfo &file)
+{
+    if (!Video::isValid(file))
+        return false;
+
+    VideoMetadata metadata(file);
+    bool ok = metadata.parseMetadata();
+    if (!ok)
+        return false;
+
+    m_timeStamp = file.created();
+    if (metadata.rotation() == 90) {
+        m_orientation = LEFT_BOTTOM_ORIGIN;
+    } else if (metadata.rotation() == 180) {
+        m_orientation = BOTTOM_RIGHT_ORIGIN;
+    } else if (metadata.rotation() == 270) {
+        m_orientation = RIGHT_TOP_ORIGIN;
+    } else {
+        m_orientation = TOP_LEFT_ORIGIN;
+    }
+    m_fileSize = file.size();
+    m_exposureTime = metadata.exposureTime();
+    m_size = metadata.frameSize();
+
+    return true;
 }
 
 /*!
@@ -182,7 +306,7 @@ MediaSource *MediaObjectFactory::create(const QFileInfo &file, bool desktopMode,
  * \param filesize
  * \return
  */
-void MediaObjectFactory::addMedia(qint64 mediaId, const QString &filename,
+void MediaObjectFactoryWorker::addMedia(qint64 mediaId, const QString &filename,
                                   const QSize &size, const QDateTime &timestamp,
                                   const QDateTime &exposureTime,
                                   Orientation originalOrientation, qint64 filesize)
@@ -214,69 +338,4 @@ void MediaObjectFactory::addMedia(qint64 mediaId, const QString &filename,
     m_mediasFromDB.insert(media);
 }
 
-/*!
- * \brief MediaObjectFactory::clearMetadata resets all memeber variables
- * regarding metadata
- */
-void MediaObjectFactory::clearMetadata()
-{
-    m_timeStamp = QDateTime();
-    m_orientation = TOP_LEFT_ORIGIN;
-    m_fileSize = 0;
-    m_exposureTime = QDateTime();
-    m_size = QSize();
-}
 
-/*!
- * \brief MediaObjectFactory::readPhotoMetadata
- * \param file
- * \return 0 if there was an error reading the metadata
- */
-bool MediaObjectFactory::readPhotoMetadata(const QFileInfo &file)
-{
-    PhotoMetadata* metadata = PhotoMetadata::fromFile(file);
-    if (metadata == 0)
-        return false;
-
-    m_timeStamp = file.lastModified();
-    m_orientation = metadata->orientation();
-    m_fileSize = file.size();
-    m_exposureTime = metadata->exposureTime().isValid() ?
-                QDateTime(metadata->exposureTime()) : m_timeStamp;
-    m_size = QSize();
-
-    delete metadata;
-    return true;
-}
-
-/*!
- * \brief MediaObjectFactory::readVideoMetadata
- * \param file
- * \return 0 if there was an error reading the metadata
- */
-bool MediaObjectFactory::readVideoMetadata(const QFileInfo &file)
-{
-    if (!Video::isValid(file))
-        return false;
-
-    VideoMetadata metadata(file);
-    bool ok = metadata.parseMetadata();
-    if (!ok)
-        return false;
-
-    m_timeStamp = file.created();
-    if (metadata.rotation() == 90) {
-        m_orientation = LEFT_BOTTOM_ORIGIN;
-    } else if (metadata.rotation() == 180) {
-        m_orientation = BOTTOM_RIGHT_ORIGIN;
-    } else if (metadata.rotation() == 270) {
-        m_orientation = RIGHT_TOP_ORIGIN;
-    } else {
-        m_orientation = TOP_LEFT_ORIGIN;
-    }
-    m_fileSize = file.size();
-    m_exposureTime = metadata.exposureTime();
-    m_size = metadata.frameSize();
-
-    return true;
-}

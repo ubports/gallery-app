@@ -28,8 +28,10 @@
 #include <QFileInfo>
 #include <QObject>
 #include <QSize>
+#include <QThread>
 
 class MediaTable;
+class MediaObjectFactoryWorker;
 
 /*!
  * \brief The MediaObjectFactory creates phot and video objects
@@ -40,40 +42,67 @@ class MediaObjectFactory : public QObject
 
 public:
     explicit MediaObjectFactory(bool desktopMode, Resource *res);
+    virtual ~MediaObjectFactory();
 
     void setMediaTable(MediaTable *mediaTable);
     void enableContentLoadFilter(MediaSource::MediaType filterType);
-
-    QSet<DataObject*> mediasFromDB();
     void clear();
+    void create(const QFileInfo& file, bool desktopMode, Resource *res);
+    void loadMediasFromDB();
 
-    MediaSource *create(const QFileInfo& file, bool desktopMode, Resource *res);
+signals:
+    void mediaObjectCreated(MediaSource *newMediaObject);
+    void mediasFromDBLoaded(QSet<DataObject *> mediasFromDB);
+
+private:    
+    MediaObjectFactoryWorker* m_worker;
+    QThread m_workerThread;
+
+    friend class tst_MediaObjectFactory;
+};
+
+/*!
+ * \brief The MediaObjectFactoryWorker class does the actual object factory, but is
+ * supposed to to it in a thread
+ */
+class MediaObjectFactoryWorker : public QObject
+{
+    Q_OBJECT
+
+public:
+    MediaObjectFactoryWorker(QObject *parent=0);
+    virtual ~MediaObjectFactoryWorker();
+
+public slots:
+    void setMediaTable(MediaTable *mediaTable);
+    void enableContentLoadFilter(MediaSource::MediaType filterType);
+    void clear();
+    void create(const QString& path);
+    void mediasFromDB();
+
+signals:
+    void mediaObjectCreated(MediaSource *newMediaObject);
+    void mediasFromDBLoaded(QSet<DataObject *> mediasFromDB);
 
 private slots:
     void addMedia(qint64 mediaId, const QString& filename, const QSize& size,
                   const QDateTime& timestamp, const QDateTime& exposureTime,
                   Orientation originalOrientation, qint64 filesize);
 
-private:    
+private:
     void clearMetadata();
     bool readPhotoMetadata(const QFileInfo &file);
     bool readVideoMetadata(const QFileInfo &file);
 
     MediaTable *m_mediaTable;
+    MediaSource::MediaType m_filterType;
     QDateTime m_timeStamp;
     QDateTime m_exposureTime;
-    QSize m_size;
     Orientation m_orientation;
     qint64 m_fileSize;
-
-    MediaSource::MediaType m_filterType;
+    QSize m_size;
 
     QSet<DataObject*> m_mediasFromDB;
-
-    Resource* m_resource;
-    bool m_desktopMode;
-
-    friend class tst_MediaObjectFactory;
 };
 
 #endif  // MEDIA_OBJECT_FACTORY_H_
