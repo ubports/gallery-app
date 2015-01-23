@@ -105,6 +105,16 @@ void GalleryManager::onMediaItemRemoved(qint64 mediaId)
     Q_UNUSED(mediaId);
 }
 
+void GalleryManager::onMediaObjectCreated(MediaSource *mediaObject)
+{
+    Q_UNUSED(mediaObject);
+}
+
+void GalleryManager::onMediaFromDBLoaded(QSet<DataObject *> mediaFromDB)
+{
+    Q_UNUSED(mediaFromDB);
+}
+
 GalleryStandardImageProvider* GalleryManager::takeGalleryStandardImageProvider()
 {
     return 0;
