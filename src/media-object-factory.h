@@ -48,11 +48,11 @@ public:
     void enableContentLoadFilter(MediaSource::MediaType filterType);
     void clear();
     void create(const QFileInfo& file, bool desktopMode, Resource *res);
-    void loadMediasFromDB();
+    void loadMediaFromDB();
 
 signals:
     void mediaObjectCreated(MediaSource *newMediaObject);
-    void mediasFromDBLoaded(QSet<DataObject *> mediasFromDB);
+    void mediaFromDBLoaded(QSet<DataObject *> mediaFromDB);
 
 private:    
     MediaObjectFactoryWorker* m_worker;
@@ -78,11 +78,11 @@ public slots:
     void enableContentLoadFilter(MediaSource::MediaType filterType);
     void clear();
     void create(const QString& path);
-    void mediasFromDB();
+    void mediaFromDB();
 
 signals:
     void mediaObjectCreated(MediaSource *newMediaObject);
-    void mediasFromDBLoaded(QSet<DataObject *> mediasFromDB);
+    void mediaFromDBLoaded(QSet<DataObject *> mediaFromDB);
 
 private slots:
     void addMedia(qint64 mediaId, const QString& filename, const QSize& size,
@@ -102,7 +102,7 @@ private:
     qint64 m_fileSize;
     QSize m_size;
 
-    QSet<DataObject*> m_mediasFromDB;
+    QSet<DataObject*> m_mediaFromDB;
 };
 
 #endif  // MEDIA_OBJECT_FACTORY_H_

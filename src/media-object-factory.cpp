@@ -46,8 +46,8 @@ MediaObjectFactory::MediaObjectFactory(bool desktopMode, Resource *res)
     
     QObject::connect(m_worker, SIGNAL(mediaObjectCreated(MediaSource*)),
                      this, SIGNAL(mediaObjectCreated(MediaSource*)), Qt::QueuedConnection);
-    QObject::connect(m_worker, SIGNAL(mediasFromDBLoaded(QSet<DataObject *>)),
-                     this, SIGNAL(mediasFromDBLoaded(QSet<DataObject *>)), Qt::QueuedConnection);
+    QObject::connect(m_worker, SIGNAL(mediaFromDBLoaded(QSet<DataObject *>)),
+                     this, SIGNAL(mediaFromDBLoaded(QSet<DataObject *>)), Qt::QueuedConnection);
 
 
     m_workerThread.start(QThread::LowPriority);
@@ -99,15 +99,15 @@ void MediaObjectFactory::create(const QFileInfo &file, bool desktopMode, Resourc
 }
 
 /*!
- * \brief MediaObjectFactory::loadMediasFromDB creates a set with all photos and video
+ * \brief MediaObjectFactory::loadMediaFromDB creates a set with all photos and video
  * stored in the DB.
  * Someone else needs to take the responsibility to delete all the objects in the set.
  * You should call clear() afterwards, to remove temporary data.
- * \return All medias stored in the DB
+ * \return All media stored in the DB
  */
-void MediaObjectFactory::loadMediasFromDB()
+void MediaObjectFactory::loadMediaFromDB()
 {
-    QMetaObject::invokeMethod(m_worker, "mediasFromDB", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(m_worker, "mediaFromDB", Qt::QueuedConnection);
 }
 
 MediaObjectFactoryWorker::MediaObjectFactoryWorker(QObject *parent)
@@ -134,7 +134,7 @@ void MediaObjectFactoryWorker::enableContentLoadFilter(MediaSource::MediaType fi
 void MediaObjectFactoryWorker::clear()
 {
     clearMetadata();
-    m_mediasFromDB.clear();
+    m_mediaFromDB.clear();
 }
 
 void MediaObjectFactoryWorker::create(const QString &path)
@@ -206,11 +206,11 @@ void MediaObjectFactoryWorker::create(const QString &path)
     emit mediaObjectCreated(media);
 }
 
-void MediaObjectFactoryWorker::mediasFromDB()
+void MediaObjectFactoryWorker::mediaFromDB()
 {
     Q_ASSERT(m_mediaTable);
 
-    m_mediasFromDB.clear();
+    m_mediaFromDB.clear();
 
     connect(m_mediaTable,
             SIGNAL(row(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)),
@@ -224,7 +224,7 @@ void MediaObjectFactoryWorker::mediasFromDB()
                this,
                SLOT(addMedia(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)));
 
-    emit mediasFromDBLoaded(m_mediasFromDB);
+    emit mediaFromDBLoaded(m_mediaFromDB);
 }
 
 /*!
@@ -296,7 +296,7 @@ bool MediaObjectFactoryWorker::readVideoMetadata(const QFileInfo &file)
 
 /*!
  * \brief MediaObjectFactory::addMedia creates a media object, and adds it to the
- * internal set. This is used for mediasFromDB().
+ * internal set. This is used for mediaFromDB().
  * \param mediaId
  * \param filename
  * \param size
@@ -335,7 +335,7 @@ void MediaObjectFactoryWorker::addMedia(qint64 mediaId, const QString &filename,
         photo->setOriginalOrientation(originalOrientation);
     media->setId(mediaId);
 
-    m_mediasFromDB.insert(media);
+    m_mediaFromDB.insert(media);
 }
 
 

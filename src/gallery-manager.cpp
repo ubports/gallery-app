@@ -73,8 +73,8 @@ GalleryManager::GalleryManager(bool desktopMode,
 
     QObject::connect(m_mediaFactory, SIGNAL(mediaObjectCreated(MediaSource*)),
                      this, SLOT(onMediaObjectCreated(MediaSource*)));
-    QObject::connect(m_mediaFactory, SIGNAL(mediasFromDBLoaded(QSet<DataObject *>)),
-                     this, SLOT(onMediasFromDBLoaded(QSet<DataObject *>)));
+    QObject::connect(m_mediaFactory, SIGNAL(mediaFromDBLoaded(QSet<DataObject *>)),
+                     this, SLOT(onMediaFromDBLoaded(QSet<DataObject *>)));
 
 
     m_galleryManager = this;
@@ -224,9 +224,7 @@ void GalleryManager::logImageLoading(bool log)
 void GalleryManager::fillMediaCollection()
 {
     Q_ASSERT(m_mediaCollection);
-
-    QSet<DataObject*> medias;
-    m_mediaFactory->loadMediasFromDB();
+    m_mediaFactory->loadMediaFromDB();
 }
 
 /*!
@@ -284,12 +282,12 @@ void GalleryManager::onMediaObjectCreated(MediaSource *mediaObject)
 }
 
 /*!
- * \brief GalleryManager::onMediasFromDBLoaded
- * \param mediasFromDB
+ * \brief GalleryManager::onMediaFromDBLoaded
+ * \param mediaFromDB
  */
-void GalleryManager::onMediasFromDBLoaded(QSet<DataObject *> mediasFromDB)
+void GalleryManager::onMediaFromDBLoaded(QSet<DataObject *> mediaFromDB)
 {
-    m_mediaCollection->addMany(mediasFromDB);
+    m_mediaCollection->addMany(mediaFromDB);
     m_mediaFactory->clear();
 }
 

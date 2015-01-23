@@ -79,7 +79,7 @@ private slots:
     void onMediaItemAdded(QString file);
     void onMediaItemRemoved(qint64 mediaId);
     void onMediaObjectCreated(MediaSource *mediaObject);
-    void onMediasFromDBLoaded(QSet<DataObject *> mediasFromDB);
+    void onMediaFromDBLoaded(QSet<DataObject *> mediaFromDB);
 
 private:
     GalleryManager(const GalleryManager&);
