@@ -142,6 +142,9 @@ void GalleryManager::postInit()
         m_defaultTemplate = new AlbumDefaultTemplate();
         m_mediaCollection = new MediaCollection(m_database->getMediaTable());
 
+        QObject::connect(m_mediaCollection, SIGNAL(collectionChanged()),
+                      this, SIGNAL(collectionChanged()));
+
         fillMediaCollection();
 
         collectionsInitialised = true;
@@ -247,7 +250,6 @@ void GalleryManager::startFileMonitoring()
 
     m_monitor->startMonitoring(m_resource->mediaDirectories());
     m_monitor->checkConsistency(m_mediaCollection);
-    emit collectionFiled();
 }
 
 /*!
@@ -286,10 +288,7 @@ void GalleryManager::onMediaObjectCreated(MediaSource *mediaObject)
  */
 void GalleryManager::onMediaFromDBLoaded(QSet<DataObject *> mediaFromDB)
 {
-    if (!mediaFromDB.isEmpty()) {
-        m_mediaCollection->addMany(mediaFromDB);
-        emit collectionFiled();
-    }
+    m_mediaCollection->addMany(mediaFromDB);
     m_mediaFactory->clear();
 
     startFileMonitoring();

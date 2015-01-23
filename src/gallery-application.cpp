@@ -114,8 +114,8 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
     QObject::connect(m_galleryManager, SIGNAL(consistencyCheckFinished()),
                      this, SLOT(consistencyCheckFinished()));
 
-    QObject::connect(m_galleryManager, SIGNAL(collectionFiled()),
-                     this, SLOT(onCollectionFiled()));
+    QObject::connect(m_galleryManager, SIGNAL(collectionChanged()),
+                     this, SLOT(onCollectionChanged()));
 
     QObject::connect(m_contentCommunicator, SIGNAL(mediaRequested(QString)),
                      this, SLOT(switchToPickMode(QString)));
@@ -129,6 +129,9 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
     m_mediaLoadedTimer.setSingleShot(false);
     m_mediaLoadedTimer.setInterval(100);
     QObject::connect(&m_mediaLoadedTimer, SIGNAL(timeout()), this, SLOT(onMediaLoaded()));
+
+    // Used to hide the Loading Screen after a time out
+    QTimer::singleShot(5 * 1000, this, SLOT(onCollectionChanged()));
 }
 
 /*!
@@ -375,6 +378,22 @@ void GalleryApplication::onMediaLoaded()
     }
 }
 
+void GalleryApplication::onCollectionChanged()
+{
+    if (!m_mediaLoaded) {
+        emit mediaLoaded();
+        m_mediaLoaded = true;
+
+        if (m_cmdLineParser->startupTimer()) {
+            qDebug() << "MainView loaded" << m_timer->elapsed() << "ms";
+            qDebug() << "Startup took" << m_timer->elapsed() << "ms";
+        }
+
+        delete m_timer;
+        m_timer = 0;
+    }
+}
+
 /*!
  * \brief GalleryApplication::returnPickedContent passes the selcted items to the
  * content manager
@@ -440,20 +459,6 @@ void GalleryApplication::consistencyCheckFinished()
     // its consistency check, as new images may be added by the import handler
     // during start-up.
     m_contentCommunicator->registerWithHub();
-}
-
-void GalleryApplication::onCollectionFiled()
-{
-    emit mediaLoaded();
-    m_mediaLoaded = true;
-
-    if (m_cmdLineParser->startupTimer()) {
-        qDebug() << "MainView loaded" << m_timer->elapsed() << "ms";
-        qDebug() << "Startup took" << m_timer->elapsed() << "ms";
-    }
-
-    delete m_timer;
-    m_timer = 0;
 }
 
 void GalleryApplication::parseUri(const QString &arg)
