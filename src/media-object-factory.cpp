@@ -39,7 +39,7 @@
 MediaObjectFactory::MediaObjectFactory(bool desktopMode, Resource *res)
     : m_workerThread(this)
 {
-    m_worker = new MediaObjectFactoryWorker(this);
+    m_worker = new MediaObjectFactoryWorker();
     m_worker->moveToThread(&m_workerThread);
     QObject::connect(&m_workerThread, SIGNAL(finished()),
                      m_worker, SLOT(deleteLater()));
