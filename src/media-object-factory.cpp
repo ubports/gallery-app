@@ -335,6 +335,7 @@ void MediaObjectFactoryWorker::addMedia(qint64 mediaId, const QString &filename,
         photo->setOriginalOrientation(originalOrientation);
     media->setId(mediaId);
 
+    media->moveToThread(QApplication::instance()->thread());
     m_mediaFromDB.insert(media);
 }
 

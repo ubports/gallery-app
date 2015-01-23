@@ -168,6 +168,7 @@ void GalleryApplication::registerQML()
     qmlRegisterType<QmlMediaCollectionModel>("Gallery", 1, 0, "MediaCollectionModel");
 
     qRegisterMetaType<QList<MediaSource*> >("MediaSourceList");
+    qRegisterMetaType<QSet<DataObject*> >("QSet<DataObject*>");
 }
 
 /*!

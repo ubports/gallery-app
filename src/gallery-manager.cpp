@@ -143,7 +143,6 @@ void GalleryManager::postInit()
         m_mediaCollection = new MediaCollection(m_database->getMediaTable());
 
         fillMediaCollection();
-        startFileMonitoring();
 
         collectionsInitialised = true;
 
@@ -288,6 +287,8 @@ void GalleryManager::onMediaFromDBLoaded(QSet<DataObject *> mediaFromDB)
 {
     m_mediaCollection->addMany(mediaFromDB);
     m_mediaFactory->clear();
+
+    startFileMonitoring();
 }
 
 /*!
