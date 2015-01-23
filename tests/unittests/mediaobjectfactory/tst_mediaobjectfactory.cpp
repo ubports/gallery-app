@@ -67,61 +67,58 @@ void tst_MediaObjectFactory::cleanup()
 
 void tst_MediaObjectFactory::create()
 {
-    /*
     // invalid file
-    MediaSource *media = m_factory->create(QFileInfo("no_valid_file"), true, 0);
-    QCOMPARE(media, (MediaSource*)0);
+    m_factory->create("no_valid_file");
+    QCOMPARE(m_factory->m_media, (MediaSource*)0);
 
     // new file
-    media = m_factory->create(QFileInfo("/some/photo.jpg"), true, 0);
-    Photo *photo = qobject_cast<Photo*>(media);
+    m_factory->create("/some/photo.jpg");
+    Photo *photo = qobject_cast<Photo*>(m_factory->m_media);
     QVERIFY(photo != 0);
     QCOMPARE(photo->id(), (qint64)0);
     QCOMPARE(photo->exposureDateTime(), QDateTime(QDate(2013, 01, 01), QTime(11, 11, 11)));
     QCOMPARE(photo->orientation(), BOTTOM_LEFT_ORIGIN);
 
     // another new file
-    media = m_factory->create(QFileInfo("/some/other_photo.jpg"), true, 0);
-    photo = qobject_cast<Photo*>(media);
+    m_factory->create("/some/other_photo.jpg");
+    photo = qobject_cast<Photo*>(m_factory->m_media);
     QVERIFY(photo != 0);
     QCOMPARE(photo->id(), (qint64)1);
 
     // existing from DB
-    media = m_factory->create(QFileInfo("/some/photo.jpg"), true, 0);
-    photo = qobject_cast<Photo*>(media);
+    m_factory->create("/some/photo.jpg");
+    photo = qobject_cast<Photo*>(m_factory->m_media);
     QVERIFY(photo != 0);
     QCOMPARE(photo->id(), (qint64)0);
 
     // update DB from file
     setOrientationOfFirstRow(TOP_RIGHT_ORIGIN); // change the DB
 
-    media = m_factory->create(QFileInfo("/some/photo.jpg"), true, 0);
-    photo = qobject_cast<Photo*>(media);
+    m_factory->create("/some/photo.jpg");
+    photo = qobject_cast<Photo*>(m_factory->m_media);
     QVERIFY(photo != 0);
     QCOMPARE(photo->id(), (qint64)0);
     QCOMPARE(photo->orientation(), TOP_RIGHT_ORIGIN);
 
     // new video ...
-    bool isDesktop = true;
     m_resource = new Resource(true, "");
     m_resource->setVideoDirectories(QStringList("/video_path/"));
 
     // ... at desktop
-    media = m_factory->create(QFileInfo("/not_video_path/video.ogv"), isDesktop, m_resource);
-    Video *video = qobject_cast<Video*>(media);
+    m_factory->create("/not_video_path/video.ogv");
+    Video *video = qobject_cast<Video*>(m_factory->m_media);
     QVERIFY(video != 0);
-    media = m_factory->create(QFileInfo("/video_path/video.ogv"), isDesktop, m_resource);
-    video = qobject_cast<Video*>(media);
+    m_factory->create("/video_path/video.ogv");
+    video = qobject_cast<Video*>(m_factory->m_media);
     QVERIFY(video != 0);
 
     // ... at device
-    media = m_factory->create(QFileInfo("/not_video_path/video.ogv"), !isDesktop, m_resource);
-    video = qobject_cast<Video*>(media);
+    m_factory->create("/not_video_path/video.ogv");
+    video = qobject_cast<Video*>(m_factory->m_media);
     QVERIFY(video != 0);
-    media = m_factory->create(QFileInfo("/video_path/video.ogv"), !isDesktop, m_resource);
-    video = qobject_cast<Video*>(media);
+    m_factory->create("/video_path/video.ogv");
+    video = qobject_cast<Video*>(m_factory->m_media);
     QVERIFY(video != 0);
-    */
 }
 
 void tst_MediaObjectFactory::clearMetadata()
@@ -160,15 +157,13 @@ void tst_MediaObjectFactory::readVideoMetadata()
 
 void tst_MediaObjectFactory::enableContentLoadFilter()
 {
-    /*
-    MediaSource *media = m_factory->create(QFileInfo("/some/photo.jpg"), true, 0);
-    QVERIFY(media != 0);
+    m_factory->create("/some/photo.jpg");
+    QVERIFY(m_factory->m_media != 0);
 
     m_factory->enableContentLoadFilter(MediaSource::Video);
 
-    media = m_factory->create(QFileInfo("/some/photo.jpg"), true, 0);
-    QVERIFY(media == 0);
-    */
+    m_factory->create("/some/photo.jpg");
+    QVERIFY(m_factory->m_media != 0);
 }
 
 void tst_MediaObjectFactory::addMedia()
