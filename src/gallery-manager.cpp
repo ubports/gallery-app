@@ -277,7 +277,6 @@ void GalleryManager::onMediaItemRemoved(qint64 mediaId)
  */
 void GalleryManager::onMediaObjectCreated(MediaSource *mediaObject)
 {
-    qDebug() << "[DEBUG] onMediaObjectCreated";
     m_mediaCollection->add(mediaObject);
 }
 
