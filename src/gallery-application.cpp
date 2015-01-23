@@ -117,6 +117,10 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
     QObject::connect(m_galleryManager, SIGNAL(collectionChanged()),
                      this, SLOT(onCollectionChanged()));
 
+    // Used to hide the Loading Screen after a time out
+    QObject::connect(m_galleryManager, SIGNAL(consistencyCheckFinished()),
+                     this, SLOT(onCollectionChanged()));
+
     QObject::connect(m_contentCommunicator, SIGNAL(mediaRequested(QString)),
                      this, SLOT(switchToPickMode(QString)));
 
@@ -129,9 +133,6 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
     m_mediaLoadedTimer.setSingleShot(false);
     m_mediaLoadedTimer.setInterval(100);
     QObject::connect(&m_mediaLoadedTimer, SIGNAL(timeout()), this, SLOT(onMediaLoaded()));
-
-    // Used to hide the Loading Screen after a time out
-    QTimer::singleShot(5 * 1000, this, SLOT(onCollectionChanged()));
 }
 
 /*!
