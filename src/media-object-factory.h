@@ -57,8 +57,6 @@ signals:
 private:    
     MediaObjectFactoryWorker* m_worker;
     QThread m_workerThread;
-
-    friend class tst_MediaObjectFactory;
 };
 
 /*!
@@ -103,6 +101,8 @@ private:
     QSize m_size;
 
     QSet<DataObject*> m_mediaFromDB;
+
+    friend class tst_MediaObjectFactory;
 };
 
 #endif  // MEDIA_OBJECT_FACTORY_H_
