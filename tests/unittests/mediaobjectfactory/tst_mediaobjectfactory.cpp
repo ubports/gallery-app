@@ -45,9 +45,11 @@ private slots:
     void addMedia();
 
 private:
+    MediaSource* wait_for_media();
     MediaTable *m_mediaTable;
     MediaObjectFactoryWorker *m_factory;
     Resource *m_resource;
+    QSignalSpy *m_spyMediaObjectCreated;
 };
 
 void tst_MediaObjectFactory::init()
@@ -55,6 +57,7 @@ void tst_MediaObjectFactory::init()
     m_mediaTable = new MediaTable(0, 0);
     m_factory = new MediaObjectFactoryWorker(0);
     m_factory->setMediaTable(m_mediaTable);
+    m_spyMediaObjectCreated = new QSignalSpy(m_factory, SIGNAL(mediaObjectCreated(MediaSource*)));
 }
 
 void tst_MediaObjectFactory::cleanup()
@@ -69,11 +72,11 @@ void tst_MediaObjectFactory::create()
 {
     // invalid file
     m_factory->create("no_valid_file");
-    QCOMPARE(m_factory->m_media, (MediaSource*)0);
+    QCOMPARE(wait_for_media(), (MediaSource*)0);
 
     // new file
     m_factory->create("/some/photo.jpg");
-    Photo *photo = qobject_cast<Photo*>(m_factory->m_media);
+    Photo *photo = qobject_cast<Photo*>(wait_for_media());
     QVERIFY(photo != 0);
     QCOMPARE(photo->id(), (qint64)0);
     QCOMPARE(photo->exposureDateTime(), QDateTime(QDate(2013, 01, 01), QTime(11, 11, 11)));
@@ -81,13 +84,13 @@ void tst_MediaObjectFactory::create()
 
     // another new file
     m_factory->create("/some/other_photo.jpg");
-    photo = qobject_cast<Photo*>(m_factory->m_media);
+    photo = qobject_cast<Photo*>(wait_for_media());
     QVERIFY(photo != 0);
     QCOMPARE(photo->id(), (qint64)1);
 
     // existing from DB
     m_factory->create("/some/photo.jpg");
-    photo = qobject_cast<Photo*>(m_factory->m_media);
+    photo = qobject_cast<Photo*>(wait_for_media());
     QVERIFY(photo != 0);
     QCOMPARE(photo->id(), (qint64)0);
 
@@ -95,7 +98,7 @@ void tst_MediaObjectFactory::create()
     setOrientationOfFirstRow(TOP_RIGHT_ORIGIN); // change the DB
 
     m_factory->create("/some/photo.jpg");
-    photo = qobject_cast<Photo*>(m_factory->m_media);
+    photo = qobject_cast<Photo*>(wait_for_media());
     QVERIFY(photo != 0);
     QCOMPARE(photo->id(), (qint64)0);
     QCOMPARE(photo->orientation(), TOP_RIGHT_ORIGIN);
@@ -106,18 +109,18 @@ void tst_MediaObjectFactory::create()
 
     // ... at desktop
     m_factory->create("/not_video_path/video.ogv");
-    Video *video = qobject_cast<Video*>(m_factory->m_media);
+    Video *video = qobject_cast<Video*>(wait_for_media());
     QVERIFY(video != 0);
     m_factory->create("/video_path/video.ogv");
-    video = qobject_cast<Video*>(m_factory->m_media);
+    video = qobject_cast<Video*>(wait_for_media());
     QVERIFY(video != 0);
 
     // ... at device
     m_factory->create("/not_video_path/video.ogv");
-    video = qobject_cast<Video*>(m_factory->m_media);
+    video = qobject_cast<Video*>(wait_for_media());
     QVERIFY(video != 0);
     m_factory->create("/video_path/video.ogv");
-    video = qobject_cast<Video*>(m_factory->m_media);
+    video = qobject_cast<Video*>(wait_for_media());
     QVERIFY(video != 0);
 }
 
@@ -158,12 +161,12 @@ void tst_MediaObjectFactory::readVideoMetadata()
 void tst_MediaObjectFactory::enableContentLoadFilter()
 {
     m_factory->create("/some/photo.jpg");
-    QVERIFY(m_factory->m_media != 0);
+    QVERIFY(wait_for_media() != (MediaSource*)0);
 
     m_factory->enableContentLoadFilter(MediaSource::Video);
 
     m_factory->create("/some/photo.jpg");
-    QVERIFY(m_factory->m_media != 0);
+    QCOMPARE(wait_for_media(), (MediaSource*)0);
 }
 
 void tst_MediaObjectFactory::addMedia()
@@ -192,6 +195,18 @@ void tst_MediaObjectFactory::addMedia()
     QCOMPARE(photo->exposureDateTime(), exposureTime);
     QCOMPARE(photo->fileTimestamp(), timestamp);
     QCOMPARE(photo->orientation(), originalOrientation);
+}
+
+MediaSource* tst_MediaObjectFactory::wait_for_media()
+{
+    if (m_spyMediaObjectCreated->isEmpty())
+        return NULL;
+
+    if (m_spyMediaObjectCreated->count() != 1)
+        return NULL;
+
+    QList<QVariant> args = m_spyMediaObjectCreated->takeFirst();
+    return args.at(0).value<MediaSource*>();;
 }
 
 QTEST_MAIN(tst_MediaObjectFactory);

@@ -162,15 +162,15 @@ void MediaObjectFactoryWorker::create(const QString &path)
             return;
     }
 
-    m_media = 0;
+    MediaSource *media = 0;
     Photo *photo = 0;
     if (mediaType == MediaSource::Photo) {
         photo = new Photo(file);
-        m_media = photo;
+        media = photo;
     } else {
-        m_media = new Video(file);
+        media = new Video(file);
     }
-    m_media->setMediaTable(m_mediaTable);
+    media->setMediaTable(m_mediaTable);
 
     if (id == INVALID_ID) {
         bool metadataOk;
@@ -181,8 +181,7 @@ void MediaObjectFactoryWorker::create(const QString &path)
         }
 
         if (!metadataOk) {
-            delete m_media;
-            m_media = 0;
+            delete media;
             return;
         }
 
@@ -196,15 +195,15 @@ void MediaObjectFactoryWorker::create(const QString &path)
         // Load metadata from DB.
         m_mediaTable->getRow(id, m_size, m_orientation, m_timeStamp, m_exposureTime);
     }
-    m_media->setSize(m_size);
-    m_media->setFileTimestamp(m_timeStamp);
-    m_media->setExposureDateTime(m_exposureTime);
+    media->setSize(m_size);
+    media->setFileTimestamp(m_timeStamp);
+    media->setExposureDateTime(m_exposureTime);
     if (mediaType == MediaSource::Photo)
         photo->setOriginalOrientation(m_orientation);
-    m_media->setId(id);
+    media->setId(id);
 
-    m_media->moveToThread(QApplication::instance()->thread());
-    emit mediaObjectCreated(m_media);
+    media->moveToThread(QApplication::instance()->thread());
+    emit mediaObjectCreated(media);
 }
 
 void MediaObjectFactoryWorker::mediaFromDB()

@@ -101,7 +101,6 @@ private:
     QSize m_size;
 
     QSet<DataObject*> m_mediaFromDB;
-    MediaSource *m_media;
 
     friend class tst_MediaObjectFactory;
 };
