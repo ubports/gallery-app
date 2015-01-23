@@ -74,6 +74,7 @@ public:
 signals:
     void mediaLibraryChanged();
     void consistencyCheckFinished();
+    void collectionFiled();
 
 private slots:
     void onMediaItemAdded(QString file);

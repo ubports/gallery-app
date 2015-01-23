@@ -86,6 +86,7 @@ private slots:
     void switchToEventsView();
     void setFullScreen(bool fullScreen);
     void consistencyCheckFinished();
+    void onCollectionFiled();
     void setMediaFile(const QString &mediaFile);
     void onMediaLoaded();
 

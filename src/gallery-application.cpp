@@ -114,12 +114,14 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
     QObject::connect(m_galleryManager, SIGNAL(consistencyCheckFinished()),
                      this, SLOT(consistencyCheckFinished()));
 
+    QObject::connect(m_galleryManager, SIGNAL(collectionFiled()),
+                     this, SLOT(onCollectionFiled()));
+
     QObject::connect(m_contentCommunicator, SIGNAL(mediaRequested(QString)),
                      this, SLOT(switchToPickMode(QString)));
 
     QObject::connect(m_contentCommunicator, SIGNAL(mediaImported()),
                      this, SLOT(switchToEventsView()));
-
 
     if (m_cmdLineParser->startupTimer())
         qDebug() << "Construct GalleryApplication" << m_timer->elapsed() << "ms";
@@ -267,17 +269,6 @@ void GalleryApplication::initCollections()
     QApplication::processEvents();
     if (m_cmdLineParser->startupTimer())
         qDebug() << "GalleryManager initialized" << m_timer->elapsed() << "ms";
-
-    emit mediaLoaded();
-    m_mediaLoaded = true;
-
-    if (m_cmdLineParser->startupTimer()) {
-        qDebug() << "MainView loaded" << m_timer->elapsed() << "ms";
-        qDebug() << "Startup took" << m_timer->elapsed() << "ms";
-    }
-
-    delete m_timer;
-    m_timer = 0;
 }
 
 /*!
@@ -449,6 +440,20 @@ void GalleryApplication::consistencyCheckFinished()
     // its consistency check, as new images may be added by the import handler
     // during start-up.
     m_contentCommunicator->registerWithHub();
+}
+
+void GalleryApplication::onCollectionFiled()
+{
+    emit mediaLoaded();
+    m_mediaLoaded = true;
+
+    if (m_cmdLineParser->startupTimer()) {
+        qDebug() << "MainView loaded" << m_timer->elapsed() << "ms";
+        qDebug() << "Startup took" << m_timer->elapsed() << "ms";
+    }
+
+    delete m_timer;
+    m_timer = 0;
 }
 
 void GalleryApplication::parseUri(const QString &arg)

@@ -247,6 +247,7 @@ void GalleryManager::startFileMonitoring()
 
     m_monitor->startMonitoring(m_resource->mediaDirectories());
     m_monitor->checkConsistency(m_mediaCollection);
+    emit collectionFiled();
 }
 
 /*!
@@ -285,7 +286,10 @@ void GalleryManager::onMediaObjectCreated(MediaSource *mediaObject)
  */
 void GalleryManager::onMediaFromDBLoaded(QSet<DataObject *> mediaFromDB)
 {
-    m_mediaCollection->addMany(mediaFromDB);
+    if (!mediaFromDB.isEmpty()) {
+        m_mediaCollection->addMany(mediaFromDB);
+        emit collectionFiled();
+    }
     m_mediaFactory->clear();
 
     startFileMonitoring();
