@@ -222,7 +222,6 @@ void MediaMonitorWorker::startMonitoring(const QStringList &targetDirectories)
  */
 void MediaMonitorWorker::checkConsistency()
 {
-    checkForRemovedMedias();
     checkForNewMedias();
     emit consistencyCheckFinished();
 }
@@ -312,20 +311,5 @@ void MediaMonitorWorker::checkForNewMedias()
     foreach (const QString& file, m_manifest) {
         if (!m_mediaCollection->containsFile(file))
             emit mediaItemAdded(file);
-    }
-}
-
-/*!
- * \brief MediaMonitorWorker::checkForRemovedMedias checks if there are files in
- * the datastructure, but not in the file system
- */
-void MediaMonitorWorker::checkForRemovedMedias()
-{
-    const QList<DataObject*> medias = m_mediaCollection->getAll();
-    foreach (const DataObject* obj, medias) {
-        const MediaSource *media = qobject_cast<const MediaSource*>(obj);
-        Q_ASSERT(media);
-        if (!m_manifest.contains(media->file().absoluteFilePath()))
-            emit mediaItemRemoved(media->id());
     }
 }

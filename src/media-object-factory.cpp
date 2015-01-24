@@ -314,6 +314,11 @@ void MediaObjectFactoryWorker::addMedia(qint64 mediaId, const QString &filename,
     Q_UNUSED(filesize);
 
     QFileInfo file(filename);
+    if (!file.exists()) {
+        m_mediaTable->remove(mediaId);
+        return;
+    }
+
     MediaSource::MediaType mediaType = MediaSource::Photo;
     if (Video::isCameraVideo(file))
         mediaType = MediaSource::Video;

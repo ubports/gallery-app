@@ -95,7 +95,6 @@ private:
     QStringList generateManifest(const QStringList& dirs);
     QStringList subtractManifest(const QStringList& m1, const QStringList& m2);
     void checkForNewMedias();
-    void checkForRemovedMedias();
 
     QStringList m_targetDirectories;
     QFileSystemWatcher m_watcher;
