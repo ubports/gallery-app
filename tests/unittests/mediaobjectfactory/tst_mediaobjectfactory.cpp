@@ -16,6 +16,10 @@
 
 #include <QtTest/QtTest>
 #include <QString>
+#include <QDir>
+#include <QTemporaryDir>
+#include <QImage>
+#include <QColor>
 
 #include "media-object-factory.h"
 
@@ -171,8 +175,17 @@ void tst_MediaObjectFactory::enableContentLoadFilter()
 
 void tst_MediaObjectFactory::addMedia()
 {
+    QTemporaryDir *tmpDir = new QTemporaryDir();
+    QDir *dir = new QDir(tmpDir->path());
+    dir->mkpath("sample");
+
+    // Create sample image
+    QImage *sampleImage = new QImage(400, 600, QImage::Format_RGB32);
+    sampleImage->fill(QColor(Qt::red));
+    sampleImage->save(tmpDir->path() + "/sample/sample.jpg", "JPG"); 
+
     qint64 id = 123;
-    QString filename("/some/photo.jpg");
+    QString filename(tmpDir->path() + "/sample/sample.jpg");
     QSize size(320, 200);
     QDateTime timestamp(QDate(2013, 02, 03), QTime(12, 12, 12));
     QDateTime exposureTime(QDate(2013, 03, 04), QTime(1, 2, 3));
@@ -184,6 +197,7 @@ void tst_MediaObjectFactory::addMedia()
                                              filesize);
 
     QCOMPARE(m_factory->m_mediaFromDB.size(), 1);
+    
     QSet<DataObject*>::iterator it;
     it = m_factory->m_mediaFromDB.begin();
     DataObject *obj = *it;
