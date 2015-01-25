@@ -37,8 +37,17 @@
  * \param mediaTable
  */
 MediaObjectFactory::MediaObjectFactory(bool desktopMode, Resource *res)
-    : m_workerThread(this)
+    : m_queueWorkerThread(this),
+      m_workerThread(this)
 {
+    m_queueWorker = new MediaObjectFactoryQueueWorker();
+    m_queueWorker->moveToThread(&m_queueWorkerThread);
+    QObject::connect(&m_queueWorkerThread, SIGNAL(finished()),
+                     m_queueWorker, SLOT(deleteLater()));
+
+    QObject::connect(m_queueWorker, SIGNAL(readyToCreate(const QString&)),
+                     this, SLOT(onReadyToCreate(const QString&)), Qt::QueuedConnection);
+ 
     m_worker = new MediaObjectFactoryWorker();
     m_worker->moveToThread(&m_workerThread);
     QObject::connect(&m_workerThread, SIGNAL(finished()),
@@ -50,11 +59,15 @@ MediaObjectFactory::MediaObjectFactory(bool desktopMode, Resource *res)
                      this, SIGNAL(mediaFromDBLoaded(QSet<DataObject *>)), Qt::QueuedConnection);
 
 
+    m_queueWorkerThread.start(QThread::LowPriority);
     m_workerThread.start(QThread::LowPriority);
 }
 
 MediaObjectFactory::~MediaObjectFactory()
 {
+    m_queueWorkerThread.quit();
+    m_queueWorkerThread.wait();
+
     m_workerThread.quit();
     m_workerThread.wait();
 }
@@ -94,7 +107,7 @@ void MediaObjectFactory::clear()
  */
 void MediaObjectFactory::create(const QFileInfo &file, int priority, bool desktopMode, Resource *res)
 {
-    QMetaObject::invokeMethod(m_worker, "enqueuePath", Qt::QueuedConnection,
+    QMetaObject::invokeMethod(m_queueWorker, "enqueuePath", Qt::QueuedConnection,
                               Q_ARG(QString, file.absoluteFilePath()),
                               Q_ARG(int, priority));
 }
@@ -111,10 +124,14 @@ void MediaObjectFactory::loadMediaFromDB()
     QMetaObject::invokeMethod(m_worker, "mediaFromDB", Qt::QueuedConnection);
 }
 
-MediaObjectFactoryWorker::MediaObjectFactoryWorker(QObject *parent)
-    : QObject(parent),
-      m_mediaTable(),
-      m_filterType(MediaSource::None)
+void MediaObjectFactory::onReadyToCreate(const QString &path)
+{
+    QMetaObject::invokeMethod(m_worker, "create", Qt::QueuedConnection,
+                              Q_ARG(QString, path));
+}
+
+MediaObjectFactoryQueueWorker::MediaObjectFactoryQueueWorker(QObject *parent)
+    : QObject(parent)
 {
     m_createTimer = new QTimer(this);
     m_createTimer->setInterval(1000);
@@ -123,6 +140,46 @@ MediaObjectFactoryWorker::MediaObjectFactoryWorker(QObject *parent)
     connect(m_createTimer, SIGNAL(timeout()), this, SLOT(runCreate()));
 
     m_createTimer->start();
+}
+
+MediaObjectFactoryQueueWorker::~MediaObjectFactoryQueueWorker()
+{
+}
+
+void MediaObjectFactoryQueueWorker::enqueuePath(const QString &path, int priority)
+{
+    QMutexLocker locker(&m_mutex);
+    if (priority == Qt::HighEventPriority)
+        m_createQueue.prepend(path);
+    else
+        m_createQueue.append(path);
+}
+
+void MediaObjectFactoryQueueWorker::runCreate()
+{
+    while(true) {
+        const QString path = dequeuePath();
+        if (path.isNull())
+            break;
+        emit readyToCreate(path);
+    }
+
+    m_createTimer->start();
+}
+
+const QString MediaObjectFactoryQueueWorker::dequeuePath()
+{
+    QMutexLocker locker(&m_mutex);
+    if(m_createQueue.isEmpty())
+        return QString();
+    return m_createQueue.takeFirst();
+}
+
+MediaObjectFactoryWorker::MediaObjectFactoryWorker(QObject *parent)
+    : QObject(parent),
+      m_mediaTable(),
+      m_filterType(MediaSource::None)
+{
 }
 
 MediaObjectFactoryWorker::~MediaObjectFactoryWorker()
@@ -145,27 +202,6 @@ void MediaObjectFactoryWorker::clear()
     m_mediaFromDB.clear();
 }
 
-void MediaObjectFactoryWorker::enqueuePath(const QString &path, int priority)
-{
-    QMutexLocker locker(&m_mutex);
-    if (priority == Qt::HighEventPriority)
-        m_createQueue.prepend(path);
-    else
-        m_createQueue.append(path);
-}
-
-void MediaObjectFactoryWorker::runCreate()
-{
-    while(true) {
-       const QString path = dequeuePath();
-       if (path.isNull())
-           break;
-       create(path);
-    }
-
-    m_createTimer->start();
-}
-
 void MediaObjectFactoryWorker::mediaFromDB()
 {
     Q_ASSERT(m_mediaTable);
@@ -185,14 +221,6 @@ void MediaObjectFactoryWorker::mediaFromDB()
                SLOT(addMedia(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)));
 
     emit mediaFromDBLoaded(m_mediaFromDB);
-}
-
-const QString MediaObjectFactoryWorker::dequeuePath()
-{
-    QMutexLocker locker(&m_mutex);
-    if(m_createQueue.isEmpty())
-        return QString();
-    return m_createQueue.takeFirst();
 }
 
 void MediaObjectFactoryWorker::create(const QString &path)
