@@ -31,7 +31,6 @@
 #include <QThread>
 
 class MediaTable;
-class MediaObjectFactoryQueueWorker;
 class MediaObjectFactoryWorker;
 
 /*!
@@ -51,46 +50,15 @@ public:
     void create(const QFileInfo& file, int priority, bool desktopMode, Resource *res);
     void loadMediaFromDB();
 
-public slots:
-    void onReadyToCreate(const QString& path);
- 
 signals:
     void mediaObjectCreated(MediaSource *newMediaObject);
     void mediaFromDBLoaded(QSet<DataObject *> mediaFromDB);
 
 private:    
-    MediaObjectFactoryQueueWorker* m_queueWorker;
-    QThread m_queueWorkerThread;
+    void enqueuePath(const QString& path, int priority);
 
     MediaObjectFactoryWorker* m_worker;
     QThread m_workerThread;
-};
-
-/*!
- * \brief The MediaObjectFactoryQueueWorker class to queue/dequeue the files that need to be created
- * supposed to do it in a thread
- */
-class MediaObjectFactoryQueueWorker : public QObject
-{
-    Q_OBJECT
-
-public:
-    MediaObjectFactoryQueueWorker(QObject *parent=0);
-    virtual ~MediaObjectFactoryQueueWorker();
-
-public slots:
-    void enqueuePath(const QString& path, int priority);
-    void runCreate();
-
-signals:
-    void readyToCreate(const QString& path);
- 
-private:
-    const QString dequeuePath();
-
-    mutable QMutex m_mutex;
-    QTimer *m_createTimer;
-    QStringList m_createQueue;
 };
 
 /*!
@@ -106,6 +74,7 @@ public:
     virtual ~MediaObjectFactoryWorker();
 
 public slots:
+    void runCreate();
     void setMediaTable(MediaTable *mediaTable);
     void enableContentLoadFilter(MediaSource::MediaType filterType);
     void clear();
