@@ -59,6 +59,7 @@ private:
 
     MediaObjectFactoryWorker* m_worker;
     QThread m_workerThread;
+    bool m_isRunCreateRunning;
 };
 
 /*!

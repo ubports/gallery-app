@@ -41,7 +41,8 @@ QStringList createQueue;
  * \param mediaTable
  */
 MediaObjectFactory::MediaObjectFactory(bool desktopMode, Resource *res)
-    : m_workerThread(this)
+    : m_workerThread(this),
+      m_isRunCreateRunning(false)
 {
     m_worker = new MediaObjectFactoryWorker();
     m_worker->moveToThread(&m_workerThread);
@@ -54,8 +55,6 @@ MediaObjectFactory::MediaObjectFactory(bool desktopMode, Resource *res)
                      this, SIGNAL(mediaFromDBLoaded(QSet<DataObject *>)), Qt::QueuedConnection);
 
     m_workerThread.start(QThread::LowPriority);
-
-    QMetaObject::invokeMethod(m_worker, "runCreate", Qt::QueuedConnection);
 }
 
 MediaObjectFactory::~MediaObjectFactory()
@@ -100,6 +99,10 @@ void MediaObjectFactory::clear()
 void MediaObjectFactory::create(const QFileInfo &file, int priority, bool desktopMode, Resource *res)
 {
     enqueuePath(file.absoluteFilePath(), priority);
+    if (!m_isRunCreateRunning) {
+        QMetaObject::invokeMethod(m_worker, "runCreate", Qt::QueuedConnection);
+        m_isRunCreateRunning = true;
+    }
 }
 
 /*!
@@ -116,7 +119,6 @@ void MediaObjectFactory::loadMediaFromDB()
 
 void MediaObjectFactory::enqueuePath(const QString &path, int priority)
 {
-    qDebug() << "[DEBUG] "
     createMutex.lock();
     if (priority == Qt::HighEventPriority)
         createQueue.prepend(path);
