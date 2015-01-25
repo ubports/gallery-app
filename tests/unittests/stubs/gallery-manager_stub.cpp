@@ -95,7 +95,7 @@ GalleryManager::~GalleryManager()
     delete m_eventCollection;
 }
 
-void GalleryManager::onMediaItemAdded(QString file)
+void GalleryManager::onMediaItemAdded(QString file, int priority)
 {
     Q_UNUSED(file);
 }
