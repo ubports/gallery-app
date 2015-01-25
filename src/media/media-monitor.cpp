@@ -39,8 +39,8 @@ MediaMonitor::MediaMonitor(QObject *parent)
     QObject::connect(&m_workerThread, SIGNAL(finished()),
                      m_worker, SLOT(deleteLater()));
 
-    QObject::connect(m_worker, SIGNAL(mediaItemAdded(QString)),
-                     this, SIGNAL(mediaItemAdded(QString)), Qt::QueuedConnection);
+    QObject::connect(m_worker, SIGNAL(mediaItemAdded(QString, int)),
+                     this, SIGNAL(mediaItemAdded(QString, int)), Qt::QueuedConnection);
     QObject::connect(m_worker, SIGNAL(mediaItemRemoved(qint64)),
                      this, SIGNAL(mediaItemRemoved(qint64)), Qt::QueuedConnection);
     QObject::connect(m_worker, SIGNAL(consistencyCheckFinished()),
@@ -222,7 +222,6 @@ void MediaMonitorWorker::startMonitoring(const QStringList &targetDirectories)
  */
 void MediaMonitorWorker::checkConsistency()
 {
-    checkForRemovedMedias();
     checkForNewMedias();
     emit consistencyCheckFinished();
 }
@@ -256,7 +255,7 @@ void MediaMonitorWorker::onFileActivityCeased()
 
     QStringList added = subtractManifest(new_manifest, m_manifest);
     for (int i = 0; i < added.size(); i++)
-        emit mediaItemAdded(added.at(i));
+        emit mediaItemAdded(added.at(i), Qt::HighEventPriority);
 
     QStringList removed = subtractManifest(m_manifest, new_manifest);
     for (int i = 0; i < removed.size(); i++) {
@@ -311,21 +310,6 @@ void MediaMonitorWorker::checkForNewMedias()
 {
     foreach (const QString& file, m_manifest) {
         if (!m_mediaCollection->containsFile(file))
-            emit mediaItemAdded(file);
-    }
-}
-
-/*!
- * \brief MediaMonitorWorker::checkForRemovedMedias checks if there are files in
- * the datastructure, but not in the file system
- */
-void MediaMonitorWorker::checkForRemovedMedias()
-{
-    const QList<DataObject*> medias = m_mediaCollection->getAll();
-    foreach (const DataObject* obj, medias) {
-        const MediaSource *media = qobject_cast<const MediaSource*>(obj);
-        Q_ASSERT(media);
-        if (!m_manifest.contains(media->file().absoluteFilePath()))
-            emit mediaItemRemoved(media->id());
+            emit mediaItemAdded(file, Qt::NormalEventPriority);
     }
 }

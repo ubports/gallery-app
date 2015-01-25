@@ -130,6 +130,9 @@ void MediaCollection::notifyContentsChanged(const QSet<DataObject*>* added,
             m_mediaTable->remove(media->id());
         }
     }
+
+    if (added || removed)
+        emit collectionChanged();
 }
 
 /*!

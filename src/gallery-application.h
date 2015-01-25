@@ -88,6 +88,7 @@ private slots:
     void consistencyCheckFinished();
     void setMediaFile(const QString &mediaFile);
     void onMediaLoaded();
+    void onCollectionChanged();
 
 private:
     void registerQML();

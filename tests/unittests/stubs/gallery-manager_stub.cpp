@@ -95,7 +95,7 @@ GalleryManager::~GalleryManager()
     delete m_eventCollection;
 }
 
-void GalleryManager::onMediaItemAdded(QString file)
+void GalleryManager::onMediaItemAdded(QString file, int priority)
 {
     Q_UNUSED(file);
 }
@@ -103,6 +103,16 @@ void GalleryManager::onMediaItemAdded(QString file)
 void GalleryManager::onMediaItemRemoved(qint64 mediaId)
 {
     Q_UNUSED(mediaId);
+}
+
+void GalleryManager::onMediaObjectCreated(MediaSource *mediaObject)
+{
+    Q_UNUSED(mediaObject);
+}
+
+void GalleryManager::onMediaFromDBLoaded(QSet<DataObject *> mediaFromDB)
+{
+    Q_UNUSED(mediaFromDB);
 }
 
 GalleryStandardImageProvider* GalleryManager::takeGalleryStandardImageProvider()

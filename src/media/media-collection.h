@@ -55,6 +55,7 @@ public:
 
 signals:
     void mediaIsBusy(bool busy);
+    void collectionChanged();
 
 protected slots:
     virtual void notifyContentsChanged(const QSet<DataObject*>* added,
