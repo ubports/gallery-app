@@ -1,3 +1,15 @@
+gallery-app (0.0.67+15.04.20150125.1-0ubuntu1) vivid; urgency=low
+
+  [ Arthur Mello ]
+  * Move MediaObjectFactory to another thread to make sure when we are
+    loading multiple files we keep the interface responsible (LP:
+    #1413952)
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Sun, 25 Jan 2015 20:46:16 +0000
+
 gallery-app (0.0.67+15.04.20150121.1-0ubuntu1) vivid; urgency=low
 
   [ Bill Filler ]
