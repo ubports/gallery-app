@@ -241,8 +241,8 @@ void GalleryManager::startFileMonitoring()
     m_monitor = new MediaMonitor();
     QObject::connect(m_mediaCollection, SIGNAL(mediaIsBusy(bool)),
                      m_monitor, SLOT(setMonitoringOnHold(bool)));
-    QObject::connect(m_monitor, SIGNAL(mediaItemAdded(QString)),
-                     this, SLOT(onMediaItemAdded(QString)));
+    QObject::connect(m_monitor, SIGNAL(mediaItemAdded(QString, int)),
+                     this, SLOT(onMediaItemAdded(QString, int)));
     QObject::connect(m_monitor, SIGNAL(mediaItemRemoved(qint64)),
                      this, SLOT(onMediaItemRemoved(qint64)));
     QObject::connect(m_monitor, SIGNAL(consistencyCheckFinished()),
@@ -256,11 +256,11 @@ void GalleryManager::startFileMonitoring()
  * \brief GalleryApplication::onMediaItemAdded
  * \param file
  */
-void GalleryManager::onMediaItemAdded(QString file)
+void GalleryManager::onMediaItemAdded(QString file, int priority)
 {
     if (! m_mediaCollection->containsFile(file)) {
         QFileInfo fi(file);
-        m_mediaFactory->create(fi, m_desktopMode, m_resource);
+        m_mediaFactory->create(fi, priority, m_desktopMode, m_resource);
     }
 }
 

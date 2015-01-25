@@ -50,7 +50,7 @@ public slots:
     void setMonitoringOnHold(bool onHold);
 
 signals:
-    void mediaItemAdded(QString newItem);
+    void mediaItemAdded(QString newItem, int priority);
     void mediaItemRemoved(qint64 mediaId);
     void consistencyCheckFinished();
 
@@ -83,7 +83,7 @@ public slots:
     void checkConsistency();
 
 signals:
-    void mediaItemAdded(QString newItem);
+    void mediaItemAdded(QString newItem, int priority);
     void mediaItemRemoved(qint64 mediaId);
     void consistencyCheckFinished();
 

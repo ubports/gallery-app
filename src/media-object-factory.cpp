@@ -92,10 +92,11 @@ void MediaObjectFactory::clear()
  * \param file the file to load
  * \return 0 if this no valid photo/video file
  */
-void MediaObjectFactory::create(const QFileInfo &file, bool desktopMode, Resource *res)
+void MediaObjectFactory::create(const QFileInfo &file, int priority, bool desktopMode, Resource *res)
 {
-    QMetaObject::invokeMethod(m_worker, "create", Qt::QueuedConnection,
-                              Q_ARG(QString, file.absoluteFilePath()));
+    QMetaObject::invokeMethod(m_worker, "enqueuePath", Qt::QueuedConnection,
+                              Q_ARG(QString, file.absoluteFilePath()),
+                              Q_ARG(int, priority));
 }
 
 /*!
@@ -115,6 +116,13 @@ MediaObjectFactoryWorker::MediaObjectFactoryWorker(QObject *parent)
       m_mediaTable(),
       m_filterType(MediaSource::None)
 {
+    m_createTimer = new QTimer(this);
+    m_createTimer->setInterval(1000);
+    m_createTimer->setSingleShot(true);
+
+    connect(m_createTimer, SIGNAL(timeout()), this, SLOT(runCreate()));
+
+    m_createTimer->start();
 }
 
 MediaObjectFactoryWorker::~MediaObjectFactoryWorker()
@@ -135,6 +143,56 @@ void MediaObjectFactoryWorker::clear()
 {
     clearMetadata();
     m_mediaFromDB.clear();
+}
+
+void MediaObjectFactoryWorker::enqueuePath(const QString &path, int priority)
+{
+    QMutexLocker locker(&m_mutex);
+    if (priority == Qt::HighEventPriority)
+        m_createQueue.prepend(path);
+    else
+        m_createQueue.append(path);
+}
+
+void MediaObjectFactoryWorker::runCreate()
+{
+    while(true) {
+       const QString path = dequeuePath();
+       if (path.isNull())
+           break;
+       create(path);
+    }
+
+    m_createTimer->start();
+}
+
+void MediaObjectFactoryWorker::mediaFromDB()
+{
+    Q_ASSERT(m_mediaTable);
+
+    m_mediaFromDB.clear();
+
+    connect(m_mediaTable,
+            SIGNAL(row(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)),
+            this,
+            SLOT(addMedia(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)));
+
+    m_mediaTable->emitAllRows();
+
+    disconnect(m_mediaTable,
+               SIGNAL(row(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)),
+               this,
+               SLOT(addMedia(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)));
+
+    emit mediaFromDBLoaded(m_mediaFromDB);
+}
+
+const QString MediaObjectFactoryWorker::dequeuePath()
+{
+    QMutexLocker locker(&m_mutex);
+    if(m_createQueue.isEmpty())
+        return QString();
+    return m_createQueue.takeFirst();
 }
 
 void MediaObjectFactoryWorker::create(const QString &path)
@@ -204,27 +262,6 @@ void MediaObjectFactoryWorker::create(const QString &path)
 
     media->moveToThread(QApplication::instance()->thread());
     emit mediaObjectCreated(media);
-}
-
-void MediaObjectFactoryWorker::mediaFromDB()
-{
-    Q_ASSERT(m_mediaTable);
-
-    m_mediaFromDB.clear();
-
-    connect(m_mediaTable,
-            SIGNAL(row(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)),
-            this,
-            SLOT(addMedia(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)));
-
-    m_mediaTable->emitAllRows();
-
-    disconnect(m_mediaTable,
-               SIGNAL(row(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)),
-               this,
-               SLOT(addMedia(qint64,QString,QSize,QDateTime,QDateTime,Orientation,qint64)));
-
-    emit mediaFromDBLoaded(m_mediaFromDB);
 }
 
 /*!

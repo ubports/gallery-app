@@ -39,8 +39,8 @@ MediaMonitor::MediaMonitor(QObject *parent)
     QObject::connect(&m_workerThread, SIGNAL(finished()),
                      m_worker, SLOT(deleteLater()));
 
-    QObject::connect(m_worker, SIGNAL(mediaItemAdded(QString)),
-                     this, SIGNAL(mediaItemAdded(QString)), Qt::QueuedConnection);
+    QObject::connect(m_worker, SIGNAL(mediaItemAdded(QString, int)),
+                     this, SIGNAL(mediaItemAdded(QString, int)), Qt::QueuedConnection);
     QObject::connect(m_worker, SIGNAL(mediaItemRemoved(qint64)),
                      this, SIGNAL(mediaItemRemoved(qint64)), Qt::QueuedConnection);
     QObject::connect(m_worker, SIGNAL(consistencyCheckFinished()),
@@ -255,7 +255,7 @@ void MediaMonitorWorker::onFileActivityCeased()
 
     QStringList added = subtractManifest(new_manifest, m_manifest);
     for (int i = 0; i < added.size(); i++)
-        emit mediaItemAdded(added.at(i));
+        emit mediaItemAdded(added.at(i), Qt::HighEventPriority);
 
     QStringList removed = subtractManifest(m_manifest, new_manifest);
     for (int i = 0; i < removed.size(); i++) {
@@ -310,6 +310,6 @@ void MediaMonitorWorker::checkForNewMedias()
 {
     foreach (const QString& file, m_manifest) {
         if (!m_mediaCollection->containsFile(file))
-            emit mediaItemAdded(file);
+            emit mediaItemAdded(file, Qt::NormalEventPriority);
     }
 }

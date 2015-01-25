@@ -47,7 +47,7 @@ public:
     void setMediaTable(MediaTable *mediaTable);
     void enableContentLoadFilter(MediaSource::MediaType filterType);
     void clear();
-    void create(const QFileInfo& file, bool desktopMode, Resource *res);
+    void create(const QFileInfo& file, int priority, bool desktopMode, Resource *res);
     void loadMediaFromDB();
 
 signals:
@@ -75,7 +75,8 @@ public slots:
     void setMediaTable(MediaTable *mediaTable);
     void enableContentLoadFilter(MediaSource::MediaType filterType);
     void clear();
-    void create(const QString& path);
+    void enqueuePath(const QString& path, int priority);
+    void runCreate();
     void mediaFromDB();
 
 signals:
@@ -88,10 +89,15 @@ private slots:
                   Orientation originalOrientation, qint64 filesize);
 
 private:
+    const QString dequeuePath();
+    void create(const QString& path);
     void clearMetadata();
     bool readPhotoMetadata(const QFileInfo &file);
     bool readVideoMetadata(const QFileInfo &file);
 
+    mutable QMutex m_mutex;
+    QTimer *m_createTimer;
+    QStringList m_createQueue;
     MediaTable *m_mediaTable;
     MediaSource::MediaType m_filterType;
     QDateTime m_timeStamp;

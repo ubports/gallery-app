@@ -77,7 +77,7 @@ signals:
     void collectionChanged();
 
 private slots:
-    void onMediaItemAdded(QString file);
+    void onMediaItemAdded(QString file, int priority);
     void onMediaItemRemoved(qint64 mediaId);
     void onMediaObjectCreated(MediaSource *mediaObject);
     void onMediaFromDBLoaded(QSet<DataObject *> mediaFromDB);
