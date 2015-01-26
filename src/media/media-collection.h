@@ -48,6 +48,7 @@ public:
     const MediaSource* mediaFromFileinfo(const QFileInfo &file) const;
     bool containsFile(const QString& filename) const;
 
+    virtual void add(DataObject* object);
     virtual void addMany(const QSet<DataObject*>& objects);
 
     void destroy(MediaSource *media, bool destroy_backing);
