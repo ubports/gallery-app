@@ -177,6 +177,8 @@ void MediaObjectFactoryWorker::create(const QString &path)
     Q_ASSERT(m_mediaTable);
 
     QFileInfo file(path);
+    if(!file.exists())
+        return;
 
     clearMetadata();
 
