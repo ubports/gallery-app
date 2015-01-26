@@ -151,8 +151,10 @@ void MediaObjectFactoryWorker::runCreate()
         path = createQueue.takeFirst();
         createMutex.unlock();
 
-        if(!path.isEmpty())
-            create(path);   
+        QFileInfo file(path);
+        if(file.exists()) {
+            create(path);
+        }
     }
 }
 
@@ -177,8 +179,6 @@ void MediaObjectFactoryWorker::create(const QString &path)
     Q_ASSERT(m_mediaTable);
 
     QFileInfo file(path);
-    if(!file.exists())
-        return;
 
     clearMetadata();
 
