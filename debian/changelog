@@ -1,3 +1,18 @@
+gallery-app (0.0.67+15.04.20150126.2~rtm-0ubuntu1) 14.09; urgency=low
+
+  [ Arthur Mello ]
+  * Do not create objects if the file was removed from the time the
+    create was requested and when it was started
+
+  [ Florian Boucault ]
+  * Do not create objects if the file was removed from the time the
+    create was requested and when it was started
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 26 Jan 2015 18:41:06 +0000
+
 gallery-app (0.0.67+15.04.20150125.1-0ubuntu1) vivid; urgency=low
 
   [ Arthur Mello ]
