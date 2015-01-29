@@ -100,20 +100,6 @@ Item {
         galleryPhotoViewer.goForward();
     }
 
-    // If the media item is a video, start playing it
-    function playVideo()
-    {
-        if (!galleryPhotoViewer.currentItem)
-            return;
-        if (galleryPhotoViewer.media.type !== MediaSource.Video)
-            return;
-
-        if (galleryPhotoViewer.currentItem.isPlayingVideo)
-            return;
-
-        galleryPhotoViewer.currentItem.togglePlayPause();
-    }
-
     function setHeaderVisibility(visible)
     {
         header.visible = visible;    
@@ -509,17 +495,6 @@ Item {
  
 
         property list<Action> videoActions: [
-            Action {
-                text: galleryPhotoViewer.currentItem ?
-                    (galleryPhotoViewer.currentItem.isPlayingVideo ?
-                        i18n.tr("Pause") : i18n.tr("Play"))
-                    : ""
-                iconSource: galleryPhotoViewer.currentItem ?
-                    (galleryPhotoViewer.currentItem.isPlayingVideo ?
-                        "../../img/icon_pause.png" : "../../img/icon_play.png")
-                    : ""
-                onTriggered: galleryPhotoViewer.currentItem.togglePlayPause();
-            },
             Action {
                 text: i18n.tr("Add to album")
                 iconName: "add"
