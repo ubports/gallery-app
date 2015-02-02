@@ -1,3 +1,15 @@
+gallery-app (0.0.67+15.04.20150202-0ubuntu1) vivid; urgency=medium
+
+  [ Arthur Mello ]
+  * Makes gallery-app to call MediaPlayer to play videos instead of
+    playing by itself (LP: #1324622)
+  * Make fullscreen mode dynamic when on device (LP: #1415140)
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 02 Feb 2015 23:41:37 +0000
+
 gallery-app (0.0.67+15.04.20150126.2~rtm-0ubuntu1) 14.09; urgency=low
 
   [ Arthur Mello ]
