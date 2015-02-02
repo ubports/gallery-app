@@ -98,16 +98,6 @@ Item {
         galleryPhotoViewer.goForward();
     }
 
-    function setHeaderVisibility(visible)
-    {
-        header.visible = visible;    
-    }
-
-    function toggleHeaderVisibility()
-    {
-        setHeaderVisibility(!header.visible);    
-    }
-
     function closeMediaViewer()
     {
         galleryPhotoViewer.currentItem.reset();
@@ -174,7 +164,7 @@ Item {
                 return 1.0 - Math.abs((galleryPhotoViewer.contentX - x) / width);
             }
 
-            onClicked: viewerWrapper.toggleHeaderVisibility()
+            onClicked: overview.toggleHeaderVisibility()
         }
 
         // Don't allow flicking while the chrome is actively displaying a popup
@@ -196,7 +186,7 @@ Item {
             anchors.fill: parent
             visible: false
 
-            onVisibleChanged: viewerWrapper.setHeaderVisibility(!visible)
+            onVisibleChanged: overview.setHeaderVisibility(!visible)
 
             ContentPeerPicker {
                 objectName: "sharePicker"

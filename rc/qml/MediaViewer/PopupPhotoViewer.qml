@@ -39,20 +39,6 @@ Page {
                                     fadeIn.running || fadeOut.running
     property bool isPoppedUp: popupPhotoViewer.visible && viewer.visible && !animationRunning
 
-    // updating active will automatically set the tools of the toolbar when activating.
-    //onActiveChanged: {
-    //    if (active && popupPhotoViewer.header) {
-    //        popupPhotoViewer.header.hide();
-    //        // FIXME: The hide function of header is not hiding it sometimes.
-    //        // The issue started after we changed the page title
-    //        popupPhotoViewer.header.visible = false;
-    //    }
-    //
-    //    if (!active && popupPhotoViewer.header && popupPhotoViewer.header.visible == false) {
-    //        popupPhotoViewer.header.visible = true;
-    //    }
-    //}
-
     title: i18n.tr("Gallery")
 
     function setCurrentPhoto(photo) {
@@ -138,7 +124,7 @@ Page {
             setCurrentPhoto(forMediaSource);
             viewer.openCompleted = true;
             overview.pushPage(popupPhotoViewer);
-            header.visible = false;
+            overview.setHeaderVisibility(false);
             opened();
         }
 
