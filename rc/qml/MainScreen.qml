@@ -73,6 +73,18 @@ MainView {
         }
     }
 
+    function setHeaderVisibility(visible)
+    {
+        header.visible = visible;    
+        if (!APP.desktopMode)
+            setFullScreen(!visible);
+    }
+
+    function toggleHeaderVisibility()
+    {
+        setHeaderVisibility(!header.visible);    
+    }
+
     Component.onCompleted: {
         pageStack.push(tabs);
     }
@@ -100,7 +112,7 @@ MainView {
                 eventsOverviewLoader.item.positionViewAtBeginning();
             }
 
-            header.visible = true;
+            setHeaderVisibility(true);
 
             tabs.selectedTabIndex = 1;
         }

@@ -245,8 +245,8 @@ void GalleryApplication::createView()
     QObject* rootObject = dynamic_cast<QObject*>(m_view->rootObject());
     QObject::connect(this, SIGNAL(mediaLoaded()), rootObject, SLOT(onLoaded()));
 
-    //run fullscreen if specified at command line or not in DESKTOP_MODE (i.e. on a device)
-    if (m_cmdLineParser->isFullscreen() || !isDesktopMode()) {
+    //run fullscreen if specified at command line
+    if (m_cmdLineParser->isFullscreen()) {
         setFullScreen(true);
         m_view->showFullScreen();
     } else {
