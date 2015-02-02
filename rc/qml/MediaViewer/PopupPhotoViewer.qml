@@ -140,7 +140,6 @@ Page {
             overview.pushPage(popupPhotoViewer);
             header.visible = false;
             opened();
-            viewer.playVideo();
         }
 
         onTransitionFromPhotoViewerCompleted: {
@@ -152,10 +151,7 @@ Page {
         id: fadeIn
 
         target: viewer
-        onStopped: {
-            opened();
-            viewer.playVideo();
-        }
+        onStopped: opened()
     }
 
     FadeOutAnimation {

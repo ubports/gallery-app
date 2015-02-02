@@ -63,9 +63,7 @@ Item {
     property bool isReady: model != null && model.count > 0 && galleryPhotoViewer.currentItem
 
     // tooolbar actions for the full view
-    property variant actions: (media && !sharePicker.visible) ? (media.type === MediaSource.Photo ?
-                                      d.photoActions : d.videoActions)
-                               : []
+    property variant actions: (media && !sharePicker.visible) ? d.mediaActions : []
 
     property variant backAction: d.backAction
 
@@ -98,20 +96,6 @@ Item {
     */
     function goForward() {
         galleryPhotoViewer.goForward();
-    }
-
-    // If the media item is a video, start playing it
-    function playVideo()
-    {
-        if (!galleryPhotoViewer.currentItem)
-            return;
-        if (galleryPhotoViewer.media.type !== MediaSource.Video)
-            return;
-
-        if (galleryPhotoViewer.currentItem.isPlayingVideo)
-            return;
-
-        galleryPhotoViewer.currentItem.togglePlayPause();
     }
 
     function setHeaderVisibility(visible)
@@ -469,12 +453,12 @@ Item {
     Item {
         id: d
 
-        property list<Action> photoActions: [
+        property list<Action> mediaActions: [
             Action {
                 objectName: "editButton"
                 text: i18n.tr("Edit")
                 iconSource: "../../img/edit.png"
-                enabled: galleryPhotoViewer.media.canBeEdited
+                enabled: galleryPhotoViewer.media.type === MediaSource.Photo && galleryPhotoViewer.media.canBeEdited
                 onTriggered: PopupUtils.open(editPopoverComponent, null);
             },
             Action {
@@ -507,46 +491,6 @@ Item {
             }
         ]
  
-
-        property list<Action> videoActions: [
-            Action {
-                text: galleryPhotoViewer.currentItem ?
-                    (galleryPhotoViewer.currentItem.isPlayingVideo ?
-                        i18n.tr("Pause") : i18n.tr("Play"))
-                    : ""
-                iconSource: galleryPhotoViewer.currentItem ?
-                    (galleryPhotoViewer.currentItem.isPlayingVideo ?
-                        "../../img/icon_pause.png" : "../../img/icon_play.png")
-                    : ""
-                onTriggered: galleryPhotoViewer.currentItem.togglePlayPause();
-            },
-            Action {
-                text: i18n.tr("Add to album")
-                iconName: "add"
-                onTriggered: {
-                    __albumPicker = PopupUtils.open(Qt.resolvedUrl("../Components/PopupAlbumPicker.qml"),
-                                                    null,
-                                                    {contentHeight: viewerWrapper.__pickerContentHeight});
-                }
-            },
-            Action {
-                text: i18n.tr("Delete")
-                iconName: "delete"
-                onTriggered: {
-                    if (album)
-                        PopupUtils.open(removeFromAlbumDialog, null);
-                    else
-                        PopupUtils.open(deleteDialog, null);
-                }
-            },
-            Action {
-                text: i18n.tr("Share")
-                iconName: "share"
-                visible: !APP.desktopMode
-                onTriggered: sharePicker.visible = true;
-            }
-        ]
-
         property Action backAction: Action {
             iconName: "back"
             onTriggered: {
