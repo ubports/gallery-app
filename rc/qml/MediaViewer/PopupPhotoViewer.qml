@@ -39,6 +39,8 @@ Page {
                                     fadeIn.running || fadeOut.running
     property bool isPoppedUp: popupPhotoViewer.visible && viewer.visible && !animationRunning
 
+    property bool showHeaderActions: true
+
     title: i18n.tr("Gallery")
 
     function setCurrentPhoto(photo) {
@@ -85,7 +87,7 @@ Page {
         viewer.closeMediaViewer();
     }
 
-    head.actions: viewer.actions
+    head.actions: showHeaderActions ? viewer.actions : []
     head.backAction: viewer.backAction
 
     MediaViewer {
