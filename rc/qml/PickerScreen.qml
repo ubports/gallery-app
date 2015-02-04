@@ -150,6 +150,7 @@ MainView {
         }
 
         Tab {
+            id: photosTab
             title: i18n.tr("Photos")
             objectName: "photosTab"
             page: Loader {
@@ -167,6 +168,8 @@ MainView {
 
                         head.actions: pickActions
 
+                        signal mediaSourcePressed(var mediaSource, var thumbnailRect)
+
                         Image {
                             anchors.fill: parent
                             source: "../img/background-paper.png"
@@ -177,6 +180,16 @@ MainView {
                             anchors.fill: parent
                             model: allLoaded ? mediaLibraryLoader.item : ""
                             selection: allLoaded ? selectionLoader.item : ""
+                        }
+
+                        onMediaSourcePressed: {
+                            photoViewerLoader.load();
+                            var rect = GalleryUtility.translateRect(thumbnailRect,
+                                                                    photosOverview,
+                                                                    photoViewerLoader);
+                            photoViewerLoader.item.title = photosTab.title;
+                            photoViewerLoader.item.showHeaderActions = false;
+                            photoViewerLoader.item.animateOpen(mediaSource, rect);
                         }
                     }
                 }
