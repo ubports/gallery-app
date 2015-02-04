@@ -42,18 +42,28 @@ Item {
 
     anchors.fill: parent
 
-    // FIXME: this is temporary and should be replaced with something real.
-    Image {
-        id: selectionTick
+    Rectangle {
+        anchors {
+            top: parent.top
+            right: parent.right
+            topMargin: units.gu(0.5)
+            rightMargin: units.gu(0.5)
+        }
+        width: parent.width * 0.35
+        height: width 
+        color: isSelected ? UbuntuColors.orange : UbuntuColors.coolGrey
+        radius: 10
+        opacity: isSelected ? 0.8 : 0.6
+        visible: selection.inSelectionMode
 
-        anchors.right: parent.right
-        anchors.top: parent.top
-        width: units.gu(5)
-        height: units.gu(5)
-
-        visible: isSelected
-
-        source: Qt.resolvedUrl("../../img/photo-preview-selected-overlay.png")
+        Icon {
+            anchors.centerIn: parent
+            width: parent.width * 0.8
+            height: width
+            name: "ok"
+            color: "white"
+            visible: isSelected
+        }
     }
 
     MouseArea {
@@ -63,10 +73,25 @@ Item {
 
         onPressAndHold: selection.toggleSelection(selectionItem)
         onClicked: {
-            if (mouse.button == Qt.RightButton || selection.inSelectionMode)
+            if (mouse.button == Qt.RightButton)
                 selection.toggleSelection(selectionItem);
             else
                 organicItemInteraction.pressed();
+        }
+    }
+
+    MouseArea {
+        anchors {
+            top: parent.top
+            right: parent.right
+        }
+        width: parent.width * 0.5
+        height: parent.height * 0.5
+        enabled: selection.inSelectionMode
+
+        onClicked: {
+            mouse.accepted = true;
+            selection.toggleSelection(selectionItem);
         }
     }
 }
