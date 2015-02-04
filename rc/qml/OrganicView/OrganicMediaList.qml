@@ -83,6 +83,8 @@ Item {
 
     property alias mediaTypeFilter: mediaModel.mediaTypeFilter
 
+    property bool isEventHeaderSelectable: true
+
     height: __bigSize + __smallSize + __photosTopMargin + __margin + __margin/2
 
     Behavior on height {
@@ -110,6 +112,8 @@ Item {
                 OrganicItemInteraction {
                     selectionItem: event
                     selection: organicMediaList.selection
+                    isEventHeader: true
+                    isEventHeaderSelectable: organicMediaList.isEventHeaderSelectable
                 }
             }
         }

@@ -127,6 +127,7 @@ MainView {
                             width: eventSelectView.width
                             event: model.event
                             selection: eventSelectView.selection
+                            isEventHeaderSelectable: false
                             mediaTypeFilter: APP.mediaTypeFilter
                             onPressed: {
                                 var rect = GalleryUtility.translateRect(thumbnailRect, organicList,

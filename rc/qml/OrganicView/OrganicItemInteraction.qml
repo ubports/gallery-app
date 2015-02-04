@@ -40,9 +40,13 @@ Item {
     // readonly
     property bool isSelected: selection.isSelected(selectionItem)
 
+    property bool isEventHeader: false
+    property bool isEventHeaderSelectable: true
+
     anchors.fill: parent
 
     Rectangle {
+        id: selectionRectangle
         anchors {
             top: parent.top
             right: parent.right
@@ -54,7 +58,15 @@ Item {
         color: isSelected ? UbuntuColors.orange : UbuntuColors.coolGrey
         radius: 10
         opacity: isSelected ? 0.8 : 0.6
-        visible: selection.inSelectionMode
+        visible: {
+            if (!selection.inSelectionMode)
+                return false;
+
+            if (isEventHeader && !isEventHeaderSelectable)
+                return false;
+
+            return true;
+        }
 
         Icon {
             anchors.centerIn: parent
@@ -87,7 +99,7 @@ Item {
         }
         width: parent.width * 0.5
         height: parent.height * 0.5
-        enabled: selection.inSelectionMode
+        enabled: selectionRectangle.visible
 
         onClicked: {
             mouse.accepted = true;
