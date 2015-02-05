@@ -89,7 +89,7 @@ Page {
 
     head.actions: {
         if (selection && selection.inSelectionMode)
-            return [];
+            return selectActions;
         return viewer.actions;
     }
     head.backAction: viewer.backAction
@@ -154,4 +154,13 @@ Page {
             closed();
         }
     }
+
+    property list<Action> selectActions: [
+        Action {
+            text: i18n.tr("Toggle Selection")
+            objectName: "toggleSelectionButton"
+            iconName: selection.isSelected(photo) ? "cancel" : "select"
+            onTriggered: selection.toggleSelection(photo);
+        }
+    ]
 }
