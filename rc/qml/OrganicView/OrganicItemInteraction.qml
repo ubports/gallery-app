@@ -52,7 +52,7 @@ Item {
             topMargin: units.gu(0.5)
             rightMargin: units.gu(0.5)
         }
-        width: parent.width * 0.35
+        width: units.gu(4)
         height: width 
         color: isSelected ? UbuntuColors.orange : UbuntuColors.coolGrey
         radius: 10
