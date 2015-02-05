@@ -41,7 +41,6 @@ Item {
     property bool isSelected: selection.isSelected(selectionItem)
 
     property bool isEventHeader: false
-    property bool isEventHeaderSelectable: true
 
     anchors.fill: parent
 
@@ -58,15 +57,7 @@ Item {
         color: isSelected ? UbuntuColors.orange : UbuntuColors.coolGrey
         radius: 10
         opacity: isSelected ? 0.8 : 0.6
-        visible: {
-            if (!selection.inSelectionMode)
-                return false;
-
-            if (isEventHeader && !isEventHeaderSelectable)
-                return false;
-
-            return true;
-        }
+        visible: selection.inSelectionMode && !isEventHeader
 
         Icon {
             anchors.centerIn: parent
@@ -85,7 +76,7 @@ Item {
 
         onPressAndHold: selection.toggleSelection(selectionItem)
         onClicked: {
-            if (mouse.button == Qt.RightButton)
+            if (mouse.button == Qt.RightButton || isEventHeader)
                 selection.toggleSelection(selectionItem);
             else
                 organicItemInteraction.pressed();
