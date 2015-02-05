@@ -178,6 +178,7 @@ MainView {
                                                                     eventsOverview,
                                                                     photoViewerLoader);
                             photoViewerLoader.item.title = eventTab.title;
+                            photoViewerLoader.item.selection = selection;
                             photoViewerLoader.item.animateOpen(mediaSource, rect);
                         }
 
@@ -217,6 +218,7 @@ MainView {
                                                                     photosOverview,
                                                                     photoViewerLoader);
                             photoViewerLoader.item.title = photosTab.title;
+                            photoViewerLoader.item.selection = selection;
                             photoViewerLoader.item.animateOpen(mediaSource, rect);
                         }
 

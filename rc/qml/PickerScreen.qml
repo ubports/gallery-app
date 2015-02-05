@@ -141,7 +141,7 @@ MainView {
                                                                     eventSelectView,
                                                                     photoViewerLoader);
                             photoViewerLoader.item.title = eventsTab.title;
-                            photoViewerLoader.item.showHeaderActions = false;
+                            photoViewerLoader.item.selection = selection;
                             photoViewerLoader.item.animateOpen(mediaSource, rect);
                         }
                     }
@@ -177,6 +177,7 @@ MainView {
                         }
 
                         MediaGrid {
+                            id: photosGrid
                             anchors.fill: parent
                             model: allLoaded ? mediaLibraryLoader.item : ""
                             selection: allLoaded ? selectionLoader.item : ""
@@ -188,7 +189,7 @@ MainView {
                                                                     photosOverview,
                                                                     photoViewerLoader);
                             photoViewerLoader.item.title = photosTab.title;
-                            photoViewerLoader.item.showHeaderActions = false;
+                            photoViewerLoader.item.selection = photosGrid.selection;
                             photoViewerLoader.item.animateOpen(mediaSource, rect);
                         }
                     }

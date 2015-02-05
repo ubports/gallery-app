@@ -39,7 +39,7 @@ Page {
                                     fadeIn.running || fadeOut.running
     property bool isPoppedUp: popupPhotoViewer.visible && viewer.visible && !animationRunning
 
-    property bool showHeaderActions: true
+    property SelectionState selection: null
 
     title: i18n.tr("Gallery")
 
@@ -87,7 +87,11 @@ Page {
         viewer.closeMediaViewer();
     }
 
-    head.actions: showHeaderActions ? viewer.actions : []
+    head.actions: {
+        if (selection && selection.inSelectionMode)
+            return [];
+        return viewer.actions;
+    }
     head.backAction: viewer.backAction
 
     MediaViewer {
