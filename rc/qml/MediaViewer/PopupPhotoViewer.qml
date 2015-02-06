@@ -164,7 +164,7 @@ Page {
         Action {
             text: i18n.tr("Toggle Selection")
             objectName: "toggleSelectionButton"
-            iconName: selection.isSelected(photo) ? "cancel" : "select"
+            iconSource: selection.isSelected(photo) ? Qt.resolvedUrl("../../img/deselect.svg") : Qt.resolvedUrl("../../img/select.svg")
             onTriggered: selection.toggleSelection(photo);
         }
     ]
