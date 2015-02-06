@@ -138,7 +138,7 @@ MainView {
                             var rect = GalleryUtility.translateRect(thumbnailRect,
                                                                     eventSelectView,
                                                                     photoViewerLoader);
-                            photoViewerLoader.item.title = eventsTab.title;
+                            photoViewerLoader.item.title = i18n.tr("Select");
                             photoViewerLoader.item.selection = selection;
                             photoViewerLoader.item.animateOpen(mediaSource, rect);
                         }
@@ -186,7 +186,7 @@ MainView {
                             var rect = GalleryUtility.translateRect(thumbnailRect,
                                                                     photosOverview,
                                                                     photoViewerLoader);
-                            photoViewerLoader.item.title = photosTab.title;
+                            photoViewerLoader.item.title = i18n.tr("Select");
                             photoViewerLoader.item.selection = photosGrid.selection;
                             photoViewerLoader.item.animateOpen(mediaSource, rect);
                         }
