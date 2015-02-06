@@ -130,7 +130,10 @@ Page {
             setCurrentPhoto(forMediaSource);
             viewer.openCompleted = true;
             overview.pushPage(popupPhotoViewer);
-            overview.setHeaderVisibility(false);
+            if (selection && selection.inSelectionMode)
+                overview.setHeaderVisibility(true);
+            else
+                overview.setHeaderVisibility(false);
             opened();
         }
 
