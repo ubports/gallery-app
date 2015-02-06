@@ -76,8 +76,6 @@ MainView {
     function setHeaderVisibility(visible)
     {
         header.visible = visible;    
-        if (!APP.desktopMode)
-            setFullScreen(!visible);
     }
 
     function toggleHeaderVisibility()
@@ -262,6 +260,8 @@ MainView {
         Connections {
             target: photoViewerLoader.item
             onCloseRequested: {
+                if (!APP.desktopMode)
+                    setFullScreen(false);
                 popPage();
                 photoViewerLoader.item.fadeClosed();
                 overview.mediaCurrentlyInView = "";

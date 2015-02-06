@@ -129,6 +129,8 @@ Page {
         onTransitionToPhotoViewerCompleted: {
             setCurrentPhoto(forMediaSource);
             viewer.openCompleted = true;
+            if (!APP.desktopMode)
+                setFullScreen(true);
             overview.pushPage(popupPhotoViewer);
             if (selection && selection.inSelectionMode)
                 overview.setHeaderVisibility(true);
