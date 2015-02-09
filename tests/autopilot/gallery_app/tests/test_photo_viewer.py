@@ -41,8 +41,6 @@ class TestPhotoViewerBase(GalleryTestCase):
         super(TestPhotoViewerBase, self).setUp()
         self.main_view.switch_to_tab("eventsTab")
         self.open_first_photo()
-        # Need to click on the photo to toggle header
-        self.pointing_device.click()
 
     def open_first_photo(self):
         self.assertThat(
