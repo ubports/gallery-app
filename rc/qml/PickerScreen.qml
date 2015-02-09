@@ -168,6 +168,11 @@ MainView {
 
                         signal mediaSourcePressed(var mediaSource, var thumbnailRect)
 
+                        Connections {
+                            target: photoViewerLoader.item
+                            onSelected: photosGrid.positionViewAtIndex(index, GridView.Contain);
+                        }
+
                         Image {
                             anchors.fill: parent
                             source: "../img/background-paper.png"
