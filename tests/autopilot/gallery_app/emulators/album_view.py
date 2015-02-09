@@ -68,7 +68,8 @@ class AlbumView(GalleryUtils):
     def get_plus_icon_empty_album(self):
         """Returns the plus icon visible in empty albums"""
         return self.app.select_single("QQuickImage",
-                                      objectName="addButton", visible=True)
+                                      objectName="albumCoverAddPhotosImage",
+                                      visible=True)
 
     def ensure_animated_fully_closed(self):
         """Ensure the animated album view is fully closed"""
