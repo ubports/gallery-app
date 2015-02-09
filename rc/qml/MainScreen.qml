@@ -208,6 +208,11 @@ MainView {
                         anchors.fill: parent
                         model: MANAGER.mediaLibrary
 
+                        Connections {
+                            target: photoViewerLoader.item
+                            onSelected: positionViewAtSelected(index);
+                        } 
+
                         onMediaSourcePressed: {
                             photoViewerLoader.load();
                             overview.mediaCurrentlyInView = mediaSource.path;

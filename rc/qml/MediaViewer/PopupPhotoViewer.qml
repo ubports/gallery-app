@@ -25,6 +25,8 @@ import "../Utility"
 Page {
     id: popupPhotoViewer
 
+    signal selected(int index)
+
     anchors.fill: parent
     property alias model: viewer.model
 
@@ -165,7 +167,11 @@ Page {
             text: i18n.tr("Toggle Selection")
             objectName: "toggleSelectionButton"
             iconSource: selection.isSelected(photo) ? Qt.resolvedUrl("../../img/select.svg") : Qt.resolvedUrl("../../img/deselect.svg")
-            onTriggered: selection.toggleSelection(photo);
+            onTriggered: {
+                selection.toggleSelection(photo);
+                if (selection.isSelected(photo))
+                    popupPhotoViewer.selected(popupPhotoViewer.index);
+            }
         }
     ]
 }

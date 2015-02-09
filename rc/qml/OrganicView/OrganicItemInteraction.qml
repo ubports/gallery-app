@@ -29,6 +29,7 @@ Item {
     /*!
     */
     signal pressed()
+    signal selected()
 
     /*!
     */
@@ -43,6 +44,12 @@ Item {
     property bool isEventHeader: false
 
     anchors.fill: parent
+
+    function toggleSelection() {
+        selection.toggleSelection(selectionItem);
+        if (isSelected)
+            organicItemInteraction.selected();
+    }
 
     Rectangle {
         id: selectionRectangle
@@ -74,10 +81,10 @@ Item {
 
         acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-        onPressAndHold: selection.toggleSelection(selectionItem)
+        onPressAndHold: toggleSelection()
         onClicked: {
             if (mouse.button == Qt.RightButton || isEventHeader)
-                selection.toggleSelection(selectionItem);
+                toggleSelection();
             else
                 organicItemInteraction.pressed();
         }
@@ -94,7 +101,7 @@ Item {
 
         onClicked: {
             mouse.accepted = true;
-            selection.toggleSelection(selectionItem);
+            toggleSelection();
         }
     }
 }

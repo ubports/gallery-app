@@ -53,6 +53,10 @@ Page {
         d.selection.inSelectionMode = false;
     }
 
+    function positionViewAtSelected(index) {
+        photosGrid.positionViewAtIndex(index, GridView.Contain);
+    }
+
     property string pageTitle
 
     tools: inSelectionMode ? d.selectionTools : d.overviewTools

@@ -203,6 +203,10 @@ Item {
                                                                     organicMediaList);
                         organicMediaList.pressed(selectionItem, rect);
                     }
+
+                    onSelected: {
+                        console.log("[DEBUG] Selected on Events: ", model.mediaSource.galleryThumbnailPath);
+                    }
                 }
             }
 

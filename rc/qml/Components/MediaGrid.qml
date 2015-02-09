@@ -113,6 +113,8 @@ GridView {
                     var rect = GalleryUtility.getRectRelativeTo(roundedThumbnail, photosOverview);
                     photosOverview.mediaSourcePressed(mediaSource, rect);
                 }
+
+                onSelected: photosGrid.positionViewAtIndex(index, GridView.Contain);
             }
 
             Component {
