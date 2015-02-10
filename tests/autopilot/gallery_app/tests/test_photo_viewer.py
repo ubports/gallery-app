@@ -180,19 +180,19 @@ class TestPhotoViewer(TestPhotoViewerBase):
         x, y, w, h = list.globalRect
         mid_y = y + h // 2
         mid_x = x + w // 2
-        self.pointing_device.drag(mid_x, mid_y, x + 10, mid_y)
+        self.pointing_device.drag(mid_x, mid_y, x + 10, mid_y, rate=5)
 
         self.assertThat(list.moving, Eventually(Equals(False)))
         self.assertThat(list.currentIndex, Eventually(Equals(1)))
 
         # Slide right should get us back to the start
-        self.pointing_device.drag(mid_x, mid_y, x + w - 10, mid_y)
+        self.pointing_device.drag(mid_x, mid_y, x + w - 10, mid_y, rate=5)
 
         self.assertThat(list.moving, Eventually(Equals(False)))
         self.assertThat(list.currentIndex, Eventually(Equals(0)))
 
         # Slide right again shouldn't go anywhere
-        self.pointing_device.drag(mid_x, mid_y, x + w - 10, mid_y)
+        self.pointing_device.drag(mid_x, mid_y, x + w - 10, mid_y, rate=5)
 
         self.assertThat(list.moving, Eventually(Equals(False)))
         self.assertThat(list.currentIndex, Eventually(Equals(0)))
