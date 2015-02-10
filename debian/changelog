@@ -1,3 +1,18 @@
+gallery-app (0.0.67+15.04.20150210.1-0ubuntu1) vivid; urgency=medium
+
+  [ Arthur Mello ]
+  * Add check box feedback when in selection mode Make it possible to
+    see a picture fullscreen even in selectionMode (LP: #1416043)
+
+  [ Florian Boucault ]
+  * Swiping quickly through slideshow no longer causes photos to zoom.
+    Workaround for QTBUG-39332. (LP: #1400141)
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 10 Feb 2015 19:54:08 +0000
+
 gallery-app (0.0.67+15.04.20150202-0ubuntu1) vivid; urgency=medium
 
   [ Arthur Mello ]
