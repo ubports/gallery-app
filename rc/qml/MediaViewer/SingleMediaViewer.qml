@@ -166,6 +166,14 @@ Item {
                 anchors.fill: parent
                 onDoubleClicked: {
                     clickTimer.stop();
+                    if (viewer.ListView.view.moving) {
+                        // FIXME: workaround for Qt bug specific to touch:
+                        // doubleClicked is received even though the MouseArea
+                        // was tapped only once but another MouseArea was also
+                        // tapped shortly before.
+                        // Ref.: https://bugreports.qt.io/browse/QTBUG-39332
+                        return;
+                    }
                     if (viewer.isVideo) return;
 
                     if (flickable.sizeScale < zoomPinchArea.maximumZoom) {
