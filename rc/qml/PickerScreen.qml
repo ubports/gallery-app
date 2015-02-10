@@ -21,15 +21,39 @@ import "Components"
 import "OrganicView"
 import "Utility"
 import "../js/Gallery.js" as Gallery
+import "../js/GalleryUtility.js" as GalleryUtility
 
 /*!
 The main view for picking content
 */
 MainView {
-    id: pickerMainView
+    id: overview
     objectName: "pickerMainView"
 
     useDeprecatedToolbar: false
+
+    function setHeaderVisibility(visible)
+    {
+        header.visible = visible;    
+    }
+
+    function toggleHeaderVisibility()
+    {
+        setHeaderVisibility(!header.visible);    
+    }
+
+    function pushPage(page) {
+        pageStack.push(page);
+    }
+
+    function popPage() {
+        pageStack.pop();
+    }
+
+    PageStack {
+        id: pageStack
+        anchors.fill: parent
+    }
 
     Loader {
         id: mediaLibraryLoader
@@ -62,6 +86,10 @@ MainView {
     applicationName: "com.ubuntu.gallery"
     automaticOrientation: application.automaticOrientation
 
+    Component.onCompleted: {
+        pageStack.push(tabs);
+    }
+
     Tabs {
         id: tabs
         anchors.fill: parent
@@ -69,6 +97,7 @@ MainView {
         StateSaver.properties: "selectedTabIndex"
 
         Tab {
+            id: eventsTab
             title: i18n.tr("Events")
             objectName: "eventsTab"
             page: Loader {
@@ -92,10 +121,26 @@ MainView {
                         }
 
                         delegate: OrganicMediaList {
+                            id: organicList
                             width: eventSelectView.width
                             event: model.event
                             selection: eventSelectView.selection
                             mediaTypeFilter: APP.mediaTypeFilter
+                            onPressed: {
+                                var rect = GalleryUtility.translateRect(thumbnailRect, organicList,
+                                eventSelectView);
+                                eventSelectView.mediaSourcePressed(mediaSource, rect);
+                            }
+                        }
+
+                        onMediaSourcePressed: {
+                            photoViewerLoader.load();
+                            var rect = GalleryUtility.translateRect(thumbnailRect,
+                                                                    eventSelectView,
+                                                                    photoViewerLoader);
+                            photoViewerLoader.item.title = i18n.tr("Select");
+                            photoViewerLoader.item.selection = selection;
+                            photoViewerLoader.item.animateOpen(mediaSource, rect);
                         }
                     }
                 }
@@ -103,6 +148,7 @@ MainView {
         }
 
         Tab {
+            id: photosTab
             title: i18n.tr("Photos")
             objectName: "photosTab"
             page: Loader {
@@ -120,6 +166,13 @@ MainView {
 
                         head.actions: pickActions
 
+                        signal mediaSourcePressed(var mediaSource, var thumbnailRect)
+
+                        Connections {
+                            target: photoViewerLoader.item
+                            onSelected: photosGrid.positionViewAtIndex(index, GridView.Contain);
+                        }
+
                         Image {
                             anchors.fill: parent
                             source: "../img/background-paper.png"
@@ -127,9 +180,20 @@ MainView {
                         }
 
                         MediaGrid {
+                            id: photosGrid
                             anchors.fill: parent
                             model: allLoaded ? mediaLibraryLoader.item : ""
                             selection: allLoaded ? selectionLoader.item : ""
+                        }
+
+                        onMediaSourcePressed: {
+                            photoViewerLoader.load();
+                            var rect = GalleryUtility.translateRect(thumbnailRect,
+                                                                    photosOverview,
+                                                                    photoViewerLoader);
+                            photoViewerLoader.item.title = i18n.tr("Select");
+                            photoViewerLoader.item.selection = photosGrid.selection;
+                            photoViewerLoader.item.animateOpen(mediaSource, rect);
                         }
                     }
                 }
@@ -142,6 +206,27 @@ MainView {
         LoadingScreen {
             id: loadingScreen
             anchors.fill: parent
+        }
+    }
+
+    Loader {
+        id: photoViewerLoader
+
+        anchors.fill: parent
+        z: 100
+
+        function load() {
+            setSource(Qt.resolvedUrl("MediaViewer/PopupPhotoViewer.qml"), {model: mediaLibraryLoader.item});
+        }
+
+        Connections {
+            target: photoViewerLoader.item
+            onCloseRequested: {
+                if (!APP.desktopMode)
+                    setFullScreen(false);
+                popPage();
+                photoViewerLoader.item.fadeClosed();
+            }
         }
     }
 

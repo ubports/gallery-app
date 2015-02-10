@@ -76,8 +76,6 @@ MainView {
     function setHeaderVisibility(visible)
     {
         header.visible = visible;    
-        if (!APP.desktopMode)
-            setFullScreen(!visible);
     }
 
     function toggleHeaderVisibility()
@@ -178,6 +176,7 @@ MainView {
                                                                     eventsOverview,
                                                                     photoViewerLoader);
                             photoViewerLoader.item.title = eventTab.title;
+                            photoViewerLoader.item.selection = selection;
                             photoViewerLoader.item.animateOpen(mediaSource, rect);
                         }
 
@@ -209,6 +208,11 @@ MainView {
                         anchors.fill: parent
                         model: MANAGER.mediaLibrary
 
+                        Connections {
+                            target: photoViewerLoader.item
+                            onSelected: positionViewAtSelected(index);
+                        } 
+
                         onMediaSourcePressed: {
                             photoViewerLoader.load();
                             overview.mediaCurrentlyInView = mediaSource.path;
@@ -217,6 +221,7 @@ MainView {
                                                                     photosOverview,
                                                                     photoViewerLoader);
                             photoViewerLoader.item.title = photosTab.title;
+                            photoViewerLoader.item.selection = selection;
                             photoViewerLoader.item.animateOpen(mediaSource, rect);
                         }
 
@@ -260,6 +265,8 @@ MainView {
         Connections {
             target: photoViewerLoader.item
             onCloseRequested: {
+                if (!APP.desktopMode)
+                    setFullScreen(false);
                 popPage();
                 photoViewerLoader.item.fadeClosed();
                 overview.mediaCurrentlyInView = "";

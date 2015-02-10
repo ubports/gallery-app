@@ -25,6 +25,8 @@ import "../Utility"
 Page {
     id: popupPhotoViewer
 
+    signal selected(int index)
+
     anchors.fill: parent
     property alias model: viewer.model
 
@@ -38,6 +40,8 @@ Page {
     property bool animationRunning: transition.animationRunning ||
                                     fadeIn.running || fadeOut.running
     property bool isPoppedUp: popupPhotoViewer.visible && viewer.visible && !animationRunning
+
+    property SelectionState selection: null
 
     title: i18n.tr("Gallery")
 
@@ -85,7 +89,11 @@ Page {
         viewer.closeMediaViewer();
     }
 
-    head.actions: viewer.actions
+    head.actions: {
+        if (selection && selection.inSelectionMode)
+            return selectActions;
+        return viewer.actions;
+    }
     head.backAction: viewer.backAction
 
     MediaViewer {
@@ -123,8 +131,13 @@ Page {
         onTransitionToPhotoViewerCompleted: {
             setCurrentPhoto(forMediaSource);
             viewer.openCompleted = true;
+            if (!APP.desktopMode)
+                setFullScreen(true);
             overview.pushPage(popupPhotoViewer);
-            overview.setHeaderVisibility(false);
+            if (selection && selection.inSelectionMode)
+                overview.setHeaderVisibility(true);
+            else
+                overview.setHeaderVisibility(false);
             opened();
         }
 
@@ -148,4 +161,17 @@ Page {
             closed();
         }
     }
+
+    property list<Action> selectActions: [
+        Action {
+            text: i18n.tr("Toggle Selection")
+            objectName: "toggleSelectionButton"
+            iconSource: selection.isSelected(photo) ? Qt.resolvedUrl("../../img/select.svg") : Qt.resolvedUrl("../../img/deselect.svg")
+            onTriggered: {
+                selection.toggleSelection(photo);
+                if (selection.isSelected(photo))
+                    popupPhotoViewer.selected(popupPhotoViewer.index);
+            }
+        }
+    ]
 }
