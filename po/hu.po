@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-09-16 14:16+0200\n"
-"PO-Revision-Date: 2014-09-18 12:53+0000\n"
+"PO-Revision-Date: 2015-02-10 08:22+0000\n"
 "Last-Translator: Richard Somlói <ricsipontaz@gmail.com>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-01-29 05:56+0000\n"
-"X-Generator: Launchpad (build 17306)\n"
+"X-Launchpad-Export-Date: 2015-02-11 06:24+0000\n"
+"X-Generator: Launchpad (build 17336)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:35
@@ -36,7 +36,7 @@ msgstr "Törlés"
 #: rc/qml/MediaViewer/MediaViewer.qml:320 rc/qml/PickerScreen.qml:117
 #: rc/qml/Utility/SelectionToolbarAction.qml:75
 msgid "Cancel"
-msgstr "Mégsem"
+msgstr "Mégse"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
@@ -66,7 +66,7 @@ msgstr "Album"
 #: rc/qml/MediaViewer/MediaViewer.qml:481
 #: rc/qml/MediaViewer/MediaViewer.qml:523
 msgid "Add to album"
-msgstr "Hozzáadás albumhoz"
+msgstr "Albumhoz"
 
 #: rc/qml/AlbumsOverview.qml:225 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
@@ -78,7 +78,7 @@ msgstr "Új fényképalbum"
 
 #: rc/qml/AlbumsOverview.qml:230 rc/qml/Components/PopupAlbumPicker.qml:102
 msgid "Subtitle"
-msgstr "Felirat"
+msgstr "Alcím"
 
 #: rc/qml/AlbumsOverview.qml:239 rc/qml/Utility/EditingHUD.qml:77
 #: rc/qml/Utility/SelectionToolbarAction.qml:47
@@ -105,7 +105,7 @@ msgstr "Album törlése"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr "Album + tartalom törlése"
+msgstr "Album és tartalom törlése"
 
 #: rc/qml/Components/MediaSelector.qml:59
 #: rc/qml/Components/MediaSelector.qml:80
@@ -329,7 +329,7 @@ msgstr "Ubuntu fényképmegjelenítő"
 
 #: desktop/gallery-app.desktop.in.in.h:3
 msgid "Browse your photographs"
-msgstr "A fényképek böngészése"
+msgstr "Fényképek böngészése"
 
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"

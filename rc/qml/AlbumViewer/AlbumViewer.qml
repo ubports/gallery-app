@@ -84,11 +84,15 @@ Page {
                 previewItem.visible = true
         }
         visible = false
+        if (!APP.desktopMode)
+            setFullScreen(false);
         overview.popPage();
         isOpen = false
     }
     onQuickCloseRequested: {
         visible = false
+        if (!APP.desktopMode)
+            setFullScreen(false);
         overview.popPage();
         isOpen = false
         if (previewItem)
