@@ -109,7 +109,6 @@ class TestPhotoViewer(TestPhotoViewerBase):
     @skipIf(model() == 'Desktop', 'Share not supported on desktop')
     def test_share_button(self):
         """Clicking the share button must show the ContentPeerPicker."""
-        photo_viewer = self.photo_viewer.get_main_photo_viewer()
         self.main_view.get_header().click_action_button("shareButton")
         share_picker = self.photo_viewer.get_share_peer_picker()
         self.assertThat(share_picker.visible, Eventually(Equals(True)))
