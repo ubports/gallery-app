@@ -54,7 +54,7 @@ Page {
     }
 
     function positionViewAtSelected(index) {
-        photosGrid.positionViewAtIndex(index, GridView.Contain);
+        photosGrid.positionViewAtIndex(index, GridView.Center);
     }
 
     property string pageTitle
