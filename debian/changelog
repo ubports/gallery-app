@@ -1,3 +1,19 @@
+gallery-app (0.0.67+15.04.20150212.1-0ubuntu1) vivid; urgency=medium
+
+  [ Bill Filler ]
+  * update depends on ui-extras new version
+
+  [ Arthur Mello ]
+  * Change the toggle select icons when in the slideshow view
+
+  [ Richard Huddie ]
+  * Fixes for dashboard failures, bug lp:1419849 (LP: #1419849)
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 12 Feb 2015 19:38:26 +0000
+
 gallery-app (0.0.67+15.04.20150210.1-0ubuntu1) vivid; urgency=medium
 
   [ Arthur Mello ]
