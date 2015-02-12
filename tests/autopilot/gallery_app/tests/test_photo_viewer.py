@@ -41,8 +41,6 @@ class TestPhotoViewerBase(GalleryTestCase):
         super(TestPhotoViewerBase, self).setUp()
         self.main_view.switch_to_tab("eventsTab")
         self.open_first_photo()
-        # Need to click on the photo to toggle header
-        self.pointing_device.click()
 
     def open_first_photo(self):
         self.assertThat(
@@ -111,7 +109,6 @@ class TestPhotoViewer(TestPhotoViewerBase):
     @skipIf(model() == 'Desktop', 'Share not supported on desktop')
     def test_share_button(self):
         """Clicking the share button must show the ContentPeerPicker."""
-        photo_viewer = self.photo_viewer.get_main_photo_viewer()
         self.main_view.get_header().click_action_button("shareButton")
         share_picker = self.photo_viewer.get_share_peer_picker()
         self.assertThat(share_picker.visible, Eventually(Equals(True)))
@@ -182,19 +179,19 @@ class TestPhotoViewer(TestPhotoViewerBase):
         x, y, w, h = list.globalRect
         mid_y = y + h // 2
         mid_x = x + w // 2
-        self.pointing_device.drag(mid_x, mid_y, x + 10, mid_y)
+        self.pointing_device.drag(mid_x, mid_y, x + 10, mid_y, rate=5)
 
         self.assertThat(list.moving, Eventually(Equals(False)))
         self.assertThat(list.currentIndex, Eventually(Equals(1)))
 
         # Slide right should get us back to the start
-        self.pointing_device.drag(mid_x, mid_y, x + w - 10, mid_y)
+        self.pointing_device.drag(mid_x, mid_y, x + w - 10, mid_y, rate=5)
 
         self.assertThat(list.moving, Eventually(Equals(False)))
         self.assertThat(list.currentIndex, Eventually(Equals(0)))
 
         # Slide right again shouldn't go anywhere
-        self.pointing_device.drag(mid_x, mid_y, x + w - 10, mid_y)
+        self.pointing_device.drag(mid_x, mid_y, x + w - 10, mid_y, rate=5)
 
         self.assertThat(list.moving, Eventually(Equals(False)))
         self.assertThat(list.currentIndex, Eventually(Equals(0)))

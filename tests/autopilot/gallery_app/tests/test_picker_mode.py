@@ -72,7 +72,7 @@ class TestPickerMode(GalleryTestCase):
         image_path = 'image://thumbnailer/{}/sample02.jpg'.format(
             self.sample_destination_dir)
         photos_page.click_named_photo(image_path)
-        self.assertTrue(pick_button.enabled)
+        self.assertThat(pick_button.enabled, Eventually(Equals(True)))
         self.picker_view.click_pick_button()
 
     def test_selection_synchronisation(self):

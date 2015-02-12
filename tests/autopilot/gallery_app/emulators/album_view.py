@@ -68,7 +68,8 @@ class AlbumView(GalleryUtils):
     def get_plus_icon_empty_album(self):
         """Returns the plus icon visible in empty albums"""
         return self.app.select_single("QQuickImage",
-                                      objectName="addButton", visible=True)
+                                      objectName="albumCoverAddPhotosImage",
+                                      visible=True)
 
     def ensure_animated_fully_closed(self):
         """Ensure the animated album view is fully closed"""
@@ -100,7 +101,7 @@ class AlbumView(GalleryUtils):
             self.pointing_device.drag(
                 mid_x, mid_y,  # Start
                 x + w, mid_y,  # Finish
-                rate=3
+                rate=1
             )
 
         elif 'right' == direction:
@@ -108,7 +109,7 @@ class AlbumView(GalleryUtils):
             self.pointing_device.drag(
                 mid_x, mid_y,  # Start
                 x, mid_y,      # Finish
-                rate=3
+                rate=1
             )
         else:
             raise GalleryAppException(

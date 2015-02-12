@@ -185,7 +185,6 @@ class TestAlbumView(GalleryTestCase):
         editor.ensure_fully_open()
         editor.close()
 
-        self.open_first_album()
         num_photos_start = self.album_view.number_of_photos()
         self.assertThat(num_photos_start, Equals(0))
 
@@ -197,6 +196,7 @@ class TestAlbumView(GalleryTestCase):
         self.click_item(photo)
         self.main_view.get_header().click_action_button("addButton")
 
+        self.open_first_album()
         self.assertThat(
             lambda: self.album_view.number_of_photos(),
             Eventually(Equals(num_photos_start + 1)))
