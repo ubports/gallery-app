@@ -130,7 +130,7 @@ class TestAlbumEditor(GalleryTestCase):
         self.pointing_device.move(x + int(w / 2), y + h - int(h / 10))
         self.pointing_device.click()
 
-        green_item = self.gallery_utils.get_cover_menu_item("Green")
+        green_item = self.gallery_utils.get_cover_menu_item("green")
         self.click_item(green_item)
 
         self.assertThat(lambda: cover_image.source.endswith(
