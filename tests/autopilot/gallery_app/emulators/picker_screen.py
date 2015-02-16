@@ -1,5 +1,5 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
-# Copyright 2012 Canonical
+# Copyright 2012-2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 3, as published
@@ -44,12 +44,6 @@ class PickerScreen(toolkit_emulators.MainView):
         """Click on the pick button"""
         self.pointing_device.click_object(self.pick_button())
 
-    def select_photo(self, photo_name):
-        """Go to the photos view and pick the named photo"""
-        photos_page = self.go_to_photos()
-        photos_page.click_named_photo(photo_name)
-        self.click_pick_button()
-
 
 class Page11(PickerScreen):
     """Class to represent photos page view from picker screen"""
@@ -63,7 +57,8 @@ class Page11(PickerScreen):
             'QQuickImage', source=photo_name)
         return photo_element.get_parent()
 
-    def click_named_photo(self, photo_name):
+    def select_named_photo(self, photo_name):
         """Select the named photo from the picker view."""
         photo_element = self._get_named_photo_element(photo_name)
-        self.pointing_device.click_object(photo_element)
+        checkbox = photo_element.select_single(objectName="selectionCheckbox")
+        self.pointing_device.click_object(checkbox)
