@@ -53,6 +53,7 @@ Item {
 
     Rectangle {
         id: selectionRectangle
+        objectName: "selectionCheckbox"
         anchors {
             top: parent.top
             right: parent.right
