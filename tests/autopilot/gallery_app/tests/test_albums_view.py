@@ -1,5 +1,5 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
-# Copyright 2013 Canonical
+# Copyright 2013-2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 3, as published
@@ -76,7 +76,8 @@ class TestAlbumsView(GalleryTestCase):
         self.click_item(plus)
         self.media_selector.ensure_fully_open()
         photo = self.media_selector.get_second_photo()
-        self.click_item(photo)
+        checkbox = photo.select_single(objectName="selectionCheckbox")
+        self.click_item(checkbox)
         self.main_view.get_header().click_action_button("addButton")
 
         self.assertThat(
