@@ -1,5 +1,5 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
-# Copyright 2013 Canonical
+# Copyright 2013-2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 3, as published
@@ -84,7 +84,7 @@ class TestAlbumView(GalleryTestCase):
         # should click away of any photo to toggle header
         photo = self.album_view.get_first_photo()
         x, y, w, h = photo.globalRect
-        self.pointing_device.move(x + 40 , y + h + 40)
+        self.pointing_device.move(x + 40, y + h + 40)
         self.pointing_device.click()
 
         # open media selector but cancel
@@ -102,7 +102,8 @@ class TestAlbumView(GalleryTestCase):
         self.media_selector.ensure_fully_open()
 
         photo = self.media_selector.get_second_photo()
-        self.click_item(photo)
+        checkbox = photo.select_single(objectName="selectionCheckbox")
+        self.click_item(checkbox)
         self.main_view.get_header().click_action_button("addButton")
 
         self.assertThat(
@@ -193,7 +194,8 @@ class TestAlbumView(GalleryTestCase):
         self.media_selector.ensure_fully_open()
 
         photo = self.media_selector.get_second_photo()
-        self.click_item(photo)
+        checkbox = photo.select_single(objectName="selectionCheckbox")
+        self.click_item(checkbox)
         self.main_view.get_header().click_action_button("addButton")
 
         self.open_first_album()

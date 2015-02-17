@@ -1,5 +1,5 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
-# Copyright 2012 Canonical
+# Copyright 2012-2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 3, as published
@@ -17,6 +17,7 @@ from gallery_app.emulators import album_editor
 from gallery_app.tests import GalleryTestCase
 
 from time import sleep
+
 
 class TestAlbumEditor(GalleryTestCase):
     """Tests the album editor of the gallery app"""
@@ -61,8 +62,8 @@ class TestAlbumEditor(GalleryTestCase):
         self.keyboard.press_and_release("Ctrl+a")
         text = "Photos"
         self.keyboard.type(text)
-        #due to some reason the album title is not updated unless it loses the
-        #focus. So we click on the subtitle field.
+        # due to some reason the album title is not updated unless it loses the
+        # focus. So we click on the subtitle field.
         editor.click_subtitle_field()
         self.assertThat(subtitle_field.activeFocus, Eventually(Equals(True)))
         self.assertThat(title_field.text, Eventually(Equals(text)))
@@ -93,7 +94,7 @@ class TestAlbumEditor(GalleryTestCase):
         # should click away of any photo to toggle header
         photo = self.album_view.get_first_photo()
         x, y, w, h = photo.globalRect
-        self.pointing_device.move(x + 40 , y + h + 40)
+        self.pointing_device.move(x + 40, y + h + 40)
         self.pointing_device.click()
 
         self.main_view.get_header().click_custom_back_button()
@@ -106,7 +107,8 @@ class TestAlbumEditor(GalleryTestCase):
         self.media_selector.ensure_fully_open()
 
         photo = self.media_selector.get_second_photo()
-        self.click_item(photo)
+        checkbox = photo.select_single(objectName="selectionCheckbox")
+        self.click_item(checkbox)
         self.main_view.get_header().click_action_button("addButton")
         editor = self.app.select_single(album_editor.AlbumEditor)
         editor.ensure_fully_closed()
@@ -129,7 +131,7 @@ class TestAlbumEditor(GalleryTestCase):
         self.pointing_device.move(x + int(w / 2), y + h - int(h / 10))
         self.pointing_device.click()
 
-        green_item = self.gallery_utils.get_cover_menu_item("Green")
+        green_item = self.gallery_utils.get_cover_menu_item("green")
         self.click_item(green_item)
 
         self.assertThat(lambda: cover_image.source.endswith(
