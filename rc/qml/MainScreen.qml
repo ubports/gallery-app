@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Canonical Ltd
+ * Copyright (C) 2012-2015 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -75,12 +75,14 @@ MainView {
 
     function setHeaderVisibility(visible)
     {
-        header.visible = visible;    
+        header.visible = visible;
+        if (!APP.desktopMode)
+            setFullScreen(!visible);
     }
 
     function toggleHeaderVisibility()
     {
-        setHeaderVisibility(!header.visible);    
+        setHeaderVisibility(!header.visible);
     }
 
     Component.onCompleted: {
