@@ -18,6 +18,7 @@ from gallery_app.tests import GalleryTestCase
 
 from time import sleep
 
+
 class TestAlbumEditor(GalleryTestCase):
     """Tests the album editor of the gallery app"""
 
@@ -61,8 +62,8 @@ class TestAlbumEditor(GalleryTestCase):
         self.keyboard.press_and_release("Ctrl+a")
         text = "Photos"
         self.keyboard.type(text)
-        #due to some reason the album title is not updated unless it loses the
-        #focus. So we click on the subtitle field.
+        # due to some reason the album title is not updated unless it loses the
+        # focus. So we click on the subtitle field.
         editor.click_subtitle_field()
         self.assertThat(subtitle_field.activeFocus, Eventually(Equals(True)))
         self.assertThat(title_field.text, Eventually(Equals(text)))
@@ -93,7 +94,7 @@ class TestAlbumEditor(GalleryTestCase):
         # should click away of any photo to toggle header
         photo = self.album_view.get_first_photo()
         x, y, w, h = photo.globalRect
-        self.pointing_device.move(x + 40 , y + h + 40)
+        self.pointing_device.move(x + 40, y + h + 40)
         self.pointing_device.click()
 
         self.main_view.get_header().click_custom_back_button()

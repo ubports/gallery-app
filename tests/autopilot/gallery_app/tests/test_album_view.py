@@ -84,7 +84,7 @@ class TestAlbumView(GalleryTestCase):
         # should click away of any photo to toggle header
         photo = self.album_view.get_first_photo()
         x, y, w, h = photo.globalRect
-        self.pointing_device.move(x + 40 , y + h + 40)
+        self.pointing_device.move(x + 40, y + h + 40)
         self.pointing_device.click()
 
         # open media selector but cancel

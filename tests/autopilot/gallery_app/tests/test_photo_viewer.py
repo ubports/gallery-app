@@ -1,5 +1,5 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
-# Copyright 2012 Canonical
+# Copyright 2012-2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 3, as published
@@ -112,7 +112,8 @@ class TestPhotoViewer(TestPhotoViewerBase):
         self.main_view.get_header().click_action_button("shareButton")
         share_picker = self.photo_viewer.get_share_peer_picker()
         self.assertThat(share_picker.visible, Eventually(Equals(True)))
-        cancel_button = self.photo_viewer.get_content_peer_picker_cancel_button()
+        cancel_button = \
+            self.photo_viewer.get_content_peer_picker_cancel_button()
         self.click_item(cancel_button)
         self.assertThat(share_picker.visible, Eventually(Equals(False)))
 

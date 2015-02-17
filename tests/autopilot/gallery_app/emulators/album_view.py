@@ -1,5 +1,5 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
-# Copyright 2013 Canonical
+# Copyright 2013-2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 3, as published
@@ -135,9 +135,9 @@ class AlbumView(GalleryUtils):
 
     def _get_remove_from_album_dialog(self):
         """Returns the photo viewer remove from album dialog."""
-        return self.app.wait_select_single("Dialog",
-                                           objectName=
-                                           "removePhotoFromAlbumDialog")
+        return self.app.wait_select_single(
+            "Dialog",
+            objectName="removePhotoFromAlbumDialog")
 
     def _remove_from_album_dialog_shown(self):
         dialog = self.app.select_many("Dialog",
@@ -152,10 +152,10 @@ class AlbumView(GalleryUtils):
 
     def _get_remove_from_album_popover_delete_item(self):
         """Returns delete button of the remove from album popover."""
-        return self.app.select_single("Button",
-                                      objectName=
-                                      "removeFromAlbumAndDeleteButton",
-                                      visible=True)
+        return self.app.select_single(
+            "Button",
+            objectName="removeFromAlbumAndDeleteButton",
+            visible=True)
 
     def _get_remove_from_album_popover_cancel_item(self):
         """Returns cancel button of the remove from album popover."""

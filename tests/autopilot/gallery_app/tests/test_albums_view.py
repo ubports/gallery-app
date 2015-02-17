@@ -86,8 +86,8 @@ class TestAlbumsView(GalleryTestCase):
         )
 
     def test_add_album_and_cancel(self):
-        """Add one album, cancel it and checks if the number of albums does
-        not change. Do this in the two different ways we have to cancel editing.
+        """Add one album, cancel it and checks if the number of albums does not
+        change. Do this in the two different ways we have to cancel editing.
         """
 
         # Cancel by pressing back in the header
