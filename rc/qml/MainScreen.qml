@@ -73,10 +73,11 @@ MainView {
         }
     }
 
-    function setHeaderVisibility(visible)
+    function setHeaderVisibility(visible, toggleFullscreen)
     {
+        toggleFullscreen = typeof toggleFullscreen !== 'undefined' ? toggleFullscreen : true
         header.visible = visible;
-        if (!APP.desktopMode)
+        if (!APP.desktopMode && toggleFullscreen)
             setFullScreen(!visible);
     }
 
