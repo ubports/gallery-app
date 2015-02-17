@@ -1,3 +1,11 @@
+gallery-app (0.0.67+15.04.20150217-0ubuntu1) vivid; urgency=medium
+
+  [ Olivier Tilloy ]
+  * Fix failing autopilot tests that were broken by the changes
+    introduced at revision 1143 (fix for bug #1416043). (LP: #1416043)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Tue, 17 Feb 2015 12:29:27 +0000
+
 gallery-app (0.0.67+15.04.20150212.1-0ubuntu1) vivid; urgency=medium
 
   [ Bill Filler ]
