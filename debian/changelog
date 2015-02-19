@@ -1,3 +1,12 @@
+gallery-app (0.0.67+15.04.20150219-0ubuntu1) vivid; urgency=medium
+
+  [ Olivier Tilloy ]
+  * Remove a useless runtime dependency. The dependency on
+    Ubuntu.Components.Extras was removed at revision 1008 (on 2014-07-
+    03) but debian/control wasn’t updated accordingly back then.
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 19 Feb 2015 09:10:33 +0000
+
 gallery-app (0.0.67+15.04.20150217-0ubuntu1) vivid; urgency=medium
 
   [ Olivier Tilloy ]
