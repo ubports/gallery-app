@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-09-16 14:16+0200\n"
-"PO-Revision-Date: 2015-02-15 14:36+0000\n"
+"PO-Revision-Date: 2015-02-17 17:57+0000\n"
 "Last-Translator: Constantinos Koniaris <kostas291@yahoo.com>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-02-16 06:49+0000\n"
+"X-Launchpad-Export-Date: 2015-02-19 05:37+0000\n"
 "X-Generator: Launchpad (build 17341)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
@@ -118,7 +118,7 @@ msgstr "Προσθήκη φωτογραφίας στο άλμπουμ"
 
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
-msgstr ""
+msgstr "Γίνεται φόρτωση..."
 
 #: rc/qml/MainScreen.qml:98
 msgid "Albums"
@@ -127,12 +127,12 @@ msgstr "Άλμπουμ"
 #: rc/qml/MainScreen.qml:115 rc/qml/MainScreen.qml:138
 #: rc/qml/PickerScreen.qml:57
 msgid "Events"
-msgstr ""
+msgstr "Γεγονότα"
 
 #: rc/qml/MainScreen.qml:136 rc/qml/MainScreen.qml:180
 #: rc/qml/Utility/PhotosToolbarActions.qml:34
 msgid "Select"
-msgstr ""
+msgstr "Επιλογή"
 
 #: rc/qml/MainScreen.qml:148 rc/qml/MainScreen.qml:182
 #: rc/qml/PickerScreen.qml:80
@@ -150,7 +150,7 @@ msgstr "Περιστροφή"
 
 #: rc/qml/MediaViewer/EditPopover.qml:60
 msgid "Auto enhance"
-msgstr ""
+msgstr "Αυτόματη βελτίωση"
 
 #: rc/qml/MediaViewer/EditPopover.qml:69 rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
@@ -158,11 +158,11 @@ msgstr "Αναίρεση"
 
 #: rc/qml/MediaViewer/EditPopover.qml:79 rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr ""
+msgstr "Επανάληψη"
 
 #: rc/qml/MediaViewer/EditPopover.qml:89
 msgid "Revert to original"
-msgstr ""
+msgstr "Επιστροφή στην αρχική"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:257 rc/qml/PhotosOverview.qml:75
 msgid "Delete a photo"
@@ -212,7 +212,7 @@ msgstr "Επιλογή"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr ""
+msgstr "Κάδος;Διαγραφή"
 
 #: rc/qml/Utility/EditingHUD.qml:72
 #: rc/qml/Utility/SelectionToolbarAction.qml:65
@@ -221,7 +221,7 @@ msgstr "Διαμοιρασμός"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
-msgstr ""
+msgstr "Δημοσίευση;Επιφόρτωση;Ανέβασμα;Επισύναψη"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
@@ -233,51 +233,51 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr ""
+msgstr "Αυτόματη βελτίωση"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr ""
+msgstr "Αυτόματη προσαρμογή της εικόνας"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr ""
+msgstr "Αυτόματη προσαρμογή φωτογραφίας"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr ""
+msgstr "Δεξιόστροφα"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr ""
+msgstr "Περιστροφή της εικόνας δεξιόστροφα"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr ""
+msgstr "Περικοπή;Τομή;Ψαλίδισμα"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr ""
+msgstr "Περικοπή της εικόνας"
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr ""
+msgstr "Επαναφορά στην αρχική"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr ""
+msgstr "Απόρριψη αλλαγών"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr ""
+msgstr "Απόρριψη όλων των αλλαγών"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr ""
+msgstr "Έκθεση"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr ""
+msgstr "Προσαρμογή έκθεσης"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
@@ -289,19 +289,19 @@ msgstr "Επιβεβαίωση"
 
 #: rc/qml/Utility/EditingHUD.qml:126
 msgid "Compensation"
-msgstr ""
+msgstr "Αντιστάθμιση"
 
 #: rc/qml/Utility/EditingHUD.qml:160
 msgid "Color Balance"
-msgstr ""
+msgstr "Ισορροπία χρωμάτων"
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Adjust color balance"
-msgstr ""
+msgstr "Ρύθμιση ισορροπίας χρωμάτων"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
-msgstr ""
+msgstr "Κορεσμός;Απόχρωση"
 
 #: rc/qml/Utility/EditingHUD.qml:167
 msgid "Brightness"
@@ -313,7 +313,7 @@ msgstr "Αντίθεση"
 
 #: rc/qml/Utility/EditingHUD.qml:189
 msgid "Saturation"
-msgstr ""
+msgstr "Κορεσμός"
 
 #: rc/qml/Utility/EditingHUD.qml:200
 msgid "Hue"
@@ -325,7 +325,7 @@ msgstr "Εισαγωγή"
 
 #: desktop/gallery-app.desktop.in.in.h:2
 msgid "Ubuntu Photo Viewer"
-msgstr ""
+msgstr "Προβολή φωτογραφιών Ubuntu"
 
 #: desktop/gallery-app.desktop.in.in.h:3
 msgid "Browse your photographs"
