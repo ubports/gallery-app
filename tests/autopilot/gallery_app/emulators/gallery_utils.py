@@ -1,5 +1,5 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
-# Copyright 2013 Canonical
+# Copyright 2013-2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 3, as published
@@ -100,16 +100,15 @@ class GalleryUtils(AutopilotTestCase):
         return self.app.select_single("Standard",
                                       objectName="editAlbumListItem")
 
-    def get_cover_menu_item(self, text):
-        """Returns the item of the cover menu with the text *text*
+    def get_cover_menu_item(self, name):
+        """Returns the item of the cover menu with the name *name*
 
-        :raises StateNotFoundError: if there is no item with the text *text*
+        :raises StateNotFoundError: if there is no item with the name *name*
 
         """
         return self.app.select_single(
             "Standard",
-            objectName="albumCoverMenuItem",
-            text=text
+            objectName="albumCoverMenuItem_" + name
         )
 
     def _ensure_delete_dialog_visible(self):

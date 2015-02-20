@@ -1,3 +1,106 @@
+gallery-app (0.0.67+15.04.20150219-0ubuntu1) vivid; urgency=medium
+
+  [ Olivier Tilloy ]
+  * Remove a useless runtime dependency. The dependency on
+    Ubuntu.Components.Extras was removed at revision 1008 (on 2014-07-
+    03) but debian/control wasn’t updated accordingly back then.
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 19 Feb 2015 09:10:33 +0000
+
+gallery-app (0.0.67+15.04.20150217-0ubuntu1) vivid; urgency=medium
+
+  [ Olivier Tilloy ]
+  * Fix failing autopilot tests that were broken by the changes
+    introduced at revision 1143 (fix for bug #1416043). (LP: #1416043)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Tue, 17 Feb 2015 12:29:27 +0000
+
+gallery-app (0.0.67+15.04.20150212.1-0ubuntu1) vivid; urgency=medium
+
+  [ Bill Filler ]
+  * update depends on ui-extras new version
+
+  [ Arthur Mello ]
+  * Change the toggle select icons when in the slideshow view
+
+  [ Richard Huddie ]
+  * Fixes for dashboard failures, bug lp:1419849 (LP: #1419849)
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Thu, 12 Feb 2015 19:38:26 +0000
+
+gallery-app (0.0.67+15.04.20150210.1-0ubuntu1) vivid; urgency=medium
+
+  [ Arthur Mello ]
+  * Add check box feedback when in selection mode Make it possible to
+    see a picture fullscreen even in selectionMode (LP: #1416043)
+
+  [ Florian Boucault ]
+  * Swiping quickly through slideshow no longer causes photos to zoom.
+    Workaround for QTBUG-39332. (LP: #1400141)
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Tue, 10 Feb 2015 19:54:08 +0000
+
+gallery-app (0.0.67+15.04.20150202-0ubuntu1) vivid; urgency=medium
+
+  [ Arthur Mello ]
+  * Makes gallery-app to call MediaPlayer to play videos instead of
+    playing by itself (LP: #1324622)
+  * Make fullscreen mode dynamic when on device (LP: #1415140)
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 02 Feb 2015 23:41:37 +0000
+
+gallery-app (0.0.67+15.04.20150126.2~rtm-0ubuntu1) 14.09; urgency=low
+
+  [ Arthur Mello ]
+  * Do not create objects if the file was removed from the time the
+    create was requested and when it was started
+
+  [ Florian Boucault ]
+  * Do not create objects if the file was removed from the time the
+    create was requested and when it was started
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Mon, 26 Jan 2015 18:41:06 +0000
+
+gallery-app (0.0.67+15.04.20150125.1-0ubuntu1) vivid; urgency=low
+
+  [ Arthur Mello ]
+  * Move MediaObjectFactory to another thread to make sure when we are
+    loading multiple files we keep the interface responsible (LP:
+    #1413952)
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Sun, 25 Jan 2015 20:46:16 +0000
+
+gallery-app (0.0.67+15.04.20150121.1-0ubuntu1) vivid; urgency=low
+
+  [ Bill Filler ]
+  * merge lp:~bfiller/gallery-app/sd-card-rules
+
+  [ Ubuntu daily release ]
+  * New rebuild forced
+
+  [ Ugo Riboni ]
+  * Directly downscale the images for the viewer instead of asking the
+    thumbnailer to do it (which it would do incorrectly) (LP: #1412442)
+  * Make sure the first time a photo is added to the database we read
+    the actual size save it to the database (LP: #1404170)
+
+ -- Ubuntu daily release <ps-jenkins@lists.canonical.com>  Wed, 21 Jan 2015 15:39:55 +0000
+
 gallery-app (0.0.67+15.04.20150108.1-0ubuntu1) vivid; urgency=low
 
   [ Bill Filler ]

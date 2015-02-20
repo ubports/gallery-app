@@ -259,6 +259,17 @@ void PhotoMetadata::setDateTimeDigitized(const QDateTime& digitized)
     }
 }
 
+void PhotoMetadata::updateThumbnail(QImage image)
+{
+    QImage scaled = image.scaled(image.width() / THUMBNAIL_SCALE,
+                                 image.height() / THUMBNAIL_SCALE);
+    QBuffer jpeg;
+    jpeg.open(QIODevice::WriteOnly);
+    scaled.save(&jpeg, "jpeg");
+    Exiv2::ExifThumb thumb(m_image->exifData());
+    thumb.setJpegThumbnail((Exiv2::byte*) jpeg.data().constData(), jpeg.size());
+}
+
 /*!
  * \brief PhotoMetadata::save
  * \return

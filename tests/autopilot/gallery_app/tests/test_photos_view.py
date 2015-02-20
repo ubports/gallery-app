@@ -1,5 +1,5 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
-# Copyright 2012 Canonical
+# Copyright 2012-2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 3, as published
@@ -57,6 +57,11 @@ class TestPhotosView(GalleryTestCase):
         photo = self.photos_view.get_first_photo_in_photos_view()
         self.click_item(photo)
 
+    def select_first_photo(self):
+        photo = self.photos_view.get_first_photo_in_photos_view()
+        checkbox = photo.select_single(objectName="selectionCheckbox")
+        self.click_item(checkbox)
+
     def check_header_button_exist(self, button):
         header = self.main_view.get_header()
         buttonName = button + "_header_button"
@@ -92,7 +97,7 @@ class TestPhotosView(GalleryTestCase):
     def test_delete_photo_dialog_appears(self):
         """Selecting a photo must make the delete button clickable."""
         self.main_view.get_header().click_action_button("selectButton")
-        self.click_first_photo()
+        self.select_first_photo()
         self.main_view.get_header().click_action_button("deleteButton")
 
         self.assertThat(self.gallery_utils.delete_dialog_shown,
@@ -107,7 +112,7 @@ class TestPhotosView(GalleryTestCase):
         """Must be able to select a photo and use the dialog to delete it."""
         number_of_photos = self.photos_view.number_of_photos()
         self.main_view.get_header().click_action_button("selectButton")
-        self.click_first_photo()
+        self.select_first_photo()
         self.main_view.get_header().click_action_button("deleteButton")
 
         self.assertThat(self.gallery_utils.delete_dialog_shown,

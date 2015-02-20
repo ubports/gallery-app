@@ -45,10 +45,16 @@ Page {
     /// True if in the selection mode
     property alias inSelectionMode: d.inSelectionMode
 
+    property alias selection: d.selection
+
     /// Quit selection mode, and unselect all photos
     function leaveSelectionMode() {
         d.selection.unselectAll();
         d.selection.inSelectionMode = false;
+    }
+
+    function positionViewAtSelected(index) {
+        photosGrid.positionViewAtIndex(index, GridView.Center);
     }
 
     property string pageTitle

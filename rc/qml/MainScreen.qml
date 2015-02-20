@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Canonical Ltd
+ * Copyright (C) 2012-2015 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -73,6 +73,19 @@ MainView {
         }
     }
 
+    function setHeaderVisibility(visible, toggleFullscreen)
+    {
+        toggleFullscreen = typeof toggleFullscreen !== 'undefined' ? toggleFullscreen : true
+        header.visible = visible;
+        if (!APP.desktopMode && toggleFullscreen)
+            setFullScreen(!visible);
+    }
+
+    function toggleHeaderVisibility()
+    {
+        setHeaderVisibility(!header.visible);
+    }
+
     Component.onCompleted: {
         pageStack.push(tabs);
     }
@@ -100,7 +113,7 @@ MainView {
                 eventsOverviewLoader.item.positionViewAtBeginning();
             }
 
-            header.visible = true;
+            setHeaderVisibility(true);
 
             tabs.selectedTabIndex = 1;
         }
@@ -166,6 +179,7 @@ MainView {
                                                                     eventsOverview,
                                                                     photoViewerLoader);
                             photoViewerLoader.item.title = eventTab.title;
+                            photoViewerLoader.item.selection = selection;
                             photoViewerLoader.item.animateOpen(mediaSource, rect);
                         }
 
@@ -197,6 +211,11 @@ MainView {
                         anchors.fill: parent
                         model: MANAGER.mediaLibrary
 
+                        Connections {
+                            target: photoViewerLoader.item
+                            onSelected: positionViewAtSelected(index);
+                        } 
+
                         onMediaSourcePressed: {
                             photoViewerLoader.load();
                             overview.mediaCurrentlyInView = mediaSource.path;
@@ -205,6 +224,7 @@ MainView {
                                                                     photosOverview,
                                                                     photoViewerLoader);
                             photoViewerLoader.item.title = photosTab.title;
+                            photoViewerLoader.item.selection = selection;
                             photoViewerLoader.item.animateOpen(mediaSource, rect);
                         }
 
@@ -248,6 +268,8 @@ MainView {
         Connections {
             target: photoViewerLoader.item
             onCloseRequested: {
+                if (!APP.desktopMode)
+                    setFullScreen(false);
                 popPage();
                 photoViewerLoader.item.fadeClosed();
                 overview.mediaCurrentlyInView = "";

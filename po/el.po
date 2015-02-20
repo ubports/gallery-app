@@ -8,19 +8,19 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-09-16 14:16+0200\n"
-"PO-Revision-Date: 2014-08-20 17:07+0000\n"
+"PO-Revision-Date: 2015-02-19 14:49+0000\n"
 "Last-Translator: Simos Xenitellis <Unknown>\n"
 "Language-Team: Greek <el@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-01-16 06:18+0000\n"
-"X-Generator: Launchpad (build 17303)\n"
+"X-Launchpad-Export-Date: 2015-02-20 06:04+0000\n"
+"X-Generator: Launchpad (build 17341)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:35
 msgid "Edit album"
-msgstr ""
+msgstr "Επεξεργασία άλμπουμ"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
 #: rc/qml/AlbumViewer/AlbumViewer.qml:369
@@ -60,25 +60,25 @@ msgstr "Κόκκινο"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:103
 msgid "Album"
-msgstr ""
+msgstr "Άλμπουμ"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:363
 #: rc/qml/MediaViewer/MediaViewer.qml:481
 #: rc/qml/MediaViewer/MediaViewer.qml:523
 msgid "Add to album"
-msgstr ""
+msgstr "Προσθήκη στο άλμπουμ"
 
 #: rc/qml/AlbumsOverview.qml:225 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
-msgstr ""
+msgstr "Προσθήκη νέου άλμπουμ"
 
 #: rc/qml/AlbumsOverview.qml:229 rc/qml/Components/PopupAlbumPicker.qml:101
 msgid "New Photo Album"
-msgstr ""
+msgstr "Νέο άλμπουμ φωτογραφιών"
 
 #: rc/qml/AlbumsOverview.qml:230 rc/qml/Components/PopupAlbumPicker.qml:102
 msgid "Subtitle"
-msgstr ""
+msgstr "Υπότιτλος"
 
 #: rc/qml/AlbumsOverview.qml:239 rc/qml/Utility/EditingHUD.qml:77
 #: rc/qml/Utility/SelectionToolbarAction.qml:47
@@ -101,231 +101,231 @@ msgstr "Όχι"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr ""
+msgstr "Διαγραφή άλμπουμ"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr ""
+msgstr "Διαγραφή άλμπουμ + περιεχομένων"
 
 #: rc/qml/Components/MediaSelector.qml:59
 #: rc/qml/Components/MediaSelector.qml:80
 msgid "Add to Album"
-msgstr ""
+msgstr "Προσθήκη στο άλμπουμ"
 
 #: rc/qml/Components/PopupAlbumPicker.qml:161 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr ""
+msgstr "Προσθήκη φωτογραφίας στο άλμπουμ"
 
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
-msgstr ""
+msgstr "Γίνεται φόρτωση..."
 
 #: rc/qml/MainScreen.qml:98
 msgid "Albums"
-msgstr ""
+msgstr "Άλμπουμ"
 
 #: rc/qml/MainScreen.qml:115 rc/qml/MainScreen.qml:138
 #: rc/qml/PickerScreen.qml:57
 msgid "Events"
-msgstr ""
+msgstr "Γεγονότα"
 
 #: rc/qml/MainScreen.qml:136 rc/qml/MainScreen.qml:180
 #: rc/qml/Utility/PhotosToolbarActions.qml:34
 msgid "Select"
-msgstr ""
+msgstr "Επιλογή"
 
 #: rc/qml/MainScreen.qml:148 rc/qml/MainScreen.qml:182
 #: rc/qml/PickerScreen.qml:80
 msgid "Photos"
-msgstr ""
+msgstr "Φωτογραφίες"
 
 #: rc/qml/MediaViewer/CropOverlay.qml:352
 #: rc/qml/MediaViewer/EditPopover.qml:51 rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr ""
+msgstr "Περικοπή"
 
 #: rc/qml/MediaViewer/EditPopover.qml:42 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr ""
+msgstr "Περιστροφή"
 
 #: rc/qml/MediaViewer/EditPopover.qml:60
 msgid "Auto enhance"
-msgstr ""
+msgstr "Αυτόματη βελτίωση"
 
 #: rc/qml/MediaViewer/EditPopover.qml:69 rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
-msgstr ""
+msgstr "Αναίρεση"
 
 #: rc/qml/MediaViewer/EditPopover.qml:79 rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr ""
+msgstr "Επανάληψη"
 
 #: rc/qml/MediaViewer/EditPopover.qml:89
 msgid "Revert to original"
-msgstr ""
+msgstr "Επιστροφή στην αρχική"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:257 rc/qml/PhotosOverview.qml:75
 msgid "Delete a photo"
-msgstr ""
+msgstr "Διαγραφή φωτογραφίας"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:290
 msgid "Remove a photo from album"
-msgstr ""
+msgstr "Αφαίρεση φωτογραφίας από το άλμπουμ"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:299
 msgid "Remove from Album"
-msgstr ""
+msgstr "Αφαίρεση από το άλμπουμ"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:310
 msgid "Remove from Album and Delete"
-msgstr ""
+msgstr "Αφαίρεση από το άλμπουμ και διαγραφή"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:475
 msgid "Edit"
-msgstr ""
+msgstr "Επεξεργασία"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:502
 #: rc/qml/MediaViewer/MediaViewer.qml:542
 msgid "Share photo"
-msgstr ""
+msgstr "Διαμοιρασμός φωτογραφίας"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:514
 msgid "Pause"
-msgstr ""
+msgstr "Παύση"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:514
 msgid "Play"
-msgstr ""
+msgstr "Αναπαραγωγή"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:56
 #: desktop/gallery-app.desktop.in.in.h:1
 msgid "Gallery"
-msgstr ""
+msgstr "Συλλογή"
 
 #: rc/qml/PhotosOverview.qml:74
 msgid "Delete photos"
-msgstr ""
+msgstr "Διαγραφή φωτογραφιών"
 
 #: rc/qml/PickerScreen.qml:105
 msgid "Pick"
-msgstr ""
+msgstr "Επιλογή"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr ""
+msgstr "Κάδος;Διαγραφή"
 
 #: rc/qml/Utility/EditingHUD.qml:72
 #: rc/qml/Utility/SelectionToolbarAction.qml:65
 msgid "Share"
-msgstr ""
+msgstr "Διαμοιρασμός"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
-msgstr ""
+msgstr "Δημοσίευση;Επιφόρτωση;Ανέβασμα;Επισύναψη"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr ""
+msgstr "Ακύρωση ενέργειας;Επιστροφή;Πίσω"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr ""
+msgstr "Εφαρμόστε ξανά;Κάντε πάλι;Επανάληψη"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr ""
+msgstr "Αυτόματη βελτίωση"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr ""
+msgstr "Αυτόματη προσαρμογή της εικόνας"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr ""
+msgstr "Αυτόματη προσαρμογή φωτογραφίας"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr ""
+msgstr "Δεξιόστροφα"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr ""
+msgstr "Περιστροφή της εικόνας δεξιόστροφα"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr ""
+msgstr "Περικοπή;Τομή;Ψαλίδισμα"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr ""
+msgstr "Περικοπή της εικόνας"
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr ""
+msgstr "Επαναφορά στην αρχική"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr ""
+msgstr "Απόρριψη αλλαγών"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr ""
+msgstr "Απόρριψη όλων των αλλαγών"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr ""
+msgstr "Έκθεση"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr ""
+msgstr "Προσαρμογή έκθεσης"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr ""
+msgstr "Υποέκθεση;Υπερέκθεση"
 
 #: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
 msgid "Confirm"
-msgstr ""
+msgstr "Επιβεβαίωση"
 
 #: rc/qml/Utility/EditingHUD.qml:126
 msgid "Compensation"
-msgstr ""
+msgstr "Αντιστάθμιση"
 
 #: rc/qml/Utility/EditingHUD.qml:160
 msgid "Color Balance"
-msgstr ""
+msgstr "Ισορροπία χρωμάτων"
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Adjust color balance"
-msgstr ""
+msgstr "Ρύθμιση ισορροπίας χρωμάτων"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
-msgstr ""
+msgstr "Κορεσμός;Απόχρωση"
 
 #: rc/qml/Utility/EditingHUD.qml:167
 msgid "Brightness"
-msgstr ""
+msgstr "Φωτεινότητα"
 
 #: rc/qml/Utility/EditingHUD.qml:178
 msgid "Contrast"
-msgstr ""
+msgstr "Αντίθεση"
 
 #: rc/qml/Utility/EditingHUD.qml:189
 msgid "Saturation"
-msgstr ""
+msgstr "Κορεσμός"
 
 #: rc/qml/Utility/EditingHUD.qml:200
 msgid "Hue"
-msgstr ""
+msgstr "Απόχρωση"
 
 #: rc/qml/Utility/PhotosToolbarActions.qml:43
 msgid "Import"
-msgstr ""
+msgstr "Εισαγωγή"
 
 #: desktop/gallery-app.desktop.in.in.h:2
 msgid "Ubuntu Photo Viewer"
-msgstr ""
+msgstr "Προβολή φωτογραφιών Ubuntu"
 
 #: desktop/gallery-app.desktop.in.in.h:3
 msgid "Browse your photographs"
@@ -333,4 +333,4 @@ msgstr "Περιηγηθείτε στις φωτογραφίες σας"
 
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
-msgstr ""
+msgstr "Φωτογραφίες;Εικόνες;Άλμπουμ"

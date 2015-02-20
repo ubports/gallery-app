@@ -41,7 +41,7 @@ public:
 
     qint64 createIdForMedia(const QString& filename, const QDateTime& timestamp,
                             const QDateTime& exposureTime, Orientation originalOrientation,
-                            qint64 filesize);
+                            qint64 filesize, QSize size);
 
     void updateMedia(qint64 mediaId, const QString& filename,
                       const QDateTime& timestamp, const QDateTime& exposureTime,

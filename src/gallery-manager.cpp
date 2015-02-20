@@ -69,6 +69,12 @@ GalleryManager::GalleryManager(bool desktopMode,
 {
     m_mediaFactory = new MediaObjectFactory(m_desktopMode, m_resource);
 
+    QObject::connect(m_mediaFactory, SIGNAL(mediaObjectCreated(MediaSource*)),
+                     this, SLOT(onMediaObjectCreated(MediaSource*)));
+    QObject::connect(m_mediaFactory, SIGNAL(mediaFromDBLoaded(QSet<DataObject *>)),
+                     this, SLOT(onMediaFromDBLoaded(QSet<DataObject *>)));
+
+
     m_galleryManager = this;
 }
 
@@ -133,8 +139,10 @@ void GalleryManager::postInit()
         m_defaultTemplate = new AlbumDefaultTemplate();
         m_mediaCollection = new MediaCollection(m_database->getMediaTable());
 
+        QObject::connect(m_mediaCollection, SIGNAL(collectionChanged()),
+                      this, SIGNAL(collectionChanged()));
+
         fillMediaCollection();
-        startFileMonitoring();
 
         collectionsInitialised = true;
 
@@ -205,11 +213,7 @@ QmlMediaCollectionModel *GalleryManager::mediaLibrary() const
 void GalleryManager::fillMediaCollection()
 {
     Q_ASSERT(m_mediaCollection);
-
-    QSet<DataObject*> medias;
-    medias = m_mediaFactory->mediasFromDB();
-    m_mediaCollection->addMany(medias);
-    m_mediaFactory->clear();
+    m_mediaFactory->loadMediaFromDB();
 }
 
 /*!
@@ -224,8 +228,8 @@ void GalleryManager::startFileMonitoring()
     m_monitor = new MediaMonitor();
     QObject::connect(m_mediaCollection, SIGNAL(mediaIsBusy(bool)),
                      m_monitor, SLOT(setMonitoringOnHold(bool)));
-    QObject::connect(m_monitor, SIGNAL(mediaItemAdded(QString)),
-                     this, SLOT(onMediaItemAdded(QString)));
+    QObject::connect(m_monitor, SIGNAL(mediaItemAdded(QString, int)),
+                     this, SLOT(onMediaItemAdded(QString, int)));
     QObject::connect(m_monitor, SIGNAL(mediaItemRemoved(qint64)),
                      this, SLOT(onMediaItemRemoved(qint64)));
     QObject::connect(m_monitor, SIGNAL(consistencyCheckFinished()),
@@ -239,14 +243,11 @@ void GalleryManager::startFileMonitoring()
  * \brief GalleryApplication::onMediaItemAdded
  * \param file
  */
-void GalleryManager::onMediaItemAdded(QString file)
+void GalleryManager::onMediaItemAdded(QString file, int priority)
 {
     if (! m_mediaCollection->containsFile(file)) {
         QFileInfo fi(file);
-        MediaSource *media = m_mediaFactory->create(fi, m_desktopMode, m_resource);
-
-        if (media)
-            m_mediaCollection->add(media);
+        m_mediaFactory->create(fi, priority, m_desktopMode, m_resource);
     }
 }
 
@@ -257,4 +258,38 @@ void GalleryManager::onMediaItemAdded(QString file)
 void GalleryManager::onMediaItemRemoved(qint64 mediaId)
 {
     m_mediaCollection->destroy(mediaId, false);
+}
+
+/*!
+ * \brief GalleryManager::onMediaObjectCreated
+ * \param mediaObject
+ */
+void GalleryManager::onMediaObjectCreated(MediaSource *mediaObject)
+{
+    m_mediaCollection->add(mediaObject);
+}
+
+/*!
+ * \brief GalleryManager::onMediaFromDBLoaded
+ * \param mediaFromDB
+ */
+void GalleryManager::onMediaFromDBLoaded(QSet<DataObject *> mediaFromDB)
+{
+    m_mediaCollection->addMany(mediaFromDB);
+    m_mediaFactory->clear();
+
+    startFileMonitoring();
+}
+
+/*!
+ * \brief GalleryManager::takeGalleryStandardImageProvider returns the standard image provider
+ * and gives up the owndership 
+ */
+GalleryStandardImageProvider* GalleryManager::takeGalleryStandardImageProvider()
+{
+    m_standardImageProvider->setMaxLoadResolution(2048);
+
+    GalleryStandardImageProvider *provider = m_standardImageProvider;
+    m_standardImageProvider = 0;
+    return provider;
 }

@@ -29,6 +29,7 @@ Item {
     /*!
     */
     signal pressed()
+    signal selected()
 
     /*!
     */
@@ -40,20 +41,40 @@ Item {
     // readonly
     property bool isSelected: selection.isSelected(selectionItem)
 
+    property bool isEventHeader: false
+
     anchors.fill: parent
 
-    // FIXME: this is temporary and should be replaced with something real.
-    Image {
-        id: selectionTick
+    function toggleSelection() {
+        selection.toggleSelection(selectionItem);
+        if (isSelected)
+            organicItemInteraction.selected();
+    }
 
-        anchors.right: parent.right
-        anchors.top: parent.top
-        width: units.gu(5)
-        height: units.gu(5)
+    Rectangle {
+        id: selectionRectangle
+        objectName: "selectionCheckbox"
+        anchors {
+            top: parent.top
+            right: parent.right
+            topMargin: units.gu(0.5)
+            rightMargin: units.gu(0.5)
+        }
+        width: units.gu(4)
+        height: width 
+        color: isSelected ? UbuntuColors.orange : UbuntuColors.coolGrey
+        radius: 10
+        opacity: isSelected ? 0.8 : 0.6
+        visible: selection.inSelectionMode && !isEventHeader
 
-        visible: isSelected
-
-        source: Qt.resolvedUrl("../../img/photo-preview-selected-overlay.png")
+        Icon {
+            anchors.centerIn: parent
+            width: parent.width * 0.8
+            height: width
+            name: "ok"
+            color: "white"
+            visible: isSelected
+        }
     }
 
     MouseArea {
@@ -61,12 +82,27 @@ Item {
 
         acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-        onPressAndHold: selection.toggleSelection(selectionItem)
+        onPressAndHold: toggleSelection()
         onClicked: {
-            if (mouse.button == Qt.RightButton || selection.inSelectionMode)
-                selection.toggleSelection(selectionItem);
+            if (mouse.button == Qt.RightButton || isEventHeader)
+                toggleSelection();
             else
                 organicItemInteraction.pressed();
+        }
+    }
+
+    MouseArea {
+        anchors {
+            top: parent.top
+            right: parent.right
+        }
+        width: parent.width * 0.5
+        height: parent.height * 0.5
+        enabled: selectionRectangle.visible
+
+        onClicked: {
+            mouse.accepted = true;
+            toggleSelection();
         }
     }
 }

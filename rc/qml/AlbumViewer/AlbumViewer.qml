@@ -84,11 +84,15 @@ Page {
                 previewItem.visible = true
         }
         visible = false
+        if (!APP.desktopMode)
+            setFullScreen(false);
         overview.popPage();
         isOpen = false
     }
     onQuickCloseRequested: {
         visible = false
+        if (!APP.desktopMode)
+            setFullScreen(false);
         overview.popPage();
         isOpen = false
         if (previewItem)
@@ -136,11 +140,6 @@ Page {
 
     function showMediaSelector() {
         overview.pushPage(component_mediaSelector);
-    }
-
-    function toggleHeaderVisibility()
-    {
-        header.visible = !header.visible;
     }
 
     AlbumSpreadViewer {
@@ -196,7 +195,7 @@ Page {
                 if (hit.objectName === "addButton")
                     showMediaSelector();
                 else if (!hit.mediaSource) {
-                    albumViewer.toggleHeaderVisibility();
+                    overview.toggleHeaderVisibility();
                     return;
                 }
 
@@ -312,7 +311,7 @@ Page {
             onOpened: {
                 photoViewerLoader.item.title = albumViewer.title;
                 overview.pushPage(target);
-                header.visible = false;
+                overview.setHeaderVisibility(false);
             }
             onCloseRequested: {
                 albumViewer.mediaCurrentlyInView = "";

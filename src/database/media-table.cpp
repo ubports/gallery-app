@@ -65,18 +65,20 @@ qint64 MediaTable::getIdForMedia(const QString& filename)
  */
 qint64 MediaTable::createIdForMedia(const QString& filename,
                                        const QDateTime& timestamp, const QDateTime& exposureTime,
-                                       Orientation originalOrientation, qint64 filesize)
+                                       Orientation originalOrientation, qint64 filesize, QSize size)
 {
     // Add the row.
     QSqlQuery query(*m_db->getDB());
     query.prepare("INSERT INTO MediaTable (filename, timestamp, exposure_time, "
-                  "original_orientation, filesize) VALUES (:filename, :timestamp, "
-                  ":exposure_time, :original_orientation, :filesize)");
+                  "original_orientation, filesize, width, height) VALUES (:filename, :timestamp, "
+                  ":exposure_time, :original_orientation, :filesize, :width, :height)");
     query.bindValue(":filename", filename);
     query.bindValue(":timestamp", timestamp.toMSecsSinceEpoch());
     query.bindValue(":exposure_time", exposureTime.toMSecsSinceEpoch());
     query.bindValue(":original_orientation", originalOrientation);
     query.bindValue(":filesize", filesize);
+    query.bindValue(":width", size.width());
+    query.bindValue(":height", size.height());
     if (!query.exec())
         m_db->logSqlError(query);
 

@@ -1,5 +1,5 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
-# Copyright 2013 Canonical
+# Copyright 2013-2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 3, as published
@@ -63,5 +63,5 @@ class AlbumEditor(toolkit_emulators.UbuntuUIToolkitEmulatorBase):
     def _plus_icon(self):
         """Returns the plus icon to add photos"""
         return self.wait_select_single("QQuickImage",
-                                  objectName="albumCoverAddPhotosImage",
-                                  visible=True)
+                                       objectName="albumCoverAddPhotosImage",
+                                       visible=True)

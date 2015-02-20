@@ -1,5 +1,5 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
-# Copyright 2013 Canonical
+# Copyright 2013-2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 3, as published
@@ -68,7 +68,8 @@ class AlbumView(GalleryUtils):
     def get_plus_icon_empty_album(self):
         """Returns the plus icon visible in empty albums"""
         return self.app.select_single("QQuickImage",
-                                      objectName="addButton", visible=True)
+                                      objectName="albumCoverAddPhotosImage",
+                                      visible=True)
 
     def ensure_animated_fully_closed(self):
         """Ensure the animated album view is fully closed"""
@@ -100,7 +101,7 @@ class AlbumView(GalleryUtils):
             self.pointing_device.drag(
                 mid_x, mid_y,  # Start
                 x + w, mid_y,  # Finish
-                rate=3
+                rate=1
             )
 
         elif 'right' == direction:
@@ -108,7 +109,7 @@ class AlbumView(GalleryUtils):
             self.pointing_device.drag(
                 mid_x, mid_y,  # Start
                 x, mid_y,      # Finish
-                rate=3
+                rate=1
             )
         else:
             raise GalleryAppException(
@@ -134,9 +135,9 @@ class AlbumView(GalleryUtils):
 
     def _get_remove_from_album_dialog(self):
         """Returns the photo viewer remove from album dialog."""
-        return self.app.wait_select_single("Dialog",
-                                           objectName=
-                                           "removePhotoFromAlbumDialog")
+        return self.app.wait_select_single(
+            "Dialog",
+            objectName="removePhotoFromAlbumDialog")
 
     def _remove_from_album_dialog_shown(self):
         dialog = self.app.select_many("Dialog",
@@ -151,10 +152,10 @@ class AlbumView(GalleryUtils):
 
     def _get_remove_from_album_popover_delete_item(self):
         """Returns delete button of the remove from album popover."""
-        return self.app.select_single("Button",
-                                      objectName=
-                                      "removeFromAlbumAndDeleteButton",
-                                      visible=True)
+        return self.app.select_single(
+            "Button",
+            objectName="removeFromAlbumAndDeleteButton",
+            visible=True)
 
     def _get_remove_from_album_popover_cancel_item(self):
         """Returns cancel button of the remove from album popover."""

@@ -25,6 +25,8 @@ import "../Utility"
 Page {
     id: popupPhotoViewer
 
+    signal selected(int index)
+
     anchors.fill: parent
     property alias model: viewer.model
 
@@ -39,19 +41,7 @@ Page {
                                     fadeIn.running || fadeOut.running
     property bool isPoppedUp: popupPhotoViewer.visible && viewer.visible && !animationRunning
 
-    // updating active will automatically set the tools of the toolbar when activating.
-    //onActiveChanged: {
-    //    if (active && popupPhotoViewer.header) {
-    //        popupPhotoViewer.header.hide();
-    //        // FIXME: The hide function of header is not hiding it sometimes.
-    //        // The issue started after we changed the page title
-    //        popupPhotoViewer.header.visible = false;
-    //    }
-    //
-    //    if (!active && popupPhotoViewer.header && popupPhotoViewer.header.visible == false) {
-    //        popupPhotoViewer.header.visible = true;
-    //    }
-    //}
+    property SelectionState selection: null
 
     title: i18n.tr("Gallery")
 
@@ -99,7 +89,11 @@ Page {
         viewer.closeMediaViewer();
     }
 
-    head.actions: viewer.actions
+    head.actions: {
+        if (selection && selection.inSelectionMode)
+            return selectActions;
+        return viewer.actions;
+    }
     head.backAction: viewer.backAction
 
     MediaViewer {
@@ -137,10 +131,14 @@ Page {
         onTransitionToPhotoViewerCompleted: {
             setCurrentPhoto(forMediaSource);
             viewer.openCompleted = true;
+            if (!APP.desktopMode)
+                setFullScreen(true);
             overview.pushPage(popupPhotoViewer);
-            header.visible = false;
+            if (selection && selection.inSelectionMode)
+                overview.setHeaderVisibility(true);
+            else
+                overview.setHeaderVisibility(false);
             opened();
-            viewer.playVideo();
         }
 
         onTransitionFromPhotoViewerCompleted: {
@@ -152,10 +150,7 @@ Page {
         id: fadeIn
 
         target: viewer
-        onStopped: {
-            opened();
-            viewer.playVideo();
-        }
+        onStopped: opened()
     }
 
     FadeOutAnimation {
@@ -166,4 +161,17 @@ Page {
             closed();
         }
     }
+
+    property list<Action> selectActions: [
+        Action {
+            text: i18n.tr("Toggle Selection")
+            objectName: "toggleSelectionButton"
+            iconName: selection.isSelected(photo) ? "close" : "ok"
+            onTriggered: {
+                selection.toggleSelection(photo);
+                if (selection.isSelected(photo))
+                    popupPhotoViewer.selected(popupPhotoViewer.index);
+            }
+        }
+    ]
 }

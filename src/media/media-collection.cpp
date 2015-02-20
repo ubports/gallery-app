@@ -130,6 +130,9 @@ void MediaCollection::notifyContentsChanged(const QSet<DataObject*>* added,
             m_mediaTable->remove(media->id());
         }
     }
+
+    if (added || removed)
+        emit collectionChanged();
 }
 
 /*!
@@ -158,6 +161,21 @@ bool MediaCollection::containsFile(const QString &filename) const
 /*!
  * \reimp
  */
+void MediaCollection::add(DataObject *object)
+{
+    MediaSource* media = qobject_cast<MediaSource*>(object);
+    if (media->file().exists()) {
+        m_idMap.insert(media->id(), media);
+        DataCollection::add(object);
+    } else {
+        m_mediaTable->remove(media->id());
+        media->deleteLater();
+    }
+}
+
+/*!
++ * \reimp
++ */
 void MediaCollection::addMany(const QSet<DataObject *> &objects)
 {
     foreach (DataObject* data, objects) {

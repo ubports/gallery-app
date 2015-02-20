@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2012 Canonical Ltd
+ * Copyright (C) 2011-2015 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -64,9 +64,7 @@ Item {
     property bool isReady: model != null && model.count > 0 && galleryPhotoViewer.currentItem
 
     // tooolbar actions for the full view
-    property variant actions: (media && !sharePicker.visible) ? (media.type === MediaSource.Photo ?
-                                      d.photoActions : d.videoActions)
-                               : []
+    property variant actions: (media && !sharePicker.visible) ? d.mediaActions : []
 
     property variant backAction: d.backAction
 
@@ -99,30 +97,6 @@ Item {
     */
     function goForward() {
         galleryPhotoViewer.goForward();
-    }
-
-    // If the media item is a video, start playing it
-    function playVideo()
-    {
-        if (!galleryPhotoViewer.currentItem)
-            return;
-        if (galleryPhotoViewer.media.type !== MediaSource.Video)
-            return;
-
-        if (galleryPhotoViewer.currentItem.isPlayingVideo)
-            return;
-
-        galleryPhotoViewer.currentItem.togglePlayPause();
-    }
-
-    function setHeaderVisibility(visible)
-    {
-        header.visible = visible;    
-    }
-
-    function toggleHeaderVisibility()
-    {
-        setHeaderVisibility(!header.visible);    
     }
 
     function closeMediaViewer()
@@ -191,12 +165,7 @@ Item {
                 return 1.0 - Math.abs((galleryPhotoViewer.contentX - x) / width);
             }
 
-            onClicked: viewerWrapper.toggleHeaderVisibility()
-
-            Connections {
-                target: model.mediaSource
-                onDataChanged: media.reload()
-            }
+            onClicked: overview.toggleHeaderVisibility()
         }
 
         // Don't allow flicking while the chrome is actively displaying a popup
@@ -215,7 +184,7 @@ Item {
             anchors.fill: parent
             visible: false
 
-            onVisibleChanged: viewerWrapper.setHeaderVisibility(!visible)
+            onVisibleChanged: overview.setHeaderVisibility(!visible, false)
 
             ContentPeerPicker {
                 objectName: "sharePicker"
@@ -339,12 +308,12 @@ Item {
     Item {
         id: d
 
-        property list<Action> photoActions: [
+        property list<Action> mediaActions: [
             Action {
                 objectName: "editButton"
                 text: i18n.tr("Edit")
                 iconSource: "../../img/edit.png"
-                enabled: galleryPhotoViewer.media.canBeEdited
+                enabled: galleryPhotoViewer.media.type === MediaSource.Photo && galleryPhotoViewer.media.canBeEdited
                 onTriggered: {
                     var path = galleryPhotoViewer.media.path.toString();
                     path = path.replace("file://", "")
@@ -386,46 +355,6 @@ Item {
             }
         ]
  
-
-        property list<Action> videoActions: [
-            Action {
-                text: galleryPhotoViewer.currentItem ?
-                    (galleryPhotoViewer.currentItem.isPlayingVideo ?
-                        i18n.tr("Pause") : i18n.tr("Play"))
-                    : ""
-                iconSource: galleryPhotoViewer.currentItem ?
-                    (galleryPhotoViewer.currentItem.isPlayingVideo ?
-                        "../../img/icon_pause.png" : "../../img/icon_play.png")
-                    : ""
-                onTriggered: galleryPhotoViewer.currentItem.togglePlayPause();
-            },
-            Action {
-                text: i18n.tr("Add to album")
-                iconName: "add"
-                onTriggered: {
-                    __albumPicker = PopupUtils.open(Qt.resolvedUrl("../Components/PopupAlbumPicker.qml"),
-                                                    null,
-                                                    {contentHeight: viewerWrapper.__pickerContentHeight});
-                }
-            },
-            Action {
-                text: i18n.tr("Delete")
-                iconName: "delete"
-                onTriggered: {
-                    if (album)
-                        PopupUtils.open(removeFromAlbumDialog, null);
-                    else
-                        PopupUtils.open(deleteDialog, null);
-                }
-            },
-            Action {
-                text: i18n.tr("Share")
-                iconName: "share"
-                visible: !APP.desktopMode
-                onTriggered: sharePicker.visible = true;
-            }
-        ]
-
         property Action backAction: Action {
             iconName: "back"
             onTriggered: {

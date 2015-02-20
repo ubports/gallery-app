@@ -33,6 +33,8 @@ public:
     QDateTime exposureTime;
     Orientation originalOrientation;
     qint64 filesize;
+    int width;
+    int height;
 };
 
 static qint64 mediaLastId = 0;
@@ -62,7 +64,7 @@ qint64 MediaTable::getIdForMedia(const QString& filename)
 
 qint64 MediaTable::createIdForMedia(const QString& filename,
                                        const QDateTime& timestamp, const QDateTime& exposureTime,
-                                       Orientation originalOrientation, qint64 filesize)
+                                       Orientation originalOrientation, qint64 filesize, QSize size)
 {
     MediaDataRow row;
     row.id = mediaLastId;
@@ -72,6 +74,8 @@ qint64 MediaTable::createIdForMedia(const QString& filename,
     row.exposureTime = exposureTime;
     row.originalOrientation = originalOrientation;
     row.filesize = filesize;
+    row.height = size.height();
+    row.width = size.width();
     mediaFakeTable.append(row);
     return row.id;
 }

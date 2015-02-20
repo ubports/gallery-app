@@ -85,6 +85,10 @@ Item {
 
     height: __bigSize + __smallSize + __photosTopMargin + __margin + __margin/2
 
+    function positionViewAtSelected(index) {
+        eventView.positionViewAtIndex(index, ListView.Center);
+    }
+
     Behavior on height {
         NumberAnimation {
             duration: animationDuration
@@ -110,6 +114,7 @@ Item {
                 OrganicItemInteraction {
                     selectionItem: event
                     selection: organicMediaList.selection
+                    isEventHeader: true
                 }
             }
         }

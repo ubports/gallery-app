@@ -32,7 +32,6 @@ Item {
     property bool showThumbnail: true
 
     property bool isVideo: mediaSource.type === MediaSource.Video
-    property bool isPlayingVideo: isVideo && video.isPlaying
     property bool userInteracting: pinchInProgress || flickable.sizeScale != 1.0
     property bool fullyZoomed: flickable.sizeScale == zoomPinchArea.maximumZoom
     property bool fullyUnzoomed: flickable.sizeScale == zoomPinchArea.minimumZoom
@@ -56,34 +55,9 @@ Item {
         }
     }
 
-    function reload() {
-        if (!viewer.isVideo) {
-            var src = image.source
-            image.asynchronous = false
-            image.source = ""
-            image.asynchronous = true
-            image.source = src;
-
-            src = highResolutionImage.source
-            highResolutionImage.asynchronous = false
-            highResolutionImage.source = ""
-            highResolutionImage.asynchronous = true
-            highResolutionImage.source = src
-        }
-    }
-
     function reset() {
-        if (viewer.isVideo) {
-            if (video.item) {
-                video.item.stop();
-                video.sourceComponent = null;
-            }
-        } else zoomOut()
-    }
-
-    function togglePlayPause() {
-        if (video.isPlaying) video.pause();
-        else video.play();
+        if (!viewer.isVideo)
+            zoomOut()
     }
 
     ActivityIndicator {
@@ -151,13 +125,13 @@ Item {
                     anchors.fill: parent
                     asynchronous: true
                     cache: false
-                    source: "image://photo/" + mediaSource.path
+                    source: mediaSource.galleryPath
                     sourceSize {
                         width: viewer.maxDimension
                         height: viewer.maxDimension
                     }
                     fillMode: Image.PreserveAspectFit
-                    visible: viewer.showThumbnail && video.status !== Loader.Ready
+                    visible: viewer.showThumbnail
                     opacity: status == Image.Ready ? 1.0 : 0.0
                     Behavior on opacity { UbuntuNumberAnimation {duration: UbuntuAnimation.FastDuration} }
 
@@ -178,30 +152,6 @@ Item {
                 }
             }
 
-            Loader {
-                id: video
-                anchors.fill: parent
-                visible: viewer.isVideo && video.status == Loader.Ready &&
-                         video.item.playbackState !== MediaPlayer.StoppedState
-                onLoaded: {
-                    item.source = mediaSource.path;
-                    item.play()
-                }
-
-                property bool isPlaying: item && item.playbackState === MediaPlayer.PlayingState
-                function play() {
-                    if (item) {
-                        item.play();
-                    } else {
-                        viewer.showThumbnail = false;
-                        sourceComponent = component_video;
-                    }
-                }
-                function pause() {
-                    if (item) item.pause();
-                }
-            }
-
             Icon {
                 width: units.gu(5)
                 height: units.gu(5)
@@ -209,14 +159,21 @@ Item {
                 name: "media-playback-start"
                 color: "white"
                 opacity: 0.8
-                visible: viewer.isVideo &&
-                         (!video.item || item.playbackState === MediaPlayer.StoppedState)
+                visible: viewer.isVideo
             }
 
             MouseArea {
                 anchors.fill: parent
                 onDoubleClicked: {
                     clickTimer.stop();
+                    if (viewer.ListView.view.moving) {
+                        // FIXME: workaround for Qt bug specific to touch:
+                        // doubleClicked is received even though the MouseArea
+                        // was tapped only once but another MouseArea was also
+                        // tapped shortly before.
+                        // Ref.: https://bugreports.qt.io/browse/QTBUG-39332
+                        return;
+                    }
                     if (viewer.isVideo) return;
 
                     if (flickable.sizeScale < zoomPinchArea.maximumZoom) {
@@ -239,14 +196,13 @@ Item {
                 width: units.gu(10)
                 height: units.gu(10)
                 enabled: viewer.isVideo
-                onClicked: viewer.togglePlayPause()
+                onClicked: {
+                    if (viewer.isVideo) {
+                        var url = mediaSource.path.toString().replace("file://", "video://");
+                        Qt.openUrlExternally(url);
+                    }
+                }
             }
-        }
-
-        Component {
-            id: component_video
-            Video { }
         }
     }
 }
-

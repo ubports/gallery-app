@@ -1,5 +1,5 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
-# Copyright 2012 Canonical
+# Copyright 2012-2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 3, as published
@@ -31,13 +31,16 @@ class PhotoViewer(GalleryUtils):
 
     def get_content_peer_picker_cancel_button(self):
         """Returns the ContentPeerPicker cancel button."""
-        return self.get_share_peer_picker().wait_select_single("Button",
-                                            objectName="contentPeerPickerCancelButton")
+        return self.get_share_peer_picker().wait_select_single(
+            "Button",
+            objectName="contentPeerPickerCancelButton",
+            visible=True)
 
     def get_share_peer_picker(self):
         """Returns the photo viewer share picker."""
         return self.app.wait_select_single("ContentPeerPicker10",
-                                           objectName="sharePicker")
+                                           objectName="sharePicker",
+                                           visible=True)
 
     def get_photo_edit_dialog(self):
         """Returns the photo edit dialog."""

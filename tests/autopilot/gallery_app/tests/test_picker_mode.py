@@ -1,5 +1,5 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: nil; tab-width: 4 -*-
-# Copyright 2013 Canonical
+# Copyright 2013-2015 Canonical
 #
 # This program is free software: you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 3, as published
@@ -28,7 +28,8 @@ class TestPickerMode(GalleryTestCase):
 
     def select_first_event_media(self):
         first_media = self.picker_view.first_media_in_events_view()
-        self.click_item(first_media)
+        checkbox = first_media.select_single(objectName="selectionCheckbox")
+        self.click_item(checkbox)
 
     def select_first_grid_media(self):
         first_media = self.picker_view.first_media_in_events_view()
@@ -71,8 +72,8 @@ class TestPickerMode(GalleryTestCase):
         # create the image location path based on sample location
         image_path = 'image://thumbnailer/{}/sample02.jpg'.format(
             self.sample_destination_dir)
-        photos_page.click_named_photo(image_path)
-        self.assertTrue(pick_button.enabled)
+        photos_page.select_named_photo(image_path)
+        self.assertThat(pick_button.enabled, Eventually(Equals(True)))
         self.picker_view.click_pick_button()
 
     def test_selection_synchronisation(self):

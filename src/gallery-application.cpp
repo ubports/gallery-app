@@ -112,12 +112,18 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
     QObject::connect(m_galleryManager, SIGNAL(consistencyCheckFinished()),
                      this, SLOT(consistencyCheckFinished()));
 
+    QObject::connect(m_galleryManager, SIGNAL(collectionChanged()),
+                     this, SLOT(onCollectionChanged()));
+
+    // Used to hide the Loading Screen after a time out
+    QObject::connect(m_galleryManager, SIGNAL(consistencyCheckFinished()),
+                     this, SLOT(onCollectionChanged()));
+
     QObject::connect(m_contentCommunicator, SIGNAL(mediaRequested(QString)),
                      this, SLOT(switchToPickMode(QString)));
 
     QObject::connect(m_contentCommunicator, SIGNAL(mediaImported()),
                      this, SLOT(switchToEventsView()));
-
 
     if (m_cmdLineParser->startupTimer())
         qDebug() << "Construct GalleryApplication" << m_timer->elapsed() << "ms";
@@ -166,6 +172,7 @@ void GalleryApplication::registerQML()
     qmlRegisterType<QmlMediaCollectionModel>("Gallery", 1, 0, "MediaCollectionModel");
 
     qRegisterMetaType<QList<MediaSource*> >("MediaSourceList");
+    qRegisterMetaType<QSet<DataObject*> >("QSet<DataObject*>");
 }
 
 /*!
@@ -236,8 +243,8 @@ void GalleryApplication::createView()
     QObject* rootObject = dynamic_cast<QObject*>(m_view->rootObject());
     QObject::connect(this, SIGNAL(mediaLoaded()), rootObject, SLOT(onLoaded()));
 
-    //run fullscreen if specified at command line or not in DESKTOP_MODE (i.e. on a device)
-    if (m_cmdLineParser->isFullscreen() || !isDesktopMode()) {
+    //run fullscreen if specified at command line
+    if (m_cmdLineParser->isFullscreen()) {
         setFullScreen(true);
         m_view->showFullScreen();
     } else {
@@ -262,17 +269,6 @@ void GalleryApplication::initCollections()
     QApplication::processEvents();
     if (m_cmdLineParser->startupTimer())
         qDebug() << "GalleryManager initialized" << m_timer->elapsed() << "ms";
-
-    emit mediaLoaded();
-    m_mediaLoaded = true;
-
-    if (m_cmdLineParser->startupTimer()) {
-        qDebug() << "MainView loaded" << m_timer->elapsed() << "ms";
-        qDebug() << "Startup took" << m_timer->elapsed() << "ms";
-    }
-
-    delete m_timer;
-    m_timer = 0;
 }
 
 /*!
@@ -376,6 +372,22 @@ void GalleryApplication::onMediaLoaded()
     if (m_mediaLoaded) {
         m_mediaLoadedTimer.stop();
         Q_EMIT mediaFileChanged();
+    }
+}
+
+void GalleryApplication::onCollectionChanged()
+{
+    if (!m_mediaLoaded) {
+        emit mediaLoaded();
+        m_mediaLoaded = true;
+
+        if (m_cmdLineParser->startupTimer()) {
+            qDebug() << "MainView loaded" << m_timer->elapsed() << "ms";
+            qDebug() << "Startup took" << m_timer->elapsed() << "ms";
+        }
+
+        delete m_timer;
+        m_timer = 0;
     }
 }
 
