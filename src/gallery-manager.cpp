@@ -280,16 +280,3 @@ void GalleryManager::onMediaFromDBLoaded(QSet<DataObject *> mediaFromDB)
 
     startFileMonitoring();
 }
-
-/*!
- * \brief GalleryManager::takeGalleryStandardImageProvider returns the standard image provider
- * and gives up the owndership 
- */
-GalleryStandardImageProvider* GalleryManager::takeGalleryStandardImageProvider()
-{
-    m_standardImageProvider->setMaxLoadResolution(2048);
-
-    GalleryStandardImageProvider *provider = m_standardImageProvider;
-    m_standardImageProvider = 0;
-    return provider;
-}

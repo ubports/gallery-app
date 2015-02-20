@@ -109,8 +109,3 @@ void GalleryManager::onMediaFromDBLoaded(QSet<DataObject *> mediaFromDB)
 {
     Q_UNUSED(mediaFromDB);
 }
-
-GalleryStandardImageProvider* GalleryManager::takeGalleryStandardImageProvider()
-{
-    return 0;
-}
