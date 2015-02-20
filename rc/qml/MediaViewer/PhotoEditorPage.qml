@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import Ubuntu.Components 1.1
-import Ubuntu.Components.Extras 0.1 as Extras
+import Ubuntu.Components.Extras 0.2 as Extras
 
 /*
  * Copyright (C) 2014 Canonical Ltd
