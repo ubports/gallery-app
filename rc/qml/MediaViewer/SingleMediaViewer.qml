@@ -126,6 +126,7 @@ Item {
                     asynchronous: true
                     cache: false
                     source: mediaSource.galleryPath
+                    source: "image://photo/" + mediaSource.path
                     sourceSize {
                         width: viewer.maxDimension
                         height: viewer.maxDimension
