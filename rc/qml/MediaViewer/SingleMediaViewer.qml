@@ -120,7 +120,18 @@ Item {
                 width: flickable.width * flickable.sizeScale
                 height: flickable.height * flickable.sizeScale
 
-               Image {
+                Connections {
+                    target: mediaSource
+                    onDataChanged: {
+                        image.source = "";
+                        image.source = "image://photo/" + mediaSource.path
+
+                        rightResolutionImage.source = "";
+                        rightResolutionImage.source = "image://photo/" + mediaSource.path
+                    }
+                }
+
+                Image {
                     id: image
                     anchors.fill: parent
                     asynchronous: true
