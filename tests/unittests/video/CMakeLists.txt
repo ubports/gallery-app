@@ -19,6 +19,7 @@ include_directories(
     ${gallery_media_src_SOURCE_DIR}
     ${gallery_medialoader_src_SOURCE_DIR}
     ${gallery_photo_src_SOURCE_DIR}
+    ${gallery_photoeditor_src_SOURCE_DIR}
     ${gallery_qml_src_SOURCE_DIR}
     ${gallery_util_src_SOURCE_DIR}
     ${gallery_video_src_SOURCE_DIR}
@@ -46,6 +47,7 @@ target_link_libraries(video
     gallery-media
     gallery-medialoader
     gallery-photo
+    gallery-photoeditor
     gallery-qml
     gallery-util
     gallery-video

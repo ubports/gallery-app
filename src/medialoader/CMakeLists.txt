@@ -15,12 +15,10 @@ include_directories(
     )
 
 set(gallery_medialoader_HDRS
-    photo-metadata.h
     video-metadata.h
     )
 
 set(gallery_medialoader_SRCS
-    photo-metadata.cpp
     video-metadata.cpp
     )
 

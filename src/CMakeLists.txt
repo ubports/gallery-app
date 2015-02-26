@@ -8,6 +8,7 @@ add_subdirectory(event)
 add_subdirectory(media)
 add_subdirectory(medialoader)
 add_subdirectory(photo)
+add_subdirectory(photoeditor)
 add_subdirectory(qml)
 add_subdirectory(video)
 
@@ -26,6 +27,7 @@ include_directories(
     ${gallery_event_src_SOURCE_DIR}
     ${gallery_album_src_SOURCE_DIR}
     ${gallery_photo_src_SOURCE_DIR}
+    ${gallery_photoeditor_src_SOURCE_DIR}
     ${gallery_video_src_SOURCE_DIR}
     ${gallery_qml_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
@@ -60,6 +62,7 @@ target_link_libraries( ${GALLERY}
     gallery-media
     gallery-medialoader
     gallery-photo
+    gallery-photoeditor
     gallery-qml
     gallery-util
     gallery-video
