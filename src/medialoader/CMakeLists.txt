@@ -9,7 +9,6 @@ include_directories(
     ${gallery_src_SOURCE_DIR}/media
     ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
-    ${EXIV2_INCLUDEDIR}
     ${GSTLIB_INCLUDE_DIRS}
     ${MEDIAINFO_INCLUDE_DIR}
     )
@@ -41,7 +40,6 @@ if(CLICK_MODE)
 endif(CLICK_MODE)
 
 target_link_libraries( ${GALLERY_MEDIALOADER_LIB}
-    ${EXIV2_LIBRARIES}
     ${GSTLIB_LDFLAGS}
     ${MEDIAINFO_LIBRARIES}
     gallery-util

@@ -9,6 +9,7 @@ include_directories(
     ${gallery_media_src_SOURCE_DIR}
     ${gallery_medialoader_src_SOURCE_DIR}
     ${gallery_util_src_SOURCE_DIR}
+    ${EXIV2_INCLUDEDIR}
     ${CMAKE_BINARY_DIR}
     )
 
@@ -40,3 +41,7 @@ add_library(${GALLERY_PHOTOEDITOR_LIB}
     )
 
 qt5_use_modules(${GALLERY_PHOTOEDITOR_LIB} Core Qml Quick Xml Widgets)
+
+target_link_libraries( ${GALLERY_PHOTOEDITOR_LIB}
+    ${EXIV2_LIBRARIES}
+    )
