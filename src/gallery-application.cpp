@@ -39,6 +39,7 @@
 // photoeditor
 #include "photo-data.h"
 #include "file-utils.h"
+#include "photo-image-provider.h"
 
 // qml
 #include "qml-album-collection-model.h"
@@ -221,6 +222,11 @@ const QString& GalleryApplication::getMediaFile() const
 void GalleryApplication::createView()
 {
     m_view->setTitle("Gallery");
+
+    PhotoImageProvider* provider = new PhotoImageProvider();
+    provider->setLogging(true);
+    m_view->engine()->addImageProvider(PhotoImageProvider::PROVIDER_ID,
+                             provider);
 
     QSize size = m_formFactors[m_cmdLineParser->formFactor()];
 
