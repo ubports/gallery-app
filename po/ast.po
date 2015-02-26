@@ -7,33 +7,32 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2014-09-16 14:16+0200\n"
+"POT-Creation-Date: 2015-02-25 11:17+0100\n"
 "PO-Revision-Date: 2014-09-19 15:21+0000\n"
 "Last-Translator: ivarela <ivarela@ubuntu.com>\n"
 "Language-Team: Asturian <ast@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-01-29 05:56+0000\n"
-"X-Generator: Launchpad (build 17306)\n"
+"X-Launchpad-Export-Date: 2015-02-26 05:47+0000\n"
+"X-Generator: Launchpad (build 17361)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
-#: rc/qml/AlbumEditor/AlbumEditor.qml:35
+#: rc/qml/AlbumEditor/AlbumEditor.qml:36
 msgid "Edit album"
 msgstr "Editar álbum"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
-#: rc/qml/AlbumViewer/AlbumViewer.qml:369
+#: rc/qml/AlbumViewer/AlbumViewer.qml:375
 #: rc/qml/Components/DeleteDialog.qml:32
-#: rc/qml/MediaViewer/MediaViewer.qml:491
-#: rc/qml/MediaViewer/MediaViewer.qml:532 rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/MediaViewer/MediaViewer.qml:466 rc/qml/Utility/EditingHUD.qml:67
 #: rc/qml/Utility/SelectionToolbarAction.qml:56
 msgid "Delete"
 msgstr "Desaniciar"
 
-#: rc/qml/AlbumEditor/AlbumEditor.qml:38
+#: rc/qml/AlbumEditor/AlbumEditor.qml:39
 #: rc/qml/Components/MediaSelector.qml:92
-#: rc/qml/MediaViewer/MediaViewer.qml:320 rc/qml/PickerScreen.qml:117
+#: rc/qml/MediaViewer/MediaViewer.qml:294 rc/qml/PickerScreen.qml:235
 #: rc/qml/Utility/SelectionToolbarAction.qml:75
 msgid "Cancel"
 msgstr "Encaboxar"
@@ -58,44 +57,43 @@ msgstr "Patrón"
 msgid "Red"
 msgstr "Bermeyu"
 
-#: rc/qml/AlbumViewer/AlbumViewer.qml:103
+#: rc/qml/AlbumViewer/AlbumViewer.qml:107 rc/qml/MainScreen.qml:60
 msgid "Album"
 msgstr "Álbum"
 
-#: rc/qml/AlbumViewer/AlbumViewer.qml:363
-#: rc/qml/MediaViewer/MediaViewer.qml:481
-#: rc/qml/MediaViewer/MediaViewer.qml:523
+#: rc/qml/AlbumViewer/AlbumViewer.qml:369
+#: rc/qml/MediaViewer/MediaViewer.qml:456
 msgid "Add to album"
 msgstr "Amestar al álbum"
 
-#: rc/qml/AlbumsOverview.qml:225 rc/qml/Components/PopupAlbumPicker.qml:91
+#: rc/qml/AlbumsOverview.qml:236 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
 msgstr "Amestar álbum nuevu"
 
-#: rc/qml/AlbumsOverview.qml:229 rc/qml/Components/PopupAlbumPicker.qml:101
+#: rc/qml/AlbumsOverview.qml:240 rc/qml/Components/PopupAlbumPicker.qml:101
 msgid "New Photo Album"
 msgstr "Álbum de semeyes nuevu"
 
-#: rc/qml/AlbumsOverview.qml:230 rc/qml/Components/PopupAlbumPicker.qml:102
+#: rc/qml/AlbumsOverview.qml:241 rc/qml/Components/PopupAlbumPicker.qml:102
 msgid "Subtitle"
 msgstr "Subtítulu"
 
-#: rc/qml/AlbumsOverview.qml:239 rc/qml/Utility/EditingHUD.qml:77
+#: rc/qml/AlbumsOverview.qml:247 rc/qml/Utility/EditingHUD.qml:77
 #: rc/qml/Utility/SelectionToolbarAction.qml:47
 msgid "Add"
 msgstr "Amestar"
 
-#: rc/qml/AlbumsOverview.qml:244 rc/qml/Utility/PhotosToolbarActions.qml:51
+#: rc/qml/AlbumsOverview.qml:252 rc/qml/Utility/PhotosToolbarActions.qml:51
 msgid "Camera"
 msgstr "Cámara"
 
 #: rc/qml/Components/DeleteDialog.qml:36
-#: rc/qml/MediaViewer/MediaViewer.qml:268
+#: rc/qml/MediaViewer/MediaViewer.qml:242
 msgid "Yes"
 msgstr "Sí"
 
 #: rc/qml/Components/DeleteDialog.qml:45
-#: rc/qml/MediaViewer/MediaViewer.qml:279
+#: rc/qml/MediaViewer/MediaViewer.qml:253
 msgid "No"
 msgstr "Non"
 
@@ -116,26 +114,68 @@ msgstr "Amestar al álbum"
 msgid "Add Photo to Album"
 msgstr "Amestar semeya al álbum"
 
+#: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
+msgid "Delete 1 photo"
+msgstr ""
+
+#: rc/qml/EventsOverview.qml:78 rc/qml/PhotosOverview.qml:87
+msgid "Delete 1 video"
+msgstr ""
+
+#: rc/qml/EventsOverview.qml:81 rc/qml/PhotosOverview.qml:90
+#, qt-format
+msgid "Delete %1 photos"
+msgstr ""
+
+#: rc/qml/EventsOverview.qml:83 rc/qml/PhotosOverview.qml:92
+#, qt-format
+msgid "Delete %1 videos"
+msgstr ""
+
+#: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:95
+#, qt-format
+msgid "Delete %1 photos and 1 video"
+msgstr ""
+
+#: rc/qml/EventsOverview.qml:88 rc/qml/PhotosOverview.qml:97
+#, qt-format
+msgid "Delete 1 photo and %1 videos"
+msgstr ""
+
+#: rc/qml/EventsOverview.qml:90 rc/qml/PhotosOverview.qml:99
+msgid "Delete 1 photo and 1 video"
+msgstr ""
+
+#: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:101
+#, qt-format
+msgid "Delete %1 photos and %2 videos"
+msgstr ""
+
+#: rc/qml/EventsOverview.qml:151 rc/qml/PhotosOverview.qml:165
+msgid "Share to"
+msgstr ""
+
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
 msgstr "Cargando…"
 
-#: rc/qml/MainScreen.qml:98
+#: rc/qml/MainScreen.qml:147
 msgid "Albums"
 msgstr "Álbumes"
 
-#: rc/qml/MainScreen.qml:115 rc/qml/MainScreen.qml:138
-#: rc/qml/PickerScreen.qml:57
+#: rc/qml/MainScreen.qml:161 rc/qml/MainScreen.qml:190
+#: rc/qml/PickerScreen.qml:101
 msgid "Events"
 msgstr "Eventos"
 
-#: rc/qml/MainScreen.qml:136 rc/qml/MainScreen.qml:180
+#: rc/qml/MainScreen.qml:188 rc/qml/MainScreen.qml:233
+#: rc/qml/PickerScreen.qml:141 rc/qml/PickerScreen.qml:194
 #: rc/qml/Utility/PhotosToolbarActions.qml:34
 msgid "Select"
 msgstr "Seleicionar"
 
-#: rc/qml/MainScreen.qml:148 rc/qml/MainScreen.qml:182
-#: rc/qml/PickerScreen.qml:80
+#: rc/qml/MainScreen.qml:199 rc/qml/MainScreen.qml:235
+#: rc/qml/PickerScreen.qml:152
 msgid "Photos"
 msgstr "Semeyes"
 
@@ -164,60 +204,55 @@ msgstr "Refacer"
 msgid "Revert to original"
 msgstr "Revertir a orixinal"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:257 rc/qml/PhotosOverview.qml:75
+#: rc/qml/MediaViewer/MediaViewer.qml:231
 msgid "Delete a photo"
 msgstr "Desaniciar una semeya"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:290
+#: rc/qml/MediaViewer/MediaViewer.qml:231
+msgid "Delete a video"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:264
 msgid "Remove a photo from album"
 msgstr "Desaniciar una semeya del álbum"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:299
+#: rc/qml/MediaViewer/MediaViewer.qml:264
+msgid "Remove a video from album"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:273
 msgid "Remove from Album"
 msgstr "Desaniciar del álbum"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:310
+#: rc/qml/MediaViewer/MediaViewer.qml:284
 msgid "Remove from Album and Delete"
 msgstr "Quitar del álbum y desaniciar"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:475
+#: rc/qml/MediaViewer/MediaViewer.qml:449
 msgid "Edit"
 msgstr "Editar"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:502
-#: rc/qml/MediaViewer/MediaViewer.qml:542
-msgid "Share photo"
-msgstr "Compartir semeya"
+#: rc/qml/MediaViewer/MediaViewer.qml:477 rc/qml/Utility/EditingHUD.qml:72
+#: rc/qml/Utility/SelectionToolbarAction.qml:65
+msgid "Share"
+msgstr "Compartir"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:514
-msgid "Pause"
-msgstr "Posar"
-
-#: rc/qml/MediaViewer/MediaViewer.qml:514
-msgid "Play"
-msgstr "Reproducir"
-
-#: rc/qml/MediaViewer/PopupPhotoViewer.qml:56
+#: rc/qml/MediaViewer/PopupPhotoViewer.qml:46
 #: desktop/gallery-app.desktop.in.in.h:1
 msgid "Gallery"
 msgstr "Galería"
 
-#: rc/qml/PhotosOverview.qml:74
-msgid "Delete photos"
-msgstr "Desaniciar semeyes"
+#: rc/qml/MediaViewer/PopupPhotoViewer.qml:167
+msgid "Toggle Selection"
+msgstr ""
 
-#: rc/qml/PickerScreen.qml:105
+#: rc/qml/PickerScreen.qml:241
 msgid "Pick"
 msgstr "Escoyer"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
 msgstr "Papelera;Desaniciar"
-
-#: rc/qml/Utility/EditingHUD.qml:72
-#: rc/qml/Utility/SelectionToolbarAction.qml:65
-msgid "Share"
-msgstr "Compartir"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
