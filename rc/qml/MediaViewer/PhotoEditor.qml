@@ -39,6 +39,7 @@ Item {
 
     property list<Action> toolActions: [
         Action {
+            objectName: "cropButton"
             text: i18n.tr("Crop")
             iconSource: Qt.resolvedUrl("PhotoEditor/assets/edit_crop.png")
             onTriggered: {
@@ -47,6 +48,7 @@ Item {
             }
         },
         Action {
+            objectName: "rotateButton"
             text: i18n.tr("Rotate")
             iconSource: Qt.resolvedUrl("PhotoEditor/assets/edit_rotate_left.png")
             onTriggered: {
@@ -163,6 +165,7 @@ Item {
 
     ActionsBar {
         id: actionsBar
+        objectName: "editorActionsBar"
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
