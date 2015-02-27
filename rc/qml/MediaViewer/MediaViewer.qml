@@ -316,8 +316,15 @@ Item {
                 onTriggered: {
                     var path = galleryPhotoViewer.media.path.toString();
                     path = path.replace("file://", "")
-                    var editor = overview.pushPage(Qt.resolvedUrl("PhotoEditorPage.qml"),
-                                                   { photo: path });
+                    var editor;
+                    try {
+                        Qt.createQmlObject('import QtQuick 2.0; import Ubuntu.Components.Extras 0.2; Item {}', viewerWrapper);
+                        console.log("Loading PhotoEditor Components from Extras");
+                        editor = overview.pushPage(Qt.resolvedUrl("ExtrasPhotoEditorPage.qml"), { photo: path });
+                    } catch (e) {
+                        console.log("Loading PhotoEditor Components from Gallery code");
+                        editor = overview.pushPage(Qt.resolvedUrl("GalleryPhotoEditorPage.qml"), { photo: path });
+                    }
                     editor.done.connect(function(photoWasModified) {
                         if (photoWasModified) galleryPhotoViewer.media.dataChanged();
                         overview.popPage();

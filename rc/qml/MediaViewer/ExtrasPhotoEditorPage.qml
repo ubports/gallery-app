@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import Ubuntu.Components 1.1
+import Ubuntu.Components.Extras 0.2 as Extras
 
 /*
  * Copyright (C) 2014 Canonical Ltd
@@ -30,7 +31,7 @@ Page {
     }
     head.actions: editor.actions
 
-    PhotoEditor {
+    Extras.PhotoEditor {
         id: editor
         anchors.fill: parent
         onClosed: page.done(photoWasModified)
