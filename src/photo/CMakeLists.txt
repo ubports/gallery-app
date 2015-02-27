@@ -8,6 +8,7 @@ include_directories(
     ${gallery_database_src_SOURCE_DIR}
     ${gallery_media_src_SOURCE_DIR}
     ${gallery_medialoader_src_SOURCE_DIR}
+    ${gallery_photoeditor_src_SOURCE_DIR}
     ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
     )

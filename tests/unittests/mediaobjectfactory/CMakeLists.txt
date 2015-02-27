@@ -14,6 +14,7 @@ include_directories(
     ${gallery_media_src_SOURCE_DIR}
     ${gallery_medialoader_src_SOURCE_DIR}
     ${gallery_photo_src_SOURCE_DIR}
+    ${gallery_photoeditor_src_SOURCE_DIR}
     ${gallery_util_src_SOURCE_DIR}
     ${gallery_video_src_SOURCE_DIR}
     )
@@ -23,7 +24,7 @@ QT5_WRAP_CPP(MEDIAOBJECTFACTORY_MOCS
     ${gallery_database_src_SOURCE_DIR}/album-table.h
     ${gallery_database_src_SOURCE_DIR}/database.h
     ${gallery_database_src_SOURCE_DIR}/media-table.h
-    ${gallery_medialoader_src_SOURCE_DIR}/photo-metadata.h
+    ${gallery_photoeditor_src_SOURCE_DIR}/photo-metadata.h
     ${gallery_medialoader_src_SOURCE_DIR}/video-metadata.h
     ${gallery_photo_src_SOURCE_DIR}/photo.h
     )
