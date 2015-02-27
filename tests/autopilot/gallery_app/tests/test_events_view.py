@@ -89,7 +89,7 @@ class TestEventsView(GalleryTestCase):
                         Eventually(Equals(True)))
 
         self.enable_select_mode()
-        self.events_view.click_photo(self.sample_file)
+        self.events_view.select_photo(self.sample_file)
         self.main_view.get_header().click_action_button("deleteButton")
         self.assertThat(self.gallery_utils.delete_dialog_shown,
                         Eventually(Is(True)))

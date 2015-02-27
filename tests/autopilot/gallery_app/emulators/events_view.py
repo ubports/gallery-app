@@ -63,6 +63,23 @@ class EventsView(GalleryUtils):
         raise GalleryAppException(
             'Photo with image name {} could not be found'.format(image_name))
 
+    def _get_item_in_event_view(self, image_name, event_index_num=0):
+        """Return the item of the gallery based on image name.
+
+        :param image_name: the name of the photo in the event to return"""
+        event = self.get_event(event_index_num)
+        photos = event.select_many(
+            'QQuickItem',
+            objectName='eventPhoto'
+        )
+        for photo in photos:
+            images = photo.select_many('QQuickImage')
+            for image in images:
+                if str(image.source).endswith(image_name):
+                    return photo
+        raise GalleryAppException(
+            'Photo with image name {} could not be found'.format(image_name))
+
     def click_photo(self, photo_name, event_index_num=0):
         """Click photo with name and event
 
@@ -71,3 +88,13 @@ class EventsView(GalleryUtils):
         """
         photo = self._get_image_in_event_view(photo_name, event_index_num)
         self.pointing_device.click_object(photo)
+
+    def select_photo(self, photo_name, event_index_num=0):
+        """Select photo with name and event
+
+        :param photo_name: name of file to click
+        :param event_index_num: index of event to click
+        """
+        photo = self._get_item_in_event_view(photo_name, event_index_num)
+        checkbox = photo.select_single(objectName="selectionCheckbox")
+        self.pointing_device.click_object(checkbox)
