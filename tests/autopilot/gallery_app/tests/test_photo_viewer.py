@@ -280,6 +280,8 @@ class TestPhotoEditor(TestPhotoViewerBase):
         is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
         self.assertThat(is_landscape, Equals(True))
 
+    @unittest.skip("Temporarily disable as the enhance feature is not "
+                   "implemented on the new editor")
     def test_photo_editor_redo_undo_revert_enhance_states(self):
         undo_item = self.photo_viewer.get_undo_menu_item()
         redo_item = self.photo_viewer.get_redo_menu_item()
