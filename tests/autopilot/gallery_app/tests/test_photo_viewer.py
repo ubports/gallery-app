@@ -207,21 +207,20 @@ class TestPhotoEditor(TestPhotoViewerBase):
 
     def click_edit_button(self):
         self.main_view.get_header().click_action_button("editButton")
-        edit_dialog = self.photo_viewer.get_photo_edit_dialog()
-        self.assertThat(edit_dialog.visible, (Eventually(Equals(True))))
-        self.assertThat(edit_dialog.opacity, (Eventually(Equals(1))))
+        photo_editor = self.photo_viewer.get_photo_editor()
+        self.assertThat(photo_editor.visible, (Eventually(Equals(True))))
+        self.assertThat(photo_editor.opacity, (Eventually(Equals(1))))
 
     def test_photo_editor_crop(self):
         """Cropping a photo must crop it."""
         old_file_size = os.path.getsize(self.sample_file)
 
+        self.photo_viewer.click_crop_button()
+
         crop_box = self.photo_viewer.get_crop_interactor()
         item_width = crop_box.width
         item_height = crop_box.height
 
-        self.photo_viewer.click_crop_item()
-
-        self.assertThat(crop_box.state, Eventually(Equals("shown")))
         self.assertThat(crop_box.opacity, Eventually(Equals(1)))
 
         crop_corner = self.photo_viewer.get_top_left_crop_corner()
@@ -240,12 +239,9 @@ class TestPhotoEditor(TestPhotoViewerBase):
         self.click_item(crop_button)
         self.media_view.ensure_spinner_not_running()
 
-        # wait for new photo being set/reloaded, so saving thumbnailing etc.
-        # is done
-        edit_preview = self.photo_viewer.get_edit_preview()
-        new_source = "image://thumbnailer/" + self.sample_file
-
-        self.assertThat(edit_preview.source, Eventually(Equals(new_source)))
+        self.main_view.get_header().click_custom_back_button()
+        photo_viewer = self.photo_viewer.get_main_photo_viewer()
+        self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
 
         new_file_size = os.path.getsize(self.sample_file)
         self.assertThat(old_file_size > new_file_size, Equals(True))
@@ -260,8 +256,9 @@ class TestPhotoEditor(TestPhotoViewerBase):
             return opened_photo.paintedWidth > opened_photo.paintedHeight
         self.assertThat(is_landscape(), Equals(True))
 
-        self.photo_viewer.click_rotate_item()
+        self.photo_viewer.click_rotate_button()
         self.media_view.ensure_spinner_not_running()
+        self.main_view.get_header().click_custom_back_button()
 
         self.assertThat(opened_photo.paintedHeight,
                         Eventually(Equals(item_height)))
@@ -269,38 +266,19 @@ class TestPhotoEditor(TestPhotoViewerBase):
                         Eventually(Equals(False)))
 
         self.click_edit_button()
-        self.photo_viewer.click_undo_item()
+        self.photo_viewer.click_rotate_button()
         self.media_view.ensure_spinner_not_running()
-
-        self.assertThat(opened_photo.paintedHeight,
-                        Eventually(NotEquals(item_height)))
-        self.assertThat(lambda: is_landscape(),
-                        Eventually(Equals(True)))
+        self.main_view.get_header().click_custom_back_button()
 
         self.click_edit_button()
-        self.photo_viewer.click_redo_item()
-        self.media_view.ensure_spinner_not_running()
-
-        self.assertThat(opened_photo.paintedHeight,
-                        Eventually(Equals(item_height)))
-        is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
-        self.assertThat(is_landscape, Equals(False))
-
-        self.click_edit_button()
-        self.photo_viewer.click_rotate_item()
-        self.click_edit_button()
-        self.photo_viewer.click_revert_item()
+        self.photo_viewer.click_revert_button()
+        self.photo_viewer.click_confirm_revert_button()
+        self.main_view.get_header().click_custom_back_button()
 
         self.assertThat(opened_photo.paintedHeight,
                         Eventually(NotEquals(item_height)))
         is_landscape = opened_photo.paintedWidth > opened_photo.paintedHeight
         self.assertThat(is_landscape, Equals(True))
-
-        # give the gallery the time to fully save the photo, and rebuild the
-        # thumbnails
-        # FIXME using sleep is a dangerous "hackisch" workaround, and should be
-        # implemented properly
-        sleep(1)
 
     def test_photo_editor_redo_undo_revert_enhance_states(self):
         undo_item = self.photo_viewer.get_undo_menu_item()

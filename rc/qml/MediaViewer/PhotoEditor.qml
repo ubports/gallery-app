@@ -192,6 +192,7 @@ Item {
           id: revertPromptComponent
           Dialog {
               id: revertPrompt
+              objectName: "revertPromptDialog"
               title: i18n.tr("Revert to original")
               text: i18n.tr("This will undo all edits, including those from previous sessions.")
 
@@ -200,11 +201,13 @@ Item {
                   width: parent.width
                   spacing: units.gu(1)
                   Button {
+                      objectName: "cancelRevertButton"
                       width: parent.width/2
                       text: i18n.tr("Cancel")
                       onClicked: PopupUtils.close(revertPrompt)
                   }
                   Button {
+                      objectName: "confirmRevertButton"
                       width: parent.width/2
                       text: i18n.tr("Revert Photo")
                       color: UbuntuColors.green
