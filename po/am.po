@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-02-25 11:17+0100\n"
-"PO-Revision-Date: 2014-09-18 23:17+0000\n"
+"PO-Revision-Date: 2015-03-03 14:25+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-02-26 05:47+0000\n"
+"X-Launchpad-Export-Date: 2015-03-04 05:51+0000\n"
 "X-Generator: Launchpad (build 17361)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
@@ -116,44 +116,44 @@ msgstr "ወደ ፎቶ አልበም መጨመሪያ"
 
 #: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
 msgid "Delete 1 photo"
-msgstr ""
+msgstr "1 ፎቶ ማጥፊያ"
 
 #: rc/qml/EventsOverview.qml:78 rc/qml/PhotosOverview.qml:87
 msgid "Delete 1 video"
-msgstr ""
+msgstr "1 ቪዲዮ ማጥፊያ"
 
 #: rc/qml/EventsOverview.qml:81 rc/qml/PhotosOverview.qml:90
 #, qt-format
 msgid "Delete %1 photos"
-msgstr ""
+msgstr "%1 ፎቶዎች ማጥፊያ"
 
 #: rc/qml/EventsOverview.qml:83 rc/qml/PhotosOverview.qml:92
 #, qt-format
 msgid "Delete %1 videos"
-msgstr ""
+msgstr "%1 ቪዲዮዎች ማጥፊያ"
 
 #: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:95
 #, qt-format
 msgid "Delete %1 photos and 1 video"
-msgstr ""
+msgstr "%1 ፎቶዎች እና 1 ቪዲዮ ማጥፊያ"
 
 #: rc/qml/EventsOverview.qml:88 rc/qml/PhotosOverview.qml:97
 #, qt-format
 msgid "Delete 1 photo and %1 videos"
-msgstr ""
+msgstr "1 ፎቶ እና %1 ቪዲዮዎች ማጥፊያ"
 
 #: rc/qml/EventsOverview.qml:90 rc/qml/PhotosOverview.qml:99
 msgid "Delete 1 photo and 1 video"
-msgstr ""
+msgstr "1 ፎቶ እና 1 ቪዲዮ ማጥፊያ"
 
 #: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:101
 #, qt-format
 msgid "Delete %1 photos and %2 videos"
-msgstr ""
+msgstr "%1 ፎቶዎች እና %2 ቪዲዮዎች ማጥፊያ"
 
 #: rc/qml/EventsOverview.qml:151 rc/qml/PhotosOverview.qml:165
 msgid "Share to"
-msgstr ""
+msgstr "ማካፈያ ለ"
 
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
@@ -210,7 +210,7 @@ msgstr "ፎቶ ማጥፊያ"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:231
 msgid "Delete a video"
-msgstr ""
+msgstr "ቪዲዮ ማጥፊያ"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:264
 msgid "Remove a photo from album"
@@ -218,7 +218,7 @@ msgstr "ፎቶ ከ አልበም ውስጥ ማስወገጃ"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:264
 msgid "Remove a video from album"
-msgstr ""
+msgstr "ከ አልበም ውስጥ ቪዲዮ ማስወገጃ"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:273
 msgid "Remove from Album"
@@ -244,7 +244,7 @@ msgstr "አዳራሽ"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:167
 msgid "Toggle Selection"
-msgstr ""
+msgstr "ምርጫ መቀያየሪያ"
 
 #: rc/qml/PickerScreen.qml:241
 msgid "Pick"
