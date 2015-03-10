@@ -131,6 +131,8 @@ Item {
                     }
                 }
 
+                Behavior on height { UbuntuNumberAnimation {} }
+
                 Image {
                     id: image
                     anchors.fill: parent
