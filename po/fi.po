@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-02-25 11:17+0100\n"
-"PO-Revision-Date: 2014-09-18 10:48+0000\n"
+"PO-Revision-Date: 2015-03-02 07:12+0000\n"
 "Last-Translator: Jiri Grönroos <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-02-26 05:47+0000\n"
+"X-Launchpad-Export-Date: 2015-03-03 05:50+0000\n"
 "X-Generator: Launchpad (build 17361)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
@@ -116,44 +116,44 @@ msgstr "Lisää valokuva tai albumi"
 
 #: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
 msgid "Delete 1 photo"
-msgstr ""
+msgstr "Poista 1 kuva"
 
 #: rc/qml/EventsOverview.qml:78 rc/qml/PhotosOverview.qml:87
 msgid "Delete 1 video"
-msgstr ""
+msgstr "Poista 1 video"
 
 #: rc/qml/EventsOverview.qml:81 rc/qml/PhotosOverview.qml:90
 #, qt-format
 msgid "Delete %1 photos"
-msgstr ""
+msgstr "Poista %1 kuvaa"
 
 #: rc/qml/EventsOverview.qml:83 rc/qml/PhotosOverview.qml:92
 #, qt-format
 msgid "Delete %1 videos"
-msgstr ""
+msgstr "Poista %1 videota"
 
 #: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:95
 #, qt-format
 msgid "Delete %1 photos and 1 video"
-msgstr ""
+msgstr "Poista %1 kuvaa ja 1 video"
 
 #: rc/qml/EventsOverview.qml:88 rc/qml/PhotosOverview.qml:97
 #, qt-format
 msgid "Delete 1 photo and %1 videos"
-msgstr ""
+msgstr "Poista 1 kuva ja %1 videota"
 
 #: rc/qml/EventsOverview.qml:90 rc/qml/PhotosOverview.qml:99
 msgid "Delete 1 photo and 1 video"
-msgstr ""
+msgstr "Poista 1 kuva ja 1 video"
 
 #: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:101
 #, qt-format
 msgid "Delete %1 photos and %2 videos"
-msgstr ""
+msgstr "Poista %1 kuvaa ja %2 videota"
 
 #: rc/qml/EventsOverview.qml:151 rc/qml/PhotosOverview.qml:165
 msgid "Share to"
-msgstr ""
+msgstr "Jaa"
 
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
@@ -210,7 +210,7 @@ msgstr "Poista kuva"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:231
 msgid "Delete a video"
-msgstr ""
+msgstr "Poista video"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:264
 msgid "Remove a photo from album"
@@ -218,7 +218,7 @@ msgstr "Poista kuva albumista"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:264
 msgid "Remove a video from album"
-msgstr ""
+msgstr "Poista video albumista"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:273
 msgid "Remove from Album"
@@ -244,7 +244,7 @@ msgstr "Galleria"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:167
 msgid "Toggle Selection"
-msgstr ""
+msgstr "Valinnan vuorottelu"
 
 #: rc/qml/PickerScreen.qml:241
 msgid "Pick"
