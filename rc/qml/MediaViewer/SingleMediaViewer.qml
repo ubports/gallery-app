@@ -176,8 +176,14 @@ Item {
             }
 
             MouseArea {
+                id: viewerMouseArea
                 anchors.fill: parent
+                property bool eventAccepted: false
+
                 onDoubleClicked: {
+                    if (viewerMouseArea.eventAccepted)
+                        return;
+
                     clickTimer.stop();
                     if (viewer.ListView.view.moving) {
                         // FIXME: workaround for Qt bug specific to touch:
@@ -195,12 +201,18 @@ Item {
                         zoomOut();
                     }
                 }
-                onClicked: clickTimer.start()
+                onClicked: {
+                    viewerMouseArea.eventAccepted = false
+                    clickTimer.start()
+                }
 
                 Timer {
                     id: clickTimer
-                    interval: 20
-                    onTriggered: viewer.clicked()
+                    interval: 200 
+                    onTriggered: {
+                        viewerMouseArea.eventAccepted = true
+                        viewer.clicked()
+                    }
                 }
             }
 
