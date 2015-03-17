@@ -35,6 +35,7 @@ Item {
     property bool userInteracting: pinchInProgress || flickable.sizeScale != 1.0
     property bool fullyZoomed: flickable.sizeScale == zoomPinchArea.maximumZoom
     property bool fullyUnzoomed: flickable.sizeScale == zoomPinchArea.minimumZoom
+    property bool animateMediaOnHeight: false
 
     property alias paintedHeight: image.paintedHeight
     property alias paintedWidth: image.paintedWidth
@@ -131,7 +132,10 @@ Item {
                     }
                 }
 
-                Behavior on height { UbuntuNumberAnimation {} }
+                Behavior on height {
+                    enabled: viewer.animateMediaOnHeight 
+                    UbuntuNumberAnimation {}
+                }
 
                 Image {
                     id: image
@@ -185,6 +189,8 @@ Item {
                         return;
 
                     clickTimer.stop();
+                    viewer.animateMediaOnHeight = false
+
                     if (viewer.ListView.view.moving) {
                         // FIXME: workaround for Qt bug specific to touch:
                         // doubleClicked is received even though the MouseArea
@@ -211,6 +217,7 @@ Item {
                     interval: 200 
                     onTriggered: {
                         viewerMouseArea.eventAccepted = true
+                        viewer.animateMediaOnHeight = true
                         viewer.clicked()
                     }
                 }
