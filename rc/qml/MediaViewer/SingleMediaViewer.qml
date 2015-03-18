@@ -28,18 +28,29 @@ Item {
     id: viewer
     property bool pinchInProgress: zoomPinchArea.active
     property var mediaSource
-    property real maxDimension
+    property real maxDimension: 0.
     property bool showThumbnail: true
 
     property bool isVideo: mediaSource.type === MediaSource.Video
     property bool userInteracting: pinchInProgress || flickable.sizeScale != 1.0
     property bool fullyZoomed: flickable.sizeScale == zoomPinchArea.maximumZoom
     property bool fullyUnzoomed: flickable.sizeScale == zoomPinchArea.minimumZoom
+    property bool animateMediaOnHeight: false
 
     property alias paintedHeight: image.paintedHeight
     property alias paintedWidth: image.paintedWidth
 
     signal clicked()
+
+    onHeightChanged: {
+        if (height > viewer.maxDimension)
+            viewer.maxDimension = height;
+    }
+
+    onWidthChanged: {
+        if (width > viewer.maxDimension)
+            viewer.maxDimension = width;
+    }
 
     function zoomIn(centerX, centerY, factor) {
         flickable.scaleCenterX = centerX / (flickable.sizeScale * flickable.width);
@@ -131,6 +142,11 @@ Item {
                     }
                 }
 
+                Behavior on height {
+                    enabled: viewer.animateMediaOnHeight 
+                    UbuntuNumberAnimation {}
+                }
+
                 Image {
                     id: image
                     anchors.fill: parent
@@ -159,6 +175,7 @@ Item {
                         width: width
                         height: height
                     }
+                    opacity: status == Image.Ready ? 1.0 : 0.0
                     fillMode: Image.PreserveAspectFit
                 }
             }
@@ -174,9 +191,17 @@ Item {
             }
 
             MouseArea {
+                id: viewerMouseArea
                 anchors.fill: parent
+                property bool eventAccepted: false
+
                 onDoubleClicked: {
+                    if (viewerMouseArea.eventAccepted)
+                        return;
+
                     clickTimer.stop();
+                    viewer.animateMediaOnHeight = false
+
                     if (viewer.ListView.view.moving) {
                         // FIXME: workaround for Qt bug specific to touch:
                         // doubleClicked is received even though the MouseArea
@@ -193,12 +218,19 @@ Item {
                         zoomOut();
                     }
                 }
-                onClicked: clickTimer.start()
+                onClicked: {
+                    viewerMouseArea.eventAccepted = false
+                    clickTimer.start()
+                }
 
                 Timer {
                     id: clickTimer
-                    interval: 20
-                    onTriggered: viewer.clicked()
+                    interval: 200 
+                    onTriggered: {
+                        viewerMouseArea.eventAccepted = true
+                        viewer.animateMediaOnHeight = true
+                        viewer.clicked()
+                    }
                 }
             }
 

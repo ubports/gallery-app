@@ -147,7 +147,6 @@ Item {
             id: media
             objectName: "openedMedia" + index
             mediaSource: model.mediaSource
-            maxDimension: Math.max(galleryPhotoViewer.width, galleryPhotoViewer.height)
 
             width: galleryPhotoViewer.width
             height: galleryPhotoViewer.height
