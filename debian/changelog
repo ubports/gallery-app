@@ -1,3 +1,22 @@
+gallery-app (0.0.67+15.04.20150318-0ubuntu1) vivid; urgency=medium
+
+  [ Arthur Mello ]
+  * Do not update PhotoViewer Image sourceSize everytime the app is
+    resized on devices. That way we will not flicker the image everytime
+    we toggle fullscreen Animate Image resize (LP: #1425563)
+  * Replace the built-in photo editor with the one from ubuntu-ui-extras
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+  [ Olivier Tilloy ]
+  * Translation template update.
+
+  [ Ugo Riboni ]
+  * Replace the built-in photo editor with the one from ubuntu-ui-extras
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Wed, 18 Mar 2015 16:37:33 +0000
+
 gallery-app (0.0.67+15.04.20150219-0ubuntu1) vivid; urgency=medium
 
   [ Olivier Tilloy ]
