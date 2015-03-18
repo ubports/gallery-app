@@ -148,24 +148,12 @@ Item {
             objectName: "openedMedia" + index
             mediaSource: model.mediaSource
 
-            property real maxWidth
-            property real maxHeight
-            maxDimension: APP.desktopMode ? Math.max(galleryPhotoViewer.width, galleryPhotoViewer.heigth) : Math.max(maxWidth, maxHeight)
-
             width: galleryPhotoViewer.width
             height: galleryPhotoViewer.height
 
             // Needed as ListView.isCurrentItem can't be used directly in a change handler
             property bool isActive: ListView.isCurrentItem
             onIsActiveChanged: if (!isActive) reset();
-
-            Component.onCompleted: {
-                // We should not update maxDimension everytime the width/height from gallleryPhotoViewer
-                // is updated. This property will be used to set the sourceSize of the Image and so
-                // we will reload the image everytime the viewer is resized (i.e. toggling fullscreen)
-                maxWidth = galleryPhotoViewer.width;
-                maxHeight = galleryPhotoViewer.heigth;
-            }
 
             opacity: {
                 if (!galleryPhotoViewer.moving || galleryPhotoViewer.contentX < 0
