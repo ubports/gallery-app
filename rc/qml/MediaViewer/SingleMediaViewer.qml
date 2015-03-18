@@ -175,6 +175,7 @@ Item {
                         width: width
                         height: height
                     }
+                    opacity: status == Image.Ready ? 1.0 : 0.0
                     fillMode: Image.PreserveAspectFit
                 }
             }
