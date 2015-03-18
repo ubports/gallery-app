@@ -21,7 +21,7 @@
 #define GALLERY_PHOTO_METADATA_H_
 
 // util
-#include <orientation.h>
+#include "orientation.h"
 
 #include <QDateTime>
 #include <QFileInfo>
@@ -30,11 +30,8 @@
 #include <QSet>
 #include <QTransform>
 #include <QImage>
-#include <QBuffer>
 
 #include <exiv2/exiv2.hpp>
-
-#define THUMBNAIL_SCALE 8.5
 
 /*!
  * \brief The PhotoMetadata class
@@ -54,8 +51,9 @@ public:
 
     void setOrientation(Orientation orientation);
     void setDateTimeDigitized(const QDateTime& digitized);
-    void updateThumbnail(QImage image);
 
+    void updateThumbnail(QImage image);
+    void copyTo(PhotoMetadata* other) const;
     bool save() const;
 
 private:

@@ -37,7 +37,6 @@
 #include "media-monitor.h"
 
 // qml
-#include "gallery-standard-image-provider.h"
 #include "qml-media-collection-model.h"
 
 // util
@@ -59,7 +58,6 @@ GalleryManager::GalleryManager(bool desktopMode,
                                const QString& picturesDir)
     : collectionsInitialised(false),
       m_resource(new Resource(desktopMode, picturesDir)),
-      m_standardImageProvider(new GalleryStandardImageProvider()),
       m_database(0),
       m_defaultTemplate(0),
       m_mediaCollection(0),
@@ -94,7 +92,6 @@ GalleryManager::~GalleryManager()
     delete m_defaultTemplate;
     delete m_resource;
     delete m_mediaCollection;
-    delete m_standardImageProvider;
 }
 
 /*!
@@ -210,16 +207,6 @@ QmlMediaCollectionModel *GalleryManager::mediaLibrary() const
 }
 
 /*!
- * \brief GalleryManager::logImageLoading enabled or disbaled logging image load
- * times to stdout
- * \param log
- */
-void GalleryManager::logImageLoading(bool log)
-{
-    m_standardImageProvider->setLogging(log);
-}
-
-/*!
  * \brief GalleryManager::fillMediaCollection fills the MediaCollection with
  * the content of the picture directory
  */
@@ -292,17 +279,4 @@ void GalleryManager::onMediaFromDBLoaded(QSet<DataObject *> mediaFromDB)
     m_mediaFactory->clear();
 
     startFileMonitoring();
-}
-
-/*!
- * \brief GalleryManager::takeGalleryStandardImageProvider returns the standard image provider
- * and gives up the owndership 
- */
-GalleryStandardImageProvider* GalleryManager::takeGalleryStandardImageProvider()
-{
-    m_standardImageProvider->setMaxLoadResolution(2048);
-
-    GalleryStandardImageProvider *provider = m_standardImageProvider;
-    m_standardImageProvider = 0;
-    return provider;
 }

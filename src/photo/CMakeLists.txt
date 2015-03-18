@@ -8,22 +8,17 @@ include_directories(
     ${gallery_database_src_SOURCE_DIR}
     ${gallery_media_src_SOURCE_DIR}
     ${gallery_medialoader_src_SOURCE_DIR}
+    ${gallery_photoeditor_src_SOURCE_DIR}
     ${gallery_util_src_SOURCE_DIR}
     ${CMAKE_BINARY_DIR}
     )
 
 set(gallery_photo_HDRS
     photo.h
-    photo-caches.h
-    photo-edit-state.h
-    photo-edit-thread.h
     )
 
 set(gallery_photo_SRCS
     photo.cpp
-    photo-caches.cpp
-    photo-edit-state.cpp
-    photo-edit-thread.cpp
     )
 
 add_library(${GALLERY_PHOTO_LIB}

@@ -168,13 +168,10 @@ Item {
         }
 
         // Don't allow flicking while the chrome is actively displaying a popup
-        // menu, or the image is zoomed, or we're cropping. When images are zoomed,
-        // mouse drags should pan, not flick. Also don't flick during parameterized
-        // HUD action to prevent photo from changing during the action
+        // menu, or the image is zoomed. When images are zoomed,
+        // mouse drags should pan, not flick.
         interactive: currentItem != null &&
-                     !currentItem.userInteracting &&
-                     cropper.state == "hidden" &&
-                     !editHUD.actionActive
+                     !currentItem.userInteracting  // FIXME: disable when editing ??
 
         Component {
             id: contentItemComp
@@ -205,21 +202,6 @@ Item {
                     }
                 }
                 onCancelPressed: parent.visible = false;
-            }
-        }
-
-        Component {
-            id: editPopoverComponent
-            EditPopover {
-                id: editPopover
-                objectName: "editPopover"
-                visible: false
-                photo: galleryPhotoViewer.media
-                cropper: viewerWrapper.cropper
-
-                onButtonPressed: {
-                    viewerWrapper.tools.opened = false;
-                }
             }
         }
 
@@ -312,118 +294,7 @@ Item {
         onNewAlbumPicked: {
             viewerWrapper.closeRequested();
         }
-    }
-
-    property alias cropper: cropper
-    CropInteractor {
-        id: cropper
-
-        property var targetPhoto
-
-        function show(photo) {
-            targetPhoto = photo;
-
-            fadeOutPhotoAnimation.running = true;
-        }
-
-        function hide() {
-            state = "hidden";
-            galleryPhotoViewer.opacity = 0.0;
-            galleryPhotoViewer.visible = true;
-            fadeInPhotoAnimation.running = true;
-        }
-
-        state: "hidden"
-        states: [
-            State { name: "shown";
-                PropertyChanges { target: cropper; visible: true; }
-                PropertyChanges { target: cropper; opacity: 1.0; }
-            },
-            State { name: "hidden";
-                PropertyChanges { target: cropper; visible: false; }
-                PropertyChanges { target: cropper; opacity: 0.0; }
-            }
-        ]
-
-        Behavior on opacity {
-            NumberAnimation { duration: Gallery.FAST_DURATION }
-        }
-
-        anchors.fill: parent
-
-        MouseArea {
-            id: blocker
-
-            visible: cropper.state == "shown"
-            anchors.fill: parent
-
-            onClicked: { }
-        }
-
-        onCanceled: {
-            photo.cancelCropping();
-            hide();
-            targetPhoto = null;
-        }
-
-        onCropped: {
-            var qtRect = Qt.rect(rect.x, rect.y, rect.width, rect.height);
-            photo.crop(qtRect);
-            hide();
-            targetPhoto = null;
-        }
-
-        onOpacityChanged: {
-            if (opacity == 1.0)
-                galleryPhotoViewer.visible = false
-        }
-
-        NumberAnimation {
-            id: fadeOutPhotoAnimation
-
-            from: 1.0
-            to: 0.0
-            target: galleryPhotoViewer
-            property: "opacity"
-            duration: Gallery.FAST_DURATION
-            easing.type: Easing.InOutQuad
-
-            onRunningChanged: {
-                if (running == false) {
-                    var ratio_crop_rect = cropper.targetPhoto.prepareForCropping();
-                    cropper.enter(cropper.targetPhoto, ratio_crop_rect);
-                    cropper.state = "shown";
-                }
-            }
-        }
-
-        NumberAnimation {
-            id: fadeInPhotoAnimation
-
-            from: 0.0
-            to: 1.0
-            target: galleryPhotoViewer
-            property: "opacity"
-            duration: Gallery.FAST_DURATION
-            easing.type: Easing.InOutQuad
-        }
-    }
-
-    EditPreview {
-        id: editPreview
-        objectName: "editPreview"
-        anchors.fill: parent
-        source: galleryPhotoViewer.media ? galleryPhotoViewer.media.galleryPreviewPath : ""
-
-        visible: editHUD.actionActive
-
-        exposure: editHUD.exposureValue
-
-        brightness: editHUD.brightness
-        contrast: editHUD.contrast
-        saturation: editHUD.saturation
-        hue: editHUD.hue
-    }
+    }  
 
     ActivityIndicator {
         id: busySpinner
@@ -431,13 +302,6 @@ Item {
         anchors.centerIn: parent
         visible: media ? media.busy : false
         running: visible
-    }
-
-    EditingHUD {
-        id: editHUD
-        photo: galleryPhotoViewer.media
-        onExposureActivated: editPreview.useExposure()
-        onColorBalanceActivated: editPreview.useColorBalance()
     }
 
     Item {
@@ -449,7 +313,23 @@ Item {
                 text: i18n.tr("Edit")
                 iconSource: "../../img/edit.png"
                 enabled: galleryPhotoViewer.media.type === MediaSource.Photo && galleryPhotoViewer.media.canBeEdited
-                onTriggered: PopupUtils.open(editPopoverComponent, null);
+                onTriggered: {
+                    var path = galleryPhotoViewer.media.path.toString();
+                    path = path.replace("file://", "")
+                    var editor;
+                    try {
+                        Qt.createQmlObject('import QtQuick 2.0; import Ubuntu.Components.Extras 0.2; Item {}', viewerWrapper);
+                        console.log("Loading PhotoEditor Components from Extras");
+                        editor = overview.pushPage(Qt.resolvedUrl("ExtrasPhotoEditorPage.qml"), { photo: path });
+                    } catch (e) {
+                        console.log("Loading PhotoEditor Components from Gallery code");
+                        editor = overview.pushPage(Qt.resolvedUrl("GalleryPhotoEditorPage.qml"), { photo: path });
+                    }
+                    editor.done.connect(function(photoWasModified) {
+                        if (photoWasModified) galleryPhotoViewer.media.dataChanged();
+                        overview.popPage();
+                    });
+                }
             },
             Action {
                 objectName: "addButton"

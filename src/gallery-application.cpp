@@ -36,8 +36,12 @@
 // photo
 #include "photo.h"
 
+// photoeditor
+#include "photo-data.h"
+#include "file-utils.h"
+#include "photo-image-provider.h"
+
 // qml
-#include "gallery-standard-image-provider.h"
 #include "qml-album-collection-model.h"
 #include "qml-event-collection-model.h"
 #include "qml-event-overview-model.h"
@@ -107,7 +111,6 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
     registerQML();
 
     m_galleryManager = new GalleryManager(isDesktopMode(), m_cmdLineParser->picturesDir());
-    m_galleryManager->logImageLoading(m_cmdLineParser->logImageLoading());
     if (m_cmdLineParser->pickModeEnabled())
         setDefaultUiMode(GalleryApplication::PickContentMode);
 
@@ -172,6 +175,8 @@ void GalleryApplication::registerQML()
     qmlRegisterType<QmlEventCollectionModel>("Gallery", 1, 0, "EventCollectionModel");
     qmlRegisterType<QmlEventOverviewModel>("Gallery", 1, 0, "EventOverviewModel");
     qmlRegisterType<QmlMediaCollectionModel>("Gallery", 1, 0, "MediaCollectionModel");
+    qmlRegisterType<PhotoData>("Gallery", 1, 0, "GalleryPhotoData");
+    qmlRegisterSingletonType<FileUtils>("Gallery", 1, 0, "GalleryFileUtils", exportFileUtilsSingleton);  
 
     qRegisterMetaType<QList<MediaSource*> >("MediaSourceList");
     qRegisterMetaType<QSet<DataObject*> >("QSet<DataObject*>");
@@ -218,6 +223,11 @@ void GalleryApplication::createView()
 {
     m_view->setTitle("Gallery");
 
+    PhotoImageProvider* provider = new PhotoImageProvider();
+    provider->setLogging(true);
+    m_view->engine()->addImageProvider(PhotoImageProvider::PROVIDER_ID,
+                             provider);
+
     QSize size = m_formFactors[m_cmdLineParser->formFactor()];
 
     if (m_cmdLineParser->isPortrait())
@@ -259,6 +269,15 @@ void GalleryApplication::createView()
     setMediaFile(m_cmdLineParser->mediaFile());
 }
 
+QObject* GalleryApplication::exportFileUtilsSingleton(QQmlEngine *engine,
+                                              QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine);
+    Q_UNUSED(scriptEngine);
+
+    return new FileUtils();
+}
+
 /*!
  * \brief GalleryApplication::initCollections
  */
@@ -267,8 +286,6 @@ void GalleryApplication::initCollections()
     QApplication::processEvents();
 
     m_galleryManager->postInit();
-    m_view->engine()->addImageProvider(GalleryStandardImageProvider::PROVIDER_ID,
-                                       m_galleryManager->takeGalleryStandardImageProvider());
 
     QApplication::processEvents();
     if (m_cmdLineParser->startupTimer())

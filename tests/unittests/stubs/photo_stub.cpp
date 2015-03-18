@@ -22,7 +22,6 @@
  */
 
 #include "photo.h"
-#include "photo-edit-state.h"
 
 // util
 #include <orientation.h>
@@ -44,11 +43,8 @@ bool Photo::isValid(const QFileInfo& file)
  */
 Photo::Photo(const QFileInfo& file)
     : MediaSource(file),
-      m_editRevision(0),
-      m_caches(file),
       m_originalSize(),
-      m_originalOrientation(TOP_LEFT_ORIGIN),
-      d_ptr(0)
+      m_originalOrientation(TOP_LEFT_ORIGIN)
 {
     photoDummyFileInfo = file;
 }
@@ -62,98 +58,14 @@ MediaSource::MediaType Photo::type() const
     return MediaSource::Photo;
 }
 
-QImage Photo::image(bool respectOrientation, const QSize &scaleSize)
-{
-    return QImage();
-}
-
 Orientation Photo::orientation() const
 {
     return m_originalOrientation;
 }
 
-QUrl Photo::galleryPath() const
-{
-    QUrl url = MediaSource::galleryPath();
-    return url;
-}
-
-QUrl Photo::galleryPreviewPath() const
-{
-    QUrl url = MediaSource::galleryPreviewPath();
-    return url;
-}
-
-QUrl Photo::galleryThumbnailPath() const
-{
-    QUrl url = MediaSource::galleryThumbnailPath();
-    return url;
-}
-
-const QFileInfo &Photo::pristineFile() const
-{
-    return photoDummyFileInfo;
-}
-
-void Photo::revertToOriginal()
-{
-}
-
-void Photo::undo()
-{
-}
-
-void Photo::redo()
-{
-}
-
-bool Photo::canUndo() const
-{
-    return false;
-}
-
-bool Photo::canRedo() const
-{
-    return false;
-}
-
-bool Photo::isOriginal() const
-{
-    return true;
-}
-
 bool Photo::canBeEdited() const
 {
     return true;
-}
-
-void Photo::rotateRight()
-{
-}
-
-void Photo::autoEnhance()
-{
-}
-
-void Photo::exposureCompensation(qreal value)
-{
-}
-
-void Photo::colorBalance(qreal brightness, qreal contrast, qreal saturation, qreal hue)
-{
-}
-
-QVariant Photo::prepareForCropping()
-{
-    return QVariant();
-}
-
-void Photo::cancelCropping()
-{
-}
-
-void Photo::crop(QVariant vrect)
-{
 }
 
 void Photo::destroySource(bool destroyBacking, bool asOrphan)
@@ -164,12 +76,3 @@ void Photo::setOriginalOrientation(Orientation orientation)
 {
     m_originalOrientation = orientation;
 }
-
-void Photo::resetToOriginalSize()
-{
-}
-
-void Photo::finishEditing()
-{
-}
-

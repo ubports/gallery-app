@@ -17,11 +17,12 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-import QtQuick 2.0
+import QtQuick 2.3
+import Ubuntu.Components 1.1
 
-// A MouseArea meant to drag a corner/edge of a crop area.
-MouseArea {
-    id: cropDragArea
+// A corner of a CropFrame.
+Item {
+    id: cropCorner
 
     /*!
     */
@@ -33,24 +34,33 @@ MouseArea {
     */
     signal dragCompleted()
 
-    // Since we're usually moving this area with the mouse in response to
-    // dragging, we don't need to capture the last x/y, just where it was
-    // grabbed.
-    property real grabX: -1
     /*!
     */
-    property real grabY: -1
+    property bool isLeft: true
+    /*!
+    */
+    property bool isTop: true
 
-    onPressed: {
-        dragStarted();
+    x: isLeft ? -(width/2) : parent.width - (width/2)
+    y: isTop ? -(width/2) : parent.height - (width/2)
+    width: handle.width
+    height: handle.height
 
-        grabX = mouse.x;
-        grabY = mouse.y;
+    Image {
+        id: handle
+        anchors.centerIn: parent
+        source: Qt.resolvedUrl("assets/crop-handle.png")
     }
 
-    onReleased: {
-        dragCompleted();
-    }
+    CropDragArea {
+        anchors.centerIn: parent
+        width: handle.width + units.gu(2)
+        height: handle.height + units.gu(2)
 
-    onPositionChanged: cropDragArea.dragged(mouse.x - grabX, mouse.y - grabY)
+        onDragged: cropCorner.dragged(dx, dy)
+
+        onDragStarted: cropCorner.dragStarted()
+
+        onDragCompleted: cropCorner.dragCompleted()
+    }
 }

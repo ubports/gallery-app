@@ -22,17 +22,11 @@
 #ifndef GALLERY_PHOTO_H_
 #define GALLERY_PHOTO_H_
 
-#include "photo-caches.h"
-
 // media
 #include "media-source.h"
 
 // util
 #include "orientation.h"
-
-class PhotoEditState;
-class PhotoEditThread;
-class PhotoPrivate;
 
 /*!
  * \brief The Photo class
@@ -41,11 +35,7 @@ class Photo : public MediaSource
 {
     Q_OBJECT
 
-    Q_PROPERTY(bool canUndo READ canUndo NOTIFY editStackChanged)
-    Q_PROPERTY(bool canRedo READ canRedo NOTIFY editStackChanged)
-    Q_PROPERTY(bool isOriginal READ isOriginal NOTIFY editStackChanged)
     Q_PROPERTY(bool canBeEdited READ canBeEdited)
-
 public:
     explicit Photo(const QFileInfo& file);
     virtual ~Photo();
@@ -54,34 +44,9 @@ public:
 
     static bool isValid(const QFileInfo& file);
 
-    virtual QImage image(bool respectOrientation, const QSize &scaleSize=QSize());
     virtual Orientation orientation() const;
 
-    virtual QUrl galleryPath() const;
-    virtual QUrl galleryPreviewPath() const;
-    virtual QUrl galleryThumbnailPath() const;
-
-    void setBaseEditState(const PhotoEditState& base);
-
-    const QFileInfo &originalFile() const;
-    const QFileInfo &enhancedFile() const;
-    const QFileInfo &pristineFile() const;
-
-    bool canUndo() const;
-    bool canRedo() const;
-    bool isOriginal() const;
     bool canBeEdited() const;
-
-    Q_INVOKABLE void revertToOriginal();
-    Q_INVOKABLE void undo();
-    Q_INVOKABLE void redo();
-    Q_INVOKABLE void rotateRight();
-    Q_INVOKABLE void autoEnhance();
-    Q_INVOKABLE void exposureCompensation(qreal value);
-    Q_INVOKABLE void colorBalance(qreal brightness, qreal contrast, qreal saturation, qreal hue);
-    Q_INVOKABLE QVariant prepareForCropping();
-    Q_INVOKABLE void cancelCropping();
-    Q_INVOKABLE void crop(QVariant vrect);
 
     void setOriginalOrientation(Orientation orientation);
     Orientation originalOrientation() const;
@@ -91,35 +56,17 @@ public:
     bool fileFormatHasMetadata() const;
     bool fileFormatHasOrientation() const;
 
-signals:
-    void editStackChanged();
-
 protected:
     virtual void destroySource(bool destroyBacking, bool asOrphan);
 
-private Q_SLOTS:
-    void resetToOriginalSize();
-    void finishEditing();
-
 private:
-    const PhotoEditState& currentState() const;
-    QSize originalSize(Orientation orientation);
-    void makeUndoableEdit(const PhotoEditState& state);
-    void asyncEdit(const PhotoEditState& state);
-    void editFile(const PhotoEditState& state);
     void appendPathParams(QUrl* url, Orientation orientation, const int sizeLevel) const;
 
     QString m_fileFormat;
-    int m_editRevision; // How many times the pixel data has been modified by us.
-    PhotoEditThread *m_editThread;
-    PhotoCaches m_caches;
 
     // We cache this data to avoid an image read at various times.
     QSize m_originalSize;
     Orientation m_originalOrientation;
-
-    PhotoPrivate * const d_ptr;
-    Q_DECLARE_PRIVATE(Photo)
 };
 
 #endif  // GALLERY_PHOTO_H_

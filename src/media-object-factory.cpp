@@ -212,7 +212,7 @@ void MediaObjectFactoryWorker::create(const QString &path)
     if (id == INVALID_ID) {
         bool metadataOk;
         if (mediaType == MediaSource::Photo) {
-            metadataOk = readPhotoMetadata(photo->pristineFile());
+            metadataOk = readPhotoMetadata(photo->file());
         } else {
             metadataOk = readVideoMetadata(file);
         }

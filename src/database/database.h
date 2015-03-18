@@ -26,7 +26,6 @@
 
 class AlbumTable;
 class MediaTable;
-class PhotoEditTable;
 
 class QSqlDatabase;
 class QSqlQuery;
@@ -50,7 +49,6 @@ public:
 
     AlbumTable* getAlbumTable() const;
     MediaTable* getMediaTable() const;
-    PhotoEditTable* getPhotoEditTable() const;
 
 private:
     bool openDB();
@@ -75,7 +73,6 @@ private:
     QSqlDatabase* m_db;
     AlbumTable* m_albumTable;
     MediaTable* m_mediaTable;
-    PhotoEditTable* m_photoEditTable;
 };
 
 #endif // DATABASE_H

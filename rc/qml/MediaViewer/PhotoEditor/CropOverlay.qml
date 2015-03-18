@@ -18,12 +18,9 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-import QtQuick 2.0
-import Gallery 1.0
-import Ubuntu.Components 0.1
-import "../Components"
-import "../Utility"
-import "../../js/GraphicsRoutines.js" as GraphicsRoutines
+import QtQuick 2.3
+import Ubuntu.Components 1.1
+import "GraphicsRoutines.js" as GraphicsRoutines
 
 /* A CropOverlay is a semi-transparent surface that floats over the photo. It
  * serves two purposes. First, it provides visual cueing as to what region of
@@ -44,7 +41,7 @@ Item {
     property Item viewport
     /*!
     */
-    property GalleryPhotoComponent photo
+    property Item photo
     /*!
     */
     property string matteColor: "red"
@@ -112,16 +109,16 @@ Item {
     function resetFor(rectSet) {
         if (initialFrameX != -1 && initialFrameY != -1 && initialFrameWidth != -1 &&
                 initialFrameHeight != -1) {
-            frame.x = rectSet.cropFrameRect.x;
-            frame.y = rectSet.cropFrameRect.y;
-            frame.width = rectSet.cropFrameRect.width;
-            frame.height = rectSet.cropFrameRect.height;
-            photoExtent.x = rectSet.photoExtentRect.x;
-            photoExtent.y = rectSet.photoExtentRect.y;
-            photoExtent.width = rectSet.photoExtentRect.width;
-            photoExtent.height = rectSet.photoExtentRect.height;
-            referencePhotoWidth = rectSet.photoPreviewRect.width;
-            referencePhotoHeight = rectSet.photoPreviewRect.height;
+            frame.x = rectSet.cropFrame.x;
+            frame.y = rectSet.cropFrame.y;
+            frame.width = rectSet.cropFrame.width;
+            frame.height = rectSet.cropFrame.height;
+            photoExtent.x = rectSet.photoExtent.x;
+            photoExtent.y = rectSet.photoExtent.y;
+            photoExtent.width = rectSet.photoExtent.width;
+            photoExtent.height = rectSet.photoExtent.height;
+            referencePhotoWidth = rectSet.photoPreview.width;
+            referencePhotoHeight = rectSet.photoPreview.height;
         }
     }
 
@@ -363,20 +360,12 @@ Item {
             height: parent.height - units.gu(2)
 
             onDragged: {
-                frame.resizedX(true, dx)
+                frame.resizedX(true, dx);
+                frame.updateOnAltered(false);
             }
 
-            onDragStarted: {
-                frame.dragStartRect = frame.getExtentRect();
-            }
-
-            onDragCompleted: {
-                if (!GraphicsRoutines.areEqual(frame.getExtentRect(),
-                                               frame.dragStartRect)) {
-                    cropOverlay.userAlteredFrame();
-                    cropOverlay.runFrameFitAnimation();
-                }
-            }
+            onDragStarted: frame.dragStartRect = frame.getExtentRect();
+            onDragCompleted: frame.updateOnAltered(true);
         }
 
         // Top drag bar.
@@ -387,20 +376,12 @@ Item {
             width: parent.width - units.gu(2)
 
             onDragged: {
-                frame.resizedY(true, dy)
+                frame.resizedY(true, dy);
+                frame.updateOnAltered(false);
             }
 
-            onDragStarted: {
-                frame.dragStartRect = frame.getExtentRect();
-            }
-
-            onDragCompleted: {
-                if (!GraphicsRoutines.areEqual(frame.getExtentRect(),
-                                               frame.dragStartRect)) {
-                    cropOverlay.userAlteredFrame();
-                    cropOverlay.runFrameFitAnimation();
-                }
-            }
+            onDragStarted: frame.dragStartRect = frame.getExtentRect();
+            onDragCompleted: frame.updateOnAltered(true);
         }
 
         // Right drag bar.
@@ -411,20 +392,12 @@ Item {
             height: parent.height - units.gu(2)
 
             onDragged: {
-                frame.resizedX(false, dx)
+                frame.resizedX(false, dx);
+                frame.updateOnAltered(false);
             }
 
-            onDragStarted: {
-                frame.dragStartRect = frame.getExtentRect();
-            }
-
-            onDragCompleted: {
-                if (!GraphicsRoutines.areEqual(frame.getExtentRect(),
-                                               frame.dragStartRect)) {
-                    cropOverlay.userAlteredFrame();
-                    cropOverlay.runFrameFitAnimation();
-                }
-            }
+            onDragStarted: frame.dragStartRect = frame.getExtentRect();
+            onDragCompleted: frame.updateOnAltered(true);
         }
 
         // Bottom drag bar.
@@ -435,20 +408,12 @@ Item {
             width: parent.width - units.gu(2)
 
             onDragged: {
-                frame.resizedY(false, dy)
+                frame.resizedY(false, dy);
+                frame.updateOnAltered(false);
             }
 
-            onDragStarted: {
-                frame.dragStartRect = frame.getExtentRect();
-            }
-
-            onDragCompleted: {
-                if (!GraphicsRoutines.areEqual(frame.getExtentRect(),
-                                               frame.dragStartRect)) {
-                    cropOverlay.userAlteredFrame();
-                    cropOverlay.runFrameFitAnimation();
-                }
-            }
+            onDragStarted: frame.dragStartRect = frame.getExtentRect();
+            onDragCompleted: frame.updateOnAltered(true);
         }
 
         // Top-left corner.
@@ -460,19 +425,11 @@ Item {
             onDragged: {
                 frame.resizedX(isLeft, dx);
                 frame.resizedY(isTop, dy);
+                frame.updateOnAltered(false);
             }
 
-            onDragStarted: {
-                frame.dragStartRect = frame.getExtentRect();
-            }
-
-            onDragCompleted: {
-                if (!GraphicsRoutines.areEqual(frame.getExtentRect(),
-                                               frame.dragStartRect)) {
-                    cropOverlay.userAlteredFrame();
-                    cropOverlay.runFrameFitAnimation();
-                }
-            }
+            onDragStarted: frame.dragStartRect = frame.getExtentRect();
+            onDragCompleted: frame.updateOnAltered(true);
         }
 
         // Top-right corner.
@@ -484,19 +441,11 @@ Item {
             onDragged: {
                 frame.resizedX(isLeft, dx);
                 frame.resizedY(isTop, dy);
+                frame.updateOnAltered(false);
             }
 
-            onDragStarted: {
-                frame.dragStartRect = frame.getExtentRect();
-            }
-
-            onDragCompleted: {
-                if (!GraphicsRoutines.areEqual(frame.getExtentRect(),
-                                               frame.dragStartRect)) {
-                    cropOverlay.userAlteredFrame();
-                    cropOverlay.runFrameFitAnimation();
-                }
-            }
+            onDragStarted: frame.dragStartRect = frame.getExtentRect();
+            onDragCompleted: frame.updateOnAltered(true);
         }
 
         // Bottom-left corner.
@@ -508,19 +457,11 @@ Item {
             onDragged: {
                 frame.resizedX(isLeft, dx);
                 frame.resizedY(isTop, dy);
+                frame.updateOnAltered(false);
             }
 
-            onDragStarted: {
-                frame.dragStartRect = frame.getExtentRect();
-            }
-
-            onDragCompleted: {
-                if (!GraphicsRoutines.areEqual(frame.getExtentRect(),
-                                               frame.dragStartRect)) {
-                    cropOverlay.userAlteredFrame();
-                    cropOverlay.runFrameFitAnimation();
-                }
-            }
+            onDragStarted: frame.dragStartRect = frame.getExtentRect();
+            onDragCompleted: frame.updateOnAltered(true);
         }
 
         // Bottom-right corner.
@@ -533,19 +474,11 @@ Item {
             onDragged: {
                 frame.resizedX(isLeft, dx);
                 frame.resizedY(isTop, dy);
+                frame.updateOnAltered(false);
             }
 
-            onDragStarted: {
-                frame.dragStartRect = frame.getExtentRect();
-            }
-
-            onDragCompleted: {
-                if (!GraphicsRoutines.areEqual(frame.getExtentRect(),
-                                               frame.dragStartRect)) {
-                    cropOverlay.userAlteredFrame();
-                    cropOverlay.runFrameFitAnimation();
-                }
-            }
+            onDragStarted: frame.dragStartRect = frame.getExtentRect();
+            onDragCompleted: frame.updateOnAltered(true);
         }
 
         // This handles resizing in both dimensions.  first is whether we're
@@ -583,6 +516,18 @@ Item {
 
         onResizedX: resizeFrame(left, dx, "x", "width")
         onResizedY: resizeFrame(top, dy, "y", "height")
+
+        function updateOnAltered(finalUpdate) {
+            var start = frame.dragStartRect;
+            var end = frame.getExtentRect();
+            if (!GraphicsRoutines.areEqual(end, start)) {
+                if (finalUpdate ||
+                    (end.width * end.height >= start.width * start.height)) {
+                    cropOverlay.userAlteredFrame();
+                    cropOverlay.runFrameFitAnimation();
+                }
+            }
+        }
     }
 
     /* Invoked when the user has changed the geometry of the frame by dragging

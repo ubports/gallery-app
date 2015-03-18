@@ -21,7 +21,6 @@
 #include "database.h"
 #include "album-table.h"
 #include "media-table.h"
-#include "photo-edit-table.h"
 
 #include <QFile>
 
@@ -34,14 +33,12 @@ Database::Database(const QString &databaseDir, const QString &schemaDirectory,
 {
     m_albumTable = new AlbumTable(this, this);
     m_mediaTable = new MediaTable(this, this);
-    m_photoEditTable = new PhotoEditTable(this, this);
 }
 
 Database::~Database()
 {
     delete m_albumTable;
     delete m_mediaTable;
-    delete m_photoEditTable;
 }
 
 AlbumTable* Database::getAlbumTable() const
@@ -52,9 +49,4 @@ AlbumTable* Database::getAlbumTable() const
 MediaTable* Database::getMediaTable() const
 {
     return m_mediaTable;
-}
-
-PhotoEditTable* Database::getPhotoEditTable() const
-{
-    return m_photoEditTable;
 }

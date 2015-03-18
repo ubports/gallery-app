@@ -170,7 +170,7 @@ Item {
 
                 image: Image {
                     id: thumbImage
-                    source: model.mediaSource.galleryThumbnailPath
+                    source: "image://thumbnailer/" + model.mediaSource.path
                     asynchronous: true
 
                     /* The SDK thumbnailer respects the freedesktop.org standard and uses 128 for the small
@@ -186,7 +186,7 @@ Item {
                     onDataChanged: {
                         // data changed but filename didn't, so we need to bypass the qml image
                         // cache by tacking a timestamp to the filename so sees it as different.
-                        thumbImage.source = model.mediaSource.galleryThumbnailPath + "?at=" + Date.now()
+                        thumbImage.source = "image://thumbnailer/" + model.mediaSource.path + "?at=" + Date.now()
                     }
                 }
 

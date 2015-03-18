@@ -83,7 +83,7 @@ GridView {
 
             image: Image {
                 id: thumbImage
-                source: mediaSource.galleryThumbnailPath
+                source: "image://thumbnailer/" + mediaSource.path
                 asynchronous: true
                 fillMode: Image.PreserveAspectCrop
 
@@ -92,7 +92,7 @@ GridView {
                     onDataChanged: {
                         // data changed but filename didn't, so we need to bypass the qml image
                         // cache by tacking a timestamp to the filename so sees it as different.
-                        thumbImage.source = mediaSource.galleryThumbnailPath + "?at=" + Date.now()
+                        thumbImage.source = "image://thumbnailer/" + mediaSource.path + "?at=" + Date.now()
                     }
                 }
             }

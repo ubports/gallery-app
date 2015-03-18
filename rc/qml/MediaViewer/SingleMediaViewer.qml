@@ -120,12 +120,23 @@ Item {
                 width: flickable.width * flickable.sizeScale
                 height: flickable.height * flickable.sizeScale
 
-               Image {
+                Connections {
+                    target: mediaSource
+                    onDataChanged: {
+                        image.source = "";
+                        image.source = "image://photo/" + mediaSource.path
+
+                        rightResolutionImage.source = "";
+                        rightResolutionImage.source = "image://photo/" + mediaSource.path
+                    }
+                }
+
+                Image {
                     id: image
                     anchors.fill: parent
                     asynchronous: true
                     cache: false
-                    source: mediaSource.galleryPath
+                    source: "image://photo/" + mediaSource.path
                     sourceSize {
                         width: viewer.maxDimension
                         height: viewer.maxDimension
@@ -142,8 +153,8 @@ Item {
                     anchors.fill: parent
                     asynchronous: true
                     cache: false
-                    // Load image using the GalleryStandardImageProvider to ensure EXIF orientation
-                    source: flickable.sizeScale > 1.0 ? mediaSource.galleryPath : ""
+                    // Load image using the photo image provider to ensure EXIF orientation
+                    source: flickable.sizeScale > 1.0 ? "image://photo/" + mediaSource.path : ""
                     sourceSize {
                         width: width
                         height: height

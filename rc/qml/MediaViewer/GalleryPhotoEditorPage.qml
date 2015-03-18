@@ -1,5 +1,8 @@
+import QtQuick 2.0
+import Ubuntu.Components 1.1
+
 /*
- * Copyright (C) 2012 Canonical Ltd
+ * Copyright (C) 2014 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -12,36 +15,28 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * Authors:
- * Charles Lindsay <chaz@yorba.org>
  */
 
-#ifndef PHOTOEDITTABLE_H
-#define PHOTOEDITTABLE_H
+Page {
+    id: page
+    property string photo
+    signal done(bool photoWasModified)
 
-#include <QObject>
+    title: i18n.tr("Edit Photo")
 
-class Database;
-class PhotoEditState;
+    head.backAction: Action {
+        iconName: "back"
+        onTriggered: editor.close(true)
+    }
+    head.actions: editor.actions
 
-/*!
- * \brief The PhotoEditTable class
- */
-class PhotoEditTable : public QObject
-{
-    Q_OBJECT
+    PhotoEditor {
+        id: editor
+        anchors.fill: parent
+        onClosed: page.done(photoWasModified)
+    }
 
-public:
-    explicit PhotoEditTable(Database* db, QObject *parent = 0);
-
-    PhotoEditState editState(qint64 mediaId) const;
-    void setEditState(qint64 mediaId, const PhotoEditState& editState);
-
-private:
-    void prepareRow(qint64 mediaId);
-
-    Database* m_db;
-};
-
-#endif // PHOTOEDITTABLE_H
+    onActiveChanged: {
+        if (active) editor.open(page.photo)
+    }
+}

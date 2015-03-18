@@ -42,10 +42,28 @@ class PhotoViewer(GalleryUtils):
                                            objectName="sharePicker",
                                            visible=True)
 
-    def get_photo_edit_dialog(self):
+    def get_photo_editor(self):
         """Returns the photo edit dialog."""
-        return self.app.wait_select_single("EditPopover",
-                                           objectName="editPopover")
+        return self.app.wait_select_single("PhotoEditor")
+
+    def get_revert_to_original_dialog(self):
+        """Returns the revert to original dialog."""
+        return self.app.wait_select_single("Dialog",
+                                           objectName="revertPromptDialog")
+
+    def get_cancel_revert_to_original_button(self):
+        """Returns the revert to original cancel button."""
+        return self.get_revert_to_original_dialog().wait_select_single(
+           "Button",
+           objectName="cancelRevertButton",
+           visible=True)
+
+    def get_confirm_revert_to_original_button(self):
+        """Returns the revert to original confirm button."""
+        return self.get_revert_to_original_dialog().wait_select_single(
+           "Button",
+           objectName="confirmRevertButton",
+           visible=True)
 
     def get_photo_component(self):
         # Was using a list index (lp:1247711). Still needs fixing, I'm not
@@ -58,13 +76,27 @@ class PhotoViewer(GalleryUtils):
     def get_photos_list(self):
         return self.app.wait_select_single("MediaListView")
 
-    def get_crop_menu_item(self):
-        """Returns the crop item of the edit dialog."""
-        return self.app.select_single("Standard", objectName="cropListItem")
+    def get_editor_actions_bar(self):
+        """Returns the actions bar for the editor."""
+        return self.app.select_single("ActionsBar", objectName="editorActionsBar")
 
-    def get_rotate_menu_item(self):
+    def get_editor_action_button_by_text(self, button_text):
+        """Returns the action button from the editor by text."""
+        actions_bar = self.get_editor_actions_bar()
+        buttons = actions_bar.select_many('AbstractButton')
+        for button in buttons:
+            if str(button.text) == button_text:
+                return button
+        raise GalleryAppException(
+            'Editor action button {} could not be found'.format(button_text))
+
+    def get_crop_action_button(self):
+        """Returns the crop item of the edit dialog."""
+        return self.get_editor_action_button_by_text("Crop")
+
+    def get_rotate_action_button(self):
         """Returns the rotate item of the edit dialog."""
-        return self.app.select_single("Standard", objectName="rotateListItem")
+        return self.get_editor_action_button_by_text("Rotate")
 
     def get_undo_menu_item(self):
         """Returns the undo item of the edit dialog."""
@@ -74,9 +106,9 @@ class PhotoViewer(GalleryUtils):
         """Returns the redo item of the edit dialog."""
         return self.app.select_single("Standard", objectName="redoListItem")
 
-    def get_revert_menu_item(self):
+    def get_revert_action_button(self):
         """Returns the revert to original menu item in the edit dialog."""
-        return self.app.select_single("Standard", objectName="revertListItem")
+        return self.get_editor_action_button_by_text("Revert to Original")
 
     def get_auto_enhance_menu_item(self):
         """Returns the 'auto enhance' menu item in the edit dialog."""
@@ -128,12 +160,12 @@ class PhotoViewer(GalleryUtils):
     def _click_item(self, item):
         self.pointing_device.click_object(item)
 
-    def click_rotate_item(self):
-        rotate_item = self.get_rotate_menu_item()
+    def click_rotate_button(self):
+        rotate_item = self.get_rotate_action_button()
         self._click_item(rotate_item)
 
-    def click_crop_item(self):
-        crop_item = self.get_crop_menu_item()
+    def click_crop_button(self):
+        crop_item = self.get_crop_action_button()
         self._click_item(crop_item)
 
     def click_undo_item(self):
@@ -144,9 +176,17 @@ class PhotoViewer(GalleryUtils):
         redo_item = self.get_redo_menu_item()
         self._click_item(redo_item)
 
-    def click_revert_item(self):
-        revert_item = self.get_revert_menu_item()
+    def click_revert_button(self):
+        revert_item = self.get_revert_action_button()
         self._click_item(revert_item)
+
+    def click_cancel_revert_button(self):
+        cancel_item = self.get_cancel_revert_to_original_button()
+        self._click_item(cancel_item)
+
+    def click_confirm_revert_button(self):
+        confirm_item = self.get_confirm_revert_to_original_button()
+        self._click_item(confirm_item)
 
     def click_enhance_item(self):
         enhance_item = self.get_auto_enhance_menu_item()

@@ -23,9 +23,6 @@
 #include "database.h"
 #include "media-table.h"
 
-// qml
-#include "gallery-standard-image-provider.h"
-
 #include <QUrl>
 
 /*!
@@ -77,47 +74,6 @@ QFileInfo MediaSource::file() const
 QUrl MediaSource::path() const
 {
     return QUrl::fromLocalFile(m_file.absoluteFilePath());
-}
-
-/*!
- * \brief MediaSource::galleryPath
- * \return
- */
-QUrl MediaSource::galleryPath() const
-{
-    /* At the moment the only video files we recognize are mp4
-     * files. This was maintained hardcoded from the previous
-     * version of gallery app, and should be fixed in the future.
-     * For those files the full image is the thumbnail/preview itself */
-    if (m_file.suffix().toLower() == "mp4") {
-        QString path("image://thumbnailer/");
-        path.append(m_file.absoluteFilePath());
-        return QUrl(path);
-    } else {
-        return GalleryStandardImageProvider::toURL(m_file);
-    }
-}
-
-/*!
- * \brief MediaSource::galleryPreviewPath
- * \return
- */
-QUrl MediaSource::galleryPreviewPath() const
-{
-    QString path("image://thumbnailer/");
-    path.append(m_file.absoluteFilePath());
-    return QUrl(path);
-}
-
-/*!
- * \brief MediaSource::galleryThumbnailPath
- * \return
- */
-QUrl MediaSource::galleryThumbnailPath() const
-{
-    QString path("image://thumbnailer/");
-    path.append(m_file.absoluteFilePath());
-    return QUrl(path);
 }
 
 /*!

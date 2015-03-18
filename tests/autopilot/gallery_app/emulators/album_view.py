@@ -211,8 +211,8 @@ class AlbumView(GalleryUtils):
         images = photo.select_many('QQuickImage')
         path = ''
         for i in images:
-            if str(i.source).startswith('image://gallery-standard/'):
-                path = re.sub('^image://gallery-standard/', '',
+            if str(i.source).startswith('image://thumbnailer/file://'):
+                path = re.sub('^image://thumbnailer/file://', '',
                               i.source).split('?')[0]
         self.pointing_device.click_object(photo)
         return path

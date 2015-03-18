@@ -20,17 +20,18 @@
 #include "photo-metadata.h"
 
 #include <cstdio>
+#include <QBuffer>
 
 namespace {
 const Orientation DEFAULT_ORIENTATION = TOP_LEFT_ORIGIN;
 const char* EXIF_ORIENTATION_KEY = "Exif.Image.Orientation";
 const char* EXIF_DATETIMEDIGITIZED_KEY = "Exif.Photo.DateTimeDigitized";
 const char* EXPOSURE_TIME_KEYS[] = {
-    "Exif.Photo.DateTimeDigitized",
-    "Xmp.exif.DateTimeDigitized",
     "Exif.Photo.DateTimeOriginal",
     "Xmp.exif.DateTimeOriginal",
     "Xmp.xmp.CreateDate",
+    "Exif.Photo.DateTimeDigitized",
+    "Xmp.exif.DateTimeDigitized",
     "Exif.Image.DateTime"
 };
 const size_t NUM_EXPOSURE_TIME_KEYS = 6;
@@ -46,6 +47,7 @@ const char* EXIF_DATE_FORMATS[] = {
     "%d.%d.%d  %d:%d:%d"
 };
 const size_t NUM_EXIF_DATE_FORMATS = 3;
+const float THUMBNAIL_SCALE = 8.5;
 
 const char* get_first_matched(const char* keys[], size_t n_keys,
                               const QSet<QString>& in) {
@@ -215,23 +217,12 @@ QTransform PhotoMetadata::orientationTransform() const
  */
 void PhotoMetadata::setOrientation(Orientation orientation)
 {
-    try {
-        if (!m_image->good()) {
-            qDebug("Do not set Orientation, invalid image metadata.");
-            return;
-        }
- 
-        Exiv2::ExifData& exif_data = m_image->exifData();
- 
-        exif_data[EXIF_ORIENTATION_KEY] = orientation;
- 
-        if (!m_keysPresent.contains(EXIF_ORIENTATION_KEY))
-            m_keysPresent.insert(EXIF_ORIENTATION_KEY);
- 
-    } catch (Exiv2::AnyError& e) {
-        qDebug("Do not set Orientation, error reading image metadata; %s", e.what());
-        return;
-    }
+    Exiv2::ExifData& exif_data = m_image->exifData();
+
+    exif_data[EXIF_ORIENTATION_KEY] = orientation;
+
+    if (!m_keysPresent.contains(EXIF_ORIENTATION_KEY))
+        m_keysPresent.insert(EXIF_ORIENTATION_KEY);
 }
 
 /*!
@@ -259,17 +250,6 @@ void PhotoMetadata::setDateTimeDigitized(const QDateTime& digitized)
     }
 }
 
-void PhotoMetadata::updateThumbnail(QImage image)
-{
-    QImage scaled = image.scaled(image.width() / THUMBNAIL_SCALE,
-                                 image.height() / THUMBNAIL_SCALE);
-    QBuffer jpeg;
-    jpeg.open(QIODevice::WriteOnly);
-    scaled.save(&jpeg, "jpeg");
-    Exiv2::ExifThumb thumb(m_image->exifData());
-    thumb.setJpegThumbnail((Exiv2::byte*) jpeg.data().constData(), jpeg.size());
-}
-
 /*!
  * \brief PhotoMetadata::save
  * \return
@@ -282,4 +262,20 @@ bool PhotoMetadata::save() const
     } catch (Exiv2::AnyError& e) {
         return false;
     }
+}
+
+void PhotoMetadata::copyTo(PhotoMetadata *other) const
+{
+    other->m_image->setMetadata(*m_image);
+}
+
+void PhotoMetadata::updateThumbnail(QImage image)
+{
+    QImage scaled = image.scaled(image.width() / THUMBNAIL_SCALE,
+                                 image.height() / THUMBNAIL_SCALE);
+    QBuffer jpeg;
+    jpeg.open(QIODevice::WriteOnly);
+    scaled.save(&jpeg, "jpeg");
+    Exiv2::ExifThumb thumb(m_image->exifData());
+    thumb.setJpegThumbnail((Exiv2::byte*) jpeg.data().constData(), jpeg.size());
 }

@@ -38,6 +38,7 @@ public:
     static const QString ORIGINAL_DIR;
     static const QString ENHANCED_DIR;
 
+    PhotoCaches(); // FIXME: remove this class and only deal with a stack of temporary rollback files
     PhotoCaches(const QFileInfo& file);
 
     bool hasCachedOriginal() const;

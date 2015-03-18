@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical Ltd
+ * Copyright (C) 2013-2014 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -18,7 +18,7 @@
 #define GALLERY_PHOTO_EDIT_THREAD_H_
 
 #include "photo-caches.h"
-#include "photo-edit-state.h"
+#include "photo-edit-command.h"
 
 // util
 #include "orientation.h"
@@ -27,7 +27,7 @@
 #include <QThread>
 #include <QUrl>
 
-class Photo;
+class PhotoData;
 
 /*!
  * \brief The PhotoEditThread class
@@ -36,28 +36,21 @@ class PhotoEditThread: public QThread
 {
     Q_OBJECT
 public:
-    PhotoEditThread(Photo *photo, const PhotoEditState& editState);
+    PhotoEditThread(PhotoData *photo, const PhotoEditCommand& command);
 
-    const PhotoEditState& editState() const;
-    Orientation oldOrientation() const;
-
-Q_SIGNALS:
-    void newSize(QSize size);
-    void resetToOriginalSize();
+    const PhotoEditCommand& command() const;
 
 protected:
     void run() Q_DECL_OVERRIDE;
 
 private:
-    void createCachedEnhanced();
+    QImage enhanceImage(const QImage& image);
     QImage compensateExposure(const QImage& image, qreal compansation);
     QImage doColorBalance(const QImage& image, qreal brightness, qreal contrast, qreal saturation, qreal hue);
-    void handleSimpleMetadataRotation(const PhotoEditState& state);
+    void handleSimpleMetadataRotation(const PhotoEditCommand& state);
 
-    Photo *m_photo;
-    PhotoEditState m_editState;
-    PhotoCaches m_caches;
-    Orientation m_oldOrientation;
+    PhotoData *m_photo;
+    PhotoEditCommand m_command;
 };
 
 #endif
