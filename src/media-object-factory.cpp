@@ -234,9 +234,12 @@ void MediaObjectFactoryWorker::create(const QString &path)
     }
     media->setSize(m_size);
     media->setFileTimestamp(m_timeStamp);
-    media->setExposureDateTime(m_exposureTime);
-    if (mediaType == MediaSource::Photo)
+    if (mediaType == MediaSource::Photo) {
+        media->setExposureDateTime(m_exposureTime);
         photo->setOriginalOrientation(m_orientation);
+    } else {
+        media->setExposureDateTime(m_exposureTime.toLocalTime());
+    }
     media->setId(id);
 
     media->moveToThread(QApplication::instance()->thread());
