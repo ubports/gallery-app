@@ -170,7 +170,7 @@ Item {
 
                 image: Image {
                     id: thumbImage
-                    source: "image://thumbnailer/" + model.mediaSource.path
+                    source: "image://thumbnailer/" + model.mediaSource.path + "?at=" + Date.now()
                     asynchronous: true
 
                     /* The SDK thumbnailer respects the freedesktop.org standard and uses 128 for the small

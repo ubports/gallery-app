@@ -83,7 +83,7 @@ GridView {
 
             image: Image {
                 id: thumbImage
-                source: "image://thumbnailer/" + mediaSource.path
+                source: "image://thumbnailer/" + mediaSource.path + "?at=" + Date.now()
                 asynchronous: true
                 fillMode: Image.PreserveAspectCrop
 
