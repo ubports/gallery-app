@@ -46,7 +46,8 @@ private slots:
     void readPhotoMetadata();
     void readVideoMetadata();
     void enableContentLoadFilter();
-    void addMedia();
+    void addPhoto();
+    void addVideo();
 
 private:
     MediaSource* wait_for_media();
@@ -173,7 +174,7 @@ void tst_MediaObjectFactory::enableContentLoadFilter()
     QCOMPARE(wait_for_media(), (MediaSource*)0);
 }
 
-void tst_MediaObjectFactory::addMedia()
+void tst_MediaObjectFactory::addPhoto()
 {
     QTemporaryDir *tmpDir = new QTemporaryDir();
     QDir *dir = new QDir(tmpDir->path());
@@ -193,8 +194,7 @@ void tst_MediaObjectFactory::addMedia()
     qint64 filesize = 2048;
 
     m_factory->addMedia(id, filename, size, timestamp,
-                                             exposureTime, originalOrientation,
-                                             filesize);
+                        exposureTime, originalOrientation, filesize);
 
     QCOMPARE(m_factory->m_mediaFromDB.size(), 1);
     
@@ -203,12 +203,51 @@ void tst_MediaObjectFactory::addMedia()
     DataObject *obj = *it;
     Photo *photo = qobject_cast<Photo*>(obj);
     QVERIFY(photo != 0);
+
     QCOMPARE(photo->id(), id);
     QCOMPARE(photo->path().toLocalFile(), filename);
     QCOMPARE(photo->size(), size);
     QCOMPARE(photo->exposureDateTime(), exposureTime);
     QCOMPARE(photo->fileTimestamp(), timestamp);
     QCOMPARE(photo->orientation(), originalOrientation);
+}
+
+void tst_MediaObjectFactory::addVideo()
+{
+    QTemporaryDir *tmpDir = new QTemporaryDir();
+    QDir *dir = new QDir(tmpDir->path());
+    dir->mkpath("sample");
+
+    // Create sample video 
+    QFile file(tmpDir->path() + "/sample/sample.mp4");
+    file.open(QIODevice::ReadWrite);
+    file.close();
+
+    qint64 id = 123;
+    QString filename(tmpDir->path() + "/sample/sample.mp4");
+    QSize size(320, 200);
+    QDateTime timestamp(QDate(2013, 02, 03), QTime(12, 12, 12));
+    QDateTime exposureTime(QDate(2013, 03, 04), QTime(1, 2, 3));
+    Orientation originalOrientation(BOTTOM_RIGHT_ORIGIN);
+    qint64 filesize = 2048;
+
+    m_factory->addMedia(id, filename, size, timestamp,
+                        exposureTime, originalOrientation, filesize);
+
+    QCOMPARE(m_factory->m_mediaFromDB.size(), 1);
+    
+    QSet<DataObject*>::iterator it;
+    it = m_factory->m_mediaFromDB.begin();
+    DataObject *obj = *it;
+    Video *video = qobject_cast<Video*>(obj);
+    QVERIFY(video != 0);
+
+    QCOMPARE(video->id(), id);
+    QCOMPARE(video->path().toLocalFile(), filename);
+    QCOMPARE(video->size(), size);
+
+    exposureTime.setTimeSpec(Qt::UTC);
+    QCOMPARE(video->exposureDateTime(), exposureTime.toLocalTime());
 }
 
 MediaSource* tst_MediaObjectFactory::wait_for_media()
