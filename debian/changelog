@@ -1,3 +1,14 @@
+gallery-app (0.0.67+15.04.20150330~rtm-0ubuntu1) 14.09; urgency=medium
+
+  [ Arthur Mello ]
+  * Add the "at" param to the calls of thumbnailer image provider to
+    make sure the images will be updated after the user edit them
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Mon, 30 Mar 2015 18:39:09 +0000
+
 gallery-app (0.0.67+15.04.20150318-0ubuntu1) vivid; urgency=medium
 
   [ Arthur Mello ]
