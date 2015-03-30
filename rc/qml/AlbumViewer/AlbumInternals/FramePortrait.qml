@@ -44,7 +44,7 @@ Item {
         anchors.fill: parent
         asynchronous: true
         visible: fullImage.opacity < 1
-        source: load && mediaSource ? "image://thumbnailer/" + mediaSource.path : ""
+        source: load && mediaSource ? "image://thumbnailer/" + mediaSource.path + "?at=" + Date.now() : ""
         fillMode: fullImage.fillMode
         sourceSize.width: 256
 
