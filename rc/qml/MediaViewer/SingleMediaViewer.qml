@@ -36,6 +36,7 @@ Item {
     property bool fullyZoomed: flickable.sizeScale == zoomPinchArea.maximumZoom
     property bool fullyUnzoomed: flickable.sizeScale == zoomPinchArea.minimumZoom
     property bool animateMediaOnHeight: false
+    property bool imageReady: image.status == Image.Ready
 
     property alias paintedHeight: image.paintedHeight
     property alias paintedWidth: image.paintedWidth
