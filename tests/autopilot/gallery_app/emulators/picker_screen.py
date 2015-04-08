@@ -58,7 +58,7 @@ class Page11(PickerScreen):
             element.status.wait_for(1)
             src = element.source.split('?')[0]
             if str(src).endswith(photo_name):
-                return photo_element.get_parent()
+                return element.get_parent()
         raise GalleryAppException(
             'Photo with image name {} could not be found'.format(photo_name))
 
