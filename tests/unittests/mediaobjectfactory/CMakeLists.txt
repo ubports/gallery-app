@@ -47,7 +47,7 @@ qt5_use_modules(mediaobjectfactory Widgets Core Quick Qml Test)
 add_test(mediaobjectfactory mediaobjectfactory -xunitxml -o test_video.xml)
 set_tests_properties(mediaobjectfactory PROPERTIES
     TIMEOUT ${CTEST_TESTING_TIMEOUT}
-    ENVIRONMENT "QT_QPA_PLATFORM=minimal"
+    ENVIRONMENT "QT_QPA_PLATFORM=minimal;TZ=Pacific/Auckland"
     )
 
 target_link_libraries(mediaobjectfactory
