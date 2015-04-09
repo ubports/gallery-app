@@ -1,3 +1,17 @@
+gallery-app (0.0.67+15.04.20150409-0ubuntu1) vivid; urgency=medium
+
+  [ Arthur Mello ]
+  * Change thumbnail's image provider header for videos on
+    SingleMediaViewer (LP: #1430357)
+  * Convert video exposure time from UTC to local time when the event
+    header for the video is created. The video exposure time will still
+    be stored using UTC in the DB (LP: #1433739)
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Thu, 09 Apr 2015 17:57:22 +0000
+
 gallery-app (0.0.67+15.04.20150330~rtm-0ubuntu1) 14.09; urgency=medium
 
   [ Arthur Mello ]
