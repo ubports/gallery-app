@@ -19,6 +19,7 @@ from gallery_app.emulators.events_view import EventsView
 from gallery_app.tests import GalleryTestCase
 
 import os
+import shutil
 from time import sleep
 import unittest
 
@@ -27,7 +28,7 @@ Class for common functionality of the photo viewing and photo editing
 """
 
 
-class TestPhotoViewerBase(GalleryTestCase):
+class TestMediaViewerBase(GalleryTestCase):
     @property
     def photo_viewer(self):
         return PhotoViewer(self.app)
@@ -38,9 +39,8 @@ class TestPhotoViewerBase(GalleryTestCase):
 
     def setUp(self):
         self.ARGS = []
-        super(TestPhotoViewerBase, self).setUp()
+        super(TestMediaViewerBase, self).setUp()
         self.main_view.switch_to_tab("eventsTab")
-        self.open_first_photo()
 
     def open_first_photo(self):
         self.assertThat(
@@ -57,7 +57,10 @@ class TestPhotoViewerBase(GalleryTestCase):
         self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
 
 
-class TestPhotoViewer(TestPhotoViewerBase):
+class TestPhotoViewer(TestMediaViewerBase):
+    def setUp(self):
+        super(TestPhotoViewer, self).setUp()
+        self.open_first_photo()
 
     @unittest.skip("Temporarily disable as it fails in some cases, "
                    "supposedly due to problems with the infrastructure")
@@ -198,10 +201,37 @@ class TestPhotoViewer(TestPhotoViewerBase):
         self.assertThat(list.currentIndex, Eventually(Equals(0)))
 
 
-class TestPhotoEditor(TestPhotoViewerBase):
+class TestVideoViewer(TestMediaViewerBase):
+    def test_video_loads_thumbnail(self):
+        num_events = self.events_view.number_of_events()
+
+        video_file = "video.mp4"
+        shutil.copyfile(self.sample_dir+"/option01/"+video_file,
+                        self.sample_destination_dir+"/"+video_file)
+ 
+        self.assertThat(
+            lambda: self.events_view.number_of_events(),
+            Eventually(Equals(num_events + 1))
+        )
+
+        self.events_view.click_photo(video_file)
+
+        photo_viewer_loader = self.photo_viewer.get_main_photo_viewer_loader()
+        self.assertThat(photo_viewer_loader.loaded, Eventually(Equals(True)))
+        sleep(1)
+        photo_viewer = self.photo_viewer.get_main_photo_viewer()
+        self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
+        photo_component = self.photo_viewer.get_photo_component() 
+        self.assertThat(photo_component.imageReady, Eventually(Equals(True)))
+
+        os.remove(self.sample_destination_dir+"/"+video_file)
+
+
+class TestPhotoEditor(TestMediaViewerBase):
 
     def setUp(self):
         super(TestPhotoEditor, self).setUp()
+        self.open_first_photo()
         self.click_edit_button()
         self.media_view = self.app.select_single(MediaViewer)
 

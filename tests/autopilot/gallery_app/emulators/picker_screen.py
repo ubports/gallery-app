@@ -53,9 +53,14 @@ class Page11(PickerScreen):
         Return the ShapeItem container object for the named photo.
         This object can be clicked to enable the photo to be selected.
         """
-        photo_element = self.grid_view().wait_select_single(
-            'QQuickImage', source=photo_name)
-        return photo_element.get_parent()
+        elements = self.grid_view().select_many('QQuickImage')
+        for element in elements:
+            element.status.wait_for(1)
+            src = element.source.split('?')[0]
+            if str(src).endswith(photo_name):
+                return element.get_parent()
+        raise GalleryAppException(
+            'Photo with image name {} could not be found'.format(photo_name))
 
     def select_named_photo(self, photo_name):
         """Select the named photo from the picker view."""

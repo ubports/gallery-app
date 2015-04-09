@@ -70,9 +70,8 @@ class TestPickerMode(GalleryTestCase):
         self.assertFalse(pick_button.enabled)
 
         # create the image location path based on sample location
-        image_path = 'image://thumbnailer/file://{}/sample02.jpg'.format(
-            self.sample_destination_dir)
-        photos_page.select_named_photo(image_path)
+        image_file = 'sample02.jpg'
+        photos_page.select_named_photo(image_file)
         self.assertThat(pick_button.enabled, Eventually(Equals(True)))
         self.picker_view.click_pick_button()
 
