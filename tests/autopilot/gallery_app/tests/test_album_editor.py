@@ -56,7 +56,6 @@ class TestAlbumEditor(GalleryTestCase):
         text = "Ubuntu"
         self.assertThat(subtitle_field.text, Eventually(Equals(text)))
 
-        sleep(5)
         editor.click_title_field()
         self.assertThat(title_field.activeFocus, Eventually(Equals(True)))
         self.keyboard.press_and_release("Ctrl+a")
