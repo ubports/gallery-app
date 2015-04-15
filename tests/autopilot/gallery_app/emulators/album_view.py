@@ -164,6 +164,7 @@ class AlbumView(GalleryUtils):
 
     def _ensure_remove_from_album_dialog_is_open(self):
         """Ensure that the remove from album dialog is fully opened."""
+        self.assertThat(self._remove_from_album_dialog_shown, Eventually(Is(True)))
         remove_dialog = self._get_remove_from_album_dialog()
         self.assertThat(remove_dialog.visible, Eventually(Equals(True)))
         self.assertThat(remove_dialog.opacity, Eventually(Equals(1)))
