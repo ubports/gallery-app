@@ -5,7 +5,10 @@
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
 
-from gallery_app.emulators.gallery_utils import GalleryUtils
+from gallery_app.emulators.gallery_utils import(
+    GalleryAppException,
+    GalleryUtils
+)
 
 
 class PhotoViewer(GalleryUtils):
@@ -54,16 +57,16 @@ class PhotoViewer(GalleryUtils):
     def get_cancel_revert_to_original_button(self):
         """Returns the revert to original cancel button."""
         return self.get_revert_to_original_dialog().wait_select_single(
-           "Button",
-           objectName="cancelRevertButton",
-           visible=True)
+            "Button",
+            objectName="cancelRevertButton",
+            visible=True)
 
     def get_confirm_revert_to_original_button(self):
         """Returns the revert to original confirm button."""
         return self.get_revert_to_original_dialog().wait_select_single(
-           "Button",
-           objectName="confirmRevertButton",
-           visible=True)
+            "Button",
+            objectName="confirmRevertButton",
+            visible=True)
 
     def get_photo_component(self):
         # Was using a list index (lp:1247711). Still needs fixing, I'm not
@@ -78,7 +81,8 @@ class PhotoViewer(GalleryUtils):
 
     def get_editor_actions_bar(self):
         """Returns the actions bar for the editor."""
-        return self.app.select_single("ActionsBar", objectName="editorActionsBar")
+        return self.app.select_single("ActionsBar",
+                                      objectName="editorActionsBar")
 
     def get_editor_action_button_by_text(self, button_text):
         """Returns the action button from the editor by text."""

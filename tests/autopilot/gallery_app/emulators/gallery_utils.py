@@ -69,12 +69,14 @@ class GalleryUtils(AutopilotTestCase):
 
     def get_delete_dialog_delete_button(self):
         """Returns the delete button of the delete popover."""
-        return self.app.wait_select_single("Button", objectName="deleteDialogYes",
+        return self.app.wait_select_single("Button",
+                                           objectName="deleteDialogYes",
                                            visible=True)
 
     def get_delete_dialog_cancel_button(self):
         """Returns the cancel button of the delete popover."""
-        return self.app.wait_select_single("Button", objectName="deleteDialogNo",
+        return self.app.wait_select_single("Button",
+                                           objectName="deleteDialogNo",
                                            visible=True)
 
     def get_all_albums(self):

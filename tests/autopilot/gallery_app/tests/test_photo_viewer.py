@@ -208,7 +208,7 @@ class TestVideoViewer(TestMediaViewerBase):
         video_file = "video.mp4"
         shutil.copyfile(self.sample_dir+"/option01/"+video_file,
                         self.sample_destination_dir+"/"+video_file)
- 
+
         self.assertThat(
             lambda: self.events_view.number_of_events(),
             Eventually(Equals(num_events + 1))
@@ -221,7 +221,7 @@ class TestVideoViewer(TestMediaViewerBase):
         sleep(1)
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
         self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
-        photo_component = self.photo_viewer.get_photo_component() 
+        photo_component = self.photo_viewer.get_photo_component()
         self.assertThat(photo_component.imageReady, Eventually(Equals(True)))
 
         os.remove(self.sample_destination_dir+"/"+video_file)
