@@ -32,7 +32,7 @@ class PopupPhotoViewer(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
         else:
             self.cancel_delete_photo()
 
-    @autopilot.logging.log_action(logger.info)
+    @autopilot.logging.log_action(logger.debug)
     def confirm_delete_photo(self):
         self._click_delete_dialog_button("Yes")
 
@@ -50,7 +50,7 @@ class PopupPhotoViewer(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
         delete_dialog.opacity.wait_for(1)
         return delete_dialog
 
-    @autopilot.logging.log_action(logger.info)
+    @autopilot.logging.log_action(logger.debug)
     def cancel_delete_photo(self):
         self._click_delete_dialog_button('No')
 
@@ -60,12 +60,6 @@ class PhotoViewer(GalleryUtils):
     def __init__(self, app):
         super(PhotoViewer, self).__init__(self)
         self.app = app
-
-
-    def delete_dialog_shown(self):
-        dialog = self.app.select_many("Dialog",
-                                      objectName="deletePhotoDialog")
-        return len(dialog) >= 1
 
     def get_popup_album_picker(self):
         """Returns the photo viewer album pickers."""
