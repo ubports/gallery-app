@@ -5,10 +5,54 @@
 # under the terms of the GNU General Public License version 3, as published
 # by the Free Software Foundation.
 
+import logging
+
+import autopilot.logging
+import ubuntuuitoolkit
+
+from gallery_app.emulators import main_screen
 from gallery_app.emulators.gallery_utils import(
     GalleryAppException,
     GalleryUtils
 )
+
+
+logger = logging.getLogger(__name__)
+
+
+class PopupPhotoViewer(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
+
+    @autopilot.logging.log_action(logger.info)
+    def delete_current_photo(self, confirm=True):
+        header = self.get_root_instance().select_single(
+            main_screen.MainScreen).get_header()
+        header.click_action_button("deleteButton")
+        if confirm:
+            self.confirm_delete_photo()
+        else:
+            self.cancel_delete_photo()
+
+    @autopilot.logging.log_action(logger.debug)
+    def confirm_delete_photo(self):
+        self._click_delete_dialog_button("Yes")
+
+    def _click_delete_dialog_button(self, name):
+        delete_dialog = self._get_delete_dialog()
+        button = delete_dialog.wait_select_single(
+            "Button", objectName="deletePhotoDialog" + name, visible=True)
+        self.pointing_device.click_object(button)
+        delete_dialog.wait_until_destroyed()
+
+    def _get_delete_dialog(self):
+        delete_dialog = self.get_root_instance().wait_select_single(
+            objectName="deletePhotoDialog")
+        delete_dialog.visible.wait_for(True)
+        delete_dialog.opacity.wait_for(1)
+        return delete_dialog
+
+    @autopilot.logging.log_action(logger.debug)
+    def cancel_delete_photo(self):
+        self._click_delete_dialog_button('No')
 
 
 class PhotoViewer(GalleryUtils):
@@ -16,16 +60,6 @@ class PhotoViewer(GalleryUtils):
     def __init__(self, app):
         super(PhotoViewer, self).__init__(self)
         self.app = app
-
-    def get_delete_dialog(self):
-        """Returns the photo viewer delete dialog."""
-        return self.app.wait_select_single("Dialog",
-                                           objectName="deletePhotoDialog")
-
-    def delete_dialog_shown(self):
-        dialog = self.app.select_many("Dialog",
-                                      objectName="deletePhotoDialog")
-        return len(dialog) >= 1
 
     def get_popup_album_picker(self):
         """Returns the photo viewer album pickers."""
@@ -117,12 +151,6 @@ class PhotoViewer(GalleryUtils):
     def get_auto_enhance_menu_item(self):
         """Returns the 'auto enhance' menu item in the edit dialog."""
         return self.app.select_single("Standard", objectName='enhanceListItem')
-
-    def get_delete_popover_delete_item(self):
-        """Returns the delete button of the delete popover."""
-        return self.app.wait_select_single("Button",
-                                           objectName="deletePhotoDialogYes",
-                                           visible=True)
 
     def get_delete_popover_cancel_item(self):
         """Returns the cancel button of the delete popover."""
