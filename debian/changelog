@@ -1,3 +1,10 @@
+gallery-app (0.0.67+15.04.20150422-0ubuntu1) vivid; urgency=medium
+
+  [ Arthur Mello ]
+  * Fix AP tests
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Wed, 22 Apr 2015 13:57:21 +0000
+
 gallery-app (0.0.67+15.04.20150409-0ubuntu1) vivid; urgency=medium
 
   [ Arthur Mello ]
