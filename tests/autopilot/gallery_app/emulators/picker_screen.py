@@ -6,6 +6,7 @@
 # by the Free Software Foundation.
 
 from ubuntuuitoolkit import emulators as toolkit_emulators
+from gallery_app.emulators.gallery_utils import GalleryAppException
 
 
 class PickerScreen(toolkit_emulators.MainView):

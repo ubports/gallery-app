@@ -8,12 +8,12 @@
 
 """Tests the Photo editor of the gallery app."""
 
-from testtools.matchers import Equals, NotEquals, GreaterThan, Is
+from testtools.matchers import Equals, NotEquals, GreaterThan
 from autopilot.matchers import Eventually
 from testtools import skipIf
 from autopilot.platform import model
 
-from gallery_app.emulators.photo_viewer import PhotoViewer
+from gallery_app.emulators import photo_viewer
 from gallery_app.emulators.media_viewer import MediaViewer
 from gallery_app.emulators.events_view import EventsView
 from gallery_app.tests import GalleryTestCase
@@ -31,7 +31,7 @@ Class for common functionality of the photo viewing and photo editing
 class TestMediaViewerBase(GalleryTestCase):
     @property
     def photo_viewer(self):
-        return PhotoViewer(self.app)
+        return photo_viewer.PhotoViewer(self.app)
 
     @property
     def events_view(self):
@@ -93,16 +93,6 @@ class TestPhotoViewer(TestMediaViewerBase):
         photo_viewer_loader = self.photo_viewer.get_main_photo_viewer_loader()
         self.assertThat(photo_viewer_loader.source, Equals(""))
 
-    def get_delete_dialog(self):
-        delete_dialog = self.photo_viewer.get_delete_dialog()
-        self.assertThat(delete_dialog.visible, Eventually(Equals(True)))
-        self.assertThat(delete_dialog.opacity, Eventually(Equals(1)))
-        return delete_dialog
-
-    def ensure_closed_delete_dialog(self):
-        self.assertThat(self.photo_viewer.delete_dialog_shown,
-                        Eventually(Is(False)))
-
     def test_nav_bar_back_button(self):
         """Clicking the back button must close the photo."""
         self.main_view.get_header().click_custom_back_button()
@@ -120,38 +110,40 @@ class TestPhotoViewer(TestMediaViewerBase):
         self.click_item(cancel_button)
         self.assertThat(share_picker.visible, Eventually(Equals(False)))
 
-    def delete_one_picture(self):
-        self.main_view.get_header().click_action_button("deleteButton")
-        self.get_delete_dialog()
-        delete_item = self.photo_viewer.get_delete_popover_delete_item()
-        self.click_item(delete_item)
-        self.ensure_closed_delete_dialog()
+    def test_delete_photo_must_remove_it_from_filesystem(self):
+        photo_component = self.main_view.select_single('GalleryPhotoComponent')
+        source = photo_component.source
+        file_path = source[len('image://thumbnailer/file://'):]
+        self.assertTrue(os.path.exists(file_path))
+
+        photo_viewer_popup = self.main_view.select_single(
+            photo_viewer.PopupPhotoViewer)
+        photo_viewer_popup.delete_current_photo()
+
+        self.assertFalse(os.path.exists(file_path))
 
     def test_photo_delete_works(self):
         """Clicking the trash button must show the delete dialog."""
-        self.main_view.get_header().click_action_button("deleteButton")
-        self.get_delete_dialog()
-
-        photo_viewer = self.photo_viewer.get_main_photo_viewer()
-
-        cancel_item = self.photo_viewer.get_delete_popover_cancel_item()
-        self.click_item(cancel_item)
-        self.ensure_closed_delete_dialog()
+        # XXX This test must be split into multiple QML tests.
+        # --elopio - 2015-14-16
+        photo_viewer_popup = self.main_view.select_single(
+            photo_viewer.PopupPhotoViewer)
+        photo_viewer_popup.delete_current_photo(confirm=False)
 
         self.assertThat(lambda: os.path.exists(self.sample_file),
                         Eventually(Equals(True)))
 
-        self.delete_one_picture()
+        photo_viewer_popup.delete_current_photo()
         self.assertThat(lambda: os.path.exists(self.sample_file),
                         Eventually(Equals(False)))
 
         # Delete all other pictures and make sure the photo viewer closes
-        self.delete_one_picture()
-        self.delete_one_picture()
-        self.delete_one_picture()
-        self.delete_one_picture()
+        photo_viewer_popup.delete_current_photo()
+        photo_viewer_popup.delete_current_photo()
+        photo_viewer_popup.delete_current_photo()
+        photo_viewer_popup.delete_current_photo()
 
-        self.assertThat(photo_viewer.visible, Eventually(Equals(False)))
+        self.assertThat(photo_viewer_popup.visible, Eventually(Equals(False)))
 
     def test_nav_bar_album_picker_button(self):
         """Clicking the album picker must show the picker dialog."""
@@ -208,7 +200,7 @@ class TestVideoViewer(TestMediaViewerBase):
         video_file = "video.mp4"
         shutil.copyfile(self.sample_dir+"/option01/"+video_file,
                         self.sample_destination_dir+"/"+video_file)
- 
+
         self.assertThat(
             lambda: self.events_view.number_of_events(),
             Eventually(Equals(num_events + 1))
@@ -221,7 +213,7 @@ class TestVideoViewer(TestMediaViewerBase):
         sleep(1)
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
         self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
-        photo_component = self.photo_viewer.get_photo_component() 
+        photo_component = self.photo_viewer.get_photo_component()
         self.assertThat(photo_component.imageReady, Eventually(Equals(True)))
 
         os.remove(self.sample_destination_dir+"/"+video_file)

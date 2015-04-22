@@ -146,25 +146,28 @@ class AlbumView(GalleryUtils):
 
     def _get_remove_from_album_popover_remove_item(self):
         """Returns remove button of the remove from album popover."""
-        return self.app.select_single("Button",
-                                      objectName="removeFromAlbumButton",
-                                      visible=True)
+        return self.app.wait_select_single("Button",
+                                           objectName="removeFromAlbumButton",
+                                           visible=True)
 
     def _get_remove_from_album_popover_delete_item(self):
         """Returns delete button of the remove from album popover."""
-        return self.app.select_single(
+        return self.app.wait_select_single(
             "Button",
             objectName="removeFromAlbumAndDeleteButton",
             visible=True)
 
     def _get_remove_from_album_popover_cancel_item(self):
         """Returns cancel button of the remove from album popover."""
-        return self.app.select_single("Button",
-                                      objectName="removeFromAlbumCancelButton",
-                                      visible=True)
+        return self.app.wait_select_single(
+            "Button",
+            objectName="removeFromAlbumCancelButton",
+            visible=True)
 
     def _ensure_remove_from_album_dialog_is_open(self):
         """Ensure that the remove from album dialog is fully opened."""
+        self.assertThat(self._remove_from_album_dialog_shown,
+                        Eventually(Is(True)))
         remove_dialog = self._get_remove_from_album_dialog()
         self.assertThat(remove_dialog.visible, Eventually(Equals(True)))
         self.assertThat(remove_dialog.opacity, Eventually(Equals(1)))
