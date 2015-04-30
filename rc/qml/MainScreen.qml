@@ -54,7 +54,6 @@ MainView {
         mediaCurrentlyInView = media;
         for (var i = 0; i < mediaLibraryLoader.item.count; i++) {
             if (mediaLibraryLoader.item.getAt(i).path == mediaCurrentlyInView) {
-                APP.mediaFile = "";
                 photoViewerLoader.load();
                 if (tabs.selectedTabIndex === 0) {
                     if (albumsTab.isAlbumOpened) {
@@ -288,7 +287,7 @@ MainView {
                 id: mediaLibrary
                 monitored: true
                 onIndexAdded: {
-                    if (APP.mediaFile === mediaLibrary.getAt(index).path)
+                    if (APP.mediaFile == mediaLibrary.getAt(index).path)
                         openMediaFile(APP.mediaFile);
                 }
             }

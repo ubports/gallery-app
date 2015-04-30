@@ -385,9 +385,6 @@ void GalleryApplication::setMediaFile(const QString &mediaFile)
     if (!mediaFile.isEmpty()) {
         m_mediaFile = "file://" + mediaFile;
         m_mediaLoadedTimer.start();
-    } else {
-        m_mediaFile = mediaFile;
-        Q_EMIT mediaFileChanged();
     }
 }
 
