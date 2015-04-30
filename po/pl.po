@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-02-25 11:17+0100\n"
-"PO-Revision-Date: 2015-04-27 14:32+0000\n"
-"Last-Translator: GTriderXC <gtriderxc@yahoo.com>\n"
+"PO-Revision-Date: 2015-04-29 07:51+0000\n"
+"Last-Translator: Bartosz Kosiorek <Unknown>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-04-28 05:31+0000\n"
+"X-Launchpad-Export-Date: 2015-04-30 05:29+0000\n"
 "X-Generator: Launchpad (build 17453)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
@@ -244,7 +244,7 @@ msgstr "Galeria"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:167
 msgid "Toggle Selection"
-msgstr ""
+msgstr "Odwróć zaznaczenie"
 
 #: rc/qml/PickerScreen.qml:241
 msgid "Pick"
