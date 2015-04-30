@@ -52,8 +52,8 @@ MainView {
         }
 
         mediaCurrentlyInView = media;
-        for (var i = 0; i < MANAGER.mediaLibrary.count; i++) {
-            if (MANAGER.mediaLibrary.getAt(i).path == mediaCurrentlyInView) {
+        for (var i = 0; i < mediaLibraryLoader.item.count; i++) {
+            if (mediaLibraryLoader.item.getAt(i).path == mediaCurrentlyInView) {
                 photoViewerLoader.load();
                 if (tabs.selectedTabIndex === 0) {
                     if (albumsTab.isAlbumOpened) {
@@ -66,7 +66,7 @@ MainView {
                 } else {
                     photoViewerLoader.item.title = photosTab.title;
                 }
-                photoViewerLoader.item.animateOpen(MANAGER.mediaLibrary.getAt(i),
+                photoViewerLoader.item.animateOpen(mediaLibraryLoader.item.getAt(i),
                                                    Qt.rect(0,0,0,0));
                 return;
             }
@@ -209,7 +209,7 @@ MainView {
                     PhotosOverview {
                         id: photosOverview
                         anchors.fill: parent
-                        model: MANAGER.mediaLibrary
+                        model: mediaLibraryLoader.item
 
                         Connections {
                             target: photoViewerLoader.item
@@ -258,7 +258,7 @@ MainView {
         property bool loaded: photoViewerLoader.status === Loader.Ready
 
         function load() {
-            setSource(Qt.resolvedUrl("MediaViewer/PopupPhotoViewer.qml"), {model: MANAGER.mediaLibrary});
+            setSource(Qt.resolvedUrl("MediaViewer/PopupPhotoViewer.qml"), {model: mediaLibraryLoader.item});
         }
 
         anchors.fill: parent
@@ -273,6 +273,18 @@ MainView {
                 popPage();
                 photoViewerLoader.item.fadeClosed();
                 overview.mediaCurrentlyInView = "";
+            }
+        }
+    }
+
+    Loader {
+        id: mediaLibraryLoader
+        sourceComponent: allLoaded ? mediaLibraryComponent : ""        
+
+        Component {
+            id: mediaLibraryComponent
+            MediaCollectionModel {
+                monitored: true
             }
         }
     }
