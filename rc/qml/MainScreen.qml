@@ -284,7 +284,9 @@ MainView {
         Component {
             id: mediaLibraryComponent
             MediaCollectionModel {
+                id: mediaLibrary
                 monitored: true
+                onIndexAdded: console.log("ENTRY ADDED: ", mediaLibrary.getAt(index).path)
             }
         }
     }

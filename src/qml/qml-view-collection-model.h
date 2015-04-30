@@ -69,6 +69,7 @@ signals:
     void orderingChanged();
     void monitorSelectionChanged();
     void mediaTypeFilterChanged();
+    void indexAdded(int index);
 
 public:
     // These roles are available for all subclasses of QmlViewCollectionModel.
