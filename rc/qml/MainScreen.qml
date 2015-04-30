@@ -54,6 +54,7 @@ MainView {
         mediaCurrentlyInView = media;
         for (var i = 0; i < mediaLibraryLoader.item.count; i++) {
             if (mediaLibraryLoader.item.getAt(i).path == mediaCurrentlyInView) {
+                APP.mediaFile = "";
                 photoViewerLoader.load();
                 if (tabs.selectedTabIndex === 0) {
                     if (albumsTab.isAlbumOpened) {
@@ -286,7 +287,10 @@ MainView {
             MediaCollectionModel {
                 id: mediaLibrary
                 monitored: true
-                onIndexAdded: console.log("ENTRY ADDED: ", mediaLibrary.getAt(index).path)
+                onIndexAdded: {
+                    if (APP.mediaFile === mediaLibrary.getAt(index).path)
+                        openMediaFile(APP.mediaFile);
+                }
             }
         }
     }
@@ -316,7 +320,7 @@ MainView {
     Connections {
         target: APP
         onMediaFileChanged: {
-            if (applicationLoaded) {
+            if (applicationLoaded && APP.mediaFile != "") {
                 openMediaFile(APP.mediaFile);
             }
         }
