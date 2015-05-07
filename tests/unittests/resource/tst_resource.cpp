@@ -36,12 +36,12 @@ private slots:
 void tst_Resource::picturesDirectory()
 {
     Resource resource(false, "");
-    QCOMPARE(resource.mediaDirectories().size(), 2);
+    QCOMPARE(resource.mediaDirectories().size(), 3);
     QCOMPARE(resource.mediaDirectories().at(0), QStandardPaths::writableLocation(QStandardPaths::PicturesLocation));
 
     QString picDir("/tmp");
     Resource resource2(false, picDir);
-    QCOMPARE(resource2.mediaDirectories().size(), 1);
+    QCOMPARE(resource2.mediaDirectories().size(), 2);
     QCOMPARE(resource2.mediaDirectories().at(0), picDir);
 }
 
