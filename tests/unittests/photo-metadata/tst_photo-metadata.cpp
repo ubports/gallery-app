@@ -31,7 +31,7 @@ private:
 
 void tst_PhotoMetadata::exposureTime()
 {
-    m_metadata = PhotoMetadata::fromFile("./images/sample01.jpg");
+    m_metadata = PhotoMetadata::fromFile(SAMPLE_IMAGE_DIR "/sample01.jpg");
     // Check that the original exposure time is returned
     QCOMPARE(m_metadata->exposureTime(), QDateTime(QDate(2015, 5, 8), QTime(1, 51, 48)));
 

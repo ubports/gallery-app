@@ -29,6 +29,7 @@ QT5_WRAP_CPP(PHOTOMETADATA_MOCS
     ${gallery_photo_src_SOURCE_DIR}/photo.h
     )
 
+add_definitions(-DSAMPLE_IMAGE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/images")
 add_executable(photo-metadata
     tst_photo-metadata.cpp
     ${gallery_photoeditor_src_SOURCE_DIR}/photo-metadata.cpp
