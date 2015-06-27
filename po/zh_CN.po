@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-02-25 11:17+0100\n"
-"PO-Revision-Date: 2014-05-27 16:19+0000\n"
-"Last-Translator: Anthony Wong <anthony.wong@ubuntu.com>\n"
+"PO-Revision-Date: 2015-06-26 07:52+0000\n"
+"Last-Translator: Ian Li <Unknown>\n"
 "Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-04-07 05:28+0000\n"
-"X-Generator: Launchpad (build 17413)\n"
+"X-Launchpad-Export-Date: 2015-06-27 05:35+0000\n"
+"X-Generator: Launchpad (build 17578)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:36
@@ -72,11 +72,11 @@ msgstr "添加新相册"
 
 #: rc/qml/AlbumsOverview.qml:240 rc/qml/Components/PopupAlbumPicker.qml:101
 msgid "New Photo Album"
-msgstr ""
+msgstr "新相册"
 
 #: rc/qml/AlbumsOverview.qml:241 rc/qml/Components/PopupAlbumPicker.qml:102
 msgid "Subtitle"
-msgstr ""
+msgstr "副标题"
 
 #: rc/qml/AlbumsOverview.qml:247 rc/qml/Utility/EditingHUD.qml:77
 #: rc/qml/Utility/SelectionToolbarAction.qml:47
@@ -116,44 +116,44 @@ msgstr "添加照片到相册"
 
 #: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
 msgid "Delete 1 photo"
-msgstr ""
+msgstr "删除1张照片"
 
 #: rc/qml/EventsOverview.qml:78 rc/qml/PhotosOverview.qml:87
 msgid "Delete 1 video"
-msgstr ""
+msgstr "删除1段视频"
 
 #: rc/qml/EventsOverview.qml:81 rc/qml/PhotosOverview.qml:90
 #, qt-format
 msgid "Delete %1 photos"
-msgstr ""
+msgstr "删除%1张照片"
 
 #: rc/qml/EventsOverview.qml:83 rc/qml/PhotosOverview.qml:92
 #, qt-format
 msgid "Delete %1 videos"
-msgstr ""
+msgstr "删除%1段视频"
 
 #: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:95
 #, qt-format
 msgid "Delete %1 photos and 1 video"
-msgstr ""
+msgstr "删除%1张照片和一段视频"
 
 #: rc/qml/EventsOverview.qml:88 rc/qml/PhotosOverview.qml:97
 #, qt-format
 msgid "Delete 1 photo and %1 videos"
-msgstr ""
+msgstr "删除1张照片和%1段视频"
 
 #: rc/qml/EventsOverview.qml:90 rc/qml/PhotosOverview.qml:99
 msgid "Delete 1 photo and 1 video"
-msgstr ""
+msgstr "删除1张照片和1段视频"
 
 #: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:101
 #, qt-format
 msgid "Delete %1 photos and %2 videos"
-msgstr ""
+msgstr "删除%1张照片和%2段视频"
 
 #: rc/qml/EventsOverview.qml:151 rc/qml/PhotosOverview.qml:165
 msgid "Share to"
-msgstr ""
+msgstr "分享到"
 
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
@@ -210,23 +210,23 @@ msgstr "删除一张照片"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:231
 msgid "Delete a video"
-msgstr ""
+msgstr "删除一段视频"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:264
 msgid "Remove a photo from album"
-msgstr ""
+msgstr "从相册中移除一张照片"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:264
 msgid "Remove a video from album"
-msgstr ""
+msgstr "从相册中移除一段视频"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:273
 msgid "Remove from Album"
-msgstr ""
+msgstr "从相册中移除"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:284
 msgid "Remove from Album and Delete"
-msgstr ""
+msgstr "从相册中移除并删除"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:449
 msgid "Edit"
@@ -244,7 +244,7 @@ msgstr "相册"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:167
 msgid "Toggle Selection"
-msgstr ""
+msgstr "切换选中状态"
 
 #: rc/qml/PickerScreen.qml:241
 msgid "Pick"
@@ -368,4 +368,4 @@ msgstr "浏览你的照片"
 
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
-msgstr ""
+msgstr "影像；图片；相册"
