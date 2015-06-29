@@ -27,10 +27,10 @@ const Orientation DEFAULT_ORIENTATION = TOP_LEFT_ORIGIN;
 const char* EXIF_ORIENTATION_KEY = "Exif.Image.Orientation";
 const char* EXIF_DATETIMEDIGITIZED_KEY = "Exif.Photo.DateTimeDigitized";
 const char* EXPOSURE_TIME_KEYS[] = {
+    "Exif.Photo.DateTimeDigitized",
     "Exif.Photo.DateTimeOriginal",
     "Xmp.exif.DateTimeOriginal",
     "Xmp.xmp.CreateDate",
-    "Exif.Photo.DateTimeDigitized",
     "Xmp.exif.DateTimeDigitized",
     "Exif.Image.DateTime"
 };
