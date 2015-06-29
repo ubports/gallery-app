@@ -655,6 +655,7 @@ void QmlViewCollectionModel::notifyElementAdded(int index)
     if (index >= 0) {
         beginInsertRows(QModelIndex(), index, index);
         endInsertRows();
+        Q_EMIT(indexAdded(index));
     }
 }
 
