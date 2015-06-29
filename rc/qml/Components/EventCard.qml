@@ -55,7 +55,8 @@ UbuntuShape {
         font.capitalization: Font.AllUppercase
         horizontalAlignment: Text.AlignHCenter
 
-        text: (event) ? Qt.formatDate(event.date, "MMM yyyy") : ""
+        /// The event ubuntushape's month/year part, keep as is unless you know what you're doing
+        text: (event) ? Qt.formatDate(event.date, i18n.tr("MMM yyyy")) : ""
     }
 
     Label {
@@ -68,6 +69,7 @@ UbuntuShape {
 
         horizontalAlignment: Text.AlignHCenter
 
-        text: (event) ? Qt.formatDate(event.date, "dd") : ""
+        /// The event ubuntushape's day part, keep as is unless you know what you're doing
+        text: (event) ? Qt.formatDate(event.date, i18n.tr("dd")) : ""
     }
 }
