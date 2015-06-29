@@ -1,3 +1,26 @@
+gallery-app (0.0.67+15.10.20150629-0ubuntu1) wily; urgency=medium
+
+  [ Arthur Mello ]
+  * Add a timer before going fullscreen while on image viewer to reduce
+    flickering (LP: #1425563)
+  * Make sure that DateTimeDigitized is the first tag evaluated to get
+    exposure time added: tests/unittests/photo-metadata/
+    tests/unittests/photo-metadata/CMakeLists.txt tests/unittests/photo-
+    metadata/images/ tests/unittests/photo-metadata/images/sample01.jpg
+    tests/unittests/photo-metadata/tst_photo-metadata.cpp
+  * Make sure that photos that are opened from scopes and are not on
+    gallery library will be displayed correctly (LP: #1389514)
+  * update icon (LP: #1457424)
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+  [ Timo Jyrinki ]
+  * Allow translating the date strings in EventCard.qml, update .pot
+    file (LP: #1457357) (LP: #1457357)
+
+ -- CI Train Bot <ci-train-bot@canonical.com>  Mon, 29 Jun 2015 19:04:05 +0000
+
 gallery-app (0.0.67+15.04.20150422-0ubuntu1) vivid; urgency=medium
 
   [ Arthur Mello ]
