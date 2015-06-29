@@ -78,7 +78,7 @@ MainView {
         toggleFullscreen = typeof toggleFullscreen !== 'undefined' ? toggleFullscreen : true
         header.visible = visible;
         if (!APP.desktopMode && toggleFullscreen)
-            setFullScreen(!visible);
+            setFullScreenTimer.start();
     }
 
     function toggleHeaderVisibility()
@@ -125,6 +125,12 @@ MainView {
 
     function popPage() {
         pageStack.pop();
+    }
+
+    Timer {
+        id: setFullScreenTimer
+        interval: 10;
+        onTriggered: setFullScreen(!header.visible)
     }
 
     PageStack {
