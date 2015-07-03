@@ -6,15 +6,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-25 11:17+0100\n"
+"POT-Creation-Date: 2015-05-21 13:13+0300\n"
 "PO-Revision-Date: 2015-05-16 20:15+0000\n"
 "Last-Translator: Tobias Bannert <Unknown>\n"
 "Language-Team: German\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-05-17 05:22+0000\n"
-"X-Generator: Launchpad (build 17493)\n"
+"X-Launchpad-Export-Date: 2015-07-03 05:47+0000\n"
+"X-Generator: Launchpad (build 17597)\n"
 "Language: de\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
@@ -25,15 +25,17 @@ msgstr "Album bearbeiten"
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
 #: rc/qml/AlbumViewer/AlbumViewer.qml:375
 #: rc/qml/Components/DeleteDialog.qml:32
-#: rc/qml/MediaViewer/MediaViewer.qml:466 rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/MediaViewer/MediaViewer.qml:345 rc/qml/Utility/EditingHUD.qml:67
 #: rc/qml/Utility/SelectionToolbarAction.qml:56
 msgid "Delete"
 msgstr "Löschen"
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:39
 #: rc/qml/Components/MediaSelector.qml:92
-#: rc/qml/MediaViewer/MediaViewer.qml:294 rc/qml/PickerScreen.qml:235
-#: rc/qml/Utility/SelectionToolbarAction.qml:75
+#: rc/qml/MediaViewer/MediaViewer.qml:275
+#: rc/qml/MediaViewer/PhotoEditor.qml:206
+#: rc/qml/MediaViewer/PhotoEditor/ExposureAdjuster.qml:80
+#: rc/qml/PickerScreen.qml:235 rc/qml/Utility/SelectionToolbarAction.qml:75
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -62,7 +64,7 @@ msgid "Album"
 msgstr "Album"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:369
-#: rc/qml/MediaViewer/MediaViewer.qml:456
+#: rc/qml/MediaViewer/MediaViewer.qml:335
 msgid "Add to album"
 msgstr "Zum Album hinzufügen"
 
@@ -88,12 +90,12 @@ msgid "Camera"
 msgstr "Kamera"
 
 #: rc/qml/Components/DeleteDialog.qml:36
-#: rc/qml/MediaViewer/MediaViewer.qml:242
+#: rc/qml/MediaViewer/MediaViewer.qml:223
 msgid "Yes"
 msgstr "Ja"
 
 #: rc/qml/Components/DeleteDialog.qml:45
-#: rc/qml/MediaViewer/MediaViewer.qml:253
+#: rc/qml/MediaViewer/MediaViewer.qml:234
 msgid "No"
 msgstr "Nein"
 
@@ -104,6 +106,14 @@ msgstr "Album löschen"
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
 msgstr "Album + Inhalte löschen"
+
+#: rc/qml/Components/EventCard.qml:59
+msgid "MMM yyyy"
+msgstr ""
+
+#: rc/qml/Components/EventCard.qml:73
+msgid "dd"
+msgstr ""
 
 #: rc/qml/Components/MediaSelector.qml:59
 #: rc/qml/Components/MediaSelector.qml:80
@@ -179,63 +189,88 @@ msgstr "Auswählen"
 msgid "Photos"
 msgstr "Fotos"
 
-#: rc/qml/MediaViewer/CropOverlay.qml:352
-#: rc/qml/MediaViewer/EditPopover.qml:51 rc/qml/Utility/EditingHUD.qml:106
-msgid "Crop"
-msgstr "Ausschneiden"
+#: rc/qml/MediaViewer/ExtrasPhotoEditorPage.qml:26
+#: rc/qml/MediaViewer/GalleryPhotoEditorPage.qml:25
+msgid "Edit Photo"
+msgstr ""
 
-#: rc/qml/MediaViewer/EditPopover.qml:42 rc/qml/Utility/EditingHUD.qml:99
-msgid "Rotate"
-msgstr "Drehen"
-
-#: rc/qml/MediaViewer/EditPopover.qml:60
-msgid "Auto enhance"
-msgstr "Automatisch verbessern"
-
-#: rc/qml/MediaViewer/EditPopover.qml:69 rc/qml/Utility/EditingHUD.qml:82
-msgid "Undo"
-msgstr "Rückgängig"
-
-#: rc/qml/MediaViewer/EditPopover.qml:79 rc/qml/Utility/EditingHUD.qml:87
-msgid "Redo"
-msgstr "Wiederherstellen"
-
-#: rc/qml/MediaViewer/EditPopover.qml:89
-msgid "Revert to original"
-msgstr "Original wiederherstellen"
-
-#: rc/qml/MediaViewer/MediaViewer.qml:231
+#: rc/qml/MediaViewer/MediaViewer.qml:212
 msgid "Delete a photo"
 msgstr "Ein Foto löschen"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:231
+#: rc/qml/MediaViewer/MediaViewer.qml:212
 msgid "Delete a video"
 msgstr "Ein Video löschen"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:264
+#: rc/qml/MediaViewer/MediaViewer.qml:245
 msgid "Remove a photo from album"
 msgstr "Ein Foto aus dem Album entfernen"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:264
+#: rc/qml/MediaViewer/MediaViewer.qml:245
 msgid "Remove a video from album"
 msgstr "Ein Video aus dem Album entfernen"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:273
+#: rc/qml/MediaViewer/MediaViewer.qml:254
 msgid "Remove from Album"
 msgstr "Aus Album entfernen"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:284
+#: rc/qml/MediaViewer/MediaViewer.qml:265
 msgid "Remove from Album and Delete"
 msgstr "Aus Album entfernen und löschen"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:449
+#: rc/qml/MediaViewer/MediaViewer.qml:312
 msgid "Edit"
 msgstr "Bearbeiten"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:477 rc/qml/Utility/EditingHUD.qml:72
+#: rc/qml/MediaViewer/MediaViewer.qml:356 rc/qml/Utility/EditingHUD.qml:72
 #: rc/qml/Utility/SelectionToolbarAction.qml:65
 msgid "Share"
 msgstr "Teilen"
+
+#: rc/qml/MediaViewer/PhotoEditor.qml:43
+#: rc/qml/MediaViewer/PhotoEditor/CropOverlay.qml:349
+#: rc/qml/Utility/EditingHUD.qml:106
+msgid "Crop"
+msgstr "Ausschneiden"
+
+#: rc/qml/MediaViewer/PhotoEditor.qml:52 rc/qml/Utility/EditingHUD.qml:99
+msgid "Rotate"
+msgstr "Drehen"
+
+#: rc/qml/MediaViewer/PhotoEditor.qml:196
+msgid "Revert to original"
+msgstr "Original wiederherstellen"
+
+#: rc/qml/MediaViewer/PhotoEditor.qml:197
+msgid "This will undo all edits, including those from previous sessions."
+msgstr ""
+
+#: rc/qml/MediaViewer/PhotoEditor.qml:212
+msgid "Revert Photo"
+msgstr ""
+
+#: rc/qml/MediaViewer/PhotoEditor.qml:226
+msgid "Enhancing photo..."
+msgstr ""
+
+#: rc/qml/MediaViewer/PhotoEditor/EditStack.qml:114
+#: rc/qml/Utility/EditingHUD.qml:82
+msgid "Undo"
+msgstr "Rückgängig"
+
+#: rc/qml/MediaViewer/PhotoEditor/EditStack.qml:121
+#: rc/qml/Utility/EditingHUD.qml:87
+msgid "Redo"
+msgstr "Wiederherstellen"
+
+#: rc/qml/MediaViewer/PhotoEditor/EditStack.qml:128
+#: rc/qml/Utility/EditingHUD.qml:113
+msgid "Revert to Original"
+msgstr "Original wiederherstellen"
+
+#: rc/qml/MediaViewer/PhotoEditor/ExposureAdjuster.qml:71
+msgid "Done"
+msgstr ""
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:46
 #: desktop/gallery-app.desktop.in.in.h:1
@@ -296,10 +331,6 @@ msgstr "Zuschneiden;Ausschneiden;Schneiden"
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
 msgstr "Bild zuschneiden"
-
-#: rc/qml/Utility/EditingHUD.qml:113
-msgid "Revert to Original"
-msgstr "Original wiederherstellen"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
@@ -372,3 +403,6 @@ msgstr "Ihre Fotos durchsuchen"
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
 msgstr "Fotos;Photos;Bilder;Alben;Pictures"
+
+#~ msgid "Auto enhance"
+#~ msgstr "Automatisch verbessern"
