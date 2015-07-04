@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-05-21 13:13+0300\n"
-"PO-Revision-Date: 2015-03-03 14:25+0000\n"
+"PO-Revision-Date: 2015-07-03 12:45+0000\n"
 "Last-Translator: samson <Unknown>\n"
 "Language-Team: Amharic <am@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-07-03 05:47+0000\n"
+"X-Launchpad-Export-Date: 2015-07-04 05:34+0000\n"
 "X-Generator: Launchpad (build 17597)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
@@ -109,11 +109,11 @@ msgstr "አልበም + ይዞታውን ማጥፊያ"
 
 #: rc/qml/Components/EventCard.qml:59
 msgid "MMM yyyy"
-msgstr ""
+msgstr "MMM yyyy"
 
 #: rc/qml/Components/EventCard.qml:73
 msgid "dd"
-msgstr ""
+msgstr "dd"
 
 #: rc/qml/Components/MediaSelector.qml:59
 #: rc/qml/Components/MediaSelector.qml:80
@@ -192,7 +192,7 @@ msgstr "ፎቶዎች"
 #: rc/qml/MediaViewer/ExtrasPhotoEditorPage.qml:26
 #: rc/qml/MediaViewer/GalleryPhotoEditorPage.qml:25
 msgid "Edit Photo"
-msgstr ""
+msgstr "ፎቶ ማረሚያ"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:212
 msgid "Delete a photo"
@@ -243,15 +243,15 @@ msgstr "ወደ ነበረበት መመለሻ"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
-msgstr ""
+msgstr "ሁሉንም እርማት መተው: ቀደም ያለውንም ክፍለ ጊዜ ያካትታል"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:212
 msgid "Revert Photo"
-msgstr ""
+msgstr "ፎቶ እንደ ነበር መመለሻ"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:226
 msgid "Enhancing photo..."
-msgstr ""
+msgstr "የ ፎቶ ጥራት መጨመሪያ"
 
 #: rc/qml/MediaViewer/PhotoEditor/EditStack.qml:114
 #: rc/qml/Utility/EditingHUD.qml:82
@@ -270,7 +270,7 @@ msgstr "ወደ ነበረበት መመለሻ"
 
 #: rc/qml/MediaViewer/PhotoEditor/ExposureAdjuster.qml:71
 msgid "Done"
-msgstr ""
+msgstr "ጨርሷል"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:46
 #: desktop/gallery-app.desktop.in.in.h:1
@@ -400,6 +400,3 @@ msgstr "ፎቶዎች መቃኛ"
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
 msgstr "ፎቶግራፎች: ስእሎች: አልበሞች"
-
-#~ msgid "Auto enhance"
-#~ msgstr "በራሱ መጨመሪያ"
