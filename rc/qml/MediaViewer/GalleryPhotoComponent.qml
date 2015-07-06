@@ -70,10 +70,10 @@ Rectangle {
     // read-only
     /*!
     */
-    property real paintedWidth: imageComponent.paintedWidth
+    property real paintedWidth: parent.width
     /*!
     */
-    property real paintedHeight: imageComponent.paintedHeight
+    property real paintedHeight: parent.height
     /*!
     */
     property bool isLoaded: false
@@ -81,49 +81,9 @@ Rectangle {
     // internal
     /*!
     */
-    property Image image: imageComponent
+    property Image image: null
 
     /*!
     */
     signal loaded()
-
-    clip: true
-
-    Image {
-        id: imageComponent
-
-        width: parent.width
-        height: parent.height
-        x: 0
-        y: 0
-
-        source: (width > 0 && height > 0) ? photoComponent.source : ""
-
-        // CRITICAL: when we moved to QT 5, we began to experience crashes when
-        //           drawing photos after editing operations (see Launchpad bug
-        //           #1065208). It turns out that, due to a bug in QT 5, in some
-        //           cases images can be added to the list of objects to be drawn
-        //           even though they're not yet loaded into memory. Of course,
-        //           this causes a segfault. This property binding is here to
-        //           prevent this segfault & crash from occurring.
-        visible: isLoaded;
-
-        sourceSize.width: width
-        sourceSize.height: height
-
-        // use cache: !isAnimate setting for flicker-free animations and reflows
-        asynchronous: !isAnimate
-        cache: !isAnimate
-        smooth: !isAnimate
-        fillMode: isCropped ? Image.PreserveAspectCrop : Image.PreserveAspectFit
-
-        onStatusChanged: {
-            if(status == Image.Ready) {
-                isLoaded = true;
-                loaded();
-            } else {
-                isLoaded = false;
-            }
-        }
-    }
 }
