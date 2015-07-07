@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-05-21 13:13+0300\n"
-"PO-Revision-Date: 2015-03-07 19:25+0000\n"
+"PO-Revision-Date: 2015-07-06 17:47+0000\n"
 "Last-Translator: Meriuță Cornel <meriutacornel@neacornel.eu>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-07-04 05:34+0000\n"
+"X-Launchpad-Export-Date: 2015-07-07 05:38+0000\n"
 "X-Generator: Launchpad (build 17597)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
@@ -109,7 +109,7 @@ msgstr "Ștergere album + conținut"
 
 #: rc/qml/Components/EventCard.qml:59
 msgid "MMM yyyy"
-msgstr ""
+msgstr "MMM yyyy"
 
 #: rc/qml/Components/EventCard.qml:73
 msgid "dd"
@@ -192,7 +192,7 @@ msgstr "Fotografii"
 #: rc/qml/MediaViewer/ExtrasPhotoEditorPage.qml:26
 #: rc/qml/MediaViewer/GalleryPhotoEditorPage.qml:25
 msgid "Edit Photo"
-msgstr ""
+msgstr "Editare fotografie"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:212
 msgid "Delete a photo"
@@ -270,7 +270,7 @@ msgstr "Revenire la original"
 
 #: rc/qml/MediaViewer/PhotoEditor/ExposureAdjuster.qml:71
 msgid "Done"
-msgstr ""
+msgstr "Finalizat"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:46
 #: desktop/gallery-app.desktop.in.in.h:1
