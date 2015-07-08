@@ -1,16 +1,16 @@
-# Polish translation for gallery-app
-# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# Bosnian translation for gallery-app
+# Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
 # This file is distributed under the same license as the gallery-app package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-05-21 13:13+0300\n"
-"PO-Revision-Date: 2015-07-07 21:56+0000\n"
-"Last-Translator: GTriderXC <gtriderxc@yahoo.com>\n"
-"Language-Team: Polish <pl@li.org>\n"
+"PO-Revision-Date: 2015-07-07 08:21+0000\n"
+"Last-Translator: Kenan Gutić <Unknown>\n"
+"Language-Team: Bosnian <bs@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,7 +20,7 @@ msgstr ""
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:36
 msgid "Edit album"
-msgstr "Edytuj album"
+msgstr "Uredi album"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
 #: rc/qml/AlbumViewer/AlbumViewer.qml:375
@@ -28,7 +28,7 @@ msgstr "Edytuj album"
 #: rc/qml/MediaViewer/MediaViewer.qml:345 rc/qml/Utility/EditingHUD.qml:67
 #: rc/qml/Utility/SelectionToolbarAction.qml:56
 msgid "Delete"
-msgstr "Usuń"
+msgstr "Obriši"
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:39
 #: rc/qml/Components/MediaSelector.qml:92
@@ -37,27 +37,27 @@ msgstr "Usuń"
 #: rc/qml/MediaViewer/PhotoEditor/ExposureAdjuster.qml:80
 #: rc/qml/PickerScreen.qml:235 rc/qml/Utility/SelectionToolbarAction.qml:75
 msgid "Cancel"
-msgstr "Anuluj"
+msgstr "Odustani"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
-msgstr "Domyślnie"
+msgstr "Zadano"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:114
 msgid "Blue"
-msgstr "Niebieski"
+msgstr "Plava"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:115
 msgid "Green"
-msgstr "Zielony"
+msgstr "Zelena"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:116
 msgid "Pattern"
-msgstr "Wzorzec"
+msgstr "Šablon"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:117
 msgid "Red"
-msgstr "Czerwony"
+msgstr "Crvena"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:107 rc/qml/MainScreen.qml:60
 msgid "Album"
@@ -66,19 +66,19 @@ msgstr "Album"
 #: rc/qml/AlbumViewer/AlbumViewer.qml:369
 #: rc/qml/MediaViewer/MediaViewer.qml:335
 msgid "Add to album"
-msgstr "Dodaj do albumu"
+msgstr "Dodaj u album"
 
 #: rc/qml/AlbumsOverview.qml:236 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
-msgstr "Dodaj nowy album"
+msgstr "Dodaj u novi album"
 
 #: rc/qml/AlbumsOverview.qml:240 rc/qml/Components/PopupAlbumPicker.qml:101
 msgid "New Photo Album"
-msgstr "Nowy album ze zdjęciami"
+msgstr "Novi foto album"
 
 #: rc/qml/AlbumsOverview.qml:241 rc/qml/Components/PopupAlbumPicker.qml:102
 msgid "Subtitle"
-msgstr "Podtytuł"
+msgstr "Podnaslov"
 
 #: rc/qml/AlbumsOverview.qml:247 rc/qml/Utility/EditingHUD.qml:77
 #: rc/qml/Utility/SelectionToolbarAction.qml:47
@@ -87,25 +87,25 @@ msgstr "Dodaj"
 
 #: rc/qml/AlbumsOverview.qml:252 rc/qml/Utility/PhotosToolbarActions.qml:51
 msgid "Camera"
-msgstr "Aparat"
+msgstr "Kamera"
 
 #: rc/qml/Components/DeleteDialog.qml:36
 #: rc/qml/MediaViewer/MediaViewer.qml:223
 msgid "Yes"
-msgstr "Tak"
+msgstr "Da"
 
 #: rc/qml/Components/DeleteDialog.qml:45
 #: rc/qml/MediaViewer/MediaViewer.qml:234
 msgid "No"
-msgstr "Nie"
+msgstr "Ne"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr "Usunięcie albumu"
+msgstr "Obriši album"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr "Usunięcie albumu i zawartości"
+msgstr "Obriši album + sadržaj"
 
 #: rc/qml/Components/EventCard.qml:59
 msgid "MMM yyyy"
@@ -113,267 +113,265 @@ msgstr "MMM yyyy"
 
 #: rc/qml/Components/EventCard.qml:73
 msgid "dd"
-msgstr "d"
+msgstr "dd"
 
 #: rc/qml/Components/MediaSelector.qml:59
 #: rc/qml/Components/MediaSelector.qml:80
 msgid "Add to Album"
-msgstr "Dodaj do albumu"
+msgstr "Dodaj u album"
 
 #: rc/qml/Components/PopupAlbumPicker.qml:161 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr "Dodawanie zdjęć do albumu"
+msgstr "Dodaj fotografiju u album"
 
 #: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
 msgid "Delete 1 photo"
-msgstr "Usuń jedno zdjęcie"
+msgstr "Obriši 1 fotografiju"
 
 #: rc/qml/EventsOverview.qml:78 rc/qml/PhotosOverview.qml:87
 msgid "Delete 1 video"
-msgstr "Usuń jeden film"
+msgstr "Obriši 1 video"
 
 #: rc/qml/EventsOverview.qml:81 rc/qml/PhotosOverview.qml:90
 #, qt-format
 msgid "Delete %1 photos"
-msgstr "Usuń %1 zdjęć"
+msgstr "Obriši %1 fotografija"
 
 #: rc/qml/EventsOverview.qml:83 rc/qml/PhotosOverview.qml:92
 #, qt-format
 msgid "Delete %1 videos"
-msgstr "Usuń %1 filmów"
+msgstr "Obriši %1 video sadržaja"
 
 #: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:95
 #, qt-format
 msgid "Delete %1 photos and 1 video"
-msgstr "Usuń %1 zdjęć i jeden film"
+msgstr "Obriši %1 fotografija i 1 video"
 
 #: rc/qml/EventsOverview.qml:88 rc/qml/PhotosOverview.qml:97
 #, qt-format
 msgid "Delete 1 photo and %1 videos"
-msgstr "Usuń jedno zdjęcie i %1 filmów"
+msgstr "Obriši 1 fotografiju i %1 video sadržaja"
 
 #: rc/qml/EventsOverview.qml:90 rc/qml/PhotosOverview.qml:99
 msgid "Delete 1 photo and 1 video"
-msgstr "Usuń jedno zdjęcie i jeden film"
+msgstr "Obriši 1 fotografiju i 1 video"
 
 #: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:101
 #, qt-format
 msgid "Delete %1 photos and %2 videos"
-msgstr "Usuń %1 zdjęć i %2 filmów"
+msgstr "Obriši %1 fotografija i %2 video sadržaja"
 
 #: rc/qml/EventsOverview.qml:151 rc/qml/PhotosOverview.qml:165
 msgid "Share to"
-msgstr "Prześlij do"
+msgstr "Dijeli sa"
 
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
-msgstr "Wczytywanie…"
+msgstr "Učitavanje…"
 
 #: rc/qml/MainScreen.qml:147
 msgid "Albums"
-msgstr "Albumy"
+msgstr "Albumi"
 
 #: rc/qml/MainScreen.qml:161 rc/qml/MainScreen.qml:190
 #: rc/qml/PickerScreen.qml:101
 msgid "Events"
-msgstr "Zdarzenia"
+msgstr "Događaji"
 
 #: rc/qml/MainScreen.qml:188 rc/qml/MainScreen.qml:233
 #: rc/qml/PickerScreen.qml:141 rc/qml/PickerScreen.qml:194
 #: rc/qml/Utility/PhotosToolbarActions.qml:34
 msgid "Select"
-msgstr "Wybierz"
+msgstr "Odaberi"
 
 #: rc/qml/MainScreen.qml:199 rc/qml/MainScreen.qml:235
 #: rc/qml/PickerScreen.qml:152
 msgid "Photos"
-msgstr "Zdjęcia"
+msgstr "Fotografije"
 
 #: rc/qml/MediaViewer/ExtrasPhotoEditorPage.qml:26
 #: rc/qml/MediaViewer/GalleryPhotoEditorPage.qml:25
 msgid "Edit Photo"
-msgstr "Edytuj zdjęcie"
+msgstr "Uredi fotografiju"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:212
 msgid "Delete a photo"
-msgstr "Usuń zdjęcie"
+msgstr "Obriši fotografiju"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:212
 msgid "Delete a video"
-msgstr "Usuń film"
+msgstr "Obriši video"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:245
 msgid "Remove a photo from album"
-msgstr "Usuń zdjęcie z albumu"
+msgstr "Ukloni fotografiju iz albuma"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:245
 msgid "Remove a video from album"
-msgstr "Usuń film z albumu"
+msgstr "Ukloni video iz albuma"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:254
 msgid "Remove from Album"
-msgstr "Usuń z albumu"
+msgstr "Ukloni iz albuma"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:265
 msgid "Remove from Album and Delete"
-msgstr "Usuń z albumu i wykasuj"
+msgstr "Ukloni iz albuma i obriši"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:312
 msgid "Edit"
-msgstr "Edycja"
+msgstr "Uredi"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:356 rc/qml/Utility/EditingHUD.qml:72
 #: rc/qml/Utility/SelectionToolbarAction.qml:65
 msgid "Share"
-msgstr "Udostępnij"
+msgstr "Dijeli"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:43
 #: rc/qml/MediaViewer/PhotoEditor/CropOverlay.qml:349
 #: rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr "Kadrowanie"
+msgstr "Izreži"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:52 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr "Obrót"
+msgstr "Okreni"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:196
 msgid "Revert to original"
-msgstr "Przywróć oryginał"
+msgstr "Vrati na orginal"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
-msgstr ""
-"Wszystkie zmiany, również te dokonane w poprzednich sesjach, zostaną "
-"anulowane."
+msgstr "Ovo će poništiti sva uređivanja, uključujući ona iz prošlih sesija."
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:212
 msgid "Revert Photo"
-msgstr "Przywróć zdjęcie"
+msgstr "Vrati fotografiju"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:226
 msgid "Enhancing photo..."
-msgstr "Poprawianie zdjęcia..."
+msgstr "Poboljšavam fotografiju..."
 
 #: rc/qml/MediaViewer/PhotoEditor/EditStack.qml:114
 #: rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
-msgstr "Cofnij"
+msgstr "Vrati"
 
 #: rc/qml/MediaViewer/PhotoEditor/EditStack.qml:121
 #: rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr "Przywróć"
+msgstr "Naprijed"
 
 #: rc/qml/MediaViewer/PhotoEditor/EditStack.qml:128
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr "Przywróć oryginalną wersję"
+msgstr "Vrati na original"
 
 #: rc/qml/MediaViewer/PhotoEditor/ExposureAdjuster.qml:71
 msgid "Done"
-msgstr "Gotowe"
+msgstr "Gotovo"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:46
 #: desktop/gallery-app.desktop.in.in.h:1
 msgid "Gallery"
-msgstr "Galeria"
+msgstr "Galerija"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:167
 msgid "Toggle Selection"
-msgstr "Odwróć zaznaczenie"
+msgstr "Prikaži izbor"
 
 #: rc/qml/PickerScreen.qml:241
 msgid "Pick"
-msgstr "Wybierz"
+msgstr "Uzmi"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr "Kosz;Kasuj"
+msgstr "Kanta;Brisanje"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
-msgstr "Wyślij;Pobierz;Załącz"
+msgstr "Postavi;Podigni;Dodaj"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr "Anuluj działanie;Cofnij"
+msgstr "Odustani od akcije;Korak nazad"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr "Zatwierdź ponownie;Wykonaj ponownie"
+msgstr "Ponovo nanesi;Napravi opet"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr "Automatyczna poprawa"
+msgstr "Automatsko poboljšavanje"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr "Automatyczna korekcja obrazu"
+msgstr "Podesite sliku automatski"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr "Automatyczna korekcja zdjęcia"
+msgstr "Automatski podesi fotografiju"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr "Obrót w prawo"
+msgstr "Okreni u smjeru kazaljke na satu"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr "Obrót obrazu zgodnie ze wskazówkami zegara"
+msgstr "Okreni suprotno od kazaljke na satu"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr "Wyostrzenie;Obcięcie"
+msgstr "Skrati;Izjeci"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr "Kadrowanie obrazu"
+msgstr "Izjeci sliku"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr "Odrzuć zmiany"
+msgstr "Odbaci izmjene"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr "Odrzucenie wszystkich zmian"
+msgstr "Odbaci sve izmjene"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr "Ekspozycja"
+msgstr "Ekspozicija"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr "Ustawnienie ilości światła"
+msgstr "Namjesti ekspoziciju"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr "Niedoświetlone;Prześwietlone"
+msgstr "Premalo ekspozicije;Previše ekspozicije"
 
 #: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
 msgid "Confirm"
-msgstr "Potwierdź"
+msgstr "Potvrdi"
 
 #: rc/qml/Utility/EditingHUD.qml:126
 msgid "Compensation"
-msgstr "Kompensacja"
+msgstr "Kompenzacija"
 
 #: rc/qml/Utility/EditingHUD.qml:160
 msgid "Color Balance"
-msgstr "Balans kolorów"
+msgstr "Balans boja"
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Adjust color balance"
-msgstr "Modyfikacja balansu kolorów"
+msgstr "Podesi odnos boja"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
-msgstr "Nasycenie;Barwa"
+msgstr "Zasićenje;Nijansa"
 
 #: rc/qml/Utility/EditingHUD.qml:167
 msgid "Brightness"
-msgstr "Jasność"
+msgstr "Osvjetljenje"
 
 #: rc/qml/Utility/EditingHUD.qml:178
 msgid "Contrast"
@@ -381,24 +379,24 @@ msgstr "Kontrast"
 
 #: rc/qml/Utility/EditingHUD.qml:189
 msgid "Saturation"
-msgstr "Nasycenie"
+msgstr "Zasićenje"
 
 #: rc/qml/Utility/EditingHUD.qml:200
 msgid "Hue"
-msgstr "Barwa"
+msgstr "Nijansa"
 
 #: rc/qml/Utility/PhotosToolbarActions.qml:43
 msgid "Import"
-msgstr "Importuj"
+msgstr "Uvezi"
 
 #: desktop/gallery-app.desktop.in.in.h:2
 msgid "Ubuntu Photo Viewer"
-msgstr "Przeglądarka obrazów Ubuntu"
+msgstr "Ubuntu preglednik fotografija"
 
 #: desktop/gallery-app.desktop.in.in.h:3
 msgid "Browse your photographs"
-msgstr "Przeglądanie obrazów"
+msgstr "Pregledajte svoje fotografije"
 
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
-msgstr "Zdjęcia;Obrazy;Albumy"
+msgstr "Fotografije;Slike;Albumi"
