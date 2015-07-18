@@ -8,13 +8,13 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-05-21 13:13+0300\n"
-"PO-Revision-Date: 2015-07-13 23:35+0000\n"
+"PO-Revision-Date: 2015-07-17 14:31+0000\n"
 "Last-Translator: Ibai Oihanguren Sala <Unknown>\n"
 "Language-Team: Basque <eu@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-07-14 05:37+0000\n"
+"X-Launchpad-Export-Date: 2015-07-18 05:32+0000\n"
 "X-Generator: Launchpad (build 17628)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
@@ -109,11 +109,11 @@ msgstr "Ezabatu albuma + edukiak"
 
 #: rc/qml/Components/EventCard.qml:59
 msgid "MMM yyyy"
-msgstr ""
+msgstr "MMM yyyy"
 
 #: rc/qml/Components/EventCard.qml:73
 msgid "dd"
-msgstr ""
+msgstr "dd"
 
 #: rc/qml/Components/MediaSelector.qml:59
 #: rc/qml/Components/MediaSelector.qml:80
@@ -279,7 +279,7 @@ msgstr "Galeria"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:167
 msgid "Toggle Selection"
-msgstr "Hautatu/desautatu"
+msgstr "Hautatu / desautatu"
 
 #: rc/qml/PickerScreen.qml:241
 msgid "Pick"
