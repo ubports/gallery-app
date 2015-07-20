@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-05-21 13:13+0300\n"
-"PO-Revision-Date: 2015-07-06 17:47+0000\n"
+"PO-Revision-Date: 2015-07-19 18:15+0000\n"
 "Last-Translator: Meriuță Cornel <meriutacornel@neacornel.eu>\n"
 "Language-Team: Romanian <ro@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-07-08 05:44+0000\n"
-"X-Generator: Launchpad (build 17608)\n"
+"X-Launchpad-Export-Date: 2015-07-20 04:57+0000\n"
+"X-Generator: Launchpad (build 17628)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:36
@@ -113,7 +113,7 @@ msgstr "MMM yyyy"
 
 #: rc/qml/Components/EventCard.qml:73
 msgid "dd"
-msgstr ""
+msgstr "zz"
 
 #: rc/qml/Components/MediaSelector.qml:59
 #: rc/qml/Components/MediaSelector.qml:80
