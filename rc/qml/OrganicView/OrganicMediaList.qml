@@ -184,8 +184,7 @@ Item {
                 }
 
                 Connections {
-                    target: model.mediaSource
-                    ignoreUnknownSignals: true
+                    target: model && model.mediaSource ? model.mediaSource : null
                     onDataChanged: {
                         // data changed but filename didn't, so we need to bypass the qml image
                         // cache by tacking a timestamp to the filename so sees it as different.
