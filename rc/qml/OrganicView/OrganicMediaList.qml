@@ -124,6 +124,8 @@ Item {
         id: thumbnailDelegate
         Item {
             objectName: "eventPhoto"
+            property variant model
+            property int index: 0
             property int patternPhoto: index % __mediaPerPattern
 
             width: __photoWidth[patternPhoto]
@@ -183,6 +185,7 @@ Item {
 
                 Connections {
                     target: model.mediaSource
+                    ignoreUnknownSignals: true
                     onDataChanged: {
                         // data changed but filename didn't, so we need to bypass the qml image
                         // cache by tacking a timestamp to the filename so sees it as different.
@@ -194,7 +197,7 @@ Item {
                     // Display a play icon if the thumbnail is from a video
                     source: "../../img/icon_play.png"
                     anchors.centerIn: parent
-                    visible: mediaSource.type === MediaSource.Video
+                    visible: model.mediaSource.type === MediaSource.Video
                 }
 
                 OrganicItemInteraction {
@@ -268,7 +271,25 @@ Item {
 
         header: eventHeader
         spacing: __margin
-        delegate: thumbnailDelegate
+        delegate: Loader {
+            id: thumbnailLoader
+            sourceComponent: thumbnailDelegate
+            asynchronous: true
+            width: childrenRect.width
+            height: childrenRect.height
+            Binding {
+                target: thumbnailLoader.item
+                property: "model"
+                value: model
+                when: thumbnailLoader.status == Loader.Ready
+            }
+            Binding {
+                target: thumbnailLoader.item
+                property: "index"
+                value: index
+                when: thumbnailLoader.status == Loader.Ready
+            }
+        }
         footer: Item {
             width: eventView.rightBuffer +
                    __footerWidth[mediaModel.count % __mediaPerPattern] +
