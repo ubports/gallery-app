@@ -272,7 +272,7 @@ Item {
         spacing: __margin
         delegate: Loader {
             id: thumbnailLoader
-            sourceComponent: thumbnailDelegate
+            sourceComponent: eventView.header.status == Component.Ready ? thumbnailDelegate : undefined
             asynchronous: true
             width: childrenRect.width
             height: childrenRect.height
