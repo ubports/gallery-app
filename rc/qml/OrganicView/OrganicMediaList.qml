@@ -177,7 +177,10 @@ Item {
                      * thumbnail size, while the previous thumbnailer used 216. To maintain the same visual
                      * result as the previous thumbnailer, we force it to generate a large thumbnail, which
                      * is closer to the older one in size and looks identical when downscaled */
-                    sourceSize.width: 256
+                    sourceSize {
+                        width: thumbnail.width
+                        height: thumbnail.height
+                    }
                     fillMode: Image.PreserveAspectCrop
                 }
 
