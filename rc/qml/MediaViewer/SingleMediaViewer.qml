@@ -138,8 +138,8 @@ Item {
                         image.source = "";
                         image.source = "image://photo/" + mediaSource.path
 
-                        rightResolutionImage.source = "";
-                        rightResolutionImage.source = "image://photo/" + mediaSource.path
+                        highResolutionImage.source = "";
+                        highResolutionImage.source = "image://photo/" + mediaSource.path
                     }
                 }
 
