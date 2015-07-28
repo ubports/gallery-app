@@ -28,7 +28,7 @@ Item {
     id: viewer
     property bool pinchInProgress: zoomPinchArea.active
     property var mediaSource
-    property real maxDimension: 0.
+    property real maxDimension: overview.height
     property bool showThumbnail: true
 
     property bool isVideo: mediaSource.type === MediaSource.Video
@@ -42,16 +42,6 @@ Item {
     property alias paintedWidth: image.paintedWidth
 
     signal clicked()
-
-    onHeightChanged: {
-        if (height > viewer.maxDimension)
-            viewer.maxDimension = height;
-    }
-
-    onWidthChanged: {
-        if (width > viewer.maxDimension)
-            viewer.maxDimension = width;
-    }
 
     function zoomIn(centerX, centerY, factor) {
         flickable.scaleCenterX = centerX / (flickable.sizeScale * flickable.width);
@@ -154,8 +144,10 @@ Item {
                     asynchronous: true
                     cache: false
                     source: {
-                        if (viewer.isVideo && viewer.maxDimension > 0) {
-                            return "image://thumbnailer/" + mediaSource.path
+                        if (viewer.isVideo) {
+                            if (viewer.maxDimension > 0) {
+                                return "image://thumbnailer/" + mediaSource.path
+                            }
                         } else {
                             return "image://photo/" + mediaSource.path
                         }
