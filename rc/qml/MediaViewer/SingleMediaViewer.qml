@@ -153,7 +153,13 @@ Item {
                     anchors.fill: parent
                     asynchronous: true
                     cache: false
-                    source: viewer.isVideo ? "image://thumbnailer/" + mediaSource.path : "image://photo/" + mediaSource.path
+                    source: {
+                        if (viewer.isVideo && viewer.maxDimension > 0) {
+                            return "image://thumbnailer/" + mediaSource.path
+                        } else {
+                            return "image://photo/" + mediaSource.path
+                        }
+                    }
                     sourceSize {
                         width: viewer.maxDimension
                         height: viewer.maxDimension
