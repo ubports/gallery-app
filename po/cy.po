@@ -1,0 +1,402 @@
+# Welsh translation for gallery-app
+# Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
+# This file is distributed under the same license as the gallery-app package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gallery-app\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2015-05-21 13:13+0300\n"
+"PO-Revision-Date: 2015-07-27 14:19+0000\n"
+"Last-Translator: Owen Llywelyn <owen.llywelyn@gmail.com>\n"
+"Language-Team: Welsh <cy@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2015-07-28 05:38+0000\n"
+"X-Generator: Launchpad (build 17628)\n"
+
+#: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
+#: rc/qml/AlbumEditor/AlbumEditor.qml:36
+msgid "Edit album"
+msgstr "Golygu albwm"
+
+#: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
+#: rc/qml/AlbumViewer/AlbumViewer.qml:375
+#: rc/qml/Components/DeleteDialog.qml:32
+#: rc/qml/MediaViewer/MediaViewer.qml:345 rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/Utility/SelectionToolbarAction.qml:56
+msgid "Delete"
+msgstr "Dileu"
+
+#: rc/qml/AlbumEditor/AlbumEditor.qml:39
+#: rc/qml/Components/MediaSelector.qml:92
+#: rc/qml/MediaViewer/MediaViewer.qml:275
+#: rc/qml/MediaViewer/PhotoEditor.qml:206
+#: rc/qml/MediaViewer/PhotoEditor/ExposureAdjuster.qml:80
+#: rc/qml/PickerScreen.qml:235 rc/qml/Utility/SelectionToolbarAction.qml:75
+msgid "Cancel"
+msgstr "Diddymu"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:113
+msgid "Default"
+msgstr "Rhagosodiad"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:114
+msgid "Blue"
+msgstr "Glas"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:115
+msgid "Green"
+msgstr "Gwyrdd"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:116
+msgid "Pattern"
+msgstr "Patrwm"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:117
+msgid "Red"
+msgstr "Coch"
+
+#: rc/qml/AlbumViewer/AlbumViewer.qml:107 rc/qml/MainScreen.qml:60
+msgid "Album"
+msgstr "Albwm"
+
+#: rc/qml/AlbumViewer/AlbumViewer.qml:369
+#: rc/qml/MediaViewer/MediaViewer.qml:335
+msgid "Add to album"
+msgstr "Ychwanegu at albwm"
+
+#: rc/qml/AlbumsOverview.qml:236 rc/qml/Components/PopupAlbumPicker.qml:91
+msgid "Add new album"
+msgstr "Ychwanegu albwm newydd"
+
+#: rc/qml/AlbumsOverview.qml:240 rc/qml/Components/PopupAlbumPicker.qml:101
+msgid "New Photo Album"
+msgstr "Albwm Lluniau Newydd"
+
+#: rc/qml/AlbumsOverview.qml:241 rc/qml/Components/PopupAlbumPicker.qml:102
+msgid "Subtitle"
+msgstr "Is-deitl"
+
+#: rc/qml/AlbumsOverview.qml:247 rc/qml/Utility/EditingHUD.qml:77
+#: rc/qml/Utility/SelectionToolbarAction.qml:47
+msgid "Add"
+msgstr "Ychwanegu"
+
+#: rc/qml/AlbumsOverview.qml:252 rc/qml/Utility/PhotosToolbarActions.qml:51
+msgid "Camera"
+msgstr "Camera"
+
+#: rc/qml/Components/DeleteDialog.qml:36
+#: rc/qml/MediaViewer/MediaViewer.qml:223
+msgid "Yes"
+msgstr "Iawn"
+
+#: rc/qml/Components/DeleteDialog.qml:45
+#: rc/qml/MediaViewer/MediaViewer.qml:234
+msgid "No"
+msgstr "Na"
+
+#: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
+msgid "Delete album"
+msgstr "Dileu albwm"
+
+#: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
+msgid "Delete album + contents"
+msgstr "Dileu albwm + cynnwys"
+
+#: rc/qml/Components/EventCard.qml:59
+msgid "MMM yyyy"
+msgstr "MMM yyyy"
+
+#: rc/qml/Components/EventCard.qml:73
+msgid "dd"
+msgstr "dd"
+
+#: rc/qml/Components/MediaSelector.qml:59
+#: rc/qml/Components/MediaSelector.qml:80
+msgid "Add to Album"
+msgstr "Ychwanegu at albwm"
+
+#: rc/qml/Components/PopupAlbumPicker.qml:161 rc/qml/Utility/EditingHUD.qml:78
+msgid "Add Photo to Album"
+msgstr "Ychwanegu Llun at Albwm"
+
+#: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
+msgid "Delete 1 photo"
+msgstr "Dileu 1 llun"
+
+#: rc/qml/EventsOverview.qml:78 rc/qml/PhotosOverview.qml:87
+msgid "Delete 1 video"
+msgstr "Dileu 1 fideo"
+
+#: rc/qml/EventsOverview.qml:81 rc/qml/PhotosOverview.qml:90
+#, qt-format
+msgid "Delete %1 photos"
+msgstr "Dileu %1 llun"
+
+#: rc/qml/EventsOverview.qml:83 rc/qml/PhotosOverview.qml:92
+#, qt-format
+msgid "Delete %1 videos"
+msgstr "Dileu %1 fideo"
+
+#: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:95
+#, qt-format
+msgid "Delete %1 photos and 1 video"
+msgstr "Dileu %1 llun a 1 fideo"
+
+#: rc/qml/EventsOverview.qml:88 rc/qml/PhotosOverview.qml:97
+#, qt-format
+msgid "Delete 1 photo and %1 videos"
+msgstr "Dileu 1 llun a %1 fideo"
+
+#: rc/qml/EventsOverview.qml:90 rc/qml/PhotosOverview.qml:99
+msgid "Delete 1 photo and 1 video"
+msgstr "Dileu 1 llun a 1 fideo"
+
+#: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:101
+#, qt-format
+msgid "Delete %1 photos and %2 videos"
+msgstr "Dileu %1 llun a %2 fideo"
+
+#: rc/qml/EventsOverview.qml:151 rc/qml/PhotosOverview.qml:165
+msgid "Share to"
+msgstr "Rhannu i"
+
+#: rc/qml/LoadingScreen.qml:46
+msgid "Loading…"
+msgstr "Yn llwytho..."
+
+#: rc/qml/MainScreen.qml:147
+msgid "Albums"
+msgstr "Albymau"
+
+#: rc/qml/MainScreen.qml:161 rc/qml/MainScreen.qml:190
+#: rc/qml/PickerScreen.qml:101
+msgid "Events"
+msgstr "Digwyddiadau"
+
+#: rc/qml/MainScreen.qml:188 rc/qml/MainScreen.qml:233
+#: rc/qml/PickerScreen.qml:141 rc/qml/PickerScreen.qml:194
+#: rc/qml/Utility/PhotosToolbarActions.qml:34
+msgid "Select"
+msgstr "Dewis"
+
+#: rc/qml/MainScreen.qml:199 rc/qml/MainScreen.qml:235
+#: rc/qml/PickerScreen.qml:152
+msgid "Photos"
+msgstr "Lluniau"
+
+#: rc/qml/MediaViewer/ExtrasPhotoEditorPage.qml:26
+#: rc/qml/MediaViewer/GalleryPhotoEditorPage.qml:25
+msgid "Edit Photo"
+msgstr "Golygu llun"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:212
+msgid "Delete a photo"
+msgstr "Dileu llun"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:212
+msgid "Delete a video"
+msgstr "Dileu fideo"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:245
+msgid "Remove a photo from album"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:245
+msgid "Remove a video from album"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:254
+msgid "Remove from Album"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:265
+msgid "Remove from Album and Delete"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:312
+msgid "Edit"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:356 rc/qml/Utility/EditingHUD.qml:72
+#: rc/qml/Utility/SelectionToolbarAction.qml:65
+msgid "Share"
+msgstr ""
+
+#: rc/qml/MediaViewer/PhotoEditor.qml:43
+#: rc/qml/MediaViewer/PhotoEditor/CropOverlay.qml:349
+#: rc/qml/Utility/EditingHUD.qml:106
+msgid "Crop"
+msgstr ""
+
+#: rc/qml/MediaViewer/PhotoEditor.qml:52 rc/qml/Utility/EditingHUD.qml:99
+msgid "Rotate"
+msgstr ""
+
+#: rc/qml/MediaViewer/PhotoEditor.qml:196
+msgid "Revert to original"
+msgstr ""
+
+#: rc/qml/MediaViewer/PhotoEditor.qml:197
+msgid "This will undo all edits, including those from previous sessions."
+msgstr ""
+
+#: rc/qml/MediaViewer/PhotoEditor.qml:212
+msgid "Revert Photo"
+msgstr ""
+
+#: rc/qml/MediaViewer/PhotoEditor.qml:226
+msgid "Enhancing photo..."
+msgstr ""
+
+#: rc/qml/MediaViewer/PhotoEditor/EditStack.qml:114
+#: rc/qml/Utility/EditingHUD.qml:82
+msgid "Undo"
+msgstr ""
+
+#: rc/qml/MediaViewer/PhotoEditor/EditStack.qml:121
+#: rc/qml/Utility/EditingHUD.qml:87
+msgid "Redo"
+msgstr ""
+
+#: rc/qml/MediaViewer/PhotoEditor/EditStack.qml:128
+#: rc/qml/Utility/EditingHUD.qml:113
+msgid "Revert to Original"
+msgstr ""
+
+#: rc/qml/MediaViewer/PhotoEditor/ExposureAdjuster.qml:71
+msgid "Done"
+msgstr ""
+
+#: rc/qml/MediaViewer/PopupPhotoViewer.qml:46
+#: desktop/gallery-app.desktop.in.in.h:1
+msgid "Gallery"
+msgstr ""
+
+#: rc/qml/MediaViewer/PopupPhotoViewer.qml:167
+msgid "Toggle Selection"
+msgstr ""
+
+#: rc/qml/PickerScreen.qml:241
+msgid "Pick"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:68
+msgid "Trash;Erase"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:73
+msgid "Post;Upload;Attach"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:83
+msgid "Cancel Action;Backstep"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:88
+msgid "Reapply;Make Again"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:92
+msgid "Auto Enhance"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:93
+msgid "Adjust the image automatically"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:94
+msgid "Automatically Adjust Photo"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:100
+msgid "Turn Clockwise"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:101
+msgid "Rotate the image clockwise"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:107
+msgid "Trim;Cut"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:108
+msgid "Crop the image"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:114
+msgid "Discard Changes"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:115
+msgid "Discard all changes"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:119
+msgid "Exposure"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:120
+msgid "Adjust the exposure"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:121
+msgid "Underexposed;Overexposed"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
+msgid "Confirm"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:126
+msgid "Compensation"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:160
+msgid "Color Balance"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:161
+msgid "Adjust color balance"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:162
+msgid "Saturation;Hue"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:167
+msgid "Brightness"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:178
+msgid "Contrast"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:189
+msgid "Saturation"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:200
+msgid "Hue"
+msgstr ""
+
+#: rc/qml/Utility/PhotosToolbarActions.qml:43
+msgid "Import"
+msgstr ""
+
+#: desktop/gallery-app.desktop.in.in.h:2
+msgid "Ubuntu Photo Viewer"
+msgstr ""
+
+#: desktop/gallery-app.desktop.in.in.h:3
+msgid "Browse your photographs"
+msgstr ""
+
+#: desktop/gallery-app.desktop.in.in.h:4
+msgid "Photographs;Pictures;Albums"
+msgstr ""
