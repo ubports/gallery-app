@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-05-21 13:13+0300\n"
-"PO-Revision-Date: 2015-07-27 14:19+0000\n"
+"PO-Revision-Date: 2015-07-28 13:53+0000\n"
 "Last-Translator: Owen Llywelyn <owen.llywelyn@gmail.com>\n"
 "Language-Team: Welsh <cy@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-07-28 05:38+0000\n"
-"X-Generator: Launchpad (build 17628)\n"
+"X-Launchpad-Export-Date: 2015-07-29 05:53+0000\n"
+"X-Generator: Launchpad (build 17646)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:36
@@ -204,199 +204,199 @@ msgstr "Dileu fideo"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:245
 msgid "Remove a photo from album"
-msgstr ""
+msgstr "Tynnu llun o albwm"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:245
 msgid "Remove a video from album"
-msgstr ""
+msgstr "Tynnu fideo o albwm"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:254
 msgid "Remove from Album"
-msgstr ""
+msgstr "Tynnu o Albwm"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:265
 msgid "Remove from Album and Delete"
-msgstr ""
+msgstr "Tynnu o Albwm a Dileu"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:312
 msgid "Edit"
-msgstr ""
+msgstr "Golygu"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:356 rc/qml/Utility/EditingHUD.qml:72
 #: rc/qml/Utility/SelectionToolbarAction.qml:65
 msgid "Share"
-msgstr ""
+msgstr "Rhannu"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:43
 #: rc/qml/MediaViewer/PhotoEditor/CropOverlay.qml:349
 #: rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr ""
+msgstr "Tocio"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:52 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr ""
+msgstr "Cylchdroi"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:196
 msgid "Revert to original"
-msgstr ""
+msgstr "Dychwelyd i'r gwreiddiol"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
-msgstr ""
+msgstr "Bydd hyn yn dadwneud y golygu i gyd gan gynnwys sesiynau blaenorol."
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:212
 msgid "Revert Photo"
-msgstr ""
+msgstr "Dychwelyd Llun i'r Gwreiddiol"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:226
 msgid "Enhancing photo..."
-msgstr ""
+msgstr "Yn gwella'r llun..."
 
 #: rc/qml/MediaViewer/PhotoEditor/EditStack.qml:114
 #: rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
-msgstr ""
+msgstr "Dadwneud"
 
 #: rc/qml/MediaViewer/PhotoEditor/EditStack.qml:121
 #: rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr ""
+msgstr "Ail-wneud"
 
 #: rc/qml/MediaViewer/PhotoEditor/EditStack.qml:128
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr ""
+msgstr "Dychwelyd i'r Gwreiddiol"
 
 #: rc/qml/MediaViewer/PhotoEditor/ExposureAdjuster.qml:71
 msgid "Done"
-msgstr ""
+msgstr "Cwblhawyd"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:46
 #: desktop/gallery-app.desktop.in.in.h:1
 msgid "Gallery"
-msgstr ""
+msgstr "Oriel"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:167
 msgid "Toggle Selection"
-msgstr ""
+msgstr "Toglo Detholiad"
 
 #: rc/qml/PickerScreen.qml:241
 msgid "Pick"
-msgstr ""
+msgstr "Dewis"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr ""
+msgstr "Sbwriel;Dileu"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
-msgstr ""
+msgstr "Postio;Llwytho;Atodi"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr ""
+msgstr "Diddymu gweithred;Nôl"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr ""
+msgstr "Ailwneud;Gwneud eto"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr ""
+msgstr "Gwella Awtomatig"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr ""
+msgstr "Addasu delwedd yn awtomatig"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr ""
+msgstr "Addasu Llun yn Awtomatig"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr ""
+msgstr "Troi Gyda'r Cloc"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr ""
+msgstr "Troi'r ddelwedd gyda'r cloc"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr ""
+msgstr "Twtio;Torri"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr ""
+msgstr "Tocio'r ddelwedd"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr ""
+msgstr "Gwrthod Newidiadau"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr ""
+msgstr "Gwrthod pob newid"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr ""
+msgstr "Dadleniad"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr ""
+msgstr "Addasu'r dadleniad"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr ""
+msgstr "Tanddadlenni;Gorddadlenni"
 
 #: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
 msgid "Confirm"
-msgstr ""
+msgstr "Cadarnhau"
 
 #: rc/qml/Utility/EditingHUD.qml:126
 msgid "Compensation"
-msgstr ""
+msgstr "Cydadferiad"
 
 #: rc/qml/Utility/EditingHUD.qml:160
 msgid "Color Balance"
-msgstr ""
+msgstr "Cydbwysedd Lliw"
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Adjust color balance"
-msgstr ""
+msgstr "Addasu cydbwysedd lliw"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
-msgstr ""
+msgstr "Dirlawnder;Arlliw"
 
 #: rc/qml/Utility/EditingHUD.qml:167
 msgid "Brightness"
-msgstr ""
+msgstr "Disgleirdeb"
 
 #: rc/qml/Utility/EditingHUD.qml:178
 msgid "Contrast"
-msgstr ""
+msgstr "Cyferbyniad"
 
 #: rc/qml/Utility/EditingHUD.qml:189
 msgid "Saturation"
-msgstr ""
+msgstr "Dirlawnder"
 
 #: rc/qml/Utility/EditingHUD.qml:200
 msgid "Hue"
-msgstr ""
+msgstr "Arlliw"
 
 #: rc/qml/Utility/PhotosToolbarActions.qml:43
 msgid "Import"
-msgstr ""
+msgstr "Mewnforio"
 
 #: desktop/gallery-app.desktop.in.in.h:2
 msgid "Ubuntu Photo Viewer"
-msgstr ""
+msgstr "Gwelydd Lluniau Ubuntu"
 
 #: desktop/gallery-app.desktop.in.in.h:3
 msgid "Browse your photographs"
-msgstr ""
+msgstr "Pori eich lluniau"
 
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
-msgstr ""
+msgstr "Ffotograffau;Lluniau;Albymau"
