@@ -1,26 +1,26 @@
-# Chinese (Simplified) translation for gallery-app
-# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# Welsh translation for gallery-app
+# Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
 # This file is distributed under the same license as the gallery-app package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-05-21 13:13+0300\n"
-"PO-Revision-Date: 2015-07-23 03:33+0000\n"
-"Last-Translator: Ian Li <Unknown>\n"
-"Language-Team: Chinese (Simplified) <zh_CN@li.org>\n"
+"PO-Revision-Date: 2015-07-28 13:53+0000\n"
+"Last-Translator: Owen Llywelyn <owen.llywelyn@gmail.com>\n"
+"Language-Team: Welsh <cy@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-07-24 05:40+0000\n"
-"X-Generator: Launchpad (build 17628)\n"
+"X-Launchpad-Export-Date: 2015-07-29 05:53+0000\n"
+"X-Generator: Launchpad (build 17646)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:36
 msgid "Edit album"
-msgstr "编辑相册"
+msgstr "Golygu albwm"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
 #: rc/qml/AlbumViewer/AlbumViewer.qml:375
@@ -28,7 +28,7 @@ msgstr "编辑相册"
 #: rc/qml/MediaViewer/MediaViewer.qml:345 rc/qml/Utility/EditingHUD.qml:67
 #: rc/qml/Utility/SelectionToolbarAction.qml:56
 msgid "Delete"
-msgstr "删除"
+msgstr "Dileu"
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:39
 #: rc/qml/Components/MediaSelector.qml:92
@@ -37,75 +37,75 @@ msgstr "删除"
 #: rc/qml/MediaViewer/PhotoEditor/ExposureAdjuster.qml:80
 #: rc/qml/PickerScreen.qml:235 rc/qml/Utility/SelectionToolbarAction.qml:75
 msgid "Cancel"
-msgstr "取消"
+msgstr "Diddymu"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
-msgstr "默认"
+msgstr "Rhagosodiad"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:114
 msgid "Blue"
-msgstr "蓝色"
+msgstr "Glas"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:115
 msgid "Green"
-msgstr "绿色"
+msgstr "Gwyrdd"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:116
 msgid "Pattern"
-msgstr "图案"
+msgstr "Patrwm"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:117
 msgid "Red"
-msgstr "红色"
+msgstr "Coch"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:107 rc/qml/MainScreen.qml:60
 msgid "Album"
-msgstr "相册"
+msgstr "Albwm"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:369
 #: rc/qml/MediaViewer/MediaViewer.qml:335
 msgid "Add to album"
-msgstr "添加到相册"
+msgstr "Ychwanegu at albwm"
 
 #: rc/qml/AlbumsOverview.qml:236 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
-msgstr "添加新相册"
+msgstr "Ychwanegu albwm newydd"
 
 #: rc/qml/AlbumsOverview.qml:240 rc/qml/Components/PopupAlbumPicker.qml:101
 msgid "New Photo Album"
-msgstr "新相册"
+msgstr "Albwm Lluniau Newydd"
 
 #: rc/qml/AlbumsOverview.qml:241 rc/qml/Components/PopupAlbumPicker.qml:102
 msgid "Subtitle"
-msgstr "副标题"
+msgstr "Is-deitl"
 
 #: rc/qml/AlbumsOverview.qml:247 rc/qml/Utility/EditingHUD.qml:77
 #: rc/qml/Utility/SelectionToolbarAction.qml:47
 msgid "Add"
-msgstr "添加"
+msgstr "Ychwanegu"
 
 #: rc/qml/AlbumsOverview.qml:252 rc/qml/Utility/PhotosToolbarActions.qml:51
 msgid "Camera"
-msgstr "相机"
+msgstr "Camera"
 
 #: rc/qml/Components/DeleteDialog.qml:36
 #: rc/qml/MediaViewer/MediaViewer.qml:223
 msgid "Yes"
-msgstr "是"
+msgstr "Iawn"
 
 #: rc/qml/Components/DeleteDialog.qml:45
 #: rc/qml/MediaViewer/MediaViewer.qml:234
 msgid "No"
-msgstr "否"
+msgstr "Na"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr "删除相册"
+msgstr "Dileu albwm"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr "删除相册与内容"
+msgstr "Dileu albwm + cynnwys"
 
 #: rc/qml/Components/EventCard.qml:59
 msgid "MMM yyyy"
@@ -118,285 +118,285 @@ msgstr "dd"
 #: rc/qml/Components/MediaSelector.qml:59
 #: rc/qml/Components/MediaSelector.qml:80
 msgid "Add to Album"
-msgstr "添加到相册"
+msgstr "Ychwanegu at albwm"
 
 #: rc/qml/Components/PopupAlbumPicker.qml:161 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr "添加照片到相册"
+msgstr "Ychwanegu Llun at Albwm"
 
 #: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
 msgid "Delete 1 photo"
-msgstr "删除1张照片"
+msgstr "Dileu 1 llun"
 
 #: rc/qml/EventsOverview.qml:78 rc/qml/PhotosOverview.qml:87
 msgid "Delete 1 video"
-msgstr "删除1段视频"
+msgstr "Dileu 1 fideo"
 
 #: rc/qml/EventsOverview.qml:81 rc/qml/PhotosOverview.qml:90
 #, qt-format
 msgid "Delete %1 photos"
-msgstr "删除%1张照片"
+msgstr "Dileu %1 llun"
 
 #: rc/qml/EventsOverview.qml:83 rc/qml/PhotosOverview.qml:92
 #, qt-format
 msgid "Delete %1 videos"
-msgstr "删除%1段视频"
+msgstr "Dileu %1 fideo"
 
 #: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:95
 #, qt-format
 msgid "Delete %1 photos and 1 video"
-msgstr "删除%1张照片和一段视频"
+msgstr "Dileu %1 llun a 1 fideo"
 
 #: rc/qml/EventsOverview.qml:88 rc/qml/PhotosOverview.qml:97
 #, qt-format
 msgid "Delete 1 photo and %1 videos"
-msgstr "删除1张照片和%1段视频"
+msgstr "Dileu 1 llun a %1 fideo"
 
 #: rc/qml/EventsOverview.qml:90 rc/qml/PhotosOverview.qml:99
 msgid "Delete 1 photo and 1 video"
-msgstr "删除1张照片和1段视频"
+msgstr "Dileu 1 llun a 1 fideo"
 
 #: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:101
 #, qt-format
 msgid "Delete %1 photos and %2 videos"
-msgstr "删除%1张照片和%2段视频"
+msgstr "Dileu %1 llun a %2 fideo"
 
 #: rc/qml/EventsOverview.qml:151 rc/qml/PhotosOverview.qml:165
 msgid "Share to"
-msgstr "分享到"
+msgstr "Rhannu i"
 
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
-msgstr "正在载入..."
+msgstr "Yn llwytho..."
 
 #: rc/qml/MainScreen.qml:147
 msgid "Albums"
-msgstr "相册"
+msgstr "Albymau"
 
 #: rc/qml/MainScreen.qml:161 rc/qml/MainScreen.qml:190
 #: rc/qml/PickerScreen.qml:101
 msgid "Events"
-msgstr "事件"
+msgstr "Digwyddiadau"
 
 #: rc/qml/MainScreen.qml:188 rc/qml/MainScreen.qml:233
 #: rc/qml/PickerScreen.qml:141 rc/qml/PickerScreen.qml:194
 #: rc/qml/Utility/PhotosToolbarActions.qml:34
 msgid "Select"
-msgstr "选择"
+msgstr "Dewis"
 
 #: rc/qml/MainScreen.qml:199 rc/qml/MainScreen.qml:235
 #: rc/qml/PickerScreen.qml:152
 msgid "Photos"
-msgstr "照片"
+msgstr "Lluniau"
 
 #: rc/qml/MediaViewer/ExtrasPhotoEditorPage.qml:26
 #: rc/qml/MediaViewer/GalleryPhotoEditorPage.qml:25
 msgid "Edit Photo"
-msgstr "编辑照片"
+msgstr "Golygu llun"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:212
 msgid "Delete a photo"
-msgstr "删除一张照片"
+msgstr "Dileu llun"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:212
 msgid "Delete a video"
-msgstr "删除一段视频"
+msgstr "Dileu fideo"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:245
 msgid "Remove a photo from album"
-msgstr "从相册中移除一张照片"
+msgstr "Tynnu llun o albwm"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:245
 msgid "Remove a video from album"
-msgstr "从相册中移除一段视频"
+msgstr "Tynnu fideo o albwm"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:254
 msgid "Remove from Album"
-msgstr "从相册中移除"
+msgstr "Tynnu o Albwm"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:265
 msgid "Remove from Album and Delete"
-msgstr "从相册中移除并删除"
+msgstr "Tynnu o Albwm a Dileu"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:312
 msgid "Edit"
-msgstr "编辑"
+msgstr "Golygu"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:356 rc/qml/Utility/EditingHUD.qml:72
 #: rc/qml/Utility/SelectionToolbarAction.qml:65
 msgid "Share"
-msgstr "分享"
+msgstr "Rhannu"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:43
 #: rc/qml/MediaViewer/PhotoEditor/CropOverlay.qml:349
 #: rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr "裁剪"
+msgstr "Tocio"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:52 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr "旋转"
+msgstr "Cylchdroi"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:196
 msgid "Revert to original"
-msgstr "恢复至原状态"
+msgstr "Dychwelyd i'r gwreiddiol"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
-msgstr "这将撤消所有的编辑，包括那些来自以前会话的。"
+msgstr "Bydd hyn yn dadwneud y golygu i gyd gan gynnwys sesiynau blaenorol."
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:212
 msgid "Revert Photo"
-msgstr "恢复照片"
+msgstr "Dychwelyd Llun i'r Gwreiddiol"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:226
 msgid "Enhancing photo..."
-msgstr "增强照片..."
+msgstr "Yn gwella'r llun..."
 
 #: rc/qml/MediaViewer/PhotoEditor/EditStack.qml:114
 #: rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
-msgstr "撤消"
+msgstr "Dadwneud"
 
 #: rc/qml/MediaViewer/PhotoEditor/EditStack.qml:121
 #: rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr "恢复"
+msgstr "Ail-wneud"
 
 #: rc/qml/MediaViewer/PhotoEditor/EditStack.qml:128
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr "恢复至原图"
+msgstr "Dychwelyd i'r Gwreiddiol"
 
 #: rc/qml/MediaViewer/PhotoEditor/ExposureAdjuster.qml:71
 msgid "Done"
-msgstr "完成"
+msgstr "Cwblhawyd"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:46
 #: desktop/gallery-app.desktop.in.in.h:1
 msgid "Gallery"
-msgstr "相册"
+msgstr "Oriel"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:167
 msgid "Toggle Selection"
-msgstr "切换选中状态"
+msgstr "Toglo Detholiad"
 
 #: rc/qml/PickerScreen.qml:241
 msgid "Pick"
-msgstr "挑选"
+msgstr "Dewis"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr "废弃;删除"
+msgstr "Sbwriel;Dileu"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
-msgstr "发布;上传;附件"
+msgstr "Postio;Llwytho;Atodi"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr "取消操作;回退"
+msgstr "Diddymu gweithred;Nôl"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr "恢复操作;重做"
+msgstr "Ailwneud;Gwneud eto"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr "自动优化"
+msgstr "Gwella Awtomatig"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr "自动调整图片"
+msgstr "Addasu delwedd yn awtomatig"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr "自动调整照片"
+msgstr "Addasu Llun yn Awtomatig"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr "顺时针旋转"
+msgstr "Troi Gyda'r Cloc"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr "顺时针旋转图片"
+msgstr "Troi'r ddelwedd gyda'r cloc"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr "修剪;切割"
+msgstr "Twtio;Torri"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr "裁剪图片"
+msgstr "Tocio'r ddelwedd"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr "放弃修改"
+msgstr "Gwrthod Newidiadau"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr "放弃所有修改"
+msgstr "Gwrthod pob newid"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr "曝光量"
+msgstr "Dadleniad"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr "调整曝光量"
+msgstr "Addasu'r dadleniad"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr "曝光不足;曝光过度"
+msgstr "Tanddadlenni;Gorddadlenni"
 
 #: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
 msgid "Confirm"
-msgstr "确认"
+msgstr "Cadarnhau"
 
 #: rc/qml/Utility/EditingHUD.qml:126
 msgid "Compensation"
-msgstr "曝光补偿"
+msgstr "Cydadferiad"
 
 #: rc/qml/Utility/EditingHUD.qml:160
 msgid "Color Balance"
-msgstr "色彩平衡"
+msgstr "Cydbwysedd Lliw"
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Adjust color balance"
-msgstr "色彩平衡调整"
+msgstr "Addasu cydbwysedd lliw"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
-msgstr "饱和度;色相"
+msgstr "Dirlawnder;Arlliw"
 
 #: rc/qml/Utility/EditingHUD.qml:167
 msgid "Brightness"
-msgstr "亮度"
+msgstr "Disgleirdeb"
 
 #: rc/qml/Utility/EditingHUD.qml:178
 msgid "Contrast"
-msgstr "对比度"
+msgstr "Cyferbyniad"
 
 #: rc/qml/Utility/EditingHUD.qml:189
 msgid "Saturation"
-msgstr "饱和度"
+msgstr "Dirlawnder"
 
 #: rc/qml/Utility/EditingHUD.qml:200
 msgid "Hue"
-msgstr "色相"
+msgstr "Arlliw"
 
 #: rc/qml/Utility/PhotosToolbarActions.qml:43
 msgid "Import"
-msgstr "导入"
+msgstr "Mewnforio"
 
 #: desktop/gallery-app.desktop.in.in.h:2
 msgid "Ubuntu Photo Viewer"
-msgstr "Ubuntu 照片浏览器"
+msgstr "Gwelydd Lluniau Ubuntu"
 
 #: desktop/gallery-app.desktop.in.in.h:3
 msgid "Browse your photographs"
-msgstr "浏览你的照片"
+msgstr "Pori eich lluniau"
 
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
-msgstr "影像；图片；相册"
+msgstr "Ffotograffau;Lluniau;Albymau"
