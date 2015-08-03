@@ -29,8 +29,8 @@ class MediaSelector(GalleryUtils):
         thumbnailLoader = mediaRow.wait_select_single(objectName="thumbnailLoader1")
 
         # return the item itself
-        return thumbnailLoader.wait_select_single("OrganicItemInteraction",
-                                                  objectName="eventsViewPhoto")
+        return thumbnailLoader.wait_select_single(objectName="eventPhoto",
+                                                  thumbnailLoaded=True)
 
     def ensure_fully_open(self):
         """Ensure media selector is fully open"""

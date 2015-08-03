@@ -127,6 +127,7 @@ Item {
             property variant model
             property int index: 0
             property int patternPhoto: index % __mediaPerPattern
+            property alias thumbnailLoaded: thumbnail.visible
 
             width: __photoWidth[patternPhoto]
             height: __photoSize[patternPhoto]
