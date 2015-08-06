@@ -86,6 +86,10 @@ GridView {
                 source: "image://thumbnailer/" + mediaSource.path + "?at=" + Date.now()
                 asynchronous: true
                 fillMode: Image.PreserveAspectCrop
+                sourceSize {
+                    width: photosGrid.thumbnailSize
+                    height: photosGrid.thumbnailSize
+                }
 
                 Connections {
                     target: mediaSource
