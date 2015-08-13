@@ -274,10 +274,15 @@ Item {
         delegate: Loader {
             id: thumbnailLoader
             objectName: "thumbnailLoader" + index
+
+            property int patternPhoto: index % __mediaPerPattern
+
             sourceComponent: eventView.header.status == Component.Ready ? thumbnailDelegate : undefined
             asynchronous: true
-            width: childrenRect.width
-            height: childrenRect.height
+
+            width: __photoWidth[patternPhoto]
+            height: __photoSize[patternPhoto]
+
             Binding {
                 target: thumbnailLoader.item
                 property: "model"
