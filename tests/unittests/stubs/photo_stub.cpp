@@ -33,8 +33,12 @@ QFileInfo photoDummyFileInfo;
 
 bool Photo::isValid(const QFileInfo& file)
 {
-    Q_UNUSED(file);
-    return true;
+    QString extension = file.suffix().toLower();
+    if (extension == "jpg") {
+        return true;
+    }
+
+    return false;
 }
 
 /*!
