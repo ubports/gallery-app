@@ -259,7 +259,7 @@ Item {
 
         maximumFlickVelocity: units.gu(300)
         flickDeceleration: maximumFlickVelocity / 3
-        cacheBuffer: width * 2
+        cacheBuffer: width
 
         model: MediaCollectionModel {
             id: mediaModel
