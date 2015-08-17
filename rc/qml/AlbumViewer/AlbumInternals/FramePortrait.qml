@@ -44,25 +44,9 @@ Item {
         anchors.fill: parent
         asynchronous: true
         visible: fullImage.opacity < 1
-        source: load && mediaSource ? "image://thumbnailer/" + mediaSource.path + "?at=" + Date.now() : ""
+        source: load && mediaSource ? "image://thumbnailer/" + mediaSource.path + "?at=" + mediaSource.lastModified : ""
         fillMode: fullImage.fillMode
         sourceSize.width: 256
-
-        Connections {
-            target: mediaSource ? mediaSource : null
-            onDataChanged: {
-                // data changed but filename didn't, so we need to bypass the qml image
-                // cache by tacking a timestamp to the filename so sees it as different.
-                preview.source = "image://thumbnailer/" + mediaSource.path + "?at=" + Date.now()
-
-                // reload full image
-                var src = fullImage.source;
-                fullImage.asynchronous = false;
-                fullImage.source = "";
-                fullImage.asynchronous = true;
-                fullImage.source = src;
-            }
-        }
     }
     Image {
         id: fullImage
@@ -71,7 +55,7 @@ Item {
         cache: false
         fillMode: Image.PreserveAspectCrop
         source: (preview.status === Image.Ready && !isPreview) ?
-                "image://thumbnailer/" + mediaSource.path : ""
+                "image://thumbnailer/" + mediaSource.path + "?at=" + mediaSource.lastModified : ""
 
         property int maxSize: Math.max(width, height)
         sourceSize.width: maxSize

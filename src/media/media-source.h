@@ -47,6 +47,7 @@ class MediaSource : public DataSource
     Q_OBJECT
     Q_PROPERTY(MediaType type READ type NOTIFY typeChanged)
     Q_PROPERTY(QUrl path READ path NOTIFY pathChanged)
+    Q_PROPERTY(qint64 lastModified READ lastModified NOTIFY dataChanged)
     Q_PROPERTY(int orientation READ orientation NOTIFY orientationChanged)
     Q_PROPERTY(QDate exposureDate READ exposureDate NOTIFY exposureDateTimeChanged)
     Q_PROPERTY(QTime exposureTimeOfDay READ exposureTimeOfDay NOTIFY exposureDateTimeChanged)
@@ -79,6 +80,7 @@ public:
 
     QFileInfo file() const;
     QUrl path() const;
+    qint64 lastModified() const;
 
     virtual QImage image(bool respectOrientation = true, const QSize &scaleSize=QSize());
     virtual Orientation orientation() const;

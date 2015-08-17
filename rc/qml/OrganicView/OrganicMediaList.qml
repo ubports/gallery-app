@@ -170,7 +170,7 @@ Item {
 
                 image: Image {
                     id: thumbImage
-                    source: "image://thumbnailer/" + model.mediaSource.path + "?at=" + Date.now()
+                    source: "image://thumbnailer/" + model.mediaSource.path + "?at=" + model.mediaSource.lastModified
                     asynchronous: true
 
                     /* The SDK thumbnailer respects the freedesktop.org standard and uses 128 for the small
@@ -182,15 +182,6 @@ Item {
                         height: thumbnail.height
                     }
                     fillMode: Image.PreserveAspectCrop
-                }
-
-                Connections {
-                    target: model.mediaSource
-                    onDataChanged: {
-                        // data changed but filename didn't, so we need to bypass the qml image
-                        // cache by tacking a timestamp to the filename so sees it as different.
-                        thumbImage.source = "image://thumbnailer/" + model.mediaSource.path + "?at=" + Date.now()
-                    }
                 }
 
                 Image {
