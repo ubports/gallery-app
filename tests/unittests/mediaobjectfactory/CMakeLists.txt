@@ -30,7 +30,6 @@ add_executable(mediaobjectfactory
     tst_mediaobjectfactory.cpp
     ${gallery_src_SOURCE_DIR}/media-object-factory.cpp
     ${gallery_photo_src_SOURCE_DIR}/photo.cpp
-    ${gallery_util_src_SOURCE_DIR}/resource.cpp
     ../stubs/media-table_stub.cpp
     ../stubs/video_stub.cpp
     ../stubs/photometa-data_stub.cpp
