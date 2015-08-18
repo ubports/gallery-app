@@ -251,6 +251,15 @@ qint64 MediaSource::id() const
 }
 
 /*!
+ * \brief MediaSource::refresh
+ * \return
+ */
+void MediaSource::refresh()
+{
+    m_file.refresh();
+}
+
+/*!
  * \brief MediaSource::set_busy
  * \param busy
  */

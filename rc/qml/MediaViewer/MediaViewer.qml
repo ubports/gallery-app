@@ -325,7 +325,10 @@ Item {
                         editor = overview.pushPage(Qt.resolvedUrl("GalleryPhotoEditorPage.qml"), { photo: path });
                     }
                     editor.done.connect(function(photoWasModified) {
-                        if (photoWasModified) galleryPhotoViewer.media.dataChanged();
+                        if (photoWasModified) {
+                            galleryPhotoViewer.media.refresh();
+                            galleryPhotoViewer.media.dataChanged();
+                        }
                         overview.popPage();
                     });
                 }

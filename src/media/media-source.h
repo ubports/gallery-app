@@ -103,6 +103,8 @@ public:
 
     void setMediaTable(MediaTable *mediaTable);
 
+    Q_INVOKABLE void refresh();
+
 public Q_SLOTS:
     void setSize(const QSize& size);
 
