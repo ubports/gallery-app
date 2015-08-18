@@ -20,26 +20,21 @@ include_directories(
     )
 
 QT5_WRAP_CPP(MEDIAOBJECTFACTORY_MOCS
-    ${gallery_src_SOURCE_DIR}/gallery-manager.h
-    ${gallery_database_src_SOURCE_DIR}/album-table.h
-    ${gallery_database_src_SOURCE_DIR}/database.h
     ${gallery_database_src_SOURCE_DIR}/media-table.h
     ${gallery_photoeditor_src_SOURCE_DIR}/photo-metadata.h
     ${gallery_medialoader_src_SOURCE_DIR}/video-metadata.h
-    ${gallery_photo_src_SOURCE_DIR}/photo.h
     )
 
+add_definitions(-DSAMPLE_DATA_DIR="${CMAKE_CURRENT_SOURCE_DIR}/data")
 add_executable(mediaobjectfactory
     tst_mediaobjectfactory.cpp
     ${gallery_src_SOURCE_DIR}/media-object-factory.cpp
-    ../stubs/album-table_stub.cpp
-    ../stubs/database_stub.cpp
+    ${gallery_photo_src_SOURCE_DIR}/photo.cpp
+    ${gallery_util_src_SOURCE_DIR}/resource.cpp
     ../stubs/media-table_stub.cpp
-    ../stubs/photo_stub.cpp
     ../stubs/video_stub.cpp
     ../stubs/photometa-data_stub.cpp
     ../stubs/video-metadata_stub.cpp
-    ../stubs/gallery-manager_stub.cpp
     ${MEDIAOBJECTFACTORY_MOCS}
     )
 
@@ -51,11 +46,8 @@ set_tests_properties(mediaobjectfactory PROPERTIES
     )
 
 target_link_libraries(mediaobjectfactory
-    gallery-album
     gallery-core
-    gallery-event
     gallery-media
-    gallery-qml
     gallery-util
     gallery-video
     )

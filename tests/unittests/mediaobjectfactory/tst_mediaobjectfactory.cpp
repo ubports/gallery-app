@@ -53,7 +53,6 @@ private:
     MediaSource* wait_for_media();
     MediaTable *m_mediaTable;
     MediaObjectFactoryWorker *m_factory;
-    Resource *m_resource;
     QSignalSpy *m_spyMediaObjectCreated;
 };
 
@@ -80,21 +79,21 @@ void tst_MediaObjectFactory::create()
     QCOMPARE(wait_for_media(), (MediaSource*)0);
 
     // new file
-    m_factory->create("/some/photo.jpg");
+    m_factory->create(SAMPLE_DATA_DIR "/sample01.jpg");
     Photo *photo = qobject_cast<Photo*>(wait_for_media());
     QVERIFY(photo != 0);
     QCOMPARE(photo->id(), (qint64)0);
     QCOMPARE(photo->exposureDateTime(), QDateTime(QDate(2013, 01, 01), QTime(11, 11, 11)));
     QCOMPARE(photo->orientation(), BOTTOM_LEFT_ORIGIN);
 
-    // another new file
-    m_factory->create("/some/other_photo.jpg");
+    // another new file, a svg one
+    m_factory->create(SAMPLE_DATA_DIR "/sample02.svg");
     photo = qobject_cast<Photo*>(wait_for_media());
     QVERIFY(photo != 0);
     QCOMPARE(photo->id(), (qint64)1);
 
     // existing from DB
-    m_factory->create("/some/photo.jpg");
+    m_factory->create(SAMPLE_DATA_DIR "/sample01.jpg");
     photo = qobject_cast<Photo*>(wait_for_media());
     QVERIFY(photo != 0);
     QCOMPARE(photo->id(), (qint64)0);
@@ -102,15 +101,16 @@ void tst_MediaObjectFactory::create()
     // update DB from file
     setOrientationOfFirstRow(TOP_RIGHT_ORIGIN); // change the DB
 
-    m_factory->create("/some/photo.jpg");
+    m_factory->create(SAMPLE_DATA_DIR "/sample01.jpg");
     photo = qobject_cast<Photo*>(wait_for_media());
     QVERIFY(photo != 0);
     QCOMPARE(photo->id(), (qint64)0);
     QCOMPARE(photo->orientation(), TOP_RIGHT_ORIGIN);
 
     // new video ...
-    m_resource = new Resource(true, "");
-    m_resource->setVideoDirectories(QStringList("/video_path/"));
+    Resource *resource;
+    resource = new Resource(true, "");
+    resource->setVideoDirectories(QStringList("/video_path/"));
 
     // ... at desktop
     m_factory->create("/not_video_path/video.ogv");
@@ -165,7 +165,7 @@ void tst_MediaObjectFactory::readVideoMetadata()
 
 void tst_MediaObjectFactory::enableContentLoadFilter()
 {
-    m_factory->create("/some/photo.jpg");
+    m_factory->create(SAMPLE_DATA_DIR "/sample01.jpg");
     QVERIFY(wait_for_media() != (MediaSource*)0);
 
     m_factory->enableContentLoadFilter(MediaSource::Video);
