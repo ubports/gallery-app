@@ -52,10 +52,8 @@
  */
 bool Photo::isValid(const QFileInfo& file)
 {
-    qDebug() << "[DEBUG] isValid: " << file.filePath();
     QImageReader reader(file.filePath());
     QByteArray format = reader.format();
-    qDebug() << "[DEBUG] format: " << QString(format).toLower();
 
     if (QString(format).toLower() == "tiff") {
         // QImageReader.canRead() will detect some raw files as readable TIFFs,
@@ -64,8 +62,6 @@ bool Photo::isValid(const QFileInfo& file)
         if (extension != "tiff" && extension != "tif")
             return false;
     }
-
-    qDebug() << "[DEBUG] canRead: " << reader.canRead();
 
     return reader.canRead();
 }

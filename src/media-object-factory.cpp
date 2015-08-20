@@ -31,7 +31,6 @@
 #include <video.h>
 
 #include <QApplication>
-#include <QDebug>
 
 QWaitCondition listNotEmptyCondition;
 QMutex createMutex;
@@ -194,14 +193,10 @@ void MediaObjectFactoryWorker::create(const QString &path)
     qint64 id = m_mediaTable->getIdForMedia(file.absoluteFilePath());
 
     if (id == INVALID_ID) {
-        if (mediaType == MediaSource::Video && !Video::isValid(file)) {
-            qDebug() << "[DEBUG] MediaSource::Video && !isValid()";
+        if (mediaType == MediaSource::Video && !Video::isValid(file))
             return;
-        }
-        if (mediaType == MediaSource::Photo && !Photo::isValid(file)) {
-            qDebug() << "[DEBUG] MediaSource::Photo && !isValid()";
+        if (mediaType == MediaSource::Photo && !Photo::isValid(file))
             return;
-        }
     }
 
     MediaSource *media = 0;
