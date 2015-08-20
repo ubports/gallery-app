@@ -31,16 +31,6 @@
 
 QFileInfo photoDummyFileInfo;
 
-bool Photo::isValid(const QFileInfo& file)
-{
-    QString extension = file.suffix().toLower();
-    if (extension == "jpg") {
-        return true;
-    }
-
-    return false;
-}
-
 /*!
  * \brief Photo::Photo
  * \param file

@@ -177,15 +177,11 @@ void MediaObjectFactoryWorker::clear()
 
 void MediaObjectFactoryWorker::create(const QString &path)
 {
-    qDebug() << "[DEBUG] create" << path;
     Q_ASSERT(m_mediaTable);
 
-    qDebug() << "[DEBUG] m_mediaTable (OK)";
     QFileInfo file(path);
-    qDebug() << "[DEBUG] file.exists() " << file.exists(); 
 
     clearMetadata();
-    qDebug() << "[DEBUG] clearMetadata() (OK)";
 
     MediaSource::MediaType mediaType = MediaSource::Photo;
     if (Video::isCameraVideo(file))
@@ -194,19 +190,19 @@ void MediaObjectFactoryWorker::create(const QString &path)
     if (m_filterType != MediaSource::None && mediaType != m_filterType)
         return;
 
-    qDebug() << "[DEBUG] mediaType (OK)";
-
     // Look for video in the database.
     qint64 id = m_mediaTable->getIdForMedia(file.absoluteFilePath());
 
     if (id == INVALID_ID) {
-        if (mediaType == MediaSource::Video && !Video::isValid(file))
+        if (mediaType == MediaSource::Video && !Video::isValid(file)) {
+            qDebug() << "[DEBUG] MediaSource::Video && !isValid()";
             return;
-        if (mediaType == MediaSource::Photo && !Photo::isValid(file))
+        }
+        if (mediaType == MediaSource::Photo && !Photo::isValid(file)) {
+            qDebug() << "[DEBUG] MediaSource::Photo && !isValid()";
             return;
+        }
     }
-
-    qDebug() << "[DEBUG] isValid() (OK)";
 
     MediaSource *media = 0;
     Photo *photo = 0;
