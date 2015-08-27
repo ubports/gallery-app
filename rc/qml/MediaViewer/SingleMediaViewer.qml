@@ -28,7 +28,7 @@ Item {
     id: viewer
     property bool pinchInProgress: zoomPinchArea.active
     property var mediaSource
-    property real maxDimension: overview.height
+    property real maxDimension: 0
     property bool showThumbnail: true
 
     property bool isVideo: mediaSource.type === MediaSource.Video
@@ -42,6 +42,10 @@ Item {
     property alias paintedWidth: image.paintedWidth
 
     signal clicked()
+
+    Component.onCompleted: {
+        maxDimension = Math.max(overview.width, overview.height) * 1.1
+    }
 
     function zoomIn(centerX, centerY, factor) {
         flickable.scaleCenterX = centerX / (flickable.sizeScale * flickable.width);
