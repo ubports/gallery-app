@@ -28,7 +28,7 @@ Item {
     id: viewer
     property bool pinchInProgress: zoomPinchArea.active
     property var mediaSource
-    property real maxDimension: 0.
+    property real maxDimension: overview.height
     property bool showThumbnail: true
 
     property bool isVideo: mediaSource.type === MediaSource.Video
@@ -42,16 +42,6 @@ Item {
     property alias paintedWidth: image.paintedWidth
 
     signal clicked()
-
-    onHeightChanged: {
-        if (height > viewer.maxDimension)
-            viewer.maxDimension = height;
-    }
-
-    onWidthChanged: {
-        if (width > viewer.maxDimension)
-            viewer.maxDimension = width;
-    }
 
     function zoomIn(centerX, centerY, factor) {
         flickable.scaleCenterX = centerX / (flickable.sizeScale * flickable.width);
@@ -138,8 +128,8 @@ Item {
                         image.source = "";
                         image.source = "image://photo/" + mediaSource.path
 
-                        rightResolutionImage.source = "";
-                        rightResolutionImage.source = "image://photo/" + mediaSource.path
+                        highResolutionImage.source = "";
+                        highResolutionImage.source = "image://photo/" + mediaSource.path
                     }
                 }
 
@@ -153,7 +143,15 @@ Item {
                     anchors.fill: parent
                     asynchronous: true
                     cache: false
-                    source: viewer.isVideo ? "image://thumbnailer/" + mediaSource.path : "image://photo/" + mediaSource.path
+                    source: {
+                        if (viewer.isVideo) {
+                            if (viewer.maxDimension > 0) {
+                                return "image://thumbnailer/" + mediaSource.path
+                            }
+                        } else {
+                            return "image://photo/" + mediaSource.path
+                        }
+                    }
                     sourceSize {
                         width: viewer.maxDimension
                         height: viewer.maxDimension

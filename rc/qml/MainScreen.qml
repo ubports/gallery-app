@@ -306,12 +306,12 @@ MainView {
         enabled: photoViewerLoader.item && photoViewerLoader.item.animationRunning
     }
 
-    actionManager.localContexts: [
-        UnityActions.ActionContext {
-            id: hudCtx
-            active: __isPhotoViewerOpen
-        }
-    ]
+    UnityActions.ActionContext {
+        id: hudCtx
+        active: __isPhotoViewerOpen
+    }
+ 
+    actionManager.localContexts: [ hudCtx ]
 
     Connections {
         target: UriHandler
