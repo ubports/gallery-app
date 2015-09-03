@@ -51,7 +51,7 @@ Item {
         // Only change thumbSize if width increases more than 5%
         // that way we do not reload image for small resizes
         if (width > (thumbSize.width * 1.05)) {
-            thumbSize = Qt.size(width, thumbSize.height)
+            thumbSize = Qt.size(width, height)
         }
     }
 
@@ -59,7 +59,7 @@ Item {
         // Only change thumbSize if height increases more than 5%
         // that way we do not reload image for small resizes
         if (height > (thumbSize.height * 1.05)) {
-            thumbSize = Qt.size(thumbSize.width, height)
+            thumbSize = Qt.size(width, height)
         }
     }
 
