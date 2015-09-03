@@ -28,7 +28,7 @@ Item {
     id: viewer
     property bool pinchInProgress: zoomPinchArea.active
     property var mediaSource
-    property real maxDimension: 0
+    property size thumbSize: Qt.size()
     property bool showThumbnail: true
 
     property bool isVideo: mediaSource.type === MediaSource.Video
@@ -44,20 +44,22 @@ Item {
     signal clicked()
 
     Component.onCompleted: {
-        if (!APP.desktopMode) {
-            maxDimension = Math.max(overview.width, overview.height)
-        }
+        thumbSize = Qt.size(overview.width, overview.height)
     }
 
     onWidthChanged: {
-        if (APP.desktopMode && width > maxDimension) {
-            maxDimension = width
+        // Only change thumbSize if width increases more than 5%
+        // that way we do not reload image for small resizes
+        if (width > (thumbSize.width * 1.05)) {
+            thumbSize = Qt.size(width, thumbSize.height)
         }
     }
 
     onHeightChanged: {
-        if (APP.desktopMode && height > maxDimension) {
-            maxDimension = height
+        // Only change thumbSize if height increases more than 5%
+        // that way we do not reload image for small resizes
+        if (height > (thumbSize.height * 1.05)) {
+            thumbSize = Qt.size(thumbSize.width, height)
         }
     }
 
@@ -163,7 +165,7 @@ Item {
                     cache: false
                     source: {
                         if (viewer.isVideo) {
-                            if (viewer.maxDimension > 0) {
+                            if (viewer.thumbSize.isValid()) {
                                 return "image://thumbnailer/" + mediaSource.path
                             }
                         } else {
@@ -171,8 +173,8 @@ Item {
                         }
                     }
                     sourceSize {
-                        width: viewer.maxDimension
-                        height: viewer.maxDimension
+                        width: viewer.thumbSize.width
+                        height: viewer.thumbSize.height
                     }
                     fillMode: Image.PreserveAspectFit
                     visible: viewer.showThumbnail
