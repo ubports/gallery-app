@@ -28,7 +28,7 @@ Item {
     id: viewer
     property bool pinchInProgress: zoomPinchArea.active
     property var mediaSource
-    property size thumbSize: Qt.size(viewer.width, viewer.height)
+    property size thumbSize: Qt.size(viewer.width * 1.05, viewer.height * 1.05)
     property bool showThumbnail: true
 
     property bool isVideo: mediaSource.type === MediaSource.Video
@@ -46,16 +46,16 @@ Item {
     onWidthChanged: {
         // Only change thumbSize if width increases more than 5%
         // that way we do not reload image for small resizes
-        if (width > (thumbSize.width * 1.05)) {
-            thumbSize = Qt.size(width, height);
+        if (width > thumbSize.width) {
+            thumbSize = Qt.size(width * 1.05, height * 1.05);
         }
     }
 
     onHeightChanged: {
         // Only change thumbSize if height increases more than 5%
         // that way we do not reload image for small resizes
-        if (height > (thumbSize.height * 1.05)) {
-            thumbSize = Qt.size(width, height);
+        if (height > thumbSize.height) {
+            thumbSize = Qt.size(width * 1.05, height * 1.05);
         }
     }
 
