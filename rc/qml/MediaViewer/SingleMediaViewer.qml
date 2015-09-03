@@ -44,7 +44,21 @@ Item {
     signal clicked()
 
     Component.onCompleted: {
-        maxDimension = Math.max(overview.width, overview.height) * 1.1
+        if (!APP.desktopMode) {
+            maxDimension = Math.max(overview.width, overview.height)
+        }
+    }
+
+    onWidthChanged: {
+        if (APP.desktopMode && width > maxDimension) {
+            maxDimension = width
+        }
+    }
+
+    onHeightChanged: {
+        if (APP.desktopMode && height > maxDimension) {
+            maxDimension = height
+        }
     }
 
     function zoomIn(centerX, centerY, factor) {
