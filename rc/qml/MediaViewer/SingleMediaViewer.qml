@@ -161,9 +161,7 @@ Item {
                     cache: false
                     source: {
                         if (viewer.isVideo) {
-                            if (viewer.thumbSize.isValid()) {
-                                return "image://thumbnailer/" + mediaSource.path
-                            }
+                            return "image://thumbnailer/" + mediaSource.path
                         } else {
                             return "image://photo/" + mediaSource.path
                         }
