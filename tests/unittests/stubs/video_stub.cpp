@@ -43,7 +43,6 @@ bool Video::isCameraVideo(const QFileInfo &file)
 {
     QMimeDatabase mimedb;
     QMimeType mimeType = mimedb.mimeTypeForFile(file);
-    qWarning() << mimeType.name();
     if (mimeType.name().contains("video")) {
         return true;
     }

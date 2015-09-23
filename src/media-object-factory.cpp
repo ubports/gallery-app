@@ -210,16 +210,13 @@ void MediaObjectFactoryWorker::create(const QString &path)
     media->setMediaTable(m_mediaTable);
 
     if (id == INVALID_ID) {
-        bool metadataOk;
         if (mediaType == MediaSource::Photo) {
-            metadataOk = readPhotoMetadata(photo->file());
+            readPhotoMetadata(photo->file());
         } else {
-            metadataOk = readVideoMetadata(file);
-        }
-
-        if (!metadataOk) {
-            delete media;
-            return;
+            if (!readVideoMetadata(file)) {
+                delete media;
+                return;
+            }
         }
 
         // This will cause the real size to be read from the file
@@ -288,15 +285,26 @@ void MediaObjectFactoryWorker::clearMetadata()
 bool MediaObjectFactoryWorker::readPhotoMetadata(const QFileInfo &file)
 {
     PhotoMetadata* metadata = PhotoMetadata::fromFile(file);
-    if (metadata == 0)
-        return false;
 
     m_timeStamp = file.lastModified();
-    m_orientation = metadata->orientation();
     m_fileSize = file.size();
-    m_exposureTime = metadata->exposureTime().isValid() ?
-                QDateTime(metadata->exposureTime()) : m_timeStamp;
     m_size = QSize();
+
+    if (metadata != 0 && metadata->exposureTime().isValid()) {
+        m_exposureTime = QDateTime(metadata->exposureTime());
+    } else {
+        m_exposureTime = m_timeStamp;
+    }
+
+    if (metadata != 0) {
+        m_orientation = metadata->orientation();
+    } else {
+        m_orientation = TOP_LEFT_ORIGIN;
+    }
+
+    if (metadata == 0) {
+        return false;
+    }
 
     delete metadata;
     return true;
