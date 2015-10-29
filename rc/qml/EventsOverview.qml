@@ -114,7 +114,7 @@ OrganicView {
             objectName: "cameraButton"
             text: i18n.tr("Camera")
             visible: !APP.desktopMode
-            iconSource: Qt.resolvedUrl("../../img/camera.png")
+            iconName: "camera-app-symbolic"
             onTriggered: Qt.openUrlExternally("appid://com.ubuntu.camera/camera/current-user-version")
         }
     ]
