@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014-2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,10 +16,10 @@
 
 import QtQuick 2.2
 import QtMultimedia 5.0
-import Ubuntu.Components 1.0
+import Ubuntu.Components 1.3
 import Ubuntu.Components.ListItems 1.0 as ListItems
 import Ubuntu.Components.Popups 1.0
-import Ubuntu.Content 0.1
+import Ubuntu.Content 1.1
 import Ubuntu.Thumbnailer 0.1
 import Gallery 1.0
 import "../Components"

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Canonical Ltd
+ * Copyright (C) 2012-2015 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -18,8 +18,8 @@
  */
 
 import QtQuick 2.0
-import Ubuntu.Components.Popups 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
+import Ubuntu.Components.Popups 1.0
+import Ubuntu.Components.ListItems 1.0 as ListItem
 
 /*!
   Popover to show the context menu for an album

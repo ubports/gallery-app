@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical Ltd
+ * Copyright (C) 2011-2015 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -22,7 +22,7 @@
 import QtQuick 2.0
 import QtQuick.Window 2.0
 import "../js/Gallery.js" as Gallery
-import Ubuntu.Components 0.1 // Necessary to make filename@GU.ext images load
+import Ubuntu.Components 1.3 // Necessary to make filename@GU.ext images load
 
 Item {
     id: application

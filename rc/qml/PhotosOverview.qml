@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Canonical Ltd
+ * Copyright (C) 2012-2015 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -19,9 +19,9 @@
 
 import QtQuick 2.0
 import Gallery 1.0
-import Ubuntu.Components 0.1
-import Ubuntu.Components.Popups 0.1
-import Ubuntu.Content 0.1
+import Ubuntu.Components 1.3
+import Ubuntu.Components.Popups 1.0
+import Ubuntu.Content 1.1
 import "Components"
 import "OrganicView"
 import "Utility"
