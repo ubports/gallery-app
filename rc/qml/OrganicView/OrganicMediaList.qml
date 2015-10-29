@@ -164,11 +164,11 @@ Item {
                     }
                 }
 
-                visible: image.status === Image.Ready
+                visible: source.status === Image.Ready
 
                 radius: "medium"
 
-                image: Image {
+                source: Image {
                     id: thumbImage
                     source: "image://thumbnailer/" + model.mediaSource.path + "?at=" + Date.now()
                     asynchronous: true
