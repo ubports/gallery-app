@@ -29,8 +29,6 @@ MainView {
     id: overview
     objectName: "overview"
 
-    useDeprecatedToolbar: false
-
     anchors.fill: parent
     applicationName: "com.ubuntu.gallery"
     automaticOrientation: application.automaticOrientation

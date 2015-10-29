@@ -16,6 +16,7 @@
 
 import QtQuick 2.0
 import Ubuntu.Components 1.3
+import Ubuntu.Thumbnailer 0.1
 import Gallery 1.0
 import "../OrganicView"
 import "../Utility"
@@ -79,9 +80,9 @@ GridView {
             height: photosGrid.thumbnailSize
 
             radius: "medium"
-            property bool isLoading: image.status === Image.Loading
+            property bool isLoading: source.status === Image.Loading
 
-            image: Image {
+            source: Image {
                 id: thumbImage
                 source: "image://thumbnailer/" + mediaSource.path + "?at=" + Date.now()
                 asynchronous: true

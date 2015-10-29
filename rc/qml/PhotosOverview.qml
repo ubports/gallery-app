@@ -59,14 +59,8 @@ Page {
 
     property string pageTitle
 
-    tools: inSelectionMode ? d.selectionTools : d.overviewTools
-
-    Image {
-        anchors.fill: parent
-
-        source: "../img/background-paper.png"
-        fillMode: Image.Tile
-    }
+    head.actions: inSelectionMode ? d.selectActions : d.overviewActions
+    head.backAction: inSelectionMode ? d.selectBackAction : null
 
     MediaGrid {
         id: photosGrid
@@ -128,30 +122,61 @@ Page {
             model: photosOverview.model
         }
 
-        property Item overviewTools: PhotosToolbarActions {
-            selection: d.selection
-        }
+        property list<Action> overviewActions: [
+            Action {
+                objectName: "selectButton"
+                text: i18n.tr("Select")
+                iconName: "select"
+                enabled: d.selection !== null
+                onTriggered: d.selection.inSelectionMode = true;
+            },
+            Action {
+                objectName: "cameraButton"
+                text: i18n.tr("Camera")
+                visible: !APP.desktopMode
+                iconSource: Qt.resolvedUrl("../../img/camera.png")
+                onTriggered: Qt.openUrlExternally("appid://com.ubuntu.camera/camera/current-user-version")
+            }
+        ]
 
-        property Item selectionTools: SelectionToolbarAction {
-            selection: d.selection
+        property list<Action> selectActions: [
+            Action {
+                id: addButton
+                objectName: "addButton"
+ 
+                text: i18n.tr("Add")
+                iconName: "add"
+                enabled: d.selection.selectedCount > 0
+                onTriggered: __albumPicker = PopupUtils.open(Qt.resolvedUrl("Components/PopupAlbumPicker.qml"),
+                                                             null,
+                                                             {contentHeight: photosOverview.__pickerContentHeight});
+ 
+            },
+            Action {
+                objectName: "deleteButton"
 
-            onCancelClicked: {
-                photosOverview.leaveSelectionMode();
+                text: i18n.tr("Delete")
+                iconName: "delete"
+                enabled: d.selection.selectedCount > 0
+                onTriggered: PopupUtils.open(deleteDialog, null);
+            },
+            Action {
+                objectName: "shareButton"
+                text: i18n.tr("Share")
+                iconName: "share"
+                enabled: d.selection.selectedMediaCount == 1
+                onTriggered: {
+                    overview.pushPage(sharePicker)
+                    sharePicker.visible = true;
+                }
             }
-            onAddClicked: {
-                __albumPicker = PopupUtils.open(Qt.resolvedUrl("Components/PopupAlbumPicker.qml"),
-                                                null,
-                                                {contentHeight: photosOverview.__pickerContentHeight});
-            }
-            onDeleteClicked: {
-                PopupUtils.open(deleteDialog, null);
-            }
+        ]
 
-            onShareClicked: {
-                overview.pushPage(sharePicker)
-                sharePicker.visible = true;
-            }
-        }
+        property Action selectBackAction: Action {
+            text: i18n.tr("Cancel")
+            iconName: "back"
+            onTriggered: photosOverview.leaveSelectionMode();
+        } 
     }
 
     Component {
