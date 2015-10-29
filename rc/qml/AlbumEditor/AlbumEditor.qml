@@ -143,7 +143,9 @@ Page {
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         anchors.fill: parent
         onPressed: {
-            coverMenu.hide();
+            if (coverMenu) {
+                coverMenu.hide();
+            }
             cover.editingDone();
             closeAlbum();
 

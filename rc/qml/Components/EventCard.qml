@@ -37,7 +37,7 @@ UbuntuShape {
     */
 
     radius: "medium"
-    color: "#dddddd"
+    backgroundColor: "#dddddd"
     opacity: 0.8
 
     width: units.gu(12)

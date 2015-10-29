@@ -132,7 +132,7 @@ Item {
             UbuntuShape {
                 id: thumbnail
 
-                property bool isLoading: image.status === Image.Loading
+                property bool isLoading: source.status === Image.Loading
 
                 x: __photoX[patternPhoto]
                 y: __photosTopMargin + __photoY[patternPhoto]

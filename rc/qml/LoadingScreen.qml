@@ -20,15 +20,8 @@
 import QtQuick 2.0
 import Ubuntu.Components 1.3
 
-
 Page {
     id: loadingScreen
-
-    Image {
-        anchors.fill: parent
-        source: "../img/background-paper.png"
-        fillMode: Image.Tile
-    }
 
     Column {
         anchors.centerIn: parent

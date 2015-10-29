@@ -228,34 +228,28 @@ Checkerboard {
     }
 
     /// Contains the actions for the toolbar in the albums tab
-    tools: ToolbarItems {
-        id: albumOverviewTools
-        ToolbarButton {
-            action: Action {
-                objectName: "addButton"
-                text: i18n.tr("Add new album") // Text in HUD
-                iconName: "add"
-                onTriggered: {
-                    var album = albumCollectionModel.createOrphan();
-                    album.title = i18n.tr("New Photo Album");
-                    album.subtitle = i18n.tr("Subtitle");
+    head.actions: [
+        Action {
+            objectName: "addButton"
+            text: i18n.tr("Add new album") // Text in HUD
+            iconName: "add"
+            onTriggered: {
+                var album = albumCollectionModel.createOrphan();
+                album.title = i18n.tr("New Photo Album");
+                album.subtitle = i18n.tr("Subtitle");
 
-                    albumEditor.album = album;
-                    overview.pushPage(albumEditor);
-                }
+                albumEditor.album = album;
+                overview.pushPage(albumEditor);
             }
-            text: i18n.tr("Add") // text in toolbar
+        },
+        Action {
+            objectName: "cameraButton"
+            text: i18n.tr("Camera")
+            visible: !APP.desktopMode
+            iconSource: Qt.resolvedUrl("../img/camera.png")
+            onTriggered: Qt.openUrlExternally("appid://com.ubuntu.camera/camera/current-user-version")
         }
-        ToolbarButton {
-            action: Action {
-                objectName: "cameraButton"
-                text: i18n.tr("Camera")
-                visible: !APP.desktopMode
-                iconSource: Qt.resolvedUrl("../img/camera.png")
-                onTriggered: Qt.openUrlExternally("appid://com.ubuntu.camera/camera/current-user-version")
-            }
-        }
-    }
+    ]
 
     AlbumViewer {
         id: albumViewer
