@@ -61,13 +61,6 @@ Page {
         positionEventsAtBeginning()
     }
 
-    Image {
-        anchors.fill: parent
-
-        source: "../../img/background-paper.png"
-        fillMode: Image.Tile
-    }
-
     ListView {
         id: organicList
 

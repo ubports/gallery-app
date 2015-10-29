@@ -150,13 +150,16 @@ MainView {
             objectName: "albumsTab"
             title: i18n.tr("Albums")
             property bool isAlbumOpened: page.item ? page.item.isAlbumOpened : false
-            page: Loader {
+            page: Page {}
+            /*
+            Loader {
                 id: albumsCheckerboardLoader
                 objectName: "albumsCheckerboardLoader"
                 anchors.fill: parent
                 source: allLoaded ? Qt.resolvedUrl("AlbumsOverview.qml") : Qt.resolvedUrl("LoadingScreen.qml")
                 asynchronous: true
             }
+            */
         }
 
         Tab {
