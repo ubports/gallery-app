@@ -119,7 +119,11 @@ Page {
         onOpenCompletedChanged: updateVisibility()
 
         onSetHeaderVisibilityRequested: popupPhotoViewer.header.visible = visibility
-        onToggleHeaderVisibilityRequested: popupPhotoViewer.header.visible = !popupPhotoViewer.header.visible
+        onToggleHeaderVisibilityRequested: {
+            popupPhotoViewer.header.visible = !popupPhotoViewer.header.visible
+            if (!APP.desktopMode)
+                setFullScreen(!popupPhotoViewer.header.visible);
+        }
 
         // Internal
         function updateVisibility() {

@@ -196,6 +196,8 @@ Page {
                     showMediaSelector();
                 else if (!hit.mediaSource) {
                     albumViewer.header.visible = !albumViewer.header.visible;
+                    if (!APP.desktopMode)
+                        setFullScreen(!albumViewer.header.visible);
                     return;
                 }
 
@@ -311,7 +313,6 @@ Page {
             onOpened: {
                 photoViewerLoader.item.title = albumViewer.title;
                 overview.pushPage(target);
-                albumViewer.header.visible = false;
             }
             onCloseRequested: {
                 albumViewer.mediaCurrentlyInView = "";
