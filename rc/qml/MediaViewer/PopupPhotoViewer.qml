@@ -119,7 +119,7 @@ Page {
         onOpenCompletedChanged: updateVisibility()
 
         onSetHeaderVisibilityRequested: popupPhotoViewer.header.visible = visibility
-        onToggleHeaderVisibilityRequested: popupPhotoViewer.header.visible = !popupPhotoViewer.header.visibl
+        onToggleHeaderVisibilityRequested: popupPhotoViewer.header.visible = !popupPhotoViewer.header.visible
 
         // Internal
         function updateVisibility() {
