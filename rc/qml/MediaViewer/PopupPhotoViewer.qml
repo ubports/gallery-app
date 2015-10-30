@@ -118,6 +118,9 @@ Page {
         onIsReadyChanged: updateVisibility()
         onOpenCompletedChanged: updateVisibility()
 
+        onSetHeaderVisibilityRequested: popupPhotoViewer.header.visible = visibility
+        onToggleHeaderVisibilityRequested: popupPhotoViewer.header.visible = !popupPhotoViewer.header.visibl
+
         // Internal
         function updateVisibility() {
             if (isReady && openCompleted) {
@@ -139,9 +142,9 @@ Page {
                 setFullScreen(true);
             overview.pushPage(popupPhotoViewer);
             if (selection && selection.inSelectionMode)
-                overview.setHeaderVisibility(true);
+                popupPhotoViewer.header.visible = true;
             else
-                overview.setHeaderVisibility(false);
+                popupPhotoViewer.header.visible = false;
             opened();
         }
 

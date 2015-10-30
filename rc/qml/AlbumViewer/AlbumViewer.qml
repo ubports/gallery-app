@@ -195,7 +195,7 @@ Page {
                 if (hit.objectName === "addButton")
                     showMediaSelector();
                 else if (!hit.mediaSource) {
-                    overview.toggleHeaderVisibility();
+                    albumViewer.header.visible = !albumViewer.header.visible;
                     return;
                 }
 
@@ -311,7 +311,7 @@ Page {
             onOpened: {
                 photoViewerLoader.item.title = albumViewer.title;
                 overview.pushPage(target);
-                overview.setHeaderVisibility(false);
+                albumViewer.header.visible = false;
             }
             onCloseRequested: {
                 albumViewer.mediaCurrentlyInView = "";

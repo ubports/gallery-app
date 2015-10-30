@@ -181,9 +181,9 @@ Checkerboard {
                 setFullScreen(true);
             overview.pushPage(albumViewer);
             if (object.containedCount > 0)
-                overview.setHeaderVisibility(false);
+                albumViewer.header.visible = false;
             else
-                overview.setHeaderVisibility(true);
+                albumViewer.header.visible = true;
         }
         else
             albumViewer.visible = true

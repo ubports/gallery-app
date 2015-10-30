@@ -71,19 +71,6 @@ MainView {
         }
     }
 
-    function setHeaderVisibility(visible, toggleFullscreen)
-    {
-        toggleFullscreen = typeof toggleFullscreen !== 'undefined' ? toggleFullscreen : true
-        header.visible = visible;
-        if (!APP.desktopMode && toggleFullscreen)
-            setFullScreenTimer.start();
-    }
-
-    function toggleHeaderVisibility()
-    {
-        setHeaderVisibility(!header.visible);
-    }
-
     Component.onCompleted: {
         pageStack.push(tabs);
     }
@@ -111,7 +98,7 @@ MainView {
                 eventsOverviewLoader.item.positionViewAtBeginning();
             }
 
-            setHeaderVisibility(true);
+            header.visible = true;
 
             tabs.selectedTabIndex = 1;
         }

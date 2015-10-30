@@ -74,6 +74,9 @@ Item {
     */
     signal editRequested(variant photo)
 
+    signal setHeaderVisibilityRequested(bool visibility)
+    signal toggleHeaderVisibilityRequested()
+
     /*!
     */
     function setCurrentIndex(index) {
@@ -163,7 +166,7 @@ Item {
                 return 1.0 - Math.abs((galleryPhotoViewer.contentX - x) / width);
             }
 
-            onClicked: overview.toggleHeaderVisibility()
+            onClicked: viewerWrapper.toggleHeaderVisibilityRequested()
         }
 
         // Don't allow flicking while the chrome is actively displaying a popup
@@ -182,7 +185,7 @@ Item {
             anchors.fill: parent
             visible: false
 
-            onVisibleChanged: overview.setHeaderVisibility(!visible, false)
+            onVisibleChanged: viewerWrapper.setHeaderVisibilityRequested(!visible)
 
             ContentPeerPicker {
                 objectName: "sharePicker"
