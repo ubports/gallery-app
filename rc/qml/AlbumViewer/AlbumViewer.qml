@@ -362,36 +362,30 @@ Page {
         }
     }
 
-    /// Contains the actions for the toolbar in the album view
-    head.actions: [
-        Action {
-            objectName: "addButton"
-            text: i18n.tr("Add to album") // text in HUD
-            iconName: "add"
-            onTriggered: showMediaSelector();
-        },
-        Action {
-            objectName: "deleteButton"
-            text: i18n.tr("Delete")
-            iconName: "delete"
-            onTriggered: {
-                albumTrashDialog.album = album;
-                albumTrashDialog.show();
+    header: PageHeader {
+        title: albumViewer.title
+        /// Contains the actions for the toolbar in the album view
+        trailingActionBar.actions: [
+            Action {
+                objectName: "addButton"
+                text: i18n.tr("Add to album") // text in HUD
+                iconName: "add"
+                onTriggered: showMediaSelector();
+            },
+            Action {
+                objectName: "deleteButton"
+                text: i18n.tr("Delete")
+                iconName: "delete"
+                onTriggered: {
+                    albumTrashDialog.album = album;
+                    albumTrashDialog.show();
+                }
             }
+        ]
+
+        leadingActionBar.actions: Action {
+            iconName: "back"
+            onTriggered: __close();
         }
-    ]
-
-    head.backAction: Action {
-        iconName: "back"
-        onTriggered: __close();
-    }
-
-    Rectangle {
-        id: headerBackground
-
-        width: parent.width
-        height: header.height
-
-        visible: header.visible
     }
 }

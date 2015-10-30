@@ -89,12 +89,16 @@ Page {
         viewer.closeMediaViewer();
     }
 
-    head.actions: {
-        if (selection && selection.inSelectionMode)
-            return selectActions;
-        return viewer.actions;
+    header: PageHeader {
+        title: popupPhotoViewer.title
+        trailingActionBar.actions: {
+            if (selection && selection.inSelectionMode)
+               return selectActions;
+            return viewer.actions;
+        }
+
+        leadingActionBar.actions: viewer.backAction
     }
-    head.backAction: viewer.backAction
 
     MediaViewer {
         id: viewer
