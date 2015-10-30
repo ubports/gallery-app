@@ -106,11 +106,6 @@ Page {
 
     title: i18n.tr("Album")
 
-    Image {
-        anchors.fill: parent
-        source: "../../img/background-paper.png"
-    }
-
     function closeAlbum() {
         if (photoViewerLoader.item && photoViewerLoader.item.isPoppedUp) {
             photoViewerLoader.item.closePopupPhotoViewer();
@@ -203,6 +198,9 @@ Page {
 
                 albumViewer.mediaCurrentlyInView = hit.mediaSource.path;
                 photoViewerLoader.fadeOpen(hit.mediaSource);
+                photoViewerLoader.item.header.visible = false;
+                if (!APP.desktopMode)
+                    setFullScreen(true);
             }
 
             // Long press/right click.
@@ -323,6 +321,7 @@ Page {
                 }
 
                 photoViewerLoader.item.fadeClosed();
+                albumViewer.header.visible = true;
             }
             onClosed: {
                 overview.popPage();
