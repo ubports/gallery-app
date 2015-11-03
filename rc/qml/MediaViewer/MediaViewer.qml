@@ -180,22 +180,23 @@ Item {
             ContentItem {}
         }
 
-        Rectangle {
+        Page {
             id: sharePicker
-            anchors.fill: parent
             visible: false
+            title: i18n.tr("Share to")
 
             onVisibleChanged: viewerWrapper.setHeaderVisibilityRequested(!visible)
 
             ContentPeerPicker {
                 objectName: "sharePicker"
+                showTitle: false
                 anchors.fill: parent
-                visible: parent.visible
                 contentType: galleryPhotoViewer.media.type === MediaSource.Video ? ContentType.Videos : ContentType.Pictures
                 handler: ContentHandler.Share
 
                 onPeerSelected: {
-                    parent.visible = false;
+                    overview.popPage();
+                    sharePicker.visible = false;
                     var curTransfer = peer.request();
                     if (curTransfer.state === ContentTransfer.InProgress)
                     {
@@ -203,7 +204,10 @@ Item {
                         curTransfer.state = ContentTransfer.Charged;
                     }
                 }
-                onCancelPressed: parent.visible = false;
+                onCancelPressed: {
+                    overview.popPage();
+                    sharePicker.visible = false;
+                }
             }
         }
 
@@ -359,7 +363,10 @@ Item {
                 text: i18n.tr("Share")
                 iconName: "share"
                 visible: !APP.desktopMode
-                onTriggered: sharePicker.visible = true;
+                onTriggered: {
+                    overview.pushPage(sharePicker)
+                    sharePicker.visible = true;
+                }
             }
         ]
  
