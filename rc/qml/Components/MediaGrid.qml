@@ -82,6 +82,7 @@ GridView {
             radius: "medium"
             property bool isLoading: source.status === Image.Loading
 
+            sourceFillMode: UbuntuShape.PreserveAspectCrop
             source: Image {
                 id: thumbImage
                 source: "image://thumbnailer/" + mediaSource.path + "?at=" + Date.now()

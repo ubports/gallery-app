@@ -168,6 +168,7 @@ Item {
 
                 radius: "medium"
 
+                sourceFillMode: UbuntuShape.PreserveAspectCrop
                 source: Image {
                     id: thumbImage
                     source: "image://thumbnailer/" + model.mediaSource.path + "?at=" + Date.now()
