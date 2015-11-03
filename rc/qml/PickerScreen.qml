@@ -30,8 +30,6 @@ MainView {
     id: overview
     objectName: "pickerMainView"
 
-    useDeprecatedToolbar: false
-
     function setHeaderVisibility(visible)
     {
         header.visible = visible;    
