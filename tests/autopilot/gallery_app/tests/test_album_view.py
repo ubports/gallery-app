@@ -124,8 +124,8 @@ class TestAlbumView(GalleryTestCase):
         photo_view = self.album_view.get_album_photo_view()
         self.assertThat(photo_view.visible, Eventually(Equals(True)))
 
-        photo_viewer_popup = self.main_view.wait_select_single(PopupPhotoViewer,
-                                                               visible=True)
+        photo_viewer_popup = self.main_view.wait_select_single(
+            PopupPhotoViewer, visible=True)
         photo_viewer_popup.click_action_button("deleteButton")
         self.album_view.click_remove_from_album_remove_button()
 
@@ -148,8 +148,8 @@ class TestAlbumView(GalleryTestCase):
         photo_view = self.album_view.get_album_photo_view()
         self.assertThat(photo_view.visible, Eventually(Equals(True)))
 
-        photo_viewer_popup = self.main_view.wait_select_single(PopupPhotoViewer,
-                                                               visible=True)
+        photo_viewer_popup = self.main_view.wait_select_single(
+            PopupPhotoViewer, visible=True)
         photo_viewer_popup.click_action_button("deleteButton")
         self.album_view.click_remove_from_album_delete_button()
 
@@ -172,10 +172,10 @@ class TestAlbumView(GalleryTestCase):
         photo_view = self.album_view.get_album_photo_view()
         self.assertThat(photo_view.visible, Eventually(Equals(True)))
 
-        photo_viewer_popup = self.main_view.wait_select_single(PopupPhotoViewer,
-                                                               visible=True)
+        photo_viewer_popup = self.main_view.wait_select_single(
+            PopupPhotoViewer, visible=True)
         photo_viewer_popup.click_action_button("deleteButton")
-    
+
         self.album_view.click_remove_from_album_cancel_button()
 
         photo_viewer_popup.click_action_button("backButton")

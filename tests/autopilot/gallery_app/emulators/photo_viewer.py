@@ -38,7 +38,8 @@ class PopupPhotoViewer(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
     def click_action_button(self, action_object_name):
         header = self._get_header()
         if not header.visible:
-            main = self.get_root_instance().select_single(main_screen.MainScreen)
+            main = self.get_root_instance().select_single(
+                main_screen.MainScreen)
             x, y, w, h = main.globalRect
             self.pointing_device.move(x + (w // 2), y + (h // 2))
             self.pointing_device.click()

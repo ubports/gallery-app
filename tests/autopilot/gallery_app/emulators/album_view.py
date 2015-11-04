@@ -11,6 +11,7 @@ import re
 from testtools.matchers import GreaterThan, LessThan, Equals, Is
 from autopilot.matchers import Eventually
 
+from autopilot.introspection.dbus import StateNotFoundError
 from autopilot import logging as autopilot_logging
 
 from gallery_app.emulators.gallery_utils import(
