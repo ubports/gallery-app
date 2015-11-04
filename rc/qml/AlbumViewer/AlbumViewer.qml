@@ -363,6 +363,7 @@ Page {
     }
 
     header: PageHeader {
+        objectName: "albumViewerHeader"
         title: albumViewer.title
         /// Contains the actions for the toolbar in the album view
         trailingActionBar.actions: [

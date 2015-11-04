@@ -147,8 +147,8 @@ Page {
                 coverMenu.hide();
             }
             cover.editingDone();
-            closeAlbum();
-
+            if(album.newAlbum)
+                albumModel.destroyAlbum(album);
             albumEditor.closeRequested(albumEditor.album, false);
         }
     }

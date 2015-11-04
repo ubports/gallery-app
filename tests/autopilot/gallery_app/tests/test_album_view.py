@@ -15,6 +15,7 @@ from gallery_app.emulators.album_view import AlbumView
 from gallery_app.emulators.albums_view import AlbumsView
 from gallery_app.emulators.media_selector import MediaSelector
 from gallery_app.emulators.photo_viewer import PhotoViewer
+from gallery_app.emulators.photo_viewer import PopupPhotoViewer
 from gallery_app.emulators import album_editor
 from gallery_app.tests import GalleryTestCase
 
@@ -88,7 +89,7 @@ class TestAlbumView(GalleryTestCase):
         self.pointing_device.click()
 
         # open media selector but cancel
-        self.main_view.get_header().click_action_button("addButton")
+        self.album_view.click_action_button("addButton")
         self.media_selector.ensure_fully_open()
 
         self.main_view.get_header().click_custom_back_button()
@@ -98,7 +99,7 @@ class TestAlbumView(GalleryTestCase):
         self.assertThat(num_photos, Equals(num_photos_start))
 
         # open media selector and add a photo
-        self.main_view.get_header().click_action_button("addButton")
+        self.album_view.click_action_button("addButton")
         self.media_selector.ensure_fully_open()
 
         photo = self.media_selector.get_second_photo()
@@ -123,7 +124,9 @@ class TestAlbumView(GalleryTestCase):
         photo_view = self.album_view.get_album_photo_view()
         self.assertThat(photo_view.visible, Eventually(Equals(True)))
 
-        self.main_view.get_header().click_action_button("deleteButton")
+        photo_viewer_popup = self.main_view.wait_select_single(PopupPhotoViewer,
+                                                               visible=True)
+        photo_viewer_popup.click_action_button("deleteButton")
         self.album_view.click_remove_from_album_remove_button()
 
         self.assertThat(lambda: self.album_view.number_of_photos(),
@@ -145,7 +148,9 @@ class TestAlbumView(GalleryTestCase):
         photo_view = self.album_view.get_album_photo_view()
         self.assertThat(photo_view.visible, Eventually(Equals(True)))
 
-        self.main_view.get_header().click_action_button("deleteButton")
+        photo_viewer_popup = self.main_view.wait_select_single(PopupPhotoViewer,
+                                                               visible=True)
+        photo_viewer_popup.click_action_button("deleteButton")
         self.album_view.click_remove_from_album_delete_button()
 
         self.assertThat(lambda: self.album_view.number_of_photos(),
@@ -167,10 +172,13 @@ class TestAlbumView(GalleryTestCase):
         photo_view = self.album_view.get_album_photo_view()
         self.assertThat(photo_view.visible, Eventually(Equals(True)))
 
-        self.main_view.get_header().click_action_button("deleteButton")
+        photo_viewer_popup = self.main_view.wait_select_single(PopupPhotoViewer,
+                                                               visible=True)
+        photo_viewer_popup.click_action_button("deleteButton")
+    
         self.album_view.click_remove_from_album_cancel_button()
 
-        self.main_view.get_header().click_custom_back_button()
+        photo_viewer_popup.click_action_button("backButton")
 
         self.assertThat(lambda: self.album_view.number_of_photos(),
                         Eventually(Equals(num_photos_start)))

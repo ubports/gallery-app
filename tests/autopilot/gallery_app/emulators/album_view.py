@@ -219,3 +219,29 @@ class AlbumView(GalleryUtils):
                               i.source).split('?')[0]
         self.pointing_device.click_object(photo)
         return path
+
+    def _get_header(self):
+        return self.app.select_single('PageHeader',
+                                      objectName='albumViewerHeader')
+
+    def _open_overflow(self):
+        overflow_button = self._get_header().select_single(
+            objectName='overflow_action_button')
+        self.pointing_device.click_object(overflow_button)
+        return self.get_root_instance().wait_select_single(
+            objectName='actions_overflow_panel',
+            visible=True)
+
+    def click_action_button(self, action_object_name):
+        header = self._get_header()
+        header.visible.wait_for(True)
+
+        try:
+            object_name = action_object_name + "_action_button"
+            button = header.select_single(objectName=object_name)
+            self.pointing_device.click_object(button)
+        except StateNotFoundError:
+            object_name = action_object_name + "_button"
+            popover = self._open_overflow()
+            button = popover.select_single(objectName=object_name)
+            self.pointing_device.click_object(button)
