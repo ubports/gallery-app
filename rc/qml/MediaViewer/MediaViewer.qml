@@ -371,6 +371,7 @@ Item {
         ]
  
         property Action backAction: Action {
+            objectName: "backButton"
             iconName: "back"
             onTriggered: {
                 galleryPhotoViewer.currentItem.reset();

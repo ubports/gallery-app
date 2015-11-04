@@ -90,6 +90,8 @@ Page {
     }
 
     header: PageHeader {
+        objectName: "photoViewerHeader"
+
         title: popupPhotoViewer.title
         trailingActionBar.actions: {
             if (selection && selection.inSelectionMode)

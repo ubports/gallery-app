@@ -95,14 +95,18 @@ class TestPhotoViewer(TestMediaViewerBase):
 
     def test_nav_bar_back_button(self):
         """Clicking the back button must close the photo."""
-        self.main_view.get_header().click_custom_back_button()
-        photo_viewer = self.photo_viewer.get_main_photo_viewer()
-        self.assertThat(photo_viewer.visible, Eventually(Equals(False)))
+        photo_viewer_popup = self.main_view.select_single(
+            photo_viewer.PopupPhotoViewer)
+        photo_viewer_popup.click_action_button("backButton")
+        viewer = self.photo_viewer.get_main_photo_viewer()
+        self.assertThat(viewer.visible, Eventually(Equals(False)))
 
     @skipIf(model() == 'Desktop', 'Share not supported on desktop')
     def test_share_button(self):
         """Clicking the share button must show the ContentPeerPicker."""
-        self.main_view.get_header().click_action_button("shareButton")
+        photo_viewer_popup = self.main_view.select_single(
+            photo_viewer.PopupPhotoViewer)
+        photo_viewer_popup.click_action_button("shareButton")
         share_picker = self.photo_viewer.get_share_peer_picker()
         self.assertThat(share_picker.visible, Eventually(Equals(True)))
         cancel_button = \
@@ -147,7 +151,9 @@ class TestPhotoViewer(TestMediaViewerBase):
 
     def test_nav_bar_album_picker_button(self):
         """Clicking the album picker must show the picker dialog."""
-        self.main_view.get_header().click_action_button("addButton")
+        photo_viewer_popup = self.main_view.select_single(
+            photo_viewer.PopupPhotoViewer)
+        photo_viewer_popup.click_action_button("addButton")
         album_picker = self.photo_viewer.get_popup_album_picker()
         self.assertThat(album_picker.visible, Eventually(Equals(True)))
 
@@ -228,7 +234,9 @@ class TestPhotoEditor(TestMediaViewerBase):
         self.media_view = self.app.select_single(MediaViewer)
 
     def click_edit_button(self):
-        self.main_view.get_header().click_action_button("editButton")
+        photo_viewer_popup = self.main_view.select_single(
+            photo_viewer.PopupPhotoViewer)
+        photo_viewer_popup.click_action_button("editButton")
         photo_editor = self.photo_viewer.get_photo_editor()
         self.assertThat(photo_editor.visible, (Eventually(Equals(True))))
         self.assertThat(photo_editor.opacity, (Eventually(Equals(1))))
