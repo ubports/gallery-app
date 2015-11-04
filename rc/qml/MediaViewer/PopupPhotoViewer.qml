@@ -89,6 +89,9 @@ Page {
         viewer.closeMediaViewer();
     }
 
+    head.visible: false
+    head.locked: true
+
     header: PageHeader {
         objectName: "photoViewerHeader"
 

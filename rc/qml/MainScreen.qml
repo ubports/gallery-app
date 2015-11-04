@@ -162,7 +162,18 @@ MainView {
                         id: eventsOverview
                         anchors.fill: parent
 
+                        Connections {
+                            target: photoViewerLoader.item
+                            onCloseRequested: {
+                                eventsOverview.head.visible = true;
+                                eventsOverview.head.locked = false;
+                            }
+                        } 
+
                         onMediaSourcePressed: {
+                            eventsOverview.head.visible = false;
+                            eventsOverview.head.locked = true;
+ 
                             photoViewerLoader.load();
                             overview.mediaCurrentlyInView = mediaSource.path;
 
@@ -205,9 +216,16 @@ MainView {
                         Connections {
                             target: photoViewerLoader.item
                             onSelected: positionViewAtSelected(index);
+                            onCloseRequested: {
+                                photosOverview.head.visible = true;
+                                photosOverview.head.locked = false;
+                            }
                         } 
 
                         onMediaSourcePressed: {
+                            photosOverview.head.visible = false;
+                            photosOverview.head.locked = true;
+ 
                             photoViewerLoader.load();
                             overview.mediaCurrentlyInView = mediaSource.path;
 
