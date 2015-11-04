@@ -77,6 +77,7 @@ Photo::Photo(const QFileInfo& file)
 {
     QByteArray format = QImageReader(file.filePath()).format();
     m_fileFormat = QString(format).toLower();
+    Q_EMIT canBeEditedChanged();
     if (m_fileFormat == "jpg") // Why does Qt expose two different names here?
         m_fileFormat = "jpeg";
 }

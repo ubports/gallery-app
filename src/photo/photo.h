@@ -35,7 +35,7 @@ class Photo : public MediaSource
 {
     Q_OBJECT
 
-    Q_PROPERTY(bool canBeEdited READ canBeEdited)
+    Q_PROPERTY(bool canBeEdited READ canBeEdited NOTIFY canBeEditedChanged)
 public:
     explicit Photo(const QFileInfo& file);
     virtual ~Photo();
@@ -56,6 +56,9 @@ public:
     bool fileFormatHasMetadata() const;
     bool fileFormatHasOrientation() const;
 
+signals:
+    void canBeEditedChanged();
+ 
 protected:
     virtual void destroySource(bool destroyBacking, bool asOrphan);
 
