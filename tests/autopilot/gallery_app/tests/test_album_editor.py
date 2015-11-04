@@ -96,7 +96,7 @@ class TestAlbumEditor(GalleryTestCase):
         self.pointing_device.move(x + 40, y + h + 40)
         self.pointing_device.click()
 
-        self.main_view.get_header().click_custom_back_button()
+        self.album_view.click_action_button("backButton")
         self.album_view.ensure_album_view_fully_closed()
 
         # now open to add a photo

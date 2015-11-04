@@ -187,29 +187,29 @@ class TestAlbumView(GalleryTestCase):
                         Eventually(Equals(True)))
 
     def test_add_photo_to_new_album(self):
+        albums = self.albums_view.number_of_albums_in_albums_view()
         self.main_view.get_header().click_action_button("addButton")
         self.ui_update()
 
         editor = self.app.select_single(album_editor.AlbumEditor)
         editor.ensure_fully_open()
-        editor.close()
-
-        num_photos_start = self.album_view.number_of_photos()
-        self.assertThat(num_photos_start, Equals(0))
-
-        plus = self.album_view.get_plus_icon_empty_album()
-        self.click_item(plus)
+        editor.add_photos()
         self.media_selector.ensure_fully_open()
 
         photo = self.media_selector.get_second_photo()
         checkbox = photo.select_single(objectName="selectionCheckbox")
         self.click_item(checkbox)
         self.main_view.get_header().click_action_button("addButton")
+        self.ui_update()
+        self.assertThat(
+            lambda: self.albums_view.number_of_albums_in_albums_view(),
+            Eventually(Equals(albums+1))
+        )
 
         self.open_first_album()
         self.assertThat(
             lambda: self.album_view.number_of_photos(),
-            Eventually(Equals(num_photos_start + 1)))
+            Eventually(Equals(1)))
 
     @skip("Temporarily disable as it fails in some cases, supposedly due to "
           "problems with the infrastructure")

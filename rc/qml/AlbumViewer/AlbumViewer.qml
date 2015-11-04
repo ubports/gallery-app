@@ -385,6 +385,7 @@ Page {
         ]
 
         leadingActionBar.actions: Action {
+            objectName: "backButton"
             iconName: "back"
             onTriggered: __close();
         }
