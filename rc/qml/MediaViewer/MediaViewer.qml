@@ -18,7 +18,7 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import Gallery 1.0
 import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.3
@@ -324,7 +324,7 @@ Item {
                     path = path.replace("file://", "")
                     var editor;
                     try {
-                        Qt.createQmlObject('import QtQuick 2.0; import Ubuntu.Components.Extras 0.2; Item {}', viewerWrapper);
+                        Qt.createQmlObject('import QtQuick 2.4; import Ubuntu.Components.Extras 0.2; Item {}', viewerWrapper);
                         console.log("Loading PhotoEditor Components from Extras");
                         editor = overview.pushPage(Qt.resolvedUrl("ExtrasPhotoEditorPage.qml"), { photo: path });
                     } catch (e) {

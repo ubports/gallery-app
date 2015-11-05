@@ -19,7 +19,7 @@
  * Charles Lindsay <chaz@yorba.org
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import QtQuick.Window 2.0
 import "../js/Gallery.js" as Gallery
 import Ubuntu.Components 1.3 // Necessary to make filename@GU.ext images load

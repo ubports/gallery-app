@@ -18,7 +18,7 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import Gallery 1.0
 import "../../js/GalleryUtility.js" as GalleryUtility
 import "AlbumInternals"

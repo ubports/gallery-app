@@ -17,7 +17,7 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 
 // Sets the target to visible at the startOpacity, animates to the endOpacity,
 // then returns the startOpacity but with visible set to false.

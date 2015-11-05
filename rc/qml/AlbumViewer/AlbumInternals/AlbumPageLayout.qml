@@ -17,7 +17,7 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 
 // AlbumPageLayouts are all loaded from AlbumPageContents, and should inherit
 // its properties.

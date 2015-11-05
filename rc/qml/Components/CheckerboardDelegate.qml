@@ -17,7 +17,7 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import "../../js/GalleryUtility.js" as GalleryUtility
 
 // A child delegate for a Checkerboard.  Tightly coupled to Checkerboard due to

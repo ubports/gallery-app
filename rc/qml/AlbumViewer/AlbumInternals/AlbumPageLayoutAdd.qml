@@ -17,7 +17,7 @@
  * Eric Gregory <eric@yorba.org>
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 
 // This page layout is used only for empty albums.
 AlbumPageLayout {
