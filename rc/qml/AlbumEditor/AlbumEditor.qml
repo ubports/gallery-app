@@ -145,7 +145,7 @@ Page {
         id: coverArea
 
         x: (parent.width - width) / 2
-        y: Math.max((parent.height - height) / 2, minimumTopMargin, header.height)
+        y: Math.max((parent.height - height) / 2, minimumTopMargin)
 
         width: GraphicsRoutines.clamp(
                    preferredCoverWidth, minimumCoverWidth, canonicalWidth)

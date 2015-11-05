@@ -64,9 +64,6 @@ Checkerboard {
     onActiveChanged: {
         if (active) {
             root.visible = true;
-            // FIXME: contentY is not correct after we return of an AlbumViewer animation
-            if (contentY != 0)
-                contentY = header.height * -1;
         }
     }
 
@@ -208,10 +205,7 @@ Checkerboard {
 
         visible: false
 
-        onEditClicked: {
-            albumEditor.album = album
-            overview.pushPage(albumEditor)
-        }
+        onEditClicked: albumEditorLoader.load(album)
 
         onDeleteClicked: {
             albumTrashDialog.album = album
@@ -238,8 +232,7 @@ Checkerboard {
                 album.title = i18n.tr("New Photo Album");
                 album.subtitle = i18n.tr("Subtitle");
 
-                albumEditor.album = album;
-                overview.pushPage(albumEditor);
+                albumEditorLoader.load(album)
             }
         },
         Action {
@@ -262,13 +255,39 @@ Checkerboard {
         onQuickCloseRequested: isAlbumOpened = false;
     }
 
-    AlbumEditor {
-        id: albumEditor
-        objectName: "albumEditor"
+    Loader {
+        id: albumEditorLoader
         anchors.fill: parent
-        visible: false 
 
-        onMediaSelectorHidden: albumEditorCheckerboardHidden(newScrollPos);
-        onCloseRequested: overview.popPage();
+        property var album
+
+        onStatusChanged: {
+            if (status === Loader.Ready) {
+                albumEditorLoader.item.album = albumEditorLoader.album
+            	overview.pushPage(albumEditorLoader.item)
+            }
+        }
+
+        function load(album) {
+            albumEditorLoader.album = album
+            sourceComponent = albumEditorComponent
+        }
+
+        Component {
+            id: albumEditorComponent
+            AlbumEditor {
+                id: albumEditor
+                objectName: "albumEditor"
+                anchors.fill: parent
+                visible: false 
+
+                onMediaSelectorHidden: albumEditorCheckerboardHidden(newScrollPos);
+                onCloseRequested: {
+                    overview.popPage()
+                    albumEditorLoader.album = null
+                    albumEditorLoader.sourceComponent = null
+                }
+            }
+        }
     }
 }
