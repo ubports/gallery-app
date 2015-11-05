@@ -28,7 +28,7 @@ Item {
     id: viewer
     property bool pinchInProgress: zoomPinchArea.active
     property var mediaSource
-    property real maxDimension: overview.height
+    property size thumbSize: Qt.size(viewer.width * 1.05, viewer.height * 1.05)
     property bool showThumbnail: true
 
     property bool isVideo: mediaSource.type === MediaSource.Video
@@ -42,6 +42,22 @@ Item {
     property alias paintedWidth: image.paintedWidth
 
     signal clicked()
+
+    onWidthChanged: {
+        // Only change thumbSize if width increases more than 5%
+        // that way we do not reload image for small resizes
+        if (width > thumbSize.width) {
+            thumbSize = Qt.size(width * 1.05, height * 1.05);
+        }
+    }
+
+    onHeightChanged: {
+        // Only change thumbSize if height increases more than 5%
+        // that way we do not reload image for small resizes
+        if (height > thumbSize.height) {
+            thumbSize = Qt.size(width * 1.05, height * 1.05);
+        }
+    }
 
     function zoomIn(centerX, centerY, factor) {
         flickable.scaleCenterX = centerX / (flickable.sizeScale * flickable.width);
@@ -145,16 +161,14 @@ Item {
                     cache: false
                     source: {
                         if (viewer.isVideo) {
-                            if (viewer.maxDimension > 0) {
-                                return "image://thumbnailer/" + mediaSource.path
-                            }
+                            return "image://thumbnailer/" + mediaSource.path
                         } else {
                             return "image://photo/" + mediaSource.path
                         }
                     }
                     sourceSize {
-                        width: viewer.maxDimension
-                        height: viewer.maxDimension
+                        width: viewer.thumbSize.width
+                        height: viewer.thumbSize.height
                     }
                     fillMode: Image.PreserveAspectFit
                     visible: viewer.showThumbnail
