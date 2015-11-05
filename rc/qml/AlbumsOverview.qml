@@ -264,7 +264,7 @@ Checkerboard {
         onStatusChanged: {
             if (status === Loader.Ready) {
                 albumEditorLoader.item.album = albumEditorLoader.album
-            	overview.pushPage(albumEditorLoader.item)
+                overview.pushPage(albumEditorLoader.item)
             }
         }
 
