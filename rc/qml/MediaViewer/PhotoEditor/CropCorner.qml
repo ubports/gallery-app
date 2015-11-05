@@ -17,7 +17,7 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-import QtQuick 2.3
+import QtQuick 2.4
 import Ubuntu.Components 1.3
 
 // A corner of a CropFrame.
