@@ -171,12 +171,6 @@ MainView {
                             onSelected: photosGrid.positionViewAtIndex(index, GridView.Contain);
                         }
 
-                        Image {
-                            anchors.fill: parent
-                            source: "../img/background-paper.png"
-                            fillMode: Image.Tile
-                        }
-
                         MediaGrid {
                             id: photosGrid
                             anchors.fill: parent

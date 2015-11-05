@@ -197,13 +197,6 @@ Page {
 
     clip: true
 
-    Image {
-        anchors.fill: parent
-
-        source: "../../img/background-paper.png"
-        fillMode: Image.Tile
-    }
-
     GridView {
         id: grid
         objectName: "grid"
