@@ -21,7 +21,7 @@
 import QtQuick 2.0
 import Gallery 1.0
 import Ubuntu.Components 1.3
-import Ubuntu.Components.Popups 1.0
+import Ubuntu.Components.Popups 1.3
 import "../../js/GalleryUtility.js" as GalleryUtility
 import "../../js/GraphicsRoutines.js" as GraphicsRoutines
 import "../AlbumViewer"
