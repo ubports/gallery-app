@@ -17,9 +17,9 @@
  * Eric Gregory <eric@yorba.org>
  */
 
-import QtQuick 2.0
-import Ubuntu.Components.Popups 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
+import QtQuick 2.4
+import Ubuntu.Components.Popups 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItem
 import "../AlbumViewer"
 
 /*!

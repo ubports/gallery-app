@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical Ltd
+ * Copyright (C) 2013-2015 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -14,8 +14,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import Gallery 1.0
 import "AlbumEditor"
 import "AlbumViewer"
@@ -64,9 +64,6 @@ Checkerboard {
     onActiveChanged: {
         if (active) {
             root.visible = true;
-            // FIXME: contentY is not correct after we return of an AlbumViewer animation
-            if (contentY != 0)
-                contentY = header.height * -1;
         }
     }
 
@@ -181,9 +178,9 @@ Checkerboard {
                 setFullScreen(true);
             overview.pushPage(albumViewer);
             if (object.containedCount > 0)
-                overview.setHeaderVisibility(false);
+                albumViewer.header.visible = false;
             else
-                overview.setHeaderVisibility(true);
+                albumViewer.header.visible = true;
         }
         else
             albumViewer.visible = true
@@ -208,10 +205,7 @@ Checkerboard {
 
         visible: false
 
-        onEditClicked: {
-            albumEditor.album = album
-            overview.pushPage(albumEditor)
-        }
+        onEditClicked: albumEditorLoader.load(album)
 
         onDeleteClicked: {
             albumTrashDialog.album = album
@@ -228,34 +222,27 @@ Checkerboard {
     }
 
     /// Contains the actions for the toolbar in the albums tab
-    tools: ToolbarItems {
-        id: albumOverviewTools
-        ToolbarButton {
-            action: Action {
-                objectName: "addButton"
-                text: i18n.tr("Add new album") // Text in HUD
-                iconName: "add"
-                onTriggered: {
-                    var album = albumCollectionModel.createOrphan();
-                    album.title = i18n.tr("New Photo Album");
-                    album.subtitle = i18n.tr("Subtitle");
+    head.actions: [
+        Action {
+            objectName: "addButton"
+            text: i18n.tr("Add new album") // Text in HUD
+            iconName: "add"
+            onTriggered: {
+                var album = albumCollectionModel.createOrphan();
+                album.title = i18n.tr("New Photo Album");
+                album.subtitle = i18n.tr("Subtitle");
 
-                    albumEditor.album = album;
-                    overview.pushPage(albumEditor);
-                }
+                albumEditorLoader.load(album)
             }
-            text: i18n.tr("Add") // text in toolbar
+        },
+        Action {
+            objectName: "cameraButton"
+            text: i18n.tr("Camera")
+            visible: !APP.desktopMode
+            iconName: "camera-app-symbolic"
+            onTriggered: Qt.openUrlExternally("appid://com.ubuntu.camera/camera/current-user-version")
         }
-        ToolbarButton {
-            action: Action {
-                objectName: "cameraButton"
-                text: i18n.tr("Camera")
-                visible: !APP.desktopMode
-                iconSource: Qt.resolvedUrl("../img/camera.png")
-                onTriggered: Qt.openUrlExternally("appid://com.ubuntu.camera/camera/current-user-version")
-            }
-        }
-    }
+    ]
 
     AlbumViewer {
         id: albumViewer
@@ -268,13 +255,39 @@ Checkerboard {
         onQuickCloseRequested: isAlbumOpened = false;
     }
 
-    AlbumEditor {
-        id: albumEditor
-        objectName: "albumEditor"
+    Loader {
+        id: albumEditorLoader
         anchors.fill: parent
-        visible: false 
 
-        onMediaSelectorHidden: albumEditorCheckerboardHidden(newScrollPos);
-        onCloseRequested: overview.popPage();
+        property var album
+
+        onStatusChanged: {
+            if (status === Loader.Ready) {
+                albumEditorLoader.item.album = albumEditorLoader.album
+                overview.pushPage(albumEditorLoader.item)
+            }
+        }
+
+        function load(album) {
+            albumEditorLoader.album = album
+            sourceComponent = albumEditorComponent
+        }
+
+        Component {
+            id: albumEditorComponent
+            AlbumEditor {
+                id: albumEditor
+                objectName: "albumEditor"
+                anchors.fill: parent
+                visible: false 
+
+                onMediaSelectorHidden: albumEditorCheckerboardHidden(newScrollPos);
+                onCloseRequested: {
+                    overview.popPage()
+                    albumEditorLoader.album = null
+                    albumEditorLoader.sourceComponent = null
+                }
+            }
+        }
     }
 }

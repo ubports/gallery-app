@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 Canonical Ltd
+ * Copyright (C) 2013-2015 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -14,8 +14,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
+import Ubuntu.Thumbnailer 0.1
 import Gallery 1.0
 import "../OrganicView"
 import "../Utility"
@@ -79,9 +80,10 @@ GridView {
             height: photosGrid.thumbnailSize
 
             radius: "medium"
-            property bool isLoading: image.status === Image.Loading
+            property bool isLoading: source.status === Image.Loading
 
-            image: Image {
+            sourceFillMode: UbuntuShape.PreserveAspectCrop
+            source: Image {
                 id: thumbImage
                 source: "image://thumbnailer/" + mediaSource.path + "?at=" + Date.now()
                 asynchronous: true

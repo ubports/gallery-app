@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical Ltd
+ * Copyright (C) 2011-2015 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -19,8 +19,8 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import "../../js/Gallery.js" as Gallery
 import "../../js/GalleryUtility.js" as GalleryUtility
 import "../Utility"
@@ -196,13 +196,6 @@ Page {
     }
 
     clip: true
-
-    Image {
-        anchors.fill: parent
-
-        source: "../../img/background-paper.png"
-        fillMode: Image.Tile
-    }
 
     GridView {
         id: grid

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Canonical Ltd
+ * Copyright (C) 2012-2015 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -14,11 +14,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
-import Ubuntu.Components.Popups 0.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
+import Ubuntu.Components.Popups 1.3
 import Gallery 1.0
-import Ubuntu.Content 0.1
+import Ubuntu.Content 1.3
 import "Components"
 import "OrganicView"
 import "Utility"
@@ -102,9 +102,61 @@ OrganicView {
         }
     }
 
-    property Item overviewTools: PhotosToolbarActions {
-        selection: organicEventView.selection
-    }
+    property list<Action> overviewActions: [
+        Action {
+            objectName: "selectButton"
+            text: i18n.tr("Select")
+            iconName: "select"
+            enabled: selection !== null
+            onTriggered: selection.inSelectionMode = true;
+        },
+        Action {
+            objectName: "cameraButton"
+            text: i18n.tr("Camera")
+            visible: !APP.desktopMode
+            iconName: "camera-app-symbolic"
+            onTriggered: Qt.openUrlExternally("appid://com.ubuntu.camera/camera/current-user-version")
+        }
+    ]
+
+    property list<Action> selectActions: [
+        Action {
+            id: addButton
+            objectName: "addButton"
+ 
+            text: i18n.tr("Add")
+            iconName: "add"
+            enabled: selection.selectedCount > 0
+            onTriggered: __albumPicker = PopupUtils.open(Qt.resolvedUrl("Components/PopupAlbumPicker.qml"),
+                                                         null,
+                                                         {contentHeight: organicEventView.__pickerContentHeight});
+ 
+        },
+        Action {
+            objectName: "deleteButton"
+
+            text: i18n.tr("Delete")
+            iconName: "delete"
+            enabled: selection.selectedCount > 0
+            onTriggered: PopupUtils.open(deleteDialog, null);
+        },
+        Action {
+            objectName: "shareButton"
+            text: i18n.tr("Share")
+            iconName: "share"
+            enabled: selection.selectedMediaCount == 1
+            onTriggered: {
+                overview.pushPage(sharePicker)
+                sharePicker.visible = true;
+            }
+        }
+    ]
+
+    property Action selectBackAction: Action {
+        text: i18n.tr("Cancel")
+        iconName: "back"
+        onTriggered: organicEventView.leaveSelectionMode();
+    } 
 
     property int __pickerContentHeight: height - units.gu(20)
     property PopupAlbumPicker __albumPicker
@@ -116,29 +168,10 @@ OrganicView {
         }
     }
 
-    property Item selectionTools: SelectionToolbarAction {
-        selection: organicEventView.selection
-
-        onCancelClicked: {
-            organicEventView.leaveSelectionMode();
-        }
-        onAddClicked: {
-            __albumPicker = PopupUtils.open(Qt.resolvedUrl("Components/PopupAlbumPicker.qml"),
-                                            null,
-                                            {contentHeight: organicEventView.__pickerContentHeight});
-        }
-        onDeleteClicked: {
-            PopupUtils.open(deleteDialog, null);
-        }
-
-        onShareClicked: {
-            overview.pushPage(sharePicker);
-            sharePicker.visible = true;
-        }
-    }
-
     property bool selectionMode: selection.inSelectionMode
-    tools: selectionMode ? selectionTools : overviewTools
+
+    head.actions: selectionMode ? selectActions : overviewActions
+    head.backAction: selectionMode ? selectBackAction : null
 
     Component {
         id: contentItemComp

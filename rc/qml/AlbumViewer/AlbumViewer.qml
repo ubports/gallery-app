@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical Ltd
+ * Copyright (C) 2011-2015 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -18,8 +18,8 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 1.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import Gallery 1.0
 import "../../js/Gallery.js" as Gallery
 import "../../js/GalleryUtility.js" as GalleryUtility
@@ -106,11 +106,6 @@ Page {
 
     title: i18n.tr("Album")
 
-    Image {
-        anchors.fill: parent
-        source: "../../img/background-paper.png"
-    }
-
     function closeAlbum() {
         if (photoViewerLoader.item && photoViewerLoader.item.isPoppedUp) {
             photoViewerLoader.item.closePopupPhotoViewer();
@@ -195,12 +190,17 @@ Page {
                 if (hit.objectName === "addButton")
                     showMediaSelector();
                 else if (!hit.mediaSource) {
-                    overview.toggleHeaderVisibility();
+                    albumViewer.header.visible = !albumViewer.header.visible;
+                    if (!APP.desktopMode)
+                        setFullScreen(!albumViewer.header.visible);
                     return;
                 }
 
                 albumViewer.mediaCurrentlyInView = hit.mediaSource.path;
                 photoViewerLoader.fadeOpen(hit.mediaSource);
+                photoViewerLoader.item.header.visible = false;
+                if (!APP.desktopMode)
+                    setFullScreen(true);
             }
 
             // Long press/right click.
@@ -311,7 +311,6 @@ Page {
             onOpened: {
                 photoViewerLoader.item.title = albumViewer.title;
                 overview.pushPage(target);
-                overview.setHeaderVisibility(false);
             }
             onCloseRequested: {
                 albumViewer.mediaCurrentlyInView = "";
@@ -322,6 +321,7 @@ Page {
                 }
 
                 photoViewerLoader.item.fadeClosed();
+                albumViewer.header.visible = true;
             }
             onClosed: {
                 overview.popPage();
@@ -362,36 +362,32 @@ Page {
         }
     }
 
-    /// Contains the actions for the toolbar in the album view
-    head.actions: [
-        Action {
-            objectName: "addButton"
-            text: i18n.tr("Add to album") // text in HUD
-            iconName: "add"
-            onTriggered: showMediaSelector();
-        },
-        Action {
-            objectName: "deleteButton"
-            text: i18n.tr("Delete")
-            iconName: "delete"
-            onTriggered: {
-                albumTrashDialog.album = album;
-                albumTrashDialog.show();
+    header: PageHeader {
+        objectName: "albumViewerHeader"
+        title: albumViewer.title
+        /// Contains the actions for the toolbar in the album view
+        trailingActionBar.actions: [
+            Action {
+                objectName: "addButton"
+                text: i18n.tr("Add to album") // text in HUD
+                iconName: "add"
+                onTriggered: showMediaSelector();
+            },
+            Action {
+                objectName: "deleteButton"
+                text: i18n.tr("Delete")
+                iconName: "delete"
+                onTriggered: {
+                    albumTrashDialog.album = album;
+                    albumTrashDialog.show();
+                }
             }
+        ]
+
+        leadingActionBar.actions: Action {
+            objectName: "backButton"
+            iconName: "back"
+            onTriggered: __close();
         }
-    ]
-
-    head.backAction: Action {
-        iconName: "back"
-        onTriggered: __close();
-    }
-
-    Rectangle {
-        id: headerBackground
-
-        width: parent.width
-        height: header.height
-
-        visible: header.visible
     }
 }

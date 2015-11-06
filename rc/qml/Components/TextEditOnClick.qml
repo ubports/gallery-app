@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Canonical Ltd
+ * Copyright (C) 2012-2015 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -17,7 +17,7 @@
  * Eric Gregory <eric@yorba.org>
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 
 // Editable text area that becomes editable when clicked. Editing ends when
 // enter is pressed or when done() is called. The isEditing property indicates

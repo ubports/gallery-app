@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Canonical Ltd
+ * Copyright (C) 2011-2015 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -17,8 +17,8 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 1.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import "../Utility"
 
 // A PhotoViewer that is opened and closed with the PhotoViewerTransition.
@@ -89,12 +89,21 @@ Page {
         viewer.closeMediaViewer();
     }
 
-    head.actions: {
-        if (selection && selection.inSelectionMode)
-            return selectActions;
-        return viewer.actions;
+    head.visible: false
+    head.locked: true
+
+    header: PageHeader {
+        objectName: "photoViewerHeader"
+
+        title: popupPhotoViewer.title
+        trailingActionBar.actions: {
+            if (selection && selection.inSelectionMode)
+               return selectActions;
+            return viewer.actions;
+        }
+
+        leadingActionBar.actions: viewer.backAction
     }
-    head.backAction: viewer.backAction
 
     MediaViewer {
         id: viewer
@@ -113,6 +122,13 @@ Page {
 
         onIsReadyChanged: updateVisibility()
         onOpenCompletedChanged: updateVisibility()
+
+        onSetHeaderVisibilityRequested: popupPhotoViewer.header.visible = visibility
+        onToggleHeaderVisibilityRequested: {
+            popupPhotoViewer.header.visible = !popupPhotoViewer.header.visible
+            if (!APP.desktopMode)
+                setFullScreen(!popupPhotoViewer.header.visible);
+        }
 
         // Internal
         function updateVisibility() {
@@ -135,9 +151,9 @@ Page {
                 setFullScreen(true);
             overview.pushPage(popupPhotoViewer);
             if (selection && selection.inSelectionMode)
-                overview.setHeaderVisibility(true);
+                popupPhotoViewer.header.visible = true;
             else
-                overview.setHeaderVisibility(false);
+                popupPhotoViewer.header.visible = false;
             opened();
         }
 

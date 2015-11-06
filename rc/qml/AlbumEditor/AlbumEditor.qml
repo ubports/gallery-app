@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2012 Canonical Ltd
+ * Copyright (C) 2011-2015 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -18,10 +18,10 @@
  * Eric Gregory <eric@yorba.org>
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import Gallery 1.0
-import Ubuntu.Components 1.1
-import Ubuntu.Components.Popups 0.1
+import Ubuntu.Components 1.3
+import Ubuntu.Components.Popups 1.3
 import "../../js/GalleryUtility.js" as GalleryUtility
 import "../../js/GraphicsRoutines.js" as GraphicsRoutines
 import "../AlbumViewer"
@@ -87,8 +87,6 @@ Page {
     */
     property real canonicalHeight: units.gu(80)
 
-    property Rectangle backgroundGlass: overviewGlass
-
     property bool showAlbumCover: true
 
     /*!
@@ -119,16 +117,6 @@ Page {
         editorRect = GalleryUtility.getRectRelativeTo(cover.internalRect, albumEditor);
     }
 
-    Rectangle {
-        id: overviewGlass
-        width: parent.width
-        height: header ? parent.height - header.height : parent.height
-        y: header.height
-
-        color: "black"
-        opacity: 0.0
-    }
-
     onAlbumChanged: resetEditorRect() // HACK: works, but not conceptually correct.
     onWidthChanged: resetEditorRect()
     onHeightChanged: resetEditorRect()
@@ -143,10 +131,12 @@ Page {
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         anchors.fill: parent
         onPressed: {
-            coverMenu.hide();
+            if (coverMenu) {
+                coverMenu.hide();
+            }
             cover.editingDone();
-            closeAlbum();
-
+            if(album.newAlbum)
+                albumModel.destroyAlbum(album);
             albumEditor.closeRequested(albumEditor.album, false);
         }
     }
@@ -155,7 +145,7 @@ Page {
         id: coverArea
 
         x: (parent.width - width) / 2
-        y: Math.max((parent.height - height) / 2, minimumTopMargin, header.height)
+        y: Math.max((parent.height - height) / 2, minimumTopMargin)
 
         width: GraphicsRoutines.clamp(
                    preferredCoverWidth, minimumCoverWidth, canonicalWidth)
