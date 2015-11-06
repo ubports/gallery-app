@@ -69,6 +69,7 @@ OrganicView {
     }
 
     delegate: OrganicMediaList {
+        objectName: "mediaSelectorList" + index
         width: mediaSelector.width
         event: model.event
         selection: mediaSelector.selection

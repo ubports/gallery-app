@@ -124,7 +124,10 @@ Item {
         id: thumbnailDelegate
         Item {
             objectName: "eventPhoto"
+            property variant model
+            property int index: 0
             property int patternPhoto: index % __mediaPerPattern
+            property alias thumbnailLoaded: thumbnail.visible
 
             width: __photoWidth[patternPhoto]
             height: __photoSize[patternPhoto]
@@ -186,7 +189,7 @@ Item {
                 }
 
                 Connections {
-                    target: model.mediaSource
+                    target: model && model.mediaSource ? model.mediaSource : null
                     onDataChanged: {
                         // data changed but filename didn't, so we need to bypass the qml image
                         // cache by tacking a timestamp to the filename so sees it as different.
@@ -198,7 +201,7 @@ Item {
                     // Display a play icon if the thumbnail is from a video
                     source: "../../img/icon_play.png"
                     anchors.centerIn: parent
-                    visible: mediaSource.type === MediaSource.Video
+                    visible: model.mediaSource.type === MediaSource.Video
                 }
 
                 OrganicItemInteraction {
@@ -260,7 +263,7 @@ Item {
 
         maximumFlickVelocity: units.gu(300)
         flickDeceleration: maximumFlickVelocity / 3
-        cacheBuffer: 0
+        cacheBuffer: width
 
         model: MediaCollectionModel {
             id: mediaModel
@@ -272,7 +275,31 @@ Item {
 
         header: eventHeader
         spacing: __margin
-        delegate: thumbnailDelegate
+        delegate: Loader {
+            id: thumbnailLoader
+            objectName: "thumbnailLoader" + index
+
+            property int patternPhoto: index % __mediaPerPattern
+
+            sourceComponent: eventView.header.status == Component.Ready ? thumbnailDelegate : undefined
+            asynchronous: true
+
+            width: __photoWidth[patternPhoto]
+            height: __photoSize[patternPhoto]
+
+            Binding {
+                target: thumbnailLoader.item
+                property: "model"
+                value: model
+                when: thumbnailLoader.status == Loader.Ready
+            }
+            Binding {
+                target: thumbnailLoader.item
+                property: "index"
+                value: index
+                when: thumbnailLoader.status == Loader.Ready
+            }
+        }
         footer: Item {
             width: eventView.rightBuffer +
                    __footerWidth[mediaModel.count % __mediaPerPattern] +
