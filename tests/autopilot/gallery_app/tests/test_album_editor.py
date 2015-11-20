@@ -41,7 +41,7 @@ class TestAlbumEditor(GalleryTestCase):
         self.tap_item(first_album)
         edit_button = self.gallery_utils.get_edit_album_button()
         self.click_item(edit_button)
-        editor = self.app.select_single(album_editor.AlbumEditor)
+        editor = self.app.wait_select_single(album_editor.AlbumEditor)
         editor.ensure_fully_open()
 
     def test_album_title_fields(self):
