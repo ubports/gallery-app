@@ -252,7 +252,7 @@ QImage PhotoImageProvider::fetchCachedImage(CachedImage *cachedImage,
                 fullSize = readyImage.size();
 
             Orientation orientation = TOP_LEFT_ORIGIN;
-            std::auto_ptr<PhotoMetadata> metadata(PhotoMetadata::fromFile(file));
+            std::unique_ptr<PhotoMetadata> metadata(PhotoMetadata::fromFile(file));
             if (metadata.get() != NULL)
                 orientation = metadata->orientation();
 
