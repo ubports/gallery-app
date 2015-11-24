@@ -1,3 +1,17 @@
+gallery-app (0.0.67+16.04.20151124-0ubuntu1) xenial; urgency=medium
+
+  [ Arthur Mello ]
+  * Fix AlbumEditor AP test waiting for Editor to be available
+  * Remove deprecated auto_ptr (LP: #1496479)
+
+  [ Bill Filler ]
+  * bump framework version to 15.04.2
+
+  [ CI Train Bot ]
+  * New rebuild forced.
+
+ -- Bill Filler <ci-train-bot@canonical.com>  Tue, 24 Nov 2015 16:57:39 +0000
+
 gallery-app (0.0.67+16.04.20151106-0ubuntu1) xenial; urgency=medium
 
   [ Arthur Mello ]
