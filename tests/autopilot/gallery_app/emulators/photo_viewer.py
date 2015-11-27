@@ -7,6 +7,7 @@
 
 import logging
 
+from autopilot.introspection.dbus import StateNotFoundError
 import autopilot.logging
 import ubuntuuitoolkit
 
@@ -21,12 +22,42 @@ logger = logging.getLogger(__name__)
 
 
 class PopupPhotoViewer(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
+    def _get_header(self):
+        main = self.get_root_instance().select_single(main_screen.MainScreen)
+        return main.select_single('PageHeader',
+                                  objectName='photoViewerHeader')
+
+    def _open_overflow(self):
+        overflow_button = self._get_header().select_single(
+            objectName='overflow_action_button')
+        self.pointing_device.click_object(overflow_button)
+        return self.get_root_instance().wait_select_single(
+            objectName='actions_overflow_panel',
+            visible=True)
+
+    def click_action_button(self, action_object_name):
+        header = self._get_header()
+        if not header.visible:
+            main = self.get_root_instance().select_single(
+                main_screen.MainScreen)
+            x, y, w, h = main.globalRect
+            self.pointing_device.move(x + (w // 2), y + (h // 2))
+            self.pointing_device.click()
+            header.visible.wait_for(True)
+
+        try:
+            object_name = action_object_name + "_action_button"
+            button = header.select_single(objectName=object_name)
+            self.pointing_device.click_object(button)
+        except StateNotFoundError:
+            object_name = action_object_name + "_button"
+            popover = self._open_overflow()
+            button = popover.select_single(objectName=object_name)
+            self.pointing_device.click_object(button)
 
     @autopilot.logging.log_action(logger.info)
     def delete_current_photo(self, confirm=True):
-        header = self.get_root_instance().select_single(
-            main_screen.MainScreen).get_header()
-        header.click_action_button("deleteButton")
+        self.click_action_button("deleteButton")
         if confirm:
             self.confirm_delete_photo()
         else:
@@ -66,17 +97,9 @@ class PhotoViewer(GalleryUtils):
         return self.app.wait_select_single("PopupAlbumPicker",
                                            objectName="popupAlbumPicker")
 
-    def get_content_peer_picker_cancel_button(self):
-        """Returns the ContentPeerPicker cancel button."""
-        return self.get_share_peer_picker().wait_select_single(
-            "Button",
-            objectName="contentPeerPickerCancelButton",
-            visible=True)
-
     def get_share_peer_picker(self):
         """Returns the photo viewer share picker."""
-        return self.app.wait_select_single("ContentPeerPicker10",
-                                           objectName="sharePicker",
+        return self.app.wait_select_single(objectName="sharePicker",
                                            visible=True)
 
     def get_photo_editor(self):

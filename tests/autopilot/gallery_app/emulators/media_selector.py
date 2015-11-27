@@ -21,10 +21,16 @@ class MediaSelector(GalleryUtils):
     def get_second_photo(self):
         """Return the second photo item"""
         selector = self.get_media_selector()
-        medias = selector.select_many("OrganicItemInteraction",
-                                      objectName="eventsViewPhoto")
-        # needs fixing: can't rely no list ordering lp:1247711
-        return medias[0]
+
+        # get the first row in the selector
+        mediaRow = selector.wait_select_single(objectName="mediaSelectorList0")
+
+        # get the loader for the second item
+        thumbnailLoader = mediaRow.wait_select_single(objectName="thumbnailLoader1")
+
+        # return the item itself
+        return thumbnailLoader.wait_select_single(objectName="eventPhoto",
+                                                  thumbnailLoaded=True)
 
     def ensure_fully_open(self):
         """Ensure media selector is fully open"""

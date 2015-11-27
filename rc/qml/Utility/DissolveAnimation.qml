@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2012 Canonical Ltd
+ * Copyright (C) 2011-2015 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -17,7 +17,7 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 
 // Fades in the fadeInTarget while fading out the fadeOutTarget.
 /*!

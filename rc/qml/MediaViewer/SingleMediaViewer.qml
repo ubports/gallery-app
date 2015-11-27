@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Canonical Ltd.
+ * Copyright 2014-2015 Canonical Ltd.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,12 +14,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import QtQuick 2.2
+import QtQuick 2.4
 import QtMultimedia 5.0
-import Ubuntu.Components 1.0
-import Ubuntu.Components.ListItems 1.0 as ListItems
-import Ubuntu.Components.Popups 1.0
-import Ubuntu.Content 0.1
+import Ubuntu.Components 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItems
+import Ubuntu.Components.Popups 1.3
+import Ubuntu.Content 1.3
 import Ubuntu.Thumbnailer 0.1
 import Gallery 1.0
 import "../Components"
@@ -28,7 +28,7 @@ Item {
     id: viewer
     property bool pinchInProgress: zoomPinchArea.active
     property var mediaSource
-    property real maxDimension: overview.height
+    property size thumbSize: Qt.size(viewer.width * 1.05, viewer.height * 1.05)
     property bool showThumbnail: true
 
     property bool isVideo: mediaSource.type === MediaSource.Video
@@ -42,6 +42,22 @@ Item {
     property alias paintedWidth: image.paintedWidth
 
     signal clicked()
+
+    onWidthChanged: {
+        // Only change thumbSize if width increases more than 5%
+        // that way we do not reload image for small resizes
+        if (width > thumbSize.width) {
+            thumbSize = Qt.size(width * 1.05, height * 1.05);
+        }
+    }
+
+    onHeightChanged: {
+        // Only change thumbSize if height increases more than 5%
+        // that way we do not reload image for small resizes
+        if (height > thumbSize.height) {
+            thumbSize = Qt.size(width * 1.05, height * 1.05);
+        }
+    }
 
     function zoomIn(centerX, centerY, factor) {
         flickable.scaleCenterX = centerX / (flickable.sizeScale * flickable.width);
@@ -145,16 +161,14 @@ Item {
                     cache: false
                     source: {
                         if (viewer.isVideo) {
-                            if (viewer.maxDimension > 0) {
-                                return "image://thumbnailer/" + mediaSource.path
-                            }
+                            return "image://thumbnailer/" + mediaSource.path
                         } else {
                             return "image://photo/" + mediaSource.path
                         }
                     }
                     sourceSize {
-                        width: viewer.maxDimension
-                        height: viewer.maxDimension
+                        width: viewer.thumbSize.width
+                        height: viewer.thumbSize.height
                     }
                     fillMode: Image.PreserveAspectFit
                     visible: viewer.showThumbnail

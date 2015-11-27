@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Canonical Ltd
+ * Copyright (C) 2012-2015 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -20,8 +20,8 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import "../../js/Gallery.js" as Gallery
 import "../Utility"
 
@@ -37,7 +37,7 @@ UbuntuShape {
     */
 
     radius: "medium"
-    color: "#dddddd"
+    backgroundColor: "#dddddd"
     opacity: 0.8
 
     width: units.gu(12)

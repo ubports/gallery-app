@@ -41,7 +41,7 @@ class TestAlbumEditor(GalleryTestCase):
         self.tap_item(first_album)
         edit_button = self.gallery_utils.get_edit_album_button()
         self.click_item(edit_button)
-        editor = self.app.select_single(album_editor.AlbumEditor)
+        editor = self.app.wait_select_single(album_editor.AlbumEditor)
         editor.ensure_fully_open()
 
     def test_album_title_fields(self):
@@ -96,7 +96,7 @@ class TestAlbumEditor(GalleryTestCase):
         self.pointing_device.move(x + 40, y + h + 40)
         self.pointing_device.click()
 
-        self.main_view.get_header().click_custom_back_button()
+        self.album_view.click_action_button("backButton")
         self.album_view.ensure_album_view_fully_closed()
 
         # now open to add a photo

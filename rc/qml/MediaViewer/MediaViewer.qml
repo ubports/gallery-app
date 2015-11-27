@@ -18,12 +18,12 @@
  * Lucas Beeler <lucas@yorba.org>
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import Gallery 1.0
-import Ubuntu.Components 1.1
-import Ubuntu.Components.Popups 0.1
-import Ubuntu.Components.ListItems 0.1 as ListItem
-import Ubuntu.Content 0.1
+import Ubuntu.Components 1.3
+import Ubuntu.Components.Popups 1.3
+import Ubuntu.Components.ListItems 1.3 as ListItem
+import Ubuntu.Content 1.3
 import "../Components"
 import "../Utility"
 import "../../js/Gallery.js" as Gallery
@@ -73,6 +73,9 @@ Item {
     /*!
     */
     signal editRequested(variant photo)
+
+    signal setHeaderVisibilityRequested(bool visibility)
+    signal toggleHeaderVisibilityRequested()
 
     /*!
     */
@@ -163,7 +166,7 @@ Item {
                 return 1.0 - Math.abs((galleryPhotoViewer.contentX - x) / width);
             }
 
-            onClicked: overview.toggleHeaderVisibility()
+            onClicked: viewerWrapper.toggleHeaderVisibilityRequested()
         }
 
         // Don't allow flicking while the chrome is actively displaying a popup
@@ -177,22 +180,23 @@ Item {
             ContentItem {}
         }
 
-        Rectangle {
+        Page {
             id: sharePicker
-            anchors.fill: parent
             visible: false
+            title: i18n.tr("Share to")
 
-            onVisibleChanged: overview.setHeaderVisibility(!visible, false)
+            onVisibleChanged: viewerWrapper.setHeaderVisibilityRequested(!visible)
 
             ContentPeerPicker {
                 objectName: "sharePicker"
+                showTitle: false
                 anchors.fill: parent
-                visible: parent.visible
                 contentType: galleryPhotoViewer.media.type === MediaSource.Video ? ContentType.Videos : ContentType.Pictures
                 handler: ContentHandler.Share
 
                 onPeerSelected: {
-                    parent.visible = false;
+                    overview.popPage();
+                    sharePicker.visible = false;
                     var curTransfer = peer.request();
                     if (curTransfer.state === ContentTransfer.InProgress)
                     {
@@ -200,7 +204,10 @@ Item {
                         curTransfer.state = ContentTransfer.Charged;
                     }
                 }
-                onCancelPressed: parent.visible = false;
+                onCancelPressed: {
+                    overview.popPage();
+                    sharePicker.visible = false;
+                }
             }
         }
 
@@ -317,7 +324,7 @@ Item {
                     path = path.replace("file://", "")
                     var editor;
                     try {
-                        Qt.createQmlObject('import QtQuick 2.0; import Ubuntu.Components.Extras 0.2; Item {}', viewerWrapper);
+                        Qt.createQmlObject('import QtQuick 2.4; import Ubuntu.Components.Extras 0.2; Item {}', viewerWrapper);
                         console.log("Loading PhotoEditor Components from Extras");
                         editor = overview.pushPage(Qt.resolvedUrl("ExtrasPhotoEditorPage.qml"), { photo: path });
                     } catch (e) {
@@ -359,11 +366,15 @@ Item {
                 text: i18n.tr("Share")
                 iconName: "share"
                 visible: !APP.desktopMode
-                onTriggered: sharePicker.visible = true;
+                onTriggered: {
+                    overview.pushPage(sharePicker)
+                    sharePicker.visible = true;
+                }
             }
         ]
  
         property Action backAction: Action {
+            objectName: "backButton"
             iconName: "back"
             onTriggered: {
                 galleryPhotoViewer.currentItem.reset();

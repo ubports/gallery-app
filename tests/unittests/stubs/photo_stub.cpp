@@ -31,12 +31,6 @@
 
 QFileInfo photoDummyFileInfo;
 
-bool Photo::isValid(const QFileInfo& file)
-{
-    Q_UNUSED(file);
-    return true;
-}
-
 /*!
  * \brief Photo::Photo
  * \param file

@@ -17,8 +17,8 @@
  * Charles Lindsay <chaz@yorba.org
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 0.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import Ubuntu.Unity.Action 1.0 as UnityActions
 import Gallery 1.0
 import "../js/GalleryUtility.js" as GalleryUtility
@@ -28,8 +28,6 @@ import "AlbumViewer"
 MainView {
     id: overview
     objectName: "overview"
-
-    useDeprecatedToolbar: false
 
     anchors.fill: parent
     applicationName: "com.ubuntu.gallery"
@@ -73,19 +71,6 @@ MainView {
         }
     }
 
-    function setHeaderVisibility(visible, toggleFullscreen)
-    {
-        toggleFullscreen = typeof toggleFullscreen !== 'undefined' ? toggleFullscreen : true
-        header.visible = visible;
-        if (!APP.desktopMode && toggleFullscreen)
-            setFullScreenTimer.start();
-    }
-
-    function toggleHeaderVisibility()
-    {
-        setHeaderVisibility(!header.visible);
-    }
-
     Component.onCompleted: {
         pageStack.push(tabs);
     }
@@ -113,7 +98,7 @@ MainView {
                 eventsOverviewLoader.item.positionViewAtBeginning();
             }
 
-            setHeaderVisibility(true);
+            header.visible = true;
 
             tabs.selectedTabIndex = 1;
         }
@@ -177,7 +162,18 @@ MainView {
                         id: eventsOverview
                         anchors.fill: parent
 
+                        Connections {
+                            target: photoViewerLoader.item
+                            onCloseRequested: {
+                                eventsOverview.head.visible = true;
+                                eventsOverview.head.locked = false;
+                            }
+                        } 
+
                         onMediaSourcePressed: {
+                            eventsOverview.head.visible = false;
+                            eventsOverview.head.locked = true;
+ 
                             photoViewerLoader.load();
                             overview.mediaCurrentlyInView = mediaSource.path;
 
@@ -220,9 +216,16 @@ MainView {
                         Connections {
                             target: photoViewerLoader.item
                             onSelected: positionViewAtSelected(index);
+                            onCloseRequested: {
+                                photosOverview.head.visible = true;
+                                photosOverview.head.locked = false;
+                            }
                         } 
 
                         onMediaSourcePressed: {
+                            photosOverview.head.visible = false;
+                            photosOverview.head.locked = true;
+ 
                             photoViewerLoader.load();
                             overview.mediaCurrentlyInView = mediaSource.path;
 

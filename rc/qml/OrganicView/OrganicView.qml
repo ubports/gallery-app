@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Canonical Ltd
+ * Copyright (C) 2012-2015 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -17,8 +17,8 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-import QtQuick 2.0
-import Ubuntu.Components 1.1
+import QtQuick 2.4
+import Ubuntu.Components 1.3
 import "../Utility"
 import "../../js/Gallery.js" as Gallery
 
@@ -59,13 +59,6 @@ Page {
         organicList.positionViewAtBeginning();
         organicList.contentY = header.height * -1;
         positionEventsAtBeginning()
-    }
-
-    Image {
-        anchors.fill: parent
-
-        source: "../../img/background-paper.png"
-        fillMode: Image.Tile
     }
 
     ListView {

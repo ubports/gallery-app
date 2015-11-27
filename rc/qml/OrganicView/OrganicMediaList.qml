@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2012 Canonical Ltd
+ * Copyright (C) 2012-2015 Canonical Ltd
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -17,9 +17,9 @@
  * Charles Lindsay <chaz@yorba.org>
  */
 
-import QtQuick 2.0
+import QtQuick 2.4
 import Gallery 1.0
-import Ubuntu.Components 0.1
+import Ubuntu.Components 1.3
 import Ubuntu.Thumbnailer 0.1
 import "../Components"
 import "../Utility"
@@ -124,7 +124,10 @@ Item {
         id: thumbnailDelegate
         Item {
             objectName: "eventPhoto"
+            property variant model
+            property int index: 0
             property int patternPhoto: index % __mediaPerPattern
+            property alias thumbnailLoaded: thumbnail.visible
 
             width: __photoWidth[patternPhoto]
             height: __photoSize[patternPhoto]
@@ -132,7 +135,7 @@ Item {
             UbuntuShape {
                 id: thumbnail
 
-                property bool isLoading: image.status === Image.Loading
+                property bool isLoading: source.status === Image.Loading
 
                 x: __photoX[patternPhoto]
                 y: __photosTopMargin + __photoY[patternPhoto]
@@ -164,11 +167,12 @@ Item {
                     }
                 }
 
-                visible: image.status === Image.Ready
+                visible: source.status === Image.Ready
 
                 radius: "medium"
 
-                image: Image {
+                sourceFillMode: UbuntuShape.PreserveAspectCrop
+                source: Image {
                     id: thumbImage
                     source: "image://thumbnailer/" + model.mediaSource.path + "?at=" + model.mediaSource.lastModified
                     asynchronous: true
@@ -188,7 +192,7 @@ Item {
                     // Display a play icon if the thumbnail is from a video
                     source: "../../img/icon_play.png"
                     anchors.centerIn: parent
-                    visible: mediaSource.type === MediaSource.Video
+                    visible: model.mediaSource.type === MediaSource.Video
                 }
 
                 OrganicItemInteraction {
@@ -250,7 +254,7 @@ Item {
 
         maximumFlickVelocity: units.gu(300)
         flickDeceleration: maximumFlickVelocity / 3
-        cacheBuffer: 0
+        cacheBuffer: width
 
         model: MediaCollectionModel {
             id: mediaModel
@@ -262,7 +266,31 @@ Item {
 
         header: eventHeader
         spacing: __margin
-        delegate: thumbnailDelegate
+        delegate: Loader {
+            id: thumbnailLoader
+            objectName: "thumbnailLoader" + index
+
+            property int patternPhoto: index % __mediaPerPattern
+
+            sourceComponent: eventView.header.status == Component.Ready ? thumbnailDelegate : undefined
+            asynchronous: true
+
+            width: __photoWidth[patternPhoto]
+            height: __photoSize[patternPhoto]
+
+            Binding {
+                target: thumbnailLoader.item
+                property: "model"
+                value: model
+                when: thumbnailLoader.status == Loader.Ready
+            }
+            Binding {
+                target: thumbnailLoader.item
+                property: "index"
+                value: index
+                when: thumbnailLoader.status == Loader.Ready
+            }
+        }
         footer: Item {
             width: eventView.rightBuffer +
                    __footerWidth[mediaModel.count % __mediaPerPattern] +

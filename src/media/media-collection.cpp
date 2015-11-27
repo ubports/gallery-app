@@ -57,7 +57,7 @@ bool MediaCollection::exposureDateTimeAscendingComparator(DataObject* a,
     const QDateTime &exptime_b = qobject_cast<MediaSource*>(b)->exposureDateTime();
 
     return (exptime_a == exptime_b) ?
-                (DataCollection::defaultDataObjectComparator(a, b)) :
+                (!DataCollection::defaultDataObjectComparator(a, b)) :
                 (exptime_a < exptime_b);
 }
 
