@@ -73,10 +73,14 @@ void ContentCommunicator::handle_import(content::Transfer *transfer)
             }
         }
         if(mt.name().startsWith("video/")) {
-            dir = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation) + QDir::separator();
+            dir = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation) + QDir::separator() + "imported" + QDir::separator();
         } else {
-            dir = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator();
+            dir = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "imported" + QDir::separator();
         }
+
+        QDir d;
+        d.mkpath(dir);
+
         QString destination = QString("%1%2").arg(dir + filenameWithoutSuffix, suffix);
         // If we already have a file of this name reformat to "filename.x.png"
         // (where x is a number, incremented until we find an available filename)

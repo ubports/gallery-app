@@ -41,6 +41,7 @@ public:
     int rotation() const;
     int duration() const;
     QSize frameSize() const;
+    bool isImportedFromContentHub() const;
 
 private:
     QMap<QString, QVariant> m_tags;
