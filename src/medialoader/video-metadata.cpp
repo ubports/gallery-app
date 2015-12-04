@@ -19,6 +19,8 @@
 #include <QDebug>
 #include <QFileInfo>
 #include <QUrl>
+#include <QStandardPaths>
+#include <QDir>
 
 #include <MediaInfo/MediaInfo.h>
 
