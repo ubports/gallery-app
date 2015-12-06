@@ -1,0 +1,402 @@
+# Belarusian translation for gallery-app
+# Copyright (c) 2015 Rosetta Contributors and Canonical Ltd 2015
+# This file is distributed under the same license as the gallery-app package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gallery-app\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2015-05-21 13:13+0300\n"
+"PO-Revision-Date: 2015-12-05 19:55+0000\n"
+"Last-Translator: XiveZ <kyrsant2008@list.ru>\n"
+"Language-Team: Belarusian <be@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2015-12-06 06:03+0000\n"
+"X-Generator: Launchpad (build 17862)\n"
+
+#: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
+#: rc/qml/AlbumEditor/AlbumEditor.qml:36
+msgid "Edit album"
+msgstr "Рэдагаваць альбом"
+
+#: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
+#: rc/qml/AlbumViewer/AlbumViewer.qml:375
+#: rc/qml/Components/DeleteDialog.qml:32
+#: rc/qml/MediaViewer/MediaViewer.qml:345 rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/Utility/SelectionToolbarAction.qml:56
+msgid "Delete"
+msgstr "Выдаліць"
+
+#: rc/qml/AlbumEditor/AlbumEditor.qml:39
+#: rc/qml/Components/MediaSelector.qml:92
+#: rc/qml/MediaViewer/MediaViewer.qml:275
+#: rc/qml/MediaViewer/PhotoEditor.qml:206
+#: rc/qml/MediaViewer/PhotoEditor/ExposureAdjuster.qml:80
+#: rc/qml/PickerScreen.qml:235 rc/qml/Utility/SelectionToolbarAction.qml:75
+msgid "Cancel"
+msgstr "Скасаваць"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:113
+msgid "Default"
+msgstr "Па змаўчаньні"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:114
+msgid "Blue"
+msgstr "Блакітны"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:115
+msgid "Green"
+msgstr "Зялёны"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:116
+msgid "Pattern"
+msgstr "Шаблён"
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:117
+msgid "Red"
+msgstr "Чырвоны"
+
+#: rc/qml/AlbumViewer/AlbumViewer.qml:107 rc/qml/MainScreen.qml:60
+msgid "Album"
+msgstr "Альбом"
+
+#: rc/qml/AlbumViewer/AlbumViewer.qml:369
+#: rc/qml/MediaViewer/MediaViewer.qml:335
+msgid "Add to album"
+msgstr "Дадаць да альбому"
+
+#: rc/qml/AlbumsOverview.qml:236 rc/qml/Components/PopupAlbumPicker.qml:91
+msgid "Add new album"
+msgstr "Стварыць новы альбом"
+
+#: rc/qml/AlbumsOverview.qml:240 rc/qml/Components/PopupAlbumPicker.qml:101
+msgid "New Photo Album"
+msgstr "Новы фотаальбом"
+
+#: rc/qml/AlbumsOverview.qml:241 rc/qml/Components/PopupAlbumPicker.qml:102
+msgid "Subtitle"
+msgstr "Субтытры"
+
+#: rc/qml/AlbumsOverview.qml:247 rc/qml/Utility/EditingHUD.qml:77
+#: rc/qml/Utility/SelectionToolbarAction.qml:47
+msgid "Add"
+msgstr "Дадаць"
+
+#: rc/qml/AlbumsOverview.qml:252 rc/qml/Utility/PhotosToolbarActions.qml:51
+msgid "Camera"
+msgstr "Камера"
+
+#: rc/qml/Components/DeleteDialog.qml:36
+#: rc/qml/MediaViewer/MediaViewer.qml:223
+msgid "Yes"
+msgstr "Так"
+
+#: rc/qml/Components/DeleteDialog.qml:45
+#: rc/qml/MediaViewer/MediaViewer.qml:234
+msgid "No"
+msgstr "Не"
+
+#: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
+msgid "Delete album"
+msgstr "Выдаліць альбом"
+
+#: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
+msgid "Delete album + contents"
+msgstr "Выдаліць альбом і змесціва"
+
+#: rc/qml/Components/EventCard.qml:59
+msgid "MMM yyyy"
+msgstr ""
+
+#: rc/qml/Components/EventCard.qml:73
+msgid "dd"
+msgstr ""
+
+#: rc/qml/Components/MediaSelector.qml:59
+#: rc/qml/Components/MediaSelector.qml:80
+msgid "Add to Album"
+msgstr "Дадаць у Альбом"
+
+#: rc/qml/Components/PopupAlbumPicker.qml:161 rc/qml/Utility/EditingHUD.qml:78
+msgid "Add Photo to Album"
+msgstr "Дадаць у альбом"
+
+#: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
+msgid "Delete 1 photo"
+msgstr "Выдаліць 1 фотаздымак"
+
+#: rc/qml/EventsOverview.qml:78 rc/qml/PhotosOverview.qml:87
+msgid "Delete 1 video"
+msgstr "Выдаліць 1 відэа"
+
+#: rc/qml/EventsOverview.qml:81 rc/qml/PhotosOverview.qml:90
+#, qt-format
+msgid "Delete %1 photos"
+msgstr "Выдаліць %1 фотаздымка"
+
+#: rc/qml/EventsOverview.qml:83 rc/qml/PhotosOverview.qml:92
+#, qt-format
+msgid "Delete %1 videos"
+msgstr "Выдаліць %1 відэа"
+
+#: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:95
+#, qt-format
+msgid "Delete %1 photos and 1 video"
+msgstr "Выдаліць %1 фотаздымка і 1% відэа"
+
+#: rc/qml/EventsOverview.qml:88 rc/qml/PhotosOverview.qml:97
+#, qt-format
+msgid "Delete 1 photo and %1 videos"
+msgstr "Выдаліць 1 фотаздымак і %1 відэа"
+
+#: rc/qml/EventsOverview.qml:90 rc/qml/PhotosOverview.qml:99
+msgid "Delete 1 photo and 1 video"
+msgstr "Выдаліць 1 фотаздымак і 1 відэа"
+
+#: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:101
+#, qt-format
+msgid "Delete %1 photos and %2 videos"
+msgstr "Выдаліць %1 фотаздымка і %2 відэа"
+
+#: rc/qml/EventsOverview.qml:151 rc/qml/PhotosOverview.qml:165
+msgid "Share to"
+msgstr "Падзяліцца"
+
+#: rc/qml/LoadingScreen.qml:46
+msgid "Loading…"
+msgstr "Загрузка..."
+
+#: rc/qml/MainScreen.qml:147
+msgid "Albums"
+msgstr "Альбомы"
+
+#: rc/qml/MainScreen.qml:161 rc/qml/MainScreen.qml:190
+#: rc/qml/PickerScreen.qml:101
+msgid "Events"
+msgstr "Падзеі"
+
+#: rc/qml/MainScreen.qml:188 rc/qml/MainScreen.qml:233
+#: rc/qml/PickerScreen.qml:141 rc/qml/PickerScreen.qml:194
+#: rc/qml/Utility/PhotosToolbarActions.qml:34
+msgid "Select"
+msgstr "Абраць"
+
+#: rc/qml/MainScreen.qml:199 rc/qml/MainScreen.qml:235
+#: rc/qml/PickerScreen.qml:152
+msgid "Photos"
+msgstr "Фотаздымкі"
+
+#: rc/qml/MediaViewer/ExtrasPhotoEditorPage.qml:26
+#: rc/qml/MediaViewer/GalleryPhotoEditorPage.qml:25
+msgid "Edit Photo"
+msgstr "Рэдагаваць фотаздымак"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:212
+msgid "Delete a photo"
+msgstr "Выдаліць фотаздымак"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:212
+msgid "Delete a video"
+msgstr "Выдаліць відэа"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:245
+msgid "Remove a photo from album"
+msgstr "Выдаліць фотаздымак з альбому"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:245
+msgid "Remove a video from album"
+msgstr "Выдаліць відэа з альбому"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:254
+msgid "Remove from Album"
+msgstr "Выдаліць з альбому"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:265
+msgid "Remove from Album and Delete"
+msgstr "Выдаліць з альбому і сьцерці"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:312
+msgid "Edit"
+msgstr "Рэдагаваць"
+
+#: rc/qml/MediaViewer/MediaViewer.qml:356 rc/qml/Utility/EditingHUD.qml:72
+#: rc/qml/Utility/SelectionToolbarAction.qml:65
+msgid "Share"
+msgstr "Падзяліцца"
+
+#: rc/qml/MediaViewer/PhotoEditor.qml:43
+#: rc/qml/MediaViewer/PhotoEditor/CropOverlay.qml:349
+#: rc/qml/Utility/EditingHUD.qml:106
+msgid "Crop"
+msgstr "Абрэзаць"
+
+#: rc/qml/MediaViewer/PhotoEditor.qml:52 rc/qml/Utility/EditingHUD.qml:99
+msgid "Rotate"
+msgstr "Павярнуць"
+
+#: rc/qml/MediaViewer/PhotoEditor.qml:196
+msgid "Revert to original"
+msgstr "Да арыгіналу"
+
+#: rc/qml/MediaViewer/PhotoEditor.qml:197
+msgid "This will undo all edits, including those from previous sessions."
+msgstr "Гэта скасуе ўсе змены, улучаючы змены з папярэдніх сэсій."
+
+#: rc/qml/MediaViewer/PhotoEditor.qml:212
+msgid "Revert Photo"
+msgstr "Аднавіць фотаздымак"
+
+#: rc/qml/MediaViewer/PhotoEditor.qml:226
+msgid "Enhancing photo..."
+msgstr "Палепшыць фотаздымак"
+
+#: rc/qml/MediaViewer/PhotoEditor/EditStack.qml:114
+#: rc/qml/Utility/EditingHUD.qml:82
+msgid "Undo"
+msgstr "Скасаваць"
+
+#: rc/qml/MediaViewer/PhotoEditor/EditStack.qml:121
+#: rc/qml/Utility/EditingHUD.qml:87
+msgid "Redo"
+msgstr "Вярнуць"
+
+#: rc/qml/MediaViewer/PhotoEditor/EditStack.qml:128
+#: rc/qml/Utility/EditingHUD.qml:113
+msgid "Revert to Original"
+msgstr "Вярнуцца да арыгіналу"
+
+#: rc/qml/MediaViewer/PhotoEditor/ExposureAdjuster.qml:71
+msgid "Done"
+msgstr "Скончана"
+
+#: rc/qml/MediaViewer/PopupPhotoViewer.qml:46
+#: desktop/gallery-app.desktop.in.in.h:1
+msgid "Gallery"
+msgstr "Галерэя"
+
+#: rc/qml/MediaViewer/PopupPhotoViewer.qml:167
+msgid "Toggle Selection"
+msgstr "Ужыць абранае"
+
+#: rc/qml/PickerScreen.qml:241
+msgid "Pick"
+msgstr "Абраць"
+
+#: rc/qml/Utility/EditingHUD.qml:68
+msgid "Trash;Erase"
+msgstr "Сьметніца;Выдаліць"
+
+#: rc/qml/Utility/EditingHUD.qml:73
+msgid "Post;Upload;Attach"
+msgstr "Даслаць;Запампаваць;Прымацаваць"
+
+#: rc/qml/Utility/EditingHUD.qml:83
+msgid "Cancel Action;Backstep"
+msgstr "Скасаваць дзеянне;Павярнуць"
+
+#: rc/qml/Utility/EditingHUD.qml:88
+msgid "Reapply;Make Again"
+msgstr "Ужыць паўторна;Зрабіць ізноў"
+
+#: rc/qml/Utility/EditingHUD.qml:92
+msgid "Auto Enhance"
+msgstr "Аўтаматычнае палямшэньня"
+
+#: rc/qml/Utility/EditingHUD.qml:93
+msgid "Adjust the image automatically"
+msgstr "Аўтаматычна палепшыць выяву"
+
+#: rc/qml/Utility/EditingHUD.qml:94
+msgid "Automatically Adjust Photo"
+msgstr "Аўтаматычна наладзіць фотаздымак"
+
+#: rc/qml/Utility/EditingHUD.qml:100
+msgid "Turn Clockwise"
+msgstr "Павярнуць па гадзіннікавай стрэлцы"
+
+#: rc/qml/Utility/EditingHUD.qml:101
+msgid "Rotate the image clockwise"
+msgstr "Павярнуць выяву па гадзіннікавай стрэлцы"
+
+#: rc/qml/Utility/EditingHUD.qml:107
+msgid "Trim;Cut"
+msgstr "Абразаньне;Выразаць"
+
+#: rc/qml/Utility/EditingHUD.qml:108
+msgid "Crop the image"
+msgstr "Абрэзаць выяву"
+
+#: rc/qml/Utility/EditingHUD.qml:114
+msgid "Discard Changes"
+msgstr "Скасаваць зьмены"
+
+#: rc/qml/Utility/EditingHUD.qml:115
+msgid "Discard all changes"
+msgstr "Скасаваць усе зьмены"
+
+#: rc/qml/Utility/EditingHUD.qml:119
+msgid "Exposure"
+msgstr "Вытрымка"
+
+#: rc/qml/Utility/EditingHUD.qml:120
+msgid "Adjust the exposure"
+msgstr "Адрэгуляваць вытрымку"
+
+#: rc/qml/Utility/EditingHUD.qml:121
+msgid "Underexposed;Overexposed"
+msgstr "Недатрымацт;Ператрымаць"
+
+#: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
+msgid "Confirm"
+msgstr "Пацьвердзіць"
+
+#: rc/qml/Utility/EditingHUD.qml:126
+msgid "Compensation"
+msgstr "Выраўнаваць"
+
+#: rc/qml/Utility/EditingHUD.qml:160
+msgid "Color Balance"
+msgstr "Каляровы балянс"
+
+#: rc/qml/Utility/EditingHUD.qml:161
+msgid "Adjust color balance"
+msgstr "Зьмяніць каляровы баланс"
+
+#: rc/qml/Utility/EditingHUD.qml:162
+msgid "Saturation;Hue"
+msgstr "Насычанасьць; Адценьне"
+
+#: rc/qml/Utility/EditingHUD.qml:167
+msgid "Brightness"
+msgstr "Яскравасьць"
+
+#: rc/qml/Utility/EditingHUD.qml:178
+msgid "Contrast"
+msgstr "Кантраст"
+
+#: rc/qml/Utility/EditingHUD.qml:189
+msgid "Saturation"
+msgstr "Насычанасьць"
+
+#: rc/qml/Utility/EditingHUD.qml:200
+msgid "Hue"
+msgstr "Тон"
+
+#: rc/qml/Utility/PhotosToolbarActions.qml:43
+msgid "Import"
+msgstr "Імпартаваць"
+
+#: desktop/gallery-app.desktop.in.in.h:2
+msgid "Ubuntu Photo Viewer"
+msgstr "Аглядальнік фатаздымкаў Ubuntu"
+
+#: desktop/gallery-app.desktop.in.in.h:3
+msgid "Browse your photographs"
+msgstr "Праглядвайце фатаздымкі"
+
+#: desktop/gallery-app.desktop.in.in.h:4
+msgid "Photographs;Pictures;Albums"
+msgstr "Фотаздымкі;Выявы;Альбомы"
