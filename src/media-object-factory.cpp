@@ -337,8 +337,6 @@ bool MediaObjectFactoryWorker::readVideoMetadata(const QFileInfo &file)
     }
     m_fileSize = file.size();
     m_exposureTime = metadata.exposureTime();
-    // Exposure time is stored as UTC on metadata
-    m_exposureTime.setTimeSpec(Qt::UTC);
     m_size = metadata.frameSize();
 
     return true;
