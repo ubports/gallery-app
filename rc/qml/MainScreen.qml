@@ -101,7 +101,7 @@ MainView {
 
             if (tabs.selectedTabIndex == 0) {
                 // Move from Albums Tab to Events Tab
-                tabs.selectedTabIndex = 1;}
+                tabs.selectedTabIndex = 1;
             }
 
             if (tabs.selectedTabIndex == 1 && eventsOverviewLoader.item) {
