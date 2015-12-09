@@ -102,7 +102,7 @@ QDateTime VideoMetadata::exposureTime() const
     QDateTime exposureTime = it.value().toDateTime();
     // Exposure time is stored as UTC on metadata
     exposureTime.setTimeSpec(Qt::UTC);
-    return exposureTime;
+    return exposureTime.toLocalTime();
 }
 
 /*!

@@ -235,7 +235,7 @@ void MediaObjectFactoryWorker::create(const QString &path)
         media->setExposureDateTime(m_exposureTime);
         photo->setOriginalOrientation(m_orientation);
     } else {
-        media->setExposureDateTime(m_exposureTime.toLocalTime());
+        media->setExposureDateTime(m_exposureTime);
     }
     media->setId(id);
 
