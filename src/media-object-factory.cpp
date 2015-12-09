@@ -231,11 +231,9 @@ void MediaObjectFactoryWorker::create(const QString &path)
     }
     media->setSize(m_size);
     media->setFileTimestamp(m_timeStamp);
+    media->setExposureDateTime(m_exposureTime);
     if (mediaType == MediaSource::Photo) {
-        media->setExposureDateTime(m_exposureTime);
         photo->setOriginalOrientation(m_orientation);
-    } else {
-        media->setExposureDateTime(m_exposureTime);
     }
     media->setId(id);
 
@@ -383,14 +381,9 @@ void MediaObjectFactoryWorker::addMedia(qint64 mediaId, const QString &filename,
 
     media->setSize(size);
     media->setFileTimestamp(timestamp);
+    media->setExposureDateTime(exposureTime);
     if (mediaType == MediaSource::Photo) {
-        media->setExposureDateTime(exposureTime);
         photo->setOriginalOrientation(originalOrientation);
-    } else {
-        // Exposure time is stored as UTC on DB
-        QDateTime utc(exposureTime);
-        utc.setTimeSpec(Qt::UTC);
-        media->setExposureDateTime(utc.toLocalTime());
     }
     media->setId(mediaId);
 
