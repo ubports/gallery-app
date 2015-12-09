@@ -57,7 +57,6 @@ Page {
 
     function positionViewAtBeginning() {
         organicList.positionViewAtBeginning();
-        organicList.contentY = header.height * -1;
         positionEventsAtBeginning()
     }
 

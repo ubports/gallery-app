@@ -53,6 +53,10 @@ Page {
         d.selection.inSelectionMode = false;
     }
 
+    function positionViewAtBeginning() {
+        photosGrid.positionViewAtBeginning();
+    }
+
     function positionViewAtSelected(index) {
         photosGrid.positionViewAtIndex(index, GridView.Center);
     }

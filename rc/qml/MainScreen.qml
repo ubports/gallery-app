@@ -87,20 +87,30 @@ MainView {
     Connections {
         target: APP
         onEventsViewRequested: {
+            if (!allLoaded) {
+                return;
+            }
+
             if (__isPhotoViewerOpen) {
-                photoViewerLoader.item.fadeClosed();
-                popPage();
-            } else if (allLoaded && albumsCheckerboardLoader.item) {
+                photoViewerLoader.item.closeRequested();
+            }
+
+            if (albumsCheckerboardLoader.item) {
                 albumsCheckerboardLoader.item.closeAlbum();
             }
 
-            if (allLoaded && eventsOverviewLoader.item) {
+            if (tabs.selectedTabIndex == 0) {
+                // Move from Albums Tab to Events Tab
+                tabs.selectedTabIndex = 1;}
+            }
+
+            if (tabs.selectedTabIndex == 1 && eventsOverviewLoader.item) {
                 eventsOverviewLoader.item.positionViewAtBeginning();
             }
 
-            header.visible = true;
-
-            tabs.selectedTabIndex = 1;
+            if (tabs.selectedTabIndex == 2 && eventsOverviewLoader.item) {
+                photosOverviewLoader.item.positionViewAtBeginning();
+            }
         }
     }
 
