@@ -245,9 +245,7 @@ void tst_MediaObjectFactory::addVideo()
     QCOMPARE(video->id(), id);
     QCOMPARE(video->path().toLocalFile(), filename);
     QCOMPARE(video->size(), size);
-
-    exposureTime.setTimeSpec(Qt::UTC);
-    QCOMPARE(video->exposureDateTime(), exposureTime.toLocalTime());
+    QCOMPARE(video->exposureDateTime(), exposureTime);
 }
 
 MediaSource* tst_MediaObjectFactory::wait_for_media()
