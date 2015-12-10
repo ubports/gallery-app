@@ -55,6 +55,8 @@ Page {
 
     function positionViewAtBeginning() {
         photosGrid.positionViewAtBeginning();
+        //FIXME Initial content is hide bellow Page Header after a positionViewAtBeginning()
+        photosGrid.contentY = units.gu(7) * -1;
     }
 
     function positionViewAtSelected(index) {
