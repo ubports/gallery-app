@@ -325,11 +325,10 @@ Item {
                     var editor;
                     try {
                         Qt.createQmlObject('import QtQuick 2.4; import Ubuntu.Components.Extras 0.2; Item {}', viewerWrapper);
-                        console.log("Loading PhotoEditor Components from Extras");
-                        editor = overview.pushPage(Qt.resolvedUrl("ExtrasPhotoEditorPage.qml"), { photo: path });
+                        editor = overview.pushPage(Qt.resolvedUrl("PhotoEditorPage.qml"), { photo: path });
                     } catch (e) {
-                        console.log("Loading PhotoEditor Components from Gallery code");
-                        editor = overview.pushPage(Qt.resolvedUrl("GalleryPhotoEditorPage.qml"), { photo: path });
+                        console.log("WARNING: Unable to load PhotoEditor from Ubuntu.Components.Extras");
+                        return;
                     }
                     editor.done.connect(function(photoWasModified) {
                         if (photoWasModified) galleryPhotoViewer.media.dataChanged();

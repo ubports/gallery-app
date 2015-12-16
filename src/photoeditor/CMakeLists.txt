@@ -14,24 +14,11 @@ include_directories(
     )
 
 set(gallery_photoeditor_HDRS
-    file-utils.h
-    imaging.h
-    orientation.h
-    photo-caches.h
-    photo-data.h
-    photo-edit-command.h
-    photo-edit-thread.h
     photo-image-provider.h
     photo-metadata.h
     )
 
 set(gallery_photoeditor_SRCS
-    file-utils.cpp
-    imaging.cpp
-    orientation.cpp
-    photo-caches.cpp
-    photo-data.cpp
-    photo-edit-thread.cpp
     photo-image-provider.cpp
     photo-metadata.cpp
     )
