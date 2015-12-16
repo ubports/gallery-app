@@ -77,6 +77,15 @@ QUrl MediaSource::path() const
 }
 
 /*!
+ * \brief MediaSource::lastModified
+ * \return
+ */
+qint64 MediaSource::lastModified() const
+{
+    return m_file.lastModified().toMSecsSinceEpoch();
+}
+
+/*!
  * \brief MediaSource::Image
  * \param respectOrientation
  * \return
@@ -239,6 +248,15 @@ void MediaSource::setId(qint64 id)
 qint64 MediaSource::id() const
 {
     return m_id;
+}
+
+/*!
+ * \brief MediaSource::refresh
+ * \return
+ */
+void MediaSource::refresh()
+{
+    m_file.refresh();
 }
 
 /*!
