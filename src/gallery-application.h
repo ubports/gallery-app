@@ -93,8 +93,6 @@ private slots:
 private:
     void registerQML();
     void createView();
-    static QObject* exportFileUtilsSingleton(QQmlEngine *engine,
-                                             QJSEngine *scriptEngine);
 
     QQuickView *m_view;
     GalleryManager *m_galleryManager;

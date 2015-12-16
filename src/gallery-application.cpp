@@ -37,8 +37,6 @@
 #include "photo.h"
 
 // photoeditor
-#include "photo-data.h"
-#include "file-utils.h"
 #include "photo-image-provider.h"
 
 // qml
@@ -175,8 +173,6 @@ void GalleryApplication::registerQML()
     qmlRegisterType<QmlEventCollectionModel>("Gallery", 1, 0, "EventCollectionModel");
     qmlRegisterType<QmlEventOverviewModel>("Gallery", 1, 0, "EventOverviewModel");
     qmlRegisterType<QmlMediaCollectionModel>("Gallery", 1, 0, "MediaCollectionModel");
-    qmlRegisterType<PhotoData>("Gallery", 1, 0, "GalleryPhotoData");
-    qmlRegisterSingletonType<FileUtils>("Gallery", 1, 0, "GalleryFileUtils", exportFileUtilsSingleton);  
 
     qRegisterMetaType<QList<MediaSource*> >("MediaSourceList");
     qRegisterMetaType<QSet<DataObject*> >("QSet<DataObject*>");
@@ -267,15 +263,6 @@ void GalleryApplication::createView()
         qDebug() << "GalleryApplication view created" << m_timer->elapsed() << "ms";
 
     setMediaFile(m_cmdLineParser->mediaFile());
-}
-
-QObject* GalleryApplication::exportFileUtilsSingleton(QQmlEngine *engine,
-                                              QJSEngine *scriptEngine)
-{
-    Q_UNUSED(engine);
-    Q_UNUSED(scriptEngine);
-
-    return new FileUtils();
 }
 
 /*!
