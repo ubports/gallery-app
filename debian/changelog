@@ -1,3 +1,21 @@
+gallery-app (0.0.67+16.04.20151216-0ubuntu1) xenial; urgency=medium
+
+  [ Arthur Mello ]
+  * Remove local copy of PhotoEditor and keep using only the Ubuntu
+    Extras one (LP: #1524973)
+  * Save imported files from content hub in a specific folder Use
+    created date to sort videos imported from content hub (LP: #1517655)
+
+  [ CI Train Bot ]
+  * Resync trunk.
+
+  [ James Henstridge ]
+  * Use the file's last modified date for the "at" parameter when
+    invoking the thumbnailer to avoid needlessly reloading thumbnails.
+    (LP: #1485490)
+
+ -- Bill Filler <ci-train-bot@canonical.com>  Wed, 16 Dec 2015 22:01:50 +0000
+
 gallery-app (0.0.67+16.04.20151124-0ubuntu1) xenial; urgency=medium
 
   [ Arthur Mello ]
