@@ -19,6 +19,8 @@
 #include <QDebug>
 #include <QFileInfo>
 #include <QUrl>
+#include <QStandardPaths>
+#include <QDir>
 
 #include <MediaInfo/MediaInfo.h>
 
@@ -92,12 +94,15 @@ QDateTime VideoMetadata::exposureTime() const
 {
     QMap<QString, QVariant>::const_iterator it;
     it = m_tags.find(ENCODED_DATE_KEY);
-    if ( it == m_tags.end()) {
+    if ( isImportedFromContentHub() || it == m_tags.end()) {
         // Fallback for date that the file was created
         return m_file.created();
     }
 
-    return it.value().toDateTime();
+    QDateTime exposureTime = it.value().toDateTime();
+    // Exposure time is stored as UTC on metadata
+    exposureTime.setTimeSpec(Qt::UTC);
+    return exposureTime.toLocalTime();
 }
 
 /*!
@@ -142,4 +147,11 @@ QSize VideoMetadata::frameSize() const
         return QSize();
 
     return it.value().toSize();
+}
+
+bool VideoMetadata::isImportedFromContentHub() const
+{
+    // Content Hub imported folder
+    QString importedDir = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation) + QDir::separator() + "imported" + QDir::separator();
+    return m_file.absoluteFilePath().startsWith(importedDir);
 }

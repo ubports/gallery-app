@@ -57,7 +57,8 @@ Page {
 
     function positionViewAtBeginning() {
         organicList.positionViewAtBeginning();
-        organicList.contentY = header.height * -1;
+        //FIXME Initial content is hide bellow Page Header after a positionViewAtBeginning()
+        organicList.contentY = units.gu(7) * -1;
         positionEventsAtBeginning()
     }
 
