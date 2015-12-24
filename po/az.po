@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-05-21 13:13+0300\n"
-"PO-Revision-Date: 2014-09-06 10:44+0000\n"
-"Last-Translator: Nicat Məmmədov <n1c4t97@gmail.com>\n"
+"PO-Revision-Date: 2015-12-23 08:55+0000\n"
+"Last-Translator: Turan Mahmudov <turan.mahmudov@gmail.com>\n"
 "Language-Team: Azerbaijani <az@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2015-11-14 04:55+0000\n"
-"X-Generator: Launchpad (build 17845)\n"
+"X-Launchpad-Export-Date: 2015-12-24 05:34+0000\n"
+"X-Generator: Launchpad (build 17865)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:36
@@ -74,11 +74,11 @@ msgstr "Yeni albom əlavə et"
 
 #: rc/qml/AlbumsOverview.qml:240 rc/qml/Components/PopupAlbumPicker.qml:101
 msgid "New Photo Album"
-msgstr ""
+msgstr "Yeni Foto Albom"
 
 #: rc/qml/AlbumsOverview.qml:241 rc/qml/Components/PopupAlbumPicker.qml:102
 msgid "Subtitle"
-msgstr ""
+msgstr "Alt başlıq"
 
 #: rc/qml/AlbumsOverview.qml:247 rc/qml/Utility/EditingHUD.qml:77
 #: rc/qml/Utility/SelectionToolbarAction.qml:47
@@ -109,11 +109,11 @@ msgstr "Albomu + içindəkiləri sil"
 
 #: rc/qml/Components/EventCard.qml:59
 msgid "MMM yyyy"
-msgstr ""
+msgstr "MMM yyyy"
 
 #: rc/qml/Components/EventCard.qml:73
 msgid "dd"
-msgstr ""
+msgstr "dd"
 
 #: rc/qml/Components/MediaSelector.qml:59
 #: rc/qml/Components/MediaSelector.qml:80
@@ -126,44 +126,44 @@ msgstr "Alboma şәkil әlavә et."
 
 #: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
 msgid "Delete 1 photo"
-msgstr ""
+msgstr "1 fotonu sil"
 
 #: rc/qml/EventsOverview.qml:78 rc/qml/PhotosOverview.qml:87
 msgid "Delete 1 video"
-msgstr ""
+msgstr "1 videonu sil"
 
 #: rc/qml/EventsOverview.qml:81 rc/qml/PhotosOverview.qml:90
 #, qt-format
 msgid "Delete %1 photos"
-msgstr ""
+msgstr "%1 fotonu sil"
 
 #: rc/qml/EventsOverview.qml:83 rc/qml/PhotosOverview.qml:92
 #, qt-format
 msgid "Delete %1 videos"
-msgstr ""
+msgstr "%1 videonu sil"
 
 #: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:95
 #, qt-format
 msgid "Delete %1 photos and 1 video"
-msgstr ""
+msgstr "%1 foto və 1 videonu sil"
 
 #: rc/qml/EventsOverview.qml:88 rc/qml/PhotosOverview.qml:97
 #, qt-format
 msgid "Delete 1 photo and %1 videos"
-msgstr ""
+msgstr "1 foto və %1 videonu sil"
 
 #: rc/qml/EventsOverview.qml:90 rc/qml/PhotosOverview.qml:99
 msgid "Delete 1 photo and 1 video"
-msgstr ""
+msgstr "1 fotonu və 1 videonu sil"
 
 #: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:101
 #, qt-format
 msgid "Delete %1 photos and %2 videos"
-msgstr ""
+msgstr "%1 fotonu və %2 videonu sil"
 
 #: rc/qml/EventsOverview.qml:151 rc/qml/PhotosOverview.qml:165
 msgid "Share to"
-msgstr ""
+msgstr "Paylaş"
 
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
@@ -192,7 +192,7 @@ msgstr "Şəkillər"
 #: rc/qml/MediaViewer/ExtrasPhotoEditorPage.qml:26
 #: rc/qml/MediaViewer/GalleryPhotoEditorPage.qml:25
 msgid "Edit Photo"
-msgstr ""
+msgstr "Fotonu redaktə et"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:212
 msgid "Delete a photo"
@@ -200,23 +200,23 @@ msgstr "Şəkli sil"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:212
 msgid "Delete a video"
-msgstr ""
+msgstr "Video sil"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:245
 msgid "Remove a photo from album"
-msgstr ""
+msgstr "Albomdan foto qaldır"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:245
 msgid "Remove a video from album"
-msgstr ""
+msgstr "Albomdan video qaldır"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:254
 msgid "Remove from Album"
-msgstr ""
+msgstr "Albomdan Qaldır"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:265
 msgid "Remove from Album and Delete"
-msgstr ""
+msgstr "Albomdan Qaldır və Sil"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:312
 msgid "Edit"
@@ -244,14 +244,15 @@ msgstr "Başlanğıc vəziyyətə qaytar"
 #: rc/qml/MediaViewer/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
 msgstr ""
+"Bu əvvəlki sessiyalar daxil olmaqla bütün redaktələri geri qaytaracaq."
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:212
 msgid "Revert Photo"
-msgstr ""
+msgstr "Fotonu Geri Qaytar"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:226
 msgid "Enhancing photo..."
-msgstr ""
+msgstr "Foto yüksəldilir..."
 
 #: rc/qml/MediaViewer/PhotoEditor/EditStack.qml:114
 #: rc/qml/Utility/EditingHUD.qml:82
@@ -270,7 +271,7 @@ msgstr "Orijinal halına qaytar"
 
 #: rc/qml/MediaViewer/PhotoEditor/ExposureAdjuster.qml:71
 msgid "Done"
-msgstr ""
+msgstr "Bitdi"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:46
 #: desktop/gallery-app.desktop.in.in.h:1
@@ -279,7 +280,7 @@ msgstr "Qalereya"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:167
 msgid "Toggle Selection"
-msgstr ""
+msgstr "Seçimi Dəyiş"
 
 #: rc/qml/PickerScreen.qml:241
 msgid "Pick"
@@ -303,15 +304,15 @@ msgstr "Yenidən tətbiq et;Yenidən Yarat"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr ""
+msgstr "Avtomatik Yüksəltmə"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr ""
+msgstr "Şəkli avtomatik sazla"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr ""
+msgstr "Avtomatik Foto Sazla"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
@@ -323,31 +324,31 @@ msgstr "Şəkili saat əqrəbi istiqamətində döndür"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr ""
+msgstr "Nizamla;Kəs"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr ""
+msgstr "Şəkli kəs"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr ""
+msgstr "Dəyişiklikləri ləğv et"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr ""
+msgstr "Bütün dəyişiklikləri ləğv et"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr ""
+msgstr "Ekspozisiya"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr ""
+msgstr "Ekspozisiyanı sazla"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr ""
+msgstr "Ekspozisiya verilməmiş;Ekspozisiya verilmiş"
 
 #: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
 msgid "Confirm"
@@ -355,19 +356,19 @@ msgstr "Təsdiqlə"
 
 #: rc/qml/Utility/EditingHUD.qml:126
 msgid "Compensation"
-msgstr ""
+msgstr "Tarazlıq"
 
 #: rc/qml/Utility/EditingHUD.qml:160
 msgid "Color Balance"
-msgstr ""
+msgstr "Rəng Tarazlığı"
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Adjust color balance"
-msgstr ""
+msgstr "Rəng tarazlığını sazla"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
-msgstr ""
+msgstr "Saturasiya;Ton"
 
 #: rc/qml/Utility/EditingHUD.qml:167
 msgid "Brightness"
@@ -375,19 +376,19 @@ msgstr "Parlaqlıq"
 
 #: rc/qml/Utility/EditingHUD.qml:178
 msgid "Contrast"
-msgstr ""
+msgstr "Kontrast"
 
 #: rc/qml/Utility/EditingHUD.qml:189
 msgid "Saturation"
-msgstr ""
+msgstr "Saturasiya"
 
 #: rc/qml/Utility/EditingHUD.qml:200
 msgid "Hue"
-msgstr ""
+msgstr "Ton"
 
 #: rc/qml/Utility/PhotosToolbarActions.qml:43
 msgid "Import"
-msgstr ""
+msgstr "İdxal Et"
 
 #: desktop/gallery-app.desktop.in.in.h:2
 msgid "Ubuntu Photo Viewer"
@@ -399,4 +400,4 @@ msgstr "Şəkillərinizi nəzərdən keçirin"
 
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
-msgstr ""
+msgstr "Fotoqraflar;Şəkillər;Albomlar"
