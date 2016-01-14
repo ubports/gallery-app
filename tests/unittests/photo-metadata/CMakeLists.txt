@@ -13,7 +13,6 @@ include_directories(
     ${gallery_media_src_SOURCE_DIR}
     ${gallery_medialoader_src_SOURCE_DIR}
     ${gallery_photo_src_SOURCE_DIR}
-    ${gallery_photoeditor_src_SOURCE_DIR}
     ${gallery_util_src_SOURCE_DIR}
     ${gallery_video_src_SOURCE_DIR}
     ${EXIV2_INCLUDEDIR}
@@ -32,7 +31,7 @@ QT5_WRAP_CPP(PHOTOMETADATA_MOCS
 add_definitions(-DSAMPLE_IMAGE_DIR="${CMAKE_CURRENT_SOURCE_DIR}/images")
 add_executable(photo-metadata
     tst_photo-metadata.cpp
-    ${gallery_photoeditor_src_SOURCE_DIR}/photo-metadata.cpp
+    ${gallery_photo_src_SOURCE_DIR}/photo-metadata.cpp
     ../stubs/album-table_stub.cpp
     ../stubs/database_stub.cpp
     ../stubs/media-table_stub.cpp
