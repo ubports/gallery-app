@@ -36,6 +36,7 @@ Depends: ${misc:Depends},
          libqt5sql5-sqlite,
          qtdeclarative5-qtquick2-plugin,
          qml-module-qtmultimedia | qml-module-qtmultimedia-gles,
+         qml-module-ubuntu-thumbnailer0.1,
          qtdeclarative5-ubuntu-ui-toolkit-plugin | qtdeclarative5-ubuntu-ui-toolkit-plugin-gles,
          qtdeclarative5-window-plugin,
 Description: Photo gallery for Ubuntu
