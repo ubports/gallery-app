@@ -59,7 +59,7 @@ class TestAlbumsView(GalleryTestCase):
         super(TestAlbumsView, self).tearDown()
 
     def check_header_button_exist(self, button):
-        buttonName = button + "_action_button"
+        buttonName = button + "_button"
         try:
             self.main_view.select_single(objectName=buttonName)
         except StateNotFoundError:
