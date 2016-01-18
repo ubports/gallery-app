@@ -65,6 +65,7 @@ GalleryManager::GalleryManager(bool desktopMode,
       m_eventCollection(0),
       m_monitor(0),
       m_desktopMode(desktopMode),
+      m_objectsReadyToAddTimer(this),
       m_mediaLibrary(0)
 {
     m_mediaFactory = new MediaObjectFactory(m_desktopMode, m_resource);
@@ -74,6 +75,10 @@ GalleryManager::GalleryManager(bool desktopMode,
     QObject::connect(m_mediaFactory, SIGNAL(mediaFromDBLoaded(QSet<DataObject *>)),
                      this, SLOT(onMediaFromDBLoaded(QSet<DataObject *>)));
 
+    m_objectsReadyToAddTimer.setSingleShot(true);
+    m_objectsReadyToAddTimer.setInterval(100);
+    QObject::connect(&m_objectsReadyToAddTimer, SIGNAL(timeout()),
+                     this, SLOT(onObjectsReadyToAdd()));
 
     m_galleryManager = this;
 }
@@ -266,7 +271,10 @@ void GalleryManager::onMediaItemRemoved(qint64 mediaId)
  */
 void GalleryManager::onMediaObjectCreated(MediaSource *mediaObject)
 {
-    m_mediaCollection->add(mediaObject);
+    m_objectsReadyToAddTimer.start(); 
+    if (!m_objectsToAdd.contains(mediaObject)) {
+        m_objectsToAdd.insert(mediaObject);
+    }
 }
 
 /*!
@@ -279,4 +287,17 @@ void GalleryManager::onMediaFromDBLoaded(QSet<DataObject *> mediaFromDB)
     m_mediaFactory->clear();
 
     startFileMonitoring();
+}
+
+/*!
+ * \brief GalleryManager::onObjectsReadyToAdd
+ */
+void GalleryManager::onObjectsReadyToAdd()
+{
+    if (m_objectsToAdd.isEmpty()) {
+        return;
+    }
+
+    m_mediaCollection->addMany(m_objectsToAdd);
+    m_objectsToAdd.clear();
 }

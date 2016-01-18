@@ -89,6 +89,8 @@ void EventCollection::onMediaAddedRemoved(const QSet<DataObject *> *added,
                                            bool notify)
 {
     if (added != NULL) {
+        QHash<Event*, QSet<DataObject*>> toAddHash;
+
         DataObject* object;
         foreach (object, *added) {
             MediaSource* media = qobject_cast<MediaSource*>(object);
@@ -97,11 +99,16 @@ void EventCollection::onMediaAddedRemoved(const QSet<DataObject *> *added,
             Event* existing = m_dateMap.value(media->exposureDate());
             if (existing == NULL) {
                 existing = new Event(this, media->exposureDate());
-
                 add(existing);
             }
 
-            existing->attach(media);
+            toAddHash[existing].insert(object);
+        }
+
+        QHashIterator<Event*, QSet<DataObject*>> i(toAddHash);
+        while (i.hasNext()) {
+            i.next();
+            i.key()->attachMany(i.value());
         }
     }
 

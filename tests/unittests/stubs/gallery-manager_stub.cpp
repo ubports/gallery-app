@@ -109,3 +109,7 @@ void GalleryManager::onMediaFromDBLoaded(QSet<DataObject *> mediaFromDB)
 {
     Q_UNUSED(mediaFromDB);
 }
+
+void GalleryManager::onObjectsReadyToAdd()
+{
+}

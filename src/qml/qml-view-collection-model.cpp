@@ -644,18 +644,18 @@ void QmlViewCollectionModel::notifyBackingCollectionChanged()
 }
 
 /*!
- * \brief QmlViewCollectionModel::notifyElementAdded
- * This notifies model subscribers that the element has been added at the
- * particular index ... note that QmlViewCollectionModel monitors
+ * \brief QmlViewCollectionModel::notifyElementsAdded
+ * This notifies model subscribers that elements has been added between
+ * particular indexes ... note that QmlViewCollectionModel monitors
  * the SelectableViewCollections "contents-altered" signal already
- * \param index
+ * \param first
+ * \param last
  */
-void QmlViewCollectionModel::notifyElementAdded(int index)
+void QmlViewCollectionModel::notifyElementsAdded(int first, int last)
 {
-    if (index >= 0) {
-        beginInsertRows(QModelIndex(), index, index);
+    if (first >= 0 && last >= 0) {
+        beginInsertRows(QModelIndex(), first, last);
         endInsertRows();
-        Q_EMIT(indexAdded(index));
     }
 }
 
@@ -792,22 +792,26 @@ void QmlViewCollectionModel::onContentsChanged(const QSet<DataObject*>* added,
     }
 
     // Report inserted items after they've been inserted
-    if (added != NULL) {
+    // Again, don't map directly to QML if we're only getting a sub-view.
+    if (added != NULL && m_head == 0 && m_limit < 0) {
         // sort the indices in ascending order so each element is added in the
         // right place inside the "virtual" list held by QAbstractListModel
         QList<int> indices;
 
         DataObject* object;
-        foreach (object, *added)
+        foreach (object, *added) {
             indices.append(m_view->indexOf(object));
+        }
 
         qSort(indices.begin(), indices.end(), intLessThan);
 
-        // Again, don't map directly to QML if we're only getting a sub-view.
-        if (m_head == 0 && m_limit < 0) {
+        if (!indices.isEmpty()) {
+            notifyElementsAdded(indices.first(), indices.last());
+
             int index;
-            foreach (index, indices)
-                notifyElementAdded(index);
+            foreach (index, indices) {
+                Q_EMIT(indexAdded(index));
+            }
         }
     }
 
