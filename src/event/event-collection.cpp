@@ -89,6 +89,7 @@ void EventCollection::onMediaAddedRemoved(const QSet<DataObject *> *added,
                                            bool notify)
 {
     if (added != NULL) {
+        // Split the original QSet into one set for each Event date
         QHash<Event*, QSet<DataObject*>> toAddHash;
 
         DataObject* object;

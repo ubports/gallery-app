@@ -645,7 +645,7 @@ void QmlViewCollectionModel::notifyBackingCollectionChanged()
 
 /*!
  * \brief QmlViewCollectionModel::notifyElementsAdded
- * This notifies model subscribers that elements has been added between
+ * This notifies model subscribers that elements have been added between
  * particular indexes ... note that QmlViewCollectionModel monitors
  * the SelectableViewCollections "contents-altered" signal already
  * \param first
@@ -806,9 +806,28 @@ void QmlViewCollectionModel::onContentsChanged(const QSet<DataObject*>* added,
         qSort(indices.begin(), indices.end(), intLessThan);
 
         if (!indices.isEmpty()) {
-            notifyElementsAdded(indices.first(), indices.last());
-
             int index;
+            int head = -1;
+            int tail;
+
+            // Notify each contiguos interval of indices
+            foreach (index, indices) {
+                if (head < 0) {
+                    head = index;
+                    tail = index;
+                } else {
+                    if (index == tail + 1) {
+                        tail = index;
+                    } else {
+                        notifyElementsAdded(head, tail);
+                        head = index;
+                        tail = index;
+                    }
+                }
+            }
+
+            notifyElementsAdded(head, tail);
+
             foreach (index, indices) {
                 Q_EMIT(indexAdded(index));
             }

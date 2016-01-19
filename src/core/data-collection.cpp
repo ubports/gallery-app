@@ -111,6 +111,7 @@ void DataCollection::addMany(const QSet<DataObject*>& objects)
         return;
     }
 
+    // Silently prevent double-adds
     QSet<DataObject*> to_add;
     DataObject* object;
     foreach (object, objects) {
