@@ -808,7 +808,7 @@ void QmlViewCollectionModel::onContentsChanged(const QSet<DataObject*>* added,
         if (!indices.isEmpty()) {
             int index;
             int head = -1;
-            int tail;
+            int tail = -1;
 
             // Notify each contiguos interval of indices
             foreach (index, indices) {
