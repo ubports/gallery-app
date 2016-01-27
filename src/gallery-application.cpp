@@ -199,7 +199,7 @@ bool GalleryApplication::isDesktopMode() const
  */
 bool GalleryApplication::isFullScreen() const
 {
-    return m_view->flags().testFlag(Qt::MaximizeUsingFullscreenGeometryHint)
+    return m_view->flags().testFlag(Qt::MaximizeUsingFullscreenGeometryHint);
 }
 
 /*!
