@@ -44,6 +44,7 @@ class GalleryApplication : public QApplication
     Q_PROPERTY(MediaSource::MediaType mediaTypeFilter READ mediaTypeFilter NOTIFY mediaTypeFilterChanged)
     Q_PROPERTY(bool desktopMode READ isDesktopMode CONSTANT)
     Q_PROPERTY(bool fullScreen READ isFullScreen WRITE setFullScreen NOTIFY fullScreenChanged)
+    Q_PROPERTY(bool fullScreenByUserReq READ isFullScreenByUserReq WRITE setFullScreenByUserReq NOTIFY fullScreenByUserReqChanged)
     Q_PROPERTY(QString mediaFile READ getMediaFile WRITE setMediaFile NOTIFY mediaFileChanged)
 
 public:
@@ -63,6 +64,7 @@ public:
     bool pickModeEnabled() const;
     bool isDesktopMode() const;
     bool isFullScreen() const;
+    bool isFullScreenByUserReq() const;
     MediaSource::MediaType mediaTypeFilter() const;
     const QString &getMediaFile() const;
 
@@ -76,6 +78,7 @@ signals:
     void mediaLoaded();
     void pickModeEnabledChanged();
     void fullScreenChanged();
+    void fullScreenByUserReqChanged();
     void mediaTypeFilterChanged();
     void mediaFileChanged();
     void eventsViewRequested();
@@ -85,6 +88,7 @@ private slots:
     void switchToPickMode(QString mediaTypeFilter);
     void switchToEventsView();
     void setFullScreen(bool fullScreen);
+    void setFullScreenByUserReq(bool fullScreen);
     void consistencyCheckFinished();
     void setMediaFile(const QString &mediaFile);
     void onMediaLoaded();

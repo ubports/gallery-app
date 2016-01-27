@@ -146,14 +146,12 @@ Item {
         height = temp;
     }
 
-    function setFullScreen(fullScreen)
-    {
+    function setFullScreen(fullScreen) {
         APP.fullScreen = fullScreen;
     }
 
-    function toggleFullScreen()
-    {
-        APP.fullScreen = !APP.fullScreen;
+    function setFullScreenByUserReq(fullScreen) {
+        APP.fullScreenByUserReq = fullScreen;
     }
 
     width: units.gu(DEVICE_WIDTH)
@@ -168,11 +166,11 @@ Item {
 
         switch(event.key) {
         case Qt.Key_F11:
-            toggleFullScreen();
+            setFullScreenByUserReq(!APP.fullScreenByUserReq);
             break;
 
         case Qt.Key_Escape:
-            setFullScreen(false);
+            setFullScreenByUserReq(false);
             break;
 
         case Qt.Key_L:

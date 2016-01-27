@@ -199,6 +199,15 @@ bool GalleryApplication::isDesktopMode() const
  */
 bool GalleryApplication::isFullScreen() const
 {
+    return m_view->flags().testFlag(Qt::MaximizeUsingFullscreenGeometryHint)
+}
+
+/*!
+ * \brief GalleryApplication::isFullScreenByUserReq
+ * Returns true if window is on FullScreen mode
+ */
+bool GalleryApplication::isFullScreenByUserReq() const
+{
     return m_view->windowState() == Qt::WindowFullScreen;
 }
 
@@ -253,7 +262,7 @@ void GalleryApplication::createView()
 
     //run fullscreen if specified at command line
     if (m_cmdLineParser->isFullscreen()) {
-        setFullScreen(true);
+        setFullScreenByUserReq(true);
         m_view->showFullScreen();
     } else {
         m_view->show();
@@ -354,17 +363,32 @@ void GalleryApplication::switchToEventsView()
 
 /*!
  * \brief GalleryApplication::setFullScreen
- * Change window state to fullScreen or no state
+ * Change window flag to use Qt::MaximizeUsingFullscreenGeometryHint
  */
 void GalleryApplication::setFullScreen(bool fullScreen)
 {
-    if(fullScreen) {
+    if (fullScreen) {
+        m_view->setFlags(m_view->flags() | Qt::MaximizeUsingFullscreenGeometryHint);
+    } else {
+        m_view->setFlags(m_view->flags() & !Qt::MaximizeUsingFullscreenGeometryHint);
+    }
+
+    Q_EMIT fullScreenChanged();
+}
+
+/*!
+ * \brief GalleryApplication::setFullScreenByUserReq
+ * Change window state to fullScreen or no state
+ */
+void GalleryApplication::setFullScreenByUserReq(bool fullScreen)
+{
+    if (fullScreen) {
         m_view->setWindowState(Qt::WindowFullScreen);
     } else {
         m_view->setWindowState(Qt::WindowNoState);
     }
 
-    Q_EMIT fullScreenChanged();
+    Q_EMIT fullScreenByUserReqChanged();
 }
 
 void GalleryApplication::setMediaFile(const QString &mediaFile)
