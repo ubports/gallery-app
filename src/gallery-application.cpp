@@ -199,7 +199,7 @@ bool GalleryApplication::isDesktopMode() const
  */
 bool GalleryApplication::isFullScreenAppMode() const
 {
-    return m_view->flags().testFlag(Qt::MaximizeUsingFullscreenGeometryHint);
+    return m_view->flags() & static_cast <Qt::WindowFlags> (0x00800000);
 }
 
 /*!
@@ -363,14 +363,14 @@ void GalleryApplication::switchToEventsView()
 
 /*!
  * \brief GalleryApplication::setFullScreenAppMode
- * Change window flag to use Qt::MaximizeUsingFullscreenGeometryHint
+ * Change window to use a specific flag
  */
 void GalleryApplication::setFullScreenAppMode(bool fullScreen)
 {
     if (fullScreen) {
-        m_view->setFlags(m_view->flags() | Qt::MaximizeUsingFullscreenGeometryHint);
+        m_view->setFlags(m_view->flags() | static_cast <Qt::WindowFlags> (0x00800000));
     } else {
-        m_view->setFlags(m_view->flags() & !Qt::MaximizeUsingFullscreenGeometryHint);
+        m_view->setFlags(m_view->flags() & !static_cast <Qt::WindowFlags> (0x00800000));
     }
 
     Q_EMIT fullScreenAppModeChanged();
