@@ -127,7 +127,7 @@ Page {
         onToggleHeaderVisibilityRequested: {
             popupPhotoViewer.header.visible = !popupPhotoViewer.header.visible
             if (!APP.desktopMode)
-                setFullScreen(!popupPhotoViewer.header.visible);
+                setFullScreenAppMode(!popupPhotoViewer.header.visible);
         }
 
         // Internal
@@ -148,7 +148,7 @@ Page {
             setCurrentPhoto(forMediaSource);
             viewer.openCompleted = true;
             if (!APP.desktopMode)
-                setFullScreen(true);
+                setFullScreenAppMode(true);
             overview.pushPage(popupPhotoViewer);
             if (selection && selection.inSelectionMode)
                 popupPhotoViewer.header.visible = true;

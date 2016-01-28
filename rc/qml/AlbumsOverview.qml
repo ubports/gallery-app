@@ -175,7 +175,7 @@ Checkerboard {
         if (albumViewer.origin) {
             albumViewer.visible = true;
             if (!APP.desktopMode)
-                setFullScreen(true);
+                setFullScreenAppMode(true);
             overview.pushPage(albumViewer);
             if (object.containedCount > 0)
                 albumViewer.header.visible = false;

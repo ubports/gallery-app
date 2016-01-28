@@ -85,14 +85,14 @@ Page {
         }
         visible = false
         if (!APP.desktopMode)
-            setFullScreen(false);
+            setFullScreenAppMode(false);
         overview.popPage();
         isOpen = false
     }
     onQuickCloseRequested: {
         visible = false
         if (!APP.desktopMode)
-            setFullScreen(false);
+            setFullScreenAppMode(false);
         overview.popPage();
         isOpen = false
         if (previewItem)
@@ -192,7 +192,7 @@ Page {
                 else if (!hit.mediaSource) {
                     albumViewer.header.visible = !albumViewer.header.visible;
                     if (!APP.desktopMode)
-                        setFullScreen(!albumViewer.header.visible);
+                        setFullScreenAppMode(!albumViewer.header.visible);
                     return;
                 }
 
@@ -200,7 +200,7 @@ Page {
                 photoViewerLoader.fadeOpen(hit.mediaSource);
                 photoViewerLoader.item.header.visible = false;
                 if (!APP.desktopMode)
-                    setFullScreen(true);
+                    setFullScreenAppMode(true);
             }
 
             // Long press/right click.

@@ -39,7 +39,7 @@ MainView {
     property bool applicationLoaded: application.allLoaded
 
     //fullScreen property is used on autopilot tests
-    property bool fullScreen: APP.fullScreen
+    property bool fullScreen: APP.fullScreenAppMode || APP.fullScreenUserMode
    
     property alias currentPage: pageStack.currentPage
 
@@ -125,7 +125,7 @@ MainView {
     Timer {
         id: setFullScreenTimer
         interval: 10;
-        onTriggered: setFullScreen(!header.visible)
+        onTriggered: setFullScreenAppMode(!header.visible)
     }
 
     PageStack {
@@ -288,7 +288,7 @@ MainView {
             target: photoViewerLoader.item
             onCloseRequested: {
                 if (!APP.desktopMode)
-                    setFullScreen(false);
+                    setFullScreenAppMode(false);
                 popPage();
                 photoViewerLoader.item.fadeClosed();
                 overview.mediaCurrentlyInView = "";

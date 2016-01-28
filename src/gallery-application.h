@@ -43,8 +43,8 @@ class GalleryApplication : public QApplication
     Q_PROPERTY(bool pickModeEnabled READ pickModeEnabled NOTIFY pickModeEnabledChanged)
     Q_PROPERTY(MediaSource::MediaType mediaTypeFilter READ mediaTypeFilter NOTIFY mediaTypeFilterChanged)
     Q_PROPERTY(bool desktopMode READ isDesktopMode CONSTANT)
-    Q_PROPERTY(bool fullScreen READ isFullScreen WRITE setFullScreen NOTIFY fullScreenChanged)
-    Q_PROPERTY(bool fullScreenByUserReq READ isFullScreenByUserReq WRITE setFullScreenByUserReq NOTIFY fullScreenByUserReqChanged)
+    Q_PROPERTY(bool fullScreenAppMode READ isFullScreenAppMode WRITE setFullScreenAppMode NOTIFY fullScreenAppModeChanged)
+    Q_PROPERTY(bool fullScreenUserMode READ isFullScreenUserMode WRITE setFullScreenUserMode NOTIFY fullScreenUserModeChanged)
     Q_PROPERTY(QString mediaFile READ getMediaFile WRITE setMediaFile NOTIFY mediaFileChanged)
 
 public:
@@ -63,8 +63,8 @@ public:
     void setUiMode(UiMode mode);
     bool pickModeEnabled() const;
     bool isDesktopMode() const;
-    bool isFullScreen() const;
-    bool isFullScreenByUserReq() const;
+    bool isFullScreenAppMode() const;
+    bool isFullScreenUserMode() const;
     MediaSource::MediaType mediaTypeFilter() const;
     const QString &getMediaFile() const;
 
@@ -77,8 +77,8 @@ public:
 signals:
     void mediaLoaded();
     void pickModeEnabledChanged();
-    void fullScreenChanged();
-    void fullScreenByUserReqChanged();
+    void fullScreenAppModeChanged();
+    void fullScreenUserModeChanged();
     void mediaTypeFilterChanged();
     void mediaFileChanged();
     void eventsViewRequested();
@@ -87,8 +87,8 @@ private slots:
     void initCollections();
     void switchToPickMode(QString mediaTypeFilter);
     void switchToEventsView();
-    void setFullScreen(bool fullScreen);
-    void setFullScreenByUserReq(bool fullScreen);
+    void setFullScreenAppMode(bool fullScreen);
+    void setFullScreenUserMode(bool fullScreen);
     void consistencyCheckFinished();
     void setMediaFile(const QString &mediaFile);
     void onMediaLoaded();
