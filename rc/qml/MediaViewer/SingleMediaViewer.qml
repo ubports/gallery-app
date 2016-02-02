@@ -162,7 +162,7 @@ Item {
                     opacity: image.opacity
 
                     asynchronous: true
-                    cache: false
+                    cache: true
                     fillMode: Image.Tile
                     horizontalAlignment: Image.AlignLeft
                     verticalAlignment: Image.AlignTop
