@@ -155,6 +155,21 @@ Item {
                 }
 
                 Image {
+                    width: image.paintedWidth
+                    height: image.paintedHeight
+                    anchors.centerIn: image
+                    visible: !viewer.isVideo && image.visible
+                    opacity: image.opacity
+
+                    asynchronous: true
+                    cache: false
+                    fillMode: Image.Tile
+                    horizontalAlignment: Image.AlignLeft
+                    verticalAlignment: Image.AlignTop
+                    source: "../../img/transparency-bg.png"
+                }
+
+                Image {
                     id: image
                     anchors.fill: parent
                     asynchronous: true
