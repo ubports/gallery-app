@@ -155,8 +155,9 @@ Item {
                 }
 
                 Image {
-                    width: image.paintedWidth
-                    height: image.paintedHeight
+                    // Reduce width/hight so background is not visible on the border of camera photos
+                    width: image.paintedWidth - 1
+                    height: image.paintedHeight - 1
                     anchors.centerIn: image
                     visible: !viewer.isVideo && image.visible
                     opacity: image.opacity
