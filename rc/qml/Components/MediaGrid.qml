@@ -81,7 +81,8 @@ GridView {
 
             radius: "medium"
             property bool isLoading: source.status === Image.Loading
-
+ 
+            backgroundColor: "black"
             sourceFillMode: UbuntuShape.PreserveAspectCrop
             source: Image {
                 id: thumbImage
@@ -94,11 +95,21 @@ GridView {
                 }
             }
 
+            Icon {
+                anchors.centerIn: parent
+                width: units.gu(6)
+                height: width
+                visible: thumbImage.status == Image.Error
+                name: "stock_image"
+                color: "white"
+                opacity: 0.8
+            }
+
             Image {
                 // Display a play icon if the thumbnail is from a video
                 source: "../../img/icon_play.png"
                 anchors.centerIn: parent
-                visible: mediaSource.type === MediaSource.Video
+                visible: mediaSource.type === MediaSource.Video && thumbImage.status == Image.Ready
             }
 
             OrganicItemInteraction {
