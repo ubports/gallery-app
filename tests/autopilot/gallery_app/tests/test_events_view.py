@@ -84,11 +84,11 @@ class TestEventsView(GalleryTestCase):
 
     def test_delete_a_photo(self):
         """Selecting a photo must make the delete button clickable."""
-        self.assertThat(lambda: exists(self.sample_file),
+        self.assertThat(lambda: exists(self.sample_jpg_files[3]),
                         Eventually(Equals(True)))
 
         self.enable_select_mode()
-        self.events_view.select_photo(self.sample_file)
+        self.events_view.select_photo(self.sample_jpg_files[3])
         self.main_view.get_header().click_action_button("deleteButton")
         self.assertThat(self.gallery_utils.delete_dialog_shown,
                         Eventually(Is(True)))
@@ -97,7 +97,7 @@ class TestEventsView(GalleryTestCase):
         self.assertThat(self.gallery_utils.delete_dialog_shown,
                         Eventually(Is(False)))
 
-        self.assertThat(lambda: exists(self.sample_file),
+        self.assertThat(lambda: exists(self.sample_jpg_files[3]),
                         Eventually(Equals(True)))
 
         self.main_view.get_header().click_action_button("deleteButton")
@@ -108,8 +108,35 @@ class TestEventsView(GalleryTestCase):
         self.assertThat(self.gallery_utils.delete_dialog_shown,
                         Eventually(Is(False)))
 
-        self.assertThat(lambda: exists(self.sample_file),
+        self.assertThat(lambda: exists(self.sample_jpg_files[3]),
                         Eventually(Equals(False)))
+
+    def test_share_single_photo(self):
+        """Selecting a photo must make the share button clickable."""
+        self.assertThat(lambda: exists(self.sample_jpg_files[3]),
+                        Eventually(Equals(True)))
+        self.enable_select_mode()
+        self.events_view.select_photo(self.sample_jpg_files[3])
+        self.main_view.get_header().click_action_button("shareButton")
+        share_picker = self.events_view.get_share_peer_picker()
+        self.assertThat(share_picker.visible, Eventually(Equals(True)))
+        self.main_view.get_header().click_back_button()
+        self.assertThat(share_picker.visible, Eventually(Equals(False)))
+
+    def test_share_multiple_photos(self):
+        """Selecting multiple photos must make the share button clickable."""
+        self.assertThat(lambda: exists(self.sample_jpg_files[2]),
+                        Eventually(Equals(True)))
+        self.assertThat(lambda: exists(self.sample_jpg_files[3]),
+                        Eventually(Equals(True)))
+        self.enable_select_mode()
+        self.events_view.select_photo(self.sample_jpg_files[2])
+        self.events_view.select_photo(self.sample_jpg_files[3])
+        self.main_view.get_header().click_action_button("shareButton")
+        share_picker = self.events_view.get_share_peer_picker()
+        self.assertThat(share_picker.visible, Eventually(Equals(True)))
+        self.main_view.get_header().click_back_button()
+        self.assertThat(share_picker.visible, Eventually(Equals(False)))
 
     def test_adding_a_video(self):
         if model() == "Desktop":
