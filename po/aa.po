@@ -1,26 +1,26 @@
-# English (United Kingdom) translation for gallery-app
-# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# Afar translation for gallery-app
+# Copyright (c) 2016 Rosetta Contributors and Canonical Ltd 2016
 # This file is distributed under the same license as the gallery-app package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2015-05-21 13:13+0300\n"
-"PO-Revision-Date: 2016-02-03 12:04+0000\n"
-"Last-Translator: James Tait <Unknown>\n"
-"Language-Team: English (United Kingdom) <en_GB@li.org>\n"
+"PO-Revision-Date: 2016-01-31 22:43+0000\n"
+"Last-Translator: Charif AYFARAH <ayfarah@ymail.com>\n"
+"Language-Team: Afar <aa@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-02-04 05:56+0000\n"
+"X-Launchpad-Export-Date: 2016-02-01 05:33+0000\n"
 "X-Generator: Launchpad (build 17908)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:36
 msgid "Edit album"
-msgstr "Edit album"
+msgstr "Albuum fak"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
 #: rc/qml/AlbumViewer/AlbumViewer.qml:375
@@ -28,7 +28,7 @@ msgstr "Edit album"
 #: rc/qml/MediaViewer/MediaViewer.qml:345 rc/qml/Utility/EditingHUD.qml:67
 #: rc/qml/Utility/SelectionToolbarAction.qml:56
 msgid "Delete"
-msgstr "Delete"
+msgstr "Dug"
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:39
 #: rc/qml/Components/MediaSelector.qml:92
@@ -37,75 +37,75 @@ msgstr "Delete"
 #: rc/qml/MediaViewer/PhotoEditor/ExposureAdjuster.qml:80
 #: rc/qml/PickerScreen.qml:235 rc/qml/Utility/SelectionToolbarAction.qml:75
 msgid "Cancel"
-msgstr "Cancel"
+msgstr "Bayis"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
-msgstr "Default"
+msgstr "Koyni"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:114
 msgid "Blue"
-msgstr "Blue"
+msgstr "Bulci"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:115
 msgid "Green"
-msgstr "Green"
+msgstr "Inxixi"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:116
 msgid "Pattern"
-msgstr "Pattern"
+msgstr "Weelallo"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:117
 msgid "Red"
-msgstr "Red"
+msgstr "Qisi"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:107 rc/qml/MainScreen.qml:60
 msgid "Album"
-msgstr "Album"
+msgstr "Albuumu"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:369
 #: rc/qml/MediaViewer/MediaViewer.qml:335
 msgid "Add to album"
-msgstr "Add to album"
+msgstr "Albuumut osis"
 
 #: rc/qml/AlbumsOverview.qml:236 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
-msgstr "Add new album"
+msgstr "Qusba albuum edde osis"
 
 #: rc/qml/AlbumsOverview.qml:240 rc/qml/Components/PopupAlbumPicker.qml:101
 msgid "New Photo Album"
-msgstr "New Photo Album"
+msgstr "Qusba Taswiir Albuumu"
 
 #: rc/qml/AlbumsOverview.qml:241 rc/qml/Components/PopupAlbumPicker.qml:102
 msgid "Subtitle"
-msgstr "Subtitle"
+msgstr "Gubiinayta"
 
 #: rc/qml/AlbumsOverview.qml:247 rc/qml/Utility/EditingHUD.qml:77
 #: rc/qml/Utility/SelectionToolbarAction.qml:47
 msgid "Add"
-msgstr "Add"
+msgstr "Osis"
 
 #: rc/qml/AlbumsOverview.qml:252 rc/qml/Utility/PhotosToolbarActions.qml:51
 msgid "Camera"
-msgstr "Camera"
+msgstr "Kaameera"
 
 #: rc/qml/Components/DeleteDialog.qml:36
 #: rc/qml/MediaViewer/MediaViewer.qml:223
 msgid "Yes"
-msgstr "Yes"
+msgstr "Yeey"
 
 #: rc/qml/Components/DeleteDialog.qml:45
 #: rc/qml/MediaViewer/MediaViewer.qml:234
 msgid "No"
-msgstr "No"
+msgstr "Maleey"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr "Delete album"
+msgstr "Albuum dug"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr "Delete album + contents"
+msgstr "Albuum + addattino dug"
 
 #: rc/qml/Components/EventCard.qml:59
 msgid "MMM yyyy"
@@ -118,285 +118,287 @@ msgstr "dd"
 #: rc/qml/Components/MediaSelector.qml:59
 #: rc/qml/Components/MediaSelector.qml:80
 msgid "Add to Album"
-msgstr "Add to Album"
+msgstr "Albuumut osis"
 
 #: rc/qml/Components/PopupAlbumPicker.qml:161 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr "Add Photo to Album"
+msgstr "Taswiir Albuumut osis"
 
 #: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
 msgid "Delete 1 photo"
-msgstr "Delete 1 photo"
+msgstr "1 taswiir dug"
 
 #: rc/qml/EventsOverview.qml:78 rc/qml/PhotosOverview.qml:87
 msgid "Delete 1 video"
-msgstr "Delete 1 video"
+msgstr "1 viidiyo dug"
 
 #: rc/qml/EventsOverview.qml:81 rc/qml/PhotosOverview.qml:90
 #, qt-format
 msgid "Delete %1 photos"
-msgstr "Delete %1 photos"
+msgstr "%1 taswiir dug"
 
 #: rc/qml/EventsOverview.qml:83 rc/qml/PhotosOverview.qml:92
 #, qt-format
 msgid "Delete %1 videos"
-msgstr "Delete %1 videos"
+msgstr "%1 viidiyo dug"
 
 #: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:95
 #, qt-format
 msgid "Delete %1 photos and 1 video"
-msgstr "Delete %1 photos and 1 video"
+msgstr "%1 taswiir kee 1 viidiyo dug"
 
 #: rc/qml/EventsOverview.qml:88 rc/qml/PhotosOverview.qml:97
 #, qt-format
 msgid "Delete 1 photo and %1 videos"
-msgstr "Delete 1 photo and %1 videos"
+msgstr "1 taswiir kee %1 viidiyo dug"
 
 #: rc/qml/EventsOverview.qml:90 rc/qml/PhotosOverview.qml:99
 msgid "Delete 1 photo and 1 video"
-msgstr "Delete 1 photo and 1 video"
+msgstr "1 taswiir kee 1 viidiyo dug"
 
 #: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:101
 #, qt-format
 msgid "Delete %1 photos and %2 videos"
-msgstr "Delete %1 photos and %2 videos"
+msgstr "%1 taswiir kee %2 viidiyo dug"
 
 #: rc/qml/EventsOverview.qml:151 rc/qml/PhotosOverview.qml:165
 msgid "Share to"
-msgstr "Share to"
+msgstr "Edd esgel"
 
 #: rc/qml/LoadingScreen.qml:46
 msgid "Loading…"
-msgstr "Loading…"
+msgstr "Qulluumah..."
 
 #: rc/qml/MainScreen.qml:147
 msgid "Albums"
-msgstr "Albums"
+msgstr "Albuumitte"
 
 #: rc/qml/MainScreen.qml:161 rc/qml/MainScreen.qml:190
 #: rc/qml/PickerScreen.qml:101
 msgid "Events"
-msgstr "Events"
+msgstr "Tekkooka"
 
 #: rc/qml/MainScreen.qml:188 rc/qml/MainScreen.qml:233
 #: rc/qml/PickerScreen.qml:141 rc/qml/PickerScreen.qml:194
 #: rc/qml/Utility/PhotosToolbarActions.qml:34
 msgid "Select"
-msgstr "Select"
+msgstr "Meex"
 
 #: rc/qml/MainScreen.qml:199 rc/qml/MainScreen.qml:235
 #: rc/qml/PickerScreen.qml:152
 msgid "Photos"
-msgstr "Photos"
+msgstr "Tasaawiri"
 
 #: rc/qml/MediaViewer/ExtrasPhotoEditorPage.qml:26
 #: rc/qml/MediaViewer/GalleryPhotoEditorPage.qml:25
 msgid "Edit Photo"
-msgstr "Edit Photo"
+msgstr "Taswiir fak"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:212
 msgid "Delete a photo"
-msgstr "Delete a photo"
+msgstr "Taswiir dug"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:212
 msgid "Delete a video"
-msgstr "Delete a video"
+msgstr "Viidiyo dug"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:245
 msgid "Remove a photo from album"
-msgstr "Remove a photo from album"
+msgstr "Taswiir albuumuk kal"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:245
 msgid "Remove a video from album"
-msgstr "Remove a video from an album"
+msgstr "Viidiyo albuumuk kal"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:254
 msgid "Remove from Album"
-msgstr "Remove from Album"
+msgstr "Albuumuk kal"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:265
 msgid "Remove from Album and Delete"
-msgstr "Remove from Album and Delete"
+msgstr "Albuumuk kalay dug"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:312
 msgid "Edit"
-msgstr "Edit"
+msgstr "Faku"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:356 rc/qml/Utility/EditingHUD.qml:72
 #: rc/qml/Utility/SelectionToolbarAction.qml:65
 msgid "Share"
-msgstr "Share"
+msgstr "Kurut"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:43
 #: rc/qml/MediaViewer/PhotoEditor/CropOverlay.qml:349
 #: rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr "Crop"
+msgstr "Ceesiy"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:52 rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr "Rotate"
+msgstr "Meekis"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:196
 msgid "Revert to original"
-msgstr "Revert to original"
+msgstr "Aslih uduur"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:197
 msgid "This will undo all edits, including those from previous sessions."
-msgstr "This will undo all edits, including those from previous sessions."
+msgstr ""
+"Duma tekke daffeynaani edde anuk, wadir yaduureenim fakut tanim inkih wadir "
+"gacse le."
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:212
 msgid "Revert Photo"
-msgstr "Revert Photo"
+msgstr "Taswiir uyduur"
 
 #: rc/qml/MediaViewer/PhotoEditor.qml:226
 msgid "Enhancing photo..."
-msgstr "Enhancing photo..."
+msgstr "Taswiir aysiisiyya..."
 
 #: rc/qml/MediaViewer/PhotoEditor/EditStack.qml:114
 #: rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
-msgstr "Undo"
+msgstr "Eybex"
 
 #: rc/qml/MediaViewer/PhotoEditor/EditStack.qml:121
 #: rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr "Redo"
+msgstr "Eydeb"
 
 #: rc/qml/MediaViewer/PhotoEditor/EditStack.qml:128
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr "Revert to Original"
+msgstr "Aslih uduur"
 
 #: rc/qml/MediaViewer/PhotoEditor/ExposureAdjuster.qml:71
 msgid "Done"
-msgstr "Done"
+msgstr "Gaba kaleh"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:46
 #: desktop/gallery-app.desktop.in.in.h:1
 msgid "Gallery"
-msgstr "Gallery"
+msgstr "Gecro"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:167
 msgid "Toggle Selection"
-msgstr "Toggle Selection"
+msgstr "Meexo sabootiy"
 
 #: rc/qml/PickerScreen.qml:241
 msgid "Pick"
-msgstr "Pick"
+msgstr "Door"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr "Rubbish Bin;Erase"
+msgstr "Luuqays;Imissic"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
-msgstr "Post;Upload;Attach"
+msgstr "Rub;Tabis;Xakab"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr "Cancel Action;Backstep"
+msgstr "Abina bayis;Wadir-gac"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr "Re-apply;Make Again"
+msgstr "Wadir-macaggur;Ab kaadu"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr "Auto Enhance"
+msgstr "Isih yaysiise"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr "Adjust the image automatically"
+msgstr "Muuci otomaatikih massos"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr "Automatically Adjust Photo"
+msgstr "Otomaatikih Massoowa Taswiiri"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr "Turn Clockwise"
+msgstr "Uddur-mafkanal mak"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr "Rotate the image clockwise"
+msgstr "Uddur-mafkanal muuci meekis"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr "Trim;Cut"
+msgstr "Daacis;Irgiq"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr "Crop the image"
+msgstr "Muuci ceesiy"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr "Discard Changes"
+msgstr "Korsa sakuy"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr "Discard all changes"
+msgstr "Korsitte sakuy"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr "Exposure"
+msgstr "Mayballa"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr "Adjust the exposure"
+msgstr "Mayballa massos"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr "Underexposed;Overexposed"
+msgstr "Mayballâ-dagna;Mayballâ-manga"
 
 #: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
 msgid "Confirm"
-msgstr "Confirm"
+msgstr "Diggos"
 
 #: rc/qml/Utility/EditingHUD.qml:126
 msgid "Compensation"
-msgstr "Compensation"
+msgstr "Edderaq"
 
 #: rc/qml/Utility/EditingHUD.qml:160
 msgid "Color Balance"
-msgstr "Colour Balance"
+msgstr "Bisi keelo"
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Adjust color balance"
-msgstr "Adjust colour balance"
+msgstr "Bisi keelo massos"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
-msgstr "Saturation;Hue"
+msgstr "Miidimi;Bale"
 
 #: rc/qml/Utility/EditingHUD.qml:167
 msgid "Brightness"
-msgstr "Brightness"
+msgstr "Diifu"
 
 #: rc/qml/Utility/EditingHUD.qml:178
 msgid "Contrast"
-msgstr "Contrast"
+msgstr "Ceelô-sinna"
 
 #: rc/qml/Utility/EditingHUD.qml:189
 msgid "Saturation"
-msgstr "Saturation"
+msgstr "Miidimi"
 
 #: rc/qml/Utility/EditingHUD.qml:200
 msgid "Hue"
-msgstr "Hue"
+msgstr "Bisi-weelo"
 
 #: rc/qml/Utility/PhotosToolbarActions.qml:43
 msgid "Import"
-msgstr "Import"
+msgstr "Bahsis"
 
 #: desktop/gallery-app.desktop.in.in.h:2
 msgid "Ubuntu Photo Viewer"
-msgstr "Ubuntu Photo Viewer"
+msgstr "Ubunuk Taswiir Ilaalise"
 
 #: desktop/gallery-app.desktop.in.in.h:3
 msgid "Browse your photographs"
-msgstr "Browse your photographs"
+msgstr "Ku tasaawir fokkaq"
 
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
-msgstr "Photographs;Pictures;Albums"
+msgstr "Tasaawiri;Muucitte;Albuumitte"
