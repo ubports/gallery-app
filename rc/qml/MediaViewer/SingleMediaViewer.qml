@@ -160,7 +160,6 @@ Item {
                     height: image.paintedHeight - 1
                     anchors.centerIn: image
                     visible: !viewer.isVideo && image.opacity == 1.0
-                    opacity: viewer.opacity
 
                     asynchronous: true
                     cache: true
