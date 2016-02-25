@@ -35,6 +35,8 @@ GridView {
 
     /// Size of the thumbnails
     property real thumbnailSize: units.gu(12)
+    /// Size of the requested thumbnails
+    property real thumbnailSourceSize: units.gu(19)
     /// Minimum space between the tumbnails
     property real minimumSpace: units.gu(0.6)
     /// Stores the spacing between 2 images in pixel
@@ -89,8 +91,8 @@ GridView {
                 asynchronous: true
                 fillMode: Image.PreserveAspectCrop
                 sourceSize {
-                    width: photosGrid.thumbnailSize
-                    height: photosGrid.thumbnailSize
+                    width: thumbnailSourceSize
+                    height: thumbnailSourceSize
                 }
             }
 

@@ -182,8 +182,11 @@ Item {
                      * result as the previous thumbnailer, we force it to generate a large thumbnail, which
                      * is closer to the older one in size and looks identical when downscaled */
                     sourceSize {
-                        width: thumbnail.width
-                        height: thumbnail.height
+                        // Make sure to request a thumbnail big enough to handle all the possible sizes
+                        // that way media items will not request a new one every time it changes its
+                        // position
+                        width: __bigSize
+                        height: __bigSize
                     }
                     fillMode: Image.PreserveAspectCrop
                 }
