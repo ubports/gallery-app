@@ -46,7 +46,7 @@ class PopupPhotoViewer(ubuntuuitoolkit.UbuntuUIToolkitCustomProxyObjectBase):
             header.visible.wait_for(True)
 
         try:
-            object_name = action_object_name + "_action_button"
+            object_name = action_object_name + "_button"
             button = header.select_single(objectName=object_name)
             self.pointing_device.click_object(button)
         except StateNotFoundError:
