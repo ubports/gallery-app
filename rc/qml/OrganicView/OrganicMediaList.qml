@@ -167,10 +167,11 @@ Item {
                     }
                 }
 
-                visible: source.status === Image.Ready
+                visible: source.status === Image.Ready || source.status === Image.Error
 
                 radius: "medium"
 
+                backgroundColor: "black"
                 sourceFillMode: UbuntuShape.PreserveAspectCrop
                 source: Image {
                     id: thumbImage
@@ -191,11 +192,21 @@ Item {
                     fillMode: Image.PreserveAspectCrop
                 }
 
+                Icon {
+                    anchors.centerIn: parent
+                    width: units.gu(6)
+                    height: width
+                    visible: thumbImage.status == Image.Error
+                    name: "stock_image"
+                    color: "white"
+                    opacity: 0.8
+                }
+
                 Image {
                     // Display a play icon if the thumbnail is from a video
                     source: "../../img/icon_play.png"
                     anchors.centerIn: parent
-                    visible: model.mediaSource.type === MediaSource.Video
+                    visible: model.mediaSource.type === MediaSource.Video && thumbImage.status == Image.Ready
                 }
 
                 OrganicItemInteraction {
