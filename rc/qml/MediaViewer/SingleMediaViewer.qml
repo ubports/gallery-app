@@ -155,6 +155,21 @@ Item {
                 }
 
                 Image {
+                    // Reduce width/hight so background is not visible on the border of camera photos
+                    width: image.paintedWidth - 1
+                    height: image.paintedHeight - 1
+                    anchors.centerIn: image
+                    visible: !viewer.isVideo && image.opacity == 1.0
+
+                    asynchronous: true
+                    cache: true
+                    fillMode: Image.Tile
+                    horizontalAlignment: Image.AlignLeft
+                    verticalAlignment: Image.AlignTop
+                    source: "../../img/transparency-bg.png"
+                }
+
+                Image {
                     id: image
                     anchors.fill: parent
                     asynchronous: true
