@@ -178,12 +178,20 @@ void MediaCollection::add(DataObject *object)
 + */
 void MediaCollection::addMany(const QSet<DataObject *> &objects)
 {
+    QSet<DataObject*> addedObjects;
+
     foreach (DataObject* data, objects) {
         MediaSource* media = qobject_cast<MediaSource*>(data);
-        m_idMap.insert(media->id(), media);
+        if (media->file().exists()) {
+            m_idMap.insert(media->id(), media);
+            addedObjects.insert(data);
+        } else {
+            m_mediaTable->remove(media->id());
+            media->deleteLater();
+        }
     }
 
-    DataCollection::addMany(objects);
+    DataCollection::addMany(addedObjects);
 }
 
 /*!

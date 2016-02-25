@@ -146,7 +146,7 @@ protected:
     // subclass.  Return null if unknown type
     virtual DataObject* fromVariant(QVariant var) const = 0;
 
-    void notifyElementAdded(int index);
+    void notifyElementsAdded(int first, int last);
     void notifyElementRemoved(int index);
     void notifyElementChanged(int index, int role);
     void notifyReset();
