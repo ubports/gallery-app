@@ -21,6 +21,7 @@ import Ubuntu.Components.ListItems 1.3 as ListItems
 import Ubuntu.Components.Popups 1.3
 import Ubuntu.Content 1.3
 import Ubuntu.Thumbnailer 0.1
+import Ubuntu.Components.Extras 0.2
 import Gallery 1.0
 import "../Components"
 

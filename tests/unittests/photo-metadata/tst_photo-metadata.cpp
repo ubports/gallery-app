@@ -16,7 +16,7 @@
 
 #include <QtTest/QtTest>
 
-#include "photoeditor/photo-metadata.h"
+#include "photo/photo-metadata.h"
 
 class tst_PhotoMetadata : public QObject
 {
