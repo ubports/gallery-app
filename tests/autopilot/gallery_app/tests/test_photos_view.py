@@ -66,7 +66,7 @@ class TestPhotosView(GalleryTestCase):
         self.select_photo_by_index(0)
 
     def check_header_button_exist(self, button):
-        buttonName = button + "_action_button"
+        buttonName = button + "_button"
         try:
             self.main_view.select_single(objectName=buttonName)
         except StateNotFoundError:

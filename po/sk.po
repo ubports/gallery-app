@@ -1,26 +1,27 @@
-# Spanish translation for gallery-app
-# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# Slovak translation for gallery-app
+# Copyright (c) 2016 Rosetta Contributors and Canonical Ltd 2016
 # This file is distributed under the same license as the gallery-app package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2016.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-02-11 09:44-0200\n"
-"PO-Revision-Date: 2015-09-28 17:12+0000\n"
-"Last-Translator: Víctor R. Ruiz <Unknown>\n"
-"Language-Team: Spanish <es@li.org>\n"
+"PO-Revision-Date: 2016-03-04 08:14+0000\n"
+"Last-Translator: P_E_T_O <Unknown>\n"
+"Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-03-03 06:09+0000\n"
-"X-Generator: Launchpad (build 17925)\n"
+"X-Launchpad-Export-Date: 2016-03-05 06:15+0000\n"
+"X-Generator: Launchpad (build 17936)\n"
+"Language: sk\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:36
 msgid "Edit album"
-msgstr "Editar álbum"
+msgstr "Upraviť album"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
 #: rc/qml/AlbumViewer/AlbumViewer.qml:378
@@ -28,78 +29,78 @@ msgstr "Editar álbum"
 #: rc/qml/MediaViewer/MediaViewer.qml:354 rc/qml/PhotosOverview.qml:164
 #: rc/qml/Utility/EditingHUD.qml:67
 msgid "Delete"
-msgstr "Eliminar"
+msgstr "Vymazať"
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:39
 #: rc/qml/Components/MediaSelector.qml:93 rc/qml/EventsOverview.qml:156
 #: rc/qml/MediaViewer/MediaViewer.qml:282 rc/qml/PhotosOverview.qml:182
 #: rc/qml/PickerScreen.qml:227
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr "Zrušiť"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
-msgstr "Predeterminado"
+msgstr "Predvolené"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:114
 msgid "Blue"
-msgstr "Azul"
+msgstr "Modrá"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:115
 msgid "Green"
-msgstr "Verde"
+msgstr "Zelená"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:116
 msgid "Pattern"
-msgstr "Patrón"
+msgstr "Vzor"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:117
 msgid "Red"
-msgstr "Rojo"
+msgstr "Červená"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:107 rc/qml/MainScreen.qml:58
 msgid "Album"
-msgstr "Álbum"
+msgstr "Album"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:372
 #: rc/qml/MediaViewer/MediaViewer.qml:344
 msgid "Add to album"
-msgstr "Añadir al álbum"
+msgstr "Pridať k albumu"
 
 #: rc/qml/AlbumsOverview.qml:228 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
-msgstr "Añadir álbum nuevo"
+msgstr "Pridať nový album"
 
 #: rc/qml/AlbumsOverview.qml:232 rc/qml/Components/PopupAlbumPicker.qml:101
 msgid "New Photo Album"
-msgstr "Nuevo álbum de fotos"
+msgstr "Nový Fotoalbum"
 
 #: rc/qml/AlbumsOverview.qml:233 rc/qml/Components/PopupAlbumPicker.qml:102
 msgid "Subtitle"
-msgstr "Subtítulo"
+msgstr "Titulky"
 
 #: rc/qml/AlbumsOverview.qml:240 rc/qml/EventsOverview.qml:115
 #: rc/qml/PhotosOverview.qml:141
 msgid "Camera"
-msgstr "Cámara"
+msgstr "Fotoaparát"
 
 #: rc/qml/Components/DeleteDialog.qml:36
 #: rc/qml/MediaViewer/MediaViewer.qml:230
 msgid "Yes"
-msgstr "Sí"
+msgstr "Áno"
 
 #: rc/qml/Components/DeleteDialog.qml:45
 #: rc/qml/MediaViewer/MediaViewer.qml:241
 msgid "No"
-msgstr "No"
+msgstr "Nie"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr "Eliminar álbum"
+msgstr "Vymazať album"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr "Eliminar álbum y contenido"
+msgstr "Vymazať album + obsah"
 
 #: rc/qml/Components/EventCard.qml:59
 msgid "MMM yyyy"
@@ -112,265 +113,265 @@ msgstr "dd"
 #: rc/qml/Components/MediaSelector.qml:59
 #: rc/qml/Components/MediaSelector.qml:81
 msgid "Add to Album"
-msgstr "Añadir al álbum"
+msgstr "Pridať k albumu"
 
 #: rc/qml/Components/PopupAlbumPicker.qml:161 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr "Añadir foto al álbum"
+msgstr "Pridať fotografiu k albumu"
 
 #: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
 msgid "Delete 1 photo"
-msgstr "Eliminar 1 foto"
+msgstr "Vymazať 1 fotografiu"
 
 #: rc/qml/EventsOverview.qml:78 rc/qml/PhotosOverview.qml:87
 msgid "Delete 1 video"
-msgstr "Eliminar 1 vídeo"
+msgstr "Vymazať 1 video"
 
 #: rc/qml/EventsOverview.qml:81 rc/qml/PhotosOverview.qml:90
 #, qt-format
 msgid "Delete %1 photos"
-msgstr "Eliminar %1 fotos"
+msgstr ""
 
 #: rc/qml/EventsOverview.qml:83 rc/qml/PhotosOverview.qml:92
 #, qt-format
 msgid "Delete %1 videos"
-msgstr "Eliminar %1 vídeos"
+msgstr ""
 
 #: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:95
 #, qt-format
 msgid "Delete %1 photos and 1 video"
-msgstr "Eliminar %1 fotos y 1 vídeo"
+msgstr ""
 
 #: rc/qml/EventsOverview.qml:88 rc/qml/PhotosOverview.qml:97
 #, qt-format
 msgid "Delete 1 photo and %1 videos"
-msgstr "Eliminar 1 foto y %1 vídeos"
+msgstr ""
 
 #: rc/qml/EventsOverview.qml:90 rc/qml/PhotosOverview.qml:99
 msgid "Delete 1 photo and 1 video"
-msgstr "Eliminar 1 foto y 1 vídeo"
+msgstr "Vymazať 1 fotografiu a 1 video"
 
 #: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:101
 #, qt-format
 msgid "Delete %1 photos and %2 videos"
-msgstr "Eliminar %1 fotos y %2 vídeos"
+msgstr ""
 
 #: rc/qml/EventsOverview.qml:108 rc/qml/MainScreen.qml:200
 #: rc/qml/MainScreen.qml:252 rc/qml/PhotosOverview.qml:134
 #: rc/qml/PickerScreen.qml:139 rc/qml/PickerScreen.qml:186
 msgid "Select"
-msgstr "Seleccionar"
+msgstr "Vybrať"
 
 #: rc/qml/EventsOverview.qml:127 rc/qml/PhotosOverview.qml:153
 #: rc/qml/Utility/EditingHUD.qml:77
 msgid "Add"
-msgstr "Añadir"
+msgstr "Pridať"
 
 #: rc/qml/EventsOverview.qml:145 rc/qml/MediaViewer/MediaViewer.qml:365
 #: rc/qml/PhotosOverview.qml:171 rc/qml/Utility/EditingHUD.qml:72
 msgid "Share"
-msgstr "Compartir"
+msgstr "Zdieľať"
 
 #: rc/qml/EventsOverview.qml:184 rc/qml/MediaViewer/MediaViewer.qml:186
 #: rc/qml/PhotosOverview.qml:196
 msgid "Share to"
-msgstr "Compartir con"
+msgstr "Zdieľať do"
 
 #: rc/qml/LoadingScreen.qml:39
 msgid "Loading…"
-msgstr "Cargando…"
+msgstr "Načítavam..."
 
 #: rc/qml/MainScreen.qml:148
 msgid "Albums"
-msgstr "Álbumes"
+msgstr "Albumy"
 
 #: rc/qml/MainScreen.qml:162 rc/qml/MainScreen.qml:202
 #: rc/qml/PickerScreen.qml:99
 msgid "Events"
-msgstr "Eventos"
+msgstr "Udalosti"
 
 #: rc/qml/MainScreen.qml:211 rc/qml/MainScreen.qml:254
 #: rc/qml/PickerScreen.qml:150
 msgid "Photos"
-msgstr "Fotos"
+msgstr "Fotografie"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:219
 msgid "Delete a photo"
-msgstr "Eliminar una foto"
+msgstr "Vymazať fotografiu"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:219
 msgid "Delete a video"
-msgstr "Eliminar un vídeo"
+msgstr "Vymazať video"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:252
 msgid "Remove a photo from album"
-msgstr "Quitar una foto del álbum"
+msgstr "Vymazať fotografiu z albumu"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:252
 msgid "Remove a video from album"
-msgstr "Eliminar un vídeo de un álbum"
+msgstr "Vymazať video z albumu"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:261
 msgid "Remove from Album"
-msgstr "Quitar del álbum"
+msgstr "Vymazať z albumu"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:272
 msgid "Remove from Album and Delete"
-msgstr "Quitar del álbum y eliminar"
+msgstr "Vymazať z albumu a odstrániť"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:319
 msgid "Edit"
-msgstr "Editar"
+msgstr "Upraviť"
 
 #: rc/qml/MediaViewer/PhotoEditorPage.qml:26
 msgid "Edit Photo"
-msgstr "Editar foto"
+msgstr "Upraviť fotografiu"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:46
 #: desktop/gallery-app.desktop.in.in.h:1
 msgid "Gallery"
-msgstr "Galería"
+msgstr "Galéria"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:183
 msgid "Toggle Selection"
-msgstr "Invertir selección"
+msgstr "Výber prepnutím"
 
 #: rc/qml/MediaViewer/SingleMediaViewer.qml:225
 msgid "An error has occurred attempting to load media"
-msgstr ""
+msgstr "Došlo k chybe pri pokuse o načítanie média"
 
 #: rc/qml/PickerScreen.qml:233
 msgid "Pick"
-msgstr "Elegir"
+msgstr "Vybrať"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr "Papelera;Borrar"
+msgstr "Kôš;Odstrániť"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
-msgstr "Publicar;Subir;Cargar;Adjuntar"
+msgstr "Zdielať;Nahrať;Priložiť"
 
 #: rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
-msgstr "Deshacer"
+msgstr "Vrátiť späť"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr "Cancelar acción;Paso atrás"
+msgstr "Zrušiť akciu;Krok späť"
 
 #: rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr "Rehacer"
+msgstr "Znova"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr "Reaplicar;De nuevo"
+msgstr "Aplikovať;Znova vykonať"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr "Mejora automática"
+msgstr "Auto vylepšenie"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr "Ajustar la imagen automáticamente"
+msgstr "Prispôsobiť obrázok automaticky"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr "Ajustar foto automáticamente"
+msgstr "Automatické prispôsobenie fotografie"
 
 #: rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr "Rotar"
+msgstr "Otočiť"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr "Girar a la derecha"
+msgstr "Otočiť doprava"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr "Rota la imagen en sentido horario"
+msgstr "Otočiť obrázok doprava"
 
 #: rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr "Recortar"
+msgstr "Orezať"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr "Recortar;Cortar"
+msgstr "Upraviť;Orezať"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr "Recortar la imagen"
+msgstr "Orezať obrázok"
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr "Volver al original"
+msgstr "Vrátiť do pôvodného stavu"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr "Descartar cambios"
+msgstr "Zahodiť zmeny"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr "Descartar todos los cambios"
+msgstr "Zahodiť všetky zmeny"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr "Exposición"
+msgstr "Expozícia"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr "Ajustar exposición"
+msgstr "Prispôsobiť expozíciu"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr "Subexpuesta;Sobreexpuesta"
+msgstr "Podexponované;Preexponované"
 
 #: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
 msgid "Confirm"
-msgstr "Confirmar"
+msgstr "Potvrdiť"
 
 #: rc/qml/Utility/EditingHUD.qml:126
 msgid "Compensation"
-msgstr "Compensación"
+msgstr "Kompenzácia"
 
 #: rc/qml/Utility/EditingHUD.qml:160
 msgid "Color Balance"
-msgstr "Balance de colores"
+msgstr "Vyváženie farieb"
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Adjust color balance"
-msgstr "Ajustar el balance de colores"
+msgstr "Upraviť vyváženie farieb"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
-msgstr "Saturación;Matiz"
+msgstr "Sýtosť;Odtieň"
 
 #: rc/qml/Utility/EditingHUD.qml:167
 msgid "Brightness"
-msgstr "Brillo"
+msgstr "Jas"
 
 #: rc/qml/Utility/EditingHUD.qml:178
 msgid "Contrast"
-msgstr "Contraste"
+msgstr "Kontrast"
 
 #: rc/qml/Utility/EditingHUD.qml:189
 msgid "Saturation"
-msgstr "Saturación"
+msgstr "Sýtosť"
 
 #: rc/qml/Utility/EditingHUD.qml:200
 msgid "Hue"
-msgstr "Matiz"
+msgstr "Odtieň"
 
 #: desktop/gallery-app.desktop.in.in.h:2
 msgid "Ubuntu Photo Viewer"
-msgstr "Visor de fotos de Ubuntu"
+msgstr "Ubuntu - prehliadač fotiek"
 
 #: desktop/gallery-app.desktop.in.in.h:3
 msgid "Browse your photographs"
-msgstr "Explore sus fotos"
+msgstr "Prezerať fotografie"
 
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
-msgstr "Fotografías;Imágenes;Álbumes"
+msgstr "Fotografie;Obrázky;Albumy"

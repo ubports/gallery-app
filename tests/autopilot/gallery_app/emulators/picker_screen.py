@@ -12,7 +12,7 @@ from gallery_app.emulators.gallery_utils import GalleryAppException
 class PickerScreen(toolkit_emulators.MainView):
 
     def pick_button(self):
-        return self.select_single(objectName="pickButton_action_button")
+        return self.select_single(objectName="pickButton_button")
 
     def get_photos_tab_button(self):
         """Returns the photos tab."""

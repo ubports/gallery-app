@@ -62,7 +62,7 @@ class TestEventsView(GalleryTestCase):
         self.main_view.get_header().click_action_button("selectButton")
 
     def check_header_button_exist(self, button):
-        buttonName = button + "_action_button"
+        buttonName = button + "_button"
         try:
             self.main_view.select_single(objectName=buttonName)
         except StateNotFoundError:

@@ -35,6 +35,8 @@ GridView {
 
     /// Size of the thumbnails
     property real thumbnailSize: units.gu(12)
+    /// Size of the requested thumbnails
+    property real thumbnailSourceSize: units.gu(19)
     /// Minimum space between the tumbnails
     property real minimumSpace: units.gu(0.6)
     /// Stores the spacing between 2 images in pixel
@@ -81,7 +83,8 @@ GridView {
 
             radius: "medium"
             property bool isLoading: source.status === Image.Loading
-
+ 
+            backgroundColor: "black"
             sourceFillMode: UbuntuShape.PreserveAspectCrop
             source: Image {
                 id: thumbImage
@@ -89,16 +92,26 @@ GridView {
                 asynchronous: true
                 fillMode: Image.PreserveAspectCrop
                 sourceSize {
-                    width: photosGrid.thumbnailSize
-                    height: photosGrid.thumbnailSize
+                    width: thumbnailSourceSize
+                    height: thumbnailSourceSize
                 }
+            }
+
+            Icon {
+                anchors.centerIn: parent
+                width: units.gu(6)
+                height: width
+                visible: thumbImage.status == Image.Error
+                name: "stock_image"
+                color: "white"
+                opacity: 0.8
             }
 
             Image {
                 // Display a play icon if the thumbnail is from a video
                 source: "../../img/icon_play.png"
                 anchors.centerIn: parent
-                visible: mediaSource.type === MediaSource.Video
+                visible: mediaSource.type === MediaSource.Video && thumbImage.status == Image.Ready
             }
 
             OrganicItemInteraction {
