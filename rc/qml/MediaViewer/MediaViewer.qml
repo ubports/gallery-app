@@ -158,14 +158,6 @@ Item {
             property bool isActive: ListView.isCurrentItem
             onIsActiveChanged: if (!isActive) reset();
 
-            opacity: {
-                if (!galleryPhotoViewer.moving || galleryPhotoViewer.contentX < 0
-                        || index != galleryPhotoViewer.currentIndexForHighlight)
-                    return 1.0;
-
-                return 1.0 - Math.abs((galleryPhotoViewer.contentX - x) / width);
-            }
-
             onClicked: viewerWrapper.toggleHeaderVisibilityRequested()
         }
 

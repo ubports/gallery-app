@@ -1,3 +1,30 @@
+gallery-app (0.0.67+16.04.20160225.1-0ubuntu1) xenial; urgency=medium
+
+  [ Arthur Mello ]
+  * Add a timer to make sure all taken photos are added into collection
+    in a batch (LP: #1521365)
+  * Add missing pkg dependency for qtdeclarative5-ubuntu-thumbnailer0.1
+    (LP: #1531604)
+  * Fix action button calls on AP tests
+  * Following some changes on thumbnailer image provider we need to
+    handle Image.Error status for videos that are unable to load
+    correctly (LP: #1542083)
+  * Make sure to request a thumbnail big enough to handle all the
+    possible sizes that way media items will not request a new one every
+    time it changes its position. (LP: #1529452)
+  * Remove photo-image-provider to use the one provided by ubunut-ui-
+    extras Move photo-metadata from photoeditor to photo folder (LP:
+    #1541210)
+  * Set albums created from PopupAlbumPicker as not new, so they will
+    not be deleted after editing (LP: #1483870)
+  * Show a checkered background as a background for transparent images
+    (LP: #1548855)
+
+  [ Ken VanDine ]
+  * Register with the content-hub for deb installs
+
+ -- Bill Filler <ci-train-bot@canonical.com>  Thu, 25 Feb 2016 18:01:21 +0000
+
 gallery-app (0.0.67+16.04.20151216-0ubuntu1) xenial; urgency=medium
 
   [ Arthur Mello ]

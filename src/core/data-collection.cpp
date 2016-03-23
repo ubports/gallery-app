@@ -107,43 +107,32 @@ void DataCollection::add(DataObject* object)
  */
 void DataCollection::addMany(const QSet<DataObject*>& objects)
 {
-    if (objects.count() == 0)
+    if (objects.isEmpty()) {
         return;
+    }
 
-    // Silently prevent double-adds (as well as create a QList for a single
-    // append operation on the internal list)
-    QList<DataObject*> to_add_list;
+    // Silently prevent double-adds
+    QSet<DataObject*> to_add;
     DataObject* object;
     foreach (object, objects) {
         Q_ASSERT(object != NULL);
 
-        if (!m_set.contains(object))
-            to_add_list.append(object);
+        if (!m_set.contains(object) && !to_add.contains(object)) {
+            to_add.insert(object);
+        }
     }
 
-    int add_count = to_add_list.count();
-    if (add_count == 0)
+    if (to_add.isEmpty()) {
         return;
-
-    // The "contents" signals require a QSet as a parameter, however, avoid
-    // creating it if no objects were removed in above loop (which is quite likely
-    // in most use cases)
-    QSet<DataObject*> to_add(
-                (objects.count() == add_count) ? objects : to_add_list.toSet());
+    }
 
     notifyContentsToBeChanged(&to_add, NULL);
 
-    // use binary insertion if only adding one object
-    if (add_count == 1) {
-        object = to_add_list[0];
-
+    foreach (object, to_add) {
+        // Cheaper to binary insert single item than append it to list and do a
+        // complete re-sort
         binaryListInsert(object);
         m_set.insert(object);
-    } else {
-        m_list.append(to_add_list);
-        m_set.unite(to_add);
-
-        resort(false);
     }
 
     notifyContentsChanged(&to_add, NULL, true);

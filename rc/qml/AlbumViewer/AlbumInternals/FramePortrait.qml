@@ -18,6 +18,7 @@
  */
 
 import QtQuick 2.4
+import Ubuntu.Components 1.3
 import Gallery 1.0
 import "../../../js/Gallery.js" as Gallery
 
@@ -66,6 +67,22 @@ Item {
             NumberAnimation { duration: Gallery.SNAP_DURATION }
         }
     }
+
+    Rectangle {
+        anchors.fill: parent
+        color: "black"
+        visible: preview.status == Image.Error
+
+        Icon {
+            anchors.centerIn: parent
+            width: isPreview ? units.gu(4) : units.gu(6)
+            height: width
+            name: "stock_image"
+            color: "white"
+            opacity: 0.8
+        }
+    }
+
     Image {
         // Display a play icon if the thumbnail is from a video
         source: "../../../img/icon_play.png"

@@ -15,3 +15,9 @@ if(CLICK_MODE)
     install(FILES gallery.apparmor gallery-content.json
             DESTINATION ${CMAKE_INSTALL_PREFIX})
 endif(CLICK_MODE)
+
+if(NOT CLICK_MODE)
+    install(FILES gallery-content.json
+            DESTINATION ${CMAKE_INSTALL_DATADIR}/content-hub/peers/ RENAME gallery-app)
+endif(NOT CLICK_MODE)
+

@@ -21,6 +21,7 @@ import Ubuntu.Components.ListItems 1.3 as ListItems
 import Ubuntu.Components.Popups 1.3
 import Ubuntu.Content 1.3
 import Ubuntu.Thumbnailer 0.1
+import Ubuntu.Components.Extras 0.2
 import Gallery 1.0
 import "../Components"
 
@@ -81,7 +82,7 @@ Item {
     ActivityIndicator {
         anchors.centerIn: parent
         visible: running
-        running: image.status != Image.Ready
+        running: image.status != Image.Ready && image.status != Image.Error
     }
 
     PinchArea {
@@ -155,6 +156,21 @@ Item {
                 }
 
                 Image {
+                    // Reduce width/hight so background is not visible on the border of camera photos
+                    width: image.paintedWidth - 1
+                    height: image.paintedHeight - 1
+                    anchors.centerIn: image
+                    visible: !viewer.isVideo && image.opacity == 1.0
+
+                    asynchronous: true
+                    cache: true
+                    fillMode: Image.Tile
+                    horizontalAlignment: Image.AlignLeft
+                    verticalAlignment: Image.AlignTop
+                    source: "../../img/transparency-bg.png"
+                }
+
+                Image {
                     id: image
                     anchors.fill: parent
                     asynchronous: true
@@ -191,6 +207,41 @@ Item {
                     opacity: status == Image.Ready ? 1.0 : 0.0
                     fillMode: Image.PreserveAspectFit
                 }
+
+                Item {
+                    id: mediaLoadingError
+                    anchors.centerIn: parent
+                    width: parent.width
+                    height: mediaLoadingErrorIcon.height + units.gu(5) + mediaLoadingErrorLabel.contentHeight
+                    visible: opacity > 0
+                    opacity: image.status == Image.Error ? 1.0 : 0.0
+                    Behavior on opacity { UbuntuNumberAnimation {duration: UbuntuAnimation.FastDuration} }     
+
+                    Icon {
+                        id: mediaLoadingErrorIcon
+                        anchors.horizontalCenter: parent.horizontalCenter 
+                        width: units.gu(8)
+                        height: width
+                        name: "stock_image"
+                        color: "white"
+                        opacity: 0.8
+                    }
+
+                    Label {
+                        id: mediaLoadingErrorLabel
+                        anchors {
+                            horizontalCenter: parent.horizontalCenter
+                            top: mediaLoadingErrorIcon.bottom
+                            topMargin: units.gu(5)
+                        }
+
+                        width: units.gu(30)
+                        wrapMode: Text.WordWrap
+                        horizontalAlignment: Text.AlignHCenter
+                        text: i18n.tr("An error has occurred attempting to load media")
+                        fontSize: "large"
+                    }
+                }
             }
 
             Icon {
@@ -200,7 +251,7 @@ Item {
                 name: "media-playback-start"
                 color: "white"
                 opacity: 0.8
-                visible: viewer.isVideo
+                visible: viewer.isVideo && image.status == Image.Ready
             }
 
             MouseArea {
@@ -251,7 +302,7 @@ Item {
                 anchors.centerIn: parent
                 width: units.gu(10)
                 height: units.gu(10)
-                enabled: viewer.isVideo
+                enabled: viewer.isVideo && image.status == Image.Ready
                 onClicked: {
                     if (viewer.isVideo) {
                         var url = mediaSource.path.toString().replace("file://", "video://");

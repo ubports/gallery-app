@@ -25,6 +25,7 @@
 
 #include <QFileInfo>
 #include <QObject>
+#include <QTimer>
 
 #include <cstddef>
 
@@ -79,6 +80,7 @@ private slots:
     void onMediaItemRemoved(qint64 mediaId);
     void onMediaObjectCreated(MediaSource *mediaObject);
     void onMediaFromDBLoaded(QSet<DataObject *> mediaFromDB);
+    void onObjectsReadyToAdd();
 
 private:
     GalleryManager(const GalleryManager&);
@@ -100,6 +102,8 @@ private:
     MediaObjectFactory *m_mediaFactory;
     MediaMonitor *m_monitor;
     bool m_desktopMode;
+    QTimer m_objectsReadyToAddTimer;
+    QSet<DataObject *> m_objectsToAdd;
 
     mutable QmlMediaCollectionModel *m_mediaLibrary;
 };
