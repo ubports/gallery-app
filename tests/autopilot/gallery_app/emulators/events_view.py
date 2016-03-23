@@ -46,6 +46,11 @@ class EventsView(GalleryUtils):
         photo_delegates = event.select_many(objectName='eventPhoto')
         return len(photo_delegates)
 
+    def get_share_peer_picker(self):
+        """Returns the photo viewer share picker."""
+        return self.app.wait_select_single(objectName="sharePickerEvents",
+                                           visible=True)
+
     def _get_image_in_event_view(self, image_name):
         """Return the photo of the gallery based on image name.
 

@@ -48,7 +48,7 @@ class TestMediaViewerBase(GalleryTestCase):
             Eventually(GreaterThan(0))
         )
 
-        self.events_view.click_photo(self.sample_file)
+        self.events_view.click_photo(self.sample_jpg_files[3])
 
         photo_viewer_loader = self.photo_viewer.get_main_photo_viewer_loader()
         self.assertThat(photo_viewer_loader.loaded, Eventually(Equals(True)))
@@ -132,11 +132,11 @@ class TestPhotoViewer(TestMediaViewerBase):
             photo_viewer.PopupPhotoViewer)
         photo_viewer_popup.delete_current_photo(confirm=False)
 
-        self.assertThat(lambda: os.path.exists(self.sample_file),
+        self.assertThat(lambda: os.path.exists(self.sample_jpg_files[3]),
                         Eventually(Equals(True)))
 
         photo_viewer_popup.delete_current_photo()
-        self.assertThat(lambda: os.path.exists(self.sample_file),
+        self.assertThat(lambda: os.path.exists(self.sample_jpg_files[3]),
                         Eventually(Equals(False)))
 
         # Delete all other pictures and make sure the photo viewer closes
@@ -241,7 +241,7 @@ class TestPhotoEditor(TestMediaViewerBase):
 
     def test_photo_editor_crop(self):
         """Cropping a photo must crop it."""
-        old_file_size = os.path.getsize(self.sample_file)
+        old_file_size = os.path.getsize(self.sample_jpg_files[3])
 
         self.photo_viewer.click_crop_button()
 
@@ -271,7 +271,7 @@ class TestPhotoEditor(TestMediaViewerBase):
         photo_viewer = self.photo_viewer.get_main_photo_viewer()
         self.assertThat(photo_viewer.visible, Eventually(Equals(True)))
 
-        new_file_size = os.path.getsize(self.sample_file)
+        new_file_size = os.path.getsize(self.sample_jpg_files[3])
         self.assertThat(old_file_size > new_file_size, Equals(True))
 
     def test_photo_editor_rotate(self):

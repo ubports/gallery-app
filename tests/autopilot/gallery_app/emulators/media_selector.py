@@ -26,7 +26,8 @@ class MediaSelector(GalleryUtils):
         mediaRow = selector.wait_select_single(objectName="mediaSelectorList0")
 
         # get the loader for the second item
-        thumbnailLoader = mediaRow.wait_select_single(objectName="thumbnailLoader1")
+        thumbnailLoader = mediaRow.wait_select_single(
+            objectName="thumbnailLoader1")
 
         # return the item itself
         return thumbnailLoader.wait_select_single(objectName="eventPhoto",

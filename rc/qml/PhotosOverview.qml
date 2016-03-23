@@ -170,8 +170,13 @@ Page {
                 objectName: "shareButton"
                 text: i18n.tr("Share")
                 iconName: "share"
-                enabled: d.selection.selectedMediaCount == 1
+                enabled: d.selection.selectedMediaCount > 0
                 onTriggered: {
+                    if (selection.isMixed) {
+                        PopupUtils.open(unableShareDialog, null);
+                        return;
+                    }
+
                     overview.pushPage(sharePicker)
                     sharePicker.visible = true;
                 }
@@ -183,6 +188,11 @@ Page {
             iconName: "back"
             onTriggered: photosOverview.leaveSelectionMode();
         } 
+    }
+
+    Component {
+        id: unableShareDialog
+        UnableShareDialog {}
     }
 
     Component {

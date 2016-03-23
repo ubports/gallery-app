@@ -123,16 +123,19 @@ class GalleryTestCase(AutopilotTestCase):
             shutil.rmtree(self.sample_destination_dir)
         self.assertFalse(os.path.exists(self.sample_destination_dir))
 
-        self.sample_file = os.path.join(
-            self.sample_destination_dir,
-            "sample04.jpg"
-        )
-
         default_data_dir = os.path.join(
             self.sample_dir,
             "default")
+
+        self.sample_jpg_files = []
+        for f in os.listdir(default_data_dir):
+            if f.endswith(".jpg"):
+                self.sample_jpg_files.append(os.path.join(
+                    self.sample_destination_dir, f))
+
         shutil.copytree(default_data_dir, self.sample_destination_dir)
-        self.assertTrue(os.path.isfile(self.sample_file))
+        for sample in self.sample_jpg_files:
+            self.assertTrue(os.path.isfile(sample))
 
         self.sample_file_source = \
             default_data_dir + self.sample_file_source

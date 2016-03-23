@@ -57,10 +57,13 @@ class TestPhotosView(GalleryTestCase):
         photo = self.photos_view.get_first_photo_in_photos_view()
         self.click_item(photo)
 
-    def select_first_photo(self):
-        photo = self.photos_view.get_first_photo_in_photos_view()
+    def select_photo_by_index(self, index):
+        photo = self.photos_view.get_photo_in_photos_view_by_index(index)
         checkbox = photo.select_single(objectName="selectionCheckbox")
         self.click_item(checkbox)
+
+    def select_first_photo(self):
+        self.select_photo_by_index(0)
 
     def check_header_button_exist(self, button):
         buttonName = button + "_button"
@@ -126,6 +129,27 @@ class TestPhotosView(GalleryTestCase):
 
         self.assertThat(lambda: self.photos_view.number_of_photos(),
                         Eventually(Equals(number_of_photos - 1)))
+
+    def test_share_single_photo(self):
+        """Selecting a photo must make the share button clickable."""
+        self.main_view.get_header().click_action_button("selectButton")
+        self.select_first_photo()
+        self.main_view.get_header().click_action_button("shareButton")
+        share_picker = self.photos_view.get_share_peer_picker()
+        self.assertThat(share_picker.visible, Eventually(Equals(True)))
+        self.main_view.get_header().click_back_button()
+        self.assertThat(share_picker.visible, Eventually(Equals(False)))
+
+    def test_share_multiple_photos(self):
+        """Selecting multiple photos must make the share button clickable."""
+        self.main_view.get_header().click_action_button("selectButton")
+        self.select_photo_by_index(0)
+        self.select_photo_by_index(1)
+        self.main_view.get_header().click_action_button("shareButton")
+        share_picker = self.photos_view.get_share_peer_picker()
+        self.assertThat(share_picker.visible, Eventually(Equals(True)))
+        self.main_view.get_header().click_back_button()
+        self.assertThat(share_picker.visible, Eventually(Equals(False)))
 
     @unittest.skip("Temporarily disable as it fails in some cases, "
                    "supposedly due to problems with the infrastructure")

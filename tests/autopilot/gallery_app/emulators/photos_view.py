@@ -13,14 +13,23 @@ class PhotosView(GalleryUtils):
     def __init__(self, app):
         self.app = app
 
-    def get_first_photo_in_photos_view(self):
-        """Returns the very first photo in the photos view."""
+    def get_photo_in_photos_view_by_index(self, index):
+        """Returns the photo with index in the photos view."""
         return self.select_many_retry(
             "QQuickItem",
-            objectName="allPotosGridPhoto")[0]
+            objectName="allPotosGridPhoto")[index]
+
+    def get_first_photo_in_photos_view(self):
+        """Returns the very first photo in the photos view."""
+        return self.get_photo_in_photos_view_by_index(0)
 
     def number_of_photos(self):
         """Returns the number of events"""
         photo_delegates = self.app.select_many("QQuickItem",
                                                objectName="allPotosGridPhoto")
         return len(photo_delegates)
+
+    def get_share_peer_picker(self):
+        """Returns the photo viewer share picker."""
+        return self.app.wait_select_single(objectName="sharePickerPhotos",
+                                           visible=True)

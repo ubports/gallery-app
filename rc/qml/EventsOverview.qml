@@ -144,9 +144,13 @@ OrganicView {
             objectName: "shareButton"
             text: i18n.tr("Share")
             iconName: "share"
-            enabled: selection.selectedMediaCount == 1
+            enabled: selection.selectedMediaCount > 0
             onTriggered: {
-                overview.pushPage(sharePicker)
+                if (selection.isMixed) {
+                    PopupUtils.open(unableShareDialog, null);
+                    return;
+                }
+                overview.pushPage(sharePicker);
                 sharePicker.visible = true;
             }
         }
@@ -172,6 +176,11 @@ OrganicView {
 
     head.actions: selectionMode ? selectActions : overviewActions
     head.backAction: selectionMode ? selectBackAction : null
+
+    Component {
+        id: unableShareDialog
+        UnableShareDialog {}
+    }
 
     Component {
         id: contentItemComp
