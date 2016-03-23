@@ -215,7 +215,7 @@ MainView {
             target: photoViewerLoader.item
             onCloseRequested: {
                 if (!APP.desktopMode)
-                    setFullScreen(false);
+                    setFullScreenAppMode(false);
                 popPage();
                 photoViewerLoader.item.fadeClosed();
             }
