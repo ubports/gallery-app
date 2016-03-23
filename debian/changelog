@@ -1,3 +1,16 @@
+gallery-app (0.0.67+16.04.20160323.1-0ubuntu1) xenial; urgency=medium
+
+  [ Arthur Mello ]
+  * Enable sharing multiple files Notify user when trying to share
+    photos and videos at the same time (LP: #1523573)
+  * Set Window flag instead of Window state to toggle fullscreen mode
+    for media viewer (LP: #1535397)
+
+  [ CI Train Bot ]
+  * Resync trunk. added: po/sk.po
+
+ -- Arthur Mello <arthur.mello@canonical.com>  Wed, 23 Mar 2016 18:03:08 +0000
+
 gallery-app (0.0.67+16.04.20160225.1-0ubuntu1) xenial; urgency=medium
 
   [ Arthur Mello ]
