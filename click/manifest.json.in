@@ -1,6 +1,6 @@
 {
     "description": "Gallery application for your photo collection",
-    "framework": "ubuntu-sdk-15.04.2",
+    "framework": "ubuntu-sdk-15.04.4",
     "architecture": "@CLICK_ARCH@",
     "hooks": {
         "gallery": {
