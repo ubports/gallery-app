@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-02-11 09:44-0200\n"
+"POT-Creation-Date: 2016-03-07 17:20-0300\n"
 "PO-Revision-Date: 2014-10-17 14:28+0000\n"
 "Last-Translator: David Planella <david.planella@ubuntu.com>\n"
 "Language-Team: Catalan <ca@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-03-03 06:09+0000\n"
-"X-Generator: Launchpad (build 17925)\n"
+"X-Launchpad-Export-Date: 2016-03-25 05:53+0000\n"
+"X-Generator: Launchpad (build 17967)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:36
@@ -25,14 +25,14 @@ msgstr "Edita l'àlbum"
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
 #: rc/qml/AlbumViewer/AlbumViewer.qml:378
 #: rc/qml/Components/DeleteDialog.qml:32 rc/qml/EventsOverview.qml:138
-#: rc/qml/MediaViewer/MediaViewer.qml:354 rc/qml/PhotosOverview.qml:164
+#: rc/qml/MediaViewer/MediaViewer.qml:346 rc/qml/PhotosOverview.qml:164
 #: rc/qml/Utility/EditingHUD.qml:67
 msgid "Delete"
 msgstr "Suprimeix"
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:39
-#: rc/qml/Components/MediaSelector.qml:93 rc/qml/EventsOverview.qml:156
-#: rc/qml/MediaViewer/MediaViewer.qml:282 rc/qml/PhotosOverview.qml:182
+#: rc/qml/Components/MediaSelector.qml:93 rc/qml/EventsOverview.qml:160
+#: rc/qml/MediaViewer/MediaViewer.qml:274 rc/qml/PhotosOverview.qml:187
 #: rc/qml/PickerScreen.qml:227
 msgid "Cancel"
 msgstr "Cancel·la"
@@ -62,7 +62,7 @@ msgid "Album"
 msgstr "Àlbum"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:372
-#: rc/qml/MediaViewer/MediaViewer.qml:344
+#: rc/qml/MediaViewer/MediaViewer.qml:336
 msgid "Add to album"
 msgstr "Afig a l'àlbum"
 
@@ -84,12 +84,12 @@ msgid "Camera"
 msgstr "Càmera"
 
 #: rc/qml/Components/DeleteDialog.qml:36
-#: rc/qml/MediaViewer/MediaViewer.qml:230
+#: rc/qml/MediaViewer/MediaViewer.qml:222
 msgid "Yes"
 msgstr "Sí"
 
 #: rc/qml/Components/DeleteDialog.qml:45
-#: rc/qml/MediaViewer/MediaViewer.qml:241
+#: rc/qml/MediaViewer/MediaViewer.qml:233
 msgid "No"
 msgstr "No"
 
@@ -114,9 +114,21 @@ msgstr ""
 msgid "Add to Album"
 msgstr "Afig a l'àlbum"
 
-#: rc/qml/Components/PopupAlbumPicker.qml:161 rc/qml/Utility/EditingHUD.qml:78
+#: rc/qml/Components/PopupAlbumPicker.qml:162 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
 msgstr "Afig la fotografia a l'àlbum"
+
+#: rc/qml/Components/UnableShareDialog.qml:25
+msgid "Unable to share"
+msgstr ""
+
+#: rc/qml/Components/UnableShareDialog.qml:26
+msgid "Unable to share photos and videos at the same time"
+msgstr ""
+
+#: rc/qml/Components/UnableShareDialog.qml:30
+msgid "Ok"
+msgstr ""
 
 #: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
 msgid "Delete 1 photo"
@@ -166,13 +178,13 @@ msgstr "Selecciona"
 msgid "Add"
 msgstr "Afig"
 
-#: rc/qml/EventsOverview.qml:145 rc/qml/MediaViewer/MediaViewer.qml:365
+#: rc/qml/EventsOverview.qml:145 rc/qml/MediaViewer/MediaViewer.qml:357
 #: rc/qml/PhotosOverview.qml:171 rc/qml/Utility/EditingHUD.qml:72
 msgid "Share"
 msgstr "Comparteix"
 
-#: rc/qml/EventsOverview.qml:184 rc/qml/MediaViewer/MediaViewer.qml:186
-#: rc/qml/PhotosOverview.qml:196
+#: rc/qml/EventsOverview.qml:193 rc/qml/MediaViewer/MediaViewer.qml:178
+#: rc/qml/PhotosOverview.qml:206
 msgid "Share to"
 msgstr ""
 
@@ -194,31 +206,31 @@ msgstr "Esdeveniments"
 msgid "Photos"
 msgstr "Fotografies"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:219
+#: rc/qml/MediaViewer/MediaViewer.qml:211
 msgid "Delete a photo"
 msgstr "Suprimeix una foto"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:219
+#: rc/qml/MediaViewer/MediaViewer.qml:211
 msgid "Delete a video"
 msgstr ""
 
-#: rc/qml/MediaViewer/MediaViewer.qml:252
+#: rc/qml/MediaViewer/MediaViewer.qml:244
 msgid "Remove a photo from album"
 msgstr "Suprimeix una foto de l'àlbum"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:252
+#: rc/qml/MediaViewer/MediaViewer.qml:244
 msgid "Remove a video from album"
 msgstr ""
 
-#: rc/qml/MediaViewer/MediaViewer.qml:261
+#: rc/qml/MediaViewer/MediaViewer.qml:253
 msgid "Remove from Album"
 msgstr "Suprimeix de l'àlbum"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:272
+#: rc/qml/MediaViewer/MediaViewer.qml:264
 msgid "Remove from Album and Delete"
 msgstr "Suprimeix de l'àlbum i del dispositiu"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:319
+#: rc/qml/MediaViewer/MediaViewer.qml:311
 msgid "Edit"
 msgstr "Edita"
 
@@ -235,7 +247,7 @@ msgstr "Galeria"
 msgid "Toggle Selection"
 msgstr ""
 
-#: rc/qml/MediaViewer/SingleMediaViewer.qml:225
+#: rc/qml/MediaViewer/SingleMediaViewer.qml:241
 msgid "An error has occurred attempting to load media"
 msgstr ""
 

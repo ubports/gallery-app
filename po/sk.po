@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-02-11 09:44-0200\n"
+"POT-Creation-Date: 2016-03-07 17:20-0300\n"
 "PO-Revision-Date: 2016-03-09 05:29+0000\n"
 "Last-Translator: P_E_T_O <Unknown>\n"
 "Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-03-10 05:56+0000\n"
-"X-Generator: Launchpad (build 17936)\n"
+"X-Launchpad-Export-Date: 2016-03-25 05:53+0000\n"
+"X-Generator: Launchpad (build 17967)\n"
 "Language: sk\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
@@ -26,14 +26,14 @@ msgstr "Upraviť album"
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
 #: rc/qml/AlbumViewer/AlbumViewer.qml:378
 #: rc/qml/Components/DeleteDialog.qml:32 rc/qml/EventsOverview.qml:138
-#: rc/qml/MediaViewer/MediaViewer.qml:354 rc/qml/PhotosOverview.qml:164
+#: rc/qml/MediaViewer/MediaViewer.qml:346 rc/qml/PhotosOverview.qml:164
 #: rc/qml/Utility/EditingHUD.qml:67
 msgid "Delete"
 msgstr "Vymazať"
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:39
-#: rc/qml/Components/MediaSelector.qml:93 rc/qml/EventsOverview.qml:156
-#: rc/qml/MediaViewer/MediaViewer.qml:282 rc/qml/PhotosOverview.qml:182
+#: rc/qml/Components/MediaSelector.qml:93 rc/qml/EventsOverview.qml:160
+#: rc/qml/MediaViewer/MediaViewer.qml:274 rc/qml/PhotosOverview.qml:187
 #: rc/qml/PickerScreen.qml:227
 msgid "Cancel"
 msgstr "Zrušiť"
@@ -63,7 +63,7 @@ msgid "Album"
 msgstr "Album"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:372
-#: rc/qml/MediaViewer/MediaViewer.qml:344
+#: rc/qml/MediaViewer/MediaViewer.qml:336
 msgid "Add to album"
 msgstr "Pridať k albumu"
 
@@ -85,12 +85,12 @@ msgid "Camera"
 msgstr "Fotoaparát"
 
 #: rc/qml/Components/DeleteDialog.qml:36
-#: rc/qml/MediaViewer/MediaViewer.qml:230
+#: rc/qml/MediaViewer/MediaViewer.qml:222
 msgid "Yes"
 msgstr "Áno"
 
 #: rc/qml/Components/DeleteDialog.qml:45
-#: rc/qml/MediaViewer/MediaViewer.qml:241
+#: rc/qml/MediaViewer/MediaViewer.qml:233
 msgid "No"
 msgstr "Nie"
 
@@ -115,9 +115,21 @@ msgstr "dd"
 msgid "Add to Album"
 msgstr "Pridať k albumu"
 
-#: rc/qml/Components/PopupAlbumPicker.qml:161 rc/qml/Utility/EditingHUD.qml:78
+#: rc/qml/Components/PopupAlbumPicker.qml:162 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
 msgstr "Pridať fotografiu k albumu"
+
+#: rc/qml/Components/UnableShareDialog.qml:25
+msgid "Unable to share"
+msgstr ""
+
+#: rc/qml/Components/UnableShareDialog.qml:26
+msgid "Unable to share photos and videos at the same time"
+msgstr ""
+
+#: rc/qml/Components/UnableShareDialog.qml:30
+msgid "Ok"
+msgstr ""
 
 #: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
 msgid "Delete 1 photo"
@@ -167,13 +179,13 @@ msgstr "Vybrať"
 msgid "Add"
 msgstr "Pridať"
 
-#: rc/qml/EventsOverview.qml:145 rc/qml/MediaViewer/MediaViewer.qml:365
+#: rc/qml/EventsOverview.qml:145 rc/qml/MediaViewer/MediaViewer.qml:357
 #: rc/qml/PhotosOverview.qml:171 rc/qml/Utility/EditingHUD.qml:72
 msgid "Share"
 msgstr "Zdieľať"
 
-#: rc/qml/EventsOverview.qml:184 rc/qml/MediaViewer/MediaViewer.qml:186
-#: rc/qml/PhotosOverview.qml:196
+#: rc/qml/EventsOverview.qml:193 rc/qml/MediaViewer/MediaViewer.qml:178
+#: rc/qml/PhotosOverview.qml:206
 msgid "Share to"
 msgstr "Zdieľať"
 
@@ -195,31 +207,31 @@ msgstr "Udalosti"
 msgid "Photos"
 msgstr "Fotografie"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:219
+#: rc/qml/MediaViewer/MediaViewer.qml:211
 msgid "Delete a photo"
 msgstr "Vymazať fotografiu"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:219
+#: rc/qml/MediaViewer/MediaViewer.qml:211
 msgid "Delete a video"
 msgstr "Vymazať video"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:252
+#: rc/qml/MediaViewer/MediaViewer.qml:244
 msgid "Remove a photo from album"
 msgstr "Vymazať fotografiu z albumu"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:252
+#: rc/qml/MediaViewer/MediaViewer.qml:244
 msgid "Remove a video from album"
 msgstr "Vymazať video z albumu"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:261
+#: rc/qml/MediaViewer/MediaViewer.qml:253
 msgid "Remove from Album"
 msgstr "Vymazať z albumu"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:272
+#: rc/qml/MediaViewer/MediaViewer.qml:264
 msgid "Remove from Album and Delete"
 msgstr "Vymazať z albumu a odstrániť"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:319
+#: rc/qml/MediaViewer/MediaViewer.qml:311
 msgid "Edit"
 msgstr "Upraviť"
 
@@ -236,7 +248,7 @@ msgstr "Galéria"
 msgid "Toggle Selection"
 msgstr "Výber prepnutím"
 
-#: rc/qml/MediaViewer/SingleMediaViewer.qml:225
+#: rc/qml/MediaViewer/SingleMediaViewer.qml:241
 msgid "An error has occurred attempting to load media"
 msgstr "Došlo k chybe pri pokuse o načítanie média"
 

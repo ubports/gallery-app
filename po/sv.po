@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2016-02-11 09:44-0200\n"
-"PO-Revision-Date: 2015-07-12 22:23+0000\n"
+"POT-Creation-Date: 2016-03-07 17:20-0300\n"
+"PO-Revision-Date: 2016-03-25 05:11+0000\n"
 "Last-Translator: Josef Andersson <Unknown>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-03-03 06:09+0000\n"
-"X-Generator: Launchpad (build 17925)\n"
+"X-Launchpad-Export-Date: 2016-03-25 05:53+0000\n"
+"X-Generator: Launchpad (build 17967)\n"
 "Language: sv\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
@@ -26,14 +26,14 @@ msgstr "Redigera album"
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
 #: rc/qml/AlbumViewer/AlbumViewer.qml:378
 #: rc/qml/Components/DeleteDialog.qml:32 rc/qml/EventsOverview.qml:138
-#: rc/qml/MediaViewer/MediaViewer.qml:354 rc/qml/PhotosOverview.qml:164
+#: rc/qml/MediaViewer/MediaViewer.qml:346 rc/qml/PhotosOverview.qml:164
 #: rc/qml/Utility/EditingHUD.qml:67
 msgid "Delete"
 msgstr "Ta bort"
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:39
-#: rc/qml/Components/MediaSelector.qml:93 rc/qml/EventsOverview.qml:156
-#: rc/qml/MediaViewer/MediaViewer.qml:282 rc/qml/PhotosOverview.qml:182
+#: rc/qml/Components/MediaSelector.qml:93 rc/qml/EventsOverview.qml:160
+#: rc/qml/MediaViewer/MediaViewer.qml:274 rc/qml/PhotosOverview.qml:187
 #: rc/qml/PickerScreen.qml:227
 msgid "Cancel"
 msgstr "Avbryt"
@@ -63,7 +63,7 @@ msgid "Album"
 msgstr "Album"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:372
-#: rc/qml/MediaViewer/MediaViewer.qml:344
+#: rc/qml/MediaViewer/MediaViewer.qml:336
 msgid "Add to album"
 msgstr "Lägg till i album"
 
@@ -85,12 +85,12 @@ msgid "Camera"
 msgstr "Kamera"
 
 #: rc/qml/Components/DeleteDialog.qml:36
-#: rc/qml/MediaViewer/MediaViewer.qml:230
+#: rc/qml/MediaViewer/MediaViewer.qml:222
 msgid "Yes"
 msgstr "Ja"
 
 #: rc/qml/Components/DeleteDialog.qml:45
-#: rc/qml/MediaViewer/MediaViewer.qml:241
+#: rc/qml/MediaViewer/MediaViewer.qml:233
 msgid "No"
 msgstr "Nej"
 
@@ -115,9 +115,21 @@ msgstr "dd"
 msgid "Add to Album"
 msgstr "Lägg till i album"
 
-#: rc/qml/Components/PopupAlbumPicker.qml:161 rc/qml/Utility/EditingHUD.qml:78
+#: rc/qml/Components/PopupAlbumPicker.qml:162 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
 msgstr "Lägg till bild i album"
+
+#: rc/qml/Components/UnableShareDialog.qml:25
+msgid "Unable to share"
+msgstr "Kunde inte dela"
+
+#: rc/qml/Components/UnableShareDialog.qml:26
+msgid "Unable to share photos and videos at the same time"
+msgstr "Kunde inte dela foton och videor samtidigt"
+
+#: rc/qml/Components/UnableShareDialog.qml:30
+msgid "Ok"
+msgstr "OK"
 
 #: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
 msgid "Delete 1 photo"
@@ -167,13 +179,13 @@ msgstr "Välj"
 msgid "Add"
 msgstr "Lägg till"
 
-#: rc/qml/EventsOverview.qml:145 rc/qml/MediaViewer/MediaViewer.qml:365
+#: rc/qml/EventsOverview.qml:145 rc/qml/MediaViewer/MediaViewer.qml:357
 #: rc/qml/PhotosOverview.qml:171 rc/qml/Utility/EditingHUD.qml:72
 msgid "Share"
 msgstr "Dela ut"
 
-#: rc/qml/EventsOverview.qml:184 rc/qml/MediaViewer/MediaViewer.qml:186
-#: rc/qml/PhotosOverview.qml:196
+#: rc/qml/EventsOverview.qml:193 rc/qml/MediaViewer/MediaViewer.qml:178
+#: rc/qml/PhotosOverview.qml:206
 msgid "Share to"
 msgstr "Dela till"
 
@@ -195,31 +207,31 @@ msgstr "Händelser"
 msgid "Photos"
 msgstr "Bilder"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:219
+#: rc/qml/MediaViewer/MediaViewer.qml:211
 msgid "Delete a photo"
 msgstr "Ta bort en bild"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:219
+#: rc/qml/MediaViewer/MediaViewer.qml:211
 msgid "Delete a video"
 msgstr "Ta bort en video"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:252
+#: rc/qml/MediaViewer/MediaViewer.qml:244
 msgid "Remove a photo from album"
 msgstr "Ta bort ett foto från album"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:252
+#: rc/qml/MediaViewer/MediaViewer.qml:244
 msgid "Remove a video from album"
 msgstr "Ta bort en video från album"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:261
+#: rc/qml/MediaViewer/MediaViewer.qml:253
 msgid "Remove from Album"
 msgstr "Ta bort från album"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:272
+#: rc/qml/MediaViewer/MediaViewer.qml:264
 msgid "Remove from Album and Delete"
 msgstr "Ta bort från album och radera"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:319
+#: rc/qml/MediaViewer/MediaViewer.qml:311
 msgid "Edit"
 msgstr "Redigera"
 
@@ -236,9 +248,9 @@ msgstr "Fotoalbum"
 msgid "Toggle Selection"
 msgstr "Växla markering"
 
-#: rc/qml/MediaViewer/SingleMediaViewer.qml:225
+#: rc/qml/MediaViewer/SingleMediaViewer.qml:241
 msgid "An error has occurred attempting to load media"
-msgstr ""
+msgstr "Ett fel har uppstått vid försök att läsa in media"
 
 #: rc/qml/PickerScreen.qml:233
 msgid "Pick"
