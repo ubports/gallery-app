@@ -29,7 +29,6 @@
 
 class CommandLineParser;
 class UrlHandler;
-class ContentCommunicator;
 class GalleryManager;
 
 class QQuickView;
@@ -68,8 +67,6 @@ public:
     MediaSource::MediaType mediaTypeFilter() const;
     const QString &getMediaFile() const;
 
-    Q_INVOKABLE void returnPickedContent(QVariant variant);
-    Q_INVOKABLE void contentPickingCanceled();
     Q_INVOKABLE void parseUri(const QString &arg);
 
     static void startStartupTimer();
@@ -89,7 +86,6 @@ private slots:
     void switchToEventsView();
     void setFullScreenAppMode(bool fullScreen);
     void setFullScreenUserMode(bool fullScreen);
-    void consistencyCheckFinished();
     void setMediaFile(const QString &mediaFile);
     void onMediaLoaded();
     void onCollectionChanged();
@@ -102,7 +98,6 @@ private:
     GalleryManager *m_galleryManager;
     CommandLineParser* m_cmdLineParser;
     UrlHandler *m_urlHandler;
-    ContentCommunicator *m_contentCommunicator;
     QHash<QString, QSize> m_formFactors;
     int m_bguSize;
     bool m_pickModeEnabled;

@@ -18,7 +18,6 @@
  */
 
 #include "gallery-application.h"
-#include "content-communicator.h"
 #include "gallery-manager.h"
 
 // album
@@ -64,7 +63,6 @@ QElapsedTimer* GalleryApplication::m_timer = 0;
 GalleryApplication::GalleryApplication(int& argc, char** argv)
     : QApplication(argc, argv),
       m_view(new QQuickView()),
-      m_contentCommunicator(new ContentCommunicator(this)),
       m_pickModeEnabled(false),
       m_defaultUiMode(BrowseContentMode),
       m_mediaTypeFilter(MediaSource::None),
@@ -109,21 +107,12 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
     if (m_cmdLineParser->pickModeEnabled())
         setDefaultUiMode(GalleryApplication::PickContentMode);
 
-    QObject::connect(m_galleryManager, SIGNAL(consistencyCheckFinished()),
-                     this, SLOT(consistencyCheckFinished()));
-
     QObject::connect(m_galleryManager, SIGNAL(collectionChanged()),
                      this, SLOT(onCollectionChanged()));
 
     // Used to hide the Loading Screen after a time out
     QObject::connect(m_galleryManager, SIGNAL(consistencyCheckFinished()),
                      this, SLOT(onCollectionChanged()));
-
-    QObject::connect(m_contentCommunicator, SIGNAL(mediaRequested(QString)),
-                     this, SLOT(switchToPickMode(QString)));
-
-    QObject::connect(m_contentCommunicator, SIGNAL(mediaImported()),
-                     this, SLOT(switchToEventsView()));
 
     if (m_cmdLineParser->startupTimer())
         qDebug() << "Construct GalleryApplication" << m_timer->elapsed() << "ms";
@@ -237,7 +226,6 @@ void GalleryApplication::createView()
 
     QQmlContext *rootContext = m_view->engine()->rootContext();
     rootContext->setContextProperty("MANAGER", m_galleryManager);
-    rootContext->setContextProperty("PICKER_HUB", m_contentCommunicator);
     rootContext->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
     rootContext->setContextProperty("DEVICE_HEIGHT", QVariant(size.height()));
     rootContext->setContextProperty("FORM_FACTOR", QVariant(m_cmdLineParser->formFactor()));
@@ -416,50 +404,6 @@ void GalleryApplication::onCollectionChanged()
 }
 
 /*!
- * \brief GalleryApplication::returnPickedContent passes the selcted items to the
- * content manager
- * \param variant
- */
-void GalleryApplication::returnPickedContent(QVariant variant)
-{
-    if (!variant.canConvert<QList<MediaSource*> >()) {
-        qWarning() << Q_FUNC_INFO << variant << "is not a QList<MediaSource*>";
-        return;
-    }
-
-    QList<MediaSource*> sources = qvariant_cast<QList<MediaSource*> >(variant);
-    QVector<QUrl> selectedMedias;
-    selectedMedias.reserve(sources.size());
-    foreach (const MediaSource *media, sources) {
-        selectedMedias.append(media->path());
-    }
-    m_contentCommunicator->returnPhotos(selectedMedias);
-
-    if (m_defaultUiMode == BrowseContentMode) {
-        setUiMode(BrowseContentMode);
-    } else {
-        // give the app and content-hub some time to finish taks (run the event loop)
-        QTimer::singleShot(10, this, SLOT(quit()));
-    }
-}
-
-/*!
- * \brief GalleryApplication::contentPickingCanceled tell the content manager, that
- * the picking was canceled
- */
-void GalleryApplication::contentPickingCanceled()
-{
-    m_contentCommunicator->cancelTransfer();
-
-    if (m_defaultUiMode == BrowseContentMode) {
-        setUiMode(BrowseContentMode);
-    } else {
-        // give the app and content-hub some time to finish taks (run the event loop)
-        QTimer::singleShot(10, this, SLOT(quit()));
-    }
-}
-
-/*!
  * \brief GalleryApplication::startStartupTimer
  */
 void GalleryApplication::startStartupTimer()
@@ -468,18 +412,6 @@ void GalleryApplication::startStartupTimer()
         m_timer = new QElapsedTimer();
 
     m_timer->restart();
-}
-
-/*!
- * \brief GalleryApplication::consistencyCheckFinished triggered when the media
- * monitor finishes its consistency check
- */
-void GalleryApplication::consistencyCheckFinished()
-{
-    // Register content hub integration after media monitor has finished
-    // its consistency check, as new images may be added by the import handler
-    // during start-up.
-    m_contentCommunicator->registerWithHub();
 }
 
 void GalleryApplication::parseUri(const QString &arg)
