@@ -65,11 +65,30 @@ MainView {
         return MediaSource.None
     }
 
+    function confirmExport() {
+        var item
+        var items = []
+
+        var selectedMedias = mediaLibraryLoader.item.selectedMediasQML
+        for (var i = 0; i < selectedMedias.length; i++) {
+            item = contentItemComponent.createObject(overview.transfer, {"url": selectedMedias[i].path})
+            items.push(item)
+        }
+
+        overview.transfer.items = items
+        overview.transfer.state = ContentTransfer.Charged
+        overview.transfer = null
+
+        APP.pickModeEnabled = false
+    }
+
     function cancelExport() {
         if (overview.transfer) {
-             overview.transfer.state = ContentTransfer.Aborted;
-             overview.transfer = null;
+             overview.transfer.state = ContentTransfer.Aborted
+             overview.transfer = null
         }
+
+        APP.pickModeEnabled = false
     }
 
     PageStack {
@@ -263,19 +282,7 @@ MainView {
             objectName: "pickButton"
             enabled: allLoaded ? selectionLoader.item.selectedCount > 0 : false
             iconName: "ok"
-            onTriggered: {
-                var item
-                var items = []
-
-                var selectedMedias = mediaLibraryLoader.item.selectedMediasQML
-                for (var i = 0; i < selectedMedias.length; i++) {
-                    item = contentItemComponent.createObject(overview.transfer, {"url": selectedMedias[i].path})
-                    items.push(item)
-                }
-                overview.transfer.items = items
-                overview.transfer.state = ContentTransfer.Charged
-                overview.transfer = null
-            }
+            onTriggered: confirmExport()
         }
     ]
 }
