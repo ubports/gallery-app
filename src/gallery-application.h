@@ -79,7 +79,6 @@ signals:
     void fullScreenUserModeChanged();
     void mediaTypeFilterChanged();
     void mediaFileChanged();
-    void eventsViewRequested();
 
 private slots:
     void initCollections();

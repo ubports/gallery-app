@@ -32,6 +32,9 @@
 #include "media-monitor.h"
 #include "media-source.h"
 
+// medialoader
+#include "photo-metadata.h"
+
 // photo
 #include "photo.h"
 
@@ -402,5 +405,54 @@ void GalleryApplication::parseUri(const QString &arg)
 
 void GalleryApplication::handleImportedFile(const QUrl &url)
 {
-    qDebug() << "[DEBUG] importedFile: " << url.toLocalFile() << endl;
+    QMimeDatabase mdb;
+    QMimeType mt = mdb.mimeTypeForFile(url.toLocalFile());
+
+    QFileInfo fi(url.toLocalFile());
+    QString filename = fi.fileName();
+    QString suffix = fi.completeSuffix();
+    QString filenameWithoutSuffix = filename.left(filename.size() - suffix.size());
+
+    if (suffix.isEmpty()) {
+        // If the filename doesn't have an extension add one from the
+        // detected mimetype
+        if(!mt.preferredSuffix().isEmpty()) {
+            suffix = mt.preferredSuffix();
+            filenameWithoutSuffix += ".";
+        }
+    }
+
+    QString dir;
+    if (mt.name().startsWith("video/")) {
+        dir = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation) + QDir::separator() + "imported" + QDir::separator();
+    } else {
+        dir = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "imported" + QDir::separator();
+    }
+
+    QDir d;
+    d.mkpath(dir);
+
+    QString destination = QString("%1%2").arg(dir + filenameWithoutSuffix, suffix);
+    // If we already have a file of this name reformat to "filename.x.png"
+    // (where x is a number, incremented until we find an available filename)
+    if (QFile::exists(destination)) {
+        int append = 1;
+        do {
+            destination = QString("%1%2.%3").arg(dir + filenameWithoutSuffix, QString::number(append), suffix);
+            append++;
+        } while (QFile::exists(destination));
+    }
+
+    QFile::copy(url.toLocalFile(), destination);
+
+    if (!mt.name().startsWith("video/")) {
+        // Set the TimeDigitized field of the Exif data to make imported photos
+        // to show up on imported date Event
+        QFileInfo destfi(destination);
+        PhotoMetadata* metadata = PhotoMetadata::fromFile(destfi);
+        if (metadata != NULL) {
+            metadata->setDateTimeDigitized(QDateTime::currentDateTime());
+            metadata->save();
+        }
+    }
 }

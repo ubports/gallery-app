@@ -72,6 +72,41 @@ MainView {
         }
     }
 
+    function eventsViewRequested() {
+        if (!allLoaded) {
+            return;
+        }
+
+        if (__isPhotoViewerOpen) {
+            photoViewerLoader.item.closeRequested();
+        }
+
+        if (albumsCheckerboardLoader.item) {
+            albumsCheckerboardLoader.item.closeAlbum();
+        }
+
+        if (tabs.selectedTabIndex == 0) {
+            // Move from Albums Tab to Events Tab
+            tabs.selectedTabIndex = 1;
+        }
+
+        if (tabs.selectedTabIndex == 1 && eventsOverviewLoader.item) {
+            eventsOverviewLoader.item.positionViewAtBeginning();
+        }
+
+        if (tabs.selectedTabIndex == 2 && eventsOverviewLoader.item) {
+            photosOverviewLoader.item.positionViewAtBeginning();
+        }
+    }
+
+    function pushPage(page, properties) {
+        return pageStack.push(page, properties);
+    }
+
+    function popPage() {
+        pageStack.pop();
+    }
+
     Component.onCompleted: {
         pageStack.push(tabs);
     }
@@ -83,44 +118,6 @@ MainView {
             else if (mediaCurrentlyInView !== "")
                 openMediaFile(mediaCurrentlyInView);
         }
-    }
-
-    Connections {
-        target: APP
-        onEventsViewRequested: {
-            if (!allLoaded) {
-                return;
-            }
-
-            if (__isPhotoViewerOpen) {
-                photoViewerLoader.item.closeRequested();
-            }
-
-            if (albumsCheckerboardLoader.item) {
-                albumsCheckerboardLoader.item.closeAlbum();
-            }
-
-            if (tabs.selectedTabIndex == 0) {
-                // Move from Albums Tab to Events Tab
-                tabs.selectedTabIndex = 1;
-            }
-
-            if (tabs.selectedTabIndex == 1 && eventsOverviewLoader.item) {
-                eventsOverviewLoader.item.positionViewAtBeginning();
-            }
-
-            if (tabs.selectedTabIndex == 2 && eventsOverviewLoader.item) {
-                photosOverviewLoader.item.positionViewAtBeginning();
-            }
-        }
-    }
-
-    function pushPage(page, properties) {
-        return pageStack.push(page, properties);
-    }
-
-    function popPage() {
-        pageStack.pop();
     }
 
     Timer {
@@ -356,6 +353,7 @@ MainView {
                 APP.handleImportedFile(transfer.items[i].url)
             }
             transfer.finalize()
+            eventsViewRequested()
         }
     }
 }
