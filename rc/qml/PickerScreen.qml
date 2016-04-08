@@ -51,6 +51,20 @@ MainView {
         pageStack.pop();
     }
 
+    function getMediaTypeFilter() {
+        if (!overview.transfer) {
+            return MediaSource.None
+        }
+
+        if (overview.transfer.contentType === ContentType.Pictures) {
+            return MediaSource.Photo
+        } else if (overview.transfer.contentType === ContentType.Videos) {
+            return MediaSource.Video
+        }
+
+        return MediaSource.None
+    }
+
     function cancelExport() {
         if (overview.transfer) {
              overview.transfer.state = ContentTransfer.Aborted;
@@ -71,7 +85,7 @@ MainView {
             id: mediaLibraryComponent
             MediaCollectionModel {
                 monitored: true
-                mediaTypeFilter: APP.mediaTypeFilter
+                mediaTypeFilter: getMediaTypeFilter()
             }
         }
     }
@@ -84,7 +98,7 @@ MainView {
             id: selectionComponent
             SelectionState {
                 inSelectionMode: true
-                singleSelect: PICKER_HUB.singleContentPickMode
+                singleSelect: overview.transfer ? overview.transfer.selectionType === ContentTransfer.Single : false
                 model: mediaLibraryLoader.item
             }
         }
@@ -125,7 +139,7 @@ MainView {
 
                         selection: allLoaded ? selectionLoader.item : ""
                         model: EventCollectionModel {
-                            mediaTypeFilter: APP.mediaTypeFilter
+                            mediaTypeFilter: getMediaTypeFilter()
                         }
 
                         delegate: OrganicMediaList {
@@ -133,7 +147,7 @@ MainView {
                             width: eventSelectView.width
                             event: model.event
                             selection: eventSelectView.selection
-                            mediaTypeFilter: APP.mediaTypeFilter
+                            mediaTypeFilter: getMediaTypeFilter()
                             onPressed: {
                                 var rect = GalleryUtility.translateRect(thumbnailRect, organicList,
                                 eventSelectView);
@@ -232,6 +246,11 @@ MainView {
         }
     }
 
+    Component {
+        id: contentItemComponent
+        ContentItem {}
+    }
+
     property list<Action> pickActions: [
         Action {
             text: i18n.tr("Cancel")
@@ -245,10 +264,17 @@ MainView {
             enabled: allLoaded ? selectionLoader.item.selectedCount > 0 : false
             iconName: "ok"
             onTriggered: {
-                if (!enabled)
-                    return;
-                if (allLoaded)
-                    APP.returnPickedContent(mediaLibraryLoader.item.selectedMedias);
+                var item
+                var items = []
+
+                var selectedMedias = mediaLibraryLoader.item.selectedMediasQML
+                for (var i = 0; i < selectedMedias.length; i++) {
+                    item = contentItemComponent.createObject(overview.transfer, {"url": selectedMedias[i].path})
+                    items.push(item)
+                }
+                overview.transfer.items = items
+                overview.transfer.state = ContentTransfer.Charged
+                overview.transfer = null
             }
         }
     ]

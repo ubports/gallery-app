@@ -19,7 +19,6 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
-import Ubuntu.Content 1.3
 import Ubuntu.Unity.Action 1.0 as UnityActions
 import Ubuntu.Content 1.3
 import Gallery 1.0
