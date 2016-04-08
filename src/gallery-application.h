@@ -68,6 +68,7 @@ public:
     const QString &getMediaFile() const;
 
     Q_INVOKABLE void parseUri(const QString &arg);
+    Q_INVOKABLE void handleImportedFile(const QUrl &url);
 
     static void startStartupTimer();
 

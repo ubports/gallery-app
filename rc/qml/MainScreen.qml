@@ -351,5 +351,11 @@ MainView {
             application.transfer = transfer
             APP.pickModeEnabled = true
         }
+        onImportRequested: {
+            for (var i = 0; i < transfer.items.length; i++) {
+                APP.handleImportedFile(transfer.items[i].url)
+            }
+            transfer.finalize()
+        }
     }
 }

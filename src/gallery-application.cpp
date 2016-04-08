@@ -399,3 +399,8 @@ void GalleryApplication::parseUri(const QString &arg)
         setMediaFile(m_urlHandler->mediaFile());
     }
 }
+
+void GalleryApplication::handleImportedFile(const QUrl &url)
+{
+    qDebug() << "[DEBUG] importedFile: " << url.toLocalFile() << endl;
+}
