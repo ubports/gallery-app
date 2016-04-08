@@ -16,6 +16,7 @@
 
 import QtQuick 2.4
 import Ubuntu.Components 1.3
+import Ubuntu.Content 1.3
 import Gallery 1.0
 import "Components"
 import "OrganicView"
@@ -29,6 +30,8 @@ The main view for picking content
 MainView {
     id: overview
     objectName: "pickerMainView"
+
+    property var transfer: application.transfer
 
     function setHeaderVisibility(visible)
     {
@@ -46,6 +49,13 @@ MainView {
 
     function popPage() {
         pageStack.pop();
+    }
+
+    function cancelExport() {
+        if (overview.transfer) {
+             overview.transfer.state = ContentTransfer.Aborted;
+             overview.transfer = null;
+        }
     }
 
     PageStack {
@@ -227,7 +237,7 @@ MainView {
             text: i18n.tr("Cancel")
             objectName: "cancelButton"
             iconName: "close"
-            onTriggered: APP.contentPickingCanceled()
+            onTriggered: cancelExport()
         },
         Action {
             text: i18n.tr("Pick")
