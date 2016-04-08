@@ -39,7 +39,7 @@ class QQuickView;
 class GalleryApplication : public QApplication
 {
     Q_OBJECT
-    Q_PROPERTY(bool pickModeEnabled READ pickModeEnabled NOTIFY pickModeEnabledChanged)
+    Q_PROPERTY(bool pickModeEnabled READ pickModeEnabled WRITE setPickModeEnabled NOTIFY pickModeEnabledChanged)
     Q_PROPERTY(MediaSource::MediaType mediaTypeFilter READ mediaTypeFilter NOTIFY mediaTypeFilterChanged)
     Q_PROPERTY(bool desktopMode READ isDesktopMode CONSTANT)
     Q_PROPERTY(bool fullScreenAppMode READ isFullScreenAppMode WRITE setFullScreenAppMode NOTIFY fullScreenAppModeChanged)
@@ -82,8 +82,7 @@ signals:
 
 private slots:
     void initCollections();
-    void switchToPickMode(QString mediaTypeFilter);
-    void switchToEventsView();
+    void setPickModeEnabled(bool pickModeEnabled);
     void setFullScreenAppMode(bool fullScreen);
     void setFullScreenUserMode(bool fullScreen);
     void setMediaFile(const QString &mediaFile);

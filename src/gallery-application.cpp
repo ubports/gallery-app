@@ -285,12 +285,7 @@ void GalleryApplication::setDefaultUiMode(GalleryApplication::UiMode mode)
  */
 void GalleryApplication::setUiMode(GalleryApplication::UiMode mode)
 {
-    bool enablePickMode = (mode == PickContentMode);
-
-    if (enablePickMode != m_pickModeEnabled) {
-        m_pickModeEnabled = enablePickMode;
-        Q_EMIT pickModeEnabledChanged();
-    }
+    setPickModeEnabled(mode == PickContentMode);
 }
 
 /*!
@@ -304,6 +299,17 @@ bool GalleryApplication::pickModeEnabled() const
 }
 
 /*!
+ * \brief GalleryApplication::setPickModeEnabled
+ */
+void GalleryApplication::setPickModeEnabled(bool enablePickMode)
+{
+    if (enablePickMode != m_pickModeEnabled) {
+        m_pickModeEnabled = enablePickMode;
+        Q_EMIT pickModeEnabledChanged();
+    }
+}
+
+/*!
  * \brief GalleryApplication::contentTypeFilter returns the type of
  * content to display in the UI. If the empty string is returned then
  * no content filter is in place.
@@ -312,33 +318,6 @@ bool GalleryApplication::pickModeEnabled() const
 MediaSource::MediaType GalleryApplication::mediaTypeFilter() const
 {
     return m_mediaTypeFilter;
-}
-
-/*!
- * \brief GalleryApplication::switchToPickMode
- * \param QString the type of media to pick or blank string for any type
- */
-void GalleryApplication::switchToPickMode(QString mediaTypeFilter)
-{
-    setUiMode(PickContentMode);
-
-    MediaSource::MediaType newFilter;
-    if (mediaTypeFilter == "pictures") newFilter = MediaSource::Photo;
-    else if (mediaTypeFilter == "videos") newFilter = MediaSource::Video;
-    else newFilter = MediaSource::None;
-
-    if (newFilter != m_mediaTypeFilter) {
-        m_mediaTypeFilter = newFilter;
-        Q_EMIT mediaTypeFilterChanged();
-    }
-}
-
-/*!
- * \brief GalleryApplication::switchToEventsView
- */
-void GalleryApplication::switchToEventsView()
-{
-    Q_EMIT eventsViewRequested();
 }
 
 /*!

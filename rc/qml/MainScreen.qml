@@ -343,4 +343,9 @@ MainView {
             }
         }
     }
+
+    Connections {
+        target: ContentHub
+        onExportRequested: APP.pickModeEnabled = true
+    }
 }
