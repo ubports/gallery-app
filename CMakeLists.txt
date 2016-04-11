@@ -39,7 +39,6 @@ else()
 endif()
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(CONTENTHUB REQUIRED libcontent-hub)
 pkg_check_modules(EXIV2 REQUIRED exiv2)
 pkg_check_modules(MEDIAINFO REQUIRED libmediainfo)
 
