@@ -80,27 +80,24 @@ Page {
         id: deleteDialog
         DeleteDialog {
             title: {
-                if (d.selection.selectedMediaCount === 1) {
-                    if (d.selection.selectedVideosCount === 0) 
-                        return i18n.tr("Delete 1 photo");
-                    else
-                        return i18n.tr("Delete 1 video");
+                if (d.selection.selectedVideosCount === 0) {
+                    //No videos
+                    return i18n.tr("Delete %1 photo",
+                                   "Delete %1 photos",
+                                   d.selection.selectedPhotosCount)
+                                   .arg(d.selection.selectedPhotosCount);
+                } else if (d.selection.selectedPhotosCount === 0) {
+                    //No photos
+                    return i18n.tr("Delete %1 video",
+                                   "Delete %1 videos",
+                                   d.selection.selectedVideosCount)
+                                   .arg(d.selection.selectedVideosCount);
                 } else {
-                    if (d.selection.selectedVideosCount === 0)
-                        return i18n.tr("Delete %1 photos").arg(d.selection.selectedPhotosCount);
-                    else if (d.selection.selectedPhotosCount === 0)
-                        return i18n.tr("Delete %1 videos").arg(d.selection.selectedVideosCount);
-                    else {
-                        if (d.selection.selectedVideosCount === 1 && d.selection.selectedPhotosCount !== 1)
-                            return i18n.tr("Delete %1 photos and 1 video").arg(d.selection.selectedPhotosCount);
-                        else if (d.selection.selectedPhotosCount === 1 && d.selection.selectedVideosCount !== 1)
-                            return i18n.tr("Delete 1 photo and %1 videos").arg(d.selection.selectedVideosCount);
-                        else if (d.selection.selectedVideosCount === 1 && d.selection.selectedPhotosCount === 1)
-                            return i18n.tr("Delete 1 photo and 1 video");
-                        else
-                            return i18n.tr("Delete %1 photos and %2 videos").arg(d.selection.selectedPhotosCount)
-                                                                            .arg(d.selection.selectedVideosCount);
-                    }
+                    //Mix of photos and videos
+                    return i18n.tr("Delete %1 media file",
+                                   "Delete %1 media files",
+                                   d.selection.selectedMediaCount)
+                                   .arg(d.selection.selectedMediaCount);
                 }
             }
             onDeleteClicked: {

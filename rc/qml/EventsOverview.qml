@@ -71,27 +71,24 @@ OrganicView {
         id: deleteDialog
         DeleteDialog {
             title: {
-                if (organicEventView.selection.selectedMediaCount === 1) {
-                    if (organicEventView.selection.selectedVideosCount === 0) 
-                        return i18n.tr("Delete 1 photo");
-                    else
-                        return i18n.tr("Delete 1 video");
+                if (organicEventView.selection.selectedVideosCount === 0) {
+                    //No videos
+                    return i18n.tr("Delete %1 photo",
+                                   "Delete %1 photos",
+                                   organicEventView.selection.selectedPhotosCount)
+                                   .arg(organicEventView.selection.selectedPhotosCount);
+                } else if (organicEventView.selection.selectedPhotosCount === 0) {
+                    //No photos
+                    return i18n.tr("Delete %1 video",
+                                   "Delete %1 videos",
+                                   organicEventView.selection.selectedVideosCount)
+                                   .arg(organicEventView.selection.selectedVideosCount);
                 } else {
-                    if (organicEventView.selection.selectedVideosCount === 0)
-                        return i18n.tr("Delete %1 photos").arg(organicEventView.selection.selectedPhotosCount);
-                    else if (organicEventView.selection.selectedPhotosCount === 0)
-                        return i18n.tr("Delete %1 videos").arg(organicEventView.selection.selectedVideosCount);
-                    else {
-                        if (organicEventView.selection.selectedVideosCount === 1 && organicEventView.selection.selectedPhotosCount !== 1)
-                            return i18n.tr("Delete %1 photos and 1 video").arg(organicEventView.selection.selectedPhotosCount);
-                        else if (organicEventView.selection.selectedPhotosCount === 1 && organicEventView.selection.selectedVideosCount !== 1)
-                            return i18n.tr("Delete 1 photo and %1 videos").arg(organicEventView.selection.selectedVideosCount);
-                        else if (organicEventView.selection.selectedVideosCount === 1 && organicEventView.selection.selectedPhotosCount === 1)
-                            return i18n.tr("Delete 1 photo and 1 video");
-                        else
-                            return i18n.tr("Delete %1 photos and %2 videos").arg(organicEventView.selection.selectedPhotosCount)
-                                                                            .arg(organicEventView.selection.selectedVideosCount);
-                    }
+                    //Mix of photos and videos
+                    return i18n.tr("Delete %1 media file",
+                                   "Delete %1 media files",
+                                   organicEventView.selection.selectedMediaCount)
+                                   .arg(organicEventView.selection.selectedMediaCount);
                 }
             }
 
