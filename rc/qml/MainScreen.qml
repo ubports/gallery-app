@@ -18,6 +18,7 @@
  */
 
 import QtQuick 2.4
+import Qt.labs.settings 1.0
 import Ubuntu.Components 1.3
 import Ubuntu.Unity.Action 1.0 as UnityActions
 import Gallery 1.0
@@ -34,7 +35,6 @@ MainView {
     automaticOrientation: application.automaticOrientation
 
     property string mediaCurrentlyInView
-    StateSaver.properties: "mediaCurrentlyInView"
 
     property bool applicationLoaded: application.allLoaded
 
@@ -140,7 +140,6 @@ MainView {
         visible: !(photoViewerLoader.item && photoViewerLoader.item.isPoppedUp)
 
         selectedTabIndex: 1
-        StateSaver.properties: "selectedTabIndex"
 
         Tab {
             id: albumsTab
@@ -342,5 +341,9 @@ MainView {
                 openMediaFile(APP.mediaFile);
             }
         }
+    }
+
+    Settings {
+        property alias defaultViewIndex: tabs.selectedTabIndex
     }
 }
