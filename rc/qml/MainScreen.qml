@@ -345,5 +345,6 @@ MainView {
 
     Settings {
         property alias defaultViewIndex: tabs.selectedTabIndex
+        property alias mediaInView: overview.mediaCurrentlyInView
     }
 }
