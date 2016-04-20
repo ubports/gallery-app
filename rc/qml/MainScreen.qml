@@ -35,6 +35,7 @@ MainView {
     automaticOrientation: application.automaticOrientation
 
     property string mediaCurrentlyInView
+    StateSaver.properties: "mediaCurrentlyInView"
 
     property bool applicationLoaded: application.allLoaded
 
@@ -345,6 +346,5 @@ MainView {
 
     Settings {
         property alias defaultViewIndex: tabs.selectedTabIndex
-        property alias mediaInView: overview.mediaCurrentlyInView
     }
 }
