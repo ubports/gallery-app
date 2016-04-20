@@ -326,6 +326,10 @@ MainView {
  
     actionManager.localContexts: [ hudCtx ]
 
+    Settings {
+        property alias defaultViewIndex: tabs.selectedTabIndex
+    }
+
     Connections {
         target: UriHandler
         onOpened: {
@@ -342,9 +346,5 @@ MainView {
                 openMediaFile(APP.mediaFile);
             }
         }
-    }
-
-    Settings {
-        property alias defaultViewIndex: tabs.selectedTabIndex
     }
 }
