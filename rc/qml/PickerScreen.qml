@@ -97,6 +97,16 @@ MainView {
     }
 
     Loader {
+        id: eventCollectionModelLoader
+        sourceComponent: allLoaded ? eventCollectionModelComponent : ""        
+
+        Component {
+            id: eventCollectionModelComponent
+            EventCollectionModel { }
+        }
+    }
+
+    Loader {
         id: mediaLibraryLoader
         sourceComponent: allLoaded ? mediaLibraryComponent : ""        
 
@@ -157,9 +167,7 @@ MainView {
                         head.actions: pickActions
 
                         selection: allLoaded ? selectionLoader.item : ""
-                        model: EventCollectionModel {
-                            mediaTypeFilter: getMediaTypeFilter()
-                        }
+                        model: allLoaded && eventCollectionModelLoader.status == Loader.Ready ? eventCollectionModelLoader.item : ""
 
                         delegate: OrganicMediaList {
                             id: organicList
