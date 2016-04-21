@@ -172,6 +172,8 @@ MainView {
                         delegate: OrganicMediaList {
                             id: organicList
                             width: eventSelectView.width
+                            height: visbile ? organicList.contentHeight : 0
+                            visible: mediaModelCount > 0
                             event: model.event
                             selection: eventSelectView.selection
                             mediaTypeFilter: getMediaTypeFilter()

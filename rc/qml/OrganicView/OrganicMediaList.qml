@@ -41,6 +41,7 @@ Item {
     property var event
     ///
     property alias mediaModel: eventView.model
+    property alias mediaModelCount: mediaModel.count
     ///
     property SelectionState selection
 
