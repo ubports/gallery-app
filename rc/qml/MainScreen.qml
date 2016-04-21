@@ -20,6 +20,7 @@
 import QtQuick 2.4
 import Ubuntu.Components 1.3
 import Ubuntu.Unity.Action 1.0 as UnityActions
+import Ubuntu.Content 1.3
 import Gallery 1.0
 import "../js/GalleryUtility.js" as GalleryUtility
 import "AlbumEditor"
@@ -71,6 +72,41 @@ MainView {
         }
     }
 
+    function eventsViewRequested() {
+        if (!allLoaded) {
+            return;
+        }
+
+        if (__isPhotoViewerOpen) {
+            photoViewerLoader.item.closeRequested();
+        }
+
+        if (albumsCheckerboardLoader.item) {
+            albumsCheckerboardLoader.item.closeAlbum();
+        }
+
+        if (tabs.selectedTabIndex == 0) {
+            // Move from Albums Tab to Events Tab
+            tabs.selectedTabIndex = 1;
+        }
+
+        if (tabs.selectedTabIndex == 1 && eventsOverviewLoader.item) {
+            eventsOverviewLoader.item.positionViewAtBeginning();
+        }
+
+        if (tabs.selectedTabIndex == 2 && eventsOverviewLoader.item) {
+            photosOverviewLoader.item.positionViewAtBeginning();
+        }
+    }
+
+    function pushPage(page, properties) {
+        return pageStack.push(page, properties);
+    }
+
+    function popPage() {
+        pageStack.pop();
+    }
+
     Component.onCompleted: {
         pageStack.push(tabs);
     }
@@ -82,44 +118,6 @@ MainView {
             else if (mediaCurrentlyInView !== "")
                 openMediaFile(mediaCurrentlyInView);
         }
-    }
-
-    Connections {
-        target: APP
-        onEventsViewRequested: {
-            if (!allLoaded) {
-                return;
-            }
-
-            if (__isPhotoViewerOpen) {
-                photoViewerLoader.item.closeRequested();
-            }
-
-            if (albumsCheckerboardLoader.item) {
-                albumsCheckerboardLoader.item.closeAlbum();
-            }
-
-            if (tabs.selectedTabIndex == 0) {
-                // Move from Albums Tab to Events Tab
-                tabs.selectedTabIndex = 1;
-            }
-
-            if (tabs.selectedTabIndex == 1 && eventsOverviewLoader.item) {
-                eventsOverviewLoader.item.positionViewAtBeginning();
-            }
-
-            if (tabs.selectedTabIndex == 2 && eventsOverviewLoader.item) {
-                photosOverviewLoader.item.positionViewAtBeginning();
-            }
-        }
-    }
-
-    function pushPage(page, properties) {
-        return pageStack.push(page, properties);
-    }
-
-    function popPage() {
-        pageStack.pop();
     }
 
     Timer {
@@ -341,6 +339,21 @@ MainView {
             if (applicationLoaded && APP.mediaFile != "") {
                 openMediaFile(APP.mediaFile);
             }
+        }
+    }
+
+    Connections {
+        target: ContentHub
+        onExportRequested: {
+            application.transfer = transfer
+            APP.pickModeEnabled = true
+        }
+        onImportRequested: {
+            for (var i = 0; i < transfer.items.length; i++) {
+                APP.handleImportedFile(transfer.items[i].url)
+            }
+            transfer.finalize()
+            eventsViewRequested()
         }
     }
 }

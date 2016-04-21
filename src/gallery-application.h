@@ -29,7 +29,6 @@
 
 class CommandLineParser;
 class UrlHandler;
-class ContentCommunicator;
 class GalleryManager;
 
 class QQuickView;
@@ -40,7 +39,7 @@ class QQuickView;
 class GalleryApplication : public QApplication
 {
     Q_OBJECT
-    Q_PROPERTY(bool pickModeEnabled READ pickModeEnabled NOTIFY pickModeEnabledChanged)
+    Q_PROPERTY(bool pickModeEnabled READ pickModeEnabled WRITE setPickModeEnabled NOTIFY pickModeEnabledChanged)
     Q_PROPERTY(MediaSource::MediaType mediaTypeFilter READ mediaTypeFilter NOTIFY mediaTypeFilterChanged)
     Q_PROPERTY(bool desktopMode READ isDesktopMode CONSTANT)
     Q_PROPERTY(bool fullScreenAppMode READ isFullScreenAppMode WRITE setFullScreenAppMode NOTIFY fullScreenAppModeChanged)
@@ -68,9 +67,8 @@ public:
     MediaSource::MediaType mediaTypeFilter() const;
     const QString &getMediaFile() const;
 
-    Q_INVOKABLE void returnPickedContent(QVariant variant);
-    Q_INVOKABLE void contentPickingCanceled();
     Q_INVOKABLE void parseUri(const QString &arg);
+    Q_INVOKABLE void handleImportedFile(const QUrl &url);
 
     static void startStartupTimer();
 
@@ -81,15 +79,12 @@ signals:
     void fullScreenUserModeChanged();
     void mediaTypeFilterChanged();
     void mediaFileChanged();
-    void eventsViewRequested();
 
 private slots:
     void initCollections();
-    void switchToPickMode(QString mediaTypeFilter);
-    void switchToEventsView();
+    void setPickModeEnabled(bool pickModeEnabled);
     void setFullScreenAppMode(bool fullScreen);
     void setFullScreenUserMode(bool fullScreen);
-    void consistencyCheckFinished();
     void setMediaFile(const QString &mediaFile);
     void onMediaLoaded();
     void onCollectionChanged();
@@ -102,7 +97,6 @@ private:
     GalleryManager *m_galleryManager;
     CommandLineParser* m_cmdLineParser;
     UrlHandler *m_urlHandler;
-    ContentCommunicator *m_contentCommunicator;
     QHash<QString, QSize> m_formFactors;
     int m_bguSize;
     bool m_pickModeEnabled;

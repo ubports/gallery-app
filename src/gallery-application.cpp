@@ -18,7 +18,6 @@
  */
 
 #include "gallery-application.h"
-#include "content-communicator.h"
 #include "gallery-manager.h"
 
 // album
@@ -32,6 +31,9 @@
 #include "media-collection.h"
 #include "media-monitor.h"
 #include "media-source.h"
+
+// medialoader
+#include "photo-metadata.h"
 
 // photo
 #include "photo.h"
@@ -64,7 +66,6 @@ QElapsedTimer* GalleryApplication::m_timer = 0;
 GalleryApplication::GalleryApplication(int& argc, char** argv)
     : QApplication(argc, argv),
       m_view(new QQuickView()),
-      m_contentCommunicator(new ContentCommunicator(this)),
       m_pickModeEnabled(false),
       m_defaultUiMode(BrowseContentMode),
       m_mediaTypeFilter(MediaSource::None),
@@ -109,21 +110,12 @@ GalleryApplication::GalleryApplication(int& argc, char** argv)
     if (m_cmdLineParser->pickModeEnabled())
         setDefaultUiMode(GalleryApplication::PickContentMode);
 
-    QObject::connect(m_galleryManager, SIGNAL(consistencyCheckFinished()),
-                     this, SLOT(consistencyCheckFinished()));
-
     QObject::connect(m_galleryManager, SIGNAL(collectionChanged()),
                      this, SLOT(onCollectionChanged()));
 
     // Used to hide the Loading Screen after a time out
     QObject::connect(m_galleryManager, SIGNAL(consistencyCheckFinished()),
                      this, SLOT(onCollectionChanged()));
-
-    QObject::connect(m_contentCommunicator, SIGNAL(mediaRequested(QString)),
-                     this, SLOT(switchToPickMode(QString)));
-
-    QObject::connect(m_contentCommunicator, SIGNAL(mediaImported()),
-                     this, SLOT(switchToEventsView()));
 
     if (m_cmdLineParser->startupTimer())
         qDebug() << "Construct GalleryApplication" << m_timer->elapsed() << "ms";
@@ -237,7 +229,6 @@ void GalleryApplication::createView()
 
     QQmlContext *rootContext = m_view->engine()->rootContext();
     rootContext->setContextProperty("MANAGER", m_galleryManager);
-    rootContext->setContextProperty("PICKER_HUB", m_contentCommunicator);
     rootContext->setContextProperty("DEVICE_WIDTH", QVariant(size.width()));
     rootContext->setContextProperty("DEVICE_HEIGHT", QVariant(size.height()));
     rootContext->setContextProperty("FORM_FACTOR", QVariant(m_cmdLineParser->formFactor()));
@@ -297,12 +288,7 @@ void GalleryApplication::setDefaultUiMode(GalleryApplication::UiMode mode)
  */
 void GalleryApplication::setUiMode(GalleryApplication::UiMode mode)
 {
-    bool enablePickMode = (mode == PickContentMode);
-
-    if (enablePickMode != m_pickModeEnabled) {
-        m_pickModeEnabled = enablePickMode;
-        Q_EMIT pickModeEnabledChanged();
-    }
+    setPickModeEnabled(mode == PickContentMode);
 }
 
 /*!
@@ -316,6 +302,17 @@ bool GalleryApplication::pickModeEnabled() const
 }
 
 /*!
+ * \brief GalleryApplication::setPickModeEnabled
+ */
+void GalleryApplication::setPickModeEnabled(bool enablePickMode)
+{
+    if (enablePickMode != m_pickModeEnabled) {
+        m_pickModeEnabled = enablePickMode;
+        Q_EMIT pickModeEnabledChanged();
+    }
+}
+
+/*!
  * \brief GalleryApplication::contentTypeFilter returns the type of
  * content to display in the UI. If the empty string is returned then
  * no content filter is in place.
@@ -324,33 +321,6 @@ bool GalleryApplication::pickModeEnabled() const
 MediaSource::MediaType GalleryApplication::mediaTypeFilter() const
 {
     return m_mediaTypeFilter;
-}
-
-/*!
- * \brief GalleryApplication::switchToPickMode
- * \param QString the type of media to pick or blank string for any type
- */
-void GalleryApplication::switchToPickMode(QString mediaTypeFilter)
-{
-    setUiMode(PickContentMode);
-
-    MediaSource::MediaType newFilter;
-    if (mediaTypeFilter == "pictures") newFilter = MediaSource::Photo;
-    else if (mediaTypeFilter == "videos") newFilter = MediaSource::Video;
-    else newFilter = MediaSource::None;
-
-    if (newFilter != m_mediaTypeFilter) {
-        m_mediaTypeFilter = newFilter;
-        Q_EMIT mediaTypeFilterChanged();
-    }
-}
-
-/*!
- * \brief GalleryApplication::switchToEventsView
- */
-void GalleryApplication::switchToEventsView()
-{
-    Q_EMIT eventsViewRequested();
 }
 
 /*!
@@ -416,50 +386,6 @@ void GalleryApplication::onCollectionChanged()
 }
 
 /*!
- * \brief GalleryApplication::returnPickedContent passes the selcted items to the
- * content manager
- * \param variant
- */
-void GalleryApplication::returnPickedContent(QVariant variant)
-{
-    if (!variant.canConvert<QList<MediaSource*> >()) {
-        qWarning() << Q_FUNC_INFO << variant << "is not a QList<MediaSource*>";
-        return;
-    }
-
-    QList<MediaSource*> sources = qvariant_cast<QList<MediaSource*> >(variant);
-    QVector<QUrl> selectedMedias;
-    selectedMedias.reserve(sources.size());
-    foreach (const MediaSource *media, sources) {
-        selectedMedias.append(media->path());
-    }
-    m_contentCommunicator->returnPhotos(selectedMedias);
-
-    if (m_defaultUiMode == BrowseContentMode) {
-        setUiMode(BrowseContentMode);
-    } else {
-        // give the app and content-hub some time to finish taks (run the event loop)
-        QTimer::singleShot(10, this, SLOT(quit()));
-    }
-}
-
-/*!
- * \brief GalleryApplication::contentPickingCanceled tell the content manager, that
- * the picking was canceled
- */
-void GalleryApplication::contentPickingCanceled()
-{
-    m_contentCommunicator->cancelTransfer();
-
-    if (m_defaultUiMode == BrowseContentMode) {
-        setUiMode(BrowseContentMode);
-    } else {
-        // give the app and content-hub some time to finish taks (run the event loop)
-        QTimer::singleShot(10, this, SLOT(quit()));
-    }
-}
-
-/*!
  * \brief GalleryApplication::startStartupTimer
  */
 void GalleryApplication::startStartupTimer()
@@ -470,21 +396,63 @@ void GalleryApplication::startStartupTimer()
     m_timer->restart();
 }
 
-/*!
- * \brief GalleryApplication::consistencyCheckFinished triggered when the media
- * monitor finishes its consistency check
- */
-void GalleryApplication::consistencyCheckFinished()
-{
-    // Register content hub integration after media monitor has finished
-    // its consistency check, as new images may be added by the import handler
-    // during start-up.
-    m_contentCommunicator->registerWithHub();
-}
-
 void GalleryApplication::parseUri(const QString &arg)
 {
     if (m_urlHandler->processUri(arg)) {
         setMediaFile(m_urlHandler->mediaFile());
+    }
+}
+
+void GalleryApplication::handleImportedFile(const QUrl &url)
+{
+    QMimeDatabase mdb;
+    QMimeType mt = mdb.mimeTypeForFile(url.toLocalFile());
+
+    QFileInfo fi(url.toLocalFile());
+    QString filename = fi.fileName();
+    QString suffix = fi.completeSuffix();
+    QString filenameWithoutSuffix = filename.left(filename.size() - suffix.size());
+
+    if (suffix.isEmpty()) {
+        // If the filename doesn't have an extension add one from the
+        // detected mimetype
+        if(!mt.preferredSuffix().isEmpty()) {
+            suffix = mt.preferredSuffix();
+            filenameWithoutSuffix += ".";
+        }
+    }
+
+    QString dir;
+    if (mt.name().startsWith("video/")) {
+        dir = QStandardPaths::writableLocation(QStandardPaths::MoviesLocation) + QDir::separator() + "imported" + QDir::separator();
+    } else {
+        dir = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation) + QDir::separator() + "imported" + QDir::separator();
+    }
+
+    QDir d;
+    d.mkpath(dir);
+
+    QString destination = QString("%1%2").arg(dir + filenameWithoutSuffix, suffix);
+    // If we already have a file of this name reformat to "filename.x.png"
+    // (where x is a number, incremented until we find an available filename)
+    if (QFile::exists(destination)) {
+        int append = 1;
+        do {
+            destination = QString("%1%2.%3").arg(dir + filenameWithoutSuffix, QString::number(append), suffix);
+            append++;
+        } while (QFile::exists(destination));
+    }
+
+    QFile::copy(url.toLocalFile(), destination);
+
+    if (!mt.name().startsWith("video/")) {
+        // Set the TimeDigitized field of the Exif data to make imported photos
+        // to show up on imported date Event
+        QFileInfo destfi(destination);
+        PhotoMetadata* metadata = PhotoMetadata::fromFile(destfi);
+        if (metadata != NULL) {
+            metadata->setDateTimeDigitized(QDateTime::currentDateTime());
+            metadata->save();
+        }
     }
 }

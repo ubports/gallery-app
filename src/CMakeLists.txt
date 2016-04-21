@@ -32,14 +32,12 @@ include_directories(
     )
 
 set(gallery_HDRS
-    content-communicator.h
     gallery-application.h
     gallery-manager.h
     media-object-factory.h
     )
 
 set(gallery_SRCS
-    content-communicator.cpp
     gallery-application.cpp
     gallery-manager.cpp
     main.cpp
