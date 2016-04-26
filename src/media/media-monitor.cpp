@@ -183,7 +183,15 @@ QStringList MediaMonitorWorker::expandSubDirectories(const QString& dirPath)
 
     QStringList dirList;
     while(!dirStack.isEmpty()) {
-        QDir dir(dirStack.pop());
+        QString currentDir = dirStack.pop();
+
+        // If there is a .nomedia ignores all files and dirs below
+        QFileInfo noMediaFile(currentDir + "/.nomedia");
+        if (noMediaFile.exists() && noMediaFile.isFile()) {
+            continue;
+        }
+
+        QDir dir(currentDir);
         dirList.append(dir.absolutePath());
 
         foreach(const QFileInfo &info, dir.entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs)) {
