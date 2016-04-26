@@ -32,6 +32,9 @@ Item {
 
     property bool automaticOrientation: true
 
+    // Store current requested transfer
+    property var transfer: null
+
     /// Indicates if the backend is loaded and the UI can be shown
     property bool allLoaded: false
 
