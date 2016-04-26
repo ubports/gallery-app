@@ -41,7 +41,7 @@ Item {
     property var event
     ///
     property alias mediaModel: eventView.model
-    readonly property int organicMediaListHeight: __bigSize + __smallSize + __photosTopMargin + __margin + __margin/2
+    readonly property real organicMediaListHeight: __bigSize + __smallSize + __photosTopMargin + __margin + __margin/2
     readonly property alias mediaModelCount: mediaModel.count
     ///
     property SelectionState selection
