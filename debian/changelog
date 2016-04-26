@@ -1,3 +1,20 @@
+gallery-app (0.0.67+16.04.20160426-0ubuntu1) xenial; urgency=medium
+
+  * Add linker flag to strip gallery-app binary file (LP: #1570616)
+  * Add proper ngettext-style plural forms (LP: #1551149)
+  * Check MimeType to verify if it's an image format before adding to
+    gallery's collection (LP: #1536168)
+  * If there is a .nomedia file ignores all files and dirs bellow the
+    current path (LP: #1568310)
+  * Stop using C++ Content Hub API and use QML one instead (LP:
+    #1568857)
+  * Use Settings instead of StateSaver to open gallery always on the
+    last tab viewed (LP: #1560159)
+  * Wait gallery ends collection processing before loading events model
+    on picker mode (LP: #1569844)
+
+ -- Arthur Mello <arthur.mello@canonical.com>  Tue, 26 Apr 2016 23:28:09 +0000
+
 gallery-app (0.0.67+16.04.20160323.1-0ubuntu1) xenial; urgency=medium
 
   [ Arthur Mello ]
