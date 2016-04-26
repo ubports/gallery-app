@@ -41,6 +41,8 @@ Item {
     property var event
     ///
     property alias mediaModel: eventView.model
+    readonly property real organicMediaListHeight: __bigSize + __smallSize + __photosTopMargin + __margin + __margin/2
+    readonly property alias mediaModelCount: mediaModel.count
     ///
     property SelectionState selection
 
@@ -83,7 +85,7 @@ Item {
 
     property alias mediaTypeFilter: mediaModel.mediaTypeFilter
 
-    height: __bigSize + __smallSize + __photosTopMargin + __margin + __margin/2
+    height: organicMediaListHeight
 
     function positionViewAtSelected(index) {
         eventView.positionViewAtIndex(index, ListView.Center);

@@ -97,6 +97,16 @@ MainView {
     }
 
     Loader {
+        id: eventCollectionModelLoader
+        sourceComponent: allLoaded ? eventCollectionModelComponent : ""        
+
+        Component {
+            id: eventCollectionModelComponent
+            EventCollectionModel { }
+        }
+    }
+
+    Loader {
         id: mediaLibraryLoader
         sourceComponent: allLoaded ? mediaLibraryComponent : ""        
 
@@ -157,13 +167,13 @@ MainView {
                         head.actions: pickActions
 
                         selection: allLoaded ? selectionLoader.item : ""
-                        model: EventCollectionModel {
-                            mediaTypeFilter: getMediaTypeFilter()
-                        }
+                        model: allLoaded && eventCollectionModelLoader.status == Loader.Ready ? eventCollectionModelLoader.item : ""
 
                         delegate: OrganicMediaList {
                             id: organicList
                             width: eventSelectView.width
+                            height: visible ? organicMediaListHeight : 0
+                            visible: mediaModelCount > 0
                             event: model.event
                             selection: eventSelectView.selection
                             mediaTypeFilter: getMediaTypeFilter()
