@@ -240,6 +240,7 @@ Item {
                         horizontalAlignment: Text.AlignHCenter
                         text: i18n.tr("An error has occurred attempting to load media")
                         fontSize: "large"
+                        color: "lightgrey"
                     }
                 }
             }

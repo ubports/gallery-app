@@ -52,6 +52,12 @@
  */
 bool Photo::isValid(const QFileInfo& file)
 {
+    QMimeDatabase mimedb;
+    QMimeType mimeType = mimedb.mimeTypeForFile(file);
+    if (!mimeType.name().contains("image")) {
+        return false;
+    }
+
     QImageReader reader(file.filePath());
     QByteArray format = reader.format();
 
