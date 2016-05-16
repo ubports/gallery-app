@@ -102,7 +102,9 @@ MainView {
 
         Component {
             id: eventCollectionModelComponent
-            EventCollectionModel { }
+            EventCollectionModel {
+                mediaTypeFilter: getMediaTypeFilter()
+            }
         }
     }
 
