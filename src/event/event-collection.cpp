@@ -88,6 +88,8 @@ void EventCollection::onMediaAddedRemoved(const QSet<DataObject *> *added,
                                            const QSet<DataObject *> *removed,
                                            bool notify)
 {
+    Event* modifiedEvent = NULL;
+
     if (added != NULL) {
         // Split the original QSet into one set for each Event date
         QHash<Event*, QSet<DataObject*>> toAddHash;
@@ -102,6 +104,8 @@ void EventCollection::onMediaAddedRemoved(const QSet<DataObject *> *added,
                 existing = new Event(this, media->exposureDate());
                 add(existing);
             }
+
+            modifiedEvent = existing;
 
             toAddHash[existing].insert(object);
         }
@@ -124,9 +128,16 @@ void EventCollection::onMediaAddedRemoved(const QSet<DataObject *> *added,
 
             event->detach(media, false);
 
-            if (event->containedCount() == 0)
+            if (event->containedCount() == 0) {
                 destroy(event, true, true);
+            } else {
+            	modifiedEvent = event;
+            }
         }
+    }
+
+    if (modifiedEvent != NULL) {
+        notifyContentDataChanged(modifiedEvent);
     }
 }
 

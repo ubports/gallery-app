@@ -72,11 +72,6 @@ bool QmlEventCollectionModel::isAccepted(DataObject* item)
     if (contents == 0) return false;
 
     QList<DataObject*> items = contents->getAll();
-    // As soon as a new media file for a still not monitored event date is found an event header
-    // is added. isAccepted is triggered for this new entry with no content. If the entry header
-    // is rejected, no futher entries will be added to the model. When content is added to the 
-    // header it will be checked against mediaTypeFilter again. 
-    if (items.size() == 0) return true;
     foreach (DataObject* item, items) {
         MediaSource *source = qobject_cast<MediaSource*>(item);
         if (source != 0 && mediaTypeFilter() == source->type()) return true;

@@ -55,6 +55,8 @@ signals:
                           const QSet<DataObject*>* removed,
                           bool notify);
 
+    void contentDataChanged(DataObject* object);
+
     // fired after the the DataCollection has been reordered due to a new
     // DataObjectComparator being installed; if the new comparator doesn't
     // actually affect the ordering, this signal will still be called
@@ -111,6 +113,8 @@ protected:
     virtual void notifyContentsChanged(const QSet<DataObject*>* added,
                                        const QSet<DataObject*>* removed,
                                        bool notify);
+
+    virtual void notifyContentDataChanged(DataObject* object);
 
     virtual void notifyOrderingChanged();
 
