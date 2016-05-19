@@ -56,6 +56,11 @@ void DataCollection::notifyContentsChanged(const QSet<DataObject*>* added,
     emit contentsChanged(added, removed, notify);
 }
 
+void DataCollection::notifyContentDataChanged(DataObject* object)
+{
+    emit contentDataChanged(object);
+}
+
 /*!
  * \brief DataCollection::notifyOrderingChanged
  */

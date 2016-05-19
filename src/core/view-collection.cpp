@@ -53,6 +53,12 @@ void ViewCollection::monitorDataCollection(const DataCollection* collection,
                      this,
                      SLOT(onMonitoredContentsChanged(const QSet<DataObject*>*, const QSet<DataObject*>*, bool)));
 
+    QObject::connect(m_monitoring,
+                     SIGNAL(contentDataChanged(DataObject*)),
+                     this,
+                     SLOT(onMonitoredContentDataChanged(DataObject*)));
+
+
     // If monitoring the ordering, prime the local comparator with the monitored
     // and make sure it's continually reflected
     if (m_monitorOrdering) {
@@ -126,6 +132,27 @@ void ViewCollection::onMonitoredContentsChanged(const QSet<DataObject*>* added,
 
     if (removed != NULL)
         removeMany(*removed, notify);
+}
+
+void ViewCollection::onMonitoredContentDataChanged(DataObject* object)
+{
+    if (m_monitorFilter == NULL) {
+        return;
+    }
+
+    if (contains(object)) {
+        if (!m_monitorFilter->isAccepted(object)) {
+            QSet<DataObject*> to_remove;
+            to_remove.insert(object);
+            removeMany(to_remove, true);
+        }   
+    } else {
+        if (m_monitorFilter->isAccepted(object)) {
+            QSet<DataObject*> to_add;
+            to_add.insert(object);
+            addMany(to_add);
+        } 
+    }
 }
 
 /*!

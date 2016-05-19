@@ -102,7 +102,9 @@ MainView {
 
         Component {
             id: eventCollectionModelComponent
-            EventCollectionModel { }
+            EventCollectionModel {
+                mediaTypeFilter: getMediaTypeFilter()
+            }
         }
     }
 
@@ -172,8 +174,6 @@ MainView {
                         delegate: OrganicMediaList {
                             id: organicList
                             width: eventSelectView.width
-                            height: visible ? organicMediaListHeight : 0
-                            visible: mediaModelCount > 0
                             event: model.event
                             selection: eventSelectView.selection
                             mediaTypeFilter: getMediaTypeFilter()
