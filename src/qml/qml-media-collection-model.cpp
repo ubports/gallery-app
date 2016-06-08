@@ -94,9 +94,13 @@ void QmlMediaCollectionModel::destroySelectedMedia()
     if (view->selectedCount() == 0)
         return;
 
-    GalleryManager::instance()->mediaCollection()->destroyMany(
-                FilterSetOnlyType<DataObject*, MediaSource*>(view->getSelected()),
-                true, true);
+    QSetIterator<DataObject *> i(view->getSelected());
+    while (i.hasNext()) {
+        MediaSource* media = qobject_cast<MediaSource*>(i.next());
+        if (media != NULL) {
+            GalleryManager::instance()->mediaCollection()->destroy(media, true);
+        }
+    } 
 }
 
 /*!
