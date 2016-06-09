@@ -98,7 +98,7 @@ void QmlMediaCollectionModel::destroySelectedMedia()
     while (i.hasNext()) {
         MediaSource* media = qobject_cast<MediaSource*>(i.next());
         if (media != NULL) {
-            GalleryManager::instance()->mediaCollection()->destroy(media, true);
+            QFile::remove(media->file().absoluteFilePath());
         }
     } 
 }
