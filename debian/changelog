@@ -1,3 +1,11 @@
+gallery-app (0.0.67+16.10.20160609.1-0ubuntu1) yakkety; urgency=medium
+
+  [ Arthur Mello ]
+  * Use the same code path when deleting files from ui that is used when
+    a file is removed from filesystem (LP: #1589496)
+
+ -- Arthur Renato Mello <arthur.mello@canonical.com>  Thu, 09 Jun 2016 18:09:54 +0000
+
 gallery-app (0.0.67+16.10.20160519-0ubuntu1) yakkety; urgency=medium
 
   * Fix PickerScreen delay when previewing media files Fix collections
