@@ -7,9 +7,7 @@ confinement: strict
 apps:
   gallery-app:
     command: desktop-launch gallery-app
-    plugs:
-      - x11
-      - home
+    plugs: [unity7, opengl, home]
 
 parts:
   gallery:
@@ -17,27 +15,19 @@ parts:
     plugin: cmake
     configflags: [-DCMAKE_INSTALL_PREFIX=/usr, -DCLICK_MODE=off]
     build-packages:
-      - build-essential
       - cmake
       - gettext
       - intltool
-      - suru-icon-theme
+      - python3
       - pkg-config
       - libexiv2-dev
-      - libgl1-mesa-dev
-      - libgles2-mesa-dev
       - libmediainfo-dev
-      - libqt5opengl5-dev
-      - libqt5svg5
-      - qt5-default
       - qtbase5-dev
       - qtdeclarative5-dev
-      - python3-all
       - libexpat1-dev
       - zlib1g-dev
     stage-packages:
       - ubuntu-sdk-libs
       - qtubuntu-desktop
-      - libqt5gui5
       - qtdeclarative5-ubuntu-thumbnailer0.1
     after: [desktop/qt5]
