@@ -2,11 +2,11 @@ name: gallery-app
 version: 2.9.1
 summary: Gallery app
 description: Gallery application for your photo collection
-confinement: strict
+confinement: devmode
 
 apps:
   gallery-app:
-    command: desktop-launch gallery-app
+    command: bin/wrapper
     plugs: [unity7, opengl, home]
 
 parts:
@@ -29,5 +29,12 @@ parts:
     stage-packages:
       - ubuntu-sdk-libs
       - qtubuntu-desktop
+      - qtdeclarative5-ubuntu-ui-extras0.2
       - qtdeclarative5-ubuntu-thumbnailer0.1
     after: [desktop/qt5]
+
+  gallery-copy:
+    source: .
+    plugin: copy
+    files:
+      wrapper: bin/wrapper
