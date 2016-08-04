@@ -1,0 +1,19 @@
+#!/bin/sh
+
+if [ ! -h $HOME/Pictures ]; then
+    if [ -e $HOME/Pictures  ]; then
+        mv $HOME/Pictures $HOME/Pictures.old
+    fi
+
+    ln -s "/home/$USER/Pictures" "$HOME/Pictures"
+fi
+
+if [ ! -h $HOME/Videos ]; then
+    if [ -e $HOME/Videos  ]; then
+        mv $HOME/Videos $HOME/Videos.old
+    fi
+
+    ln -s "/home/$USER/Videos" "$HOME/Videos"
+fi
+
+exec "$SNAP/bin/desktop-launch" "gallery-app" "$@"
