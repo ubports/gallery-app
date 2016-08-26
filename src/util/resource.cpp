@@ -75,7 +75,7 @@ Resource::Resource(bool desktopMode, const QString &pictureDir)
         m_blacklistedDirectories.append(reMusic);
 
         settings.setArrayIndex(1);
-        settings.setValue("regexp", reDocumets);
+        settings.setValue("regexp", reDocuments);
         m_blacklistedDirectories.append(reDocuments);
         settings.endArray();
 
