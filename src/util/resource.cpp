@@ -67,13 +67,16 @@ Resource::Resource(bool desktopMode, const QString &pictureDir)
         settings.beginWriteArray("blacklistedDirs");
 
         //By default blacklist Music and Documents
+        QString reMusic = "/media/phablet/[^/]*/Music";
+        QString reDocuments = "/media/phablet/[^/]*/Documents";
+
         settings.setArrayIndex(0);
-        settings.setValue("regexp", QString("/media/phablet/[^/]*/Music"));
-        m_blacklistedDirectories.append(QString("/media/phablet/[^/]*/Music"));
+        settings.setValue("regexp", reMusic);
+        m_blacklistedDirectories.append(reMusic);
 
         settings.setArrayIndex(1);
-        settings.setValue("regexp", QString("/media/phablet/[^/]*/Document"));
-        m_blacklistedDirectories.append(QString("/media/phablet/[^/]*/Document"));
+        settings.setValue("regexp", reDocumets);
+        m_blacklistedDirectories.append(reDocuments);
         settings.endArray();
 
     } else {
