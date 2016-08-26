@@ -64,7 +64,7 @@ Resource::Resource(bool desktopMode, const QString &pictureDir)
     if (size <= 0) {
         settings.endArray();
 
-        settings.beginWriteArray("blacklistedDirs");
+        settings.beginWriteArray("BlacklistedDirs");
 
         //By default blacklist Music and Documents
         QString reMusic = "/media/phablet/[^/]*/Music";
