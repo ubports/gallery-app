@@ -67,7 +67,7 @@ void tst_MediaMonitor::tst_scanning_sub_folders()
     m_monitor = new MediaMonitor();
 
     // Launch the monitoring process
-    m_monitor->startMonitoring(QStringList(m_tmpDir->path()));
+    m_monitor->startMonitoring(QStringList(m_tmpDir->path()), QStringList());
 
     // Save sample image allover the tree
     m_sampleImage->save(m_tmpDir->path() + "/A/A/sample_AA.jpg", "JPG");

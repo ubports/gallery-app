@@ -42,7 +42,7 @@ public:
     MediaMonitor(QObject *parent=0);
     virtual ~MediaMonitor();
 
-    void startMonitoring(const QStringList& targetDirectories);
+    void startMonitoring(const QStringList& targetDirectories, const QStringList& blacklistedDirectories);
     void checkConsistency(const MediaCollection *mediaCollection);
     QStringList manifest();
 
@@ -77,8 +77,8 @@ public:
     QStringList getManifest();
 
 public slots:
-    void startMonitoring(const QStringList& targetDirectories);
-    QStringList findNewSubDirectories(const QStringList& currentDirectories);
+    void startMonitoring(const QStringList& targetDirectories, const QStringList &blacklistedDirectories);
+    QStringList findNewSubDirectories(const QStringList& currentDirectories, const QStringList& blacklistedDirectories);
     QStringList expandSubDirectories(const QString& dirPath);
     void checkConsistency();
 
@@ -97,6 +97,7 @@ private:
     void checkForNewMedias();
 
     QStringList m_targetDirectories;
+    QStringList m_blacklistedDirectories;
     QFileSystemWatcher m_watcher;
     QStringList m_manifest;
     QTimer m_fileActivityTimer;

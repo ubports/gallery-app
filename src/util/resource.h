@@ -37,6 +37,7 @@ public:
     static QUrl getRcUrl(const QString& path);
 
     const QStringList &mediaDirectories() const;
+    const QStringList &blacklistedDirectories() const;
     const QString &databaseDirectory() const;
     const QString &thumbnailDirectory() const;
 
@@ -47,6 +48,7 @@ public:
 private:
     QStringList m_mediaDirectories;
     QStringList m_videoDirectories;
+    QStringList m_blacklistedDirectories;
     mutable QString m_databaseDirectory;
     mutable QString m_thumbnailDirectory;
 

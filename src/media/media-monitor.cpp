@@ -63,10 +63,11 @@ MediaMonitor::~MediaMonitor()
  * new and delted files
  * \param targetDirectories
  */
-void MediaMonitor::startMonitoring(const QStringList &targetDirectories)
+void MediaMonitor::startMonitoring(const QStringList &targetDirectories, const QStringList &blacklistedDirectories)
 {
     QMetaObject::invokeMethod(m_worker, "startMonitoring", Qt::QueuedConnection,
-                              Q_ARG(QStringList, targetDirectories));
+                              Q_ARG(QStringList, targetDirectories),
+                              Q_ARG(QStringList, blacklistedDirectories));
 }
 
 /*!
@@ -104,6 +105,7 @@ QStringList MediaMonitor::manifest() {
 MediaMonitorWorker::MediaMonitorWorker(QObject *parent)
     : QObject(parent),
       m_targetDirectories(),
+      m_blacklistedDirectories(),
       m_watcher(this),
       m_manifest(),
       m_fileActivityTimer(this),
@@ -156,13 +158,27 @@ QStringList MediaMonitorWorker::getManifest()
  * that are not on the current directories list
  * \param currentDirectories
  */
-QStringList MediaMonitorWorker::findNewSubDirectories(const QStringList& currentDirectories)
+QStringList MediaMonitorWorker::findNewSubDirectories(const QStringList& currentDirectories, const QStringList& blacklistedDirectories)
 {
+    QList<QRegExp> blacklistedRegExp;
+    foreach (const QString& regExp, blacklistedDirectories) {
+        blacklistedRegExp.append(QRegExp(regExp));
+    }
+
     QStringList newDirectories;
     foreach (const QString& dirPath, currentDirectories) {
         foreach (const QString& d, expandSubDirectories(dirPath)) {
-            if (!m_targetDirectories.contains(d)) {
-                newDirectories.append(d);
+            bool blacklisted = false;
+            foreach (QRegExp re, blacklistedRegExp) {
+                if (re.indexIn(d) != -1) {
+                    blacklisted = true;
+                    break;
+                }
+            }
+            if (!blacklisted){
+                if (!m_targetDirectories.contains(d)) {
+                    newDirectories.append(d);
+                }
             }
         }
     }
@@ -216,10 +232,11 @@ QStringList MediaMonitorWorker::expandSubDirectories(const QString& dirPath)
  * \brief MediaMonitor::startMonitoring
  * \param targetDirectories
  */
-void MediaMonitorWorker::startMonitoring(const QStringList &targetDirectories)
+void MediaMonitorWorker::startMonitoring(const QStringList &targetDirectories, const QStringList &blacklistedDirectories)
 {
-    QStringList newDirectories = findNewSubDirectories(targetDirectories);
+    QStringList newDirectories = findNewSubDirectories(targetDirectories, blacklistedDirectories);
     m_targetDirectories += newDirectories;
+    m_blacklistedDirectories = blacklistedDirectories;
     m_manifest = generateManifest(m_targetDirectories);
     m_watcher.addPaths(newDirectories);
 }
@@ -254,7 +271,7 @@ void MediaMonitorWorker::onFileActivityCeased()
     }
 
     QStringList currentDirectories = QStringList(m_targetDirectories);
-    QStringList newDirectories = findNewSubDirectories(currentDirectories);
+    QStringList newDirectories = findNewSubDirectories(currentDirectories, m_blacklistedDirectories);
 
     m_targetDirectories += newDirectories;
     m_watcher.addPaths(newDirectories);

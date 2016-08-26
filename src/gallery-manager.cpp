@@ -240,7 +240,7 @@ void GalleryManager::startFileMonitoring()
     QObject::connect(m_monitor, SIGNAL(consistencyCheckFinished()),
                      this, SIGNAL(consistencyCheckFinished()));
 
-    m_monitor->startMonitoring(m_resource->mediaDirectories());
+    m_monitor->startMonitoring(m_resource->mediaDirectories(), m_resource->blacklistedDirectories());
     m_monitor->checkConsistency(m_mediaCollection);
 }
 
