@@ -19,6 +19,7 @@
 
 #include "media-table.h"
 #include "database.h"
+#include "resource.h"
 
 #include <QDateTime>
 #include <QDebug>
@@ -46,8 +47,8 @@ void setOrientationOfFirstRow(Orientation orientation)
     mediaFakeTable[0].originalOrientation = orientation;
 }
 
-MediaTable::MediaTable(Database* db, QObject* parent)
-    : QObject(parent), m_db(db)
+MediaTable::MediaTable(Database* db, Resource *resource, QObject* parent)
+    : QObject(parent), m_db(db), m_resource(resource)
 {
     mediaLastId = 0;
     mediaFakeTable.clear();

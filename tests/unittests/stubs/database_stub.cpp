@@ -21,18 +21,18 @@
 #include "database.h"
 #include "album-table.h"
 #include "media-table.h"
+#include "resource.h"
 
 #include <QFile>
 
-Database::Database(const QString &databaseDir, const QString &schemaDirectory,
-                   QObject* parent) :
+Database::Database(Resource *resource, QObject* parent) :
     QObject(parent),
-    m_databaseDirectory(databaseDir),
-    m_sqlSchemaDirectory(schemaDirectory),
+    m_databaseDirectory(resource->databaseDirectory()),
+    m_sqlSchemaDirectory(resource->getRcUrl("sql").path()),
     m_db(0)
 {
     m_albumTable = new AlbumTable(this, this);
-    m_mediaTable = new MediaTable(this, this);
+    m_mediaTable = new MediaTable(this, resource, this);
 }
 
 Database::~Database()

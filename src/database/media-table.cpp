@@ -19,6 +19,7 @@
 
 #include "media-table.h"
 #include "database.h"
+#include "resource.h"
 
 #include <QApplication>
 #include <QtSql>
@@ -28,8 +29,8 @@
  * \param db
  * \param parent
  */
-MediaTable::MediaTable(Database* db, QObject* parent)
-    : QObject(parent), m_db(db)
+MediaTable::MediaTable(Database* db, Resource *resource, QObject* parent)
+    : QObject(parent), m_db(db), m_resource(resource)
 {
 }
 
@@ -225,12 +226,55 @@ QDateTime MediaTable::getExposureTime(qint64 mediaId)
     return exposure_time;
 }
 
+void MediaTable::removeBlacklistedRows()
+{
+    if (!m_resource)
+        return;
+
+    // Get list of current /media external drives connected
+    QString extDrivesPath("/media/" + qgetenv("USER") + "/");
+    if (!QDir(extDrivesPath).exists())
+        return;
+
+    QStringList extDrives = QDir(extDrivesPath).entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Time);
+
+    // Expand current regular expressions to use existing external drives
+    QStringList replacedRegExpList;
+    foreach (const QString& regExp, m_resource->blacklistedDirectories()) {
+        if (!regExp.startsWith("/media/" + qgetenv("USER") + "/[^/]*"))
+            continue;
+
+        foreach (const QString &extDrive, extDrives) {
+            QString replacedRegExp(regExp);
+            replacedRegExp.replace("/media/" + qgetenv("USER") + "/[^/]*", "/media/" + qgetenv("USER") + "/" + extDrive);
+
+            if (replacedRegExp.endsWith("/")) {
+                replacedRegExpList << replacedRegExp + "%";
+            } else {
+                replacedRegExpList << replacedRegExp + "/%";
+            }
+        }
+    }
+
+    QSqlQuery query(*m_db->getDB());
+    query.prepare("DELETE FROM MediaTable WHERE filename LIKE :blacklisted");
+
+    foreach (const QString &blacklisted, replacedRegExpList) {
+        query.bindValue(":blacklisted", blacklisted);
+        if (!query.exec()) {
+            m_db->logSqlError(query);
+        }
+    }
+}
+
 /*!
  * \brief MediaTable::emitAllRows goes through the whole DB and emits a row() signal
  * for every single row with all the Database
  */
 void MediaTable::emitAllRows()
 {
+    removeBlacklistedRows();
+
     QSqlQuery query(*m_db->getDB());
     query.prepare("SELECT * FROM MediaTable");
     if (!query.exec())

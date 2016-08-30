@@ -138,8 +138,7 @@ void GalleryManager::postInit()
 
         Exiv2::LogMsg::setLevel(Exiv2::LogMsg::mute);
 
-        m_database = new Database(m_resource->databaseDirectory(),
-                                 m_resource->getRcUrl("sql").path());
+        m_database = new Database(m_resource);
         m_mediaFactory->setMediaTable(m_database->getMediaTable());
         m_defaultTemplate = new AlbumDefaultTemplate();
         m_mediaCollection = new MediaCollection(m_database->getMediaTable());
