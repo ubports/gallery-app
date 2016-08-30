@@ -2,12 +2,12 @@ name: gallery-app
 version: 2.9.1
 summary: Gallery app
 description: Gallery application for your photo collection
-confinement: devmode
+confinement: strict
 
 apps:
   gallery-app:
     command: bin/wrapper
-    plugs: [unity7, opengl, home]
+    plugs: [unity7, opengl, home, thumbnailer]
 
 parts:
   gallery:
