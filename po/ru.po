@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2015-07-06 05:27+0000\n"
-"Last-Translator: ☠Jay ZDLin☠ <Unknown>\n"
+"PO-Revision-Date: 2016-08-12 13:14+0000\n"
+"Last-Translator: Doctor Rover <Unknown>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2016-05-27 05:34+0000\n"
-"X-Generator: Launchpad (build 18053)\n"
+"X-Launchpad-Export-Date: 2016-08-13 06:04+0000\n"
+"X-Generator: Launchpad (build 18169)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:36
@@ -199,7 +199,7 @@ msgstr "Альбомы"
 #: rc/qml/MainScreen.qml:162 rc/qml/MainScreen.qml:202
 #: rc/qml/PickerScreen.qml:99
 msgid "Events"
-msgstr "Мероприятия"
+msgstr "События"
 
 #: rc/qml/MainScreen.qml:211 rc/qml/MainScreen.qml:254
 #: rc/qml/PickerScreen.qml:150
