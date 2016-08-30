@@ -241,6 +241,13 @@ void MediaTable::removeBlacklistedRows()
     // Expand current regular expressions to use existing external drives
     QStringList replacedRegExpList;
     foreach (const QString& regExp, m_resource->blacklistedDirectories()) {
+        // If regular expression is a valid path add that to the support LIKE format
+        if (QDir(regExp).exists()) {
+            replacedRegExpList << regExp + "%";
+            continue;
+        }
+
+        // If regular expression is in the default format replace it with sdcard path
         if (!regExp.startsWith("/media/" + qgetenv("USER") + "/[^/]*"))
             continue;
 
