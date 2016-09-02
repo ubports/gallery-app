@@ -233,10 +233,11 @@ void MediaTable::removeBlacklistedRows()
 
     // Get list of current /media external drives connected
     QString extDrivesPath("/media/" + qgetenv("USER") + "/");
-    if (!QDir(extDrivesPath).exists())
-        return;
+    QStringList extDrives;
 
-    QStringList extDrives = QDir(extDrivesPath).entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Time);
+    if (QDir(extDrivesPath).exists()) {
+        extDrives = QDir(extDrivesPath).entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Time);
+    }
 
     // Expand current regular expressions to use existing external drives
     QStringList replacedRegExpList;
