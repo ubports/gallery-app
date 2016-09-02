@@ -29,12 +29,15 @@ parts:
     stage-packages:
       - ubuntu-sdk-libs
       - qtubuntu-desktop
+      - xdg-user-dirs
       - qtdeclarative5-ubuntu-ui-extras0.2
       - qtdeclarative5-ubuntu-thumbnailer0.1
     after: [desktop/qt5]
 
   gallery-copy:
     source: .
-    plugin: copy
-    files:
+    plugin: dump
+    organize:
       wrapper: bin/wrapper
+      test.jpg: test/test.jpg
+
