@@ -1,3 +1,20 @@
+gallery-app (0.0.67+16.10.20160921-0ubuntu1) yakkety; urgency=medium
+
+  [ Arthur Mello ]
+  * Fix how autopilot tests select media entries from Organic media view
+    (LP: #1613816)
+  * Add support to blacklist directories from scan process based on
+    regexp (LP: #1445755)
+  * Add yaml file and place icon to the expected path to add initial
+    support to build a gallery snap pkg
+  * Add upstart as a build dep so gallery will not be build against
+    archs that do not have it
+
+  [ Florian Boucault ]
+  * Fixes for crossbuilding.
+
+ -- Arthur Renato Mello <arthur.mello@canonical.com>  Wed, 21 Sep 2016 19:07:23 +0000
+
 gallery-app (0.0.67+16.10.20160609.1-0ubuntu1) yakkety; urgency=medium
 
   [ Arthur Mello ]
