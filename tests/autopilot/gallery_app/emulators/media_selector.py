@@ -21,17 +21,11 @@ class MediaSelector(GalleryUtils):
     def get_second_photo(self):
         """Return the second photo item"""
         selector = self.get_media_selector()
-
         # get the first row in the selector
-        mediaRow = selector.wait_select_single(objectName="mediaSelectorList0")
-
-        # get the loader for the second item
-        thumbnailLoader = mediaRow.wait_select_single(
-            objectName="thumbnailLoader1")
-
+        events = self.app.select_many('OrganicMediaList')
+        photos = events[0].select_many( 'QQuickItem', objectName='eventPhoto')
         # return the item itself
-        return thumbnailLoader.wait_select_single(objectName="eventPhoto",
-                                                  thumbnailLoaded=True)
+        return photos[0]
 
     def ensure_fully_open(self):
         """Ensure media selector is fully open"""

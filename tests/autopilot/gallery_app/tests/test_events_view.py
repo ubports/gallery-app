@@ -130,8 +130,8 @@ class TestEventsView(GalleryTestCase):
         self.assertThat(lambda: exists(self.sample_jpg_files[3]),
                         Eventually(Equals(True)))
         self.enable_select_mode()
-        self.events_view.select_photo(self.sample_jpg_files[2])
-        self.events_view.select_photo(self.sample_jpg_files[3])
+        self.events_view.select_photo(self.sample_jpg_files[2], 1)
+        self.events_view.select_photo(self.sample_jpg_files[3], 0)
         self.main_view.get_header().click_action_button("shareButton")
         share_picker = self.events_view.get_share_peer_picker()
         self.assertThat(share_picker.visible, Eventually(Equals(True)))
