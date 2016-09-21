@@ -29,6 +29,7 @@ class MediaTable;
 
 class QSqlDatabase;
 class QSqlQuery;
+class Resource;
 
 const qint64 INVALID_ID = -1;
 
@@ -40,7 +41,7 @@ class Database : public QObject
     Q_OBJECT
 
 public:
-    Database(const QString& databaseDir, const QString &schemaDirectory, QObject* parent = 0);
+    Database(Resource *resource, QObject* parent = 0);
 
     ~Database();
 

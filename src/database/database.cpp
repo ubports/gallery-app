@@ -21,6 +21,7 @@
 #include "database.h"
 #include "album-table.h"
 #include "media-table.h"
+#include "resource.h"
 
 #include <QFile>
 #include <QSqlTableModel>
@@ -32,11 +33,10 @@
  * \param schemaDirectory directory of the SQL schema for the database
  * \param parent
  */
-Database::Database(const QString &databaseDir, const QString &schemaDirectory,
-                   QObject* parent) :
+Database::Database(Resource *resource, QObject* parent) :
     QObject(parent),
-    m_databaseDirectory(databaseDir),
-    m_sqlSchemaDirectory(schemaDirectory),
+    m_databaseDirectory(resource->databaseDirectory()),
+    m_sqlSchemaDirectory(resource->getRcUrl("sql").path()),
     m_db(new QSqlDatabase())
 {
     if (!QFile::exists(m_databaseDirectory)) {
@@ -47,7 +47,7 @@ Database::Database(const QString &databaseDir, const QString &schemaDirectory,
     }
 
     m_albumTable = new AlbumTable(this, this);
-    m_mediaTable = new MediaTable(this, this);
+    m_mediaTable = new MediaTable(this, resource, this);
 
     // Open the database.
     if (!openDB())

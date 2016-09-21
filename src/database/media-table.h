@@ -26,6 +26,7 @@
 #include <QObject>
 
 class Database;
+class Resource;
 
 /*!
  * \brief The MediaTable class
@@ -35,7 +36,7 @@ class MediaTable : public QObject
     Q_OBJECT
 
 public:
-    explicit MediaTable(Database* db, QObject *parent = 0);
+    explicit MediaTable(Database* db, Resource *resource, QObject *parent = 0);
 
     qint64 getIdForMedia(const QString& filename);
 
@@ -61,6 +62,7 @@ public:
 
     QDateTime getExposureTime(qint64 mediaId);
 
+    void removeBlacklistedRows();
     void emitAllRows();
 
 signals:
@@ -70,6 +72,7 @@ signals:
 
 private:
     Database* m_db;
+    Resource* m_resource;
 };
 
 #endif // MEDIATABLE_H

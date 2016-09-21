@@ -24,6 +24,7 @@
 #include <QtGui/QOpenGLContext>
 #include <QtQuick/QQuickView>
 #include <QStandardPaths>
+#include <QSettings>
 
 const QLatin1String Resource::DATABASE_DIR = QLatin1String("database");
 const QLatin1String Resource::THUMBNAIL_DIR = QLatin1String("thumbnails");
@@ -36,6 +37,7 @@ const QLatin1String Resource::CAMERA_RECORD_DIR = QLatin1String("camera");
  */
 Resource::Resource(bool desktopMode, const QString &pictureDir)
     : m_mediaDirectories(),
+      m_blacklistedDirectories(),
       m_databaseDirectory(""),
       m_thumbnailDirectory("")
 {
@@ -56,6 +58,34 @@ Resource::Resource(bool desktopMode, const QString &pictureDir)
         m_mediaDirectories.append(QString("/media/" + userName));
         m_videoDirectories.append(QString("/media/" + userName));
     }
+
+    QSettings settings("com.ubuntu.gallery", "com.ubuntu.gallery");
+    int size = settings.beginReadArray("BlacklistedDirs");
+    if (size <= 0) {
+        settings.endArray();
+
+        settings.beginWriteArray("BlacklistedDirs");
+
+        //By default blacklist Music and Documents
+        QString reMusic = "/media/phablet/[^/]*/Music";
+        QString reDocuments = "/media/phablet/[^/]*/Documents";
+
+        settings.setArrayIndex(0);
+        settings.setValue("regexp", reMusic);
+        m_blacklistedDirectories.append(reMusic);
+
+        settings.setArrayIndex(1);
+        settings.setValue("regexp", reDocuments);
+        m_blacklistedDirectories.append(reDocuments);
+        settings.endArray();
+
+    } else {
+        for (int i = 0; i < size; ++i) {
+            settings.setArrayIndex(i);
+            m_blacklistedDirectories.append(settings.value("regexp").toString());
+        }
+        settings.endArray();
+    }
 }
 
 /*!
@@ -74,13 +104,14 @@ QUrl Resource::getRcUrl(const QString& path)
     }
 }
 
-/*!
- * \brief Resource::picturesDirectory
- * \return Returns the directory for the pictures
- */
 const QStringList &Resource::mediaDirectories() const
 {
     return m_mediaDirectories;
+}
+
+const QStringList &Resource::blacklistedDirectories() const
+{
+    return m_blacklistedDirectories;
 }
 
 /*!
