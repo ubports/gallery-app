@@ -23,3 +23,5 @@ if [ ! -h $SNAP_VIDEOS_DIR ]; then
 
     ln -s "$XDG_VIDEOS_DIR" "$SNAP_VIDEOS_DIR"
 fi
+
+exec "$SNAP/bin/desktop-launch" "gallery-app" "$@"
