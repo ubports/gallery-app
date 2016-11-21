@@ -2,12 +2,20 @@ name: gallery-app
 version: 2.9.1
 summary: Gallery app
 description: Gallery application for your photo collection
-confinement: strict
+confinement: devmode
+grade: devel
 
 apps:
   gallery-app:
     command: bin/wrapper
-    plugs: [unity7, opengl, home, thumbnailer]
+    plugs: [unity7, opengl, home, thumbnailer, platform]
+
+plugs:
+  platform:
+    interface: content
+    content: ubuntu-app-platform1
+    target: ubuntu-app-platform
+    default-provider: ubuntu-app-platform
 
 parts:
   gallery:
@@ -27,15 +35,27 @@ parts:
       - libexpat1-dev
       - zlib1g-dev
     stage-packages:
-      - ubuntu-sdk-libs
-      - qtubuntu-desktop
       - xdg-user-dirs
       - qtdeclarative5-ubuntu-ui-extras0.2
-      - qtdeclarative5-ubuntu-thumbnailer0.1
-    after: [desktop/qt5]
+    snap:
+      # gallery-app
+      - usr/bin/gallery-app
+      - usr/share/applications
+      - usr/share/content-hub
+      - usr/share/gallery-app
+      - usr/share/icons
+      - usr/share/locale/*/LC_MESSAGES/gallery-app.mo
+      - usr/share/url-dispatcher/urls/*
+      # xdg-user-dirs
+      - usr/share/locale
+      # ui-extras
+      - usr/lib/x86_64-linux-gnu/qt5/qml/Ubuntu/Components/Extras
+      - usr/share/doc/qtdeclarative5-ubuntu-ui-extras0.2/copyright
+    after:
+      - desktop-ubuntu-app-platform
 
   gallery-copy:
-    source: .
+    source: snap
     plugin: dump
     organize:
       wrapper: bin/wrapper
