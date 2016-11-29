@@ -144,7 +144,7 @@ MainView {
             id: albumsTab
             objectName: "albumsTab"
             title: i18n.tr("Albums")
-            property bool isAlbumOpened: page.item ? page.item.isAlbumOpened : false
+            property bool isAlbumOpened: (page.item  && page.item.isAlbumOpened)
             page: Loader {
                 id: albumsCheckerboardLoader
                 objectName: "albumsCheckerboardLoader"
@@ -296,7 +296,7 @@ MainView {
 
     Loader {
         id: mediaLibraryLoader
-        sourceComponent: allLoaded ? mediaLibraryComponent : ""        
+        sourceComponent: allLoaded ? mediaLibraryComponent : null
 
         Component {
             id: mediaLibraryComponent
