@@ -1,9 +1,9 @@
 name: gallery-app
-version: 2.9.1
+version: 2.9.2
 summary: Gallery app
 description: Gallery application for your photo collection
 confinement: devmode
-grade: devel
+grade: stable
 
 apps:
   gallery-app:
@@ -46,6 +46,7 @@ parts:
       - usr/share/icons
       - usr/share/locale/*/LC_MESSAGES/gallery-app.mo
       - usr/share/url-dispatcher/urls/*
+      - usr/lib/x86_64-linux-gnu/libexiv2.so.14*
       # xdg-user-dirs
       - usr/bin/xdg-user-dir
       - usr/bin/xdg-user-dirs-update
