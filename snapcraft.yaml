@@ -1,5 +1,5 @@
 name: gallery-app
-version: 2.9.2
+version: 0.0.67
 summary: Gallery app
 description: Gallery application for your photo collection
 confinement: devmode
