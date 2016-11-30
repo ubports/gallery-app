@@ -1,5 +1,5 @@
 name: gallery-app
-version: 0.0.67
+version: 0.0.67+17.04.20161129-0ubuntu1
 summary: Gallery app
 description: Gallery application for your photo collection
 confinement: devmode
@@ -8,7 +8,7 @@ grade: stable
 apps:
   gallery-app:
     command: desktop-launch $SNAP/bin/wrapper --desktop_file_hint=unity8
-    plugs: [unity7, opengl, home, thumbnailer, platform]
+    plugs: [unity7, unity8, opengl, home, thumbnailer, platform]
 
 plugs:
   platform:

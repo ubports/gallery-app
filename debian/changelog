@@ -1,3 +1,10 @@
+gallery-app (0.0.67+17.04.20161129-0ubuntu1) zesty; urgency=medium
+
+  * Set Import dir based on "SNAP" env var. (LP: #1629009)
+  * Make use of ubuntu-app-platform.
+
+ -- Renato Araujo Oliveira Filho <renato.filho@canonical.com>  Tue, 29 Nov 2016 18:42:11 +0000
+
 gallery-app (0.0.67+16.10.20160921-0ubuntu1) yakkety; urgency=medium
 
   [ Arthur Mello ]
