@@ -8,6 +8,9 @@ XDG_VIDEOS_DIR=$(HOME=/home/$USER xdg-user-dir VIDEOS)
 SNAP_PICTURES_DIR=$HOME/`basename $XDG_PICTURES_DIR`
 SNAP_VIDEOS_DIR=$HOME/`basename $XDG_VIDEOS_DIR`
 
+#FIXME: (ubuntu-app-platform) missing pulse path on LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$SNAP/ubuntu-app-platform/usr/lib/x86_64-linux-gnu/pulseaudio
+
 if [ ! -h $SNAP_PICTURES_DIR ]; then
     if [ -e $SNAP_PICTURES_DIR ]; then
         mv $SNAP_PICTURES_DIR $SNAP_PICTURES_DIR.old
@@ -24,4 +27,4 @@ if [ ! -h $SNAP_VIDEOS_DIR ]; then
     ln -s "$XDG_VIDEOS_DIR" "$SNAP_VIDEOS_DIR"
 fi
 
-exec "$SNAP/bin/desktop-launch" "gallery-app" "$@"
+exec "$SNAP/usr/bin/gallery-app" "$@"

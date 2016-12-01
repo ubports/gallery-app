@@ -23,6 +23,8 @@
 #include <QtCore/QDir>
 #include <QtCore/QString>
 
+static const QByteArray SNAP_PATH("SNAP");
+
 inline bool isClick() {
 #ifdef CLICK_MODE
     return true;
@@ -33,7 +35,9 @@ inline bool isClick() {
 
 inline bool isRunningInstalled()
 {
-    static bool installed = (QCoreApplication::applicationDirPath() == QDir("@CMAKE_INSTALL_FULL_BINDIR@").canonicalPath());
+    static bool installed =
+            qEnvironmentVariableIsSet(SNAP_PATH) ||
+            (QCoreApplication::applicationDirPath() == QDir("@CMAKE_INSTALL_FULL_BINDIR@").canonicalPath());
     return installed;
 }
 
@@ -43,7 +47,9 @@ inline void setOrganization() {
 
 inline QString galleryDirectory()
 {
-    if (isClick()) {
+    if (qEnvironmentVariableIsSet(SNAP_PATH)) {
+        return QString("%1/@CMAKE_INSTALL_PREFIX@/@GALLERY_DIR@").arg(QString(qgetenv(SNAP_PATH)));
+    } if (isClick()) {
         return QString(".");
     } else if (isRunningInstalled()) {
         return QString("@CMAKE_INSTALL_PREFIX@/@GALLERY_DIR@");
