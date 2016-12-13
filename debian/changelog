@@ -1,3 +1,9 @@
+gallery-app (0.0.67+17.04.20161213-0ubuntu1) zesty; urgency=medium
+
+  * added apparmor profile for gallery-app
+
+ -- Ken VanDine <ken.vandine@canonical.com>  Tue, 13 Dec 2016 15:52:02 +0000
+
 gallery-app (0.0.67+17.04.20161129-0ubuntu1) zesty; urgency=medium
 
   * Set Import dir based on "SNAP" env var. (LP: #1629009)
