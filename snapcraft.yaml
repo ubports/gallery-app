@@ -37,6 +37,10 @@ parts:
       - zlib1g-dev
     stage-packages:
       - xdg-user-dirs
+      - libmediainfo0v5
+      - libzen0v5
+      - libmms0
+      - libtinyxml2-2v5
     snap:
       # gallery-app
       - usr/bin/gallery-app
@@ -46,13 +50,22 @@ parts:
       - usr/share/icons
       - usr/share/locale/*/LC_MESSAGES/gallery-app.mo
       - usr/share/url-dispatcher/urls/*
-      - usr/lib/x86_64-linux-gnu/libexiv2.so.14*
+      - usr/lib/*/libexiv2.so.14*
       # xdg-user-dirs
       - usr/bin/xdg-user-dir
       - usr/bin/xdg-user-dirs-update
       - etc/xdg
       - etc/X11/Xsession.d/60xdg-user-dirs-update
       - usr/share/locale
+      # libmediainfo0v5
+      - usr/lib/*/libmediainfo.so.*
+      # libzen0v5
+      - usr/lib/*/libzen.so.* 
+      # libmms0
+      - usr/lib/*/libmms.so.*
+      # libtinyxml2-2v5
+      - usr/lib/*/libtinyxml2.so.*
+
     after:
       - desktop-ubuntu-app-platform
 
