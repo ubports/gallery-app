@@ -7,8 +7,8 @@ grade: stable
 
 apps:
   gallery-app:
-    command: desktop-launch $SNAP/bin/wrapper --desktop_file_hint=unity8
-    plugs: [unity7, unity8, opengl, home, platform] # "thumbnailer" still missing
+    command: desktop-launch $SNAP/bin/wrapper
+    plugs: [unity7, unity8, opengl, home, platform, mir] # "thumbnailer" still missing
 
 plugs:
   platform:
@@ -36,7 +36,6 @@ parts:
       - zlib1g-dev
     stage-packages:
       - xdg-user-dirs
-      - qtdeclarative5-ubuntu-ui-extras0.2
     snap:
       # gallery-app
       - usr/bin/gallery-app
@@ -53,9 +52,6 @@ parts:
       - etc/xdg
       - etc/X11/Xsession.d/60xdg-user-dirs-update
       - usr/share/locale
-      # ui-extras
-      - usr/lib/x86_64-linux-gnu/qt5/qml/Ubuntu/Components/Extras
-      - usr/share/doc/qtdeclarative5-ubuntu-ui-extras0.2/copyright
     after:
       - desktop-ubuntu-app-platform
 
