@@ -11,14 +11,10 @@
         }
     },
     "icon": "share/icons/gallery-app.svg",
-    "maintainer": "Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>",
+    "maintainer": "Emanuele Sorce <emanuele.sorce@hotmail.com>",
     "name": "@APP_PACKAGE_NAME@",
     "title": "Gallery",
-    "version": "2.9.1.@BZR_REVNO@",
-    "x-source": {
-        "vcs-bzr": "@BZR_SOURCE@",
-        "vcs-bzr-revno": "@BZR_REVNO@"
-    },
+    "version": "2.9.2",
     "x-test": {
         "autopilot": "@AUTOPILOT_DIR@"
     }
