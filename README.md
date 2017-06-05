@@ -1,8 +1,12 @@
 # Gallery app
 
-Now gallery app is manteined by UBports, current developers are: Emanuele Sorce.
+Now gallery app is mantained by UBports community, current developers are: Emanuele Sorce.
 
-To compile is suggested to use the clickable tool created by brian douglass.
-You have to install some armhf header library package on the lxc container to succeffully build it.
+## Building
 
-Contact me: Emanuele Sorce <emanuele.sorce@hotmail.com>
+To compile it is suggested to use the Clickable tool created by Brian Douglass.
+You have to install some armhf header library package on the lxc container to successfully build it.
+
+## Contacts
+
+Emanuele Sorce <emanuele.sorce@hotmail.com>
