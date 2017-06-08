@@ -16,6 +16,7 @@
 /Testing
 /po/*.gmo
 /po/desktop
+/build
 CMakeCache.txt
 CMakeFiles
 CTestTestfile.cmake
