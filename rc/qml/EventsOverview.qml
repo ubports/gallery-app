@@ -12,6 +12,10 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * 
+ * Authors
+ * Emanuele Sorce <emanuele.sorce@hotmail.com>
+ * 
  */
 
 import QtQuick 2.4
@@ -187,7 +191,14 @@ OrganicView {
     Page {
         id: sharePicker
         visible: false
-        title: i18n.tr("Share to")
+        
+        header: PageHeader{
+            
+            width: parent.width
+            height: parent.height
+            
+            title: i18n.tr("Share to")
+        }
 
         ContentPeerPicker {
             objectName: "sharePickerEvents"

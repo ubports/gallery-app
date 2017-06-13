@@ -26,3 +26,7 @@ cmake_install.cmake
 *.moc
 moc_*.cpp
 moc_*.cxx
+
+# Kdevelop files
+.kdev4/
+*.kdev4
