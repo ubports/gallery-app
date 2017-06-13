@@ -39,7 +39,7 @@ Page {
     /// @param thumbnailRect is the rect, the photo thumbnails is shown in
     signal mediaSourcePressed(var mediaSource, var thumbnailRect)
 
-    /// The to show in this view
+    /// The photo to show in this view
     property MediaCollectionModel model
 
     /// True if in the selection mode

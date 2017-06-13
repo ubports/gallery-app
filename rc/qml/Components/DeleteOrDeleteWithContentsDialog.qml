@@ -57,7 +57,7 @@ Popover {
             }
         }
         ListItem.Standard {
-            text: i18n.tr("Delete album + contents")
+            text: i18n.tr("Delete album AND contents")
             selected: false
             onClicked: {
                 deleteWithContentsClicked()

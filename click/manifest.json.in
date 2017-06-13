@@ -1,6 +1,6 @@
 {
     "description": "Gallery application for your photo collection",
-    "framework": "ubuntu-sdk-15.04.4",
+    "framework": "ubuntu-sdk-15.04.5",
     "architecture": "@CLICK_ARCH@",
     "hooks": {
         "gallery": {
@@ -14,7 +14,7 @@
     "maintainer": "Emanuele Sorce <emanuele.sorce@hotmail.com>",
     "name": "@APP_PACKAGE_NAME@",
     "title": "Gallery",
-    "version": "2.9.2",
+    "version": "2.9.3",
     "x-test": {
         "autopilot": "@AUTOPILOT_DIR@"
     }

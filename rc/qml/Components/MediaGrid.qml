@@ -28,6 +28,7 @@ Shows a grid with media from a given model. The medias can be selected if a
 proper SelectionSate is given
  */
 GridView {
+
     id: photosGrid
 
     /// Selection for the grid
@@ -59,10 +60,10 @@ GridView {
     cellHeight: thumbnailSize + spacing
 
     maximumFlickVelocity: units.gu(800)
-    flickDeceleration: maximumFlickVelocity * 0.5
+    flickDeceleration: units.gu(400)
 
     // Use this rather than anchors.topMargin to prevent delegates from being
-    // unloade while scrolling out of view but still partially visible
+    // unloaded while scrolling out of view but still partially visible
     header: Item {
         width: parent.width
         height: units.gu(1)
