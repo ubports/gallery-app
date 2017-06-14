@@ -175,8 +175,9 @@ Item {
         Page {
             id: sharePicker
             visible: false
+            
             title: i18n.tr("Share to")
-
+               
             onVisibleChanged: viewerWrapper.setHeaderVisibilityRequested(!visible)
 
             ContentPeerPicker {

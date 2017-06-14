@@ -98,8 +98,8 @@ msgid "Delete album"
 msgstr "Elimina album"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
-msgid "Delete album + contents"
-msgstr "Elimina album e contenuti"
+msgid "Delete album AND contents"
+msgstr "Elimina album E contenuti"
 
 #: rc/qml/Components/EventCard.qml:59
 msgid "MMM yyyy"

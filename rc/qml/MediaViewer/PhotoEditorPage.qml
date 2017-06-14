@@ -22,11 +22,11 @@ Page {
     id: page
     property string photo
     signal done(bool photoWasModified)
-
+    
     title: i18n.tr("Edit Photo")
-
+    
     head.backAction: Action {
-        iconName: "back"
+        iconName: "save"
         onTriggered: editor.close(true)
     }
     head.actions: editor.actions

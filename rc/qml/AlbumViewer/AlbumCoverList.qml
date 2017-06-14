@@ -110,12 +110,12 @@ ListModel {
         for (var i = 0; i < albumCoverList.count; i++) {
             var elem = albumCoverList. get(i);
             switch (i) {
-            case 0: elem.title = i18n.tr("Default"); break;
-            case 1: elem.title = i18n.tr("Blue"); break;
-            case 2: elem.title = i18n.tr("Green"); break;
-            case 3: elem.title = i18n.tr("Pattern"); break;
-            case 4: elem.title = i18n.tr("Red"); break;
-            default: elem.title = "";
+                case 0: elem.title = i18n.tr("Default"); break;
+                case 1: elem.title = i18n.tr("Blue"); break;
+                case 2: elem.title = i18n.tr("Green"); break;
+                case 3: elem.title = i18n.tr("Pattern"); break;
+                case 4: elem.title = i18n.tr("Red"); break;
+                default: elem.title = "";
             }
             albumCoverList.set(i, elem);
         }
