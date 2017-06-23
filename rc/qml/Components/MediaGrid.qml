@@ -144,6 +144,8 @@ GridView {
         }
     }
 
+    
+    
     displaced: Transition {
         NumberAnimation {
             properties: "x,y"

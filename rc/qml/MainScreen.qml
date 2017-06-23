@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2012-2015 Canonical Ltd
- *
+ * Copyright (C) 2017 Emanuele Sorce <emanuele.sorce@hotmail.com>
+ * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
  * published by the Free Software Foundation.
@@ -30,6 +31,8 @@ import "AlbumViewer"
 MainView {
     id: overview
     objectName: "overview"
+
+	backgroundColor: UbuntuColors.porcelain
 
     anchors.fill: parent
     applicationName: "com.ubuntu.gallery"

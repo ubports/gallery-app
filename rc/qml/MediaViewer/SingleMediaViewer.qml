@@ -92,7 +92,7 @@ Item {
         property real initialZoom
         property real maximumScale: 3.0
         property real minimumZoom: 1.0
-        property real maximumZoom: 3.0
+        property real maximumZoom: 5.0
         property bool active: false
         property var center
 
