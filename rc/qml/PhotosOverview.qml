@@ -153,7 +153,6 @@ Page {
                 onTriggered: __albumPicker = PopupUtils.open(Qt.resolvedUrl("Components/PopupAlbumPicker.qml"),
                                                              null,
                                                              {contentHeight: photosOverview.__pickerContentHeight});
- 
             },
             Action {
                 objectName: "deleteButton"
