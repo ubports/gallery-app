@@ -192,13 +192,7 @@ OrganicView {
         id: sharePicker
         visible: false
         
-        header: PageHeader{
-            
-            width: parent.width
-            height: parent.height
-            
-            title: i18n.tr("Share to")
-        }
+        title: i18n.tr("Share to")
 
         ContentPeerPicker {
             objectName: "sharePickerEvents"

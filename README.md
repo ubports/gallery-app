@@ -1,12 +1,12 @@
 # Gallery app
 
-Now gallery app is mantained by UBports community, current developers are: Emanuele Sorce.
+Initially developed by Canonical, now gallery app is a UBports core app mantained by the community.
+Current developers are: Emanuele Sorce <emanuele.sorce@hotmail.com>
 
-## Building
+## Compiling
 
-To compile it is suggested to use the Clickable tool created by Brian Douglass.
-You have to install some armhf header library package on the lxc container to successfully build it.
+Is suggested to use the Clickable tool created by Brian Douglass [github.com/bhdouglass/clickable]
 
-## Contacts
+## Licensing
 
-Emanuele Sorce <emanuele.sorce@hotmail.com>
+The app is licensed under the GNU GPL v3 license, see source code for more details
