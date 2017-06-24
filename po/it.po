@@ -249,7 +249,7 @@ msgstr "Attiva/Disattiva selezione"
 
 #: rc/qml/MediaViewer/SingleMediaViewer.qml:241
 msgid "An error has occurred attempting to load media"
-msgstr "Si è verificato un errore tentando di caricare il contenuto"
+msgstr "Si è verificato un errore tentando di caricare il file multimediale"
 
 #: rc/qml/PickerScreen.qml:233
 msgid "Pick"

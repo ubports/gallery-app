@@ -311,7 +311,7 @@ Item {
                 objectName: "editButton"
                 text: i18n.tr("Edit")
                 iconSource: "../../img/edit.png"
-                enabled: galleryPhotoViewer.media.type === MediaSource.Photo && galleryPhotoViewer.media.canBeEdited
+                visible: galleryPhotoViewer.media.type === MediaSource.Photo && galleryPhotoViewer.media.canBeEdited
                 onTriggered: {
                     var path = galleryPhotoViewer.media.path.toString();
                     path = path.replace("file://", "")

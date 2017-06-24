@@ -142,7 +142,7 @@ MainView {
         visible: !(photoViewerLoader.item && photoViewerLoader.item.isPoppedUp)
 
         selectedTabIndex: 1
-
+        
         Tab {
             id: albumsTab
             objectName: "albumsTab"
