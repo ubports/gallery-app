@@ -14,7 +14,7 @@
     "maintainer": "Emanuele Sorce <emanuele.sorce@hotmail.com>",
     "name": "@APP_PACKAGE_NAME@",
     "title": "Gallery",
-    "version": "2.9.3",
+    "version": "2.9.4",
     "x-test": {
         "autopilot": "@AUTOPILOT_DIR@"
     }
