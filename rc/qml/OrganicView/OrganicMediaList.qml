@@ -195,6 +195,7 @@ Item {
                 }
 
                 Icon {
+					// Display a image icon if there is an error with the photo
                     anchors.centerIn: parent
                     width: units.gu(6)
                     height: width
