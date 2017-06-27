@@ -204,12 +204,15 @@ Item {
                     opacity: 0.8
                 }
 
-                Image {
-                    // Display a play icon if the thumbnail is from a video
-                    source: "../../img/icon_play.png"
-                    anchors.centerIn: parent
-                    visible: model.mediaSource.type === MediaSource.Video && thumbImage.status == Image.Ready
-                }
+                Icon {
+				// Display a play icon if the thumbnail is from a video
+					anchors.centerIn: parent
+					width: units.gu(5)
+					height: units.gu(5)
+					name: "media-playback-start"
+					color: "white"
+					visible: model.mediaSource.type === MediaSource.Video && thumbImage.status == Image.Ready
+				}
 
                 OrganicItemInteraction {
                     objectName: "eventsViewPhoto"
