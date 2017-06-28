@@ -8,14 +8,17 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2016-06-13 07:25+0000\n"
-"Last-Translator: Eran Uzan <Unknown>\n"
-"Language-Team: Hebrew <he@li.org>\n"
+"PO-Revision-Date: 2017-06-28 18:58+0000\n"
+"Last-Translator: Eran <etherpulse@gmail.com>\n"
+"Language-Team: Hebrew <https://ubpweblate.tnvcomp.com/projects/ubports"
+"/gallery-app/he/>\n"
+"Language: he\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.14.1\n"
 "X-Launchpad-Export-Date: 2017-04-05 07:16+0000\n"
-"X-Generator: Launchpad (build 18335)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:36
@@ -128,7 +131,7 @@ msgstr "לא ניתן לשתף תמונות ווידאו באותו הזמן"
 
 #: rc/qml/Components/UnableShareDialog.qml:30
 msgid "Ok"
-msgstr ""
+msgstr "אישור"
 
 #: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
 msgid "Delete 1 photo"
@@ -244,8 +247,9 @@ msgid "Gallery"
 msgstr "גלריה"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:183
+#, fuzzy
 msgid "Toggle Selection"
-msgstr ""
+msgstr "הפיכת בחירה"
 
 #: rc/qml/MediaViewer/SingleMediaViewer.qml:241
 msgid "An error has occurred attempting to load media"
