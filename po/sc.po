@@ -1,0 +1,387 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Canonical Ltd.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gallery-app\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-03-07 17:20-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: sc\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
+#: rc/qml/AlbumEditor/AlbumEditor.qml:36
+msgid "Edit album"
+msgstr ""
+
+#: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
+#: rc/qml/AlbumViewer/AlbumViewer.qml:378
+#: rc/qml/Components/DeleteDialog.qml:32 rc/qml/EventsOverview.qml:138
+#: rc/qml/MediaViewer/MediaViewer.qml:346 rc/qml/PhotosOverview.qml:164
+#: rc/qml/Utility/EditingHUD.qml:67
+msgid "Delete"
+msgstr ""
+
+#: rc/qml/AlbumEditor/AlbumEditor.qml:39
+#: rc/qml/Components/MediaSelector.qml:93 rc/qml/EventsOverview.qml:160
+#: rc/qml/MediaViewer/MediaViewer.qml:274 rc/qml/PhotosOverview.qml:187
+#: rc/qml/PickerScreen.qml:227
+msgid "Cancel"
+msgstr ""
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:113
+msgid "Default"
+msgstr ""
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:114
+msgid "Blue"
+msgstr ""
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:115
+msgid "Green"
+msgstr ""
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:116
+msgid "Pattern"
+msgstr ""
+
+#: rc/qml/AlbumViewer/AlbumCoverList.qml:117
+msgid "Red"
+msgstr ""
+
+#: rc/qml/AlbumViewer/AlbumViewer.qml:107 rc/qml/MainScreen.qml:58
+msgid "Album"
+msgstr ""
+
+#: rc/qml/AlbumViewer/AlbumViewer.qml:372
+#: rc/qml/MediaViewer/MediaViewer.qml:336
+msgid "Add to album"
+msgstr ""
+
+#: rc/qml/AlbumsOverview.qml:228 rc/qml/Components/PopupAlbumPicker.qml:91
+msgid "Add new album"
+msgstr ""
+
+#: rc/qml/AlbumsOverview.qml:232 rc/qml/Components/PopupAlbumPicker.qml:101
+msgid "New Photo Album"
+msgstr ""
+
+#: rc/qml/AlbumsOverview.qml:233 rc/qml/Components/PopupAlbumPicker.qml:102
+msgid "Subtitle"
+msgstr ""
+
+#: rc/qml/AlbumsOverview.qml:240 rc/qml/EventsOverview.qml:115
+#: rc/qml/PhotosOverview.qml:141
+msgid "Camera"
+msgstr ""
+
+#: rc/qml/Components/DeleteDialog.qml:36
+#: rc/qml/MediaViewer/MediaViewer.qml:222
+msgid "Yes"
+msgstr ""
+
+#: rc/qml/Components/DeleteDialog.qml:45
+#: rc/qml/MediaViewer/MediaViewer.qml:233
+msgid "No"
+msgstr ""
+
+#: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
+msgid "Delete album"
+msgstr ""
+
+#: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
+msgid "Delete album AND contents"
+msgstr ""
+
+#: rc/qml/Components/EventCard.qml:59
+msgid "MMM yyyy"
+msgstr ""
+
+#: rc/qml/Components/EventCard.qml:73
+msgid "dd"
+msgstr ""
+
+#: rc/qml/Components/MediaSelector.qml:59
+#: rc/qml/Components/MediaSelector.qml:81
+msgid "Add to Album"
+msgstr ""
+
+#: rc/qml/Components/PopupAlbumPicker.qml:162 rc/qml/Utility/EditingHUD.qml:78
+msgid "Add Photo to Album"
+msgstr ""
+
+#: rc/qml/Components/UnableShareDialog.qml:25
+msgid "Unable to share"
+msgstr ""
+
+#: rc/qml/Components/UnableShareDialog.qml:26
+msgid "Unable to share photos and videos at the same time"
+msgstr ""
+
+#: rc/qml/Components/UnableShareDialog.qml:30
+msgid "Ok"
+msgstr ""
+
+#: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
+msgid "Delete 1 photo"
+msgstr ""
+
+#: rc/qml/EventsOverview.qml:78 rc/qml/PhotosOverview.qml:87
+msgid "Delete 1 video"
+msgstr ""
+
+#: rc/qml/EventsOverview.qml:81 rc/qml/PhotosOverview.qml:90
+#, qt-format
+msgid "Delete %1 photos"
+msgstr ""
+
+#: rc/qml/EventsOverview.qml:83 rc/qml/PhotosOverview.qml:92
+#, qt-format
+msgid "Delete %1 videos"
+msgstr ""
+
+#: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:95
+#, qt-format
+msgid "Delete %1 photos and 1 video"
+msgstr ""
+
+#: rc/qml/EventsOverview.qml:88 rc/qml/PhotosOverview.qml:97
+#, qt-format
+msgid "Delete 1 photo and %1 videos"
+msgstr ""
+
+#: rc/qml/EventsOverview.qml:90 rc/qml/PhotosOverview.qml:99
+msgid "Delete 1 photo and 1 video"
+msgstr ""
+
+#: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:101
+#, qt-format
+msgid "Delete %1 photos and %2 videos"
+msgstr ""
+
+#: rc/qml/EventsOverview.qml:108 rc/qml/MainScreen.qml:200
+#: rc/qml/MainScreen.qml:252 rc/qml/PhotosOverview.qml:134
+#: rc/qml/PickerScreen.qml:139 rc/qml/PickerScreen.qml:186
+msgid "Select"
+msgstr ""
+
+#: rc/qml/EventsOverview.qml:127 rc/qml/PhotosOverview.qml:153
+#: rc/qml/Utility/EditingHUD.qml:77
+msgid "Add"
+msgstr ""
+
+#: rc/qml/EventsOverview.qml:145 rc/qml/MediaViewer/MediaViewer.qml:357
+#: rc/qml/PhotosOverview.qml:171 rc/qml/Utility/EditingHUD.qml:72
+msgid "Share"
+msgstr ""
+
+#: rc/qml/EventsOverview.qml:193 rc/qml/MediaViewer/MediaViewer.qml:178
+#: rc/qml/PhotosOverview.qml:206
+msgid "Share to"
+msgstr ""
+
+#: rc/qml/LoadingScreen.qml:39
+msgid "Loading…"
+msgstr ""
+
+#: rc/qml/MainScreen.qml:148
+msgid "Albums"
+msgstr ""
+
+#: rc/qml/MainScreen.qml:162 rc/qml/MainScreen.qml:202
+#: rc/qml/PickerScreen.qml:99
+msgid "Events"
+msgstr ""
+
+#: rc/qml/MainScreen.qml:211 rc/qml/MainScreen.qml:254
+#: rc/qml/PickerScreen.qml:150
+msgid "Photos"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:211
+msgid "Delete a photo"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:211
+msgid "Delete a video"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:244
+msgid "Remove a photo from album"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:244
+msgid "Remove a video from album"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:253
+msgid "Remove from Album"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:264
+msgid "Remove from Album and Delete"
+msgstr ""
+
+#: rc/qml/MediaViewer/MediaViewer.qml:311
+msgid "Edit"
+msgstr ""
+
+#: rc/qml/MediaViewer/PhotoEditorPage.qml:26
+msgid "Edit Photo"
+msgstr ""
+
+#: rc/qml/MediaViewer/PopupPhotoViewer.qml:46
+#: desktop/gallery-app.desktop.in.in.h:1
+msgid "Gallery"
+msgstr ""
+
+#: rc/qml/MediaViewer/PopupPhotoViewer.qml:183
+msgid "Toggle Selection"
+msgstr ""
+
+#: rc/qml/MediaViewer/SingleMediaViewer.qml:241
+msgid "An error has occurred attempting to load media"
+msgstr ""
+
+#: rc/qml/PickerScreen.qml:233
+msgid "Pick"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:68
+msgid "Trash;Erase"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:73
+msgid "Post;Upload;Attach"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:82
+msgid "Undo"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:83
+msgid "Cancel Action;Backstep"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:87
+msgid "Redo"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:88
+msgid "Reapply;Make Again"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:92
+msgid "Auto Enhance"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:93
+msgid "Adjust the image automatically"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:94
+msgid "Automatically Adjust Photo"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:99
+msgid "Rotate"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:100
+msgid "Turn Clockwise"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:101
+msgid "Rotate the image clockwise"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:106
+msgid "Crop"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:107
+msgid "Trim;Cut"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:108
+msgid "Crop the image"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:113
+msgid "Revert to Original"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:114
+msgid "Discard Changes"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:115
+msgid "Discard all changes"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:119
+msgid "Exposure"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:120
+msgid "Adjust the exposure"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:121
+msgid "Underexposed;Overexposed"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
+msgid "Confirm"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:126
+msgid "Compensation"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:160
+msgid "Color Balance"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:161
+msgid "Adjust color balance"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:162
+msgid "Saturation;Hue"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:167
+msgid "Brightness"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:178
+msgid "Contrast"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:189
+msgid "Saturation"
+msgstr ""
+
+#: rc/qml/Utility/EditingHUD.qml:200
+msgid "Hue"
+msgstr ""
+
+#: desktop/gallery-app.desktop.in.in.h:2
+msgid "Ubuntu Photo Viewer"
+msgstr ""
+
+#: desktop/gallery-app.desktop.in.in.h:3
+msgid "Browse your photographs"
+msgstr ""
+
+#: desktop/gallery-app.desktop.in.in.h:4
+msgid "Photographs;Pictures;Albums"
+msgstr ""
