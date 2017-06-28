@@ -246,8 +246,8 @@ Item {
             }
 
             Icon {
-                width: units.gu(5)
-                height: units.gu(5)
+                width: units.gu(6)
+                height: units.gu(6)
                 anchors.centerIn: parent
                 name: "media-playback-start"
                 color: "white"
