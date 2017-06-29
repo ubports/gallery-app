@@ -310,7 +310,7 @@ Item {
             Action {
                 objectName: "editButton"
                 text: i18n.tr("Edit")
-                iconSource: "../../img/edit.png"
+                iconName: "edit"
                 visible: galleryPhotoViewer.media.type === MediaSource.Photo && galleryPhotoViewer.media.canBeEdited
                 onTriggered: {
                     var path = galleryPhotoViewer.media.path.toString();

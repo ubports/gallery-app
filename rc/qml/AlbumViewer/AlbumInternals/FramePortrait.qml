@@ -83,10 +83,13 @@ Item {
         }
     }
 
-    Image {
-        // Display a play icon if the thumbnail is from a video
-        source: "../../../img/icon_play.png"
-        anchors.centerIn: parent
-        visible: isLoaded && mediaSource.type === MediaSource.Video
-    }
+	Icon {
+		// Display a play icon if the thumbnail is from a video
+		anchors.centerIn: parent
+		width: units.gu(5)
+		height: units.gu(5)
+		name: "media-playback-start"
+		color: "white"
+		visible: isLoaded && mediaSource.type === MediaSource.Video
+	}
 }

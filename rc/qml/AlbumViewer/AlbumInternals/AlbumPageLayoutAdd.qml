@@ -18,6 +18,7 @@
  */
 
 import QtQuick 2.4
+import Ubuntu.Components 1.3
 
 // This page layout is used only for empty albums.
 AlbumPageLayout {
@@ -25,12 +26,12 @@ AlbumPageLayout {
 
     mediaFrames: [ addButton ]
 
-    Image {
+    Icon {
         id: addButton
         objectName: "addButton" // Don't change this, we check for this name elsewhere
 
         anchors.centerIn: parent
-        source: "img/album-add.png"
+        name: "add"
 
         width: parent.width / 4
         height: width
