@@ -7,15 +7,17 @@ msgstr ""
 "Project-Id-Version: gallery-app VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2016-07-04 14:42+0000\n"
-"Last-Translator: Daniel Winzen <d@winzen4.de>\n"
-"Language-Team: German\n"
+"PO-Revision-Date: 2017-06-28 17:00+0000\n"
+"Last-Translator: Gerd Sänger <gerdsaenger@t-online.de>\n"
+"Language-Team: German <https://ubpweblate.tnvcomp.com/projects/ubports"
+"/gallery-app/de/>\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.14.1\n"
 "X-Launchpad-Export-Date: 2017-04-05 07:16+0000\n"
-"X-Generator: Launchpad (build 18335)\n"
-"Language: de\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:36
@@ -176,7 +178,7 @@ msgstr "Auswählen"
 #: rc/qml/EventsOverview.qml:127 rc/qml/PhotosOverview.qml:153
 #: rc/qml/Utility/EditingHUD.qml:77
 msgid "Add"
-msgstr "Hinzufügen"
+msgstr "Hinzufügen"
 
 #: rc/qml/EventsOverview.qml:145 rc/qml/MediaViewer/MediaViewer.qml:357
 #: rc/qml/PhotosOverview.qml:171 rc/qml/Utility/EditingHUD.qml:72
@@ -249,7 +251,7 @@ msgstr "Markierung umschalten"
 
 #: rc/qml/MediaViewer/SingleMediaViewer.qml:241
 msgid "An error has occurred attempting to load media"
-msgstr "Fehler beim Versuch, das Medium zu laden"
+msgstr "Fehler beim Laden der Mediendatei"
 
 #: rc/qml/PickerScreen.qml:233
 msgid "Pick"
@@ -257,14 +259,11 @@ msgstr "Auswählen"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr ""
-"Müll;Mülleimer;Papierkorb;Abfall;Löschen;Entfernen;Leeren;Wegwerfen;Säubern"
+msgstr "Müll;Löschen"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
-msgstr ""
-"Posten;Schreiben;Veröffentlichen;Upload;Hochladen;Anhang;Anhängen;Anlage;Anhe"
-"ften;Beilegen;Beifügen;Senden;Schicken;Versenden"
+msgstr "Posten;Hochladen;Anhängen"
 
 #: rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
@@ -288,11 +287,11 @@ msgstr "Automatisch verbessern"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr "Das Bild automatisch optimieren"
+msgstr "Bild automatisch optimieren"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr "Das Foto automatisch ausrichten"
+msgstr "Foto automatisch ausrichten"
 
 #: rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
@@ -312,7 +311,7 @@ msgstr "Beschneiden"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr "Zuschneiden;Ausschneiden;Schneiden"
+msgstr "Zuschneiden;Ausschneiden"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
@@ -336,7 +335,7 @@ msgstr "Belichtung"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr "Die Belichtung anpassen"
+msgstr "Belichtung anpassen"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
@@ -352,11 +351,11 @@ msgstr "Farbabgleich"
 
 #: rc/qml/Utility/EditingHUD.qml:160
 msgid "Color Balance"
-msgstr "Farbabgleich"
+msgstr "Farbbalance"
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Adjust color balance"
-msgstr "Farbabgleich anpassen"
+msgstr "Farbbalance anpassen"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
@@ -388,4 +387,4 @@ msgstr "Ihre Fotos durchsuchen"
 
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
-msgstr "Fotos;Photos;Bilder;Alben;Pictures"
+msgstr "Fotos;Photos;Bilder;Alben"

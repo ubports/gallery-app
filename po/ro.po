@@ -8,14 +8,18 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2015-09-04 15:58+0000\n"
-"Last-Translator: Meriuță Cornel <meriutacornel@neacornel.eu>\n"
-"Language-Team: Romanian <ro@li.org>\n"
+"PO-Revision-Date: 2017-07-01 19:43+0000\n"
+"Last-Translator: Brînzariu Cristian <info@ebeton.ro>\n"
+"Language-Team: Romanian <https://ubpweblate.tnvcomp.com/projects/ubports"
+"/gallery-app/ro/>\n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 2.15\n"
 "X-Launchpad-Export-Date: 2017-04-05 07:16+0000\n"
-"X-Generator: Launchpad (build 18335)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:36
@@ -28,7 +32,7 @@ msgstr "Editare album"
 #: rc/qml/MediaViewer/MediaViewer.qml:346 rc/qml/PhotosOverview.qml:164
 #: rc/qml/Utility/EditingHUD.qml:67
 msgid "Delete"
-msgstr "Șterge"
+msgstr "Ştergeţi"
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:39
 #: rc/qml/Components/MediaSelector.qml:93 rc/qml/EventsOverview.qml:160
@@ -120,15 +124,15 @@ msgstr "Adaugă fotografia la album"
 
 #: rc/qml/Components/UnableShareDialog.qml:25
 msgid "Unable to share"
-msgstr ""
+msgstr "Imposibil de partajat"
 
 #: rc/qml/Components/UnableShareDialog.qml:26
 msgid "Unable to share photos and videos at the same time"
-msgstr ""
+msgstr "Nu este posibil să partajezi imagini și filme în același timp"
 
 #: rc/qml/Components/UnableShareDialog.qml:30
 msgid "Ok"
-msgstr ""
+msgstr "Bine"
 
 #: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
 msgid "Delete 1 photo"
@@ -181,7 +185,7 @@ msgstr "Adaugă"
 #: rc/qml/EventsOverview.qml:145 rc/qml/MediaViewer/MediaViewer.qml:357
 #: rc/qml/PhotosOverview.qml:171 rc/qml/Utility/EditingHUD.qml:72
 msgid "Share"
-msgstr "Partajare"
+msgstr "Partajează"
 
 #: rc/qml/EventsOverview.qml:193 rc/qml/MediaViewer/MediaViewer.qml:178
 #: rc/qml/PhotosOverview.qml:206
@@ -249,7 +253,7 @@ msgstr "Comutaţi selecţia"
 
 #: rc/qml/MediaViewer/SingleMediaViewer.qml:241
 msgid "An error has occurred attempting to load media"
-msgstr ""
+msgstr "A intervenit o eroare n timpul încărcării"
 
 #: rc/qml/PickerScreen.qml:233
 msgid "Pick"

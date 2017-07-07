@@ -1,387 +1,388 @@
-# Basque translation for gallery-app
-# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
-# This file is distributed under the same license as the gallery-app package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
-#
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Canonical Ltd.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2017-07-05 15:43+0000\n"
-"Last-Translator: Aitzol Berasategi <aitzol76@gmail.com>\n"
-"Language-Team: Basque <https://ubpweblate.tnvcomp.com/projects/ubports"
-"/gallery-app/eu/>\n"
-"Language: eu\n"
+"PO-Revision-Date: 2017-06-28 14:52+0000\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: sc\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.15\n"
-"X-Launchpad-Export-Date: 2017-04-05 07:16+0000\n"
+"X-Generator: Weblate 2.14.1\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:36
 msgid "Edit album"
-msgstr "Editatu albuma"
+msgstr "Modìfica album"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
-#: rc/qml/AlbumViewer/AlbumViewer.qml:378 rc/qml/Components/DeleteDialog.qml:32
-#: rc/qml/EventsOverview.qml:138 rc/qml/MediaViewer/MediaViewer.qml:346
-#: rc/qml/PhotosOverview.qml:164 rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/AlbumViewer/AlbumViewer.qml:378
+#: rc/qml/Components/DeleteDialog.qml:32 rc/qml/EventsOverview.qml:138
+#: rc/qml/MediaViewer/MediaViewer.qml:346 rc/qml/PhotosOverview.qml:164
+#: rc/qml/Utility/EditingHUD.qml:67
 msgid "Delete"
-msgstr "Ezabatu"
+msgstr "Cantzella"
 
-#: rc/qml/AlbumEditor/AlbumEditor.qml:39 rc/qml/Components/MediaSelector.qml:93
-#: rc/qml/EventsOverview.qml:160 rc/qml/MediaViewer/MediaViewer.qml:274
-#: rc/qml/PhotosOverview.qml:187 rc/qml/PickerScreen.qml:227
+#: rc/qml/AlbumEditor/AlbumEditor.qml:39
+#: rc/qml/Components/MediaSelector.qml:93 rc/qml/EventsOverview.qml:160
+#: rc/qml/MediaViewer/MediaViewer.qml:274 rc/qml/PhotosOverview.qml:187
+#: rc/qml/PickerScreen.qml:227
 msgid "Cancel"
-msgstr "Utzi"
+msgstr "Annulla"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
-msgstr "Lehenetsia"
+msgstr "Predefinidu"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:114
 msgid "Blue"
-msgstr "Urdina"
+msgstr "Biaitu"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:115
 msgid "Green"
-msgstr "Berdea"
+msgstr "Birde"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:116
 msgid "Pattern"
-msgstr "Eredua"
+msgstr ""
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:117
 msgid "Red"
-msgstr "Gorria"
+msgstr "Ruju"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:107 rc/qml/MainScreen.qml:58
 msgid "Album"
-msgstr "Albuma"
+msgstr ""
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:372
 #: rc/qml/MediaViewer/MediaViewer.qml:336
 msgid "Add to album"
-msgstr "Gehitu albumera"
+msgstr ""
 
 #: rc/qml/AlbumsOverview.qml:228 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
-msgstr "Gehitu album berria"
+msgstr "Agiunghe un'album nou"
 
 #: rc/qml/AlbumsOverview.qml:232 rc/qml/Components/PopupAlbumPicker.qml:101
 msgid "New Photo Album"
-msgstr "Argazki-album berria"
+msgstr "Album de fotografias nou"
 
 #: rc/qml/AlbumsOverview.qml:233 rc/qml/Components/PopupAlbumPicker.qml:102
 msgid "Subtitle"
-msgstr "Azpititulua"
+msgstr "Sutatìtulu"
 
 #: rc/qml/AlbumsOverview.qml:240 rc/qml/EventsOverview.qml:115
 #: rc/qml/PhotosOverview.qml:141
 msgid "Camera"
-msgstr "Kamera"
+msgstr "Fotocàmera"
 
-#: rc/qml/Components/DeleteDialog.qml:36 rc/qml/MediaViewer/MediaViewer.qml:222
+#: rc/qml/Components/DeleteDialog.qml:36
+#: rc/qml/MediaViewer/MediaViewer.qml:222
 msgid "Yes"
-msgstr "Bai"
+msgstr "Eja"
 
-#: rc/qml/Components/DeleteDialog.qml:45 rc/qml/MediaViewer/MediaViewer.qml:233
+#: rc/qml/Components/DeleteDialog.qml:45
+#: rc/qml/MediaViewer/MediaViewer.qml:233
 msgid "No"
-msgstr "Ez"
+msgstr "Nono"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr "Ezabatu albuma"
+msgstr "Cantzella s'album"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
-msgid "Delete album + contents"
-msgstr "Ezabatu albuma + edukiak"
+msgid "Delete album AND contents"
+msgstr "Cantzella s'album e sos contenutos"
 
 #: rc/qml/Components/EventCard.qml:59
 msgid "MMM yyyy"
-msgstr "MMM yyyy"
+msgstr ""
 
 #: rc/qml/Components/EventCard.qml:73
 msgid "dd"
-msgstr "dd"
+msgstr ""
 
 #: rc/qml/Components/MediaSelector.qml:59
 #: rc/qml/Components/MediaSelector.qml:81
 msgid "Add to Album"
-msgstr "Gehitu albumari"
+msgstr ""
 
 #: rc/qml/Components/PopupAlbumPicker.qml:162 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr "Gehitu argazkia albumari"
+msgstr "Agiunghe sa fotografia a s'album"
 
 #: rc/qml/Components/UnableShareDialog.qml:25
 msgid "Unable to share"
-msgstr "Ezinezkoa partekatzea"
+msgstr "Non faghet a cumpartzire"
 
 #: rc/qml/Components/UnableShareDialog.qml:26
 msgid "Unable to share photos and videos at the same time"
-msgstr "Ezinezkoa argazkiak eta bideoak aldi berean partekatzea"
+msgstr "Non faghet a cumpartzire fotografias e vìdeos impares"
 
 #: rc/qml/Components/UnableShareDialog.qml:30
 msgid "Ok"
-msgstr "Ados"
+msgstr "AB"
 
 #: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
 msgid "Delete 1 photo"
-msgstr "Ezabatu argazkia"
+msgstr "Cantzella sa fotografia"
 
 #: rc/qml/EventsOverview.qml:78 rc/qml/PhotosOverview.qml:87
 msgid "Delete 1 video"
-msgstr "Ezabatu bideoa"
+msgstr "Cantzella su vìdeu"
 
 #: rc/qml/EventsOverview.qml:81 rc/qml/PhotosOverview.qml:90
 #, qt-format
 msgid "Delete %1 photos"
-msgstr "Ezabatu %1 argazkiak"
+msgstr "Cantzella %1 fotografias"
 
 #: rc/qml/EventsOverview.qml:83 rc/qml/PhotosOverview.qml:92
 #, qt-format
 msgid "Delete %1 videos"
-msgstr "Ezabatu %1 bideoak"
+msgstr "Cantzella %1 vìdeos"
 
 #: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:95
 #, qt-format
 msgid "Delete %1 photos and 1 video"
-msgstr "Ezabatu %1 argazkiak eta bideoa"
+msgstr "Cantzella %1 fotografias e 1 vìdeu"
 
 #: rc/qml/EventsOverview.qml:88 rc/qml/PhotosOverview.qml:97
 #, qt-format
 msgid "Delete 1 photo and %1 videos"
-msgstr "Ezabatu argazkia eta %1 bideoak"
+msgstr "Cantzella 1 fotografia e %1 vìdeos"
 
 #: rc/qml/EventsOverview.qml:90 rc/qml/PhotosOverview.qml:99
 msgid "Delete 1 photo and 1 video"
-msgstr "Ezabatu argazkia eta bideoa"
+msgstr "Cantzella 1 fotografia e 1 vìdeu"
 
 #: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:101
 #, qt-format
 msgid "Delete %1 photos and %2 videos"
-msgstr "Ezabatu %1 argazkiak eta %2 bideoak"
+msgstr "Cantzella %1 fotografias e %2 vìdeos"
 
 #: rc/qml/EventsOverview.qml:108 rc/qml/MainScreen.qml:200
 #: rc/qml/MainScreen.qml:252 rc/qml/PhotosOverview.qml:134
 #: rc/qml/PickerScreen.qml:139 rc/qml/PickerScreen.qml:186
 msgid "Select"
-msgstr "Hautatu"
+msgstr "Seletziona"
 
 #: rc/qml/EventsOverview.qml:127 rc/qml/PhotosOverview.qml:153
 #: rc/qml/Utility/EditingHUD.qml:77
 msgid "Add"
-msgstr "Gehitu"
+msgstr "Agiunghe"
 
 #: rc/qml/EventsOverview.qml:145 rc/qml/MediaViewer/MediaViewer.qml:357
 #: rc/qml/PhotosOverview.qml:171 rc/qml/Utility/EditingHUD.qml:72
 msgid "Share"
-msgstr "Partekatu"
+msgstr "Cumpartzi"
 
 #: rc/qml/EventsOverview.qml:193 rc/qml/MediaViewer/MediaViewer.qml:178
 #: rc/qml/PhotosOverview.qml:206
 msgid "Share to"
-msgstr "Partekatu hemen"
+msgstr "Cumpartzi cun"
 
 #: rc/qml/LoadingScreen.qml:39
 msgid "Loading…"
-msgstr "Kargatzen…"
+msgstr "Carrighende..."
 
 #: rc/qml/MainScreen.qml:148
 msgid "Albums"
-msgstr "Albumak"
+msgstr ""
 
 #: rc/qml/MainScreen.qml:162 rc/qml/MainScreen.qml:202
 #: rc/qml/PickerScreen.qml:99
 msgid "Events"
-msgstr "Gertaerak"
+msgstr "Eventos"
 
 #: rc/qml/MainScreen.qml:211 rc/qml/MainScreen.qml:254
 #: rc/qml/PickerScreen.qml:150
 msgid "Photos"
-msgstr "Argazkiak"
+msgstr "Fotografias"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:211
 msgid "Delete a photo"
-msgstr "Ezabatu argazki bat"
+msgstr "Cantzella una fotografia"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:211
 msgid "Delete a video"
-msgstr "Ezabatu bideo bat"
+msgstr "Cantzella unu vìdeu"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:244
 msgid "Remove a photo from album"
-msgstr "Kendu argazki bat albumetik"
+msgstr "Boga una fotografia dae s'album"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:244
 msgid "Remove a video from album"
-msgstr "Kendu bideo bat albumetik"
+msgstr "Boga unu vìdeu dae s'album"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:253
 msgid "Remove from Album"
-msgstr "Kendu albumetik"
+msgstr "Boga dae s'album"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:264
 msgid "Remove from Album and Delete"
-msgstr "Kendu albumetik eta ezabatu"
+msgstr "Boga dae s'album e dae su dispositivu"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:311
 msgid "Edit"
-msgstr "Editatu"
+msgstr "Modìfica"
 
 #: rc/qml/MediaViewer/PhotoEditorPage.qml:26
 msgid "Edit Photo"
-msgstr "Editatu argazkia"
+msgstr "Modìfica sa fotografia"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:46
 #: desktop/gallery-app.desktop.in.in.h:1
 msgid "Gallery"
-msgstr "Galeria"
+msgstr "Galleria"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:183
 msgid "Toggle Selection"
-msgstr "Hautatu / desautatu"
+msgstr "Ativa/disativa sa seletzione"
 
 #: rc/qml/MediaViewer/SingleMediaViewer.qml:241
 msgid "An error has occurred attempting to load media"
-msgstr "Akats bat gertatu da edukia kargatzen saiatzean"
+msgstr "B'at àpidu una faddina in su carrigamentu de s'archìviu multimediale"
 
 #: rc/qml/PickerScreen.qml:233
 msgid "Pick"
-msgstr "Aukeratu"
+msgstr "Sèbera"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr "Zakarrontzia;Ezabatu"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
-msgstr "Bidali;Igo;Erantsi"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
-msgstr "Desegin"
+msgstr "Iscontza"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr "Utzi ekintza;Atzera egin"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr "Berregin"
+msgstr "Torra a fàghere"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr "Berriro aplikatu;Berregin"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr "Automatikoki hobetu"
+msgstr "Megioramentu automàticu"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr "Doitu irudia automatikoki"
+msgstr "Regulamentu automàticu de s'imàgine"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr "Doitu argazkia automatikoki"
+msgstr "Regulamentu automàticu de sa fotografia"
 
 #: rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr "Biratu"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr "Biratu erloju-orratzen norantzan"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr "Biratu irudia erloju-orratzen norantzan"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr "Moztu"
+msgstr "Sega"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr "Moztu;Ebaki"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr "Moztu irudia"
+msgstr "Sega s'imàgine"
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr "Leheneratu jatorrizkora"
+msgstr "Riprìstina s'originale"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr "Baztertu aldaketak"
+msgstr "Non sarves sas modìficas"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr "Baztertu aldaketa guztiak"
+msgstr "Non sarves sas modìficas"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr "Esposizioa"
+msgstr "Espositzione"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr "Doitu esposizioa"
+msgstr "Regulamentu de s'espositzione"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr "Gainesposizioa;Azpiesposizioa"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
 msgid "Confirm"
-msgstr "Berretsi"
+msgstr "Cunfirma"
 
 #: rc/qml/Utility/EditingHUD.qml:126
 msgid "Compensation"
-msgstr "Konpentsazioa"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:160
 msgid "Color Balance"
-msgstr "Kolore-balantzea"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Adjust color balance"
-msgstr "Doitu kolore-balantzea"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
-msgstr "Asetasuna;Ñabardura"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:167
 msgid "Brightness"
-msgstr "Distira"
+msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:178
 msgid "Contrast"
-msgstr "Kontrastea"
+msgstr "Cuntrastu"
 
 #: rc/qml/Utility/EditingHUD.qml:189
 msgid "Saturation"
-msgstr "Asetasuna"
+msgstr "Saturatzione"
 
 #: rc/qml/Utility/EditingHUD.qml:200
 msgid "Hue"
-msgstr "Ñabardura"
+msgstr ""
 
 #: desktop/gallery-app.desktop.in.in.h:2
 msgid "Ubuntu Photo Viewer"
-msgstr "Ubuntu argazki-ikustailea"
+msgstr ""
 
 #: desktop/gallery-app.desktop.in.in.h:3
 msgid "Browse your photographs"
-msgstr "Arakatu zure argazkiak"
+msgstr ""
 
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
-msgstr "Argazkiak;Irudiak;Albumak"
+msgstr ""
