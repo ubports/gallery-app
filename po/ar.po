@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2017-07-08 15:19+0000\n"
+"PO-Revision-Date: 2017-07-08 18:48+0000\n"
 "Last-Translator: Ahmed Suliman <ahmedselaman@gmail.com>\n"
 "Language-Team: Arabic <https://ubpweblate.tnvcomp.com/projects/ubports"
 "/gallery-app/ar/>\n"
@@ -85,7 +85,7 @@ msgstr "عنوان فرعي"
 #: rc/qml/AlbumsOverview.qml:240 rc/qml/EventsOverview.qml:115
 #: rc/qml/PhotosOverview.qml:141
 msgid "Camera"
-msgstr "آلة التصوير"
+msgstr "الكاميرا"
 
 #: rc/qml/Components/DeleteDialog.qml:36
 #: rc/qml/MediaViewer/MediaViewer.qml:222
@@ -175,7 +175,7 @@ msgstr "حذف %1 صور(ة) و %2 فيديو(هات)"
 #: rc/qml/MainScreen.qml:252 rc/qml/PhotosOverview.qml:134
 #: rc/qml/PickerScreen.qml:139 rc/qml/PickerScreen.qml:186
 msgid "Select"
-msgstr "حدّد"
+msgstr "اختيار"
 
 #: rc/qml/EventsOverview.qml:127 rc/qml/PhotosOverview.qml:153
 #: rc/qml/Utility/EditingHUD.qml:77
@@ -185,7 +185,7 @@ msgstr "أضف"
 #: rc/qml/EventsOverview.qml:145 rc/qml/MediaViewer/MediaViewer.qml:357
 #: rc/qml/PhotosOverview.qml:171 rc/qml/Utility/EditingHUD.qml:72
 msgid "Share"
-msgstr "شارك"
+msgstr "مشاركة"
 
 #: rc/qml/EventsOverview.qml:193 rc/qml/MediaViewer/MediaViewer.qml:178
 #: rc/qml/PhotosOverview.qml:206
@@ -194,7 +194,7 @@ msgstr "مشاركة على"
 
 #: rc/qml/LoadingScreen.qml:39
 msgid "Loading…"
-msgstr "يجري التحميل..."
+msgstr "جاري التحميل…"
 
 #: rc/qml/MainScreen.qml:148
 msgid "Albums"
@@ -236,7 +236,7 @@ msgstr "حذف من الألبوم وإزالة"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:311
 msgid "Edit"
-msgstr "تعديل"
+msgstr "تحرير"
 
 #: rc/qml/MediaViewer/PhotoEditorPage.qml:26
 msgid "Edit Photo"
