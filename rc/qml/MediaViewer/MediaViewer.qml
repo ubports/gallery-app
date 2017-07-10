@@ -16,9 +16,12 @@
  * Authors:
  * Jim Nelson <jim@yorba.org>
  * Lucas Beeler <lucas@yorba.org>
+ * 
+ * Emanuele Sorce <emanuele.sorce@hotmail.com>
  */
 
 import QtQuick 2.4
+import QtQuick.Layouts 1.1
 import Gallery 1.0
 import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.3
@@ -375,6 +378,81 @@ Item {
         }
     }
 
+    BottomEdge {
+		
+		id: bottomEdge
+		height: parent.height - units.gu(6)
+		
+		contentComponent: Rectangle {
+			
+			id: bottomEdgeComponent
+			
+			PageHeader {
+				id: bottomHeader
+				title: i18n.tr('Informations')
+			}
+			
+			color: UbuntuColors.porcelain
+			
+			width: bottomEdge.width
+			height: bottomEdge.height
+			
+			Flickable {
+				clip: true
+				
+				anchors {
+					top: bottomHeader.bottom
+					left: parent.left
+					right: parent.right
+					bottom: parent.bottom
+				}
+				contentHeight: contentColumn.height
+				
+				ColumnLayout {
+					
+					id: contentColumn
+					
+					anchors {
+						left: parent.left
+						top: parent.top
+						right: parent.right
+						topMargin: units.gu(3)
+					}
+					
+					spacing: units.gu(2)
+					
+					RowLayout {
+						
+						id: mediatyperow
+						
+						spacing: units.gu(2)
+						
+						Label {
+							text: i18n.tr('Media type:');
+						}
+						Label {
+							text: (galleryPhotoViewer.media.type === MediaSource.Photo) ? i18n.tr("photo") : i18n.tr("video")
+						}
+					}
+					
+					RowLayout {
+						
+						id: medianamerow
+						
+						spacing: units.gu(2)
+						
+						Label {
+							text: i18n.tr('Media name:');
+						}
+						Label {
+							text: galleryPhotoViewer.media.path.toString()
+						}
+					}
+				}
+			}
+		}
+	}
+    
     Rectangle{
         id: headerBackground
         width: parent.width

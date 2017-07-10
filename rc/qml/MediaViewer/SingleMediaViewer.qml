@@ -246,6 +246,7 @@ Item {
             }
 
             Icon {
+				// If the media is a video, show a 'play' icon
                 width: units.gu(6)
                 height: units.gu(6)
                 anchors.centerIn: parent
