@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: gallery-app VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2017-07-17 17:06+0000\n"
-"Last-Translator: Gerd Sänger <gerdsaenger@t-online.de>\n"
+"PO-Revision-Date: 2017-08-17 21:01+0000\n"
+"Last-Translator: Florian Leeber <flori@bin.org.in>\n"
 "Language-Team: German <https://ubpweblate.tnvcomp.com/projects/ubports"
 "/gallery-app/de/>\n"
 "Language: de\n"
@@ -126,7 +126,7 @@ msgstr "Teilen nicht möglich"
 
 #: rc/qml/Components/UnableShareDialog.qml:26
 msgid "Unable to share photos and videos at the same time"
-msgstr "Gleichzeitiges Teilen von Fotos und Videos nicht möglich"
+msgstr "Kann Fotos und Videos nicht gleichzeitig teilen"
 
 #: rc/qml/Components/UnableShareDialog.qml:30
 msgid "Ok"
