@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2017-07-08 18:48+0000\n"
+"PO-Revision-Date: 2017-07-17 21:31+0000\n"
 "Last-Translator: Ahmed Suliman <ahmedselaman@gmail.com>\n"
 "Language-Team: Arabic <https://ubpweblate.tnvcomp.com/projects/ubports"
 "/gallery-app/ar/>\n"
@@ -236,7 +236,7 @@ msgstr "حذف من الألبوم وإزالة"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:311
 msgid "Edit"
-msgstr "تحرير"
+msgstr "تعديل"
 
 #: rc/qml/MediaViewer/PhotoEditorPage.qml:26
 msgid "Edit Photo"
