@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2017-07-26 06:40+0000\n"
-"Last-Translator: František Tomajko <tomajko@gmail.com>\n"
-"Language-Team: Slovak <https://ubpweblate.tnvcomp.com/projects/ubports"
+"PO-Revision-Date: 2017-09-07 19:07+0000\n"
+"Last-Translator: t-h-e-p-e-t-e-r <peter.valachovic@gmail.com>\n"
+"Language-Team: Slovak <https://translate.ubports.com/projects/ubports"
 "/gallery-app/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
@@ -123,11 +123,11 @@ msgstr "Pridať fotografiu k albumu"
 
 #: rc/qml/Components/UnableShareDialog.qml:25
 msgid "Unable to share"
-msgstr "Nedá sa zdieľať"
+msgstr "Nepodarilo sa zdieľať"
 
 #: rc/qml/Components/UnableShareDialog.qml:26
 msgid "Unable to share photos and videos at the same time"
-msgstr "Fotografie a videá sa nedajú zdieľať naraz"
+msgstr "Nedá sa zdieľať naraz aj fotky aj videá"
 
 #: rc/qml/Components/UnableShareDialog.qml:30
 msgid "Ok"
