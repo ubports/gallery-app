@@ -8,18 +8,21 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2017-09-08 16:34+0000\n"
+"Last-Translator: Jeff <jeffi27@live.at>\n"
+"Language-Team: Albanian <https://translate.ubports.com/projects/ubports"
+"/gallery-app/sq/>\n"
 "Language: sq\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.15\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:36
 msgid "Edit album"
-msgstr ""
+msgstr "Redakto Albumin"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
 #: rc/qml/AlbumViewer/AlbumViewer.qml:378
@@ -27,361 +30,361 @@ msgstr ""
 #: rc/qml/MediaViewer/MediaViewer.qml:346 rc/qml/PhotosOverview.qml:164
 #: rc/qml/Utility/EditingHUD.qml:67
 msgid "Delete"
-msgstr ""
+msgstr "Fshijë"
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:39
 #: rc/qml/Components/MediaSelector.qml:93 rc/qml/EventsOverview.qml:160
 #: rc/qml/MediaViewer/MediaViewer.qml:274 rc/qml/PhotosOverview.qml:187
 #: rc/qml/PickerScreen.qml:227
 msgid "Cancel"
-msgstr ""
+msgstr "Anulo"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
-msgstr ""
+msgstr "Parazgjedhur"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:114
 msgid "Blue"
-msgstr ""
+msgstr "Kaltër"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:115
 msgid "Green"
-msgstr ""
+msgstr "Gjelbër"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:116
 msgid "Pattern"
-msgstr ""
+msgstr "Mostër"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:117
 msgid "Red"
-msgstr ""
+msgstr "Kuqë"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:107 rc/qml/MainScreen.qml:58
 msgid "Album"
-msgstr ""
+msgstr "Album"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:372
 #: rc/qml/MediaViewer/MediaViewer.qml:336
 msgid "Add to album"
-msgstr ""
+msgstr "Fut tek Albumi"
 
 #: rc/qml/AlbumsOverview.qml:228 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
-msgstr ""
+msgstr "Shto Album të ri"
 
 #: rc/qml/AlbumsOverview.qml:232 rc/qml/Components/PopupAlbumPicker.qml:101
 msgid "New Photo Album"
-msgstr ""
+msgstr "Fotoalbum i ri"
 
 #: rc/qml/AlbumsOverview.qml:233 rc/qml/Components/PopupAlbumPicker.qml:102
 msgid "Subtitle"
-msgstr ""
+msgstr "Nëntitulli"
 
 #: rc/qml/AlbumsOverview.qml:240 rc/qml/EventsOverview.qml:115
 #: rc/qml/PhotosOverview.qml:141
 msgid "Camera"
-msgstr ""
+msgstr "Kamera"
 
 #: rc/qml/Components/DeleteDialog.qml:36
 #: rc/qml/MediaViewer/MediaViewer.qml:222
 msgid "Yes"
-msgstr ""
+msgstr "Po"
 
 #: rc/qml/Components/DeleteDialog.qml:45
 #: rc/qml/MediaViewer/MediaViewer.qml:233
 msgid "No"
-msgstr ""
+msgstr "Jo"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr ""
+msgstr "Fshijë Albumin"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album AND contents"
-msgstr ""
+msgstr "Fshijë Albumin dhe përmbajtjen"
 
 #: rc/qml/Components/EventCard.qml:59
 msgid "MMM yyyy"
-msgstr ""
+msgstr "MMM yyyy"
 
 #: rc/qml/Components/EventCard.qml:73
 msgid "dd"
-msgstr ""
+msgstr "dd"
 
 #: rc/qml/Components/MediaSelector.qml:59
 #: rc/qml/Components/MediaSelector.qml:81
 msgid "Add to Album"
-msgstr ""
+msgstr "Shto tek Albumi"
 
 #: rc/qml/Components/PopupAlbumPicker.qml:162 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr ""
+msgstr "Fut foton tek Albumi"
 
 #: rc/qml/Components/UnableShareDialog.qml:25
 msgid "Unable to share"
-msgstr ""
+msgstr "Shpërndarja e pamundur"
 
 #: rc/qml/Components/UnableShareDialog.qml:26
 msgid "Unable to share photos and videos at the same time"
-msgstr ""
+msgstr "Nuk mund të ndahen në të njëjtën kohë fotot dhe videot"
 
 #: rc/qml/Components/UnableShareDialog.qml:30
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
 msgid "Delete 1 photo"
-msgstr ""
+msgstr "Fshijë 1 Foto"
 
 #: rc/qml/EventsOverview.qml:78 rc/qml/PhotosOverview.qml:87
 msgid "Delete 1 video"
-msgstr ""
+msgstr "Fshijë 1 video"
 
 #: rc/qml/EventsOverview.qml:81 rc/qml/PhotosOverview.qml:90
 #, qt-format
 msgid "Delete %1 photos"
-msgstr ""
+msgstr "Fshijë %1 fotos"
 
 #: rc/qml/EventsOverview.qml:83 rc/qml/PhotosOverview.qml:92
 #, qt-format
 msgid "Delete %1 videos"
-msgstr ""
+msgstr "Fshijë %1 videos"
 
 #: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:95
 #, qt-format
 msgid "Delete %1 photos and 1 video"
-msgstr ""
+msgstr "Fshijë %1 fotos dhe 1 video"
 
 #: rc/qml/EventsOverview.qml:88 rc/qml/PhotosOverview.qml:97
 #, qt-format
 msgid "Delete 1 photo and %1 videos"
-msgstr ""
+msgstr "Fshijë 1 Foto dhe %1 videos"
 
 #: rc/qml/EventsOverview.qml:90 rc/qml/PhotosOverview.qml:99
 msgid "Delete 1 photo and 1 video"
-msgstr ""
+msgstr "Fshijë 1 foto dhe 1 video"
 
 #: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:101
 #, qt-format
 msgid "Delete %1 photos and %2 videos"
-msgstr ""
+msgstr "Fshijë %1 fotos dhe %2 videos"
 
 #: rc/qml/EventsOverview.qml:108 rc/qml/MainScreen.qml:200
 #: rc/qml/MainScreen.qml:252 rc/qml/PhotosOverview.qml:134
 #: rc/qml/PickerScreen.qml:139 rc/qml/PickerScreen.qml:186
 msgid "Select"
-msgstr ""
+msgstr "Zgjidhë"
 
 #: rc/qml/EventsOverview.qml:127 rc/qml/PhotosOverview.qml:153
 #: rc/qml/Utility/EditingHUD.qml:77
 msgid "Add"
-msgstr ""
+msgstr "Shto"
 
 #: rc/qml/EventsOverview.qml:145 rc/qml/MediaViewer/MediaViewer.qml:357
 #: rc/qml/PhotosOverview.qml:171 rc/qml/Utility/EditingHUD.qml:72
 msgid "Share"
-msgstr ""
+msgstr "Shpërndajë"
 
 #: rc/qml/EventsOverview.qml:193 rc/qml/MediaViewer/MediaViewer.qml:178
 #: rc/qml/PhotosOverview.qml:206
 msgid "Share to"
-msgstr ""
+msgstr "Ndajë më"
 
 #: rc/qml/LoadingScreen.qml:39
 msgid "Loading…"
-msgstr ""
+msgstr "Duke ngarkuar…"
 
 #: rc/qml/MainScreen.qml:148
 msgid "Albums"
-msgstr ""
+msgstr "Albumët"
 
 #: rc/qml/MainScreen.qml:162 rc/qml/MainScreen.qml:202
 #: rc/qml/PickerScreen.qml:99
 msgid "Events"
-msgstr ""
+msgstr "Ndodhitë"
 
 #: rc/qml/MainScreen.qml:211 rc/qml/MainScreen.qml:254
 #: rc/qml/PickerScreen.qml:150
 msgid "Photos"
-msgstr ""
+msgstr "Fototë"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:211
 msgid "Delete a photo"
-msgstr ""
+msgstr "Fshijë një foto"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:211
 msgid "Delete a video"
-msgstr ""
+msgstr "Fshijë një video"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:244
 msgid "Remove a photo from album"
-msgstr ""
+msgstr "Hiq një foto nga Albumi"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:244
 msgid "Remove a video from album"
-msgstr ""
+msgstr "Huq një video nga Albumi"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:253
 msgid "Remove from Album"
-msgstr ""
+msgstr "Hiq nga Albumi"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:264
 msgid "Remove from Album and Delete"
-msgstr ""
+msgstr "Hiq dhe fshijë nga Albumi"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:311
 msgid "Edit"
-msgstr ""
+msgstr "Redakto"
 
 #: rc/qml/MediaViewer/PhotoEditorPage.qml:26
 msgid "Edit Photo"
-msgstr ""
+msgstr "Redakto foton"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:46
 #: desktop/gallery-app.desktop.in.in.h:1
 msgid "Gallery"
-msgstr ""
+msgstr "Galeria"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:183
 msgid "Toggle Selection"
-msgstr ""
+msgstr "Kaloni treguesin"
 
 #: rc/qml/MediaViewer/SingleMediaViewer.qml:241
 msgid "An error has occurred attempting to load media"
-msgstr ""
+msgstr "Gabim në ngarkimin e dosjes së medias"
 
 #: rc/qml/PickerScreen.qml:233
 msgid "Pick"
-msgstr ""
+msgstr "Merrë"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr ""
+msgstr "Bërllok;Fshijë"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
-msgstr ""
+msgstr "Posto;Ngarko;Ngjitë"
 
 #: rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
-msgstr ""
+msgstr "Rikthej"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr ""
+msgstr "Anulo akcionin;Rikthe"
 
 #: rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr ""
+msgstr "Rikrijo"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr ""
+msgstr "Apliko prapë;Përsërit"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
-msgstr ""
+msgstr "Përmirëso automatikisht"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr ""
+msgstr "Optimizo foton automatikisht"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr ""
+msgstr "Ndreq foton automatikisht"
 
 #: rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr ""
+msgstr "Kthe"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr ""
+msgstr "Kthe në rrotullim te orës"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr ""
+msgstr "Kthe foton në drejtim të orës"
 
 #: rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr ""
+msgstr "Prejë"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr ""
+msgstr "Shkurto;Prejë"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
-msgstr ""
+msgstr "Shkurto foton"
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr ""
+msgstr "Rikthe originalin"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr ""
+msgstr "Hudhë ndryshimët"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr ""
+msgstr "Hudhë të gjitha ndryshimët"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
-msgstr ""
+msgstr "Ndriçimi"
 
 #: rc/qml/Utility/EditingHUD.qml:120
 msgid "Adjust the exposure"
-msgstr ""
+msgstr "Përshtat ndriçimin"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr ""
+msgstr "Nënndriçuarë;Mbindriçuarë"
 
 #: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
 msgid "Confirm"
-msgstr ""
+msgstr "Konfirmo"
 
 #: rc/qml/Utility/EditingHUD.qml:126
 msgid "Compensation"
-msgstr ""
+msgstr "Bilancë ngjyre"
 
 #: rc/qml/Utility/EditingHUD.qml:160
 msgid "Color Balance"
-msgstr ""
+msgstr "Balancë ngjyre"
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Adjust color balance"
-msgstr ""
+msgstr "Përshtat balancin e ngjyres"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
-msgstr ""
+msgstr "Hija;Toni"
 
 #: rc/qml/Utility/EditingHUD.qml:167
 msgid "Brightness"
-msgstr ""
+msgstr "Ndriçimi"
 
 #: rc/qml/Utility/EditingHUD.qml:178
 msgid "Contrast"
-msgstr ""
+msgstr "Kontrasti"
 
 #: rc/qml/Utility/EditingHUD.qml:189
 msgid "Saturation"
-msgstr ""
+msgstr "Hija"
 
 #: rc/qml/Utility/EditingHUD.qml:200
 msgid "Hue"
-msgstr ""
+msgstr "Toni i ngjyrës"
 
 #: desktop/gallery-app.desktop.in.in.h:2
 msgid "Ubuntu Photo Viewer"
-msgstr ""
+msgstr "Mbikëqyrësi Ubuntu i fotos"
 
 #: desktop/gallery-app.desktop.in.in.h:3
 msgid "Browse your photographs"
-msgstr ""
+msgstr "Shflëto fotot e juaja"
 
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
-msgstr ""
+msgstr "Fototë;Imazhet;Albumet"
