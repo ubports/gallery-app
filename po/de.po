@@ -7,9 +7,9 @@ msgstr ""
 "Project-Id-Version: gallery-app VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2017-08-17 21:01+0000\n"
-"Last-Translator: Florian Leeber <flori@bin.org.in>\n"
-"Language-Team: German <https://ubpweblate.tnvcomp.com/projects/ubports"
+"PO-Revision-Date: 2017-09-28 08:31+0000\n"
+"Last-Translator: Philipp Leibelt <dickerwels@gmail.com>\n"
+"Language-Team: German <https://translate.ubports.com/projects/ubports"
 "/gallery-app/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -182,6 +182,7 @@ msgstr "Hinzufügen"
 
 #: rc/qml/EventsOverview.qml:145 rc/qml/MediaViewer/MediaViewer.qml:357
 #: rc/qml/PhotosOverview.qml:171 rc/qml/Utility/EditingHUD.qml:72
+#, fuzzy
 msgid "Share"
 msgstr "Teilen"
 
