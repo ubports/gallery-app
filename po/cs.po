@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2017-09-18 19:27+0000\n"
+"PO-Revision-Date: 2017-10-06 08:58+0000\n"
 "Last-Translator: Milan Korecký <milan.korecky@gmail.com>\n"
 "Language-Team: Czech <https://translate.ubports.com/projects/ubports/gallery-"
 "app/cs/>\n"
@@ -131,7 +131,7 @@ msgstr "Ve stejný okamžik nelze sdílet fotky a videa"
 
 #: rc/qml/Components/UnableShareDialog.qml:30
 msgid "Ok"
-msgstr "Ok"
+msgstr "OK"
 
 #: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
 msgid "Delete 1 photo"
@@ -260,7 +260,7 @@ msgstr "Vybrat"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr "Koš;Vymazat"
+msgstr "Koš;Smazat"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
@@ -280,7 +280,7 @@ msgstr "Opakovat"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr "Znovu;Opakovat"
+msgstr "Použít znovu;Opakovat"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
@@ -300,11 +300,11 @@ msgstr "Otočit"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr "Otočit ve směru hodinových ručiček"
+msgstr "Otočit doprava"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr "Otočit obrázek po směru hodinových ručiček"
+msgstr "Otočit obrázek doprava"
 
 #: rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
@@ -312,7 +312,7 @@ msgstr "Oříznout"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr "Upravit;Vyjmout"
+msgstr "Upravit;Oříznout"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
@@ -320,7 +320,7 @@ msgstr "Oříznout obrázek"
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr "Navrátit k originálu"
+msgstr "Vrátit do původního stavu"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
@@ -328,7 +328,7 @@ msgstr "Zahodit změny"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr "Zahodit všehny změny"
+msgstr "Zahodit všechny změny"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"
@@ -340,7 +340,7 @@ msgstr "Nastavit expozici"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr "Neexponovaný;Přeexponovaný"
+msgstr "Podexponovaný;Přeexponovaný"
 
 #: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
 msgid "Confirm"
@@ -384,7 +384,7 @@ msgstr "Prohlížeč fotek Ubuntu"
 
 #: desktop/gallery-app.desktop.in.in.h:3
 msgid "Browse your photographs"
-msgstr "Prohlížejte své fotografie"
+msgstr "Prohlížet fotografie"
 
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"

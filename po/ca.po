@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2017-07-17 18:15+0000\n"
-"Last-Translator: Walter Garcia-Fontes <walter.garcia@upf.edu>\n"
-"Language-Team: Catalan <https://ubpweblate.tnvcomp.com/projects/ubports"
+"PO-Revision-Date: 2017-09-30 18:52+0000\n"
+"Last-Translator: Stefano Melchior <stefano.melchior@me.com>\n"
+"Language-Team: Catalan <https://translate.ubports.com/projects/ubports"
 "/gallery-app/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr "Edita l'àlbum"
 #: rc/qml/MediaViewer/MediaViewer.qml:346 rc/qml/PhotosOverview.qml:164
 #: rc/qml/Utility/EditingHUD.qml:67
 msgid "Delete"
-msgstr "Suprimeix-lo"
+msgstr "Suprimeix"
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:39
 #: rc/qml/Components/MediaSelector.qml:93 rc/qml/EventsOverview.qml:160

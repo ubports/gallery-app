@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2017-09-03 19:10+0000\n"
-"Last-Translator: Ivan Semkin <ivan@semkin.ru>\n"
-"Language-Team: Russian <https://ubpweblate.tnvcomp.com/projects/ubports"
+"PO-Revision-Date: 2017-09-30 14:37+0000\n"
+"Last-Translator: Nelly Simkova <stylinsonnelly@gmail.com>\n"
+"Language-Team: Russian <https://translate.ubports.com/projects/ubports"
 "/gallery-app/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
@@ -127,12 +127,13 @@ msgid "Unable to share"
 msgstr "Не удалось поделиться"
 
 #: rc/qml/Components/UnableShareDialog.qml:26
+#, fuzzy
 msgid "Unable to share photos and videos at the same time"
-msgstr ""
+msgstr "Нельзя делиться фото и видео в одно время"
 
 #: rc/qml/Components/UnableShareDialog.qml:30
 msgid "Ok"
-msgstr ""
+msgstr "Хорошо"
 
 #: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
 msgid "Delete 1 photo"
@@ -253,7 +254,7 @@ msgstr "Применить выбранное"
 
 #: rc/qml/MediaViewer/SingleMediaViewer.qml:241
 msgid "An error has occurred attempting to load media"
-msgstr ""
+msgstr "Произошла ошибка во время попытки загрузить медиа"
 
 #: rc/qml/PickerScreen.qml:233
 msgid "Pick"
