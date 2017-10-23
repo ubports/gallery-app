@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2017-09-28 15:00+0000\n"
+"PO-Revision-Date: 2017-10-19 12:20+0000\n"
 "Last-Translator: Ivo Xavier <ivofernandes12@gmail.com>\n"
 "Language-Team: Portuguese <https://translate.ubports.com/projects/ubports"
 "/gallery-app/pt/>\n"
@@ -98,11 +98,11 @@ msgstr "Não"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:51
 msgid "Delete album"
-msgstr "Eliminar álbum"
+msgstr "Eliminar o álbum"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr "Eliminar álbum + conteúdos"
+msgstr "Eliminar o álbum + conteúdos"
 
 #: rc/qml/Components/EventCard.qml:59
 msgid "MMM yyyy"
@@ -123,11 +123,11 @@ msgstr "Adicionar fotografia ao álbum"
 
 #: rc/qml/Components/UnableShareDialog.qml:25
 msgid "Unable to share"
-msgstr "Impossível partilhar"
+msgstr "Incapaz de partilhar"
 
 #: rc/qml/Components/UnableShareDialog.qml:26
 msgid "Unable to share photos and videos at the same time"
-msgstr "Impossível partilhar vídeos e fotos ao mesmo tempo"
+msgstr "Incapaz de partilhar fotos e vídeos ao mesmo tempo"
 
 #: rc/qml/Components/UnableShareDialog.qml:30
 msgid "Ok"
@@ -154,7 +154,7 @@ msgstr "Eliminar %1 vídeos"
 #: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:95
 #, qt-format
 msgid "Delete %1 photos and 1 video"
-msgstr "Apagar %1 fotos e 1 vídeo"
+msgstr "Eliminar %1 fotos e 1 vídeo"
 
 #: rc/qml/EventsOverview.qml:88 rc/qml/PhotosOverview.qml:97
 #, qt-format
@@ -163,7 +163,7 @@ msgstr "Eliminar 1 foto e %1 vídeos"
 
 #: rc/qml/EventsOverview.qml:90 rc/qml/PhotosOverview.qml:99
 msgid "Delete 1 photo and 1 video"
-msgstr "Apagar 1 foto e 1 vídeo"
+msgstr "Eliminar 1 foto e 1 vídeo"
 
 #: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:101
 #, qt-format
