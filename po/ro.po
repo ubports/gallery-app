@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2017-07-01 19:43+0000\n"
+"PO-Revision-Date: 2017-10-29 18:59+0000\n"
 "Last-Translator: Brînzariu Cristian <info@ebeton.ro>\n"
-"Language-Team: Romanian <https://ubpweblate.tnvcomp.com/projects/ubports"
+"Language-Team: Romanian <https://translate.ubports.com/projects/ubports"
 "/gallery-app/ro/>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "Editare album"
 #: rc/qml/MediaViewer/MediaViewer.qml:346 rc/qml/PhotosOverview.qml:164
 #: rc/qml/Utility/EditingHUD.qml:67
 msgid "Delete"
-msgstr "Ştergeţi"
+msgstr "Șterge"
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:39
 #: rc/qml/Components/MediaSelector.qml:93 rc/qml/EventsOverview.qml:160
@@ -132,7 +132,7 @@ msgstr "Nu este posibil să partajezi imagini și filme în același timp"
 
 #: rc/qml/Components/UnableShareDialog.qml:30
 msgid "Ok"
-msgstr "Bine"
+msgstr "Ok"
 
 #: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
 msgid "Delete 1 photo"
