@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2017-10-29 18:59+0000\n"
+"PO-Revision-Date: 2017-10-30 21:41+0000\n"
 "Last-Translator: Brînzariu Cristian <info@ebeton.ro>\n"
 "Language-Team: Romanian <https://translate.ubports.com/projects/ubports"
 "/gallery-app/ro/>\n"
@@ -175,7 +175,7 @@ msgstr "Ştergeţi %1 fotografii şi %2 videoclipuri"
 #: rc/qml/MainScreen.qml:252 rc/qml/PhotosOverview.qml:134
 #: rc/qml/PickerScreen.qml:139 rc/qml/PickerScreen.qml:186
 msgid "Select"
-msgstr "Selectați"
+msgstr "Selectează"
 
 #: rc/qml/EventsOverview.qml:127 rc/qml/PhotosOverview.qml:153
 #: rc/qml/Utility/EditingHUD.qml:77
