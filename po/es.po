@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2017-08-17 23:17+0000\n"
-"Last-Translator: advocatux <advocatux@airpost.net>\n"
-"Language-Team: Spanish <https://ubpweblate.tnvcomp.com/projects/ubports"
+"PO-Revision-Date: 2017-11-01 11:24+0000\n"
+"Last-Translator: Sergio <vincent_shergio@hotmail.com>\n"
+"Language-Team: Spanish <https://translate.ubports.com/projects/ubports"
 "/gallery-app/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -102,11 +102,11 @@ msgstr "Eliminar álbum"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album + contents"
-msgstr "Eliminar álbum y contenido"
+msgstr "Eliminar álbum y su contenido"
 
 #: rc/qml/Components/EventCard.qml:59
 msgid "MMM yyyy"
-msgstr "MMM yyyy"
+msgstr "MMM aaaa"
 
 #: rc/qml/Components/EventCard.qml:73
 msgid "dd"
@@ -300,7 +300,7 @@ msgstr "Rotar"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr "Girar a la derecha"
+msgstr "Girar en sentido horario"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
