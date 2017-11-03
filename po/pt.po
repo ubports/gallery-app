@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2017-10-19 12:20+0000\n"
+"PO-Revision-Date: 2017-11-03 13:59+0000\n"
 "Last-Translator: Ivo Xavier <ivofernandes12@gmail.com>\n"
 "Language-Team: Portuguese <https://translate.ubports.com/projects/ubports"
 "/gallery-app/pt/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:36
 msgid "Edit album"
-msgstr "Editar álbum"
+msgstr "Editar o álbum"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
 #: rc/qml/AlbumViewer/AlbumViewer.qml:378
@@ -231,7 +231,7 @@ msgstr "Remover do álbum"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:264
 msgid "Remove from Album and Delete"
-msgstr "Remove do álbum e elimina"
+msgstr "Remover do álbum e eliminar"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:311
 msgid "Edit"
@@ -248,7 +248,7 @@ msgstr "Galeria"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:183
 msgid "Toggle Selection"
-msgstr "Alternar seleção"
+msgstr "Alternar a seleção"
 
 #: rc/qml/MediaViewer/SingleMediaViewer.qml:241
 msgid "An error has occurred attempting to load media"
@@ -272,7 +272,7 @@ msgstr "Desfazer"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr "Cancelar ação;passo atrás"
+msgstr "Cancelar a ação;passo atrás"
 
 #: rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
@@ -288,11 +288,11 @@ msgstr "Melhorar automaticamente"
 
 #: rc/qml/Utility/EditingHUD.qml:93
 msgid "Adjust the image automatically"
-msgstr "Ajustar imagem automaticamente"
+msgstr "Ajustar a imagem automaticamente"
 
 #: rc/qml/Utility/EditingHUD.qml:94
 msgid "Automatically Adjust Photo"
-msgstr "Ajustar fotografia automaticamente"
+msgstr "Ajustar a fotografia automaticamente"
 
 #: rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
@@ -324,7 +324,7 @@ msgstr "Reverter para o original"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr "Descartar alterações"
+msgstr "Descartar as alterações"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
@@ -356,7 +356,7 @@ msgstr "Equilíbrio de cores"
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Adjust color balance"
-msgstr "Ajustar equilíbrio de cores"
+msgstr "Ajustar o equilíbrio de cores"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
@@ -380,7 +380,7 @@ msgstr "Matiz"
 
 #: desktop/gallery-app.desktop.in.in.h:2
 msgid "Ubuntu Photo Viewer"
-msgstr "Visualizador de fotografias do Ubuntu"
+msgstr "Visualizador de fotografias do Ubuntu Touch"
 
 #: desktop/gallery-app.desktop.in.in.h:3
 msgid "Browse your photographs"
