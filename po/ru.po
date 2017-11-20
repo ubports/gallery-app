@@ -6,18 +6,18 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
 "PO-Revision-Date: 2017-11-20 22:45+0000\n"
 "Last-Translator: Alexey Balmashnov <a.balmashnov@gmail.com>\n"
-"Language-Team: Russian <https://translate.ubports.com/projects/ubports"
-"/gallery-app/ru/>\n"
+"Language-Team: Russian <https://translate.ubports.com/projects/ubports/"
+"gallery-app/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.15\n"
 "X-Launchpad-Export-Date: 2017-04-05 07:16+0000\n"
 
@@ -27,17 +27,15 @@ msgid "Edit album"
 msgstr "Редактировать альбом"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
-#: rc/qml/AlbumViewer/AlbumViewer.qml:378
-#: rc/qml/Components/DeleteDialog.qml:32 rc/qml/EventsOverview.qml:138
-#: rc/qml/MediaViewer/MediaViewer.qml:346 rc/qml/PhotosOverview.qml:164
-#: rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/AlbumViewer/AlbumViewer.qml:378 rc/qml/Components/DeleteDialog.qml:32
+#: rc/qml/EventsOverview.qml:138 rc/qml/MediaViewer/MediaViewer.qml:346
+#: rc/qml/PhotosOverview.qml:164 rc/qml/Utility/EditingHUD.qml:67
 msgid "Delete"
 msgstr "Удалить"
 
-#: rc/qml/AlbumEditor/AlbumEditor.qml:39
-#: rc/qml/Components/MediaSelector.qml:93 rc/qml/EventsOverview.qml:160
-#: rc/qml/MediaViewer/MediaViewer.qml:274 rc/qml/PhotosOverview.qml:187
-#: rc/qml/PickerScreen.qml:227
+#: rc/qml/AlbumEditor/AlbumEditor.qml:39 rc/qml/Components/MediaSelector.qml:93
+#: rc/qml/EventsOverview.qml:160 rc/qml/MediaViewer/MediaViewer.qml:274
+#: rc/qml/PhotosOverview.qml:187 rc/qml/PickerScreen.qml:227
 msgid "Cancel"
 msgstr "Отменить"
 
@@ -87,13 +85,11 @@ msgstr "Подзаголовок"
 msgid "Camera"
 msgstr "Камера"
 
-#: rc/qml/Components/DeleteDialog.qml:36
-#: rc/qml/MediaViewer/MediaViewer.qml:222
+#: rc/qml/Components/DeleteDialog.qml:36 rc/qml/MediaViewer/MediaViewer.qml:222
 msgid "Yes"
 msgstr "Да"
 
-#: rc/qml/Components/DeleteDialog.qml:45
-#: rc/qml/MediaViewer/MediaViewer.qml:233
+#: rc/qml/Components/DeleteDialog.qml:45 rc/qml/MediaViewer/MediaViewer.qml:233
 msgid "No"
 msgstr "Нет"
 
@@ -102,7 +98,8 @@ msgid "Delete album"
 msgstr "Удалить альбом"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
-msgid "Delete album + contents"
+#, fuzzy
+msgid "Delete album AND contents"
 msgstr "Удалить альбом и содержимое"
 
 #: rc/qml/Components/EventCard.qml:59
