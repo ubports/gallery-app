@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2017-10-15 10:12+0000\n"
-"Last-Translator: Ivan Semkin <ivan@semkin.ru>\n"
+"PO-Revision-Date: 2017-11-20 22:45+0000\n"
+"Last-Translator: Alexey Balmashnov <a.balmashnov@gmail.com>\n"
 "Language-Team: Russian <https://translate.ubports.com/projects/ubports"
 "/gallery-app/ru/>\n"
 "Language: ru\n"
@@ -39,7 +39,7 @@ msgstr "Удалить"
 #: rc/qml/MediaViewer/MediaViewer.qml:274 rc/qml/PhotosOverview.qml:187
 #: rc/qml/PickerScreen.qml:227
 msgid "Cancel"
-msgstr "Отмена"
+msgstr "Отменить"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
@@ -127,9 +127,8 @@ msgid "Unable to share"
 msgstr "Не удалось поделиться"
 
 #: rc/qml/Components/UnableShareDialog.qml:26
-#, fuzzy
 msgid "Unable to share photos and videos at the same time"
-msgstr "Нельзя делиться фото и видео в одно время"
+msgstr "Нельзя делиться фото и видео одновременно"
 
 #: rc/qml/Components/UnableShareDialog.qml:30
 msgid "Ok"
@@ -237,7 +236,7 @@ msgstr "Удалить из альбома и стереть"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:311
 msgid "Edit"
-msgstr "Изменить"
+msgstr "Правка"
 
 #: rc/qml/MediaViewer/PhotoEditorPage.qml:26
 msgid "Edit Photo"
