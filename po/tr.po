@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2017-11-25 21:55+0000\n"
+"PO-Revision-Date: 2017-11-26 19:47+0000\n"
 "Last-Translator: Arda Canbolat <oardacn@gmail.com>\n"
 "Language-Team: Turkish <https://translate.ubports.com/projects/ubports"
 "/gallery-app/tr/>\n"
@@ -106,11 +106,11 @@ msgstr "Albüm ve içerikleri sil"
 
 #: rc/qml/Components/EventCard.qml:59
 msgid "MMM yyyy"
-msgstr ""
+msgstr "MMM yyyy"
 
 #: rc/qml/Components/EventCard.qml:73
 msgid "dd"
-msgstr ""
+msgstr "dd"
 
 #: rc/qml/Components/MediaSelector.qml:59
 #: rc/qml/Components/MediaSelector.qml:81
@@ -189,11 +189,11 @@ msgstr "Paylaş"
 #: rc/qml/EventsOverview.qml:193 rc/qml/MediaViewer/MediaViewer.qml:178
 #: rc/qml/PhotosOverview.qml:206
 msgid "Share to"
-msgstr "Burada paylaş"
+msgstr "Paylaş"
 
 #: rc/qml/LoadingScreen.qml:39
 msgid "Loading…"
-msgstr "Yükleniyor..."
+msgstr "Yükleniyor…"
 
 #: rc/qml/MainScreen.qml:148
 msgid "Albums"
@@ -248,11 +248,11 @@ msgstr "Galeri"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:183
 msgid "Toggle Selection"
-msgstr ""
+msgstr "Seçimi Değiştir"
 
 #: rc/qml/MediaViewer/SingleMediaViewer.qml:241
 msgid "An error has occurred attempting to load media"
-msgstr ""
+msgstr "Ortam yüklenmeye çalışılırken bir hata oluştu"
 
 #: rc/qml/PickerScreen.qml:233
 msgid "Pick"
