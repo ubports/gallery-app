@@ -6,12 +6,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
 "PO-Revision-Date: 2017-11-01 11:24+0000\n"
 "Last-Translator: Sergio <vincent_shergio@hotmail.com>\n"
-"Language-Team: Spanish <https://translate.ubports.com/projects/ubports"
-"/gallery-app/es/>\n"
+"Language-Team: Spanish <https://translate.ubports.com/projects/ubports/"
+"gallery-app/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,17 +26,15 @@ msgid "Edit album"
 msgstr "Editar álbum"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
-#: rc/qml/AlbumViewer/AlbumViewer.qml:378
-#: rc/qml/Components/DeleteDialog.qml:32 rc/qml/EventsOverview.qml:138
-#: rc/qml/MediaViewer/MediaViewer.qml:346 rc/qml/PhotosOverview.qml:164
-#: rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/AlbumViewer/AlbumViewer.qml:378 rc/qml/Components/DeleteDialog.qml:32
+#: rc/qml/EventsOverview.qml:138 rc/qml/MediaViewer/MediaViewer.qml:346
+#: rc/qml/PhotosOverview.qml:164 rc/qml/Utility/EditingHUD.qml:67
 msgid "Delete"
 msgstr "Eliminar"
 
-#: rc/qml/AlbumEditor/AlbumEditor.qml:39
-#: rc/qml/Components/MediaSelector.qml:93 rc/qml/EventsOverview.qml:160
-#: rc/qml/MediaViewer/MediaViewer.qml:274 rc/qml/PhotosOverview.qml:187
-#: rc/qml/PickerScreen.qml:227
+#: rc/qml/AlbumEditor/AlbumEditor.qml:39 rc/qml/Components/MediaSelector.qml:93
+#: rc/qml/EventsOverview.qml:160 rc/qml/MediaViewer/MediaViewer.qml:274
+#: rc/qml/PhotosOverview.qml:187 rc/qml/PickerScreen.qml:227
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -86,13 +84,11 @@ msgstr "Subtítulo"
 msgid "Camera"
 msgstr "Cámara"
 
-#: rc/qml/Components/DeleteDialog.qml:36
-#: rc/qml/MediaViewer/MediaViewer.qml:222
+#: rc/qml/Components/DeleteDialog.qml:36 rc/qml/MediaViewer/MediaViewer.qml:222
 msgid "Yes"
 msgstr "Sí"
 
-#: rc/qml/Components/DeleteDialog.qml:45
-#: rc/qml/MediaViewer/MediaViewer.qml:233
+#: rc/qml/Components/DeleteDialog.qml:45 rc/qml/MediaViewer/MediaViewer.qml:233
 msgid "No"
 msgstr "No"
 
@@ -101,7 +97,8 @@ msgid "Delete album"
 msgstr "Eliminar álbum"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
-msgid "Delete album + contents"
+#, fuzzy
+msgid "Delete album AND contents"
 msgstr "Eliminar álbum y su contenido"
 
 #: rc/qml/Components/EventCard.qml:59
