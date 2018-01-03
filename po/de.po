@@ -7,10 +7,10 @@ msgstr ""
 "Project-Id-Version: gallery-app VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2017-11-13 11:43+0000\n"
+"PO-Revision-Date: 2018-01-03 12:38+0000\n"
 "Last-Translator: Peter Nerlich <peter.nerlich+ubports@googlemail.com>\n"
-"Language-Team: German <https://translate.ubports.com/projects/ubports/"
-"gallery-app/de/>\n"
+"Language-Team: German <https://translate.ubports.com/projects/ubports"
+"/gallery-app/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -185,7 +185,7 @@ msgstr "Teilen"
 #: rc/qml/EventsOverview.qml:193 rc/qml/MediaViewer/MediaViewer.qml:178
 #: rc/qml/PhotosOverview.qml:206
 msgid "Share to"
-msgstr "Teilen mit"
+msgstr "Teilen über"
 
 #: rc/qml/LoadingScreen.qml:39
 msgid "Loading…"
