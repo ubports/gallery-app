@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2018-01-18 08:14+0000\n"
+"PO-Revision-Date: 2018-01-18 08:15+0000\n"
 "Last-Translator: Noock <nklowns@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) "
 "<https://translate.ubports.com/projects/ubports/gallery-app/pt_BR/>\n"
@@ -175,7 +175,7 @@ msgstr "Selecionar"
 #: rc/qml/EventsOverview.qml:127 rc/qml/PhotosOverview.qml:153
 #: rc/qml/Utility/EditingHUD.qml:77
 msgid "Add"
-msgstr "Adcionar"
+msgstr "Adicionar"
 
 #: rc/qml/EventsOverview.qml:145 rc/qml/MediaViewer/MediaViewer.qml:357
 #: rc/qml/PhotosOverview.qml:171 rc/qml/Utility/EditingHUD.qml:72
@@ -252,7 +252,7 @@ msgstr "Ocorreu um erro ao tentar carregar"
 
 #: rc/qml/PickerScreen.qml:233
 msgid "Pick"
-msgstr "Pegar"
+msgstr "Selecionar"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
