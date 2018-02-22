@@ -1,4 +1,4 @@
-gallery-app (0.0.67+17.04.20161213-0ubuntu1) zesty; urgency=medium
+gallery-app (0.0.68) xenial; urgency=medium
 
   * added apparmor profile for gallery-app
 
