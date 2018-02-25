@@ -8,15 +8,17 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2016-03-28 18:42+0000\n"
-"Last-Translator: Åka Sikrom <Unknown>\n"
-"Language-Team: Norwegian Bokmal <nb@li.org>\n"
+"PO-Revision-Date: 2018-02-19 08:56+0000\n"
+"Last-Translator: Allan Nordhøy <epost@anotheragency.no>\n"
+"Language-Team: Norwegian Bokmål "
+"<https://translate.ubports.com/projects/ubports/gallery-app/nb/>\n"
 "Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.15\n"
 "X-Launchpad-Export-Date: 2017-04-05 07:16+0000\n"
-"X-Generator: Launchpad (build 18335)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:36
@@ -118,13 +120,14 @@ msgstr "Legg til foto i album"
 
 #: rc/qml/Components/UnableShareDialog.qml:25
 msgid "Unable to share"
-msgstr "Klarte ikke å dele"
+msgstr "Klarer ikke å dele"
 
 #: rc/qml/Components/UnableShareDialog.qml:26
 msgid "Unable to share photos and videos at the same time"
-msgstr "Du kan ikke dele både stillbilder og videoer samtidig"
+msgstr "Klarer ikke å dele bilder og video samtidig"
 
 #: rc/qml/Components/UnableShareDialog.qml:30
+#, fuzzy
 msgid "Ok"
 msgstr "OK"
 
@@ -184,7 +187,7 @@ msgstr "Del"
 #: rc/qml/EventsOverview.qml:193 rc/qml/MediaViewer/MediaViewer.qml:178
 #: rc/qml/PhotosOverview.qml:206
 msgid "Share to"
-msgstr "Del via"
+msgstr "Del til"
 
 #: rc/qml/LoadingScreen.qml:39
 msgid "Loading…"
