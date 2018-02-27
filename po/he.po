@@ -6,11 +6,11 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2017-07-04 21:49+0000\n"
+"PO-Revision-Date: 2018-02-09 09:01+0000\n"
 "Last-Translator: Eran <etherpulse@gmail.com>\n"
-"Language-Team: Hebrew <https://ubpweblate.tnvcomp.com/projects/ubports"
+"Language-Team: Hebrew <https://translate.ubports.com/projects/ubports"
 "/gallery-app/he/>\n"
 "Language: he\n"
 "MIME-Version: 1.0\n"
@@ -26,17 +26,15 @@ msgid "Edit album"
 msgstr "עריכת האלבום"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
-#: rc/qml/AlbumViewer/AlbumViewer.qml:378
-#: rc/qml/Components/DeleteDialog.qml:32 rc/qml/EventsOverview.qml:138
-#: rc/qml/MediaViewer/MediaViewer.qml:346 rc/qml/PhotosOverview.qml:164
-#: rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/AlbumViewer/AlbumViewer.qml:378 rc/qml/Components/DeleteDialog.qml:32
+#: rc/qml/EventsOverview.qml:138 rc/qml/MediaViewer/MediaViewer.qml:346
+#: rc/qml/PhotosOverview.qml:164 rc/qml/Utility/EditingHUD.qml:67
 msgid "Delete"
 msgstr "מחיקה"
 
-#: rc/qml/AlbumEditor/AlbumEditor.qml:39
-#: rc/qml/Components/MediaSelector.qml:93 rc/qml/EventsOverview.qml:160
-#: rc/qml/MediaViewer/MediaViewer.qml:274 rc/qml/PhotosOverview.qml:187
-#: rc/qml/PickerScreen.qml:227
+#: rc/qml/AlbumEditor/AlbumEditor.qml:39 rc/qml/Components/MediaSelector.qml:93
+#: rc/qml/EventsOverview.qml:160 rc/qml/MediaViewer/MediaViewer.qml:274
+#: rc/qml/PhotosOverview.qml:187 rc/qml/PickerScreen.qml:227
 msgid "Cancel"
 msgstr "ביטול"
 
@@ -86,13 +84,11 @@ msgstr "כותרת משנה"
 msgid "Camera"
 msgstr "מצלמה"
 
-#: rc/qml/Components/DeleteDialog.qml:36
-#: rc/qml/MediaViewer/MediaViewer.qml:222
+#: rc/qml/Components/DeleteDialog.qml:36 rc/qml/MediaViewer/MediaViewer.qml:222
 msgid "Yes"
 msgstr "כן"
 
-#: rc/qml/Components/DeleteDialog.qml:45
-#: rc/qml/MediaViewer/MediaViewer.qml:233
+#: rc/qml/Components/DeleteDialog.qml:45 rc/qml/MediaViewer/MediaViewer.qml:233
 msgid "No"
 msgstr "לא"
 
@@ -101,7 +97,8 @@ msgid "Delete album"
 msgstr "מחיקת האלבום"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
-msgid "Delete album + contents"
+#, fuzzy
+msgid "Delete album AND contents"
 msgstr "מחיקת האלבום ותוכנו"
 
 #: rc/qml/Components/EventCard.qml:59
@@ -247,7 +244,6 @@ msgid "Gallery"
 msgstr "גלריה"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:183
-#, fuzzy
 msgid "Toggle Selection"
 msgstr "הפיכת בחירה"
 
@@ -389,4 +385,4 @@ msgstr "עיון בין הצילומים שלך"
 
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
-msgstr ""
+msgstr "תמונות;צילומים;אלבומים"

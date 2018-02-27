@@ -6,12 +6,12 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2017-07-04 15:09+0000\n"
+"PO-Revision-Date: 2017-10-21 05:39+0000\n"
 "Last-Translator: Mutse Young <yyhoo2.young@gmail.com>\n"
-"Language-Team: Chinese (Simplified) "
-"<https://ubpweblate.tnvcomp.com/projects/ubports/gallery-app/zh_Hans/>\n"
+"Language-Team: Chinese (Simplified) <https://translate.ubports.com/projects/"
+"ubports/gallery-app/zh_Hans/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,17 +26,15 @@ msgid "Edit album"
 msgstr "编辑相册"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
-#: rc/qml/AlbumViewer/AlbumViewer.qml:378
-#: rc/qml/Components/DeleteDialog.qml:32 rc/qml/EventsOverview.qml:138
-#: rc/qml/MediaViewer/MediaViewer.qml:346 rc/qml/PhotosOverview.qml:164
-#: rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/AlbumViewer/AlbumViewer.qml:378 rc/qml/Components/DeleteDialog.qml:32
+#: rc/qml/EventsOverview.qml:138 rc/qml/MediaViewer/MediaViewer.qml:346
+#: rc/qml/PhotosOverview.qml:164 rc/qml/Utility/EditingHUD.qml:67
 msgid "Delete"
 msgstr "删除"
 
-#: rc/qml/AlbumEditor/AlbumEditor.qml:39
-#: rc/qml/Components/MediaSelector.qml:93 rc/qml/EventsOverview.qml:160
-#: rc/qml/MediaViewer/MediaViewer.qml:274 rc/qml/PhotosOverview.qml:187
-#: rc/qml/PickerScreen.qml:227
+#: rc/qml/AlbumEditor/AlbumEditor.qml:39 rc/qml/Components/MediaSelector.qml:93
+#: rc/qml/EventsOverview.qml:160 rc/qml/MediaViewer/MediaViewer.qml:274
+#: rc/qml/PhotosOverview.qml:187 rc/qml/PickerScreen.qml:227
 msgid "Cancel"
 msgstr "取消"
 
@@ -86,13 +84,11 @@ msgstr "副标题"
 msgid "Camera"
 msgstr "相机"
 
-#: rc/qml/Components/DeleteDialog.qml:36
-#: rc/qml/MediaViewer/MediaViewer.qml:222
+#: rc/qml/Components/DeleteDialog.qml:36 rc/qml/MediaViewer/MediaViewer.qml:222
 msgid "Yes"
-msgstr "是"
+msgstr "同意"
 
-#: rc/qml/Components/DeleteDialog.qml:45
-#: rc/qml/MediaViewer/MediaViewer.qml:233
+#: rc/qml/Components/DeleteDialog.qml:45 rc/qml/MediaViewer/MediaViewer.qml:233
 msgid "No"
 msgstr "否"
 
@@ -101,12 +97,13 @@ msgid "Delete album"
 msgstr "删除相册"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
-msgid "Delete album + contents"
+#, fuzzy
+msgid "Delete album AND contents"
 msgstr "删除相册与内容"
 
 #: rc/qml/Components/EventCard.qml:59
 msgid "MMM yyyy"
-msgstr "MMM yyyy"
+msgstr "月/年"
 
 #: rc/qml/Components/EventCard.qml:73
 msgid "dd"
@@ -122,13 +119,12 @@ msgid "Add Photo to Album"
 msgstr "添加照片到相册"
 
 #: rc/qml/Components/UnableShareDialog.qml:25
-#, fuzzy
 msgid "Unable to share"
 msgstr "无法分享"
 
 #: rc/qml/Components/UnableShareDialog.qml:26
 msgid "Unable to share photos and videos at the same time"
-msgstr "无法同时分享图片和视频"
+msgstr "无法同时分享照片和视频"
 
 #: rc/qml/Components/UnableShareDialog.qml:30
 msgid "Ok"
@@ -194,7 +190,7 @@ msgstr "分享到"
 
 #: rc/qml/LoadingScreen.qml:39
 msgid "Loading…"
-msgstr "正在载入..."
+msgstr "正在载入…"
 
 #: rc/qml/MainScreen.qml:148
 msgid "Albums"
@@ -257,7 +253,7 @@ msgstr "试图加载媒体时出现错误"
 
 #: rc/qml/PickerScreen.qml:233
 msgid "Pick"
-msgstr "挑选"
+msgstr "选择"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
