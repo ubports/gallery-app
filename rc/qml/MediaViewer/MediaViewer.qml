@@ -365,6 +365,15 @@ Item {
                     overview.pushPage(sharePicker)
                     sharePicker.visible = true;
                 }
+            },
+            Action {
+                objectName: "infoButton"
+                text: i18n.tr("Info")
+                iconName: "info"
+                onTriggered: {
+                    overview.pushPage(mediaInfoPage)
+                    mediaInfoPage.visible = true;
+                }
             }
         ]
  
@@ -378,85 +387,68 @@ Item {
         }
     }
 
-    BottomEdge {
-		
-		id: bottomEdge
-		height: parent.height - units.gu(6)
-		
-		contentComponent: Rectangle {
+    Page {
+        id: mediaInfoPage
+        anchors {
+            top: parent.top - units.gu(8)
+            bottom: parent.bottom
+            left: parent.left
+            right: parent.right
+        }	
+	
+        header: PageHeader {
+            id: infoHeader
+            title: i18n.tr('Informations')
+        }
 			
-			id: bottomEdgeComponent
+        Flickable {
+            clip: true
 			
-			PageHeader {
-				id: bottomHeader
-				title: i18n.tr('Informations')
-			}
-			
-			color: UbuntuColors.porcelain
-			
-			width: bottomEdge.width
-			height: bottomEdge.height
-			
-			Flickable {
-				clip: true
-				
-				anchors {
-					top: bottomHeader.bottom
-					left: parent.left
-					right: parent.right
-					bottom: parent.bottom
-				}
-				contentHeight: contentColumn.height
-				
-				ColumnLayout {
+            anchors {
+                top: infoHeader.bottom
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+                margins: units.gu(2)
+            }
+
+            ColumnLayout {
+
+                id: contentColumn
 					
-					id: contentColumn
+                anchors {
+                    left: parent.left
+                    top: parent.top
+                    right: parent.right
+                    topMargin: units.gu(3)
+                }
 					
-					anchors {
-						left: parent.left
-						top: parent.top
-						right: parent.right
-						topMargin: units.gu(3)
-					}
+		spacing: units.gu(2)
 					
-					spacing: units.gu(2)
-					
-					RowLayout {
+                RowLayout {
+                    id: mediatyperow				
+                    spacing: units.gu(2)
 						
-						id: mediatyperow
+                    Label {
+                        text: i18n.tr('Media type:')
+                    }
+                    Label {
+                        text: (galleryPhotoViewer.media.type === MediaSource.Photo) ? i18n.tr("photo") : i18n.tr("video")
+                    }
+                }
+
+                RowLayout {
+                    id: medianamerow
+                    spacing: units.gu(2)
 						
-						spacing: units.gu(2)
-						
-						Label {
-							text: i18n.tr('Media type:');
-						}
-						Label {
-							text: (galleryPhotoViewer.media.type === MediaSource.Photo) ? i18n.tr("photo") : i18n.tr("video")
-						}
-					}
-					
-					RowLayout {
-						
-						id: medianamerow
-						
-						spacing: units.gu(2)
-						
-						Label {
-							text: i18n.tr('Media name:');
-						}
-						Label {
-							text: galleryPhotoViewer.media.path.toString()
-						}
-					}
-				}
-			}
-		}
+                    Label {
+                        text: i18n.tr('Media name:');
+                    }
+                    Label {
+                        text: galleryPhotoViewer.media.path.toString()
+                    }
+                }
+            }
 	}
-    
-    Rectangle{
-        id: headerBackground
-        width: parent.width
-        height: header.height
-        visible: header.visible
     }
 }
