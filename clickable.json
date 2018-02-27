@@ -1,5 +1,5 @@
 {
 	"template": "cmake",
-	"make_jobs": "2",
+	"make_jobs": "4",
 	"dependencies": "libmediainfo-dev:armhf libexiv2-dev:armhf"
 }
