@@ -390,11 +390,13 @@ Item {
     Page {
         id: mediaInfoPage
         anchors {
-            top: parent.top - units.gu(8)
+            top: parent.top
             bottom: parent.bottom
             left: parent.left
             right: parent.right
-        }	
+        }
+	
+	visible: false
 	
         header: PageHeader {
             id: infoHeader
@@ -412,7 +414,7 @@ Item {
                 margins: units.gu(2)
             }
 
-            ColumnLayout {
+            Column {
 
                 id: contentColumn
 					
@@ -425,10 +427,11 @@ Item {
 					
 		spacing: units.gu(2)
 					
-                RowLayout {
+                Row {
                     id: mediatyperow				
                     spacing: units.gu(2)
-						
+                    width: parent.width
+			
                     Label {
                         text: i18n.tr('Media type:')
                     }
@@ -436,17 +439,10 @@ Item {
                         text: (galleryPhotoViewer.media.type === MediaSource.Photo) ? i18n.tr("photo") : i18n.tr("video")
                     }
                 }
-
-                RowLayout {
-                    id: medianamerow
-                    spacing: units.gu(2)
-						
-                    Label {
-                        text: i18n.tr('Media name:');
-                    }
-                    Label {
-                        text: galleryPhotoViewer.media.path.toString()
-                    }
+                Label {
+                    text: i18n.tr('media name:') + "<br>" + galleryPhotoViewer.media.path.toString()
+                    wrapMode: Text.Wrap
+                    width: parent.width
                 }
             }
 	}
