@@ -8,15 +8,17 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2015-11-25 10:26+0000\n"
-"Last-Translator: Po-Hsu Lin <po-hsu.lin@canonical.com>\n"
-"Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2018-03-02 06:47+0000\n"
+"Last-Translator: P.-H. Lin <cypressyew@gmail.com>\n"
+"Language-Team: Chinese (Traditional) "
+"<https://translate.ubports.com/projects/ubports/gallery-app/zh_Hant/>\n"
+"Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 2.15\n"
 "X-Launchpad-Export-Date: 2017-04-05 07:16+0000\n"
-"X-Generator: Launchpad (build 18335)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:36
@@ -95,9 +97,8 @@ msgid "Delete album"
 msgstr "刪除相簿"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
-#, fuzzy
 msgid "Delete album AND contents"
-msgstr "刪除相簿 + 內容"
+msgstr "刪除相簿及其內容"
 
 #: rc/qml/Components/EventCard.qml:59
 msgid "MMM yyyy"
@@ -118,15 +119,15 @@ msgstr "將相片加入相簿"
 
 #: rc/qml/Components/UnableShareDialog.qml:25
 msgid "Unable to share"
-msgstr ""
+msgstr "無法分享"
 
 #: rc/qml/Components/UnableShareDialog.qml:26
 msgid "Unable to share photos and videos at the same time"
-msgstr ""
+msgstr "無法同時分享相片與影片"
 
 #: rc/qml/Components/UnableShareDialog.qml:30
 msgid "Ok"
-msgstr ""
+msgstr "確定"
 
 #: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
 msgid "Delete 1 photo"
@@ -206,7 +207,7 @@ msgstr "相片"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:211
 msgid "Delete a photo"
-msgstr "刪除相片"
+msgstr "刪除一張相片"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:211
 msgid "Delete a video"
@@ -214,19 +215,19 @@ msgstr "刪除一份影片"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:244
 msgid "Remove a photo from album"
-msgstr "自相簿移除相片"
+msgstr "從相簿移除一張相片"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:244
 msgid "Remove a video from album"
-msgstr "從相簿中移除影片"
+msgstr "從相簿中移除一份影片"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:253
 msgid "Remove from Album"
-msgstr "自相簿移除"
+msgstr "從相簿中移除"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:264
 msgid "Remove from Album and Delete"
-msgstr "自相簿移除並刪除"
+msgstr "從相簿中移除並刪除"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:311
 msgid "Edit"
@@ -247,7 +248,7 @@ msgstr "切換選取項目"
 
 #: rc/qml/MediaViewer/SingleMediaViewer.qml:241
 msgid "An error has occurred attempting to load media"
-msgstr ""
+msgstr "於嘗試載入媒體時發生錯誤"
 
 #: rc/qml/PickerScreen.qml:233
 msgid "Pick"
@@ -255,7 +256,7 @@ msgstr "挑選"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr "Trash;Erase;垃圾;抹除"
+msgstr "Trash;Erase;垃圾;刪除;抹除"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
@@ -263,7 +264,7 @@ msgstr "Post;Upload;Attach;張貼;上傳;附件"
 
 #: rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
-msgstr "恢復"
+msgstr "復原"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
@@ -275,7 +276,7 @@ msgstr "重做"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr "Reapply;Make Again;再次動作"
+msgstr "Reapply;Make Again;再次動作;重新套用"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
@@ -315,7 +316,7 @@ msgstr "裁切影像"
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr "還原至原始狀態"
+msgstr "還原至初始狀態"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
@@ -335,7 +336,7 @@ msgstr "調整曝光"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr "Underexposed;Overexposed;過曝;過度曝光;曝光不足"
+msgstr "Underexposed;Overexposed;過曝;過度曝光;欠曝;曝光不足"
 
 #: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
 msgid "Confirm"
@@ -343,7 +344,7 @@ msgstr "確認"
 
 #: rc/qml/Utility/EditingHUD.qml:126
 msgid "Compensation"
-msgstr "補償"
+msgstr "曝光補償"
 
 #: rc/qml/Utility/EditingHUD.qml:160
 msgid "Color Balance"
@@ -383,4 +384,4 @@ msgstr "瀏覽您的相片"
 
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
-msgstr "Photographs;Pictures;Albums"
+msgstr "Photographs;Pictures;Albums;相片;圖片;照片;相簿"
