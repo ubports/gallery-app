@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2017-07-05 15:43+0000\n"
+"PO-Revision-Date: 2018-03-11 18:12+0000\n"
 "Last-Translator: Aitzol Berasategi <aitzol76@gmail.com>\n"
-"Language-Team: Basque <https://ubpweblate.tnvcomp.com/projects/ubports/"
-"gallery-app/eu/>\n"
+"Language-Team: Basque <https://translate.ubports.com/projects/ubports"
+"/gallery-app/eu/>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -97,13 +97,12 @@ msgid "Delete album"
 msgstr "Ezabatu albuma"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
-#, fuzzy
 msgid "Delete album AND contents"
-msgstr "Ezabatu albuma + edukiak"
+msgstr "Ezabatu albuma ETA edukiak"
 
 #: rc/qml/Components/EventCard.qml:59
 msgid "MMM yyyy"
-msgstr "MMM yyyy"
+msgstr "HHH uuuu"
 
 #: rc/qml/Components/EventCard.qml:73
 msgid "dd"
@@ -186,7 +185,7 @@ msgstr "Partekatu"
 #: rc/qml/EventsOverview.qml:193 rc/qml/MediaViewer/MediaViewer.qml:178
 #: rc/qml/PhotosOverview.qml:206
 msgid "Share to"
-msgstr "Partekatu hemen"
+msgstr "Partekatu"
 
 #: rc/qml/LoadingScreen.qml:39
 msgid "Loading…"
