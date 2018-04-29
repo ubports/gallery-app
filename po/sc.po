@@ -7,8 +7,8 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2018-01-02 20:07+0000\n"
-"Last-Translator: Adrià <adriamartinmor@gmail.com>\n"
+"PO-Revision-Date: 2018-04-27 21:52+0000\n"
+"Last-Translator: Flavia <flavia.efloris@gmail.com>\n"
 "Language-Team: Sardinian <https://translate.ubports.com/projects/ubports"
 "/gallery-app/sc/>\n"
 "Language: sc\n"
@@ -52,7 +52,7 @@ msgstr "Birde"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:116
 msgid "Pattern"
-msgstr ""
+msgstr "Motivu"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:117
 msgid "Red"
@@ -103,7 +103,6 @@ msgid "Delete album AND contents"
 msgstr "Cantzella s'album e sos contenutos"
 
 #: rc/qml/Components/EventCard.qml:59
-#, fuzzy
 msgid "MMM yyyy"
 msgstr "MMM yyyy"
 
@@ -259,11 +258,11 @@ msgstr "Sèbera"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr ""
+msgstr "Àliga;Cantzella "
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
-msgstr ""
+msgstr "Publica;Càrriga;Agiunghe "
 
 #: rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
@@ -271,7 +270,7 @@ msgstr "Iscontza"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr ""
+msgstr "Annulla s'atzione;Torra in segus"
 
 #: rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
@@ -279,7 +278,7 @@ msgstr "Torra a fàghere"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr ""
+msgstr "Torra a aplicare;Torra a fàghere"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
@@ -295,15 +294,15 @@ msgstr "Regulamentu automàticu de sa fotografia"
 
 #: rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr ""
+msgstr "Gira "
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
-msgstr ""
+msgstr "Gira in sensu oràriu"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr ""
+msgstr "Gira s'imàgine in sensu oràriu "
 
 #: rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
@@ -311,7 +310,7 @@ msgstr "Sega"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr ""
+msgstr "Rafila;Sega "
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
@@ -339,7 +338,7 @@ msgstr "Regulamentu de s'espositzione"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr ""
+msgstr "Sutaespositzione;Subraespositzione "
 
 #: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
 msgid "Confirm"
@@ -347,11 +346,11 @@ msgstr "Cunfirma"
 
 #: rc/qml/Utility/EditingHUD.qml:126
 msgid "Compensation"
-msgstr ""
+msgstr "Cumpensatzione "
 
 #: rc/qml/Utility/EditingHUD.qml:160
 msgid "Color Balance"
-msgstr ""
+msgstr "Bilantzamentu de su colore"
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Adjust color balance"
@@ -359,7 +358,7 @@ msgstr ""
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
-msgstr ""
+msgstr "Saturatzione;Tonalidade"
 
 #: rc/qml/Utility/EditingHUD.qml:167
 msgid "Brightness"
@@ -375,7 +374,7 @@ msgstr "Saturatzione"
 
 #: rc/qml/Utility/EditingHUD.qml:200
 msgid "Hue"
-msgstr ""
+msgstr "Tonalidade"
 
 #: desktop/gallery-app.desktop.in.in.h:2
 msgid "Ubuntu Photo Viewer"
@@ -383,8 +382,8 @@ msgstr "Visualizadore de fotografias de Ubuntu"
 
 #: desktop/gallery-app.desktop.in.in.h:3
 msgid "Browse your photographs"
-msgstr ""
+msgstr "Isfògia is fotografias"
 
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
-msgstr ""
+msgstr "Fotografias;Immàgines;Albums"
