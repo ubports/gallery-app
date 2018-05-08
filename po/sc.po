@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-07 17:20-0300\n"
-"PO-Revision-Date: 2018-04-27 21:52+0000\n"
-"Last-Translator: Flavia <flavia.efloris@gmail.com>\n"
+"POT-Creation-Date: 2018-04-29 21:45+0000\n"
+"PO-Revision-Date: 2018-05-06 11:07+0000\n"
+"Last-Translator: Adrià <adriamartinmor@gmail.com>\n"
 "Language-Team: Sardinian <https://translate.ubports.com/projects/ubports"
 "/gallery-app/sc/>\n"
 "Language: sc\n"
@@ -24,17 +24,15 @@ msgid "Edit album"
 msgstr "Modìfica album"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
-#: rc/qml/AlbumViewer/AlbumViewer.qml:378
-#: rc/qml/Components/DeleteDialog.qml:32 rc/qml/EventsOverview.qml:138
-#: rc/qml/MediaViewer/MediaViewer.qml:346 rc/qml/PhotosOverview.qml:164
-#: rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/AlbumViewer/AlbumViewer.qml:378 rc/qml/Components/DeleteDialog.qml:32
+#: rc/qml/EventsOverview.qml:139 rc/qml/MediaViewer/MediaViewer.qml:347
+#: rc/qml/PhotosOverview.qml:160 rc/qml/Utility/EditingHUD.qml:67
 msgid "Delete"
 msgstr "Cantzella"
 
-#: rc/qml/AlbumEditor/AlbumEditor.qml:39
-#: rc/qml/Components/MediaSelector.qml:93 rc/qml/EventsOverview.qml:160
-#: rc/qml/MediaViewer/MediaViewer.qml:274 rc/qml/PhotosOverview.qml:187
-#: rc/qml/PickerScreen.qml:227
+#: rc/qml/AlbumEditor/AlbumEditor.qml:39 rc/qml/Components/MediaSelector.qml:93
+#: rc/qml/EventsOverview.qml:161 rc/qml/MediaViewer/MediaViewer.qml:275
+#: rc/qml/PhotosOverview.qml:183 rc/qml/PickerScreen.qml:285
 msgid "Cancel"
 msgstr "Annulla"
 
@@ -58,39 +56,37 @@ msgstr "Motivu"
 msgid "Red"
 msgstr "Ruju"
 
-#: rc/qml/AlbumViewer/AlbumViewer.qml:107 rc/qml/MainScreen.qml:58
+#: rc/qml/AlbumViewer/AlbumViewer.qml:107 rc/qml/MainScreen.qml:63
 msgid "Album"
 msgstr "Album"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:372
-#: rc/qml/MediaViewer/MediaViewer.qml:336
+#: rc/qml/MediaViewer/MediaViewer.qml:337
 msgid "Add to album"
 msgstr "Agiunghe a s'album"
 
-#: rc/qml/AlbumsOverview.qml:228 rc/qml/Components/PopupAlbumPicker.qml:91
+#: rc/qml/AlbumsOverview.qml:229 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
 msgstr "Agiunghe un'album nou"
 
-#: rc/qml/AlbumsOverview.qml:232 rc/qml/Components/PopupAlbumPicker.qml:101
+#: rc/qml/AlbumsOverview.qml:233 rc/qml/Components/PopupAlbumPicker.qml:101
 msgid "New Photo Album"
 msgstr "Album de fotografias nou"
 
-#: rc/qml/AlbumsOverview.qml:233 rc/qml/Components/PopupAlbumPicker.qml:102
+#: rc/qml/AlbumsOverview.qml:234 rc/qml/Components/PopupAlbumPicker.qml:102
 msgid "Subtitle"
 msgstr "Sutatìtulu"
 
-#: rc/qml/AlbumsOverview.qml:240 rc/qml/EventsOverview.qml:115
-#: rc/qml/PhotosOverview.qml:141
+#: rc/qml/AlbumsOverview.qml:241 rc/qml/EventsOverview.qml:116
+#: rc/qml/PhotosOverview.qml:138
 msgid "Camera"
 msgstr "Fotocàmera"
 
-#: rc/qml/Components/DeleteDialog.qml:36
-#: rc/qml/MediaViewer/MediaViewer.qml:222
+#: rc/qml/Components/DeleteDialog.qml:36 rc/qml/MediaViewer/MediaViewer.qml:223
 msgid "Yes"
 msgstr "Eja"
 
-#: rc/qml/Components/DeleteDialog.qml:45
-#: rc/qml/MediaViewer/MediaViewer.qml:233
+#: rc/qml/Components/DeleteDialog.qml:45 rc/qml/MediaViewer/MediaViewer.qml:234
 msgid "No"
 msgstr "Nono"
 
@@ -131,61 +127,45 @@ msgstr "Non faghet a cumpartzire fotografias e vìdeos impares"
 msgid "Ok"
 msgstr "AB"
 
-#: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
-msgid "Delete 1 photo"
-msgstr "Cantzella sa fotografia"
-
-#: rc/qml/EventsOverview.qml:78 rc/qml/PhotosOverview.qml:87
-msgid "Delete 1 video"
-msgstr "Cantzella su vìdeu"
-
-#: rc/qml/EventsOverview.qml:81 rc/qml/PhotosOverview.qml:90
+#: rc/qml/EventsOverview.qml:80 rc/qml/PhotosOverview.qml:85
 #, qt-format
-msgid "Delete %1 photos"
-msgstr "Cantzella %1 fotografias"
+msgid "Delete %1 photo"
+msgid_plural "Delete %1 photos"
+msgstr[0] "Cantzella %1 fotografia"
+msgstr[1] "Cantzella %1 fotografias"
 
-#: rc/qml/EventsOverview.qml:83 rc/qml/PhotosOverview.qml:92
+#: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:91
 #, qt-format
-msgid "Delete %1 videos"
-msgstr "Cantzella %1 vìdeos"
+msgid "Delete %1 video"
+msgid_plural "Delete %1 videos"
+msgstr[0] "Cantzella %1 vìdeu"
+msgstr[1] "Cantzella %1 vìdeos"
 
-#: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:95
+#: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:97
 #, qt-format
-msgid "Delete %1 photos and 1 video"
-msgstr "Cantzella %1 fotografias e 1 vìdeu"
+msgid "Delete %1 media file"
+msgid_plural "Delete %1 media files"
+msgstr[0] "Cantzella %1 cuntenutu multimediale"
+msgstr[1] "Cantzella %1 cuntenutos multimediales"
 
-#: rc/qml/EventsOverview.qml:88 rc/qml/PhotosOverview.qml:97
-#, qt-format
-msgid "Delete 1 photo and %1 videos"
-msgstr "Cantzella 1 fotografia e %1 vìdeos"
-
-#: rc/qml/EventsOverview.qml:90 rc/qml/PhotosOverview.qml:99
-msgid "Delete 1 photo and 1 video"
-msgstr "Cantzella 1 fotografia e 1 vìdeu"
-
-#: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:101
-#, qt-format
-msgid "Delete %1 photos and %2 videos"
-msgstr "Cantzella %1 fotografias e %2 vìdeos"
-
-#: rc/qml/EventsOverview.qml:108 rc/qml/MainScreen.qml:200
-#: rc/qml/MainScreen.qml:252 rc/qml/PhotosOverview.qml:134
-#: rc/qml/PickerScreen.qml:139 rc/qml/PickerScreen.qml:186
+#: rc/qml/EventsOverview.qml:109 rc/qml/MainScreen.qml:201
+#: rc/qml/MainScreen.qml:253 rc/qml/PhotosOverview.qml:131
+#: rc/qml/PickerScreen.qml:192 rc/qml/PickerScreen.qml:239
 msgid "Select"
 msgstr "Seletziona"
 
-#: rc/qml/EventsOverview.qml:127 rc/qml/PhotosOverview.qml:153
+#: rc/qml/EventsOverview.qml:128 rc/qml/PhotosOverview.qml:150
 #: rc/qml/Utility/EditingHUD.qml:77
 msgid "Add"
 msgstr "Agiunghe"
 
-#: rc/qml/EventsOverview.qml:145 rc/qml/MediaViewer/MediaViewer.qml:357
-#: rc/qml/PhotosOverview.qml:171 rc/qml/Utility/EditingHUD.qml:72
+#: rc/qml/EventsOverview.qml:146 rc/qml/MediaViewer/MediaViewer.qml:358
+#: rc/qml/PhotosOverview.qml:167 rc/qml/Utility/EditingHUD.qml:72
 msgid "Share"
 msgstr "Cumpartzi"
 
-#: rc/qml/EventsOverview.qml:193 rc/qml/MediaViewer/MediaViewer.qml:178
-#: rc/qml/PhotosOverview.qml:206
+#: rc/qml/EventsOverview.qml:195 rc/qml/MediaViewer/MediaViewer.qml:179
+#: rc/qml/PhotosOverview.qml:202
 msgid "Share to"
 msgstr "Cumpartzi cun"
 
@@ -193,45 +173,45 @@ msgstr "Cumpartzi cun"
 msgid "Loading…"
 msgstr "Carrighende..."
 
-#: rc/qml/MainScreen.qml:148
+#: rc/qml/MainScreen.qml:149
 msgid "Albums"
 msgstr "Albums"
 
-#: rc/qml/MainScreen.qml:162 rc/qml/MainScreen.qml:202
-#: rc/qml/PickerScreen.qml:99
+#: rc/qml/MainScreen.qml:163 rc/qml/MainScreen.qml:203
+#: rc/qml/PickerScreen.qml:154
 msgid "Events"
 msgstr "Eventos"
 
-#: rc/qml/MainScreen.qml:211 rc/qml/MainScreen.qml:254
-#: rc/qml/PickerScreen.qml:150
+#: rc/qml/MainScreen.qml:212 rc/qml/MainScreen.qml:255
+#: rc/qml/PickerScreen.qml:203
 msgid "Photos"
 msgstr "Fotografias"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:211
+#: rc/qml/MediaViewer/MediaViewer.qml:212
 msgid "Delete a photo"
 msgstr "Cantzella una fotografia"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:211
+#: rc/qml/MediaViewer/MediaViewer.qml:212
 msgid "Delete a video"
 msgstr "Cantzella unu vìdeu"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:244
+#: rc/qml/MediaViewer/MediaViewer.qml:245
 msgid "Remove a photo from album"
 msgstr "Boga una fotografia dae s'album"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:244
+#: rc/qml/MediaViewer/MediaViewer.qml:245
 msgid "Remove a video from album"
 msgstr "Boga unu vìdeu dae s'album"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:253
+#: rc/qml/MediaViewer/MediaViewer.qml:254
 msgid "Remove from Album"
 msgstr "Boga dae s'album"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:264
+#: rc/qml/MediaViewer/MediaViewer.qml:265
 msgid "Remove from Album and Delete"
 msgstr "Boga dae s'album e dae su dispositivu"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:311
+#: rc/qml/MediaViewer/MediaViewer.qml:312
 msgid "Edit"
 msgstr "Modìfica"
 
@@ -252,17 +232,17 @@ msgstr "Ativa/disativa sa seletzione"
 msgid "An error has occurred attempting to load media"
 msgstr "B'at àpidu una faddina in su carrigamentu de s'archìviu multimediale"
 
-#: rc/qml/PickerScreen.qml:233
+#: rc/qml/PickerScreen.qml:291
 msgid "Pick"
 msgstr "Sèbera"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr "Àliga;Cantzella "
+msgstr "Àliga;Cantzella"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
-msgstr "Publica;Càrriga;Agiunghe "
+msgstr "Pùblica;Càrriga;Agiunghe"
 
 #: rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
@@ -294,7 +274,7 @@ msgstr "Regulamentu automàticu de sa fotografia"
 
 #: rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr "Gira "
+msgstr "Gira"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
@@ -302,7 +282,7 @@ msgstr "Gira in sensu oràriu"
 
 #: rc/qml/Utility/EditingHUD.qml:101
 msgid "Rotate the image clockwise"
-msgstr "Gira s'imàgine in sensu oràriu "
+msgstr "Gira s'imàgine in sensu oràriu"
 
 #: rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
@@ -310,7 +290,7 @@ msgstr "Sega"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr "Rafila;Sega "
+msgstr "Rafila;Sega"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
@@ -338,7 +318,7 @@ msgstr "Regulamentu de s'espositzione"
 
 #: rc/qml/Utility/EditingHUD.qml:121
 msgid "Underexposed;Overexposed"
-msgstr "Sutaespositzione;Subraespositzione "
+msgstr "Sutaespositzione;Subraespositzione"
 
 #: rc/qml/Utility/EditingHUD.qml:122 rc/qml/Utility/EditingHUD.qml:163
 msgid "Confirm"
@@ -346,7 +326,7 @@ msgstr "Cunfirma"
 
 #: rc/qml/Utility/EditingHUD.qml:126
 msgid "Compensation"
-msgstr "Cumpensatzione "
+msgstr "Cumpensatzione"
 
 #: rc/qml/Utility/EditingHUD.qml:160
 msgid "Color Balance"
@@ -354,7 +334,7 @@ msgstr "Bilantzamentu de su colore"
 
 #: rc/qml/Utility/EditingHUD.qml:161
 msgid "Adjust color balance"
-msgstr ""
+msgstr "Acontza su bilantzu de colore"
 
 #: rc/qml/Utility/EditingHUD.qml:162
 msgid "Saturation;Hue"
@@ -387,3 +367,21 @@ msgstr "Isfògia is fotografias"
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
 msgstr "Fotografias;Immàgines;Albums"
+
+#~ msgid "Delete 1 photo"
+#~ msgstr "Cantzella sa fotografia"
+
+#~ msgid "Delete 1 video"
+#~ msgstr "Cantzella su vìdeu"
+
+#~ msgid "Delete %1 photos and 1 video"
+#~ msgstr "Cantzella %1 fotografias e 1 vìdeu"
+
+#~ msgid "Delete 1 photo and %1 videos"
+#~ msgstr "Cantzella 1 fotografia e %1 vìdeos"
+
+#~ msgid "Delete 1 photo and 1 video"
+#~ msgstr "Cantzella 1 fotografia e 1 vìdeu"
+
+#~ msgid "Delete %1 photos and %2 videos"
+#~ msgstr "Cantzella %1 fotografias e %2 vìdeos"
