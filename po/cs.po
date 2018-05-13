@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-29 21:45+0000\n"
-"PO-Revision-Date: 2017-10-06 08:58+0000\n"
+"PO-Revision-Date: 2018-05-11 11:57+0000\n"
 "Last-Translator: Milan Korecký <milan.korecky@gmail.com>\n"
 "Language-Team: Czech <https://translate.ubports.com/projects/ubports/gallery-"
 "app/cs/>\n"
@@ -97,7 +97,6 @@ msgid "Delete album"
 msgstr "Smazat album"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
-#, fuzzy
 msgid "Delete album AND contents"
 msgstr "Smazat album + obsah"
 
@@ -131,27 +130,27 @@ msgid "Ok"
 msgstr "OK"
 
 #: rc/qml/EventsOverview.qml:80 rc/qml/PhotosOverview.qml:85
-#, fuzzy, qt-format
+#, qt-format
 msgid "Delete %1 photo"
 msgid_plural "Delete %1 photos"
-msgstr[0] "Smazat %1 fotek"
+msgstr[0] "Smazat %1 fotku"
 msgstr[1] "Smazat %1 fotek"
 msgstr[2] "Smazat %1 fotek"
 
 #: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:91
-#, fuzzy, qt-format
+#, qt-format
 msgid "Delete %1 video"
 msgid_plural "Delete %1 videos"
-msgstr[0] "Smazat %1 videí"
-msgstr[1] "Smazat %1 videí"
+msgstr[0] "Smazat %1 video"
+msgstr[1] "Smazat %1 videa"
 msgstr[2] "Smazat %1 videí"
 
 #: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:97
-#, fuzzy, qt-format
+#, qt-format
 msgid "Delete %1 media file"
 msgid_plural "Delete %1 media files"
-msgstr[0] "Smazat %1 videí"
-msgstr[1] "Smazat %1 videí"
+msgstr[0] "Smazat %1 video"
+msgstr[1] "Smazat %1 videa"
 msgstr[2] "Smazat %1 videí"
 
 #: rc/qml/EventsOverview.qml:109 rc/qml/MainScreen.qml:201
@@ -252,7 +251,7 @@ msgstr "Poslat;Nahrát;Připojit"
 
 #: rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
-msgstr "Vrátit zpět"
+msgstr "Zpět"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
@@ -260,7 +259,7 @@ msgstr "Zrušit akci;Krok zpět"
 
 #: rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr "Opakovat"
+msgstr "Znovu"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
@@ -292,7 +291,7 @@ msgstr "Otočit obrázek doprava"
 
 #: rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr "Oříznout"
+msgstr "Ořez"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
