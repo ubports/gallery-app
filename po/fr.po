@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-29 21:45+0000\n"
-"PO-Revision-Date: 2018-05-11 20:00+0000\n"
+"PO-Revision-Date: 2018-06-25 17:18+0000\n"
 "Last-Translator: Anne Onyme <anneonyme017@openmailbox.org>\n"
 "Language-Team: French <https://translate.ubports.com/projects/ubports"
 "/gallery-app/fr/>\n"
@@ -36,9 +36,7 @@ msgstr "Supprimer"
 #: rc/qml/EventsOverview.qml:161 rc/qml/MediaViewer/MediaViewer.qml:275
 #: rc/qml/PhotosOverview.qml:183 rc/qml/PickerScreen.qml:285
 msgid "Cancel"
-msgstr ""
-"La couleur du texte est déterminée en fonction de l'arrière-plan, donc "
-"définie à partir du HTML"
+msgstr "Annuler"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
@@ -84,7 +82,7 @@ msgstr "Sous-titre"
 #: rc/qml/AlbumsOverview.qml:241 rc/qml/EventsOverview.qml:116
 #: rc/qml/PhotosOverview.qml:138
 msgid "Camera"
-msgstr "Appareil photo"
+msgstr "Caméra"
 
 #: rc/qml/Components/DeleteDialog.qml:36 rc/qml/MediaViewer/MediaViewer.qml:223
 msgid "Yes"

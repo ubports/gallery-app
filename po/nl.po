@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-29 21:45+0000\n"
-"PO-Revision-Date: 2018-02-23 10:45+0000\n"
-"Last-Translator: Stefan <spleyte@gmail.com>\n"
+"PO-Revision-Date: 2018-05-21 11:14+0000\n"
+"Last-Translator: Joachim Lazaroms <joachim.pc@gmail.com>\n"
 "Language-Team: Dutch <https://translate.ubports.com/projects/ubports/gallery-"
 "app/nl/>\n"
 "Language: nl\n"
@@ -128,7 +128,7 @@ msgstr "Niet mogelijk om tegelijkertijd foto's en video's te delen"
 
 #: rc/qml/Components/UnableShareDialog.qml:30
 msgid "Ok"
-msgstr "Oké"
+msgstr "Ok"
 
 #: rc/qml/EventsOverview.qml:80 rc/qml/PhotosOverview.qml:85
 #, fuzzy, qt-format

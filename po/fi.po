@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-29 21:45+0000\n"
-"PO-Revision-Date: 2018-05-11 21:06+0000\n"
-"Last-Translator: Tatuus <tatuus@riseup.net>\n"
+"PO-Revision-Date: 2018-05-19 13:05+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish <https://translate.ubports.com/projects/ubports"
 "/gallery-app/fi/>\n"
 "Language: fi\n"
@@ -35,9 +35,8 @@ msgstr "Poista"
 #: rc/qml/AlbumEditor/AlbumEditor.qml:39 rc/qml/Components/MediaSelector.qml:93
 #: rc/qml/EventsOverview.qml:161 rc/qml/MediaViewer/MediaViewer.qml:275
 #: rc/qml/PhotosOverview.qml:183 rc/qml/PickerScreen.qml:285
-#, fuzzy
 msgid "Cancel"
-msgstr "Keskeytä"
+msgstr "Peruuta"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
@@ -131,25 +130,25 @@ msgid "Ok"
 msgstr "OK"
 
 #: rc/qml/EventsOverview.qml:80 rc/qml/PhotosOverview.qml:85
-#, fuzzy, qt-format
+#, qt-format
 msgid "Delete %1 photo"
 msgid_plural "Delete %1 photos"
-msgstr[0] "Poista %1 kuvaa"
+msgstr[0] "Poista %1 kuva"
 msgstr[1] "Poista %1 kuvaa"
 
 #: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:91
-#, fuzzy, qt-format
+#, qt-format
 msgid "Delete %1 video"
 msgid_plural "Delete %1 videos"
-msgstr[0] "Poista %1 videota"
+msgstr[0] "Poista %1 video"
 msgstr[1] "Poista %1 videota"
 
 #: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:97
-#, fuzzy, qt-format
+#, qt-format
 msgid "Delete %1 media file"
 msgid_plural "Delete %1 media files"
-msgstr[0] "Poista %1 videota"
-msgstr[1] "Poista %1 videota"
+msgstr[0] "Poista %1 mediatiedosto"
+msgstr[1] "Poista %1 mediatiedostoa"
 
 #: rc/qml/EventsOverview.qml:109 rc/qml/MainScreen.qml:201
 #: rc/qml/MainScreen.qml:253 rc/qml/PhotosOverview.qml:131

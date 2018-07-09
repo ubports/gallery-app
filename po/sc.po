@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-29 21:45+0000\n"
-"PO-Revision-Date: 2018-05-06 11:07+0000\n"
+"PO-Revision-Date: 2018-07-05 16:14+0000\n"
 "Last-Translator: Adrià <adriamartinmor@gmail.com>\n"
 "Language-Team: Sardinian <https://translate.ubports.com/projects/ubports"
 "/gallery-app/sc/>\n"
@@ -96,7 +96,7 @@ msgstr "Cantzella s'album"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
 msgid "Delete album AND contents"
-msgstr "Cantzella s'album e sos contenutos"
+msgstr "Cantzella s'album e is contenutos"
 
 #: rc/qml/Components/EventCard.qml:59
 msgid "MMM yyyy"
@@ -171,7 +171,7 @@ msgstr "Cumpartzi cun"
 
 #: rc/qml/LoadingScreen.qml:39
 msgid "Loading…"
-msgstr "Carrighende..."
+msgstr "Carrighende…"
 
 #: rc/qml/MainScreen.qml:149
 msgid "Albums"
@@ -197,19 +197,19 @@ msgstr "Cantzella unu vìdeu"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:245
 msgid "Remove a photo from album"
-msgstr "Boga una fotografia dae s'album"
+msgstr "Fùlia una fotografia dae s'album"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:245
 msgid "Remove a video from album"
-msgstr "Boga unu vìdeu dae s'album"
+msgstr "Fùlia unu vìdeu dae s'album"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:254
 msgid "Remove from Album"
-msgstr "Boga dae s'album"
+msgstr "Fùlia dae s'album"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:265
 msgid "Remove from Album and Delete"
-msgstr "Boga dae s'album e dae su dispositivu"
+msgstr "Fùlia dae s'album e dae su dispositivu"
 
 #: rc/qml/MediaViewer/MediaViewer.qml:312
 msgid "Edit"
@@ -226,11 +226,11 @@ msgstr "Galleria"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:183
 msgid "Toggle Selection"
-msgstr "Ativa/disativa sa seletzione"
+msgstr "Fùrria sa seletzione"
 
 #: rc/qml/MediaViewer/SingleMediaViewer.qml:241
 msgid "An error has occurred attempting to load media"
-msgstr "B'at àpidu una faddina in su carrigamentu de s'archìviu multimediale"
+msgstr "B'est istada una faddina in su carrigamentu de s'archìviu multimediale"
 
 #: rc/qml/PickerScreen.qml:291
 msgid "Pick"
@@ -302,11 +302,11 @@ msgstr "Riprìstina s'originale"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
-msgstr "Non sarves sas modìficas"
+msgstr "Non sarves is modìficas"
 
 #: rc/qml/Utility/EditingHUD.qml:115
 msgid "Discard all changes"
-msgstr "Non sarves sas modìficas"
+msgstr "Non sarves is modìficas"
 
 #: rc/qml/Utility/EditingHUD.qml:119
 msgid "Exposure"

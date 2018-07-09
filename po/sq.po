@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-29 21:45+0000\n"
-"PO-Revision-Date: 2017-09-29 07:36+0000\n"
+"PO-Revision-Date: 2018-06-02 22:07+0000\n"
 "Last-Translator: Jeff <jeffi27@live.at>\n"
-"Language-Team: Albanian <https://translate.ubports.com/projects/ubports/"
-"gallery-app/sq/>\n"
+"Language-Team: Albanian <https://translate.ubports.com/projects/ubports"
+"/gallery-app/sq/>\n"
 "Language: sq\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,7 +39,7 @@ msgstr "Anulo"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
-msgstr "Parazgjedhur"
+msgstr "Standart"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:114
 msgid "Blue"
@@ -129,31 +129,31 @@ msgid "Ok"
 msgstr "OK"
 
 #: rc/qml/EventsOverview.qml:80 rc/qml/PhotosOverview.qml:85
-#, fuzzy, qt-format
+#, qt-format
 msgid "Delete %1 photo"
 msgid_plural "Delete %1 photos"
-msgstr[0] "Fshijë %1 fotos"
+msgstr[0] "Fshijë %1 foto"
 msgstr[1] "Fshijë %1 fotos"
 
 #: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:91
-#, fuzzy, qt-format
+#, qt-format
 msgid "Delete %1 video"
 msgid_plural "Delete %1 videos"
-msgstr[0] "Fshijë %1 videos"
+msgstr[0] "Fshijë %1 videon"
 msgstr[1] "Fshijë %1 videos"
 
 #: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:97
-#, fuzzy, qt-format
+#, qt-format
 msgid "Delete %1 media file"
 msgid_plural "Delete %1 media files"
-msgstr[0] "Fshijë %1 videos"
+msgstr[0] "Fshijë %1 videon"
 msgstr[1] "Fshijë %1 videos"
 
 #: rc/qml/EventsOverview.qml:109 rc/qml/MainScreen.qml:201
 #: rc/qml/MainScreen.qml:253 rc/qml/PhotosOverview.qml:131
 #: rc/qml/PickerScreen.qml:192 rc/qml/PickerScreen.qml:239
 msgid "Select"
-msgstr "Zgjidhë"
+msgstr "Zgjidh"
 
 #: rc/qml/EventsOverview.qml:128 rc/qml/PhotosOverview.qml:150
 #: rc/qml/Utility/EditingHUD.qml:77
@@ -223,7 +223,7 @@ msgstr "Redakto foton"
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:46
 #: desktop/gallery-app.desktop.in.in.h:1
 msgid "Gallery"
-msgstr "Galeria"
+msgstr "Galeri"
 
 #: rc/qml/MediaViewer/PopupPhotoViewer.qml:183
 msgid "Toggle Selection"
@@ -247,7 +247,7 @@ msgstr "Posto;Ngarko;Ngjitë"
 
 #: rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
-msgstr "Rikthej"
+msgstr "Zhbëjë"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
@@ -255,7 +255,7 @@ msgstr "Anulo akcionin;Rikthe"
 
 #: rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr "Rikrijo"
+msgstr "Përsëritje"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
@@ -275,7 +275,7 @@ msgstr "Ndreq foton automatikisht"
 
 #: rc/qml/Utility/EditingHUD.qml:99
 msgid "Rotate"
-msgstr "Kthe"
+msgstr "Rrotullo"
 
 #: rc/qml/Utility/EditingHUD.qml:100
 msgid "Turn Clockwise"
@@ -287,7 +287,7 @@ msgstr "Kthe foton në drejtim të orës"
 
 #: rc/qml/Utility/EditingHUD.qml:106
 msgid "Crop"
-msgstr "Prejë"
+msgstr "Preje"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
@@ -299,7 +299,7 @@ msgstr "Shkurto foton"
 
 #: rc/qml/Utility/EditingHUD.qml:113
 msgid "Revert to Original"
-msgstr "Rikthe originalin"
+msgstr "Rikthe në  original"
 
 #: rc/qml/Utility/EditingHUD.qml:114
 msgid "Discard Changes"
