@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-29 21:45+0000\n"
-"PO-Revision-Date: 2017-10-01 18:24+0000\n"
-"Last-Translator: Henrik Holm <hbir@post10.tele.dk>\n"
+"PO-Revision-Date: 2018-08-05 00:00+0000\n"
+"Last-Translator: Tom Rausner <tomrausner@gmail.com>\n"
 "Language-Team: Danish <https://translate.ubports.com/projects/ubports/"
 "gallery-app/da/>\n"
 "Language: da\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.15\n"
+"X-Generator: Weblate 2.20\n"
 "X-Launchpad-Export-Date: 2017-04-05 07:16+0000\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
@@ -98,9 +98,8 @@ msgid "Delete album"
 msgstr "Slet album"
 
 #: rc/qml/Components/DeleteOrDeleteWithContentsDialog.qml:60
-#, fuzzy
 msgid "Delete album AND contents"
-msgstr "Slet album + indhold"
+msgstr "Slet album OG indhold"
 
 #: rc/qml/Components/EventCard.qml:59
 msgid "MMM yyyy"
@@ -132,25 +131,25 @@ msgid "Ok"
 msgstr "OK"
 
 #: rc/qml/EventsOverview.qml:80 rc/qml/PhotosOverview.qml:85
-#, fuzzy, qt-format
+#, qt-format
 msgid "Delete %1 photo"
 msgid_plural "Delete %1 photos"
-msgstr[0] "Slet %1 billeder"
+msgstr[0] "Slet %1 billede"
 msgstr[1] "Slet %1 billeder"
 
 #: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:91
-#, fuzzy, qt-format
+#, qt-format
 msgid "Delete %1 video"
 msgid_plural "Delete %1 videos"
-msgstr[0] "Slet %1 videoer"
+msgstr[0] "Slet %1 video"
 msgstr[1] "Slet %1 videoer"
 
 #: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:97
-#, fuzzy, qt-format
+#, qt-format
 msgid "Delete %1 media file"
 msgid_plural "Delete %1 media files"
-msgstr[0] "Slet %1 videoer"
-msgstr[1] "Slet %1 videoer"
+msgstr[0] "Slet %1 mediefil"
+msgstr[1] "Slet %1 mediefiler"
 
 #: rc/qml/EventsOverview.qml:109 rc/qml/MainScreen.qml:201
 #: rc/qml/MainScreen.qml:253 rc/qml/PhotosOverview.qml:131
@@ -294,7 +293,7 @@ msgstr "Beskær"
 
 #: rc/qml/Utility/EditingHUD.qml:107
 msgid "Trim;Cut"
-msgstr "Beskær;Skær"
+msgstr "Beskær;Klip"
 
 #: rc/qml/Utility/EditingHUD.qml:108
 msgid "Crop the image"
