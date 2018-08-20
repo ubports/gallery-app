@@ -371,7 +371,7 @@ Item {
                 text: i18n.tr("Info")
                 iconName: "info"
                 onTriggered: {
-                    overview.pushPage(mediaInfoPage)
+                    PopupUtils.open(mediaInfo)
                     mediaInfoPage.visible = true;
                 }
             }
@@ -387,63 +387,24 @@ Item {
         }
     }
 
-    Page {
-        id: mediaInfoPage
-        anchors {
-            top: parent.top
-            bottom: parent.bottom
-            left: parent.left
-            right: parent.right
-        }
+    Component {
+        id: mediaInfo
 	
-	visible: false
-	
-        header: PageHeader {
-            id: infoHeader
+        Dialog {
+            id: mediaInfoDialog
             title: i18n.tr('Informations')
-        }
-			
-        Flickable {
-            clip: true
-			
-            anchors {
-                top: infoHeader.bottom
-                left: parent.left
-                right: parent.right
-                bottom: parent.bottom
-                margins: units.gu(2)
+           
+            Label { 
+                text: i18n.tr('Media type: ') + ((galleryPhotoViewer.media.type === MediaSource.Photo) ? i18n.tr("photo") : i18n.tr("video")) +
+                    "<br>" + i18n.tr("Media name: ") + galleryPhotoViewer.media.path.toString()
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.WordWrap
             }
-
-            Column {
-
-                id: contentColumn
-					
-                anchors {
-                    left: parent.left
-                    top: parent.top
-                    right: parent.right
-                    topMargin: units.gu(3)
-                }
-					
-		spacing: units.gu(2)
-					
-                Row {
-                    id: mediatyperow				
-                    spacing: units.gu(2)
-                    width: parent.width
-			
-                    Label {
-                        text: i18n.tr('Media type:')
-                    }
-                    Label {
-                        text: (galleryPhotoViewer.media.type === MediaSource.Photo) ? i18n.tr("photo") : i18n.tr("video")
-                    }
-                }
-                Label {
-                    text: i18n.tr('media name:') + "<br>" + galleryPhotoViewer.media.path.toString()
-                    wrapMode: Text.Wrap
-                    width: parent.width
-                }
+           
+            Button {
+                 text: i18n.tr("ok")
+                 color: UbuntuColors.green
+                 onClicked: PopupUtils.close(mediaInfoDialog)
             }
 	}
     }
