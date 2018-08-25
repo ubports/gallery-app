@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-07 17:20-0300\n"
+"POT-Creation-Date: 2018-04-29 21:45+0000\n"
 "PO-Revision-Date: 2014-09-25 03:10+0000\n"
 "Last-Translator: Mitsuya Shibata <mty.shibata@gmail.com>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -25,14 +25,14 @@ msgstr "アルバムを編集"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
 #: rc/qml/AlbumViewer/AlbumViewer.qml:378 rc/qml/Components/DeleteDialog.qml:32
-#: rc/qml/EventsOverview.qml:138 rc/qml/MediaViewer/MediaViewer.qml:346
-#: rc/qml/PhotosOverview.qml:164 rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/EventsOverview.qml:139 rc/qml/MediaViewer/MediaViewer.qml:347
+#: rc/qml/PhotosOverview.qml:160 rc/qml/Utility/EditingHUD.qml:67
 msgid "Delete"
 msgstr "削除"
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:39 rc/qml/Components/MediaSelector.qml:93
-#: rc/qml/EventsOverview.qml:160 rc/qml/MediaViewer/MediaViewer.qml:274
-#: rc/qml/PhotosOverview.qml:187 rc/qml/PickerScreen.qml:227
+#: rc/qml/EventsOverview.qml:161 rc/qml/MediaViewer/MediaViewer.qml:275
+#: rc/qml/PhotosOverview.qml:183 rc/qml/PickerScreen.qml:285
 msgid "Cancel"
 msgstr "キャンセル"
 
@@ -56,37 +56,37 @@ msgstr "パターン"
 msgid "Red"
 msgstr "赤"
 
-#: rc/qml/AlbumViewer/AlbumViewer.qml:107 rc/qml/MainScreen.qml:58
+#: rc/qml/AlbumViewer/AlbumViewer.qml:107 rc/qml/MainScreen.qml:63
 msgid "Album"
 msgstr "アルバム"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:372
-#: rc/qml/MediaViewer/MediaViewer.qml:336
+#: rc/qml/MediaViewer/MediaViewer.qml:337
 msgid "Add to album"
 msgstr "アルバムに追加"
 
-#: rc/qml/AlbumsOverview.qml:228 rc/qml/Components/PopupAlbumPicker.qml:91
+#: rc/qml/AlbumsOverview.qml:229 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
 msgstr "新しいアルバムを追加"
 
-#: rc/qml/AlbumsOverview.qml:232 rc/qml/Components/PopupAlbumPicker.qml:101
+#: rc/qml/AlbumsOverview.qml:233 rc/qml/Components/PopupAlbumPicker.qml:101
 msgid "New Photo Album"
 msgstr ""
 
-#: rc/qml/AlbumsOverview.qml:233 rc/qml/Components/PopupAlbumPicker.qml:102
+#: rc/qml/AlbumsOverview.qml:234 rc/qml/Components/PopupAlbumPicker.qml:102
 msgid "Subtitle"
 msgstr ""
 
-#: rc/qml/AlbumsOverview.qml:240 rc/qml/EventsOverview.qml:115
-#: rc/qml/PhotosOverview.qml:141
+#: rc/qml/AlbumsOverview.qml:241 rc/qml/EventsOverview.qml:116
+#: rc/qml/PhotosOverview.qml:138
 msgid "Camera"
 msgstr "カメラ"
 
-#: rc/qml/Components/DeleteDialog.qml:36 rc/qml/MediaViewer/MediaViewer.qml:222
+#: rc/qml/Components/DeleteDialog.qml:36 rc/qml/MediaViewer/MediaViewer.qml:223
 msgid "Yes"
 msgstr "はい"
 
-#: rc/qml/Components/DeleteDialog.qml:45 rc/qml/MediaViewer/MediaViewer.qml:233
+#: rc/qml/Components/DeleteDialog.qml:45 rc/qml/MediaViewer/MediaViewer.qml:234
 msgid "No"
 msgstr "いいえ"
 
@@ -128,61 +128,45 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
-#: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
-msgid "Delete 1 photo"
-msgstr ""
+#: rc/qml/EventsOverview.qml:80 rc/qml/PhotosOverview.qml:85
+#, fuzzy, qt-format
+msgid "Delete %1 photo"
+msgid_plural "Delete %1 photos"
+msgstr[0] "写真を削除"
+msgstr[1] "写真を削除"
 
-#: rc/qml/EventsOverview.qml:78 rc/qml/PhotosOverview.qml:87
-msgid "Delete 1 video"
-msgstr ""
+#: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:91
+#, fuzzy, qt-format
+msgid "Delete %1 video"
+msgid_plural "Delete %1 videos"
+msgstr[0] "写真を削除"
+msgstr[1] "写真を削除"
 
-#: rc/qml/EventsOverview.qml:81 rc/qml/PhotosOverview.qml:90
+#: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:97
 #, qt-format
-msgid "Delete %1 photos"
-msgstr ""
+msgid "Delete %1 media file"
+msgid_plural "Delete %1 media files"
+msgstr[0] ""
+msgstr[1] ""
 
-#: rc/qml/EventsOverview.qml:83 rc/qml/PhotosOverview.qml:92
-#, qt-format
-msgid "Delete %1 videos"
-msgstr ""
-
-#: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:95
-#, qt-format
-msgid "Delete %1 photos and 1 video"
-msgstr ""
-
-#: rc/qml/EventsOverview.qml:88 rc/qml/PhotosOverview.qml:97
-#, qt-format
-msgid "Delete 1 photo and %1 videos"
-msgstr ""
-
-#: rc/qml/EventsOverview.qml:90 rc/qml/PhotosOverview.qml:99
-msgid "Delete 1 photo and 1 video"
-msgstr ""
-
-#: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:101
-#, qt-format
-msgid "Delete %1 photos and %2 videos"
-msgstr ""
-
-#: rc/qml/EventsOverview.qml:108 rc/qml/MainScreen.qml:200
-#: rc/qml/MainScreen.qml:252 rc/qml/PhotosOverview.qml:134
-#: rc/qml/PickerScreen.qml:139 rc/qml/PickerScreen.qml:186
+#: rc/qml/EventsOverview.qml:109 rc/qml/MainScreen.qml:201
+#: rc/qml/MainScreen.qml:253 rc/qml/PhotosOverview.qml:131
+#: rc/qml/PickerScreen.qml:192 rc/qml/PickerScreen.qml:239
 msgid "Select"
 msgstr "選択"
 
-#: rc/qml/EventsOverview.qml:127 rc/qml/PhotosOverview.qml:153
+#: rc/qml/EventsOverview.qml:128 rc/qml/PhotosOverview.qml:150
 #: rc/qml/Utility/EditingHUD.qml:77
 msgid "Add"
 msgstr "追加"
 
-#: rc/qml/EventsOverview.qml:145 rc/qml/MediaViewer/MediaViewer.qml:357
-#: rc/qml/PhotosOverview.qml:171 rc/qml/Utility/EditingHUD.qml:72
+#: rc/qml/EventsOverview.qml:146 rc/qml/MediaViewer/MediaViewer.qml:358
+#: rc/qml/PhotosOverview.qml:167 rc/qml/Utility/EditingHUD.qml:72
 msgid "Share"
 msgstr "共有"
 
-#: rc/qml/EventsOverview.qml:193 rc/qml/MediaViewer/MediaViewer.qml:178
-#: rc/qml/PhotosOverview.qml:206
+#: rc/qml/EventsOverview.qml:195 rc/qml/MediaViewer/MediaViewer.qml:179
+#: rc/qml/PhotosOverview.qml:202
 msgid "Share to"
 msgstr ""
 
@@ -190,45 +174,45 @@ msgstr ""
 msgid "Loading…"
 msgstr "読み込み中…"
 
-#: rc/qml/MainScreen.qml:148
+#: rc/qml/MainScreen.qml:149
 msgid "Albums"
 msgstr "アルバム"
 
-#: rc/qml/MainScreen.qml:162 rc/qml/MainScreen.qml:202
-#: rc/qml/PickerScreen.qml:99
+#: rc/qml/MainScreen.qml:163 rc/qml/MainScreen.qml:203
+#: rc/qml/PickerScreen.qml:154
 msgid "Events"
 msgstr "イベント"
 
-#: rc/qml/MainScreen.qml:211 rc/qml/MainScreen.qml:254
-#: rc/qml/PickerScreen.qml:150
+#: rc/qml/MainScreen.qml:212 rc/qml/MainScreen.qml:255
+#: rc/qml/PickerScreen.qml:203
 msgid "Photos"
 msgstr "写真"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:211
+#: rc/qml/MediaViewer/MediaViewer.qml:212
 msgid "Delete a photo"
 msgstr "写真を削除"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:211
+#: rc/qml/MediaViewer/MediaViewer.qml:212
 msgid "Delete a video"
 msgstr ""
 
-#: rc/qml/MediaViewer/MediaViewer.qml:244
+#: rc/qml/MediaViewer/MediaViewer.qml:245
 msgid "Remove a photo from album"
 msgstr ""
 
-#: rc/qml/MediaViewer/MediaViewer.qml:244
+#: rc/qml/MediaViewer/MediaViewer.qml:245
 msgid "Remove a video from album"
 msgstr ""
 
-#: rc/qml/MediaViewer/MediaViewer.qml:253
+#: rc/qml/MediaViewer/MediaViewer.qml:254
 msgid "Remove from Album"
 msgstr ""
 
-#: rc/qml/MediaViewer/MediaViewer.qml:264
+#: rc/qml/MediaViewer/MediaViewer.qml:265
 msgid "Remove from Album and Delete"
 msgstr ""
 
-#: rc/qml/MediaViewer/MediaViewer.qml:311
+#: rc/qml/MediaViewer/MediaViewer.qml:312
 msgid "Edit"
 msgstr "編集"
 
@@ -249,7 +233,7 @@ msgstr ""
 msgid "An error has occurred attempting to load media"
 msgstr ""
 
-#: rc/qml/PickerScreen.qml:233
+#: rc/qml/PickerScreen.qml:291
 msgid "Pick"
 msgstr "選択"
 

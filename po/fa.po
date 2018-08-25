@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-07 17:20-0300\n"
+"POT-Creation-Date: 2018-04-29 21:45+0000\n"
 "PO-Revision-Date: 2016-03-26 11:51+0000\n"
 "Last-Translator: Danial Behzadi <dani.behzi@gmail.com>\n"
 "Language-Team: Persian <fa@li.org>\n"
@@ -25,14 +25,14 @@ msgstr "ویرایش آلبوم"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:50
 #: rc/qml/AlbumViewer/AlbumViewer.qml:378 rc/qml/Components/DeleteDialog.qml:32
-#: rc/qml/EventsOverview.qml:138 rc/qml/MediaViewer/MediaViewer.qml:346
-#: rc/qml/PhotosOverview.qml:164 rc/qml/Utility/EditingHUD.qml:67
+#: rc/qml/EventsOverview.qml:139 rc/qml/MediaViewer/MediaViewer.qml:347
+#: rc/qml/PhotosOverview.qml:160 rc/qml/Utility/EditingHUD.qml:67
 msgid "Delete"
 msgstr "حذف"
 
 #: rc/qml/AlbumEditor/AlbumEditor.qml:39 rc/qml/Components/MediaSelector.qml:93
-#: rc/qml/EventsOverview.qml:160 rc/qml/MediaViewer/MediaViewer.qml:274
-#: rc/qml/PhotosOverview.qml:187 rc/qml/PickerScreen.qml:227
+#: rc/qml/EventsOverview.qml:161 rc/qml/MediaViewer/MediaViewer.qml:275
+#: rc/qml/PhotosOverview.qml:183 rc/qml/PickerScreen.qml:285
 msgid "Cancel"
 msgstr "لغو"
 
@@ -56,37 +56,37 @@ msgstr "الگو"
 msgid "Red"
 msgstr "قرمز"
 
-#: rc/qml/AlbumViewer/AlbumViewer.qml:107 rc/qml/MainScreen.qml:58
+#: rc/qml/AlbumViewer/AlbumViewer.qml:107 rc/qml/MainScreen.qml:63
 msgid "Album"
 msgstr "آلبوم"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:372
-#: rc/qml/MediaViewer/MediaViewer.qml:336
+#: rc/qml/MediaViewer/MediaViewer.qml:337
 msgid "Add to album"
 msgstr "افزودن به آلبوم"
 
-#: rc/qml/AlbumsOverview.qml:228 rc/qml/Components/PopupAlbumPicker.qml:91
+#: rc/qml/AlbumsOverview.qml:229 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
 msgstr "افزودن آلبوم جدید"
 
-#: rc/qml/AlbumsOverview.qml:232 rc/qml/Components/PopupAlbumPicker.qml:101
+#: rc/qml/AlbumsOverview.qml:233 rc/qml/Components/PopupAlbumPicker.qml:101
 msgid "New Photo Album"
 msgstr "آلبوم عکس جدید"
 
-#: rc/qml/AlbumsOverview.qml:233 rc/qml/Components/PopupAlbumPicker.qml:102
+#: rc/qml/AlbumsOverview.qml:234 rc/qml/Components/PopupAlbumPicker.qml:102
 msgid "Subtitle"
 msgstr "زیرنویس"
 
-#: rc/qml/AlbumsOverview.qml:240 rc/qml/EventsOverview.qml:115
-#: rc/qml/PhotosOverview.qml:141
+#: rc/qml/AlbumsOverview.qml:241 rc/qml/EventsOverview.qml:116
+#: rc/qml/PhotosOverview.qml:138
 msgid "Camera"
 msgstr "دوربین"
 
-#: rc/qml/Components/DeleteDialog.qml:36 rc/qml/MediaViewer/MediaViewer.qml:222
+#: rc/qml/Components/DeleteDialog.qml:36 rc/qml/MediaViewer/MediaViewer.qml:223
 msgid "Yes"
 msgstr "بله"
 
-#: rc/qml/Components/DeleteDialog.qml:45 rc/qml/MediaViewer/MediaViewer.qml:233
+#: rc/qml/Components/DeleteDialog.qml:45 rc/qml/MediaViewer/MediaViewer.qml:234
 msgid "No"
 msgstr "خیر"
 
@@ -128,61 +128,45 @@ msgstr "ناتوان در هم‌رسانی هم‌زمان عکس‌ها و و�
 msgid "Ok"
 msgstr "قبول"
 
-#: rc/qml/EventsOverview.qml:76 rc/qml/PhotosOverview.qml:85
-msgid "Delete 1 photo"
-msgstr "حذف ۱ عکس"
+#: rc/qml/EventsOverview.qml:80 rc/qml/PhotosOverview.qml:85
+#, fuzzy, qt-format
+msgid "Delete %1 photo"
+msgid_plural "Delete %1 photos"
+msgstr[0] "حذف %1 عکس"
+msgstr[1] "حذف %1 عکس"
 
-#: rc/qml/EventsOverview.qml:78 rc/qml/PhotosOverview.qml:87
-msgid "Delete 1 video"
-msgstr "حذف ۱ ویدیو"
+#: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:91
+#, fuzzy, qt-format
+msgid "Delete %1 video"
+msgid_plural "Delete %1 videos"
+msgstr[0] "حذف %1 ویدیو"
+msgstr[1] "حذف %1 ویدیو"
 
-#: rc/qml/EventsOverview.qml:81 rc/qml/PhotosOverview.qml:90
-#, qt-format
-msgid "Delete %1 photos"
-msgstr "حذف %1 عکس"
+#: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:97
+#, fuzzy, qt-format
+msgid "Delete %1 media file"
+msgid_plural "Delete %1 media files"
+msgstr[0] "حذف %1 ویدیو"
+msgstr[1] "حذف %1 ویدیو"
 
-#: rc/qml/EventsOverview.qml:83 rc/qml/PhotosOverview.qml:92
-#, qt-format
-msgid "Delete %1 videos"
-msgstr "حذف %1 ویدیو"
-
-#: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:95
-#, qt-format
-msgid "Delete %1 photos and 1 video"
-msgstr "حذف %1 عکس و ۱ ویدیو"
-
-#: rc/qml/EventsOverview.qml:88 rc/qml/PhotosOverview.qml:97
-#, qt-format
-msgid "Delete 1 photo and %1 videos"
-msgstr "حذف ۱ عکس و %1 ویدیو"
-
-#: rc/qml/EventsOverview.qml:90 rc/qml/PhotosOverview.qml:99
-msgid "Delete 1 photo and 1 video"
-msgstr "حذف ۱ عکس و ۱ ویدیو"
-
-#: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:101
-#, qt-format
-msgid "Delete %1 photos and %2 videos"
-msgstr "حذف %1 عکس و %2 ویدیو"
-
-#: rc/qml/EventsOverview.qml:108 rc/qml/MainScreen.qml:200
-#: rc/qml/MainScreen.qml:252 rc/qml/PhotosOverview.qml:134
-#: rc/qml/PickerScreen.qml:139 rc/qml/PickerScreen.qml:186
+#: rc/qml/EventsOverview.qml:109 rc/qml/MainScreen.qml:201
+#: rc/qml/MainScreen.qml:253 rc/qml/PhotosOverview.qml:131
+#: rc/qml/PickerScreen.qml:192 rc/qml/PickerScreen.qml:239
 msgid "Select"
 msgstr "گزینش"
 
-#: rc/qml/EventsOverview.qml:127 rc/qml/PhotosOverview.qml:153
+#: rc/qml/EventsOverview.qml:128 rc/qml/PhotosOverview.qml:150
 #: rc/qml/Utility/EditingHUD.qml:77
 msgid "Add"
 msgstr "افزودن"
 
-#: rc/qml/EventsOverview.qml:145 rc/qml/MediaViewer/MediaViewer.qml:357
-#: rc/qml/PhotosOverview.qml:171 rc/qml/Utility/EditingHUD.qml:72
+#: rc/qml/EventsOverview.qml:146 rc/qml/MediaViewer/MediaViewer.qml:358
+#: rc/qml/PhotosOverview.qml:167 rc/qml/Utility/EditingHUD.qml:72
 msgid "Share"
 msgstr "به‌اشتراک گذاری"
 
-#: rc/qml/EventsOverview.qml:193 rc/qml/MediaViewer/MediaViewer.qml:178
-#: rc/qml/PhotosOverview.qml:206
+#: rc/qml/EventsOverview.qml:195 rc/qml/MediaViewer/MediaViewer.qml:179
+#: rc/qml/PhotosOverview.qml:202
 msgid "Share to"
 msgstr "اشتراک گذاری به"
 
@@ -190,45 +174,45 @@ msgstr "اشتراک گذاری به"
 msgid "Loading…"
 msgstr "درحال بارکردن…"
 
-#: rc/qml/MainScreen.qml:148
+#: rc/qml/MainScreen.qml:149
 msgid "Albums"
 msgstr "آلبوم‌ها"
 
-#: rc/qml/MainScreen.qml:162 rc/qml/MainScreen.qml:202
-#: rc/qml/PickerScreen.qml:99
+#: rc/qml/MainScreen.qml:163 rc/qml/MainScreen.qml:203
+#: rc/qml/PickerScreen.qml:154
 msgid "Events"
 msgstr "رویدادها"
 
-#: rc/qml/MainScreen.qml:211 rc/qml/MainScreen.qml:254
-#: rc/qml/PickerScreen.qml:150
+#: rc/qml/MainScreen.qml:212 rc/qml/MainScreen.qml:255
+#: rc/qml/PickerScreen.qml:203
 msgid "Photos"
 msgstr "عکس‌ها"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:211
+#: rc/qml/MediaViewer/MediaViewer.qml:212
 msgid "Delete a photo"
 msgstr "حذف یک عکس"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:211
+#: rc/qml/MediaViewer/MediaViewer.qml:212
 msgid "Delete a video"
 msgstr "حذف یک ویدیو"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:244
+#: rc/qml/MediaViewer/MediaViewer.qml:245
 msgid "Remove a photo from album"
 msgstr "برداشتن یک عکس از آلبوم"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:244
+#: rc/qml/MediaViewer/MediaViewer.qml:245
 msgid "Remove a video from album"
 msgstr "برداشتن یک ویدیو از آلبوم"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:253
+#: rc/qml/MediaViewer/MediaViewer.qml:254
 msgid "Remove from Album"
 msgstr "برداشتن از آلبوم"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:264
+#: rc/qml/MediaViewer/MediaViewer.qml:265
 msgid "Remove from Album and Delete"
 msgstr "برداشتن از آلبوم و حذف"
 
-#: rc/qml/MediaViewer/MediaViewer.qml:311
+#: rc/qml/MediaViewer/MediaViewer.qml:312
 msgid "Edit"
 msgstr "ویرایش"
 
@@ -249,7 +233,7 @@ msgstr "تغییر وضعیت دسته"
 msgid "An error has occurred attempting to load media"
 msgstr "هنام تلاش برای بار کردن رسانه، خطایی رخ داد"
 
-#: rc/qml/PickerScreen.qml:233
+#: rc/qml/PickerScreen.qml:291
 msgid "Pick"
 msgstr "برداشتن"
 
@@ -384,3 +368,21 @@ msgstr "عکس‌هایتان را مرور کنید"
 #: desktop/gallery-app.desktop.in.in.h:4
 msgid "Photographs;Pictures;Albums"
 msgstr "عکس‌ها;عکس;آلبوم‌ها"
+
+#~ msgid "Delete 1 photo"
+#~ msgstr "حذف ۱ عکس"
+
+#~ msgid "Delete 1 video"
+#~ msgstr "حذف ۱ ویدیو"
+
+#~ msgid "Delete %1 photos and 1 video"
+#~ msgstr "حذف %1 عکس و ۱ ویدیو"
+
+#~ msgid "Delete 1 photo and %1 videos"
+#~ msgstr "حذف ۱ عکس و %1 ویدیو"
+
+#~ msgid "Delete 1 photo and 1 video"
+#~ msgstr "حذف ۱ عکس و ۱ ویدیو"
+
+#~ msgid "Delete %1 photos and %2 videos"
+#~ msgstr "حذف %1 عکس و %2 ویدیو"
