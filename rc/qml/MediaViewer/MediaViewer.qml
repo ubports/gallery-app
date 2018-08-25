@@ -16,9 +16,12 @@
  * Authors:
  * Jim Nelson <jim@yorba.org>
  * Lucas Beeler <lucas@yorba.org>
+ * 
+ * Emanuele Sorce <emanuele.sorce@hotmail.com>
  */
 
 import QtQuick 2.4
+import QtQuick.Layouts 1.1
 import Gallery 1.0
 import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.3
@@ -362,6 +365,15 @@ Item {
                     overview.pushPage(sharePicker)
                     sharePicker.visible = true;
                 }
+            },
+            Action {
+                objectName: "infoButton"
+                text: i18n.tr("Info")
+                iconName: "info"
+                onTriggered: {
+                    PopupUtils.open(mediaInfo)
+                    mediaInfoPage.visible = true;
+                }
             }
         ]
  
@@ -375,10 +387,25 @@ Item {
         }
     }
 
-    Rectangle{
-        id: headerBackground
-        width: parent.width
-        height: header.height
-        visible: header.visible
+    Component {
+        id: mediaInfo
+	
+        Dialog {
+            id: mediaInfoDialog
+            title: i18n.tr('Informations')
+           
+            Label { 
+                text: i18n.tr('Media type: ') + ((galleryPhotoViewer.media.type === MediaSource.Photo) ? i18n.tr("photo") : i18n.tr("video")) +
+                    "<br>" + i18n.tr("Media name: ") + galleryPhotoViewer.media.path.toString()
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.WordWrap
+            }
+           
+            Button {
+                 text: i18n.tr("ok")
+                 color: UbuntuColors.green
+                 onClicked: PopupUtils.close(mediaInfoDialog)
+            }
+	}
     }
 }

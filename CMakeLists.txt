@@ -45,6 +45,13 @@ pkg_check_modules(MEDIAINFO REQUIRED libmediainfo)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Werror")
 set(CMAKE_EXE_LINKER_FLAGS "-s")
 
+# Activate C++11 on Cmake >= 3.1
+if (CMAKE_VERSION VERSION_GREATER "3.1")
+    set (CMAKE_CXX_STANDARD 11)
+    set (CMAKE_CXX_STANDARD_REQUIRED ON)
+endif ()
+
+
 find_program(INTLTOOL_MERGE intltool-merge)
 find_program(INTLTOOL_EXTRACT intltool-extract)
 

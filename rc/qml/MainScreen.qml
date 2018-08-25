@@ -32,7 +32,7 @@ MainView {
     id: overview
     objectName: "overview"
 
-	backgroundColor: UbuntuColors.porcelain
+    backgroundColor: UbuntuColors.porcelain
 
     anchors.fill: parent
     applicationName: "com.ubuntu.gallery"
@@ -188,9 +188,8 @@ MainView {
                             photoViewerLoader.load();
                             overview.mediaCurrentlyInView = mediaSource.path;
 
-                            var rect = GalleryUtility.translateRect(thumbnailRect,
-                                                                    eventsOverview,
-                                                                    photoViewerLoader);
+                            var rect = GalleryUtility.translateRect(
+                                thumbnailRect, eventsOverview,photoViewerLoader);
                             photoViewerLoader.item.title = eventTab.title;
                             photoViewerLoader.item.selection = selection;
                             photoViewerLoader.item.animateOpen(mediaSource, rect);
