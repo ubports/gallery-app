@@ -35,7 +35,7 @@ GridView {
     property SelectionState selection: null
 
     /// Size of the thumbnails
-    property real thumbnailSize: units.gu(12)
+    property real thumbnailSize: photosGrid.gridSize
     /// Size of the requested thumbnails
     property real thumbnailSourceSize: units.gu(19)
     /// Minimum space between the tumbnails
@@ -84,7 +84,7 @@ GridView {
 
             radius: "medium"
             property bool isLoading: source.status === Image.Loading
- 
+
             backgroundColor: "black"
             sourceFillMode: UbuntuShape.PreserveAspectCrop
             source: Image {
@@ -107,7 +107,7 @@ GridView {
                 color: "white"
                 opacity: 0.8
             }
-            
+
             Icon {
 				// Display a play icon if the thumbnail is from a video
 				anchors.centerIn: parent

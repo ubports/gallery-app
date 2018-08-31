@@ -18,6 +18,7 @@
  */
 
 import QtQuick 2.4
+import Qt.labs.settings 1.0
 import Gallery 1.0
 import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.3
@@ -64,13 +65,14 @@ Page {
     }
 
     property string pageTitle
+    property var gridUnits: 12.0
 
     head.actions: inSelectionMode ? d.selectActions : d.overviewActions
     head.backAction: inSelectionMode ? d.selectBackAction : null
 
     MediaGrid {
         id: photosGrid
-
+        property var gridSize: units.gu(photosOverview.gridUnits)
         anchors.fill: parent
         model: photosOverview.model
         selection: d.selection
@@ -107,6 +109,32 @@ Page {
         }
     }
 
+    Component {
+        id: gridSel
+        Dialog {
+            id: gridDia
+            title: i18n.tr("Grid Size")
+            text: i18n.tr("Select the grid size in gu units between 8.0 and 20.0 (default is 12.0).")
+            TextField {
+                id: gridValue
+                text: photosOverview.gridUnits
+                validator: DoubleValidator{bottom: 8.0; top: 20.0;}
+                inputMethodHints: Qt.ImhFormattedNumbersOnly
+            }
+            Button {
+                text: i18n.tr("Ok")
+                onClicked: {
+                    photosOverview.gridUnits = gridValue.text
+                    PopupUtils.close(gridDia)
+                }
+            }
+            Button {
+                text: i18n.tr("Cancel")
+                onClicked: PopupUtils.close(gridDia)
+            }
+        }
+    }
+
     property int __pickerContentHeight: height - units.gu(20)
     property PopupAlbumPicker __albumPicker
     Connections {
@@ -127,6 +155,13 @@ Page {
 
         property list<Action> overviewActions: [
             Action {
+                objectName: "gridButton"
+                text: i18n.tr("Grid Size")
+                iconName: "view-grid-symbolic"
+                enabled: d.selection !== null
+                onTriggered: PopupUtils.open(gridSel);
+            },
+            Action {
                 objectName: "selectButton"
                 text: i18n.tr("Select")
                 iconName: "select"
@@ -146,7 +181,7 @@ Page {
             Action {
                 id: addButton
                 objectName: "addButton"
- 
+
                 text: i18n.tr("Add")
                 iconName: "add"
                 enabled: d.selection.selectedCount > 0
@@ -183,7 +218,7 @@ Page {
             text: i18n.tr("Cancel")
             iconName: "back"
             onTriggered: photosOverview.leaveSelectionMode();
-        } 
+        }
     }
 
     Component {
@@ -194,6 +229,10 @@ Page {
     Component {
         id: contentItemComp
         ContentItem {}
+    }
+
+    Settings {
+        property alias gridSize: photosOverview.gridUnits
     }
 
     Page {
