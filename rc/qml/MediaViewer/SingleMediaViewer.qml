@@ -187,7 +187,7 @@ Item {
                         height: viewer.thumbSize.height
                     }
                     fillMode: Image.PreserveAspectFit
-                    visible: viewer.showThumbnail
+                    visible: viewer.showThumbnail && !mediaSource.path.toString().includes(".gif")
                     opacity: status == Image.Ready ? 1.0 : 0.0
                     Behavior on opacity { UbuntuNumberAnimation {duration: UbuntuAnimation.FastDuration} }
 
@@ -204,7 +204,35 @@ Item {
                         width: width
                         height: height
                     }
+                    visible: !mediaSource.path.toString().includes(".gif")
                     opacity: status == Image.Ready ? 1.0 : 0.0
+                    fillMode: Image.PreserveAspectFit
+                }
+
+                AnimatedImage {
+                    id: animatedImage
+                    anchors.fill: parent
+                    asynchronous: true
+                    cache: false
+                    source: {
+                        mediaSource.path
+                    }
+                    fillMode: Image.PreserveAspectFit
+                    visible: viewer.showThumbnail && mediaSource.path.toString().includes(".gif")
+                    opacity: status == AnimatedImage.Ready ? 1.0 : 0.0
+                    Behavior on opacity { UbuntuNumberAnimation {duration: UbuntuAnimation.FastDuration} }
+
+                }
+
+                AnimatedImage {
+                    id: highResolutionAnimatedImage
+                    anchors.fill: parent
+                    asynchronous: true
+                    cache: false
+                    // Load image using the photo image provider to ensure EXIF orientation
+                    source: flickable.sizeScale > 1.0 ? mediaSource.path : ""
+                    visible: mediaSource.path.toString().includes(".gif")
+                    opacity: status == AnimatedImage.Ready ? 1.0 : 0.0
                     fillMode: Image.PreserveAspectFit
                 }
 
