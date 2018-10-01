@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-29 21:45+0000\n"
-"PO-Revision-Date: 2018-10-01 07:54+0000\n"
+"PO-Revision-Date: 2018-10-14 16:47+0000\n"
 "Last-Translator: Ben van Hartingsveldt <benvanhartingsveldt@gmail.com>\n"
 "Language-Team: Dutch <https://translate.ubports.com/projects/ubports/"
 "gallery-app/nl/>\n"
@@ -40,7 +40,7 @@ msgstr "Annuleren"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:113
 msgid "Default"
-msgstr "Standaardwaarde"
+msgstr "Standaard"
 
 #: rc/qml/AlbumViewer/AlbumCoverList.qml:114
 msgid "Blue"
