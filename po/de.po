@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: gallery-app VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-29 21:45+0000\n"
-"PO-Revision-Date: 2018-07-09 21:33+0000\n"
+"PO-Revision-Date: 2018-10-14 18:54+0000\n"
 "Last-Translator: Florian Leeber <flori@bin.org.in>\n"
-"Language-Team: German <https://translate.ubports.com/projects/ubports"
-"/gallery-app/de/>\n"
+"Language-Team: German <https://translate.ubports.com/projects/ubports/"
+"gallery-app/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.17\n"
+"X-Generator: Weblate 3.0\n"
 "X-Launchpad-Export-Date: 2017-04-05 07:16+0000\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
@@ -172,7 +172,7 @@ msgstr "Teilen über"
 
 #: rc/qml/LoadingScreen.qml:39
 msgid "Loading…"
-msgstr "Ladevorgang…"
+msgstr "Wird geladen…"
 
 #: rc/qml/MainScreen.qml:149
 msgid "Albums"
