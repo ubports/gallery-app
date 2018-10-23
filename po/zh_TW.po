@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-29 21:45+0000\n"
-"PO-Revision-Date: 2018-10-22 21:46+0000\n"
+"PO-Revision-Date: 2018-10-23 05:08+0000\n"
 "Last-Translator: Louies <louies0623@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://translate.ubports.com/projects/"
 "ubports/gallery-app/zh_Hant/>\n"
@@ -60,7 +60,7 @@ msgstr "紅"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:107 rc/qml/MainScreen.qml:63
 msgid "Album"
-msgstr "專輯"
+msgstr "相簿"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:372
 #: rc/qml/MediaViewer/MediaViewer.qml:337
@@ -130,19 +130,19 @@ msgid "Ok"
 msgstr "確定"
 
 #: rc/qml/EventsOverview.qml:80 rc/qml/PhotosOverview.qml:85
-#, fuzzy, qt-format
+#, qt-format
 msgid "Delete %1 photo"
 msgid_plural "Delete %1 photos"
-msgstr[0] "刪除 %1 相片"
+msgstr[0] "刪除 %1 張相片"
 
 #: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:91
-#, fuzzy, qt-format
+#, qt-format
 msgid "Delete %1 video"
 msgid_plural "Delete %1 videos"
 msgstr[0] "刪除 %1 份影片"
 
 #: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:97
-#, fuzzy, qt-format
+#, qt-format
 msgid "Delete %1 media file"
 msgid_plural "Delete %1 media files"
 msgstr[0] "刪除 %1 份影片"
@@ -249,7 +249,7 @@ msgstr "復原"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr "Cancel Action;Backstep;取消動作;上一步"
+msgstr "取消動作;上一步"
 
 #: rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
@@ -257,7 +257,7 @@ msgstr "重做"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr "Reapply;Make Again;再次動作;重新套用"
+msgstr "再次動作;重新套用"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"
