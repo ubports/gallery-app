@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-29 21:45+0000\n"
-"PO-Revision-Date: 2018-10-23 05:08+0000\n"
+"PO-Revision-Date: 2018-10-28 00:00+0000\n"
 "Last-Translator: Louies <louies0623@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://translate.ubports.com/projects/"
 "ubports/gallery-app/zh_Hant/>\n"
@@ -60,7 +60,7 @@ msgstr "紅"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:107 rc/qml/MainScreen.qml:63
 msgid "Album"
-msgstr "相簿"
+msgstr "專輯"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:372
 #: rc/qml/MediaViewer/MediaViewer.qml:337
@@ -118,6 +118,7 @@ msgid "Add Photo to Album"
 msgstr "將相片加入相簿"
 
 #: rc/qml/Components/UnableShareDialog.qml:25
+#, fuzzy
 msgid "Unable to share"
 msgstr "無法分享"
 
