@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-29 21:45+0000\n"
-"PO-Revision-Date: 2018-10-28 19:27+0000\n"
-"Last-Translator: Sergio Reyes <vincentshergio@gmail.com>\n"
+"PO-Revision-Date: 2018-11-04 00:02+0000\n"
+"Last-Translator: advocatux <advocatux@airpost.net>\n"
 "Language-Team: Spanish <https://translate.ubports.com/projects/ubports/"
 "gallery-app/es/>\n"
 "Language: es\n"
@@ -236,7 +236,7 @@ msgstr "Ocurrió un error intentando cargar el contenido"
 
 #: rc/qml/PickerScreen.qml:291
 msgid "Pick"
-msgstr "Coger"
+msgstr "Escoger"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
