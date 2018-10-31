@@ -372,7 +372,6 @@ Item {
                 iconName: "info"
                 onTriggered: {
                     PopupUtils.open(mediaInfo)
-                    mediaInfoPage.visible = true;
                 }
             }
         ]
@@ -395,8 +394,11 @@ Item {
             title: i18n.tr('Informations')
            
             Label { 
-                text: i18n.tr('Media type: ') + ((galleryPhotoViewer.media.type === MediaSource.Photo) ? i18n.tr("photo") : i18n.tr("video")) +
-                    "<br>" + i18n.tr("Media name: ") + galleryPhotoViewer.media.path.toString()
+                text: i18n.tr('Media type: ') +
+                      ((galleryPhotoViewer.media.type === MediaSource.Photo) ? i18n.tr("photo") : i18n.tr("video")) + "<br><br>" + 
+                      i18n.tr("Media name: ") + galleryPhotoViewer.media.path.toString() + "<br><br>" +
+                      i18n.tr("Date: ") + galleryPhotoViewer.media.exposureDate.toLocaleString(Qt.locale(), "ddd MMM d yyyy") + "<br><br>" +
+                      i18n.tr("Time: ") + galleryPhotoViewer.media.exposureTimeOfDay.toLocaleTimeString(Qt.locale(), "h:mm:ss a t")
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.WordWrap
             }
@@ -406,6 +408,6 @@ Item {
                  color: UbuntuColors.green
                  onClicked: PopupUtils.close(mediaInfoDialog)
             }
-	}
+        }
     }
 }

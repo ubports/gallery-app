@@ -30,3 +30,6 @@ moc_*.cxx
 # Kdevelop files
 .kdev4/
 *.kdev4
+
+# clickable 
+.clickable/
