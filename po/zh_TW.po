@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-29 21:45+0000\n"
-"PO-Revision-Date: 2018-11-04 00:00+0000\n"
+"PO-Revision-Date: 2018-11-11 00:02+0000\n"
 "Last-Translator: Louies <louies0623@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://translate.ubports.com/projects/"
 "ubports/gallery-app/zh_Hant/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.0.1\n"
+"X-Generator: Weblate 3.1.1\n"
 "X-Launchpad-Export-Date: 2017-04-05 07:16+0000\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
@@ -118,7 +118,6 @@ msgid "Add Photo to Album"
 msgstr "將相片加入相簿"
 
 #: rc/qml/Components/UnableShareDialog.qml:25
-#, fuzzy
 msgid "Unable to share"
 msgstr "無法分享"
 
@@ -233,7 +232,6 @@ msgid "An error has occurred attempting to load media"
 msgstr "於嘗試載入媒體時發生錯誤"
 
 #: rc/qml/PickerScreen.qml:291
-#, fuzzy
 msgid "Pick"
 msgstr "選擇"
 
