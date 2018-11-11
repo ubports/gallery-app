@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-29 21:45+0000\n"
-"PO-Revision-Date: 2017-12-23 18:02+0000\n"
+"PO-Revision-Date: 2018-11-18 19:19+0000\n"
 "Last-Translator: Samson <sambelet@yahoo.com>\n"
 "Language-Team: Amharic <https://translate.ubports.com/projects/ubports/"
 "gallery-app/am/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2.15\n"
+"X-Generator: Weblate 3.1.1\n"
 "X-Launchpad-Export-Date: 2017-04-05 07:16+0000\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
@@ -236,7 +236,7 @@ msgstr "መገናኛ በ መጫን ላይ እንዳለ ስህተት ተፈጥሯ
 
 #: rc/qml/PickerScreen.qml:291
 msgid "Pick"
-msgstr "መምረጫ"
+msgstr "ይምረጡ"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
