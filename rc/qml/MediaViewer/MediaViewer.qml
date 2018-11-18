@@ -391,10 +391,10 @@ Item {
 	
         Dialog {
             id: mediaInfoDialog
-            title: i18n.tr('Informations')
+            title: i18n.tr("Informations")
            
             Label { 
-                text: i18n.tr('Media type: ') +
+                text: i18n.tr("Media type: ") +
                       ((galleryPhotoViewer.media.type === MediaSource.Photo) ? i18n.tr("photo") : i18n.tr("video")) + "<br><br>" + 
                       i18n.tr("Media name: ") + galleryPhotoViewer.media.path.toString() + "<br><br>" +
                       i18n.tr("Date: ") + galleryPhotoViewer.media.exposureDate.toLocaleString(Qt.locale(), "ddd MMM d yyyy") + "<br><br>" +
