@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-29 21:45+0000\n"
-"PO-Revision-Date: 2018-11-15 21:02+0000\n"
+"PO-Revision-Date: 2018-11-18 19:19+0000\n"
 "Last-Translator: Aitzol Berasategi <aitzol@disroot.org>\n"
 "Language-Team: Basque <https://translate.ubports.com/projects/ubports/"
 "gallery-app/eu/>\n"
@@ -102,7 +102,7 @@ msgstr "Ezabatu albuma ETA edukiak"
 
 #: rc/qml/Components/EventCard.qml:59
 msgid "MMM yyyy"
-msgstr "HHH uuuu"
+msgstr "MMM yyyy"
 
 #: rc/qml/Components/EventCard.qml:73
 msgid "dd"
