@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-29 21:45+0000\n"
-"PO-Revision-Date: 2018-11-04 00:01+0000\n"
+"PO-Revision-Date: 2018-11-23 16:51+0000\n"
 "Last-Translator: Anne Onyme <anneonyme017@tutanota.com>\n"
 "Language-Team: French <https://translate.ubports.com/projects/ubports/"
 "gallery-app/fr/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 3.0.1\n"
+"X-Generator: Weblate 3.1.1\n"
 "X-Launchpad-Export-Date: 2017-04-05 07:16+0000\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
@@ -133,21 +133,21 @@ msgstr "Valider"
 #, qt-format
 msgid "Delete %1 photo"
 msgid_plural "Delete %1 photos"
-msgstr[0] "Supprimer %1 photo"
+msgstr[0] "Supprimer une photo"
 msgstr[1] "Supprimer %1 photos"
 
 #: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:91
 #, qt-format
 msgid "Delete %1 video"
 msgid_plural "Delete %1 videos"
-msgstr[0] "Supprimer %1 vidéo"
+msgstr[0] "Supprimer une vidéo"
 msgstr[1] "Supprimer %1 vidéos"
 
 #: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:97
 #, qt-format
 msgid "Delete %1 media file"
 msgid_plural "Delete %1 media files"
-msgstr[0] "Supprimer %1 fichier multimédia"
+msgstr[0] "Supprimer un fichier multimédia"
 msgstr[1] "Supprimer %1 fichiers multimédia"
 
 #: rc/qml/EventsOverview.qml:109 rc/qml/MainScreen.qml:201
