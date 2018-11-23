@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-29 21:45+0000\n"
-"PO-Revision-Date: 2018-11-11 00:02+0000\n"
+"PO-Revision-Date: 2018-11-18 19:19+0000\n"
 "Last-Translator: Louies <louies0623@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://translate.ubports.com/projects/"
 "ubports/gallery-app/zh_Hant/>\n"
@@ -65,15 +65,15 @@ msgstr "專輯"
 #: rc/qml/AlbumViewer/AlbumViewer.qml:372
 #: rc/qml/MediaViewer/MediaViewer.qml:337
 msgid "Add to album"
-msgstr "加入相簿中"
+msgstr "加入相簿"
 
 #: rc/qml/AlbumsOverview.qml:229 rc/qml/Components/PopupAlbumPicker.qml:91
 msgid "Add new album"
-msgstr "新增相簿"
+msgstr "加入新的相簿"
 
 #: rc/qml/AlbumsOverview.qml:233 rc/qml/Components/PopupAlbumPicker.qml:101
 msgid "New Photo Album"
-msgstr "新相簿"
+msgstr "新的相片相簿"
 
 #: rc/qml/AlbumsOverview.qml:234 rc/qml/Components/PopupAlbumPicker.qml:102
 msgid "Subtitle"
@@ -102,7 +102,7 @@ msgstr "刪除相簿及其內容"
 
 #: rc/qml/Components/EventCard.qml:59
 msgid "MMM yyyy"
-msgstr "MMM yyyy"
+msgstr "yyyy MMM"
 
 #: rc/qml/Components/EventCard.qml:73
 msgid "dd"
@@ -111,11 +111,11 @@ msgstr "dd"
 #: rc/qml/Components/MediaSelector.qml:59
 #: rc/qml/Components/MediaSelector.qml:81
 msgid "Add to Album"
-msgstr "加入相簿中"
+msgstr "加入到相簿"
 
 #: rc/qml/Components/PopupAlbumPicker.qml:162 rc/qml/Utility/EditingHUD.qml:78
 msgid "Add Photo to Album"
-msgstr "將相片加入相簿"
+msgstr "將相片加入到相簿"
 
 #: rc/qml/Components/UnableShareDialog.qml:25
 msgid "Unable to share"
@@ -145,7 +145,7 @@ msgstr[0] "刪除 %1 份影片"
 #, qt-format
 msgid "Delete %1 media file"
 msgid_plural "Delete %1 media files"
-msgstr[0] "刪除 %1 份影片"
+msgstr[0] "刪除 %1 份媒體檔案"
 
 #: rc/qml/EventsOverview.qml:109 rc/qml/MainScreen.qml:201
 #: rc/qml/MainScreen.qml:253 rc/qml/PhotosOverview.qml:131

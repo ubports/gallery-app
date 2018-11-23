@@ -8,15 +8,17 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-29 21:45+0000\n"
-"PO-Revision-Date: 2015-10-03 17:37+0000\n"
-"Last-Translator: tomoe_musashi <hkg.musashi@gmail.com>\n"
-"Language-Team: Chinese (Hong Kong) <zh_HK@li.org>\n"
+"PO-Revision-Date: 2018-11-23 16:51+0000\n"
+"Last-Translator: Louies <louies0623@gmail.com>\n"
+"Language-Team: Chinese (Hong Kong) <https://translate.ubports.com/projects/"
+"ubports/gallery-app/zh_Hant_HK/>\n"
 "Language: zh_HK\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 3.1.1\n"
 "X-Launchpad-Export-Date: 2017-04-05 07:16+0000\n"
-"X-Generator: Launchpad (build 18335)\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
 #: rc/qml/AlbumEditor/AlbumEditor.qml:36
@@ -126,7 +128,7 @@ msgstr ""
 
 #: rc/qml/Components/UnableShareDialog.qml:30
 msgid "Ok"
-msgstr ""
+msgstr "確定"
 
 #: rc/qml/EventsOverview.qml:80 rc/qml/PhotosOverview.qml:85
 #, fuzzy, qt-format
@@ -153,7 +155,7 @@ msgstr[1] "刪除 %1 部影片"
 #: rc/qml/MainScreen.qml:253 rc/qml/PhotosOverview.qml:131
 #: rc/qml/PickerScreen.qml:192 rc/qml/PickerScreen.qml:239
 msgid "Select"
-msgstr "選取"
+msgstr "選擇"
 
 #: rc/qml/EventsOverview.qml:128 rc/qml/PhotosOverview.qml:150
 #: rc/qml/Utility/EditingHUD.qml:77
@@ -247,7 +249,7 @@ msgstr "Post;Upload;Attach;張貼;上傳;附件"
 
 #: rc/qml/Utility/EditingHUD.qml:82
 msgid "Undo"
-msgstr "還原"
+msgstr "撤銷"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
@@ -255,7 +257,7 @@ msgstr "Cancel Action;Backstep;取消動作;上一步"
 
 #: rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
-msgstr "再做"
+msgstr "重做"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
