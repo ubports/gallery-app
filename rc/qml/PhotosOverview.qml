@@ -116,18 +116,18 @@ Page {
             title: i18n.tr("Grid Size")
             text: i18n.tr("Select the grid size in gu units between 8 and 20 (default is 12)")
 
-	    Slider {
-		function formatValue(v) { return v.toFixed(0) }
-		minimumValue: 8
-		maximumValue: 20
-		value: photosOverview.gridUnits
-		live: true
-			
-		onValueChanged: {
-		    photosOverview.gridUnits = value
-		}
-	    }    
-	    
+  	        Slider {
+          		function formatValue(v) { return v.toFixed(0) }
+          		minimumValue: 8
+          		maximumValue: 20
+          		value: photosOverview.gridUnits
+          		live: true
+
+          		onValueChanged: {
+          		    photosOverview.gridUnits = value
+          		}
+  	        }
+
             Button {
                 text: i18n.tr("Finished")
                 onClicked: PopupUtils.close(gridDia)
