@@ -114,22 +114,22 @@ Page {
         Dialog {
             id: gridDia
             title: i18n.tr("Grid Size")
-            text: i18n.tr("Select the grid size in gu units between 8.0 and 20.0 (default is 12.0).")
-            TextField {
-                id: gridValue
-                text: photosOverview.gridUnits
-                validator: DoubleValidator{bottom: 8.0; top: 20.0;}
-                inputMethodHints: Qt.ImhFormattedNumbersOnly
-            }
+            text: i18n.tr("Select the grid size in gu units between 8 and 20 (default is 12)")
+
+	    Slider {
+		function formatValue(v) { return v.toFixed(0) }
+		minimumValue: 8
+		maximumValue: 20
+		value: photosOverview.gridUnits
+		live: true
+			
+		onValueChanged: {
+		    photosOverview.gridUnits = value
+		}
+	    }    
+	    
             Button {
-                text: i18n.tr("Ok")
-                onClicked: {
-                    photosOverview.gridUnits = gridValue.text
-                    PopupUtils.close(gridDia)
-                }
-            }
-            Button {
-                text: i18n.tr("Cancel")
+                text: i18n.tr("Finished")
                 onClicked: PopupUtils.close(gridDia)
             }
         }
