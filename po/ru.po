@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-29 21:45+0000\n"
-"PO-Revision-Date: 2018-11-16 07:15+0000\n"
+"PO-Revision-Date: 2018-11-23 16:51+0000\n"
 "Last-Translator: ierihon <idekovets@mail.ru>\n"
 "Language-Team: Russian <https://translate.ubports.com/projects/ubports/"
 "gallery-app/ru/>\n"
@@ -102,12 +102,10 @@ msgid "Delete album AND contents"
 msgstr "Удалить альбом и содержимое"
 
 #: rc/qml/Components/EventCard.qml:59
-#, fuzzy
 msgid "MMM yyyy"
 msgstr "MMM yyyy"
 
 #: rc/qml/Components/EventCard.qml:73
-#, fuzzy
 msgid "dd"
 msgstr "dd"
 
@@ -137,24 +135,24 @@ msgstr "ОК"
 msgid "Delete %1 photo"
 msgid_plural "Delete %1 photos"
 msgstr[0] "Удалить %1 фотографию"
-msgstr[1] "Удалить %1 фотографий"
-msgstr[2] "Удалить %1 фото"
+msgstr[1] "Удалить %1 фотографии"
+msgstr[2] "Удалить %1 фотографий"
 
 #: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:91
-#, fuzzy, qt-format
+#, qt-format
 msgid "Delete %1 video"
 msgid_plural "Delete %1 videos"
-msgstr[0] "Удалить %1 видео"
-msgstr[1] "Удалить %1 видео"
-msgstr[2] "Удалить %1 видео"
+msgstr[0] "Удалить %1 видеофайл"
+msgstr[1] "Удалить %1 видеофайла"
+msgstr[2] "Удалить %1 видеофайлов"
 
 #: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:97
-#, fuzzy, qt-format
+#, qt-format
 msgid "Delete %1 media file"
 msgid_plural "Delete %1 media files"
-msgstr[0] "Удалить %1 видео"
-msgstr[1] "Удалить %1 видео"
-msgstr[2] "Удалить %1 видео"
+msgstr[0] "Удалить %1 мультимедийный файл"
+msgstr[1] "Удалить %1 мультимедийных файла"
+msgstr[2] "Удалить %1 мультимедийных файлов"
 
 #: rc/qml/EventsOverview.qml:109 rc/qml/MainScreen.qml:201
 #: rc/qml/MainScreen.qml:253 rc/qml/PhotosOverview.qml:131
@@ -246,7 +244,7 @@ msgstr "Выбрать"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
-msgstr "Корзина;Удалить"
+msgstr "Корзина;Стереть"
 
 #: rc/qml/Utility/EditingHUD.qml:73
 msgid "Post;Upload;Attach"
