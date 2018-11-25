@@ -26,6 +26,7 @@ import Gallery 1.0
 import "../js/GalleryUtility.js" as GalleryUtility
 import "AlbumEditor"
 import "AlbumViewer"
+import "Controller"
 
 MainView {
     id: overview
@@ -325,6 +326,8 @@ MainView {
  
     actionManager.localContexts: [ hudCtx ]
 
+    SettingsController { id: settings }    
+    
     Settings {
         property alias defaultViewIndex: tabs.selectedTabIndex
     }
