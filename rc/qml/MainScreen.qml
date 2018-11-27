@@ -21,12 +21,12 @@
 import QtQuick 2.4
 import Qt.labs.settings 1.0
 import Ubuntu.Components 1.3
-import Ubuntu.Unity.Action 1.0 as UnityActions
 import Ubuntu.Content 1.3
 import Gallery 1.0
 import "../js/GalleryUtility.js" as GalleryUtility
 import "AlbumEditor"
 import "AlbumViewer"
+import "Controller"
 
 MainView {
     id: overview
@@ -319,13 +319,15 @@ MainView {
         enabled: photoViewerLoader.item && photoViewerLoader.item.animationRunning
     }
 
-    UnityActions.ActionContext {
+    ActionContext {
         id: hudCtx
         active: __isPhotoViewerOpen
     }
  
     actionManager.localContexts: [ hudCtx ]
 
+    SettingsController { id: settings }    
+    
     Settings {
         property alias defaultViewIndex: tabs.selectedTabIndex
     }

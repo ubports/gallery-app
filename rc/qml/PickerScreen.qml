@@ -19,6 +19,7 @@ import Ubuntu.Components 1.3
 import Ubuntu.Content 1.3
 import Gallery 1.0
 import "Components"
+import "Controller"
 import "OrganicView"
 import "Utility"
 import "../js/Gallery.js" as Gallery
@@ -91,6 +92,8 @@ MainView {
         APP.pickModeEnabled = false
     }
 
+    SettingsController { id: settings }
+    
     PageStack {
         id: pageStack
         anchors.fill: parent
@@ -226,6 +229,7 @@ MainView {
 
                         MediaGrid {
                             id: photosGrid
+                            property var gridSize: units.gu(settings.gridUnits)
                             anchors.fill: parent
                             model: allLoaded ? mediaLibraryLoader.item : ""
                             selection: allLoaded ? selectionLoader.item : ""

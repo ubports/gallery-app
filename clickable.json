@@ -5,6 +5,5 @@
 	"dependencies": [
 		"libmediainfo-dev",
 		"libexiv2-dev"
-		]
-
+	]
 }

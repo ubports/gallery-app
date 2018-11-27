@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: gallery-app\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-04-29 21:45+0000\n"
-"PO-Revision-Date: 2018-03-02 06:47+0000\n"
-"Last-Translator: P.-H. Lin <cypressyew@gmail.com>\n"
+"PO-Revision-Date: 2018-11-11 00:02+0000\n"
+"Last-Translator: Louies <louies0623@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <https://translate.ubports.com/projects/"
 "ubports/gallery-app/zh_Hant/>\n"
 "Language: zh_TW\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2.15\n"
+"X-Generator: Weblate 3.1.1\n"
 "X-Launchpad-Export-Date: 2017-04-05 07:16+0000\n"
 
 #: rc/qml/AlbumEditor/AlbumEditMenu.qml:43
@@ -60,7 +60,7 @@ msgstr "紅"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:107 rc/qml/MainScreen.qml:63
 msgid "Album"
-msgstr "相簿"
+msgstr "專輯"
 
 #: rc/qml/AlbumViewer/AlbumViewer.qml:372
 #: rc/qml/MediaViewer/MediaViewer.qml:337
@@ -130,19 +130,19 @@ msgid "Ok"
 msgstr "確定"
 
 #: rc/qml/EventsOverview.qml:80 rc/qml/PhotosOverview.qml:85
-#, fuzzy, qt-format
+#, qt-format
 msgid "Delete %1 photo"
 msgid_plural "Delete %1 photos"
-msgstr[0] "刪除 %1 相片"
+msgstr[0] "刪除 %1 張相片"
 
 #: rc/qml/EventsOverview.qml:86 rc/qml/PhotosOverview.qml:91
-#, fuzzy, qt-format
+#, qt-format
 msgid "Delete %1 video"
 msgid_plural "Delete %1 videos"
 msgstr[0] "刪除 %1 份影片"
 
 #: rc/qml/EventsOverview.qml:92 rc/qml/PhotosOverview.qml:97
-#, fuzzy, qt-format
+#, qt-format
 msgid "Delete %1 media file"
 msgid_plural "Delete %1 media files"
 msgstr[0] "刪除 %1 份影片"
@@ -156,7 +156,7 @@ msgstr "選取"
 #: rc/qml/EventsOverview.qml:128 rc/qml/PhotosOverview.qml:150
 #: rc/qml/Utility/EditingHUD.qml:77
 msgid "Add"
-msgstr "新增"
+msgstr "加入"
 
 #: rc/qml/EventsOverview.qml:146 rc/qml/MediaViewer/MediaViewer.qml:358
 #: rc/qml/PhotosOverview.qml:167 rc/qml/Utility/EditingHUD.qml:72
@@ -174,7 +174,7 @@ msgstr "載入中…"
 
 #: rc/qml/MainScreen.qml:149
 msgid "Albums"
-msgstr "相簿"
+msgstr "專輯"
 
 #: rc/qml/MainScreen.qml:163 rc/qml/MainScreen.qml:203
 #: rc/qml/PickerScreen.qml:154
@@ -233,7 +233,7 @@ msgstr "於嘗試載入媒體時發生錯誤"
 
 #: rc/qml/PickerScreen.qml:291
 msgid "Pick"
-msgstr "挑選"
+msgstr "選擇"
 
 #: rc/qml/Utility/EditingHUD.qml:68
 msgid "Trash;Erase"
@@ -249,7 +249,7 @@ msgstr "復原"
 
 #: rc/qml/Utility/EditingHUD.qml:83
 msgid "Cancel Action;Backstep"
-msgstr "Cancel Action;Backstep;取消動作;上一步"
+msgstr "取消動作;上一步"
 
 #: rc/qml/Utility/EditingHUD.qml:87
 msgid "Redo"
@@ -257,7 +257,7 @@ msgstr "重做"
 
 #: rc/qml/Utility/EditingHUD.qml:88
 msgid "Reapply;Make Again"
-msgstr "Reapply;Make Again;再次動作;重新套用"
+msgstr "再次動作;重新套用"
 
 #: rc/qml/Utility/EditingHUD.qml:92
 msgid "Auto Enhance"

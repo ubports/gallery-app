@@ -17,7 +17,6 @@
 import QtQuick 2.4
 import Gallery 1.0
 import Ubuntu.Components 1.3
-import Ubuntu.Unity.Action 1.0 as UnityActions
 
 /*!
   EditingHUD is an itme to connect to the HUD services.
@@ -62,66 +61,66 @@ Item {
         hudCtx.addAction(colorBalanceAction);
     }
 
-    UnityActions.Action {
+    Action {
         id: deleteAction
         text: i18n.tr("Delete")
         keywords: i18n.tr("Trash;Erase")
     }
-    UnityActions.Action {
+    Action {
         id: shareAction
         text: i18n.tr("Share")
         keywords: i18n.tr("Post;Upload;Attach")
     }
-    UnityActions.Action {
+    Action {
         id: addAction
         text: i18n.tr("Add")
         keywords: i18n.tr("Add Photo to Album")
     }
-    UnityActions.Action {
+    Action {
         id: undoAction
         text: i18n.tr("Undo")
         keywords: i18n.tr("Cancel Action;Backstep")
     }
-    UnityActions.Action {
+    Action {
         id: redoAction
         text: i18n.tr("Redo")
         keywords: i18n.tr("Reapply;Make Again")
     }
-    UnityActions.Action {
+    Action {
         id: autoEnhanceAction
         text: i18n.tr("Auto Enhance")
         description: i18n.tr("Adjust the image automatically")
         keywords: i18n.tr("Automatically Adjust Photo")
         onTriggered: photo.autoEnhance()
     }
-    UnityActions.Action {
+    Action {
         id: rotateAction
         text: i18n.tr("Rotate")
         keywords: i18n.tr("Turn Clockwise")
         description: i18n.tr("Rotate the image clockwise")
         onTriggered: photo.rotateRight()
     }
-    UnityActions.Action {
+    Action {
         id: cropAction
         text: i18n.tr("Crop")
         keywords: i18n.tr("Trim;Cut")
         description: i18n.tr("Crop the image")
         onTriggered: cropper.show(photo)
     }
-    UnityActions.Action {
+    Action {
         id: revertAction
         text: i18n.tr("Revert to Original")
         keywords: i18n.tr("Discard Changes")
         description: i18n.tr("Discard all changes")
     }
-    UnityActions.PreviewAction {
+    PreviewAction {
         id: exposureAction
         text: i18n.tr("Exposure")
         description: i18n.tr("Adjust the exposure")
         keywords: i18n.tr("Underexposed;Overexposed")
         commitLabel: i18n.tr("Confirm") // string to show in the confirm button
 
-        UnityActions.PreviewRangeParameter {
+        PreviewRangeParameter {
             id: compensationParam
             text: i18n.tr("Compensation")
 
@@ -155,14 +154,14 @@ Item {
         }
     }
 
-    UnityActions.PreviewAction {
+    PreviewAction {
         id: colorBalanceAction
         text: i18n.tr("Color Balance")
         description: i18n.tr("Adjust color balance")
         keywords: i18n.tr("Saturation;Hue")
         commitLabel: i18n.tr("Confirm")
 
-        UnityActions.PreviewRangeParameter {
+        PreviewRangeParameter {
             id: brightnessParam
             text: i18n.tr("Brightness")
 
@@ -173,7 +172,7 @@ Item {
             onValueChanged: root.brightness = value / 20.0
         }
 
-        UnityActions.PreviewRangeParameter {
+        PreviewRangeParameter {
             id: contrastParam
             text: i18n.tr("Contrast")
 
@@ -184,7 +183,7 @@ Item {
             onValueChanged: root.contrast = value / 20.0
         }
 
-        UnityActions.PreviewRangeParameter {
+        PreviewRangeParameter {
             id: saturationParam
             text: i18n.tr("Saturation")
 
@@ -195,7 +194,7 @@ Item {
             onValueChanged: root.saturation = value / 20.0
         }
 
-        UnityActions.PreviewRangeParameter {
+        PreviewRangeParameter {
             id: hueParam
             text: i18n.tr("Hue")
 

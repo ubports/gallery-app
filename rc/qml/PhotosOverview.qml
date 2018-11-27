@@ -18,7 +18,6 @@
  */
 
 import QtQuick 2.4
-import Qt.labs.settings 1.0
 import Gallery 1.0
 import Ubuntu.Components 1.3
 import Ubuntu.Components.Popups 1.3
@@ -65,14 +64,13 @@ Page {
     }
 
     property string pageTitle
-    property var gridUnits: 12.0
 
     head.actions: inSelectionMode ? d.selectActions : d.overviewActions
     head.backAction: inSelectionMode ? d.selectBackAction : null
 
     MediaGrid {
         id: photosGrid
-        property var gridSize: units.gu(photosOverview.gridUnits)
+        property var gridSize: units.gu(settings.gridUnits)
         anchors.fill: parent
         model: photosOverview.model
         selection: d.selection
@@ -114,22 +112,22 @@ Page {
         Dialog {
             id: gridDia
             title: i18n.tr("Grid Size")
-            text: i18n.tr("Select the grid size in gu units between 8.0 and 20.0 (default is 12.0).")
-            TextField {
-                id: gridValue
-                text: photosOverview.gridUnits
-                validator: DoubleValidator{bottom: 8.0; top: 20.0;}
-                inputMethodHints: Qt.ImhFormattedNumbersOnly
-            }
+            text: i18n.tr("Select the grid size in gu units between 8 and 20 (default is 12)")
+
+	    Slider {
+		function formatValue(v) { return v.toFixed(0) }
+		minimumValue: 8
+		maximumValue: 20
+		value: settings.gridUnits
+		live: true
+			
+		onValueChanged: {
+		    settings.gridUnits = value
+		}
+	    }    
+	    
             Button {
-                text: i18n.tr("Ok")
-                onClicked: {
-                    photosOverview.gridUnits = gridValue.text
-                    PopupUtils.close(gridDia)
-                }
-            }
-            Button {
-                text: i18n.tr("Cancel")
+                text: i18n.tr("Finished")
                 onClicked: PopupUtils.close(gridDia)
             }
         }
@@ -230,11 +228,7 @@ Page {
         id: contentItemComp
         ContentItem {}
     }
-
-    Settings {
-        property alias gridSize: photosOverview.gridUnits
-    }
-
+    
     Page {
         id: sharePicker
         visible: false
