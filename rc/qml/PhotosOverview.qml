@@ -70,7 +70,7 @@ Page {
 
     MediaGrid {
         id: photosGrid
-
+        property var gridSize: units.gu(settings.gridUnits)
         anchors.fill: parent
         model: photosOverview.model
         selection: d.selection
@@ -107,6 +107,32 @@ Page {
         }
     }
 
+    Component {
+        id: gridSel
+        Dialog {
+            id: gridDia
+            title: i18n.tr("Grid Size")
+            text: i18n.tr("Select the grid size in gu units between 8 and 20 (default is 12)")
+
+	    Slider {
+		function formatValue(v) { return v.toFixed(0) }
+		minimumValue: 8
+		maximumValue: 20
+		value: settings.gridUnits
+		live: true
+			
+		onValueChanged: {
+		    settings.gridUnits = value
+		}
+	    }    
+	    
+            Button {
+                text: i18n.tr("Finished")
+                onClicked: PopupUtils.close(gridDia)
+            }
+        }
+    }
+
     property int __pickerContentHeight: height - units.gu(20)
     property PopupAlbumPicker __albumPicker
     Connections {
@@ -127,6 +153,13 @@ Page {
 
         property list<Action> overviewActions: [
             Action {
+                objectName: "gridButton"
+                text: i18n.tr("Grid Size")
+                iconName: "view-grid-symbolic"
+                enabled: d.selection !== null
+                onTriggered: PopupUtils.open(gridSel);
+            },
+            Action {
                 objectName: "selectButton"
                 text: i18n.tr("Select")
                 iconName: "select"
@@ -146,7 +179,7 @@ Page {
             Action {
                 id: addButton
                 objectName: "addButton"
- 
+
                 text: i18n.tr("Add")
                 iconName: "add"
                 enabled: d.selection.selectedCount > 0
@@ -183,7 +216,7 @@ Page {
             text: i18n.tr("Cancel")
             iconName: "back"
             onTriggered: photosOverview.leaveSelectionMode();
-        } 
+        }
     }
 
     Component {
@@ -195,7 +228,7 @@ Page {
         id: contentItemComp
         ContentItem {}
     }
-
+    
     Page {
         id: sharePicker
         visible: false
