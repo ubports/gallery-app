@@ -55,7 +55,7 @@ function gatherChildren(parent, accum, cond) {
 // Translates a rectangle's coordinates from one item's coordinate space to
 // another's.
 function translateRect(rect, fromItem, toItem) {
-  var newRect = fromItem.mapToItem(toItem, rect.x, rect.y);
+  var newRect = fromItem.mapToItem(toItem, rect.x, rect.y, rect.width, rect.height);
   newRect.width = rect.width;
   newRect.height = rect.height;
 
